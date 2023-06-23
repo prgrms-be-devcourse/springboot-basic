@@ -1,28 +1,22 @@
-package org.prgrms.kdt.model.dto;
+package org.prgrms.kdt.model.entity;
 
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.entity.Amount;
 
-public class VoucherDTO {
-
+public class VoucherEntity {
 	private final Long voucherId;
 
 	private final Amount amount;
 
 	private final VoucherType voucherType;
 
-	public VoucherDTO(Amount amount, VoucherType voucherType) {
+	public VoucherEntity(Amount amount, VoucherType voucherType) {
 		this(null, amount, voucherType);
 	}
 
-	public VoucherDTO(Long voucherId, Amount amount, VoucherType voucherType) {
+	public VoucherEntity(Long voucherId, Amount amount, VoucherType voucherType) {
 		this.voucherId = voucherId;
 		this.amount = amount;
 		this.voucherType = voucherType;
-	}
-
-	public static VoucherDTO of(Amount amount, VoucherType voucherType) {
-		return new VoucherDTO(amount, voucherType);
 	}
 
 	public Long getVoucherId() {

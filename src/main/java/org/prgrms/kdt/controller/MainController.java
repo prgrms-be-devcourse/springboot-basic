@@ -1,9 +1,20 @@
 package org.prgrms.kdt.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.util.VoucherFactory;
+import org.prgrms.kdt.util.VoucherMapper;
+import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.model.entity.Amount;
+import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.OutputView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MainController {
 
@@ -11,9 +22,15 @@ public class MainController {
 
 	private OutputView outputView;
 
-	public MainController(InputView inputView, OutputView outputView) {
+	private VoucherService voucherService;
+
+	public MainController(InputView inputView,
+		OutputView outputView,
+		VoucherService voucherService
+	) {
 		this.inputView = inputView;
 		this.outputView = outputView;
+		this.voucherService = voucherService;
 	}
 
 	public void startControl() {
@@ -32,12 +49,14 @@ public class MainController {
 				outputView.displayCreateVoucherMessage();
 				VoucherType voucherType = inputView.getVoucherType();
 				int amount = inputView.getAmount();
-			}
 
+				VoucherDTO voucherDTO = VoucherFactory.getVoucherDTO(amount, voucherType);
+				this.voucherService.createVoucher(voucherDTO);
+			}
 			case LIST -> {
-				outputView.displayVoucherList();
+				List<VoucherDTO> voucherDTOS = voucherService.getVouchers();
+				outputView.displayVoucherList(voucherDTOS);
 			}
-
 			case EXIT -> {
 				outputView.displayExitMessage();
 			}
