@@ -6,7 +6,8 @@ public abstract class VoucherAmount {
     private final int amount;
 
     public VoucherAmount(int amount) {
-        this.amount = setAmount(amount);
+        validate(amount);
+        this.amount = amount;
     }
 
     public static VoucherAmount of(VoucherType type, int amount) {
@@ -20,12 +21,10 @@ public abstract class VoucherAmount {
         return amount;
     }
 
-    private int setAmount(int amount) {
-        if (validate(amount)) {
-            return amount;
+    private void validate(int amount) {
+        if (inValid(amount)) {
+            throw new RuntimeException("바우처 금액 범위 오류");
         }
-
-        throw new RuntimeException("바우처 금액 범위 오류");
     }
 
     public abstract boolean inValid(int amount);
