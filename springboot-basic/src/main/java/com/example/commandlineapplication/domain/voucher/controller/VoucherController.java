@@ -8,18 +8,19 @@ import com.example.commandlineapplication.domain.voucher.service.VoucherService;
 import com.example.commandlineapplication.global.io.Command;
 import com.example.commandlineapplication.global.io.Input;
 import com.example.commandlineapplication.global.io.Output;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class VoucherController implements Runnable {
+
   private final Input input;
   private final Output output;
   private final VoucherFactory voucherFactory;
+  private final VoucherService voucherService;
 
   @Override
   public void run() {
-    while(true) {
+    while (true) {
       output.printMenu();
       String getMenu = input.selectOption();
       Command command = Command.of(getMenu);
@@ -36,12 +37,13 @@ public class VoucherController implements Runnable {
 
           Integer discount = input.getDiscount();
 
-          VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputVoucherType, discount);
-
-          voucherFactory.create(voucherCreateRequest);
+          VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputVoucherType,
+              discount);
+          Voucher voucher = voucherFactory.create(voucherCreateRequest);
+          voucherService.insert(voucher);
           continue;
         case LIST:
-          return;
+          voucherService.history();
       }
     }
   }

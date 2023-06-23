@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class VoucherFactory {
-  public VoucherFactory() {}
+
+  public VoucherFactory() {
+  }
 
   public Voucher create(VoucherCreateRequest request) {
     VoucherType voucherType = request.getVoucherType();

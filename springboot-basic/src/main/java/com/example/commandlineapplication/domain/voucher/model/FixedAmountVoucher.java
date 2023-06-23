@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class FixedAmountVoucher implements Voucher {
+
   private final UUID voucherId;
   private final long discount;
 
@@ -15,5 +16,10 @@ public class FixedAmountVoucher implements Voucher {
 
   public long discountedPrice(long price) {
     return price - discount;
+  }
+
+  @Override
+  public VoucherType getVoucherType() {
+    return VoucherType.FIXED;
   }
 }

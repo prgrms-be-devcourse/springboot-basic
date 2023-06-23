@@ -6,7 +6,7 @@ public enum Command {
   EXIT,
   CREATE,
   LIST;
-
+  
   public static Command of(String inputCommand) {
     return Arrays.stream(values())
         .filter(command -> command.getLowerCaseCommand().equals(inputCommand))

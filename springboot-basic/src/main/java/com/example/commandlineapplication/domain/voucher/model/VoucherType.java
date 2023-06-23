@@ -6,7 +6,7 @@ public enum VoucherType {
 
   FIXED,
   PERCENT;
-
+  
   public static VoucherType of(String inputVoucherType) {
     return Arrays.stream(values())
         .filter(voucher -> voucher.getLowerCaseVoucherType().equals(inputVoucherType))
