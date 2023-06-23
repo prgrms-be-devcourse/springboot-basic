@@ -2,7 +2,7 @@ package com.dev.bootbasic.voucher.domain;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher extends AbstractVoucher {
+public class PercentDiscountVoucher extends Voucher {
 
     public static final int PERCENT_MINIMUM_DISCOUNT_AMOUNT = 1;
     public static final int PERCENT_MAXIMUM_DISCOUNT_AMOUNT = 100;
