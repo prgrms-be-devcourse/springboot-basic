@@ -2,9 +2,10 @@ package kr.co.springbootweeklymission.domain.model;
 
 import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.global.view.Command;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,8 +15,8 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum VoucherPolicy {
     FIXED_DISCOUNT((price, amount) -> price - amount, 1, "고정 할인"),
     PERCENT_DISCOUNT((price, amount) -> price - price * amount / 100, 2, "퍼센트 할인");

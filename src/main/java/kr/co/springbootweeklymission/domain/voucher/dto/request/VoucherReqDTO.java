@@ -3,6 +3,7 @@ package kr.co.springbootweeklymission.domain.voucher.dto.request;
 import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
 import lombok.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VoucherReqDTO {
     @Getter
     @Builder

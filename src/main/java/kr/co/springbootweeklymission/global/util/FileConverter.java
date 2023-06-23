@@ -5,10 +5,13 @@ import kr.co.springbootweeklymission.domain.model.MemberStatus;
 import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
 import kr.co.springbootweeklymission.domain.voucher.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.domain.voucher.entity.Voucher;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.StringTokenizer;
 import java.util.UUID;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileConverter {
     private static final String SPACE = " ";
     private static final String NEW_LINE = "\n";

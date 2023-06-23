@@ -1,10 +1,11 @@
 package kr.co.springbootweeklymission.domain.model;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public enum MemberStatus {
     WHITE,
     BLACK;

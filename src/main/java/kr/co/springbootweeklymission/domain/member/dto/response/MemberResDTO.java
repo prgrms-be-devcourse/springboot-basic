@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.UUID;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberResDTO {
     @Getter
     @Builder
