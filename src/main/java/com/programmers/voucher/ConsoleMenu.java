@@ -8,7 +8,7 @@ import com.programmers.voucher.io.Console;
 import com.programmers.voucher.request.VoucherCreateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ public class ConsoleMenu {
         this.consoleClient = consoleClient;
     }
 
-    @EventListener(ApplicationStartedEvent.class)
+    @EventListener(ApplicationReadyEvent.class)
     public void start() {
         log.info("Started Voucher Console Application.");
         console.printCommandSet();
