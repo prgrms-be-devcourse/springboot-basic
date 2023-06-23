@@ -12,7 +12,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        return VOUCHER_MEMORY.put(voucher.getVoucherId(), voucher);
+        VOUCHER_MEMORY.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
@@ -25,5 +26,9 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         return VOUCHER_MEMORY.values()
                 .stream()
                 .toList();
+    }
+
+    public void clear(){
+        VOUCHER_MEMORY.clear();
     }
 }
