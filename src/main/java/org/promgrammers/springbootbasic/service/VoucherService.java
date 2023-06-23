@@ -20,7 +20,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherResponse createVoucher(CreateVoucherRequest createVoucherRequest) {
+    public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = VoucherFactory.createVoucher(createVoucherRequest);
         voucherRepository.insert(voucher);
         return new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());

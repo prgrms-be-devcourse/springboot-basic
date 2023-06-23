@@ -40,8 +40,8 @@ public class CommandLineController {
     private void execute(Command command) {
         switch (command) {
             case CREATE -> {
-                CreateVoucherRequest createVoucherRequest = console.requestVoucherCreation();
-                console.print("Voucher가 생성되었습니다. : " + voucherService.createVoucher(createVoucherRequest).toString());
+                CreateVoucherRequest requestVoucher = console.requestVoucherCreation();
+                console.print("Voucher가 생성되었습니다. : " + voucherService.create(requestVoucher).toString());
             }
             case LIST -> console.print(voucherService.findAll().toString());
             case EXIT -> CommandProgramStatus.stop();

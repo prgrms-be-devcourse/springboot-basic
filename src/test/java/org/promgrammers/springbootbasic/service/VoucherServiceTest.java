@@ -48,7 +48,7 @@ class VoucherServiceTest {
         CreateVoucherRequest request = new CreateVoucherRequest(VoucherType.FIXED, 100L);
 
         //when
-        voucherService.createVoucher(request);
+        voucherService.create(request);
 
         //then
         assertTrue(voucherRepository != null);
@@ -65,7 +65,7 @@ class VoucherServiceTest {
         CreateVoucherRequest request = new CreateVoucherRequest(VoucherType.PERCENT, 10L);
 
         //when
-        voucherService.createVoucher(request);
+        voucherService.create(request);
 
         //then
         assertTrue(voucherRepository != null);
@@ -82,7 +82,7 @@ class VoucherServiceTest {
         CreateVoucherRequest request1 = new CreateVoucherRequest(VoucherType.PERCENT, 10L);
         CreateVoucherRequest request2 = new CreateVoucherRequest(VoucherType.FIXED, 100L);
         List<CreateVoucherRequest> requestList = Arrays.asList(request1, request2);
-        requestList.forEach(voucherService::createVoucher);
+        requestList.forEach(voucherService::create);
 
         //when
         VoucherListResponse voucherList = voucherService.findAll();
@@ -139,7 +139,7 @@ class VoucherServiceTest {
         CreateVoucherRequest request1 = new CreateVoucherRequest(VoucherType.PERCENT, 10L);
         CreateVoucherRequest request2 = new CreateVoucherRequest(VoucherType.FIXED, 100L);
         List<CreateVoucherRequest> requestList = Arrays.asList(request1, request2);
-        requestList.forEach(voucherService::createVoucher);
+        requestList.forEach(voucherService::create);
 
         //when
         voucherService.deleteAll();
