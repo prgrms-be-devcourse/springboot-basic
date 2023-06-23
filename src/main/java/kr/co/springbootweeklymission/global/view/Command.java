@@ -30,4 +30,19 @@ public enum Command {
         return Optional.ofNullable(commands.get(command))
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_COMMAND));
     }
+
+    public boolean isBlackList(){
+        return this.command
+                .equals(Command.LIST_BLACK_MEMBER.getCommand());
+    }
+
+    public boolean isCreateVoucher(){
+        return this.command
+                .equals(Command.CREATE_VOUCHER.getCommand());
+    }
+
+    public boolean isVoucherList(){
+        return this.command
+                .equals(Command.LIST_VOUCHER.getCommand());
+    }
 }

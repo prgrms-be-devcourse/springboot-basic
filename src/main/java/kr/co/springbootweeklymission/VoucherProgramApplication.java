@@ -4,9 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VoucherApplication {
-
+public class VoucherProgramApplication {
     public static void main(String[] args) {
-        SpringApplication.run(VoucherApplication.class, args);
+        SpringApplication.run(VoucherProgramApplication.class, args);
     }
 }

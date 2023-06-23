@@ -12,7 +12,7 @@ import java.util.List;
 public class OutputView {
 
     public static void outputCommand(){
-        System.out.println("=== Voucher Program ===");
+        System.out.println("\n=== Voucher Program ===");
         for(Command command : Command.values()){
             System.out.println("Command : " + command.getCommand());
         }
@@ -30,10 +30,17 @@ public class OutputView {
     }
 
     public static void outputVouchers(List<VoucherResDTO.READ> reads){
-        System.out.println(reads);
+        for(VoucherResDTO.READ read : reads){
+            System.out.println("Voucher ID : " + read.getVoucherId());
+            System.out.println("Voucher Policy : " + read.getVoucherPolicy());
+            System.out.println("Voucher Amount : " + read.getAmount() + "\n");
+        }
     }
 
     public static void outputBlackMembers(List<MemberResDTO.READ> reads){
-        System.out.println(reads);
+        for(MemberResDTO.READ read : reads){
+            System.out.println("Member ID : " + read.getMemberId());
+            System.out.println("Member Status : " + read.getMemberStatus() + "\n");
+        }
     }
 }

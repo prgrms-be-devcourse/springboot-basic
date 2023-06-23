@@ -19,4 +19,9 @@ public class InputView {
         System.out.print("할인 정책을 입력해주세요. : ");
         return VoucherPolicy.from(Integer.parseInt(SCANNER.nextLine()));
     }
+
+    public static int inputAmount() {
+        System.out.print("할인값을 입력해주세요. : ");
+        return Integer.parseInt(SCANNER.nextLine());
+    }
 }
