@@ -51,9 +51,8 @@ public abstract class Voucher {
         setVoucherState(VoucherState.USED);
     }
 
-    protected boolean isExpiration() {
-        LocalDateTime now = LocalDateTime.now();
-        return !now.isBefore(expirationDate);
+    protected boolean isExpiration(LocalDateTime now) {
+        return now.isAfter(expirationDate);
     }
 
     protected void setVoucherState(VoucherState toChange) {
