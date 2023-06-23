@@ -9,8 +9,15 @@ public abstract class AbstractVoucher implements Voucher{
     private final int discountAmount;
 
     protected AbstractVoucher(UUID id, int discountAmount) {
+        validateId(id);
         this.id = id;
         this.discountAmount = discountAmount;
+    }
+
+    private void validateId(UUID id) {
+        if (id == null) {
+            throw new IllegalArgumentException(NOT_ASSIGNED_VOUCHER_ID_MESSAGE);
+        }
     }
 
     public UUID getId() {
