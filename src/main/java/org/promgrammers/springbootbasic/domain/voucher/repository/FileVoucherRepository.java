@@ -1,10 +1,12 @@
 package org.promgrammers.springbootbasic.domain.voucher.repository;
 
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.exception.InvalidFilePathException;
 import org.promgrammers.springbootbasic.exception.VoucherFileWriteException;
 import org.promgrammers.springbootbasic.util.FileConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,7 @@ import java.util.UUID;
 
 @Repository
 @Profile("dev")
+@Primary
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final File filePath = new File("src/main/resources/storage/voucherStorage.txt");
@@ -35,7 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
             writer.newLine();
         } catch (IOException e) {
             logger.error("Invalid Input => {}", e.getMessage());
-            throw new IllegalArgumentException("잘못된 입력입니다.");
+            throw new InvalidFilePathException("IO 시스템 오류입니다.");
         }
         return voucher;
     }
