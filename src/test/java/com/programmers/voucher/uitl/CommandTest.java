@@ -1,4 +1,4 @@
-package com.programmers.domain.uitl;
+package com.programmers.voucher.uitl;
 
 import com.programmers.console.util.Command;
 import org.junit.jupiter.api.DisplayName;

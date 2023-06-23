@@ -1,6 +1,5 @@
-package com.programmers.domain.voucher;
+package com.programmers.voucher.domain;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 public interface Voucher {

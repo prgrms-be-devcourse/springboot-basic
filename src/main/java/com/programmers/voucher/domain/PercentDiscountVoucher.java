@@ -1,8 +1,6 @@
-package com.programmers.domain.voucher;
+package com.programmers.voucher.domain;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {

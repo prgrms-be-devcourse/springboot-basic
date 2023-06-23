@@ -1,10 +1,9 @@
-package com.programmers.domain.voucher;
+package com.programmers.voucher.domain;
 
 import com.programmers.exception.AmountValueException;
 import com.programmers.exception.VoucherExpirationException;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
