@@ -3,18 +3,18 @@ package com.prgrms.spring.controller.voucher;
 import com.prgrms.spring.domain.voucher.Voucher;
 import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.service.voucher.VoucherService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 
-import java.io.Console;
+import java.util.Scanner;
 
 
 @Controller
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class VoucherController {
 
     private final VoucherService voucherService;
-    private final Console console = System.console();
+    private final Scanner scanner = new Scanner(System.in);
 
     public void createVoucher() {
 
@@ -23,16 +23,16 @@ public class VoucherController {
         for (VoucherType vt: VoucherType.values()) {
             System.out.println(vt.getId() + ". " + vt.getName());
         }
-        int select = Integer.parseInt(console.readLine());
+        int select = Integer.parseInt(scanner.nextLine());
         VoucherType type = VoucherType.matchType(select);
         System.out.println(type.getPromptMessage());
-        Long discount = Long.parseLong(console.readLine());
+        Long discount = Long.parseLong(scanner.nextLine());
         Voucher voucher = voucherService.createVoucher(type, discount);
         if (voucher == null) {
-            System.out.println("바우처 등록에 실패하였습니다.");
+            System.out.println("\n바우처 등록에 실패하였습니다.\n");
             return;
         }
-        System.out.println("정상적으로 바우처가 등록되었습니다.");
+        System.out.println("\n정상적으로 바우처가 등록되었습니다.\n");
     }
 
     public void getAllVoucher() {

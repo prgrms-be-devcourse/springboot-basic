@@ -1,8 +1,9 @@
 package com.prgrms.spring.infrastructure.voucher;
 
 import com.prgrms.spring.domain.voucher.Voucher;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;

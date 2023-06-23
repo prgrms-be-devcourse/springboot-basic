@@ -5,19 +5,22 @@ import com.prgrms.spring.domain.menu.MenuType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 
-import java.io.Console;
+import java.util.Scanner;
 
 @AllArgsConstructor
 @Controller
 public class AppRunner implements Runnable{
     private final VoucherController voucherController;
-    private static final Console console = System.console();
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void run() {
         boolean isExecute = true;
         while (isExecute) {
-            String type = console.readLine("menu: ");
+            for (MenuType mt: MenuType.values()) {
+                System.out.println(mt.getName() + " -> " + mt.getExplain());
+            }
+            String type = scanner.nextLine();
             MenuType menuType = MenuType.matchType(type);
             switch (menuType) {
                 case EXIT:
