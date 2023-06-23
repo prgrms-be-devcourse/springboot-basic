@@ -1,18 +1,27 @@
 package com.devcourse.springbootbasic.engine.io;
 
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
+import com.devcourse.springbootbasic.engine.model.ListMenu;
 import com.devcourse.springbootbasic.engine.model.Menu;
 import com.devcourse.springbootbasic.engine.model.VoucherType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Scanner;
-import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 @Component
 public class InputConsole {
 
     private final Scanner scanner = new Scanner(System.in);
+
+    @Autowired
+    private ConfigurableApplicationContext applicationContext;
 
     public Menu inputMenu() {
         System.out.println("\n=== Voucher Program ===\n" +
@@ -36,6 +45,14 @@ public class InputConsole {
         return VoucherType.getVoucherType(inputString());
     }
 
+    public ListMenu inputListMenu() {
+        System.out.println("\n--- List Menu ---\n" +
+                "1. Voucher List\n" +
+                "2. Black Customer List");
+        System.out.print("List Menu Selection: ");
+        return ListMenu.getListMenu(inputString());
+    }
+
     public double inputVoucherDiscount(VoucherType voucherType) {
         System.out.print("Voucher Discount " + voucherType.getTypeString() + ": ");
         return Stream.of(inputString())
@@ -44,4 +61,14 @@ public class InputConsole {
                 .findAny()
                 .orElseThrow(() -> new InvalidDataException(InvalidDataException.INVALID_DISCOUNT_VALUE));
     }
+
+    public List<String> getBlackCustomers() throws IOException {
+        return Files.readAllLines(getBlackCustomerFile().toPath());
+    }
+
+    private File getBlackCustomerFile() throws IOException {
+        return applicationContext.getResource("file:src/main/resources/customer_blacklist.csv")
+                .getFile();
+    }
+
 }
