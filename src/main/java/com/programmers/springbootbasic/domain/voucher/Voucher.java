@@ -6,21 +6,21 @@ import java.util.UUID;
 public abstract class Voucher {
     private final UUID voucherId;
     private final String name;
-    private final Long minimumPrice;
+    private final Long minimumPriceCondition;
     private final LocalDateTime expirationDate;
     private VoucherState state = VoucherState.AVAILABLE;
 
     protected Voucher(UUID voucherId, String name, LocalDateTime expirationDate) {
         this.voucherId = voucherId;
         this.name = name;
-        this.minimumPrice = 0L;
+        this.minimumPriceCondition = 0L;
         this.expirationDate = expirationDate;
     }
 
-    protected Voucher(UUID voucherId, String name, Long minimumPrice, LocalDateTime expirationDate) {
+    protected Voucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime expirationDate) {
         this.voucherId = voucherId;
         this.name = name;
-        this.minimumPrice = minimumPrice;
+        this.minimumPriceCondition = minimumPriceCondition;
         this.expirationDate = expirationDate;
     }
 
@@ -28,8 +28,8 @@ public abstract class Voucher {
         return name;
     }
 
-    public Long getMinimumPrice() {
-        return minimumPrice;
+    public Long getMinimumPriceCondition() {
+        return minimumPriceCondition;
     }
 
     public LocalDateTime getExpirationDate() {

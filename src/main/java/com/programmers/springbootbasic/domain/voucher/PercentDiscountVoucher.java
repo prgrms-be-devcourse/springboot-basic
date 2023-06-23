@@ -16,8 +16,8 @@ public class PercentDiscountVoucher extends Voucher {
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPrice, LocalDateTime expirationDate, int percent) {
-        super(voucherId, name, minimumPrice, expirationDate);
+    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime expirationDate, int percent) {
+        super(voucherId, name, minimumPriceCondition, expirationDate);
         if (isInvalidateRange(percent)) {
             throw new IllegalArgumentException("잘못된 할인 범위");
         }

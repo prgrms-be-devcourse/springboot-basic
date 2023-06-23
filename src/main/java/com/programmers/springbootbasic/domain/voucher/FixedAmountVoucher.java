@@ -16,8 +16,8 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPrice, LocalDateTime expirationDate, Long amount) {
-        super(voucherId, name, minimumPrice, expirationDate);
+    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime expirationDate, Long amount) {
+        super(voucherId, name, minimumPriceCondition, expirationDate);
         if (isInvalidateAmount(amount)) {
             throw new IllegalArgumentException("잘못된 할인 금액");
         }
