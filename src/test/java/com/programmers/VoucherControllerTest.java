@@ -1,5 +1,8 @@
 package com.programmers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.programmers.domain.FixedAmountVoucher;
 import com.programmers.domain.Voucher;
 import com.programmers.domain.VoucherType;
@@ -16,9 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherControllerTest {
 

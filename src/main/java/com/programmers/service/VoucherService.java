@@ -10,8 +10,8 @@ import java.util.List;
 @Service
 public class VoucherService {
 
-    private MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
-    private Console console = new Console();
+    private final MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
+    private final Console console = new Console();
 
     public void save(Voucher voucher) {
         memoryVoucherRepository.save(voucher);

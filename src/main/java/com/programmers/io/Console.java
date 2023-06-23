@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 @Component
 public class Console implements Input, Output {
+
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
             "Type exit to exit the program.\n" +
             "Type create to create a new voucher.\n" +
@@ -67,9 +68,7 @@ public class Console implements Input, Output {
     }
 
     public void printVouchers(List<Voucher> vouchers) {
-        for (Voucher voucher : vouchers) {
-            System.out.println(voucher);
-        }
+        vouchers.forEach(System.out::println);
 
         System.out.println();
     }
