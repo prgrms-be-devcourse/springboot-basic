@@ -12,6 +12,7 @@ public class PercentDiscountVoucher implements Voucher {
     this.discountAmount = discountAmount;
   }
 
+  @Override
   public UUID getVoucherId() {
     return voucherId;
   }
