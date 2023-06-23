@@ -23,10 +23,20 @@ public class ConsoleMenu {
     public void start() {
         console.printCommandSet();
 
-        boolean isRun = true;
-        while(isRun) {
-            isRun = runClient();
+        boolean keepRunningClient = true;
+        while(keepRunningClient) {
+            keepRunningClient = runAndProcessClient();
         }
+    }
+
+    private boolean runAndProcessClient() {
+        boolean keepRunningClient = true;
+        try {
+            keepRunningClient = runClient();
+        } catch (RuntimeException ex) {
+            console.print(ex.getMessage());
+        }
+        return keepRunningClient;
     }
 
     public boolean runClient() {
