@@ -6,6 +6,13 @@ public class Console {
     private final Output output;
 
     private static final String NUMBER_REGEX = "\\d+";
+    private static final String[] COMMAND_GUIDE_MESSAGES = {
+            "=== Voucher Program ===",
+            "Type 'exit' to exit the program.",
+            "Type 'create' to create a new voucher.",
+            "Type 'list' to list all vouchers.",
+            "Type 'blackList' to show blackList Customer"
+    };
 
     public Console(Input input, Output output) {
         this.input = input;
@@ -36,5 +43,9 @@ public class Console {
             throw new IllegalArgumentException("입력값은 숫자여야 합니다.");
         }
         return Long.parseLong(inputString);
+    }
+
+    public void displayCommandGuide() {
+        output.print(COMMAND_GUIDE_MESSAGES);
     }
 }

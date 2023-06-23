@@ -15,14 +15,6 @@ public class CommandLineController {
     private final VoucherService voucherService;
     private final Console console;
 
-    private static final String[] COMMAND_GUIDE_MESSAGES = {
-            "=== Voucher Program ===",
-            "Type 'exit' to exit the program.",
-            "Type 'create' to create a new voucher.",
-            "Type 'list' to list all vouchers.",
-            "Type 'blackList' to show blackList Customer"
-    };
-
     public CommandLineController(CustomerService customerService, VoucherService voucherService, Console console) {
         this.customerService = customerService;
         this.voucherService = voucherService;
@@ -32,7 +24,7 @@ public class CommandLineController {
     public void run() {
         while (CommandProgramStatus.isRunning()) {
             try {
-                displayCommandGuide();
+                console.displayCommandGuide();
                 String inputCommand = console.input();
                 Command command = Command.of(inputCommand);
                 execute(command);
@@ -52,10 +44,6 @@ public class CommandLineController {
             case EXIT -> CommandProgramStatus.stop();
             case BLACKLIST -> console.print(customerService.findAll().toString());
         }
-    }
-
-    private void displayCommandGuide() {
-        console.print(COMMAND_GUIDE_MESSAGES);
     }
 
     private CreateVoucherRequest requestVoucherCreation() {
