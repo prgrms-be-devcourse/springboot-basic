@@ -1,2 +1,12 @@
-version: "1.0"
-type: "local"
+spring:
+  profiles:
+    active: dev
+
+saveType: "File Management"
+---
+
+spring:
+  profiles:
+    active: local
+
+saveType: "Memory Management"
