@@ -1,12 +1,12 @@
 package com.example.commandlineapplication;
 
-import com.example.commandlineapplication.config.AppConfig;
-import com.example.commandlineapplication.io.Input;
-import com.example.commandlineapplication.io.Output;
+import com.example.commandlineapplication.domain.voucher.controller.VoucherController;
+import com.example.commandlineapplication.domain.voucher.service.VoucherFactory;
+import com.example.commandlineapplication.global.io.Input;
+import com.example.commandlineapplication.global.io.Output;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class CommandLineApplication implements CommandLineRunner {
@@ -17,12 +17,7 @@ public class CommandLineApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(
-				AppConfig.class);
-
-		VoucherController voucherController = annotationConfigApplicationContext.getBean(
-				VoucherController.class);
-
+		VoucherController voucherController = new VoucherController(new Input(), new Output(), new VoucherFactory());
 		voucherController.run();
 	}
 }

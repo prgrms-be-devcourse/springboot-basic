@@ -13,7 +13,7 @@ public class FixedAmountVoucher implements Voucher {
     return voucherId;
   }
 
-  public long discount(long price) {
+  public long discountedPrice(long price) {
     return price - discount;
   }
 }
