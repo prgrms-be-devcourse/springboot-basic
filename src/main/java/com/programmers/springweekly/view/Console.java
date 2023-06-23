@@ -53,7 +53,9 @@ public class Console implements Input, Output {
         for(UUID voucherId : voucherMap.keySet()){
             System.out.println("=========================================================");
             System.out.println("voucherId : " + voucherMap.get(voucherId).getVoucherId());
-            System.out.println("voucherAmount : " + voucherMap.get(voucherId).getVoucherAmount());
+            System.out.println("discountAmount : " + voucherMap.get(voucherId).getVoucherAmount());
+            System.out.println("voucherType : " + voucherMap.get(voucherId).getVoucherType());
+            System.out.println("=========================================================\n");
         }
     }
 
