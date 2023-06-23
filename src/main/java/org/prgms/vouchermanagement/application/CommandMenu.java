@@ -24,7 +24,7 @@ public enum CommandMenu {
             case "create" -> CREATE_NEW_VOUCHER;
             case "list" -> SHOW_VOUCHER_LIST;
             case "black" -> SHOW_BLACK_LIST;
-            default -> throw new InputMismatchException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
+            default -> throw new IllegalStateException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
         };
     }
 }

@@ -4,6 +4,8 @@ import org.prgms.vouchermanagement.io.Console;
 import org.prgms.vouchermanagement.service.VoucherService;
 import org.prgms.vouchermanagement.voucher.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -12,12 +14,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
 public class CommandLineApplication implements CommandLineRunner, ApplicationContextAware {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     private final Console console;
     private final VoucherService voucherService;
@@ -40,6 +45,7 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
 
             console.printCommandMenu();
             try {
+
                 currentCommand = CommandMenu.getCommandMenu(console.getCommand());
                 switch (currentCommand) {
                     case EXIT -> { return; }
@@ -48,6 +54,9 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
                     case SHOW_BLACK_LIST -> showBlackList();
                 }
             } catch (RuntimeException | IOException e) {
+                if (!(e instanceof InputMismatchException)) {
+                    logger.error("Command Input Error");
+                }
                 System.out.println(e.getMessage());
             }
         }
@@ -83,12 +92,12 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
     }
 
     public void showVoucherList() {
-        VoucherType listVoucherType;
+        VoucherType voucherListType;
 
         console.printSelectVoucherListType();
-        listVoucherType = VoucherType.getVoucherType(console.getVoucherTypeInput());
-        Optional<Map<UUID, Voucher>> voucherList = voucherService.getVoucherList(listVoucherType);
-        console.printVoucherList(voucherList, listVoucherType);
+        voucherListType = VoucherType.getVoucherType(console.getVoucherTypeInput());
+        Optional<Map<UUID, Voucher>> voucherList = voucherService.getVoucherList(voucherListType);
+        console.printVoucherList(voucherList, voucherListType);
     }
 
     private void showBlackList() throws IOException {
