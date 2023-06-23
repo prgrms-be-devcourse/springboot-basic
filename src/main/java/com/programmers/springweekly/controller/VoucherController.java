@@ -1,20 +1,21 @@
 package com.programmers.springweekly.controller;
 
-import com.programmers.springweekly.domain.ProgramMenu;
 import com.programmers.springweekly.domain.Voucher;
 import com.programmers.springweekly.domain.VoucherMenu;
 import com.programmers.springweekly.service.VoucherService;
 import com.programmers.springweekly.util.Validator;
 import com.programmers.springweekly.view.Console;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
 public class VoucherController {
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
     private final Console console;
 
@@ -29,6 +30,7 @@ public class VoucherController {
 
         console.outputDiscountGuide();
         String inputNumber = console.inputMessage();
+        logger.info("사용자 입력 값: {} ", inputNumber);
 
         if(voucherMenu == VoucherMenu.FIXED){
             Validator.fixedAmountValidate(inputNumber);
