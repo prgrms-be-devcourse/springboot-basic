@@ -13,8 +13,8 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 
 public enum VoucherType {
-    FIXED("fixed", (a, b) -> new FixedAmountVoucher(a, b), 1000),
-    PERCENT("percent", (a, b) -> new PercentDiscountVoucher(a, b), 100);
+    FIXED_AMOUNT_VOUCHER("fixed", FixedAmountVoucher::new, 1000),
+    PERCENT_DISCOUNT_VOUCHER("percent", PercentDiscountVoucher::new, 100);
 
     public static final int NO_COUNT = 0;
     private final String type;
