@@ -1,12 +1,14 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.domain.Voucher;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Repository
 public class VoucherMemoryRepository implements VoucherRepository{
     private final Map<UUID, Voucher> store = new HashMap<>();
 

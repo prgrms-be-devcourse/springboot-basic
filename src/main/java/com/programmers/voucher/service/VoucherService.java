@@ -6,10 +6,12 @@ import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.request.VoucherCreateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final static Logger log = LoggerFactory.getLogger(VoucherService.class);
 
