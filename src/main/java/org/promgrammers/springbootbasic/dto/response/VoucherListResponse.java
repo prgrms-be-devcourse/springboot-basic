@@ -7,11 +7,10 @@ public record VoucherListResponse(List<VoucherResponse> voucherResponseList) {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("VoucherListResponse{\n");
+        sb.append("유효한 바우처 목록 \n");
         for (VoucherResponse voucherResponse : voucherResponseList) {
             sb.append("  ").append(voucherResponse.toString()).append("\n");
         }
-        sb.append("}");
         return sb.toString();
     }
 }

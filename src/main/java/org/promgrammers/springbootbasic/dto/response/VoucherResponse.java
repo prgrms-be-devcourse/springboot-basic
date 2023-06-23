@@ -8,10 +8,10 @@ public record VoucherResponse(UUID voucherId, VoucherType voucherType, long amou
 
     @Override
     public String toString() {
-        return "VoucherResponse{" +
-                "voucherId=" + voucherId +
-                ", voucherType=" + voucherType +
-                ", amount=" + amount +
-                '}';
+        return "생성된 바우처 : [ " +
+                "voucherId : " + voucherId +
+                ", voucherType : " + voucherType +
+                ", amount : " + amount +
+                " ]";
     }
 }
