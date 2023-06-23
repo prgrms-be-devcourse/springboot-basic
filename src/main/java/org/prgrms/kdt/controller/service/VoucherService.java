@@ -1,11 +1,11 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt.controller.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.entity.VoucherEntity;
-import org.prgrms.kdt.repository.voucher.VoucherRepository;
+import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.util.VoucherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

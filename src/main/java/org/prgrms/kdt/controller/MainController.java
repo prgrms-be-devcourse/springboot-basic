@@ -1,21 +1,15 @@
 package org.prgrms.kdt.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.controller.service.VoucherService;
 import org.prgrms.kdt.util.VoucherFactory;
-import org.prgrms.kdt.util.VoucherMapper;
 import org.prgrms.kdt.model.dto.VoucherDTO;
-import org.prgrms.kdt.model.entity.Amount;
-import org.prgrms.kdt.model.entity.VoucherEntity;
-import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 
 @Controller

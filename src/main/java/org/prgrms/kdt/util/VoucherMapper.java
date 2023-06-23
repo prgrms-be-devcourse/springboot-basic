@@ -1,11 +1,8 @@
 package org.prgrms.kdt.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.dto.VoucherDTO;
-import org.prgrms.kdt.model.entity.Amount;
+import org.prgrms.kdt.model.Amount;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 
 public class VoucherMapper {

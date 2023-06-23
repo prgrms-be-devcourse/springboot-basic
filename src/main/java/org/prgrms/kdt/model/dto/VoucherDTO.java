@@ -1,7 +1,7 @@
 package org.prgrms.kdt.model.dto;
 
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.entity.Amount;
+import org.prgrms.kdt.model.Amount;
 
 public class VoucherDTO {
 

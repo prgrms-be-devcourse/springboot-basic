@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model.entity;
+package org.prgrms.kdt.model;
 
 public abstract class Amount {
 	private final int amount;

@@ -8,11 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 @SpringBootApplication
 public class KdtApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(KdtApplication.class, args);
-		//MainController mainController = ac.getBean(MainController.class);
-		//mainController.startControl();
 	}
-
 }

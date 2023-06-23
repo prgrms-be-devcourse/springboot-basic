@@ -1,13 +1,14 @@
 package org.prgrms.kdt.model.entity;
 
 import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.model.Amount;
 
 public class VoucherEntity {
-	private final Long voucherId;
+	private Long voucherId;
 
-	private final Amount amount;
+	private Amount amount;
 
-	private final VoucherType voucherType;
+	private VoucherType voucherType;
 
 	public VoucherEntity(Amount amount, VoucherType voucherType) {
 		this(null, amount, voucherType);
@@ -17,6 +18,10 @@ public class VoucherEntity {
 		this.voucherId = voucherId;
 		this.amount = amount;
 		this.voucherType = voucherType;
+	}
+
+	public void setVoucherId(Long voucherId) {
+		this.voucherId = voucherId;
 	}
 
 	public Long getVoucherId() {

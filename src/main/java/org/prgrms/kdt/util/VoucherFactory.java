@@ -2,9 +2,9 @@ package org.prgrms.kdt.util;
 
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.dto.VoucherDTO;
-import org.prgrms.kdt.model.entity.Amount;
-import org.prgrms.kdt.model.entity.FixedAmount;
-import org.prgrms.kdt.model.entity.PercentAmount;
+import org.prgrms.kdt.model.Amount;
+import org.prgrms.kdt.model.FixedAmount;
+import org.prgrms.kdt.model.PercentAmount;
 
 public class VoucherFactory {
 

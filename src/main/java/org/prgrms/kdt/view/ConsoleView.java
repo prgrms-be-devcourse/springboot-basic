@@ -8,10 +8,8 @@ import org.beryx.textio.TextIoFactory;
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.dto.VoucherDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.prgrms.kdt.model.Amount;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class ConsoleView implements InputView, OutputView {
@@ -34,7 +32,8 @@ public class ConsoleView implements InputView, OutputView {
 		String commandString = this.textIo.newStringInputReader()
 			.withInputTrimming(true)
 			.withMinLength(1)
-			.read("command input: ");
+			.read("command input: ")
+			.toUpperCase();
 
 		return Command.valueOf(commandString);
 	}
@@ -94,8 +93,9 @@ public class ConsoleView implements InputView, OutputView {
 	}
 
 	public void printVoucherDTO(VoucherDTO voucherDTO) {
-		String voucherDataString = "voucher id: %d voucher type: %s voucher amount: %d".formatted(
-			voucherDTO.getVoucherId(), voucherDTO.getVoucherType(), voucherDTO.getAmount()
+		Amount amount = voucherDTO.getAmount();
+		String voucherDataString = MessageFormat.format("voucher id: {0} voucher type: {1} voucher amount: {2}",
+			voucherDTO.getVoucherId(), voucherDTO.getVoucherType(), amount.getAmount()
 		);
 
 		System.out.println(voucherDataString);
