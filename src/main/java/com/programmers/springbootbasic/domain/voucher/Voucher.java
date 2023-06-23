@@ -36,9 +36,6 @@ public abstract class Voucher {
     }
 
     public VoucherState getState() {
-        if (isExpiration()) {
-            setVoucherState(VoucherState.EXPIRE);
-        }
         return state;
     }
 
