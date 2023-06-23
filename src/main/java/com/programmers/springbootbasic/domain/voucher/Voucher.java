@@ -10,14 +10,14 @@ public abstract class Voucher {
     private final LocalDateTime expirationDate;
     private VoucherState state = VoucherState.AVAILABLE;
 
-    public Voucher(UUID voucherId, String name, LocalDateTime expirationDate) {
+    protected Voucher(UUID voucherId, String name, LocalDateTime expirationDate) {
         this.voucherId = voucherId;
         this.name = name;
         this.condition = 0L;
         this.expirationDate = expirationDate;
     }
 
-    public Voucher(UUID voucherId, String name, Long condition, LocalDateTime expirationDate) {
+    protected Voucher(UUID voucherId, String name, Long condition, LocalDateTime expirationDate) {
         this.voucherId = voucherId;
         this.name = name;
         this.condition = condition;
