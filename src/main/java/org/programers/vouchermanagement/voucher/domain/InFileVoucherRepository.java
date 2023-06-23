@@ -2,6 +2,7 @@ package org.programers.vouchermanagement.voucher.domain;
 
 import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 import org.programers.vouchermanagement.util.Converter;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Primary
 @Profile("dev")
 public class InFileVoucherRepository implements VoucherRepository {
 
