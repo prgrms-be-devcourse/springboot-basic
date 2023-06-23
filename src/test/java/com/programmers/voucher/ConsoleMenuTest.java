@@ -1,8 +1,9 @@
-package com.programmers.voucher.io;
+package com.programmers.voucher;
 
 import com.programmers.voucher.controller.VoucherConsoleController;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
+import com.programmers.voucher.io.Console;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;

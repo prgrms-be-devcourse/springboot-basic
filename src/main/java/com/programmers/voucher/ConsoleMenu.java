@@ -1,10 +1,13 @@
-package com.programmers.voucher.io;
+package com.programmers.voucher;
 
 import com.programmers.voucher.controller.VoucherConsoleController;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.enumtype.VoucherType;
+import com.programmers.voucher.io.Console;
 import com.programmers.voucher.request.VoucherCreateRequest;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,6 +23,7 @@ public class ConsoleMenu {
         this.consoleClient = consoleClient;
     }
 
+    @EventListener(ApplicationStartedEvent.class)
     public void start() {
         console.printCommandSet();
 
