@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
-    @Value("${file.path}")
+    @Value("${file.voucher.path}")
     private String FILE_PATH;
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);

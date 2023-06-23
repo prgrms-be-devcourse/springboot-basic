@@ -2,4 +2,7 @@ spring:
   profiles:
     active: dev
 file:
-  path: ./file/voucherList.csv
+  voucher:
+    path: ./file/voucher_list.csv
+  Customer:
+    path: ./file/customer_blacklist.csv
