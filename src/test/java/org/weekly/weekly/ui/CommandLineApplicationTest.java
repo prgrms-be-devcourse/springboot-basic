@@ -5,9 +5,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.weekly.weekly.ui.reader.CommandReader;
+import org.weekly.weekly.ui.reader.ScannerWrap;
+import org.weekly.weekly.ui.writer.CommandWriter;
 import org.weekly.weekly.util.VoucherMenu;
 
 import java.util.List;
+import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,8 +21,7 @@ public class CommandLineApplicationTest {
 
     @BeforeAll
     static void setCommandLineApplication() {
-       AnnotationConfigApplicationContext context = new  AnnotationConfigApplicationContext();
-        commandLineApplication = context.getBean(CommandLineApplication.class);
+       commandLineApplication = new CommandLineApplication(new ScannerWrap(), new CommandWriter());
     }
 
     @ParameterizedTest
@@ -31,9 +34,13 @@ public class CommandLineApplicationTest {
     @ParameterizedTest
     @ValueSource(strings = {"exit", "Exit", "eXit", "List", "list", " Create ", "Create ", "create "})
     void 사용자_메뉴판_통합테스트_정상입력(String userInput) {
+        // Given
         List<VoucherMenu> maps = List.of(VoucherMenu.values());
 
-        assertThat(maps.contains(commandLineApplication.readMenu(userInput))).isTrue();
-    }
+        // when
+        boolean isContain = maps.contains(commandLineApplication.readMenu(userInput));
 
+        // then
+        assertThat(isContain).isTrue();
+    }
 }
