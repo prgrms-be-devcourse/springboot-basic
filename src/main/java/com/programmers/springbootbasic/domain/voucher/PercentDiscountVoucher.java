@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
-    private final int MIN_PERCENT = 1;
-    private final int MAX_PERCENT = 100;
     private final int percent;
 
     public PercentDiscountVoucher(UUID voucherId, String name, LocalDateTime expirationDate, int percent) {
@@ -30,6 +28,8 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     private Boolean isInvalidateRange(int percent) {
+        int MIN_PERCENT = 1;
+        int MAX_PERCENT = 100;
         return percent < MIN_PERCENT || MAX_PERCENT < percent;
     }
 }
