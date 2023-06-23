@@ -7,11 +7,15 @@ import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.util.VoucherMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
 
+	@Autowired
 	public VoucherService(VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
 	}

@@ -6,7 +6,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+@Component
 public class InMemoryVoucherRepository implements VoucherRepository {
 
 	private Map<Long, VoucherEntity> map;

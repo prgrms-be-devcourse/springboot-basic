@@ -15,7 +15,10 @@ import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class MainController {
 
 	private InputView inputView;
@@ -24,6 +27,7 @@ public class MainController {
 
 	private VoucherService voucherService;
 
+	@Autowired
 	public MainController(InputView inputView,
 		OutputView outputView,
 		VoucherService voucherService

@@ -8,7 +8,12 @@ import org.beryx.textio.TextIoFactory;
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+@Component
 public class ConsoleView implements InputView, OutputView {
 
 	private final TextIO textIo;
