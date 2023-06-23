@@ -15,16 +15,16 @@ class FixedAmountVoucherTest {
   @ParameterizedTest
   @CsvSource(value = {"30000|70000", "5000|95000", "10000|90000"}, delimiter = '|')
   @DisplayName("FixedAmountVoucher 할인 계산 결과 일치 테스트")
-  void fixedAmountVoucher_계산_성공(Long discountValue, Long result) {
+  void fixedAmountVoucher_계산_성공(double discountValue, double result) {
     fixedAmountVoucher = new FixedAmountVoucher(discountValue);
-    assertThat(fixedAmountVoucher.discount(100000L)).isEqualTo(result);
+    assertThat(fixedAmountVoucher.discount(100000)).isEqualTo(result);
   }
 
   @ParameterizedTest
-  @CsvSource(value = {"30000|0, 50000|0, 10010|0"}, delimiter = '|')
+  @CsvSource(value = {"30000|10, 50000|20, 10010|30"}, delimiter = '|')
   @DisplayName("FixedAmountVoucher 할인 계산 결과 불일치 테스트")
-  void fixedAmountVoucher_계산_실패(Long discountValue, Long result) {
+  void fixedAmountVoucher_계산_실패(double discountValue, double result) {
     fixedAmountVoucher = new FixedAmountVoucher(discountValue);
-    assertThat(fixedAmountVoucher.discount(10000L)).isEqualTo(result);
+    assertThat(fixedAmountVoucher.discount(10000)).isEqualTo(result);
   }
 }

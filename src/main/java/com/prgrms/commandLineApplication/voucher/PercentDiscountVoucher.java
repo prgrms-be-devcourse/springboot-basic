@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
   private final UUID voucherId;
-  private final long discountAmount;
+  private final double discountAmount;
   private final VoucherType voucherType = VoucherType.PERCENT;
   private final int PERCENT_BASE = 100;
 
-  public PercentDiscountVoucher(long discountAmount) {
+  public PercentDiscountVoucher(double discountAmount) {
     this.voucherId = UUID.randomUUID();
     this.discountAmount = discountAmount;
   }
@@ -26,12 +26,12 @@ public class PercentDiscountVoucher implements Voucher {
   }
 
   @Override
-  public long getDiscountAmount() {
+  public double getDiscountAmount() {
     return discountAmount;
   }
 
   @Override
-  public long discount(long price) {
+  public double discount(double price) {
     if (isValidDiscountValue()) {
       return price - (discountAmount / PERCENT_BASE) * price;
     }

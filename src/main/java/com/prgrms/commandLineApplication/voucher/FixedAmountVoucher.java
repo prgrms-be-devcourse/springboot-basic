@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
   private final UUID voucherId;
-  private final long discountAmount;
+  private final double discountAmount;
   private final VoucherType voucherType = VoucherType.FIXED;
 
-  public FixedAmountVoucher(long discountAmount) {
+  public FixedAmountVoucher(double discountAmount) {
     this.voucherId = UUID.randomUUID();
     this.discountAmount = discountAmount;
   }
@@ -25,19 +25,19 @@ public class FixedAmountVoucher implements Voucher {
   }
 
   @Override
-  public long getDiscountAmount() {
+  public double getDiscountAmount() {
     return discountAmount;
   }
 
   @Override
-  public long discount(long price) {
+  public double discount(double price) {
     if (isValidDiscountValue(price)) {
       return price - discountAmount;
     }
     return 0;
   }
 
-  public Boolean isValidDiscountValue(long price) {
+  public Boolean isValidDiscountValue(double price) {
     if (price < discountAmount || discountAmount < 0) {
       return false;
     }
