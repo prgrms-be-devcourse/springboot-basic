@@ -4,7 +4,7 @@ import kr.co.springbootweeklymission.domain.voucher.dao.VoucherRepository;
 import kr.co.springbootweeklymission.domain.voucher.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.domain.voucher.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.domain.voucher.entity.Voucher;
-import kr.co.springbootweeklymission.global.error.exception.EntityNotFoundException;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class VoucherService {
 
     public VoucherResDTO.READ getVoucherById(UUID voucherId) {
         final Voucher readVoucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new EntityNotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
         return Voucher.toVoucherReadDto(readVoucher);
     }
 
