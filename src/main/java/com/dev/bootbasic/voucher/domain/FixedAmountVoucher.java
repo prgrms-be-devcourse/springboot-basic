@@ -7,6 +7,7 @@ public class FixedAmountVoucher extends AbstractVoucher {
     public static final int FIXED_MINIMUM_DISCOUNT_AMOUNT = 1_000;
     public static final int FIXED_MAXIMUM_DISCOUNT_AMOUNT = 100_000;
     public static final String FIXED_DISCOUNT_AMOUNT_VALIDATION_EXCEPTION_MESSAGE = "고정금액 바우처는" + FIXED_MINIMUM_DISCOUNT_AMOUNT + "초과" + FIXED_MAXIMUM_DISCOUNT_AMOUNT + "미만으로 가능합니다.";
+    private static final int MINIMUM_DISCOUNTED_PRICE = 0;
 
     private FixedAmountVoucher(UUID id, int discountAmount) {
         super(id, discountAmount);
@@ -26,10 +27,8 @@ public class FixedAmountVoucher extends AbstractVoucher {
     @Override
     public int discount(int productPrice) {
         int discountedPrice = productPrice - discountAmount;
-        if (discountedPrice < 0) {
-            return 0;
-        }
-        return discountedPrice;
+
+        return Math.max(discountedPrice, MINIMUM_DISCOUNTED_PRICE);
     }
 
 }
