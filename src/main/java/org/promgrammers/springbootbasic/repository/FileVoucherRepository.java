@@ -23,7 +23,7 @@ import java.util.UUID;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private static final File filePath = new File("src/main/resources/voucher.txt");
+    private static final File filePath = new File("src/main/resources/storage/voucherStorage.txt");
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
 
