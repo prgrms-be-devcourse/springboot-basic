@@ -28,8 +28,11 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @CsvSource(value = {"100, 120", "50, 2", "0, 0", "3, 100", "100, 100", "100, 99"})
     void discountTest(long beforeDiscount, long amount) {
+        LocalDate localDate = LocalDate.of(2023,6, 15);
+
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, LocalDate.now());
-        assertEquals(0, fixedAmountVoucher.discount(beforeDiscount));
+        FixedAmountVoucher fixedAmountVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), amount, localDate);
+        assertEquals(beforeDiscount - amount, fixedAmountVoucher2.discount(beforeDiscount));
     }
 
 }

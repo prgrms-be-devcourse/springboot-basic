@@ -21,7 +21,10 @@ public class DiscountAmount {
     }
 
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        if (discountable(beforeDiscount)) {
+            return beforeDiscount - amount;
+        }
+        throw new AmountValueException();
     }
 
     public boolean discountable(long beforeDiscount) {

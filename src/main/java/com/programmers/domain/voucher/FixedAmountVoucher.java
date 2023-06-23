@@ -1,6 +1,7 @@
 package com.programmers.domain.voucher;
 
 import com.programmers.exception.AmountValueException;
+import com.programmers.exception.VoucherExpirationException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +28,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        if (discountAmount.discountable(beforeDiscount)) {
+        if (available()) {
             return discountAmount.discount(beforeDiscount);
         }
         throw new AmountValueException();
@@ -36,7 +37,7 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public boolean available() {
         if (LocalDate.now().isAfter(expirationDate)) {
-            return false;
+            throw new VoucherExpirationException();
         }
         return true;
     }
