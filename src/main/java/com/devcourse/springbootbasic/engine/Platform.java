@@ -3,15 +3,17 @@ package com.devcourse.springbootbasic.engine;
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.io.InputConsole;
 import com.devcourse.springbootbasic.engine.io.OutputConsole;
+import com.devcourse.springbootbasic.engine.model.ListMenu;
 import com.devcourse.springbootbasic.engine.model.Menu;
 import com.devcourse.springbootbasic.engine.model.VoucherType;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import com.devcourse.springbootbasic.engine.voucher.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
-@SpringBootApplication
+import java.io.IOException;
+
+@Component
 public class Platform {
 
     @Autowired
@@ -22,12 +24,6 @@ public class Platform {
 
     @Autowired
     private VoucherService voucherService;
-
-    public static void main(String[] args) {
-        SpringApplication.run(Platform.class, args)
-                .getBean(Platform.class)
-                .run();
-    }
 
     public void run() {
         while (true) {
@@ -43,11 +39,13 @@ public class Platform {
             return branchByMenu(menu);
         } catch (InvalidDataException e) {
             output.printError(e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return false;
     }
 
-    private boolean branchByMenu(Menu menu) {
+    private boolean branchByMenu(Menu menu) throws IOException {
         return switch (menu) {
             case EXIT -> {
                 output.endPlatform();
@@ -59,10 +57,26 @@ public class Platform {
                 yield false;
             }
             case LIST -> {
-                listVoucherTask();
+                branchListMenu();
                 yield false;
             }
         };
+    }
+
+    private void branchListMenu() throws IOException {
+        ListMenu listMenu = input.inputListMenu();
+        switch (listMenu) {
+            case VOUCHER_LIST -> {
+                listVoucherTask();
+            }
+            case BLACK_CUSTOMER_LIST -> {
+                listBlackCustomerTask();
+            }
+        }
+    }
+
+    private void listBlackCustomerTask() throws IOException {
+        output.printBlackCustomers(input.getBlackCustomers());
     }
 
     private void listVoucherTask() {
