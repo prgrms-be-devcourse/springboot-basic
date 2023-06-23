@@ -12,14 +12,8 @@ public class PercentDiscountVoucher implements Voucher {
     this.discountValue = discountValue;
   }
 
-  @Override
   public UUID getVoucherId() {
     return voucherId;
-  }
-
-  @Override
-  public long getDiscountValue() {
-    return discountValue;
   }
 
   @Override
@@ -31,7 +25,7 @@ public class PercentDiscountVoucher implements Voucher {
   }
 
   public Boolean isValidDiscountValue() {
-    if (100 < discountValue || discountValue < 0) {
+    if (PERCENT_BASE < discountValue || discountValue < 0) {
       return false;
     }
     return true;
