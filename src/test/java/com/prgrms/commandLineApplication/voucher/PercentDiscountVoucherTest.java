@@ -1,31 +1,30 @@
 package com.prgrms.commandLineApplication.voucher;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class PercentDiscountVoucherTest {
 
-  @Test
-  @DisplayName("PercentDiscountVoucher 할인 성공 테스트 코드")
-  void PercentDiscountSuccess() {
-    long price = 100;
-    UUID voucherId = UUID.randomUUID();
-    long discountValue = 25;
-    PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, discountValue);
-    System.out.println("percentDiscountVoucher = " + percentDiscountVoucher.discount(price));
-    Assertions.assertThat(percentDiscountVoucher.discount(price)).isEqualTo(75);
+  Voucher percentDiscountVoucher;
+
+  @ParameterizedTest
+  @CsvSource(value = {"20|80000", "30|70000", "50|50000"}, delimiter = '|')
+  @DisplayName("percentDiscountVoucher 할인 계산 결과 일치 테스트")
+  void percentDiscountVoucher_계산_성공(Long discountValue, Long result) {
+    percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
+    assertThat(percentDiscountVoucher.discount(100000L)).isEqualTo(result);
   }
 
-  @Test
-  @DisplayName("PercentDiscountVoucher 할인 실패 테스트 코드")
-  void PercentDiscountFailure() {
-    long price = 100;
-    UUID voucherId = UUID.randomUUID();
-    long discountValue = 20;
-    PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, discountValue);
-    Assertions.assertThat(percentDiscountVoucher.discount(price)).isEqualTo(70);
+  @ParameterizedTest
+  @CsvSource(value = {"101|0, 200|0, 220|0"}, delimiter = '|')
+  @DisplayName("percentDiscountVoucher 할인 계산 결과 불일치 테스트")
+  void percentDiscountVoucher_계산_실패(Long discountValue, Long result) {
+    percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
+    assertThat(percentDiscountVoucher.discount(100000L)).isEqualTo(result);
   }
 }
