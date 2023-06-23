@@ -39,6 +39,7 @@ public class ConsoleClient implements VoucherController {
                 VoucherType voucherType = VoucherType.getValue(rawVoucherType);
 
                 Integer amount = console.intInput("2. [amount]");
+                voucherType.validateAmount(amount);
 
                 VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(voucherType, amount);
                 UUID voucherId = createVoucher(voucherCreateRequest);
