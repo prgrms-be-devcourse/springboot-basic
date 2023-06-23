@@ -26,7 +26,7 @@ public class PercentDiscountVoucher extends AbstractVoucher {
 
     @Override
     public int discount(int originPrice) {
-        return originPrice - (originPrice * discountAmount/ MAX_PERCENT);
+        return originPrice - (originPrice * getDiscountAmount()/ MAX_PERCENT);
     }
 
 }
