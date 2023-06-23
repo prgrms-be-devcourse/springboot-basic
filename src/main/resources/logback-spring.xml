@@ -9,8 +9,8 @@
     <property name="FILE_LOG_PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/Application_${bySecond}.log</file>
+    <appender name="INFO-FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/VoucherService_INFO_${bySecond}.log</file>
         <append>false</append>
         <immediateFlush>true</immediateFlush>
         <encoder>
@@ -18,8 +18,13 @@
         </encoder>
     </appender>
 
-    <appender name="SERVICE-FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/VoucherService_${bySecond}.log</file>
+    <appender name="WARN-FILE" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMathch>ACCEPT</onMathch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>logs/VoucherService_WARN_${bySecond}.log</file>
         <append>false</append>
         <immediateFlush>true</immediateFlush>
         <encoder>
@@ -27,12 +32,9 @@
         </encoder>
     </appender>
 
-    <root level="warn" additivity="false">
-        <appender-ref ref="FILE"/>
+    <root level="INFO">
+        <appender-ref ref="INFO-FILE"/>
+        <appender-ref ref="WARN-FILE"/>
     </root>
-
-    <logger name="com.programmers.voucher" level="info" additivity="false">
-        <appender-ref ref="SERVICE-FILE"/>
-    </logger>
 
 </configuration>
