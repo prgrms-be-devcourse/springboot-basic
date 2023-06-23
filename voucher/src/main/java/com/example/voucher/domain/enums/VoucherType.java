@@ -3,9 +3,8 @@ package com.example.voucher.domain.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.voucher.io.ModeType;
-
 public enum VoucherType {
+
 	FixedAmount("FixedAmount"),
 	PercentDiscount("PercentDiscount"),
 	Null("Null");

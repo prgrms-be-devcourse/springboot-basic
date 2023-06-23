@@ -9,6 +9,7 @@ import com.example.voucher.io.ModeType;
 import com.example.voucher.service.VoucherService;
 
 public class CommandLineApplication {
+
 	private VoucherService voucherService;
 	private boolean isOn = true;
 
@@ -39,7 +40,6 @@ public class CommandLineApplication {
 				case Null:
 					Console.printError("Mode를 다시 선택해주세요");
 					break;
-
 			}
 		}
 	}

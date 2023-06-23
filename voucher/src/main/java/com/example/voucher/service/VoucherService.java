@@ -10,6 +10,7 @@ import com.example.voucher.domain.enums.VoucherType;
 import com.example.voucher.repository.VoucherRepository;
 
 public class VoucherService {
+
 	private final VoucherRepository voucherRepository;
 
 	public VoucherService(VoucherRepository voucherRepository) {
@@ -24,7 +25,7 @@ public class VoucherService {
 			voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
 		}
 
-		UUID uuid = voucherRepository.save(voucher);
+		voucherRepository.save(voucher);
 		return voucher;
 	}
 

@@ -7,11 +7,11 @@ public enum ModeType {
 
 	Exit("exit"),
 	Create("create"),
-
 	List("list"),
 	Null("null");
 
 	private String typeName;
+
 	private static final Map<String, ModeType> modeTypeMap = new HashMap<>() {
 		{
 			put("exit", ModeType.Exit);

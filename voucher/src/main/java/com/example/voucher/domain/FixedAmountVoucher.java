@@ -29,4 +29,5 @@ public class FixedAmountVoucher implements Voucher {
 	public String getInfo() {
 		return String.format("VoucherType : %s, discountAmount : %d", voucherType.getTypeName(), amount);
 	}
+
 }

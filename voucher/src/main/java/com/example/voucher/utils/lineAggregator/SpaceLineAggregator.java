@@ -19,9 +19,10 @@ public class SpaceLineAggregator implements LineAggregator {
 				}
 			}
 		} catch (IllegalAccessException e) {
-			// 예외처리 추가할 에쩡
+
 		}
 
 		return sb.toString();
 	}
+
 }

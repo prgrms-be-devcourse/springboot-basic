@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.example.voucher.domain.Voucher;
 
 public class MemoryVoucherRepository implements VoucherRepository {
+
 	private final Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
 	@Override
@@ -22,4 +23,5 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	public List<Voucher> findAll() {
 		return new ArrayList<>(map.values());
 	}
+
 }

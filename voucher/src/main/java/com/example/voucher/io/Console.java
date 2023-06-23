@@ -1,10 +1,9 @@
 package com.example.voucher.io;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Console {
+
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void printModeType() {
