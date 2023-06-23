@@ -4,8 +4,8 @@ import com.programmers.exception.AmountValueException;
 
 public class DiscountAmount {
 
-    private final long MIN_AMOUNT = 1;
-    private final long MAX_AMOUNT = Integer.MAX_VALUE;
+    private static final long MIN_AMOUNT = 1;
+    private static final long MAX_AMOUNT = 1000000;
 
     private final long amount;
 
