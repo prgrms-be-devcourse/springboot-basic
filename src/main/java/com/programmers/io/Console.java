@@ -10,9 +10,9 @@ import java.util.Scanner;
 public class Console implements Input, Output {
 
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
-            "Type exit to exit the program.\n" +
-            "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.";
+            "Type 'exit' to exit the program.\n" +
+            "Type 'create' to create a new voucher.\n" +
+            "Type 'list' to list all vouchers.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
             "Select voucher. (Type voucher name or number.)\n" +
             "1. Fixed Amount Voucher\n" +
