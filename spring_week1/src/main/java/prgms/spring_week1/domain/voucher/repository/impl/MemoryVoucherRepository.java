@@ -12,11 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-    private final Output output;
-
-    public MemoryVoucherRepository(Output output) {
-        this.output = output;
-    }
 
     private final Map<UUID,Voucher> voucherList = new ConcurrentHashMap<>();
 
