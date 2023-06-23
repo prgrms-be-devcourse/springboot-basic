@@ -27,7 +27,7 @@ public class VoucherService {
 
         voucherRepository.save(voucher);
 
-        log.info("새로운 바우처가 생성되었습니다. Voucher => {}", voucher.toString());
+        log.info("Created new Voucher. Voucher: {}", voucher.toString());
         return voucherId;
     }
 
