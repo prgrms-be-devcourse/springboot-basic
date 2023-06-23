@@ -1,9 +1,9 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.controller.VoucherConsoleController;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.io.Console;
+import com.programmers.voucher.service.VoucherService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,7 +28,7 @@ class ConsoleMenuTest {
     private ConsoleMenu consoleMenu;
 
     @Mock
-    private VoucherConsoleController voucherConsoleController;
+    private VoucherService voucherService;
 
     @Mock
     private Console console;
@@ -40,7 +40,7 @@ class ConsoleMenuTest {
         given(console.input(anyString())).willReturn("fixed");
         given(console.intInput(anyString())).willReturn(10);
 
-        given(voucherConsoleController.createVoucher(any())).willReturn(UUID.randomUUID());
+        given(voucherService.createVoucher(any())).willReturn(UUID.randomUUID());
 
         //when
         consoleMenu.runClient();
@@ -100,7 +100,7 @@ class ConsoleMenuTest {
         List<Voucher> testVouchers = List.of(fixedVoucher1, fixedVoucher2);
 
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.LIST);
-        given(voucherConsoleController.findVouchers()).willReturn(testVouchers);
+        given(voucherService.findVouchers()).willReturn(testVouchers);
 
         //when
         consoleMenu.runClient();

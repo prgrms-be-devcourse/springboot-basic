@@ -1,11 +1,11 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.controller.VoucherConsoleController;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.enumtype.VoucherType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -20,11 +20,11 @@ public class ConsoleMenu {
     private final static Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
 
     private final Console console;
-    private final VoucherConsoleController consoleClient;
+    private final VoucherService voucherService;
 
-    public ConsoleMenu(Console console, VoucherConsoleController consoleClient) {
+    public ConsoleMenu(Console console, VoucherService voucherService) {
         this.console = console;
-        this.consoleClient = consoleClient;
+        this.voucherService = voucherService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -64,14 +64,14 @@ public class ConsoleMenu {
                 voucherType.validateAmount(amount);
 
                 VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(voucherType, amount);
-                UUID voucherId = consoleClient.createVoucher(voucherCreateRequest);
+                UUID voucherId = voucherService.createVoucher(voucherCreateRequest);
 
                 console.print("Created new voucher. VoucherID: " + voucherId.toString());
                 log.info("End create voucher.");
             }
             case LIST -> {
                 log.info("Lists the vouchers.");
-                List<Voucher> vouchers = consoleClient.findVouchers();
+                List<Voucher> vouchers = voucherService.findVouchers();
 
                 String vouchersForPrint = vouchers.stream()
                         .map(Voucher::fullInfoString)
