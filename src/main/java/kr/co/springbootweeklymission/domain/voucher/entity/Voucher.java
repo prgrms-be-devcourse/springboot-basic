@@ -17,7 +17,6 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Voucher {
-
     private UUID voucherId;
     private int amount;
     private VoucherPolicy voucherPolicy;

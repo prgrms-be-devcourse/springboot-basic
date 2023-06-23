@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 public class InFileMemberRepository implements MemberRepository {
-    private static final File MEMBER_FILE = new File("src/main/resources/file/member_file.csv");
+    private static final File MEMBER_FILE = new File("src/main/resources/files/member_file.csv");
 
     @Override
     public List<Member> findMembersByBlack() {
@@ -23,9 +23,10 @@ public class InFileMemberRepository implements MemberRepository {
             final BufferedReader reader = new BufferedReader(new FileReader(MEMBER_FILE));
             final List<Member> members = getMembersByBlack(reader);
             reader.close();
+
             return members;
         } catch (IOException e) {
-            throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER);
+            throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_BLACK_MEMBER);
         }
     }
 

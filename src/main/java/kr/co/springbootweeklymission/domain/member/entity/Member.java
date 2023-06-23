@@ -14,7 +14,6 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {
-
     private UUID memberId;
     private MemberStatus memberStatus;
 

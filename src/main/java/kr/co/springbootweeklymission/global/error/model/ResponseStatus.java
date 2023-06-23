@@ -12,6 +12,9 @@ public enum ResponseStatus {
     //fail command
     FAIL_NOT_FOUND_COMMAND("해당 명령어를 찾을 수 없습니다."),
 
+    //fail member
+    FAIL_NOT_FOUND_BLACK_MEMBER("I/O 문제로 블랙 회원이 조회되지 않았습니다."),
+
     //fail Voucher
     FAIL_WRONG_DISCOUNT("할인전 가격보다 할인 가격이 더 클 수 없습니다."),
     FAIL_NOT_FOUND_VOUCHER("해당 바우처를 찾을 수 없습니다."),

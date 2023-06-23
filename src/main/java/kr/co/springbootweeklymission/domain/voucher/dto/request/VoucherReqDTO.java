@@ -4,7 +4,6 @@ import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
 import lombok.*;
 
 public class VoucherReqDTO {
-
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

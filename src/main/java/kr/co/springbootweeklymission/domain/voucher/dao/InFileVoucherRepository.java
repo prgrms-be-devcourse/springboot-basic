@@ -19,23 +19,22 @@ import java.util.UUID;
 @Slf4j
 @Repository
 public class InFileVoucherRepository implements VoucherRepository {
-    private static final File VOUCHER_FILE = new File("src/main/resources/file/voucher_file.txt");
+    private static final File VOUCHER_FILE = new File("src/main/resources/files/voucher_file.txt");
 
     @Override
     public Voucher save(Voucher voucher) {
-
         try {
             final Writer writer = new FileWriter(VOUCHER_FILE, true);
             final VoucherResDTO.FILE file = Voucher.toVoucherFile(voucher);
             writer.write(FileConverter.toVoucherString(file));
             writer.flush();
             writer.close();
+
+            return voucher;
         } catch (IOException e) {
             log.warn("error : " + e.getMessage());
             throw new FileIOException(ResponseStatus.FAIL_IO_NOT_SAVE_VOUCHER);
         }
-
-        return voucher;
     }
 
     @Override
@@ -44,6 +43,7 @@ public class InFileVoucherRepository implements VoucherRepository {
             final BufferedReader reader = new BufferedReader(new FileReader(VOUCHER_FILE));
             final Optional<Voucher> voucher = getVoucherById(voucherId, reader);
             reader.close();
+
             return voucher;
         } catch (IOException e) {
             throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER);
@@ -56,6 +56,7 @@ public class InFileVoucherRepository implements VoucherRepository {
             final BufferedReader reader = new BufferedReader(new FileReader(VOUCHER_FILE));
             final List<Voucher> vouchers = getVouchers(reader);
             reader.close();
+
             return vouchers;
         } catch (IOException e) {
             throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER);

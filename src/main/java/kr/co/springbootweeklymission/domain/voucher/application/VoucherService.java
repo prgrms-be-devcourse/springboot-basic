@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class VoucherService {
-
     private final VoucherRepository voucherRepository;
 
     public void createVoucher(VoucherReqDTO.CREATE create) {

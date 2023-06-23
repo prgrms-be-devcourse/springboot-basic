@@ -6,7 +6,6 @@ import lombok.*;
 import java.util.UUID;
 
 public class VoucherResDTO {
-
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
