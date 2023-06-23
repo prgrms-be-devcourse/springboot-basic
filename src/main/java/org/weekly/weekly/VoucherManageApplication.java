@@ -10,7 +10,6 @@ public class VoucherManageApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(VoucherManageApplication.class, args);
-		new Scanner(System.in);
 	}
 
 }
