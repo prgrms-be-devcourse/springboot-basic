@@ -30,10 +30,10 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
-    public int readAmount() {
+    public long readAmount() {
         String input = scanner.nextLine();
 
-        return VoucherUtils.parseStringToInteger(input);
+        return VoucherUtils.parseStringToLong(input);
     }
 
     @Override

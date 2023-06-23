@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class VoucherService {
     private static final String NO_SAVED_VOUCHER = """
             생성된 바우처가 없습니다.
-                        
             """;
     private final VoucherRepository voucherRepository;
 
@@ -20,7 +19,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType voucherType, long amount) {
+    public Voucher createVoucher(VoucherType voucherType, long amount) throws RuntimeException {
         UUID voucherId = UUID.randomUUID();
         Voucher createdVoucher = switch (voucherType) {
             case FIXED_AMOUNT_VOUCHER_COMMAND -> new FixedAmountVoucher(voucherId, amount);
@@ -35,6 +34,7 @@ public class VoucherService {
         if (vouchers.isEmpty()) {
             return NO_SAVED_VOUCHER;
         }
+
         return formatVoucherInfo(vouchers);
     }
 
