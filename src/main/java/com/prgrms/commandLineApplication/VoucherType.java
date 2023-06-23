@@ -35,9 +35,10 @@ public enum VoucherType {
   }
 
   public static VoucherType find(String inputVoucherType) {
-    if (voucherTypeMap.containsKey(inputVoucherType)) {
-      return voucherTypeMap.get(inputVoucherType);
+    String voucherType = inputVoucherType.toLowerCase();
+    if (voucherTypeMap.containsKey(voucherType)) {
+      return voucherTypeMap.get(voucherType);
     }
-    throw new IllegalArgumentException("Type " + inputVoucherType + " does not exist. \n Please select the type in the view.");
+    throw new IllegalArgumentException("Type " + voucherType + " does not exist. \n Please select the type in the view.");
   }
 }
