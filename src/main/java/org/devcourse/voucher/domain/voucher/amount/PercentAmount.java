@@ -7,7 +7,7 @@ public class PercentAmount extends VoucherAmount{
     }
 
     @Override
-    public boolean validate(int amount) {
-        return 0 <= amount && amount <= 100;
+    public boolean inValid(int amount) {
+        return 0 > amount || amount > 100;
     }
 }

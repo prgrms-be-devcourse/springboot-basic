@@ -7,7 +7,7 @@ public class FixedAmount extends VoucherAmount{
     }
 
     @Override
-    public boolean validate(int amount) {
-        return 0 <= amount;
+    public boolean inValid(int amount) {
+        return 0 > amount || amount > 100_000;
     }
 }

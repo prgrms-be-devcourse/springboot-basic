@@ -28,5 +28,5 @@ public abstract class VoucherAmount {
         throw new RuntimeException("바우처 금액 범위 오류");
     }
 
-    public abstract boolean validate(int amount);
+    public abstract boolean inValid(int amount);
 }
