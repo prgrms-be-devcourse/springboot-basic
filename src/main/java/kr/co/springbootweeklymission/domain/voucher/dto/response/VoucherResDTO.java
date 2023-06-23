@@ -16,4 +16,14 @@ public class VoucherResDTO {
         private int amount;
         private VoucherPolicy voucherPolicy;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class FILE {
+        private UUID voucherId;
+        private int amount;
+        private VoucherPolicy voucherPolicy;
+    }
 }

@@ -37,8 +37,16 @@ public class Voucher {
                 .build();
     }
 
-    public static VoucherResDTO.READ toVoucherReadDto(Voucher voucher){
+    public static VoucherResDTO.READ toVoucherReadDto(Voucher voucher) {
         return VoucherResDTO.READ.builder()
+                .voucherId(voucher.voucherId)
+                .amount(voucher.amount)
+                .voucherPolicy(voucher.voucherPolicy)
+                .build();
+    }
+
+    public static VoucherResDTO.FILE toVoucherFile(Voucher voucher) {
+        return VoucherResDTO.FILE.builder()
                 .voucherId(voucher.voucherId)
                 .amount(voucher.amount)
                 .voucherPolicy(voucher.voucherPolicy)
