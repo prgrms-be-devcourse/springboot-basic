@@ -19,6 +19,12 @@ public enum ConsoleCommandType {
         return Arrays.stream(values())
                 .filter(i -> Objects.equals(i.input, input))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어입니다. 현재 입력: " + input));
+                .orElseThrow(() -> {
+                    StringBuilder sb = new StringBuilder("Command type is invalid.")
+                            .append(" Current input: ")
+                            .append(input);
+
+                    return new IllegalArgumentException(sb.toString());
+                });
     }
 }
