@@ -29,4 +29,11 @@ public enum VoucherType {
   public Voucher create(UUID voucherId, Long discountValue) {
     return createVoucher.apply(voucherId, discountValue);
   }
+
+  public static VoucherType find(String inputVoucherType) {
+    if (voucherTypeMap.containsKey(inputVoucherType)) {
+      return voucherTypeMap.get(inputVoucherType);
+    }
+    throw new IllegalArgumentException("Type " + inputVoucherType + " does not exist. \n Please select the type in the view.");
+  }
 }
