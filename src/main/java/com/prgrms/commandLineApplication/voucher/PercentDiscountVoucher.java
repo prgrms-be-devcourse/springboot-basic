@@ -24,6 +24,23 @@ public class PercentDiscountVoucher implements Voucher {
 
   @Override
   public long discount(long price) {
-    return price - (discountValue / PERCENT_BASE) * price;
+    if (isValidDiscountValue()) {
+      return price - (discountValue / PERCENT_BASE) * price;
+    }
+    return 0;
+  }
+
+  public Boolean isValidDiscountValue() {
+    if (100 < discountValue || discountValue < 0) {
+      return false;
+    }
+    return true;
+  }
+
+  public Boolean isVoucherIdNull(UUID voucherId) {
+    if (voucherId == null) {
+      throw new RuntimeException("Invalid ID.\n");
+    }
+    return true;
   }
 }
