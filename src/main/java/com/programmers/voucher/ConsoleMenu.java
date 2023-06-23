@@ -6,6 +6,8 @@ import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.enumtype.VoucherType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.request.VoucherCreateRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,8 @@ import java.util.UUID;
 
 @Component
 public class ConsoleMenu {
+    private final static Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
+
     private final Console console;
     private final VoucherConsoleController consoleClient;
 
@@ -38,6 +42,7 @@ public class ConsoleMenu {
         try {
             keepRunningClient = runClient();
         } catch (RuntimeException ex) {
+            log.warn("Invalid input occurred.", ex);
             console.print(ex.getMessage());
         }
         return keepRunningClient;

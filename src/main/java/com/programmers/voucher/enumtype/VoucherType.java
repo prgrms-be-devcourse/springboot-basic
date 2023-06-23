@@ -4,6 +4,8 @@ import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.request.VoucherCreateRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -20,6 +22,8 @@ public enum VoucherType {
             PercentDiscountVoucher::new,
             (amount) -> amount >= 0 && amount <= 100,
             "Percent discount must between 0 and 100.");
+
+    private static final Logger log = LoggerFactory.getLogger(VoucherType.class);
 
     private final String type;
     private final BiFunction<UUID, VoucherCreateRequest, Voucher> createInstance;
@@ -45,6 +49,7 @@ public enum VoucherType {
                             .append(" Current input: ")
                             .append(voucherType);
 
+                    log.warn("Invalid voucher type: {}", sb);
                     return new IllegalArgumentException(sb.toString());
                 });
     }
@@ -60,6 +65,7 @@ public enum VoucherType {
                     .append(" Current input: ")
                     .append(amount);
 
+            log.warn("Invalid voucher amount: {}", sb);
             throw new IllegalArgumentException(sb.toString());
         }
     }
