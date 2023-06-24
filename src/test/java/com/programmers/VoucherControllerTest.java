@@ -154,7 +154,7 @@ class VoucherControllerTest {
         String input = "123";
 
         //when
-        Long result = voucherController.changeNumber(input);
+        Long result = voucherController.changeDiscountValueToNumber(input);
 
         //then
         Assertions.assertThat(result).isEqualTo(123L);
@@ -166,7 +166,7 @@ class VoucherControllerTest {
         //given
         //when
         //then
-        Assertions.assertThatThrownBy(() -> voucherController.changeNumber("abc"))
+        Assertions.assertThatThrownBy(() -> voucherController.changeDiscountValueToNumber("abc"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

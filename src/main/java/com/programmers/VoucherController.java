@@ -3,6 +3,9 @@ package com.programmers;
 import com.programmers.domain.*;
 import com.programmers.io.Console;
 import com.programmers.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -11,11 +14,14 @@ import java.util.UUID;
 @Controller
 public class VoucherController {
 
+    private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
+
     private final Console console = new Console();
     private final VoucherService voucherService = new VoucherService();
 
     public void run() {
         boolean activated = true;
+        log.info("The voucher program is activated.");
 
         while (activated) {
             console.printMenu();
@@ -23,10 +29,12 @@ public class VoucherController {
             Menu menu = Menu.findMenu(command);
 
             switch (menu) {
-                case EXIT -> activated = false;
+                case EXIT -> {
+                    activated = false;
+                    log.info("The program has been terminated.");
+                }
                 case CREATE -> createVoucher();
                 case LIST -> getList();
-                default -> throw new IllegalArgumentException();
             }
         }
     }
@@ -45,6 +53,7 @@ public class VoucherController {
         Voucher voucher = makeVoucher();
         voucherService.save(voucher);
         console.printVoucherCreated();
+        log.info("The voucher has been created.");
 
         return voucher;
     }
@@ -54,7 +63,7 @@ public class VoucherController {
         VoucherType voucherType = getVoucherType();
 
         console.printDiscountValueInput();
-        Long discountValue = changeNumber(console.readInput());
+        Long discountValue = changeDiscountValueToNumber(console.readInput());
 
         console.printVoucherNameInput();
         String voucherName = console.readInput();
@@ -79,13 +88,14 @@ public class VoucherController {
         return true;
     }
 
-    public Long changeNumber(String str) {
+    public Long changeDiscountValueToNumber(String discountValue) {
         try {
-            Long.parseLong(str);
+            Long.parseLong(discountValue);
         } catch (NumberFormatException e) {
+            log.error("The discount value input is not in numeric format. input value = {}", discountValue);
             throw new IllegalArgumentException();
         }
-        return Long.parseLong(str);
+        return Long.parseLong(discountValue);
     }
 
     public List<Voucher> getList() {
