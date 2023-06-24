@@ -3,9 +3,7 @@ package org.weekly.weekly.voucher.repository;
 import org.springframework.stereotype.Repository;
 import org.weekly.weekly.voucher.domain.Voucher;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -19,5 +17,10 @@ public class VoucherRepository {
 
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storages.get(voucherId));
+    }
+
+    public List<Voucher> findAll() {
+        return storages.values().stream()
+                .toList();
     }
 }

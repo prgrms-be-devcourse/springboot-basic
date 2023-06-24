@@ -6,6 +6,7 @@ import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
+import org.weekly.weekly.voucher.model.ListResponse;
 import org.weekly.weekly.voucher.service.VoucherService;
 
 @Controller
@@ -44,12 +45,13 @@ public class VoucherController {
         Discount discount = this.commandLineApplication.readDiscount();
         VoucherDto voucherDto = this.commandLineApplication.readVoucher(discount);
 
-
         this.voucherService.insertVoucher(voucherDto, discount);
     }
 
     private void getList() {
+        ListResponse response = this.voucherService.getVouchers();
 
+        this.commandLineApplication.printAllList(response);
     }
 
 

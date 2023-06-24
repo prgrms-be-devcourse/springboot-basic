@@ -1,7 +1,7 @@
 package org.weekly.weekly.voucher.domain;
 
+import java.text.MessageFormat;
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.UUID;
 
 public class Voucher {
@@ -36,5 +36,10 @@ public class Voucher {
 
         this.amount -= afterAmount;
         return 0L;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("[ID: {}, 금액: {}, 등록일자: {}, 유효기간: {}", voucherId,amount, registrationDate, expirationDate);
     }
 }

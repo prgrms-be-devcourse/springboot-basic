@@ -6,8 +6,10 @@ import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
+import org.weekly.weekly.voucher.model.ListResponse;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,11 +27,17 @@ public class VoucherService {
         this.voucherRepository.insert(voucher);
     }
 
+    public ListResponse getVouchers() {
+        List<Voucher> vouchers = this.voucherRepository.findAll();
+        return new ListResponse(vouchers);
+    }
+
     private void validateVoucher(VoucherDto voucherDto) {
         Optional<Voucher> voucherOptional = this.voucherRepository.findById(voucherDto.getVoucherId());
         if (voucherOptional.isEmpty()) {
             throw new RuntimeException(ExceptionMsg.VOUCHER_EXIST.getMsg());
         }
     }
+
 
 }

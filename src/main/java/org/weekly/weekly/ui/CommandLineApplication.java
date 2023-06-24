@@ -9,6 +9,7 @@ import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
+import org.weekly.weekly.voucher.model.ListResponse;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -60,5 +61,9 @@ public class CommandLineApplication {
                 this.commandWriter.printErrorMsg(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
             }
         }
+    }
+
+    public void printAllList(ListResponse listResponse) {
+        this.commandWriter.printAllList(listResponse.getResult());
     }
 }
