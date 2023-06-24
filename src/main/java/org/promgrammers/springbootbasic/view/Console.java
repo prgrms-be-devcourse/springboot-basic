@@ -19,10 +19,6 @@ public class Console {
         this.output = output;
     }
 
-    public void print(String[] messages) {
-        output.print(messages);
-    }
-
     public void print(String message) {
         output.print(message);
     }
