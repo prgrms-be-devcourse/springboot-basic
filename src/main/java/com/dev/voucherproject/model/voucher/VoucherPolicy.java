@@ -19,6 +19,6 @@ public enum VoucherPolicy {
     public static VoucherPolicy convertStringInputToPolicy(String input) {
         return Arrays.stream(VoucherPolicy.values())
                 .filter(v -> v.isExistPolicy(input))
-                .findFirst().orElseThrow(() -> new RuntimeException("Invalid input value."));
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("Invalid input value."));
     }
 }

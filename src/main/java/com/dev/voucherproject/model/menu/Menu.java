@@ -20,6 +20,6 @@ public enum Menu {
     public static Menu convertStringInputToMenu(String input) {
          return Arrays.stream(Menu.values())
                 .filter(m -> m.isExistMenu(input))
-                .findFirst().orElseThrow(() -> new RuntimeException("Invalid input value."));
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("Invalid input value."));
     }
 }
