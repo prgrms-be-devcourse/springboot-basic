@@ -1,6 +1,6 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.exception.AmountValueException;
+import com.programmers.global.exception.AmountValueException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

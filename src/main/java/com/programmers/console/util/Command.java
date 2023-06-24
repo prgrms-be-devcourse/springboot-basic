@@ -1,6 +1,6 @@
 package com.programmers.console.util;
 
-import com.programmers.console.exception.MenuTypeFormatException;
+import com.programmers.global.exception.MenuTypeFormatException;
 
 import java.util.Arrays;
 

@@ -1,11 +1,8 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.console.exception.VoucherCommandException;
-import com.programmers.voucher.util.TriFunction;
+import com.programmers.global.exception.VoucherCommandException;
 
-import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.UUID;
 
 public enum VoucherPolicy {
     FIXED_AMOUNT("1"),

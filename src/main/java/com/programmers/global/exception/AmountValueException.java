@@ -1,4 +1,4 @@
-package com.programmers.exception;
+package com.programmers.global.exception;
 
 public class AmountValueException extends RuntimeException {
     private static final String MESSAGE = "[ERROR] 올바른 입력값이 아닙니다.";

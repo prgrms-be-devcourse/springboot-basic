@@ -1,6 +1,6 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.exception.AmountValueException;
+import com.programmers.global.exception.AmountValueException;
 
 public class DiscountAmount implements Discount{
 

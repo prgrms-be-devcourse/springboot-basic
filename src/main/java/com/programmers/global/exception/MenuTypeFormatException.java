@@ -1,4 +1,4 @@
-package com.programmers.console.exception;
+package com.programmers.global.exception;
 
 public class MenuTypeFormatException extends RuntimeException {
     private static final String MESSAGE = "[ERROR] 올바른 메뉴 형식을 입력해주세요. ";
