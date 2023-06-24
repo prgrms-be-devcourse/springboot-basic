@@ -1,12 +1,11 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.VoucherPolicy;
+import com.programmers.voucher.domain.VoucherFactory;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,13 +13,15 @@ import java.util.UUID;
 public class VoucherServiceImpl implements VoucherService{
 
     private final VoucherRepository voucherRepository;
+    private final VoucherFactory voucherFactory;
 
-    public VoucherServiceImpl(VoucherRepository voucherRepository) {
+    public VoucherServiceImpl(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
+        this.voucherFactory = voucherFactory;
     }
 
     public UUID create(VoucherRequestDto voucherRequestDto) {
-        Voucher voucher = toEntity(UUID.randomUUID(), voucherRequestDto);
+        Voucher voucher = toEntity(voucherRequestDto);
         return voucherRepository.save(voucher);
     }
 
@@ -28,8 +29,7 @@ public class VoucherServiceImpl implements VoucherService{
         return voucherRepository.findAll();
     }
 
-    private Voucher toEntity(UUID voucherId, VoucherRequestDto voucherRequestDto) {
-        return VoucherPolicy.findByCommand(voucherRequestDto.getVoucherType())
-                .constructor(voucherId, voucherRequestDto.getDiscountAmount(), LocalDate.now());
+    private Voucher toEntity(VoucherRequestDto requestDto) {
+        return voucherFactory.createVoucher(requestDto);
     }
 }

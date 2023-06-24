@@ -1,6 +1,7 @@
 package com.programmers.voucher.service;
 
 import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.VoucherFactory;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;
@@ -20,9 +21,8 @@ class VoucherServiceTest {
     @BeforeEach
     public void setUp() {
         voucherRepository = new MemoryVoucherRepository();
-        voucherService = new VoucherServiceImpl(voucherRepository);
+        voucherService = new VoucherServiceImpl(voucherRepository, new VoucherFactory());
     }
-
 
     @DisplayName("바우처 타입과 할인값에 대한 바우처 생성 테스트")
     @ParameterizedTest
@@ -40,8 +40,8 @@ class VoucherServiceTest {
     })
     void createVoucherAndFindVouchers(String voucherType, long discountAmount) {
 
-        VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, discountAmount);
-        UUID voucherId = voucherService.create(voucherRequestDto);
+        VoucherRequestDto requestDto = new VoucherRequestDto(voucherType, discountAmount);
+        UUID voucherId = voucherService.create(requestDto);
         assertThat(voucherId).isNotNull();
     }
 }

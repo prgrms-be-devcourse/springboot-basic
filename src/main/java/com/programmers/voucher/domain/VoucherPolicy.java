@@ -8,25 +8,19 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public enum VoucherPolicy {
-    FIXED_AMOUNT("1", FixedAmountVoucher::new),
-    PERCENT_DISCOUNT("2", FixedAmountVoucher::new);
+    FIXED_AMOUNT("1"),
+    PERCENT_DISCOUNT("2");
 
     private final String command;
-    private final TriFunction<UUID, Long, LocalDate, Voucher> constructor;
 
-    VoucherPolicy(String command, TriFunction<UUID, Long, LocalDate, Voucher> constructor) {
+    VoucherPolicy(String command) {
         this.command = command;
-        this.constructor = constructor;
     }
 
-    public static VoucherPolicy findByCommand(String command) {
+    public static VoucherPolicy of(String command) {
         return Arrays.stream(VoucherPolicy.values())
                 .filter(voucherPolicy -> voucherPolicy.command.equals(command))
                 .findFirst()
                 .orElseThrow(VoucherCommandException::new);
-    }
-
-    public Voucher constructor(UUID voucherId, long discountAmount, LocalDate createdDate) {
-        return constructor.apply(voucherId, discountAmount, createdDate);
     }
 }

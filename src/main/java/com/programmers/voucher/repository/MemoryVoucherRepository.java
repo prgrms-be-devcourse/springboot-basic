@@ -28,6 +28,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        throw new UnsupportedOperationException("아직 개발 중입니다.");
     }
 }
