@@ -34,7 +34,6 @@ public class VoucherService {
         return voucherRepository.findById(voucherId)
                 .map(voucher -> new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()))
                 .or(() -> {
-                    logger.error("Invalid ID {} ", voucherId);
                     throw new IllegalArgumentException("해당 아이디는 존재하지 않습니다. : " + voucherId);
                 });
     }
@@ -43,7 +42,6 @@ public class VoucherService {
         List<Voucher> voucherList = voucherRepository.findAll();
 
         if (voucherList.isEmpty()) {
-            logger.error("Empty Voucher Repository");
             throw new EmptyVoucherListException("저장된 바우처가 없습니다.");
         }
 

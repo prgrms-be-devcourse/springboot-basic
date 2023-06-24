@@ -6,6 +6,8 @@ import org.promgrammers.springbootbasic.domain.voucher.model.Command;
 import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.service.VoucherService;
 import org.promgrammers.springbootbasic.view.Console;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +16,8 @@ public class CommandLineController {
     private final CustomerService customerService;
     private final VoucherService voucherService;
     private final Console console;
+
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineController.class);
 
     public CommandLineController(CustomerService customerService, VoucherService voucherService, Console console) {
         this.customerService = customerService;
@@ -29,6 +33,7 @@ public class CommandLineController {
                 Command command = Command.of(inputCommand);
                 execute(command);
             } catch (RuntimeException e) {
+                logger.error(e.getMessage());
                 console.print(e.getMessage());
             }
         }

@@ -37,7 +37,6 @@ public class FileConverter {
             case PERCENT:
                 return new PercentDiscountVoucher(voucherId, amount);
             default:
-                logger.error("Invalid Voucher Type => {}", voucherType);
                 throw new IllegalArgumentException("잘못된 Voucher Type 입니다 : " + voucherType);
         }
     }

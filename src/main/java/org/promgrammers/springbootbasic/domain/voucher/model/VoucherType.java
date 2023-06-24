@@ -22,9 +22,8 @@ public enum VoucherType {
             return Arrays.stream(values())
                     .filter(voucher -> voucher.type.equals(voucherType.toUpperCase()))
                     .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("잘못된 Voucher 타입입니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("잘못된 Voucher 타입입니다. => " + voucherType));
         } catch (IllegalArgumentException e) {
-            logger.error("Invalid Voucher Type => {}", voucherType);
             throw e;
         }
     }

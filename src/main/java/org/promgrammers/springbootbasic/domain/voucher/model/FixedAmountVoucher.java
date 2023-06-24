@@ -28,8 +28,7 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     protected void validateAmount(long discountAmount) {
         if (discountAmount < MIN_AMOUNT) {
-            logger.error("Invalid Discount Amount => {}", discountAmount);
-            throw new IllegalArgumentException("할인 금액은 0보다 적을 수 없습니다.");
+            throw new IllegalArgumentException("할인 금액은 0보다 적을 수 없습니다." + discountAmount);
         }
     }
 }

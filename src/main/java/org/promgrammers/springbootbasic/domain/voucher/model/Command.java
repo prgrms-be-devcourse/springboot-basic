@@ -24,9 +24,8 @@ public enum Command {
             return Arrays.stream(values())
                     .filter(value -> value.command.equals(inputCommand.toLowerCase()))
                     .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어 입력입니다"));
+                    .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어 입력입니다 => " + inputCommand));
         } catch (IllegalArgumentException e) {
-            logger.error("Invalid Command Select => {}", inputCommand);
             throw e;
         }
     }

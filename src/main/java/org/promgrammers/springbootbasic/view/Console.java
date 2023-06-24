@@ -36,7 +36,7 @@ public class Console {
         output.print("할인 정책에 맞는 할인 금액을 입력해 주세요. : ");
         String inputString = input();
         if (!inputString.matches(NUMBER_REGEX)) {
-            throw new IllegalArgumentException("입력값은 숫자여야 합니다.");
+            throw new IllegalArgumentException("입력값은 숫자여야 합니다. => " + inputString);
         }
         return Long.parseLong(inputString);
     }
