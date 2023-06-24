@@ -14,7 +14,8 @@ public class PercentDiscountVoucher implements Voucher {
     private final LocalDate expirationDate;
 
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDate localDate) {
-        this.voucherId = validateVoucherId(voucherId);
+        validateVoucherId(voucherId);
+        this.voucherId = voucherId;
         this.discountPercent = new DiscountPercent(percent);
         this.createdDate = localDate;
         this.expirationDate = this.createdDate.plusDays(EXPIRATION_POLICY);
@@ -59,8 +60,8 @@ public class PercentDiscountVoucher implements Voucher {
         return createdDate.plusDays(EXPIRATION_POLICY);
     }
 
-    private UUID validateVoucherId(UUID voucherId) {
+    private boolean validateVoucherId(UUID voucherId) {
         if (voucherId == null) throw new NullPointerException(VOUCHER_ID_NULL_MESSAGE);
-        return voucherId;
+        return true;
     }
 }
