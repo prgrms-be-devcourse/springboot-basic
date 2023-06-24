@@ -10,11 +10,11 @@ import java.util.UUID;
 public class VoucherFactory {
 
     public Voucher createVoucher(VoucherRequestDto requestDto) {
-        VoucherPolicy voucherPolicy = VoucherPolicy.of(requestDto.getVoucherType());
+        VoucherPolicy voucherPolicy = VoucherPolicy.of(requestDto.voucherType());
 
         return switch (voucherPolicy) {
-            case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), requestDto.getDiscountAmount(), LocalDate.now());
-            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), requestDto.getDiscountAmount(), LocalDate.now());
+            case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), requestDto.discountAmount(), LocalDate.now());
+            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), requestDto.discountAmount(), LocalDate.now());
         };
     }
 }
