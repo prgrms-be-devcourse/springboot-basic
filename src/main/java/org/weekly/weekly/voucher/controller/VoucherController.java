@@ -1,4 +1,4 @@
-package org.weekly.weekly.voucher;
+package org.weekly.weekly.voucher.controller;
 
 import org.springframework.stereotype.Controller;
 import org.weekly.weekly.ui.CommandLineApplication;

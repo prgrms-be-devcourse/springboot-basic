@@ -3,7 +3,7 @@ package org.weekly.weekly;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.weekly.weekly.voucher.VoucherController;
+import org.weekly.weekly.voucher.controller.VoucherController;
 
 @SpringBootApplication
 public class VoucherManageApplication {

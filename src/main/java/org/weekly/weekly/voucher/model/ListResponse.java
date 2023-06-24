@@ -1,7 +1,9 @@
 package org.weekly.weekly.voucher.model;
 
+import org.weekly.weekly.util.PrintMsg;
 import org.weekly.weekly.voucher.domain.Voucher;
 
+import javax.print.PrintException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,10 @@ public class ListResponse implements Response{
     }
 
     public String getResult() {
+        if (result.isEmpty()) {
+            return PrintMsg.NO_VOUCHER_DATAS.getMsg();
+        }
+
         StringBuilder sb = new StringBuilder();
         result.forEach(sb::append);
         return sb.toString();
