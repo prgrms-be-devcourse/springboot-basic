@@ -2,21 +2,6 @@
 
     <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n"/>
 
-    <appender name="WARN-LOG-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>warn</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/%d{yyyy-MM-dd}-voucher-warn.log</fileNamePattern>
-        </rollingPolicy>
-
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
-
     <appender name="ERROR-LOG-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>error</level>
@@ -42,13 +27,9 @@
         </encoder>
     </appender>
 
-    <logger name ="com.programmers" level="warn">
-        <appender-ref ref="WARN-LOG-FILE"/>
-        <appender-ref ref="ERROR-LOG-FILE"/>
-    </logger>
-
     <logger name ="com.programmers" level="info">
         <appender-ref ref="LOG-FILE"/>
+        <appender-ref ref="ERROR-LOG-FILE"/>
     </logger>
 
 </configuration>
