@@ -3,6 +3,7 @@ package com.prgrms.controller;
 import com.prgrms.io.Input;
 import com.prgrms.io.Menu;
 import com.prgrms.io.Output;
+import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherPolicy;
 import com.prgrms.repository.voucher.VoucherRepository;
@@ -19,9 +20,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VoucherController implements CommandLineRunner {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static Input input = new Input();
     private static Output output = new Output();
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherService voucherService;
     private final VoucherRepository voucherRepository;
 
@@ -75,14 +76,13 @@ public class VoucherController implements CommandLineRunner {
         output.viewDiscountGuide(voucherPolicy);
 
         long discount = input.enterDiscount();
-        Voucher voucher = voucherService.createVoucher(voucherPolicy, discount);
-        voucherRepository.insert(voucher);
+        voucherService.createVoucher(voucherPolicy, discount);
 
         output.viewCompleteVoucher();
     }
 
     public void list() {
-        List<Voucher> voucherList = voucherRepository.getAllVoucherList();
+        List<VoucherResponse> voucherList = voucherRepository.getAllVoucherList();
         if (voucherService.isEmptyRepository(voucherList)) {
             output.viewEmptyRepository();
         }
