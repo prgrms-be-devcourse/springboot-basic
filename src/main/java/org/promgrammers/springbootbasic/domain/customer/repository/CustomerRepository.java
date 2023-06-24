@@ -2,25 +2,32 @@ package org.promgrammers.springbootbasic.domain.customer.repository;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.util.FileConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class CustomerRepository {
 
-    private static final File filePath = new File("src/main/resources/storage/blacklist.csv");
+    @Value("${blackListStoragePath}")
+    private final String blackListStoragePath;
+    private static final Path filePath = Paths.get("src/main/resources/storage/blacklist.csv");
+
+    public CustomerRepository(@Value("${blackListStoragePath}") String blackListStoragePath) {
+        this.blackListStoragePath = blackListStoragePath;
+    }
 
     public List<Customer> findAll() {
         List<Customer> customers = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
+        try {
+            List<String> lines = Files.readAllLines(filePath);
+            for (String line : lines) {
                 Customer customer = FileConverter.parseCustomerFromLine(line);
                 customers.add(customer);
             }

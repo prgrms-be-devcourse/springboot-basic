@@ -6,6 +6,7 @@ import org.promgrammers.springbootbasic.exception.VoucherFileWriteException;
 import org.promgrammers.springbootbasic.util.FileConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -24,8 +25,14 @@ import java.util.stream.Collectors;
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
+    @Value("${voucherStoragePath}")
+    private final String voucherStoragePath;
     private static final Path filePath = Paths.get("src/main/resources/storage/voucherStorage.txt");
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
+    public FileVoucherRepository(@Value("${voucherStoragePath}") String voucherStoragePath) {
+        this.voucherStoragePath = voucherStoragePath;
+    }
 
     @Override
     public Voucher insert(Voucher voucher) {
