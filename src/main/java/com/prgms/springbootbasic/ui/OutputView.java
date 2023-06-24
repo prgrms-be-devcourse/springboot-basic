@@ -2,9 +2,11 @@ package com.prgms.springbootbasic.ui;
 
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class OutputView {
 	
 	private final TextTerminal textTerminal = TextIoFactory.getTextTerminal();

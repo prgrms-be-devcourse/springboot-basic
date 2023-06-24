@@ -2,7 +2,9 @@ package com.prgms.springbootbasic.ui;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InputView {
 	
 	private final TextIO textIO = TextIoFactory.getTextIO();
