@@ -1,5 +1,8 @@
 package com.devcourse.voucherapp.controller;
 
+import static com.devcourse.voucherapp.entity.Menu.getMenu;
+
+import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.view.InputView;
 import com.devcourse.voucherapp.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +25,6 @@ public class VoucherController implements CommandLineRunner {
     public void run(String... args) {
         outputView.showMenu();
         String menuNumber = inputView.inputWithTrimming();
+        Menu menu = getMenu(menuNumber);
     }
 }
