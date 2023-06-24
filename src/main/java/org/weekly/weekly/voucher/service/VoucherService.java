@@ -20,11 +20,12 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void insertVoucher(VoucherDto voucherDto, Discount discount) {
+    public Voucher insertVoucher(VoucherDto voucherDto, Discount discount) {
         validateVoucher(voucherDto);
 
         Voucher voucher = voucherDto.parseWith(discount);
-        this.voucherRepository.insert(voucher);
+        return this.voucherRepository.insert(voucher);
+
     }
 
     public ListResponse getVouchers() {

@@ -11,11 +11,13 @@ import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.model.ListResponse;
+import org.weekly.weekly.voucher.model.Response;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -69,8 +71,8 @@ public class CommandLineApplication {
         this.commandWriter.printErrorMsg(errorMsg);
     }
 
-    public void printAllList(ListResponse listResponse) {
-        this.commandWriter.printAllList(listResponse.getResult());
+    public void printResult(Response response) {
+        this.commandWriter.printReuslt(response.getResult());
     }
 
     private void checkReadVoucherException(String[] inputs) {

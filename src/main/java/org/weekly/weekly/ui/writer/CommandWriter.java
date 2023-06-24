@@ -6,7 +6,9 @@ import org.weekly.weekly.util.PrintMsg;
 import org.weekly.weekly.util.VoucherMenu;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CommandWriter {
@@ -37,7 +39,7 @@ public class CommandWriter {
                 .forEach(discountMap -> System.out.println(discountMap.getMsg()));
     }
 
-    public void printAllList(List<String> results) {
-        results.forEach(result -> println(result));
+    public void printReuslt(String result) {
+        println(result);
     }
 }
