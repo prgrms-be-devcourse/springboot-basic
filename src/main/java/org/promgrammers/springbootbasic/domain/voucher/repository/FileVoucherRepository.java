@@ -6,7 +6,6 @@ import org.promgrammers.springbootbasic.exception.VoucherFileWriteException;
 import org.promgrammers.springbootbasic.util.FileConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +22,6 @@ import java.util.UUID;
 
 @Repository
 @Profile("dev")
-@Primary
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final File filePath = new File("src/main/resources/storage/voucherStorage.txt");
