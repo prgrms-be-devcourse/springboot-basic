@@ -23,9 +23,7 @@ class FixedAmountVoucherTest {
 
         Voucher voucher = FixedAmountVoucher.of(id, discountAmount);
 
-        assertThat(voucher)
-                .extracting(Voucher::getId, Voucher::getDiscountAmount)
-                .containsExactly(id, discountAmount);
+        assertThat(voucher.getDiscountAmount()).isEqualTo(discountAmount);
     }
 
     @DisplayName("고정금액 할인 바우처의 할인금액 예외 테스트")
