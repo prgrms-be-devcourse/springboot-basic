@@ -1,28 +1,23 @@
 package com.programmers.voucher.domain;
 
 import com.programmers.exception.AmountValueException;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
 
+    private final static String VOUCHER_ID_NULL_MESSAGE = "Voucher ID can not be null";
+    private final static int EXPIRATION_POLICY = 7;
     private final UUID voucherId;
-    private final DiscountPercent discountPercent;
+    private final Discount discountPercent;
     private final LocalDate createdDate;
     private final LocalDate expirationDate;
-    private final String TYPE = "PercentDiscountVoucher";
 
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDate localDate) {
-        this.voucherId = voucherId;
+        this.voucherId = validateVoucherId(voucherId);
         this.discountPercent = new DiscountPercent(percent);
         this.createdDate = localDate;
         this.expirationDate = expirationDate();
-    }
-
-    @Override
-    public String getType() {
-        return TYPE;
     }
 
     @Override
@@ -53,7 +48,6 @@ public class PercentDiscountVoucher implements Voucher {
         throw new AmountValueException();
     }
 
-    @Override
     public boolean available() {
         if (LocalDate.now().isAfter(expirationDate)) {
             return false;
@@ -62,7 +56,11 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     public LocalDate expirationDate() {
-        return createdDate.plusDays(7);
+        return createdDate.plusDays(EXPIRATION_POLICY);
     }
 
+    private UUID validateVoucherId(UUID voucherId) {
+        if (voucherId == null) throw new NullPointerException(VOUCHER_ID_NULL_MESSAGE);
+        return voucherId;
+    }
 }

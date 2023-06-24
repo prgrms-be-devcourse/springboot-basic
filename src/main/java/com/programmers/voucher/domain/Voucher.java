@@ -6,8 +6,6 @@ import java.util.UUID;
 public interface Voucher {
     UUID getVoucherId();
 
-    String getType();
-
     Discount getDiscount();
 
     LocalDate getCreatedDate();
@@ -17,5 +15,4 @@ public interface Voucher {
     long discount(long beforeDiscount);
 
     boolean available();
-
 }

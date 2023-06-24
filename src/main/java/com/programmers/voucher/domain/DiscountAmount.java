@@ -19,11 +19,6 @@ public class DiscountAmount implements Discount{
     }
 
     @Override
-    public long getValue() {
-        return amount;
-    }
-
-    @Override
     public long discount(long beforeDiscount) {
         if (discountable(beforeDiscount)) {
             return beforeDiscount - amount;
@@ -32,10 +27,7 @@ public class DiscountAmount implements Discount{
     }
 
     public boolean discountable(long beforeDiscount) {
-        if (beforeDiscount > amount) {
-            return true;
-        }
-        return false;
+        return beforeDiscount > amount;
     }
 
     private void validateDiscountAmount(long amount) {

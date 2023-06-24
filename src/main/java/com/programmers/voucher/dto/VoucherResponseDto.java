@@ -1,6 +1,7 @@
 package com.programmers.voucher.dto;
 
 import com.programmers.voucher.domain.Discount;
+import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.Voucher;
 
 import java.time.LocalDate;
@@ -18,16 +19,34 @@ public class VoucherResponseDto {
         this.discount = voucher.getDiscount();
         this.createdDate = voucher.getCreatedDate();
         this.expirationDate = voucher.getExpirationDate();
-        this.type = voucher.getType();
+
+        if (voucher instanceof FixedAmountVoucher) {
+            type = voucher.getClass().getSimpleName();
+            return;
+        }
+        if (voucher instanceof FixedAmountVoucher) {
+            type = voucher.getClass().getSimpleName();
+            return;
+        }
     }
 
-    @Override
-    public String toString() {
-        return  type + "{" +
-                "voucherId = " + voucherID +
-                ", discountAmount = " + discount +
-                ", createdDate = " + createdDate +
-                ", expirationDate = " + expirationDate +
-                "}\n";
+    public UUID getVoucherID() {
+        return voucherID;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    public LocalDate getExpirationDate() {
+        return expirationDate;
+    }
+
+    public String getType() {
+        return type;
     }
 }

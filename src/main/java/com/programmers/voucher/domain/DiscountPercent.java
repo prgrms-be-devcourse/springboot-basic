@@ -16,11 +16,6 @@ public class DiscountPercent implements Discount{
     }
 
     @Override
-    public long getValue() {
-        return percent;
-    }
-
-    @Override
     public long discount(long beforeDiscount) {
         return (long) (beforeDiscount * (1 - (percent / HUNDRED)));
     }
