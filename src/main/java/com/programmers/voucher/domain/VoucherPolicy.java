@@ -1,8 +1,6 @@
-package com.programmers.console.util;
+package com.programmers.voucher.domain;
 
 import com.programmers.console.exception.VoucherCommandException;
-import com.programmers.voucher.domain.FixedAmountVoucher;
-import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.util.TriFunction;
 
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package com.programmers.voucher.service;
 
-import com.programmers.console.util.VoucherPolicy;
+import com.programmers.voucher.domain.VoucherPolicy;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;

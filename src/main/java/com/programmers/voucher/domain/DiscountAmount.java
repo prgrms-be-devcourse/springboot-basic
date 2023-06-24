@@ -5,7 +5,7 @@ import com.programmers.exception.AmountValueException;
 public class DiscountAmount implements Discount{
 
     private static final long MIN_AMOUNT = 1;
-    private static final long MAX_AMOUNT = 1000000;
+    private static final long MAX_AMOUNT = 1_000_000;
 
     private final long amount;
 

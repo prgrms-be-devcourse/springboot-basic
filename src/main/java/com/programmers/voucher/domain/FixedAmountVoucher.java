@@ -6,8 +6,8 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
-    private final static String VOUCHER_ID_NULL_MESSAGE = "Voucher ID can not be null";
-    private final static int EXPIRATION_POLICY = 7;
+    private static final String VOUCHER_ID_NULL_MESSAGE = "Voucher ID can not be null";
+    private static final int EXPIRATION_POLICY = 7;
     private final UUID voucherId;
     private final Discount discountPercent;
     private final LocalDate createdDate;

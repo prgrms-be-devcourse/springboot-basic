@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class Console implements InputView, OutputView {
 
-    private final static String arrow = "> ";
-    private final static Scanner scanner = new Scanner(System.in);
+    private static final String arrow = "> ";
+    private static final Scanner scanner = new Scanner(System.in);
 
     @Override
     public String getRequest() {
