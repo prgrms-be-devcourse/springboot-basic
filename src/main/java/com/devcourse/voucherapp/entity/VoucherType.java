@@ -1,5 +1,8 @@
 package com.devcourse.voucherapp.entity;
 
+import com.devcourse.voucherapp.entity.voucher.FixDiscountVoucher;
+import com.devcourse.voucherapp.entity.voucher.PercentDiscountVoucher;
+import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.exception.VoucherInputException;
 import java.util.Arrays;
 import java.util.UUID;

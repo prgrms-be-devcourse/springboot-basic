@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.entity;
+package com.devcourse.voucherapp.entity.voucher;
 
 import java.util.UUID;
 
