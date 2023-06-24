@@ -6,10 +6,14 @@ import com.example.commandlineapplication.domain.voucher.model.PercentDiscountVo
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class VoucherFactory {
+
+  private final static Logger log = LoggerFactory.getLogger(VoucherFactory.class);
 
   public VoucherFactory() {
   }
@@ -29,6 +33,7 @@ public class VoucherFactory {
         return new PercentDiscountVoucher(voucherId, amount);
 
       default:
+        log.error("잘못된 바우처 유형입니다.");
         throw new IllegalArgumentException("잘못된 바우처 유형입니다.");
     }
   }
