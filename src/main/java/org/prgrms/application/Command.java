@@ -1,11 +1,16 @@
 package org.prgrms.application;
 
 import org.prgrms.application.controller.VoucherController;
+import org.prgrms.application.domain.Voucher;
 import org.prgrms.application.view.InputView;
 import org.prgrms.application.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class Command implements CommandLineRunner{
@@ -27,21 +32,21 @@ public class Command implements CommandLineRunner{
         while(isRunning) {
             outputView.printSelection();
             String selection = inputView.selectCommandType();
-            CommandType commandType = CommandType.valueOf(selection);
-            selectCommand(commandType);
+            Optional<CommandType> commandType = CommandType.findBySelection(selection);
+            System.out.println(commandType);
+            executeCommand(commandType.orElseThrow(() -> new RuntimeException("잘못된 입력입니다.")));
         }
     }
 
-    private void selectCommand(CommandType commandType){
+    private void executeCommand(CommandType commandType){
         switch (commandType){
-            case CREATE -> {
-                String selection = inputView.selectVoucherType();
-
-            }
-
-//            case LIST -> {
+//            case CREATE -> {
+//                String selection = inputView.selectVoucherType();
 //
+//                voucherController.createVoucher(selection);
 //            }
+
+            case LIST -> outputView.printStorageList(voucherController.getStorage());
 
             case EXIT -> isRunning = false;
         }

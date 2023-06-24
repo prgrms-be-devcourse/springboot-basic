@@ -18,4 +18,9 @@ public class InputView {
         String selection = sc.nextLine();
         return selection;
     }
+
+    public String inputVoucherDetails() {
+        String selection = sc.nextLine();
+        return selection;
+    }
 }

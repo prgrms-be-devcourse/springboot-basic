@@ -1,5 +1,6 @@
 package org.prgrms.application.service;
 
+import org.prgrms.application.controller.VoucherType;
 import org.prgrms.application.domain.Voucher;
 import org.prgrms.application.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,12 @@ public class VoucherService {
 
     private VoucherRepository voucherRepository;
 
-//    public void createVoucher(){
-//        switch ()
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
+
+//    public void create(VoucherType voucherType) {
+//
 //    }
 
     public Voucher getVoucher(UUID voucherId){
@@ -26,5 +31,7 @@ public class VoucherService {
     public Map<UUID, Voucher> getVoucherList(){
         return voucherRepository.findAll();
     }
+
+
 
 }
