@@ -21,14 +21,12 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher createVoucher(VoucherDto voucherDto) {
         Voucher voucher;
         String type = voucherDto.getType();
-        String discount = voucherDto.getDiscount();
+        long discount = Long.parseLong(voucherDto.getDiscount());
 
         if (type.equalsIgnoreCase("fixed")) {
-            long discountAmount = Long.parseLong(discount);
-            voucher = new FixedAmountVoucher(UUID.randomUUID(), type, discountAmount);
+            voucher = new FixedAmountVoucher(UUID.randomUUID(), type, discount);
         } else if (type.equalsIgnoreCase("percent")) {
-            double discountRate = Double.parseDouble(discount);
-            voucher = new PercentDiscountVoucher(UUID.randomUUID(), type, discountRate);
+            voucher = new PercentDiscountVoucher(UUID.randomUUID(), type, discount);
         } else {
             throw new IllegalArgumentException("Invalid voucher type: " + type);
         }
