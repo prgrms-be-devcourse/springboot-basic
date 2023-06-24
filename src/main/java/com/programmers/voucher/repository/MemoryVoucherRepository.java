@@ -22,11 +22,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<VoucherResponseDto> findAll() {
-        if (!storage.isEmpty()){
-            return new ArrayList<>(storage.values()).stream().map(VoucherResponseDto::new)
-                    .collect(Collectors.toList());
+        if (storage.isEmpty()){
+            return Collections.emptyList();
+
         }
-        return Collections.emptyList();
+        return storage.values().stream().map(VoucherResponseDto::new).collect(Collectors.toList());
     }
 
     @Override
