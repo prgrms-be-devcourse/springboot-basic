@@ -23,8 +23,20 @@ public class VoucherController implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        outputView.showMenu();
-        String menuNumber = inputView.inputWithTrimming();
-        Menu menu = getMenu(menuNumber);
+        boolean isRunning = true;
+
+        while (isRunning) {
+            outputView.showMenu();
+            String menuNumber = inputView.inputWithTrimming();
+            Menu menu = getMenu(menuNumber);
+
+            isRunning = isNotQuit(menu);
+        }
+
+        outputView.showQuitMessage();
+    }
+
+    private boolean isNotQuit(Menu menu) {
+        return menu != Menu.QUIT;
     }
 }

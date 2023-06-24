@@ -8,6 +8,7 @@ public class ConsoleOutputView implements OutputView {
 
     private static final String MENU_TITLE = "[할인권 프로그램 v1.0]";
     private static final String MENU_INPUT_MESSAGE = "메뉴 입력(숫자만) : ";
+    private static final String QUIT_MESSAGE = "프로그램을 종료합니다.";
 
     @Override
     public void showMenu() {
@@ -19,6 +20,12 @@ public class ConsoleOutputView implements OutputView {
 
         printWithLineBreak();
         printWithoutLineBreak(MENU_INPUT_MESSAGE);
+    }
+
+    @Override
+    public void showQuitMessage() {
+        printWithLineBreak();
+        printWithLineBreak(QUIT_MESSAGE);
     }
 
     @Override

@@ -5,7 +5,8 @@ import java.util.Arrays;
 
 public enum Menu {
     CREATE("1", "새 할인권 생성"),
-    LIST("2", "할인권 조회");
+    LIST("2", "할인권 조회"),
+    QUIT("3", "프로그램 종료");
 
     private static final String NOT_EXIST_MENU_MESSAGE = "입력하신 메뉴는 없는 메뉴입니다.";
 
