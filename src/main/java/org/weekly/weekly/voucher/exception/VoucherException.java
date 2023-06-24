@@ -9,16 +9,27 @@ public class VoucherException {
     private static boolean isNumber(String userInput) {
         return userInput.chars().allMatch(value -> Character.isDigit(value));
     }
-    public static void notNumberFormat(String amount) {
-        if (!isNumber(amount)) {
+    private static void notNumber(String userInput) {
+        if (!isNumber(userInput)) {
             throw new RuntimeException(ExceptionMsg.NOT_NUMBER_FORMAT.getMsg());
         }
+    }
+
+    private static void notNatural(String userInput) {
+        if (Long.parseLong(userInput) <= 0) {
+            throw new RuntimeException(ExceptionMsg.NOT_NUMBER_FORMAT.getMsg());
+        }
+    }
+
+    public static void notNumberFormat(String userInput) {
+        notNumber(userInput);
+        notNatural(userInput);
     }
 
     public static void expirationError(LocalDate registrationDate, String expirationMonth) {
         LocalDate expirationDate = registrationDate.plusMonths(Long.parseLong(expirationMonth));
 
-        if (registrationDate.isAfter(expirationDate)) {
+        if (registrationDate.isEqual(expirationDate) || registrationDate.isAfter(expirationDate)) {
             throw new RuntimeException(ExceptionMsg.EXPIRATION_ERROR.getMsg());
         }
     }

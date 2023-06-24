@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.weekly.weekly.voucher.domain.FixedDiscount;
 import org.weekly.weekly.voucher.domain.PercentDiscount;
 import org.weekly.weekly.voucher.domain.Voucher;
+import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.time.LocalDate;
@@ -25,31 +26,35 @@ public class VoucherTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1,100000,12",
-            "2, 10, 1"
+            "100000,12",
+            "10,1"
     })
-    void 바우처가_이미_존재하면_예외발생(UUID voucherId, int amount, int expiration) {
+    void 바우처가_이미_존재하면_예외발생(String amount, String expiration) {
         // Given
+        UUID voucherId = UUID.randomUUID();
         LocalDate localDate = LocalDate.now();
-        Voucher voucher = new Voucher(voucherId, amount, localDate, localDate.plusMonths(expiration), new FixedDiscount());
-        voucherRepository.insert(voucher);
+        VoucherDto voucherDto = VoucherDto.parseDto(voucherId, amount, localDate, expiration);
+
+
+        voucherRepository.insert(voucherDto.parse());
 
         // when + then
-        assertThat(voucherRepository.findById(voucherId).isEmpty()).isTrue();
+        assertThat(voucherRepository.findById(voucherId).isPresent()).isTrue();
     }
 
     @ParameterizedTest
     @CsvSource({
-            "1,100000,12",
-            "2, 10, 1"
+            "10, -123",
+            "10, -1",
+            "10, 0"
     })
-    void 바우처_발행시간이_유효시간보다_느리면_예외발생(UUID voucherId, int amount, int expiration) {
+    void 바우처_발행시간이_유효시간보다_느리면_예외발생(String amount, String expiration) {
         // Given
+        UUID voucherId = UUID.randomUUID();
         LocalDate localDate = LocalDate.now();
-        LocalDate expirationDate = localDate.minusMonths(expiration);
 
         // when + then
-        assertThatThrownBy(()->new Voucher(voucherId, amount, localDate, expirationDate, new FixedDiscount()))
+        assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -57,16 +62,16 @@ public class VoucherTest {
     class 고정바우처_테스트 {
         @ParameterizedTest
         @CsvSource({
-                "1,-1,12",
-                "2, 0, 1"
+                "-1,12",
+                " 0, 1"
         })
-        void 바우처_금액이_자연수가_아니면_예외발생(UUID voucherId, int amount, int expiration) {
+        void 바우처_금액이_자연수가_아니면_예외발생(String amount, String expiration) {
             // Given
+            UUID voucherId = UUID.randomUUID();
             LocalDate localDate = LocalDate.now();
-            LocalDate expirationDate = localDate.plusMonths(expiration);
 
             // when + then
-            assertThatThrownBy(()->new Voucher(voucherId, amount, localDate, expirationDate, new FixedDiscount()))
+            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration))
                     .isInstanceOf(RuntimeException.class);
         }
     }
@@ -75,16 +80,16 @@ public class VoucherTest {
     class 퍼센트바우처_테스트 {
         @ParameterizedTest
         @CsvSource({
-                "1,101,12",
-                "2, -1, 1"
+                "101,12",
+                "-1, 1"
         })
-        void 바우처_퍼센트값이_자연수가_아니면_예외발생(UUID voucherId, int percent, int expiration) {
+        void 바우처_퍼센트값이_자연수가_아니면_예외발생(String percent, String expiration) {
             // Given
+            UUID voucherId = UUID.randomUUID();
             LocalDate localDate = LocalDate.now();
-            LocalDate expirationDate = localDate.plusMonths(expiration);
 
             // when + then
-            assertThatThrownBy(()->new Voucher(voucherId, percent, localDate, expirationDate, new PercentDiscount()))
+            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, percent, localDate, expiration))
                     .isInstanceOf(RuntimeException.class);
         }
     }
