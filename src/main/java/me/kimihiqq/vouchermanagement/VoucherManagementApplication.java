@@ -4,7 +4,8 @@ import me.kimihiqq.vouchermanagement.controller.VoucherController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
+
+
 
 @SpringBootApplication
 public class VoucherManagementApplication {

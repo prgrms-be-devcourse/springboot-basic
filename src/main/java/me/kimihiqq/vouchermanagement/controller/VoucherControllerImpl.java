@@ -1,19 +1,14 @@
 package me.kimihiqq.vouchermanagement.controller;
 
 
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import me.kimihiqq.vouchermanagement.view.Console;
 
-import java.io.Console;
-
-@Component
+@Controller
+@RequiredArgsConstructor
 public class VoucherControllerImpl implements VoucherController {
-
     private final Console console;
-
-    public VoucherControllerImpl(Console console) {
-        this.console = console;
-    }
-
     @Override
     public void run() {
         console.printLine("=== Voucher Program ===");
