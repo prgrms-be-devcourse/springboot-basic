@@ -11,6 +11,7 @@ public class CommandWriter {
     private void println(String msg) {
         System.out.println(msg);
     }
+    private void print(String msg) {System.out.print(msg);}
 
     public void printVoucherProgram() {
         println(PrintMsg.PROGRAM.getMsg());
@@ -22,5 +23,13 @@ public class CommandWriter {
     public void printErrorMsg(String errorMsg) {
         println(errorMsg);
         println(PrintMsg.EMPTY.getMsg());
+    }
+
+    public void printCreateVoucher() {
+        print(PrintMsg.CREATE_VOUCHER.getMsg());
+    }
+
+    public void printSelectDiscount() {
+        print(PrintMsg.DISCOUNT_SELECT.getMsg());
     }
 }

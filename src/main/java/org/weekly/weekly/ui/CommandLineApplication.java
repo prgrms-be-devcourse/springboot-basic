@@ -6,6 +6,11 @@ import org.weekly.weekly.ui.reader.CommandReader;
 import org.weekly.weekly.ui.writer.CommandWriter;
 import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.util.VoucherMenu;
+import org.weekly.weekly.voucher.domain.Discount;
+import org.weekly.weekly.voucher.dto.VoucherDto;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Component
 public class CommandLineApplication {
@@ -29,6 +34,16 @@ public class CommandLineApplication {
         }
     }
 
-
+    public VoucherDto readVoucher() {
+        while(true) {
+            try {
+                this.commandWriter.printCreateVoucher();
+                String[] inputs = this.commandReader.readLine().split(",");
+                return VoucherDto.parseDto(UUID.randomUUID(), inputs[0], LocalDate.now(), inputs[1]);
+            } catch (Exception exception) {
+                this.commandWriter.printErrorMsg(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
+            }
+        }
+    }
 
 }

@@ -2,6 +2,7 @@ package org.weekly.weekly.voucher;
 
 import org.weekly.weekly.ui.CommandLineApplication;
 import org.weekly.weekly.util.VoucherMenu;
+import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.service.VoucherService;
 
 public class VoucherController {
@@ -36,7 +37,7 @@ public class VoucherController {
     }
 
     private void createVoucher() {
-
+        VoucherDto voucherDto = this.commandLineApplication.readVoucher();
     }
 
     private void getList() {
