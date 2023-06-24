@@ -73,4 +73,36 @@ public class VoucherController {
             keepGoingFlag = false;
         }
     }
+
+    private void handleCreateVoucher(VoucherOptionDTO voucherOptionDTO) throws IOException {
+        String voucherOption = voucherOptionDTO.getVoucherOption();
+
+        if (voucherOption.equals(VoucherOption.FIXED_AMOUNT_VOUCHER.toString())) {
+            ioController.printSingleOutput(FIXED_AMOUNT_INPUT_MESSAGE);
+            String fixedAmountInput = ioController.getInput();
+            CreateFixedAmountVoucherRequestDTO createFixedAmountVoucherRequestDTO = new CreateFixedAmountVoucherRequestDTO(fixedAmountInput);
+
+            double fixedAmount = getFixedAmountFromInput(createFixedAmountVoucherRequestDTO);
+            voucherService.createFixedAmountVoucher(fixedAmount);
+            ioController.printSingleOutput(FIXED_AMOUNT_VOUCHER_CREATE_MESSAGE);
+        }
+
+        if (voucherOption.equals(VoucherOption.PERCENT_DISCOUNT_VOUCHER.toString())) {
+            ioController.printSingleOutput(PERCENT_DISCOUNT_INPUT_MESSAGE);
+            String percentDiscountInput = ioController.getInput();
+            CreatePercentDiscountVoucherRequestDTO createPercentDiscountVoucherRequestDTO = new CreatePercentDiscountVoucherRequestDTO(percentDiscountInput);
+
+            double percentDiscount = getPercentDiscountFromInput(createPercentDiscountVoucherRequestDTO);
+            voucherService.createPercentDiscountVoucher(percentDiscount);
+            ioController.printSingleOutput(PERCENT_DISCOUNT_VOUCHER_CREATE_MESSAGE);
+        }
+    }
+
+    private double getFixedAmountFromInput(CreateFixedAmountVoucherRequestDTO createFixedAmountVoucherRequestDTO) {
+        return Double.parseDouble(createFixedAmountVoucherRequestDTO.getInputFixedAmount());
+    }
+
+    private double getPercentDiscountFromInput(CreatePercentDiscountVoucherRequestDTO createPercentDiscountVoucherRequestDTO) {
+        return Double.parseDouble(createPercentDiscountVoucherRequestDTO.getInputPercent());
+    }
 }
