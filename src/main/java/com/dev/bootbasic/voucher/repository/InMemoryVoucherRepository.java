@@ -7,11 +7,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {
 
-    private static final Map<UUID, Voucher> vouchers = new LinkedHashMap<>();
+    private static final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findVoucher(UUID voucherId) {
