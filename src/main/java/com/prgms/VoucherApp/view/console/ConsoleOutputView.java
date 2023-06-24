@@ -92,7 +92,7 @@ public class ConsoleOutputView implements Output {
 
     @Override
     public void printNotCreatedMsg() {
-        log.info("The discount coupon was not created due to an unknown error.");
+        log.warn("The discount coupon was not created due to an unknown error.");
         textTerminal.println("알 수 없는 오류로 할인권이 생성되지 않았습니다.");
     }
 

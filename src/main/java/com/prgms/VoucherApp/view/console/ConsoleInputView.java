@@ -13,7 +13,6 @@ import java.util.List;
 public class ConsoleInputView implements Input {
 
     private static final Logger log = LoggerFactory.getLogger(ConsoleInputView.class);
-
     private final TextIO textIO;
 
     public ConsoleInputView() {
@@ -31,6 +30,7 @@ public class ConsoleInputView implements Input {
                         log.warn("inputCommand [{}] is invalid value", val);
                         return List.of("Please input a valid value.");
                     }
+                    log.info("inputCommand [{}] is valid value", val);
                     return null;
                 })
                 .read("명령어를 입력해주세요 >>");
@@ -47,6 +47,7 @@ public class ConsoleInputView implements Input {
                         log.warn("inputVoucherPolicy [{}] is invalid value", val);
                         return List.of("Please input a valid value.");
                     }
+                    log.info("inputVoucherPolicy [{}] is valid value", val);
                     return null;
                 })
                 .read("명령어를 입력해주세요 >>");
