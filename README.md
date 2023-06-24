@@ -8,6 +8,8 @@
 
 ## 📌 기능 요구 사항
 
+### 1차 PR 기능 요구사항
+
 - [X] 스프링 부트 애플리케이션으로 만들기
 - [X] 프로그램이 시작하면 같이 지원가능한 명령어 알려주기
     - [X] beryx:text-io 사용하기
@@ -24,6 +26,11 @@
 - [X] Voucher를 생성 할 수 있다. - VoucherCreator#createVoucher()
     - [X] Voucher는 메모리에 저장한다. - VoucherMemoryStorage#save(Voucher voucher)
 - [X] Voucher를 조회 할 수 있다. - VoucherReader#readVoucherList()
+
+---
+
+### 2차 PR 기능 요구사항
+
 - [X] 적절한 로그를 기록하고 logback 설정을 해서 에러는 파일로 기록된다.
 - [X] 실행가능한 jar 파일을 생성한다.
 - [ ] profile을 사용하여, dev 프로필에서 파일로 관리되도록 해본다.
