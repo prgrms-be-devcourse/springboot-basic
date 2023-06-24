@@ -24,7 +24,7 @@ public class VoucherControllerImpl implements VoucherController {
         while (!(input = console.readLine()).equalsIgnoreCase("exit")) {
             if (input.equalsIgnoreCase("create")) {
                 String type = console.readLine("Enter voucher type (fixed or percent): ");
-                long discount = Long.parseLong(console.readLine("Enter discount amount or rate: "));
+                String discount = console.readLine("Enter discount amount or rate: ");
                 VoucherDto voucherDto = new VoucherDto(type, discount);
                 voucherService.createVoucher(voucherDto);
                 console.printLine("Voucher created...");

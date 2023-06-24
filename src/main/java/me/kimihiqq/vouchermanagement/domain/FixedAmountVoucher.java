@@ -8,7 +8,7 @@ public class FixedAmountVoucher implements Voucher {
     private final String type;
     private final long discountAmount;
 
-    public FixedAmountVoucher(UUID voucherId, long discountAmount) {
+    public FixedAmountVoucher(UUID voucherId,String type, long discountAmount) {
         this.voucherId = voucherId;
         this.type = "Fixed";
         this.discountAmount = discountAmount;

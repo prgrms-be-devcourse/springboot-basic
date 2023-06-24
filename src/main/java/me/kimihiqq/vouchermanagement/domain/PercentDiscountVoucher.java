@@ -8,7 +8,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final String type;
     private final double discountRate;
 
-    public PercentDiscountVoucher(UUID voucherId, double discountRate) {
+    public PercentDiscountVoucher(UUID voucherId, String type, double discountRate) {
         this.voucherId = voucherId;
         this.type = "Percent";
         this.discountRate = discountRate;

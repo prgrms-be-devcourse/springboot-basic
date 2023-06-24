@@ -9,6 +9,7 @@ import me.kimihiqq.vouchermanagement.dto.VoucherDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -23,12 +24,14 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher createVoucher(VoucherDto voucherDto) {
         Voucher voucher;
         String type = voucherDto.getType();
-        long discount = voucherDto.getDiscount();
+        String discount = voucherDto.getDiscount();
 
         if (type.equalsIgnoreCase("fixed")) {
-            voucher = new FixedAmountVoucher(discount);
+            long discountAmount = Long.parseLong(discount);
+            voucher = new FixedAmountVoucher(UUID.randomUUID(), type, discountAmount);
         } else if (type.equalsIgnoreCase("percent")) {
-            voucher = new PercentDiscountVoucher(discount);
+            double discountRate = Double.parseDouble(discount);
+            voucher = new PercentDiscountVoucher(UUID.randomUUID(), type, discountRate);
         } else {
             throw new IllegalArgumentException("Invalid voucher type: " + type);
         }
