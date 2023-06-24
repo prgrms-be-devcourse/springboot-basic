@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class VoucherProjectApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext ac = SpringApplication.run(VoucherProjectApplication.class, args);
-        ConsoleController AppV1 = ac.getBean(ConsoleController.class);
-        AppV1.run();
+        ConsoleController consoleApp = ac.getBean(ConsoleController.class);
+        consoleApp.run();
     }
 }

@@ -1,28 +1,27 @@
 package com.dev.voucherproject.controller.console;
 
-import com.dev.voucherproject.model.menu.Menu;
 import com.dev.voucherproject.model.voucher.*;
-import com.dev.voucherproject.model.voucher.VoucherDataAccessor;
+import com.dev.voucherproject.storage.VoucherStorage;
 import com.dev.voucherproject.view.Console;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListMenuExecutor extends SelectMenuExecutor {
-    public ListMenuExecutor(Menu menu, VoucherDataAccessor voucherDataAccessor, Console console) {
-        super(menu, voucherDataAccessor, console);
+@Controller
+public class ListMenuController extends MenuUsingConsoleAndStorage {
+    public ListMenuController(VoucherStorage voucherStorage, Console console) {
+        super(voucherStorage, console);
     }
 
     @Override
-    public void execute(Menu menu) {
-        if (isSatisfiedBy(menu)) {
-            List<Voucher> vouchers = voucherDataAccessor.findAll();
-            List<VoucherDto> dtos = getVoucherDtos(vouchers);
-            console.printAllVoucherDtos(dtos);
-        }
+    public void execute() {
+        List<Voucher> vouchers = voucherStorage.findAll();
+        List<VoucherDto> dtos = createVoucherDtos(vouchers);
+        console.printAllVouchers(dtos);
     }
 
-    private List<VoucherDto> getVoucherDtos(List<Voucher> vouchers) {
+    private List<VoucherDto> createVoucherDtos(List<Voucher> vouchers) {
         List<VoucherDto> dtos = new ArrayList<>();
 
         for (Voucher voucher : vouchers) {

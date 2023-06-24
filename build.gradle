@@ -36,16 +36,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-
-
-jar {
-	enabled = false
-}
-
-bootJar {
-	manifest {
-		attributes 'Start-Class': 'com.dev.voucherproject.VoucherProjectApplication'
-	}
-}
-
