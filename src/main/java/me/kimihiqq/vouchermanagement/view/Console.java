@@ -21,6 +21,12 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public String readLine(String prompt) { // 새로운 메소드 구현
+        printLine(prompt);
+        return readLine();
+    }
+
+    @Override
     public void printLine(String text) {
         try {
             writer.write(text);
