@@ -31,8 +31,9 @@ public class Converter {
 
     public static Voucher toVoucher(String text) {
         String[] result = text.split(DELIMINATOR);
-        if (result[1].contains("FixedAmountPolicy")) {
-            return new Voucher(UUID.fromString(result[0]), new FixedAmountPolicy());
+        if (result[1].equals("FixedAmountPolicy")) {
+            int amount = Integer.parseInt(result[result.length - 1]);
+            return new Voucher(UUID.fromString(result[0]), new FixedAmountPolicy(amount));
         }
         return new Voucher(UUID.fromString(result[0]), new PercentDiscountPolicy());
     }

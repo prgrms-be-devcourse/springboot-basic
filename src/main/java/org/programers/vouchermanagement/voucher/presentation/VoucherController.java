@@ -23,8 +23,11 @@ public class VoucherController {
     public void save() {
         OutputView.outputDiscountPolicyType();
         DiscountPolicyType type = InputView.inputDiscountPolicy();
+
         if (type.isAmount()) {
-            VoucherCreationRequest request = new VoucherCreationRequest(new FixedAmountPolicy());
+            OutputView.outputCommentAboutAmountOfPolicy();
+            int amount = InputView.inputAmountOfPolicy();
+            VoucherCreationRequest request = new VoucherCreationRequest(new FixedAmountPolicy(amount));
             VoucherResponse response = voucherService.save(request);
             return;
         }

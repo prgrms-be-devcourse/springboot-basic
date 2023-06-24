@@ -4,7 +4,11 @@ import org.programers.vouchermanagement.voucher.exception.WrongVoucherPolicyExce
 
 public class FixedAmountPolicy implements VoucherPolicy {
 
-    private final int amount = 100;
+    private final int amount;
+
+    public FixedAmountPolicy(int amount) {
+        this.amount = amount;
+    }
 
     @Override
     public int discount(int price) {
@@ -20,8 +24,6 @@ public class FixedAmountPolicy implements VoucherPolicy {
 
     @Override
     public String toString() {
-        return "FixedAmountPolicy{" +
-                "amount=" + amount +
-                '}';
+        return String.format("FixedAmountPolicy amount %d", amount);
     }
 }
