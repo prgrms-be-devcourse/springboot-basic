@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.voucher.domain.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,13 +13,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-
-    public VoucherService(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }
 
     public void createVoucher(VoucherDto.Request request) {
         String discountType = request.discountType();

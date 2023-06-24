@@ -3,25 +3,23 @@ package com.programmers.vouchermanagement;
 import com.programmers.vouchermanagement.view.Console;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@RequiredArgsConstructor
 public class CommandLineController implements CommandLineRunner {
 
     private final VoucherController voucherController;
 
-    public CommandLineController(VoucherController voucherController) {
-        this.voucherController = voucherController;
-    }
-
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         boolean running = true;
 
         while (running) {
             try {
-                running = isRunning(running);
+                running = isRunning();
             } catch (RuntimeException e) {
                 Console.outputErrorMessage(e.getMessage());
             }
@@ -29,7 +27,7 @@ public class CommandLineController implements CommandLineRunner {
         }
     }
 
-    private boolean isRunning(boolean running) {
+    private boolean isRunning() {
         String command = Console.selectCommand();
         switch (command) {
             case "create" -> {
@@ -42,9 +40,11 @@ public class CommandLineController implements CommandLineRunner {
                 VoucherDto.Response voucherList = voucherController.getVoucherList();
                 Console.outputVoucherList(voucherList);
             }
-            case "exit" -> running = false;
+            case "exit" -> {
+                return false;
+            }
             default -> throw new IllegalArgumentException("잘못 입력하였습니다. 다시 입력해주세요.");
         }
-        return running;
+        return false;
     }
 }
