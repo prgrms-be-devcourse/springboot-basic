@@ -1,5 +1,6 @@
 package com.prgrms.io;
 
+import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherPolicy;
 
@@ -27,9 +28,9 @@ public class Output {
         System.out.println(voucherPolicy.getDiscountGuide());
     }
 
-    public static void viewVoucherList(List<Voucher> voucherList) {
-        for(Voucher voucher : voucherList){
-            System.out.println(voucher.getVoucherId()+": "+voucher.getVoucherDiscount());
+    public static void viewVoucherList(List<VoucherResponse> voucherList) {
+        for(VoucherResponse voucher : voucherList){
+            System.out.println(voucher.getVoucherType()+" : "+voucher.getDiscount());
         }
     }
 
