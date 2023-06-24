@@ -49,8 +49,8 @@ public class CommandLineApplication {
     public DiscountMap readDiscount() {
         while(true) {
             try {
-                this.commandWriter.printCreateVoucher();
-                return DiscountMap.getDiscountMap(this.commandReader.readLine());
+                this.commandWriter.printSelectDiscount();
+                return  DiscountMap.getDiscountMap(this.commandReader.readLine());
             } catch (Exception exception) {
                 this.commandWriter.printErrorMsg(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
             }

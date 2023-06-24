@@ -1,6 +1,7 @@
 package org.weekly.weekly.voucher.domain;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Voucher {

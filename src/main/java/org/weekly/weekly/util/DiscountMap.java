@@ -37,4 +37,12 @@ public enum DiscountMap {
         }
         throw new RuntimeException(ExceptionMsg.NOT_DISCOUNT.getMsg());
     }
+
+    public Class<? extends Discount> getCls() {
+        return cls;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
 }

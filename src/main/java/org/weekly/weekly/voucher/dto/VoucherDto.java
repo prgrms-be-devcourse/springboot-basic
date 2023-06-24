@@ -37,4 +37,8 @@ public class VoucherDto {
     public Voucher parse() {
         return new Voucher(this.voucherId, this.amount, this.registrationDate, this.expirationDate, null);
     }
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
 }
