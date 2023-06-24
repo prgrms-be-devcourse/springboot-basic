@@ -1,6 +1,7 @@
 package com.prgms.springbootbasic.model;
 
 import com.prgms.springbootbasic.exception.DuplicationKeyException;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class VouchersInMemory {
 	
 	private static final Map<UUID, Voucher> storage = new HashMap<>();
