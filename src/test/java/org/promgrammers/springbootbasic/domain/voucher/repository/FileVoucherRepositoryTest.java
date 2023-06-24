@@ -1,14 +1,9 @@
 package org.promgrammers.springbootbasic.domain.voucher.repository;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileVoucherRepositoryTest {
 
-    @Value("${voucherStoragePath}")
-    private String voucherStoragePath;
     private FileVoucherRepository fileVoucherRepository;
 
     @BeforeAll
     void setUp() {
-        fileVoucherRepository = new FileVoucherRepository(voucherStoragePath);
+        String filePath = "src/main/resources/storage/voucherStorage.txt";
+        fileVoucherRepository = new FileVoucherRepository(filePath);
     }
 
     @AfterEach
