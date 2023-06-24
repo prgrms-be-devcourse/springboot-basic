@@ -26,30 +26,36 @@ public class VoucherController {
 
     public void createVoucher(){
         console.outputSelectCreateVoucherGuide();
-        VoucherMenu voucherMenu = VoucherMenu.findVoucherMenu(console.inputMessage());
 
-        console.outputDiscountGuide();
-        String inputNumber = console.inputMessage();
-        logger.info("사용자 입력 값: {} ", inputNumber);
+        try {
+            VoucherMenu voucherMenu = VoucherMenu.findVoucherMenu(console.inputMessage());
 
-        if(voucherMenu == VoucherMenu.FIXED){
-            Validator.fixedAmountValidate(inputNumber);
+            console.outputDiscountGuide();
+            String inputNumber = console.inputMessage();
+            logger.info("user input: {} ", inputNumber);
+
+            if(voucherMenu == VoucherMenu.FIXED){
+                Validator.fixedAmountValidate(inputNumber);
+            }
+
+            if(voucherMenu == VoucherMenu.PERCENT){
+                Validator.percentValidate(inputNumber);
+            }
+
+            voucherService.saveVoucher(voucherMenu, Long.parseLong(inputNumber));
+        } catch (IllegalArgumentException e){
+            logger.error(e.getMessage());
         }
-
-        if(voucherMenu == VoucherMenu.PERCENT){
-            Validator.percentValidate(inputNumber);
-        }
-
-        voucherService.saveVoucher(voucherMenu, Long.parseLong(inputNumber));
     }
 
     public void getVoucherList(){
         Map<UUID, Voucher> voucherMap= voucherService.findVoucherAll();
 
         if(voucherMap.isEmpty()){
-            console.outputErrorMessage("저장된 바우처가 없습니다");
+            console.outputErrorMessage("No vouchers saved");
             return;
         }
+
         console.outputGetVoucherAll(voucherMap);
     }
 }

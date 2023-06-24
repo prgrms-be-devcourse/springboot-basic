@@ -27,6 +27,6 @@ public class CustomerController {
             return;
         }
 
-        console.outputErrorMessage("저장된 블랙 리스트가 없습니다.");
+        console.outputErrorMessage("There are no saved blacklists.");
     }
 }

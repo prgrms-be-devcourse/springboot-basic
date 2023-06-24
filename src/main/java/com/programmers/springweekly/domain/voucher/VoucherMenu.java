@@ -15,6 +15,6 @@ public enum VoucherMenu {
         return Arrays.stream(VoucherMenu.values())
                 .filter(voucher -> voucher.menu.equals(voucherMenu))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("찾는 바우처 종류가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("There is no voucher menu."));
     }
 }

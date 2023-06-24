@@ -13,6 +13,6 @@ public class VoucherFactory {
             return new PercentDiscountVoucher(UUID.randomUUID(), discount, "percent");
         }
 
-        throw new IllegalArgumentException("없는 바우처 메뉴 입니다.");
+        throw new IllegalArgumentException("There is no voucher menu.");
     }
 }

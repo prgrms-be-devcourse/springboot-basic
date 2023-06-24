@@ -3,6 +3,7 @@ package com.programmers.springweekly.domain.voucher;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
+
     private final UUID voucherId;
     private final long fixedDiscountAmount;
     private final String voucherType;

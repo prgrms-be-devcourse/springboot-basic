@@ -1,9 +1,6 @@
 package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
-import com.programmers.springweekly.domain.voucher.Voucher;
-import com.programmers.springweekly.dto.ReadVoucherDto;
-import com.programmers.springweekly.repository.voucher.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +19,7 @@ public class FileCustomerRepository implements CustomerRepository{
     @Value("${file.customer.path}")
     private String FILE_PATH;
     private final Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
-    private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
     @Override
     public Map<UUID, Customer> getCustomerTypeBlackList() {

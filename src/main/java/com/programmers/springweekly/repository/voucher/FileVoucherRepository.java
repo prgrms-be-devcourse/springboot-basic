@@ -24,7 +24,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Value("${file.voucher.path}")
     private String FILE_PATH;
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
-    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @Override
     public void saveVoucher(Voucher voucher) {
@@ -43,7 +43,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
           bufferedWriter.flush();
           bufferedWriter.close();
-
       } catch(Exception e){
           logger.error("error message: {}", e.getMessage());
       }
@@ -64,7 +63,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
                 voucherMap.put(readVoucherDto.getVoucherId(), voucher);
             }
-
         } catch (Exception e){
             logger.error("error message: {}", e.getMessage());
         }
