@@ -1,5 +1,5 @@
 package org.prgms.voucher;
 
-public class Voucher {
-
+public interface Voucher {
+    void discount();
 }
