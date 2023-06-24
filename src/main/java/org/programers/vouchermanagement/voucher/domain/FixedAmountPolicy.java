@@ -1,9 +1,7 @@
 package org.programers.vouchermanagement.voucher.domain;
 
 import org.programers.vouchermanagement.voucher.exception.WrongVoucherPolicyException;
-import org.springframework.stereotype.Component;
 
-@Component
 public class FixedAmountPolicy implements VoucherPolicy {
 
     private final int amount = 100;

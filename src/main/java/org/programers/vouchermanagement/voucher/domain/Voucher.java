@@ -1,17 +1,12 @@
 package org.programers.vouchermanagement.voucher.domain;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
-@Component
 public class Voucher {
 
     private final UUID id;
     private final VoucherPolicy policy;
 
-    @Autowired
     public Voucher(VoucherPolicy policy) {
         this(UUID.randomUUID(), policy);
     }
