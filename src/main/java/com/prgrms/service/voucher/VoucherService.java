@@ -1,11 +1,11 @@
 package com.prgrms.service.voucher;
 
+import com.prgrms.model.voucher.FixedAmountVoucher;
+import com.prgrms.model.voucher.PercentDiscountVoucher;
+import com.prgrms.model.voucher.Voucher;
+import com.prgrms.model.voucher.VoucherPolicy;
+import com.prgrms.repository.voucher.VoucherRepository;
 import lombok.RequiredArgsConstructor;
-import org.prgrms.model.voucher.FixedAmountVoucher;
-import org.prgrms.model.voucher.PercentDiscountVoucher;
-import org.prgrms.model.voucher.Voucher;
-import org.prgrms.model.voucher.VoucherPolicy;
-import org.prgrms.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;

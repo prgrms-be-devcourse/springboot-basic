@@ -1,5 +1,6 @@
 package com.prgrms.repository.voucher;
 
+import com.prgrms.model.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

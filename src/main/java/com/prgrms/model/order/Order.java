@@ -1,6 +1,6 @@
 package com.prgrms.model.order;
 
-import org.prgrms.model.voucher.Voucher;
+import com.prgrms.model.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
