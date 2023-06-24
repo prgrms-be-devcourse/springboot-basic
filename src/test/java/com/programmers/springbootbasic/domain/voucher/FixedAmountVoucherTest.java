@@ -12,7 +12,7 @@ class FixedAmountVoucherTest {
 
     @ParameterizedTest
     @CsvSource(value = {"10000,5000,5000", "300,50000,0"})
-    void discount(Long price, Long amount, Long expectedPrice) {
+    void 물건금액할인금액_할인_할인된금액(Long price, int amount, Long expectedPrice) {
         // given
         FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(),
                 amount + "원 할인",

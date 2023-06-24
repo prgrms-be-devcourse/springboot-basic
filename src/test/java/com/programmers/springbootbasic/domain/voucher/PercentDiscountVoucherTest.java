@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PercentDiscountVoucherTest {
     @ParameterizedTest
     @CsvSource(value = {"4550,33,3050", "5500,0,5500"})
-    void discount(Long price, int percent, Long expectedPrice) {
+    void 물건금액할인퍼센트_할인_할인된금액(Long price, int percent, Long expectedPrice) {
         // given
         PercentDiscountVoucher voucher = new PercentDiscountVoucher(
                 UUID.randomUUID(),
