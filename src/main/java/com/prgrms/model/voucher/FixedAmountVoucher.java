@@ -2,27 +2,13 @@ package com.prgrms.model.voucher;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
-    private final long amount;
+public class FixedAmountVoucher extends Voucher {
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        this.voucherId = voucherId;
-        this.amount = amount;
+    public FixedAmountVoucher(UUID voucherId, long amount, String voucherType) {
+        super(voucherId,amount,voucherType);
     }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
-    public Long getVoucherDiscount() {
-        return amount;
-    }
-
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return beforeDiscount - getVoucherDiscount();
     }
 }
