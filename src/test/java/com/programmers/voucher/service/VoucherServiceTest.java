@@ -85,4 +85,5 @@ class VoucherServiceTest {
         voucherService.createVoucher(voucherCreationRequest2);
         Assertions.assertThat(voucherService.findVoucherList().size()).isEqualTo(2);
     }
+    
 }

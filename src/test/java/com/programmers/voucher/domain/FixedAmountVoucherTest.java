@@ -23,4 +23,5 @@ class FixedAmountVoucherTest {
     void discount() {
         assertThat(voucher.discount(ORIGINAL_AMOUNT)).isEqualTo(FINAL_AMOUNT);
     }
+
 }

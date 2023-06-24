@@ -40,4 +40,5 @@ public enum VoucherType {
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("바우처의 최대 할인 양을 초과하였습니다."));
     }
+
 }

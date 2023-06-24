@@ -20,4 +20,5 @@ public class PercentDiscountVoucher implements Voucher{
     public long discount(long beforeAmount) {
         return beforeAmount - beforeAmount * amount / 100;
     }
+
 }

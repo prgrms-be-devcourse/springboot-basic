@@ -25,4 +25,5 @@ public class VoucherCreationRequest {
     public long getAmount() {
         return amount;
     }
+
 }

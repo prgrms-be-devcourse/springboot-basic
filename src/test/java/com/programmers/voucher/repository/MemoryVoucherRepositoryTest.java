@@ -45,12 +45,14 @@ class MemoryVoucherRepositoryTest {
         UUID voucherId2 = UUID.randomUUID();
         Voucher voucher2 = new PercentDiscountVoucher(voucherId2, PERCENT_DISCOUNT_AMOUNT);
 
-        //when
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
+
+        //when
         List<Voucher> voucherList = voucherRepository.findAll();
 
         //then
         Assertions.assertThat(voucherList.size()).isEqualTo(2);
     }
+
 }

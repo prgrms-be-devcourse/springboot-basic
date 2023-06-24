@@ -17,4 +17,5 @@ public class AppConfiguration {
     public VoucherService voucherService() {
         return new VoucherService(voucherRepository());
     }
+
 }
