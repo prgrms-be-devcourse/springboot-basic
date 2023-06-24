@@ -8,17 +8,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherServiceTest {
     VoucherRepository voucherRepository;
-    VoucherService voucherService;
+    VoucherServiceImpl voucherService;
 
     @BeforeEach
     public void setUp() {
         voucherRepository = new MemoryVoucherRepository();
-        voucherService = new VoucherService(voucherRepository);
+        voucherService = new VoucherServiceImpl(voucherRepository);
     }
 
 
@@ -39,7 +41,7 @@ class VoucherServiceTest {
     void createVoucherAndFindVouchers(String voucherType, long discountAmount) {
 
         VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, discountAmount);
-        Voucher voucher = voucherService.create(voucherRequestDto);
-        assertThat(voucher).isNotNull();
+        UUID voucherId = voucherService.create(voucherRequestDto);
+        assertThat(voucherId).isNotNull();
     }
 }
