@@ -1,5 +1,6 @@
 package com.prgrms.service.voucher;
 
+import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.FixedAmountVoucher;
 import com.prgrms.model.voucher.PercentDiscountVoucher;
 import com.prgrms.model.voucher.Voucher;
@@ -23,19 +24,19 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("can not find a voucher for {0}", voucherId)));
     }
 
-    public void useVoucher(Voucher voucher) {
-    }
-
     public Voucher createVoucher(VoucherPolicy voucherPolicy, long discount) {
         Voucher voucher = null;
+        UUID id = UUID.randomUUID();
         switch (voucherPolicy) {
-            case FixedAmountVoucher -> voucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
-            case PercentDiscountVoucher -> voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
+            case FixedAmountVoucher -> voucher = new FixedAmountVoucher(id, discount, voucherPolicy.name());
+            case PercentDiscountVoucher -> voucher = new PercentDiscountVoucher(id, discount, voucherPolicy.name());
         }
+
+        voucherRepository.insert(voucher);
         return voucher;
     }
 
-    public boolean isEmptyRepository(List<Voucher> voucherList) {
+    public boolean isEmptyRepository(List<VoucherResponse> voucherList) {
         return voucherList.size() == 0;
     }
 }
