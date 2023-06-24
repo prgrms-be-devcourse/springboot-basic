@@ -97,7 +97,7 @@ public class VoucherTest {
             Voucher voucher = new Voucher(UUID.randomUUID(), discountMoney, current, next, discount);
 
             // when
-            int afterApply = voucher.applyDiscount(userInput);
+            long afterApply = voucher.applyDiscount(userInput);
 
             // then
             assertThat(afterApply).isEqualTo(result);
@@ -136,7 +136,7 @@ public class VoucherTest {
             Voucher voucher = new Voucher(UUID.randomUUID(), discountMoney, current, next, discount);
 
             // when
-            int afterApply = voucher.applyDiscount(userInput);
+            long afterApply = voucher.applyDiscount(userInput);
 
             // then
             assertThat(afterApply).isEqualTo(result);

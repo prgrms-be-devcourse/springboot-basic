@@ -7,10 +7,11 @@ import java.util.UUID;
 public class Voucher {
 
     private final UUID voucherId;
-    private final long amount;
 
     private final LocalDate registrationDate;
     private final LocalDate expirationDate;
+
+    private long amount;
 
     private Discount discount;
 
@@ -24,5 +25,16 @@ public class Voucher {
 
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    public long applyDiscount(long beforeAmount) {
+        long afterAmount = discount.applyDiscount(beforeAmount, amount);
+
+        if (afterAmount >= 0) {
+            return afterAmount;
+        }
+
+        this.amount -= afterAmount;
+        return 0L;
     }
 }
