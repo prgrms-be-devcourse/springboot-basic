@@ -1,6 +1,7 @@
 package com.programmers.console.view;
 
 import com.programmers.console.util.Menu;
+
 import java.util.Scanner;
 
 public class Console implements InputView, OutputView {

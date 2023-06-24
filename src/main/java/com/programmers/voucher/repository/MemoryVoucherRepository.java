@@ -3,6 +3,7 @@ package com.programmers.voucher.repository;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Repository;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +20,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<VoucherResponseDto> findAll() {
-        if (storage.isEmpty()){
+        if (storage.isEmpty()) {
             return Collections.emptyList();
 
         }

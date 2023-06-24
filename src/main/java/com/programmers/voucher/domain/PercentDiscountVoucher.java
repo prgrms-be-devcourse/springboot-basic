@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain;
 
 import com.programmers.global.exception.AmountValueException;
+
 import java.time.LocalDate;
 import java.util.UUID;
 

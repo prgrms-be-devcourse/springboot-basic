@@ -2,7 +2,7 @@ package com.programmers.voucher.domain;
 
 import com.programmers.global.exception.AmountValueException;
 
-public class DiscountPercent implements Discount{
+public class DiscountPercent implements Discount {
 
     private static final long MIN_AMOUNT = 1;
     private static final long MAX_AMOUNT = 100;

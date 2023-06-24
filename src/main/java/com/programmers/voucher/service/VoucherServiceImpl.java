@@ -6,11 +6,12 @@ import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class VoucherServiceImpl implements VoucherService{
+public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherRepository voucherRepository;
     private final VoucherFactory voucherFactory;

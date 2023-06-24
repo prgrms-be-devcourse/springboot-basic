@@ -31,7 +31,7 @@ public class CommandLineApplication {
         switch (command) {
             case EXIT -> isRunning = false;
             case CREATE -> {
-                console.print(Menu.CREATE_VOUCHER_TYPE_MESSAGE.getMessage()+ "\n> ");
+                console.print(Menu.CREATE_VOUCHER_TYPE_MESSAGE.getMessage() + "\n> ");
                 console.getRequest();
             }
             case LIST -> console.println("개발 중");

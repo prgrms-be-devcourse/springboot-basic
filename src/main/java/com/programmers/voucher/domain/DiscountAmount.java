@@ -2,7 +2,7 @@ package com.programmers.voucher.domain;
 
 import com.programmers.global.exception.AmountValueException;
 
-public class DiscountAmount implements Discount{
+public class DiscountAmount implements Discount {
 
     private static final long MIN_AMOUNT = 1;
     private static final long MAX_AMOUNT = 1_000_000;
@@ -13,6 +13,7 @@ public class DiscountAmount implements Discount{
         validateDiscountAmount(amount);
         this.amount = amount;
     }
+
     @Override
     public String toString() {
         return String.valueOf(amount);
