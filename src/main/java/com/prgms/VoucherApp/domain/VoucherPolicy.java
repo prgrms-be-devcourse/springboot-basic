@@ -37,4 +37,8 @@ public enum VoucherPolicy {
     public static VoucherPolicy findByPolicy(String policy) {
         return VOUCHER_POLICY_MAP.get(policy);
     }
+
+    public static boolean containsVoucherPolicy(String policy) {
+        return VOUCHER_POLICY_MAP.containsKey(policy);
+    }
 }

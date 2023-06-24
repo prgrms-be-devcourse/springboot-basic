@@ -6,12 +6,15 @@ import com.prgms.VoucherApp.view.Output;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.List;
 
 public class ConsoleOutputView implements Output {
 
+    private static final Logger log = LoggerFactory.getLogger(ConsoleOutputView.class);
     private final TextTerminal<?> textTerminal;
 
     public ConsoleOutputView() {
@@ -83,17 +86,20 @@ public class ConsoleOutputView implements Output {
 
     @Override
     public void printCreatedMsg(Voucher voucher) {
+        log.info("The discount coupon {} was created successfully.", voucher);
         textTerminal.println(voucher + "할인권이 생성되었습니다.");
     }
 
     @Override
     public void printNotCreatedMsg() {
+        log.info("The discount coupon was not created due to an unknown error.");
         textTerminal.println("알 수 없는 오류로 할인권이 생성되지 않았습니다.");
     }
 
     @Override
     public void printVoucherList(List<Voucher> voucher) {
         if (voucher.isEmpty()) {
+            log.error("The user tried to view the list, but currently, the list is empty");
             textTerminal.println("저장되어있는 할인권이 없습니다.");
             return;
         }

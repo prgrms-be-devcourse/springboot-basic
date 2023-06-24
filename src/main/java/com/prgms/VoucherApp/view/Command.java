@@ -24,4 +24,8 @@ public enum Command {
     public static Command findByCommand(String command) {
         return COMMAND_MAP.get(command);
     }
+
+    public static boolean containsCommand(String command) {
+        return COMMAND_MAP.containsKey(command);
+    }
 }

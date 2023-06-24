@@ -9,6 +9,7 @@
         <appender-ref ref="CONSOLE"/>
     </root>
     <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="com.prgms.VoucherApp.view" level="DEBUG"/>
 
     <appender name="VOUCHER_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/voucherApp.log</file>
@@ -23,4 +24,5 @@
     <logger name="com.prgms.VoucherApp" level="ERROR">
         <appender-ref ref="VOUCHER_LOG_FILE"/>
     </logger>
+
 </configuration>
