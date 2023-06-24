@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.reader.CommandReader;
 import org.weekly.weekly.ui.writer.CommandWriter;
+import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.util.VoucherMenu;
-import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 
 import java.time.LocalDate;
@@ -40,6 +40,17 @@ public class CommandLineApplication {
                 this.commandWriter.printCreateVoucher();
                 String[] inputs = this.commandReader.readLine().split(",");
                 return VoucherDto.parseDto(UUID.randomUUID(), inputs[0], LocalDate.now(), inputs[1]);
+            } catch (Exception exception) {
+                this.commandWriter.printErrorMsg(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
+            }
+        }
+    }
+
+    public DiscountMap readDiscount() {
+        while(true) {
+            try {
+                this.commandWriter.printCreateVoucher();
+                return DiscountMap.getDiscountMap(this.commandReader.readLine());
             } catch (Exception exception) {
                 this.commandWriter.printErrorMsg(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
             }

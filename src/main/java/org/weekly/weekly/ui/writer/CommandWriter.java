@@ -16,7 +16,7 @@ public class CommandWriter {
     public void printVoucherProgram() {
         println(PrintMsg.PROGRAM.getMsg());
         Arrays.stream(VoucherMenu.values())
-                .forEach(voucherMenu -> voucherMenu.getPrintMsg());
+                .forEach(voucherMenu -> System.out.println(voucherMenu.getPrintMsg()));
         println(PrintMsg.EMPTY.getMsg());
     }
 

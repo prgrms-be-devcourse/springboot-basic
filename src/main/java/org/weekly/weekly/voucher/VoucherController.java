@@ -1,10 +1,13 @@
 package org.weekly.weekly.voucher;
 
+import org.springframework.stereotype.Controller;
 import org.weekly.weekly.ui.CommandLineApplication;
+import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.service.VoucherService;
 
+@Controller
 public class VoucherController {
     private final VoucherService voucherService;
     private final CommandLineApplication commandLineApplication;
@@ -30,14 +33,15 @@ public class VoucherController {
 
         if (VoucherMenu.LIST.equals(voucherMenu)) {
             getList();
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private void createVoucher() {
         VoucherDto voucherDto = this.commandLineApplication.readVoucher();
+        DiscountMap discountMap = this.commandLineApplication.readDiscount();
     }
 
     private void getList() {
