@@ -28,5 +28,4 @@ public class Console implements InputView, OutputView {
     public void print(String message) {
         System.out.print(message);
     }
-
 }
