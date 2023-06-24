@@ -1,5 +1,7 @@
 package org.programers.vouchermanagement.voucher.domain;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Primary
+@Profile("dev")
 public class InMemoryVoucherRepository implements VoucherRepository {
 
     private static final Map<UUID, Voucher> VOUCHER_REPOSITORY = new ConcurrentHashMap<>();
