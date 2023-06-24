@@ -19,8 +19,10 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void saveVoucher(Voucher voucher) {
-        vouchers.put(voucher.getId(), voucher);
+    public UUID saveVoucher(Voucher voucher) {
+        UUID voucherId = voucher.getId();
+        vouchers.put(voucherId, voucher);
+        return voucherId;
     }
 
 }
