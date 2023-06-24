@@ -45,4 +45,32 @@ public class VoucherController {
             ioController.closeIOResource();
         }
     }
+
+    private void executeCommand(CommandDTO inputCommandDTO) throws Exception {
+        String command = inputCommandDTO.getInputCommand();
+
+        if (command.equals(CommandOption.CREATE.toString())) {
+            ioController.printSingleOutput(VOUCHER_OPTION_MESSAGE);
+
+            String inputVoucherOption = ioController.getInput();
+            VoucherOptionDTO voucherOptionDTO = new VoucherOptionDTO(inputVoucherOption);
+
+            handleCreateVoucher(voucherOptionDTO); // create voucher
+            return;
+        }
+
+        if (command.equals(CommandOption.LIST.toString())) {
+            ioController.printSingleOutput(VOUCHER_OPTION_MESSAGE);
+
+            String inputVoucherOption = ioController.getInput();
+            VoucherOptionDTO voucherOptionDTO = new VoucherOptionDTO(inputVoucherOption);
+
+            handleListVoucher(voucherOptionDTO);    // list voucher
+            return;
+        }
+
+        if (command.equals(CommandOption.EXIT.toString())) {
+            keepGoingFlag = false;
+        }
+    }
 }
