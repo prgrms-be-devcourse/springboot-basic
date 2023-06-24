@@ -1,6 +1,5 @@
 HELP.md
 .gradle
-.ds_store
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
@@ -36,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### MAC ###
+.ds_store
+
+### LOG ###
+logs/
