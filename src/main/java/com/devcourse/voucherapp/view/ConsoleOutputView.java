@@ -2,6 +2,8 @@ package com.devcourse.voucherapp.view;
 
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.entity.voucher.Voucher;
+import java.util.Collection;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +18,7 @@ public class ConsoleOutputView implements OutputView {
     private static final String PERCENT_DISCOUNT_RATE_INPUT_MESSAGE = "비율 할인 퍼센트를 입력하세요.";
     private static final String PERCENT_DISCOUNT_RATE_CONDITION_MESSAGE = "1이상 100이하의 자연수만 입력하세요. 단위는 %입니다.";
     private static final String VOUCHER_CREATION_SUCCESS_MESSAGE = "할인권 생성이 완료되었습니다.";
+    private static final String ALL_VOUCHERS_LIST_MESSAGE = "현재까지 생성된 할인권 목록입니다.";
 
     @Override
     public void showMenu() {
@@ -68,6 +71,18 @@ public class ConsoleOutputView implements OutputView {
         printWithLineBreak();
         printWithLineBreak(VOUCHER_CREATION_SUCCESS_MESSAGE);
         printWithLineBreak(voucherInfo);
+        printWithLineBreak();
+    }
+
+    @Override
+    public void showAllVouchers(Collection<Voucher> vouchers) {
+        printWithLineBreak();
+        printWithLineBreak(ALL_VOUCHERS_LIST_MESSAGE);
+
+        for (Voucher voucher : vouchers) {
+            printWithLineBreak(voucher.toString());
+        }
+
         printWithLineBreak();
     }
 

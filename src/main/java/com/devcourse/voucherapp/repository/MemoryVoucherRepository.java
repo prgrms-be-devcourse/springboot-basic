@@ -1,6 +1,7 @@
 package com.devcourse.voucherapp.repository;
 
 import com.devcourse.voucherapp.entity.voucher.Voucher;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -16,5 +17,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(), voucher);
 
         return voucher;
+    }
+
+    @Override
+    public Collection<Voucher> findAllVouchers() {
+        return storage.values();
     }
 }

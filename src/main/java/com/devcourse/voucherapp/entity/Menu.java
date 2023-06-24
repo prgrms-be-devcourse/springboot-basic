@@ -33,6 +33,10 @@ public enum Menu {
         return this == Menu.CREATE;
     }
 
+    public boolean isList() {
+        return this == Menu.LIST;
+    }
+
     public boolean isQuit() {
         return this == Menu.QUIT;
     }

@@ -9,6 +9,7 @@ import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.service.VoucherService;
 import com.devcourse.voucherapp.view.InputView;
 import com.devcourse.voucherapp.view.OutputView;
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
@@ -57,6 +58,13 @@ public class VoucherController implements CommandLineRunner {
 
             Voucher voucher = voucherService.create(voucherType, discountAmount);
             outputView.showVoucherCreationSuccessMessage(voucher.toString());
+
+            return;
+        }
+
+        if (menu.isList()) {
+            Collection<Voucher> vouchers = voucherService.list();
+            outputView.showAllVouchers(vouchers);
         }
     }
 
