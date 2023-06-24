@@ -29,8 +29,30 @@ public class Console<T extends TextTerminal>  implements Input, Output {
     public void run(){
         consoleMenu();
         while (true){
-
+            String inputCommand = readCommand("명령어를 입력해주세요.(exit, create, list)");
+            switch (inputCommand) {
+                case "exit":
+                    println("프로그램을 종료합니다.");
+                    return;
+                case "create":
+                    create();
+                    break;
+                case "list":
+                    list();
+                    break;
+                default:
+                    println("허용된 명령어가 아닙니다. exit(종료), create(바우처 생성), list(바우처 목록)중 하나를 선택하세요. ");
+                    break;
+            }
         }
+    }
+
+    private void list() {
+
+    }
+
+    private void create() {
+
     }
 
     public void consoleMenu(){
