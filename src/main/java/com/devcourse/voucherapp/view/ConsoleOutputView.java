@@ -15,6 +15,7 @@ public class ConsoleOutputView implements OutputView {
     private static final String FIX_DISCOUNT_PRICE_CONDITION_MESSAGE = "1이상의 자연수만 입력하세요. 단위는 원입니다.";
     private static final String PERCENT_DISCOUNT_RATE_INPUT_MESSAGE = "비율 할인 퍼센트를 입력하세요.";
     private static final String PERCENT_DISCOUNT_RATE_CONDITION_MESSAGE = "1이상 100이하의 자연수만 입력하세요. 단위는 %입니다.";
+    private static final String VOUCHER_CREATION_SUCCESS_MESSAGE = "할인권 생성이 완료되었습니다.";
 
     @Override
     public void showMenu() {
@@ -60,6 +61,13 @@ public class ConsoleOutputView implements OutputView {
         printWithLineBreak(PERCENT_DISCOUNT_RATE_INPUT_MESSAGE);
         printWithLineBreak(PERCENT_DISCOUNT_RATE_CONDITION_MESSAGE);
         printWithoutLineBreak(INPUT_MESSAGE);
+    }
+
+    @Override
+    public void showVoucherCreationSuccessMessage(String voucherInfo) {
+        printWithLineBreak();
+        printWithLineBreak(VOUCHER_CREATION_SUCCESS_MESSAGE);
+        printWithLineBreak(voucherInfo);
     }
 
     @Override

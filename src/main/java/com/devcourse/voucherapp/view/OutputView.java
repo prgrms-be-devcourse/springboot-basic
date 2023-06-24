@@ -12,6 +12,8 @@ public interface OutputView {
 
     void showPercentDiscountRateInputMessage();
 
+    void showVoucherCreationSuccessMessage(String voucherInfo);
+
     void printWithLineBreak();
 
     void printWithLineBreak(String data);

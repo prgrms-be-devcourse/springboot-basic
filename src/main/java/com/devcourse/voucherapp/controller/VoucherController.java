@@ -5,6 +5,7 @@ import static com.devcourse.voucherapp.entity.VoucherType.getVoucherType;
 
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.service.VoucherService;
 import com.devcourse.voucherapp.view.InputView;
 import com.devcourse.voucherapp.view.OutputView;
@@ -54,7 +55,8 @@ public class VoucherController implements CommandLineRunner {
             showDiscountAmountInputMessage(voucherType);
             String discountAmount = inputView.inputWithTrimming();
 
-            voucherService.create(voucherType, discountAmount);
+            Voucher voucher = voucherService.create(voucherType, discountAmount);
+            outputView.showVoucherCreationSuccessMessage(voucher.toString());
         }
     }
 

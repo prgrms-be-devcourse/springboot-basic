@@ -16,4 +16,9 @@ public class FixDiscountVoucher implements Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    @Override
+    public String toString() {
+        return voucherId + ", 고정 할인, " + discountPrice + "원";
+    }
 }

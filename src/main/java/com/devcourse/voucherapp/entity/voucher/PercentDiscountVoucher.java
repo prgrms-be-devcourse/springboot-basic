@@ -16,4 +16,9 @@ public class PercentDiscountVoucher implements Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    @Override
+    public String toString() {
+        return voucherId + ", 비율 할인, " + discountRate + "%";
+    }
 }

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class VoucherService {
 
-    public void create(VoucherType voucherType, String discountAmount) {
+    public Voucher create(VoucherType voucherType, String discountAmount) {
         Voucher voucher = voucherType.makeVoucher(discountAmount);
+
+        return voucher;
     }
 }
