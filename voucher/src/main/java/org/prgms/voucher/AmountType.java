@@ -1,14 +1,14 @@
 package org.prgms.voucher;
 
 public enum AmountType {
-    FIX("Fixed Amount", 1),
-    PERCENT("Percent Amount", 2);
+    FIX("fix", 1),
+    PERCENT("percent", 2);
 
-    private final String amountType;
-    private final int num;
+    private final String name;
+    private final int number;
 
-    AmountType(String amountType, int num) {
-        this.amountType = amountType;
-        this.num = num;
+    AmountType(String name, int number) {
+        this.name = name;
+        this.number = number;
     }
 }
