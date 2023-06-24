@@ -2,16 +2,14 @@ package org.weekly.weekly.voucher;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.weekly.weekly.voucher.domain.FixedDiscountVoucher;
-import org.weekly.weekly.voucher.domain.PercentDiscountVoucher;
+import org.weekly.weekly.voucher.domain.FixedDiscount;
+import org.weekly.weekly.voucher.domain.PercentDiscount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +31,7 @@ public class VoucherTest {
     void 바우처가_이미_존재하면_예외발생(UUID voucherId, int amount, int expiration) {
         // Given
         LocalDate localDate = LocalDate.now();
-        Voucher voucher = new FixedDiscountVoucher(voucherId, amount, localDate, localDate.plusMonths(expiration));
+        Voucher voucher = new Voucher(voucherId, amount, localDate, localDate.plusMonths(expiration), new FixedDiscount());
         voucherRepository.insert(voucher);
 
         // when + then
@@ -51,7 +49,7 @@ public class VoucherTest {
         LocalDate expirationDate = localDate.minusMonths(expiration);
 
         // when + then
-        assertThatThrownBy(()->new FixedDiscountVoucher(voucherId, amount, localDate, expirationDate))
+        assertThatThrownBy(()->new Voucher(voucherId, amount, localDate, expirationDate, new FixedDiscount()))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -68,7 +66,7 @@ public class VoucherTest {
             LocalDate expirationDate = localDate.plusMonths(expiration);
 
             // when + then
-            assertThatThrownBy(()->new FixedDiscountVoucher(voucherId, amount, localDate, expirationDate))
+            assertThatThrownBy(()->new Voucher(voucherId, amount, localDate, expirationDate, new FixedDiscount()))
                     .isInstanceOf(RuntimeException.class);
         }
     }
@@ -86,7 +84,7 @@ public class VoucherTest {
             LocalDate expirationDate = localDate.plusMonths(expiration);
 
             // when + then
-            assertThatThrownBy(()->new PercentDiscountVoucher(voucherId, percent, localDate, expirationDate))
+            assertThatThrownBy(()->new Voucher(voucherId, percent, localDate, expirationDate, new PercentDiscount()))
                     .isInstanceOf(RuntimeException.class);
         }
     }
