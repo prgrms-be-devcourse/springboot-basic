@@ -22,8 +22,7 @@ public class FixedAmountPolicy implements VoucherPolicy {
         }
     }
 
-    @Override
-    public String toString() {
-        return String.format("FixedAmountPolicy amount %d", amount);
+    public int getAmount() {
+        return amount;
     }
 }

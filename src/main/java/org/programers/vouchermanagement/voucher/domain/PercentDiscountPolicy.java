@@ -24,8 +24,7 @@ public class PercentDiscountPolicy implements VoucherPolicy {
         }
     }
 
-    @Override
-    public String toString() {
-        return String.format("PercentDiscountPolicy percent %d", percent);
+    public int getPercent() {
+        return percent;
     }
 }

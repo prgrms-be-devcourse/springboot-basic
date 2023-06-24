@@ -6,6 +6,7 @@ import org.programers.vouchermanagement.member.dto.MemberResponse;
 import org.programers.vouchermanagement.voucher.domain.FixedAmountPolicy;
 import org.programers.vouchermanagement.voucher.domain.PercentDiscountPolicy;
 import org.programers.vouchermanagement.voucher.domain.Voucher;
+import org.programers.vouchermanagement.voucher.domain.VoucherPolicy;
 import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
 
 import java.util.UUID;
@@ -18,11 +19,18 @@ public class Converter {
     }
 
     public static String toString(Voucher voucher) {
-        return String.format("%s %s", voucher.getId() , voucher.getPolicy().toString());
+        return String.format("%s %s", voucher.getId() , toString(voucher.getPolicy()));
     }
 
     public static String toString(VoucherResponse voucher) {
-        return String.format("%s %s", voucher.getId() , voucher.getPolicy().toString());
+        return String.format("%s %s", voucher.getId() , toString(voucher.getPolicy()));
+    }
+
+    public static String toString(VoucherPolicy policy) {
+        if (policy instanceof FixedAmountPolicy) {
+            return String.format("FixedAmountPolicy %s", ((FixedAmountPolicy) policy).getAmount());
+        }
+        return String.format("PercentDiscountPolicy %s", ((PercentDiscountPolicy) policy).getPercent());
     }
 
     public static String toString(MemberResponse member) {
