@@ -16,7 +16,7 @@ class PercentDiscountVoucherTest {
 
     @BeforeEach
     void 초기화() {
-        voucher = new PercentDiscountVoucher(UUID.randomUUID(), PERCENT_DISCOUNT_AMOUNT);
+        voucher = PercentDiscountVoucher.of(UUID.randomUUID(), PERCENT_DISCOUNT_AMOUNT);
     }
 
     @Test

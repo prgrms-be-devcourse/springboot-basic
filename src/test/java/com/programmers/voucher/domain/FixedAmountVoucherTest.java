@@ -16,7 +16,7 @@ class FixedAmountVoucherTest {
 
     @BeforeEach
     void 초기화() {
-        voucher = new FixedAmountVoucher(UUID.randomUUID(), FIXED_DISCOUNT_AMOUNT);
+        voucher = FixedAmountVoucher.of(UUID.randomUUID(), FIXED_DISCOUNT_AMOUNT);
     }
 
     @Test

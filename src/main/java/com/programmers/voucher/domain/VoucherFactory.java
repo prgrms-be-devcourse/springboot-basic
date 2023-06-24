@@ -8,9 +8,9 @@ public class VoucherFactory {
     public static Voucher createVoucher(VoucherCreationRequest voucherCreationRequest) {
         VoucherType voucherType = VoucherType.valueOf(voucherCreationRequest.getType());
         return switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), voucherCreationRequest.getAmount());
+            case FIXED -> FixedAmountVoucher.of(UUID.randomUUID(), voucherCreationRequest.getAmount());
 
-            case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(), voucherCreationRequest.getAmount());
+            case PERCENT -> PercentDiscountVoucher.of(UUID.randomUUID(), voucherCreationRequest.getAmount());
         };
     }
 

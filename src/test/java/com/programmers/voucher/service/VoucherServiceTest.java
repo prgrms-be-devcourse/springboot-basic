@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class VoucherServiceTest {
     public static final int FIXED_DISCOUNT_AMOUNT = 100;
     public static final int PERCENT_DISCOUNT_AMOUNT = 10;
-    public static final String FIXED_AMOUNT_VOUCHER_TYPE = "fixed";
-    public static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "percent";
+    public static final String FIXED_AMOUNT_VOUCHER_TYPE = "FIXED";
+    public static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "PERCENT";
     public static final String WRONG_VOUCHER_TYPE = "wrongType";
     public static final int NEGATIVE_NUMBER = -1;
     public static final int OVER_FIXED_AMOUNT = 1001;
@@ -85,5 +85,5 @@ class VoucherServiceTest {
         voucherService.createVoucher(voucherCreationRequest2);
         Assertions.assertThat(voucherService.findVoucherList().size()).isEqualTo(2);
     }
-    
+
 }

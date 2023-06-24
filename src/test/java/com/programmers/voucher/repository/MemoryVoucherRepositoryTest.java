@@ -26,7 +26,7 @@ class MemoryVoucherRepositoryTest {
     void save() {
         //give
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, FIXED_DISCOUNT_AMOUNT);
+        Voucher voucher = FixedAmountVoucher.of(voucherId, FIXED_DISCOUNT_AMOUNT);
 
         //when
         voucherRepository.save(voucher);
@@ -40,10 +40,10 @@ class MemoryVoucherRepositoryTest {
     void findAll() {
         //give
         UUID voucherId1 = UUID.randomUUID();
-        Voucher voucher1 = new FixedAmountVoucher(voucherId1, FIXED_DISCOUNT_AMOUNT);
+        Voucher voucher1 = FixedAmountVoucher.of(voucherId1, FIXED_DISCOUNT_AMOUNT);
 
         UUID voucherId2 = UUID.randomUUID();
-        Voucher voucher2 = new PercentDiscountVoucher(voucherId2, PERCENT_DISCOUNT_AMOUNT);
+        Voucher voucher2 = PercentDiscountVoucher.of(voucherId2, PERCENT_DISCOUNT_AMOUNT);
 
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
