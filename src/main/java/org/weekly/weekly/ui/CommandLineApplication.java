@@ -7,8 +7,11 @@ import org.weekly.weekly.ui.writer.CommandWriter;
 import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.util.VoucherMenu;
+import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -46,13 +49,15 @@ public class CommandLineApplication {
         }
     }
 
-    public DiscountMap readDiscount() {
+    public Discount readDiscount() {
         while(true) {
             try {
                 this.commandWriter.printSelectDiscount();
-                return  DiscountMap.getDiscountMap(this.commandReader.readLine());
-            } catch (Exception exception) {
+                return  DiscountMap.getDiscountMap(this.commandReader.readLine()).getCls().getDeclaredConstructor().newInstance();
+            } catch (RuntimeException | IOException exception) {
                 this.commandWriter.printErrorMsg(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
+            }catch (Exception exception) {
+                this.commandWriter.printErrorMsg(ExceptionMsg.NOT_FOUND.getMsg());
             }
         }
     }

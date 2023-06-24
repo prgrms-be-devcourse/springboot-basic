@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.weekly.weekly.ui.CommandLineApplication;
 import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.util.VoucherMenu;
+import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.service.VoucherService;
 
@@ -41,9 +42,9 @@ public class VoucherController {
 
     private void createVoucher() {
         VoucherDto voucherDto = this.commandLineApplication.readVoucher();
-        DiscountMap discountMap = this.commandLineApplication.readDiscount();
+        Discount discount = this.commandLineApplication.readDiscount();
 
-        this.voucherService.insertVoucher(voucherDto, discountMap);
+        this.voucherService.insertVoucher(voucherDto, discount);
     }
 
     private void getList() {

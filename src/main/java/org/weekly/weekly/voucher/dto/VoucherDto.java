@@ -1,5 +1,6 @@
 package org.weekly.weekly.voucher.dto;
 
+import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.exception.VoucherException;
 
@@ -34,8 +35,8 @@ public class VoucherDto {
         VoucherException.expirationError(registrationDate, expirationMonth);
     }
 
-    public Voucher parse() {
-        return new Voucher(this.voucherId, this.amount, this.registrationDate, this.expirationDate, null);
+    public Voucher parseWith(Discount discount) {
+        return new Voucher(this.voucherId, this.amount, this.registrationDate, this.expirationDate, discount);
     }
 
     public UUID getVoucherId() {
