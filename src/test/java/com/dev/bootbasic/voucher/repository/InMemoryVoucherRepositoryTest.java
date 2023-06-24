@@ -15,7 +15,7 @@ class InMemoryVoucherRepositoryTest {
 
     private final VoucherRepository voucherRepository = new InMemoryVoucherRepository();
 
-    @DisplayName("인메모리 바우처 저장소에 바우처를 저장할 수 있다.")
+    @DisplayName("바우처를 저장할 수 있다.")
     @Test
     void saveVoucherTest(){
         FixedAmountVoucher fixedVoucher = createFixedVoucher(5000);
