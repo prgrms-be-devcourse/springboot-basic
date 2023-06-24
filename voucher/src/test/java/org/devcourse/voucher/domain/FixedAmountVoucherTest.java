@@ -25,4 +25,14 @@ class FixedAmountVoucherTest {
         assertNotEquals(5000,fixedAmountVoucher.discount(100000));
     }
 
+    @Test
+    @DisplayName("FixedDiscountVoucher beforeDiscount 음수 예외처리 성공 테스트")
+    void discountExceptionSuccess(){
+        long discountAmount = 5000;
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(discountAmount);
+        assertThrowsExactly(IllegalArgumentException.class, ()->{
+            fixedAmountVoucher.discount(-100000);
+        });
+    }
+
 }

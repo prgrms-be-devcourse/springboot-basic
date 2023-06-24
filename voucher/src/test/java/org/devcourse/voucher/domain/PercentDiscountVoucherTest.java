@@ -24,4 +24,14 @@ class PercentDiscountVoucherTest {
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(discountPercent);
         assertNotEquals(80000, percentDiscountVoucher.discount(100000));
     }
+
+    @Test
+    @DisplayName("PercentDiscountVoucher beforeDiscount 음수 예외처리 성공 테스트")
+    void discountExceptionSuccess(){
+        long discountPercent = 10;
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(discountPercent);
+        assertThrowsExactly(IllegalArgumentException.class, ()->{
+            fixedAmountVoucher.discount(-100000);
+        });
+    }
 }
