@@ -3,17 +3,16 @@ package com.dev.bootbasic.voucher.repository;
 import com.dev.bootbasic.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {
 
-    List<Voucher> vouchers = new ArrayList<>();
+    private static final Map<UUID, Voucher> vouchers = new LinkedHashMap<>();
 
     @Override
     public void saveVoucher(Voucher voucher) {
-        vouchers.add(voucher);
+        vouchers.put(voucher.getId(), voucher);
     }
 
 }
