@@ -34,32 +34,26 @@ class VoucherServiceImplTest {
 
     @Test
     void testCreateVoucher() {
-        // Arrange
         VoucherDto voucherDto = new VoucherDto("fixed", "10");
         when(voucherRepository.save(any(Voucher.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Act
         Voucher result = voucherService.createVoucher(voucherDto);
 
-        // Assert
         assertEquals("Fixed", result.getType());
         assertEquals(10, result.getDiscount());
     }
 
     @Test
     void testListVouchers() {
-        // Arrange
         List<Voucher> vouchers = new ArrayList<>();
         vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), "fixed", 10));
         vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), "percent", 10));
 
         when(voucherRepository.findAll()).thenReturn(vouchers);
 
-        // Act
         List<Voucher> result = voucherService.listVouchers();
 
-        // Assert
         assertEquals(2, result.size());
     }
 }

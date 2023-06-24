@@ -16,12 +16,12 @@ public class Console implements Input, Output {
         try {
             return reader.readLine();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error reading input", e);
         }
     }
 
     @Override
-    public String readLine(String prompt) { // 새로운 메소드 구현
+    public String readLine(String prompt) {
         printLine(prompt);
         return readLine();
     }
@@ -33,7 +33,7 @@ public class Console implements Input, Output {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error writing input", e);
         }
     }
 }

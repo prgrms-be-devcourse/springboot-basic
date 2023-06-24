@@ -2,7 +2,6 @@ package me.kimihiqq.vouchermanagement.repository;
 
 import me.kimihiqq.vouchermanagement.domain.Voucher;
 import org.springframework.stereotype.Repository;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
