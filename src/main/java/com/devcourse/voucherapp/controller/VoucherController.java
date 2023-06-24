@@ -61,6 +61,12 @@ public class VoucherController implements CommandLineRunner {
     private void showDiscountAmountInputMessage(VoucherType voucherType) {
         if (voucherType.isFix()) {
             outputView.showFixDiscountPriceInputMessage();
+
+            return;
+        }
+
+        if (voucherType.isPercent()) {
+            outputView.showPercentDiscountRateInputMessage();
         }
     }
 }

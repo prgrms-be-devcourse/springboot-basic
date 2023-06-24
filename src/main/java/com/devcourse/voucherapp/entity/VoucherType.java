@@ -7,6 +7,7 @@ import java.util.UUID;
 public enum VoucherType {
     FIX("1", "고정 할인") {
         private static final String FIX_DISCOUNT_PRICE_REGEX = "^[1-9][0-9]*$";
+        private static final String INVALID_FIX_DISCOUNT_PRICE_MESSAGE = "입력하신 금액이 조건에 맞지 않습니다.";
 
         @Override
         public Voucher makeVoucher(String discountPrice) {
@@ -19,19 +20,31 @@ public enum VoucherType {
 
         private void validateFixDiscountPrice(String discountPrice) {
             if (!discountPrice.matches(FIX_DISCOUNT_PRICE_REGEX)) {
-                throw new VoucherInputException(INVALID_DISCOUNT_AMOUNT_MESSAGE);
+                throw new VoucherInputException(INVALID_FIX_DISCOUNT_PRICE_MESSAGE);
             }
         }
     },
     PERCENT("2", "비율 할인") {
+        private static final String PERCENT_DISCOUNT_RATE_REGEX = "^[1-9]|[1-9][0-9]|100$";
+        private static final String INVALID_PERCENT_DISCOUNT_RATE_MESSAGE = "입력하신 퍼센트가 조건에 맞지 않습니다.";
+
         @Override
-        public Voucher makeVoucher(String discountPercent) {
-            return null;
+        public Voucher makeVoucher(String discountRate) {
+            validatePercentDiscountRate(discountRate);
+            UUID voucherId = UUID.randomUUID();
+            int percentDiscountRate = Integer.parseInt(discountRate);
+
+            return new PercentDiscountVoucher(voucherId, percentDiscountRate);
+        }
+
+        private void validatePercentDiscountRate(String discountRate) {
+            if (!discountRate.matches(PERCENT_DISCOUNT_RATE_REGEX)) {
+                throw new VoucherInputException(INVALID_PERCENT_DISCOUNT_RATE_MESSAGE);
+            }
         }
     };
 
     private static final String NOT_EXIST_VOUCHER_TYPE_MESSAGE = "입력하신 할인권 방식은 없는 방식입니다.";
-    private static final String INVALID_DISCOUNT_AMOUNT_MESSAGE = "할인권의 금액 또는 퍼센트가 입력 조건에 맞지 않습니다.";
 
     private final String number;
     private final String name;
@@ -54,6 +67,10 @@ public enum VoucherType {
 
     public boolean isFix() {
         return this == VoucherType.FIX;
+    }
+
+    public boolean isPercent() {
+        return this == VoucherType.PERCENT;
     }
 
     @Override

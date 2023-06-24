@@ -10,6 +10,8 @@ public interface OutputView {
 
     void showFixDiscountPriceInputMessage();
 
+    void showPercentDiscountRateInputMessage();
+
     void printWithLineBreak();
 
     void printWithLineBreak(String data);
