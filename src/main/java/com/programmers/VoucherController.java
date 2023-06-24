@@ -5,7 +5,6 @@ import com.programmers.io.Console;
 import com.programmers.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
