@@ -22,13 +22,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class VoucherServiceTest {
 
+    private VoucherFactory voucherFactory = new VoucherFactory();
     private VoucherService voucherService;
     private VoucherRepository voucherRepository;
 
     @BeforeEach
     public void setUp() {
         voucherRepository = new InMemoryVoucherRepository();
-        voucherService = new VoucherService(voucherRepository, new VoucherFactory());
+        voucherService = new VoucherService(voucherRepository, voucherFactory);
     }
 
     @DisplayName("바우처 유형과 금액으로 바우처를 생성할 수 있고 생성된 바우처의 id를 반환한다.")
@@ -63,7 +64,6 @@ class VoucherServiceTest {
         assertThatThrownBy(() -> voucherService.findVoucher(UUID.randomUUID()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("찾을 수 없는 바우처입니다.");
-
     }
 
 }
