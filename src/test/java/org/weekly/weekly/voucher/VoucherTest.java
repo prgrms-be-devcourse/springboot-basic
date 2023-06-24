@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.FixedDiscount;
@@ -80,6 +81,25 @@ public class VoucherTest {
             assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration))
                     .isInstanceOf(RuntimeException.class);
         }
+
+        @ParameterizedTest
+        @CsvSource({
+                "10000,1000,9000",
+                "16000,1300, 14700"
+        })
+        void 고정_할인금액_적용하여_결과확인(int userInput, int discountMoney, int result) {
+            // Given
+            Discount discount = new FixedDiscount();
+            LocalDate current = LocalDate.now();
+            LocalDate next = current.plusMonths(1);
+            Voucher voucher = new Voucher(UUID.randomUUID(), discountMoney, current, next, discount);
+
+            // when
+            int afterApply = voucher.applyDiscount(userInput);
+
+            // then
+            assertThat(afterApply).isEqualTo(result);
+        }
     }
 
     @Nested
@@ -97,6 +117,26 @@ public class VoucherTest {
             // when + then
             assertThatThrownBy(()->VoucherDto.parseDto(voucherId, percent, localDate, expiration))
                     .isInstanceOf(RuntimeException.class);
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+                "10000,100,0",
+                "16000, 50, 8000",
+                "1000, 40, 6000"
+        })
+        void 퍼센트_할인금액_적용하여_결과확인(int userInput, int discountMoney, int result) {
+            // Given
+            Discount discount = new PercentDiscount();
+            LocalDate current = LocalDate.now();
+            LocalDate next = current.plusMonths(1);
+            Voucher voucher = new Voucher(UUID.randomUUID(), discountMoney, current, next, discount);
+
+            // when
+            int afterApply = voucher.applyDiscount(userInput);
+
+            // then
+            assertThat(afterApply).isEqualTo(result);
         }
     }
 }
