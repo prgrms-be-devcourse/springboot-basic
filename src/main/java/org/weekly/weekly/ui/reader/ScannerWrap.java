@@ -18,7 +18,12 @@ public class ScannerWrap implements CommandReader{
     @Override
     public String readLine() {
         String userInput = this.scanner.nextLine().trim();
+        checkException(userInput);
+        return userInput.toLowerCase();
+    }
+
+    private void checkException(String userInput) {
         ReadException.isEmpty(userInput);
-        return userInput;
+        ReadException.notInputFormat(userInput);
     }
 }
