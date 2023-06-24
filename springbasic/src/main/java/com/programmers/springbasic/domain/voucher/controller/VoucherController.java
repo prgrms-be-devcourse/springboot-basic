@@ -1,0 +1,48 @@
+package com.programmers.springbasic.domain.voucher.controller;
+
+import com.programmers.springbasic.domain.voucher.dto.request.CommandDTO;
+import com.programmers.springbasic.domain.voucher.dto.request.CreateFixedAmountVoucherRequestDTO;
+import com.programmers.springbasic.domain.voucher.dto.request.CreatePercentDiscountVoucherRequestDTO;
+import com.programmers.springbasic.domain.voucher.dto.request.VoucherOptionDTO;
+import com.programmers.springbasic.domain.voucher.model.CommandOption;
+import com.programmers.springbasic.domain.voucher.model.VoucherOption;
+import com.programmers.springbasic.domain.voucher.service.VoucherService;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+
+import java.io.IOException;
+
+@Controller
+@RequiredArgsConstructor
+public class VoucherController {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+
+    private static final String VOUCHER_OPTION_MESSAGE = "input F or P(F: Fixed, P: Percent)";
+    private static final String FIXED_AMOUNT_INPUT_MESSAGE = "input fixed amount";
+    private static final String FIXED_AMOUNT_VOUCHER_CREATE_MESSAGE = "Fixed Amount Voucher Created!!";
+    private static final String PERCENT_DISCOUNT_INPUT_MESSAGE = "input percent discount";
+    private static final String PERCENT_DISCOUNT_VOUCHER_CREATE_MESSAGE = "Percent Discount Voucher Created!!";
+
+    private final VoucherService voucherService;
+    private final IOController ioController;
+
+    private boolean keepGoingFlag = true;
+
+    public void run() throws IOException {
+        try {
+            while (keepGoingFlag) {
+                ioController.showMenu();
+
+                String inputCommand = ioController.getInput();
+                CommandDTO commandDTO = new CommandDTO(inputCommand);
+
+                executeCommand(commandDTO);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            ioController.closeIOResource();
+        }
+    }
+}
