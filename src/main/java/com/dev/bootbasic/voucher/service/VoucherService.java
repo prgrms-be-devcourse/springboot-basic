@@ -29,8 +29,8 @@ public class VoucherService {
     }
 
     public VoucherDetailsResponse findVoucher(UUID voucherId) {
-        Optional<Voucher> voucher = voucherRepository.findVoucher(voucherId);
-        Voucher foundVoucher = voucher.orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_VOUCHER_MESSAGE));
+        Voucher foundVoucher = voucherRepository.findVoucher(voucherId)
+                .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_VOUCHER_MESSAGE));
 
         VoucherType voucherType = foundVoucher.getVoucherType();
         int discountAmount = foundVoucher.getDiscountAmount();
