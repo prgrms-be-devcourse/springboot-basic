@@ -26,7 +26,7 @@ public class DiscountAmount implements Discount{
         throw new AmountValueException();
     }
 
-    public boolean discountable(long beforeDiscount) {
+    private boolean discountable(long beforeDiscount) {
         return beforeDiscount > amount;
     }
 
