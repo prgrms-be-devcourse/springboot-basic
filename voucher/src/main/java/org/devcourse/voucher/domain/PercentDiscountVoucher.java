@@ -1,23 +1,34 @@
 package org.devcourse.voucher.domain;
 
-import java.util.UUID;
+public class PercentDiscountVoucher extends Voucher {
+    private final String type = "PERCENT";
+    private final long discountPercent;
 
-public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
-    private final long percent;
-
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        this.voucherId = voucherId;
-        this.percent = percent;
+    public PercentDiscountVoucher(long discountPercent) {
+        super();
+        this.discountPercent = discountPercent;
     }
 
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public String getType() {
+        return type;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount / 100 * percent;
+        double discountRate = discountPercent / 100.0;
+        double discountAmount = beforeDiscount * discountRate;
+
+        return beforeDiscount - (long) discountAmount;
+    }
+
+    public long getDiscountAmount(long beforeDiscount) {
+        double discountRate = discountPercent / 100.0;
+        double discountAmount = beforeDiscount * discountRate;
+
+        return (long) discountAmount;
+    }
+
+    public long getDiscountPercent() {
+        return discountPercent;
     }
 }

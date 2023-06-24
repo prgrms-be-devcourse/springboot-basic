@@ -1,24 +1,26 @@
 package org.devcourse.voucher.domain;
 
-import java.util.UUID;
-
-public class FixedAmountVoucher implements Voucher {
-    private final long amount;
-    private final UUID voucherId;
+public class FixedAmountVoucher extends Voucher {
+    private final String type = "FIXED";
+    private final long discountAmount;
 
 
-    public FixedAmountVoucher(UUID voucherId,long amount) {
-        this.amount = amount;
-        this.voucherId = voucherId;
+    public FixedAmountVoucher(long discountAmount) {
+        super();
+        this.discountAmount = discountAmount;
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public String getType() {
+        return type;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return beforeDiscount - discountAmount;
+    }
+
+    public long getDiscountAmount() {
+        return discountAmount;
     }
 }
