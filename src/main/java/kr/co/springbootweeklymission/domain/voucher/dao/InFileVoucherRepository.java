@@ -5,24 +5,15 @@ import kr.co.springbootweeklymission.domain.voucher.entity.Voucher;
 import kr.co.springbootweeklymission.global.error.exception.FileIOException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.global.util.FileConverter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Profile("dev")
-@Slf4j
-@Repository
 public class InFileVoucherRepository implements VoucherRepository {
     private static final File VOUCHER_FILE = new File("src/main/resources/files/voucher_file.txt");
 
@@ -37,7 +28,6 @@ public class InFileVoucherRepository implements VoucherRepository {
 
             return voucher;
         } catch (IOException e) {
-            log.warn("error : " + e.getMessage());
             throw new FileIOException(ResponseStatus.FAIL_IO_NOT_SAVE_VOUCHER);
         }
     }
