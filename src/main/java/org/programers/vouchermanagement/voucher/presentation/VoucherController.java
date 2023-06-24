@@ -26,14 +26,16 @@ public class VoucherController {
 
         if (type.isAmount()) {
             OutputView.outputCommentAboutAmountOfPolicy();
-            int amount = InputView.inputAmountOfPolicy();
+            int amount = InputView.inputValueOfPolicy();
             VoucherCreationRequest request = new VoucherCreationRequest(new FixedAmountPolicy(amount));
             VoucherResponse response = voucherService.save(request);
             return;
         }
 
         if (type.isPercent()) {
-            VoucherCreationRequest request = new VoucherCreationRequest(new PercentDiscountPolicy());
+            OutputView.outputCommentAboutPercentOfPolicy();
+            int percent = InputView.inputValueOfPolicy();
+            VoucherCreationRequest request = new VoucherCreationRequest(new PercentDiscountPolicy(percent));
             VoucherResponse response = voucherService.save(request);
         }
     }

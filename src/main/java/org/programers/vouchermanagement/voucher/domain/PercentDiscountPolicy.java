@@ -6,7 +6,11 @@ import org.springframework.context.annotation.Primary;
 @Primary
 public class PercentDiscountPolicy implements VoucherPolicy {
 
-    private final int percent = 20;
+    private final int percent;
+
+    public PercentDiscountPolicy(int percent) {
+        this.percent = percent;
+    }
 
     @Override
     public int discount(int price) {
@@ -22,8 +26,6 @@ public class PercentDiscountPolicy implements VoucherPolicy {
 
     @Override
     public String toString() {
-        return "PercentDiscountPolicy{" +
-                "percent=" + percent +
-                '}';
+        return String.format("PercentDiscountPolicy percent %d", percent);
     }
 }

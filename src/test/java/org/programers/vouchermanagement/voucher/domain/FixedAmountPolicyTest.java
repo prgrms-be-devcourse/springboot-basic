@@ -9,7 +9,7 @@ class FixedAmountPolicyTest {
     @Test
     void 정량적_할인을_적용한다() {
         // given
-        FixedAmountPolicy policy = new FixedAmountPolicy(amount);
+        FixedAmountPolicy policy = new FixedAmountPolicy(100);
 
         // when
         int result = policy.discount(1000);
