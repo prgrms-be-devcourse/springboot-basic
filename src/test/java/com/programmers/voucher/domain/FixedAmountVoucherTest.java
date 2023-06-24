@@ -25,13 +25,12 @@ class FixedAmountVoucherTest {
         assertEquals(beforeDiscount - amount, fixedAmountVoucher.discount(beforeDiscount));
     }
 
-    @DisplayName("유요한 바우처 할인 테스트")
+    @DisplayName("유효한 바우처 할인 테스트")
     @ParameterizedTest
     @CsvSource(value = {"100, 90", "50, 2", "5, 3", "126346, 100", "1235123511, 143532343", "100, 99"})
     void availableVoucherDiscountTest(long beforeDiscount, long amount) {
-        LocalDate localDate = LocalDate.of(2023,6, 23);
 
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, localDate);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, LocalDate.now());
         assertEquals(beforeDiscount - amount, fixedAmountVoucher.discount(beforeDiscount));
     }
 

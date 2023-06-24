@@ -25,7 +25,6 @@ public class VoucherService {
         return voucherRepository.save(voucher);
     }
 
-
     public List<VoucherResponseDto> findVouchers() {
         return voucherRepository.findAll();
     }
@@ -34,7 +33,4 @@ public class VoucherService {
         return VoucherPolicy.findByCommand(voucherRequestDto.getVoucherType())
                 .constructor(voucherId, voucherRequestDto.getDiscountAmount(), LocalDate.now());
     }
-
-
-
 }
