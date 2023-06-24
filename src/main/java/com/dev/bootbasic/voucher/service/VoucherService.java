@@ -7,7 +7,6 @@ import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import com.dev.bootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,7 +23,7 @@ public class VoucherService {
 
     public UUID createVoucher(VoucherCreateRequest request) {
         UUID voucherId = UUID.randomUUID();
-        Voucher createdVoucher = voucherFactory.createVoucher(voucherId, request.voucherType(), request.discountAmount());
+        Voucher createdVoucher = voucherFactory.create(voucherId, request.voucherType(), request.discountAmount());
         return voucherRepository.saveVoucher(createdVoucher);
     }
 
