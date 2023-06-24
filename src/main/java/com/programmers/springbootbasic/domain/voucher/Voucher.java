@@ -71,7 +71,6 @@ public abstract class Voucher {
         return now.isAfter(expirationDate);
     }
 
-
     protected boolean isExpiration(LocalDateTime now) {
         return now.isAfter(expirationDate);
     }
