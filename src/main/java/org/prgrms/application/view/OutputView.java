@@ -19,7 +19,7 @@ public class OutputView {
 
     public void printStorageList(Map<UUID, Voucher> storage) {
         for (Map.Entry<UUID, Voucher> entry : storage.entrySet()) {
-            System.out.println("아이디 : " + entry.getKey().toString() + ", 바우처 정보 : " + entry.getValue().toString());
+            System.out.println("바우처 정보 : " + entry.getValue().toString());
         }
     }
 }

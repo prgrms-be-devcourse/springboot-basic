@@ -21,4 +21,8 @@ public class PercentAmountVoucher implements Voucher<Float> {
         return beforeDiscount * (percent / 100);
     }
 
+    @Override
+    public String toString() {
+        return "Percent { " + "voucherId=" + voucherId +", percent=" + percent + '}';
+    }
 }

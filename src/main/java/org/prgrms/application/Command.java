@@ -30,7 +30,6 @@ public class Command implements CommandLineRunner {
             outputView.printSelection();
             String selection = inputView.selectCommandType();
             Optional<CommandType> commandType = CommandType.findBySelection(selection);
-            System.out.println(commandType);
             executeCommand(commandType.orElseThrow(() -> new RuntimeException("잘못된 입력입니다.")));
         }
     }
