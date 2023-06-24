@@ -18,15 +18,15 @@ public class Converter {
     }
 
     public static String toString(Voucher voucher) {
-        return voucher.getId() + " " + voucher.getPolicy().toString();
+        return String.format("%s %s", voucher.getId() , voucher.getPolicy().toString());
     }
 
     public static String toString(VoucherResponse voucher) {
-        return voucher.getId() + " " + voucher.getPolicy().toString();
+        return String.format("%s %s", voucher.getId() , voucher.getPolicy().toString());
     }
 
     public static String toString(MemberResponse member) {
-        return member.getId() + " " + member.getStatus();
+        return String.format("%s %s", member.getId(), member.getStatus());
     }
 
     public static Voucher toVoucher(String text) {
