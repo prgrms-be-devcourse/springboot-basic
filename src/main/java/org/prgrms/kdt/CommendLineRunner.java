@@ -34,7 +34,6 @@ public class CommendLineRunner {
 
     private boolean executeAction(Menu menu) throws IOException {
         if (menu == Menu.CREATE){
-
             voucherController.create();
             return true;
         }
@@ -42,6 +41,7 @@ public class CommendLineRunner {
             return false;
         }
         if (menu == Menu.LIST){
+            voucherController.findAll();
             return true;
         }
         return true;

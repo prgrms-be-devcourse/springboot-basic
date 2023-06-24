@@ -7,6 +7,7 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,5 +31,10 @@ public class VoucherService {
         Voucher voucher = userVoucher.get();
         voucherRepository.insert(voucher);
         return voucher;
+    }
+
+    public List<Voucher> findAll() {
+        List<Voucher> vouchers = voucherRepository.findAll();
+        return vouchers;
     }
 }
