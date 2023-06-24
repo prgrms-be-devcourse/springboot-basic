@@ -3,6 +3,7 @@ package com.programmers.voucher.domain;
 public enum Type {
     CREATE("create"),
     LIST("list"),
+    BLACK("black"),
     EXIT("exit");
 
     private final String string;
@@ -18,6 +19,9 @@ public enum Type {
         }
         if (LIST.string.equals(stringType)) {
             return LIST;
+        }
+        if (BLACK.string.equals(stringType)) {
+            return BLACK;
         }
         if (EXIT.string.equals(stringType)) {
             return EXIT;

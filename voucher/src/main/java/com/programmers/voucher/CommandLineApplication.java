@@ -5,17 +5,20 @@ import com.programmers.voucher.domain.Type;
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.VoucherFactory;
+import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
 
 public class CommandLineApplication implements Runnable{
     private final Console console;
     private final VoucherStream voucherStream;
     private final VoucherFactory voucherFactory;
+    private final BlackListStream blackListStream;
 
-    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory) {
+    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream) {
         this.console = console;
         this.voucherStream = voucherStream;
         this.voucherFactory = voucherFactory;
+        this.blackListStream = blackListStream;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class CommandLineApplication implements Runnable{
             }
             showListOfVouchers(type);
             createVouchers(type);
+            showBlackListCustomer(type);
             if (type == Type.EXIT) {
                 System.out.println("프로그램이 종료됩니다.");
                 break;
@@ -60,6 +64,14 @@ public class CommandLineApplication implements Runnable{
                 System.out.println("=== Error Occurred ===");
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    private void showBlackListCustomer(Type type) {
+        if (type == Type.BLACK) {
+            System.out.println();
+            System.out.println(" === BlackList Customer === ");
+            blackListStream.findAll().forEach( c -> System.out.println("- " + c));
         }
     }
 }

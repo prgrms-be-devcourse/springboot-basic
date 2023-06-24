@@ -21,6 +21,7 @@ public class TextIoConsole implements Console {
                         "Type exit to exit the program \n" +
                         "Type create to create a new voucher. \n" +
                         "Type list to list all vouchers. \n" +
+                        "Type black to see blacklist_customer.\n" +
                         "[enter type] : ");
         return Type.validateInput(stringType);
     }
