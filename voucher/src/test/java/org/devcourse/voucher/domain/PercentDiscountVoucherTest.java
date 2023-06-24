@@ -10,12 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class PercentDiscountVoucherTest {
 
     @Test
-    @DisplayName("PercentDiscountVoucher 생성 테스트")
-    void successPercentDiscountVoucher() {
-        UUID voucherId = UUID.randomUUID();
-        long percent = 10L;
-
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, percent);
-        assertEquals(10000,percentDiscountVoucher.discount(100000));
+    @DisplayName("PercentDiscountVoucher discount 성공 테스트")
+    void discountSuccess() {
+        long percent = 10;
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(percent);
+        assertEquals(90000,percentDiscountVoucher.discount(100000));
     }
 }

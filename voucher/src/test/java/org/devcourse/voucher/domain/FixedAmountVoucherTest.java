@@ -10,12 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class FixedAmountVoucherTest {
 
     @Test
-    @DisplayName("FixedDiscountVoucher 생성 테스트")
-    void successPercentDiscountVoucher() {
-        UUID voucherId = UUID.randomUUID();
-        long amount = 5000;
-
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, amount);
+    @DisplayName("FixedDiscountVoucher discount 성공 테스트")
+    void discountSuccess() {
+        long discountAmount = 5000;
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(discountAmount);
         assertEquals(95000,fixedAmountVoucher.discount(100000));
     }
 }
