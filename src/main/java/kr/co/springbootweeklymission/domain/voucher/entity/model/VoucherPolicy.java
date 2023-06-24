@@ -1,11 +1,10 @@
-package kr.co.springbootweeklymission.domain.model;
+package kr.co.springbootweeklymission.domain.voucher.entity.model;
 
 import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Collections;

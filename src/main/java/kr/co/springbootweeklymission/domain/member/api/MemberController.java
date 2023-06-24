@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.domain.member.api;
 
 import kr.co.springbootweeklymission.domain.member.application.MemberService;
-import kr.co.springbootweeklymission.domain.member.dto.response.MemberResDTO;
+import kr.co.springbootweeklymission.domain.member.api.response.MemberResDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 

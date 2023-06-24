@@ -1,8 +1,8 @@
 package kr.co.springbootweeklymission.global.view;
 
-import kr.co.springbootweeklymission.domain.member.dto.response.MemberResDTO;
-import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
-import kr.co.springbootweeklymission.domain.voucher.dto.response.VoucherResDTO;
+import kr.co.springbootweeklymission.domain.member.api.response.MemberResDTO;
+import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
+import kr.co.springbootweeklymission.domain.voucher.api.response.VoucherResDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

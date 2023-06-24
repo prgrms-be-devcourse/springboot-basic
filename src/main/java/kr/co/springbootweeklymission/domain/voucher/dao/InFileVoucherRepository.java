@@ -1,6 +1,6 @@
 package kr.co.springbootweeklymission.domain.voucher.dao;
 
-import kr.co.springbootweeklymission.domain.voucher.dto.response.VoucherResDTO;
+import kr.co.springbootweeklymission.domain.voucher.api.response.VoucherResDTO;
 import kr.co.springbootweeklymission.domain.voucher.entity.Voucher;
 import kr.co.springbootweeklymission.global.error.exception.FileIOException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
@@ -9,7 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

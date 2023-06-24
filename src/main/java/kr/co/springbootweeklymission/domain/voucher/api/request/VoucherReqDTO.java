@@ -1,7 +1,11 @@
-package kr.co.springbootweeklymission.domain.voucher.dto.request;
+package kr.co.springbootweeklymission.domain.voucher.api.request;
 
-import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
-import lombok.*;
+import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VoucherReqDTO {

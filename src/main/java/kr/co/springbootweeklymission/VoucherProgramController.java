@@ -2,7 +2,7 @@ package kr.co.springbootweeklymission;
 
 import kr.co.springbootweeklymission.domain.member.api.MemberController;
 import kr.co.springbootweeklymission.domain.voucher.api.VoucherController;
-import kr.co.springbootweeklymission.domain.voucher.dto.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.domain.voucher.api.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.global.view.Command;
 import kr.co.springbootweeklymission.global.view.InputView;
 import kr.co.springbootweeklymission.global.view.OutputView;

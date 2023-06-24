@@ -1,6 +1,6 @@
 package kr.co.springbootweeklymission.global.view;
 
-import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
+import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

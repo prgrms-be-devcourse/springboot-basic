@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.domain.member.entity;
 
-import kr.co.springbootweeklymission.domain.member.dto.response.MemberResDTO;
-import kr.co.springbootweeklymission.domain.model.MemberStatus;
+import kr.co.springbootweeklymission.domain.member.api.response.MemberResDTO;
+import kr.co.springbootweeklymission.domain.member.entity.model.MemberStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

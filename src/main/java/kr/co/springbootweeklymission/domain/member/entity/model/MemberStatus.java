@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.domain.model;
+package kr.co.springbootweeklymission.domain.member.entity.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;

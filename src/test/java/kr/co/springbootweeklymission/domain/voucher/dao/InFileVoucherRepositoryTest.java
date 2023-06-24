@@ -1,8 +1,7 @@
 package kr.co.springbootweeklymission.domain.voucher.dao;
 
-import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
 import kr.co.springbootweeklymission.domain.voucher.entity.Voucher;
-import org.junit.jupiter.api.AfterEach;
+import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,10 +23,6 @@ public class InFileVoucherRepositoryTest {
     @BeforeEach
     void beforeEach() {
         voucherRepository = new InFileVoucherRepository();
-    }
-
-    @AfterEach
-    void afterEach() {
     }
 
     @Test

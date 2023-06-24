@@ -1,7 +1,11 @@
-package kr.co.springbootweeklymission.domain.voucher.dto.response;
+package kr.co.springbootweeklymission.domain.voucher.api.response;
 
-import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
-import lombok.*;
+import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 

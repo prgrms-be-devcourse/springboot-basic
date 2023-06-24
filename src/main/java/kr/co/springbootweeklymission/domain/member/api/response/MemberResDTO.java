@@ -1,7 +1,11 @@
-package kr.co.springbootweeklymission.domain.member.dto.response;
+package kr.co.springbootweeklymission.domain.member.api.response;
 
-import kr.co.springbootweeklymission.domain.model.MemberStatus;
-import lombok.*;
+import kr.co.springbootweeklymission.domain.member.entity.model.MemberStatus;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 

@@ -1,8 +1,8 @@
 package kr.co.springbootweeklymission.domain.voucher.entity;
 
-import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
-import kr.co.springbootweeklymission.domain.voucher.dto.request.VoucherReqDTO;
-import kr.co.springbootweeklymission.domain.voucher.dto.response.VoucherResDTO;
+import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
+import kr.co.springbootweeklymission.domain.voucher.api.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.domain.voucher.api.response.VoucherResDTO;
 import kr.co.springbootweeklymission.domain.voucher.exception.WrongVoucherPolicyException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import lombok.AccessLevel;
