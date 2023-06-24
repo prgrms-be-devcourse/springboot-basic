@@ -10,7 +10,7 @@ class PercentDiscountPolicyTest {
     @Test
     void 정률적_할인을_적용한다() {
         // given
-        PercentDiscountPolicy policy = new PercentDiscountPolicy();
+        PercentDiscountPolicy policy = new PercentDiscountPolicy(20);
 
         // when
         int result = policy.discount(1000);

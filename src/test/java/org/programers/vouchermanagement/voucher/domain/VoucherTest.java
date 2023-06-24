@@ -9,7 +9,7 @@ class VoucherTest {
     @Test
     void 정량적_할인을_적용한다() {
         // given
-        Voucher voucher = new Voucher(new FixedAmountPolicy(amount));
+        Voucher voucher = new Voucher(new FixedAmountPolicy(100));
 
         // when
         int result = voucher.discount(1000);
@@ -21,7 +21,7 @@ class VoucherTest {
     @Test
     void 정률적_할인을_적용한다() {
         // given
-        Voucher voucher = new Voucher(new PercentDiscountPolicy());
+        Voucher voucher = new Voucher(new PercentDiscountPolicy(20));
 
         // when
         int result = voucher.discount(1000);

@@ -16,7 +16,7 @@ public class InputView {
          return DiscountPolicyType.from(SCANNER.nextInt());
     }
 
-    public static int inputAmountOfPolicy() {
+    public static int inputValueOfPolicy() {
         return SCANNER.nextInt();
     }
 }
