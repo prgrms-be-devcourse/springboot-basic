@@ -14,7 +14,7 @@ public class CommandLineApplication {
         while (isRunning) {
             try {
                 console.printMenu();
-                Command command = getRequest();
+                Command command = getCommand();
                 execute(command);
             } catch (RuntimeException e) {
                 console.println(e.getMessage() + "\n");
@@ -22,11 +22,11 @@ public class CommandLineApplication {
         }
     }
 
-    private Command getRequest() {
+    private Command getCommand() {
         return Command.findByCommand(console.getRequest());
     }
 
-    public void execute(Command command) {
+    private void execute(Command command) {
 
         switch (command) {
             case EXIT -> isRunning = false;
