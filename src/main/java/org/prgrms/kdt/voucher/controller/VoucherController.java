@@ -1,0 +1,24 @@
+package org.prgrms.kdt.voucher.controller;
+
+import org.prgrms.kdt.commendLine.ConsoleInput;
+import org.prgrms.kdt.commendLine.ConsoleOutput;
+import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.service.VoucherService;
+import org.springframework.stereotype.Controller;
+
+import java.io.IOException;
+
+@Controller
+public class VoucherController {
+    private final VoucherService voucherService;
+
+    public VoucherController(VoucherService voucherService) {
+        this.voucherService = voucherService;
+    }
+
+    public void create() throws IOException {
+        String inputType = ConsoleInput.getVoucherTypes();
+        VoucherType voucherType = VoucherType.getType(inputType);
+        voucherService.createVoucher(voucherType);
+    }
+}
