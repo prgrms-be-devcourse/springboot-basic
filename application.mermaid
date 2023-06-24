@@ -1,0 +1,86 @@
+classDiagram
+    class SpringbootBasicApplication
+    class Platform
+    SpringbootBasicApplication --> Platform
+    Platform --> InputConsole
+    Platform --> OutputConsole
+    Platform --> VoucherService
+
+    class InvalidDataException
+    InvalidDataException --> OutputConsole
+    Platform --> InvalidDataException
+    class YamlProperties {
+        version
+        voucerRecordPath
+        blackCustomerPath
+        description
+    }
+    YamlProperties <-- InputConsole
+
+    class ListMenu {
+        <<enumeration>>
+        VOUCHER_LIST
+        BLACK_CUSTOMER_LIST
+    }
+    class Menu {
+        <<enumeration>>
+        EXIT
+        CREATE
+        LIST
+    }
+    class VoucherType {
+        <<enumeration>>
+        FIXED_AMOUNT
+        PERCENT_DISCOUNT
+    }
+    Platform -- ListMenu
+    Platform -- Menu
+    Platform -- VoucherType
+
+    class VoucherService {
+        createVoucher()
+        getAllVoucher()
+    }
+    VoucherService --> VoucherRepository
+
+    class VoucherRepository {
+        insert()
+        findAll()
+        setVoucherMap()
+    }
+    class MemoryVoucherRepository {voucherMap}
+    class FileVoucherRepository { getFile() }
+    VoucherRepository <.. MemoryVoucherRepository
+    VoucherRepository <.. FileVoucherRepository
+    FileVoucherRepository --> YamlProperties
+
+    class VoucherFactory {
+        create()
+    }
+    VoucherType --> VoucherFactory
+    Platform --> VoucherType
+    class FixedVoucherFactory
+    class PercentVoucherFactory
+    VoucherFactory --> FixedVoucherFactory
+    VoucherFactory --> PercentVoucherFactory
+
+    class Voucher {
+        <<interface>>
+        discountedPrice(long)
+        getVoucherId()
+        toString()
+    }
+    class FixedAmountVoucher {
+        voucherId
+        voucherType
+        discountAmount
+    }
+    class PercentDiscountVoucher {
+        voucherId
+        voucherType
+        discountPercent
+    }
+    FixedAmountVoucher <-- FixedVoucherFactory
+    PercentDiscountVoucher <-- PercentVoucherFactory
+    Voucher <.. FixedAmountVoucher
+    Voucher <.. PercentDiscountVoucher
