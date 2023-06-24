@@ -4,17 +4,25 @@ import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherServiceTest {
-    VoucherRepository voucherRepository = new MemoryVoucherRepository();
-    VoucherService voucherService = new VoucherService(voucherRepository);
+    VoucherRepository voucherRepository;
+    VoucherService voucherService;
 
-    @DisplayName("VoucherService 바우처 생성 및 조회 테스트")
+    @BeforeEach
+    public void setUp() {
+        voucherRepository = new MemoryVoucherRepository();
+        voucherService = new VoucherService(voucherRepository);
+    }
+
+
+    @DisplayName("바우처 타입과 할인값에 대한 바우처 생성 테스트")
     @ParameterizedTest
     @CsvSource(value = {
             "2, 10"
@@ -32,6 +40,6 @@ class VoucherServiceTest {
 
         VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, discountAmount);
         Voucher voucher = voucherService.create(voucherRequestDto);
-        System.out.println(voucherService.findVouchers());
+        assertThat(voucher).isNotNull();
     }
 }
