@@ -1,8 +1,10 @@
 package com.devcourse.voucherapp.controller;
 
 import static com.devcourse.voucherapp.entity.Menu.getMenu;
+import static com.devcourse.voucherapp.entity.VoucherType.getVoucherType;
 
 import com.devcourse.voucherapp.entity.Menu;
+import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.view.InputView;
 import com.devcourse.voucherapp.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +25,14 @@ public class VoucherController implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        boolean isRunning = true;
-
-        while (isRunning) {
+        while (true) {
             outputView.showMenu();
             String menuNumber = inputView.inputWithTrimming();
             Menu menu = getMenu(menuNumber);
 
-            isRunning = isNotQuit(menu);
+            if (menu.isQuit()) {
+                break;
+            }
 
             execute(menu);
         }
@@ -38,14 +40,12 @@ public class VoucherController implements CommandLineRunner {
         outputView.showQuitMessage();
     }
 
-    private boolean isNotQuit(Menu menu) {
-        return menu != Menu.QUIT;
-    }
-
     private void execute(Menu menu) {
-        if (menu == Menu.CREATE) {
+        if (menu.isCreate()) {
             outputView.showVoucherTypes();
+
             String voucherTypeNumber = inputView.inputWithTrimming();
+            VoucherType voucherType = getVoucherType(voucherTypeNumber);
         }
     }
 }

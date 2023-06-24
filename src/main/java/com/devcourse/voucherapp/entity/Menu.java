@@ -29,6 +29,14 @@ public enum Menu {
         return number;
     }
 
+    public boolean isCreate() {
+        return this == Menu.CREATE;
+    }
+
+    public boolean isQuit() {
+        return this == Menu.QUIT;
+    }
+
     @Override
     public String toString() {
         return number + ". " + name;
