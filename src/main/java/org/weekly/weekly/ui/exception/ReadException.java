@@ -1,4 +1,4 @@
-package org.weekly.weekly.ui.reader;
+package org.weekly.weekly.ui.exception;
 
 import org.weekly.weekly.util.ExceptionMsg;
 

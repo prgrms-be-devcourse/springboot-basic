@@ -3,12 +3,9 @@ package org.weekly.weekly.ui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.reader.CommandReader;
-import org.weekly.weekly.ui.reader.ReadException;
 import org.weekly.weekly.ui.writer.CommandWriter;
 import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.util.VoucherMenu;
-
-import java.io.IOException;
 
 @Component
 public class CommandLineApplication {

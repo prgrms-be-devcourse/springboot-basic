@@ -2,7 +2,7 @@ package org.weekly.weekly.ui;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.weekly.weekly.ui.reader.ReadException;
+import org.weekly.weekly.ui.exception.ReadException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

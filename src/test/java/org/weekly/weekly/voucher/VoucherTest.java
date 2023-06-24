@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.weekly.weekly.voucher.domain.FixedDiscountVoucher;
+import org.weekly.weekly.voucher.domain.PercentDiscountVoucher;
+import org.weekly.weekly.voucher.domain.Voucher;
+import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -26,7 +30,7 @@ public class VoucherTest {
             "1,100000,12",
             "2, 10, 1"
     })
-    void 바우처가_이미_존재하면_예외발생(int voucherId, int amount, int expiration) {
+    void 바우처가_이미_존재하면_예외발생(UUID voucherId, int amount, int expiration) {
         // Given
         LocalDate localDate = LocalDate.now();
         Voucher voucher = new FixedDiscountVoucher(voucherId, amount, localDate, localDate.plusMonths(expiration));
@@ -41,7 +45,7 @@ public class VoucherTest {
             "1,100000,12",
             "2, 10, 1"
     })
-    void 바우처_발행시간이_유효시간보다_느리면_예외발생(int voucherId, int amount, int expiration) {
+    void 바우처_발행시간이_유효시간보다_느리면_예외발생(UUID voucherId, int amount, int expiration) {
         // Given
         LocalDate localDate = LocalDate.now();
         LocalDate expirationDate = localDate.minusMonths(expiration);
@@ -52,13 +56,13 @@ public class VoucherTest {
     }
 
     @Nested
-    class 고정바우처_테스트() {
+    class 고정바우처_테스트 {
         @ParameterizedTest
         @CsvSource({
                 "1,-1,12",
                 "2, 0, 1"
         })
-        void 바우처_금액이_자연수가_아니면_예외발생(int voucherId, int amount, int expiration) {
+        void 바우처_금액이_자연수가_아니면_예외발생(UUID voucherId, int amount, int expiration) {
             // Given
             LocalDate localDate = LocalDate.now();
             LocalDate expirationDate = localDate.plusMonths(expiration);
@@ -70,15 +74,13 @@ public class VoucherTest {
     }
 
     @Nested
-    class 퍼센트바우처_테스트() {
-
-
+    class 퍼센트바우처_테스트 {
         @ParameterizedTest
         @CsvSource({
                 "1,101,12",
                 "2, -1, 1"
         })
-        void 바우처_퍼센트값이_자연수가_아니면_예외발생(int voucherId, int percent, int expiration) {
+        void 바우처_퍼센트값이_자연수가_아니면_예외발생(UUID voucherId, int percent, int expiration) {
             // Given
             LocalDate localDate = LocalDate.now();
             LocalDate expirationDate = localDate.plusMonths(expiration);

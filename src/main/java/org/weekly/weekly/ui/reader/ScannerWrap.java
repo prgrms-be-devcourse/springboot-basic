@@ -2,8 +2,8 @@ package org.weekly.weekly.ui.reader;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.weekly.weekly.ui.exception.ReadException;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 @Component
