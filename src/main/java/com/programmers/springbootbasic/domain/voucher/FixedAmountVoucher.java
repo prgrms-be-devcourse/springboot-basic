@@ -23,11 +23,17 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public Long discount(Long priceBeforeDiscount) {
+    protected Long getDiscountPrice(Long priceBeforeDiscount) {
         if (priceBeforeDiscount <= amount) {
             return 0L;
         }
         return priceBeforeDiscount - amount;
+    }
+
+    @Override
+    public Long discount(Long priceBeforeDiscount) {
+        setVoucherState(VoucherState.USED);
+        return getDiscountPrice(priceBeforeDiscount);
     }
 
     private Boolean isInvalidateAmount(int amount) {

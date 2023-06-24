@@ -40,10 +40,6 @@ public abstract class Voucher {
         return state;
     }
 
-    public void use() {
-        setVoucherState(VoucherState.USED);
-    }
-
     protected boolean isExpiration(LocalDateTime now) {
         return now.isAfter(expirationDate);
     }
@@ -51,6 +47,8 @@ public abstract class Voucher {
     protected void setVoucherState(VoucherState toChange) {
         state = toChange;
     }
+
+    protected abstract Long getDiscountPrice(Long priceBeforeDiscount);
 
     protected abstract Long discount(Long priceBeforeDiscount);
 }
