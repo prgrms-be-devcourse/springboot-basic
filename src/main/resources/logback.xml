@@ -1,0 +1,46 @@
+<configuration>
+
+    <conversionRule
+            conversionWord="color"
+            converterClass="org.springframework.boot.logging.logback.ColorConverter"
+    />
+
+    <property name="CONSOLE_LOG_PATTERN" value="%color(%d{HH:mm:ss.SSS}){cyan} %color(%thread){bright_magenta} %color(%-5level) %color([%logger{36}]){green} - %msg%n"/>
+    <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <appender name="CONSOLE_LOG" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMisMatch>DENY</onMisMatch>
+        </filter>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
+    <appender name="FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMisMatch>DENY</onMisMatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.devcourse.springbootbasic.engine.exception" level="error">
+        <appender-ref ref="FILE_LOG"/>
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="CONSOLE_LOG" />
+    </root>
+</configuration>

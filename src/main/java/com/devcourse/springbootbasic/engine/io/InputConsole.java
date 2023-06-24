@@ -5,6 +5,8 @@ import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.model.ListMenu;
 import com.devcourse.springbootbasic.engine.model.Menu;
 import com.devcourse.springbootbasic.engine.model.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,7 @@ import java.util.stream.Stream;
 @Component
 public class InputConsole {
 
+    private static final Logger logger = LoggerFactory.getLogger(InputConsole.class);
     private final Scanner scanner = new Scanner(System.in);
 
     @Autowired
@@ -68,10 +71,12 @@ public class InputConsole {
     }
 
     private File getBlackCustomerFile() throws IOException {
-        var path = applicationContext.getBean(YamlProperties.class)
+        String path = applicationContext.getBean(YamlProperties.class)
                 .getBlackCustomerPath();
-        return applicationContext.getResource(String.format("file:%s", path))
+        File file = applicationContext.getResource(String.format("file:%s", path))
                 .getFile();
+        logger.debug("Voucher Record file inflated");
+        return file;
     }
 
 }

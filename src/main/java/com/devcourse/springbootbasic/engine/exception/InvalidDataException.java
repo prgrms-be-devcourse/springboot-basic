@@ -1,6 +1,12 @@
 package com.devcourse.springbootbasic.engine.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class InvalidDataException extends RuntimeException {
+
+    private static final Logger logger = LoggerFactory.getLogger(InvalidDataException.class);
+
     public static final String INVALID_MENU = "올바른 메뉴를 선택해주세요.";
     public static final String INVALID_VOUCHER_TYPE = "올바른 바우처 메뉴를 선택해주세요.";
     public static final String INVALID_LIST_MENU = "올바른 목록 메뉴를 선택해주세요.";
@@ -14,5 +20,6 @@ public class InvalidDataException extends RuntimeException {
 
     public InvalidDataException(String errorMessage) {
         super(errorMessage);
+        logger.error(errorMessage);
     }
 }
