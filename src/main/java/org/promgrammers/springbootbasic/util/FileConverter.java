@@ -53,8 +53,8 @@ public class FileConverter {
 
     public static String voucherToLine(Voucher voucher) {
         StringBuilder sb = new StringBuilder();
-        sb.append(voucher.getVoucherId()).append(",");
-        sb.append(voucher.getAmount()).append(",");
+        sb.append(voucher.getVoucherId()).append(DELIMITER);
+        sb.append(voucher.getAmount()).append(DELIMITER);
         sb.append(voucher.getVoucherType());
 
         return sb.toString();
