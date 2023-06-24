@@ -25,13 +25,12 @@ import java.util.stream.Collectors;
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
-    @Value("${voucherStoragePath}")
-    private final String voucherStoragePath;
-    private static final Path filePath = Paths.get("src/main/resources/storage/voucherStorage.txt");
+
+    private final Path filePath;
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     public FileVoucherRepository(@Value("${voucherStoragePath}") String voucherStoragePath) {
-        this.voucherStoragePath = voucherStoragePath;
+        this.filePath = Paths.get(voucherStoragePath);
     }
 
     @Override

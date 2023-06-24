@@ -15,12 +15,10 @@ import java.util.List;
 @Repository
 public class CustomerRepository {
 
-    @Value("${blackListStoragePath}")
-    private final String blackListStoragePath;
-    private static final Path filePath = Paths.get("src/main/resources/storage/blacklist.csv");
+    private final Path filePath;
 
     public CustomerRepository(@Value("${blackListStoragePath}") String blackListStoragePath) {
-        this.blackListStoragePath = blackListStoragePath;
+        this.filePath = Paths.get(blackListStoragePath);
     }
 
     public List<Customer> findAll() {
