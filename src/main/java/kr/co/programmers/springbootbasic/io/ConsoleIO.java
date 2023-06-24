@@ -38,19 +38,19 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public void printProgramMenu() {
-        System.out.print(OutputMessage.VOUCHER_PROGRAM_MENU);
+        System.out.print(ConsoleMessage.VOUCHER_PROGRAM_MENU);
     }
 
     @Override
     public void printCreationMenu() {
-        System.out.print(OutputMessage.VOUCHER_CREATION_MENU);
+        System.out.print(ConsoleMessage.VOUCHER_CREATION_MENU);
     }
 
     @Override
     public void printAmountEnterMessage(VoucherType voucherType) {
         switch (voucherType) {
-            case PERCENT_AMOUNT_VOUCHER_COMMAND -> System.out.print(OutputMessage.PERCENT_AMOUNT_ENTER_MESSAGE);
-            case FIXED_AMOUNT_VOUCHER_COMMAND -> System.out.print(OutputMessage.FIXED_AMOUNT_ENTER_MESSAGE);
+            case PERCENT_AMOUNT -> System.out.print(ConsoleMessage.PERCENT_AMOUNT_ENTER_MESSAGE);
+            case FIXED_AMOUNT -> System.out.print(ConsoleMessage.FIXED_AMOUNT_ENTER_MESSAGE);
         }
     }
 
@@ -61,6 +61,6 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public void printExit() {
-        System.out.print(OutputMessage.EXIT_MESSAGE);
+        System.out.print(ConsoleMessage.EXIT_MESSAGE);
     }
 }

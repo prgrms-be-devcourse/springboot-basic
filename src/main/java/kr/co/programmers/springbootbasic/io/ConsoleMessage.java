@@ -1,8 +1,7 @@
 package kr.co.programmers.springbootbasic.io;
 
-public final class OutputMessage {
+public final class ConsoleMessage {
     public static final String VOUCHER_PROGRAM_MENU = """
-            
             === Voucher Program ===
             Type **exit** to exit the program.
             Type **create** to create a new voucher.
@@ -24,7 +23,10 @@ public final class OutputMessage {
                         
             프로그램을 종료합니다.
             """;
-
-    private OutputMessage() {
+    public static final String NO_VALID_MENU = """
+            올바르지 않은 메뉴 선택입니다.
+                                        
+            """;
+    private ConsoleMessage() {
     }
 }
