@@ -4,6 +4,7 @@ import kr.co.springbootweeklymission.domain.member.entity.Member;
 import kr.co.springbootweeklymission.global.error.exception.FileIOException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.global.util.FileConverter;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class InFileMemberRepository implements MemberRepository {
     private static final File MEMBER_FILE = new File("src/main/resources/files/member_file.csv");
 

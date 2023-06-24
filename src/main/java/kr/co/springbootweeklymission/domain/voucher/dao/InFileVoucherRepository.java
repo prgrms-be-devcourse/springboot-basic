@@ -6,6 +6,7 @@ import kr.co.springbootweeklymission.global.error.exception.FileIOException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.global.util.FileConverter;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Profile("dev")
+@Repository
 public class InFileVoucherRepository implements VoucherRepository {
     private static final File VOUCHER_FILE = new File("src/main/resources/files/voucher_file.txt");
 

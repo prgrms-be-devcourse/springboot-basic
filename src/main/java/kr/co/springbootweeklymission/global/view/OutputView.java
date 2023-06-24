@@ -5,42 +5,43 @@ import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
 import kr.co.springbootweeklymission.domain.voucher.api.response.VoucherResDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OutputView {
 
     public static void outputCommand(){
-        System.out.println("\n=== Voucher Program ===");
+        log.info("================= Voucher Program =================");
         for(Command command : Command.values()){
-            System.out.println("Command : " + command.getCommand());
+            log.info("[Command] : {}", command.getCommand());
         }
     }
 
     public static void outputVoucherPolicy(){
-        System.out.println("=== Voucher Policy ===");
+        log.info("================= Voucher Policy =================");
         for(VoucherPolicy voucherPolicy : VoucherPolicy.values()){
-            System.out.println(voucherPolicy.getType() + " : " + voucherPolicy.getPolicy());
+            log.info("[{}] : {}", voucherPolicy.getType(), voucherPolicy.getPolicy());
         }
     }
 
     public static void outputCreateVoucher(){
-        System.out.println("바우처가 생성되었습니다.");
+        log.info("바우처가 생성되었습니다.");
     }
 
     public static void outputVouchers(List<VoucherResDTO.READ> reads){
         for(VoucherResDTO.READ read : reads){
-            System.out.println("Voucher ID : " + read.getVoucherId());
-            System.out.println("Voucher Policy : " + read.getVoucherPolicy());
-            System.out.println("Voucher Amount : " + read.getAmount() + "\n");
+            log.info("\n[\n\tVoucher ID : {}\n\tVoucher Policy : {}\n\tVoucher Amount : {}\n]"
+                    , read.getVoucherId(), read.getVoucherPolicy(), read.getAmount());
         }
     }
 
     public static void outputBlackMembers(List<MemberResDTO.READ> reads){
         for(MemberResDTO.READ read : reads){
-            System.out.println("Member ID : " + read.getMemberId());
-            System.out.println("Member Status : " + read.getMemberStatus() + "\n");
+            log.info("\n[\n\tMember ID : {}\n\tMember Status : {}\n]"
+                    , read.getMemberId(), read.getMemberStatus());
         }
     }
 }
