@@ -2,6 +2,8 @@ package me.kimihiqq.vouchermanagement.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import me.kimihiqq.vouchermanagement.dto.VoucherDto;
+import me.kimihiqq.vouchermanagement.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import me.kimihiqq.vouchermanagement.view.Console;
 
@@ -9,6 +11,8 @@ import me.kimihiqq.vouchermanagement.view.Console;
 @RequiredArgsConstructor
 public class VoucherControllerImpl implements VoucherController {
     private final Console console;
+    private final VoucherService voucherService;
+
     @Override
     public void run() {
         console.printLine("=== Voucher Program ===");
@@ -19,11 +23,15 @@ public class VoucherControllerImpl implements VoucherController {
         String input;
         while (!(input = console.readLine()).equalsIgnoreCase("exit")) {
             if (input.equalsIgnoreCase("create")) {
-                // TODO: create voucher
-                console.printLine("create voucher...");
+                String type = console.readLine();
+                long discount = Long.parseLong(console.readLine());
+                VoucherDto voucherDto = new VoucherDto(type, discount);
+                voucherService.createVoucher(voucherDto);
+                console.printLine("Voucher created...");
             } else if (input.equalsIgnoreCase("list")) {
-                // TODO: list vouchers
-                console.printLine("list vouchers...");
+                voucherService.listVouchers().forEach(voucher ->
+                        console.printLine(voucher.getVoucherId() + ": " + voucher.getType() + " - " + voucher.discount(100))
+                );
             } else {
                 console.printLine("잘못된 명령입니다. 다시 시도하세요.");
             }
