@@ -2,7 +2,7 @@ package com.programmers.voucher.service;
 
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;
-import com.programmers.voucher.request.VoucherCreationRequest;
+import com.programmers.voucher.dto.request.VoucherCreationRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
