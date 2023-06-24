@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -7,8 +8,69 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FixedAmountVoucherTest {
+    @Test
+    void 정상입력값_바우처생성_성공() {
+        // given
+        UUID voucherId = UUID.randomUUID();
+        String name = "회원가입 5000원 할인 쿠폰";
+        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        int amount = 5_000;
+
+        // when
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, expirationDate, amount);
+
+        // then
+        assertThat(fixedAmountVoucher.getName()).isEqualTo(name);
+    }
+
+    @Test
+    void 정상입력값최소금액포함_바우처생성_성공() {
+        // given
+        UUID voucherId = UUID.randomUUID();
+        String name = "회원가입 5000원 할인 쿠폰";
+        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        Long minimumPrice = 3_000L;
+        int amount = 5_000;
+
+        // when
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, minimumPrice, expirationDate, amount);
+
+        // then
+        assertThat(fixedAmountVoucher.getName()).isEqualTo(name);
+    }
+
+    @Test
+    void 잘못된할인금액_바우처생성_예외발생() {
+        // given
+        UUID voucherId = UUID.randomUUID();
+        String name = "회원가입 5000원 할인 쿠폰";
+        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        Long minimumPrice = 3_000L;
+        int amount = 1_000_000_000;
+
+        // when && then
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, name, expirationDate, amount))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("잘못된 할인 금액");
+    }
+
+    @Test
+    void 잘못된할인금액최소금액포함_바우처생성_예외발생() {
+        // given
+        UUID voucherId = UUID.randomUUID();
+        String name = "회원가입 30% 할인 쿠폰";
+        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        Long minimumPrice = 3_000L;
+        int amount = -1;
+
+        // when && then
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, name, minimumPrice, expirationDate, amount))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("잘못된 할인 금액");
+    }
 
     @ParameterizedTest
     @CsvSource(value = {"10000,5000,5000", "300,50000,0"})
