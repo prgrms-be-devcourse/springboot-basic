@@ -5,7 +5,8 @@
             converterClass="org.springframework.boot.logging.logback.ColorConverter"
     />
 
-    <property name="CONSOLE_LOG_PATTERN" value="%color(%d{HH:mm:ss.SSS}){cyan} %color(%thread){bright_magenta} %color(%-5level) %color([%logger{36}]){green} - %msg%n"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%color(%d{HH:mm:ss.SSS}){cyan} %color(%thread){bright_magenta} %color(%-5level) %color([%logger{36}]){green} - %msg%n"/>
     <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
     <appender name="CONSOLE_LOG" class="ch.qos.logback.core.ConsoleAppender">
@@ -19,7 +20,7 @@
         </encoder>
     </appender>
 
-    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
     <appender name="FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -41,6 +42,6 @@
     </logger>
 
     <root level="debug">
-        <appender-ref ref="CONSOLE_LOG" />
+        <appender-ref ref="CONSOLE_LOG"/>
     </root>
 </configuration>

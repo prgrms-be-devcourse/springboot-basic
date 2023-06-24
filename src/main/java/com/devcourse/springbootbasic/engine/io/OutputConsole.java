@@ -1,11 +1,7 @@
 package com.devcourse.springbootbasic.engine.io;
 
-import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
-import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -24,7 +20,7 @@ public class OutputConsole {
         System.out.println(message);
     }
 
-    public void printError(InvalidDataException e) {
+    public void printError(Exception e) {
         printMessage(e.getMessage());
         printLine();
     }

@@ -29,9 +29,9 @@ public class InputConsole {
 
     public Menu inputMenu() {
         System.out.println("\n=== Voucher Program ===\n" +
-                        "Type exit(0) to exit the program.\n" +
-                        "Type create(1) to create a new voucher.\n" +
-                        "Type list(2) to list all vouchers.");
+                "Type exit(0) to exit the program.\n" +
+                "Type create(1) to create a new voucher.\n" +
+                "Type list(2) to list all vouchers.");
         System.out.print("Menu Selection: ");
         return Menu.getMenu(inputString());
     }

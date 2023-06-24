@@ -25,6 +25,17 @@ public class VoucherTester {
         );
     }
 
+    static Stream<Arguments> provideVoucher() {
+        List<Voucher> list = List.of(
+                VoucherType.FIXED_AMOUNT.getVoucherFactory().create(10),
+                VoucherType.PERCENT_DISCOUNT.getVoucherFactory().create(5)
+        );
+        return Stream.of(
+                Arguments.of(list.get(0), list.get(0)),
+                Arguments.of(list.get(1), list.get(1))
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("provideVoucherType")
     void voucherTypeTest(String input, VoucherType expected) {
@@ -40,17 +51,6 @@ public class VoucherTester {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         InputConsole inputConsole = new InputConsole();
         Assertions.assertThrows(InvalidDataException.class, inputConsole::inputVoucherType);
-    }
-
-    static Stream<Arguments> provideVoucher() {
-        List<Voucher> list = List.of(
-            VoucherType.FIXED_AMOUNT.getVoucherFactory().create(10),
-            VoucherType.PERCENT_DISCOUNT.getVoucherFactory().create(5)
-        );
-        return Stream.of(
-                Arguments.of(list.get(0), list.get(0)),
-                Arguments.of(list.get(1), list.get(1))
-        );
     }
 
     @ParameterizedTest

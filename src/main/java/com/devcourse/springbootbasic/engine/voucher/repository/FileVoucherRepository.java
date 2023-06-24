@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Repository
 @Profile({"default"})
@@ -25,7 +28,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             return applicationContext.getResource(
                     String.format("file:%s", yamlProperties.getVoucherRecordPath())
-                    ).getFile();
+            ).getFile();
         } catch (IOException e) {
             throw new InvalidDataException(InvalidDataException.INVALID_FILE_ACCESS);
         }
@@ -44,7 +47,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<String> findAll(){
+    public List<String> findAll() {
         List<String> voucherRecord = new ArrayList<>();
         try {
             File file = getFile();
@@ -62,5 +65,6 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void setVoucherMap(Map<UUID, Voucher> map) {}
+    public void setVoucherMap(Map<UUID, Voucher> map) {
+    }
 }

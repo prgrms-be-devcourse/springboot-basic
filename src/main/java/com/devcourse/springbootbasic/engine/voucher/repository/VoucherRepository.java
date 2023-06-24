@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface VoucherRepository {
     Voucher insert(Voucher voucher);
+
     <T> List<T> findAll();
+
     void setVoucherMap(Map<UUID, Voucher> map);
 }

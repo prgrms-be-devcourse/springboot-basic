@@ -1,6 +1,5 @@
 package com.devcourse.springbootbasic.list;
 
-import com.devcourse.springbootbasic.engine.Platform;
 import com.devcourse.springbootbasic.engine.io.InputConsole;
 import com.devcourse.springbootbasic.engine.io.OutputConsole;
 import com.devcourse.springbootbasic.engine.model.VoucherType;

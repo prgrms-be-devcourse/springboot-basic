@@ -12,9 +12,9 @@ public enum VoucherType {
     FIXED_AMOUNT("1", "Amount", FixedVoucherFactory::new),
     PERCENT_DISCOUNT("2", "Percent", PercentVoucherFactory::new);
 
-    private String typeOrdinal;
-    private String typeString;
-    private Supplier<VoucherFactory> supplier;
+    private final String typeOrdinal;
+    private final String typeString;
+    private final Supplier<VoucherFactory> supplier;
 
     VoucherType(String typeOrdinal, String typeString, Supplier<VoucherFactory> supplier) {
         this.typeOrdinal = typeOrdinal;

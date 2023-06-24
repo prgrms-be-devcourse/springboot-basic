@@ -8,7 +8,7 @@ public enum ListMenu {
     VOUCHER_LIST("1"),
     BLACK_CUSTOMER_LIST("2");
 
-    private String listMenuOrdinal;
+    private final String listMenuOrdinal;
 
     ListMenu(String listMenuOrdinal) {
         this.listMenuOrdinal = listMenuOrdinal;

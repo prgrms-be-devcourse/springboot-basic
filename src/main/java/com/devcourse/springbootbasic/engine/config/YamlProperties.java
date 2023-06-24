@@ -28,28 +28,28 @@ public class YamlProperties implements InitializingBean {
         return version;
     }
 
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     public String getVoucherRecordPath() {
         return voucherRecordPath;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setVoucherRecordPath(String voucherRecordPath) {
+        this.voucherRecordPath = voucherRecordPath;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getBlackCustomerPath() {
         return blackCustomerPath;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public void setVoucherRecordPath(String voucherRecordPath) {
-        this.voucherRecordPath = voucherRecordPath;
     }
 
     public void setBlackCustomerPath(String blackCustomerPath) {

@@ -48,7 +48,7 @@ public class VoucherFileTest {
         voucherService.createVoucher(input);
         long postLineCount = Files.lines(path)
                 .count();
-        Assertions.assertEquals(prevLineCount+1, postLineCount);
+        Assertions.assertEquals(prevLineCount + 1, postLineCount);
     }
 
 }
