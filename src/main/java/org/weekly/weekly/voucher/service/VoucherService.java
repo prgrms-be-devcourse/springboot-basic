@@ -21,6 +21,8 @@ public class VoucherService {
     public void insertVoucher(VoucherDto voucherDto, Discount discount) {
         validateVoucher(voucherDto);
 
+        Voucher voucher = voucherDto.parseWith(discount);
+        this.voucherRepository.insert(voucher);
     }
 
     private void validateVoucher(VoucherDto voucherDto) {

@@ -4,17 +4,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.weekly.weekly.util.DiscountMap;
+import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.FixedDiscount;
 import org.weekly.weekly.voucher.domain.PercentDiscount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class VoucherTest {
     private VoucherRepository voucherRepository;
@@ -26,20 +28,24 @@ public class VoucherTest {
 
     @ParameterizedTest
     @CsvSource({
-            "100000,12",
-            "10,1"
+            "100000,12, 1",
+            "10,1, 1"
     })
-    void 바우처가_이미_존재하면_예외발생(String amount, String expiration) {
+    void 바우처가_이미_존재하면_예외발생(String amount, String expiration, String no)  {
         // Given
         UUID voucherId = UUID.randomUUID();
         LocalDate localDate = LocalDate.now();
         VoucherDto voucherDto = VoucherDto.parseDto(voucherId, amount, localDate, expiration);
 
 
-        voucherRepository.insert(voucherDto.parse());
+        assertThatCode(()-> {
+            // when
+            Discount discount = DiscountMap.getDiscountMap(no).getCls().getDeclaredConstructor().newInstance();
+            voucherRepository.insert(voucherDto.parseWith(discount));
 
-        // when + then
-        assertThat(voucherRepository.findById(voucherId).isPresent()).isTrue();
+            // then
+            assertThat(voucherRepository.findById(voucherId).isPresent()).isTrue();
+        }).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
