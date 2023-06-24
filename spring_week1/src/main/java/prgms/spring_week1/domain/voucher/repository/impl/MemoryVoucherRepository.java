@@ -1,12 +1,8 @@
 package prgms.spring_week1.domain.voucher.repository.impl;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import prgms.spring_week1.io.Output;
-
-import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 

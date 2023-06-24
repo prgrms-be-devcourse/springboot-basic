@@ -1,6 +1,5 @@
 package prgms.spring_week1.domain.voucher.model.impl;
 
-import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 

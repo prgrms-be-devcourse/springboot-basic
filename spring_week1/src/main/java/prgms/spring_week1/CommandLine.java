@@ -7,7 +7,6 @@ import prgms.spring_week1.domain.voucher.service.VoucherService;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
-
 import java.io.IOException;
 
 @Component

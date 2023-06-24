@@ -1,8 +1,6 @@
 package prgms.spring_week1.domain.voucher.model;
 
-import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
-
 import java.util.UUID;
 
 
