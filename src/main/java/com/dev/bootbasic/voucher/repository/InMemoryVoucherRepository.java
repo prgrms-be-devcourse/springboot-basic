@@ -11,17 +11,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {
 
-    private static final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
+    private static final Map<UUID, Voucher> VOUCHERS = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findVoucher(UUID voucherId) {
-        return Optional.ofNullable(vouchers.get(voucherId));
+        return Optional.ofNullable(VOUCHERS.get(voucherId));
     }
 
     @Override
     public UUID saveVoucher(Voucher voucher) {
         UUID voucherId = voucher.getId();
-        vouchers.put(voucherId, voucher);
+        VOUCHERS.put(voucherId, voucher);
         return voucherId;
     }
 
