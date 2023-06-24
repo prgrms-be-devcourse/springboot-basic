@@ -9,31 +9,28 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private static final File filePath = new File("src/main/resources/storage/voucherStorage.txt");
+    private static final Path filePath = Paths.get("src/main/resources/storage/voucherStorage.txt");
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-
 
     @Override
     public Voucher insert(Voucher voucher) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String line = FileConverter.voucherToLine(voucher);
-            writer.write(line);
-            writer.newLine();
+        try {
+            Files.write(filePath, Collections.singletonList(FileConverter.voucherToLine(voucher)), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
         } catch (IOException e) {
             logger.error("Invalid Input => {}", e.getMessage());
             throw new InvalidFilePathException("IO 시스템 오류입니다.");
@@ -43,14 +40,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Voucher voucher = FileConverter.parseVoucherFromLine(line);
-                if (voucher.getVoucherId().equals(voucherId)) {
-                    return Optional.of(voucher);
-                }
-            }
+        try {
+            return Files.lines(filePath)
+                    .map(FileConverter::parseVoucherFromLine)
+                    .filter(voucher -> voucher.getVoucherId().equals(voucherId))
+                    .findFirst();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,24 +53,20 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> vouchers = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Voucher voucher = FileConverter.parseVoucherFromLine(line);
-                vouchers.add(voucher);
-            }
+        try {
+            return Files.lines(filePath)
+                    .map(FileConverter::parseVoucherFromLine)
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return vouchers;
+        return Collections.emptyList();
     }
 
     @Override
     public void deleteAll() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("");
-            writer.flush();
+        try {
+            Files.write(filePath, Collections.emptyList(), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new VoucherFileWriteException("Failed to delete all vouchers.");
         }
