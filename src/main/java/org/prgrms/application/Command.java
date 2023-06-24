@@ -1,19 +1,16 @@
 package org.prgrms.application;
 
 import org.prgrms.application.controller.VoucherController;
-import org.prgrms.application.domain.Voucher;
 import org.prgrms.application.view.InputView;
 import org.prgrms.application.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
-public class Command implements CommandLineRunner{
+public class Command implements CommandLineRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -28,8 +25,8 @@ public class Command implements CommandLineRunner{
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        while(isRunning) {
+    public void run(String... args) {
+        while (isRunning) {
             outputView.printSelection();
             String selection = inputView.selectCommandType();
             Optional<CommandType> commandType = CommandType.findBySelection(selection);
@@ -38,13 +35,13 @@ public class Command implements CommandLineRunner{
         }
     }
 
-    private void executeCommand(CommandType commandType){
-        switch (commandType){
-//            case CREATE -> {
-//                String selection = inputView.selectVoucherType();
-//
-//                voucherController.createVoucher(selection);
-//            }
+    private void executeCommand(CommandType commandType) {
+        switch (commandType) {
+            case CREATE -> {
+                String voucherType = inputView.selectVoucherType();
+                String voucherDetails = inputView.inputVoucherDetails();
+                voucherController.createVoucher(voucherType, voucherDetails);
+            }
 
             case LIST -> outputView.printStorageList(voucherController.getStorage());
 

@@ -20,9 +20,7 @@ public class VoucherController {
         return voucherService.getVoucherList();
     }
 
-
-//    public void createVoucher(String voucherType) {
-//        VoucherType voucherType = VoucherType.valueOf(selection);
-//        voucherService.create(voucherType);
-//    }
+    public void createVoucher(String voucherType, String voucherDetails) {
+        voucherService.createVoucher(voucherType, voucherDetails);
+    }
 }

@@ -2,11 +2,11 @@ package org.prgrms.application.domain;
 
 import java.util.UUID;
 
-public class PercentAmountVoucher implements Voucher {
+public class PercentAmountVoucher implements Voucher<Float> {
     private final UUID voucherId;
-    private final long percent;
+    private final float percent;
 
-    public PercentAmountVoucher(UUID voucherId, long percent) {
+    public PercentAmountVoucher(UUID voucherId, float percent) {
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -17,7 +17,8 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public Float discount(Float beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
+
 }

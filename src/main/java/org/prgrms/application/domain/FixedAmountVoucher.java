@@ -2,7 +2,7 @@ package org.prgrms.application.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher<Long> {
     private final UUID voucherId;
     private final long amount;
 
@@ -17,7 +17,8 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public Long discount(Long beforeDiscount) {
         return beforeDiscount - amount;
     }
+
 }

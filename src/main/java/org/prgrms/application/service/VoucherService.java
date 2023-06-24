@@ -1,11 +1,10 @@
 package org.prgrms.application.service;
 
-import org.prgrms.application.controller.VoucherType;
 import org.prgrms.application.domain.Voucher;
+import org.prgrms.application.domain.VoucherFactory;
 import org.prgrms.application.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,25 +12,20 @@ import java.util.UUID;
 public class VoucherService {
 
     private VoucherRepository voucherRepository;
+    private VoucherFactory voucherFactory;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
+        this.voucherFactory = voucherFactory;
     }
 
-//    public void create(VoucherType voucherType) {
-//
-//    }
-
-    public Voucher getVoucher(UUID voucherId){
-        return voucherRepository
-                .findById(voucherId)
-                .orElseThrow(()-> new RuntimeException(MessageFormat.format("cannot find a voucher for {0}", voucherId)));
+    public void createVoucher(String voucherType, String voucherDetails) {
+        Voucher voucher = voucherFactory.create(voucherType, voucherDetails);
+        voucherRepository.insert(voucher);
     }
 
-    public Map<UUID, Voucher> getVoucherList(){
+    public Map<UUID, Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
-
-
 
 }
