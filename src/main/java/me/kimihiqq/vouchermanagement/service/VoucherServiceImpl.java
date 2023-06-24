@@ -6,6 +6,7 @@ import me.kimihiqq.vouchermanagement.domain.FixedAmountVoucher;
 import me.kimihiqq.vouchermanagement.domain.PercentDiscountVoucher;
 import me.kimihiqq.vouchermanagement.domain.Voucher;
 import me.kimihiqq.vouchermanagement.dto.VoucherDto;
+import me.kimihiqq.vouchermanagement.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,6 @@ import java.util.UUID;
 @Service
 public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
-
-    public VoucherServiceImpl(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }
 
     @Override
     public Voucher createVoucher(VoucherDto voucherDto) {
