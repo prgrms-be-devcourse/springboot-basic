@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("dev")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final File filePath = new File("src/main/resources/storage/voucherStorage.txt");
