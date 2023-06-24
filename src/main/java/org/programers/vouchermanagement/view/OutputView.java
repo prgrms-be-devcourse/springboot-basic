@@ -21,7 +21,7 @@ public class OutputView {
     public static void outputDiscountPolicyType() {
         System.out.println("할인정책 리스트");
         for (DiscountPolicyType value : DiscountPolicyType.values()) {
-            System.out.println(value.getNumber() + " " + value);
+            System.out.printf("%d %s%n", value.getNumber(), value);
         }
         System.out.print("번호 입력 : ");
     }
