@@ -53,11 +53,15 @@ class FixedAmountVoucherTest {
 
     @DisplayName("상품 가격보다 바우처 할인 금액이 큰 경우 0원을 반환한다.")
     @Test
-    void discountZeroPayTest(){
+    void discountZeroPayTest() {
         UUID id = UUID.randomUUID();
-        Voucher voucher = FixedAmountVoucher.of(id, 5000);
+        int discountAmount = 5000;
+        int originPrice = 4000;
+        int expectedPrice = 0;
 
-        assertThat(voucher.discount(4000)).isEqualTo(0);
-     }
+        Voucher voucher = FixedAmountVoucher.of(id, discountAmount);
+
+        assertThat(voucher.discount(originPrice)).isEqualTo(expectedPrice);
+    }
 
 }
