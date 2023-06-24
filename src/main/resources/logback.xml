@@ -1,0 +1,31 @@
+<configuration>
+
+    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <timestamp key="byDay" datePattern="yyyy-MM-dd"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/${byDay}.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.programmers.vouchermanagement" level="error">
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="com.programmers.vouchermanagement" level="info">
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <root level="STDOUT">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

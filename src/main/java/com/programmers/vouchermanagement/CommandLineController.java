@@ -4,9 +4,11 @@ import com.programmers.vouchermanagement.view.Console;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class CommandLineController implements CommandLineRunner {
@@ -22,6 +24,7 @@ public class CommandLineController implements CommandLineRunner {
                 running = isRunning();
             } catch (RuntimeException e) {
                 Console.outputErrorMessage(e.getMessage());
+                log.error(e.getMessage());
             }
 
         }
@@ -45,6 +48,6 @@ public class CommandLineController implements CommandLineRunner {
             }
             default -> throw new IllegalArgumentException("잘못 입력하였습니다. 다시 입력해주세요.");
         }
-        return false;
+        return true;
     }
 }
