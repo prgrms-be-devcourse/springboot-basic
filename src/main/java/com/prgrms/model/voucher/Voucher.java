@@ -1,10 +1,25 @@
 package com.prgrms.model.voucher;
 
+import lombok.AllArgsConstructor;
+
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
-    Long getVoucherDiscount();
+@AllArgsConstructor
+public abstract class Voucher {
+    private UUID voucherId;
+    private long amount;
+    private String voucherType;
 
-    long discount(long beforeDiscount);
+    public UUID getVoucherId(){
+        return voucherId;
+    };
+    public Long getVoucherDiscount(){
+        return amount;
+    };
+
+     public String getVoucherType(){
+        return voucherType;
+    };
+
+    abstract public long discount(long beforeDiscount);
 }
