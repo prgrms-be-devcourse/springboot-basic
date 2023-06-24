@@ -31,9 +31,10 @@ public class CommandController implements CommandLineRunner{
 
     private void selectCommand(CommandType commandType){
         switch (commandType){
-//            case CREATE -> {
-//
-//            }
+            case CREATE -> {
+                String selection = inputView.selectVoucherType();
+                V
+            }
 
 //            case LIST -> {
 //

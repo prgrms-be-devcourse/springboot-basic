@@ -10,8 +10,12 @@ public class InputView {
 
     public String selectCommandType(){
         String selection = sc.nextLine();
-        return selection != null ? selection : null;
+        return selection;
     }
 
 
+    public String selectVoucherType() {
+        String selection = sc.nextLine();
+        return selection;
+    }
 }
