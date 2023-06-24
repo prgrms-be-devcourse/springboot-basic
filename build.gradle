@@ -22,6 +22,9 @@ repositories {
 }
 
 dependencies {
+    //Text.io 설정
+    implementation 'org.beryx:text-io:3.3.0'
+
     implementation 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
