@@ -1,9 +1,5 @@
-package com.prgms.VoucherApp.model;
+package com.prgms.VoucherApp.domain;
 
-import com.prgms.VoucherApp.domain.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.domain.VoucherPolicy;
 import com.prgms.VoucherApp.storage.VoucherStorage;
 import org.springframework.stereotype.Service;
 
