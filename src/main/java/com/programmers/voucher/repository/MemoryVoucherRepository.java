@@ -26,7 +26,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
             return Collections.emptyList();
 
         }
-        return storage.values().stream().map(VoucherResponseDto::new).collect(Collectors.toList());
+        return storage.values().stream().map(VoucherResponseDto::new).toList();
     }
 
     @Override
