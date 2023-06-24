@@ -16,5 +16,4 @@ public class FixedAmountVoucher extends Voucher {
         return "상품권 종류 : 고정 가격 할인 상품권" +
                 "할인  가격 :" + discount + "원";
     }
-
 }

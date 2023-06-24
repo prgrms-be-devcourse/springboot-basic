@@ -63,6 +63,4 @@ public class Console implements Input,Output{
     public void printInsertVoucherInfo(Voucher voucher) {
         System.out.println(voucher);
     }
-
-
 }

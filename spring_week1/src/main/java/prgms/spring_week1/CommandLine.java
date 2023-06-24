@@ -23,7 +23,6 @@ public class CommandLine implements Runnable{
         this.voucherService = voucherService;
     }
 
-
     @Override
     public void run() {
         while (true) {
@@ -75,7 +74,5 @@ public class CommandLine implements Runnable{
         else{
             output.printEmptyListMessage();
         }
-
     }
-
 }

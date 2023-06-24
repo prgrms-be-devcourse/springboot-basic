@@ -13,6 +13,4 @@ public enum VoucherType {
     VoucherType(String voucherType) {
         this.voucherType = voucherType;
     }
-
-
 }

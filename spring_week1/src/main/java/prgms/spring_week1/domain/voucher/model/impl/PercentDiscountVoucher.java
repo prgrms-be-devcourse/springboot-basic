@@ -16,6 +16,4 @@ public class PercentDiscountVoucher extends Voucher {
         return "상품권 종류 : 할인률 적용 상품권" +
                 "할인률 :" + discount + "퍼센트";
     }
-
-
 }
