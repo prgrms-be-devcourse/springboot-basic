@@ -8,7 +8,7 @@ import static com.dev.bootbasic.util.UUIDProvider.createUUID;
 @Component
 public class VoucherFactory {
 
-    public static Voucher createVoucher(VoucherCreateRequest request) {
+    public Voucher createVoucher(VoucherCreateRequest request) {
         VoucherType voucherType = VoucherType.from(request.voucherType());
 
         return switch (voucherType) {
