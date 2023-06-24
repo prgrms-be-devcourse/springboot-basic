@@ -29,8 +29,12 @@ public class VoucherService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("wrong")));
 
-        if(selectedVoucherType.get() == VoucherType.PERCENT) return insertPercentDiscountVoucher();
-        else return insertFixedAmountVoucher();
+        if(selectedVoucherType.get() == VoucherType.PERCENT) {
+            return insertPercentDiscountVoucher();
+        }
+        else {
+            return insertFixedAmountVoucher();
+        }
     }
 
     private Voucher insertFixedAmountVoucher() {

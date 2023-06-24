@@ -27,25 +27,25 @@ public class CommandLine implements Runnable{
     @Override
     public void run() {
         while (IS_RUNNING) {
-            String selectOption = null;
             output.printMenuList();
             try {
-                selectOption = input.inputTextOption();
+                String selectOption = input.inputTextOption();
+                switch (findMenuName(selectOption)) {
+                    case EXIT -> System.exit(0);
+                    case CREATE -> {
+                        try {
+                            selectVoucherType();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    case LIST -> printAllVoucher();
+                    default -> output.printWrongMenuMessage();
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            switch (findMenuName(selectOption)) {
-                case EXIT -> System.exit(0);
-                case CREATE -> {
-                    try {
-                        selectVoucherType();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                case LIST -> printAllVoucher();
-                default -> output.printWrongMenuMessage();
-            }
+
         }
     }
 
