@@ -26,6 +26,10 @@ public class OutputView {
         System.out.print("번호 입력 : ");
     }
 
+    public static void outputCommentAboutAmountOfPolicy() {
+        System.out.print("고정 할인 금액을 입력 : ");
+    }
+
     public static void outputVouchers(VouchersResponse response) {
         for (VoucherResponse voucher : response.getVouchers()) {
             System.out.println(Converter.toString(voucher));
