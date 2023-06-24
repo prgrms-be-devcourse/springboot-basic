@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -12,11 +13,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CustomerRepositoryTest {
+
+    @Value("${blackListStoragePath}")
+    private String blackListStoragePath;
     private CustomerRepository customerRepository;
 
     @BeforeEach
     void beforeEach() {
-        customerRepository = new CustomerRepository();
+        customerRepository = new CustomerRepository(blackListStoragePath);
     }
 
     @Test

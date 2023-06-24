@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileVoucherRepositoryTest {
 
+    @Value("${voucherStoragePath}")
+    private String voucherStoragePath;
     private FileVoucherRepository fileVoucherRepository;
 
     @BeforeAll
     void setUp() {
-        fileVoucherRepository = new FileVoucherRepository();
+        fileVoucherRepository = new FileVoucherRepository(voucherStoragePath);
     }
 
     @AfterEach

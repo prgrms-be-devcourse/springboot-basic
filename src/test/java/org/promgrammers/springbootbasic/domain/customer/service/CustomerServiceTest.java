@@ -7,6 +7,7 @@ import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomerRes
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersResponse;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 import org.promgrammers.springbootbasic.domain.customer.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -15,12 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CustomerServiceTest {
 
+    @Value("${blackListStoragePath}")
+    private String blackListStoragePath;
     private CustomerService customerService;
     private CustomerRepository customerRepository;
 
     @BeforeEach
     void setUp() {
-        customerRepository = new CustomerRepository();
+        customerRepository = new CustomerRepository(blackListStoragePath);
         customerService = new CustomerService(customerRepository);
     }
 
