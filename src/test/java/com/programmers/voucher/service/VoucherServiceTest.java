@@ -13,8 +13,7 @@ class VoucherServiceTest {
     public static final String FIXED_AMOUNT_VOUCHER_TYPE = "FIXED";
     public static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "PERCENT";
     public static final String WRONG_VOUCHER_TYPE = "wrongType";
-    public static final int NEGATIVE_NUMBER = -1;
-    public static final int OVER_FIXED_AMOUNT = 1001;
+    public static final int OVER_FIXED_AMOUNT = 5001;
     public static final int OVER_PERCENT_AMOUNT = 101;
 
     private VoucherRepository voucherRepository;
@@ -43,22 +42,14 @@ class VoucherServiceTest {
     void 잘못된_바우처_타입_입력시_예외_발생() {
         VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(WRONG_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
-                .isInstanceOf(UnsupportedOperationException.class)
-                .hasMessage("지원하지 않는 바우처입니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 셍성할_바우처_타입이_null_이면_예외_발생() {
         Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(null, PERCENT_DISCOUNT_AMOUNT))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("올바르지 않은 바우처 생성 요청입니다.");
-    }
-
-    @Test
-    void 생성할_바우처_할인_양이_음수면_예외_발생() {
-        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, NEGATIVE_NUMBER))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("올바르지 않은 바우처 생성 요청입니다.");
+                .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
 
     @Test
@@ -66,7 +57,7 @@ class VoucherServiceTest {
         VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, OVER_FIXED_AMOUNT);
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("바우처의 최대 할인 양을 초과하였습니다.");
+                .hasMessage("1 ~ 5000 범위의 바우처 할인양을 입력해주세요");
     }
 
     @Test
@@ -74,7 +65,7 @@ class VoucherServiceTest {
         VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, OVER_PERCENT_AMOUNT);
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("바우처의 최대 할인 양을 초과하였습니다.");
+                .hasMessage("1 ~ 100 범위의 바우처 할인양을 입력해주세요");
     }
 
     @Test

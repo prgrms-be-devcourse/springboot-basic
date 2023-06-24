@@ -6,11 +6,10 @@ import java.util.UUID;
 
 public class VoucherFactory {
     public static Voucher createVoucher(VoucherCreationRequest voucherCreationRequest) {
-        VoucherType voucherType = VoucherType.valueOf(voucherCreationRequest.getType());
+        VoucherType voucherType = VoucherType.valueOf(voucherCreationRequest.getVoucherType());
         return switch (voucherType) {
-            case FIXED -> FixedAmountVoucher.of(UUID.randomUUID(), voucherCreationRequest.getAmount());
-
-            case PERCENT -> PercentDiscountVoucher.of(UUID.randomUUID(), voucherCreationRequest.getAmount());
+            case FIXED -> FixedAmountVoucher.of(UUID.randomUUID(), voucherCreationRequest.getDiscountAmount());
+            case PERCENT -> PercentDiscountVoucher.of(UUID.randomUUID(), voucherCreationRequest.getDiscountAmount());
         };
     }
 

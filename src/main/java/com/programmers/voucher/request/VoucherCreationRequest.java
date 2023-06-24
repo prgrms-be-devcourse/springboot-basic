@@ -3,27 +3,27 @@ package com.programmers.voucher.request;
 import java.util.Objects;
 
 public class VoucherCreationRequest {
-    private final String type;
-    private final long amount;
+    private final String voucherType;
+    private final long discountAmount;
 
-    public VoucherCreationRequest(String type, long amount) {
-        validateVoucherCreationRequest(type, amount);
-        this.type = type;
-        this.amount = amount;
+    public VoucherCreationRequest(String voucherType, long discountAmount) {
+        validateVoucherCreationRequest(voucherType, discountAmount);
+        this.voucherType = voucherType;
+        this.discountAmount = discountAmount;
     }
 
-    private static void validateVoucherCreationRequest(String type, long amount) {
-        if(Objects.isNull(type) || amount < 0) {
-            throw new IllegalArgumentException("올바르지 않은 바우처 생성 요청입니다.");
+    private static void validateVoucherCreationRequest(String voucherType, long discountAmount) {
+        if(Objects.isNull(voucherType) || discountAmount == 0) {
+            throw new IllegalArgumentException("바우처 타입과 할인양을 입력해주세요.");
         }
     }
 
-    public String getType() {
-        return type;
+    public String getVoucherType() {
+        return voucherType;
     }
 
-    public long getAmount() {
-        return amount;
+    public long getDiscountAmount() {
+        return discountAmount;
     }
 
 }
