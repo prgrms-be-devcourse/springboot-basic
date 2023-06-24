@@ -68,6 +68,7 @@ public class ConsoleOutputView implements OutputView {
         printWithLineBreak();
         printWithLineBreak(VOUCHER_CREATION_SUCCESS_MESSAGE);
         printWithLineBreak(voucherInfo);
+        printWithLineBreak();
     }
 
     @Override
