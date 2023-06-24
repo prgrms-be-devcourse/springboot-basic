@@ -9,8 +9,9 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 	
 	private static final long MINIMUM = 0;
-	private static final String VOUCHER_TYPE = "Fixed";
+	private static final String VOUCHER_TYPE = "fixed";
 	private static final String FORMAT_STRING = "voucher type : {0} voucher Id : {1} amount : {2}";
+	private static final String FORMAT_CSV = "%s %s %d";
 	private static final String UNDER_MINIMUM_EXCEPTION_MESSAGE = "Fixed voucher have to discount over 0. amount : ";
 	
 	private final UUID voucherId;
@@ -31,6 +32,9 @@ public class FixedAmountVoucher implements Voucher {
 	public long discount(long beforeAmount) {
 		return beforeAmount - amount;
 	}
+	
+	@Override
+	public String formatOfCSV() { return String.format(FORMAT_CSV, VOUCHER_TYPE, voucherId, amount); }
 	
 	@Override
 	public String toString() {

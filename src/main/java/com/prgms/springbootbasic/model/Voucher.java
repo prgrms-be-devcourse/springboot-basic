@@ -6,5 +6,6 @@ public interface Voucher {
 	
 	UUID getVoucherId();
 	long discount(long beforeAmount);
+	String formatOfCSV();
 	
 }
