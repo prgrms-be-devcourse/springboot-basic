@@ -21,7 +21,6 @@
 * `FixedAmountVoucher`    : 고정값 바우처 클래스
 * `PercentDiscountVoucher`: 비율값 바우처 클래스
 
-![sequence.png](sequence.png)
 
 ## 👩‍💻 요구 사항과 구현 내용 <!-- 기능을 Commit 별로 잘개 쪼개고, Commit 별로 설명해주세요 -->
 - #### 기능 구현
