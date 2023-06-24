@@ -2,6 +2,7 @@ package com.programmers.voucher.dto;
 
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.FixedAmountVoucher;
+import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 
 import java.time.LocalDate;
@@ -20,13 +21,12 @@ public class VoucherResponseDto {
         this.createdDate = voucher.getCreatedDate();
         this.expirationDate = voucher.getExpirationDate();
 
-        if (voucher instanceof FixedAmountVoucher) {
-            type = voucher.getClass().getSimpleName();
+        if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
+            this.type = percentDiscountVoucher.getClass().getSimpleName();
             return;
         }
-        if (voucher instanceof FixedAmountVoucher) {
-            type = voucher.getClass().getSimpleName();
-            return;
+        if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
+            this.type = fixedAmountVoucher.getClass().getSimpleName();
         }
     }
 
