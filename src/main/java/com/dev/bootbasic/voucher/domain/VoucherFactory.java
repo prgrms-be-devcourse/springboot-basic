@@ -7,7 +7,7 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
-    public Voucher createVoucher(UUID id, String type, int discountAmount) {
+    public Voucher create(UUID id, String type, int discountAmount) {
         VoucherType voucherType = VoucherType.from(type);
 
         return switch (voucherType) {
