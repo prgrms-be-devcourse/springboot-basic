@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private final long discountAmount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.discountAmount = discountAmount;
     }
 
     @Override
@@ -17,8 +17,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeAmount) {
-        return beforeAmount - amount;
+    public long discount(long originPrice) {
+        return originPrice - discountAmount;
     }
 
 }
