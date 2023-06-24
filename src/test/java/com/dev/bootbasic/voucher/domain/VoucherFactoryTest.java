@@ -1,6 +1,5 @@
 package com.dev.bootbasic.voucher.domain;
 
-import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,9 +18,7 @@ class VoucherFactoryTest {
             "percent, 50, PERCENT"
     })
     void createVoucherTest(String type, int amount, VoucherType expectedVoucherType) {
-        VoucherCreateRequest request = new VoucherCreateRequest(type, amount);
-
-        Voucher voucher = voucherFactory.createVoucher(UUID.randomUUID(), type, amount);
+        Voucher voucher = voucherFactory.create(UUID.randomUUID(), type, amount);
 
         Assertions.assertThat(voucher)
                 .extracting(Voucher::getVoucherType, Voucher::getDiscountAmount)
