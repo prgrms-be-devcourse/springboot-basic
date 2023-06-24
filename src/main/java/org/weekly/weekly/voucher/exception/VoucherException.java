@@ -3,6 +3,7 @@ package org.weekly.weekly.voucher.exception;
 import org.weekly.weekly.util.ExceptionMsg;
 
 import java.time.LocalDate;
+import java.util.function.Predicate;
 
 public class VoucherException {
 
@@ -15,15 +16,15 @@ public class VoucherException {
         }
     }
 
-    private static void notNatural(String userInput) {
-        if (Long.parseLong(userInput) <= 0) {
+    private static void notRange(String userInput, Predicate<String> ifCase) {
+        if (ifCase.test(userInput)) {
             throw new RuntimeException(ExceptionMsg.NOT_NUMBER_FORMAT.getMsg());
         }
     }
 
-    public static void notNumberFormat(String userInput) {
+    public static void notNumberFormat(String userInput, Predicate<String> ifCase) {
         notNumber(userInput);
-        notNatural(userInput);
+        notRange(userInput, ifCase);
     }
 
     public static void expirationError(LocalDate registrationDate, String expirationMonth) {

@@ -37,18 +37,6 @@ public class CommandLineApplication {
         }
     }
 
-    public VoucherDto readVoucher() {
-        while(true) {
-            try {
-                this.commandWriter.printCreateVoucher();
-                String[] inputs = this.commandReader.readLine().split(",");
-                return VoucherDto.parseDto(UUID.randomUUID(), inputs[0], LocalDate.now(), inputs[1]);
-            } catch (Exception exception) {
-                this.commandWriter.printErrorMsg(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
-            }
-        }
-    }
-
     public Discount readDiscount() {
         while(true) {
             try {
@@ -62,4 +50,17 @@ public class CommandLineApplication {
         }
     }
 
+    public VoucherDto readVoucher(Discount discount) {
+        while(true) {
+            try {
+                this.commandWriter.printCreateVoucher();
+                String[] inputs = this.commandReader.readLine().split(",");
+                return VoucherDto.parseDto(UUID.randomUUID(), inputs[0], LocalDate.now(), inputs[1], discount);
+            } catch (Exception exception) {
+                this.commandWriter.printErrorMsg(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
+            }
+        }
+    }
+
+    public
 }

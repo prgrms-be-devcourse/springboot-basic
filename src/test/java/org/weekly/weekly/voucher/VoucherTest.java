@@ -33,15 +33,15 @@ public class VoucherTest {
             "10,1, 1"
     })
     void 바우처가_이미_존재하면_예외발생(String amount, String expiration, String no)  {
-        // Given
-        UUID voucherId = UUID.randomUUID();
-        LocalDate localDate = LocalDate.now();
-        VoucherDto voucherDto = VoucherDto.parseDto(voucherId, amount, localDate, expiration);
-
-
         assertThatCode(()-> {
-            // when
+            // Given
             Discount discount = DiscountMap.getDiscountMap(no).getCls().getDeclaredConstructor().newInstance();
+            UUID voucherId = UUID.randomUUID();
+            LocalDate localDate = LocalDate.now();
+            VoucherDto voucherDto = VoucherDto.parseDto(voucherId, amount, localDate, expiration, discount);
+
+
+            // when
             voucherRepository.insert(voucherDto.parseWith(discount));
 
             // then
@@ -59,9 +59,10 @@ public class VoucherTest {
         // Given
         UUID voucherId = UUID.randomUUID();
         LocalDate localDate = LocalDate.now();
+        Discount discount = new FixedDiscount();
 
         // when + then
-        assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration))
+        assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration, discount))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -76,9 +77,10 @@ public class VoucherTest {
             // Given
             UUID voucherId = UUID.randomUUID();
             LocalDate localDate = LocalDate.now();
+            Discount discount = new FixedDiscount();
 
             // when + then
-            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration))
+            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration, discount))
                     .isInstanceOf(RuntimeException.class);
         }
 
@@ -113,9 +115,10 @@ public class VoucherTest {
             // Given
             UUID voucherId = UUID.randomUUID();
             LocalDate localDate = LocalDate.now();
+            Discount discount = new PercentDiscount();
 
             // when + then
-            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, percent, localDate, expiration))
+            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, percent, localDate, expiration, discount))
                     .isInstanceOf(RuntimeException.class);
         }
 
@@ -127,9 +130,9 @@ public class VoucherTest {
         })
         void 퍼센트_할인금액_적용하여_결과확인(int userInput, int discountMoney, int result) {
             // Given
-            Discount discount = new PercentDiscount();
             LocalDate current = LocalDate.now();
             LocalDate next = current.plusMonths(1);
+            Discount discount = new PercentDiscount();
             Voucher voucher = new Voucher(UUID.randomUUID(), discountMoney, current, next, discount);
 
             // when
