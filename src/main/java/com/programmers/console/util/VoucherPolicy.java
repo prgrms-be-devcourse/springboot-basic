@@ -27,11 +27,9 @@ public enum VoucherPolicy {
                 .filter(voucherPolicy -> voucherPolicy.command.equals(command))
                 .findFirst()
                 .orElseThrow(VoucherCommandException::new);
-
     }
 
     public Voucher constructor(UUID voucherId, long discountAmount, LocalDate localDate) {
         return constructor.apply(voucherId, discountAmount, localDate);
     }
-
 }
