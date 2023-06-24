@@ -5,9 +5,9 @@ public enum VoucherState {
     AVAILABLE("사용가능"),
     USED("사용완료");
 
-    private final String state;
+    private final String stateName;
 
-    VoucherState(String state) {
-        this.state = state;
+    VoucherState(String stateName) {
+        this.stateName = stateName;
     }
 }
