@@ -5,7 +5,7 @@ import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListR
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherResponse;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
-import org.promgrammers.springbootbasic.exception.EmptyVoucherListException;
+import org.promgrammers.springbootbasic.exception.EmptyListException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class VoucherService {
         List<Voucher> voucherList = voucherRepository.findAll();
 
         if (voucherList.isEmpty()) {
-            throw new EmptyVoucherListException("저장된 바우처가 없습니다.");
+            throw new EmptyListException("저장된 바우처가 없습니다.");
         }
 
         List<VoucherResponse> voucherResponseList = voucherRepository.findAll()
