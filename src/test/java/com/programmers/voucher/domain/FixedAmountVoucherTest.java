@@ -1,7 +1,6 @@
 package com.programmers.voucher.domain;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -12,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FixedAmountVoucherTest {
-    
-
 
     @DisplayName("유효하지 않은 바우처 할인 테스트")
     @ParameterizedTest
@@ -33,6 +30,4 @@ class FixedAmountVoucherTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, LocalDate.now());
         assertEquals(beforeDiscount - amount, fixedAmountVoucher.discount(beforeDiscount));
     }
-
-
 }
