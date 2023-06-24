@@ -12,7 +12,7 @@ public class ConsoleWrap implements CommandReader{
         this.consoleWrap = System.console();
     }
     @Override
-    public String readLine() throws IOException {
-        return null;
+    public String readLine()  {
+        return consoleWrap.readLine();
     }
 }

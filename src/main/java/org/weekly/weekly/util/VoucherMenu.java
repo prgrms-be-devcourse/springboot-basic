@@ -33,4 +33,7 @@ public enum VoucherMenu {
         throw new RuntimeException(ExceptionMsg.NOT_MENU.getMsg());
     }
 
+    public String getPrintMsg() {
+        return printMsg;
+    }
 }

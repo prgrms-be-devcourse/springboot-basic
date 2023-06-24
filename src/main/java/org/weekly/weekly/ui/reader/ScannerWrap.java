@@ -16,7 +16,9 @@ public class ScannerWrap implements CommandReader{
     }
 
     @Override
-    public String readLine() throws IOException {
-        return null;
+    public String readLine() {
+        String userInput = this.scanner.nextLine().trim();
+        ReadException.isEmpty(userInput);
+        return userInput;
     }
 }
