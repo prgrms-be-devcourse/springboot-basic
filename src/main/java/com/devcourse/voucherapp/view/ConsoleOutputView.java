@@ -11,6 +11,8 @@ public class ConsoleOutputView implements OutputView {
     private static final String INPUT_MESSAGE = "입력 : ";
     private static final String QUIT_MESSAGE = "프로그램을 종료합니다.";
     private static final String VOUCHER_TYPE_SELECTION_MESSAGE = "할인 방식을 선택하세요.";
+    private static final String FIX_DISCOUNT_PRICE_INPUT_MESSAGE = "고정 할인 금액을 입력하세요.";
+    private static final String FIX_DISCOUNT_PRICE_CONDITION_MESSAGE = "1이상의 자연수만 입력하세요. 단위는 원입니다.";
 
     @Override
     public void showMenu() {
@@ -39,6 +41,14 @@ public class ConsoleOutputView implements OutputView {
             printWithLineBreak(type.toString());
         }
 
+        printWithoutLineBreak(INPUT_MESSAGE);
+    }
+
+    @Override
+    public void showFixDiscountPriceInputMessage() {
+        printWithLineBreak();
+        printWithLineBreak(FIX_DISCOUNT_PRICE_INPUT_MESSAGE);
+        printWithLineBreak(FIX_DISCOUNT_PRICE_CONDITION_MESSAGE);
         printWithoutLineBreak(INPUT_MESSAGE);
     }
 

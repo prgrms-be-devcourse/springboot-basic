@@ -5,6 +5,7 @@ import static com.devcourse.voucherapp.entity.VoucherType.getVoucherType;
 
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.service.VoucherService;
 import com.devcourse.voucherapp.view.InputView;
 import com.devcourse.voucherapp.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,14 @@ public class VoucherController implements CommandLineRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final VoucherService voucherService;
 
     @Autowired
-    public VoucherController(InputView inputView, OutputView outputView) {
+    public VoucherController(InputView inputView, OutputView outputView,
+        VoucherService voucherService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.voucherService = voucherService;
     }
 
     @Override
@@ -46,6 +50,17 @@ public class VoucherController implements CommandLineRunner {
 
             String voucherTypeNumber = inputView.inputWithTrimming();
             VoucherType voucherType = getVoucherType(voucherTypeNumber);
+
+            showDiscountAmountInputMessage(voucherType);
+            String discountAmount = inputView.inputWithTrimming();
+
+            voucherService.create(voucherType, discountAmount);
+        }
+    }
+
+    private void showDiscountAmountInputMessage(VoucherType voucherType) {
+        if (voucherType.isFix()) {
+            outputView.showFixDiscountPriceInputMessage();
         }
     }
 }

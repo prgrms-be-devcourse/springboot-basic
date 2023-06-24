@@ -8,6 +8,8 @@ public interface OutputView {
 
     void showVoucherTypes();
 
+    void showFixDiscountPriceInputMessage();
+
     void printWithLineBreak();
 
     void printWithLineBreak(String data);
