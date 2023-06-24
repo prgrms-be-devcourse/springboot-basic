@@ -13,9 +13,9 @@ public class VoucherService {
 
     private VoucherRepository voucherRepository;
 
-    public void createVoucher(){
-        switch ()
-    }
+//    public void createVoucher(){
+//        switch ()
+//    }
 
     public Voucher getVoucher(UUID voucherId){
         return voucherRepository

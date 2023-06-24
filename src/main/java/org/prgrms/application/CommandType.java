@@ -1,4 +1,4 @@
-package org.prgrms.application.controller;
+package org.prgrms.application;
 
 public enum CommandType {
     EXIT,
