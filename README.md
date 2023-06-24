@@ -24,3 +24,6 @@
 - [X] Voucher를 생성 할 수 있다. - VoucherCreator#createVoucher()
     - [X] Voucher는 메모리에 저장한다. - VoucherMemoryStorage#save(Voucher voucher)
 - [X] Voucher를 조회 할 수 있다. - VoucherReader#readVoucherList()
+- [ ] 적절한 로그를 기록하고 logback 설정을 해서 에러는 파일로 기록된다.
+- [ ] 실행가능한 jar 파일을 생성한다.
+- [ ] profile을 사용하여, dev 프로필에서 파일로 관리되도록 해본다.
