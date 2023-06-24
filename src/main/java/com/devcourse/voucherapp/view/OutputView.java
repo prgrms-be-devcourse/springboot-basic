@@ -6,6 +6,8 @@ public interface OutputView {
 
     void showQuitMessage();
 
+    void showVoucherTypes();
+
     void printWithLineBreak();
 
     void printWithLineBreak(String data);

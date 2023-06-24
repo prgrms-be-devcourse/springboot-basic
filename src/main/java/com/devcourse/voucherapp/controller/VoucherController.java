@@ -31,6 +31,8 @@ public class VoucherController implements CommandLineRunner {
             Menu menu = getMenu(menuNumber);
 
             isRunning = isNotQuit(menu);
+
+            execute(menu);
         }
 
         outputView.showQuitMessage();
@@ -38,5 +40,12 @@ public class VoucherController implements CommandLineRunner {
 
     private boolean isNotQuit(Menu menu) {
         return menu != Menu.QUIT;
+    }
+
+    private void execute(Menu menu) {
+        if (menu == Menu.CREATE) {
+            outputView.showVoucherTypes();
+            String voucherTypeNumber = inputView.inputWithTrimming();
+        }
     }
 }
