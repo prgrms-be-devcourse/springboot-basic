@@ -6,6 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.UUID;
+
 class VoucherFactoryTest {
 
     VoucherFactory voucherFactory = new VoucherFactory();
@@ -19,7 +21,7 @@ class VoucherFactoryTest {
     void createVoucherTest(String type, int amount, VoucherType expectedVoucherType) {
         VoucherCreateRequest request = new VoucherCreateRequest(type, amount);
 
-        Voucher voucher = voucherFactory.createVoucher(request);
+        Voucher voucher = voucherFactory.createVoucher(UUID.randomUUID(), type, amount);
 
         Assertions.assertThat(voucher)
                 .extracting(Voucher::getVoucherType, Voucher::getDiscountAmount)

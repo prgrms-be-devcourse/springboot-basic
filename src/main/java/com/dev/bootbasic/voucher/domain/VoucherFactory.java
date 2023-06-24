@@ -1,19 +1,18 @@
 package com.dev.bootbasic.voucher.domain;
 
-import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import org.springframework.stereotype.Component;
 
-import static com.dev.bootbasic.util.UUIDProvider.createUUID;
+import java.util.UUID;
 
 @Component
 public class VoucherFactory {
 
-    public Voucher createVoucher(VoucherCreateRequest request) {
-        VoucherType voucherType = VoucherType.from(request.voucherType());
+    public Voucher createVoucher(UUID id, String type, int discountAmount) {
+        VoucherType voucherType = VoucherType.from(type);
 
         return switch (voucherType) {
-            case FIXED -> FixedAmountVoucher.of(createUUID(), request.discountAmount());
-            case PERCENT -> PercentDiscountVoucher.of(createUUID(), request.discountAmount());
+            case FIXED -> FixedAmountVoucher.of(id, discountAmount);
+            case PERCENT -> PercentDiscountVoucher.of(id, discountAmount);
         };
     }
 

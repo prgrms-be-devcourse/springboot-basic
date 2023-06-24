@@ -23,7 +23,8 @@ public class VoucherService {
     }
 
     public UUID createVoucher(VoucherCreateRequest request) {
-        Voucher createdVoucher = voucherFactory.createVoucher(request);
+        UUID voucherId = UUID.randomUUID();
+        Voucher createdVoucher = voucherFactory.createVoucher(voucherId, request.voucherType(), request.discountAmount());
         return voucherRepository.saveVoucher(createdVoucher);
     }
 
