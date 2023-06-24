@@ -42,4 +42,8 @@ public class Console {
         System.out.println("\nThis is a list of vouchers");
         System.out.println(voucherList);
     }
+
+    public static void outputErrorMessage(String errorMessage) {
+        System.out.println(errorMessage);
+    }
 }

@@ -20,21 +20,31 @@ public class CommandLineController implements CommandLineRunner {
         boolean running = true;
 
         while (running) {
-            String command = Console.selectCommand();
-            switch (command) {
-                case "create" -> {
-                    String discountType = Console.selectDiscountType();
-                    int discountAmount = Integer.parseInt(Console.inputDiscountAmount());
-                    VoucherDto.Request request = new VoucherDto.Request(discountType, discountAmount);
-                    voucherController.createVoucher(request);
-                }
-                case "list" -> {
-                    VoucherDto.Response voucherList = voucherController.getVoucherList();
-                    Console.outputVoucherList(voucherList);
-                }
-                case "exit" -> running = false;
-                default -> throw new IllegalArgumentException("잘못 입력하였습니다. 다시 입력해주세요.");
+            try {
+                running = isRunning(running);
+            } catch (RuntimeException e) {
+                Console.outputErrorMessage(e.getMessage());
             }
+
         }
+    }
+
+    private boolean isRunning(boolean running) {
+        String command = Console.selectCommand();
+        switch (command) {
+            case "create" -> {
+                String discountType = Console.selectDiscountType();
+                int discountAmount = Integer.parseInt(Console.inputDiscountAmount());
+                VoucherDto.Request request = new VoucherDto.Request(discountType, discountAmount);
+                voucherController.createVoucher(request);
+            }
+            case "list" -> {
+                VoucherDto.Response voucherList = voucherController.getVoucherList();
+                Console.outputVoucherList(voucherList);
+            }
+            case "exit" -> running = false;
+            default -> throw new IllegalArgumentException("잘못 입력하였습니다. 다시 입력해주세요.");
+        }
+        return running;
     }
 }
