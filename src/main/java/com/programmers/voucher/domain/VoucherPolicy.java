@@ -26,7 +26,7 @@ public enum VoucherPolicy {
                 .orElseThrow(VoucherCommandException::new);
     }
 
-    public Voucher constructor(UUID voucherId, long discountAmount, LocalDate localDate) {
-        return constructor.apply(voucherId, discountAmount, localDate);
+    public Voucher constructor(UUID voucherId, long discountAmount, LocalDate createdDate) {
+        return constructor.apply(voucherId, discountAmount, createdDate);
     }
 }
