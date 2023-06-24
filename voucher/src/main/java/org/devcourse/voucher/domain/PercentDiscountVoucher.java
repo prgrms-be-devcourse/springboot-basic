@@ -14,14 +14,20 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public long discount(long beforeDiscount) throws IllegalArgumentException {
+        if (beforeDiscount < 0) {
+            throw new IllegalArgumentException("beforeDiscount는 음수일 수 없습니다.");
+        }
         double discountRate = discountPercent / 100.0;
         double discountAmount = beforeDiscount * discountRate;
 
         return beforeDiscount - (long) discountAmount;
     }
 
-    public long getDiscountAmount(long beforeDiscount) {
+    public long getDiscountAmount(long beforeDiscount) throws IllegalArgumentException{
+        if (beforeDiscount < 0) {
+            throw new IllegalArgumentException("beforeDiscount는 음수일 수 없습니다.");
+        }
         double discountRate = discountPercent / 100.0;
         double discountAmount = beforeDiscount * discountRate;
 

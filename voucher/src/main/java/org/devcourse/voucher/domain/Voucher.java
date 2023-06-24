@@ -15,5 +15,5 @@ abstract class Voucher {
     }
 
     public abstract String getType();
-    public abstract long discount(long beforeDiscount);
+    public abstract long discount(long beforeDiscount) throws IllegalArgumentException;
 }
