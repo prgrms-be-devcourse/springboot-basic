@@ -1,7 +1,7 @@
 package org.prgms.voucher;
 
 public interface Application {
-    void printCommands();
+    void printSupportedCommands();
 
     void exitProgram();
 }
