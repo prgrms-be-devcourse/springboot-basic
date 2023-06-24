@@ -1,5 +1,6 @@
 package com.prgrms.repository.voucher;
 
+import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getAllVoucherList() {
+    public List<VoucherResponse> getAllVoucherList() {
         return null;
     }
 }

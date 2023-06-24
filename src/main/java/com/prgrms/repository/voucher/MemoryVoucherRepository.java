@@ -1,5 +1,6 @@
 package com.prgrms.repository.voucher;
 
+import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.Voucher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -28,8 +29,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getAllVoucherList() {
+    public List<VoucherResponse> getAllVoucherList() {
         return storage.values().stream()
+                .map(VoucherResponse::of)
                 .collect(Collectors.toList());
     }
 }
