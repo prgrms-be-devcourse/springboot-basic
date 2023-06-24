@@ -31,7 +31,7 @@ class VoucherFactoryTest {
     @ParameterizedTest
     @CsvSource({
             "asd, 5000, NoSuchElementException",
-            ", 50, NoSuchElementException",
+            "123, 50, NoSuchElementException",
     })
     void createVoucherFailTest(String type, int amount, RuntimeException exception) {
 
