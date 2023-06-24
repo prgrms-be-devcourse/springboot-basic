@@ -69,8 +69,8 @@ public class CommandLine implements Runnable{
     }
 
     private void printAllVoucher(){
-        if(!(voucherRepository.findAll().isEmpty())){
-            output.printAllVoucher(voucherRepository.findAll().get());
+        if(!voucherRepository.findAll().isEmpty()){
+            output.printAllVoucher(voucherRepository.findAll());
         }
         else{
             output.printEmptyListMessage();

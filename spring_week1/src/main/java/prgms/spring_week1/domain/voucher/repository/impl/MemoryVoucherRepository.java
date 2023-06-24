@@ -12,8 +12,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID,Voucher> voucherList = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<List<Voucher>> findAll() {
-        return Optional.ofNullable(voucherList.values().stream().toList());
+    public List<Voucher> findAll() {
+        return voucherList.values().stream().toList();
     }
 
     @Override
