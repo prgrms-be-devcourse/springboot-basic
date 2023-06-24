@@ -16,8 +16,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
-@Primary
-@Profile("dev")
 public class InFileVoucherRepository implements VoucherRepository {
 
     private static final Path file = Paths.get("src/main/resources/voucher.txt");
