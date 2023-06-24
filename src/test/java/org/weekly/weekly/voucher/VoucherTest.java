@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.FixedDiscount;
@@ -13,7 +12,6 @@ import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -71,7 +69,7 @@ public class VoucherTest {
         @ParameterizedTest
         @CsvSource({
                 "-1,12",
-                " 0, 1"
+                " asfd, 1"
         })
         void 바우처_금액이_자연수가_아니면_예외발생(String amount, String expiration) {
             // Given
@@ -126,7 +124,7 @@ public class VoucherTest {
         @CsvSource({
                 "10000,100,0",
                 "16000, 50, 8000",
-                "1000, 40, 6000"
+                "1000, 40, 600"
         })
         void 퍼센트_할인금액_적용하여_결과확인(int userInput, int discountMoney, int result) {
             // Given

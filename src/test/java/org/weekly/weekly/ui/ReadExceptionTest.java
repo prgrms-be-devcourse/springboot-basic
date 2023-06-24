@@ -13,11 +13,4 @@ public class ReadExceptionTest {
         assertThatThrownBy(()-> ReadException.isEmpty(userInput))
                 .isInstanceOf(RuntimeException.class);
     }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"1abc", "exit1", "list2", "li st", "ex it"})
-    void 메뉴외의_숫자값을_입력하면_예외발생(String userInput) {
-        assertThatThrownBy(()->ReadException.notInputFormat(userInput))
-                .isInstanceOf(RuntimeException.class);
-    }
 }

@@ -23,7 +23,11 @@ public class VoucherController {
         boolean isStop = false;
 
         while(!isStop) {
-            isStop = selectMenu(this.commandLineApplication.readMenu());
+            try {
+                isStop = selectMenu(this.commandLineApplication.readMenu());
+            } catch (RuntimeException runtimeException) {
+                this.commandLineApplication.printErrorMsg(runtimeException.getMessage());
+            }
         }
     }
 

@@ -34,7 +34,7 @@ public class VoucherService {
 
     private void validateVoucher(VoucherDto voucherDto) {
         Optional<Voucher> voucherOptional = this.voucherRepository.findById(voucherDto.getVoucherId());
-        if (voucherOptional.isEmpty()) {
+        if (voucherOptional.isPresent()) {
             throw new RuntimeException(ExceptionMsg.VOUCHER_EXIST.getMsg());
         }
     }

@@ -21,4 +21,19 @@ public class DiscountMapTest {
                 .isInstanceOf(RuntimeException.class);
 
     }
+
+    @Test
+    void 할인번호를_입력하면_통과() {
+        // Given
+        String fixedUserInput = "1";
+        String percentUserInput = "2";
+
+        // when
+        DiscountMap fixedDiscount = DiscountMap.getDiscountMap(fixedUserInput);
+        DiscountMap percentDiscount = DiscountMap.getDiscountMap(percentUserInput);
+
+        // then
+        assertThat(fixedDiscount).isEqualTo(DiscountMap.FIXED);
+        assertThat(percentDiscount).isEqualTo(DiscountMap.PERCENT);
+    }
 }

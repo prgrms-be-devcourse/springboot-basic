@@ -24,6 +24,5 @@ public class ScannerWrap implements CommandReader{
 
     private void checkException(String userInput) {
         ReadException.isEmpty(userInput);
-        ReadException.notInputFormat(userInput);
     }
 }

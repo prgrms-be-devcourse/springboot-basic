@@ -32,7 +32,7 @@ public class CommandWriter {
     }
 
     public void printSelectDiscount() {
-        print(PrintMsg.DISCOUNT_SELECT.getMsg());
+        println(PrintMsg.DISCOUNT_SELECT.getMsg());
         Arrays.stream(DiscountMap.values())
                 .forEach(discountMap -> System.out.println(discountMap.getMsg()));
     }

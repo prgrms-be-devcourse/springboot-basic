@@ -2,6 +2,8 @@ package org.weekly.weekly.ui.exception;
 
 import org.weekly.weekly.util.ExceptionMsg;
 
+import java.util.Arrays;
+
 public class ReadException {
 
     public static void isEmpty(String userInput) {
@@ -10,13 +12,19 @@ public class ReadException {
         }
     }
 
-    public static void notInputFormat(String userInput) {
-        if (containsIntOrBlank(userInput)) {
+    public static void notVoucherInputSize(String[] userInputs) {
+        if (userInputs.length != 2) {
+            throw new RuntimeException(ExceptionMsg.NOT_SAME_PARAM_SIZE.getMsg());
+        }
+    }
+    public static void notVoucherInputFormat(String[] userInputs) {
+        if (Arrays.stream(userInputs)
+                .anyMatch(input -> isDigit(input.trim()))) {
             throw new RuntimeException(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
         }
     }
 
-    private static boolean containsIntOrBlank(String userInput) {
-        return userInput.chars().anyMatch(value -> value==' ' || Character.isDigit(value));
+    private static boolean isDigit(String userInput) {
+        return userInput.chars().anyMatch(value -> !Character.isDigit(value));
     }
 }
