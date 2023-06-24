@@ -105,4 +105,16 @@ public class VoucherController {
     private double getPercentDiscountFromInput(CreatePercentDiscountVoucherRequestDTO createPercentDiscountVoucherRequestDTO) {
         return Double.parseDouble(createPercentDiscountVoucherRequestDTO.getInputPercent());
     }
+
+    private void handleListVoucher(VoucherOptionDTO voucherOptionDTO) throws IOException {
+        String voucherOption = voucherOptionDTO.getVoucherOption();
+
+        if (voucherOption.equals(VoucherOption.FIXED_AMOUNT_VOUCHER.toString())) {
+            ioController.printListOutput(voucherService.getAllFixedAmountVoucherInfo());
+        }
+
+        if (voucherOption.equals(VoucherOption.PERCENT_DISCOUNT_VOUCHER.toString())) {
+            ioController.printListOutput(voucherService.getAllPercentDiscountVoucherInfo());
+        }
+    }
 }
