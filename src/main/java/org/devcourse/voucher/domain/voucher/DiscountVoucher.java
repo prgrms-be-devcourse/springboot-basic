@@ -10,17 +10,8 @@ public abstract class DiscountVoucher extends Voucher{
 
     @Override
     public Money retrievePostBalance(Money targetMoney) {
-        int remainMoneyAmount = discount(targetMoney);
-
-        return postProcessMoney(remainMoneyAmount);
+        return discount(targetMoney);
     }
 
-    private Money postProcessMoney(int amount) {
-        if (amount < 0) {
-            return Money.ZERO_AMOUNT;
-        }
-        return Money.of(amount);
-    }
-
-    protected abstract int discount(Money originPrice);
+    protected abstract Money discount(Money originPrice);
 }

@@ -9,8 +9,10 @@ public class FixedAmountVoucher extends DiscountVoucher{
     }
 
     @Override
-    protected int discount(Money originPrice) {
-        return originPrice.amount() - amount.getAmount();
+    protected Money discount(Money originPrice) {
+        Money discountAmount = Money.of(amount.getAmount());
+
+        return originPrice.minus(discountAmount);
     }
 
 }
