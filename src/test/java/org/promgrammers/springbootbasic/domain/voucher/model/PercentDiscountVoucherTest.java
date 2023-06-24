@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class PercentDiscountVoucherTest {
 
     @ParameterizedTest
-    @ValueSource(longs = {0L, 5L, 10L})
-    @DisplayName("생성 성공 - amount가 0이상 100이하")
+    @ValueSource(longs = {1L, 5L, 10L})
+    @DisplayName("생성 성공 - amount가 1이상 100이하")
     void creationSuccessTest(long amount) throws Exception {
 
         assertDoesNotThrow(() -> new PercentDiscountVoucher(UUID.randomUUID(), amount));

@@ -1,8 +1,10 @@
 package org.promgrammers.springbootbasic.domain.voucher.repository;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
@@ -14,13 +16,19 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileVoucherRepositoryTest {
 
     private FileVoucherRepository fileVoucherRepository;
 
-    @BeforeEach
+    @BeforeAll
     void setUp() {
         fileVoucherRepository = new FileVoucherRepository();
+    }
+
+    @AfterEach
+    void tearDown() {
+        fileVoucherRepository.deleteAll();
     }
 
     @Test

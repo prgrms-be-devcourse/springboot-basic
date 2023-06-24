@@ -147,7 +147,7 @@ class MemoryVoucherRepositoryTest {
 
         //given
         int saveCount = 5;
-        for (int i = 0; i < saveCount; i++) {
+        for (int i = 1; i <= saveCount; i++) {
             Voucher voucher;
             if (i % 2 == 0) {
                 voucher = new PercentDiscountVoucher(UUID.randomUUID(), i);
