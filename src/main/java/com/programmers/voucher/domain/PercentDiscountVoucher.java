@@ -17,7 +17,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.voucherId = validateVoucherId(voucherId);
         this.discountPercent = new DiscountPercent(percent);
         this.createdDate = localDate;
-        this.expirationDate = expirationDate();
+        this.expirationDate = this.createdDate.plusDays(EXPIRATION_POLICY);
     }
 
     @Override

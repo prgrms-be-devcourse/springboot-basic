@@ -17,7 +17,7 @@ public class FixedAmountVoucher implements Voucher {
         this.voucherId = validateVoucherId(voucherId);
         this.discountPercent = new DiscountPercent(percent);
         this.createdDate = localDate;
-        this.expirationDate = expirationDate();
+        this.expirationDate = this.createdDate.plusDays(EXPIRATION_POLICY);
     }
 
     @Override
@@ -53,10 +53,6 @@ public class FixedAmountVoucher implements Voucher {
             return false;
         }
         return true;
-    }
-
-    public LocalDate expirationDate() {
-        return createdDate.plusDays(EXPIRATION_POLICY);
     }
 
     private UUID validateVoucherId(UUID voucherId) {
