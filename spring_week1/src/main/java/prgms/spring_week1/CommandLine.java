@@ -15,6 +15,7 @@ public class CommandLine implements Runnable{
     private final Output output;
     private final VoucherRepository voucherRepository;
     private final VoucherService voucherService;
+    private final boolean IS_RUNNING = true;
 
     public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService) {
         this.input = input;
@@ -25,7 +26,7 @@ public class CommandLine implements Runnable{
 
     @Override
     public void run() {
-        while (true) {
+        while (IS_RUNNING) {
             String selectOption = null;
             output.printMenuList();
             try {
