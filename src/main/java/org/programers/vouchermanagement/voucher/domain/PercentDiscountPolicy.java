@@ -2,9 +2,7 @@ package org.programers.vouchermanagement.voucher.domain;
 
 import org.programers.vouchermanagement.voucher.exception.WrongVoucherPolicyException;
 import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 
-@Component
 @Primary
 public class PercentDiscountPolicy implements VoucherPolicy {
 
