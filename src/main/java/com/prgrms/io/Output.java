@@ -12,25 +12,26 @@ public class Output {
     }
 
     public void viewInputError() {
-        System.out.println( Message.ERROR.toString());
+        System.out.println(Message.ERROR.toString());
     }
 
-    public  void viewEndMessage() {
-        System.out.println( Message.END.toString());
+    public void viewEndMessage() {
+        System.out.println(Message.END.toString());
     }
 
     public void viewVoucherOption() {
-        for(VoucherPolicy voucherPolicy : VoucherPolicy.values()){
+        for (VoucherPolicy voucherPolicy : VoucherPolicy.values()) {
             System.out.println(voucherPolicy.toString());
         }
     }
+
     public static void viewDiscountGuide(VoucherPolicy voucherPolicy) {
         System.out.println(voucherPolicy.getDiscountGuide());
     }
 
     public static void viewVoucherList(List<VoucherResponse> voucherList) {
-        for(VoucherResponse voucher : voucherList){
-            System.out.println(voucher.getVoucherType()+" : "+voucher.getDiscount());
+        for (VoucherResponse voucher : voucherList) {
+            System.out.println(voucher.getVoucherType() + " : " + voucher.getDiscount());
         }
     }
 

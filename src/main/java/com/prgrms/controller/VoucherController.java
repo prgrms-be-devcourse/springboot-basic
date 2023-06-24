@@ -35,7 +35,7 @@ public class VoucherController implements CommandLineRunner {
             try {
                 switch (getMenuType()) {
                     case EXIT:
-                        isRunning=false;
+                        isRunning = false;
                         exit();
                         break;
                     case CREATE:
@@ -47,16 +47,17 @@ public class VoucherController implements CommandLineRunner {
                     default:
                         throw new IllegalArgumentException();
                 }
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 logger.error("사용자의 잘못된 입력이 발생하였습니다.");
                 output.viewInputError();
             }
         }
     }
 
-    public Menu getMenuType(){
+    public Menu getMenuType() {
         return input.enterMenu().orElseThrow(() -> new IllegalArgumentException());
     }
+
     public void exit() {
         output.viewEndMessage();
     }

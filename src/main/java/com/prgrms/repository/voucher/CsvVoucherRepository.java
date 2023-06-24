@@ -14,6 +14,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
     }
+
     @Override
     public Voucher insert(Voucher voucher) {
         return null;
@@ -24,4 +25,3 @@ public class CsvVoucherRepository implements VoucherRepository {
         return null;
     }
 }
-

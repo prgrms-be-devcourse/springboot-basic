@@ -13,7 +13,7 @@ public class VoucherResponse {
     private String voucherType;
     private long discount;
 
-    public static VoucherResponse of(Voucher voucher){
+    public static VoucherResponse of(Voucher voucher) {
         return VoucherResponse.builder()
                 .voucherType(voucher.getVoucherType())
                 .discount(voucher.getVoucherDiscount())

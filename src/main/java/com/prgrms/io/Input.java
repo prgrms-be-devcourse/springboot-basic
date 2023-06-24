@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Input {
     private final Scanner sc = new Scanner(System.in);
+
     public Optional<Menu> enterMenu() {
         String selectedMenu = sc.next();
         return Menu.findBySelectedMenu(selectedMenu);
