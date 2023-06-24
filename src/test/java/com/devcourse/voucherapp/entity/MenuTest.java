@@ -15,9 +15,11 @@ class MenuTest {
     void selectExistedMenuTest() {
         Menu createMenu = getMenu("1");
         Menu listMenu = getMenu("2");
+        Menu quitMenu = getMenu("3");
 
         assertEquals(Menu.CREATE, createMenu);
         assertEquals(Menu.LIST, listMenu);
+        assertEquals(Menu.QUIT, quitMenu);
     }
 
     @DisplayName("존재하지 않는 메뉴를 입력했을 때, 예외처리 수행 테스트")
