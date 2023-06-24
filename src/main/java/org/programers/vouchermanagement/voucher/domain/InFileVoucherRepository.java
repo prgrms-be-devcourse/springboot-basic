@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,7 +34,7 @@ public class InFileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         try {
-            Files.writeString(file, Converter.toString(voucher));
+            Files.writeString(file, String.format("%s%n", Converter.toString(voucher)), StandardOpenOption.APPEND);
             return voucher;
         } catch (IOException e) {
             throw new NoSuchVoucherException("IO 문제로 바우처가 저장되지 않았습니다.");
