@@ -22,8 +22,7 @@ public class VoucherController implements Runnable {
   public void run() {
     while (true) {
       output.printMenu();
-      String getMenu = input.selectOption();
-      Command command = Command.of(getMenu);
+      Command command = Command.of(input.selectOption());
 
       switch (command) {
         case EXIT:

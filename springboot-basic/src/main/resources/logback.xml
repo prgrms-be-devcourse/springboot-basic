@@ -12,7 +12,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.example.commandlineapplication" level="error">
+  <logger name="org.springframework" level="error">
     <appender-ref ref="ROLLING_FILE"/>
   </logger>
 
