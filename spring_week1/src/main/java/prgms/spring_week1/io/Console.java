@@ -18,6 +18,7 @@ public class Console implements Input,Output{
     private final String printTypeSelectMessage = " === Voucher Select ==="+ NEW_LINE +
             "Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> FixedAmountVoucher" + NEW_LINE +
             "Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> PercentDiscountVoucher";
+
     @Override
     public String inputTextOption(){
         try {
@@ -80,6 +81,6 @@ public class Console implements Input,Output{
 
     @Override
     public void printBlackConsumerList(List<BlackConsumer> blackConsumerList) {
-        blackConsumerList.forEach(bl -> System.out.println(bl.getAge() + bl.getName()));
+        blackConsumerList.forEach(bl -> System.out.println(bl.getName() + " " + bl.getAge()));
     }
 }
