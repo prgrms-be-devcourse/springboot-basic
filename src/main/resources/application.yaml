@@ -1,0 +1,12 @@
+file-repo:
+  voucher: ./file/voucher-info.csv
+
+---
+spring.config.activate.on-profile:
+  - local
+  - dev
+
+---
+
+spring.config.activate.on-profile: staging
+
