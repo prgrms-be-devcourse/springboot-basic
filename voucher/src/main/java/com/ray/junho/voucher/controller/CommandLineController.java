@@ -17,8 +17,4 @@ public class CommandLineController {
         this.voucherRepository = voucherRepository;
         this.console = console;
     }
-
-
-
-
 }
