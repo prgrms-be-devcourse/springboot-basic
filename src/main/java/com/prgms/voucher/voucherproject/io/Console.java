@@ -1,7 +1,10 @@
 package com.prgms.voucher.voucherproject.io;
 
+import lombok.NoArgsConstructor;
+
 import java.util.Scanner;
 
+@NoArgsConstructor
 public class Console implements Input, Output{
 
     private static final Scanner sc = new Scanner(System.in);
