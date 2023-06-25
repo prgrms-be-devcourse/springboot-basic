@@ -1,4 +1,4 @@
-package co.programmers.voucher.Controller;
+package co.programmers.voucher.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,10 +7,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import co.programmers.voucher.Launcher;
-import co.programmers.voucher.MenuLauncher;
-import co.programmers.voucher.View.InputView;
-import co.programmers.voucher.View.OutputView;
+import co.programmers.voucher.service.Launcher;
+import co.programmers.voucher.service.MenuLauncher;
+import co.programmers.voucher.view.InputView;
+import co.programmers.voucher.view.OutputView;
 
 @Controller
 public class VoucherCommandLineRunner implements VoucherApplicationRunner {
@@ -28,9 +28,13 @@ public class VoucherCommandLineRunner implements VoucherApplicationRunner {
 		do {
 			outputView.printGuideMessage();
 			menu = (String)inputView.input();
-			Launcher launcher = MenuLauncher.from(menu);
-			Map<String, Object> demandedData = collectDemandedData(launcher.getRequestBody());
-			launcher.run(demandedData);
+			try {
+				Launcher launcher = MenuLauncher.from(menu);
+				Map<String, Object> demandedData = collectDemandedData(launcher.getRequestBody());
+				launcher.run(demandedData);
+			} catch (IllegalArgumentException illegalArgumentException) {
+				outputView.println(illegalArgumentException.getMessage());
+			}
 		} while (!"EXIT".equalsIgnoreCase(menu));
 	}
 
