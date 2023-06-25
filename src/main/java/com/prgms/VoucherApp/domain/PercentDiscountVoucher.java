@@ -1,5 +1,7 @@
 package com.prgms.VoucherApp.domain;
 
+import com.prgms.VoucherApp.dto.VoucherDto;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -21,6 +23,13 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public UUID getUUID() {
         return this.voucherId;
+    }
+
+    @Override
+    public VoucherDto convertVoucherDto() {
+        String voucherId = String.valueOf(this.voucherId);
+        String discountAmount = String.valueOf(this.percent);
+        return new VoucherDto(voucherId, discountAmount, "percent");
     }
 
     @Override

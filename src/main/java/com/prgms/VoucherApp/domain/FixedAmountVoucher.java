@@ -1,5 +1,7 @@
 package com.prgms.VoucherApp.domain;
 
+import com.prgms.VoucherApp.dto.VoucherDto;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -23,6 +25,13 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public UUID getUUID() {
         return this.voucherId;
+    }
+
+    @Override
+    public VoucherDto convertVoucherDto() {
+        String voucherId = String.valueOf(this.voucherId);
+        String discountAmount = String.valueOf(this.fixedAmount);
+        return new VoucherDto(voucherId, discountAmount, "fix");
     }
 
     private boolean isResultNegative(long beforeAmount) {
