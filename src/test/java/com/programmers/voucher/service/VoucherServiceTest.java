@@ -1,5 +1,6 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.reponse.VoucherInfoResponse;
 import com.programmers.voucher.dto.request.VoucherCreationRequest;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.util.List;
@@ -55,11 +57,11 @@ class VoucherServiceTest {
 
     @DisplayName("바우처 할인양이 0일경우 예외 발생 테스트")
     @ParameterizedTest
-    @CsvSource(value = {
-            "FIXED, 0",
-            "PERCENT, 0"})
-    void input0VoucherDiscountAmount(String voucherType, long discountAmount) {
-        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(voucherType, discountAmount))
+    @EnumSource(VoucherType.class)
+    void input0VoucherDiscountAmount(VoucherType voucherType) {
+        final long discountAmount = 0;
+        String requestVoucherType = voucherType.name();
+        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(requestVoucherType , discountAmount))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
