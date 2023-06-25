@@ -1,14 +1,7 @@
 package com.programmers.voucher.console;
 
-import com.programmers.voucher.domain.Type;
-import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
-import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
-import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.domain.voucher.VoucherEnum;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
-
-import java.util.UUID;
 
 public class TextIoConsole implements Console {
     private TextIO textIO = TextIoFactory.getTextIO();

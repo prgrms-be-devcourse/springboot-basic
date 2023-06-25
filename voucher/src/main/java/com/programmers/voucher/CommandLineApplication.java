@@ -2,7 +2,7 @@ package com.programmers.voucher;
 
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.console.Printer;
-import com.programmers.voucher.domain.Type;
+import com.programmers.voucher.domain.CommandType;
 import com.programmers.voucher.domain.voucher.*;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
@@ -25,37 +25,43 @@ public class CommandLineApplication implements Runnable {
     @Override
     public void run() {
         while (true) {
-            Type type;
+            CommandType commandType;
             try {
                 String inputCondition = console.getCondition();
-                type = Type.validateInput(inputCondition);
+                commandType = convertAndValidateInput(inputCondition);
             } catch (Exception e) {
                 printer.printError(e);
                 continue;
             }
-            doLogic(type);
-            if (type == Type.EXIT) {
+            doLogic(commandType);
+            if (commandType == CommandType.EXIT) {
                 printer.printEndMessage();
                 break;
             }
         }
     }
 
-    private void doLogic(Type type) {
-        switch (type) {
+    private CommandType convertAndValidateInput(String inputCondition) {
+        return CommandType.convertStringToCommandType(inputCondition).orElseThrow(
+                () -> new IllegalArgumentException("지원하지 않는 type 입니다. 다시 확인 부탁드립니다.")
+        );
+    }
+
+    private void doLogic(CommandType commandType) {
+        switch (commandType) {
             case CREATE -> {
-                logicForTypeCreate();
+                logicForCommandTypeCreate();
             }
             case LIST -> {
-                logicForTypeList();
+                logicForCommandTypeList();
             }
             case BLACK -> {
-                logicForTypeBlack();
+                logicForCommandTypeBlack();
             }
         }
     }
 
-    private void logicForTypeCreate() {
+    private void logicForCommandTypeCreate() {
         try {
             Integer inputVersion = console.getVoucherVersion();
             VoucherEnum voucherEnum = VoucherEnum.decideVoucherType(inputVersion);
@@ -66,11 +72,11 @@ public class CommandLineApplication implements Runnable {
         }
     }
 
-    private void logicForTypeList() {
+    private void logicForCommandTypeList() {
         printer.printListOfVoucher(voucherStream.findAll());
     }
 
-    private void logicForTypeBlack() {
+    private void logicForCommandTypeBlack() {
         printer.printBlackList(blackListStream.findAll());
     }
 
