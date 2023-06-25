@@ -22,14 +22,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileVoucherRepository implements VoucherRepository {
 
     @Value("${file.voucher.path}")
-    private String FILE_PATH;
+    private String file_path;
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @Override
     public void saveVoucher(Voucher voucher) {
       try {
-          BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_PATH, true));
+          BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file_path, true));
 
           String voucherId = String.valueOf(voucher.getVoucherId());
           String voucherAmount = String.valueOf(voucher.getVoucherAmount());
@@ -51,7 +51,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Map<UUID, Voucher> getVoucherMap() {
         try {
-            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(FILE_PATH));
+            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path));
             String line = "";
 
             while((line = bufferedReader.readLine()) != null){

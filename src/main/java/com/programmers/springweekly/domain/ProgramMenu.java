@@ -8,7 +8,7 @@ public enum ProgramMenu {
     LIST("list"),
     CUSTOMER_BLACKLIST("blacklist");
 
-    private String menu;
+    private final String menu;
 
     ProgramMenu(String menu) {
         this.menu = menu;

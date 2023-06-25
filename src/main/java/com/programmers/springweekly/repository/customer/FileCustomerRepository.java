@@ -18,14 +18,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileCustomerRepository implements CustomerRepository{
 
     @Value("${file.customer.path}")
-    private String FILE_PATH;
+    private String file_path;
     private final Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
     @Override
     public Map<UUID, Customer> getCustomerTypeBlackList() {
         try {
-            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(FILE_PATH));
+            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path));
             String line = "";
 
             while((line = bufferedReader.readLine()) != null){
