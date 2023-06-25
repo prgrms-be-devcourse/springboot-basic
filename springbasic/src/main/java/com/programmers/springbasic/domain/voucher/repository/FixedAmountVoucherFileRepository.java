@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class FixedAmountVoucherFileRepository implements VoucherRepository<FixedAmountVoucher, UUID> {
+    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private static final String FIXED_AMOUNT_VOUCHER_FILE_PATH = "./vouchers/fixedAmountVouchers.csv";
 
     @Override
@@ -48,6 +49,7 @@ public class FixedAmountVoucherFileRepository implements VoucherRepository<Fixed
             in.close();
             fileIn.close();
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
 
         if (fixedAmountVouchers != null) {
@@ -67,6 +69,7 @@ public class FixedAmountVoucherFileRepository implements VoucherRepository<Fixed
             out.close();
             fileOut.close();
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
     }
 }

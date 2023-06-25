@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class PercentDiscountVoucherFileRepository implements VoucherRepository<PercentDiscountVoucher, UUID> {
+    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private static final String PERCENT_DISCOUNT_VOUCHER_FILE_PATH = "./vouchers/percentDiscountVouchers.csv";
 
     @Override
@@ -45,6 +46,7 @@ public class PercentDiscountVoucherFileRepository implements VoucherRepository<P
             in.close();
             fileIn.close();
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
 
         if (percentDiscountVouchers != null) {
@@ -64,6 +66,7 @@ public class PercentDiscountVoucherFileRepository implements VoucherRepository<P
             out.close();
             fileOut.close();
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
     }
 }
