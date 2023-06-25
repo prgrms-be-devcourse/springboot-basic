@@ -3,7 +3,6 @@ package org.prgrms.kdtspringdemo;
 import org.prgrms.kdtspringdemo.voucher.constant.CommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
-import org.prgrms.kdtspringdemo.voucher.model.vo.VoucherVO;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class CommandLineApplication {
                 String userVoucherType = voucherConsole.ChooseVoucherType().toUpperCase();
                 VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
                 Long discount = voucherConsole.InputDiscountByVoucher();
-                VoucherVO voucher = voucherService.createVoucher(new VoucherVO(voucherType, discount));
+                Voucher voucher = voucherService.createVoucher(voucherType, discount);
                 voucherConsole.printCreatedVoucher(voucher);
             }
             case LIST -> {

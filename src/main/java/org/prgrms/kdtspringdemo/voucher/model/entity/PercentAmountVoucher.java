@@ -24,16 +24,6 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    @Override
-    public long getDiscount() {
-        return discount;
-    }
-
-    @Override
     public long executeDiscount(long beforeDiscount) {
         return beforeDiscount * (discount / 100);
     }
@@ -44,5 +34,10 @@ public class PercentAmountVoucher implements Voucher {
             throw new IllegalArgumentException(OUT_OF_RANGE_DISCOUNT);
         }
         return discount;
+    }
+
+    @Override
+    public String toString() {
+        return "type : " + voucherType + "\ndiscount : " + discount + "%\n";
     }
 }

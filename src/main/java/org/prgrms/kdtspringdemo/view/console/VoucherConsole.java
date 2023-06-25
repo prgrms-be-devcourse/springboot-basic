@@ -3,7 +3,6 @@ package org.prgrms.kdtspringdemo.view.console;
 import org.prgrms.kdtspringdemo.view.console.input.Input;
 import org.prgrms.kdtspringdemo.view.console.output.Output;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
-import org.prgrms.kdtspringdemo.voucher.model.vo.VoucherVO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -51,7 +50,7 @@ public class VoucherConsole {
         return Long.parseLong(input.read());
     }
 
-    public void printCreatedVoucher(VoucherVO voucher) {
+    public void printCreatedVoucher(Voucher voucher) {
         output.write(voucher);
     }
 }

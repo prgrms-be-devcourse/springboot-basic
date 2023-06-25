@@ -23,16 +23,6 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    @Override
-    public long getDiscount() {
-        return discount;
-    }
-
-    @Override
     public long executeDiscount(long beforeDiscount) {
         return beforeDiscount - discount;
     }
@@ -43,5 +33,10 @@ public class FixedAmountVoucher implements Voucher {
             throw new IllegalArgumentException(OUT_OF_RANGE_DISCOUNT);
         }
         return discount;
+    }
+
+    @Override
+    public String toString() {
+        return "type : " + voucherType + "\ndiscount : " + discount + "원\n";
     }
 }

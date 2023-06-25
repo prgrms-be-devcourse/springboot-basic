@@ -4,7 +4,6 @@ import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
-import org.prgrms.kdtspringdemo.voucher.model.vo.VoucherVO;
 import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +20,13 @@ public class VoucherServiceImpl implements VoucherService{
     }
 
     @Override
-    public VoucherVO createVoucher(VoucherVO voucherVO) {
-        switch (voucherVO.getVoucherType()) {
+    public Voucher createVoucher(VoucherType voucherType, long discount) {
+        switch (voucherType) {
             case FIXED -> {
-                Voucher voucher = voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), voucherVO.getVoucherType(), voucherVO.getDiscount()));
-                return new VoucherVO(voucher.getVoucherType(), voucher.getDiscount());
+                return voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), voucherType, discount));
             }
             case PERCENT -> {
-                Voucher voucher =  voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(), voucherVO.getVoucherType(), voucherVO.getDiscount()));
-                return new VoucherVO(voucher.getVoucherType(), voucher.getDiscount());
+                return voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(), voucherType, discount));
             }
             default -> {
                 throw new IllegalArgumentException(INVALID_VOUCHER_TYPE);
