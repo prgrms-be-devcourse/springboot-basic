@@ -1,10 +1,10 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.controller.VoucherController;
 import org.prgrms.kdt.input.MenuCommand;
 import org.prgrms.kdt.input.UserInput;
-import org.prgrms.kdt.input.UserInputMenu;
+import org.prgrms.kdt.input.VoucherCommand;
 import org.prgrms.kdt.output.Output;
-import org.prgrms.kdt.output.OutputConsole;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -13,6 +13,8 @@ public class VoucherApp {
         ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfiguration.class);
         Output outputConsole = ac.getBean(Output.class);
         UserInput userInputMenu = ac.getBean(UserInput.class);
+        VoucherController voucherController = ac.getBean(VoucherController.class);
+
         while (true) {
             outputConsole.displayMenu();
             outputConsole.displayUserInputLine();
@@ -23,10 +25,14 @@ public class VoucherApp {
                     return;
                 }
                 case CREATE -> {
-
+                    outputConsole.displayVoucherCreateMenu();
+                    outputConsole.displayUserInputLine();
+                    String userInputVoucherCreateMenuCommand = userInputMenu.userInputVoucherCreateMenuCommand();
+                    VoucherCommand UserInputVoucherCommand = VoucherCommand.findByUserInputVoucherCommand(userInputVoucherCreateMenuCommand);
+                    voucherController.createVoucher(UserInputVoucherCommand);
                 }
-                case LIST -> {
-                }
+                case LIST -> voucherController.showVoucherList();
+                case WRONG -> outputConsole.userInputWrongValue();
             }
         }
     }
