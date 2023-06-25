@@ -4,6 +4,7 @@ import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.exception.VoucherException;
+import org.weekly.weekly.voucher.model.VoucherInfoRequest;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -25,24 +26,25 @@ public class VoucherDto {
         this.discount = discount;
     }
 
-    public static VoucherDto parseDto(UUID voucherId, String amount, LocalDate registrationDate, String expiration, Discount discount) {
-        checkException(amount, registrationDate, expiration, discount);
+    public static VoucherDto parseDto(UUID voucherId, VoucherInfoRequest voucherInfoRequest, Discount discount, LocalDate registrationDate) {
+        checkException(voucherInfoRequest, registrationDate, discount);
         return new VoucherDto(voucherId
-                , Long.parseLong(amount)
+                , Long.parseLong(voucherInfoRequest.getAmount())
                 , registrationDate
-                , registrationDate.plusMonths(Long.parseLong(expiration))
+                , registrationDate.plusMonths(Long.parseLong(voucherInfoRequest.getExpiratioin()))
                 , discount);
     }
 
-    private static void checkException(String amount, LocalDate registrationDate, String expirationMonth, Discount discount) {
-        VoucherException.expirationError(registrationDate, expirationMonth);
+    private static void checkException(VoucherInfoRequest voucherInfoRequest, LocalDate registrationDate, Discount discount) {
+        VoucherException.expirationError(registrationDate, voucherInfoRequest.getExpiratioin());
         if (discount.equals(DiscountMap.PERCENT)) {
-            VoucherException.notNumberFormat(amount, input -> Long.parseLong(input) < 0 || Long.parseLong(input) > 100);
+            VoucherException.notNumberFormat(voucherInfoRequest.getAmount()
+                    , input -> Long.parseLong(input) < 0 || Long.parseLong(input) > 100);
             return;
         }
 
-        VoucherException.notNumberFormat(amount, input -> Long.parseLong(input) < 0);
-        VoucherException.notNumberFormat(expirationMonth, input -> Long.parseLong(input) < 1);
+        VoucherException.notNumberFormat(voucherInfoRequest.getAmount(), input -> Long.parseLong(input) < 0);
+        VoucherException.notNumberFormat(voucherInfoRequest.getExpiratioin(), input -> Long.parseLong(input) < 1);
     }
 
     public Voucher parseWith(Discount discount) {

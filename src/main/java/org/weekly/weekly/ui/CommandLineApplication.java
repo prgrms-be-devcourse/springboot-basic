@@ -9,9 +9,11 @@ import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.domain.Discount;
+import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.model.ListResponse;
 import org.weekly.weekly.voucher.model.Response;
+import org.weekly.weekly.voucher.model.VoucherInfoRequest;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -43,28 +45,27 @@ public class CommandLineApplication {
         }
     }
 
-    public Discount readDiscount() {
+    public VoucherDto readVoucher() {
         while(true) {
             try {
-                this.commandWriter.printSelectDiscount();
-                return DiscountMap.getDiscountMap(this.commandReader.readLine()).getCls().getDeclaredConstructor().newInstance();
+                Discount discount = readDiscount();
+                VoucherInfoRequest voucherInfoRequest = readVoucherInfo(discount);
+                return VoucherDto.parseDto(UUID.randomUUID(), voucherInfoRequest, discount, LocalDate.now());
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
             }
         }
     }
 
-    public VoucherDto readVoucher(Discount discount) {
-        while(true) {
-            try {
-                this.commandWriter.printCreateVoucher();
-                String[] inputs = this.commandReader.readLine().split(",");
-                checkReadVoucherException(inputs);
-                return VoucherDto.parseDto(UUID.randomUUID(), inputs[0].trim(), LocalDate.now(), inputs[1].trim(), discount);
-            } catch (Exception exception) {
-                printErrorMsg(exception.getMessage());
-            }
-        }
+    private Discount readDiscount() throws Exception {
+        this.commandWriter.printSelectDiscount();
+        return DiscountMap.getDiscountMap(this.commandReader.readLine()).getCls().getDeclaredConstructor().newInstance();
+    }
+
+    private VoucherInfoRequest readVoucherInfo(Discount discount) throws Exception {
+        this.commandWriter.printCreateVoucher();
+        return new VoucherInfoRequest(this.commandReader.readLine());
+
     }
 
     public void printErrorMsg(String errorMsg) {
@@ -73,10 +74,5 @@ public class CommandLineApplication {
 
     public void printResult(Response response) {
         this.commandWriter.printReuslt(response.getResult());
-    }
-
-    private void checkReadVoucherException(String[] inputs) {
-        ReadException.notVoucherInputSize(inputs);
-        ReadException.notVoucherInputFormat(inputs);
     }
 }

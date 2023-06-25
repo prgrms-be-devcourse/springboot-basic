@@ -4,12 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.FixedDiscount;
 import org.weekly.weekly.voucher.domain.PercentDiscount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
+import org.weekly.weekly.voucher.model.VoucherInfoRequest;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.time.LocalDate;
@@ -26,20 +28,20 @@ public class VoucherTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "100000,12, 1",
-            "10,1, 1"
-    })
-    void 바우처가_이미_존재하면_예외발생(String amount, String expiration, String no)  {
+    @CsvSource(value = {
+            "100000,12: 1",
+            "10,1: 1"
+    }, delimiter = ':')
+    void 바우처가_이미_존재하면_예외발생(String userInput, String no)  {
         assertThatCode(()-> {
             // Given
-            Discount discount = DiscountMap.getDiscountMap(no).getCls().getDeclaredConstructor().newInstance();
             UUID voucherId = UUID.randomUUID();
+            VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
+            Discount discount = DiscountMap.getDiscountMap(no).getCls().getDeclaredConstructor().newInstance();
             LocalDate localDate = LocalDate.now();
-            VoucherDto voucherDto = VoucherDto.parseDto(voucherId, amount, localDate, expiration, discount);
-
 
             // when
+            VoucherDto voucherDto = VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate);
             voucherRepository.insert(voucherDto.parseWith(discount));
 
             // then
@@ -48,37 +50,39 @@ public class VoucherTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
+    @ValueSource(strings = {
             "10, -123",
             "10, -1",
             "10, 0"
     })
-    void 바우처_발행시간이_유효시간보다_느리면_예외발생(String amount, String expiration) {
+    void 바우처_발행시간이_유효시간보다_느리면_예외발생(String userInput) {
         // Given
         UUID voucherId = UUID.randomUUID();
         LocalDate localDate = LocalDate.now();
         Discount discount = new FixedDiscount();
+        VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
 
         // when + then
-        assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration, discount))
+        assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))
                 .isInstanceOf(RuntimeException.class);
     }
 
     @Nested
     class 고정바우처_테스트 {
         @ParameterizedTest
-        @CsvSource({
+        @ValueSource(strings = {
                 "-1,12",
                 " asfd, 1"
         })
-        void 바우처_금액이_자연수가_아니면_예외발생(String amount, String expiration) {
+        void 바우처_금액이_자연수가_아니면_예외발생(String userInput) {
             // Given
             UUID voucherId = UUID.randomUUID();
             LocalDate localDate = LocalDate.now();
             Discount discount = new FixedDiscount();
+            VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
 
             // when + then
-            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, amount, localDate, expiration, discount))
+            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))
                     .isInstanceOf(RuntimeException.class);
         }
 
@@ -105,18 +109,19 @@ public class VoucherTest {
     @Nested
     class 퍼센트바우처_테스트 {
         @ParameterizedTest
-        @CsvSource({
+        @ValueSource(strings = {
                 "101,12",
                 "-1, 1"
         })
-        void 바우처_퍼센트값이_자연수가_아니면_예외발생(String percent, String expiration) {
+        void 바우처_퍼센트값이_자연수가_아니면_예외발생(String userInput) {
             // Given
             UUID voucherId = UUID.randomUUID();
             LocalDate localDate = LocalDate.now();
             Discount discount = new PercentDiscount();
+            VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
 
             // when + then
-            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, percent, localDate, expiration, discount))
+            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))
                     .isInstanceOf(RuntimeException.class);
         }
 
