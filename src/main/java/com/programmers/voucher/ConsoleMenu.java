@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Component
 public class ConsoleMenu implements CommandLineRunner {
-    private final static Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
+    private static final Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
 
     private final Console console;
     private final VoucherService voucherService;
@@ -28,9 +28,10 @@ public class ConsoleMenu implements CommandLineRunner {
         this.voucherService = voucherService;
     }
 
-        log.info("Started Voucher Console Application.");
+
     @Override
     public void run(String... args) throws Exception {
+        log.info("Started Voucher Console Application.");
         console.printCommandSet();
 
         boolean keepRunningClient = true;

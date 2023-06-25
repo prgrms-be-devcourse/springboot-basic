@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private final static Logger log = LoggerFactory.getLogger(VoucherService.class);
+    private static final Logger log = LoggerFactory.getLogger(VoucherService.class);
 
     private final VoucherRepository voucherRepository;
 
