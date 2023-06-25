@@ -80,9 +80,9 @@ public class Console {
                 break;
         }
 
-        voucherList.get().forEach((k, v) -> {
-            System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
-        });
+        voucherList.get().forEach((k, v) ->
+                System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()))
+        );
     }
 
     public void printCustomerBlackList(String path) throws IOException {
@@ -99,6 +99,7 @@ public class Console {
         for (List<String> eachRecord: records) {
             System.out.println(eachRecord.toString());
         }
+        br.close();
     }
 
     public String getCommand() {

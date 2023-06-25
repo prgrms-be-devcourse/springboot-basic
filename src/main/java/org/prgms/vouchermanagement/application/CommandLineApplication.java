@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Optional;
@@ -42,12 +43,11 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
     @Override
     public void run(String... args) {
         while (true) {
-            CommandMenu currentCommand = CommandMenu.START;
 
             console.printCommandMenu();
             try {
 
-                currentCommand = CommandMenu.getCommandMenu(console.getCommand());
+                CommandMenu currentCommand = CommandMenu.getCommandMenu(console.getCommand());
                 switch (currentCommand) {
                     case EXIT:
                         return;
@@ -60,9 +60,11 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
                     case SHOW_BLACK_LIST:
                         showBlackList();
                         break;
+                    default:
+                        throw new IllegalArgumentException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
                 }
             } catch (RuntimeException | IOException e) {
-                if (e instanceof IOException){
+                if (e instanceof NoSuchFileException){
                     logger.error("No csv file Error");
                 } else if (!(e instanceof InputMismatchException)) {
                     logger.error("Command Input Error");
@@ -74,16 +76,13 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
 
     public void selectNewVoucher() {
         long amountOrPercent = 0;
-        VoucherType voucherType;
 
         console.printSelectVoucherType();
-        voucherType = VoucherType.getVoucherType(console.getVoucherTypeInput());
+        VoucherType voucherType = VoucherType.getVoucherType(console.getVoucherTypeInput());
 
         if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
             amountOrPercent = getFixedVoucherAmount();
-        }
-
-        else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
+        } else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             amountOrPercent = getPercentDiscount();
         }
 
@@ -115,7 +114,7 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
         try {
             console.printCustomerBlackList(resource.getFile().toPath().toString());
         } catch (IOException e){
-            throw new IOException(ExceptionMessageConstant.NO_BLACK_LIST_FILE_EXCEPTION);
+            throw new NoSuchFileException(ExceptionMessageConstant.NO_BLACK_LIST_FILE_EXCEPTION);
         }
     }
 

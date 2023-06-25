@@ -4,7 +4,6 @@ import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
 
 public enum CommandMenu {
 
-    START("start"),
     EXIT("exit"),
     CREATE_NEW_VOUCHER("create"),
     SHOW_VOUCHER_LIST("list"),
