@@ -5,7 +5,7 @@ public class Console {
     private final Input input;
     private final Output output;
 
-    private static final String NUMBER_REGEX = "\\d+";
+    private static final String NUMBER_REGEX = "-?\\d+";
     private static final String[] COMMAND_GUIDE_MESSAGES = {
             "=== Voucher Program ===",
             "Type 'exit' to exit the program.",

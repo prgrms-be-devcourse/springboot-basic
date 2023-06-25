@@ -28,7 +28,7 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     protected void validateAmount(long discountAmount) {
         if (discountAmount <= MIN_AMOUNT) {
-            throw new IllegalArgumentException("할인 금액은 0보다 커야합니다." + discountAmount);
+            throw new IllegalArgumentException("할인 금액은 0보다 커야합니다. => " + discountAmount);
         }
     }
 }
