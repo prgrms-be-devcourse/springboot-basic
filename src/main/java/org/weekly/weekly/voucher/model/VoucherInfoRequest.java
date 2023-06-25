@@ -13,17 +13,16 @@ public class VoucherInfoRequest {
     private final String expiration;
 
 
-    public VoucherInfoRequest(String userInput) {
+    private VoucherInfoRequest(String amount, String expiration) {
+        this.amount = amount;
+        this.expiration = expiration;
+    }
+
+    public static VoucherInfoRequest of(String userInput) {
         String[] inputs = userInput.split(SPLIT_FORMAT);
         checkReadVoucherException(inputs);
 
-        this.amount = inputs[AMOUNT_NO].trim();
-        this.expiration = inputs[EXPIRATION].trim();
-    }
-
-    private void checkReadVoucherException(String[] inputs) {
-        ReadException.notVoucherInputSize(inputs);
-        ReadException.notVoucherInputFormat(inputs);
+        return new VoucherInfoRequest(inputs[AMOUNT_NO].trim(), inputs[EXPIRATION].trim());
     }
 
     public String getAmount() {
@@ -33,4 +32,11 @@ public class VoucherInfoRequest {
     public String getExpiration() {
         return expiration;
     }
+
+    private static void checkReadVoucherException(String[] inputs) {
+        ReadException.notVoucherInputSize(inputs);
+        ReadException.notVoucherInputFormat(inputs);
+    }
+
+
 }

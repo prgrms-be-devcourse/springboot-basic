@@ -36,7 +36,7 @@ public class VoucherTest {
         assertThatCode(()-> {
             // Given
             UUID voucherId = UUID.randomUUID();
-            VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
+            VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
             Discount discount = DiscountType.getDiscountMap(no).getCls().getDeclaredConstructor().newInstance();
             LocalDate localDate = LocalDate.now();
 
@@ -60,7 +60,7 @@ public class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         LocalDate localDate = LocalDate.now();
         Discount discount = new FixedDiscount();
-        VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
+        VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
 
         // when + then
         assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))
@@ -79,7 +79,7 @@ public class VoucherTest {
             UUID voucherId = UUID.randomUUID();
             LocalDate localDate = LocalDate.now();
             Discount discount = new FixedDiscount();
-            VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
+            VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
 
             // when + then
             assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))
@@ -118,7 +118,7 @@ public class VoucherTest {
             UUID voucherId = UUID.randomUUID();
             LocalDate localDate = LocalDate.now();
             Discount discount = new PercentDiscount();
-            VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
+            VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
 
             // when + then
             assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))

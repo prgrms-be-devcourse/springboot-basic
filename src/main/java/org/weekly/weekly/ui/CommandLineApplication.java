@@ -48,16 +48,6 @@ public class CommandLineApplication {
         }
     }
 
-    private Discount readDiscount() throws Exception {
-        this.commandWriter.printSelectDiscount();
-        return DiscountType.getDiscountMap(this.commandReader.readLine()).getNewInstance();
-    }
-
-    private VoucherInfoRequest readVoucherInfo() throws Exception {
-        this.commandWriter.printCreateVoucher();
-        return new VoucherInfoRequest(this.commandReader.readLine());
-    }
-
     public void printErrorMsg(String errorMsg) {
         this.commandWriter.printErrorMsg(errorMsg);
     }
@@ -65,4 +55,16 @@ public class CommandLineApplication {
     public void printResult(Response response) {
         this.commandWriter.printReuslt(response.getResult());
     }
+
+    private Discount readDiscount() throws Exception {
+        this.commandWriter.printSelectDiscount();
+        return DiscountType.getDiscountMap(this.commandReader.readLine()).getNewInstance();
+    }
+
+    private VoucherInfoRequest readVoucherInfo() throws Exception {
+        this.commandWriter.printCreateVoucher();
+        return VoucherInfoRequest.of(this.commandReader.readLine());
+    }
+
+
 }
