@@ -23,8 +23,7 @@ public class MemoryVoucherRepository implements VoucherRepository{
         return Optional.of(STORE.get(voucherId));
     }
 
-    @Override
-    public void clear() {
+    public static void clear() {
         STORE.clear();
     }
 

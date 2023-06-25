@@ -13,6 +13,4 @@ public interface VoucherRepository {
 
     Optional<Voucher> findByVoucherId(UUID voucherId);
 
-    void clear();
-
 }

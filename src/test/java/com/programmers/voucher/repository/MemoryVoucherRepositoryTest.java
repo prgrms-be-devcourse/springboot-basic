@@ -5,6 +5,7 @@ import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -16,12 +17,14 @@ class MemoryVoucherRepositoryTest {
 
     private VoucherRepository voucherRepository;
 
+    @DisplayName("MemoryVoucherRepository 초기화")
     @BeforeEach
-    void 초기화() {
+    void init() {
+        MemoryVoucherRepository.clear();
         voucherRepository = new MemoryVoucherRepository();
-        voucherRepository.clear();
     }
 
+    @DisplayName("바우처 저장 성공 테스트")
     @Test
     void save() {
         //give
@@ -36,6 +39,7 @@ class MemoryVoucherRepositoryTest {
         Assertions.assertThat(voucher).isEqualTo(savedVoucher);
     }
 
+    @DisplayName("바우처 목록 조회 성공 테스트")
     @Test
     void findAll() {
         //give
