@@ -2,8 +2,8 @@ package com.programmers.springbasic.domain.voucher.service;
 
 import com.programmers.springbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbasic.domain.voucher.entity.PercentDiscountVoucher;
-import com.programmers.springbasic.domain.voucher.repository.FixedAmountVoucherRepository;
-import com.programmers.springbasic.domain.voucher.repository.PercentDiscountVoucherRepository;
+import com.programmers.springbasic.domain.voucher.repository.FixedAmountVoucherFileRepository;
+import com.programmers.springbasic.domain.voucher.repository.PercentDiscountVoucherFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class VoucherService {
-    private final FixedAmountVoucherRepository fixedVoucherRepository;
-    private final PercentDiscountVoucherRepository percentVoucherRepository;
+    private final FixedAmountVoucherFileRepository fixedVoucherRepository;
+    private final PercentDiscountVoucherFileRepository percentVoucherRepository;
 
     public void createFixedAmountVoucher(double fixedAmount) {
         FixedAmountVoucher voucher = new FixedAmountVoucher(fixedAmount);

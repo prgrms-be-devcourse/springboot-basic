@@ -2,12 +2,13 @@ package com.programmers.springbasic.domain.voucher.entity;
 
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
 @Getter
-public abstract class Voucher {
+public abstract class Voucher implements Serializable {
     private static final int EXPIRE_DURATION = 7;   // voucher 기본 유효 기간
 
     protected UUID code;  // 각 voucher의 고유한 코드

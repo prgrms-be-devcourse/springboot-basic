@@ -1,13 +1,15 @@
 package com.programmers.springbasic.domain.voucher.repository;
 
 import com.programmers.springbasic.domain.voucher.entity.FixedAmountVoucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Profile("dev")
 @Repository
-public class FixedAmountVoucherRepository implements VoucherRepository<FixedAmountVoucher, UUID> {
+public class FixedAmountVoucherMemoryRepository implements VoucherRepository<FixedAmountVoucher, UUID> {
     private final Map<UUID, FixedAmountVoucher> fixedAmountVouchers = new HashMap<>();
 
     @Override
