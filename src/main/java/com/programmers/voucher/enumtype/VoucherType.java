@@ -15,11 +15,11 @@ import java.util.function.Predicate;
 
 public enum VoucherType {
     FIXED_AMOUNT("fixed",
-            FixedAmountVoucher::new,
+            (voucherId, request) -> new FixedAmountVoucher(voucherId, request.getAmount()),
             (amount) -> amount > 0,
             "Fixed amount must be positive."),
     PERCENT("percent",
-            PercentDiscountVoucher::new,
+            (voucherId, request) -> new PercentDiscountVoucher(voucherId, request.getAmount()),
             (amount) -> amount >= 0 && amount <= 100,
             "Percent discount must between 0 and 100.");
 

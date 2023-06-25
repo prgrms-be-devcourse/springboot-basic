@@ -8,9 +8,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, VoucherCreateRequest request) {
+    public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
-        this.percent = request.getAmount();
+        this.percent = percent;
     }
 
     @Override

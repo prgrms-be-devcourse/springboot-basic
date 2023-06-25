@@ -10,12 +10,10 @@ import java.util.UUID;
 
 public class VoucherTestUtil {
     public static Voucher createFixedVoucher(UUID voucherId, int amount) {
-        VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, amount);
-        return new FixedAmountVoucher(voucherId, request);
+        return new FixedAmountVoucher(voucherId, amount);
     }
 
     public static Voucher createPercentVoucher(UUID voucherId, int amount) {
-        VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.PERCENT, amount);
-        return new PercentDiscountVoucher(voucherId, request);
+        return new PercentDiscountVoucher(voucherId, amount);
     }
 }
