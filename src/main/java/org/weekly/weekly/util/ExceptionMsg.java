@@ -12,7 +12,6 @@ public enum ExceptionMsg {
     NOT_FOUND("해당 종류의 할인정보를 찾을 수 없습니다."),
     NOT_SAME_PARAM_SIZE("입력 파라미터 개수가 맞지 않습니다.");
 
-
     private String msg;
 
     ExceptionMsg(String msg) {

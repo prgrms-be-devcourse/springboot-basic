@@ -13,6 +13,7 @@ public class BufferedReaderWrap implements CommandReader {
     public BufferedReaderWrap() {
         this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
+
     @Override
     public String readLine() throws IOException {
         return this.bufferedReader.readLine();

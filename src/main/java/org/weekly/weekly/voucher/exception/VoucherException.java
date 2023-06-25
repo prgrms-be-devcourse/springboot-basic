@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.util.function.Predicate;
 
 public class VoucherException {
-
     private static boolean isNumber(String userInput) {
         return userInput.chars().allMatch(value -> Character.isDigit(value));
     }
+
     private static void notNumber(String userInput) {
         if (!isNumber(userInput)) {
             throw new RuntimeException(ExceptionMsg.NOT_NUMBER_FORMAT.getMsg());

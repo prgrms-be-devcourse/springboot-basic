@@ -8,6 +8,7 @@ public class FixedDiscount implements Discount{
         return beforeAmount - discountAmount;
     }
 
+    @Override
     public DiscountType discountType() {
         return DiscountType.FIXED;
     }

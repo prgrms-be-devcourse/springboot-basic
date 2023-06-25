@@ -27,22 +27,6 @@ public class Voucher {
         return voucherId;
     }
 
-    public long getAmount() {
-        return amount;
-    }
-
-    public LocalDate getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public LocalDate getExpirationDate() {
-        return expirationDate;
-    }
-
-    public Discount getDiscount() {
-        return discount;
-    }
-
     public long applyDiscount(long beforeAmount) {
         long afterAmount = discount.applyDiscount(beforeAmount, amount);
 

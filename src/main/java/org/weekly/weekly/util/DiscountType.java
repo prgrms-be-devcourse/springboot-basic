@@ -16,8 +16,8 @@ public enum DiscountType {
     private Class<? extends Discount> cls;
     private String msg;
 
-
     private static final Map<String, DiscountType> discuontMap;
+
     static {
         Map<String, DiscountType> map = new HashMap<>();
         for (DiscountType discount : DiscountType.values()) {

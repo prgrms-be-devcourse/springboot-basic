@@ -17,6 +17,7 @@ public class ReadException {
             throw new RuntimeException(ExceptionMsg.NOT_SAME_PARAM_SIZE.getMsg());
         }
     }
+    
     public static void notVoucherInputFormat(String[] userInputs) {
         if (Arrays.stream(userInputs)
                 .anyMatch(input -> isDigit(input.trim()))) {

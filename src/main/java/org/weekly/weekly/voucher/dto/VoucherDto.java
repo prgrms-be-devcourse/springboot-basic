@@ -9,12 +9,13 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class VoucherDto {
+    private static final int RANGE_START = 0;
+    private static final int RANGE_END = 100;
+
     private final UUID voucherId;
     private final long amount;
-
     private final LocalDate registrationDate;
     private final LocalDate expirationDate;
-
     private final Discount discount;
 
     private VoucherDto(UUID voucherId, long amount, LocalDate registrationDate, LocalDate expirationDate, Discount discount) {
@@ -36,14 +37,13 @@ public class VoucherDto {
 
     private static void checkException(VoucherInfoRequest voucherInfoRequest, LocalDate registrationDate, Discount discount) {
         VoucherException.expirationError(registrationDate, voucherInfoRequest.getExpiration());
-        VoucherException.notNumberFormat(voucherInfoRequest.getExpiration(), input -> Long.parseLong(input) < 1);
+        VoucherException.notNumberFormat(voucherInfoRequest.getExpiration(), input -> Long.parseLong(input) <= RANGE_START);
 
         if (discount.equals(DiscountType.PERCENT)) {
-            VoucherException.notNumberFormat(voucherInfoRequest.getAmount()
-                    , input -> Long.parseLong(input) < 0 || Long.parseLong(input) > 100);
+            VoucherException.notNumberFormat(voucherInfoRequest.getAmount(), input -> Long.parseLong(input) < RANGE_START || Long.parseLong(input) > RANGE_END);
             return;
         }
-        VoucherException.notNumberFormat(voucherInfoRequest.getAmount(), input -> Long.parseLong(input) < 0);
+        VoucherException.notNumberFormat(voucherInfoRequest.getAmount(), input -> Long.parseLong(input) < RANGE_START);
 
     }
 
