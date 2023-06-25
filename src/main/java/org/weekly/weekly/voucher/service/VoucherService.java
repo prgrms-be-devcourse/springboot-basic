@@ -20,10 +20,9 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher insertVoucher(VoucherDto voucherDto, Discount discount) {
+    public Voucher insertVoucher(VoucherDto voucherDto) {
         validateVoucher(voucherDto);
-
-        Voucher voucher = voucherDto.parseWith(discount);
+        Voucher voucher = voucherDto.parseToVoucher();
         return this.voucherRepository.insert(voucher);
 
     }

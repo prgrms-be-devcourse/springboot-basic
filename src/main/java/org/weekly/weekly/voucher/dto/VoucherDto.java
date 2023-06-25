@@ -47,8 +47,8 @@ public class VoucherDto {
         VoucherException.notNumberFormat(voucherInfoRequest.getExpiratioin(), input -> Long.parseLong(input) < 1);
     }
 
-    public Voucher parseWith(Discount discount) {
-        return new Voucher(this.voucherId, this.amount, this.registrationDate, this.expirationDate, discount);
+    public Voucher parseToVoucher() {
+        return new Voucher(this.voucherId, this.amount, this.registrationDate, this.expirationDate, this.discount);
     }
 
     public UUID getVoucherId() {

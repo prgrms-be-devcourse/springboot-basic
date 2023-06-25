@@ -49,8 +49,7 @@ public class VoucherController {
 
     private void createVoucher() {
         VoucherDto voucherDto = this.commandLineApplication.readVoucher();
-
-        Response response = new CreateResponse(this.voucherService.insertVoucher(voucherDto, discount));
+        Response response = new CreateResponse(this.voucherService.insertVoucher(voucherDto));
         this.commandLineApplication.printResult(response);
     }
 
