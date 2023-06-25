@@ -8,6 +8,7 @@ import com.programmers.voucher.request.VoucherCreateRequest;
 import com.programmers.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class ConsoleMenu {
+public class ConsoleMenu implements CommandLineRunner {
     private final static Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
 
     private final Console console;
@@ -27,9 +28,9 @@ public class ConsoleMenu {
         this.voucherService = voucherService;
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void start() {
         log.info("Started Voucher Console Application.");
+    @Override
+    public void run(String... args) throws Exception {
         console.printCommandSet();
 
         boolean keepRunningClient = true;
