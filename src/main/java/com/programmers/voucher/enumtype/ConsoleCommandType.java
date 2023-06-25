@@ -33,4 +33,8 @@ public enum ConsoleCommandType {
                     return new IllegalArgumentException(sb.toString());
                 });
     }
+
+    public String getInput() {
+        return input;
+    }
 }
