@@ -17,7 +17,7 @@ public class DiscountMapTest {
     })
     void 사용자_입력이_할인_맵에_없으면_예외발생(String userInput) {
         // when + then
-        assertThatThrownBy(()->DiscountMap.getDiscountMap(userInput))
+        assertThatThrownBy(()-> DiscountType.getDiscountMap(userInput))
                 .isInstanceOf(RuntimeException.class);
 
     }
@@ -29,11 +29,11 @@ public class DiscountMapTest {
         String percentUserInput = "2";
 
         // when
-        DiscountMap fixedDiscount = DiscountMap.getDiscountMap(fixedUserInput);
-        DiscountMap percentDiscount = DiscountMap.getDiscountMap(percentUserInput);
+        DiscountType fixedDiscount = DiscountType.getDiscountMap(fixedUserInput);
+        DiscountType percentDiscount = DiscountType.getDiscountMap(percentUserInput);
 
         // then
-        assertThat(fixedDiscount).isEqualTo(DiscountMap.FIXED);
-        assertThat(percentDiscount).isEqualTo(DiscountMap.PERCENT);
+        assertThat(fixedDiscount).isEqualTo(DiscountType.FIXED);
+        assertThat(percentDiscount).isEqualTo(DiscountType.PERCENT);
     }
 }

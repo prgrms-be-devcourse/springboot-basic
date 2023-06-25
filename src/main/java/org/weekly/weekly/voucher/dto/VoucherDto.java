@@ -1,6 +1,6 @@
 package org.weekly.weekly.voucher.dto;
 
-import org.weekly.weekly.util.DiscountMap;
+import org.weekly.weekly.util.DiscountType;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.exception.VoucherException;
@@ -37,14 +37,15 @@ public class VoucherDto {
 
     private static void checkException(VoucherInfoRequest voucherInfoRequest, LocalDate registrationDate, Discount discount) {
         VoucherException.expirationError(registrationDate, voucherInfoRequest.getExpiration());
-        if (discount.equals(DiscountMap.PERCENT)) {
+        VoucherException.notNumberFormat(voucherInfoRequest.getExpiration(), input -> Long.parseLong(input) < 1);
+
+        if (discount.equals(DiscountType.PERCENT)) {
             VoucherException.notNumberFormat(voucherInfoRequest.getAmount()
                     , input -> Long.parseLong(input) < 0 || Long.parseLong(input) > 100);
             return;
         }
-
         VoucherException.notNumberFormat(voucherInfoRequest.getAmount(), input -> Long.parseLong(input) < 0);
-        VoucherException.notNumberFormat(voucherInfoRequest.getExpiration(), input -> Long.parseLong(input) < 1);
+
     }
 
     public Voucher parseToVoucher() {

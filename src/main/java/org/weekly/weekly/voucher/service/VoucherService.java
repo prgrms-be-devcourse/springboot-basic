@@ -1,9 +1,7 @@
 package org.weekly.weekly.voucher.service;
 
 import org.springframework.stereotype.Service;
-import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.util.ExceptionMsg;
-import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.model.ListResponse;

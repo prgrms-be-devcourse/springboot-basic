@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.reader.CommandReader;
 import org.weekly.weekly.ui.writer.CommandWriter;
-import org.weekly.weekly.util.DiscountMap;
+import org.weekly.weekly.util.DiscountType;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
@@ -50,7 +50,7 @@ public class CommandLineApplication {
 
     private Discount readDiscount() throws Exception {
         this.commandWriter.printSelectDiscount();
-        return DiscountMap.getDiscountMap(this.commandReader.readLine()).getNewInstance();
+        return DiscountType.getDiscountMap(this.commandReader.readLine()).getNewInstance();
     }
 
     private VoucherInfoRequest readVoucherInfo() throws Exception {

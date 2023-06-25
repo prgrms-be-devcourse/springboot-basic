@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.weekly.weekly.util.DiscountMap;
+import org.weekly.weekly.util.DiscountType;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.FixedDiscount;
 import org.weekly.weekly.voucher.domain.PercentDiscount;
@@ -37,7 +37,7 @@ public class VoucherTest {
             // Given
             UUID voucherId = UUID.randomUUID();
             VoucherInfoRequest voucherInfo = new VoucherInfoRequest(userInput);
-            Discount discount = DiscountMap.getDiscountMap(no).getCls().getDeclaredConstructor().newInstance();
+            Discount discount = DiscountType.getDiscountMap(no).getCls().getDeclaredConstructor().newInstance();
             LocalDate localDate = LocalDate.now();
 
             // when

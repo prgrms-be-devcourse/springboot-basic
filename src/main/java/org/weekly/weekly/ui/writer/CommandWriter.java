@@ -1,14 +1,11 @@
 package org.weekly.weekly.ui.writer;
 
 import org.springframework.stereotype.Component;
-import org.weekly.weekly.util.DiscountMap;
+import org.weekly.weekly.util.DiscountType;
 import org.weekly.weekly.util.PrintMsg;
 import org.weekly.weekly.util.VoucherMenu;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class CommandWriter {
@@ -37,7 +34,7 @@ public class CommandWriter {
     public void printSelectDiscount() {
         println(PrintMsg.EMPTY.getMsg());
         println(PrintMsg.DISCOUNT_SELECT.getMsg());
-        Arrays.stream(DiscountMap.values())
+        Arrays.stream(DiscountType.values())
                 .forEach(discountMap -> System.out.println(discountMap.getMsg()));
     }
 

@@ -2,12 +2,9 @@ package org.weekly.weekly.voucher.controller;
 
 import org.springframework.stereotype.Controller;
 import org.weekly.weekly.ui.CommandLineApplication;
-import org.weekly.weekly.util.DiscountMap;
 import org.weekly.weekly.util.VoucherMenu;
-import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.model.CreateResponse;
-import org.weekly.weekly.voucher.model.ListResponse;
 import org.weekly.weekly.voucher.model.Response;
 import org.weekly.weekly.voucher.service.VoucherService;
 
