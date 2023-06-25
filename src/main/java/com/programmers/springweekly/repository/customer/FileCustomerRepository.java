@@ -41,8 +41,7 @@ public class FileCustomerRepository implements CustomerRepository{
 
     @PostConstruct
     public void loadingBlackListToMemory(){
-        try {
-            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path));
+        try(BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path))) {
             String line = "";
 
             while((line = bufferedReader.readLine()) != null){
