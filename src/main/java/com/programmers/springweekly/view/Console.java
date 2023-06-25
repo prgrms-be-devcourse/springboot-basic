@@ -53,11 +53,11 @@ public class Console implements Input, Output {
 
     @Override
     public void outputGetVoucherAll(Map<UUID, Voucher> voucherMap) {
-        for(UUID voucherId : voucherMap.keySet()){
+        for(Map.Entry<UUID, Voucher> voucherEntry : voucherMap.entrySet()){
             System.out.println("=========================================================");
-            System.out.println("voucherId : " + voucherMap.get(voucherId).getVoucherId());
-            System.out.println("discountAmount : " + voucherMap.get(voucherId).getVoucherAmount());
-            System.out.println("voucherType : " + voucherMap.get(voucherId).getVoucherType());
+            System.out.println("voucherId : " + voucherEntry.getValue().getVoucherId());
+            System.out.println("discountAmount : " + voucherEntry.getValue().getVoucherAmount());
+            System.out.println("voucherType : " + voucherEntry.getValue().getVoucherType().getVoucherTypeString());
             System.out.println("=========================================================\n");
         }
     }
