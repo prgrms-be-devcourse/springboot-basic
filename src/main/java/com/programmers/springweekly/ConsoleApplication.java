@@ -26,27 +26,20 @@ public class ConsoleApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         while(running){
             console.outputProgramGuide();
             try {
                 ProgramMenu selectMenu = ProgramMenu.findProgramMenu(console.inputMessage());
 
-                if (selectMenu == ProgramMenu.CREATE) {
-                    voucherController.createVoucher();
-                }
-
-                if (selectMenu == ProgramMenu.LIST) {
-                    voucherController.getVoucherList();
-                }
-
-                if (selectMenu == ProgramMenu.EXIT) {
-                    console.outputExitMessage();
-                    running = false;
-                }
-
-                if (selectMenu == ProgramMenu.CUSTOMER_BLACKLIST) {
-                    customerController.getCustomerBlackList();
+                switch(selectMenu){
+                    case CREATE -> voucherController.createVoucher();
+                    case LIST -> voucherController.getVoucherList();
+                    case EXIT -> {
+                        console.outputExitMessage();
+                        running = false;
+                    }
+                    case CUSTOMER_BLACKLIST -> customerController.getCustomerBlackList();
                 }
             } catch(IllegalArgumentException e){
                 logger.error(e.getMessage());
