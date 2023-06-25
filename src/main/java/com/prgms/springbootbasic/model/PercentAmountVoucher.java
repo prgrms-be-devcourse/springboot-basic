@@ -10,9 +10,8 @@ public class PercentAmountVoucher implements Voucher {
 	
 	private static final long MINIMUM = 0;
 	private static final long MAXIMUM = 100;
-	private static final String VOUCHER_TYPE = "percent";
+	private static final String VOUCHER_TYPE = "Percent";
 	private static final String FORMAT_STRING = "voucher type : {0} voucher Id : {1} percent : {2}";
-	private static final String FORMAT_CSV = "%s %s %d";
 	private static final String OUT_OF_RANGE_EXCEPTION_MESSAGE = "Percent voucher have to discount in range of 1 to 100 percent. : ";
 	
 	private final UUID voucherId;
@@ -33,9 +32,6 @@ public class PercentAmountVoucher implements Voucher {
 	public long discount(long beforeAmount) {
 		return beforeAmount * (percent / 100);
 	}
-	
-	@Override
-	public String formatOfCSV() { return String.format(FORMAT_CSV, VOUCHER_TYPE, voucherId, percent); }
 	
 	@Override
 	public String toString() {
