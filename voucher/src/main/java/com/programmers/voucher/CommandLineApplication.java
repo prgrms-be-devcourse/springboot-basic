@@ -1,6 +1,7 @@
 package com.programmers.voucher;
 
 import com.programmers.voucher.console.Console;
+import com.programmers.voucher.console.Printer;
 import com.programmers.voucher.domain.Type;
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
@@ -13,12 +14,14 @@ public class CommandLineApplication implements Runnable {
     private final VoucherStream voucherStream;
     private final VoucherFactory voucherFactory;
     private final BlackListStream blackListStream;
+    private final Printer printer;
 
-    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream) {
+    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream, Printer printer) {
         this.console = console;
         this.voucherStream = voucherStream;
         this.voucherFactory = voucherFactory;
         this.blackListStream = blackListStream;
+        this.printer = printer;
     }
 
     @Override
@@ -28,12 +31,12 @@ public class CommandLineApplication implements Runnable {
             try {
                 type = console.getCondition();
             } catch (Exception e) {
-                System.out.println("[Error Occurred] " + e.getMessage());
+                printer.printError(e);
                 continue;
             }
             doLogic(type);
             if (type == Type.EXIT) {
-                System.out.println("프로그램이 종료됩니다.");
+                printer.printEndMessage();
                 break;
             }
         }
@@ -54,29 +57,18 @@ public class CommandLineApplication implements Runnable {
     }
 
     private void logicForTypeBlack() {
-        System.out.println();
-        System.out.println(" === BlackList Customer === ");
-        blackListStream.findAll().forEach(c -> System.out.println("- " + c));
+        printer.printBlackList(blackListStream.findAll());
     }
 
     private void logicForTypeList() {
-        voucherStream.findAll().forEach(
-                (k, v) -> {
-                    if (v instanceof FixedAmountVoucher) {
-                        System.out.println("[FixedAmountVoucher | Voucher ID] : " + k + " | discount amount : " + ((FixedAmountVoucher) v).getAmount());
-                    } else {
-                        System.out.println("[PercentDiscountVoucher | ID] : " + k + " | discount percent : " + ((PercentDiscountVoucher) v).getPercent());
-                    }
-                }
-        );
+        printer.printListOfVoucher(voucherStream.findAll());
     }
 
     private void logicForTypeCreate() {
         try {
             voucherFactory.createVoucher(console.getVoucherVersion());
         } catch (IllegalArgumentException e) {
-            System.out.println();
-            System.out.println("=== Error Occurred ===");
+            printer.printError(e);
             System.out.println(e.getMessage());
         }
     }
