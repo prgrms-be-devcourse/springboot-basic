@@ -4,12 +4,12 @@ import org.springframework.stereotype.Service;
 import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
-import org.weekly.weekly.voucher.model.ListResponse;
+import org.weekly.weekly.voucher.dto.CreateResponse;
+import org.weekly.weekly.voucher.dto.ListResponse;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -19,11 +19,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher insertVoucher(VoucherDto voucherDto) {
+    public CreateResponse insertVoucher(VoucherDto voucherDto) {
         validateVoucher(voucherDto);
         Voucher voucher = voucherDto.parseToVoucher();
-        return this.voucherRepository.insert(voucher);
-
+        this.voucherRepository.insert(voucher);
+        return new CreateResponse(voucher);
     }
 
     public ListResponse getVouchers() {

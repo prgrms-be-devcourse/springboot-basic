@@ -4,8 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.weekly.weekly.ui.CommandLineApplication;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.dto.VoucherDto;
-import org.weekly.weekly.voucher.model.CreateResponse;
-import org.weekly.weekly.voucher.model.Response;
+import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.service.VoucherService;
 
 @Controller
@@ -46,7 +45,7 @@ public class VoucherController {
 
     private void createVoucher() {
         VoucherDto voucherDto = this.commandLineApplication.readVoucher();
-        Response response = new CreateResponse(this.voucherService.insertVoucher(voucherDto));
+        Response response = this.voucherService.insertVoucher(voucherDto);
         this.commandLineApplication.printResult(response);
     }
 

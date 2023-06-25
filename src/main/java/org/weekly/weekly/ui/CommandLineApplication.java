@@ -8,8 +8,8 @@ import org.weekly.weekly.util.DiscountType;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.dto.VoucherDto;
-import org.weekly.weekly.voucher.model.Response;
-import org.weekly.weekly.voucher.model.VoucherInfoRequest;
+import org.weekly.weekly.voucher.dto.Response;
+import org.weekly.weekly.voucher.dto.VoucherInfoRequest;
 
 import java.time.LocalDate;
 import java.util.UUID;

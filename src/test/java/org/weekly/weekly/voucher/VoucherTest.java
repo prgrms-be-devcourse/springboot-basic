@@ -11,7 +11,7 @@ import org.weekly.weekly.voucher.domain.FixedDiscount;
 import org.weekly.weekly.voucher.domain.PercentDiscount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
-import org.weekly.weekly.voucher.model.VoucherInfoRequest;
+import org.weekly.weekly.voucher.dto.VoucherInfoRequest;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.time.LocalDate;

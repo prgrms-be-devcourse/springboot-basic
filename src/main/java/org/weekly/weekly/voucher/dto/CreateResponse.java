@@ -1,4 +1,4 @@
-package org.weekly.weekly.voucher.model;
+package org.weekly.weekly.voucher.dto;
 
 import org.weekly.weekly.voucher.domain.Voucher;
 

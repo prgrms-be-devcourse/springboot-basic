@@ -1,8 +1,6 @@
-package org.weekly.weekly.voucher.model;
+package org.weekly.weekly.voucher.dto;
 
 import org.weekly.weekly.ui.exception.ReadException;
-
-import java.util.Arrays;
 
 public class VoucherInfoRequest {
     private static final String SPLIT_FORMAT = ",";

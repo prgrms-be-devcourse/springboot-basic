@@ -1,9 +1,8 @@
-package org.weekly.weekly.voucher.model;
+package org.weekly.weekly.voucher.dto;
 
 import org.weekly.weekly.util.PrintMsg;
 import org.weekly.weekly.voucher.domain.Voucher;
 
-import javax.print.PrintException;
 import java.util.List;
 import java.util.stream.Collectors;
 

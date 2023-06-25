@@ -4,7 +4,6 @@ import org.weekly.weekly.util.DiscountType;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.exception.VoucherException;
-import org.weekly.weekly.voucher.model.VoucherInfoRequest;
 
 import java.time.LocalDate;
 import java.util.UUID;

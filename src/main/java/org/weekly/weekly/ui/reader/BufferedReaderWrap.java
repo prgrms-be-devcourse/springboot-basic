@@ -1,7 +1,6 @@
 package org.weekly.weekly.ui.reader;
 
 import org.springframework.stereotype.Component;
-import org.weekly.weekly.ui.reader.CommandReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
