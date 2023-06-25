@@ -8,6 +8,8 @@ import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CommandLineApplication {
     private final VoucherConsole voucherConsole;
@@ -43,7 +45,8 @@ public class CommandLineApplication {
                 voucherConsole.printCreatedVoucher(voucher);
             }
             case LIST -> {
-                //List Logic
+                List<Voucher> vouchers = voucherService.getAllVoucher();
+                vouchers.forEach(voucherConsole::printCreatedVoucher);
             }
             default -> {
                 voucherConsole.printInvalidCommandSelected();

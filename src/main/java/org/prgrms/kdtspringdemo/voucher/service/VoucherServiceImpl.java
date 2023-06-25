@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class VoucherServiceImpl implements VoucherService{
+public class VoucherServiceImpl implements VoucherService {
     private static final String INVALID_VOUCHER_TYPE = "바우처 형식이 알맞지 않습니다.";
     private final VoucherRepository voucherRepository;
 
@@ -33,8 +33,9 @@ public class VoucherServiceImpl implements VoucherService{
             }
         }
     }
+
     @Override
     public List<Voucher> getAllVoucher() {
-        return null;
+        return voucherRepository.findAll();
     }
 }

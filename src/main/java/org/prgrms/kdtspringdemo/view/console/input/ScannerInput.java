@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
 @Component
-public class ScannerInput implements Input{
+public class ScannerInput implements Input {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
