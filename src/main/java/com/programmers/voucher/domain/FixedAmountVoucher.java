@@ -2,18 +2,31 @@ package com.programmers.voucher.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher extends Voucher {
-
+public class FixedAmountVoucher implements Voucher {
     private static final int MAX_DISCOUNT_AMOUNT = 5000;
     private static final int MIN_DISCOUNT_AMOUNT = 0;
 
-    private FixedAmountVoucher(UUID voucherId, long discountAmount) {
-        super(voucherId,discountAmount);
+    private final UUID voucherId;
+    private final long discountAmount;
+
+    protected FixedAmountVoucher(UUID voucherId, long discountAmount) {
+        this.voucherId = voucherId;
+        this.discountAmount = discountAmount;
     }
 
     public static Voucher of(UUID voucherId, long discountAmount) {
         validateDiscountAmount(discountAmount);
         return new FixedAmountVoucher(voucherId, discountAmount);
+    }
+
+    @Override
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    @Override
+    public long getDiscountAmount() {
+        return discountAmount;
     }
 
     @Override

@@ -2,23 +2,12 @@ package com.programmers.voucher.domain;
 
 import java.util.UUID;
 
-public abstract class Voucher {
-    private final UUID voucherId;
-    private final long discountAmount;
+public interface Voucher {
 
-    public Voucher(UUID voucherId, long discountAmount) {
-        this.voucherId = voucherId;
-        this.discountAmount = discountAmount;
-    }
+    UUID getVoucherId();
 
-    public UUID getVoucherId() {
-        return voucherId;
-    }
+    long getDiscountAmount();
 
-    public long getDiscountAmount() {
-        return discountAmount;
-    }
-
-    abstract long discount(long beforeAmount);
+    long discount(long beforeAmount);
 
 }
