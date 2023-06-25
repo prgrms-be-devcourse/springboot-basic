@@ -1,22 +1,32 @@
 package com.programmers.springweekly.domain.voucher;
 
+import com.programmers.springweekly.domain.customer.CustomerType;
+
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public enum VoucherType {
     FIXED("fixed"),
     PERCENT("percent");
 
     private final String type;
+    private static final Map<String, VoucherType> VOUCHER_MAP =
+            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(VoucherType::getVoucherTypeString, Function.identity())));
 
     VoucherType(String type) {
         this.type = type;
     }
 
     public static VoucherType findVoucherMenu(String type){
-        return Arrays.stream(VoucherType.values())
-                .filter(item -> item.type.equals(type))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("The type you are looking for is not found."));
+        if(VOUCHER_MAP.containsKey(type)){
+            return VOUCHER_MAP.get(type);
+        }
+
+        throw new IllegalArgumentException("The type you are looking for is not found.");
     }
 
     public String getVoucherTypeString(){
