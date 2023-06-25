@@ -1,6 +1,8 @@
 package com.programmers.voucher.io;
 
 import com.programmers.voucher.enumtype.ConsoleCommandType;
+import com.programmers.voucher.enumtype.VoucherType;
+import com.programmers.voucher.request.VoucherCreateRequest;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -44,15 +46,24 @@ public class TextIoConsole implements Console {
     }
 
     @Override
-    public String input(String hint) {
-        return textIO.newStringInputReader()
-                .read(hint);
+    public VoucherCreateRequest inputVoucherCreateInfo() {
+        VoucherType voucherType = inputVoucherType();
+        int amount = inputDiscountAmount();
+        voucherType.validateAmount(amount);
+
+        return new VoucherCreateRequest(voucherType, amount);
     }
 
-    @Override
-    public Integer intInput(String hint) {
+    private VoucherType inputVoucherType() {
+        String rawVoucherType = textIO.newStringInputReader()
+                .read("1. [fixed | percent]");
+
+        return VoucherType.getValue(rawVoucherType);
+    }
+
+    private int inputDiscountAmount() {
         return textIO.newIntInputReader()
-                .read(hint);
+                .read("2. [amount]");
     }
 
     @Override

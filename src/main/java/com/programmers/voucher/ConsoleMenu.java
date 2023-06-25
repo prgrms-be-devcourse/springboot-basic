@@ -59,13 +59,7 @@ public class ConsoleMenu implements CommandLineRunner {
         switch (commandType) {
             case CREATE -> {
                 log.info("Create voucher.");
-                String rawVoucherType = console.input("1. [fixed | percent]");
-                VoucherType voucherType = VoucherType.getValue(rawVoucherType);
-
-                Integer amount = console.intInput("2. [amount]");
-                voucherType.validateAmount(amount);
-
-                VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(voucherType, amount);
+                VoucherCreateRequest voucherCreateRequest = console.inputVoucherCreateInfo();
                 UUID voucherId = voucherService.createVoucher(voucherCreateRequest);
 
                 console.print("Created new voucher. VoucherID: " + voucherId.toString());
