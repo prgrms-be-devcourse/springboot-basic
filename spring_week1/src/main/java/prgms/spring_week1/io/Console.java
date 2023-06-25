@@ -11,13 +11,26 @@ public class Console implements Input,Output{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final String NEW_LINE = "\n";
     @Override
-    public String inputTextOption() throws IOException {
-        return br.readLine();
+    public String inputTextOption(){
+        try {
+            return br.readLine();
+        }catch (IOException e){
+            printWrongMenuMessage();
+            return null;
+        }
+
+
     }
 
     @Override
-    public String inputVoucherType() throws IOException {
-        return br.readLine();
+    public String inputVoucherType(){
+        try {
+            return br.readLine();
+        }catch (IOException e){
+            printWrongMenuMessage();
+            return null;
+        }
+
     }
 
     @Override

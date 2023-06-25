@@ -11,16 +11,22 @@ import java.util.List;
 public class CsvRepository implements BlackListRepository {
 
     @Override
-    public List<BlackConsumer> getBlackConsumerList() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(new File("/home/osh/Downloads/java_week1/spring_week1/src/main/resources/BlackListCsv.csv")));
-        List<BlackConsumer> blackConsumerList = new ArrayList<>();
-        String line = "";
-        while((line = br.readLine()) != null){
-            String[] consumer = line.split(",");
-            blackConsumerList.add(new BlackConsumer(consumer[0],consumer[1]));
-            System.out.println("---");
+    public List<BlackConsumer> getBlackConsumerList(){
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(new File("/home/osh/Downloads/java_week1/spring_week1/src/main/resources/BlackListCsv.csv")));
+            List<BlackConsumer> blackConsumerList = new ArrayList<>();
+            String line = "";
+            while((line = br.readLine()) != null){
+                String[] consumer = line.split(",");
+                blackConsumerList.add(new BlackConsumer(consumer[0],consumer[1]));
+                System.out.println("---");
+            }
+            System.out.println(blackConsumerList.get(0));
+            return blackConsumerList;
+        } catch (IOException e){
+            System.out.println("해당 파일이 존재하지 않습니다");
+            return null;
         }
-        System.out.println(blackConsumerList.get(0));
-        return blackConsumerList;
+
     }
 }

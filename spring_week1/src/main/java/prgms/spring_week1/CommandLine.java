@@ -31,29 +31,18 @@ public class CommandLine implements Runnable{
     public void run() {
         while (IS_RUNNING) {
             output.printMenuList();
-            try {
-                String selectOption = input.inputTextOption();
-                switch (findMenuName(selectOption)) {
-                    case EXIT -> System.exit(0);
-                    case CREATE -> {
-                        try {
-                            selectVoucherType();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    case LIST -> printAllVoucher();
-                    case BLACK -> {
-                        output.printBlackConsumerList(blackListRepository.getBlackConsumerList());
-                    }
-                    default -> output.printWrongMenuMessage();
+            String selectOption = input.inputTextOption();
+            switch (findMenuName(selectOption)) {
+                case EXIT -> System.exit(0);
+                case CREATE -> selectVoucherType();
+                case LIST -> printAllVoucher();
+                case BLACK -> output.printBlackConsumerList(blackListRepository.getBlackConsumerList());
+                default -> output.printWrongMenuMessage();
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
 
         }
-    }
+
 
     private Menu findMenuName(String inputText){
         try {
@@ -65,7 +54,7 @@ public class CommandLine implements Runnable{
 
     }
 
-    private void selectVoucherType() throws IOException {
+    private void selectVoucherType(){
         output.printTypeSelectMessage();
         String select = input.inputVoucherType();
 

@@ -8,5 +8,5 @@ import java.io.LineNumberInputStream;
 import java.util.List;
 
 public interface BlackListRepository {
-    public List<BlackConsumer> getBlackConsumerList() throws IOException;
+    public List<BlackConsumer> getBlackConsumerList();
 }
