@@ -24,4 +24,20 @@ class DiscountAmountTest {
         assertThatThrownBy(() -> new DiscountAmount(amount))
                 .isInstanceOf(AmountValueException.class);
     }
+
+    @DisplayName("할인 퍼센트가 최대값 최소값의 유효범위를 넘어가는 경우")
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "100",
+            "50",
+            "-572356",
+            "0",
+            "25",
+            "1",
+            "342345"
+    })
+    public void maxAndMinPercentTest(long percent) {
+        assertThatThrownBy(() -> new DiscountPercent(percent))
+                .isInstanceOf(AmountValueException.class);
+    }
 }

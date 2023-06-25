@@ -43,9 +43,9 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public long discount(long itemPrice) {
         if (available()) {
-            return discountPercent.discount(beforeDiscount);
+            return discountPercent.discount(itemPrice);
         }
         throw new AmountValueException();
     }

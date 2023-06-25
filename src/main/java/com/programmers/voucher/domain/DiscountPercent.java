@@ -16,8 +16,8 @@ public class DiscountPercent implements Discount {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return (long) (beforeDiscount * (1 - (percent / HUNDRED)));
+    public long discount(long itemPrice) {
+        return (long) (itemPrice * (1 - (percent / HUNDRED)));
     }
 
     private void validateDiscountAmount(long percent) {

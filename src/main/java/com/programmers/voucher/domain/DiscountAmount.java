@@ -20,15 +20,15 @@ public class DiscountAmount implements Discount {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        if (discountable(beforeDiscount)) {
-            return beforeDiscount - amount;
+    public long discount(long itemPrice) {
+        if (discountable(itemPrice)) {
+            return itemPrice - amount;
         }
         throw new AmountValueException();
     }
 
-    private boolean discountable(long beforeDiscount) {
-        return beforeDiscount > amount;
+    private boolean discountable(long itemPrice) {
+        return itemPrice > amount;
     }
 
     private void validateDiscountAmount(long amount) {

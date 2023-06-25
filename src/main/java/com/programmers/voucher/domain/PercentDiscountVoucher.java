@@ -43,9 +43,9 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public long discount(long itemPrice) {
         if (available()) {
-            return discountPercent.discount(beforeDiscount);
+            return discountPercent.discount(itemPrice);
         }
         throw new AmountValueException();
     }
@@ -55,10 +55,6 @@ public class PercentDiscountVoucher implements Voucher {
             return false;
         }
         return true;
-    }
-
-    public LocalDate expirationDate() {
-        return createdDate.plusDays(EXPIRATION_POLICY);
     }
 
     private boolean validateVoucherId(UUID voucherId) {
