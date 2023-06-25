@@ -21,7 +21,7 @@ public class Validator {
 
     public static void percentValidate(String percent){
         isNumber(percent);
-        isRange(percent);
+        isValidRange(percent);
     }
 
     private static void isNumber(String number){
@@ -32,7 +32,7 @@ public class Validator {
        }
     }
 
-    private static void isRange(String inputPercent){
+    private static void isValidRange(String inputPercent){
         int percent = Integer.parseInt(inputPercent);
 
         if(percent > PERCENT_MAX || percent < PERCENT_MIN){

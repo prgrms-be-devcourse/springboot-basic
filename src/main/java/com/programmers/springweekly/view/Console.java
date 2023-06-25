@@ -11,16 +11,16 @@ import java.util.UUID;
 @Component
 public class Console implements Input, Output {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
-    private final String PROGRAM_TITLE = "=== Voucher Program ===";
-    private final String PROGRAM_EXIT_GUIDE = "Type exit to exit the program.";
-    private final String PROGRAM_CREATE_GUIDE = "Type create to create a new voucher.";
-    private final String PROGRAM_LIST_GUIDE = "Type list to list all vouchers.";
-    private final String PROGRAM_BLACKLIST_GUIDE = "Type blacklist to blacklist all customer blacklist";
-    private final String VOUCHER_SELECT_GUIDE = "Select fixed or percent.";
-    private final String VOUCHER_DISCOUNT_GUIDE = "If fixed, enter freely, and if percentage, enter a number between 1 and 100.";
-    private final String GAME_END_EXIT_MESSAGE = "Program has ended.";
+    private static final String PROGRAM_TITLE = "=== Voucher Program ===";
+    private static final String PROGRAM_EXIT_GUIDE = "Type exit to exit the program.";
+    private static final String PROGRAM_CREATE_GUIDE = "Type create to create a new voucher.";
+    private static final String PROGRAM_LIST_GUIDE = "Type list to list all vouchers.";
+    private static final String PROGRAM_BLACKLIST_GUIDE = "Type blacklist to blacklist all customer blacklist";
+    private static final String VOUCHER_SELECT_GUIDE = "Select fixed or percent.";
+    private static final String VOUCHER_DISCOUNT_GUIDE = "If fixed, enter freely, and if percentage, enter a number between 1 and 100.";
+    private static final String GAME_END_EXIT_MESSAGE = "Program has ended.";
 
     @Override
     public String inputMessage() {
