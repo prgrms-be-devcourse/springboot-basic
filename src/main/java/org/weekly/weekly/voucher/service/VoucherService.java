@@ -9,6 +9,7 @@ import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -36,6 +37,4 @@ public class VoucherService {
             throw new RuntimeException(ExceptionMsg.VOUCHER_EXIST.getMsg());
         }
     }
-
-
 }

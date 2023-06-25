@@ -8,4 +8,9 @@ public class PercentDiscount implements Discount{
     public long applyDiscount(long beforeAmount, long discountAmount) {
         return beforeAmount - beforeAmount * discountAmount / PERCENT;
     }
+
+    @Override
+    public DiscountType discountType() {
+        return DiscountType.PERCENT;
+    }
 }
