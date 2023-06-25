@@ -8,7 +8,7 @@ import com.programmers.voucher.domain.voucher.VoucherFactory;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
 
-public class CommandLineApplication implements Runnable{
+public class CommandLineApplication implements Runnable {
     private final Console console;
     private final VoucherStream voucherStream;
     private final VoucherFactory voucherFactory;
@@ -31,9 +31,7 @@ public class CommandLineApplication implements Runnable{
                 System.out.println("[Error Occurred] " + e.getMessage());
                 continue;
             }
-            showListOfVouchers(type);
-            createVouchers(type);
-            showBlackListCustomer(type);
+            doLogic(type);
             if (type == Type.EXIT) {
                 System.out.println("프로그램이 종료됩니다.");
                 break;
@@ -41,37 +39,46 @@ public class CommandLineApplication implements Runnable{
         }
     }
 
-    private void showListOfVouchers(Type type) {
-        if (type == Type.LIST) {
-            voucherStream.findAll().forEach(
-                    (k, v) -> {
-                        if (v instanceof FixedAmountVoucher) {
-                            System.out.println("[FixedAmountVoucher | Voucher ID] : " + k + " | discount amount : " + ((FixedAmountVoucher) v).getAmount());
-                        } else {
-                            System.out.println("[PercentDiscountVoucher | ID] : " + k + " | discount percent : " + ((PercentDiscountVoucher) v).getPercent());
-                        }
-                    }
-            );
-        }
-    }
-
-    private void createVouchers(Type type) {
-        if (type == Type.CREATE) {
-            try {
-                voucherFactory.createVoucher(console.getVoucherVersion());
-            } catch (IllegalArgumentException e) {
-                System.out.println();
-                System.out.println("=== Error Occurred ===");
-                System.out.println(e.getMessage());
+    private void doLogic(Type type) {
+        switch (type) {
+            case CREATE -> {
+                logicForTypeCreate();
+            }
+            case LIST -> {
+                logicForTypeList();
+            }
+            case BLACK -> {
+                logicForTypeBlack();
             }
         }
     }
 
-    private void showBlackListCustomer(Type type) {
-        if (type == Type.BLACK) {
+    private void logicForTypeBlack() {
+        System.out.println();
+        System.out.println(" === BlackList Customer === ");
+        blackListStream.findAll().forEach(c -> System.out.println("- " + c));
+    }
+
+    private void logicForTypeList() {
+        voucherStream.findAll().forEach(
+                (k, v) -> {
+                    if (v instanceof FixedAmountVoucher) {
+                        System.out.println("[FixedAmountVoucher | Voucher ID] : " + k + " | discount amount : " + ((FixedAmountVoucher) v).getAmount());
+                    } else {
+                        System.out.println("[PercentDiscountVoucher | ID] : " + k + " | discount percent : " + ((PercentDiscountVoucher) v).getPercent());
+                    }
+                }
+        );
+    }
+
+    private void logicForTypeCreate() {
+        try {
+            voucherFactory.createVoucher(console.getVoucherVersion());
+        } catch (IllegalArgumentException e) {
             System.out.println();
-            System.out.println(" === BlackList Customer === ");
-            blackListStream.findAll().forEach( c -> System.out.println("- " + c));
+            System.out.println("=== Error Occurred ===");
+            System.out.println(e.getMessage());
         }
     }
+
 }
