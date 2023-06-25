@@ -19,6 +19,7 @@ class VoucherServiceTest {
     public static final int PERCENT_DISCOUNT_AMOUNT = 10;
     public static final String FIXED_AMOUNT_VOUCHER_TYPE = "FIXED";
     public static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "PERCENT";
+    public static final int EXPECTED_COUNT = 2;
 
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
     private VoucherService voucherService = new VoucherService(voucherRepository);
@@ -48,7 +49,7 @@ class VoucherServiceTest {
     @ParameterizedTest
     @NullSource
     void inputNullVoucherType(String voucherType) {
-        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(voucherType, 10))
+        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(voucherType, PERCENT_DISCOUNT_AMOUNT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
@@ -77,7 +78,7 @@ class VoucherServiceTest {
         List<VoucherInfoResponse> voucherList = voucherService.findVoucherList();
 
         //then
-        Assertions.assertThat(voucherList.size()).isEqualTo(2);
+        Assertions.assertThat(voucherList.size()).isEqualTo(EXPECTED_COUNT);
     }
 
 }

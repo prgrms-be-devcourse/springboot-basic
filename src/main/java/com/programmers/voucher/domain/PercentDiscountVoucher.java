@@ -31,7 +31,7 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public long discount(long originPrice) {
-        return originPrice - (originPrice * getDiscountAmount() / 100);
+        return originPrice - (originPrice * getDiscountAmount() / MAX_DISCOUNT_AMOUNT);
     }
 
     private static void validateDiscountAmount(long discountAmount) {
