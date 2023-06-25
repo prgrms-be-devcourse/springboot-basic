@@ -1,12 +1,14 @@
 package prgms.spring_week1.domain.voucher.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
 import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import prgms.spring_week1.exception.NoSuchOptionValue;
+import prgms.spring_week1.domain.voucher.service.validation.impl.DiscountAmountValidation;
+import prgms.spring_week1.domain.voucher.service.validation.impl.PercentDiscountValidation;
 import prgms.spring_week1.exception.NoSuchVoucherType;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
@@ -21,11 +23,15 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final Output output;
     private final Input input;
+    private final DiscountAmountValidation discountAmountValidation;
+    private final PercentDiscountValidation percentDiscountValidation;
 
-    public VoucherService(VoucherRepository voucherRepository, Output output, Input input) {
+    public VoucherService(VoucherRepository voucherRepository, Output output, Input input, @Qualifier("amount") DiscountAmountValidation discountAmountValidation,@Qualifier("percent") PercentDiscountValidation percentDiscountValidation) {
         this.voucherRepository = voucherRepository;
         this.output = output;
         this.input = input;
+        this.discountAmountValidation = discountAmountValidation;
+        this.percentDiscountValidation = percentDiscountValidation;
     }
 
     public Voucher matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
@@ -42,15 +48,25 @@ public class VoucherService {
     }
 
     private Voucher insertFixedAmountVoucher() {
-        output.printInsertFixedVoucherMessage();
-        long DiscountAmount = input.insertDiscountAmountVoucher();
-        return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),VoucherType.FIXED,DiscountAmount));
+        boolean IS_VALID = true;
+        long discountAmount = 0;
+        while (IS_VALID){
+            output.printInsertFixedVoucherMessage();
+            discountAmount = input.insertDiscountAmountVoucher();
+            IS_VALID = discountAmountValidation.invalidateInsertDiscountValue(discountAmount);
+        }
+        return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),VoucherType.FIXED,discountAmount));
     }
 
     private Voucher insertPercentDiscountVoucher() {
-        output.printInsertPercentVoucherMessage();
-        long FixedPercent = input.insertDiscountAmountVoucher();
-        return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),VoucherType.PERCENT,FixedPercent));
+        boolean IS_VALID = true;
+        long fixedAmount = 0;
+        while (IS_VALID){
+            output.printInsertPercentVoucherMessage();
+            fixedAmount = input.insertDiscountAmountVoucher();
+            IS_VALID = percentDiscountValidation.invalidateInsertDiscountValue(fixedAmount);
+        }
+        return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),VoucherType.PERCENT,fixedAmount));
     }
 
 }
