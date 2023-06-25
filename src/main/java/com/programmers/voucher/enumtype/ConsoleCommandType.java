@@ -26,12 +26,10 @@ public enum ConsoleCommandType {
                 .filter(i -> Objects.equals(i.input, input))
                 .findAny()
                 .orElseThrow(() -> {
-                    StringBuilder sb = new StringBuilder(ConsoleErrorMessages.INVALID_CONSOLE_COMMAND)
-                            .append(" Current input: ")
-                            .append(input);
+                    String errorMessage = ConsoleErrorMessages.INVALID_CONSOLE_COMMAND + input;
 
-                    log.warn("Invalid command type: {}", sb);
-                    return new IllegalArgumentException(sb.toString());
+                    log.warn("Invalid command type: {}", errorMessage);
+                    return new IllegalArgumentException(errorMessage);
                 });
     }
 

@@ -45,12 +45,10 @@ public enum VoucherType {
                 .filter(t -> Objects.equals(t.type, voucherType))
                 .findAny()
                 .orElseThrow(() -> {
-                    StringBuilder sb = new StringBuilder(VoucherErrorMessages.INVALID_VOUCHER_TYPE)
-                            .append(" Current input: ")
-                            .append(voucherType);
+                    String errorMessage = VoucherErrorMessages.INVALID_VOUCHER_TYPE + voucherType;
 
-                    log.warn("Invalid voucher type: {}", sb);
-                    return new IllegalArgumentException(sb.toString());
+                    log.warn("Invalid voucher type: {}", errorMessage);
+                    return new IllegalArgumentException(errorMessage);
                 });
     }
 
