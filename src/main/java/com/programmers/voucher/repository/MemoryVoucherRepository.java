@@ -6,25 +6,21 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryVoucherRepository implements VoucherRepository{
-    private static final Map<UUID, Voucher> STORE = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
 
     @Override
     public void save(Voucher voucher) {
-        STORE.put(voucher.getVoucherId(), voucher);
+        store.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(STORE.values());
+        return new ArrayList<>(store.values());
     }
 
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
-        return Optional.of(STORE.get(voucherId));
-    }
-
-    public static void clear() {
-        STORE.clear();
+        return Optional.of(store.get(voucherId));
     }
 
 }

@@ -20,16 +20,8 @@ class VoucherServiceTest {
     public static final String FIXED_AMOUNT_VOUCHER_TYPE = "FIXED";
     public static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "PERCENT";
 
-    private VoucherRepository voucherRepository;
-    private VoucherService voucherService;
-
-    @DisplayName("MemoryVoucherRepository, voucherService 초기화")
-    @BeforeEach
-    void init() {
-        MemoryVoucherRepository.clear();
-        voucherRepository = new MemoryVoucherRepository();
-        voucherService = new VoucherService(voucherRepository);
-    }
+    private VoucherRepository voucherRepository = new MemoryVoucherRepository();
+    private VoucherService voucherService = new VoucherService(voucherRepository);
 
     @DisplayName("다양한 바우처 생성 성공 테스트")
     @ParameterizedTest

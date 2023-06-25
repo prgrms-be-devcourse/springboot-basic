@@ -15,14 +15,7 @@ class MemoryVoucherRepositoryTest {
     public static final int PERCENT_DISCOUNT_AMOUNT = 10;
     public static final int FIXED_DISCOUNT_AMOUNT = 100;
 
-    private VoucherRepository voucherRepository;
-
-    @DisplayName("MemoryVoucherRepository 초기화")
-    @BeforeEach
-    void init() {
-        MemoryVoucherRepository.clear();
-        voucherRepository = new MemoryVoucherRepository();
-    }
+    private VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
     @DisplayName("바우처 저장 성공 테스트")
     @Test
