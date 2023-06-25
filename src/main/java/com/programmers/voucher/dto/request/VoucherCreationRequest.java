@@ -15,5 +15,4 @@ public record VoucherCreationRequest(String voucherType, long discountAmount) {
             throw new IllegalArgumentException("바우처 타입과 할인양을 입력해주세요.");
         }
     }
-
 }

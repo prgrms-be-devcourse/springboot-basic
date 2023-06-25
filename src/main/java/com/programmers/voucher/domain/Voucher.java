@@ -9,5 +9,4 @@ public interface Voucher {
     long getDiscountAmount();
 
     long discount(long beforeAmount);
-
 }
