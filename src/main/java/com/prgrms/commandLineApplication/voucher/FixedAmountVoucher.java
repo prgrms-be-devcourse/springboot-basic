@@ -1,9 +1,11 @@
 package com.prgrms.commandLineApplication.voucher;
 
+import java.util.UUID;
+
 public class FixedAmountVoucher extends Voucher {
 
-  public FixedAmountVoucher(String voucherType, double discountAmount) {
-    super(voucherType, discountAmount);
+  public FixedAmountVoucher(UUID voucherId, String voucherType, double discountAmount) {
+    super(voucherId, voucherType, discountAmount);
   }
 
   public double discount(double price) {

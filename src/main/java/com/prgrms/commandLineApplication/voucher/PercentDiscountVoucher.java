@@ -1,10 +1,12 @@
 package com.prgrms.commandLineApplication.voucher;
 
+import java.util.UUID;
+
 public class PercentDiscountVoucher extends Voucher {
   private static final int PERCENT_RATE_BASE = 100;
 
-  public PercentDiscountVoucher(String voucherType, double discountAmount) {
-    super(voucherType, discountAmount);
+  public PercentDiscountVoucher(UUID voucherId, String voucherType, double discountAmount) {
+    super(voucherId, voucherType, discountAmount);
   }
 
   public double discount(double price) {
