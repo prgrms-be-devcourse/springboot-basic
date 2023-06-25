@@ -28,6 +28,10 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long originalPrice) {
-        return originalPrice - amount;
+        long discountedPrice = originalPrice - amount;
+        if (discountedPrice < 0) {
+            throw new IllegalStateException("할인 금액이 물건 가격보다 더 큽니다.");
+        }
+        return discountedPrice;
     }
 }
