@@ -8,6 +8,7 @@ import com.programmers.voucher.request.VoucherCreateRequest;
 import com.programmers.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -16,8 +17,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class ConsoleMenu {
-    private final static Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
+public class ConsoleMenu implements CommandLineRunner {
+    private static final Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
 
     private final Console console;
     private final VoucherService voucherService;
@@ -27,8 +28,9 @@ public class ConsoleMenu {
         this.voucherService = voucherService;
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void start() {
+
+    @Override
+    public void run(String... args) throws Exception {
         log.info("Started Voucher Console Application.");
         console.printCommandSet();
 
@@ -57,13 +59,7 @@ public class ConsoleMenu {
         switch (commandType) {
             case CREATE -> {
                 log.info("Create voucher.");
-                String rawVoucherType = console.input("1. [fixed | percent]");
-                VoucherType voucherType = VoucherType.getValue(rawVoucherType);
-
-                Integer amount = console.intInput("2. [amount]");
-                voucherType.validateAmount(amount);
-
-                VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(voucherType, amount);
+                VoucherCreateRequest voucherCreateRequest = console.inputVoucherCreateInfo();
                 UUID voucherId = voucherService.createVoucher(voucherCreateRequest);
 
                 console.print("Created new voucher. VoucherID: " + voucherId.toString());

@@ -1,15 +1,14 @@
 package com.programmers.voucher.io;
 
 import com.programmers.voucher.enumtype.ConsoleCommandType;
+import com.programmers.voucher.request.VoucherCreateRequest;
 
 public interface Console {
     ConsoleCommandType inputInitialCommand();
 
     void printCommandSet();
 
-    String input(String hint);
-
-    Integer intInput(String hint);
+    VoucherCreateRequest inputVoucherCreateInfo();
 
     void print(String result);
 

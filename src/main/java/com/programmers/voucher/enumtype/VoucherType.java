@@ -4,6 +4,10 @@ import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.strategy.FixedAmountValidationStrategy;
+import com.programmers.voucher.strategy.PercentValidationStrategy;
+import com.programmers.voucher.strategy.VoucherValidationStrategy;
+import com.programmers.voucher.util.VoucherErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,33 +15,29 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.BiFunction;
-import java.util.function.Predicate;
 
 public enum VoucherType {
     FIXED_AMOUNT("fixed",
-            FixedAmountVoucher::new,
-            (amount) -> amount > 0,
-            "Fixed amount must be positive."),
+            new FixedAmountValidationStrategy(),
+            (voucherId, request) -> new FixedAmountVoucher(voucherId, request.getAmount())
+    ),
     PERCENT("percent",
-            PercentDiscountVoucher::new,
-            (amount) -> amount >= 0 && amount <= 100,
-            "Percent discount must between 0 and 100.");
+            new PercentValidationStrategy(),
+            (voucherId, request) -> new PercentDiscountVoucher(voucherId, request.getAmount())
+    );
 
     private static final Logger log = LoggerFactory.getLogger(VoucherType.class);
 
     private final String type;
+    private final VoucherValidationStrategy voucherValidator;
     private final BiFunction<UUID, VoucherCreateRequest, Voucher> createInstance;
-    private final Predicate<Integer> discountRange;
-    private final String validAmountMessage;
 
     VoucherType(String value,
-                BiFunction<UUID, VoucherCreateRequest, Voucher> createInstance,
-                Predicate<Integer> discountRange,
-                String validAmountMessage) {
+                VoucherValidationStrategy voucherValidator,
+                BiFunction<UUID, VoucherCreateRequest, Voucher> createInstance) {
         this.type = value;
         this.createInstance = createInstance;
-        this.discountRange = discountRange;
-        this.validAmountMessage = validAmountMessage;
+        this.voucherValidator = voucherValidator;
     }
 
     public static VoucherType getValue(String voucherType) {
@@ -45,7 +45,7 @@ public enum VoucherType {
                 .filter(t -> Objects.equals(t.type, voucherType))
                 .findAny()
                 .orElseThrow(() -> {
-                    StringBuilder sb = new StringBuilder("Voucher type is invalid.")
+                    StringBuilder sb = new StringBuilder(VoucherErrorMessages.INVALID_VOUCHER_TYPE)
                             .append(" Current input: ")
                             .append(voucherType);
 
@@ -54,19 +54,11 @@ public enum VoucherType {
                 });
     }
 
-    public Voucher createVoucher(UUID voucherId, VoucherCreateRequest request) {
-        return createInstance.apply(voucherId, request);
+    public void validateAmount(Integer amount) {
+        voucherValidator.validateAmount(amount);
     }
 
-    public void validateAmount(Integer amount) {
-        boolean amountInRange = discountRange.test(amount);
-        if (!amountInRange) {
-            StringBuilder sb = new StringBuilder(validAmountMessage)
-                    .append(" Current input: ")
-                    .append(amount);
-
-            log.warn("Invalid voucher amount: {}", sb);
-            throw new IllegalArgumentException(sb.toString());
-        }
+    public Voucher createVoucher(UUID voucherId, VoucherCreateRequest request) {
+        return createInstance.apply(voucherId, request);
     }
 }
