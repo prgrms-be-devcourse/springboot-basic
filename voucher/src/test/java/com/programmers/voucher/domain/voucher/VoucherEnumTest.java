@@ -23,6 +23,7 @@ class VoucherEnumTest {
     void decideVoucherType_error() {
         assertThatThrownBy(
                 () -> VoucherEnum.decideVoucherType(100)
-        ).isInstanceOf(IllegalArgumentException.class);
+        ).isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("지원하지 않는 버전입니다. 버전을 다시 확인 해주세요.");
     }
 }
