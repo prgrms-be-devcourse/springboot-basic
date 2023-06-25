@@ -71,8 +71,8 @@ class VoucherControllerTest {
             assertTrue(output.contains(VOUCHER_NAME_MESSAGE));
             assertTrue(output.contains(VOUCHER_CREATED_MESSAGE));
             assertTrue(output.contains(VOUCHER_LIST_TITLE_MESSAGE));
-            assertTrue(output.contains("Fixed Amount Voucher [Id = c18696c5-1529-463e-9e61-e9033b302405, voucher name = f1, discount amount = 20]"));
-            assertTrue(output.contains("Percent Discount Voucher [Id = d480e556-e132-4e41-9a32-85d84f8f454b, voucher name = d1, discount percent = 50]"));
+            assertTrue(output.contains("[ Voucher Type = Fixed Amount Voucher, Id = , discount amount = 20, voucher name = f1 ]"));
+            assertTrue(output.contains("[ Voucher Type = Percent Discount Voucher, Id = , discount percent = 50, voucher name = d1 ]"));
         } catch (NoSuchElementException ignore) {
         }
     }

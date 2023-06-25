@@ -44,9 +44,9 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "Fixed Amount Voucher [" +
-                "Id = " + voucherId +
-                ", voucher name = " + voucherName +
-                ", discount amount = " + amount + ']';
+        return "[ Voucher Type = Fixed Amount Voucher" +
+                ", Id = " + voucherId +
+                ", discount amount = " + amount +
+                ", voucher name = " + voucherName + " ]";
     }
 }
