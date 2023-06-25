@@ -5,10 +5,12 @@ import com.programmers.voucher.domain.VoucherFactory;
 import com.programmers.voucher.dto.reponse.VoucherInfoResponse;
 import com.programmers.voucher.dto.request.VoucherCreationRequest;
 import com.programmers.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
