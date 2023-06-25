@@ -4,7 +4,6 @@ import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.enumtype.VoucherType;
 import com.programmers.voucher.request.VoucherCreateRequest;
 import org.beryx.textio.TextIO;
-import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 

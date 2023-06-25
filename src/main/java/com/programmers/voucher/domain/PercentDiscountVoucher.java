@@ -1,7 +1,5 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.voucher.request.VoucherCreateRequest;
-
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
