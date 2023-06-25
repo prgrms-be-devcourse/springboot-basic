@@ -12,14 +12,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
+
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    public CustomersResponse findAll() {
-        List<Customer> customers = customerRepository.findAll();
+    public CustomersResponse findAllByBlackTypeCustomer() {
+        List<Customer> customers = customerRepository.findAllBlackCustomers();
 
         if (customers.isEmpty()) {
             throw new EmptyListException("저장된 블랙 리스트 고객이 없습니다."); // 예외를 던지는 처리

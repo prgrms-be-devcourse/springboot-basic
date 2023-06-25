@@ -1,6 +1,7 @@
 package org.promgrammers.springbootbasic.domain.customer.repository;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
+import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 import org.promgrammers.springbootbasic.util.FileConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,19 @@ public class CustomerRepository {
         }
         return customers;
     }
+
+    public List<Customer> findAllBlackCustomers() {
+        return findAllByCustomerType(CustomerType.BLACK);
+    }
+
+    private List<Customer> findAllByCustomerType(CustomerType customerType) {
+        List<Customer> customers = new ArrayList<>();
+        List<Customer> allCustomers = findAll();
+        for (Customer customer : allCustomers) {
+            if (customer.customerType() == customerType) {
+                customers.add(customer);
+            }
+        }
+        return customers;
+    }
 }
-
-
-

@@ -47,7 +47,7 @@ public class CommandLineController {
             }
             case LIST -> console.print(voucherService.findAll().toString());
             case EXIT -> CommandProgramStatus.stop();
-            case BLACKLIST -> console.print(customerService.findAll().toString());
+            case BLACKLIST -> console.print(customerService.findAllByBlackTypeCustomer().toString());
         }
     }
 
