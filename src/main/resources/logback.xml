@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <property name="FILE_LOG_PATTERN"
+              value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="com.prgms.VoucherApp.view" level="DEBUG"/>
+
+    <appender name="VOUCHER_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/voucherApp.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/voucherApp-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.prgms.VoucherApp" level="ERROR">
+        <appender-ref ref="VOUCHER_LOG_FILE"/>
+    </logger>
+
+</configuration>
