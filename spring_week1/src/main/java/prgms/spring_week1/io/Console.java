@@ -40,6 +40,17 @@ public class Console implements Input,Output{
     }
 
     @Override
+    public Long insertDiscountAmountVoucher() {
+        try {
+            return Long.parseLong(br.readLine());
+        }catch (IOException e){
+            printWrongMenuMessage();
+            return null;
+        }
+
+    }
+
+    @Override
     public void printMenuList() {
         System.out.println(printMenuListMessage);
     }
@@ -56,7 +67,7 @@ public class Console implements Input,Output{
 
     @Override
     public void printEmptyListMessage() {
-        System.out.println("empty list");
+        System.out.println("조회된 바우처 리스트가 없습니다.");
     }
 
     @Override
@@ -82,5 +93,10 @@ public class Console implements Input,Output{
     @Override
     public void printBlackConsumerList(List<BlackConsumer> blackConsumerList) {
         blackConsumerList.forEach(bl -> System.out.println(bl.getName() + " " + bl.getAge()));
+    }
+
+    @Override
+    public void printNoSuchVoucherType() {
+        System.out.println("해당 바우처 타입이 존재하지 않습니다.");
     }
 }

@@ -6,6 +6,8 @@ import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
+import prgms.spring_week1.exception.NoSuchOptionValue;
+import prgms.spring_week1.exception.NoSuchVoucherType;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
@@ -29,8 +31,6 @@ public class CommandLine implements Runnable{
 
     private final boolean IS_RUNNING = true;
 
-
-
     @Override
     public void run() {
         while (IS_RUNNING) {
@@ -44,7 +44,6 @@ public class CommandLine implements Runnable{
                 default -> output.printWrongMenuMessage();
                 }
             }
-
         }
 
 
@@ -52,19 +51,21 @@ public class CommandLine implements Runnable{
         try {
            Menu selectMenu = Menu.findMenuType(inputText);
            return selectMenu;
-        }catch (IllegalArgumentException e){
+        }catch (NoSuchOptionValue e){
             return Menu.INVALID;
         }
-
     }
 
     private void selectVoucherType(){
         output.printTypeSelectMessage();
-        String select = input.inputVoucherType();
+        try {
+            String select = input.inputVoucherType();
 
-        Voucher voucher = voucherService.matchVoucherType(select);
-        output.printInsertVoucherInfo(voucher);
-
+            Voucher voucher = voucherService.matchVoucherType(select);
+            output.printInsertVoucherInfo(voucher);
+        }catch (NoSuchVoucherType e){
+            output.printNoSuchVoucherType();
+        }
     }
 
     private void printAllVoucher(){

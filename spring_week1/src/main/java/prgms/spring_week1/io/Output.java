@@ -15,4 +15,5 @@ public interface Output {
     void printInsertPercentVoucherMessage();
     void printInsertVoucherInfo(Voucher voucher);
     void printBlackConsumerList(List<BlackConsumer> blackConsumerList);
+    void printNoSuchVoucherType();
 }
