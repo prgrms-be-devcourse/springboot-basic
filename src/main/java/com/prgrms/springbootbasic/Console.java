@@ -1,8 +1,11 @@
 package com.prgrms.springbootbasic;
 
+import com.prgrms.springbootbasic.controller.FixedDiscountVoucherController;
+import com.prgrms.springbootbasic.controller.PercentDiscountVoucherController;
 import com.prgrms.springbootbasic.io.Input;
 import com.prgrms.springbootbasic.io.Output;
-import jline.Terminal;
+import com.prgrms.springbootbasic.repository.VoucherRepository;
+import com.prgrms.springbootbasic.service.VoucherService;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
 
@@ -10,6 +13,17 @@ import org.beryx.textio.TextTerminal;
 public class Console<T extends TextTerminal>  implements Input, Output {
     private TextIO textIO;
     private T terminal;
+    private final FixedDiscountVoucherController fixedDiscountVoucherController;
+    private final PercentDiscountVoucherController percentDiscountVoucherController;
+    private final VoucherService voucherService;
+
+    public Console(TextIO textIO, T terminal, VoucherRepository voucherRepository) {
+        this.textIO = textIO;
+        this.terminal = terminal;
+        this.voucherService= new VoucherService(voucherRepository);
+        this.fixedDiscountVoucherController = new FixedDiscountVoucherController(this, this, voucherService);
+        this.percentDiscountVoucherController = new PercentDiscountVoucherController(this, this, voucherService);
+    }
 
     @Override
     public String readCommand(String message) {
