@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.util;
 
 import org.prgrms.kdt.exception.InvalidInputException;
 
@@ -7,7 +7,8 @@ import java.util.Arrays;
 public enum Menu {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACK_LIST("blacklist");
 
     private final String menuString;
 

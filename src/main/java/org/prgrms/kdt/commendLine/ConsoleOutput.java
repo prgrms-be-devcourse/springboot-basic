@@ -1,5 +1,6 @@
 package org.prgrms.kdt.commendLine;
 
+import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;
@@ -8,7 +9,8 @@ public class ConsoleOutput {
     public static void printMenu() {
         System.out.println("Type -exit- to exit the program.\n" +
                 "Type -create- to create a new voucher.\n" +
-                "Type -list- to list all vouchers.");
+                "Type -list- to list all vouchers.\n" +
+                "Type -blacklist- to list all blackList");
     }
 
     public static void printVoucherTypes() {
@@ -19,6 +21,11 @@ public class ConsoleOutput {
     public static void printAllBoucher(List<Voucher> vouchers) {
         vouchers.stream()
                 .forEach(e -> System.out.println(e.getVoucherType()));
+    }
+
+    public static void printAllBlackList(List<Member> blackList){
+        blackList.stream()
+                .forEach(e -> System.out.println(e.getMemberName()));
     }
 
     public static void printError(){

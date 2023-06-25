@@ -3,6 +3,8 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.commendLine.ConsoleInput;
 import org.prgrms.kdt.commendLine.ConsoleOutput;
 import org.prgrms.kdt.exception.InvalidInputException;
+import org.prgrms.kdt.member.controller.MemberController;
+import org.prgrms.kdt.util.Menu;
 import org.prgrms.kdt.voucher.controller.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +16,11 @@ import java.io.IOException;
 public class CommendLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommendLineRunner.class);
     private final VoucherController voucherController;
+    private final MemberController memberController;
 
-    public CommendLineRunner(VoucherController voucherController) {
+    public CommendLineRunner(VoucherController voucherController, MemberController memberController) {
         this.voucherController = voucherController;
+        this.memberController = memberController;
     }
 
     public void run(){
@@ -48,6 +52,10 @@ public class CommendLineRunner {
             voucherController.findAll();
             return true;
         }
-        return true;
+        if (menu == Menu.BLACK_LIST){
+            memberController.findAllBlackMember();
+            return true;
+        }
+        throw new InvalidInputException();
     }
 }

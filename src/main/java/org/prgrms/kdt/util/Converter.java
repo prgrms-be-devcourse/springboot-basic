@@ -1,6 +1,8 @@
-package org.prgrms.kdt.voucher.util;
+package org.prgrms.kdt.util;
 
 import org.prgrms.kdt.exception.DatabaseReadException;
+import org.prgrms.kdt.member.domain.Member;
+import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
@@ -17,13 +19,17 @@ public class Converter {
         return originalString.split(delimiter);
     }
 
-    public static Voucher stringArrToVoucher(String[] StringArr){
-        if (StringArr[1].equals("FixedAmountVoucher")){
-            return new FixedAmountVoucher(UUID.fromString(StringArr[0]));
+    public static Voucher stringArrToVoucher(String[] stringArr){
+        if (stringArr[1].equals("FixedAmountVoucher")){
+            return new FixedAmountVoucher(UUID.fromString(stringArr[0]));
         }
-        if (StringArr[1].equals("PercentDiscountVoucher")){
-            return new PercentDiscountVoucher(UUID.fromString(StringArr[0]));
+        if (stringArr[1].equals("PercentDiscountVoucher")){
+            return new PercentDiscountVoucher(UUID.fromString(stringArr[0]));
         }
         throw new DatabaseReadException();
+    }
+
+    public static Member stringArrToMember(String[] stringArr, MemberStatus status) {
+        return new Member(UUID.fromString(stringArr[0]), stringArr[1], status);
     }
 }
