@@ -4,6 +4,7 @@ import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.service.VoucherService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,6 +35,7 @@ class ConsoleMenuTest {
     private Console console;
 
     @Test
+    @DisplayName("create 명령 입력 - 성공")
     public void commandTypeCreate() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CREATE);
@@ -49,6 +51,7 @@ class ConsoleMenuTest {
     }
 
     @Test
+    @DisplayName("create 명령 입력 - 잘못된 바우처 타입 - 예외 발생")
     void commandTypeCreate_ButInvalidVoucherType_Then_Exception() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CREATE);
@@ -62,6 +65,7 @@ class ConsoleMenuTest {
     }
 
     @Test
+    @DisplayName("create 명령 입력 - fixed 바우처 타입 - 잘못된 할인값 - 예외 발생")
     void commandTypeCreate_VoucherTypeFixed_ButInvalidAmount_Then_Exception() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CREATE);
@@ -79,6 +83,7 @@ class ConsoleMenuTest {
     @CsvSource({
             "-1", "101"
     })
+    @DisplayName("create 명령 입력 - percent 바우처 타입 - 잘못된 할인값 - 예외 발생")
     void commandTypeCreate_VoucherTypePercent_ButInvalidAmount_Then_Exception(int amount) {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CREATE);
@@ -93,6 +98,7 @@ class ConsoleMenuTest {
     }
 
     @Test
+    @DisplayName("list 명령 입력 - 성공")
     void commandTypeList() {
         //given
         Voucher fixedVoucher1 = createFixedVoucher(UUID.randomUUID(), 10);

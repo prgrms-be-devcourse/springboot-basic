@@ -2,6 +2,7 @@ package com.programmers.voucher.repository;
 
 import com.programmers.voucher.domain.Voucher;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,6 +20,7 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
+    @DisplayName("Voucher 저장 - 성공")
     void save() {
         //given
         UUID voucherId = UUID.randomUUID();
@@ -34,6 +36,7 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
+    @DisplayName("Voucher 목록 조회 - 성공")
     void findAll() {
         //given
         Voucher fixedVoucherA = createFixedVoucher(UUID.randomUUID(), 10);
