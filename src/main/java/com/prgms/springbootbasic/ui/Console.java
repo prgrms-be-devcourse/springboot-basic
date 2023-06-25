@@ -1,10 +1,7 @@
 package com.prgms.springbootbasic.ui;
 
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 
-@Component
 public class Console {
 	
 	private final InputView inputView;
