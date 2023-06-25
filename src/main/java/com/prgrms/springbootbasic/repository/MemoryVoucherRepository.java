@@ -1,8 +1,6 @@
 package com.prgrms.springbootbasic.repository;
 
 import com.prgrms.springbootbasic.domain.Voucher;
-import com.prgrms.springbootbasic.service.VoucherService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
