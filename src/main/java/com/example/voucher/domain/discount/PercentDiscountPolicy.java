@@ -1,4 +1,6 @@
-package com.example.voucher;
+package com.example.voucher.domain.discount;
+
+import com.example.voucher.domain.Voucher;
 
 public class PercentDiscountPolicy implements DiscountPolicy {
     private double percent;

@@ -1,4 +1,4 @@
-package com.example.voucher;
+package com.example.voucher.domain;
 
 public class Voucher {
     private String voucherId;
