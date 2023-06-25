@@ -2,9 +2,9 @@ package prgms.spring_week1.domain.customer.model;
 
 public class BlackConsumer {
     private String name;
-    private int age;
+    private String age;
 
-    public BlackConsumer(String name, int age) {
+    public BlackConsumer(String name, String age) {
         this.name = name;
         this.age = age;
     }
@@ -13,7 +13,7 @@ public class BlackConsumer {
         return name;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 }

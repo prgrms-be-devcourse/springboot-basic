@@ -1,5 +1,6 @@
 package prgms.spring_week1.io;
 
+import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +25,8 @@ public class Console implements Input,Output{
         System.out.println( "=== Voucher Program ==="+ NEW_LINE +
                 "Type exit to exit the program."+ NEW_LINE +
                 "Type create to create a new voucher."+ NEW_LINE +
-                "Type list to list all vouchers.");
+                "Type list to list all vouchers."+NEW_LINE+
+                "Type black to list all blackList");
     }
 
     @Override
@@ -62,5 +64,10 @@ public class Console implements Input,Output{
     @Override
     public void printInsertVoucherInfo(Voucher voucher) {
         System.out.println(voucher);
+    }
+
+    @Override
+    public void printBlackConsumerList(List<BlackConsumer> blackConsumerList) {
+        blackConsumerList.forEach(bl -> System.out.println(bl.getAge() + bl.getName()));
     }
 }

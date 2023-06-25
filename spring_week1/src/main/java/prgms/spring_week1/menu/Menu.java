@@ -6,7 +6,8 @@ public enum Menu {
     INVALID(""),
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACK("black");
 
     private final String menuName;
 
