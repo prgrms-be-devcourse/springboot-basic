@@ -16,9 +16,8 @@ public enum VoucherMenu {
     private final static Map<String, VoucherMenu> VOUCHER_MENU_MAP;
     static {
         VOUCHER_MENU_MAP = new ConcurrentHashMap<>();
-        for(VoucherMenu menu : VoucherMenu.values()) {
-            VOUCHER_MENU_MAP.put(menu.input, menu);
-        }
+        Arrays.stream(VoucherMenu.values())
+                .forEach(menu -> VOUCHER_MENU_MAP.put(menu.input, menu));
     }
 
     VoucherMenu(String input, String printMsg) {
