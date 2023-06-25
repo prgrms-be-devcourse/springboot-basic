@@ -1,4 +1,4 @@
-package org.prgrms.kdt.util;
+package org.prgrms.kdt;
 
 import org.prgrms.kdt.exception.InvalidInputException;
 

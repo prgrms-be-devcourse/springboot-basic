@@ -1,7 +1,6 @@
 package org.prgrms.kdt.voucher.domain;
 
 import org.prgrms.kdt.exception.InvalidInputException;
-import org.prgrms.kdt.util.Menu;
 
 import java.util.Arrays;
 

@@ -3,7 +3,6 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.commendLine.ConsoleInput;
 import org.prgrms.kdt.commendLine.ConsoleOutput;
 import org.prgrms.kdt.exception.InvalidInputException;
-import org.prgrms.kdt.util.Menu;
 import org.prgrms.kdt.voucher.controller.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

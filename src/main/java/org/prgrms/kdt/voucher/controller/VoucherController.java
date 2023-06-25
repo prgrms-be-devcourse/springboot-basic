@@ -24,7 +24,7 @@ public class VoucherController {
         voucherService.createVoucher(voucherType);
     }
 
-    public void findAll() {
+    public void findAll() throws IOException {
         List<Voucher> vouchers = voucherService.findAll();
         ConsoleOutput.printAllBoucher(vouchers);
     }

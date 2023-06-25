@@ -7,6 +7,7 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType voucherType) {
+    public Voucher createVoucher(VoucherType voucherType) throws IOException {
         Optional<Voucher> userVoucher = Optional.empty();
         if (voucherType == VoucherType.FIXED){
             userVoucher = Optional.of(new FixedAmountVoucher(UUID.randomUUID()));
@@ -33,7 +34,7 @@ public class VoucherService {
         return voucher;
     }
 
-    public List<Voucher> findAll() {
+    public List<Voucher> findAll() throws IOException {
         List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers;
     }
