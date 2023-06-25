@@ -23,12 +23,11 @@ public enum VoucherPolicy {
                 .findFirst();
     }
 
-    @Override
-    public String toString() {
+    public String voucherPolicyOptionGuid() {
         return number + "번 : " + policy;
     }
 
-    public String getDiscountGuide() {
+    public String discountGuide() {
         return discountGuide;
     }
 }
