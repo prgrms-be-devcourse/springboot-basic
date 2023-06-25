@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.UUID;
@@ -34,5 +35,15 @@ class PercentDiscountVoucherTest {
         Assertions.assertThatThrownBy(() -> PercentDiscountVoucher.of(UUID.randomUUID(), discountAmount))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);
+    }
+
+    @DisplayName("생성할 퍼센 할인 바우처의 아이디가 비어있을 경우 예외 발생 테스트")
+    @ParameterizedTest
+    @NullSource
+    void notIncludeVoucherId(UUID voucherId) {
+        long discountAmount = 50;
+        Assertions.assertThatThrownBy(() -> FixedAmountVoucher.of(voucherId, discountAmount))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("바우처 아이디가 비어있습니다.");
     }
 }

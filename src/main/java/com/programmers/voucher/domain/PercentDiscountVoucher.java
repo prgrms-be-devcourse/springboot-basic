@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher{
@@ -15,6 +16,7 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     public static Voucher of(UUID voucherId, long discountAmount) {
+        validateVoucherId(voucherId);
         validateDiscountAmount(discountAmount);
         return new PercentDiscountVoucher(voucherId, discountAmount);
     }
@@ -34,10 +36,15 @@ public class PercentDiscountVoucher implements Voucher{
         return originPrice - (originPrice * getDiscountAmount() / MAX_DISCOUNT_AMOUNT);
     }
 
+    private static void validateVoucherId(UUID voucherId) {
+        if (Objects.isNull(voucherId)) {
+            throw new IllegalArgumentException("바우처 아이디가 비어있습니다.");
+        }
+    }
+
     private static void validateDiscountAmount(long discountAmount) {
         if (discountAmount > MAX_DISCOUNT_AMOUNT || discountAmount < MIN_DISCOUNT_AMOUNT) {
             throw new IllegalArgumentException(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);
         }
     }
-
 }
