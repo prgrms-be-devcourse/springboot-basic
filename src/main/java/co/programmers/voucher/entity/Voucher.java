@@ -36,8 +36,7 @@ public class Voucher {
 
 		if (description == null || description.isBlank() || description.isEmpty()) {
 			exceptionMessage.append("Empty value for description.\n");
-		}
-		if (description.length() > descriptionMaxLength) {
+		}else if (description.length() > descriptionMaxLength) {
 			exceptionMessage.append("Description must have up to ");
 			exceptionMessage.append(descriptionMaxLength);
 			exceptionMessage.append(" characters.\n");
