@@ -1,6 +1,5 @@
 package kr.co.programmers.springbootbasic.io;
 
-
 import kr.co.programmers.springbootbasic.util.VoucherUtils;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
 import org.springframework.stereotype.Component;

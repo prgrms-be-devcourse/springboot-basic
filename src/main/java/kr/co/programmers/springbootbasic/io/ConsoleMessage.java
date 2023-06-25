@@ -3,9 +3,9 @@ package kr.co.programmers.springbootbasic.io;
 public final class ConsoleMessage {
     public static final String VOUCHER_PROGRAM_MENU = """
             === Voucher Program ===
-            Type **exit** to exit the program.
-            Type **create** to create a new voucher.
-            Type **list** to list all vouchers.
+            Type **1** to exit the program.
+            Type **2** to create a new voucher.
+            Type **3** to list all vouchers.
                         
             Type here :\s""";
     public static final String VOUCHER_CREATION_MENU = """
