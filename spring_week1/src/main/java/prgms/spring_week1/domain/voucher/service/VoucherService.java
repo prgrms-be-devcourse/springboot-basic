@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 
 @Service
 public class VoucherService {
-    Scanner sc = new Scanner(System.in);
     private final VoucherRepository voucherRepository;
     private final Output output;
     private final Input input;
