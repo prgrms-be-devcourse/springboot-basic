@@ -4,15 +4,19 @@ import org.weekly.weekly.ui.exception.ReadException;
 
 public class VoucherInfoRequest {
     private static final String SPLIT_FORMAT = ",";
+    private static final int AMOUNT_NO = 0;
+    private static final int EXPIRATION = 1;
+
     private final String amount;
-    private final String expiratioin;
+    private final String expiration;
+
 
     public VoucherInfoRequest(String userInput) {
         String[] inputs = userInput.split(userInput);
         checkReadVoucherException(inputs);
 
-        this.amount = inputs[0];
-        this.expiratioin = inputs[1];
+        this.amount = inputs[AMOUNT_NO];
+        this.expiration = inputs[EXPIRATION];
     }
 
     private void checkReadVoucherException(String[] inputs) {
@@ -24,7 +28,7 @@ public class VoucherInfoRequest {
         return amount;
     }
 
-    public String getExpiratioin() {
-        return expiratioin;
+    public String getExpiration() {
+        return expiration;
     }
 }

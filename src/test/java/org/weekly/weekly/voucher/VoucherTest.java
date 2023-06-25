@@ -42,7 +42,7 @@ public class VoucherTest {
 
             // when
             VoucherDto voucherDto = VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate);
-            voucherRepository.insert(voucherDto.parseWith(discount));
+            voucherRepository.insert(voucherDto.parseToVoucher());
 
             // then
             assertThat(voucherRepository.findById(voucherId).isPresent()).isTrue();
