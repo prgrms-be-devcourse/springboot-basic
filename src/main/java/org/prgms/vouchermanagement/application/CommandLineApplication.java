@@ -81,23 +81,13 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
         VoucherType voucherType = VoucherType.getVoucherType(console.getVoucherTypeInput());
 
         if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
-            amountOrPercent = getFixedVoucherAmount();
+            amountOrPercent = console.getFixedVoucherAmount();
         } else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
-            amountOrPercent = getPercentDiscount();
+            amountOrPercent = console.getPercentDiscount();
         }
 
         voucherService.createNewVoucher(voucherType, amountOrPercent);
         console.printSavedFinished();
-    }
-
-    private long getPercentDiscount() {
-        console.printGetPercentDiscount();
-        return console.getPercentDiscount();
-    }
-
-    public long getFixedVoucherAmount() {
-        console.printGetFixedVoucherAmount();
-        return console.getFixedVoucherAmount();
     }
 
     public void showVoucherList() {

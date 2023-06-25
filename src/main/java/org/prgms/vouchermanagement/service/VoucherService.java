@@ -40,7 +40,6 @@ public class VoucherService {
         } else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             return percentDiscountVoucherRepository.getVoucherList();
         }
-
         return Optional.empty();
     }
 }

@@ -114,6 +114,7 @@ public class Console {
     }
 
     public long getFixedVoucherAmount() {
+        printGetFixedVoucherAmount();
         String amount = scanner.nextLine();
         validator.checkFixedAmount(amount);
 
@@ -121,6 +122,7 @@ public class Console {
     }
 
     public long getPercentDiscount() {
+        printGetPercentDiscount();
         String percent = scanner.nextLine();
         validator.checkPercent(percent);
 
