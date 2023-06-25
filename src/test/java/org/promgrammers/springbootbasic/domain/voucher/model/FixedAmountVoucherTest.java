@@ -12,9 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FixedAmountVoucherTest {
 
-    @DisplayName("생성 성공 - amount가 0이상 ")
+    @DisplayName("생성 성공 - amount가 0보다 크다 ")
     @ParameterizedTest
-    @ValueSource(longs = {0L, 1L, 4L, 10L, 100L})
+    @ValueSource(longs = {1L, 4L, 10L, 100L})
     void creationSuccessTest(long amount) throws Exception {
 
         Assertions.assertDoesNotThrow(() -> new FixedAmountVoucher(UUID.randomUUID(), amount));
@@ -22,7 +22,7 @@ class FixedAmountVoucherTest {
 
     @DisplayName("생성 실패 - amount가 0이하")
     @ParameterizedTest
-    @ValueSource(longs = {-1, -10L, -20L})
+    @ValueSource(longs = {0, -1, -10L, -20L})
     void creationFailTest(long amount) throws Exception {
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new FixedAmountVoucher(UUID.randomUUID(), amount));
