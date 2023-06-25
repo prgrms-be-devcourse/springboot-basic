@@ -8,7 +8,6 @@ import org.beryx.textio.TextTerminal;
 import java.util.Arrays;
 
 public class ConsoleOutput implements Output {
-    //TODO DI 적용?
     private static final TextIO textIO = TextIoFactory.getTextIO();
     private static final TextTerminal<?> textTerminal = textIO.getTextTerminal();
 
@@ -17,10 +16,20 @@ public class ConsoleOutput implements Output {
         textTerminal.println("=== Voucher Program ===");
 
         Arrays.stream(Command.values())
+                .forEach(command -> { //TODO 반복 코드 개선
+                    textTerminal.print("Type ");
+                    textTerminal.print(Style.apply(command.getCode(), Style.BOLD));
+                    textTerminal.println(" to " + command.getText());
+                });
+    }
+
+    @Override
+    public void displayVoucherCommands() {
+        Arrays.stream(VoucherCommand.values())
                 .forEach(command -> {
                     textTerminal.print("Type ");
-                    textTerminal.print(Style.apply(command.getValue(), Style.BOLD));
-                    textTerminal.println(" " + command.getText());
+                    textTerminal.print(Style.apply(command.getCode(), Style.BOLD));
+                    textTerminal.println(" to " + command.getText());
                 });
     }
 }
