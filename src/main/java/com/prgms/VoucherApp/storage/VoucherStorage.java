@@ -12,5 +12,5 @@ public interface VoucherStorage {
 
     List<Voucher> findAll();
 
-    Voucher save(Voucher voucher);
+    void save(Voucher voucher);
 }
