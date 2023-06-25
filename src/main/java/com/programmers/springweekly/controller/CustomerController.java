@@ -19,8 +19,8 @@ public class CustomerController {
         this.console = console;
     }
 
-    public void getCustomerBlackList(){
-        Map<UUID, Customer> customerMap = customerService.getCustomerBlackList();
+    public void getBlackList(){
+        Map<UUID, Customer> customerMap = customerService.getBlackList();
 
         if(customerMap.size() != 0){
             console.outputGetCustomerBlackList(customerMap);

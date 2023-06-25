@@ -39,7 +39,7 @@ public class ConsoleApplication implements CommandLineRunner {
                         console.outputExitMessage();
                         running = false;
                     }
-                    case CUSTOMER_BLACKLIST -> customerController.getCustomerBlackList();
+                    case CUSTOMER_BLACKLIST -> customerController.getBlackList();
                 }
 
             } catch(Exception e){

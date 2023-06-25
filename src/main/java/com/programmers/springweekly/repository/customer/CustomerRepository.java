@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    Map<UUID, Customer> getCustomerTypeBlackList();
+    Map<UUID, Customer> getBlackList();
 }

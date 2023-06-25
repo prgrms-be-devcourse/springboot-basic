@@ -16,7 +16,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Map<UUID, Customer> getCustomerBlackList(){
-        return customerRepository.getCustomerTypeBlackList();
+    public Map<UUID, Customer> getBlackList(){
+        return customerRepository.getBlackList();
     }
 }

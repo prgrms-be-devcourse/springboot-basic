@@ -23,14 +23,14 @@ public class FileCustomerRepository implements CustomerRepository{
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
     @Override
-    public Map<UUID, Customer> getCustomerTypeBlackList() {
+    public Map<UUID, Customer> getBlackList() {
         try {
             BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path));
             String line = "";
 
             while((line = bufferedReader.readLine()) != null){
                 String[] readLine = line.split(",");
-                checkCustomerBlack(readLine);
+                ifCustomerBlackSaveCustomer(readLine);
             }
         } catch (Exception e){
             logger.error("error message: {}", e.getMessage());
@@ -39,7 +39,7 @@ public class FileCustomerRepository implements CustomerRepository{
         return customerMap;
     }
 
-    private void checkCustomerBlack(String[] readLine){
+    private void ifCustomerBlackSaveCustomer(String[] readLine){
         UUID uuid = UUID.fromString(readLine[0]);
         CustomerType customerType = CustomerType.findCustomerType(readLine[1]);
 
