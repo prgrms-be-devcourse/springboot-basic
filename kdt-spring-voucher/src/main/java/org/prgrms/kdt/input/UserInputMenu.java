@@ -11,4 +11,16 @@ public class UserInputMenu implements UserInput{
     public String userInputMenuCommand() {
         return scanner.nextLine().trim();
     }
+
+    @Override
+    public String userInputVoucherCreateMenuCommand() {
+        return scanner.nextLine().trim();
+    }
+
+    @Override
+    public long userInputVoucherValue() {
+        long voucherValue = scanner.nextLong();
+        scanner.nextLine();
+        return voucherValue;
+    }
 }
