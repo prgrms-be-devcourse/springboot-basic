@@ -2,6 +2,7 @@ package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
+import com.programmers.springweekly.util.GeneratorDeepCopiedType;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,14 +19,21 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class FileCustomerRepository implements CustomerRepository{
 
-    @Value("${file.customer.path}")
-    private String file_path;
+    private final GeneratorDeepCopiedType generatorDeepCopiedType;
+
     private final Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
+    @Value("${file.customer.path}")
+    private String file_path;
+
+    public FileCustomerRepository(GeneratorDeepCopiedType generatorDeepCopiedType) {
+        this.generatorDeepCopiedType = generatorDeepCopiedType;
+    }
+
     @Override
     public Map<UUID, Customer> getBlackList() {
-        return customerMap;
+        return generatorDeepCopiedType.copiedMap(customerMap);
     }
 
     private void ifCustomerBlackSaveCustomer(String[] readLine){
