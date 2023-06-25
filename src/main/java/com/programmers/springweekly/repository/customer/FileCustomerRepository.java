@@ -2,6 +2,7 @@ package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,18 +25,6 @@ public class FileCustomerRepository implements CustomerRepository{
 
     @Override
     public Map<UUID, Customer> getBlackList() {
-        try {
-            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path));
-            String line = "";
-
-            while((line = bufferedReader.readLine()) != null){
-                String[] readLine = line.split(",");
-                ifCustomerBlackSaveCustomer(readLine);
-            }
-        } catch (Exception e){
-            logger.error("error message: {}", e.getMessage());
-        }
-
         return customerMap;
     }
 
@@ -47,6 +36,22 @@ public class FileCustomerRepository implements CustomerRepository{
             Customer customer = new Customer(uuid, CustomerType.BLACKLIST);
 
             customerMap.put(customer.getCustomerId(), customer);
+        }
+    }
+
+    @PostConstruct
+    public void loadingBlackListToMemory(){
+        try {
+            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path));
+            String line = "";
+
+            while((line = bufferedReader.readLine()) != null){
+                String[] readLine = line.split(",");
+                ifCustomerBlackSaveCustomer(readLine);
+            }
+
+        } catch (Exception e){
+            logger.error("error message: {}", e.getMessage());
         }
     }
 }
