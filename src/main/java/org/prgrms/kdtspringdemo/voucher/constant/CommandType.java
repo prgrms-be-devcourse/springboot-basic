@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.Voucher.constant;
+package org.prgrms.kdtspringdemo.voucher.constant;
 
 import java.util.Arrays;
 
@@ -7,9 +7,9 @@ public enum CommandType {
     CREATE,
     LIST;
 
-    public static CommandType findCommandType(String userInputCommand) {
+    public static CommandType findCommandType(String userCommand) {
         return Arrays.stream(CommandType.values())
-                .filter(commandType -> commandType.name().equals(userInputCommand))
+                .filter(commandType -> commandType.name().equals(userCommand))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("입력을 잘못하였습니다."));
     }

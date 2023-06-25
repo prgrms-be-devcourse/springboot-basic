@@ -1,6 +1,10 @@
 package org.prgrms.kdtspringdemo;
 
-import org.prgrms.kdtspringdemo.Voucher.constant.CommandType;
+import org.prgrms.kdtspringdemo.voucher.constant.CommandType;
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
+import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
+import org.prgrms.kdtspringdemo.voucher.model.vo.VoucherVO;
+import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,10 +12,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommandLineApplication {
     private final VoucherConsole voucherConsole;
+    private final VoucherService voucherService;
 
     @Autowired
-    public CommandLineApplication(VoucherConsole voucherConsole) {
+    public CommandLineApplication(VoucherConsole voucherConsole, VoucherService voucherService) {
         this.voucherConsole = voucherConsole;
+        this.voucherService = voucherService;
     }
 
     public void run() {
@@ -22,7 +28,6 @@ public class CommandLineApplication {
             userCommand = voucherConsole.InputCommand().toUpperCase();
             CommandType commandType = CommandType.findCommandType(userCommand);
             executeCommand(commandType);
-
         }
     }
 
@@ -32,7 +37,11 @@ public class CommandLineApplication {
                 voucherConsole.printSystemShutdown();
             }
             case CREATE -> {
-                //create Logic
+                String userVoucherType = voucherConsole.ChooseVoucherType().toUpperCase();
+                VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
+                Long discount = voucherConsole.InputDiscountByVoucher();
+                VoucherVO voucher = voucherService.createVoucher(new VoucherVO(voucherType, discount));
+                voucherConsole.printCreatedVoucher(voucher);
             }
             case LIST -> {
                 //List Logic

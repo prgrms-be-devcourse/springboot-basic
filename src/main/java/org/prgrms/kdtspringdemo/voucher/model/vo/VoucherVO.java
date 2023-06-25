@@ -18,4 +18,9 @@ public class VoucherVO {
     public long getDiscount() {
         return discount;
     }
+
+    @Override
+    public String toString() {
+        return "type : " + voucherType + "\ndiscount : " + discount + "\n";
+    }
 }
