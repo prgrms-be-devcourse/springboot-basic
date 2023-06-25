@@ -4,19 +4,19 @@ import com.programmers.global.exception.MenuTypeFormatException;
 
 import java.util.Arrays;
 
-public enum Command {
+public enum CommandType {
     LIST("list"),
     CREATE("create"),
     EXIT("exit");
 
     private final String command;
 
-    Command(String command) {
+    CommandType(String command) {
         this.command = command;
     }
 
-    public static Command findByCommand(String command) {
-        return Arrays.stream(Command.values())
+    public static CommandType findByCommand(String command) {
+        return Arrays.stream(CommandType.values())
                 .filter(menuType -> menuType.command.equals(command))
                 .findFirst()
                 .orElseThrow(MenuTypeFormatException::new);

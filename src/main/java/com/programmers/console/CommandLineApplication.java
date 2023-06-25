@@ -1,7 +1,7 @@
 package com.programmers.console;
 
 import com.programmers.console.util.Menu;
-import com.programmers.console.util.Command;
+import com.programmers.console.util.CommandType;
 import com.programmers.console.view.Console;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class CommandLineApplication {
         while (isRunning) {
             try {
                 console.printMenu();
-                Command command = getCommand();
+                CommandType command = getCommand();
                 execute(command);
             } catch (RuntimeException e) {
                 console.println(e.getMessage() + "\n");
@@ -22,11 +22,11 @@ public class CommandLineApplication {
         }
     }
 
-    private Command getCommand() {
-        return Command.findByCommand(console.getRequest());
+    private CommandType getCommand() {
+        return CommandType.findByCommand(console.getRequest());
     }
 
-    private void execute(Command command) {
+    private void execute(CommandType command) {
 
         switch (command) {
             case EXIT -> isRunning = false;
