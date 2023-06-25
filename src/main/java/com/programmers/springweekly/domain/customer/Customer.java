@@ -5,9 +5,9 @@ import java.util.UUID;
 public class Customer {
 
     private final UUID customerId;
-    private final String customerType;
+    private final CustomerType customerType;
 
-    public Customer(UUID customerId, String customerType) {
+    public Customer(UUID customerId, CustomerType customerType) {
         this.customerId = customerId;
         this.customerType = customerType;
     }
@@ -16,7 +16,7 @@ public class Customer {
         return customerId;
     }
 
-    public String getCustomerType() {
+    public CustomerType getCustomerType() {
         return customerType;
     }
 }

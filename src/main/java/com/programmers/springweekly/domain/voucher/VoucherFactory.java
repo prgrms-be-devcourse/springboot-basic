@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public class VoucherFactory {
 
-    public Voucher createVoucher(VoucherMenu voucherMenu, String discount){
+    public Voucher createVoucher(VoucherType voucherType, String discount){
 
-        switch (voucherMenu){
+        switch (voucherType){
             case FIXED -> {
                 Validator.fixedAmountValidate(discount);
                 return new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(discount), "fixed");

@@ -3,7 +3,10 @@ package com.programmers.springweekly.domain;
 import java.util.Arrays;
 
 public enum ProgramMenu {
-    EXIT("exit"), CREATE("create"), LIST("list"), CUSTOMER_BLACKLIST("blacklist");
+    EXIT("exit"),
+    CREATE("create"),
+    LIST("list"),
+    CUSTOMER_BLACKLIST("blacklist");
 
     private String menu;
 

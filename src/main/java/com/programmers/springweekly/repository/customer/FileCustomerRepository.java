@@ -1,6 +1,7 @@
 package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
+import com.programmers.springweekly.domain.customer.CustomerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,8 +40,11 @@ public class FileCustomerRepository implements CustomerRepository{
     }
 
     private void checkCustomerBlack(String[] readLine){
-        if(readLine[1].equals("black")){
-            Customer customer = new Customer(UUID.fromString(readLine[0]), readLine[1]);
+        UUID uuid = UUID.fromString(readLine[0]);
+        CustomerType customerType = CustomerType.findCustomerType(readLine[1]);
+
+        if(customerType == CustomerType.BLACKLIST){
+            Customer customer = new Customer(uuid, CustomerType.BLACKLIST);
 
             customerMap.put(customer.getCustomerId(), customer);
         }

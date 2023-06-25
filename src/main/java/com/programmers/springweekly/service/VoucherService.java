@@ -2,7 +2,7 @@ package com.programmers.springweekly.service;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
-import com.programmers.springweekly.domain.voucher.VoucherMenu;
+import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +18,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void saveVoucher(VoucherMenu voucherMenu, String discount){
-        Voucher voucher = new VoucherFactory().createVoucher(voucherMenu, discount);
+    public void saveVoucher(VoucherType voucherType, String discount){
+        Voucher voucher = new VoucherFactory().createVoucher(voucherType, discount);
         voucherRepository.saveVoucher(voucher);
     }
 

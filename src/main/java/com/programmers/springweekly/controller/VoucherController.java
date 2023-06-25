@@ -1,9 +1,8 @@
 package com.programmers.springweekly.controller;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
-import com.programmers.springweekly.domain.voucher.VoucherMenu;
+import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.service.VoucherService;
-import com.programmers.springweekly.util.Validator;
 import com.programmers.springweekly.view.Console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +27,13 @@ public class VoucherController {
         console.outputSelectCreateVoucherGuide();
 
 
-        VoucherMenu voucherMenu = VoucherMenu.findVoucherMenu(console.inputMessage());
+        VoucherType voucherType = VoucherType.findVoucherMenu(console.inputMessage());
 
         console.outputDiscountGuide();
         String inputNumber = console.inputMessage();
         logger.info("user input: {} ", inputNumber);
 
-        voucherService.saveVoucher(voucherMenu, inputNumber);
+        voucherService.saveVoucher(voucherType, inputNumber);
     }
 
     public void getVoucherList(){
