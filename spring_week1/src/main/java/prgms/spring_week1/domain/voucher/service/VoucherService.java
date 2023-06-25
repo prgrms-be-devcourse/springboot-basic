@@ -7,7 +7,6 @@ import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.io.Output;
-
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
