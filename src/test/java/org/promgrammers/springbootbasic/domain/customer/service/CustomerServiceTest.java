@@ -7,7 +7,6 @@ import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomerRes
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersResponse;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 import org.promgrammers.springbootbasic.domain.customer.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -16,8 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CustomerServiceTest {
 
-    @Value("${blackListStoragePath}")
-    private String blackListStoragePath;
+    private String blackListStoragePath = "src/main/resources/storage/blacklist.csv";
     private CustomerService customerService;
     private CustomerRepository customerRepository;
 
@@ -28,11 +26,11 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("모든 고객 조회 성공")
+    @DisplayName("모든 블랙리스트 고객 조회 성공")
     void successFindAllTest() throws Exception {
 
         //given -> when
-        CustomersResponse customersResponse = customerService.findAll();
+        CustomersResponse customersResponse = customerService.findAllByBlackTypeCustomer();
         List<CustomerResponse> customers = customersResponse.customers();
 
         //then

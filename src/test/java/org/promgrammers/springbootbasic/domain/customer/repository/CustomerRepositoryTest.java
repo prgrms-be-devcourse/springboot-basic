@@ -25,7 +25,7 @@ class CustomerRepositoryTest {
     @DisplayName("조회 성공 - 파일에 저장된 블랙리스트 조회 ")
     void successFindAllTest() throws Exception {
         //given -> when
-        List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAllBlackCustomers();
 
         //then
         assertNotNull(customers);
