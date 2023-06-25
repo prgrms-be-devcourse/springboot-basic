@@ -26,8 +26,6 @@ public class Console implements Input,Output{
             printWrongMenuMessage();
             return null;
         }
-
-
     }
 
     @Override
@@ -38,7 +36,6 @@ public class Console implements Input,Output{
             printWrongMenuMessage();
             return null;
         }
-
     }
 
     @Override

@@ -2,6 +2,7 @@ package prgms.spring_week1;
 
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
+import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
@@ -16,16 +17,19 @@ public class CommandLine implements Runnable{
     private final Output output;
     private final VoucherRepository voucherRepository;
     private final VoucherService voucherService;
-    private final BlackListRepository blackListRepository;
-    private final boolean IS_RUNNING = true;
+    private final CustomerService customerService;
 
-    public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, BlackListRepository blackListRepository) {
+    public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherRepository = voucherRepository;
         this.voucherService = voucherService;
-        this.blackListRepository = blackListRepository;
+        this.customerService = customerService;
     }
+
+    private final boolean IS_RUNNING = true;
+
+
 
     @Override
     public void run() {
@@ -36,7 +40,7 @@ public class CommandLine implements Runnable{
                 case EXIT -> System.exit(0);
                 case CREATE -> selectVoucherType();
                 case LIST -> printAllVoucher();
-                case BLACK -> output.printBlackConsumerList(blackListRepository.getBlackConsumerList());
+                case BLACK -> output.printBlackConsumerList(customerService.blackConsumerList());
                 default -> output.printWrongMenuMessage();
                 }
             }

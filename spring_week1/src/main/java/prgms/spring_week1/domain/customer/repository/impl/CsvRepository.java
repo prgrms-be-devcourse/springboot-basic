@@ -27,6 +27,5 @@ public class CsvRepository implements BlackListRepository {
             System.out.println("해당 파일이 존재하지 않습니다");
             return null;
         }
-
     }
 }
