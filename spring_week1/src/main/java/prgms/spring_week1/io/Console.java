@@ -10,6 +10,14 @@ import java.util.List;
 public class Console implements Input,Output{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final String NEW_LINE = "\n";
+    private final String printMenuListMessage = "=== Voucher Program ==="+ NEW_LINE +
+            "Type exit to exit the program."+ NEW_LINE +
+            "Type create to create a new voucher."+ NEW_LINE +
+            "Type list to list all vouchers."+NEW_LINE+
+            "Type black to list all blackList";
+    private final String printTypeSelectMessage = " === Voucher Select ==="+ NEW_LINE +
+            "Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> FixedAmountVoucher" + NEW_LINE +
+            "Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> PercentDiscountVoucher";
     @Override
     public String inputTextOption(){
         try {
@@ -35,18 +43,12 @@ public class Console implements Input,Output{
 
     @Override
     public void printMenuList() {
-        System.out.println( "=== Voucher Program ==="+ NEW_LINE +
-                "Type exit to exit the program."+ NEW_LINE +
-                "Type create to create a new voucher."+ NEW_LINE +
-                "Type list to list all vouchers."+NEW_LINE+
-                "Type black to list all blackList");
+        System.out.println(printMenuListMessage);
     }
 
     @Override
     public void printTypeSelectMessage() {
-        System.out.println(" === Voucher Select ==="+ NEW_LINE +
-                "Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> FixedAmountVoucher" + NEW_LINE +
-                "Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> PercentDiscountVoucher");
+        System.out.println(printTypeSelectMessage);
     }
 
     @Override
