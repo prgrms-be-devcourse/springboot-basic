@@ -13,6 +13,4 @@ public interface Voucher {
     LocalDate getExpirationDate();
 
     long discount(long beforeDiscount);
-
-    boolean available();
 }

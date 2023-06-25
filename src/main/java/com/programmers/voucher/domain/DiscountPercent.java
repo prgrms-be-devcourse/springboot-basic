@@ -21,9 +21,8 @@ public class DiscountPercent implements Discount {
     }
 
     private void validateDiscountAmount(long percent) {
-        if (percent < MIN_AMOUNT || percent >= MAX_AMOUNT) {
-            throw new AmountValueException();
-        }
+        if (percent < MIN_AMOUNT || percent >= MAX_AMOUNT) throw new AmountValueException();
+
     }
 
     @Override

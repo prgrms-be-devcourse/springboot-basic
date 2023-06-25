@@ -50,15 +50,11 @@ public class PercentDiscountVoucher implements Voucher {
         throw new AmountValueException();
     }
 
-    public boolean available() {
-        if (LocalDate.now().isAfter(expirationDate)) {
-            return false;
-        }
-        return true;
+    private boolean available() {
+        return !LocalDate.now().isAfter(expirationDate);
     }
 
-    private boolean validateVoucherId(UUID voucherId) {
+    private void validateVoucherId(UUID voucherId) {
         if (voucherId == null) throw new NullPointerException(VOUCHER_ID_NULL_MESSAGE);
-        return true;
     }
 }
