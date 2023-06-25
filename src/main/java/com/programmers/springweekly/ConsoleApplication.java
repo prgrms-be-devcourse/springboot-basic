@@ -41,7 +41,8 @@ public class ConsoleApplication implements CommandLineRunner {
                     }
                     case CUSTOMER_BLACKLIST -> customerController.getCustomerBlackList();
                 }
-            } catch(IllegalArgumentException e){
+
+            } catch(Exception e){
                 logger.error(e.getMessage());
             }
         }

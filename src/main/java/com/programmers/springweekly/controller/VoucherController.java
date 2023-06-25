@@ -27,25 +27,22 @@ public class VoucherController {
     public void createVoucher(){
         console.outputSelectCreateVoucherGuide();
 
-        try {
-            VoucherMenu voucherMenu = VoucherMenu.findVoucherMenu(console.inputMessage());
 
-            console.outputDiscountGuide();
-            String inputNumber = console.inputMessage();
-            logger.info("user input: {} ", inputNumber);
+        VoucherMenu voucherMenu = VoucherMenu.findVoucherMenu(console.inputMessage());
 
-            if(voucherMenu == VoucherMenu.FIXED){
-                Validator.fixedAmountValidate(inputNumber);
-            }
+        console.outputDiscountGuide();
+        String inputNumber = console.inputMessage();
+        logger.info("user input: {} ", inputNumber);
 
-            if(voucherMenu == VoucherMenu.PERCENT){
-                Validator.percentValidate(inputNumber);
-            }
-
-            voucherService.saveVoucher(voucherMenu, Long.parseLong(inputNumber));
-        } catch (IllegalArgumentException e){
-            logger.error(e.getMessage());
+        if(voucherMenu == VoucherMenu.FIXED){
+            Validator.fixedAmountValidate(inputNumber);
         }
+
+        if(voucherMenu == VoucherMenu.PERCENT){
+            Validator.percentValidate(inputNumber);
+        }
+
+        voucherService.saveVoucher(voucherMenu, Long.parseLong(inputNumber));
     }
 
     public void getVoucherList(){
