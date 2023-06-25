@@ -1,4 +1,4 @@
-package co.programmers.voucher.View;
+package co.programmers.voucher.view;
 
 import java.io.BufferedReader;
 import java.io.IOException;

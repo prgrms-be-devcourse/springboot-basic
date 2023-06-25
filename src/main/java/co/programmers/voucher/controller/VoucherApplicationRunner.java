@@ -1,4 +1,4 @@
-package co.programmers.voucher.Controller;
+package co.programmers.voucher.controller;
 
 import java.io.IOException;
 

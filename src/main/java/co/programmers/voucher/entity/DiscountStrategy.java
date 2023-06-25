@@ -1,5 +1,6 @@
-package co.programmers.voucher.Voucher;
+package co.programmers.voucher.entity;
 
 public interface DiscountStrategy {
+
 	int discount(int originalPrice, int amount);
 }
