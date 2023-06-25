@@ -1,8 +1,6 @@
 package com.programmers.springweekly.repository.voucher;
 
-import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
-import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
-import com.programmers.springweekly.domain.voucher.Voucher;
+import com.programmers.springweekly.domain.voucher.*;
 import com.programmers.springweekly.dto.ReadVoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,10 +67,10 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Voucher createVoucher(ReadVoucherDto readVoucherDto){
-        if(readVoucherDto.getVoucherType().equals("fixed")){
-            return new FixedAmountVoucher(readVoucherDto.getVoucherId(),readVoucherDto.getDiscountAmount());
+        if(readVoucherDto.getVoucherType() == VoucherType.FIXED){
+            return VoucherFactory.createVoucher(VoucherType.FIXED, readVoucherDto.getDiscountAmount());
         }
 
-        return new PercentDiscountVoucher(readVoucherDto.getVoucherId(),readVoucherDto.getDiscountAmount());
+        return VoucherFactory.createVoucher(VoucherType.PERCENT, readVoucherDto.getDiscountAmount());
     }
 }
