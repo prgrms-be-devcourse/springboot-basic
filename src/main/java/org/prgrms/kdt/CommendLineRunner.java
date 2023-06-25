@@ -5,12 +5,15 @@ import org.prgrms.kdt.commendLine.ConsoleOutput;
 import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.util.Menu;
 import org.prgrms.kdt.voucher.controller.VoucherController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
 public class CommendLineRunner {
+    private static final Logger logger = LoggerFactory.getLogger(CommendLineRunner.class);
     private final VoucherController voucherController;
 
     public CommendLineRunner(VoucherController voucherController) {
@@ -28,6 +31,8 @@ public class CommendLineRunner {
 
             }catch (IOException | InvalidInputException e){
                 ConsoleOutput.printError();
+            }catch (Exception e){
+                logger.error("예상하지 못한 예외가 발생했습니다.");
             }
         }
     }

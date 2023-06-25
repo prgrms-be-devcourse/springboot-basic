@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.dao;
+package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 
