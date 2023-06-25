@@ -34,15 +34,7 @@ public class VoucherController {
         String inputNumber = console.inputMessage();
         logger.info("user input: {} ", inputNumber);
 
-        if(voucherMenu == VoucherMenu.FIXED){
-            Validator.fixedAmountValidate(inputNumber);
-        }
-
-        if(voucherMenu == VoucherMenu.PERCENT){
-            Validator.percentValidate(inputNumber);
-        }
-
-        voucherService.saveVoucher(voucherMenu, Long.parseLong(inputNumber));
+        voucherService.saveVoucher(voucherMenu, inputNumber);
     }
 
     public void getVoucherList(){

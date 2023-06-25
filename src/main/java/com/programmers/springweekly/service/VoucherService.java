@@ -18,7 +18,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void saveVoucher(VoucherMenu voucherMenu, long discount){
+    public void saveVoucher(VoucherMenu voucherMenu, String discount){
         Voucher voucher = new VoucherFactory().createVoucher(voucherMenu, discount);
         voucherRepository.saveVoucher(voucher);
     }
