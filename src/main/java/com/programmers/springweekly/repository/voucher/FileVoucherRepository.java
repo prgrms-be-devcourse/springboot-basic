@@ -38,7 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
           bufferedWriter.write(",");
           bufferedWriter.write(voucherAmount);
           bufferedWriter.write(",");
-          bufferedWriter.write(voucher.getVoucherType());
+          bufferedWriter.write(voucher.getVoucherType().getVoucherTypeString());
           bufferedWriter.newLine();
 
           bufferedWriter.flush();
@@ -72,9 +72,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private Voucher createVoucher(ReadVoucherDto readVoucherDto){
         if(readVoucherDto.getVoucherType().equals("fixed")){
-            return new FixedAmountVoucher(readVoucherDto.getVoucherId(),readVoucherDto.getDiscountAmount(), readVoucherDto.getVoucherType());
+            return new FixedAmountVoucher(readVoucherDto.getVoucherId(),readVoucherDto.getDiscountAmount());
         }
 
-        return new PercentDiscountVoucher(readVoucherDto.getVoucherId(),readVoucherDto.getDiscountAmount(), readVoucherDto.getVoucherType());
+        return new PercentDiscountVoucher(readVoucherDto.getVoucherId(),readVoucherDto.getDiscountAmount());
     }
 }

@@ -6,5 +6,5 @@ public interface Voucher {
     UUID getVoucherId();
     long discount(long beforePrice);
     long getVoucherAmount();
-    String getVoucherType();
+    VoucherType getVoucherType();
 }

@@ -19,7 +19,7 @@ public class VoucherService {
     }
 
     public void saveVoucher(VoucherType voucherType, String discount){
-        Voucher voucher = new VoucherFactory().createVoucher(voucherType, discount);
+        Voucher voucher = VoucherFactory.createVoucher(voucherType, discount);
         voucherRepository.saveVoucher(voucher);
     }
 

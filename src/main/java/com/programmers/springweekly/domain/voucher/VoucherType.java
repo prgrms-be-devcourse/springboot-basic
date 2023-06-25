@@ -18,4 +18,8 @@ public enum VoucherType {
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("The type you are looking for is not found."));
     }
+
+    public String getVoucherTypeString(){
+        return type;
+    }
 }

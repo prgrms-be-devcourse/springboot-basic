@@ -6,12 +6,10 @@ public class FixedAmountVoucher implements Voucher{
 
     private final UUID voucherId;
     private final long fixedDiscountAmount;
-    private final String voucherType;
 
-    public FixedAmountVoucher(UUID voucherId, long fixedDiscountAmount, String voucherType) {
+    public FixedAmountVoucher(UUID voucherId, long fixedDiscountAmount) {
         this.voucherId = voucherId;
         this.fixedDiscountAmount = fixedDiscountAmount;
-        this.voucherType = voucherType;
     }
 
     @Override
@@ -30,7 +28,7 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public String getVoucherType() {
-        return voucherType;
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED;
     }
 }
