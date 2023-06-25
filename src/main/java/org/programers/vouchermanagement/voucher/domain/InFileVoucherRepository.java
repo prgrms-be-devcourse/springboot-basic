@@ -2,8 +2,6 @@ package org.programers.vouchermanagement.voucher.domain;
 
 import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 import org.programers.vouchermanagement.util.Converter;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -34,7 +32,8 @@ public class InFileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         try {
-            Files.writeString(file, String.format("%s%n", Converter.toString(voucher)), StandardOpenOption.APPEND);
+            Files.writeString(file, String.format("%s%n", Converter.toString(voucher)),
+                    StandardOpenOption.APPEND);
             return voucher;
         } catch (IOException e) {
             throw new NoSuchVoucherException("IO 문제로 바우처가 저장되지 않았습니다.");
