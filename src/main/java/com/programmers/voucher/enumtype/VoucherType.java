@@ -7,6 +7,7 @@ import com.programmers.voucher.request.VoucherCreateRequest;
 import com.programmers.voucher.strategy.FixedAmountValidationStrategy;
 import com.programmers.voucher.strategy.PercentValidationStrategy;
 import com.programmers.voucher.strategy.VoucherValidationStrategy;
+import com.programmers.voucher.util.VoucherErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,7 @@ public enum VoucherType {
                 .filter(t -> Objects.equals(t.type, voucherType))
                 .findAny()
                 .orElseThrow(() -> {
-                    StringBuilder sb = new StringBuilder("Voucher type is invalid.")
+                    StringBuilder sb = new StringBuilder(VoucherErrorMessages.INVALID_VOUCHER_TYPE)
                             .append(" Current input: ")
                             .append(voucherType);
 

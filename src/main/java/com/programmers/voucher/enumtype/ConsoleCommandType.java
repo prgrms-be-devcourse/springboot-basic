@@ -1,5 +1,6 @@
 package com.programmers.voucher.enumtype;
 
+import com.programmers.voucher.util.ConsoleErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,7 @@ public enum ConsoleCommandType {
                 .filter(i -> Objects.equals(i.input, input))
                 .findAny()
                 .orElseThrow(() -> {
-                    StringBuilder sb = new StringBuilder("Command type is invalid.")
+                    StringBuilder sb = new StringBuilder(ConsoleErrorMessages.INVALID_CONSOLE_COMMAND)
                             .append(" Current input: ")
                             .append(input);
 
