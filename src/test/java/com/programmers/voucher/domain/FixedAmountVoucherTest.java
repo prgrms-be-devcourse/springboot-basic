@@ -11,29 +11,32 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FixedAmountVoucherTest {
+    public static final int MIN_DISCOUNT_AMOUNT = 0;
+    public static final int MAX_DISCOUNT_AMOUNT = 5000;
+
     @DisplayName("고정 할인 바우처 discount() 메서드 성공 테스트")
     @ParameterizedTest
     @CsvSource(value = {"100, 1000, 900", "500, 1000, 500"})
-    void discount(long voucherAmount, long originalPrice, long finalPrice) {
-        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), voucherAmount);
+    void discount(long discountAmount, long originalPrice, long finalPrice) {
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), discountAmount);
         assertThat(voucher.discount(originalPrice)).isEqualTo(finalPrice);
     }
 
     @DisplayName("실제 금액보다 할인양이 클 경우 0원 반환 테스트")
     @ParameterizedTest
     @CsvSource(value = {"1001, 1000, 0", "2000, 1000, 0"})
-    void discountTo0Won(long voucherAmount, long originalPrice, long finalPrice) {
-        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), voucherAmount);
+    void discountTo0Won(long discountAmount, long originalPrice, long finalPrice) {
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), discountAmount);
         assertThat(voucher.discount(originalPrice)).isEqualTo(finalPrice);
     }
 
     @DisplayName("생성할 고정 할인 바우처의 할인양이 범위안에 속하지 않을 경우 예외 발생 테스트")
     @ParameterizedTest
     @ValueSource(longs = {-1000, -1, 5001, 5002, 10000})
-    void notIncludeDiscountAmountRange(long voucherAmount) {
-        Assertions.assertThatThrownBy(() -> FixedAmountVoucher.of(UUID.randomUUID(), voucherAmount))
+    void notIncludeDiscountAmountRange(long discountAmount) {
+        Assertions.assertThatThrownBy(() -> FixedAmountVoucher.of(UUID.randomUUID(), discountAmount))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("1 ~ 5000 범위의 바우처 할인양을 입력해주세요");
+                .hasMessage(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);
     }
 
 }

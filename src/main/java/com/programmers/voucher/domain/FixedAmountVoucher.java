@@ -39,7 +39,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private static void validateDiscountAmount(long discountAmount) {
         if (discountAmount > MAX_DISCOUNT_AMOUNT || discountAmount < MIN_DISCOUNT_AMOUNT) {
-            throw new IllegalArgumentException("1 ~ 5000 범위의 바우처 할인양을 입력해주세요");
+            throw new IllegalArgumentException(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);
         }
     }
 
