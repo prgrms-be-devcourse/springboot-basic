@@ -10,8 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
     @Bean
-    public Console console() {
-        TextIO textIO = TextIoFactory.getTextIO();
-        return new TextIoConsole(textIO);
+    public TextIO textIO() {
+        return TextIoFactory.getTextIO();
     }
 }

@@ -8,6 +8,7 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
+@Component
 public class TextIoConsole implements Console {
     private final TextIO textIO;
 
