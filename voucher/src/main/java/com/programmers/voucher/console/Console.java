@@ -1,15 +1,11 @@
 package com.programmers.voucher.console;
 
-import com.programmers.voucher.domain.Type;
-import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.domain.voucher.VoucherEnum;
-
 public interface Console {
-    Type getCondition();
+    String getCondition();
 
-    VoucherEnum getVoucherVersion();
+    Integer getVoucherVersion();
 
-    Voucher createFixedVoucher();
+    Integer getAmount();
 
-    Voucher createPercentVoucher();
+    Integer getRate();
 }

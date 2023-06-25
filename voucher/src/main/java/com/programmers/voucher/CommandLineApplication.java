@@ -3,9 +3,7 @@ package com.programmers.voucher;
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.console.Printer;
 import com.programmers.voucher.domain.Type;
-import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
-import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
-import com.programmers.voucher.domain.voucher.VoucherFactory;
+import com.programmers.voucher.domain.voucher.*;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
 
@@ -29,7 +27,8 @@ public class CommandLineApplication implements Runnable {
         while (true) {
             Type type;
             try {
-                type = console.getCondition();
+                String inputCondition = console.getCondition();
+                type = Type.validateInput(inputCondition);
             } catch (Exception e) {
                 printer.printError(e);
                 continue;
@@ -56,21 +55,23 @@ public class CommandLineApplication implements Runnable {
         }
     }
 
-    private void logicForTypeBlack() {
-        printer.printBlackList(blackListStream.findAll());
+    private void logicForTypeCreate() {
+        try {
+            Integer inputVersion = console.getVoucherVersion();
+            VoucherEnum voucherEnum = VoucherEnum.decideVoucherType(inputVersion);
+            voucherFactory.createVoucher(voucherEnum);
+        } catch (IllegalArgumentException e) {
+            printer.printError(e);
+            System.out.println(e.getMessage());
+        }
     }
 
     private void logicForTypeList() {
         printer.printListOfVoucher(voucherStream.findAll());
     }
 
-    private void logicForTypeCreate() {
-        try {
-            voucherFactory.createVoucher(console.getVoucherVersion());
-        } catch (IllegalArgumentException e) {
-            printer.printError(e);
-            System.out.println(e.getMessage());
-        }
+    private void logicForTypeBlack() {
+        printer.printBlackList(blackListStream.findAll());
     }
 
 }

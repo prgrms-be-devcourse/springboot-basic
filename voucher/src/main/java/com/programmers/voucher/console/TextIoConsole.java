@@ -14,7 +14,7 @@ public class TextIoConsole implements Console {
     private TextIO textIO = TextIoFactory.getTextIO();
 
     @Override
-    public Type getCondition() {
+    public String getCondition() {
         System.out.println();
         String stringType = textIO.newStringInputReader()
                 .read("=== Voucher Program === \n" +
@@ -23,40 +23,37 @@ public class TextIoConsole implements Console {
                         "Type list to list all vouchers. \n" +
                         "Type black to see blacklist_customer.\n" +
                         "[enter type] : ");
-        return Type.validateInput(stringType);
+        return stringType;
     }
 
     @Override
-    public VoucherEnum getVoucherVersion() {
+    public Integer getVoucherVersion() {
         System.out.println();
         Integer voucherVersion = textIO.newIntInputReader()
                 .read("Choose version of Voucher\n" +
                                 "Fixed AmountVoucher     : 1\n" +
                                 "PercentDiscountVoucher  : 2\n" +
                                 "[enter number of version]");
-        return VoucherEnum.decideVoucherType(voucherVersion);
+        return voucherVersion;
     }
 
     @Override
-    public Voucher createFixedVoucher() {
+    public Integer getAmount() {
         System.out.println();
         Integer amount = textIO.newIntInputReader()
                 .read("Enter the amount of discount\n" +
                         "[amount of discount] : ");
-        return new FixedAmountVoucher(UUID.randomUUID().toString().substring(0, 7), amount);
+        return amount;
     }
 
     @Override
-    public Voucher createPercentVoucher() {
+    public Integer getRate() {
         System.out.println();
         Integer rate = textIO.newIntInputReader()
                 .read("Enter the rate of discount\n" +
                         "<<caution>> rate of discount means percentage versus original price\n" +
                         "ex) 70 => discount price = original price * (70 / 100)\n" +
                         "[rate of discount] : ");
-        if (rate >= 100) {
-            throw new IllegalArgumentException("rate cannot exceed 100 percent. Do you want FixedAmountVoucher?");
-        }
-        return new PercentDiscountVoucher(UUID.randomUUID().toString().substring(0, 7), rate);
+        return rate;
     }
 }

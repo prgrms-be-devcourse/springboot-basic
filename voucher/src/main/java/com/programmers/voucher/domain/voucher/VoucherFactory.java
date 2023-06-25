@@ -3,6 +3,8 @@ package com.programmers.voucher.domain.voucher;
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.stream.VoucherStream;
 
+import java.util.UUID;
+
 public class VoucherFactory {
 
     private final Console console;
@@ -14,13 +16,28 @@ public class VoucherFactory {
     }
 
     public Voucher createVoucher(VoucherEnum voucherEnum) {
-        if (VoucherEnum.FIXED == voucherEnum) {
-            return voucherStream.save(console.createFixedVoucher());
-        }
+        Voucher voucher;
+        voucher = (VoucherEnum.FIXED == voucherEnum) ? createFixedVoucher() : createPercentVoucher();
+        voucherStream.save(voucher);
+        return voucher;
+    }
 
-        if (VoucherEnum.PERCENT == voucherEnum) {
-            return voucherStream.save(console.createPercentVoucher());
+    private PercentDiscountVoucher createPercentVoucher() {
+        Integer rate = console.getRate();
+        validateRate(rate);
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID().toString().substring(0, 7), rate);
+        return percentDiscountVoucher;
+    }
+
+    private static void validateRate(Integer rate) {
+        if (rate >= 100) {
+            throw new IllegalArgumentException("rate cannot exceed 100 percent. Do you want FixedAmountVoucher?");
         }
-        throw new IllegalStateException("바우처 프로그램 내부적으로 문제가 생겼습니다. 문의 부탁드립니다.");
+    }
+
+    private Voucher createFixedVoucher() {
+        Integer amount = console.getAmount();
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID().toString().substring(0, 7), amount);
+        return fixedAmountVoucher;
     }
 }
