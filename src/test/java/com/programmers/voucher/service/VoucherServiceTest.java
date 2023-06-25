@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.util.List;
+import java.util.UUID;
 
 class VoucherServiceTest {
     public static final int FIXED_DISCOUNT_AMOUNT = 100;
@@ -31,8 +32,15 @@ class VoucherServiceTest {
             "FIXED, 100",
             "PERCENT, 10"})
     void createVoucher(String voucherType, long discountAmount) {
+        //give
         VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(voucherType, discountAmount);
-        voucherService.createVoucher(voucherCreationRequest);
+
+        //when
+        UUID voucherId = voucherService.createVoucher(voucherCreationRequest);
+
+        //then
+        Assertions.assertThat(voucherRepository.findByVoucherId(voucherId).isPresent()).isTrue();
+
     }
 
     @DisplayName("잘못된 바우처 타입 입력시 예외 발생 테스트")
