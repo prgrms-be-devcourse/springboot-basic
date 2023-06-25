@@ -27,7 +27,7 @@ public class PercentDiscountVoucherController {
                 return;
             }
             Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), (long) percent);
-            voucherService.createVoucher(voucher);
+            voucherService.createPercentDiscountVoucher(percent);
 
             output.println("새로운 PercentDiscountVoucher가 생성되었습니다.");
             output.println("생성된 PercentDiscountVoucher: " + voucher.getDiscount());
