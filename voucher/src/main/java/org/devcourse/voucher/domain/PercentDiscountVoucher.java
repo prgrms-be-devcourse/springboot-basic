@@ -1,7 +1,7 @@
 package org.devcourse.voucher.domain;
 
 public class PercentDiscountVoucher extends Voucher {
-    private final String type = "PERCENT";
+    private final String TYPE = "PERCENT";
     private final long discountPercent;
 
     public PercentDiscountVoucher(long discountPercent) {
@@ -10,7 +10,7 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     public String getType() {
-        return type;
+        return TYPE;
     }
 
     @Override
