@@ -13,7 +13,7 @@ import java.util.UUID;
 @Primary
 public class VouchersInFile implements VouchersStorage {
 
-	private static File file = new File("c:\\github\\springboot-basic\\src\\main\\resources\\data.csv");
+	private static File file = new File("/Users/user/github/springboot-basic/src/main/resources/data.csv");
 	
 	@Override
 	public void save(Voucher voucher) throws IOException {
