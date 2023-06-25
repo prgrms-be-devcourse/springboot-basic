@@ -5,12 +5,11 @@ import com.programmers.voucher.dto.request.VoucherCreationRequest;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.util.List;
 
@@ -47,7 +46,7 @@ class VoucherServiceTest {
 
     @DisplayName("바우처 타입을 입력하지 않을시 예외 발생 테스트")
     @ParameterizedTest
-    @NullSource
+    @NullAndEmptySource
     void inputNullVoucherType(String voucherType) {
         Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(voucherType, PERCENT_DISCOUNT_AMOUNT))
                 .isInstanceOf(IllegalArgumentException.class)
