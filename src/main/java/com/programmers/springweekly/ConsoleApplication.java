@@ -4,19 +4,21 @@ import com.programmers.springweekly.controller.CustomerController;
 import com.programmers.springweekly.controller.VoucherController;
 import com.programmers.springweekly.domain.ProgramMenu;
 import com.programmers.springweekly.view.Console;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class ConsoleApplication implements CommandLineRunner {
 
     private final CustomerController customerController;
     private final VoucherController voucherController;
     private final Console console;
 
-    private final Logger logger = LoggerFactory.getLogger(ConsoleApplication.class);
     private boolean running = true;
 
     public ConsoleApplication(CustomerController customerController, VoucherController voucherController, Console console) {
@@ -43,7 +45,7 @@ public class ConsoleApplication implements CommandLineRunner {
                 }
 
             } catch(Exception e){
-                logger.error(e.getMessage());
+                log.error(e.getMessage());
             }
         }
     }

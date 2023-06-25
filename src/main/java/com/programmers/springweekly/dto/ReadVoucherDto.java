@@ -1,9 +1,12 @@
 package com.programmers.springweekly.dto;
 
 import com.programmers.springweekly.domain.voucher.VoucherType;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.UUID;
 
+@Getter
 public class ReadVoucherDto {
 
     private final UUID voucherId;
@@ -14,17 +17,5 @@ public class ReadVoucherDto {
         this.voucherId = UUID.fromString(voucherId);
         this.discountAmount = discountAmount;
         this.voucherType = VoucherType.findVoucherMenu(voucherType);
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public String getDiscountAmount() {
-        return discountAmount;
-    }
-
-    public VoucherType getVoucherType() {
-        return voucherType;
     }
 }

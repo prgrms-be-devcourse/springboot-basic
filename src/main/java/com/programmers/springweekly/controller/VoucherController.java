@@ -4,6 +4,8 @@ import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.service.VoucherService;
 import com.programmers.springweekly.view.Console;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,16 +14,12 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
+@AllArgsConstructor
+@Slf4j
 public class VoucherController {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
     private final Console console;
-
-    public VoucherController(VoucherService voucherService, Console console){
-        this.voucherService = voucherService;
-        this.console = console;
-    }
 
     public void createVoucher(){
         console.outputSelectCreateVoucherGuide();
@@ -31,7 +29,7 @@ public class VoucherController {
 
         console.outputDiscountGuide();
         String inputNumber = console.inputMessage();
-        logger.info("user input: {} ", inputNumber);
+        log.info("user input: {} ", inputNumber);
 
         voucherService.saveVoucher(voucherType, inputNumber);
     }

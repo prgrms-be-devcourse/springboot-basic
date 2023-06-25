@@ -1,16 +1,14 @@
 package com.programmers.springweekly.domain.voucher;
 
+import lombok.AllArgsConstructor;
+
 import java.util.UUID;
 
+@AllArgsConstructor
 public class PercentDiscountVoucher implements Voucher{
 
     private final UUID voucherId;
     private final long discountPercent;
-
-    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
-        this.voucherId = voucherId;
-        this.discountPercent = discountPercent;
-    }
 
     @Override
     public UUID getVoucherId() {

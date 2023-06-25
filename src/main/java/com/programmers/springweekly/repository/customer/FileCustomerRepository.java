@@ -4,6 +4,7 @@ import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.util.GeneratorDeepCopiedType;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,12 +18,12 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Slf4j
 public class FileCustomerRepository implements CustomerRepository{
 
     private final GeneratorDeepCopiedType generatorDeepCopiedType;
 
     private final Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
-    private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
     @Value("${file.customer.path}")
     private String file_path;
@@ -58,7 +59,7 @@ public class FileCustomerRepository implements CustomerRepository{
             }
 
         } catch (Exception e){
-            logger.error("error message: {}", e.getMessage());
+            log.error("error message: {}", e.getMessage());
         }
     }
 }

@@ -1,16 +1,14 @@
 package com.programmers.springweekly.domain.voucher;
 
+import lombok.AllArgsConstructor;
+
 import java.util.UUID;
 
+@AllArgsConstructor
 public class FixedAmountVoucher implements Voucher{
 
     private final UUID voucherId;
     private final long fixedDiscountAmount;
-
-    public FixedAmountVoucher(UUID voucherId, long fixedDiscountAmount) {
-        this.voucherId = voucherId;
-        this.fixedDiscountAmount = fixedDiscountAmount;
-    }
 
     @Override
     public UUID getVoucherId() {
