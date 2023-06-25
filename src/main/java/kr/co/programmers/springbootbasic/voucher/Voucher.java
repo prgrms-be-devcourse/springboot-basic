@@ -1,8 +1,8 @@
 package kr.co.programmers.springbootbasic.voucher;
 
-import java.util.UUID;
+import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
 
 public interface Voucher {
-    UUID getVoucherId();
-    long getAmount();
+    long discount(long price);
+    VoucherResponseDto getVoucherInfo();
 }
