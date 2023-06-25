@@ -11,6 +11,8 @@ import com.prgrms.springbootbasic.repository.VoucherRepository;
 import com.prgrms.springbootbasic.service.VoucherService;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class Console<T extends TextTerminal>  implements Input, Output {
@@ -19,6 +21,7 @@ public class Console<T extends TextTerminal>  implements Input, Output {
     private final FixedDiscountVoucherController fixedDiscountVoucherController;
     private final PercentDiscountVoucherController percentDiscountVoucherController;
     private final VoucherService voucherService;
+    public static final Logger logger = LoggerFactory.getLogger(Console.class);
 
     public Console(TextIO textIO, T terminal, VoucherRepository voucherRepository) {
         this.textIO = textIO;
@@ -58,7 +61,8 @@ public class Console<T extends TextTerminal>  implements Input, Output {
                     list();
                     break;
                 default:
-                    println("허용된 명령어가 아닙니다. exit(종료), create(바우처 생성), list(바우처 목록)중 하나를 선택하세요. ");
+                    println("허용된 명령어가 아닙니다. exit(종료), create(바우처 생성), list(바우처 목록)중 하나를 선택하세요.");
+                    logger.error("명령어 입력 오류");
                     break;
             }
         }
@@ -75,6 +79,7 @@ public class Console<T extends TextTerminal>  implements Input, Output {
             default:
                 println("입력가능한 Voucher Type은 고정 금액 할인과 퍼센트 금액 할인 타입 입니다.");
                 println("FixedAmountVoucher과 PercentDiscountVoucher 중 하나를 선택하여 생성해주세요.");
+                logger.error("Voucher Type입력 오류");
                 break;
         }
     }
@@ -97,6 +102,7 @@ public class Console<T extends TextTerminal>  implements Input, Output {
             }
         } catch (Exception e) {
             println("Voucher 목록을 가져오는 중 오류가 발생했습니다.");
+            logger.error("Voucher 목록 불러오기 오류");
         }
     }
 
