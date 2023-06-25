@@ -18,28 +18,31 @@ public class CommandWriter {
     private void print(String msg) {System.out.print(msg);}
 
     public void printVoucherProgram() {
+        println(PrintMsg.EMPTY.getMsg());
         println(PrintMsg.PROGRAM.getMsg());
         Arrays.stream(VoucherMenu.values())
                 .forEach(voucherMenu -> System.out.println(voucherMenu.getPrintMsg()));
-        println(PrintMsg.EMPTY.getMsg());
     }
 
     public void printErrorMsg(String errorMsg) {
-        println(errorMsg);
         println(PrintMsg.EMPTY.getMsg());
+        println(errorMsg);
     }
 
     public void printCreateVoucher() {
+        println(PrintMsg.EMPTY.getMsg());
         print(PrintMsg.CREATE_VOUCHER.getMsg());
     }
 
     public void printSelectDiscount() {
+        println(PrintMsg.EMPTY.getMsg());
         println(PrintMsg.DISCOUNT_SELECT.getMsg());
         Arrays.stream(DiscountMap.values())
                 .forEach(discountMap -> System.out.println(discountMap.getMsg()));
     }
 
     public void printReuslt(String result) {
+        println(PrintMsg.EMPTY.getMsg());
         println(result);
     }
 }

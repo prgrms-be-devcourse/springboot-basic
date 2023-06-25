@@ -2,6 +2,8 @@ package org.weekly.weekly.voucher.model;
 
 import org.weekly.weekly.ui.exception.ReadException;
 
+import java.util.Arrays;
+
 public class VoucherInfoRequest {
     private static final String SPLIT_FORMAT = ",";
     private static final int AMOUNT_NO = 0;
@@ -12,11 +14,11 @@ public class VoucherInfoRequest {
 
 
     public VoucherInfoRequest(String userInput) {
-        String[] inputs = userInput.split(userInput);
+        String[] inputs = userInput.split(SPLIT_FORMAT);
         checkReadVoucherException(inputs);
 
-        this.amount = inputs[AMOUNT_NO];
-        this.expiration = inputs[EXPIRATION];
+        this.amount = inputs[AMOUNT_NO].trim();
+        this.expiration = inputs[EXPIRATION].trim();
     }
 
     private void checkReadVoucherException(String[] inputs) {

@@ -38,6 +38,10 @@ public enum DiscountMap {
         throw new RuntimeException(ExceptionMsg.NOT_DISCOUNT.getMsg());
     }
 
+    public Discount getNewInstance() throws Exception {
+        return this.cls.getDeclaredConstructor().newInstance();
+    }
+
     public Class<? extends Discount> getCls() {
         return cls;
     }
