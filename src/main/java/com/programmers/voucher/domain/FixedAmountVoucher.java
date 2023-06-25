@@ -31,10 +31,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long originPrice) {
-        if (originPrice < getDiscountAmount()) {
-            return 0;
-        }
-        return originPrice - getDiscountAmount();
+        return Math.max(originPrice - discountAmount, 0);
     }
 
     private static void validateDiscountAmount(long discountAmount) {
