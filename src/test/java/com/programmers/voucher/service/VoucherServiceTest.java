@@ -19,8 +19,8 @@ import java.util.UUID;
 class VoucherServiceTest {
     private static final int FIXED_DISCOUNT_AMOUNT = 100;
     private static final int PERCENT_DISCOUNT_AMOUNT = 10;
-    private static final String FIXED_AMOUNT_VOUCHER_TYPE = "FIXED";
-    private static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "PERCENT";
+    private static final String FIXED_AMOUNT_VOUCHER_TYPE = "fixed";
+    private static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "percent";
     private static final int EXPECTED_COUNT = 2;
 
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
