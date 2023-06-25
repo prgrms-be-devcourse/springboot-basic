@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.UUID;
 
 class MemoryVoucherRepositoryTest {
-    public static final int PERCENT_DISCOUNT_AMOUNT = 10;
-    public static final int FIXED_DISCOUNT_AMOUNT = 100;
-    public static final int EXPECTED_COUNT = 2;
+    private static final int PERCENT_DISCOUNT_AMOUNT = 10;
+    private static final int FIXED_DISCOUNT_AMOUNT = 100;
+    private static final int EXPECTED_COUNT = 2;
 
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
@@ -51,5 +51,4 @@ class MemoryVoucherRepositoryTest {
         //then
         Assertions.assertThat(voucherList.size()).isEqualTo(EXPECTED_COUNT);
     }
-
 }

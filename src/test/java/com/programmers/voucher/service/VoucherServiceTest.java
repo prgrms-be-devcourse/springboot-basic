@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.UUID;
 
 class VoucherServiceTest {
-    public static final int FIXED_DISCOUNT_AMOUNT = 100;
-    public static final int PERCENT_DISCOUNT_AMOUNT = 10;
-    public static final String FIXED_AMOUNT_VOUCHER_TYPE = "FIXED";
-    public static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "PERCENT";
-    public static final int EXPECTED_COUNT = 2;
+    private static final int FIXED_DISCOUNT_AMOUNT = 100;
+    private static final int PERCENT_DISCOUNT_AMOUNT = 10;
+    private static final String FIXED_AMOUNT_VOUCHER_TYPE = "FIXED";
+    private static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "PERCENT";
+    private static final int EXPECTED_COUNT = 2;
 
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
     private VoucherService voucherService = new VoucherService(voucherRepository);
@@ -89,5 +89,4 @@ class VoucherServiceTest {
         //then
         Assertions.assertThat(voucherList.size()).isEqualTo(EXPECTED_COUNT);
     }
-
 }
