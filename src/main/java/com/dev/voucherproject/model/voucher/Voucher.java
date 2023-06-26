@@ -9,10 +9,11 @@ public interface Voucher {
 
     long getDiscountNumber();
 
-    static Voucher of(VoucherPolicy voucherPolicy, UUID uuid, long discountNumber) {
+    static Voucher of(VoucherPolicy voucherPolicy, long discountNumber, UUID uuid) {
         if (voucherPolicy == VoucherPolicy.FIXED_AMOUNT_VOUCHER) {
             return new FixedAmountVoucher(uuid, discountNumber);
         }
+
         return new PercentDiscountVoucher(uuid, discountNumber);
     }
 }
