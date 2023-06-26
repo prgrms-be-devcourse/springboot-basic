@@ -12,6 +12,7 @@ public class ConsoleOutput implements Output{
     private static final String DEFAULT_PROGRAM_MESSAGE = "=== Voucher Program ===";
     private static final String DEFAULT_VOUCHER_CATEGORIES = "VoucherType" + SPACE + "VoucherName" + SPACE + "Benefit";
     private static final String EMPTY_MESSAGE = "This Repository is EMPTY!!";
+    public static final String SELECT_VOUCHER_MESSAGE = "TYPE YOUR VOUCHER";
 
     @Override
     public void showMenu(Menu[] menuList) {
@@ -30,13 +31,18 @@ public class ConsoleOutput implements Output{
         }
         Optional.of(voucherDTOList)
                 .stream()
-                .forEach(voucherDTO -> {
-                    System.out.println(voucherDTO);
-                });
+                .forEach(System.out::println);
     }
 
     @Override
     public void printError(String errorMessage) {
         System.out.println(errorMessage);
     }
+
+    @Override
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
+
 }

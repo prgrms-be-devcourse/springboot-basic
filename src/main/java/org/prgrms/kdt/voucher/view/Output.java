@@ -11,4 +11,5 @@ public interface Output {
     void showMenu(Menu[] menuList);
     void showVoucherList(List<VoucherDTO> voucherDtoList);
     void printError(String errorMessage);
+    void printMessage(String message);
 }
