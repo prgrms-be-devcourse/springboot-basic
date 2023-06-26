@@ -3,7 +3,7 @@ package org.devcourse.springbasic.io;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
-import org.devcourse.springbasic.menu.MenuType;
+import org.devcourse.springbasic.controller.menu.MenuType;
 import org.devcourse.springbasic.voucher.Voucher;
 import org.devcourse.springbasic.voucher.VoucherType;
 
@@ -13,7 +13,6 @@ public interface IODevice {
 
     MenuType inputMenu();
     VoucherType inputVoucherMenu();
-
     void outputVoucher(Voucher voucher);
     void outputVouchers(List<Voucher> vouchers);
 
@@ -39,5 +38,4 @@ public interface IODevice {
                 "1. Fixed amount voucher\n" +
                 "2. Percent discount voucher\n");
     }
-
 }
