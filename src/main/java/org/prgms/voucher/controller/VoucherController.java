@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgms.voucher.option.Option;
 import org.prgms.voucher.service.VoucherService;
 import org.prgms.voucher.view.VoucherView;
-import org.prgms.voucher.voucher.Voucher;
-import org.prgms.voucher.voucher.VoucherFactory;
 import org.prgms.voucher.voucher.VoucherPolicy;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
@@ -18,7 +16,6 @@ public class VoucherController implements CommandLineRunner {
 
     private final VoucherView voucherView;
     private final VoucherService voucherService;
-    private final VoucherFactory voucherFactory;
     private final boolean isRunning = true;
 
     @Override
@@ -53,14 +50,16 @@ public class VoucherController implements CommandLineRunner {
     private void createVoucher() {
 
         log.info("Voucher Controller: read voucher type input");
+
         VoucherPolicy voucherPolicy = VoucherPolicy.find(voucherView.readVoucherType());
+
         log.debug("voucher type input: {}", voucherPolicy);
         log.info("Voucher Controller: read voucher amount input");
-        Voucher voucher = voucherFactory.createVoucher(voucherPolicy, voucherView.readAmount());
-        log.debug("voucher amount input: {}", voucher);
 
-        voucherService.save(voucher);
+        long amount = voucherView.readAmount();
 
-        log.info("Voucher Controller: Voucher 생성: {}", voucher);
+        log.debug("voucher amount input: {}", amount);
+        
+        voucherService.create(voucherPolicy, amount);
     }
 }
