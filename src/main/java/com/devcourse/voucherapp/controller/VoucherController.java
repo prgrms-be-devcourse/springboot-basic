@@ -10,24 +10,17 @@ import com.devcourse.voucherapp.service.VoucherService;
 import com.devcourse.voucherapp.view.InputView;
 import com.devcourse.voucherapp.view.OutputView;
 import java.util.Collection;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@RequiredArgsConstructor
 public class VoucherController implements CommandLineRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
     private final VoucherService voucherService;
-
-    @Autowired
-    public VoucherController(InputView inputView, OutputView outputView,
-        VoucherService voucherService) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-        this.voucherService = voucherService;
-    }
 
     @Override
     public void run(String... args) {

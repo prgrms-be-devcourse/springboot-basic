@@ -1,21 +1,16 @@
 package com.devcourse.voucherapp.entity.voucher;
 
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor
 public class PercentDiscountVoucher implements Voucher {
 
+    @Getter
     private final UUID voucherId;
+
     private final int discountRate;
-
-    public PercentDiscountVoucher(UUID voucherId, int discountRate) {
-        this.voucherId = voucherId;
-        this.discountRate = discountRate;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
 
     @Override
     public String toString() {

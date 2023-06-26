@@ -2,6 +2,7 @@ package com.devcourse.voucherapp.entity;
 
 import com.devcourse.voucherapp.exception.MenuInputException;
 import java.util.Arrays;
+import lombok.Getter;
 
 public enum Menu {
     CREATE("1", "새 할인권 생성"),
@@ -10,7 +11,9 @@ public enum Menu {
 
     private static final String NOT_EXIST_MENU_MESSAGE = "입력하신 메뉴는 없는 메뉴입니다.";
 
+    @Getter
     private final String number;
+
     private final String name;
 
     Menu(String number, String name) {
@@ -23,10 +26,6 @@ public enum Menu {
             .filter(menu -> menuNumber.equals(menu.getNumber()))
             .findFirst()
             .orElseThrow(() -> new MenuInputException(NOT_EXIST_MENU_MESSAGE));
-    }
-
-    public String getNumber() {
-        return number;
     }
 
     public boolean isCreate() {

@@ -1,21 +1,16 @@
 package com.devcourse.voucherapp.entity.voucher;
 
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor
 public class FixDiscountVoucher implements Voucher {
 
+    @Getter
     private final UUID voucherId;
+
     private final int discountPrice;
-
-    public FixDiscountVoucher(UUID voucherId, int discountPrice) {
-        this.voucherId = voucherId;
-        this.discountPrice = discountPrice;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
 
     @Override
     public String toString() {

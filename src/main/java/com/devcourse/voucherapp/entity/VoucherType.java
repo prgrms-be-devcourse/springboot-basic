@@ -6,6 +6,7 @@ import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.exception.VoucherInputException;
 import java.util.Arrays;
 import java.util.UUID;
+import lombok.Getter;
 
 public enum VoucherType {
     FIX("1", "고정 할인") {
@@ -49,7 +50,9 @@ public enum VoucherType {
 
     private static final String NOT_EXIST_VOUCHER_TYPE_MESSAGE = "입력하신 할인권 방식은 없는 방식입니다.";
 
+    @Getter
     private final String number;
+
     private final String name;
 
     VoucherType(String number, String name) {
@@ -62,10 +65,6 @@ public enum VoucherType {
             .filter(type -> voucherTypeNumber.equals(type.getNumber()))
             .findFirst()
             .orElseThrow(() -> new VoucherInputException(NOT_EXIST_VOUCHER_TYPE_MESSAGE));
-    }
-
-    public String getNumber() {
-        return number;
     }
 
     public boolean isFix() {
