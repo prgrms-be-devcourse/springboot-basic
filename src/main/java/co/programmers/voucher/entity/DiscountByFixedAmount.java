@@ -1,18 +1,13 @@
 package co.programmers.voucher.entity;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class DiscountByFixedAmount implements DiscountStrategy {
-	private static final DiscountByFixedAmount INSTANCE = new DiscountByFixedAmount();
 	private static final int MAX_AMOUNT = 1_000_000;
+	private static final String DISCOUNT_TYPE_NAME = "Discount by fixed amount";
+	private final int amount;
 
-	private DiscountByFixedAmount() {
-	}
-
-	public static DiscountByFixedAmount getInstance(Integer amount) throws IllegalArgumentException {
+	public DiscountByFixedAmount(int amount) {
+		this.amount = amount;
 		validate(amount);
-		return INSTANCE;
 	}
 
 	private static void validate(Integer amount) throws IllegalArgumentException {
@@ -22,7 +17,11 @@ public class DiscountByFixedAmount implements DiscountStrategy {
 	}
 
 	@Override
-	public int discount(int originalPrice, int amount) {
+	public int discount(int originalPrice) {
 		return originalPrice - amount;
+	}
+
+	public String getType() {
+		return DISCOUNT_TYPE_NAME;
 	}
 }
