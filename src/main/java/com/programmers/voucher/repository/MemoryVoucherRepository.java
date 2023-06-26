@@ -1,9 +1,9 @@
 package com.programmers.voucher.repository;
 
+import com.programmers.global.exception.NotFoundException;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherEntity;
 import com.programmers.voucher.domain.VoucherMapper;
-import com.programmers.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -24,13 +24,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         if (storage.isEmpty()) {
-            return Collections.emptyList();
+            throw new NotFoundException();
         }
         return storage.values().stream().map(VoucherMapper::entityToDomain).toList();
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        throw new UnsupportedOperationException("아직 개발 중입니다.");
+    public Voucher findById(UUID voucherId) {
+        if (!storage.containsKey(voucherId)) throw new NotFoundException();
+        return VoucherMapper.entityToDomain(storage.get(voucherId));
+
     }
 }
