@@ -3,7 +3,6 @@ package org.prgrms.kdt.voucher.repository;
 import org.prgrms.kdt.util.Converter;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

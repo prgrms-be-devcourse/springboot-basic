@@ -2,7 +2,6 @@ package org.prgrms.kdt.commendLine;
 
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.voucher.domain.Voucher;
-
 import java.util.List;
 
 public class ConsoleOutput {
@@ -21,11 +20,13 @@ public class ConsoleOutput {
     public static void printAllBoucher(List<Voucher> vouchers) {
         vouchers.stream()
                 .forEach(e -> System.out.println(e.getVoucherType()));
+        System.out.println();
     }
 
     public static void printAllBlackList(List<Member> blackList){
         blackList.stream()
                 .forEach(e -> System.out.println(e.getMemberName()));
+        System.out.println();
     }
 
     public static void printMessage(String str){
@@ -33,6 +34,6 @@ public class ConsoleOutput {
     }
 
     public static void printError(){
-        System.out.println("잘못된 입력입니다. 다시 입력해 주십시오");
+        System.out.println("잘못된 입력입니다. 다시 입력해 주십시오\n");
     }
 }

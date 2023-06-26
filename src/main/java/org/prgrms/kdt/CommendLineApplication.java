@@ -11,5 +11,4 @@ public class CommendLineApplication {
         CommendLineRunner bean = applicationContext.getBean(CommendLineRunner.class);
         bean.run();
     }
-
 }
