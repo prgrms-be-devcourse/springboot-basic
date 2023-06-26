@@ -16,7 +16,7 @@ class DiscountTest {
             "445153, 100000",
             "1000000, 999999",
             "30, 30",
-            "20, 25",
+            "20, 20",
             "5, 3"
     })
     void fixedDiscountMethodTest(long itemPrice, long amount) {

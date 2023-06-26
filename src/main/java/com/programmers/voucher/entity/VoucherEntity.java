@@ -1,4 +1,6 @@
-package com.programmers.voucher.domain;
+package com.programmers.voucher.entity;
+
+import com.programmers.voucher.domain.Discount;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

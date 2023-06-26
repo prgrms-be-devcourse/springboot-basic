@@ -8,7 +8,6 @@ import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.VoucherRequestDto;
-import com.programmers.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -17,12 +16,10 @@ import java.util.UUID;
 public class CommandLineApplication {
     private boolean isRunning = true;
 
-    private final VoucherService voucherService;
     private final VoucherController voucherController;
     private final Console console;
 
-    public CommandLineApplication(VoucherService voucherService, Console console, VoucherController voucherController) {
-        this.voucherService = voucherService;
+    public CommandLineApplication(Console console, VoucherController voucherController) {
         this.console = console;
         this.voucherController = voucherController;
     }

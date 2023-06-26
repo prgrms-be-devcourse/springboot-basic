@@ -2,7 +2,7 @@ package com.programmers.voucher.repository;
 
 import com.programmers.global.exception.NotFoundException;
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.VoucherEntity;
+import com.programmers.voucher.entity.VoucherEntity;
 import com.programmers.voucher.domain.VoucherMapper;
 import org.springframework.stereotype.Repository;
 
