@@ -7,4 +7,8 @@ public interface Voucher {
     UUID getVoucherId();
 
     long discount(long beforeDiscount);
+
+    long getBenefit();
+    int getVoucherTypeNum();
+    String getVoucherName();
 }

@@ -1,33 +1,37 @@
 package org.prgrms.kdt.voucher.view;
 
 import org.prgrms.kdt.voucher.model.Menu;
-import org.prgrms.kdt.voucher.dto.VoucherDto;
+import org.prgrms.kdt.voucher.model.VoucherDTO;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class ConsoleOutput implements Output{
 
     private static final String defaultProgramMessage = "=== Voucher Program ===";
-    private static final String defaultVoucherCategories = "VoucherName" + "           " + "Benefit";
+    private static final String defaultVoucherCategories = "VoucherType\t\t" + "VoucherName\t\t" + "Benefit";
 
     private static void accept(Menu menu) {
         System.out.println(menu.getMenuExplain());
     }
 
-    private static void accept(VoucherDto voucherDto) {
-        System.out.println(voucherDto.getVoucherDtoName() + voucherDto.getBenefit());
-    }
-
     @Override
-    public void showMenu(Stream<Menu> menuStream) {
+    public void showMenu(Menu[] menuList) {
         System.out.println(defaultProgramMessage);
-        menuStream.forEach(ConsoleOutput::accept);
+        for(Menu menu : menuList) {
+            System.out.println(menu.getMenuExplain());
+        }
     }
 
     @Override
-    public void showVoucherList(List<VoucherDto> voucherDtoList) {
+    public void showVoucherList(List<VoucherDTO> voucherDTOList) {
         System.out.println(defaultVoucherCategories);
-        voucherDtoList.forEach(ConsoleOutput::accept);
+        for(VoucherDTO voucherDTO : voucherDTOList) {
+            System.out.println(voucherDTO);
+        }
+    }
+
+    @Override
+    public void printError(String errorMessage) {
+        System.out.println(errorMessage);
     }
 }
