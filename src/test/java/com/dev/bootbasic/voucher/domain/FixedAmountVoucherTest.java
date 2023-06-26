@@ -58,11 +58,10 @@ class FixedAmountVoucherTest {
         int discountAmount = 5000;
         int originPrice = 4000;
         int expectedPrice = 0;
+
         Voucher voucher = FixedAmountVoucher.of(id, discountAmount);
 
-        int result = voucher.discount(originPrice);
-
-        assertThat(result).isEqualTo(expectedPrice);
+        assertThat(voucher.discount(originPrice)).isEqualTo(expectedPrice);
     }
 
 }
