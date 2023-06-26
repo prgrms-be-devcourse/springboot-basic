@@ -18,9 +18,7 @@ public enum ConsoleMessage {
             Discount Value => {2}
             Created Date   => {3}
             """),
-    VOUCHER_DISCOUNT_VALUE_MESSAGE("Please enter a value for creating voucher."),
-
-    LIST_IS_EMPTY("List is empty. Try again after make vouchers.");
+    VOUCHER_DISCOUNT_VALUE_MESSAGE("Please enter a number for creating voucher.");
 
     private final String message;
 
@@ -31,4 +29,4 @@ public enum ConsoleMessage {
     public String getMessage() {
         return message;
     }
-    }
+}

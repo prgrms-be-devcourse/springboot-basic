@@ -50,8 +50,8 @@ public class CommandLineApplication {
             try {
                 createVoucher(discount);
                 return;
-            } catch (Exception e) {
-                console.print(e.getMessage());
+            } catch (RuntimeException e) {
+                console.println(e.getMessage());
             }
         }
     }
@@ -70,8 +70,8 @@ public class CommandLineApplication {
         while (true) {
             try {
                 return Long.parseLong(console.inputDiscountValue());
-            } catch (DiscountValueException e) {
-                console.print(e.getMessage());
+            } catch (NumberFormatException e) {
+                console.println(e.getMessage());
             }
         }
     }

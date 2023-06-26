@@ -1,6 +1,5 @@
 package com.programmers.console.view;
 
-
 import com.programmers.voucher.dto.VoucherResponseDto;
 
 import java.util.List;

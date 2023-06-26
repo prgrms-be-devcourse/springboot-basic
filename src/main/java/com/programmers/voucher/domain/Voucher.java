@@ -15,7 +15,7 @@ public class Voucher {
         this.createdDate = createdDate;
     }
 
-    public long applyDiscount(long itemPrice) {
+    public long discount(long itemPrice) {
         return discount.applyDiscount(itemPrice);
     }
 

@@ -21,7 +21,6 @@ class VoucherServiceTest {
     private VoucherRepository voucherRepository;
     private VoucherService voucherService;
 
-
     @BeforeEach
     public void setUp() {
         voucherRepository = new MemoryVoucherRepository();

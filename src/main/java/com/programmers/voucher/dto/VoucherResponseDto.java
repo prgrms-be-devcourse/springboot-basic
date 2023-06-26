@@ -28,16 +28,4 @@ public class VoucherResponseDto {
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
-
-    @Override
-    public String toString() {
-        return MessageFormat.format("""
-                        voucherId = {0}
-                        voucherType = {1}
-                        discountValue = {2}
-                        createdDate = {3}
-                        """,
-                voucherID, discount.getVoucherType(), discount.getValue(), createdDate
-        );
-    }
 }

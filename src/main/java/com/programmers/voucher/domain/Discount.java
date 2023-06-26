@@ -18,7 +18,6 @@ public abstract class Discount {
         throw new IllegalArgumentException("");
     }
 
-
     public long getValue() {
         return value;
     }

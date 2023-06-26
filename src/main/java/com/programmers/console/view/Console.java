@@ -49,11 +49,6 @@ public class Console implements InputView, OutputView {
 
     @Override
     public void printVouchers(List<VoucherResponseDto> vouchers) {
-        if (vouchers.isEmpty()) {
-            println(ConsoleMessage.LIST_IS_EMPTY.getMessage());
-            println(EMPTY_SPACE);
-            return;
-        }
         for (VoucherResponseDto voucher : vouchers) {
             printVoucher(voucher);
         }
@@ -67,14 +62,6 @@ public class Console implements InputView, OutputView {
                 discountValueFormat(responseDto.getDiscount()), responseDto.getCreatedDate()));
     }
 
-    private String discountValueFormat(Discount discount) {
-        if (discount instanceof PercentDiscount) {
-            return discount.getValue() + PERCENT;
-        }
-        DecimalFormat formatter = new DecimalFormat("###,###,###");
-        return formatter.format(discount.getValue()) + WON;
-    }
-
     @Override
     public void println(String message) {
         System.out.println(message);
@@ -85,4 +72,11 @@ public class Console implements InputView, OutputView {
         System.out.print(message);
     }
 
+    private String discountValueFormat(Discount discount) {
+        if (discount instanceof PercentDiscount) {
+            return discount.getValue() + PERCENT;
+        }
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        return formatter.format(discount.getValue()) + WON;
+    }
 }
