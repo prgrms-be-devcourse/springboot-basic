@@ -35,7 +35,7 @@ public class CommendLineRunner {
             }catch (InvalidInputException e){
                 ConsoleOutput.printError();
             }catch (Exception e){
-                logger.error("예상하지 못한 예외가 발생했습니다.");
+                logger.error(e.toString());
             }
         }
     }
