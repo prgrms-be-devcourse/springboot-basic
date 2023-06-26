@@ -1,8 +1,7 @@
 package com.programmers.voucher.dto;
 
 import com.programmers.voucher.domain.Discount;
+import com.programmers.voucher.domain.VoucherType;
 
-import java.util.UUID;
-
-public record VoucherRequestDto(UUID voucherId, Discount discount) {
+public record VoucherRequestDto(Discount discount) {
 }
