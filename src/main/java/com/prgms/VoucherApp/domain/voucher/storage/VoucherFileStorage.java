@@ -17,14 +17,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("dev")
 public class VoucherFileStorage implements VoucherStorage {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherFileStorage.class);
-    private final Map<UUID, Voucher> voucherLinkedMap = new LinkedHashMap<>();
+    private final Map<UUID, Voucher> voucherLinkedMap = new ConcurrentHashMap<>();
 
     @Value("${voucher.file.path}")
     private String filePath;
