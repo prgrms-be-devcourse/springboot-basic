@@ -20,8 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VoucherController implements CommandLineRunner {
 
-    private static Input input = new Input();
-    private static Output output = new Output();
+    private Input input = new Input();
+    private Output output = new Output();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherService voucherService;
 
