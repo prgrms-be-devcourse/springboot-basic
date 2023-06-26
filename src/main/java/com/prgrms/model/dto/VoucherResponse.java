@@ -4,13 +4,12 @@ import com.prgrms.model.voucher.Discount;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherPolicy;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 
 @Getter
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class VoucherResponse {
     private VoucherPolicy voucherPolicy;
