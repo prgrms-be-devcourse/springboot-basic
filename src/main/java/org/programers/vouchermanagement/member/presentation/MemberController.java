@@ -14,8 +14,8 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public void findAllBlackList() {
-        MembersResponse response = memberService.findAll();
+    public void findAllByBlackStatus() {
+        MembersResponse response = memberService.findAllByBlackStatus();
         OutputView.outputMembers(response);
     }
 }

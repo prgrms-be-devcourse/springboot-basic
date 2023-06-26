@@ -27,7 +27,7 @@ public class VoucherManagementController implements CommandLineRunner {
 
             Command command = InputView.inputCommand();
             if (command.isBlacklist()) {
-                memberController.findAllBlackList();
+                memberController.findAllByBlackStatus();
                 continue;
             }
 

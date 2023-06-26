@@ -18,8 +18,8 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public MembersResponse findAll() {
-        List<Member> members = memberRepository.findAll();
+    public MembersResponse findAllByBlackStatus() {
+        List<Member> members = memberRepository.findAllByBlackStatus();
         return new MembersResponse(members.stream().map(MemberResponse::new).collect(Collectors.toList()));
     }
 }
