@@ -18,4 +18,6 @@ public abstract class Voucher {
     }
 
     public abstract Money retrievePostBalance(Money money);
+
+    public abstract int getProvidedAmount();
 }

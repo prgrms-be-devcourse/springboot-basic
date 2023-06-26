@@ -35,4 +35,9 @@ public class DiscountVoucher extends Voucher {
         return discountPolicy.discount(targetMoney);
     }
 
+    @Override
+    public int getProvidedAmount() {
+        return amount;
+    }
+
 }
