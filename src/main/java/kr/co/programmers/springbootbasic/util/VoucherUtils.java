@@ -1,6 +1,7 @@
 package kr.co.programmers.springbootbasic.util;
 
 import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.voucher.Voucher;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,23 +46,25 @@ public class VoucherUtils {
         }
     }
 
-    public static long parseStringToLong(String input) {
-        try {
-            return Long.parseLong(input);
-        } catch (NumberFormatException e) {
-            logger.warn(NO_VALID_NUMBER_INPUT_LOG, input);
-            throw new NumberFormatException(NO_VALID_NUMBER_INPUT);
-        }
+    public static VoucherResponseDto convertToVoucherResponseDto(Voucher voucher) {
+        VoucherType type = voucher.getType();
+        UUID voucherId = voucher.getId();
+        long amount = voucher.getAmount();
+
+        return new VoucherResponseDto(type, voucherId, amount);
     }
 
     public static String formatVoucherResponseDto(VoucherResponseDto dto) {
-        VoucherType type = dto.getType();
-        UUID voucherId = dto.getVoucherId();
-        long amount = dto.getAmount();
-
-        if (type == VoucherType.PERCENT_AMOUNT) {
-            return MessageFormat.format(PERCENT_VOUCHER_FORMAT, type, voucherId, amount);
+        if (dto.getType() == VoucherType.FIXED_AMOUNT) {
+            return MessageFormat.format(FIXED_VOUCHER_FORMAT,
+                    dto.getType(),
+                    dto.getVoucherId(),
+                    dto.getAmount());
         }
-        return MessageFormat.format(FIXED_VOUCHER_FORMAT, type, voucherId, amount);
+
+        return MessageFormat.format(PERCENT_VOUCHER_FORMAT,
+                dto.getType(),
+                dto.getVoucherId(),
+                dto.getAmount());
     }
 }

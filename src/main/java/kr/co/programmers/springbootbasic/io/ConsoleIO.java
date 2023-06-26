@@ -1,10 +1,13 @@
 package kr.co.programmers.springbootbasic.io;
 
+import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
 import kr.co.programmers.springbootbasic.util.VoucherUtils;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class ConsoleIO implements Input, Output {
@@ -23,16 +26,18 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public VoucherType readVoucherType() {
-        String input = scanner.nextLine();
+        int input = scanner.nextInt();
+        scanner.nextLine();
 
         return VoucherType.resolve(input);
     }
 
     @Override
     public long readAmount() {
-        String input = scanner.nextLine();
+        long input = scanner.nextLong();
+        scanner.nextLine();
 
-        return VoucherUtils.parseStringToLong(input);
+        return input;
     }
 
     @Override
@@ -55,6 +60,20 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public void printMessage(String message) {
+        System.out.print(message);
+    }
+
+    @Override
+    public void printMessage(VoucherResponseDto dto) {
+        String message = VoucherUtils.formatVoucherResponseDto(dto);
+        System.out.print(message);
+    }
+
+    @Override
+    public void printMessage(List<VoucherResponseDto> lists) {
+        String message = lists.stream()
+                .map(VoucherUtils::formatVoucherResponseDto)
+                .collect(Collectors.joining());
         System.out.print(message);
     }
 
