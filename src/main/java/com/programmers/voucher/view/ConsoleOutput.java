@@ -6,9 +6,11 @@ import com.programmers.voucher.view.dto.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Component
 public class ConsoleOutput implements Output {
     private static final TextIO textIO = TextIoFactory.getTextIO();
     private static final TextTerminal<?> textTerminal = textIO.getTextTerminal();

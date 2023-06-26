@@ -5,7 +5,9 @@ import com.programmers.voucher.view.dto.DiscountAmount;
 import com.programmers.voucher.view.dto.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleInput implements Input {
     private static final TextIO textIO = TextIoFactory.getTextIO();
 
