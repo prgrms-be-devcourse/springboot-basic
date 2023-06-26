@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 
 @Slf4j
-
 @Component
 @RequiredArgsConstructor
 public class Console implements Input, Output {
