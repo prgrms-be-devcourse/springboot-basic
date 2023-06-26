@@ -27,7 +27,7 @@ class CurrencyTest {
 
     @DisplayName("같은 금액의 Currency 객체의 동등성을 보장한다.")
     @Test
-    void when_GivenSameValueOfCurrency_Expects_Same() {
+    void when_GivenSameValueOfCurrency_Expects_SameObject() {
         // Given, When
         Currency money1 = Currency.of(1000);
         Currency money2 = Currency.of(1000);
