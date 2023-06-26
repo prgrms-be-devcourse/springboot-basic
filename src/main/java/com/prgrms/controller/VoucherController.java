@@ -4,10 +4,10 @@ import com.prgrms.io.Input;
 import com.prgrms.io.Menu;
 import com.prgrms.io.Output;
 import com.prgrms.model.dto.VoucherResponse;
-import com.prgrms.model.voucher.Voucher;
+import com.prgrms.model.voucher.Discount;
 import com.prgrms.model.voucher.VoucherPolicy;
-import com.prgrms.repository.voucher.VoucherRepository;
 import com.prgrms.service.voucher.VoucherService;
+
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,6 @@ public class VoucherController implements CommandLineRunner {
     private static Output output = new Output();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherService voucherService;
-    private final VoucherRepository voucherRepository;
 
     @Override
     public void run(String... args) {
@@ -76,14 +75,14 @@ public class VoucherController implements CommandLineRunner {
     public void create(VoucherPolicy voucherPolicy) {
         output.viewDiscountGuide(voucherPolicy);
 
-        long discount = input.enterDiscount();
+        Discount discount = new Discount(input.enterDiscount());
         voucherService.createVoucher(voucherPolicy, discount);
 
         output.viewCompleteVoucher();
     }
 
     public void list() {
-        List<VoucherResponse> voucherList = voucherRepository.getAllVoucherList();
+        List<VoucherResponse> voucherList = voucherService.getAllVoucherList();
         if (voucherService.isEmptyRepository(voucherList)) {
             output.viewEmptyRepository();
         }
