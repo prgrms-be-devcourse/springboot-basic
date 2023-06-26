@@ -9,32 +9,27 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class DiscountValueTest {
 
-    @DisplayName("할인 값이 최대값 최소값의 유효범위를 넘어가는 경우")
+    @DisplayName("할인 값이 최대값 1,000,000,000 최소값 1의 유효범위를 넘어가는 경우")
     @ParameterizedTest
-    @ValueSource(strings = {
-            "100",
-            "235123412351235",
-            "-572356",
-            "0",
-            "25",
-            "21",
-            "342345"
+    @ValueSource(longs = {
+            -1,
+            0,
+            -2,
+            9423452343123L
     })
     public void maxAndMinDiscountAmountTest(long amount) {
         assertThatThrownBy(() -> new FixedDiscount(amount))
                 .isInstanceOf(DiscountValueException.class);
     }
 
-    @DisplayName("할인 퍼센트가 최대값 최소값의 유효범위를 넘어가는 경우")
+    @DisplayName("할인 퍼센트가 최대값 100 최소값 1의 유효범위를 넘어가는 경우")
     @ParameterizedTest
-    @ValueSource(strings = {
-            "100",
-            "50",
-            "-572356",
-            "0",
-            "25",
-            "1",
-            "342345"
+    @ValueSource(longs = {
+            0,
+            -1,
+            -100,
+            0,
+            101,
     })
     public void maxAndMinPercentTest(long percent) {
         assertThatThrownBy(() -> new PercentDiscount(percent))

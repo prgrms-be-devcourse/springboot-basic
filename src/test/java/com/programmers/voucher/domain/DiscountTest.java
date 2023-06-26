@@ -15,7 +15,7 @@ class DiscountTest {
             "50, 2",
             "445153, 100000",
             "1000000, 999999",
-            "30, 30",
+            "30, 35",
             "20, 20",
             "5, 3"
     })
@@ -23,6 +23,7 @@ class DiscountTest {
         FixedDiscount fixedDiscount = new FixedDiscount(amount);
 
         long expected = itemPrice - amount;
+        if (expected < 0 ) expected = 0;
 
         assertEquals(expected, fixedDiscount.applyDiscount(itemPrice));
     }

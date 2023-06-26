@@ -16,18 +16,12 @@ public class FixedDiscount extends Discount {
 
     @Override
     public long applyDiscount(long itemPrice) {
-        if (discountable(itemPrice)) {
-            return itemPrice - getValue();
-        }
-        throw new DiscountValueException();
+        if (itemPrice < getValue()) return 0;
+        return itemPrice - getValue();
     }
 
     public VoucherType getVoucherType() {
         return voucherType;
-    }
-
-    private boolean discountable(long itemPrice) {
-        return itemPrice >= this.getValue();
     }
 
     private void validateDiscountAmount(long amount) {
