@@ -14,7 +14,7 @@ import java.util.*;
 @Profile("staging")
 public class FileVoucherRepository implements VoucherRepository {
 
-    @Value("${file-repo.voucher}")
+    @Value("${FILE-REPO.VOUCHER}")
     private String FILE_PATH;
     private final List<Voucher> vouchers = new ArrayList<>();
 
