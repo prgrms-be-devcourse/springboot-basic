@@ -10,7 +10,7 @@ import org.prgrms.kdt.voucher.view.Output;
 import static org.prgrms.kdt.voucher.view.ConsoleOutput.SELECT_VOUCHER_MESSAGE;
 
 public class Controller {
-    // VoucherRepository로부터 Controller로 DTO로 받는다..?
+
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
@@ -32,6 +32,7 @@ public class Controller {
                     }
                     case CREATE -> {
                         output.printMessage(SELECT_VOUCHER_MESSAGE);
+                        output.showVoucherTypes(VoucherType.values());
                         String voucherTypeName = input.getVoucherInput();
                         output.printMessage(VoucherType.of(voucherTypeName).getBenefitMessage());
                         Long benefit = input.getBenefit();

@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.view;
 
 import org.prgrms.kdt.voucher.dto.VoucherDTO;
 import org.prgrms.kdt.voucher.model.Menu;
+import org.prgrms.kdt.voucher.model.VoucherType;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,15 +24,22 @@ public class ConsoleOutput implements Output{
     }
 
     @Override
+    public void showVoucherTypes(VoucherType[] voucherTypes) {
+        for(VoucherType voucherType : voucherTypes) {
+            System.out.print(voucherType + " / ");
+        }
+        System.out.println();
+    }
+
+
+    @Override
     public void showVoucherList(List<VoucherDTO> voucherDTOList) {
         System.out.println(DEFAULT_VOUCHER_CATEGORIES);
         if(voucherDTOList.isEmpty()) {
             System.out.println(EMPTY_MESSAGE);
             return;
         }
-        Optional.of(voucherDTOList)
-                .stream()
-                .forEach(System.out::println);
+        voucherDTOList.forEach(System.out::println);
     }
 
     @Override

@@ -6,7 +6,9 @@ import org.prgrms.kdt.voucher.service.VoucherFactory;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.view.ConsoleInput;
 import org.prgrms.kdt.voucher.view.ConsoleOutput;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class VoucherApp {
 
     public static void main(String[] args) {
