@@ -7,19 +7,19 @@ import com.prgrms.model.voucher.VoucherPolicy;
 import java.util.List;
 
 public class Output {
-    public void viewStartMessage() {
+    public static void viewStartMessage() {
         System.out.println(Message.START.getMessage());
     }
 
-    public void viewInputError() {
+    public static void viewInputError() {
         System.out.println(Message.ERROR.getMessage());
     }
 
-    public void viewEndMessage() {
+    public static void viewEndMessage() {
         System.out.println(Message.END.getMessage());
     }
 
-    public void viewVoucherOption() {
+    public static void viewVoucherOption() {
         for (VoucherPolicy voucherPolicy : VoucherPolicy.values()) {
             System.out.println(voucherPolicy.voucherPolicyOptionGuid());
         }
@@ -30,16 +30,18 @@ public class Output {
     }
 
     public static void viewVoucherList(List<VoucherResponse> voucherList) {
-        for (VoucherResponse voucher : voucherList) {
-            System.out.println(voucher.getVoucherType() + " : " + voucher.getDiscount());
+        for (VoucherResponse voucherResponse : voucherList) {
+            System.out.println(voucherResponse.getVoucherPolicy().name() + " : "
+                    + voucherResponse.getDiscount().getDiscount()
+                    + voucherResponse.getVoucherPolicy().getUnit());
         }
     }
 
     public static void viewCompleteVoucher() {
-        System.out.println(Message.COMPLETE_CREATE.toString());
+        System.out.println(Message.COMPLETE_CREATE.getMessage());
     }
 
     public static void viewEmptyRepository() {
-        System.out.println(Message.EMPTY_REPOSITORY.toString());
+        System.out.println(Message.EMPTY_REPOSITORY.getMessage());
     }
 }
