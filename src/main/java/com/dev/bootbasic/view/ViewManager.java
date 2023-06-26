@@ -3,7 +3,6 @@ package com.dev.bootbasic.view;
 import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.Collection;
 
 @Component
@@ -27,12 +26,12 @@ public class ViewManager {
         this.outputView = outputView;
     }
 
-    public Command readCommand() throws IOException {
+    public Command readCommand() {
         outputView.showMessage(INPUT_COMMAND_MESSAGE);
         return Command.from(inputView.inputLine());
     }
 
-    public VoucherCreateRequest readVoucherCreateInfo() throws IOException {
+    public VoucherCreateRequest readVoucherCreateInfo() {
         outputView.showMessage(VOUCHER_TYPE_MESSAGE);
 
         String voucher = inputView.inputLine();
