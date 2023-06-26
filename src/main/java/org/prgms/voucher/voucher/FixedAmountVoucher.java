@@ -16,6 +16,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public UUID getId() {
+        return id;
+    }
+
+    @Override
     public long discount(long price) {
         return Math.max(0, price - amount);
     }
