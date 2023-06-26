@@ -106,8 +106,9 @@ public class ConsoleOutputView implements Output {
 
     @Override
     public void printCreatedMsg(Voucher voucher) {
-        log.info("The discount coupon {} was created successfully.", voucher);
-        textTerminal.println(voucher + "할인권이 생성되었습니다.");
+        VoucherDto voucherDto = voucher.convertVoucherDto();
+        log.info("The discount coupon {} was created successfully.", voucherDto.getVoucherInfo());
+        textTerminal.println(voucherDto.getVoucherInfo() + " 할인권이 생성되었습니다.");
     }
 
     @Override
