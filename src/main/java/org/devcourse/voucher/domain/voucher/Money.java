@@ -1,8 +1,13 @@
 package org.devcourse.voucher.domain.voucher;
 
-public record Money(int amount) {
-
+public class Money {
     public static final Money ZERO_AMOUNT = new Money(0);
+
+    private final int amount;
+
+    private Money(int amount) {
+        this.amount = amount;
+    }
 
     public static Money of(int amount) {
         if (amount < 0) {
