@@ -3,10 +3,7 @@ package com.dev.bootbasic.voucher.repository;
 import com.dev.bootbasic.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -28,7 +25,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Collection<Voucher> getAllVouchers() {
-        return VOUCHERS.values();
+        return Collections.unmodifiableCollection(VOUCHERS.values());
     }
 
 }
