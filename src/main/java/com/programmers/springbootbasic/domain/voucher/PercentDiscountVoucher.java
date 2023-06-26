@@ -8,14 +8,18 @@ public class PercentDiscountVoucher extends Voucher {
     static final int MIN_PERCENT = 1;
     static final int MAX_PERCENT = 100;
 
-    public PercentDiscountVoucher(UUID voucherId, String name, LocalDateTime expirationDate, int percent) {
-        this(voucherId, name, 0L, expirationDate, percent);
+    public PercentDiscountVoucher(UUID voucherId, String name, LocalDateTime createdDate, LocalDateTime expirationDate, int percent) {
+        this(voucherId, name, 0L, createdDate, expirationDate, percent);
     }
 
-    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime expirationDate, int percent) {
-        super(voucherId, name, minimumPriceCondition, expirationDate);
+    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int percent) {
+        super(voucherId, name, minimumPriceCondition, createdDate, expirationDate);
         if (isInvalidRange(percent)) {
-            throw new IllegalArgumentException("잘못된 할인 범위, percent=" + percent);
+            throw new IllegalArgumentException("" +
+                    "잘못된 할인율입니다. " +
+                    "할인율은 최소 " + MIN_PERCENT + "%부터 최대 " + MAX_PERCENT + "%까지 입니다. " +
+                    "현재 입력 퍼센트: " + percent + "%"
+            );
         }
         this.percent = percent;
     }
