@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @SpringBootTest
@@ -21,8 +22,8 @@ class VoucherReaderTest {
     @Test
     @DisplayName("voucher 목록 출력")
     void findVoucherListTest() {
-        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
-        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50L);
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
+        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         voucherStorage.save(fixedVoucher);
         voucherStorage.save(percentVoucher);
@@ -34,7 +35,7 @@ class VoucherReaderTest {
     @DisplayName("VoucherId를 사용하여 1개만 출력")
     void findByVoucherIdTest() {
         UUID uuid = UUID.randomUUID();
-        Voucher fixedVoucher = new FixedAmountVoucher(uuid, 1000L);
+        Voucher fixedVoucher = new FixedAmountVoucher(uuid, BigDecimal.valueOf(1000));
 
         voucherStorage.save(fixedVoucher);
 

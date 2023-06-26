@@ -15,9 +15,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final BigDecimal percent;
 
-    public PercentDiscountVoucher(UUID voucherId, double percent) {
+    public PercentDiscountVoucher(UUID voucherId, BigDecimal percent) {
         this.voucherId = voucherId;
-        this.percent = BigDecimal.valueOf(percent);
+        this.percent = percent;
     }
 
     @Override

@@ -10,9 +10,9 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final BigDecimal fixedAmount;
 
-    public FixedAmountVoucher(UUID voucherId, double fixedAmount) {
+    public FixedAmountVoucher(UUID voucherId, BigDecimal fixedAmount) {
         this.voucherId = voucherId;
-        this.fixedAmount = BigDecimal.valueOf(fixedAmount);
+        this.fixedAmount = fixedAmount;
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,16 +22,24 @@ class VoucherMemoryStorageTest {
     }
 
     @Test
-    @DisplayName("할인권 저장 개별 테스트")
-    void saveVoucher() {
+    @DisplayName("고정 비용 할인권 생성 테스트")
+    void saveFixedVoucher() {
 
-        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
-        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50L);
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
 
         storage.save(fixedVoucher);
-        storage.save(percentVoucher);
 
         assertThat(storage.findByVoucherId(fixedVoucher.getUUID()).get()).isEqualTo(fixedVoucher);
+    }
+
+    @Test
+    @DisplayName("퍼센트 비율 할인권 생성 테스트")
+    void savePercentVoucher() {
+
+        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
+
+        storage.save(percentVoucher);
+
         assertThat(storage.findByVoucherId(percentVoucher.getUUID()).get()).isEqualTo(percentVoucher);
     }
 }

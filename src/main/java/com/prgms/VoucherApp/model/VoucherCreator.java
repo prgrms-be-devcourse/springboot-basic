@@ -7,6 +7,7 @@ import com.prgms.VoucherApp.domain.VoucherType;
 import com.prgms.VoucherApp.storage.VoucherStorage;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -20,8 +21,8 @@ public class VoucherCreator {
 
     public Voucher createVoucher(VoucherType voucherType, long amount) {
         Voucher voucher = switch (voucherType) {
-            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), amount);
-            case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), amount);
+            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(amount));
+            case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(amount));
         };
         voucherStorage.save(voucher);
         return voucher;
