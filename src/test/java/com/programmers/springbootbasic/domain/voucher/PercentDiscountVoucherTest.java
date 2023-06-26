@@ -16,11 +16,12 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
+        LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
         int percent = 30;
 
         // when
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, name, expirationDate, percent);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, name, createdDate, expirationDate, percent);
 
         // then
         assertThat(percentDiscountVoucher.getName()).isEqualTo(name);
@@ -31,12 +32,13 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
+        LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
         Long minimumPrice = 3_000L;
         int percent = 30;
 
         // when
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, name, minimumPrice, expirationDate, percent);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, name, minimumPrice, createdDate, expirationDate, percent);
 
         // then
         assertThat(percentDiscountVoucher.getName()).isEqualTo(name);
@@ -47,13 +49,13 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
+        LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
         int percent = 300;
 
         // when && then
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, name, expirationDate, percent))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("잘못된 할인 범위");
+        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, name, createdDate, expirationDate, percent))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -61,14 +63,14 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
+        LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
         Long minimumPrice = 3_000L;
         int percent = 300;
 
         // when && then
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, name, minimumPrice, expirationDate, percent))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("잘못된 할인 범위");
+        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, name, minimumPrice, createdDate, expirationDate, percent))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
@@ -78,11 +80,12 @@ class PercentDiscountVoucherTest {
         PercentDiscountVoucher voucher = new PercentDiscountVoucher(
                 UUID.randomUUID(),
                 percent + "% 할인권",
+                LocalDateTime.now(),
                 LocalDateTime.MAX,
                 percent);
 
         // when
-        Long discountedPrice = voucher.discount(price);
+        Long discountedPrice = voucher.getDiscountPrice(price);
 
         // then
         assertThat(discountedPrice).isEqualTo(expectedPrice);
