@@ -8,9 +8,9 @@ import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class VoucherFactory {
 
   private final static Logger log = LoggerFactory.getLogger(VoucherFactory.class);
