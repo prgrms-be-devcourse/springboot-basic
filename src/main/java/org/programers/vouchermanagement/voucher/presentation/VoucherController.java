@@ -1,10 +1,7 @@
 package org.programers.vouchermanagement.voucher.presentation;
 
 import org.programers.vouchermanagement.voucher.application.VoucherService;
-import org.programers.vouchermanagement.voucher.domain.FixedAmountPolicy;
-import org.programers.vouchermanagement.voucher.domain.PercentDiscountPolicy;
 import org.programers.vouchermanagement.voucher.dto.VoucherCreationRequest;
-import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
 import org.programers.vouchermanagement.voucher.dto.VouchersResponse;
 import org.programers.vouchermanagement.view.DiscountPolicyType;
 import org.programers.vouchermanagement.view.InputView;
@@ -24,20 +21,11 @@ public class VoucherController {
         OutputView.outputDiscountPolicyType();
         DiscountPolicyType type = InputView.inputDiscountPolicy();
 
-        if (type.isAmount()) {
-            OutputView.outputCommentAboutAmountOfPolicy();
-            int amount = InputView.inputValueOfPolicy();
-            VoucherCreationRequest request = new VoucherCreationRequest(new FixedAmountPolicy(amount));
-            VoucherResponse response = voucherService.save(request);
-            return;
-        }
+        OutputView.outputCommentAboutPercentOfPolicy();
+        int value = InputView.inputValueOfPolicy();
 
-        if (type.isPercent()) {
-            OutputView.outputCommentAboutPercentOfPolicy();
-            int percent = InputView.inputValueOfPolicy();
-            VoucherCreationRequest request = new VoucherCreationRequest(new PercentDiscountPolicy(percent));
-            VoucherResponse response = voucherService.save(request);
-        }
+        VoucherCreationRequest request = new VoucherCreationRequest(type.createPolicy(value));
+        voucherService.save(request);
     }
 
     public void findAll() {
