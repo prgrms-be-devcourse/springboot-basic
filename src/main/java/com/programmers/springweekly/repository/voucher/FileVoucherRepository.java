@@ -54,7 +54,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
                 ReadVoucherDto readVoucherDto = new ReadVoucherDto(readLine[0], readLine[1], readLine[2]);
 
-                Voucher voucher = createVoucher(readVoucherDto);
+                Voucher voucher =  VoucherFactory.createVoucher(readVoucherDto.getVoucherType(), readVoucherDto.getDiscountAmount());
 
                 voucherMap.put(readVoucherDto.getVoucherId(), voucher);
             }
@@ -64,13 +64,4 @@ public class FileVoucherRepository implements VoucherRepository {
 
         return new ConcurrentHashMap<>(voucherMap);
     }
-
-    private Voucher createVoucher(ReadVoucherDto readVoucherDto) {
-        if (readVoucherDto.getVoucherType() == VoucherType.FIXED) {
-            return VoucherFactory.createVoucher(VoucherType.FIXED, readVoucherDto.getDiscountAmount());
-        }
-
-        return VoucherFactory.createVoucher(VoucherType.PERCENT, readVoucherDto.getDiscountAmount());
-    }
-
 }
