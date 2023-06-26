@@ -1,9 +1,9 @@
-package com.prgms.VoucherApp.storage;
+package com.prgms.VoucherApp.domain.voucher.storage;
 
-import com.prgms.VoucherApp.domain.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
+import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
+import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,7 @@ public class VoucherFileStorage implements VoucherStorage {
     private static final Logger log = LoggerFactory.getLogger(VoucherFileStorage.class);
     private final Map<UUID, Voucher> voucherLinkedMap = new LinkedHashMap<>();
 
-    @Value("${file.path}")
+    @Value("${voucher.file.path}")
     private String filePath;
 
     @PostConstruct

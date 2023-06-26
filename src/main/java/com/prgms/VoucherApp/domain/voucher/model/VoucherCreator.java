@@ -1,10 +1,10 @@
-package com.prgms.VoucherApp.model;
+package com.prgms.VoucherApp.domain.voucher.model;
 
-import com.prgms.VoucherApp.domain.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.domain.VoucherType;
-import com.prgms.VoucherApp.storage.VoucherStorage;
+import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
+import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
+import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.VoucherType;
+import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

@@ -1,7 +1,10 @@
-package com.prgms.VoucherApp.domain;
+package com.prgms.VoucherApp.voucher.domain;
 
-import com.prgms.VoucherApp.model.VoucherReader;
-import com.prgms.VoucherApp.storage.VoucherStorage;
+import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
+import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
+import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherReader;
+import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

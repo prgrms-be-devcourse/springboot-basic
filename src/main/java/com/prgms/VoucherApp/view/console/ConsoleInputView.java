@@ -1,6 +1,6 @@
 package com.prgms.VoucherApp.view.console;
 
-import com.prgms.VoucherApp.domain.VoucherType;
+import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.view.Command;
 import com.prgms.VoucherApp.view.Input;
 import org.beryx.textio.TextIO;

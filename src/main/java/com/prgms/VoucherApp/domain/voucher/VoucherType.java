@@ -1,4 +1,4 @@
-package com.prgms.VoucherApp.domain;
+package com.prgms.VoucherApp.domain.voucher;
 
 import java.util.Arrays;
 import java.util.Collections;

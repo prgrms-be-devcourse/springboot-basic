@@ -1,6 +1,6 @@
-package com.prgms.VoucherApp.storage;
+package com.prgms.VoucherApp.domain.voucher.storage;
 
-import com.prgms.VoucherApp.domain.Voucher;
+import com.prgms.VoucherApp.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
