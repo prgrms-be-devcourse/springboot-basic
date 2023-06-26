@@ -1,8 +1,12 @@
 package com.programmers.springweekly.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Validator {
 
     private static final Pattern pattern = Pattern.compile("\\d+");
@@ -10,8 +14,6 @@ public final class Validator {
     private static final String A_NUMBER_THAT_IS_OUT_OF_RANGE = "A number that is out of range";
     private static final int PERCENT_MAX = 100;
     private static final int PERCENT_MIN = 0;
-
-    private Validator(){}
 
     public static void fixedAmountValidate(String fixedAmount){
         isNumber(fixedAmount);

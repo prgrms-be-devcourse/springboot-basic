@@ -5,6 +5,7 @@ import com.programmers.springweekly.controller.VoucherController;
 import com.programmers.springweekly.domain.ProgramMenu;
 import com.programmers.springweekly.view.Console;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class ConsoleApplication implements CommandLineRunner {
 
@@ -20,12 +22,6 @@ public class ConsoleApplication implements CommandLineRunner {
     private final Console console;
 
     private boolean running = true;
-
-    public ConsoleApplication(CustomerController customerController, VoucherController voucherController, Console console) {
-        this.customerController = customerController;
-        this.voucherController = voucherController;
-        this.console = console;
-    }
 
     @Override
     public void run(String... args) {
