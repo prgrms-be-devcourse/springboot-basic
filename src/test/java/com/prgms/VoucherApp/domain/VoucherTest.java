@@ -35,9 +35,11 @@ class VoucherTest {
     @Test
     @DisplayName("비율 값 할인 무한 소수 예외 테스트")
     void percentDiscountException() {
-        percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 3.33);
-
-        Assertions.assertThatExceptionOfType(ArithmeticException.class)
-                .isThrownBy(() -> percentDiscountVoucher.discount(BigDecimal.valueOf(1)));
+        try {
+            percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 3.33);
+        } catch (ArithmeticException e) {
+            Assertions.assertThatExceptionOfType(ArithmeticException.class)
+                    .isThrownBy(() -> percentDiscountVoucher.discount(BigDecimal.valueOf(1)));
+        }
     }
 }

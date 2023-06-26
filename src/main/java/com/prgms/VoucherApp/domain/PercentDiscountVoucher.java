@@ -33,7 +33,6 @@ public class PercentDiscountVoucher implements Voucher {
             log.warn("무한 소수 예외가 발생하였습니다. 20번째 자리에서 반올림합니다.");
             discountAmount = beforeAmount.multiply(percent).divide(BigDecimal.valueOf(100), 20, RoundingMode.HALF_UP);
         }
-        log.info("beforeAmount : {}, discountAmount : {}, result : {}", beforeAmount, discountAmount, beforeAmount.subtract(discountAmount));
         return beforeAmount.subtract(discountAmount);
     }
 
