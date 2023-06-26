@@ -1,50 +1,47 @@
 package co.programmers.voucher.service;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.programmers.voucher.dto.Response;
+import co.programmers.voucher.dto.VoucherCreationRequestDTO;
 import co.programmers.voucher.entity.DiscountStrategy;
-import co.programmers.voucher.entity.DiscountTypeGenerator;
 import co.programmers.voucher.entity.Voucher;
-import co.programmers.voucher.entity.VoucherBody;
 import co.programmers.voucher.repository.VoucherRepository;
 
 @Service
 public class CreatingMenuService implements Launcher {
-
-	private static final CreatingMenuService CREATING_MENU_LAUNCHER = new CreatingMenuService();
-	private static VoucherRepository REPOSITORY;
 	private static int voucherCnt;
+	private final VoucherRepository repository;
 
-	private CreatingMenuService() {
+	public CreatingMenuService(VoucherRepository repository) {
+		this.repository = repository;
 	}
 
-	@Autowired
-	private CreatingMenuService(VoucherRepository REPOSITORY) {
-		CreatingMenuService.REPOSITORY = REPOSITORY;
-	}
-
-	public static CreatingMenuService getInstance() {
-		return CREATING_MENU_LAUNCHER;
+	private static int assignId() {
+		return ++voucherCnt;
 	}
 
 	@Override
-	public void run(Map<String, Object> demandedData) throws IllegalArgumentException {
-		String discountType = (String)demandedData.get("type");
-		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType,
-				(Integer.parseInt((String)demandedData.get("amount"))));
-		Voucher voucher = new Voucher(++voucherCnt,
-				(String)demandedData.get("name"),
-				(String)demandedData.get("description"),
-				discountStrategy);
-		REPOSITORY.save(voucher);
-
+	public Response run(VoucherCreationRequestDTO voucherCreationRequestDTO) {
+		int amount = voucherCreationRequestDTO.getDiscountAmount();
+		String discountType = voucherCreationRequestDTO.getDiscountStrategy();
+		DiscountStrategy discountStrategy;
+		try {
+			discountStrategy = DiscountTypeGenerator.of(discountType, amount);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			return Response.builder()
+					.state(Response.State.FAILED)
+					.responseData(illegalArgumentException.getMessage())
+					.build();
+		}
+		int id = assignId();
+		String name = voucherCreationRequestDTO.getName();
+		String description = voucherCreationRequestDTO.getDescription();
+		Voucher voucher = new Voucher(id, name, description, discountStrategy, amount);
+		repository.save(voucher);
+		return Response.builder()
+				.state(Response.State.SUCCESS)
+				.build();
 	}
 
-	@Override
-	public Map<String, Object> getRequestBody() {
-		return VoucherBody.get();
-	}
 }
