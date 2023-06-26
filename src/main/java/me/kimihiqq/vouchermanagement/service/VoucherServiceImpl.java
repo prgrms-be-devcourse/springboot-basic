@@ -25,7 +25,7 @@ public class VoucherServiceImpl implements VoucherService {
         log.info("Creating voucher with type: " + voucherDto.getType() + " and discount: " + voucherDto.getDiscount());
         Voucher voucher;
         String type = voucherDto.getType();
-        long discount = Long.parseLong(voucherDto.getDiscount());
+        long discount = voucherDto.getDiscount();
 
         if (type.equalsIgnoreCase("fixed")) {
             voucher = new FixedAmountVoucher(UUID.randomUUID(), type, discount);

@@ -2,9 +2,9 @@ package me.kimihiqq.vouchermanagement.dto;
 
 public class VoucherDto {
     private String type;
-    private String discount;
+    private long discount;
 
-    public VoucherDto(String type, String discount) {
+    public VoucherDto(String type, long discount) {
         this.type = type;
         this.discount = discount;
     }
@@ -13,7 +13,7 @@ public class VoucherDto {
         return type;
     }
 
-    public String getDiscount() {
+    public long getDiscount() {
         return discount;
     }
 }

@@ -1,9 +1,12 @@
-package me.kimihiqq.vouchermanagement.view;
+package me.kimihiqq.vouchermanagement.io;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+
+@Slf4j
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +29,16 @@ public class Console implements Input, Output {
         return readLine();
     }
 
+    public long readDiscount(String prompt) {
+        while (true) {
+            try {
+                return Long.parseLong(readLine(prompt));
+            } catch (NumberFormatException e) {
+                log.error("Invalid number input. Try again.");
+            }
+        }
+    }
+
     @Override
     public void printLine(String text) {
         try {
@@ -36,4 +49,5 @@ public class Console implements Input, Output {
             throw new RuntimeException("Error writing input", e);
         }
     }
+
 }

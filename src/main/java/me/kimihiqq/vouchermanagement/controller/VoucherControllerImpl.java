@@ -7,7 +7,7 @@ import me.kimihiqq.vouchermanagement.domain.Voucher;
 import me.kimihiqq.vouchermanagement.dto.VoucherDto;
 import me.kimihiqq.vouchermanagement.service.VoucherService;
 import org.springframework.stereotype.Controller;
-import me.kimihiqq.vouchermanagement.view.Console;
+import me.kimihiqq.vouchermanagement.io.Console;
 
 @Slf4j
 @Controller
@@ -37,7 +37,7 @@ public class VoucherControllerImpl implements VoucherController {
         log.info("Received input: " + input);
         if (input.equalsIgnoreCase("create")) {
             String type = console.readLine("Enter voucher type (fixed or percent): ");
-            String discount = console.readLine("Enter discount amount or rate: ");
+            long discount = console.readDiscount("Enter discount amount or rate: ");
             if (!type.equalsIgnoreCase("fixed") && !type.equalsIgnoreCase("percent")) {
                 log.error("Invalid voucher type: " + type);
                 return;
@@ -57,4 +57,6 @@ public class VoucherControllerImpl implements VoucherController {
             console.printLine("잘못된 명령입니다. 다시 시도하세요.");
         }
     }
+
+
 }
