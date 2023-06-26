@@ -7,6 +7,8 @@ import com.programmers.voucher.domain.voucher.*;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
 
+import java.io.IOException;
+
 public class CommandLineApplication implements Runnable {
     private final Console console;
     private final VoucherStream voucherStream;
@@ -29,11 +31,11 @@ public class CommandLineApplication implements Runnable {
             try {
                 String inputCondition = console.getCondition();
                 commandType = convertAndValidateInput(inputCondition);
+                doLogic(commandType);
             } catch (Exception e) {
                 printer.printError(e);
                 continue;
             }
-            doLogic(commandType);
             if (commandType == CommandType.EXIT) {
                 printer.printEndMessage();
                 break;
@@ -47,7 +49,7 @@ public class CommandLineApplication implements Runnable {
         );
     }
 
-    private void doLogic(CommandType commandType) {
+    private void doLogic(CommandType commandType) throws IOException {
         switch (commandType) {
             case CREATE -> {
                 logicForCommandTypeCreate();
@@ -76,7 +78,7 @@ public class CommandLineApplication implements Runnable {
         printer.printListOfVoucher(voucherStream.findAll());
     }
 
-    private void logicForCommandTypeBlack() {
+    private void logicForCommandTypeBlack() throws IOException {
         printer.printBlackList(blackListStream.findAll());
     }
 
