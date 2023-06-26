@@ -13,7 +13,17 @@ import java.util.stream.Collectors;
 @Repository
 public class MemberRepository {
 
-    private static final Path file = Paths.get("src/main/resources/voucher.txt");
+    private static final Path file = Paths.get("src/main/resources/blacklist.csv");
+
+    static {
+        try {
+            if (!Files.exists(file)) {
+                Files.createFile(file);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public List<Member> findAllByBlackStatus() {
         try {
