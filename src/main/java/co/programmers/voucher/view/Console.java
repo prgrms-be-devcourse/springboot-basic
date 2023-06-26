@@ -15,9 +15,9 @@ import co.programmers.voucher.dto.VoucherInquiryResponseDTO;
 public class Console implements InputView, OutputView {
 	private static final String STARTER_MESSAGE =
 			"=== Voucher Program ===\n"
-					+ "1. Type exit or 'x' to exit  the program.\n"
-					+ "2. Type create or 'c' to create a new voucher.\n"
-					+ "3. Type list or 'l' to list all vouchers.";
+					+ "Type exit or 'x' to exit  the program.\n"
+					+ "Type create or 'c' to create a new voucher.\n"
+					+ "Type list or 'l' to list all vouchers.";
 	private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	@Override
