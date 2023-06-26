@@ -18,5 +18,4 @@ class ExpirationDateTest {
 
         assertFalse(ExpirationDate.checkExpirationDate(createdDate, expirationPolicy));
     }
-
 }

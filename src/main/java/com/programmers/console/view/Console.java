@@ -68,7 +68,7 @@ public class Console implements InputView, OutputView {
                 discountValueFormat(responseDto.getDiscount()), responseDto.getCreatedDate()));
     }
 
-    public String discountValueFormat(Discount discount) {
+    private String discountValueFormat(Discount discount) {
         if (discount instanceof PercentDiscount) {
             return discount.getValue() + "%";
         }

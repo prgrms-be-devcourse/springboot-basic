@@ -11,6 +11,8 @@ import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class CommandLineApplication {
     private boolean isRunning = true;
@@ -78,7 +80,7 @@ public class CommandLineApplication {
     }
 
     private void createVoucher(Discount discount) {
-        VoucherRequestDto requestDto = new VoucherRequestDto(discount);
+        VoucherRequestDto requestDto = new VoucherRequestDto(UUID.randomUUID(), discount);
         console.printVoucher(voucherController.create(requestDto));
     }
 
