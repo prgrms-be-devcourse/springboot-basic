@@ -1,0 +1,3 @@
+voucher:
+  path: "storage"
+  filename: "voucher.csv"
