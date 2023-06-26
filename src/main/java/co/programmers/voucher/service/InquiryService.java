@@ -8,15 +8,15 @@ import co.programmers.voucher.dto.VoucherCreationRequestDTO;
 import co.programmers.voucher.repository.VoucherRepository;
 
 @Service
-public class ListingMenuService implements Launcher {
+public class InquiryService implements Launcher {
 	private static VoucherRepository REPOSITORY;
 
-	private ListingMenuService() {
+	private InquiryService() {
 	}
 
 	@Autowired
-	private ListingMenuService(VoucherRepository REPOSITORY) {
-		ListingMenuService.REPOSITORY = REPOSITORY;
+	private InquiryService(VoucherRepository REPOSITORY) {
+		InquiryService.REPOSITORY = REPOSITORY;
 	}
 
 	@Override

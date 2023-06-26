@@ -8,23 +8,23 @@ import org.springframework.stereotype.Controller;
 
 import co.programmers.voucher.dto.Response;
 import co.programmers.voucher.dto.VoucherCreationRequestDTO;
-import co.programmers.voucher.service.CreatingMenuService;
-import co.programmers.voucher.service.ListingMenuService;
+import co.programmers.voucher.service.CreationService;
+import co.programmers.voucher.service.InquiryService;
 import co.programmers.voucher.view.InputView;
 import co.programmers.voucher.view.OutputView;
 
 @Controller
 public class VoucherCommandLineRunner implements VoucherApplicationRunner {
-	private final CreatingMenuService creatingMenuService;
-	private final ListingMenuService listingMenuService;
+	private final CreationService creationService;
+	private final InquiryService inquiryService;
 	private final OutputView outputView;
 	private final InputView inputView;
 
 	@Autowired
-	public VoucherCommandLineRunner(CreatingMenuService creatingMenuService, ListingMenuService listingMenuService,
+	public VoucherCommandLineRunner(CreationService creationService, InquiryService inquiryService,
 			OutputView outputView, InputView inputView) {
-		this.creatingMenuService = creatingMenuService;
-		this.listingMenuService = listingMenuService;
+		this.creationService = creationService;
+		this.inquiryService = inquiryService;
 		this.outputView = outputView;
 		this.inputView = inputView;
 	}
@@ -42,11 +42,11 @@ public class VoucherCommandLineRunner implements VoucherApplicationRunner {
 				case ("create"):
 				case ("c"):
 					VoucherCreationRequestDTO voucherCreationRequestDTO = request();
-					response = creatingMenuService.run(voucherCreationRequestDTO);
+					response = creationService.run(voucherCreationRequestDTO);
 					break;
 				case ("list"):
 				case ("l"):
-					response = listingMenuService.run(new VoucherCreationRequestDTO());
+					response = inquiryService.run(new VoucherCreationRequestDTO());
 					break;
 				default:
 					throw new IllegalArgumentException("* Invalid input for menu *");
