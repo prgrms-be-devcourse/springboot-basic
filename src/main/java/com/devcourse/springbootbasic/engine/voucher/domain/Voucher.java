@@ -17,7 +17,7 @@ public abstract class Voucher {
 
     abstract double discountedPrice(long originalPrice);
 
-    UUID getVoucherId() {
+    public UUID getVoucherId() {
         return voucherId;
     }
 

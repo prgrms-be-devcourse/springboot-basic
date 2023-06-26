@@ -19,11 +19,13 @@ import java.util.UUID;
 @Profile({"default"})
 public class FileVoucherRepository implements VoucherRepository {
 
-    @Autowired
-    private ConfigurableApplicationContext applicationContext;
+    private final ConfigurableApplicationContext applicationContext;
+    private final YamlProperties yamlProperties;
 
-    @Autowired
-    private YamlProperties yamlProperties;
+    FileVoucherRepository(ConfigurableApplicationContext applicationContext, YamlProperties yamlProperties) {
+        this.applicationContext = applicationContext;
+        this.yamlProperties = yamlProperties;
+    }
 
     private File getFile() {
         try {

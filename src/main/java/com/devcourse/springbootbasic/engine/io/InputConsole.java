@@ -25,8 +25,12 @@ public class InputConsole {
     private static final Logger logger = LoggerFactory.getLogger(InputConsole.class);
     private final Scanner scanner = new Scanner(System.in);
 
-    @Autowired
-    private ConfigurableApplicationContext applicationContext;
+
+    private final ConfigurableApplicationContext applicationContext;
+
+    InputConsole(ConfigurableApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     public Menu inputMenu() {
         System.out.println("\n=== Voucher Program ===\n" +

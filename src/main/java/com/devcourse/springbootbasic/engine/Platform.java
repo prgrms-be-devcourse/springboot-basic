@@ -22,14 +22,15 @@ public class Platform {
 
     private static final Logger logger = LoggerFactory.getLogger(Platform.class);
 
-    @Autowired
     private InputConsole input;
-
-    @Autowired
     private OutputConsole output;
-
-    @Autowired
     private VoucherService voucherService;
+
+    public Platform(InputConsole input, OutputConsole output, VoucherService voucherService) {
+        this.input = input;
+        this.output = output;
+        this.voucherService = voucherService;
+    }
 
     public void run() {
         logger.debug("Program Engine Created");
