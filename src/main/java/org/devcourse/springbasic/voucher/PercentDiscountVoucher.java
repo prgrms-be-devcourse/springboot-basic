@@ -1,20 +1,21 @@
 package org.devcourse.springbasic.voucher;
 
-import org.devcourse.springbasic.menu.RunByCreatesMenu;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.devcourse.springbasic.validator.Validator;
+import org.devcourse.springbasic.validator.VoucherValidator;
 
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
 
+    private static final long PERCENT_MAX_DISCOUNT_RATE = 50L;
     private final UUID voucherId;
     private final long percent;
-    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
         this.percent = percent;
+        Validator<Voucher> voucherValidator = new VoucherValidator<>();
+        voucherValidator.validate(this);
     }
 
     @Override
@@ -27,10 +28,14 @@ public class PercentDiscountVoucher implements Voucher {
         return percent;
     }
 
-
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (percent / 100L);
+    }
+
+    @Override
+    public long maxDiscountRate() {
+        return PERCENT_MAX_DISCOUNT_RATE;
     }
 
     @Override
