@@ -1,4 +1,4 @@
-package com.programmers.voucher.view;
+package com.programmers.voucher.view.dto;
 
 import com.programmers.voucher.constant.ErrorMessage;
 import com.programmers.voucher.exception.InvalidCommandException;

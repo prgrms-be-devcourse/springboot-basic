@@ -1,4 +1,4 @@
-package com.programmers.voucher.view;
+package com.programmers.voucher.view.dto;
 
 public class DiscountAmount {
     private final long amount;
@@ -19,5 +19,9 @@ public class DiscountAmount {
         if (voucherCommand == VoucherCommand.PERCENT_DISCOUNT && amount >= 100) {
             throw new IllegalArgumentException("할인율은 100을 넘을 수 없습니다.");
         }
+    }
+
+    public long getAmount() {
+        return amount;
     }
 }

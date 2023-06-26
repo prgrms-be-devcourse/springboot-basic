@@ -1,11 +1,11 @@
-package com.programmers.voucher.view;
+package com.programmers.voucher.view.dto;
 
 import com.programmers.voucher.constant.ErrorMessage;
 import com.programmers.voucher.exception.InvalidCommandException;
 
 import java.util.Arrays;
 
-public enum VoucherCommand {
+public enum VoucherCommand { //TODO VoucherType
     FIXED_AMOUNT("fixed", "create a fixed amount voucher."),
     PERCENT_DISCOUNT("percent", "create a percent discount voucher.");
 
