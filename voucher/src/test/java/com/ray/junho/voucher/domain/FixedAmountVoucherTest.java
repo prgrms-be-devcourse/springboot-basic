@@ -47,7 +47,6 @@ class FixedAmountVoucherTest {
         // When, Then
         assertThatThrownBy(() -> fixedAmountVoucher.discount(Currency.of(1000)))
                 .isInstanceOf(IllegalArgumentException.class);
-
     }
 
     @DisplayName("할인 적용되는 고정 금액이 현재 금액 보다 같거나 적다면 예외를 발생하지 않는다.")

@@ -48,7 +48,6 @@ class CurrencyTest {
 
         // Then
         assertThat(actual).isEqualTo(900);
-
     }
 
     @DisplayName("특정 값보다 currency의 값이 적으면 true를 반환한다.")
