@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 class MemoryVoucherRepositoryTest {
@@ -37,13 +37,13 @@ class MemoryVoucherRepositoryTest {
         repository.insert(percentDiscountVoucher);
 
         // when
-        List<Voucher> vouchers = repository.findAll();
+        Map<UUID, Voucher> vouchers = repository.findAll();
 
         // then
         Assertions.assertThat(vouchers)
                 .hasSize(2)
-                .contains(fixedAmountVoucher)
-                .contains(percentDiscountVoucher);
+                .contains(Map.entry(uuid1, fixedAmountVoucher))
+                .contains(Map.entry(uuid2, percentDiscountVoucher));
     }
 
     @Test
@@ -56,6 +56,6 @@ class MemoryVoucherRepositoryTest {
 
         Assertions.assertThat(repository.findAll())
                 .hasSize(1)
-                .contains(voucher);
+                .contains(Map.entry(uuid, voucher));
     }
 }
