@@ -47,8 +47,8 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private void createVoucher() throws IOException {
         VoucherCreateRequest request = viewManager.readVoucherCreateInfo();
-        UUID voucher = voucherController.createVoucher(request);
-        viewManager.showMessage(voucher.toString());
+        UUID voucherId = voucherController.createVoucher(request);
+        viewManager.showMessage(voucherId.toString());
     }
 
     private void showAllVouchers() {
