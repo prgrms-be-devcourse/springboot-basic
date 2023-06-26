@@ -16,7 +16,7 @@ public class MemberRepository {
 
     private static final File file = new File("src/main/resources/blacklist.csv");
 
-    public List<Member> findAll() {
+    public List<Member> findAllByBlackStatus() {
         List<Member> result = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
