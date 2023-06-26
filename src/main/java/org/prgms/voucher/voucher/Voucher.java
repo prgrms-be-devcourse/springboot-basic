@@ -1,11 +1,18 @@
 package org.prgms.voucher.voucher;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getId();
+@Getter
+public abstract class Voucher {
 
-    void setId(UUID uuid);
+    private final UUID id;
 
-    long discount(long price);
+    protected Voucher(UUID id) {
+        this.id = id;
+    }
+
+    abstract long discount(long price);
+
 }

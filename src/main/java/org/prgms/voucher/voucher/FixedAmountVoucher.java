@@ -1,20 +1,18 @@
 package org.prgms.voucher.voucher;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
 @ToString
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
 
     private final long amount;
-    private UUID id;
+
+    public FixedAmountVoucher(long amount, UUID id) {
+        super(id);
+        this.amount = amount;
+    }
 
     @Override
     public long discount(long price) {

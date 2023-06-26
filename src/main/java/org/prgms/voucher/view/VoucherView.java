@@ -16,7 +16,5 @@ public interface VoucherView {
 
     long readAmount();
 
-    long readPercentage();
-
     void printError(String message);
 }

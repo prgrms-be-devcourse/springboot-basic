@@ -1,4 +1,4 @@
-package org.prgms.voucher.view;
+package org.prgms.voucher.voucher;
 
 
 import lombok.Getter;
@@ -26,7 +26,6 @@ public enum VoucherPolicy {
     }
 
     public static VoucherPolicy find(String voucherPolicy) {
-        System.out.println("voucherPolicy = " + voucherPolicy);
         if (!VOUCHER_POLICY_MAP.containsKey(voucherPolicy)) {
             throw new NoSuchElementException("유효하지 않는 바우처입니다.");
         }

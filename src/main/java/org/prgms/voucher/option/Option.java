@@ -1,4 +1,4 @@
-package org.prgms.voucher.view;
+package org.prgms.voucher.option;
 
 import lombok.Getter;
 

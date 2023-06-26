@@ -1,6 +1,5 @@
 package org.prgms.voucher.view;
 
-import lombok.RequiredArgsConstructor;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -11,7 +10,6 @@ import java.util.List;
 
 
 @Component
-@RequiredArgsConstructor
 public class ConsoleVoucherView implements VoucherView {
 
     private final TextIO textIO = TextIoFactory.getTextIO();
@@ -63,15 +61,6 @@ public class ConsoleVoucherView implements VoucherView {
                 .withInputTrimming(true)
                 .withMinVal(0L)
                 .read(" Amount : ");
-    }
-
-    @Override
-    public long readPercentage() {
-        return textIO.newLongInputReader()
-                .withInputTrimming(true)
-                .withMinVal(0L)
-                .withMaxVal(100L)
-                .read(" Percentage : ");
     }
 
 }

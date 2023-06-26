@@ -1,20 +1,18 @@
 package org.prgms.voucher.voucher;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
 @ToString
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
 
     private final long percentage;
-    private UUID id;
+
+    public PercentDiscountVoucher(long percentage, UUID id) {
+        super(id);
+        this.percentage = percentage;
+    }
 
     @Override
     public long discount(long price) {
