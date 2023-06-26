@@ -13,8 +13,4 @@ public enum Menu {
                 .filter(m -> m.name().equalsIgnoreCase(selectedMenu))
                 .findFirst();
     }
-
-    public boolean isExit() {
-        return this == Menu.EXIT;
-    }
 }
