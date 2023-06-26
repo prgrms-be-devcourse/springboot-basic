@@ -30,12 +30,15 @@ public class Voucher {
 
 	private void validate() throws IllegalArgumentException {
 		int descriptionMaxLength = 100;
+		int nameMaxLength = 20;
 		StringBuffer exceptionMessage = new StringBuffer();
 
 		if (name == null || name.isBlank() || name.isEmpty()) {
 			exceptionMessage.append("Empty value for Name.\n");
+		} else if (name.length() > nameMaxLength) {
+			exceptionMessage.append(
+					MessageFormat.format("Name must have up to {0} characters.\n", nameMaxLength));
 		}
-
 		if (description == null || description.isBlank() || description.isEmpty()) {
 			exceptionMessage.append("Empty value for description.\n");
 		} else if (description.length() > descriptionMaxLength) {
