@@ -1,42 +1,28 @@
-
 package org.devcourse.springbasic.voucher;
 
 import java.util.Arrays;
+import java.util.UUID;
+import java.util.function.BiFunction;
 
 public enum VoucherType {
-
-    FIXED_AMOUNT_VOUCHER(1, VoucherBean.FIXED_AMOUNT_VOUCHER_BEAN.getName()),
-    PERCENT_DISCOUNT_VOUCHER(2, VoucherBean.PERCENT_DISCOUNT_VOUCHER_BEAN.getName());
+    FIXED_AMOUNT_VOUCHER(1, FixedAmountVoucher::new),
+    PERCENT_DISCOUNT_VOUCHER(2, PercentDiscountVoucher::new);
 
     private final int inputNum;
-    private final String beanName;
-
-    VoucherType(int inputNum, String beanName) {
+    private final BiFunction<UUID, Long, Voucher> FunctionToSelectVoucher;
+    VoucherType(int inputNum, BiFunction<UUID, Long, Voucher> FunctionToSelectVoucher) {
         this.inputNum = inputNum;
-        this.beanName = beanName;
+        this.FunctionToSelectVoucher = FunctionToSelectVoucher;
     }
 
-    public static boolean hasMenu(int menuNum) {
-
-        Arrays.stream(VoucherType.values())
-                .filter(VoucherType -> (VoucherType.inputNum == menuNum))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다. 메뉴 번호를 숫자로 정확히 입력해주세요."));
-
-        return true;
+    public BiFunction<UUID, Long, Voucher> getFunctionToSelectVoucher() {
+        return FunctionToSelectVoucher;
     }
-
 
     public static VoucherType findByMenuNum(int menuNum) {
-
         return Arrays.stream(VoucherType.values())
                 .filter(VoucherType -> (VoucherType.inputNum == menuNum))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다. 메뉴 번호를 숫자로 정확히 입력해주세요."));
-
-    }
-
-    public String getBeanName() {
-        return beanName;
     }
 }

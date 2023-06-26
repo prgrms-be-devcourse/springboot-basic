@@ -1,4 +1,4 @@
-package org.devcourse.springbasic.voucher.repository;
+package org.devcourse.springbasic.repository;
 
 import org.devcourse.springbasic.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
@@ -24,7 +24,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public UUID create(Voucher voucher) {
+    public UUID save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher.getVoucherId();
     }
