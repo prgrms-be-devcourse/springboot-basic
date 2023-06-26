@@ -26,5 +26,4 @@ public class VoucherServiceImpl implements VoucherService {
     public List<Voucher> findVouchers() {
         return voucherRepository.findAll();
     }
-
 }

@@ -2,5 +2,12 @@ package com.programmers.console.view;
 
 
 public interface InputView {
-    String getRequest();
+
+    String userInput();
+
+    String inputMenu();
+
+    String inputVoucherType();
+
+    String inputDiscountValue();
 }

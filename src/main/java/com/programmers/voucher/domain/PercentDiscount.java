@@ -1,6 +1,6 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.global.exception.AmountValueException;
+import com.programmers.global.exception.DiscountValueException;
 
 public class PercentDiscount extends Discount {
 
@@ -24,6 +24,6 @@ public class PercentDiscount extends Discount {
     }
 
     private void validateDiscountAmount(long percent) {
-        if (percent < MIN_AMOUNT || percent > MAX_AMOUNT) throw new AmountValueException();
+        if (percent < MIN_AMOUNT || percent > MAX_AMOUNT) throw new DiscountValueException();
     }
 }

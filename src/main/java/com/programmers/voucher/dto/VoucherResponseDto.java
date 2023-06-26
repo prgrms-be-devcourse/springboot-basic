@@ -3,15 +3,15 @@ package com.programmers.voucher.dto;
 import com.programmers.voucher.domain.*;
 
 import java.text.MessageFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class VoucherResponseDto {
     private UUID voucherID;
     private Discount discount;
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
-    public VoucherResponseDto(UUID voucherID, Discount discount, LocalDate createdDate) {
+    public VoucherResponseDto(UUID voucherID, Discount discount, LocalDateTime createdDate) {
         this.voucherID = voucherID;
         this.discount = discount;
         this.createdDate = createdDate;
@@ -25,7 +25,7 @@ public class VoucherResponseDto {
         return discount;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 

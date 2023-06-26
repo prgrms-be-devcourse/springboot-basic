@@ -17,7 +17,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         VoucherEntity voucherEntity = VoucherMapper.domainToEntity(voucher);
-        storage.put(voucher.getVoucherId(), voucherEntity);
+        storage.put(voucherEntity.getVoucherId(), voucherEntity);
         return voucher;
     }
 

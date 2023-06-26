@@ -1,17 +1,15 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.global.exception.AmountValueException;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Voucher {
 
     private final UUID voucherId;
     private final Discount discount;
-    private final LocalDate createdDate;
+    private final LocalDateTime createdDate;
 
-    public Voucher(UUID voucherId, Discount discount, LocalDate createdDate) {
+    public Voucher(UUID voucherId, Discount discount, LocalDateTime createdDate) {
         this.voucherId = voucherId;
         this.discount = discount;
         this.createdDate = createdDate;
@@ -29,7 +27,7 @@ public class Voucher {
         return discount;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 }
