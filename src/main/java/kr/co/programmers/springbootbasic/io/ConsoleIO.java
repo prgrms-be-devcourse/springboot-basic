@@ -74,7 +74,11 @@ public class ConsoleIO implements Input, Output {
         String message = lists.stream()
                 .map(VoucherUtils::formatVoucherResponseDto)
                 .collect(Collectors.joining());
-        System.out.print(message);
+        if (message.isEmpty()) {
+            System.out.println(ConsoleMessage.EMPTY_HISTORY_MESSAGE);
+        } else {
+            System.out.print(message);
+        }
     }
 
     @Override

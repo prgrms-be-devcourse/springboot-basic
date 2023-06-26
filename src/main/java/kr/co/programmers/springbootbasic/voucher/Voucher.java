@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import java.util.UUID;
 
 public abstract class Voucher {
-    protected static final Logger logger = LoggerFactory.getLogger(Voucher.class);
     private final VoucherType type;
     private final UUID id;
     private final long amount;
+    protected static final long ZERO = 0;
+    protected static final long ONE_HUNDRED = 100;
+    protected static final Logger logger = LoggerFactory.getLogger(Voucher.class);
 
     public Voucher(VoucherType type, UUID id, long amount) {
         logger.info("{} 바우처 생성을 시작합니다...", type);
@@ -43,16 +45,16 @@ public abstract class Voucher {
     }
 
     private void checkValidPercentAmount(long amount) {
-        if (amount <= VoucherValue.ZERO || amount >= VoucherValue.ONE_HUNDRED) {
+        if (amount <= ZERO || amount >= ONE_HUNDRED) {
             logger.warn("사용자가 잘못된 값인 {}%를 입력했습니다.", amount);
-            throw new NoValidAmountException(VoucherValue.NO_VALID_PERCENT_AMOUNT);
+            throw new NoValidAmountException("고정 할인률 바우처의 생성 할인률이 잘못 됐습니다.");
         }
     }
 
     private void checkValidFixedAmount(long amount) {
-        if (amount <= VoucherValue.ZERO) {
+        if (amount <= ZERO) {
             logger.warn("사용자가 잘못된 값인 {}원을 입력했습니다.", amount);
-            throw new NoValidAmountException(VoucherValue.NO_VALID_FIXED_AMOUNT);
+            throw new NoValidAmountException("고정 금액 바우처의 생성 금액이 잘못 됐습니다.");
         }
     }
 }
