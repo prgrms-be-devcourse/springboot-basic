@@ -19,6 +19,7 @@ import java.util.UUID;
 import static com.programmers.voucher.testutil.VoucherTestUtil.createFixedVoucher;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
 class ConsoleMenuTest {
@@ -40,12 +41,15 @@ class ConsoleMenuTest {
 
         VoucherCreateRequest input = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10);
         given(console.inputVoucherCreateInfo()).willReturn(input);
-
         given(voucherService.createVoucher(any())).willReturn(UUID.randomUUID());
 
         //when
-        //then
         consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(console).should().inputVoucherCreateInfo();
+        then(voucherService).should().createVoucher(input);
     }
 
     @Test
@@ -60,7 +64,10 @@ class ConsoleMenuTest {
         given(voucherService.findVouchers()).willReturn(testVouchers);
 
         //when
-        //then
         consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(voucherService).should().findVouchers();
     }
 }

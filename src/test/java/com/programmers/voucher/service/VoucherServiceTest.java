@@ -17,8 +17,9 @@ import java.util.UUID;
 import static com.programmers.voucher.testutil.VoucherTestUtil.createFixedVoucher;
 import static com.programmers.voucher.testutil.VoucherTestUtil.createPercentVoucher;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
@@ -39,6 +40,7 @@ class VoucherServiceTest {
         voucherService.createVoucher(request);
 
         //then
+        then(voucherRepository).should().save(any());
     }
 
     @Test
@@ -51,6 +53,7 @@ class VoucherServiceTest {
         voucherService.createVoucher(request);
 
         //then
+        then(voucherRepository).should().save(any());
     }
 
     @Test
