@@ -9,8 +9,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class VoucherAppApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ac = SpringApplication.run(VoucherAppApplication.class, args);
-        ac.getBean(VoucherApp.class).run();
+        ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(VoucherAppApplication.class, args);
+        VoucherApp voucherApp = configurableApplicationContext.getBean(VoucherApp.class);
+        voucherApp.run();
     }
 
 }
