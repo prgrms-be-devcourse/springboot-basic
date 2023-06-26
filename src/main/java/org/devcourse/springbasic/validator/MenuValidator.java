@@ -11,11 +11,8 @@ public class MenuValidator<T> implements Validator<T> {
         if (valueToVerify instanceof String) {
             Matcher matcher = RegexPattern.VOUCHER_MENU_PATTERN
                     .matcher(valueToVerify.toString());
-
             return matcher.find();
         }
-
         return false;
     }
-
 }
