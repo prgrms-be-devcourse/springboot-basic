@@ -40,11 +40,9 @@ public class VoucherController implements Runnable {
                     DiscountAmount discountAmount = input.readDiscountAmount(voucherCommand);
 
                     Voucher voucher = createVoucher(voucherCommand, discountAmount);
-                    output.displayVoucher(voucher);
+                    output.displayCreatedVoucher(voucher);
                 }
-                case LIST -> {
-                    getVoucherList();
-                }
+                case LIST -> getVoucherList().forEach(output::displayVoucher);
             }
         }
     }
@@ -54,7 +52,6 @@ public class VoucherController implements Runnable {
     }
 
     private List<Voucher> getVoucherList() {
-        System.out.println("list");
-        return null;
+        return voucherService.getVoucherList();
     }
 }

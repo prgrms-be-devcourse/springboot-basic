@@ -8,6 +8,7 @@ import com.programmers.voucher.view.dto.DiscountAmount;
 import com.programmers.voucher.view.dto.VoucherCommand;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,5 +25,9 @@ public class VoucherService {
             case PERCENT_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), discountAmount.getAmount());
         };
         return voucherRepository.insert(voucher);
+    }
+
+    public List<Voucher> getVoucherList() {
+        return voucherRepository.findAll();
     }
 }

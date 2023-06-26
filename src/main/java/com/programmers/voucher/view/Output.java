@@ -7,5 +7,7 @@ public interface Output {
 
     void displayVoucherCommands();
 
+    void displayCreatedVoucher(Voucher voucher);
+
     void displayVoucher(Voucher voucher);
 }

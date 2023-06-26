@@ -13,7 +13,7 @@ public class ConsoleInput implements Input {
     public Command readCommand() {
         String input = textIO.newStringInputReader() //TODO 반복 코드 개선
                 .withInputTrimming(true)
-                .read(">> ");
+                .read(">>");
 
         return Command.findByCode(input);
     }
@@ -22,7 +22,7 @@ public class ConsoleInput implements Input {
     public VoucherCommand readVoucherCommand() {
         String input = textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .read(">> ");
+                .read(">>");
 
         return VoucherCommand.findByCode(input);
     }
@@ -31,7 +31,7 @@ public class ConsoleInput implements Input {
     public DiscountAmount readDiscountAmount(VoucherCommand voucherCommand) {
         Long input = textIO.newLongInputReader()
                 .withInputTrimming(true)
-                .read("discount amount >> ");
+                .read("discount amount >>");
 
         return new DiscountAmount(voucherCommand, input);
     }

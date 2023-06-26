@@ -37,7 +37,13 @@ public class ConsoleOutput implements Output {
     }
 
     @Override
+    public void displayCreatedVoucher(Voucher voucher) {
+        textTerminal.print("New voucher created: ");
+        displayVoucher(voucher);
+    }
+
+    @Override
     public void displayVoucher(Voucher voucher) {
-        textTerminal.println("New voucher created: " + voucher.getVoucherId().toString());
+        textTerminal.println(voucher.toString());
     }
 }

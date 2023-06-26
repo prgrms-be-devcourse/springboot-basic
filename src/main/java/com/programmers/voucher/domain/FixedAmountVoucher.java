@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -19,5 +20,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("[{0}] {1} discount voucher", voucherId, amount);
     }
 }
