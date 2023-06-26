@@ -32,7 +32,7 @@ public class FileCustomerRepository implements CustomerRepository{
         UUID uuid = UUID.fromString(readLine[0]);
         CustomerType customerType = CustomerType.findCustomerType(readLine[1]);
 
-        if(customerType == CustomerType.BLACKLIST){
+        if(CustomerType.isBlacklistedCustomer(customerType)){
             Customer customer = new Customer(uuid, CustomerType.BLACKLIST);
 
             customerMap.put(customer.getCustomerId(), customer);
@@ -40,7 +40,7 @@ public class FileCustomerRepository implements CustomerRepository{
     }
 
     @PostConstruct
-    public void isBlacklistedCustomer(){
+    public void loadingBlackListToMemory(){
         try(BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath))) {
             String line = "";
 

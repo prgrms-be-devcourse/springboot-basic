@@ -29,4 +29,11 @@ public enum CustomerType {
     private String getCustomerType(){
         return type;
     }
+
+    public static boolean isBlacklistedCustomer(CustomerType customerType){
+        if(customerType == CustomerType.BLACKLIST){
+            return true;
+        }
+        return false;
+    }
 }
