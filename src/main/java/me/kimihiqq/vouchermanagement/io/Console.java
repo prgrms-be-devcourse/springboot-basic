@@ -48,5 +48,4 @@ public class Console implements Input, Output {
             throw new RuntimeException("Error writing input", e);
         }
     }
-
 }
