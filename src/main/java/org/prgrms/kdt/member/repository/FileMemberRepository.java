@@ -23,8 +23,7 @@ public class FileMemberRepository implements MemberRepository{
         String line = "";
 
         while ((line = reader.readLine()) != null) {
-            String[] record = Converter.stringToArray(line, ",");
-            blackList.add(Converter.stringArrToMember(record, MemberStatus.BLACK));
+            blackList.add(Converter.stringToMember(line, MemberStatus.BLACK));
         }
         return blackList;
     }

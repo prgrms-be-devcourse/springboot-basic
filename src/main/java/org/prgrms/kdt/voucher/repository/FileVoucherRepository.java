@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,8 +54,7 @@ public class FileVoucherRepository implements VoucherRepository{
         String line = "";
 
         while ((line = reader.readLine()) != null) {
-            String[] record = Converter.stringToArray(line, ",");
-            vouchers.add(Converter.stringArrToVoucher(record));
+            vouchers.add(Converter.stringToVoucher(line));
         }
         return vouchers;
     }

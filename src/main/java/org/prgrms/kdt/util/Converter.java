@@ -29,7 +29,19 @@ public class Converter {
         throw new InvalidInputException();
     }
 
-    public static Member stringArrToMember(String[] stringArr, MemberStatus status) {
+    public static Voucher stringToVoucher(String str){
+        String[] stringArr = str.split(",");
+        if (stringArr[1].equals("FixedAmountVoucher")){
+            return new FixedAmountVoucher(UUID.fromString(stringArr[0]));
+        }
+        if (stringArr[1].equals("PercentDiscountVoucher")){
+            return new PercentDiscountVoucher(UUID.fromString(stringArr[0]));
+        }
+        throw new InvalidInputException();
+    }
+
+    public static Member stringToMember(String str, MemberStatus status) {
+        String[] stringArr = str.split(",");
         return new Member(UUID.fromString(stringArr[0]), stringArr[1], status);
     }
 }
