@@ -10,8 +10,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     public PercentDiscountVoucher(long id, int discountRate) {
         this.id = id;
-        validatePercentage(discountRate);
         this.discountRate = discountRate;
+        validatePercentage(discountRate);
     }
 
     private void validatePercentage(int discountRate) {
