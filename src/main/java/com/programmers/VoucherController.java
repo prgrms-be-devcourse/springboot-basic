@@ -15,8 +15,13 @@ public class VoucherController {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
 
-    private final Console console = new Console();
-    private final VoucherService voucherService = new VoucherService();
+    private final Console console;
+    private final VoucherService voucherService;
+
+    public VoucherController(Console console, VoucherService voucherService) {
+        this.console = console;
+        this.voucherService = voucherService;
+    }
 
     public void run() {
         boolean activated = true;

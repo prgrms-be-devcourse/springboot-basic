@@ -14,8 +14,13 @@ public class VoucherService {
 
     private static final Logger log = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
-    private final MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
-    private final Console console = new Console();
+    private final MemoryVoucherRepository memoryVoucherRepository;
+    private final Console console;
+
+    public VoucherService(MemoryVoucherRepository memoryVoucherRepository, Console console) {
+        this.memoryVoucherRepository = memoryVoucherRepository;
+        this.console = console;
+    }
 
     public void save(Voucher voucher) {
         memoryVoucherRepository.save(voucher);

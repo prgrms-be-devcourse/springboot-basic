@@ -13,6 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +22,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
 
+@SpringBootTest
 class VoucherControllerTest {
 
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
@@ -39,7 +42,8 @@ class VoucherControllerTest {
     private final InputStream inputStream = System.in;
     private final PrintStream printStream = System.out;
 
-    VoucherController voucherController = new VoucherController();
+    @Autowired
+    VoucherController voucherController;
 
     @BeforeEach
     public void before() {
