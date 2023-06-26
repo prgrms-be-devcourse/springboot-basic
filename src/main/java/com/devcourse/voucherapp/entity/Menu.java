@@ -1,5 +1,7 @@
 package com.devcourse.voucherapp.entity;
 
+import static java.text.MessageFormat.format;
+
 import com.devcourse.voucherapp.exception.MenuInputException;
 import java.util.Arrays;
 import lombok.Getter;
@@ -42,6 +44,6 @@ public enum Menu {
 
     @Override
     public String toString() {
-        return number + ". " + name;
+        return format("{0}. {1}", number, name);
     }
 }

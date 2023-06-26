@@ -1,5 +1,7 @@
 package com.devcourse.voucherapp.entity.voucher;
 
+import static java.text.MessageFormat.format;
+
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +16,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return voucherId + ", 비율 할인, " + discountRate + "%";
+        return format("{0} | 비율 할인 | {1}%", voucherId, discountRate);
     }
 }

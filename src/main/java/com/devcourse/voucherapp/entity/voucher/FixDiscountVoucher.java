@@ -1,5 +1,7 @@
 package com.devcourse.voucherapp.entity.voucher;
 
+import static java.text.MessageFormat.format;
+
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +16,6 @@ public class FixDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return voucherId + ", 고정 할인, " + discountPrice + "원";
+        return format("{0} | 고정 할인 | {1}원", voucherId, discountPrice);
     }
 }

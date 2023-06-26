@@ -1,5 +1,7 @@
 package com.devcourse.voucherapp.entity;
 
+import static java.text.MessageFormat.format;
+
 import com.devcourse.voucherapp.entity.voucher.FixDiscountVoucher;
 import com.devcourse.voucherapp.entity.voucher.PercentDiscountVoucher;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
@@ -77,7 +79,7 @@ public enum VoucherType {
 
     @Override
     public String toString() {
-        return number + ". " + name;
+        return format("{0}. {1}", number, name);
     }
 
     public abstract Voucher makeVoucher(String discountAmount);
