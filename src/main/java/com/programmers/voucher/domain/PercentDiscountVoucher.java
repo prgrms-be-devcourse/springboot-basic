@@ -2,12 +2,11 @@ package com.programmers.voucher.domain;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
+public class PercentDiscountVoucher extends Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        this.voucherId = voucherId;
+        super(voucherId);
         this.percent = percent;
     }
 
