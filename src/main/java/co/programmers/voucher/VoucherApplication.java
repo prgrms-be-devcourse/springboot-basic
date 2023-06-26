@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import co.programmers.voucher.Controller.VoucherApplicationRunner;
+import co.programmers.voucher.controller.VoucherApplicationRunner;
 
 @SpringBootApplication
 public class VoucherApplication {
