@@ -64,10 +64,10 @@ public class Console implements Input, Output {
 
     @Override
     public void outputGetCustomerBlackList(Map<UUID, Customer> customerMap) {
-        for(UUID customerId : customerMap.keySet()){
+        for(Map.Entry<UUID, Customer> customerEntry : customerMap.entrySet()){
             System.out.println("=========================================================");
-            System.out.println("customerId : " + customerMap.get(customerId).getCustomerId());
-            System.out.println("customerType : " + customerMap.get(customerId).getCustomerType());
+            System.out.println("customerId : " + customerEntry.getValue().getCustomerId());
+            System.out.println("customerType : " + customerEntry.getValue().getCustomerType());
             System.out.println("=========================================================\n");
         }
     }
