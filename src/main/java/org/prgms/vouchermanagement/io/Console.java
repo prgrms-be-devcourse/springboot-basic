@@ -1,6 +1,8 @@
 package org.prgms.vouchermanagement.io;
 
 import org.prgms.vouchermanagement.validator.VoucherInputValidator;
+import org.prgms.vouchermanagement.voucher.FixedAmountVoucher;
+import org.prgms.vouchermanagement.voucher.PercentDiscountVoucher;
 import org.prgms.vouchermanagement.voucher.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.springframework.stereotype.Component;
@@ -71,18 +73,21 @@ public class Console {
             return;
         }
 
-        switch (listVoucherType) {
-            case FIXED_AMOUNT_VOUCHER_TYPE:
-                System.out.println("=== Fixed Amount Voucher List ===");
-                break;
-            case PERCENT_DISCOUNT_VOUCHER_TYPE:
-                System.out.println("=== Percent Discount Voucher List ===");
-                break;
+        if (listVoucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
+            System.out.println("=== Fixed Amount Voucher List ===");
+            voucherList.get().forEach((k, v) -> {
+                    if (v instanceof FixedAmountVoucher)
+                        System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
+                }
+            );
+        } else if (listVoucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
+            System.out.println("=== Percent Discount Voucher List ===");
+            voucherList.get().forEach((k, v) -> {
+                    if (v instanceof PercentDiscountVoucher)
+                        System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
+                }
+            );
         }
-
-        voucherList.get().forEach((k, v) ->
-                System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()))
-        );
     }
 
     public void printCustomerBlackList(String path) throws IOException {
