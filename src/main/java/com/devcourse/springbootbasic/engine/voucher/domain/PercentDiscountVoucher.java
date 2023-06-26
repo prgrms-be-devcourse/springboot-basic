@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    PercentDiscountVoucher(UUID uuid, VoucherType voucherType, double percent) {
+    public PercentDiscountVoucher(UUID uuid, VoucherType voucherType, double percent) {
         super(uuid, voucherType, percent);
     }
 

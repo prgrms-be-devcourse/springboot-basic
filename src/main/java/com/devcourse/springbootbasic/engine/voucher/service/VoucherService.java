@@ -1,11 +1,16 @@
 package com.devcourse.springbootbasic.engine.voucher.service;
 
+import com.devcourse.springbootbasic.engine.model.VoucherType;
+import com.devcourse.springbootbasic.engine.voucher.domain.FixedAmountVoucher;
+import com.devcourse.springbootbasic.engine.voucher.domain.PercentDiscountVoucher;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
+import com.devcourse.springbootbasic.engine.voucher.domain.VoucherDto;
 import com.devcourse.springbootbasic.engine.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -17,8 +22,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(Voucher voucher) { // dto
-        return voucherRepository.insert(voucher);
+    private Voucher convertDtoToDomain(VoucherDto voucherDto) {
+        if (voucherDto.voucherType().equals(VoucherType.FIXED_AMOUNT)) {
+            return new FixedAmountVoucher(UUID.randomUUID(), voucherDto.voucherType(), voucherDto.discountValue());
+        }
+        return new PercentDiscountVoucher(UUID.randomUUID(), voucherDto.voucherType(), voucherDto.discountValue());
+    }
+
+    public Voucher createVoucher(VoucherDto voucherDto) {
+        return voucherRepository.insert(convertDtoToDomain(voucherDto));
     }
     // TODO resolve this ok?
     public <T> List<T> getAllVouchers() {

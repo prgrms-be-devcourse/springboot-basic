@@ -8,6 +8,7 @@ import com.devcourse.springbootbasic.engine.model.ListMenu;
 import com.devcourse.springbootbasic.engine.model.Menu;
 import com.devcourse.springbootbasic.engine.model.VoucherType;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
+import com.devcourse.springbootbasic.engine.voucher.domain.VoucherDto;
 import com.devcourse.springbootbasic.engine.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,10 +108,7 @@ public class Platform {
     private Voucher createVoucherTask() {
         VoucherType voucherType = voucherTypeInput();
         double voucherDiscount = voucherDiscountInput(voucherType);
-        // easy 노출
-        Voucher voucher = voucherType.getVoucherFactory()
-                .create(voucherDiscount);
-        return voucherService.createVoucher(voucher);
+        return voucherService.createVoucher(new VoucherDto(voucherType, voucherDiscount));
     }
 
     private VoucherType voucherTypeInput() {

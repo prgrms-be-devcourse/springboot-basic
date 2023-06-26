@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-    FixedAmountVoucher(UUID uuid, VoucherType voucherType, double amount) {
+    public FixedAmountVoucher(UUID uuid, VoucherType voucherType, double amount) {
         super(uuid, voucherType, amount);
     }
 

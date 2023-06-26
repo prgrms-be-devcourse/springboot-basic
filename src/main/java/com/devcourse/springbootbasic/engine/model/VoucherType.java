@@ -2,25 +2,18 @@ package com.devcourse.springbootbasic.engine.model;
 
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.config.Message;
-import com.devcourse.springbootbasic.engine.voucher.domain.factory.FixedVoucherFactory;
-import com.devcourse.springbootbasic.engine.voucher.domain.factory.PercentVoucherFactory;
-import com.devcourse.springbootbasic.engine.voucher.domain.factory.VoucherFactory;
 
 import java.util.Arrays;
-import java.util.function.Supplier;//
-// enum && using enum
 public enum VoucherType {
-    FIXED_AMOUNT("1", "Amount", FixedVoucherFactory::new),
-    PERCENT_DISCOUNT("2", "Percent", PercentVoucherFactory::new);
+    FIXED_AMOUNT("1", "Amount"),
+    PERCENT_DISCOUNT("2", "Percent");
 
     private final String typeOrdinal;
     private final String typeString;
-    private final Supplier<VoucherFac ->
 
-    VoucherType(String typeOrdinal, String typeString, Supplier<Vo게.쉽면 려러그 ucherFactory> supplier) {
+    VoucherType(String typeOrdinal, String typeString) {
         this.typeOrdinal = typeOrdinal;
         this.typeString = typeString;
-        this.supplier = supplier;
     }
 
     public static VoucherType getVoucherType(String voucherTypeString) {
@@ -32,9 +25,5 @@ public enum VoucherType {
 
     public String getTypeString() {
         return typeString;
-    }
-
-    public VoucherFactory getVoucherFactory() {
-        return supplier.get();
     }
 }
