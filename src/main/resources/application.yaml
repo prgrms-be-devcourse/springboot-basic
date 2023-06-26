@@ -12,3 +12,8 @@ spring:
 file:
   voucher:
     file-path: src/main/resources/voucher_file.csv
+
+---
+file:
+  blacklist:
+    file-path: src/main/resources/blacklist.csv

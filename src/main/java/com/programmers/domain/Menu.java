@@ -9,7 +9,8 @@ import java.util.Objects;
 public enum Menu {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACKLIST("black");
 
     private static final Logger log = LoggerFactory.getLogger(Menu.class);
 

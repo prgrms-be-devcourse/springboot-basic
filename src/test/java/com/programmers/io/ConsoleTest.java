@@ -24,15 +24,17 @@ class ConsoleTest {
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
             "Type 'exit' to exit the program.\n" +
             "Type 'create' to create a new voucher.\n" +
-            "Type 'list' to list all vouchers.";
+            "Type 'list' to list all vouchers.\n" +
+            "Type 'black' to check the blacklist.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
             "Select voucher. (Type voucher name or number.)\n" +
             "1. Fixed Amount Voucher\n" +
             "2. Percent Discount Voucher";
-    private static final String VOUCHER_CREATED_MESSAGE = "--- Voucher Created !! ---\n";
     private static final String DISCOUNT_VALUE_MESSAGE = "\n=== Type discount amount or rate ===";
     private static final String VOUCHER_NAME_MESSAGE = "\n=== Type voucher name ===";
+    private static final String VOUCHER_CREATED_MESSAGE = "--- Voucher Created !! ---\n";
     private static final String VOUCHER_LIST_TITLE_MESSAGE = "\n=== Voucher List ===";
+    private static final String BLACKLIST_MESSAGE = "\n=== Blacklist ===";
 
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream printStream = System.out;

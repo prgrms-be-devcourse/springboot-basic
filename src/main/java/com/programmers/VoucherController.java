@@ -2,6 +2,7 @@ package com.programmers;
 
 import com.programmers.domain.*;
 import com.programmers.io.Console;
+import com.programmers.service.BlacklistService;
 import com.programmers.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +18,12 @@ public class VoucherController {
 
     private final Console console;
     private final VoucherService voucherService;
+    private final BlacklistService blacklistService;
 
-    public VoucherController(Console console, VoucherService voucherService) {
+    public VoucherController(Console console, VoucherService voucherService, BlacklistService blacklistService) {
         this.console = console;
         this.voucherService = voucherService;
+        this.blacklistService = blacklistService;
     }
 
     public void run() {
@@ -38,7 +41,8 @@ public class VoucherController {
                     log.info("The program has been terminated.");
                 }
                 case CREATE -> createVoucher();
-                case LIST -> getList();
+                case LIST -> getVoucherList();
+                case BLACKLIST -> getBlacklist();
             }
         }
     }
@@ -102,9 +106,15 @@ public class VoucherController {
         return Long.parseLong(discountValue);
     }
 
-    public List<Voucher> getList() {
+    public List<Voucher> getVoucherList() {
         console.printVoucherListTitle();
 
         return voucherService.findAll();
+    }
+
+    private List<String> getBlacklist() {
+        console.printBlacklistTitle();
+
+        return blacklistService.findAll();
     }
 }
