@@ -1,6 +1,6 @@
 package org.prgms.voucher;
 
-public class CommandLineApplication implements Application {
+public class CommandLineApplication implements Console {
     @Override
     public void printSupportedCommands() {
 
