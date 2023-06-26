@@ -27,7 +27,7 @@ public enum MenuCommand {
                 .orElseThrow(() -> {
                     logger.warn("{}와 일치하는 메뉴가 없습니다.", input);
 
-                    return new NoValidCommandException(ConsoleMessage.NO_VALID_MENU);
+                    return new NoValidCommandException("올바르지 않은 메뉴 선택입니다.\n\n");
                 });
     }
 

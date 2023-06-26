@@ -23,10 +23,6 @@ public final class ConsoleMessage {
                         
             프로그램을 종료합니다.
             """;
-    public static final String NO_VALID_MENU = """
-            올바르지 않은 메뉴 선택입니다.
-                                        
-            """;
     public static final String EMPTY_HISTORY_MESSAGE = """
             생성된 바우처가 없습니다.
             """;

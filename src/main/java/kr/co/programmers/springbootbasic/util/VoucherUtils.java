@@ -14,10 +14,6 @@ public class VoucherUtils {
             사용자가 숫자가 아닌 {}를 입력했습니다.
                         
             """;
-    private static final String NO_VALID_NUMBER_INPUT = """
-            올바른 숫자입력이 아닙니다.
-                        
-            """;
     private static final String FIXED_VOUCHER_FORMAT = """
             종류 : {0}
             아이디 : {1}
@@ -42,7 +38,7 @@ public class VoucherUtils {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             logger.warn(NO_VALID_NUMBER_INPUT_LOG, input);
-            throw new NumberFormatException(NO_VALID_NUMBER_INPUT);
+            throw new NumberFormatException("올바른 숫자입력이 아닙니다.\n\n");
         }
     }
 

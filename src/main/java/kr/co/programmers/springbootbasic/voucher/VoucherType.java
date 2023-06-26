@@ -28,7 +28,7 @@ public enum VoucherType {
                 .orElseThrow(() -> {
                     logger.warn("{}과(와) 일치하는 바우처가 없습니다.", input);
 
-                    return new NoValidCommandException("올바르지 않은 바우처 선택입니다.");
+                    return new NoValidCommandException("올바르지 않은 바우처 선택입니다.\n\n");
                 });
     }
 }

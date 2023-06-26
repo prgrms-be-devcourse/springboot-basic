@@ -21,7 +21,7 @@ public class FixedAmountVoucher extends Voucher {
     private void checkValidDiscount(long discountPrice) {
         if (discountPrice < ZERO) {
             logger.warn("할인이 적용된 금액이 {}원으로 잘못 됐습니다.", discountPrice);
-            throw new NoValidAmountException("할인 적용 금액이 %d원으로 잘못 됐습니다.".formatted(discountPrice));
+            throw new NoValidAmountException("할인 적용 금액이 %d원으로 잘못 됐습니다.\n\n".formatted(discountPrice));
         }
     }
 }

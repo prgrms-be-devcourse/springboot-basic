@@ -48,14 +48,14 @@ public abstract class Voucher {
     private void checkValidPercentAmount(long amount) {
         if (amount <= ZERO || amount >= ONE_HUNDRED) {
             logger.warn("사용자가 잘못된 값인 {}%를 입력했습니다.", amount);
-            throw new NoValidAmountException("고정 할인률 바우처의 생성 할인률이 잘못 됐습니다.");
+            throw new NoValidAmountException("고정 할인률 바우처의 생성 할인률이 잘못 됐습니다.\n\n");
         }
     }
 
     private void checkValidFixedAmount(long amount) {
         if (amount <= ZERO || amount > MAX_FIXED_AMOUNT) {
             logger.warn("사용자가 잘못된 값인 {}원을 입력했습니다.", amount);
-            throw new NoValidAmountException("고정 금액 바우처의 생성 금액이 잘못 됐습니다.");
+            throw new NoValidAmountException("고정 금액 바우처의 생성 금액이 잘못 됐습니다.\n\n");
         }
     }
 }
