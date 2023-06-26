@@ -4,12 +4,12 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-    public FixedAmountVoucher(UUID voucherId, long amount, String voucherType) {
-        super(voucherId, amount, voucherType);
+    public FixedAmountVoucher(UUID voucherId, Discount discount, VoucherPolicy voucherType) {
+        super(voucherId, discount, voucherType);
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount - getVoucherDiscount();
+    public long sale(long firstPrice) {
+        return firstPrice - getVoucherDiscount().getDiscount();
     }
 }
