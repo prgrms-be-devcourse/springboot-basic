@@ -1,7 +1,12 @@
 package com.programmers.voucher.controller;
 
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.view.*;
+import com.programmers.voucher.service.VoucherService;
+import com.programmers.voucher.view.Input;
+import com.programmers.voucher.view.Output;
+import com.programmers.voucher.view.dto.Command;
+import com.programmers.voucher.view.dto.DiscountAmount;
+import com.programmers.voucher.view.dto.VoucherCommand;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -11,10 +16,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class VoucherController implements Runnable {
     private final Input input;
     private final Output output;
+    private final VoucherService voucherService;
 
-    public VoucherController(Input input, Output output) {
+    public VoucherController(Input input, Output output, VoucherService voucherService) {
         this.input = input;
         this.output = output;
+        this.voucherService = voucherService;
     }
 
     @Override
@@ -31,6 +38,9 @@ public class VoucherController implements Runnable {
                     output.displayVoucherCommands();
                     VoucherCommand voucherCommand = input.readVoucherCommand();
                     DiscountAmount discountAmount = input.readDiscountAmount(voucherCommand);
+
+                    Voucher voucher = createVoucher(voucherCommand, discountAmount);
+                    output.displayVoucher(voucher);
                 }
                 case LIST -> {
                     getVoucherList();
@@ -39,9 +49,8 @@ public class VoucherController implements Runnable {
         }
     }
 
-    private Voucher createVoucher() {
-        System.out.println("create");
-        return null;
+    private Voucher createVoucher(VoucherCommand voucherCommand, DiscountAmount discountAmount) {
+        return voucherService.createVoucher(voucherCommand, discountAmount);
     }
 
     private List<Voucher> getVoucherList() {

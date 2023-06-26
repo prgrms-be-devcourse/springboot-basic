@@ -1,6 +1,9 @@
 package com.programmers.voucher.view;
 
 import com.programmers.voucher.constant.Style;
+import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.view.dto.Command;
+import com.programmers.voucher.view.dto.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -31,5 +34,10 @@ public class ConsoleOutput implements Output {
                     textTerminal.print(Style.apply(command.getCode(), Style.BOLD));
                     textTerminal.println(" to " + command.getText());
                 });
+    }
+
+    @Override
+    public void displayVoucher(Voucher voucher) {
+        textTerminal.println("New voucher created: " + voucher.getVoucherId().toString());
     }
 }
