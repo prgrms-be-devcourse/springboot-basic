@@ -15,14 +15,14 @@ public class DiscountAmount {
     }
 
     private void validatePositive() {
-        if (amount < 0) {
+        if (amount <= 0) {
             logger.error("{} => {}", ErrorMessage.INVALID_DISCOUNT_AMOUNT, amount);
             throw new IllegalArgumentException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
         }
     }
 
     private void validatePercent(VoucherType voucherType) {
-        if (voucherType == VoucherType.PERCENT_DISCOUNT && amount >= 100) {
+        if (voucherType == VoucherType.PERCENT_DISCOUNT && amount > 100) {
             logger.error("{} => {}", ErrorMessage.INVALID_DISCOUNT_PERCENT, amount);
             throw new IllegalArgumentException(ErrorMessage.INVALID_DISCOUNT_PERCENT);
         }
