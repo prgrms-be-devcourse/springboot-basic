@@ -1,7 +1,10 @@
 package org.prgrms.kdt.voucher.view;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 
+@Component
 public class ConsoleInput implements Input{
 
     private final Scanner scanner = new Scanner(System.in);

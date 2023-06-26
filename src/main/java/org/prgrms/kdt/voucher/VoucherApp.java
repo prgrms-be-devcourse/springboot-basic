@@ -1,17 +1,21 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.voucher.controller.Controller;
-import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.voucher.service.VoucherFactory;
-import org.prgrms.kdt.voucher.service.VoucherService;
-import org.prgrms.kdt.voucher.view.ConsoleInput;
-import org.prgrms.kdt.voucher.view.ConsoleOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 @SpringBootApplication
 public class VoucherApp {
 
     public static void main(String[] args) {
-        new Controller(new ConsoleInput(), new ConsoleOutput(), new VoucherService(new MemoryVoucherRepository(), new VoucherFactory())).run();
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("local");
+        applicationContext.refresh();
+        applicationContext.getBean("controller", Controller.class).run();
     }
 }

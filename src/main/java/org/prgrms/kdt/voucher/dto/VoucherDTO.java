@@ -15,8 +15,8 @@ public class VoucherDTO {
 
     @Override
     public String toString() {
-        return voucherType.getVoucherTypeName() + "\t\t" +
-                voucherDTOName + "\t\t" +
-                benefit;
+        return String.format("%-25s %-25s %-25s", voucherType.getVoucherTypeName(),
+                voucherDTOName,
+                benefit);
     }
 }

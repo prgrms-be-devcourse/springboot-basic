@@ -7,8 +7,12 @@ import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.view.Input;
 import org.prgrms.kdt.voucher.view.Output;
 
+import java.util.InputMismatchException;
+
 import static org.prgrms.kdt.voucher.view.ConsoleOutput.SELECT_VOUCHER_MESSAGE;
 
+
+@org.springframework.stereotype.Controller
 public class Controller {
 
     private final Input input;
@@ -43,7 +47,7 @@ public class Controller {
                                 .toVoucherDTOList());
                     }
                 }
-            } catch(IllegalArgumentException e) {
+            } catch(IllegalArgumentException | InputMismatchException e) {
                 e.printStackTrace();
             }
         }

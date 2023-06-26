@@ -3,15 +3,17 @@ package org.prgrms.kdt.voucher.view;
 import org.prgrms.kdt.voucher.dto.VoucherDTO;
 import org.prgrms.kdt.voucher.model.Menu;
 import org.prgrms.kdt.voucher.model.VoucherType;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ConsoleOutput implements Output{
 
-    private static final String SPACE = "\t\t\t";
     private static final String DEFAULT_PROGRAM_MESSAGE = "=== Voucher Program ===";
-    private static final String DEFAULT_VOUCHER_CATEGORIES = "VoucherType" + SPACE + "VoucherName" + SPACE + "Benefit";
+    private static final String DEFAULT_VOUCHER_CATEGORIES = String.format("%-25s %-25s %-25s"
+            ,"VoucherType" ,"VoucherName" ,"Benefit");
     private static final String EMPTY_MESSAGE = "This Repository is EMPTY!!";
     public static final String SELECT_VOUCHER_MESSAGE = "TYPE YOUR VOUCHER";
 
