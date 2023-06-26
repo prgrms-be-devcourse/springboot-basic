@@ -7,7 +7,8 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
-    public Voucher create(UUID id, String type, int discountAmount) {
+    public Voucher create(String type, int discountAmount) {
+        UUID id = UUID.randomUUID();
         VoucherType voucherType = VoucherType.from(type);
 
         return switch (voucherType) {

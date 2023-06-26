@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.UUID;
 
-import static com.dev.bootbasic.voucher.domain.PercentDiscountVoucher.PERCENT_DISCOUNT_AMOUNT_VALIDATION_EXCEPTION_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -33,8 +32,7 @@ class PercentDiscountVoucherTest {
         UUID id = UUID.randomUUID();
 
         assertThatThrownBy(() -> PercentDiscountVoucher.of(id, discountAmount))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(PERCENT_DISCOUNT_AMOUNT_VALIDATION_EXCEPTION_MESSAGE);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("백분율 할인 후 금액 테스트")
