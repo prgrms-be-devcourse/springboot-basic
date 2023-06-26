@@ -26,7 +26,7 @@ public enum VoucherType {
             (voucherId, request) -> new PercentDiscountVoucher(voucherId, request.getAmount())
     );
 
-    private static final Logger log = LoggerFactory.getLogger(VoucherType.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VoucherType.class);
 
     private final String type;
     private final VoucherValidationStrategy voucherValidator;
@@ -47,7 +47,7 @@ public enum VoucherType {
                 .orElseThrow(() -> {
                     String errorMessage = VoucherErrorMessages.INVALID_VOUCHER_TYPE + voucherType;
 
-                    log.warn("Invalid voucher type: {}", errorMessage);
+                    LOG.warn("Invalid voucher type: {}", errorMessage);
                     return new IllegalArgumentException(errorMessage);
                 });
     }

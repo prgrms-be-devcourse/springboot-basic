@@ -13,7 +13,7 @@ public enum ConsoleCommandType {
     HELP("help"),
     EXIT("exit");
 
-    private static final Logger log = LoggerFactory.getLogger(ConsoleCommandType.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConsoleCommandType.class);
 
     private final String input;
 
@@ -28,7 +28,7 @@ public enum ConsoleCommandType {
                 .orElseThrow(() -> {
                     String errorMessage = ConsoleErrorMessages.INVALID_CONSOLE_COMMAND + input;
 
-                    log.warn("Invalid command type: {}", errorMessage);
+                    LOG.warn("Invalid command type: {}", errorMessage);
                     return new IllegalArgumentException(errorMessage);
                 });
     }

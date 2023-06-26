@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Component
 public class ConsoleMenu implements CommandLineRunner {
-    private static final Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConsoleMenu.class);
 
     private final Console console;
     private final VoucherController voucherController;
@@ -28,7 +28,7 @@ public class ConsoleMenu implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("Started Voucher Console Application.");
+        LOG.info("Started Voucher Console Application.");
         console.printCommandSet();
 
         boolean keepRunningClient = true;
@@ -36,7 +36,7 @@ public class ConsoleMenu implements CommandLineRunner {
             keepRunningClient = runAndProcessClient();
         }
 
-        log.info("Exit the Voucher Console Application.");
+        LOG.info("Exit the Voucher Console Application.");
     }
 
     private boolean runAndProcessClient() {
@@ -44,7 +44,7 @@ public class ConsoleMenu implements CommandLineRunner {
         try {
             keepRunningClient = runClient();
         } catch (RuntimeException ex) {
-            log.warn("Invalid input occurred.", ex);
+            LOG.warn("Invalid input occurred.", ex);
             console.print(ex.getMessage());
         }
         return keepRunningClient;
@@ -72,16 +72,16 @@ public class ConsoleMenu implements CommandLineRunner {
     }
 
     private void createVoucher() {
-        log.info("Create voucher.");
+        LOG.info("Create voucher.");
         VoucherCreateRequest voucherCreateRequest = console.inputVoucherCreateInfo();
         UUID voucherId = voucherController.createVoucher(voucherCreateRequest);
 
         console.print("Created new voucher. VoucherID: " + voucherId.toString());
-        log.info("End create voucher.");
+        LOG.info("End create voucher.");
     }
 
     private void listVouchers() {
-        log.info("Lists the vouchers.");
+        LOG.info("Lists the vouchers.");
         List<Voucher> vouchers = voucherController.findVouchers();
 
         String vouchersForPrint = vouchers.stream()
@@ -89,16 +89,16 @@ public class ConsoleMenu implements CommandLineRunner {
                 .reduce("", (a, b) -> a + "\n" + b);
 
         console.print(vouchersForPrint);
-        log.info("End listing the vouchers.");
+        LOG.info("End listing the vouchers.");
     }
 
     private void printCommandSet() {
-        log.info("Prints the help commands.");
+        LOG.info("Prints the help commands.");
         console.printCommandSet();
     }
 
     private boolean exitConsole() {
-        log.info("Exit the console.");
+        LOG.info("Exit the console.");
         console.exit();
 
         return false;

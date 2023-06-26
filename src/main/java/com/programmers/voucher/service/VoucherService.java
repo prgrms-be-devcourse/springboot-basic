@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private static final Logger log = LoggerFactory.getLogger(VoucherService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VoucherService.class);
 
     private final VoucherRepository voucherRepository;
 
@@ -29,7 +29,7 @@ public class VoucherService {
 
         voucherRepository.save(voucher);
 
-        log.info("Created new Voucher. Voucher: {}", voucher.toString());
+        LOG.info("Created new Voucher. Voucher: {}", voucher.toString());
         return voucherId;
     }
 
