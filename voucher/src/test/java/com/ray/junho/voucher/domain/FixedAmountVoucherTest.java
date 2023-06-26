@@ -73,7 +73,4 @@ class FixedAmountVoucherTest {
         assertThat(fixedAmountVoucher1).isEqualTo(fixedAmountVoucher2);
         assertThat(fixedAmountVoucher1).hasSameHashCodeAs(fixedAmountVoucher2);
     }
-
-
-
 }
