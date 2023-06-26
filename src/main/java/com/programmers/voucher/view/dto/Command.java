@@ -2,6 +2,8 @@ package com.programmers.voucher.view.dto;
 
 import com.programmers.voucher.constant.ErrorMessage;
 import com.programmers.voucher.exception.InvalidCommandException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -10,6 +12,7 @@ public enum Command {
     CREATE("create", "create a new voucher."),
     LIST("list", "list all vouchers.");
 
+    private static final Logger logger = LoggerFactory.getLogger(Command.class);
     private final String name;
     private final String text;
 
@@ -22,7 +25,10 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(command -> command.equals(name))
                 .findFirst()
-                .orElseThrow(() -> new InvalidCommandException(ErrorMessage.INVALID_COMMAND));
+                .orElseThrow(() -> {
+                    logger.error("{} => {}", ErrorMessage.INVALID_COMMAND, name);
+                    return new InvalidCommandException(ErrorMessage.INVALID_COMMAND);
+                });
     }
 
     private boolean equals(String name) {
