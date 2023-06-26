@@ -2,6 +2,7 @@ package com.programmers.voucher.stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,8 @@ import java.util.List;
 @Repository
 public class CsvBlackListStream implements BlackListStream {
     ResourceLoader resourceLoader = new DefaultResourceLoader();
-    private static final String SAMPLE_CSV_FILE_PATH = "classpath:/customer_blacklist.csv";
+    @Value("${filepath.blacklist}")
+    private String SAMPLE_CSV_FILE_PATH;
     BufferedReader br;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
