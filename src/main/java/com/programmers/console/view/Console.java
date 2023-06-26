@@ -15,6 +15,10 @@ import java.util.Scanner;
 public class Console implements InputView, OutputView {
 
     private static final String ARROW = "> ";
+    private static final String EMPTY_SPACE = "";
+    private static final String PERCENT = "%";
+    private static final String WON = "₩";
+
     private static final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -47,33 +51,28 @@ public class Console implements InputView, OutputView {
     public void printVouchers(List<VoucherResponseDto> vouchers) {
         if (vouchers.isEmpty()) {
             println(ConsoleMessage.LIST_IS_EMPTY.getMessage());
-            println("");
+            println(EMPTY_SPACE);
             return;
         }
         for (VoucherResponseDto voucher : vouchers) {
             printVoucher(voucher);
         }
-        println("");
+        println(EMPTY_SPACE);
     }
 
     @Override
     public void printVoucher(VoucherResponseDto responseDto) {
-        println(MessageFormat.format("""
-                        Voucher Type   => {0}
-                        Voucher ID     => {1}
-                        Discount Value => {2}
-                        Created Date   => {3}
-                        """,
+        println(MessageFormat.format(ConsoleMessage.PRINT_VOUCHER_MESSAGE_FORM.getMessage(),
                 responseDto.getDiscount().getVoucherType(), responseDto.getVoucherID(),
                 discountValueFormat(responseDto.getDiscount()), responseDto.getCreatedDate()));
     }
 
     private String discountValueFormat(Discount discount) {
         if (discount instanceof PercentDiscount) {
-            return discount.getValue() + "%";
+            return discount.getValue() + PERCENT;
         }
         DecimalFormat formatter = new DecimalFormat("###,###,###");
-        return formatter.format(discount.getValue()) + "₩";
+        return formatter.format(discount.getValue()) + WON;
     }
 
     @Override

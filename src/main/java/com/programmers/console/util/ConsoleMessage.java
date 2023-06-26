@@ -12,7 +12,14 @@ public enum ConsoleMessage {
             1 : FIXED TYPE
             2 : PERCENT TYPE
             """),
+    PRINT_VOUCHER_MESSAGE_FORM("""
+            Voucher Type   => {0}
+            Voucher ID     => {1}
+            Discount Value => {2}
+            Created Date   => {3}
+            """),
     VOUCHER_DISCOUNT_VALUE_MESSAGE("Please enter a value for creating voucher."),
+
     LIST_IS_EMPTY("List is empty. Try again after make vouchers.");
 
     private final String message;
@@ -24,4 +31,4 @@ public enum ConsoleMessage {
     public String getMessage() {
         return message;
     }
-}
+    }
