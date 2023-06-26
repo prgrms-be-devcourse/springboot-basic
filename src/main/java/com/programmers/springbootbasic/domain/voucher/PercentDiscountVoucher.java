@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
     private final int percent;
-    static int MIN_PERCENT = 1;
-    static int MAX_PERCENT = 100;
+    static final int MIN_PERCENT = 1;
+    static final int MAX_PERCENT = 100;
 
     public PercentDiscountVoucher(UUID voucherId, String name, LocalDateTime expirationDate, int percent) {
         this(voucherId, name, 0L, expirationDate, percent);
