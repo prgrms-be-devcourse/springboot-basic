@@ -1,14 +1,17 @@
 package com.dev.voucherproject.controller.console;
 
 import com.dev.voucherproject.model.voucher.*;
-import com.dev.voucherproject.storage.VoucherStorage;
+import com.dev.voucherproject.storage.voucher.VoucherStorage;
 import com.dev.voucherproject.view.Console;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
 @Controller
 public class CreateMenuController extends MenuUsingConsoleAndStorage {
+    private static final Logger logger = LoggerFactory.getLogger(CreateMenuController.class);
     public CreateMenuController(VoucherStorage voucherStorage, Console console) {
         super(voucherStorage, console);
     }
@@ -16,15 +19,16 @@ public class CreateMenuController extends MenuUsingConsoleAndStorage {
     @Override
     public void execute() {
         VoucherPolicy voucherPolicy;
-        console.printSelectVoucherPolicy();
+        String input;
 
-        String input = console.inputVoucherPolicySelection();
+        console.printSelectVoucherPolicy();
+        input = console.inputVoucherPolicySelection();
         voucherPolicy = VoucherPolicy.convertStringInputToPolicy(input);
 
         long discountNumber = selectPolicy(voucherPolicy);
-        Voucher voucher = Voucher.of(voucherPolicy, UUID.randomUUID(), discountNumber);
 
-        voucherStorage.insert(voucher);
+        Voucher voucher = voucherStorage.insert(Voucher.of(voucherPolicy, discountNumber, UUID.randomUUID()));
+        logger.info("바우처 생성 :: {}", voucher.toString());
     }
 
     private long selectPolicy(VoucherPolicy voucherPolicy) {

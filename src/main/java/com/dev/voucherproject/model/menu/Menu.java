@@ -7,18 +7,20 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 public enum Menu {
-    EXIT("exit"),
-    CREATE("create"),
-    LIST("list");
+    EXIT("exit"), CREATE("create"), LIST("list");
 
     private final String menuName;
     private MenuController controller;
 
+    Menu(String menuName) {
+        this.menuName = menuName;
+    }
+
     @Component
-    public static class MenuExecutorInitializer {
+    public static class MenuControllerInit {
         private final MenuControllerProvider provider;
 
-        public MenuExecutorInitializer(MenuControllerProvider provider) {
+        public MenuControllerInit(MenuControllerProvider provider) {
             this.provider = provider;
         }
 
@@ -27,12 +29,12 @@ public enum Menu {
             Arrays.stream(Menu.values())
                     .forEach(menu -> {
                         menu.controller = provider.provide(menu.getMenuControllerName());
-                    });
+            });
         }
     }
 
-    Menu(String menuName) {
-        this.menuName = menuName;
+    private String getMenuControllerName() {
+        return this.menuName + "MenuController";
     }
 
     public void execute() {
@@ -42,11 +44,8 @@ public enum Menu {
     public static Menu convertInputToMenu(String input) {
         return Arrays.stream(Menu.values())
                 .filter(m -> m.isExistMenu(input))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
-    }
-
-    private String getMenuControllerName() {
-        return this.menuName + "MenuController";
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
     }
 
     private boolean isExistMenu(String input) {

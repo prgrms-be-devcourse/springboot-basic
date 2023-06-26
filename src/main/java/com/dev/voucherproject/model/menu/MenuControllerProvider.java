@@ -1,7 +1,6 @@
 package com.dev.voucherproject.model.menu;
 
 
-
 import com.dev.voucherproject.controller.console.MenuController;
 import org.springframework.stereotype.Component;
 
