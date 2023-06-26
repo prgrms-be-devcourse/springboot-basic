@@ -63,7 +63,7 @@ public abstract class Voucher {
     }
 
     private boolean isInvalidName(String name) {
-        return name == null || name.isEmpty();
+        return name == null || name.isBlank();
     }
 
     private boolean isInvalidExpirationDate(LocalDateTime expirationDate) {
