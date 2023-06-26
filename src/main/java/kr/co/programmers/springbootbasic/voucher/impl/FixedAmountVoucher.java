@@ -15,7 +15,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public long discount(long totalPrice) {
-        long discountPrice = totalPrice - super.amount;
+        long discountPrice = totalPrice - super.getAmount();
         checkValidDiscount(discountPrice);
 
         return discountPrice;

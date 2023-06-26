@@ -15,7 +15,7 @@ public class PercentAmountVoucher extends Voucher {
 
     @Override
     public long discount(long totalPrice) {
-        long discountPrice = totalPrice - (long) Math.floor(totalPrice * (super.amount / (double) VoucherValue.ONE_HUNDRED));
+        long discountPrice = totalPrice - (long) Math.floor(totalPrice * (super.getAmount() / (double) VoucherValue.ONE_HUNDRED));
         checkValidDiscount(discountPrice);
 
         return discountPrice;

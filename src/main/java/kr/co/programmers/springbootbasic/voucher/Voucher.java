@@ -9,8 +9,8 @@ import java.util.UUID;
 public abstract class Voucher {
     protected static final Logger logger = LoggerFactory.getLogger(Voucher.class);
     private final VoucherType type;
-    protected final UUID id;
-    protected final long amount;
+    private final UUID id;
+    private final long amount;
 
     public Voucher(VoucherType type, UUID id, long amount) {
         logger.info("{} 바우처 생성을 시작합니다...", type);
@@ -22,6 +22,10 @@ public abstract class Voucher {
     }
 
     public abstract long discount(long totalPrice);
+
+    public VoucherType getType() {
+        return type;
+    }
 
     public UUID getId() {
         return id;

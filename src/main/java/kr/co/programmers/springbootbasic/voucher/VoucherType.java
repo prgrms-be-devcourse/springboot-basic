@@ -21,13 +21,12 @@ public enum VoucherType {
         return command;
     }
 
-    public static VoucherType resolve(String input) {
-        int unresolvedCommand = VoucherUtils.parseStringToInteger(input);
+    public static VoucherType resolve(int input) {
         return Arrays.stream(values())
-                .filter(val -> val.getCommand() == unresolvedCommand)
+                .filter(val -> val.getCommand() == input)
                 .findFirst()
                 .orElseThrow(() -> {
-                    logger.warn("{}과(와) 일치하는 바우처가 없습니다.", unresolvedCommand);
+                    logger.warn("{}과(와) 일치하는 바우처가 없습니다.", input);
 
                     return new NoValidCommandException(VoucherValue.NO_VALID_VOUCHER);
                 });
