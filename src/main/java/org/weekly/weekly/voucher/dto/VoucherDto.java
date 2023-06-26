@@ -39,7 +39,7 @@ public class VoucherDto {
         VoucherException.expirationError(registrationDate, voucherInfoRequest.getExpiration());
         VoucherException.notNumberFormat(voucherInfoRequest.getExpiration(), input -> Long.parseLong(input) <= RANGE_START);
 
-        if (discount.equals(DiscountType.PERCENT)) {
+        if (discount.getClass().equals(DiscountType.PERCENT.getCls())) {
             VoucherException.notNumberFormat(voucherInfoRequest.getAmount(), input -> Long.parseLong(input) < RANGE_START || Long.parseLong(input) > RANGE_END);
             return;
         }
