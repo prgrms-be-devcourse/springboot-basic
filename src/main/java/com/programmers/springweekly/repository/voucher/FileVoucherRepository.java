@@ -1,18 +1,20 @@
 package com.programmers.springweekly.repository.voucher;
 
-import com.programmers.springweekly.domain.voucher.*;
+import com.programmers.springweekly.domain.voucher.Voucher;
+import com.programmers.springweekly.domain.voucher.VoucherFactory;
 import com.programmers.springweekly.dto.ReadVoucherDto;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("dev")
@@ -46,7 +48,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Map<UUID, Voucher> getVoucherMap() {
-        try(BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath))){
+        try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath))) {
             String line = "";
 
             while ((line = bufferedReader.readLine()) != null) {
@@ -54,7 +56,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
                 ReadVoucherDto readVoucherDto = new ReadVoucherDto(readLine[0], readLine[1], readLine[2]);
 
-                Voucher voucher =  VoucherFactory.createVoucher(readVoucherDto.getVoucherType(), readVoucherDto.getDiscountAmount());
+                Voucher voucher = VoucherFactory.createVoucher(readVoucherDto.getVoucherType(), readVoucherDto.getDiscountAmount());
 
                 voucherMap.put(readVoucherDto.getVoucherId(), voucher);
             }

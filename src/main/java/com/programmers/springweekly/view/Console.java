@@ -2,11 +2,10 @@ package com.programmers.springweekly.view;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.voucher.Voucher;
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Console implements Input, Output {
@@ -53,7 +52,7 @@ public class Console implements Input, Output {
 
     @Override
     public void outputGetVoucherAll(Map<UUID, Voucher> voucherMap) {
-        for(Map.Entry<UUID, Voucher> voucherEntry : voucherMap.entrySet()){
+        for (Map.Entry<UUID, Voucher> voucherEntry : voucherMap.entrySet()) {
             System.out.println("=========================================================");
             System.out.println("voucherId : " + voucherEntry.getValue().getVoucherId());
             System.out.println("discountAmount : " + voucherEntry.getValue().getVoucherAmount());
@@ -64,7 +63,7 @@ public class Console implements Input, Output {
 
     @Override
     public void outputGetCustomerBlackList(Map<UUID, Customer> customerMap) {
-        for(Map.Entry<UUID, Customer> customerEntry : customerMap.entrySet()){
+        for (Map.Entry<UUID, Customer> customerEntry : customerMap.entrySet()) {
             System.out.println("=========================================================");
             System.out.println("customerId : " + customerEntry.getValue().getCustomerId());
             System.out.println("customerType : " + customerEntry.getValue().getCustomerType());

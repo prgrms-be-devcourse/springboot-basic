@@ -18,15 +18,15 @@ public enum VoucherType {
         this.type = type;
     }
 
-    public static VoucherType findVoucherMenu(String type){
-        if(VOUCHER_MAP.containsKey(type)){
+    public static VoucherType findVoucherMenu(String type) {
+        if (VOUCHER_MAP.containsKey(type)) {
             return VOUCHER_MAP.get(type);
         }
 
         throw new IllegalArgumentException("The type you are looking for is not found.");
     }
 
-    public String getVoucherTypeString(){
+    public String getVoucherTypeString() {
         return type;
     }
 }

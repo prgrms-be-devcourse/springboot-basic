@@ -22,12 +22,12 @@ public class ConsoleApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        while(running){
+        while (running) {
             console.outputProgramGuide();
             try {
                 ProgramMenu selectMenu = ProgramMenu.findProgramMenu(console.inputMessage());
 
-                switch(selectMenu){
+                switch (selectMenu) {
                     case CREATE -> voucherController.createVoucher();
                     case LIST -> voucherController.getVoucherList();
                     case EXIT -> {
@@ -37,7 +37,7 @@ public class ConsoleApplication implements CommandLineRunner {
                     case CUSTOMER_BLACKLIST -> customerController.getBlackList();
                 }
 
-            } catch(Exception e){
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }

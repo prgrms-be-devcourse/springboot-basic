@@ -1,9 +1,8 @@
 package com.programmers.springweekly.dto;
 
 import com.programmers.springweekly.domain.voucher.VoucherType;
-import lombok.Getter;
-
 import java.util.UUID;
+import lombok.Getter;
 
 @Getter
 public class ReadVoucherDto {

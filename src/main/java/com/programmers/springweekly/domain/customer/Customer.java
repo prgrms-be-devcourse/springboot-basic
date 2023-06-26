@@ -1,8 +1,7 @@
 package com.programmers.springweekly.domain.customer;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Customer {

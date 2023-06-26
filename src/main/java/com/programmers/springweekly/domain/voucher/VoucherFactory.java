@@ -1,14 +1,13 @@
 package com.programmers.springweekly.domain.voucher;
 
 import com.programmers.springweekly.util.Validator;
-
 import java.util.UUID;
 
 public class VoucherFactory {
 
-    public static Voucher createVoucher(VoucherType voucherType, String discount){
+    public static Voucher createVoucher(VoucherType voucherType, String discount) {
 
-        switch (voucherType){
+        switch (voucherType) {
             case FIXED -> {
                 Validator.fixedAmountValidate(discount);
                 return new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(discount));

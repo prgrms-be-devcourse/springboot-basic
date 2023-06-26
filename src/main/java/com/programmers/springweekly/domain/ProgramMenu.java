@@ -20,15 +20,15 @@ public enum ProgramMenu {
         this.menu = menu;
     }
 
-    public static ProgramMenu findProgramMenu(String type){
-        if(MENU_MAP.containsKey(type)){
+    public static ProgramMenu findProgramMenu(String type) {
+        if (MENU_MAP.containsKey(type)) {
             return MENU_MAP.get(type);
         }
 
         throw new IllegalArgumentException("The type you are looking for is not found.");
     }
 
-    public String getProgramMenu(){
+    public String getProgramMenu() {
         return menu;
     }
 }

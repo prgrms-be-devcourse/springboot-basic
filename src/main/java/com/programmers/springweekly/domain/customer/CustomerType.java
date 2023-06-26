@@ -18,20 +18,20 @@ public enum CustomerType {
         this.type = type;
     }
 
-    public static CustomerType findCustomerType(String type){
-       if(CUSTOMER_MAP.containsKey(type)){
-           return CUSTOMER_MAP.get(type);
-       }
+    public static CustomerType findCustomerType(String type) {
+        if (CUSTOMER_MAP.containsKey(type)) {
+            return CUSTOMER_MAP.get(type);
+        }
 
-       throw new IllegalArgumentException("The type you are looking for is not found.");
+        throw new IllegalArgumentException("The type you are looking for is not found.");
     }
 
-    private String getCustomerType(){
+    private String getCustomerType() {
         return type;
     }
 
-    public static boolean isBlacklistedCustomer(CustomerType customerType){
-        if(customerType == CustomerType.BLACKLIST){
+    public static boolean isBlacklistedCustomer(CustomerType customerType) {
+        if (customerType == CustomerType.BLACKLIST) {
             return true;
         }
         return false;
