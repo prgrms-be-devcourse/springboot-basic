@@ -21,7 +21,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<VoucherResponse> getAllVoucherList() {
+    public List<Voucher> getAllVoucherList() {
         return null;
     }
 }

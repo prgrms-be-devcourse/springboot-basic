@@ -13,5 +13,5 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
-    List<VoucherResponse> getAllVoucherList();
+    List<Voucher> getAllVoucherList();
 }
