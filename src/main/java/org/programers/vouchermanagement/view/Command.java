@@ -3,19 +3,19 @@ package org.programers.vouchermanagement.view;
 import java.util.Arrays;
 
 public enum Command {
-    BLACKLIST("blacklist"), CREATE_VOUCHER("createVoucher"), LIST_VOUCHER("listVoucher"), EXIT("exit");
+    BLACKLIST(1), CREATE_VOUCHER(2), LIST_VOUCHER(3), EXIT(4);
 
-    private final String command;
+    private final int number;
 
-    Command(String command) {
-        this.command = command;
+    Command(int number) {
+        this.number = number;
     }
 
-    public static Command from(String command) {
+    public static Command from(int number) {
         return Arrays.stream(values())
-                .filter(menu -> menu.command.equals(command))
+                .filter(menu -> menu.number == number)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 명령어입니다. : " + command));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 명령어 번호입니다. : " + number));
     }
 
     public boolean isBlacklist() {
@@ -34,7 +34,7 @@ public enum Command {
         return this.equals(Command.EXIT);
     }
 
-    public String getCommand() {
-        return command;
+    public int getNumber() {
+        return number;
     }
 }

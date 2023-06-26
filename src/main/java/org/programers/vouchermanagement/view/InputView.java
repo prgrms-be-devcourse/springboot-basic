@@ -9,7 +9,7 @@ public class InputView {
     private InputView() {}
 
     public static Command inputCommand() {
-        return Command.from(SCANNER.next());
+        return Command.from(SCANNER.nextInt());
     }
 
     public static DiscountPolicyType inputDiscountPolicy() {
