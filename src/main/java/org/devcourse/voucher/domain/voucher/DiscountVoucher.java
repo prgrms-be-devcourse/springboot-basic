@@ -4,8 +4,11 @@ import org.devcourse.voucher.domain.voucher.amount.VoucherAmount;
 
 public abstract class DiscountVoucher extends Voucher{
 
+    protected final VoucherAmount amount;
+
     protected DiscountVoucher(long id, VoucherType type, VoucherAmount amount) {
-        super(id, type, amount);
+        super(id, type);
+        this.amount = amount;
     }
 
     @Override
