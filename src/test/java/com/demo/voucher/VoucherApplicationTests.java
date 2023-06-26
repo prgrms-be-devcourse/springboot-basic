@@ -1,4 +1,4 @@
-package voucher.app.voucher;
+package com.demo.voucher;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
