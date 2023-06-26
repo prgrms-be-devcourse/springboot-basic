@@ -1,11 +1,8 @@
 package co.programmers.voucher.service;
 
-import java.io.IOException;
-import java.util.Map;
+import co.programmers.voucher.dto.Response;
+import co.programmers.voucher.dto.VoucherCreationRequestDTO;
 
 public interface Launcher {
-
-	void run(Map<String, Object> demandedData) throws IOException;
-
-	Map<String, Object> getRequestBody();
+	Response run(VoucherCreationRequestDTO voucherCreationRequestDTO);
 }
