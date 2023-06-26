@@ -2,6 +2,7 @@ package com.prgms.VoucherApp.controller;
 
 import com.prgms.VoucherApp.domain.Voucher;
 import com.prgms.VoucherApp.domain.VoucherType;
+import com.prgms.VoucherApp.dto.VoucherDto;
 import com.prgms.VoucherApp.model.VoucherCreator;
 import com.prgms.VoucherApp.model.VoucherReader;
 import com.prgms.VoucherApp.view.Command;
@@ -45,7 +46,7 @@ public class VoucherApp implements Runnable {
                 }
 
                 case LIST -> {
-                    List<Voucher> vouchers = voucherReader.readVoucherList();
+                    List<VoucherDto> vouchers = voucherReader.readVoucherList();
                     output.printVoucherList(vouchers);
                 }
             }

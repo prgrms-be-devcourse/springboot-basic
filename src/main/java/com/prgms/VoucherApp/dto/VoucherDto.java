@@ -27,4 +27,13 @@ public class VoucherDto {
     public VoucherType getVoucherType() {
         return voucherType;
     }
+
+    public String getVoucherInfo() {
+        String voucherInfo = switch (this.voucherType) {
+            case FIXED_VOUCHER -> "Fixed Voucher, Discount Amount: " + this.discountAmount;
+            case PERCENT_VOUCHER -> "Percent Voucher, Discount percent Amount: " + this.discountAmount;
+        };
+
+        return voucherInfo;
+    }
 }
