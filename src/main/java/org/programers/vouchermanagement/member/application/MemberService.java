@@ -2,6 +2,7 @@ package org.programers.vouchermanagement.member.application;
 
 import org.programers.vouchermanagement.member.domain.Member;
 import org.programers.vouchermanagement.member.domain.MemberRepository;
+import org.programers.vouchermanagement.member.domain.MemberStatus;
 import org.programers.vouchermanagement.member.dto.MemberResponse;
 import org.programers.vouchermanagement.member.dto.MembersResponse;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public MembersResponse findAllByBlackStatus() {
-        List<Member> members = memberRepository.findAllByBlackStatus();
+    public MembersResponse findAllByStatus(MemberStatus status) {
+        List<Member> members = memberRepository.findAllByStatus(status);
         return new MembersResponse(members.stream().map(MemberResponse::new).collect(Collectors.toList()));
     }
 }
