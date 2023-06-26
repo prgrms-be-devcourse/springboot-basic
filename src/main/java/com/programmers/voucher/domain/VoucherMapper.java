@@ -4,12 +4,11 @@ import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class VoucherMapper {
 
     public static Voucher requestDtoToDomain(VoucherRequestDto requestDto) {
-        return new Voucher(UUID.randomUUID(), requestDto.discount(), LocalDateTime.now());
+        return new Voucher(requestDto.voucherId(), requestDto.discount(), LocalDateTime.now());
     }
 
     public static VoucherResponseDto domainToResponseDto(Voucher voucher) {

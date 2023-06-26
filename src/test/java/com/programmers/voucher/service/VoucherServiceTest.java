@@ -1,20 +1,20 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.Discount;
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.VoucherMapper;
-import com.programmers.voucher.domain.VoucherType;
+import com.programmers.console.view.Console;
+import com.programmers.voucher.domain.*;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VoucherServiceTest {
 
@@ -39,12 +39,30 @@ class VoucherServiceTest {
             , "1, 30"
     })
     void createVoucherTest(String command, long value) {
+        UUID id = UUID.randomUUID();
+
         Discount discount = Discount.of(VoucherType.of(command), value);
 
-        VoucherRequestDto requestDto = new VoucherRequestDto(discount);
+        VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
 
         Voucher voucher = voucherService.create(requestDto);
 
         assertThat(voucher).isNotNull();
+    }
+
+    @DisplayName("바우처를 생성했던 ID로 바우처 조회가 가능한지")
+    @Test
+    void findByIdTest() {
+        UUID id = UUID.randomUUID();
+
+        Discount discount = new FixedDiscount(123456);
+
+        VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
+
+        Voucher expected = voucherService.create(requestDto);
+
+        Voucher actual = voucherService.findVoucher(id);
+
+        assertEquals(expected.getVoucherId(), actual.getVoucherId());
     }
 }
