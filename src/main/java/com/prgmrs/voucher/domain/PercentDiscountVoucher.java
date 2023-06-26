@@ -19,6 +19,9 @@ public class PercentDiscountVoucher implements Voucher {
         return voucherId;
     }
 
+    public long getPercent() {
+        return percent;
+    }
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
