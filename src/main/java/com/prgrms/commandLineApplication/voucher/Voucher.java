@@ -8,7 +8,7 @@ public abstract class Voucher {
   private final double discountAmount;
   private final String voucherType;
 
-  public Voucher(UUID voucherId, String voucherType, double discountAmount) {
+  protected Voucher(UUID voucherId, String voucherType, double discountAmount) {
     validateVoucherId(voucherId);
     this.voucherId = voucherId;
     this.voucherType = voucherType;

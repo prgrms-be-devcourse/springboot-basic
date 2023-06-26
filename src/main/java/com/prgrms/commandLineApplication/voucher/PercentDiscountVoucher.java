@@ -6,12 +6,16 @@ public class PercentDiscountVoucher extends Voucher {
   private static final int PERCENT_RATE_BASE = 100;
   private static final int MINIMUM_VALUE = 0;
 
-  public PercentDiscountVoucher(UUID voucherId, String voucherType, double discountAmount) {
+  private PercentDiscountVoucher(UUID voucherId, String voucherType, double discountAmount) {
     super(voucherId, voucherType, discountAmount);
   }
 
+  public static PercentDiscountVoucher of(UUID voucherId, String voucherType, double discountAmount) {
+    validateDiscountAmount(discountAmount);
+    return new PercentDiscountVoucher(voucherId, voucherType, discountAmount);
+  }
+
   public double discount(double price) {
-    validateDiscountAmount(getDiscountAmount());
     return price - (getDiscountAmount() / PERCENT_RATE_BASE) * price;
   }
 
