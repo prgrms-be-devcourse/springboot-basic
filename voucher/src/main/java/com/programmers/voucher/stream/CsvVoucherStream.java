@@ -55,25 +55,32 @@ public class CsvVoucherStream implements VoucherStream {
 
     @Override
     public Map<String, Voucher> findAll() {
-        String line = "";
         HashMap<String, Voucher> voucherHashMap = new LinkedHashMap<>();
+        loadCSVFile(voucherHashMap);
+        return voucherHashMap;
+    }
+
+    private void loadCSVFile(HashMap<String, Voucher> voucherHashMap) {
+        String line = "";
         try {
             br = new BufferedReader(new FileReader(file));
             while ((line = br.readLine()) != null) {
-                List<String> rowInformation = Arrays.asList(line.split(","));
-                String type = rowInformation.get(0);
-                String id = rowInformation.get(1);
-                String information = rowInformation.get(2);
-                addFixedAmountVoucher(voucherHashMap, type, id, information);
-                addPercentDiscountVoucher(voucherHashMap, type, id, information);
+                putDataToHashMap(voucherHashMap, line);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             closeBufferedReader();
         }
+    }
 
-        return voucherHashMap;
+    private static void putDataToHashMap(HashMap<String, Voucher> voucherHashMap, String line) {
+        List<String> rowInformation = Arrays.asList(line.split(","));
+        String type = rowInformation.get(0);
+        String id = rowInformation.get(1);
+        String information = rowInformation.get(2);
+        voucherHashMap.put(id, ("FixedAmountVoucher".equals(type) ? 
+                new FixedAmountVoucher(id, Long.valueOf(information)) : new PercentDiscountVoucher(id, Long.valueOf(information))));
     }
 
     private void closeBufferedReader() {
