@@ -14,7 +14,7 @@ public class OutputView {
     public static void outputCommand() {
         System.out.println("명령어 리스트");
         for (Command value : Command.values()) {
-            System.out.println(value.getCommand());
+            System.out.printf("%d %s%n", value.getNumber(), value);
         }
     }
 
