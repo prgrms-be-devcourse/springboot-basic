@@ -1,5 +1,6 @@
 package com.prgrms.commandLineApplication.service;
 
+import com.prgrms.commandLineApplication.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherServiceTest {
 
-  VoucherService voucherService = new VoucherService();
+  VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
 
   @ParameterizedTest
   @ValueSource(strings = {"fix", "pe", "hello", "test"})

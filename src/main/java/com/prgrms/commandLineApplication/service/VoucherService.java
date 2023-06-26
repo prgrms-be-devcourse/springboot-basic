@@ -10,11 +10,9 @@ import java.util.UUID;
 public class VoucherService {
 
   private final VoucherRepository voucherRepository;
-  private final VoucherFactory voucherFactory;
 
-  public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+  public VoucherService(VoucherRepository voucherRepository) {
     this.voucherRepository = voucherRepository;
-    this.voucherFactory = voucherFactory;
   }
 
   public Map<UUID, Voucher> viewList() {
@@ -22,7 +20,7 @@ public class VoucherService {
   }
 
   public void create(String voucherType, int discountAmount) {
-    Voucher createdVoucher = voucherFactory.createVoucher(voucherType, discountAmount);
+    Voucher createdVoucher = VoucherFactory.createVoucher(voucherType, discountAmount);
     voucherRepository.save(createdVoucher);
   }
 
