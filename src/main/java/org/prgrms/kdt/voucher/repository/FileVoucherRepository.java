@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher.repository;
 import org.prgrms.kdt.util.Converter;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -11,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Profile("file")
 @Repository
-@Primary
 public class FileVoucherRepository implements VoucherRepository{
 
     private final String filePath = "src/main/resources/Voucher.csv";

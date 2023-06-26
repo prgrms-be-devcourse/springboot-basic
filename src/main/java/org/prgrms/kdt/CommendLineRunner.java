@@ -32,7 +32,7 @@ public class CommendLineRunner {
                 Menu menu = Menu.getMenu(getUserMenu);
                 isRunning = executeAction(menu);
 
-            }catch (IOException | InvalidInputException e){
+            }catch (InvalidInputException e){
                 ConsoleOutput.printError();
             }catch (Exception e){
                 logger.error("예상하지 못한 예외가 발생했습니다.");
