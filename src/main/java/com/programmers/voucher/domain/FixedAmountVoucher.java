@@ -19,7 +19,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return Math.max(0L, beforeDiscount - amount);
     }
 
     @Override
