@@ -1,0 +1,3 @@
+filePath:
+  voucher: "src/main/resources/Voucher.csv"
+  blackList: "src/main/resources/customer_blacklist.csv"

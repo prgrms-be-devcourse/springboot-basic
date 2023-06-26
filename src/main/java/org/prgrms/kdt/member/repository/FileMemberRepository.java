@@ -3,6 +3,7 @@ package org.prgrms.kdt.member.repository;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.util.Converter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -14,7 +15,8 @@ import java.util.List;
 
 @Repository
 public class FileMemberRepository implements MemberRepository{
-    private final String filePath = "src/main/resources/customer_blacklist.csv";
+    @Value("${filePath.blackList}")
+    private String filePath;
     @Override
     public List<Member> findAllBlackMember() throws IOException {
         List<Member> blackList = new ArrayList<>();
