@@ -13,7 +13,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class DiscountAmountTest {
     @ParameterizedTest
-    @DisplayName("바우처 종류와 상관없이, 값이 양수가 아닌 경우 예외가 발생한다.")
+    @DisplayName("바우처 타입과 상관없이, 값이 양수가 아닌 경우 예외가 발생한다.")
     @MethodSource("invalidDiscountAmountArguments")
     void 할인_값_양수_X(VoucherType voucherType, long amount) {
         assertThatThrownBy(() -> new DiscountAmount(voucherType, amount))
