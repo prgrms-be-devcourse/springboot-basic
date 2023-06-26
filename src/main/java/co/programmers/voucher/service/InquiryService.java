@@ -9,21 +9,18 @@ import co.programmers.voucher.repository.VoucherRepository;
 
 @Service
 public class InquiryService implements Launcher {
-	private static VoucherRepository REPOSITORY;
-
-	private InquiryService() {
-	}
+	private final VoucherRepository voucherRepository;
 
 	@Autowired
-	private InquiryService(VoucherRepository REPOSITORY) {
-		InquiryService.REPOSITORY = REPOSITORY;
+	private InquiryService(VoucherRepository voucherRepository) {
+		this.voucherRepository = voucherRepository;
 	}
 
 	@Override
 	public Response run(VoucherCreationRequestDTO voucherCreationRequestDTO) {
 		return Response.builder()
 				.state(Response.State.SUCCESS)
-				.responseData(REPOSITORY.findAll())
+				.responseData(voucherRepository.findAll())
 				.build();
 	}
 
