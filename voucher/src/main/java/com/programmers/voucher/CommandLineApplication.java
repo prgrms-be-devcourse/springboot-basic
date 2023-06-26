@@ -6,6 +6,8 @@ import com.programmers.voucher.domain.CommandType;
 import com.programmers.voucher.domain.voucher.*;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ public class CommandLineApplication implements CommandLineRunner {
     private final VoucherFactory voucherFactory;
     private final BlackListStream blackListStream;
     private final Printer printer;
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream, Printer printer) {
         this.console = console;
@@ -33,6 +36,7 @@ public class CommandLineApplication implements CommandLineRunner {
                 commandType = convertAndValidateInput(inputCondition);
                 doLogic(commandType);
             } catch (Exception e) {
+                log.info("Error Occurred : {}", e.getMessage());
                 printer.printError(e);
                 continue;
             }

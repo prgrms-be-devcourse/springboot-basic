@@ -3,6 +3,8 @@ package com.programmers.voucher.stream;
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,7 @@ public class CsvVoucherStream implements VoucherStream {
     File file = new File(SAMPLE_CSV_FILE_PATH);
     BufferedWriter bw;
     BufferedReader br;
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -25,6 +28,7 @@ public class CsvVoucherStream implements VoucherStream {
             bw.write(csvDelimiter);
             bw.newLine();
         } catch (IOException e) {
+            log.warn("BufferedWriter 동작 중 에러 발생 | [error] : {}", e.getMessage());
             throw new RuntimeException(e);
         } finally {
             closeBufferedWriter();
@@ -49,6 +53,7 @@ public class CsvVoucherStream implements VoucherStream {
             bw.flush();
             bw.close();
         } catch (IOException e) {
+            log.warn("BufferedWriter 종료 중 에러 발생 | [error] : {}", e.getMessage());
             e.printStackTrace();
         }
     }
@@ -68,6 +73,7 @@ public class CsvVoucherStream implements VoucherStream {
                 putDataToHashMap(voucherHashMap, line);
             }
         } catch (Exception e) {
+            log.warn("CSV파일 읽어들이는 도중 에러 발생 | [error] : {}", e.getMessage());
             e.printStackTrace();
         } finally {
             closeBufferedReader();
@@ -89,6 +95,7 @@ public class CsvVoucherStream implements VoucherStream {
                 br.close();
             }
         } catch (IOException e) {
+            log.warn("BufferedReader 종료 중 에러 발생 | [error] : {}", e.getMessage());
             e.printStackTrace();
         }
     }
