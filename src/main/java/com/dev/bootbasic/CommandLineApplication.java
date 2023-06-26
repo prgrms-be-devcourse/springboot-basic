@@ -27,12 +27,12 @@ public class CommandLineApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Command command = viewManager.readCommand();
         while (command != Command.EXIT) {
-            command = viewManager.readCommand();
 
             switch (command) {
                 case CREATE -> createVoucher();
                 case LIST -> showAllVouchers();
             }
+            command = viewManager.readCommand();
         }
     }
 
