@@ -55,36 +55,52 @@ public class ConsoleMenu implements CommandLineRunner {
 
         switch (commandType) {
             case CREATE -> {
-                log.info("Create voucher.");
-                VoucherCreateRequest voucherCreateRequest = console.inputVoucherCreateInfo();
-                UUID voucherId = voucherService.createVoucher(voucherCreateRequest);
-
-                console.print("Created new voucher. VoucherID: " + voucherId.toString());
-                log.info("End create voucher.");
+                createVoucher();
             }
             case LIST -> {
-                log.info("Lists the vouchers.");
-                List<Voucher> vouchers = voucherService.findVouchers();
-
-                String vouchersForPrint = vouchers.stream()
-                        .map(Voucher::fullInfoString)
-                        .reduce("", (a, b) -> a + "\n" + b);
-
-                console.print(vouchersForPrint);
-                log.info("End listing the vouchers.");
+                listVouchers();
             }
             case HELP -> {
-                log.info("Prints the help commands.");
-                console.printCommandSet();
+                printCommandSet();
             }
             case EXIT -> {
-                log.info("Exit the console.");
-                console.exit();
-
-                return false;
+                return exitConsole();
             }
         }
 
         return true;
+    }
+
+    private void createVoucher() {
+        log.info("Create voucher.");
+        VoucherCreateRequest voucherCreateRequest = console.inputVoucherCreateInfo();
+        UUID voucherId = voucherService.createVoucher(voucherCreateRequest);
+
+        console.print("Created new voucher. VoucherID: " + voucherId.toString());
+        log.info("End create voucher.");
+    }
+
+    private void listVouchers() {
+        log.info("Lists the vouchers.");
+        List<Voucher> vouchers = voucherService.findVouchers();
+
+        String vouchersForPrint = vouchers.stream()
+                .map(Voucher::fullInfoString)
+                .reduce("", (a, b) -> a + "\n" + b);
+
+        console.print(vouchersForPrint);
+        log.info("End listing the vouchers.");
+    }
+
+    private void printCommandSet() {
+        log.info("Prints the help commands.");
+        console.printCommandSet();
+    }
+
+    private boolean exitConsole() {
+        log.info("Exit the console.");
+        console.exit();
+
+        return false;
     }
 }
