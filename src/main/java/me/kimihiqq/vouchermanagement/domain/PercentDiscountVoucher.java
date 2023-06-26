@@ -1,7 +1,10 @@
 package me.kimihiqq.vouchermanagement.domain;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.UUID;
 
+@Slf4j
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
@@ -30,7 +33,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return (beforeDiscount * (discount / 100));
+        long discountedPrice = beforeDiscount * discount / 100;
+        log.info("Discount applied: {}% - Before discount: {}, Discounted price: {}", discount, beforeDiscount, discountedPrice);
+        return discountedPrice;
     }
-
 }

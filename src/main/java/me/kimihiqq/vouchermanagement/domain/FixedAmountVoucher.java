@@ -35,8 +35,7 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         long discountedPrice = Math.max(0, beforeDiscount - discount);
-        log.info("Applied discount: {}", discount);
-        log.info("Price after discount: {}", discountedPrice);
+        log.info("Discount applied: {} - Price before discount: {}, Price after discount: {}", discount, beforeDiscount, discountedPrice);
         return discountedPrice;
     }
 }
