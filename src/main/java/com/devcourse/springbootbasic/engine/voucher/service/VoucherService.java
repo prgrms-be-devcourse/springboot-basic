@@ -5,6 +5,8 @@ import com.devcourse.springbootbasic.engine.voucher.domain.FixedAmountVoucher;
 import com.devcourse.springbootbasic.engine.voucher.domain.PercentDiscountVoucher;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import com.devcourse.springbootbasic.engine.voucher.domain.VoucherDto;
+import com.devcourse.springbootbasic.engine.voucher.domain.factory.FixedVoucherFactory;
+import com.devcourse.springbootbasic.engine.voucher.domain.factory.PercentVoucherFactory;
 import com.devcourse.springbootbasic.engine.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,9 @@ public class VoucherService {
 
     private Voucher convertDtoToDomain(VoucherDto voucherDto) {
         if (voucherDto.voucherType().equals(VoucherType.FIXED_AMOUNT)) {
-            return new FixedAmountVoucher(UUID.randomUUID(), voucherDto.voucherType(), voucherDto.discountValue());
+            return new FixedVoucherFactory().create(voucherDto.discountValue());
         }
-        return new PercentDiscountVoucher(UUID.randomUUID(), voucherDto.voucherType(), voucherDto.discountValue());
+        return new PercentVoucherFactory().create(voucherDto.discountValue());
     }
 
     public Voucher createVoucher(VoucherDto voucherDto) {
