@@ -34,7 +34,7 @@ class VoucherServiceImplTest {
 
     @Test
     void testCreateVoucher() {
-        VoucherDto voucherDto = new VoucherDto("fixed", "10");
+        VoucherDto voucherDto = new VoucherDto("fixed", 10);
         when(voucherRepository.save(any(Voucher.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 

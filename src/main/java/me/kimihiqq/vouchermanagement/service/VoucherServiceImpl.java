@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-
 @RequiredArgsConstructor
 @Service
 public class VoucherServiceImpl implements VoucherService {
@@ -22,10 +21,10 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Voucher createVoucher(VoucherDto voucherDto) {
-        log.info("Creating voucher with type: " + voucherDto.getType() + " and discount: " + voucherDto.getDiscount());
+        log.info("Creating voucher with type: {} and discount: {}", voucherDto.getType(), voucherDto.getDiscount());
         Voucher voucher;
         String type = voucherDto.getType();
-        long discount = Long.parseLong(voucherDto.getDiscount());
+        long discount = voucherDto.getDiscount();
 
         if (type.equalsIgnoreCase("fixed")) {
             voucher = new FixedAmountVoucher(UUID.randomUUID(), type, discount);
@@ -34,7 +33,7 @@ public class VoucherServiceImpl implements VoucherService {
         } else {
             throw new IllegalArgumentException("Invalid voucher type: " + type);
         }
-        log.info("Voucher created with id: " + voucher.getVoucherId());
+        log.info("Voucher created with id: {}", voucher.getVoucherId());
         return voucherRepository.save(voucher);
     }
 
