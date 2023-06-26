@@ -18,6 +18,7 @@ public class Console implements Input, Output {
         try {
             return reader.readLine();
         } catch (IOException e) {
+            log.error("Error reading input", e);
             throw new RuntimeException("Error reading input", e);
         }
     }
@@ -33,7 +34,7 @@ public class Console implements Input, Output {
             try {
                 return Long.parseLong(readLine(prompt));
             } catch (NumberFormatException e) {
-                log.error("Invalid number input. Try again.");
+                log.error("Invalid number input. Try again.", e);
             }
         }
     }
@@ -45,6 +46,7 @@ public class Console implements Input, Output {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
+            log.error("Error writing input", e);
             throw new RuntimeException("Error writing input", e);
         }
     }
