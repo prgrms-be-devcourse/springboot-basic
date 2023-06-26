@@ -7,6 +7,7 @@ import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,12 +25,16 @@ public class VoucherService {
                 orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId));
     }
 
-    public static List<VoucherDTO> toVoucherDTOList(List<Voucher> voucherList) {
-        return voucherList.stream()
-                .map(voucher -> new VoucherDTO(VoucherType.of(voucher.getVoucherTypeNum()),
+    public Optional<List<VoucherDTO>> toVoucherDTOList() {
+        if(voucherRepository.findAll().isEmpty())
+            return Optional.empty();
+        return Optional.of(voucherRepository.
+                findAll().
+                stream().
+                map(voucher -> new VoucherDTO(VoucherType.of(voucher.getVoucherTypeNum()),
                         voucher.getVoucherName(),
                         voucher.getBenefit()))
-                .toList();
+                .toList());
     }
 
     public void userVoucher(Voucher voucher) {

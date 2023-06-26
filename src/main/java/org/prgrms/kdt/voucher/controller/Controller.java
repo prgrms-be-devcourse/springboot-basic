@@ -2,25 +2,21 @@ package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.voucher.model.Command;
 import org.prgrms.kdt.voucher.model.Menu;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.view.Input;
 import org.prgrms.kdt.voucher.view.Output;
-
-import java.util.stream.Stream;
 
 public class Controller {
     // VoucherRepository로부터 Controller로 DTO로 받는다..?
     private final Input input;
     private final Output output;
-    private final VoucherRepository voucherRepository;
-    private final Stream<Menu> menuStream = Menu.getMenusToStream();
+    private final VoucherService voucherService;
 
 
-    public Controller(Input input, Output output, VoucherRepository voucherRepository) {
+    public Controller(Input input, Output output, VoucherService voucherService) {
         this.input = input;
         this.output = output;
-        this.voucherRepository = voucherRepository;
+        this.voucherService = voucherService;
     }
 
     public void run() {
@@ -38,8 +34,8 @@ public class Controller {
                     }
                     // 여기서 DTO로 만들어야 됨.
                     case LIST -> {
-                        output.showVoucherList(VoucherService
-                                .toVoucherDTOList(voucherRepository.findAll()));
+                        output.showVoucherList(voucherService
+                                .toVoucherDTOList());
                     }
                 }
             } catch(IllegalArgumentException e) {
