@@ -1,34 +1,27 @@
 package org.programers.vouchermanagement.member.domain;
 
 import org.programers.vouchermanagement.util.Converter;
-import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemberRepository {
 
-    private static final File file = new File("src/main/resources/blacklist.csv");
+    private static final Path file = Paths.get("src/main/resources/voucher.txt");
 
     public List<Member> findAllByBlackStatus() {
-        List<Member> result = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Member member = Converter.toMember(line);
-                result.add(member);
-            }
-            reader.close();
-            return result;
+            return Files.readAllLines(file).stream()
+                    .map(Converter::toMember)
+                    .collect(Collectors.toList());
         } catch (IOException e) {
-            throw new NoSuchVoucherException("IO 문제로 바우처가 조회되지 않았습니다.");
+            throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.");
         }
     }
 }
