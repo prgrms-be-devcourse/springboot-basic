@@ -13,7 +13,6 @@ import prgms.spring_week1.exception.NoSuchVoucherType;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.UUID;
 import java.util.stream.Stream;
 

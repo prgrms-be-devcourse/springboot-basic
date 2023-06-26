@@ -11,7 +11,6 @@ import prgms.spring_week1.exception.NoSuchVoucherType;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
-import java.io.IOException;
 
 @Component
 public class CommandLine implements Runnable{
@@ -20,6 +19,7 @@ public class CommandLine implements Runnable{
     private final VoucherRepository voucherRepository;
     private final VoucherService voucherService;
     private final CustomerService customerService;
+    private boolean IS_RUNNING = true;
 
     public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
@@ -28,8 +28,6 @@ public class CommandLine implements Runnable{
         this.voucherService = voucherService;
         this.customerService = customerService;
     }
-
-    private final boolean IS_RUNNING = true;
 
     @Override
     public void run() {
