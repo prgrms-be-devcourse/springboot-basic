@@ -16,8 +16,9 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeAmount) {
-        if (isResultNegative(beforeAmount))
+        if (isResultNegative(beforeAmount)) {
             return 0L;
+        }
 
         return beforeAmount - fixedAmount;
     }
