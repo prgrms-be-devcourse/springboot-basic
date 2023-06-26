@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.commendLine.ConsoleInput;
 import org.prgrms.kdt.commendLine.ConsoleOutput;
+import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
@@ -19,9 +20,18 @@ public class VoucherController {
     }
 
     public void create() throws IOException {
-        String inputType = ConsoleInput.getVoucherTypes();
-        VoucherType voucherType = VoucherType.getType(inputType);
-        voucherService.createVoucher(voucherType);
+        boolean isRunning = true;
+        while (isRunning){
+            try {
+                String inputType = ConsoleInput.getVoucherTypes();
+                VoucherType voucherType = VoucherType.getType(inputType);
+                voucherService.createVoucher(voucherType);
+                isRunning = false;
+
+            }catch (InvalidInputException e){
+                ConsoleOutput.printMessage("지원하지 않는 바우처 입니다.");
+            }
+        }
     }
 
     public void findAll() throws IOException {

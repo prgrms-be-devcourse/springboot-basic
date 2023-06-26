@@ -28,6 +28,10 @@ public class ConsoleOutput {
                 .forEach(e -> System.out.println(e.getMemberName()));
     }
 
+    public static void printMessage(String str){
+        System.out.println(str);
+    }
+
     public static void printError(){
         System.out.println("잘못된 입력입니다. 다시 입력해 주십시오");
     }
