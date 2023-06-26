@@ -3,32 +3,18 @@ package com.programmers.voucher.domain;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher extends Voucher{
     private static final int MAX_DISCOUNT_AMOUNT = 100;
     private static final int MIN_DISCOUNT_AMOUNT = 0;
 
-    private final UUID voucherId;
-    private final long discountAmount;
-
     protected PercentDiscountVoucher(UUID voucherId, long discountAmount) {
-        this.voucherId = voucherId;
-        this.discountAmount = discountAmount;
+        super(voucherId, discountAmount);
     }
 
     public static Voucher of(UUID voucherId, long discountAmount) {
         validateVoucherId(voucherId);
         validateDiscountAmount(discountAmount);
         return new PercentDiscountVoucher(voucherId, discountAmount);
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
-    public long getDiscountAmount() {
-        return discountAmount;
     }
 
     @Override
