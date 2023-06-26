@@ -1,0 +1,6 @@
+[ Voucher Type = Fixed Amount Voucher, Id = e876b46c-c5d9-4ee7-83b6-779aa2416a47, discount amount = 2, voucher name = Fixed1 ]
+[ Voucher Type = Percent Discount Voucher, Id = 9d99424c-2603-4593-b4d4-cd5a7918ff6c, discount percent = 22, voucher name = Percent1 ]
+[ Voucher Type = Percent Discount Voucher, Id = 980b9b89-4c95-4304-9941-3c01f5d4593e, discount percent = 2, voucher name = Percent2 ]
+[ Voucher Type = Fixed Amount Voucher, Id = 3a3c55f0-92a2-4b14-a2c3-0ca051414523, discount amount = 3, voucher name = Fixed2 ]
+[ Voucher Type = Percent Discount Voucher, Id = e2b2c6f4-5d91-4f24-b557-1dd50b257b88, discount percent = 3, voucher name = Percent3 ]
+[ Voucher Type = Percent Discount Voucher, Id = cf7cc4ad-9150-43fe-8647-d07546a1a39a, discount percent = 55, voucher name = Percent4 ]

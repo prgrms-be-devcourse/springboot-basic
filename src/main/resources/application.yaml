@@ -11,5 +11,4 @@ spring:
 
 file:
   voucher:
-    file-path: src/main/resources/voucher_memory.csv
-
+    file-path: src/main/resources/voucher_file.csv
