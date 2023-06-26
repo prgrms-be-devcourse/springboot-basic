@@ -4,7 +4,7 @@ import com.programmers.voucher.util.VoucherErrorMessages;
 
 public class PercentValidationStrategy implements VoucherValidationStrategy {
     @Override
-    public void validateAmount(Integer percent) {
+    public void validateAmount(int percent) {
         if (percent < 0 || percent > 100) {
             String exceptionMessage = VoucherErrorMessages.INVALID_PERCENT_DISCOUNT + percent;
 

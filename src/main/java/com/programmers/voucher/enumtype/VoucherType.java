@@ -52,7 +52,7 @@ public enum VoucherType {
                 });
     }
 
-    public void validateAmount(Integer amount) {
+    public void validateAmount(int amount) {
         voucherValidator.validateAmount(amount);
     }
 
