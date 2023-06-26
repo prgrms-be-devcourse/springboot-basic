@@ -42,7 +42,6 @@ public class FileVoucherRepository implements VoucherRepository{
         String voucherString = Converter.voucherToString(voucher);
         writer.append(voucherString);
         writer.append("\n");
-        writer.flush();
         writer.close();
         return voucher;
     }
