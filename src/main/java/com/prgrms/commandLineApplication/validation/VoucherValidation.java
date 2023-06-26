@@ -24,9 +24,11 @@ public class VoucherValidation {
     }
   }
 
-  public static void checkType(String voucherType) {
-    if (!voucherType.equals("fixed") || !voucherType.equals("percent")) {
-      throw new IllegalArgumentException("Invalid Type");
+  public static String checkType(String voucherType) {
+    if (voucherType.equals("fixed") || voucherType.equals("percent")) {
+      return voucherType;
     }
+    throw new IllegalArgumentException("Invalid Type");
   }
+
 }
