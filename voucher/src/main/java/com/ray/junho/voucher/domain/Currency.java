@@ -20,20 +20,16 @@ public class Currency {
         }
     }
 
-    public Currency discountedWithFixedPrice(Currency discountValue) {
-        validateFixedAmount(discountValue);
-        return new Currency(this.value - discountValue.value);
+    public long minus(long value) {
+        return this.value - value;
     }
 
-    private void validateFixedAmount(Currency discountValue) {
-        if (this.value < discountValue.value) {
-            throw new IllegalArgumentException("기존 금액 보다 바우처의 할인율이 더 큽니다");
-        }
+    public boolean isLessThan(int value) {
+        return this.value < value;
     }
 
-    public Currency discountedWithPercentage(int discountRate) {
-        long discountedValue = (long) (this.value * ((double) discountRate / 100));
-        return new Currency(this.value - discountedValue);
+    public long multiply(double value) {
+        return (long) (this.value * value);
     }
 
     @Override
