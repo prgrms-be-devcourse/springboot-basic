@@ -6,6 +6,7 @@ import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
+import prgms.spring_week1.exception.EmptyListException;
 import prgms.spring_week1.exception.NoSuchOptionValue;
 import prgms.spring_week1.exception.NoSuchVoucherType;
 import prgms.spring_week1.io.Input;
@@ -67,11 +68,11 @@ public class CommandLine implements Runnable{
     }
 
     private void printAllVoucher(){
-        if(!voucherRepository.findAll().isEmpty()){
+        try{
             output.printAllVoucher(voucherRepository.findAll());
-        }
-        else{
+        }catch (EmptyListException e){
             output.printEmptyListMessage();
         }
+
     }
 }
