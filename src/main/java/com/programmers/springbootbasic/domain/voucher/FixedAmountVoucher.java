@@ -28,12 +28,6 @@ public class FixedAmountVoucher extends Voucher {
         return priceBeforeDiscount - amount;
     }
 
-    @Override
-    public Long discount(Long priceBeforeDiscount) {
-        setVoucherState(VoucherState.USED);
-        return getDiscountPrice(priceBeforeDiscount);
-    }
-
     private boolean isInvalidAmount(int amount) {
         return amount < MIN_AMOUNT || MAX_AMOUNT < amount;
     }

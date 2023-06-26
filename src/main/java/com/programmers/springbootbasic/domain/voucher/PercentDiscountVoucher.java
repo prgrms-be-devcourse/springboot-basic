@@ -28,12 +28,6 @@ public class PercentDiscountVoucher extends Voucher {
         return Math.round((discountedPrice) / tenForRound) * tenForRound;
     }
 
-    @Override
-    public Long discount(Long priceBeforeDiscount) {
-        setVoucherState(VoucherState.USED);
-        return getDiscountPrice(priceBeforeDiscount);
-    }
-
     private boolean isInvalidRange(int percent) {
         return percent < MIN_PERCENT || MAX_PERCENT < percent;
     }

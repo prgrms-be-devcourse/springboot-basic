@@ -8,7 +8,7 @@ public abstract class Voucher {
     private final String name;
     private final Long minimumPriceCondition;
     private final LocalDateTime expirationDate;
-    private VoucherState state = VoucherState.AVAILABLE;
+    private boolean used = false;
 
     protected Voucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime expirationDate) {
         if (isInvalidVoucherId(voucherId)) {
@@ -38,8 +38,17 @@ public abstract class Voucher {
         return expirationDate;
     }
 
-    public VoucherState getState() {
-        return state;
+    public Long discount(Long priceBeforeDiscount) {
+        used = true;
+        return getDiscountPrice(priceBeforeDiscount);
+    }
+
+    public boolean isExpiration(LocalDateTime now) {
+        return now.isAfter(expirationDate);
+    }
+
+    public boolean isUsed() {
+        return used;
     }
 
     private boolean isInvalidVoucherId(UUID voucherId) {
@@ -55,15 +64,5 @@ public abstract class Voucher {
         return now.isAfter(expirationDate);
     }
 
-    protected boolean isExpiration(LocalDateTime now) {
-        return now.isAfter(expirationDate);
-    }
-
-    protected void setVoucherState(VoucherState toChange) {
-        state = toChange;
-    }
-
     protected abstract Long getDiscountPrice(Long priceBeforeDiscount);
-
-    protected abstract Long discount(Long priceBeforeDiscount);
 }
