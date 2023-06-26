@@ -21,7 +21,7 @@ public class VoucherController {
         return voucherService.getVoucherList();
     }
 
-    public void createVoucher(VoucherType voucherType, String voucherDetails) {
-        voucherService.createVoucher(voucherType, voucherDetails);
+    public void createVoucher(VoucherType voucherType, Double voucherDetail) {
+        voucherService.createVoucher(voucherType, voucherDetail);
     }
 }

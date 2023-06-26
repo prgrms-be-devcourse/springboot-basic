@@ -2,11 +2,11 @@ package org.prgrms.application.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher<Long> {
+public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private final double amount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, double amount) {
         if (amount <= 0) throw new IllegalArgumentException("금액은 양수여야 합니다.");
         this.voucherId = voucherId;
         this.amount = amount;
@@ -18,8 +18,8 @@ public class FixedAmountVoucher implements Voucher<Long> {
     }
 
     @Override
-    public Long discount(Long beforeDiscount) {
-        long discountedAmount = beforeDiscount - amount;
+    public Double discount(Double beforeDiscount) {
+        double discountedAmount = beforeDiscount - amount;
         return (discountedAmount < 0) ? 0 : discountedAmount;
     }
 

@@ -8,7 +8,6 @@ public enum CommandType {
     CREATE,
     LIST;
 
-
     public static Optional<CommandType> findBySelection(String selection) {
         return Arrays.stream(values())
                 .filter(s -> s.name().equals(selection.toUpperCase()))

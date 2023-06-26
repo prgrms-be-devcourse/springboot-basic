@@ -2,9 +2,9 @@ package org.prgrms.application.domain;
 
 import java.util.UUID;
 
-public interface Voucher<T> {
+public interface Voucher {
 
     UUID getVoucherId();
 
-    T discount(T beforeDiscount);
+    Double discount(Double beforeDiscount);
 }

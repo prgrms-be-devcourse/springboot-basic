@@ -9,7 +9,7 @@ import java.util.UUID;
 @Component
 public class OutputView {
 
-    public void printSelection() {
+    public void printSelect() {
         System.out.println("=== Voucher Program ===");
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
@@ -21,5 +21,11 @@ public class OutputView {
         for (Map.Entry<UUID, Voucher> entry : storage.entrySet()) {
             System.out.println("바우처 정보 : " + entry.getValue().toString());
         }
+    }
+
+    public void printSelectVoucherType(){
+        System.out.println("Select VoucherType");
+        System.out.println("Fixed");
+        System.out.println("Percent");
     }
 }

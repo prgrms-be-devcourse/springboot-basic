@@ -21,8 +21,8 @@ public class VoucherService {
         this.voucherFactory = voucherFactory;
     }
 
-    public void createVoucher(VoucherType voucherType, String voucherDetails) {
-        Voucher voucher = voucherFactory.create(voucherType, voucherDetails);
+    public void createVoucher(VoucherType voucherType, Double voucherDetail) {
+        Voucher voucher = voucherFactory.create(voucherType, voucherDetail);
         voucherRepository.insert(voucher);
     }
 

@@ -28,19 +28,19 @@ public class Command implements CommandLineRunner {
     @Override
     public void run(String... args) {
         while (isRunning) {
-            outputView.printSelection();
-            String selection = inputView.selectCommandType();
-            Optional<CommandType> commandType = CommandType.findBySelection(selection);
-            executeCommand(commandType.orElseThrow(() -> new RuntimeException("잘못된 입력입니다.")));
+            outputView.printSelect();
+            CommandType commandType = inputView.selectCommandType();
+            executeCommand(commandType);
         }
     }
 
     private void executeCommand(CommandType commandType) {
         switch (commandType) {
             case CREATE -> {
+                outputView.printSelectVoucherType();
                 VoucherType voucherType = inputView.selectVoucherType();
-                String voucherDetails = inputView.inputVoucherDetails();
-                voucherController.createVoucher(voucherType, voucherDetails);
+                Double voucherDetail = inputView.inputVoucherDetails();
+                voucherController.createVoucher(voucherType, voucherDetail);
             }
 
             case LIST -> outputView.printStorageList(voucherController.getStorage());
