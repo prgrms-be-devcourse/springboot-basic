@@ -56,7 +56,7 @@ public class VoucherController implements CommandLineRunner {
         VoucherPolicy voucherPolicy = VoucherPolicy.find(voucherView.readVoucherType());
         log.debug("voucher type input: {}", voucherPolicy);
         log.info("Voucher Controller: read voucher amount input");
-        Voucher voucher = voucherFactory.getVoucher(voucherPolicy, voucherView.readAmount());
+        Voucher voucher = voucherFactory.createVoucher(voucherPolicy, voucherView.readAmount());
         log.debug("voucher amount input: {}", voucher);
 
         voucherService.save(voucher);

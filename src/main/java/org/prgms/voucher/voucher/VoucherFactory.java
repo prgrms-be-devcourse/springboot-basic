@@ -12,7 +12,7 @@ public class VoucherFactory {
     private final long MIN_PERCENTAGE = 0L;
     private final long MAX_PERCENTAGE = 100L;
 
-    public Voucher getVoucher(VoucherPolicy voucherPolicy, long amount) {
+    public Voucher createVoucher(VoucherPolicy voucherPolicy, long amount) {
         switch (voucherPolicy) {
             case PERCENT_DISCOUNT:
                 validatePercentage(amount);
