@@ -10,27 +10,27 @@ public enum Command {
     CREATE("create", "create a new voucher."),
     LIST("list", "list all vouchers.");
 
-    private final String code;
+    private final String name;
     private final String text;
 
-    Command(String code, String text) {
-        this.code = code;
+    Command(String name, String text) {
+        this.name = name;
         this.text = text;
     }
 
-    public static Command findByCode(String code) {
+    public static Command findByName(String name) {
         return Arrays.stream(Command.values())
-                .filter(command -> command.equals(code))
+                .filter(command -> command.equals(name))
                 .findFirst()
                 .orElseThrow(() -> new InvalidCommandException(ErrorMessage.INVALID_COMMAND));
     }
 
-    private boolean equals(String code) {
-        return this.code.equals(code);
+    private boolean equals(String name) {
+        return this.name.equals(name);
     }
 
-    public String getCode() {
-        return code;
+    public String getName() {
+        return name;
     }
 
     public String getText() {

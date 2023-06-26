@@ -1,9 +1,8 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.constant.Style;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.view.dto.Command;
-import com.programmers.voucher.view.dto.VoucherCommand;
+import com.programmers.voucher.view.dto.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -19,20 +18,20 @@ public class ConsoleOutput implements Output {
         textTerminal.println("=== Voucher Program ===");
 
         Arrays.stream(Command.values())
-                .forEach(command -> { //TODO 반복 코드 개선
+                .forEach(command -> {
                     textTerminal.print("Type ");
-                    textTerminal.print(Style.apply(command.getCode(), Style.BOLD));
+                    textTerminal.print(ConsoleStyle.bold(command.getName()));
                     textTerminal.println(" to " + command.getText());
                 });
     }
 
     @Override
-    public void displayVoucherCommands() {
-        Arrays.stream(VoucherCommand.values())
-                .forEach(command -> {
+    public void displayVoucherType() {
+        Arrays.stream(VoucherType.values())
+                .forEach(voucher -> {
                     textTerminal.print("Type ");
-                    textTerminal.print(Style.apply(command.getCode(), Style.BOLD));
-                    textTerminal.println(" to " + command.getText());
+                    textTerminal.print(ConsoleStyle.bold(voucher.getName()));
+                    textTerminal.println(" to " + voucher.getText());
                 });
     }
 

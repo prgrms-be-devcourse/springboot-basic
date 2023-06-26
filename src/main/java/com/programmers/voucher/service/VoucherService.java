@@ -5,7 +5,7 @@ import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.view.dto.DiscountAmount;
-import com.programmers.voucher.view.dto.VoucherCommand;
+import com.programmers.voucher.view.dto.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherCommand voucherCommand, DiscountAmount discountAmount) {
-        Voucher voucher = switch (voucherCommand) {
+    public Voucher createVoucher(VoucherType voucherType, DiscountAmount discountAmount) {
+        Voucher voucher = switch (voucherType) {
             case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discountAmount.getAmount());
             case PERCENT_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), discountAmount.getAmount());
         };

@@ -6,7 +6,7 @@ import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.dto.Command;
 import com.programmers.voucher.view.dto.DiscountAmount;
-import com.programmers.voucher.view.dto.VoucherCommand;
+import com.programmers.voucher.view.dto.VoucherType;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -35,11 +35,11 @@ public class VoucherController implements Runnable {
             switch (command) {
                 case EXIT -> running.set(false);
                 case CREATE -> {
-                    output.displayVoucherCommands();
-                    VoucherCommand voucherCommand = input.readVoucherCommand();
-                    DiscountAmount discountAmount = input.readDiscountAmount(voucherCommand);
+                    output.displayVoucherType();
+                    VoucherType voucherType = input.readVoucherType();
+                    DiscountAmount discountAmount = input.readDiscountAmount(voucherType);
 
-                    Voucher voucher = createVoucher(voucherCommand, discountAmount);
+                    Voucher voucher = createVoucher(voucherType, discountAmount);
                     output.displayCreatedVoucher(voucher);
                 }
                 case LIST -> getVoucherList().forEach(output::displayVoucher);
@@ -47,8 +47,8 @@ public class VoucherController implements Runnable {
         }
     }
 
-    private Voucher createVoucher(VoucherCommand voucherCommand, DiscountAmount discountAmount) {
-        return voucherService.createVoucher(voucherCommand, discountAmount);
+    private Voucher createVoucher(VoucherType voucherType, DiscountAmount discountAmount) {
+        return voucherService.createVoucher(voucherType, discountAmount);
     }
 
     private List<Voucher> getVoucherList() {

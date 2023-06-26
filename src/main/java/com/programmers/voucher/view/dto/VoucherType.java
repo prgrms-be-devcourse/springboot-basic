@@ -5,31 +5,31 @@ import com.programmers.voucher.exception.InvalidCommandException;
 
 import java.util.Arrays;
 
-public enum VoucherCommand { //TODO VoucherType
+public enum VoucherType {
     FIXED_AMOUNT("fixed", "create a fixed amount voucher."),
     PERCENT_DISCOUNT("percent", "create a percent discount voucher.");
 
-    private final String code;
+    private final String name;
     private final String text;
 
-    VoucherCommand(String code, String text) {
-        this.code = code;
+    VoucherType(String name, String text) {
+        this.name = name;
         this.text = text;
     }
 
-    public static VoucherCommand findByCode(String code) {
-        return Arrays.stream(VoucherCommand.values())
-                .filter(menu -> menu.equals(code))
+    public static VoucherType findByName(String name) {
+        return Arrays.stream(VoucherType.values())
+                .filter(voucher -> voucher.equals(name))
                 .findFirst()
                 .orElseThrow(() -> new InvalidCommandException(ErrorMessage.INVALID_COMMAND));
     }
 
-    private boolean equals(String code) {
-        return this.code.equals(code);
+    private boolean equals(String name) {
+        return this.name.equals(name);
     }
 
-    public String getCode() {
-        return code;
+    public String getName() {
+        return name;
     }
 
     public String getText() {

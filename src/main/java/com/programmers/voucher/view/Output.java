@@ -5,7 +5,7 @@ import com.programmers.voucher.domain.Voucher;
 public interface Output {
     void displayCommands();
 
-    void displayVoucherCommands();
+    void displayVoucherType();
 
     void displayCreatedVoucher(Voucher voucher);
 
