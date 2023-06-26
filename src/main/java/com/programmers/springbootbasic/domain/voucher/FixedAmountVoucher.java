@@ -9,17 +9,13 @@ public class FixedAmountVoucher extends Voucher {
     static int MAX_AMOUNT = 10_000_000;
 
     public FixedAmountVoucher(UUID voucherId, String name, LocalDateTime expirationDate, int amount) {
-        super(voucherId, name, expirationDate);
-        if (isInvalidAmount(amount)) {
-            throw new IllegalArgumentException("잘못된 할인 금액");
-        }
-        this.amount = amount;
+        this(voucherId, name, 0L, expirationDate, amount);
     }
 
     public FixedAmountVoucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime expirationDate, int amount) {
         super(voucherId, name, minimumPriceCondition, expirationDate);
         if (isInvalidAmount(amount)) {
-            throw new IllegalArgumentException("잘못된 할인 금액");
+            throw new IllegalArgumentException("잘못된 할인 금액, amount=" + amount);
         }
         this.amount = amount;
     }
