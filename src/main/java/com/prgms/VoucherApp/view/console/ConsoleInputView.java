@@ -1,6 +1,6 @@
 package com.prgms.VoucherApp.view.console;
 
-import com.prgms.VoucherApp.domain.VoucherPolicy;
+import com.prgms.VoucherApp.domain.VoucherType;
 import com.prgms.VoucherApp.view.Command;
 import com.prgms.VoucherApp.view.Input;
 import org.beryx.textio.TextIO;
@@ -26,7 +26,6 @@ public class ConsoleInputView implements Input {
                 .withInlinePossibleValues("exit", "create", "list")
                 .withValueChecker((val, itemName) -> {
                     if (!Command.containsCommand(val)) {
-                        System.out.println(this.getClass().getCanonicalName() + " , " + this.getClass().descriptorString());
                         log.warn("inputCommand [{}] is invalid value", val);
                         return List.of("Please input a valid value.");
                     }
@@ -41,8 +40,7 @@ public class ConsoleInputView implements Input {
                 .withInputTrimming(true)
                 .withInlinePossibleValues("fix", "percent")
                 .withValueChecker((val, itemName) -> {
-                    if (!VoucherPolicy.containsVoucherPolicy(val)) {
-                        System.out.println(this.getClass().getCanonicalName() + " , " + this.getClass().descriptorString());
+                    if (!VoucherType.containsVoucherPolicy(val)) {
                         log.warn("inputVoucherPolicy [{}] is invalid value", val);
                         return List.of("Please input a valid value.");
                     }
@@ -52,7 +50,7 @@ public class ConsoleInputView implements Input {
     }
 
     @Override
-    public Long inputDiscountAmount(VoucherPolicy policy) {
+    public Long inputDiscountAmount(VoucherType policy) {
         return switch (policy) {
             case FIXED_VOUCHER -> textIO.newLongInputReader()
                     .withInputTrimming(true)

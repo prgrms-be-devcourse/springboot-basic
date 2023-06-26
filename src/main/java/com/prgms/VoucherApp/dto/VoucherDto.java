@@ -1,6 +1,6 @@
 package com.prgms.VoucherApp.dto;
 
-import com.prgms.VoucherApp.domain.VoucherPolicy;
+import com.prgms.VoucherApp.domain.VoucherType;
 
 import java.util.UUID;
 
@@ -8,12 +8,12 @@ public class VoucherDto {
 
     private final UUID voucherId;
     private final Long discountAmount;
-    private final VoucherPolicy voucherType;
+    private final VoucherType voucherType;
 
     public VoucherDto(String voucherId, String discountAmount, String voucherType) {
         this.voucherId = UUID.fromString(voucherId);
         this.discountAmount = Long.parseLong(discountAmount);
-        this.voucherType = VoucherPolicy.findByPolicy(voucherType);
+        this.voucherType = VoucherType.findByPolicy(voucherType);
     }
 
     public UUID getVoucherId() {
@@ -24,7 +24,7 @@ public class VoucherDto {
         return discountAmount;
     }
 
-    public VoucherPolicy getVoucherType() {
+    public VoucherType getVoucherType() {
         return voucherType;
     }
 }

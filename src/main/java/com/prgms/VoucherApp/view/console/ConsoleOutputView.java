@@ -1,7 +1,7 @@
 package com.prgms.VoucherApp.view.console;
 
 import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.domain.VoucherPolicy;
+import com.prgms.VoucherApp.domain.VoucherType;
 import com.prgms.VoucherApp.view.Output;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -67,7 +67,7 @@ public class ConsoleOutputView implements Output {
     @Override
     public void printDisplayVoucherPolicy() {
         textTerminal.println("=== Voucher Create ===");
-        for (VoucherPolicy policy : VoucherPolicy.values()) {
+        for (VoucherType policy : VoucherType.values()) {
             textTerminal.print("Type ");
             textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
                 terminalProperties.setPromptBold(true);
@@ -77,7 +77,7 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printDisplayDiscountCondition(VoucherPolicy policy) {
+    public void printDisplayDiscountCondition(VoucherType policy) {
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
             terminalProperties.setPromptColor(Color.red);
