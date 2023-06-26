@@ -21,14 +21,14 @@ public class FileCustomerRepository implements CustomerRepository{
     private final Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
 
     @Value("${file.customer.path}")
-    private String file_path;
+    private String filePath;
 
     @Override
     public Map<UUID, Customer> getBlackList() {
         return new ConcurrentHashMap<>(customerMap);
     }
 
-    private void ifCustomerBlackSaveCustomer(String[] readLine){
+    private void saveIfBlacklistedCustomer(String[] readLine){
         UUID uuid = UUID.fromString(readLine[0]);
         CustomerType customerType = CustomerType.findCustomerType(readLine[1]);
 
@@ -40,13 +40,13 @@ public class FileCustomerRepository implements CustomerRepository{
     }
 
     @PostConstruct
-    public void loadingBlackListToMemory(){
-        try(BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path))) {
+    public void isBlacklistedCustomer(){
+        try(BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath))) {
             String line = "";
 
             while((line = bufferedReader.readLine()) != null){
                 String[] readLine = line.split(",");
-                ifCustomerBlackSaveCustomer(readLine);
+                saveIfBlacklistedCustomer(readLine);
             }
 
         } catch (Exception e){

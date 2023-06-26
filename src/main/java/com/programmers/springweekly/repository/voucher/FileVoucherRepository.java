@@ -22,11 +22,11 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 
     @Value("${file.voucher.path}")
-    private String file_path;
+    private String filePath;
 
     @Override
     public void saveVoucher(Voucher voucher) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file_path, true));) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
 
             String voucherId = String.valueOf(voucher.getVoucherId());
             String voucherAmount = String.valueOf(voucher.getVoucherAmount());
@@ -46,7 +46,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Map<UUID, Voucher> getVoucherMap() {
-        try(BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(file_path))){
+        try(BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath))){
             String line = "";
 
             while ((line = bufferedReader.readLine()) != null) {

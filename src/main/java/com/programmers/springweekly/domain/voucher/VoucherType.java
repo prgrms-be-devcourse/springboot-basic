@@ -1,8 +1,5 @@
 package com.programmers.springweekly.domain.voucher;
 
-import com.programmers.springweekly.domain.customer.CustomerType;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
