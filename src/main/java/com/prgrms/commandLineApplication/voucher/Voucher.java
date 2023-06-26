@@ -1,5 +1,7 @@
 package com.prgrms.commandLineApplication.voucher;
 
+import com.prgrms.commandLineApplication.validation.VoucherValidation;
+
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -9,7 +11,7 @@ public abstract class Voucher {
   private final String voucherType;
 
   protected Voucher(UUID voucherId, String voucherType, double discountAmount) {
-    validateVoucherId(voucherId);
+    VoucherValidation.checkId(voucherId);
     this.voucherId = voucherId;
     this.voucherType = voucherType;
     this.discountAmount = discountAmount;
@@ -27,14 +29,6 @@ public abstract class Voucher {
     return voucherType;
   }
 
-  public void validateVoucherId(UUID voucherId) {
-    if (voucherId == null) {
-      throw new IllegalArgumentException("Invalid ID");
-    }
-  }
-
   abstract double discount(double price);
-
-  abstract void validateDiscountAmount(double discountAmount);
 
 }
