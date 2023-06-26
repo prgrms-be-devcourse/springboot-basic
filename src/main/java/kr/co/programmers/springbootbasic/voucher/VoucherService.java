@@ -1,5 +1,8 @@
 package kr.co.programmers.springbootbasic.voucher;
 
+import kr.co.programmers.springbootbasic.dto.VoucherRequestDto;
+import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.util.VoucherUtils;
 import kr.co.programmers.springbootbasic.voucher.impl.FixedAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.impl.PercentAmountVoucher;
 import org.slf4j.Logger;
@@ -18,9 +21,12 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType type, long amount) throws RuntimeException {
+    public VoucherResponseDto createVoucher(VoucherRequestDto requestDto) throws RuntimeException {
         logger.info("바우처를 생성합니다...");
         UUID voucherId = UUID.randomUUID();
+        VoucherType type = requestDto.getType();
+        long amount = requestDto.getAmount();
+
         Voucher voucher = switch (type) {
             case FIXED_AMOUNT -> new FixedAmountVoucher(voucherId, amount);
             case PERCENT_AMOUNT -> new PercentAmountVoucher(voucherId, amount);
@@ -28,11 +34,15 @@ public class VoucherService {
         voucherRepository.save(voucherId, voucher);
         logger.info("바우처 생성에 성공했습니다.");
 
-        return voucher;
+        return VoucherUtils.convertToVoucherResponseDto(voucher);
     }
 
-    public List<Voucher> listAllVoucher() {
+    public List<VoucherResponseDto> listAllVoucher() {
         logger.info("생성된 바우처를 조회합니다...");
-        return voucherRepository.listAll();
+        List<Voucher> vouchers = voucherRepository.listAll();
+
+        return vouchers.stream()
+                .map(VoucherUtils::convertToVoucherResponseDto)
+                .toList();
     }
 }
