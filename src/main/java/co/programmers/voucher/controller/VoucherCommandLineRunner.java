@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
 import co.programmers.voucher.dto.Response;
@@ -14,27 +15,28 @@ import co.programmers.voucher.view.InputView;
 import co.programmers.voucher.view.OutputView;
 
 @Controller
-public class VoucherCommandLineRunner implements VoucherApplicationRunner {
+public class VoucherCommandLineRunner implements CommandLineRunner {
 	private final CreationService creationService;
 	private final InquiryService inquiryService;
 	private final OutputView outputView;
-	private final InputView inputView;
+	private final InputView<String> inputView;
 
 	@Autowired
 	public VoucherCommandLineRunner(CreationService creationService, InquiryService inquiryService,
-			OutputView outputView, InputView inputView) {
+			OutputView outputView, InputView<String> inputView) {
 		this.creationService = creationService;
 		this.inquiryService = inquiryService;
 		this.outputView = outputView;
 		this.inputView = inputView;
 	}
 
-	public void run() throws IOException {
+	@Override
+	public void run(String... args) throws Exception {
 		String menu;
 		Response response;
 		do {
 			outputView.printGuideMessage();
-			menu = (String)inputView.input();
+			menu = inputView.input();
 			switch (menu.toLowerCase()) {
 				case ("exit"):
 				case ("x"):
@@ -56,20 +58,20 @@ public class VoucherCommandLineRunner implements VoucherApplicationRunner {
 	}
 
 	VoucherCreationRequestDTO request() throws IOException {
-		String REQUEST_MESSAGE_FORMAT = "Input {0} >> ";
+		String requestMessageFormat = "Input {0} >> ";
 
-		outputView.print(MessageFormat.format(REQUEST_MESSAGE_FORMAT, "amount"));
-		int amount = Integer.parseInt((String)inputView.input());
+		outputView.print(MessageFormat.format(requestMessageFormat, "amount"));
+		int amount = Integer.parseInt(inputView.input());
 
-		outputView.print(MessageFormat.format(REQUEST_MESSAGE_FORMAT, "name"));
-		String name = (String)inputView.input();
+		outputView.print(MessageFormat.format(requestMessageFormat, "name"));
+		String name = inputView.input();
 
-		outputView.print(MessageFormat.format(REQUEST_MESSAGE_FORMAT, "description"));
-		String description = (String)inputView.input();
+		outputView.print(MessageFormat.format(requestMessageFormat, "description"));
+		String description = inputView.input();
 
-		outputView.print(MessageFormat.format(REQUEST_MESSAGE_FORMAT,
+		outputView.print(MessageFormat.format(requestMessageFormat,
 				"discount type. Fixed(for FixedAmountVoucher) or Percent(for PercentDiscountVoucher)"));
-		String type = (String)inputView.input();
+		String type = inputView.input();
 
 		return VoucherCreationRequestDTO.builder()
 				.discountAmount(amount)
@@ -78,4 +80,5 @@ public class VoucherCommandLineRunner implements VoucherApplicationRunner {
 				.discountStrategy(type)
 				.build();
 	}
+
 }
