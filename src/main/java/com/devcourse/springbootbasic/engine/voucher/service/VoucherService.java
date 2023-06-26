@@ -17,11 +17,24 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(Voucher voucher) {
+    public Voucher createVoucher(Voucher voucher) { // dto
         return voucherRepository.insert(voucher);
     }
-
+    // TODO resolve this ok?
     public <T> List<T> getAllVouchers() {
         return voucherRepository.findAll();
-    }
+    } //
 }
+
+/*
+* data
+* 1. request, param (spring request parameter)
+* 2. entity -> (db 혹은 persist layer)
+* 3. response, result ->
+*
+* controller -> request, param
+* service -> response, entity
+* <- layer -> 집어넣을를 instance ->
+* repository -> entity (Voucher)
+*
+* */

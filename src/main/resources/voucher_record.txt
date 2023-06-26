@@ -2,3 +2,6 @@ FIXED_AMOUNT -> id:8fd2e3a0-636f-4ce5-90f1-1e3be08df366, discountAmount:1.0
 PERCENT_DISCOUNT -> id:e34251aa-16c8-4e81-98ec-03f613cdc75d, discountPercent:4.0
 FIXED_AMOUNT -> id:05ee3779-f167-47da-8acd-d4450d79558e, discountAmount:10.0
 PERCENT_DISCOUNT -> id:1c560c17-bc6a-4cf3-a007-d71b5e63d2f7, discountPercent:5.0
+FIXED_AMOUNT -> id:d8c52b16-0cca-40d3-a8f1-423e8321f521, discountAmount:10.0
+PERCENT_DISCOUNT -> id:c77b60d6-8517-409a-9997-eeb7d933f260, discountPercent:4.0
+FIXED_AMOUNT -> id:e8a33fcb-a886-49ea-abd7-c5cc0a5d99e4, discountAmount:1.0

@@ -2,6 +2,7 @@ package com.devcourse.springbootbasic.engine.voucher.repository;
 
 import com.devcourse.springbootbasic.engine.config.YamlProperties;
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
+import com.devcourse.springbootbasic.engine.config.Message;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -30,7 +31,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     String.format("file:%s", yamlProperties.getVoucherRecordPath())
             ).getFile();
         } catch (IOException e) {
-            throw new InvalidDataException(InvalidDataException.INVALID_FILE_ACCESS);
+            throw new InvalidDataException(Message.INVALID_FILE_ACCESS);
         }
     }
 
@@ -41,7 +42,7 @@ public class FileVoucherRepository implements VoucherRepository {
             String voucherInfo = "%s\n".formatted(voucher.toString());
             fileOutputStream.write(voucherInfo.getBytes());
         } catch (IOException e) {
-            throw new InvalidDataException(InvalidDataException.INVALID_FILE_ACCESS);
+            throw new InvalidDataException(Message.INVALID_FILE_ACCESS); //
         }
         return voucher;
     }
@@ -59,7 +60,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 voucherRecord.add(record);
             }
         } catch (IOException e) {
-            throw new InvalidDataException(InvalidDataException.INVALID_FILE_ACCESS);
+            throw new InvalidDataException(Message.INVALID_FILE_ACCESS);
         }
         return voucherRecord;
     }

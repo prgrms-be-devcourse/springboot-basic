@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.engine.io;
 
+import com.devcourse.springbootbasic.engine.config.Message;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -7,10 +8,6 @@ import java.util.List;
 @Component
 public class OutputConsole {
 
-    public static final String END_GAME = "\n프로그램을 종료합니다.";
-    public static final String CREATION_DONE = "\n바우처가 생성되었습니다.";
-    public static final String LIST_VOUCHERS = "\n-Your Voucher List-";
-    private static final String BLACK_CUSTOMER = "\n진상 목록입니다.";
 
     public void printLine() {
         System.out.println();
@@ -26,7 +23,7 @@ public class OutputConsole {
     }
 
     public void endPlatform() {
-        printMessage(END_GAME);
+        printMessage(Message.END_GAME);
         printLine();
     }
 
@@ -35,13 +32,13 @@ public class OutputConsole {
     }
 
     public <T> void printVouchers(List<T> voucherList) {
-        printMessage(LIST_VOUCHERS);
+        printMessage(Message.LIST_VOUCHERS);
         voucherList.forEach(this::printVoucher);
         printLine();
     }
 
     public void printBlackCustomers(List<String> blackCustomers) {
-        printMessage(BLACK_CUSTOMER);
+        printMessage(Message.BLACK_CUSTOMER);
         blackCustomers.forEach(this::printMessage);
     }
 }

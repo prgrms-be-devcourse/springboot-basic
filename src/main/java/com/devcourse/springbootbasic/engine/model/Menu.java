@@ -1,6 +1,7 @@
 package com.devcourse.springbootbasic.engine.model;
 
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
+import com.devcourse.springbootbasic.engine.config.Message;
 
 import java.util.Arrays;
 
@@ -21,6 +22,6 @@ public enum Menu {
         return Arrays.stream(Menu.values())
                 .filter(m -> m.menuCommand.equals(menuString) || m.menuOrdinal.equals(menuString))
                 .findAny()
-                .orElseThrow(() -> new InvalidDataException(InvalidDataException.INVALID_MENU));
+                .orElseThrow(() -> new InvalidDataException(Message.INVALID_MENU));
     }
 }

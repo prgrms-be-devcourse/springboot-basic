@@ -4,6 +4,7 @@
 * `SpringbootApplication` : Main
 * `Platform`              : 유틸 클래스
 * `InvalidDataException`  : 예외 클래스
+* `Message`               : 메시지 레코드 클래스
 * `Menu`                  : 종료 / 생성 / 출력 메뉴 enum
 * `ListMenu`              : 바우처 / 블랙고객 출력 메뉴 enum
 * `VoucherType`           : 고정값 / 비율값 바우처 타입 enum

@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.engine;
 
+import com.devcourse.springbootbasic.engine.config.Message;
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.io.InputConsole;
 import com.devcourse.springbootbasic.engine.io.OutputConsole;
@@ -45,6 +46,7 @@ public class Platform {
             return branchByMenu(menu);
         } catch (InvalidDataException | IOException e) {
             output.printError(e);
+            logger.error(e.getMessage(), e.getCause());
         }
         return false;
     }
@@ -57,14 +59,20 @@ public class Platform {
                 yield true;
             }
             case CREATE -> {
+                // script 짜듯이 한다.
                 logger.debug("CREATE MENU selected");
                 Voucher voucher = createVoucherTask();
                 output.printVoucher(voucher);
-                output.printMessage(OutputConsole.CREATION_DONE);
+                output.printMessage(Message.CREATION_DONE);
                 logger.debug("Voucher Creation Success");
-                yield false;
+                return false;
             }
             case LIST -> {
+                new ListTemplate({
+                    ListMenu listMenu = input.inputListMenu();
+                    data = voucherService.getAllVouchers();
+                    output.printVouchers();
+                });
                 logger.debug("LIST MENU selected");
                 branchListMenu();
                 yield false;
@@ -76,9 +84,9 @@ public class Platform {
         ListMenu listMenu = input.inputListMenu();
         switch (listMenu) {
             case VOUCHER_LIST -> {
-                logger.debug("VOUCHER LIST MENU selected");
+//                logger.debug("VOUCHER LIST MENU selected");
                 listVoucherTask();
-                logger.debug("Voucher Record Task Success");
+//                logger.debug("Voucher Record Task Success");
             }
             case BLACK_CUSTOMER_LIST -> {
                 logger.debug("BLACK CUSTOMER LIST MENU selected");
@@ -99,6 +107,7 @@ public class Platform {
     private Voucher createVoucherTask() {
         VoucherType voucherType = voucherTypeInput();
         double voucherDiscount = voucherDiscountInput(voucherType);
+        // easy 노출
         Voucher voucher = voucherType.getVoucherFactory()
                 .create(voucherDiscount);
         return voucherService.createVoucher(voucher);
@@ -111,4 +120,12 @@ public class Platform {
     private double voucherDiscountInput(VoucherType voucherType) {
         return input.inputVoucherDiscount(voucherType);
     }
+
+    // template
+// list menu template // html
+    // create menu template // html
+
+    // command line print // javascript
+    // data // spring
+
 }

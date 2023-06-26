@@ -2,6 +2,7 @@ package com.devcourse.springbootbasic.engine.io;
 
 import com.devcourse.springbootbasic.engine.config.YamlProperties;
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
+import com.devcourse.springbootbasic.engine.config.Message;
 import com.devcourse.springbootbasic.engine.model.ListMenu;
 import com.devcourse.springbootbasic.engine.model.Menu;
 import com.devcourse.springbootbasic.engine.model.VoucherType;
@@ -50,7 +51,7 @@ public class InputConsole {
     }
 
     public ListMenu inputListMenu() {
-        System.out.println("\n--- List Menu ---\n" +
+        System.out.println("\n--- List Menu ---\n" + // -> """""" 알아보삼
                 "1. Voucher List\n" +
                 "2. Black Customer List");
         System.out.print("List Menu Selection: ");
@@ -63,7 +64,7 @@ public class InputConsole {
                 .map(Double::parseDouble)
                 .filter(d -> d >= 0.0 && d <= 100.0)
                 .findAny()
-                .orElseThrow(() -> new InvalidDataException(InvalidDataException.INVALID_DISCOUNT_VALUE));
+                .orElseThrow(() -> new InvalidDataException(Message.INVALID_DISCOUNT_VALUE));
     }
 
     public List<String> getBlackCustomers() throws IOException {

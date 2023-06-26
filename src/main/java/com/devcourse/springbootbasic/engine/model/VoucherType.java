@@ -1,22 +1,23 @@
 package com.devcourse.springbootbasic.engine.model;
 
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
+import com.devcourse.springbootbasic.engine.config.Message;
 import com.devcourse.springbootbasic.engine.voucher.domain.factory.FixedVoucherFactory;
 import com.devcourse.springbootbasic.engine.voucher.domain.factory.PercentVoucherFactory;
 import com.devcourse.springbootbasic.engine.voucher.domain.factory.VoucherFactory;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
-
+import java.util.function.Supplier;//
+// enum && using enum
 public enum VoucherType {
     FIXED_AMOUNT("1", "Amount", FixedVoucherFactory::new),
     PERCENT_DISCOUNT("2", "Percent", PercentVoucherFactory::new);
 
     private final String typeOrdinal;
     private final String typeString;
-    private final Supplier<VoucherFactory> supplier;
+    private final Supplier<VoucherFac ->
 
-    VoucherType(String typeOrdinal, String typeString, Supplier<VoucherFactory> supplier) {
+    VoucherType(String typeOrdinal, String typeString, Supplier<Vo게.쉽면 려러그 ucherFactory> supplier) {
         this.typeOrdinal = typeOrdinal;
         this.typeString = typeString;
         this.supplier = supplier;
@@ -26,7 +27,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(vt -> vt.typeOrdinal.equals(voucherTypeString))
                 .findAny()
-                .orElseThrow(() -> new InvalidDataException(InvalidDataException.INVALID_VOUCHER_TYPE));
+                .orElseThrow(() -> new InvalidDataException(Message.INVALID_VOUCHER_TYPE));
     }
 
     public String getTypeString() {
