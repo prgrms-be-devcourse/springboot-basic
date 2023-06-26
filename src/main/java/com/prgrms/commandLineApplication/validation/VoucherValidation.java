@@ -3,6 +3,7 @@ package com.prgrms.commandLineApplication.validation;
 import java.util.UUID;
 
 public class VoucherValidation {
+
   private static final int MINIMUM_VALUE = 0;
   private static final int PERCENT_RATE_BASE = 100;
 
