@@ -1,5 +1,7 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.service;
 
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
