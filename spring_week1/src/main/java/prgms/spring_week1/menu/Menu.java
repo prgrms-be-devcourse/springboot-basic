@@ -1,7 +1,6 @@
 package prgms.spring_week1.menu;
 
 import prgms.spring_week1.exception.NoSuchOptionValue;
-
 import java.util.stream.Stream;
 
 public enum Menu {

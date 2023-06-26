@@ -3,7 +3,6 @@ package prgms.spring_week1.domain.voucher.model;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import java.util.UUID;
 
-
 public abstract class Voucher {
     protected final UUID voucherId;
     protected final VoucherType voucherType;

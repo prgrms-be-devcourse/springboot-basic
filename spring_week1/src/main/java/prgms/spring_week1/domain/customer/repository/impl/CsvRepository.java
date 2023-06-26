@@ -3,10 +3,10 @@ package prgms.spring_week1.domain.customer.repository.impl;
 import org.springframework.stereotype.Repository;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 @Repository
 public class CsvRepository implements BlackListRepository {
 
