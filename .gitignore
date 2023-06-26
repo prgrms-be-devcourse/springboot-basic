@@ -28,3 +28,5 @@ buildNumber.properties
 /nbdist/
 /.nb-gradle/
 build/
+
+application.yaml

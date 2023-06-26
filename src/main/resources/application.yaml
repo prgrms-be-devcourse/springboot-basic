@@ -1,5 +1,5 @@
-file-repo:
-  voucher: ./file/voucher-info.csv
+FILE-REPO:
+  VOUCHER: ./file/voucher-info.csv
 
 ---
 spring.config.activate.on-profile:
