@@ -12,6 +12,7 @@ public abstract class Voucher {
     private final long amount;
     protected static final long ZERO = 0;
     protected static final long ONE_HUNDRED = 100;
+    protected static final long MAX_FIXED_AMOUNT = 1_000_000;
     protected static final Logger logger = LoggerFactory.getLogger(Voucher.class);
 
     public Voucher(VoucherType type, UUID id, long amount) {
@@ -52,7 +53,7 @@ public abstract class Voucher {
     }
 
     private void checkValidFixedAmount(long amount) {
-        if (amount <= ZERO) {
+        if (amount <= ZERO || amount > MAX_FIXED_AMOUNT) {
             logger.warn("사용자가 잘못된 값인 {}원을 입력했습니다.", amount);
             throw new NoValidAmountException("고정 금액 바우처의 생성 금액이 잘못 됐습니다.");
         }
