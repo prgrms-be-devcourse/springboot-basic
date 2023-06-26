@@ -1,6 +1,6 @@
 package com.programmers.console.util;
 
-import com.programmers.global.exception.MenuTypeFormatException;
+import com.programmers.global.exception.VoucherCommandException;
 
 import java.util.Arrays;
 
@@ -19,6 +19,6 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(menuType -> menuType.type.equals(type))
                 .findFirst()
-                .orElseThrow(MenuTypeFormatException::new);
+                .orElseThrow(VoucherCommandException::new);
     }
 }
