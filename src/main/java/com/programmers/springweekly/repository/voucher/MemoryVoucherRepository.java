@@ -1,7 +1,6 @@
 package com.programmers.springweekly.repository.voucher;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
-import com.programmers.springweekly.util.GeneratorDeepCopiedType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -13,12 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository{
 
-    private final GeneratorDeepCopiedType generatorDeepCopiedType;
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
-
-    public MemoryVoucherRepository(GeneratorDeepCopiedType generatorDeepCopiedType) {
-        this.generatorDeepCopiedType = generatorDeepCopiedType;
-    }
 
     @Override
     public void saveVoucher(Voucher voucher) {
@@ -27,6 +21,6 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public Map<UUID, Voucher> getVoucherMap() {
-        return generatorDeepCopiedType.copiedMap(voucherMap);
+        return new ConcurrentHashMap<>(voucherMap);
     }
 }

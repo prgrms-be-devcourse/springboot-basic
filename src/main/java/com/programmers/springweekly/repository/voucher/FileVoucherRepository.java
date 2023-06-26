@@ -2,10 +2,7 @@ package com.programmers.springweekly.repository.voucher;
 
 import com.programmers.springweekly.domain.voucher.*;
 import com.programmers.springweekly.dto.ReadVoucherDto;
-import com.programmers.springweekly.util.GeneratorDeepCopiedType;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -22,16 +19,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final GeneratorDeepCopiedType generatorDeepCopiedType;
-
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 
     @Value("${file.voucher.path}")
     private String file_path;
-
-    public FileVoucherRepository(GeneratorDeepCopiedType generatorDeepCopiedType) {
-        this.generatorDeepCopiedType = generatorDeepCopiedType;
-    }
 
     @Override
     public void saveVoucher(Voucher voucher) {
@@ -71,7 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
             log.error("error message: {}", e.getMessage());
         }
 
-        return generatorDeepCopiedType.copiedMap(voucherMap);
+        return new ConcurrentHashMap<>(voucherMap);
     }
 
     private Voucher createVoucher(ReadVoucherDto readVoucherDto) {
