@@ -16,7 +16,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void validatePercentage(int discountRate) {
         if (discountRate <= 0 || discountRate > 100) {
-            throw new IllegalArgumentException("퍼센트는 0초과 100 미만이여야 합니다");
+            throw new IllegalArgumentException("퍼센트는 0초과 100이하여야 합니다.");
         }
     }
 
