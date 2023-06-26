@@ -1,8 +1,8 @@
-package com.dev.voucherproject.storage.voucher;
+package com.dev.voucherproject.model.storage.voucher;
 
+import com.dev.voucherproject.model.storage.voucher.io.VoucherFileReader;
 import com.dev.voucherproject.model.voucher.Voucher;
-import com.dev.voucherproject.storage.voucher.io.VoucherFileReader;
-import com.dev.voucherproject.storage.voucher.io.VoucherFileWriter;
+import com.dev.voucherproject.model.storage.voucher.io.VoucherFileWriter;
 import com.dev.voucherproject.model.voucher.VoucherPolicy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

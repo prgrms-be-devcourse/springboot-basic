@@ -1,7 +1,7 @@
 package com.dev.voucherproject.controller.console;
 
 import com.dev.voucherproject.model.voucher.*;
-import com.dev.voucherproject.storage.voucher.VoucherStorage;
+import com.dev.voucherproject.model.storage.voucher.VoucherStorage;
 import com.dev.voucherproject.view.Console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

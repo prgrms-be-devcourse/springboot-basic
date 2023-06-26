@@ -1,4 +1,4 @@
-package com.dev.voucherproject.storage.voucher;
+package com.dev.voucherproject.model.storage.voucher;
 
 import com.dev.voucherproject.model.voucher.Voucher;
 import org.springframework.context.annotation.Profile;

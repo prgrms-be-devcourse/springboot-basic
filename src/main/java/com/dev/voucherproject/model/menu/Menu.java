@@ -1,5 +1,6 @@
 package com.dev.voucherproject.model.menu;
 
+import com.dev.voucherproject.config.console.MenuControllerProvider;
 import com.dev.voucherproject.controller.console.MenuController;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;

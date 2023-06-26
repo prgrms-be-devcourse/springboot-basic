@@ -1,4 +1,4 @@
-package com.dev.voucherproject.storage.voucher.io;
+package com.dev.voucherproject.model.storage.voucher.io;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

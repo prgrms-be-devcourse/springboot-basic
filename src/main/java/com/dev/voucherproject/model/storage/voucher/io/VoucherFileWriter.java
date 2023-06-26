@@ -1,4 +1,4 @@
-package com.dev.voucherproject.storage.voucher.io;
+package com.dev.voucherproject.model.storage.voucher.io;
 
 
 import com.dev.voucherproject.model.voucher.Voucher;

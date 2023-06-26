@@ -1,6 +1,6 @@
 package com.dev.voucherproject.controller.console;
 
-import com.dev.voucherproject.storage.voucher.VoucherStorage;
+import com.dev.voucherproject.model.storage.voucher.VoucherStorage;
 import com.dev.voucherproject.view.Console;
 
 public abstract class MenuUsingConsoleAndStorage implements MenuController {
