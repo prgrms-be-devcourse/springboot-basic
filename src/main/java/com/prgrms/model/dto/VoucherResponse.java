@@ -1,21 +1,22 @@
 package com.prgrms.model.dto;
 
+import com.prgrms.model.voucher.Discount;
 import com.prgrms.model.voucher.Voucher;
-import lombok.AllArgsConstructor;
+import com.prgrms.model.voucher.VoucherPolicy;
+
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 
 @Getter
-@AllArgsConstructor
 @Builder
 public class VoucherResponse {
-    private String voucherType;
-    private long discount;
+    private VoucherPolicy voucherPolicy;
+    private Discount discount;
 
     public static VoucherResponse of(Voucher voucher) {
         return VoucherResponse.builder()
-                .voucherType(voucher.getVoucherType())
+                .voucherPolicy(voucher.getVoucherPolicy())
                 .discount(voucher.getVoucherDiscount())
                 .build();
     }
