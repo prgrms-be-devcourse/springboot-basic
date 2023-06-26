@@ -11,9 +11,11 @@ public class PercentDiscountVoucher implements Voucher {
 
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        if(percent < 0 || percent >= 100)
+            throw new IllegalArgumentException("percent should be higher than 0 or lower than 100");
         this.voucherId = voucherId;
         this.percent = percent;
-        this.voucherName = getClass().getName() + voucherNum++;
+        this.voucherName = getClass().getSimpleName() + voucherNum++;
     }
 
     @Override

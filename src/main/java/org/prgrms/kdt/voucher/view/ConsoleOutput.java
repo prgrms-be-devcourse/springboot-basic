@@ -8,8 +8,9 @@ import java.util.Optional;
 
 public class ConsoleOutput implements Output{
 
+    private static final String SPACE = "\t\t\t";
     private static final String DEFAULT_PROGRAM_MESSAGE = "=== Voucher Program ===";
-    private static final String DEFAULT_VOUCHER_CATEGORIES = "VoucherType\t\t" + "VoucherName\t\t" + "Benefit";
+    private static final String DEFAULT_VOUCHER_CATEGORIES = "VoucherType" + SPACE + "VoucherName" + SPACE + "Benefit";
     private static final String EMPTY_MESSAGE = "This Repository is EMPTY!!";
 
     @Override
@@ -21,14 +22,17 @@ public class ConsoleOutput implements Output{
     }
 
     @Override
-    public void showVoucherList(Optional<List<VoucherDTO>> voucherDTOList) {
+    public void showVoucherList(List<VoucherDTO> voucherDTOList) {
         System.out.println(DEFAULT_VOUCHER_CATEGORIES);
         if(voucherDTOList.isEmpty()) {
             System.out.println(EMPTY_MESSAGE);
             return;
         }
         Optional.of(voucherDTOList)
-                .ifPresent(System.out::println);
+                .stream()
+                .forEach(voucherDTO -> {
+                    System.out.println(voucherDTO);
+                });
     }
 
     @Override

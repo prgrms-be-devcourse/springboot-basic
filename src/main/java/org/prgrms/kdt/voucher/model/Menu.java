@@ -45,7 +45,10 @@ public enum Menu {
         return false;
     }
 
-    public static Menu of(String voucherType) {
-        return commandToMenuMap.get(voucherType);
+    public static Menu of(String command) {
+        Menu menu = commandToMenuMap.get(command);
+        if(menu == null)
+            throw new IllegalArgumentException("There is no menu named " + command);
+        return commandToMenuMap.get(command);
     }
 }

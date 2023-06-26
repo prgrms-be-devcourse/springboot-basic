@@ -16,7 +16,7 @@ public class FixedAmountVoucher implements Voucher {
         if (amount > MAX_BOUCHER_AMOUNT) throw new IllegalArgumentException("Amount should be less than " + MAX_BOUCHER_AMOUNT);
         this.voucherId = voucherId;
         this.amount = amount;
-        this.voucherName = getClass().getName() + voucherNum++;
+        this.voucherName = getClass().getSimpleName() + voucherNum++;
     }
 
     @Override

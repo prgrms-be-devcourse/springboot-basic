@@ -2,7 +2,6 @@ package org.prgrms.kdt.order;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InOrder;
 import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
@@ -33,7 +32,7 @@ class OrderServiceTest {
         var voucherRepository = new MemoryVoucherRepository();
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
         voucherRepository.insert(fixedAmountVoucher);
-        var sut = new OrderService(new VoucherService(voucherRepository), new OrderRepositoryStub());
+        var sut = new OrderService(new VoucherService(voucherRepository, voucherFactory), new OrderRepositoryStub());
 
         // when
         Order order;

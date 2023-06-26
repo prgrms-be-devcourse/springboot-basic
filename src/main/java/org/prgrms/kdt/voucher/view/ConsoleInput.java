@@ -15,4 +15,15 @@ public class ConsoleInput implements Input{
     public String getVoucherInput() {
         return scanner.nextLine();
     }
+
+    @Override
+    public Long getBenefit() {
+        Long benefit = scanner.nextLong();
+        flush();
+        return benefit;
+    }
+
+    private void flush() {
+        scanner.nextLine();
+    }
 }

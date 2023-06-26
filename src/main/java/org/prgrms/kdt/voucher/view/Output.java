@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface Output {
 
     void showMenu(Menu[] menuList);
-    void showVoucherList(Optional<List<VoucherDTO>> voucherDtoList);
+    void showVoucherList(List<VoucherDTO> voucherDtoList);
     void printError(String errorMessage);
 }

@@ -28,4 +28,8 @@ public enum VoucherType {
     public static VoucherType of(Integer voucherTypeNum) {
         return voucherTypeNameMap.get(voucherTypeNum);
     }
+
+    public static VoucherType of(String voucherTypeName) {
+        return VoucherType.valueOf(voucherTypeName.toUpperCase());
+    }
 }
