@@ -1,10 +1,12 @@
 package me.kimihiqq.vouchermanagement.repository;
 
 import me.kimihiqq.vouchermanagement.domain.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Profile("dev")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
