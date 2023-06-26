@@ -40,7 +40,7 @@ public class VoucherFileStorage implements VoucherStorage {
                 voucherLinkedMap.put(voucher.getUUID(), voucher);
             }
         } catch (IOException e) {
-            log.error("findAll() method Exception, message : {}", e.getMessage());
+            log.error("initVoucherMap() method Exception, message : {}", e.getMessage());
         }
     }
 
