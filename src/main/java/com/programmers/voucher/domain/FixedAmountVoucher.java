@@ -7,11 +7,11 @@ public class FixedAmountVoucher extends Voucher {
     private static final int MAX_DISCOUNT_AMOUNT = 5000;
     private static final int MIN_DISCOUNT_AMOUNT = 0;
 
-    protected FixedAmountVoucher(UUID voucherId, long discountAmount) {
+    private FixedAmountVoucher(UUID voucherId, long discountAmount) {
         super(voucherId, discountAmount);
     }
 
-    public static Voucher of(UUID voucherId, long discountAmount) {
+    protected static Voucher of(UUID voucherId, long discountAmount) {
         validateVoucherId(voucherId);
         validateDiscountAmount(discountAmount);
         return new FixedAmountVoucher(voucherId, discountAmount);

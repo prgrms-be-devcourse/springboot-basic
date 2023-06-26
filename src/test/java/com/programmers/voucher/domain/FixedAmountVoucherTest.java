@@ -1,25 +1,25 @@
 package com.programmers.voucher.domain;
 
+import com.programmers.voucher.dto.request.VoucherCreationRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FixedAmountVoucherTest {
     private static final int MIN_DISCOUNT_AMOUNT = 0;
     private static final int MAX_DISCOUNT_AMOUNT = 5000;
+    private static final String VOUCHER_TYPE = "fixed";
 
     @DisplayName("고정 할인 바우처 discount() 메서드 성공 테스트")
     @ParameterizedTest
     @CsvSource(value = {"100, 1000, 900", "500, 1000, 500"})
     void discount(long discountAmount, long originalPrice, long expectedPrice) {
-        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), discountAmount);
+        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(VOUCHER_TYPE, discountAmount);
+        Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
         assertThat(voucher.discount(originalPrice)).isEqualTo(expectedPrice);
     }
 
@@ -27,7 +27,8 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @CsvSource(value = {"1001, 1000, 0", "2000, 1000, 0"})
     void discountTo0Won(long discountAmount, long originalPrice, long expectedPrice) {
-        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), discountAmount);
+        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(VOUCHER_TYPE, discountAmount);
+        Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
         assertThat(voucher.discount(originalPrice)).isEqualTo(expectedPrice);
     }
 
@@ -35,18 +36,9 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @ValueSource(longs = {-1000, -1, 5001, 5002, 10000})
     void notIncludeDiscountAmountRange(long discountAmount) {
-        Assertions.assertThatThrownBy(() -> FixedAmountVoucher.of(UUID.randomUUID(), discountAmount))
+        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(VOUCHER_TYPE, discountAmount);
+        Assertions.assertThatThrownBy(() -> VoucherFactory.createVoucher(voucherCreationRequest))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);
-    }
-
-    @DisplayName("생성할 고정 바우처의 아이디가 비어있을 경우 예외 발생 테스트")
-    @ParameterizedTest
-    @NullSource
-    void notIncludeVoucherId(UUID voucherId) {
-        long discountAmount = 1000;
-        Assertions.assertThatThrownBy(() -> FixedAmountVoucher.of(voucherId, discountAmount))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("바우처 아이디가 비어있습니다.");
     }
 }

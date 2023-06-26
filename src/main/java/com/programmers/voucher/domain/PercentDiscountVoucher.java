@@ -7,11 +7,11 @@ public class PercentDiscountVoucher extends Voucher{
     private static final int MAX_DISCOUNT_AMOUNT = 100;
     private static final int MIN_DISCOUNT_AMOUNT = 0;
 
-    protected PercentDiscountVoucher(UUID voucherId, long discountAmount) {
+    private PercentDiscountVoucher(UUID voucherId, long discountAmount) {
         super(voucherId, discountAmount);
     }
 
-    public static Voucher of(UUID voucherId, long discountAmount) {
+    protected static Voucher of(UUID voucherId, long discountAmount) {
         validateVoucherId(voucherId);
         validateDiscountAmount(discountAmount);
         return new PercentDiscountVoucher(voucherId, discountAmount);
