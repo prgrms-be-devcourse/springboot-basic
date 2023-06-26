@@ -24,7 +24,16 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
+        try {
+            executeApplication();
+        } catch (Exception e) {
+            viewManager.showMessage(e.getMessage());
+            run();
+        }
+    }
+
+    private void executeApplication() throws IOException {
         Command command = viewManager.readCommand();
         while (command != Command.EXIT) {
 
