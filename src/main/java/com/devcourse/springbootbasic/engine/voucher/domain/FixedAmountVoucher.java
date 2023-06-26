@@ -4,33 +4,15 @@ import com.devcourse.springbootbasic.engine.model.VoucherType;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
 
-    private final UUID voucherId;
-    private final VoucherType voucherType;
-    private final double discountAmount;
-
-    public FixedAmountVoucher(UUID voucherId, VoucherType voucherType, double discountAmount) {
-        this.voucherId = voucherId;
-        this.voucherType = voucherType;
-        this.discountAmount = discountAmount;
+    FixedAmountVoucher(UUID uuid, VoucherType voucherType, double amount) {
+        super(uuid, voucherType, amount);
     }
 
     @Override
     public double discountedPrice(long originalPrice) {
-        return originalPrice - discountAmount;
+        return originalPrice - discountValue;
     }
 
-    @Override
-    public String toString() {
-        return voucherType.name() + " -> " +
-                "id:" + voucherId +
-                ", discount" + voucherType.getTypeString() +
-                ":" + discountAmount;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
 }
