@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,14 @@ public class MemberRepository {
         }
     }
 
-    public List<Member> findAllByBlackStatus() {
+    public List<Member> findAllByStatus(MemberStatus status) {
+        if (status.isBlack()) {
+            return findAllByBlackStatus();
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Member> findAllByBlackStatus() {
         try {
             return Files.readAllLines(file).stream()
                     .map(Converter::toMember)

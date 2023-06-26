@@ -1,5 +1,6 @@
 package org.programers.vouchermanagement;
 
+import org.programers.vouchermanagement.member.domain.MemberStatus;
 import org.programers.vouchermanagement.member.presentation.MemberController;
 import org.programers.vouchermanagement.view.Command;
 import org.programers.vouchermanagement.view.InputView;
@@ -27,7 +28,7 @@ public class VoucherManagementController implements CommandLineRunner {
 
             Command command = InputView.inputCommand();
             if (command.isBlacklist()) {
-                memberController.findAllByBlackStatus();
+                memberController.findAllByStatus(MemberStatus.BLACK);
                 continue;
             }
 

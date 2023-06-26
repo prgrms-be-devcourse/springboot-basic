@@ -1,6 +1,7 @@
 package org.programers.vouchermanagement.member.presentation;
 
 import org.programers.vouchermanagement.member.application.MemberService;
+import org.programers.vouchermanagement.member.domain.MemberStatus;
 import org.programers.vouchermanagement.member.dto.MembersResponse;
 import org.programers.vouchermanagement.view.OutputView;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,8 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public void findAllByBlackStatus() {
-        MembersResponse response = memberService.findAllByBlackStatus();
+    public void findAllByStatus(MemberStatus status) {
+        MembersResponse response = memberService.findAllByStatus(status);
         OutputView.outputMembers(response);
     }
 }
