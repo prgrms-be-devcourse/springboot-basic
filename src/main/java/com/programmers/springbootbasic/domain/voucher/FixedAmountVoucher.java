@@ -5,6 +5,8 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
     private final int amount;
+    static int MIN_AMOUNT = 10;
+    static int MAX_AMOUNT = 10_000_000;
 
     public FixedAmountVoucher(UUID voucherId, String name, LocalDateTime expirationDate, int amount) {
         super(voucherId, name, expirationDate);
@@ -36,9 +38,7 @@ public class FixedAmountVoucher extends Voucher {
         return getDiscountPrice(priceBeforeDiscount);
     }
 
-    private Boolean isInvalidAmount(int amount) {
-        int MIN_AMOUNT = 10;
-        int MAX_AMOUNT = 10_000_000;
+    private boolean isInvalidAmount(int amount) {
         return amount < MIN_AMOUNT || MAX_AMOUNT < amount;
     }
 }
