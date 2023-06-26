@@ -16,20 +16,20 @@ class PercentDiscountVoucherTest {
   @ParameterizedTest
   @CsvSource(value = {"20|80000", "30|70000", "50|50000"}, delimiter = '|')
   @DisplayName("범위 내의 할인값을 입력했을 경우 PercentDiscount 계산 성공")
-  void percentDiscountVoucher_계산_성공(int discountValue, int expected) {
+  void percentDiscountVoucher_계산_성공(int discountAmount, int expected) {
     String voucherType = "percent";
-    PercentDiscountVoucher percentDiscountVoucher = PercentDiscountVoucher.of(UUID.randomUUID(), voucherType, discountValue);
-    int result = percentDiscountVoucher.discount(100000);
+    Voucher createdPercentVoucher = VoucherFactory.createVoucher(voucherType, discountAmount);
+    int result = createdPercentVoucher.discount(100000);
     assertThat(result).isEqualTo(expected);
   }
 
   @ParameterizedTest
   @ValueSource(ints = {101, 200, 220, -4})
   @DisplayName("범위를 벗어난 할인값을 입력했을 경우 예외 발생 성공")
-  void percentDiscountVoucher_할인값_예외_발생(int discountValue) {
+  void percentDiscountVoucher_할인값_예외_발생(int discountAmount) {
     String voucherType = "percent";
     Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
-      PercentDiscountVoucher.of(UUID.randomUUID(), voucherType, discountValue);
+      PercentDiscountVoucher.of(UUID.randomUUID(), voucherType, discountAmount);
     });
     assertEquals("Invalid discount amount range (0 ~ 100)", exception.getMessage());
   }
