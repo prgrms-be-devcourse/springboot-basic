@@ -1,4 +1,6 @@
-package org.prgrms.kdt.voucher.model;
+package org.prgrms.kdt.voucher.dto;
+
+import org.prgrms.kdt.voucher.model.VoucherType;
 
 public class VoucherDTO {
     private final VoucherType voucherType;

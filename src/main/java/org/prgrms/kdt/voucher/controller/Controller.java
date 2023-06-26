@@ -33,6 +33,7 @@ public class Controller {
                         return;
                     }
                     case CREATE -> {
+                        input.getVoucherInput();
                         break;
                     }
                     // 여기서 DTO로 만들어야 됨.

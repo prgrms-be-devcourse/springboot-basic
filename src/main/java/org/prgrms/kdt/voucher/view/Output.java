@@ -1,7 +1,7 @@
 package org.prgrms.kdt.voucher.view;
 
 import org.prgrms.kdt.voucher.model.Menu;
-import org.prgrms.kdt.voucher.model.VoucherDTO;
+import org.prgrms.kdt.voucher.dto.VoucherDTO;
 
 import java.util.List;
 
