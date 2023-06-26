@@ -15,7 +15,7 @@ public class VoucherMemoryStorage implements VoucherStorage {
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
         Voucher voucher = voucherLinkedMap.get(voucherId);
-        return Optional.of(voucher);
+        return Optional.ofNullable(voucher);
     }
 
     @Override
