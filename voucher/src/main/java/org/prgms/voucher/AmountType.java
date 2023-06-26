@@ -4,11 +4,11 @@ public enum AmountType {
     FIX("fix", 1),
     PERCENT("percent", 2);
 
-    private final String name;
-    private final int number;
+    private final String amountType;
+    private final int choiceNumber;
 
-    AmountType(String name, int number) {
-        this.name = name;
-        this.number = number;
+    AmountType(String amountType, int choiceNumber) {
+        this.amountType = amountType;
+        this.choiceNumber = choiceNumber;
     }
 }
