@@ -23,7 +23,7 @@ public enum VoucherType {
             return VOUCHER_MAP.get(type);
         }
 
-        throw new IllegalArgumentException("The type you are looking for is not found.");
+        throw new IllegalArgumentException("Input: " + type + ", The type you are looking for is not found.");
     }
 
     public String getVoucherTypeString() {

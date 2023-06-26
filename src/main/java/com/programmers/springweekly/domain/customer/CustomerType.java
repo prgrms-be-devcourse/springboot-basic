@@ -23,7 +23,7 @@ public enum CustomerType {
             return CUSTOMER_MAP.get(type);
         }
 
-        throw new IllegalArgumentException("The type you are looking for is not found.");
+        throw new IllegalArgumentException("Input: " + type + ", The type you are looking for is not found.");
     }
 
     private String getCustomerType() {
@@ -34,6 +34,7 @@ public enum CustomerType {
         if (customerType == CustomerType.BLACKLIST) {
             return true;
         }
+
         return false;
     }
 }
