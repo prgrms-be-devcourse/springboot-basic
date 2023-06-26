@@ -6,10 +6,11 @@ import com.programmers.voucher.domain.CommandType;
 import com.programmers.voucher.domain.voucher.*;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
+import org.springframework.boot.CommandLineRunner;
 
 import java.io.IOException;
 
-public class CommandLineApplication implements Runnable {
+public class CommandLineApplication implements CommandLineRunner {
     private final Console console;
     private final VoucherStream voucherStream;
     private final VoucherFactory voucherFactory;
@@ -23,9 +24,8 @@ public class CommandLineApplication implements Runnable {
         this.blackListStream = blackListStream;
         this.printer = printer;
     }
-
     @Override
-    public void run() {
+    public void run(String... args) throws Exception {
         while (true) {
             CommandType commandType;
             try {
