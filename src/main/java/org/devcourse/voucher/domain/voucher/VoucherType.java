@@ -4,8 +4,7 @@ import java.util.Arrays;
 
 public enum VoucherType {
     FIX("fix"),
-    PERCENT("percent"),
-    NO_TYPE("no type");
+    PERCENT("percent");
 
     private final String typeName;
 
@@ -17,6 +16,6 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(type -> type.typeName.equals(typeName))
                 .findFirst()
-                .orElse(NO_TYPE);
+                .orElseThrow(() -> new RuntimeException("사용 불가능한 바우처 타입입니다"));
     }
 }
