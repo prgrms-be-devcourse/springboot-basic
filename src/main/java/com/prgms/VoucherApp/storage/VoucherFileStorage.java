@@ -23,7 +23,6 @@ import java.util.*;
 @Profile("dev")
 public class VoucherFileStorage implements VoucherStorage {
 
-
     private static final Logger log = LoggerFactory.getLogger(VoucherFileStorage.class);
     private final Map<UUID, Voucher> voucherLinkedMap = new LinkedHashMap<>();
 
