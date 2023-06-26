@@ -5,13 +5,14 @@ import lombok.ToString;
 import java.util.UUID;
 
 @ToString
-public class PercentDiscountVoucher extends Voucher {
+public class PercentDiscountVoucher implements Voucher {
 
     private final long percentage;
+    private final UUID id;
 
     public PercentDiscountVoucher(long percentage, UUID id) {
-        super(id);
         this.percentage = percentage;
+        this.id = id;
     }
 
     @Override

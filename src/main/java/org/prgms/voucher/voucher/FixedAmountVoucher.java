@@ -5,13 +5,14 @@ import lombok.ToString;
 import java.util.UUID;
 
 @ToString
-public class FixedAmountVoucher extends Voucher {
+public class FixedAmountVoucher implements Voucher {
 
     private final long amount;
+    private final UUID id;
 
     public FixedAmountVoucher(long amount, UUID id) {
-        super(id);
         this.amount = amount;
+        this.id = id;
     }
 
     @Override
