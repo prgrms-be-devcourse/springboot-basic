@@ -4,7 +4,7 @@ import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.util.Collection;
 
 @Component
 public class ViewManager {
@@ -41,6 +41,10 @@ public class ViewManager {
         String voucherType = voucherInfo[VOUCHER_TYPE_INDEX];
         int amount = Integer.parseInt(voucherInfo[VOUCHER_AMOUNT_INDEX]);
         return new VoucherCreateRequest(voucherType, amount);
+    }
+
+    public void showCollectionMessage(Collection collection) {
+        collection.forEach(message -> showMessage(message.toString()));
     }
 
     public void showMessage(String message) {

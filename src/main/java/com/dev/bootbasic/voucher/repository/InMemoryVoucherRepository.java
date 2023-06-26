@@ -3,6 +3,7 @@ package com.dev.bootbasic.voucher.repository;
 import com.dev.bootbasic.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +24,11 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         UUID voucherId = voucher.getId();
         VOUCHERS.put(voucherId, voucher);
         return voucherId;
+    }
+
+    @Override
+    public Collection<Voucher> getAllVouchers() {
+        return VOUCHERS.values();
     }
 
 }

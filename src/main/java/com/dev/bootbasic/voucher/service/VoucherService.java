@@ -8,7 +8,11 @@ import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import com.dev.bootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Service
 public class VoucherService {
@@ -32,6 +36,13 @@ public class VoucherService {
                 .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_VOUCHER_MESSAGE));
 
         return VoucherDetailsResponse.from(foundVoucher);
+    }
+
+    public List<VoucherDetailsResponse> findAllVouchers() {
+        Collection<Voucher> allVouchers = voucherRepository.getAllVouchers();
+
+        return allVouchers.stream().map(VoucherDetailsResponse::from)
+                .collect(toUnmodifiableList());
     }
 
 }

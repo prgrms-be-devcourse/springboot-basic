@@ -4,10 +4,12 @@ import com.dev.bootbasic.view.Command;
 import com.dev.bootbasic.view.ViewManager;
 import com.dev.bootbasic.voucher.controller.VoucherController;
 import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
+import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -24,11 +26,13 @@ public class CommandLineApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Command command = viewManager.readCommand();
+        while (command != Command.EXIT) {
+            command = viewManager.readCommand();
 
-        switch (command) {
-            case CREATE -> createVoucher();
-            case LIST -> System.out.println("todo");
-            case EXIT -> System.out.println("todo");
+            switch (command) {
+                case CREATE -> createVoucher();
+                case LIST -> showAllVouchers();
+            }
         }
     }
 
@@ -36,6 +40,11 @@ public class CommandLineApplication implements CommandLineRunner {
         VoucherCreateRequest request = viewManager.readVoucherCreateInfo();
         UUID voucher = voucherController.createVoucher(request);
         viewManager.showMessage(voucher.toString());
+    }
+
+    private void showAllVouchers() {
+        List<VoucherDetailsResponse> allVouchers = voucherController.findAllVouchers();
+        viewManager.showCollectionMessage(allVouchers);
     }
 
 }
