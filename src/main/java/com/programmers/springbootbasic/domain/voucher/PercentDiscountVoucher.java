@@ -5,6 +5,8 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
     private final int percent;
+    static int MIN_PERCENT = 1;
+    static int MAX_PERCENT = 100;
 
     public PercentDiscountVoucher(UUID voucherId, String name, LocalDateTime expirationDate, int percent) {
         super(voucherId, name, expirationDate);
@@ -24,9 +26,10 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public Long getDiscountPrice(Long priceBeforeDiscount) {
-        double discountAmount = priceBeforeDiscount * percent / 100d;
+        int tenForRound = 10;
+        double discountAmount = priceBeforeDiscount * percent / (double) MAX_PERCENT;
         double discountedPrice = priceBeforeDiscount - discountAmount;
-        return Math.round((discountedPrice) / 10) * 10;
+        return Math.round((discountedPrice) / tenForRound) * tenForRound;
     }
 
     @Override
@@ -35,9 +38,7 @@ public class PercentDiscountVoucher extends Voucher {
         return getDiscountPrice(priceBeforeDiscount);
     }
 
-    private Boolean isInvalidRange(int percent) {
-        int MIN_PERCENT = 1;
-        int MAX_PERCENT = 100;
+    private boolean isInvalidRange(int percent) {
         return percent < MIN_PERCENT || MAX_PERCENT < percent;
     }
 }
