@@ -7,17 +7,18 @@ import java.util.UUID;
 public class PercentDiscountVoucher extends Voucher {
   private static final int PERCENT_RATE_BASE = 100;
 
-  private PercentDiscountVoucher(UUID voucherId, String voucherType, double discountAmount) {
+  private PercentDiscountVoucher(UUID voucherId, String voucherType, int discountAmount) {
     super(voucherId, voucherType, discountAmount);
   }
 
-  public static PercentDiscountVoucher of(UUID voucherId, String voucherType, double discountAmount) {
+  public static PercentDiscountVoucher of(UUID voucherId, String voucherType, int discountAmount) {
     VoucherValidation.checkPercentDiscountAmount(discountAmount);
     return new PercentDiscountVoucher(voucherId, voucherType, discountAmount);
   }
 
-  public double discount(double price) {
-    return price - (getDiscountAmount() / PERCENT_RATE_BASE) * price;
+  public int discount(int price) {
+    int result = price - ((getDiscountAmount() / PERCENT_RATE_BASE) * price);
+    return result;
   }
 
 }

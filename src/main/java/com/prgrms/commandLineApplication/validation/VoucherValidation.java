@@ -12,13 +12,13 @@ public class VoucherValidation {
     }
   }
 
-  public static void checkFixedDiscountAmount(double discountAmount) {
+  public static void checkFixedDiscountAmount(int discountAmount) {
     if (discountAmount < MINIMUM_VALUE) {
       throw new IllegalArgumentException("Invalid discount amount range (0 ~ )");
     }
   }
 
-  public static void checkPercentDiscountAmount(double discountAmount) {
+  public static void checkPercentDiscountAmount(int discountAmount) {
     if (PERCENT_RATE_BASE < discountAmount || discountAmount < MINIMUM_VALUE) {
       throw new IllegalArgumentException("Invalid discount amount range (0 ~ 100)");
     }

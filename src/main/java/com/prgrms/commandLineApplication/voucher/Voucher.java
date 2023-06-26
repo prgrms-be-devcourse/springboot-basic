@@ -7,10 +7,10 @@ import java.util.UUID;
 public abstract class Voucher {
 
   private final UUID voucherId;
-  private final double discountAmount;
+  private final int discountAmount;
   private final String voucherType;
 
-  protected Voucher(UUID voucherId, String voucherType, double discountAmount) {
+  protected Voucher(UUID voucherId, String voucherType, int discountAmount) {
     VoucherValidation.checkId(voucherId);
     this.voucherId = voucherId;
     this.voucherType = voucherType;
@@ -21,7 +21,7 @@ public abstract class Voucher {
     return voucherId;
   }
 
-  public double getDiscountAmount() {
+  public int getDiscountAmount() {
     return discountAmount;
   }
 
@@ -29,6 +29,6 @@ public abstract class Voucher {
     return voucherType;
   }
 
-  abstract double discount(double price);
+  abstract int discount(int price);
 
 }

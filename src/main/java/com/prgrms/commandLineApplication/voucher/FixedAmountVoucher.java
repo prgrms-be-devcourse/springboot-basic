@@ -6,17 +6,19 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-  private FixedAmountVoucher(UUID voucherId, String voucherType, double discountAmount) {
+  private FixedAmountVoucher(UUID voucherId, String voucherType, int discountAmount) {
     super(voucherId, voucherType, discountAmount);
   }
 
-  public static FixedAmountVoucher of(UUID voucherId, String voucherType, double discountAmount) {
+  public static FixedAmountVoucher of(UUID voucherId, String voucherType, int discountAmount) {
     VoucherValidation.checkFixedDiscountAmount(discountAmount);
     return new FixedAmountVoucher(voucherId, voucherType, discountAmount);
   }
 
-  public double discount(double price) {
-    return price - getDiscountAmount();
+  public int discount(int price) {
+    int result = price - getDiscountAmount();
+    return result;
+
   }
 
 }
