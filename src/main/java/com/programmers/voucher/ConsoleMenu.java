@@ -1,10 +1,10 @@
 package com.programmers.voucher;
 
+import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.request.VoucherCreateRequest;
-import com.programmers.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -18,11 +18,11 @@ public class ConsoleMenu implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
 
     private final Console console;
-    private final VoucherService voucherService;
+    private final VoucherController voucherController;
 
-    public ConsoleMenu(Console console, VoucherService voucherService) {
+    public ConsoleMenu(Console console, VoucherController voucherController) {
         this.console = console;
-        this.voucherService = voucherService;
+        this.voucherController = voucherController;
     }
 
 
@@ -74,7 +74,7 @@ public class ConsoleMenu implements CommandLineRunner {
     private void createVoucher() {
         log.info("Create voucher.");
         VoucherCreateRequest voucherCreateRequest = console.inputVoucherCreateInfo();
-        UUID voucherId = voucherService.createVoucher(voucherCreateRequest);
+        UUID voucherId = voucherController.createVoucher(voucherCreateRequest);
 
         console.print("Created new voucher. VoucherID: " + voucherId.toString());
         log.info("End create voucher.");
@@ -82,7 +82,7 @@ public class ConsoleMenu implements CommandLineRunner {
 
     private void listVouchers() {
         log.info("Lists the vouchers.");
-        List<Voucher> vouchers = voucherService.findVouchers();
+        List<Voucher> vouchers = voucherController.findVouchers();
 
         String vouchersForPrint = vouchers.stream()
                 .map(Voucher::fullInfoString)
