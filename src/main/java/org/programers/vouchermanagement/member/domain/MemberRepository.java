@@ -21,7 +21,7 @@ public class MemberRepository {
                     .map(Converter::toMember)
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.");
+            throw new RuntimeException("IO 문제로 블랙 회원이 조회되지 않았습니다.");
         }
     }
 }

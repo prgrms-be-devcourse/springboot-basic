@@ -36,7 +36,7 @@ public class InFileVoucherRepository implements VoucherRepository {
                     StandardOpenOption.APPEND);
             return voucher;
         } catch (IOException e) {
-            throw new NoSuchVoucherException("IO 문제로 바우처가 저장되지 않았습니다.");
+            throw new RuntimeException("IO 문제로 바우처가 저장되지 않았습니다.");
         }
     }
 
@@ -52,7 +52,7 @@ public class InFileVoucherRepository implements VoucherRepository {
             }
             return Optional.empty();
         } catch (IOException e) {
-            throw new NoSuchVoucherException("IO 문제로 바우처가 조회되지 않았습니다.");
+            throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.");
         }
     }
 
@@ -63,7 +63,7 @@ public class InFileVoucherRepository implements VoucherRepository {
                     .map(Converter::toVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            throw new NoSuchVoucherException("IO 문제로 바우처가 조회되지 않았습니다.");
+            throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.");
         }
     }
 }
