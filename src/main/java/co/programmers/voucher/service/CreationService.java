@@ -9,11 +9,11 @@ import co.programmers.voucher.entity.Voucher;
 import co.programmers.voucher.repository.VoucherRepository;
 
 @Service
-public class CreatingMenuService implements Launcher {
+public class CreationService implements Launcher {
 	private static int voucherCnt;
 	private final VoucherRepository repository;
 
-	public CreatingMenuService(VoucherRepository repository) {
+	public CreationService(VoucherRepository repository) {
 		this.repository = repository;
 	}
 
