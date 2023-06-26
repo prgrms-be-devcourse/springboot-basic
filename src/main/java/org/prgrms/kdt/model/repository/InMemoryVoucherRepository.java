@@ -6,23 +6,25 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.util.IdGenerator;
 import org.springframework.stereotype.Component;
 
 @Component
 public class InMemoryVoucherRepository implements VoucherRepository {
 
 	private Map<Long, VoucherEntity> map;
-	private Long lastIdx;
+
+	private IdGenerator idGenerator;
 
 	public InMemoryVoucherRepository() {
 		this.map = new ConcurrentHashMap<>();
-		this.lastIdx = 0L;
+		this.idGenerator = new IdGenerator();
 	}
 
 	@Override
 	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
-		lastIdx += 1;
-		voucherEntity.setVoucherId(lastIdx);
+		Long voucherId = idGenerator.getRandomId();
+		voucherEntity.setVoucherId(voucherId);
 		VoucherEntity voucher = saveVoucher(voucherEntity);
 		return voucherEntity;
 	}

@@ -1,6 +1,7 @@
 package org.prgrms.kdt.view;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import org.beryx.textio.TextIO;
@@ -21,24 +22,29 @@ public class ConsoleView implements InputView, OutputView {
 	}
 
 	private static void printCommandDescriptions() {
-		Command[] commands = Command.values();
-		for (Command command : commands) {
-			String commandDescription = MessageFormat.format(
-				"Type {0} {1}", command.name(), command.getDescription()
+		Arrays.stream(Command.values())
+			.forEach(
+				command -> {
+					String commandDescription = MessageFormat.format(
+						"Type {0} {1}", command.name(), command.getDescription()
+					);
+
+					System.out.println(commandDescription);
+				}
 			);
 
-			System.out.println(commandDescription);
-		}
 	}
 
 	private static void printVoucherIdxDescription() {
-		VoucherType[] voucherTypes = VoucherType.values();
-		for (VoucherType voucherType : voucherTypes) {
-			String voucherIdxDescription = MessageFormat.format(
-				"{0}: {1}", voucherType.name(), voucherType.getVoucherIdx()
+		Arrays.stream(VoucherType.values())
+			.forEach(
+				voucherType -> {
+					String voucherIdxDescription = MessageFormat.format(
+						"{0}: {1}", voucherType.name(), voucherType.getVoucherIdx()
+					);
+					System.out.println(voucherIdxDescription);
+				}
 			);
-			System.out.println(voucherIdxDescription);
-		}
 	}
 
 	@Override

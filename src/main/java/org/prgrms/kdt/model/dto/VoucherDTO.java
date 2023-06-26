@@ -21,10 +21,6 @@ public class VoucherDTO {
 		this.voucherType = voucherType;
 	}
 
-	public static VoucherDTO of(Amount amount, VoucherType voucherType) {
-		return new VoucherDTO(amount, voucherType);
-	}
-
 	public Long getVoucherId() {
 		return voucherId;
 	}

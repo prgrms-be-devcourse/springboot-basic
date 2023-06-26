@@ -2,7 +2,7 @@ package org.prgrms.kdt.controller;
 
 import java.util.List;
 
-import org.prgrms.kdt.controller.service.VoucherService;
+import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.dto.VoucherDTO;

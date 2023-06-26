@@ -1,4 +1,4 @@
-package org.prgrms.kdt.controller.service;
+package org.prgrms.kdt.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
