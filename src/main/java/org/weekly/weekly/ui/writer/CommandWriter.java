@@ -1,5 +1,7 @@
 package org.weekly.weekly.ui.writer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.util.DiscountType;
 import org.weekly.weekly.util.PrintMsg;
@@ -9,6 +11,7 @@ import java.util.Arrays;
 
 @Component
 public class CommandWriter {
+    private final Logger logger = LoggerFactory.getLogger(CommandWriter.class);
     private void println(String msg) {
         System.out.println(msg);
     }
@@ -22,6 +25,7 @@ public class CommandWriter {
     }
 
     public void printErrorMsg(String errorMsg) {
+        logger.warn(errorMsg);
         println(PrintMsg.EMPTY.getMsg());
         println(errorMsg);
     }

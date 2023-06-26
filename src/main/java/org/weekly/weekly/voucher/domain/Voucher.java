@@ -40,6 +40,6 @@ public class Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("[ID: {0}, 금액: {1}, 등록일자: {2}, 유효기간: {3}", voucherId,amount, registrationDate, expirationDate);
+        return MessageFormat.format("[ID: {0}, 금액: {1}, 등록일자: {2}, 유효기간: {3}]", voucherId,amount, registrationDate, expirationDate);
     }
 }

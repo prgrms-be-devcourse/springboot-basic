@@ -9,7 +9,9 @@ public enum PrintMsg {
             "(,)콤마를 기준으로 입력하세요 :"),
     DISCOUNT_SELECT("할인 종류중 하나를 선택하세요"),
     NO_VOUCHER_DATAS("저장소에 데이터가 없습니다."),
-    EMPTY("");
+    EMPTY(""),
+    CREATE_VOUCHER_SUCCESS("[바우처 생성에 성공]: "),
+    FIND_ALL_VOUCHER_SUCCESS("[모든 바우처 조회 성공]: ");
 
     private String msg;
 
