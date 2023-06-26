@@ -1,0 +1,28 @@
+2023-06-26 11:22:57.331 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.IllegalArgumentException: Invalid value: 123
+	at com.prgmrs.voucher.service.ConsoleServiceEnum.findByCommand(ConsoleServiceEnum.java:25)
+	at com.prgmrs.voucher.service.ConsoleService.run(ConsoleService.java:42)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-26 11:23:08.676 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.IllegalArgumentException: Invalid value: 123
+	at com.prgmrs.voucher.service.ConsoleServiceEnum.findByCommand(ConsoleServiceEnum.java:25)
+	at com.prgmrs.voucher.service.ConsoleService.run(ConsoleService.java:42)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
