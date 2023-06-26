@@ -25,13 +25,4 @@ class CommandTest {
         assertThatThrownBy(() -> CommandType.findByCommand(command))
                 .isInstanceOf(RuntimeException.class);
     }
-
-    @Test
-    public void test() {
-        // 스캐너
-        // 인풋클래스 의존성
-        // 기능 구현
-        // input에다가 하나의 값을 넣고
-
-    }
 }

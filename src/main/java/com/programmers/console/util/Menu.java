@@ -4,10 +4,10 @@ public enum Menu {
     COMMAND_MESSAGE("""
             === Voucher Program ===
             Type **exit** to exit the program.
-            Type **create** to create a new voucher.
+            Type **create** to create a new IVoucher.
             Type **list** to list all vouchers."""),
     CREATE_VOUCHER_TYPE_MESSAGE("""
-            === Select a voucher type ===
+            === Select a IVoucher type ===
             1 : FixedAmountVoucher  
             2 : PercentDiscountVoucher""");
 

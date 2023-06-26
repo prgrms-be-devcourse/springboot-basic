@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Console implements InputView, OutputView {
 
-    private static final String arrow = "> ";
+    private static final String ARROW = "> ";
     private static final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -17,7 +17,7 @@ public class Console implements InputView, OutputView {
     @Override
     public void printMenu() {
         println(Menu.COMMAND_MESSAGE.getMessage());
-        print(arrow);
+        print(ARROW);
     }
 
     @Override

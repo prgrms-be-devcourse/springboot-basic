@@ -1,10 +1,8 @@
 package com.programmers.voucher.dto;
 
-import com.programmers.voucher.domain.Discount;
-import com.programmers.voucher.domain.FixedAmountVoucher;
-import com.programmers.voucher.domain.PercentDiscountVoucher;
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.*;
 
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -12,22 +10,11 @@ public class VoucherResponseDto {
     private UUID voucherID;
     private Discount discount;
     private LocalDate createdDate;
-    private LocalDate expirationDate;
-    private String type;
 
-    public VoucherResponseDto(Voucher voucher) {
-        this.voucherID = voucher.getVoucherId();
-        this.discount = voucher.getDiscount();
-        this.createdDate = voucher.getCreatedDate();
-        this.expirationDate = voucher.getExpirationDate();
-
-        if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
-            this.type = percentDiscountVoucher.getClass().getSimpleName();
-            return;
-        }
-        if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
-            this.type = fixedAmountVoucher.getClass().getSimpleName();
-        }
+    public VoucherResponseDto(UUID voucherID, Discount discount, LocalDate createdDate) {
+        this.voucherID = voucherID;
+        this.discount = discount;
+        this.createdDate = createdDate;
     }
 
     public UUID getVoucherID() {
@@ -42,11 +29,15 @@ public class VoucherResponseDto {
         return createdDate;
     }
 
-    public LocalDate getExpirationDate() {
-        return expirationDate;
-    }
-
-    public String getType() {
-        return type;
+    @Override
+    public String toString() {
+        return MessageFormat.format("""
+                        voucherId = {0}
+                        voucherType = {1}
+                        discountValue = {2}
+                        createdDate = {3}
+                        """,
+                voucherID, discount.getVoucherType(), discount.getValue(), createdDate
+        );
     }
 }

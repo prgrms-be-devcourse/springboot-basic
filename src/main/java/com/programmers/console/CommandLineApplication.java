@@ -14,16 +14,11 @@ public class CommandLineApplication {
         while (isRunning) {
             try {
                 console.printMenu();
-                CommandType command = getCommand();
-                execute(command);
+                execute(CommandType.findByCommand(console.getRequest()));
             } catch (RuntimeException e) {
                 console.println(e.getMessage() + "\n");
             }
         }
-    }
-
-    private CommandType getCommand() {
-        return CommandType.findByCommand(console.getRequest());
     }
 
     private void execute(CommandType command) {

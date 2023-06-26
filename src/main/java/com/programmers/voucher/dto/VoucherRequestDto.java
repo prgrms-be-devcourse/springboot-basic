@@ -1,5 +1,7 @@
 package com.programmers.voucher.dto;
 
-public record VoucherRequestDto(String voucherType, long discountAmount) {
-}
+import com.programmers.voucher.domain.Discount;
+import com.programmers.voucher.domain.VoucherType;
 
+public record VoucherRequestDto(Discount discount) {
+}

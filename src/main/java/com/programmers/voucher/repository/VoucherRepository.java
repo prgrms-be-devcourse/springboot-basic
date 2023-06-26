@@ -1,6 +1,7 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.VoucherEntity;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +12,9 @@ import java.util.UUID;
 @Repository
 public interface VoucherRepository {
 
-    UUID save(Voucher voucher);
+    Voucher save(Voucher voucher);
 
-    List<VoucherResponseDto> findAll();
+    List<Voucher> findAll();
 
     Optional<Voucher> findById(UUID voucherId);
 }

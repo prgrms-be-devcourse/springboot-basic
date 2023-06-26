@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class DiscountAmountTest {
+class DiscountValueTest {
 
     @DisplayName("할인 값이 최대값 최소값의 유효범위를 넘어가는 경우")
     @ParameterizedTest
@@ -21,7 +21,7 @@ class DiscountAmountTest {
             "342345"
     })
     public void maxAndMinDiscountAmountTest(long amount) {
-        assertThatThrownBy(() -> new DiscountAmount(amount))
+        assertThatThrownBy(() -> new FixedDiscount(amount))
                 .isInstanceOf(AmountValueException.class);
     }
 
@@ -37,7 +37,7 @@ class DiscountAmountTest {
             "342345"
     })
     public void maxAndMinPercentTest(long percent) {
-        assertThatThrownBy(() -> new DiscountPercent(percent))
+        assertThatThrownBy(() -> new PercentDiscount(percent))
                 .isInstanceOf(AmountValueException.class);
     }
 }

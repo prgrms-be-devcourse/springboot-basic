@@ -19,9 +19,12 @@ class DiscountTest {
             "20, 25",
             "5, 3"
     })
-    void discountAmountDiscountMethodTest(long itemPrice, long amount) {
-        DiscountAmount discountAmount = new DiscountAmount(amount);
-        assertEquals(itemPrice - amount, discountAmount.discount(itemPrice));
+    void fixedDiscountMethodTest(long itemPrice, long amount) {
+        FixedDiscount fixedDiscount = new FixedDiscount(amount);
+
+        long expected = itemPrice - amount;
+
+        assertEquals(expected, fixedDiscount.applyDiscount(itemPrice));
     }
     
     @DisplayName("퍼센트 할인 discount() 메서드 테스트")
@@ -34,8 +37,11 @@ class DiscountTest {
             "20, 100",
             "1000, 10"
     })
-    void discountPercentDiscountMethodTest(long itemPrice, long percent) {
-        DiscountPercent discountPercent = new DiscountPercent(percent);
-        assertEquals((long)(itemPrice * (1 - (percent / 100.0))), discountPercent.discount(itemPrice));
+    void percentDiscountMethodTest(long itemPrice, long percent) {
+        PercentDiscount percentDiscount = new PercentDiscount(percent);
+
+        long expected = itemPrice - (itemPrice * percent / 100);
+
+        assertEquals(expected, percentDiscount.applyDiscount(itemPrice));
     }
 }

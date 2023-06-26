@@ -2,33 +2,32 @@ package com.programmers.voucher.domain;
 
 import com.programmers.global.exception.AmountValueException;
 
-public class DiscountAmount implements Discount {
+public class FixedDiscount extends Discount {
 
     private static final long MIN_AMOUNT = 1;
     private static final long MAX_AMOUNT = 1_000_000;
 
-    private final long amount;
+    private final VoucherType voucherType = VoucherType.FIXED;
 
-    public DiscountAmount(long amount) {
+    public FixedDiscount(long amount) {
+        super(amount);
         validateDiscountAmount(amount);
-        this.amount = amount;
     }
 
     @Override
-    public String toString() {
-        return String.valueOf(amount);
-    }
-
-    @Override
-    public long discount(long itemPrice) {
+    public long applyDiscount(long itemPrice) {
         if (discountable(itemPrice)) {
-            return itemPrice - amount;
+            return itemPrice - getValue();
         }
         throw new AmountValueException();
     }
 
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
     private boolean discountable(long itemPrice) {
-        return itemPrice > amount;
+        return itemPrice >= this.getValue();
     }
 
     private void validateDiscountAmount(long amount) {

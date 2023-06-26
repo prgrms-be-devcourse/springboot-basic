@@ -13,7 +13,7 @@
   ```bash
   === Voucher Program ===
   Type **exit** to exit the program.
-  Type **create** to create a new voucher.
+  Type **create** to create a new IVoucher.
   Type **list** to list all vouchers.
   ```
 

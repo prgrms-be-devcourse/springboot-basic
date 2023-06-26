@@ -1,6 +1,8 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.VoucherEntity;
+import com.programmers.voucher.domain.VoucherMapper;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Repository;
 
@@ -10,21 +12,21 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final static Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private static final Map<UUID, VoucherEntity> storage = new ConcurrentHashMap<>();
 
     @Override
-    public UUID save(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
-        return voucher.getVoucherId();
+    public Voucher save(Voucher voucher) {
+        VoucherEntity voucherEntity = VoucherMapper.domainToEntity(voucher);
+        storage.put(voucher.getVoucherId(), voucherEntity);
+        return voucher;
     }
 
     @Override
-    public List<VoucherResponseDto> findAll() {
+    public List<Voucher> findAll() {
         if (storage.isEmpty()) {
             return Collections.emptyList();
-
         }
-        return storage.values().stream().map(VoucherResponseDto::new).toList();
+        return storage.values().stream().map(VoucherMapper::entityToDomain).toList();
     }
 
     @Override
