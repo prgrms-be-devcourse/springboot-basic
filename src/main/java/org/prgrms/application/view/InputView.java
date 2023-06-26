@@ -1,7 +1,9 @@
 package org.prgrms.application.view;
 
+import org.prgrms.application.domain.VoucherType;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 @Component
@@ -14,9 +16,12 @@ public class InputView {
         return selection;
     }
 
-    public String selectVoucherType() {
+    public VoucherType selectVoucherType() {
         String selection = sc.nextLine();
-        return selection;
+        Optional<VoucherType> voucherType = VoucherType.findBySelection(selection);
+
+        return voucherType.orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다."));
+
     }
 
     public String inputVoucherDetails() {

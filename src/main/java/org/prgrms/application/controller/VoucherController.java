@@ -1,6 +1,7 @@
 package org.prgrms.application.controller;
 
 import org.prgrms.application.domain.Voucher;
+import org.prgrms.application.domain.VoucherType;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
@@ -20,7 +21,7 @@ public class VoucherController {
         return voucherService.getVoucherList();
     }
 
-    public void createVoucher(String voucherType, String voucherDetails) {
+    public void createVoucher(VoucherType voucherType, String voucherDetails) {
         voucherService.createVoucher(voucherType, voucherDetails);
     }
 }

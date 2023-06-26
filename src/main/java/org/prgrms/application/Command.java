@@ -1,6 +1,7 @@
 package org.prgrms.application;
 
 import org.prgrms.application.controller.VoucherController;
+import org.prgrms.application.domain.VoucherType;
 import org.prgrms.application.view.InputView;
 import org.prgrms.application.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class Command implements CommandLineRunner {
     private void executeCommand(CommandType commandType) {
         switch (commandType) {
             case CREATE -> {
-                String voucherType = inputView.selectVoucherType();
+                VoucherType voucherType = inputView.selectVoucherType();
                 String voucherDetails = inputView.inputVoucherDetails();
                 voucherController.createVoucher(voucherType, voucherDetails);
             }

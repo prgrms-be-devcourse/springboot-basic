@@ -7,13 +7,13 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
-    public static Voucher create(String voucherType, String voucherDetails) {
+    public static Voucher create(VoucherType voucherType, String voucherDetails) {
         switch (voucherType) {
-            case "fixed":
+            case FIXED:
                 long discountAmount = parsePositiveNum(voucherDetails);
                 return new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
 
-            case "percent":
+            case PERCENT:
                 float discountPercent = parsePercent(voucherDetails);
                 return new PercentAmountVoucher(UUID.randomUUID(), discountPercent);
 
