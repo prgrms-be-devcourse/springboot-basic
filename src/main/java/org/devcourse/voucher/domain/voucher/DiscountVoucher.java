@@ -2,19 +2,20 @@ package org.devcourse.voucher.domain.voucher;
 
 import org.devcourse.voucher.domain.voucher.amount.VoucherAmount;
 
-public abstract class DiscountVoucher extends Voucher{
+public class DiscountVoucher extends Voucher{
 
-    protected final VoucherAmount amount;
+    private final VoucherAmount amount;
+    private final DiscountPolicy discountPolicy;
 
-    protected DiscountVoucher(long id, VoucherType type, VoucherAmount amount) {
+    protected DiscountVoucher(long id, VoucherType type, int amount, DiscountPolicy discountPolicy) {
         super(id, type);
-        this.amount = amount;
+        this.amount = VoucherAmount.of(type, amount);
+        this.discountPolicy = discountPolicy;
     }
 
     @Override
     public Money retrievePostBalance(Money targetMoney) {
-        return discount(targetMoney);
+        return discountPolicy.discount(targetMoney);
     }
 
-    protected abstract Money discount(Money originPrice);
 }
