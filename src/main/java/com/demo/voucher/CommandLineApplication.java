@@ -1,5 +1,6 @@
 package com.demo.voucher;
 
+import com.demo.voucher.controller.VoucherController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CommandLineApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CommandLineApplication.class, args);
+        SpringApplication.run(CommandLineApplication.class, args)
+                .getBean(VoucherController.class)
+                .run();
     }
 
 }
