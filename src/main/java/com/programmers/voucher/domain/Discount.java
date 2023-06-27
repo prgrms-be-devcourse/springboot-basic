@@ -11,13 +11,10 @@ public abstract class Discount {
     }
 
     public static Discount of(VoucherType voucherType, long value) {
-        switch (voucherType) {
-            case FIXED :
-                return new FixedDiscount(value);
-            case PERCENT :
-                return new PercentDiscount(value);
-        }
-        throw new IllegalArgumentException("");
+        return switch (voucherType) {
+            case FIXED -> new FixedDiscount(value);
+            case PERCENT -> new PercentDiscount(value);
+        };
     }
 
     public VoucherType getVoucherType() {
