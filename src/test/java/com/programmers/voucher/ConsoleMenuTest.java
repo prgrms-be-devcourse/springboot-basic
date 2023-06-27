@@ -1,11 +1,11 @@
 package com.programmers.voucher;
 
+import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.enumtype.VoucherType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.request.VoucherCreateRequest;
-import com.programmers.voucher.service.VoucherService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ class ConsoleMenuTest {
     private ConsoleMenu consoleMenu;
 
     @Mock
-    private VoucherService voucherService;
+    private VoucherController voucherController;
 
     @Mock
     private Console console;
@@ -41,7 +41,7 @@ class ConsoleMenuTest {
 
         VoucherCreateRequest input = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10);
         given(console.inputVoucherCreateInfo()).willReturn(input);
-        given(voucherService.createVoucher(any())).willReturn(UUID.randomUUID());
+        given(voucherController.createVoucher(any())).willReturn(UUID.randomUUID());
 
         //when
         consoleMenu.runClient();
@@ -49,7 +49,7 @@ class ConsoleMenuTest {
         //then
         then(console).should().inputInitialCommand();
         then(console).should().inputVoucherCreateInfo();
-        then(voucherService).should().createVoucher(input);
+        then(voucherController).should().createVoucher(input);
     }
 
     @Test
@@ -61,13 +61,13 @@ class ConsoleMenuTest {
         List<Voucher> testVouchers = List.of(fixedVoucher1, fixedVoucher2);
 
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.LIST);
-        given(voucherService.findVouchers()).willReturn(testVouchers);
+        given(voucherController.findVouchers()).willReturn(testVouchers);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(voucherService).should().findVouchers();
+        then(voucherController).should().findVouchers();
     }
 }
