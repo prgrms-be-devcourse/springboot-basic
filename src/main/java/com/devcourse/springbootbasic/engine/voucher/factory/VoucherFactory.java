@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.engine.voucher.domain.factory;
+package com.devcourse.springbootbasic.engine.voucher.factory;
 
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 

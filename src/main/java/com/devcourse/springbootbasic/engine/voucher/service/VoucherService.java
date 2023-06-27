@@ -1,18 +1,14 @@
 package com.devcourse.springbootbasic.engine.voucher.service;
 
 import com.devcourse.springbootbasic.engine.model.VoucherType;
-import com.devcourse.springbootbasic.engine.voucher.domain.FixedAmountVoucher;
-import com.devcourse.springbootbasic.engine.voucher.domain.PercentDiscountVoucher;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import com.devcourse.springbootbasic.engine.voucher.domain.VoucherDto;
-import com.devcourse.springbootbasic.engine.voucher.domain.factory.FixedVoucherFactory;
-import com.devcourse.springbootbasic.engine.voucher.domain.factory.PercentVoucherFactory;
+import com.devcourse.springbootbasic.engine.voucher.factory.FixedVoucherFactory;
+import com.devcourse.springbootbasic.engine.voucher.factory.PercentVoucherFactory;
 import com.devcourse.springbootbasic.engine.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherService {

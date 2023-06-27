@@ -3,6 +3,7 @@ package com.devcourse.springbootbasic.engine.io;
 import com.devcourse.springbootbasic.engine.config.Message;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 @Component
@@ -19,6 +20,7 @@ public class OutputConsole {
 
     public void printError(Exception e) {
         printMessage(e.getMessage());
+        printMessage(e.getCause().getMessage());
         printLine();
     }
 
@@ -28,7 +30,7 @@ public class OutputConsole {
     }
 
     public <T> void printVoucher(T t) {
-        printMessage(t.toString());
+        printMessage(MessageFormat.format("{0} {1}", t.toString(), Message.CREATION_DONE));
     }
 
     public <T> void printVouchers(List<T> voucherList) {

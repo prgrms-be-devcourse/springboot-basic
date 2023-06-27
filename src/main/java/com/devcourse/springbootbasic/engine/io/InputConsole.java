@@ -25,7 +25,6 @@ public class InputConsole {
     private static final Logger logger = LoggerFactory.getLogger(InputConsole.class);
     private final Scanner scanner = new Scanner(System.in);
 
-
     private final ConfigurableApplicationContext applicationContext;
 
     InputConsole(ConfigurableApplicationContext applicationContext) {
