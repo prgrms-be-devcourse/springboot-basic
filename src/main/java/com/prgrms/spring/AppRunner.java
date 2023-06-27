@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 @AllArgsConstructor
 @Controller
-public class AppRunner implements Runnable{
+public class AppRunner implements Runnable {
     private final VoucherController voucherController;
     private final Scanner scanner = new Scanner(System.in);
 
@@ -17,7 +17,7 @@ public class AppRunner implements Runnable{
     public void run() {
         boolean isExecute = true;
         while (isExecute) {
-            for (MenuType mt: MenuType.values()) {
+            for (MenuType mt : MenuType.values()) {
                 System.out.println(mt.getName() + " -> " + mt.getExplain());
             }
             String type = scanner.nextLine();

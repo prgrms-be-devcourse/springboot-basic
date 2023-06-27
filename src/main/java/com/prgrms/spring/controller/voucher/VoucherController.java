@@ -20,7 +20,7 @@ public class VoucherController {
 
         System.out.println("생성하고 싶은 바우처 타입을 숫자로 선택해주세요.");
 
-        for (VoucherType vt: VoucherType.values()) {
+        for (VoucherType vt : VoucherType.values()) {
             System.out.println(vt.getId() + ". " + vt.getName());
         }
         int select = Integer.parseInt(scanner.nextLine());

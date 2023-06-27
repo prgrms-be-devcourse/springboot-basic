@@ -32,10 +32,10 @@ public class VoucherService {
         List<Voucher> voucherList = new ArrayList<>(vouchers.values());
         List<String> outputList = new ArrayList<>();
 
-        for (Voucher voucher: voucherList) {
+        for (Voucher voucher : voucherList) {
             if (voucher instanceof FixedAmountVoucher) {
                 outputList.add(String.format("FixedAmountVoucher : %d $", voucher.getDiscount()));
-            } else if (voucher instanceof  PercentDiscountVoucher) {
+            } else if (voucher instanceof PercentDiscountVoucher) {
                 outputList.add(String.format("PercentDiscountVoucher : %d %%", voucher.getDiscount()));
             }
         }

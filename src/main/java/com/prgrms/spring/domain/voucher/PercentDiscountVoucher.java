@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long discount;
