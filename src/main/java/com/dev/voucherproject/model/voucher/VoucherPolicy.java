@@ -1,6 +1,8 @@
 package com.dev.voucherproject.model.voucher;
 
+
 import java.util.Arrays;
+import java.util.List;
 
 public enum VoucherPolicy {
     FIXED_AMOUNT_VOUCHER("fix"),
@@ -25,5 +27,11 @@ public enum VoucherPolicy {
 
     public String getPolicyName() {
         return policyName;
+    }
+
+    public static List<String> getPolicyNames() {
+        return Arrays.stream(VoucherPolicy.values())
+                .map(v -> v.policyName)
+                .toList();
     }
 }
