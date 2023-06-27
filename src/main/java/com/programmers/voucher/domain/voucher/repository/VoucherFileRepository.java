@@ -4,6 +4,7 @@ import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.global.exception.DataAccessException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -19,8 +20,9 @@ import java.util.UUID;
 public class VoucherFileRepository implements VoucherRepository {
     private final File file;
 
-    public VoucherFileRepository(ResourceLoader resourceLoader) {
-        Resource resource = resourceLoader.getResource("file:files/vouchers.csv");
+    public VoucherFileRepository(@Value("${file.vouchers.path}") String filePath,
+                                 ResourceLoader resourceLoader) {
+        Resource resource = resourceLoader.getResource("file:" + filePath);
         try {
             this.file = resource.getFile();
         } catch (IOException e) {

@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.customer.repository;
 
 import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.global.exception.DataAccessException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
@@ -13,11 +14,11 @@ import java.util.UUID;
 
 @Repository
 public class BlacklistFileRepository implements BlacklistRepository {
-
     private final File file;
 
-    public BlacklistFileRepository(ResourceLoader resourceLoader) {
-        Resource resource = resourceLoader.getResource("file:files/customer_blacklist.csv");
+    public BlacklistFileRepository(@Value("${file.blacklist.path}") String filePath,
+                                   ResourceLoader resourceLoader) {
+        Resource resource = resourceLoader.getResource("file:" + filePath);
         try {
             this.file = resource.getFile();
         } catch (IOException e) {

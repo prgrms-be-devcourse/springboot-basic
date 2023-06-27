@@ -1,0 +1,5 @@
+file:
+  vouchers:
+    path: files/vouchers.csv
+  blacklist:
+    path: files/customer_blacklist.csv
