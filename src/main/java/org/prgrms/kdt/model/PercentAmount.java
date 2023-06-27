@@ -1,9 +1,15 @@
 package org.prgrms.kdt.model;
 
-public class PercentAmount extends Amount {
+public class PercentAmount implements Amount {
+
+	private final int amount;
 
 	public PercentAmount(int amount) {
-		super(amount);
+		if (!validate(amount)){
+			throw new IllegalArgumentException("PercentAmount의 할인 값은 1이상 100이하 이어야 합니다.");
+		}
+
+		this.amount = amount;
 	}
 
 	@Override
@@ -13,5 +19,10 @@ public class PercentAmount extends Amount {
 		}
 
 		return true;
+	}
+
+	@Override
+	public int getAmount() {
+		return this.amount;
 	}
 }
