@@ -1,9 +1,8 @@
 package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.AppConfiguration;
-import org.prgrms.kdt.voucher.controller.Controller;
+import org.prgrms.kdt.voucher.controller.MyController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -16,6 +15,6 @@ public class VoucherApp {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         environment.setActiveProfiles("local");
         applicationContext.refresh();
-        applicationContext.getBean("controller", Controller.class).run();
+        applicationContext.getBean(MyController.class).run();
     }
 }

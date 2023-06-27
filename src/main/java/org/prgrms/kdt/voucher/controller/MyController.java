@@ -6,20 +6,20 @@ import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.view.Input;
 import org.prgrms.kdt.voucher.view.Output;
+import org.springframework.stereotype.Controller;
 
 import java.util.InputMismatchException;
 
 import static org.prgrms.kdt.voucher.view.ConsoleOutput.SELECT_VOUCHER_MESSAGE;
 
-
-@org.springframework.stereotype.Controller
-public class Controller {
+@Controller
+public class MyController {
 
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
 
-    public Controller(Input input, Output output, VoucherService voucherService) {
+    public MyController(Input input, Output output, VoucherService voucherService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
