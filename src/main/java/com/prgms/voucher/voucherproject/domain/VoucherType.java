@@ -17,7 +17,7 @@ public enum VoucherType {
             case 2:
                 return PERCENT;
             default:
-                return null;
+                return null; //TODO: null없애고 싶은데 default를 없애면 return 오류가 남
         }
     }
 }

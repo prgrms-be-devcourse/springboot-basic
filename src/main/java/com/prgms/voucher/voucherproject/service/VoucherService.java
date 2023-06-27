@@ -23,7 +23,7 @@ public class VoucherService {
 
     public void list(){
         ArrayList<Voucher> voucherArrayList = voucherRepository.findAll();
-        if(voucherArrayList.size() <= 0) {
+        if(voucherArrayList.size() == 0) {
             console.printNoVoucher();
         }
         if(voucherArrayList.size() > 0){
@@ -52,7 +52,7 @@ public class VoucherService {
                     throw new IllegalArgumentException("잘못된 퍼센트 할인 금액입니다.");
                 }
                 Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
-                voucherRepository.save(percentDiscountVoucher);
+                voucherRepository.save(percentDiscountVoucher); //TODO : percentVoucher는 save 안 되는 문제 (UUID도 null로 들어감)
                 break;
 
             default:

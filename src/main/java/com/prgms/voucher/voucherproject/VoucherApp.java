@@ -38,7 +38,7 @@ public class VoucherApp implements Runnable{
                         try{
                             voucherService.create(voucherType);
                         }
-                        catch (Exception e){
+                        catch (Exception e){ //TODO: 잘못된 VoucherType 입력 시 예외처리 안됨
                             e.getMessage();
                         }
                     }
