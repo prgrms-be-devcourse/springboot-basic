@@ -2,7 +2,7 @@ package co.programmers.voucher.entity;
 
 public class DiscountByFixedAmount implements DiscountStrategy {
 	private static final int MAX_AMOUNT = 1_000_000;
-	private static final String DISCOUNT_TYPE_NAME = "Discount by fixed amount";
+	private static final String DISCOUNT_TYPE_NAME = "fixed amount";
 	private final int amount;
 
 	public DiscountByFixedAmount(int amount) {

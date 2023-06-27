@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: local
+
+file:
+  path: src/main/resources/voucher.csv

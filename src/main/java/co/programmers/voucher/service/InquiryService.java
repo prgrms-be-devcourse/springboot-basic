@@ -14,10 +14,14 @@ public class InquiryService {
 	}
 
 	public Response run() {
-		return Response.builder()
-				.state(Response.State.SUCCESS)
-				.responseData(voucherRepository.findAll())
-				.build();
+		try {
+			return Response.builder()
+					.state(Response.State.SUCCESS)
+					.responseData(voucherRepository.findAll())
+					.build();
+		} catch (Exception exception) {
+			return new Response(Response.State.FAILED, exception.getMessage());
+		}
 	}
 
 }

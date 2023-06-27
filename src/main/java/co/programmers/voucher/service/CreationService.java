@@ -1,5 +1,7 @@
 package co.programmers.voucher.service;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,19 +15,16 @@ import co.programmers.voucher.repository.VoucherRepository;
 
 @Service
 public class CreationService {
-	private static final Logger logger = LoggerFactory.getLogger(CreationService.class);
-	private static int voucherCnt;
+	private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
+	private int voucherCnt;
 	private final VoucherRepository repository;
 
-	public CreationService(VoucherRepository repository) {
+	public CreationService(VoucherRepository repository) throws IOException {
 		this.repository = repository;
+		voucherCnt = repository.getVoucherCount();
 	}
 
-	private static int assignId() {
-		return ++voucherCnt;
-	}
-
-	public Response run(VoucherRequestDTO voucherRequestDTO) {
+	public Response run(VoucherRequestDTO voucherRequestDTO) throws IOException {
 		DiscountStrategy discountStrategy;
 		String discountType = voucherRequestDTO.getDiscountStrategy();
 		int amount = voucherRequestDTO.getDiscountAmount();
@@ -45,6 +44,10 @@ public class CreationService {
 		return Response.builder()
 				.state(Response.State.SUCCESS)
 				.build();
+	}
+
+	private int assignId() {
+		return ++voucherCnt;
 	}
 
 }

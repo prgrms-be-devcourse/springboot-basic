@@ -21,7 +21,7 @@
     <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
-    <logger name="co.programmers.voucher.controller.VoucherCommandLineRunner" level="debug">
+    <logger name="co.programmers.voucher" level="debug">
         <appender-ref ref="LOG_FILE"/>
     </logger>
 </configuration>
