@@ -1,13 +1,13 @@
 package com.dev.bootbasic.view;
 
+import com.dev.bootbasic.voucher.domain.VoucherType;
 import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.dev.bootbasic.voucher.domain.VoucherType.FIXED;
-import static com.dev.bootbasic.voucher.domain.VoucherType.PERCENT;
+import static com.dev.bootbasic.util.Constant.SPACE_SEPARATOR;
 
 @Component
 public class ViewManager {
@@ -20,12 +20,10 @@ public class ViewManager {
             """;
     private static final String VOUCHER_TYPE_MESSAGE = """
             === Voucher Type Choice ===
-            Type fixed {%s ~ %s}
-            Type percent {%s ~ %s} 
+            %s
             """;
     private static final int VOUCHER_TYPE_INDEX = 0;
     private static final int VOUCHER_AMOUNT_INDEX = 1;
-    private static final String SPACE_SEPARATOR = " ";
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -40,8 +38,7 @@ public class ViewManager {
     }
 
     public VoucherCreateRequest readVoucherCreateInfo() {
-        outputView.showMessage(String.format(VOUCHER_TYPE_MESSAGE, FIXED.getMinimumAmount(), FIXED.getMaximumAmount()
-                , PERCENT.getMinimumAmount(), PERCENT.getMaximumAmount()));
+        outputView.showMessage(String.format(VOUCHER_TYPE_MESSAGE, VoucherType.getDisplayMessage()));
 
         String voucher = inputView.inputLine();
         String[] voucherInfo = voucher.split(SPACE_SEPARATOR);
