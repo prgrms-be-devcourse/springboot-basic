@@ -26,9 +26,8 @@ public class VoucherController implements CommandLineRunner {
             voucherView.printOptions();
 
             try {
-                log.info("Voucher Controller: read option input");
                 Option option = Option.find(voucherView.readChoice());
-                log.debug("option input: {}", option);
+                log.info("option input: {}", option);
                 switch (option) {
                     case CREATE:
                         createVoucher();
@@ -49,17 +48,12 @@ public class VoucherController implements CommandLineRunner {
 
     private void createVoucher() {
 
-        log.info("Voucher Controller: read voucher type input");
-
         VoucherPolicy voucherPolicy = VoucherPolicy.find(voucherView.readVoucherType());
-
-        log.debug("voucher type input: {}", voucherPolicy);
-        log.info("Voucher Controller: read voucher amount input");
+        log.info("voucher type input: {}", voucherPolicy);
 
         long amount = voucherView.readAmount();
-
         log.debug("voucher amount input: {}", amount);
-        
+
         voucherService.create(voucherPolicy, amount);
     }
 }
