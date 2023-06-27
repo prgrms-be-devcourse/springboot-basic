@@ -1,6 +1,7 @@
 package com.example.voucher.ui;
 
 import com.example.voucher.domain.Voucher;
+import java.util.List;
 
 public class Output {
 
@@ -15,5 +16,11 @@ public class Output {
         System.out.println("Voucher ID: " + voucher.getVoucherId());
         System.out.println("Amount: " + voucher.getAmount());
         System.out.println("----------------------------");
+    }
+
+    public static void printVoucherInfoList(List<Voucher> vouchers) {
+        for (Voucher voucher : vouchers) {
+            printVoucherInfo(voucher);
+        }
     }
 }
