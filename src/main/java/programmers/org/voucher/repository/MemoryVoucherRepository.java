@@ -3,10 +3,11 @@ package programmers.org.voucher.repository;
 import programmers.org.voucher.domain.Voucher;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> voucherStorage = new HashMap<>();
+    private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
 
     @Override
     public void save(Voucher voucher) {
