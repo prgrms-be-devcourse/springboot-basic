@@ -1,8 +1,7 @@
-package com.dev.voucherproject.model.storage.voucher.io;
+package com.dev.voucherproject.model.storage.io;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
@@ -11,24 +10,21 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
 @Component
-public class VoucherFileReader {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherFileReader.class);
-    @Value("${voucher.path}")
-    private String path;
-    @Value("${voucher.filename}")
-    private String filename;
+public class CsvFileReader {
+    private static final Logger logger = LoggerFactory.getLogger(CsvFileReader.class);
     private final ResourceLoader resourceLoader;
 
-    public VoucherFileReader(ResourceLoader resourceLoader) {
+    public CsvFileReader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 
-    public List<String> readAllLines() {
-        Resource resource = resourceLoader.getResource(getFileLocation());
+    public List<String> readAllLines(final String path, final String filename) {
+        Resource resource = resourceLoader.getResource(getFileLocation(path, filename));
 
         try {
             File file = resource.getFile();
@@ -39,11 +35,12 @@ public class VoucherFileReader {
 
             return Files.readAllLines(file.toPath());
         } catch (IOException e) {
-            logger.warn("{} 파일을 찾을 수 없습니다.", path);
-            throw new FileSystemNotFoundException("파일을 찾을 수 없습니다.");
+            logger.warn("{} 파일을 찾을 수 없습니다.", filename);
+            throw new FileSystemNotFoundException(MessageFormat.format("{0} 파일을 찾을 수 없습니다.", filename));
         }
     }
-    private String getFileLocation() {
+
+    private String getFileLocation(final String path, final String filename) {
         return "file:%s/%s".formatted(path, filename);
     }
 }

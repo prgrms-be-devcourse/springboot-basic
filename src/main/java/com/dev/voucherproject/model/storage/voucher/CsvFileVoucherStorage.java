@@ -1,9 +1,10 @@
 package com.dev.voucherproject.model.storage.voucher;
 
-import com.dev.voucherproject.model.storage.voucher.io.VoucherFileReader;
+import com.dev.voucherproject.model.storage.io.CsvFileReader;
 import com.dev.voucherproject.model.voucher.Voucher;
-import com.dev.voucherproject.model.storage.voucher.io.VoucherFileWriter;
+import com.dev.voucherproject.model.storage.io.VoucherFileWriter;
 import com.dev.voucherproject.model.voucher.VoucherPolicy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -15,11 +16,15 @@ import java.util.UUID;
 @Repository
 @Profile("default")
 public class CsvFileVoucherStorage implements VoucherStorage {
-    private final VoucherFileReader voucherFileReader;
+    @Value("${voucher.path}")
+    private String path;
+    @Value("${voucher.filename}")
+    private String filename;
+    private final CsvFileReader csvFileReader;
     private final VoucherFileWriter voucherFileWriter;
 
-    public CsvFileVoucherStorage(VoucherFileReader voucherFileReader, VoucherFileWriter voucherFileWriter) {
-        this.voucherFileReader = voucherFileReader;
+    public CsvFileVoucherStorage(CsvFileReader csvFileReader, VoucherFileWriter voucherFileWriter) {
+        this.csvFileReader = csvFileReader;
         this.voucherFileWriter = voucherFileWriter;
     }
 
@@ -35,13 +40,13 @@ public class CsvFileVoucherStorage implements VoucherStorage {
 
     @Override
     public List<Voucher> findAll() {
-        return voucherFileReader.readAllLines().stream()
-                .map(this::csvFileApply)
+        return csvFileReader.readAllLines(path, filename).stream()
+                .map(this::csvFileToVoucher)
                 .toList();
     }
 
-    private Voucher csvFileApply(String voucher) {
-        String[] data = voucher.split(",");
+    private Voucher csvFileToVoucher(final String line) {
+        String[] data = line.split(",");
         return Voucher.of(VoucherPolicy.valueOf(data[0]), Long.parseLong(data[1]), UUID.fromString(data[2]));
     }
 }
