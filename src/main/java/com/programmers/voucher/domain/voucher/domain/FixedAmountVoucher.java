@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.voucher.domain;
 
+import com.programmers.voucher.domain.voucher.dto.VoucherDto;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
@@ -8,6 +10,11 @@ public class FixedAmountVoucher extends Voucher {
     public FixedAmountVoucher(UUID voucherId, long amount) {
         super(voucherId);
         this.amount = amount;
+    }
+
+    @Override
+    public VoucherDto toDto() {
+        return new VoucherDto(super.voucherId, VoucherType.FIXED_AMOUNT, amount);
     }
 
     @Override
