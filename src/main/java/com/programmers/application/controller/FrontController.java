@@ -2,6 +2,7 @@ package com.programmers.application.controller;
 
 import com.programmers.application.io.IO;
 import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Primary
 public class FrontController implements Controller{
     private final Map<ServiceCommand, Controller> controllerMap = new HashMap();
     private final VoucherController voucherController;
