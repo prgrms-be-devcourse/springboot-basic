@@ -6,15 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VoucherProjectApplication implements CommandLineRunner {
+public class VoucherProjectApplication {
 
-
+    private final Console console = new Console();
     public static void main(String[] args) {
         SpringApplication.run(VoucherProjectApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
 
-    }
 }
