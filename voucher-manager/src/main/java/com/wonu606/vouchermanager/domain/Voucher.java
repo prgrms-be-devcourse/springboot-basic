@@ -2,7 +2,7 @@ package com.wonu606.vouchermanager.domain;
 
 import java.util.UUID;
 
-public abstract class Voucher {
+public abstract class  Voucher {
 
     private final UUID uuid;
 

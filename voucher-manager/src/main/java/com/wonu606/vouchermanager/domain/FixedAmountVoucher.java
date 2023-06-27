@@ -18,12 +18,12 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     private void validateFixedAmount(double fixedAmount) {
-        if (!isFixedAmountValid(fixedAmount)) {
+        if (isInvalidFixedAmount(fixedAmount)) {
             throw new IllegalArgumentException("할인할 금액은 양수여야 합니다.");
         }
     }
 
-    private boolean isFixedAmountValid(double fixedAmount) {
-        return fixedAmount >= 0;
+    private boolean isInvalidFixedAmount(double fixedAmount) {
+        return fixedAmount < 0;
     }
 }
