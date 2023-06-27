@@ -8,6 +8,7 @@ import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.exception.NoSuchVoucherType;
+
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -21,19 +22,33 @@ public class VoucherService {
     }
 
     public VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
-        Optional<VoucherType> selectedVoucherType = Optional.ofNullable(Stream.of(VoucherType.values()).filter(voucherType -> voucherType.getVoucherType().equalsIgnoreCase(inputSelectText))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchVoucherType("해당 바우처 타입이 존재하지 않습니다.")));
+        VoucherType selectedVoucherType = matchVoucherTypeFilter(inputSelectText);
 
+        return selectedVoucherType;
+    }
+
+    private VoucherType matchVoucherTypeFilter(String inputSelectText) {
+        Optional<VoucherType> selectedVoucherType = getMatchVoucherType(Stream.of(VoucherType.values()), inputSelectText);
+        if(selectedVoucherType.isEmpty()) {
+            throw new NoSuchVoucherType();
+        }
         return selectedVoucherType.get();
     }
 
+    private Optional<VoucherType> getMatchVoucherType(Stream<VoucherType> voucherType, String inputSelectText) {
+        VoucherType matchedVoucherType = voucherType.filter(v -> v.getVoucherType().equalsIgnoreCase(inputSelectText))
+                                        .findFirst()
+                                        .orElseThrow(() -> new NoSuchVoucherType("해당 바우처 타입이 존재하지 않습니다."));
+
+        return Optional.ofNullable(matchedVoucherType);
+    }
+
     public Voucher insertFixedAmountVoucher(Long discountAmount) {
-        return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),VoucherType.FIXED,discountAmount));
+        return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, discountAmount));
     }
 
     public Voucher insertPercentDiscountVoucher(int fixedAmount) {
-        return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),VoucherType.PERCENT,fixedAmount));
+        return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT, fixedAmount));
     }
 
 }
