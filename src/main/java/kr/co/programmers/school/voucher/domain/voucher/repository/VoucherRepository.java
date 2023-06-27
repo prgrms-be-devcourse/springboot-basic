@@ -3,9 +3,7 @@ package kr.co.programmers.school.voucher.domain.voucher.repository;
 import kr.co.programmers.school.voucher.domain.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class VoucherRepository {
@@ -13,5 +11,9 @@ public class VoucherRepository {
 
     public void save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
+    }
+
+    public List<Voucher> findAll() {
+        return new ArrayList<>(storage.values());
     }
 }
