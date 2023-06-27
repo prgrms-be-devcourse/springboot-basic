@@ -1,6 +1,5 @@
 package com.programmers.voucher.service;
 
-import com.programmers.console.view.Console;
 import com.programmers.voucher.domain.*;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
@@ -18,12 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VoucherServiceTest {
 
-    private VoucherRepository voucherRepository;
     private VoucherService voucherService;
 
     @BeforeEach
     public void setUp() {
-        voucherRepository = new MemoryVoucherRepository();
+        VoucherRepository voucherRepository = new MemoryVoucherRepository();
         voucherService = new VoucherServiceImpl(voucherRepository);
     }
 
@@ -38,10 +36,8 @@ class VoucherServiceTest {
             , "1, 30"
     })
     void createVoucherTest(String command, long value) {
-        UUID id = UUID.randomUUID();
-
         Discount discount = Discount.of(VoucherType.of(command), value);
-
+        UUID id = UUID.randomUUID();
         VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
 
         Voucher voucher = voucherService.create(requestDto);
@@ -52,14 +48,11 @@ class VoucherServiceTest {
     @DisplayName("바우처를 생성했던 ID로 바우처 조회가 가능한지")
     @Test
     void findByIdTest() {
-        UUID id = UUID.randomUUID();
-
         Discount discount = new FixedDiscount(123456);
-
+        UUID id = UUID.randomUUID();
         VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
 
         Voucher expected = voucherService.create(requestDto);
-
         Voucher actual = voucherService.findVoucher(id);
 
         assertEquals(expected.getVoucherId(), actual.getVoucherId());
