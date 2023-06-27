@@ -21,10 +21,10 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Voucher createVoucher(VoucherDto voucherDto) {
-        log.info("Creating voucher with type: {} and discount: {}", voucherDto.getType(), voucherDto.getDiscount());
+        log.info("Creating voucher with type: {} and discount: {}", voucherDto.type(), voucherDto.discount());
         Voucher voucher;
-        String type = voucherDto.getType();
-        long discount = voucherDto.getDiscount();
+        String type = voucherDto.type();
+        long discount = voucherDto.discount();
 
         if (type.equalsIgnoreCase("fixed")) {
             voucher = new FixedAmountVoucher(UUID.randomUUID(), type, discount);
