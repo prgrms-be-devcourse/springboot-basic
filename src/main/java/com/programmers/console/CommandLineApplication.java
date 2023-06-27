@@ -1,6 +1,5 @@
 package com.programmers.console;
 
-import com.programmers.global.exception.DiscountValueException;
 import com.programmers.global.exception.VoucherCommandException;
 import com.programmers.console.util.Command;
 import com.programmers.console.view.Console;
@@ -47,14 +46,7 @@ public class CommandLineApplication {
         VoucherType voucherType = inputVoucherInfo();
         long discountInfo = inputDiscountInfo();
         Discount discount = Discount.of(voucherType, discountInfo);
-        while (true) {
-            try {
-                createVoucher(discount);
-                return;
-            } catch (RuntimeException e) {
-                console.println(e.getMessage());
-            }
-        }
+        createVoucher(discount);
     }
 
     private VoucherType inputVoucherInfo() {
