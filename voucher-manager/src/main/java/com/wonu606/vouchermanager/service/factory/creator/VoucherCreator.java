@@ -7,5 +7,5 @@ import java.util.UUID;
 // interface
 public interface VoucherCreator {
 
-    public abstract Voucher create(UUID uuid, VoucherVO voucherVO);
+    public abstract Voucher create(UUID uuid, double value);
 }

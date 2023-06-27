@@ -8,7 +8,7 @@ import java.util.UUID;
 public class PercentageVoucherCreator implements VoucherCreator {
 
     @Override
-    public Voucher create(UUID uuid, VoucherVO voucherVO) {
-        return new PercentageVoucher(uuid, voucherVO.getValue());
+    public Voucher create(UUID uuid, double value) {
+        return new PercentageVoucher(uuid, value);
     }
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
 public class FixedAmountVoucherCreator implements VoucherCreator {
 
     @Override
-    public Voucher create(UUID uuid, VoucherVO voucherVO) {
-        return new FixedAmountVoucher(uuid, voucherVO.getValue());
+    public Voucher create(UUID uuid, double value) {
+        return new FixedAmountVoucher(uuid, value);
     }
 }

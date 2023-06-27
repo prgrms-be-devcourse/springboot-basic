@@ -33,7 +33,7 @@ public class VoucherFactory {
         if (voucherCreator == null) {
             throw new IllegalArgumentException("생성할 수 없는 타입입니다.");
         }
-        return voucherCreator.create(uuid, voucherVO);
+        return voucherCreator.create(uuid, voucherVO.getValue());
     }
 
     private void initVoucherCreatorMap() {
