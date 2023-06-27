@@ -33,11 +33,21 @@ public class Console implements Input, Output {
     }
 
     public long readDiscount(String prompt) {
+        printLine(prompt);
         while (true) {
             try {
-                return Long.parseLong(readLine(prompt));
+                long discount = Long.parseLong(readLine());
+                if (discount < 0) {
+                    throw new IllegalArgumentException("Discount amount cannot be negative.");
+                }
+                if (discount > 100) {
+                    throw new IllegalArgumentException("Discount rate cannot be greater than 100.");
+                }
+                return discount;
             } catch (NumberFormatException e) {
-                log.error("Invalid number input. Try again.", e);
+                printLine("Please enter a valid number.");
+            } catch (IllegalArgumentException e) {
+                printLine(e.getMessage() + " Please try again.");
             }
         }
     }
