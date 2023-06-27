@@ -1,9 +1,10 @@
 package com.dev.bootbasic.view;
 
 import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
+import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
+import java.util.List;
 
 import static com.dev.bootbasic.voucher.domain.VoucherType.FIXED;
 import static com.dev.bootbasic.voucher.domain.VoucherType.PERCENT;
@@ -50,8 +51,8 @@ public class ViewManager {
         return new VoucherCreateRequest(voucherType, amount);
     }
 
-    public void showCollectionMessage(Collection collection) {
-        collection.forEach(message -> showMessage(message.toString()));
+    public void showCollectionMessage(List<VoucherDetailsResponse> vouchers) {
+        vouchers.forEach(message -> showMessage(message.toString()));
     }
 
     public void showMessage(String message) {
