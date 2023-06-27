@@ -11,5 +11,9 @@ public interface OutputView {
 
 	public void displayCreateVoucherMessage();
 
+	public void displayAmountErrorMessage();
+
+
 	public void displayVoucherList(List<VoucherDTO> voucherTypes);
+
 }

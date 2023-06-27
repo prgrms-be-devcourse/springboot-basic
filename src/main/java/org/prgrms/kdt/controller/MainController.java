@@ -48,8 +48,13 @@ public class MainController {
 				VoucherType voucherType = inputView.getVoucherType();
 				int amount = inputView.getAmount();
 
-				VoucherDTO voucherDTO = VoucherFactory.getVoucherDTO(amount, voucherType);
-				this.voucherService.createVoucher(voucherDTO);
+				try {
+					VoucherDTO voucherDTO = VoucherFactory.getVoucherDTO(amount, voucherType);
+					this.voucherService.createVoucher(voucherDTO);
+				}catch (IllegalArgumentException e){
+					outputView.displayAmountErrorMessage();
+					executeCommand(Command.CREATE);
+				}
 			}
 			case LIST -> {
 				List<VoucherDTO> voucherDTOS = voucherService.getVouchers();

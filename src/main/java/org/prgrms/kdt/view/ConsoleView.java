@@ -50,7 +50,6 @@ public class ConsoleView implements InputView, OutputView {
 	@Override
 	public int getAmount() {
 		return this.textIo.newIntInputReader()
-			.withMinVal(0)
 			.read("amount input: ");
 	}
 
@@ -89,6 +88,11 @@ public class ConsoleView implements InputView, OutputView {
 	public void displayCreateVoucherMessage() {
 		printVoucherIdxDescription();
 		System.out.println("번호를 입력 해주세요: ");
+	}
+
+	@Override
+	public void displayAmountErrorMessage() {
+		System.out.println("입력 된 할인 값 범위가 잘 못 되었습니다.");
 	}
 
 	@Override

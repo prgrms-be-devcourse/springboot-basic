@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class IdGenerator {
 
 	private Set<Long> store;
@@ -13,7 +16,7 @@ public class IdGenerator {
 	private Random random;
 
 	public IdGenerator() {
-		Random random = new SecureRandom();
+		this.random = new SecureRandom();
 		this.store = new HashSet<>();
 	}
 
@@ -22,9 +25,7 @@ public class IdGenerator {
 
 		do {
 			randomKey = random.nextLong();
-		}while(!store.contains(randomKey));
-
-		store.add(randomKey);
+		}while(!store.add(randomKey));
 
 		return randomKey;
 	}
