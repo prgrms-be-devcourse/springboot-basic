@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import co.programmers.voucher.dto.Response;
-import co.programmers.voucher.dto.VoucherInquiryResponseDTO;
+import co.programmers.voucher.dto.VoucherResponseDTO;
 
 @Component
 public class Console implements InputView, OutputView {
@@ -50,27 +50,13 @@ public class Console implements InputView, OutputView {
 			return;
 		}
 		Object responseData = contents.getResponseData();
-		if (!(responseData instanceof List)) {
-			System.out.println(contents);
-			return;
-		}
 		for (var content : (List)responseData) {
-			if (content instanceof VoucherInquiryResponseDTO) {
-				System.out.println(MessageFormat.format("id : {0}", ((VoucherInquiryResponseDTO)content).getId()));
-				System.out.println(MessageFormat.format("name : {0}", ((VoucherInquiryResponseDTO)content).getName()));
-				System.out.println(MessageFormat.format("description : {0}",
-						((VoucherInquiryResponseDTO)content).getDescription()));
-				System.out.println(MessageFormat.format("discountType : {0}",
-						((VoucherInquiryResponseDTO)content).getDiscountType()));
-				System.out.println(MessageFormat.format("discountAmount : {0}",
-						((VoucherInquiryResponseDTO)content).getDiscountAmount()));
-				System.out.println(
-						MessageFormat.format("create At : {0}", ((VoucherInquiryResponseDTO)content).getCreatedAt()));
-				System.out.println(
-						MessageFormat.format("expire At : {0}", ((VoucherInquiryResponseDTO)content).getExpiredAt()));
-			} else {
-				System.out.println(content);
-			}
+			System.out.println(MessageFormat.format("id : {0}", ((VoucherResponseDTO)content).getId()));
+			System.out.println(MessageFormat.format("discountType : {0}",
+					((VoucherResponseDTO)content).getDiscountType()));
+			System.out.println(MessageFormat.format("discountAmount : {0}",
+					((VoucherResponseDTO)content).getDiscountAmount()));
+
 		}
 
 	}
