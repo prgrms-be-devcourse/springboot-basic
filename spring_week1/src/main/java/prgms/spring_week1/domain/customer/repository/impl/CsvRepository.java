@@ -1,9 +1,7 @@
 package prgms.spring_week1.domain.customer.repository.impl;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Repository;
-import org.springframework.validation.annotation.Validated;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
 import java.io.*;
