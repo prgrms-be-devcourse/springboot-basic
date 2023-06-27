@@ -26,12 +26,6 @@ public class Console implements Input, Output {
         }
     }
 
-    @Override
-    public String readLine(String prompt) {
-        printLine(prompt);
-        return readLine();
-    }
-
     public long readDiscount(String prompt) {
         printLine(prompt);
         while (true) {
