@@ -17,4 +17,9 @@ public abstract class Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+    public VoucherType getVoucherType() {return  voucherType;}
+
+    public long getDiscount() {
+        return discount;
+    }
 }
