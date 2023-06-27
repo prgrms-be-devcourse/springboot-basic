@@ -60,6 +60,6 @@ public class ConsoleView implements Input, Output {
             System.out.println(NO_VOUCHER_HISTORY);
             return;
         }
-        voucherHistory.values().forEach(v -> System.out.println(MessageFormat.format("{0}{1}{2}{3}{4}", v.getVoucherId(), SPACE, v.getVoucherType(), SPACE, v.getDiscountInfo())));
+        voucherHistory.values().forEach(v -> System.out.println(MessageFormat.format("{0}{1}{2}{3}{4}", v.getVoucherId(), SPACE, v.getVoucherTypeDescription(), SPACE, v.getDiscountInfo())));
     }
 }
