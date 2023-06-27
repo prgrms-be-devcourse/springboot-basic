@@ -30,14 +30,7 @@ public class VoucherController {
         voucherService.saveVoucher(voucherType, inputNumber);
     }
 
-    public void getVoucherList() {
-        Map<UUID, Voucher> voucherMap = voucherService.findVoucherAll();
-
-        if (voucherMap.isEmpty()) {
-            console.outputErrorMessage("No vouchers saved");
-            return;
-        }
-
-        console.outputGetVoucherAll(voucherMap);
+    public Map<UUID, Voucher> getVoucherList() {
+        return voucherService.findVoucherAll();
     }
 }

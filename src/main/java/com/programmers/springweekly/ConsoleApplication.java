@@ -3,7 +3,11 @@ package com.programmers.springweekly;
 import com.programmers.springweekly.controller.CustomerController;
 import com.programmers.springweekly.controller.VoucherController;
 import com.programmers.springweekly.domain.ProgramMenu;
+import com.programmers.springweekly.domain.customer.Customer;
+import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.view.Console;
+import java.util.Map;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -29,14 +33,31 @@ public class ConsoleApplication implements CommandLineRunner {
 
                 switch (selectMenu) {
                     case CREATE -> voucherController.createVoucher();
-                    case LIST -> voucherController.getVoucherList();
+                    case LIST -> {
+                        Map<UUID, Voucher> voucherMap = voucherController.getVoucherList();
+
+                        if (voucherMap.isEmpty()) {
+                            console.outputErrorMessage("No vouchers saved");
+                            break;
+                        }
+
+                        console.outputGetVoucherAll(voucherMap);
+                    }
                     case EXIT -> {
                         console.outputExitMessage();
                         running = false;
                     }
-                    case CUSTOMER_BLACKLIST -> customerController.getBlackList();
-                }
+                    case CUSTOMER_BLACKLIST -> {
+                        Map<UUID, Customer> customerMap = customerController.getBlackList();
 
+                        if (customerMap.size() != 0) {
+                            console.outputGetCustomerBlackList(customerMap);
+                            break;
+                        }
+
+                        console.outputErrorMessage("There are no saved blacklists.");
+                    }
+                }
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
