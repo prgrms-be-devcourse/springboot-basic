@@ -3,16 +3,19 @@ package co.programmers.voucher.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import co.programmers.voucher.dto.VoucherInquiryResponseDTO;
+import co.programmers.voucher.dto.VoucherResponseDTO;
 import co.programmers.voucher.entity.Voucher;
 
 @Repository
 @Component
 public class MemoryVoucherRepository implements VoucherRepository {
 	private static final ArrayList<Voucher> memoryRepository = new ArrayList<>();
+	private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
 	private MemoryVoucherRepository() {
 	}
@@ -22,17 +25,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
 		memoryRepository.add(voucher);
 	}
 
-	public List<VoucherInquiryResponseDTO> findAll() {
-		List<VoucherInquiryResponseDTO> vouchers = new ArrayList<>();
+	public List<VoucherResponseDTO> findAll() {
+		List<VoucherResponseDTO> vouchers = new ArrayList<>();
 		for (Voucher voucher : memoryRepository) {
-			vouchers.add(VoucherInquiryResponseDTO.builder()
+			logger.debug("Inquire voucher - id : {}, discount type : {}, amount : {}",
+					voucher.getId(), voucher.getDiscountStrategy().getType(),
+					voucher.getDiscountStrategy().getAmount());
+			vouchers.add(VoucherResponseDTO.builder()
 					.id(voucher.getId())
-					.name(voucher.getName())
-					.description(voucher.getDescription())
 					.discountType(voucher.getDiscountStrategy().getType())
-					.discountAmount(voucher.getDiscountAmount())
-					.createdAt(voucher.getCreatedAt())
-					.expiredAt(voucher.getExpiredAt())
+					.discountAmount(voucher.getDiscountStrategy().getAmount())
 					.build());
 		}
 		return vouchers;
