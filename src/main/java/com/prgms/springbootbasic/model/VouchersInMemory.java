@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class VouchersInMemory {
@@ -20,10 +19,9 @@ public class VouchersInMemory {
 	}
 	
 	public List<Voucher> findAll() {
-		return storage.keySet()
+		return storage.values()
 				.stream()
-				.map(key -> storage.get(key))
-				.collect(Collectors.toList());
+				.toList();
 	}
 	
 	public void save(Voucher voucher) {
