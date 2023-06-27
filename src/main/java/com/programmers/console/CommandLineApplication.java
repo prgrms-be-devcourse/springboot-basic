@@ -45,7 +45,8 @@ public class CommandLineApplication {
 
     private void create() {
         VoucherType voucherType = inputVoucherInfo();
-        Discount discount = Discount.of(voucherType, inputDiscountInfo());
+        long discountInfo = inputDiscountInfo();
+        Discount discount = Discount.of(voucherType, discountInfo);
         while (true) {
             try {
                 createVoucher(discount);
