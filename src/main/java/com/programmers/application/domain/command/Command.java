@@ -13,12 +13,12 @@ public enum Command {
         switch (command) {
             case EXIT -> System.exit(1);
             case CREATE -> {
-                VoucherExecution voucherExecution = new CreateVoucherExecution();
-                voucherExecution.run(voucherService, io);
+                VoucherExecution voucherExecution = new CreateVoucherExecution(voucherService, io);
+                voucherExecution.run();
             }
             case LIST -> {
-                VoucherExecution voucherExecution = new ListVoucherExecution();
-                voucherExecution.run(voucherService, io);
+                VoucherExecution voucherExecution = new ListVoucherExecution(voucherService, io);
+                voucherExecution.run();
             }
         }
     }

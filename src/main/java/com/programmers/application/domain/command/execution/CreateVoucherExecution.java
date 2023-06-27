@@ -8,8 +8,16 @@ import com.programmers.application.service.VoucherService;
 import java.util.Arrays;
 
 public class CreateVoucherExecution implements VoucherExecution{
+    private final VoucherService voucherService;
+    private final IO io;
+
+    public CreateVoucherExecution(VoucherService voucherService, IO io) {
+        this.voucherService = voucherService;
+        this.io = io;
+    }
+
     @Override
-    public void run(VoucherService voucherService, IO io) {
+    public void run() {
         printOption(io);
         String[] typeAndAmount = io.read().split(" ");
         validateAmount(typeAndAmount);
