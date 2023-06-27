@@ -38,10 +38,11 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.write(",");
             bufferedWriter.write(voucherAmount);
             bufferedWriter.write(",");
-            bufferedWriter.write(voucher.getVoucherType().getVoucherTypeString());
+            bufferedWriter.write(String.valueOf(voucher.getVoucherType()));
             bufferedWriter.newLine();
 
             bufferedWriter.flush();
+            
         } catch (Exception e) {
             log.error("error message: {}", e.getMessage());
         }
@@ -61,6 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
                 voucherMap.put(readVoucherDto.getVoucherId(), voucher);
             }
+
         } catch (Exception e) {
             log.error("error message: {}", e.getMessage());
         }

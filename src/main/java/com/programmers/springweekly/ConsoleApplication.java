@@ -47,7 +47,7 @@ public class ConsoleApplication implements CommandLineRunner {
                         console.outputExitMessage();
                         running = false;
                     }
-                    case CUSTOMER_BLACKLIST -> {
+                    case BLACKLIST -> {
                         Map<UUID, Customer> customerMap = customerController.getBlackList();
 
                         if (customerMap.size() != 0) {
