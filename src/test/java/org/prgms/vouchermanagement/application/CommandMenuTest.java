@@ -4,8 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 class CommandMenuTest {
 
@@ -48,9 +50,10 @@ class CommandMenuTest {
         CommandMenu command4= CommandMenu.getCommandMenu(input4);
 
         //then
-        assertThat(command1).isEqualTo(CommandMenu.CREATE_NEW_VOUCHER);
-        assertThat(command2).isEqualTo(CommandMenu.SHOW_VOUCHER_LIST);
-        assertThat(command3).isEqualTo(CommandMenu.EXIT);
-        assertThat(command4).isEqualTo(CommandMenu.SHOW_BLACK_LIST);
+        assertThat(command1, is(CommandMenu.CREATE_NEW_VOUCHER));
+        assertThat(command2, is(CommandMenu.SHOW_VOUCHER_LIST));
+        assertThat(command3, is(CommandMenu.EXIT));
+        assertThat(command4, is(CommandMenu.SHOW_BLACK_LIST));
+
     }
 }
