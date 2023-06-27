@@ -45,13 +45,23 @@ public class FileVoucherRepository implements VoucherRepository {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                Voucher voucher;
+                Voucher voucher = null;
                 if (parts[1].equalsIgnoreCase("Fixed")) {
-                    voucher = new FixedAmountVoucher(UUID.fromString(parts[0]), parts[1], Long.parseLong(parts[2]));
+                    long discount = Long.parseLong(parts[2]);
+                    if (discount >= 0) {
+                        voucher = new FixedAmountVoucher(UUID.fromString(parts[0]), parts[1], discount);
+                    }
                 } else {
-                    voucher = new PercentDiscountVoucher(UUID.fromString(parts[0]), parts[1], Long.parseLong(parts[2]));
+                    long discount = Long.parseLong(parts[2]);
+                    if (discount >= 0 && discount <= 100) {
+                        voucher = new PercentDiscountVoucher(UUID.fromString(parts[0]), parts[1], discount);
+                    }
                 }
-                vouchers.add(voucher);
+                if (voucher != null) {
+                    vouchers.add(voucher);
+                } else {
+                    log.warn("Invalid voucher found in storage: {}", line);
+                }
             }
             log.info("All vouchers loaded");
         } catch (IOException e) {
