@@ -7,8 +7,8 @@ java.lang.IllegalStateException: Failed to execute CommandLineRunner
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
 	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
 Caused by: java.lang.IllegalArgumentException: Invalid value: 123
-	at com.prgmrs.voucher.service.ConsoleServiceEnum.findByCommand(ConsoleServiceEnum.java:25)
-	at com.prgmrs.voucher.service.ConsoleService.run(ConsoleService.java:42)
+	at com.prgmrs.voucher.view.ConsoleViewEnum.findByCommand(ConsoleServiceEnum.java:25)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleService.java:42)
 	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
 	... 5 common frames omitted
@@ -21,8 +21,8 @@ java.lang.IllegalStateException: Failed to execute CommandLineRunner
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
 	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
 Caused by: java.lang.IllegalArgumentException: Invalid value: 123
-	at com.prgmrs.voucher.service.ConsoleServiceEnum.findByCommand(ConsoleServiceEnum.java:25)
-	at com.prgmrs.voucher.service.ConsoleService.run(ConsoleService.java:42)
+	at com.prgmrs.voucher.view.ConsoleViewEnum.findByCommand(ConsoleServiceEnum.java:25)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleService.java:42)
 	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
 	... 5 common frames omitted

@@ -1,14 +1,15 @@
-package com.prgmrs.voucher.service;
+package com.prgmrs.voucher.view;
 
-public enum ConsoleServiceEnum {
+public enum ConsoleViewEnum {
     SHOW_THE_LIST("list"),
     EXIT_THE_LOOP("exit"),
     CREATE_THE_VOUCHER("create"),
     CREATE_FIXED_AMOUNT_VOUCHER("fixed"),
-    CREATE_PERCENT_DISCOUNT_VOUCHER("percent");
+    CREATE_PERCENT_DISCOUNT_VOUCHER("percent"),
+    NOTHING_MATCHED("nothing");
 
     private final String value;
-    ConsoleServiceEnum(String value) {
+    ConsoleViewEnum(String value) {
         this.value = value;
     }
 
@@ -16,13 +17,13 @@ public enum ConsoleServiceEnum {
         return value;
     }
 
-    public static ConsoleServiceEnum findByCommand(String value) {
-        for (ConsoleServiceEnum enumValue : ConsoleServiceEnum.values()) {
+    public static ConsoleViewEnum findByCommand(String value) {
+        for (ConsoleViewEnum enumValue : ConsoleViewEnum.values()) {
             if (enumValue.getValue().equalsIgnoreCase(value)) {
                 return enumValue;
             }
         }
-        throw new IllegalArgumentException("Invalid value: " + value);
+        return NOTHING_MATCHED;
     }
 
 
