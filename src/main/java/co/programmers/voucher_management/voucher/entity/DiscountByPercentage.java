@@ -1,4 +1,4 @@
-package co.programmers.voucher.entity;
+package co.programmers.voucher_management.voucher.entity;
 
 public class DiscountByPercentage implements DiscountStrategy {
 	private static final int MAX_AMOUNT = 100;

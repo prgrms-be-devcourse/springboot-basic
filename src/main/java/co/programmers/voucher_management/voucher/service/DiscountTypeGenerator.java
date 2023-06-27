@@ -1,10 +1,10 @@
-package co.programmers.voucher.service;
+package co.programmers.voucher_management.voucher.service;
 
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher.entity.DiscountByFixedAmount;
-import co.programmers.voucher.entity.DiscountByPercentage;
-import co.programmers.voucher.entity.DiscountStrategy;
+import co.programmers.voucher_management.voucher.entity.DiscountByFixedAmount;
+import co.programmers.voucher_management.voucher.entity.DiscountByPercentage;
+import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
 
 @Service
 public class DiscountTypeGenerator {

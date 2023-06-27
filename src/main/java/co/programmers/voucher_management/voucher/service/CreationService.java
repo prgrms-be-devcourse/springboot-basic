@@ -1,4 +1,4 @@
-package co.programmers.voucher.service;
+package co.programmers.voucher_management.voucher.service;
 
 import java.io.IOException;
 
@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher.controller.VoucherCommandLineRunner;
-import co.programmers.voucher.dto.Response;
-import co.programmers.voucher.dto.VoucherRequestDTO;
-import co.programmers.voucher.entity.DiscountStrategy;
-import co.programmers.voucher.entity.Voucher;
-import co.programmers.voucher.repository.VoucherRepository;
+import co.programmers.voucher_management.voucher.controller.VoucherCommandLineRunner;
+import co.programmers.voucher_management.voucher.dto.Response;
+import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
+import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
+import co.programmers.voucher_management.voucher.entity.Voucher;
+import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 
 @Service
 public class CreationService {

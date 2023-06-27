@@ -1,8 +1,8 @@
-package co.programmers.voucher.view;
+package co.programmers.voucher_management.view;
 
 import java.io.IOException;
 
-import co.programmers.voucher.dto.Response;
+import co.programmers.voucher_management.voucher.dto.Response;
 
 public interface OutputView {
 	void printGuideMessage() throws IOException;

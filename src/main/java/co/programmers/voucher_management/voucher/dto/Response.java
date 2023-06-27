@@ -1,4 +1,4 @@
-package co.programmers.voucher.dto;
+package co.programmers.voucher_management.voucher.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

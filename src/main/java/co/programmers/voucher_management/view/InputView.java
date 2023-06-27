@@ -1,4 +1,4 @@
-package co.programmers.voucher.view;
+package co.programmers.voucher_management.view;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package co.programmers.voucher.repository;
+package co.programmers.voucher_management.voucher.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import co.programmers.voucher.dto.VoucherResponseDTO;
-import co.programmers.voucher.entity.Voucher;
+import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
+import co.programmers.voucher_management.voucher.entity.Voucher;
 
 @Repository
 @Primary

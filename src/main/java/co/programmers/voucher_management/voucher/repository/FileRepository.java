@@ -1,4 +1,4 @@
-package co.programmers.voucher.repository;
+package co.programmers.voucher_management.voucher.repository;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Repository;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
-import co.programmers.voucher.dto.VoucherResponseDTO;
-import co.programmers.voucher.entity.Voucher;
+import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
+import co.programmers.voucher_management.voucher.entity.Voucher;
 
 @Repository
 @Profile("dev")

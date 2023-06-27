@@ -1,4 +1,4 @@
-package co.programmers.voucher.view;
+package co.programmers.voucher_management.view;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import co.programmers.voucher.dto.Response;
-import co.programmers.voucher.dto.VoucherResponseDTO;
+import co.programmers.voucher_management.voucher.dto.Response;
+import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
 
 @Component
 public class Console implements InputView, OutputView {

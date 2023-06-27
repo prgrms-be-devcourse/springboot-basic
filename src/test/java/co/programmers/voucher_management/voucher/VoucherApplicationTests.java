@@ -1,4 +1,4 @@
-package co.programmers.voucher;
+package co.programmers.voucher_management.voucher;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

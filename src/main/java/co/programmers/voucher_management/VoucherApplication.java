@@ -1,4 +1,4 @@
-package co.programmers.voucher;
+package co.programmers.voucher_management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

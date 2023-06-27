@@ -1,9 +1,9 @@
-package co.programmers.voucher.service;
+package co.programmers.voucher_management.voucher.service;
 
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher.dto.Response;
-import co.programmers.voucher.repository.VoucherRepository;
+import co.programmers.voucher_management.voucher.dto.Response;
+import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 
 @Service
 public class InquiryService {
