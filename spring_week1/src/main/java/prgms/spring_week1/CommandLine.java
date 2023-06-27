@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
 import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
+import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
 import prgms.spring_week1.exception.EmptyListException;
@@ -59,9 +60,21 @@ public class CommandLine implements Runnable{
         output.printTypeSelectMessage();
         try {
             String select = input.inputVoucherType();
+            VoucherType voucherType = voucherService.matchVoucherType(select);
+            System.out.println(voucherType);
+            switch (voucherType){
+                case FIXED -> {
+                    long discountAmount = input.insertDiscountAmountVoucher();
+                    Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
+                    output.printInsertVoucherInfo(newVoucher);
+                }
+                case PERCENT -> {
+                    int discountPercent = input.insertDiscountPercentVoucher();
+                    Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
+                    output.printInsertVoucherInfo(newVoucher);
+                }
+            }
 
-            Voucher voucher = voucherService.matchVoucherType(select);
-            output.printInsertVoucherInfo(voucher);
         }catch (NoSuchVoucherType e){
             output.printNoSuchVoucherType();
         }

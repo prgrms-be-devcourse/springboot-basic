@@ -32,38 +32,19 @@ public class VoucherService {
         this.percentDiscountValidation = percentDiscountValidation;
     }
 
-    public Voucher matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
+    public VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
         Optional<VoucherType> selectedVoucherType = Optional.ofNullable(Stream.of(VoucherType.values()).filter(voucherType -> voucherType.getVoucherType().equalsIgnoreCase(inputSelectText))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchVoucherType("해당 바우처 타입이 존재하지 않습니다.")));
 
-        if(selectedVoucherType.get() == VoucherType.PERCENT) {
-            return insertPercentDiscountVoucher();
-        }
-        else {
-            return insertFixedAmountVoucher();
-        }
+        return selectedVoucherType.get();
     }
 
-    private Voucher insertFixedAmountVoucher() {
-        boolean IS_VALID = true;
-        long discountAmount = 0;
-        while (IS_VALID){
-            output.printInsertFixedVoucherMessage();
-            discountAmount = input.insertDiscountAmountVoucher();
-            IS_VALID = discountAmountValidation.invalidateInsertDiscountValue(discountAmount);
-        }
+    public Voucher insertFixedAmountVoucher(Long discountAmount) {
         return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),VoucherType.FIXED,discountAmount));
     }
 
-    private Voucher insertPercentDiscountVoucher() {
-        boolean IS_VALID = true;
-        long fixedAmount = 0;
-        while (IS_VALID){
-            output.printInsertPercentVoucherMessage();
-            fixedAmount = input.insertDiscountAmountVoucher();
-            IS_VALID = percentDiscountValidation.invalidateInsertDiscountValue(fixedAmount);
-        }
+    public Voucher insertPercentDiscountVoucher(int fixedAmount) {
         return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),VoucherType.PERCENT,fixedAmount));
     }
 

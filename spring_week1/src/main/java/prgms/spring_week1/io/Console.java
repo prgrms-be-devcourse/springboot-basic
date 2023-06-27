@@ -41,13 +41,48 @@ public class Console implements Input,Output{
 
     @Override
     public Long insertDiscountAmountVoucher() {
+        boolean IS_VALID_AMOUNT = true;
         try {
-            return Long.parseLong(br.readLine());
+            printInsertFixedVoucherMessage();
+            long discountAmount = Long.parseLong(br.readLine());
+            while(IS_VALID_AMOUNT){
+                if(discountAmount > 0) {
+                    break;
+                }
+                printInsertFixedVoucherMessage();
+                discountAmount = Long.parseLong(br.readLine());
+
+
+            }
+            return discountAmount;
+
         }catch (IOException e){
             printWrongMenuMessage();
             return null;
         }
+    }
 
+    @Override
+    public int insertDiscountPercentVoucher() {
+        boolean IS_VALID_AMOUNT = true;
+        try {
+            printInsertPercentVoucherMessage();
+            int discountAmount = Integer.parseInt(br.readLine());
+            while(IS_VALID_AMOUNT){
+                if(discountAmount > 0 && discountAmount <= 100d) {
+                    break;
+                }
+                printInsertPercentVoucherMessage();
+                discountAmount = Integer.parseInt(br.readLine());
+
+                System.out.println("error");
+            }
+            return discountAmount;
+
+        }catch (IOException e){
+            printWrongMenuMessage();
+            return 0;
+        }
     }
 
     @Override

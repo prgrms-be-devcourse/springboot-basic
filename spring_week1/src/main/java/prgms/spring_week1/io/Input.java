@@ -4,4 +4,5 @@ public interface Input {
     String inputTextOption();
     String inputVoucherType();
     Long insertDiscountAmountVoucher();
+    int insertDiscountPercentVoucher();
 }
