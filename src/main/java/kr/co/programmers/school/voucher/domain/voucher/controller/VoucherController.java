@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 
 import java.util.regex.Pattern;
 
-
 @Controller
 public class VoucherController implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(VoucherController.class);

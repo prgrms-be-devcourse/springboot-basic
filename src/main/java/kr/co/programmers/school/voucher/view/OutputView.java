@@ -28,7 +28,6 @@ public class OutputView {
         System.out.println("잘못된 입력값입니다.");
     }
 
-
     public void printSuccessMessage() {
         System.out.println("바우처를 성공적으로 생성하였습니다.");
     }
