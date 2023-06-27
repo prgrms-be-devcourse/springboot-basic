@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -64,6 +65,6 @@ public class FileVoucherRepository implements VoucherRepository {
             log.error("error message: {}", e.getMessage());
         }
 
-        return new ConcurrentHashMap<>(voucherMap);
+        return Collections.unmodifiableMap(voucherMap);
     }
 }

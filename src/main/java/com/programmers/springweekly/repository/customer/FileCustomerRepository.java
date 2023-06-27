@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +25,7 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Map<UUID, Customer> getBlackList() {
-        return new ConcurrentHashMap<>(customerMap);
+        return Collections.unmodifiableMap(customerMap);
     }
 
     private void saveIfBlacklistedCustomer(String[] readLine) {

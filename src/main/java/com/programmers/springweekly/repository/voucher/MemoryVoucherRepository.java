@@ -1,6 +1,7 @@
 package com.programmers.springweekly.repository.voucher;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
- 
+
     @Override
     public void saveVoucher(Voucher voucher) {
         voucherMap.put(voucher.getVoucherId(), voucher);
@@ -20,6 +21,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Map<UUID, Voucher> getVoucherMap() {
-        return new ConcurrentHashMap<>(voucherMap);
+        return Collections.unmodifiableMap(voucherMap);
     }
 }
