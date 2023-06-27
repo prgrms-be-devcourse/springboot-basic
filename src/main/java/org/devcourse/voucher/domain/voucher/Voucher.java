@@ -1,13 +1,13 @@
 package org.devcourse.voucher.domain.voucher;
 
-import org.devcourse.voucher.domain.voucher.policy.Policy;
+import org.devcourse.voucher.domain.voucher.policy.DiscountPolicy;
 
 public class Voucher {
     private final long id;
     private final VoucherType type;
-    private final Policy policy;
+    private final DiscountPolicy policy;
 
-    public Voucher(long id, VoucherType type, Policy policy) {
+    public Voucher(long id, VoucherType type, DiscountPolicy policy) {
         validate(type, policy);
         this.id = id;
         this.type = type;
@@ -25,13 +25,13 @@ public class Voucher {
         }
     }
 
-    private void validatePolicy(Policy policy) {
+    private void validatePolicy(DiscountPolicy policy) {
         if (policy == null) {
             throw new RuntimeException("바우처 정책은 빈 값일 수 없습니다");
         }
     }
 
-    public int useVoucherAndRetrieve(int receivedAmount) {
+    public int retrieveBalance(int receivedAmount) {
         return policy.discount(receivedAmount);
     }
 }

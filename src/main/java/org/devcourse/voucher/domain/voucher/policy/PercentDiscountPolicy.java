@@ -1,13 +1,13 @@
 package org.devcourse.voucher.domain.voucher.policy;
 
-public class PercentDiscountPolicy extends Policy {
+public class PercentDiscountPolicy extends DiscountPolicy {
 
     public PercentDiscountPolicy(int discountAmount) {
         super(discountAmount);
     }
 
     @Override
-    public int execute(int targetAmount) {
+    public int discount(int targetAmount) {
         return targetAmount - (targetAmount * providedAmount / 100);
     }
 

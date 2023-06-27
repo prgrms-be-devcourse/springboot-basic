@@ -2,16 +2,16 @@ package org.devcourse.voucher.domain.voucher.policy;
 
 import org.devcourse.voucher.domain.voucher.VoucherType;
 
-public abstract class Policy {
+public abstract class DiscountPolicy {
 
     protected final int providedAmount;
 
-    protected Policy(int providedAmount) {
+    protected DiscountPolicy(int providedAmount) {
         validateProvidedAmount(providedAmount);
         this.providedAmount = providedAmount;
     }
 
-    public static Policy of(VoucherType type, int providedAmount) {
+    public static DiscountPolicy of(VoucherType type, int providedAmount) {
         validateType(type);
         return switch (type) {
             case PERCENT -> new PercentDiscountPolicy(providedAmount);
@@ -31,7 +31,7 @@ public abstract class Policy {
         }
     }
 
-    public abstract int execute(int targetAmount);
+    public abstract int discount(int targetAmount);
 
     protected abstract boolean invalid(int providedAmount);
 
