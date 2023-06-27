@@ -21,9 +21,10 @@ public class VoucherService {
         switch (voucherType) {
             case FIXED:
                 saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), discount));
-
+                break;
             case PERCENT:
                 saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), discount));
+                break;
         }
     }
 
