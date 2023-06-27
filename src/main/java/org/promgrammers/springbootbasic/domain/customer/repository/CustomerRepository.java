@@ -36,11 +36,7 @@ public class CustomerRepository {
         return customers;
     }
 
-    public List<Customer> findAllBlackCustomers() {
-        return findAllByCustomerType(CustomerType.BLACK);
-    }
-
-    private List<Customer> findAllByCustomerType(CustomerType customerType) {
+    public List<Customer> findAllByCustomerType(CustomerType customerType) {
         List<Customer> customers = new ArrayList<>();
         List<Customer> allCustomers = findAll();
         for (Customer customer : allCustomers) {

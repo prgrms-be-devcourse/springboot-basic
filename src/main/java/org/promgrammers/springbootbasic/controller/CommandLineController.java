@@ -1,5 +1,6 @@
 package org.promgrammers.springbootbasic.controller;
 
+import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 import org.promgrammers.springbootbasic.domain.customer.service.CustomerService;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.model.Command;
@@ -47,7 +48,7 @@ public class CommandLineController {
             }
             case LIST -> console.print(voucherService.findAll().toString());
             case EXIT -> CommandProgramStatus.stop();
-            case BLACKLIST -> console.print(customerService.findAllByBlackTypeCustomer().toString());
+            case BLACKLIST -> console.print(customerService.findAllByCustomerType(CustomerType.BLACK).toString());
         }
     }
 
