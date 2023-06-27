@@ -11,18 +11,17 @@ class DiscountTest {
     @DisplayName("고정 할인값 discount() 메서드 테스트")
     @ParameterizedTest
     @CsvSource(value = {
-            "100, 99",
-            "50, 2",
-            "445153, 100000",
-            "1000000, 999999",
-            "30, 35",
-            "20, 20",
-            "5, 3"
+            "100, 99, 1",
+            "50, 2, 48",
+            "445153, 100000, 345153",
+            "1000000, 999999, 1",
+            "30, 35, 0",
+            "20, 20, 0",
+            "5, 3, 2"
     })
-    void fixedDiscountMethodTest(long itemPrice, long amount) {
+    void fixedDiscountMethodTest(long itemPrice, long amount, long expected) {
         FixedDiscount fixedDiscount = new FixedDiscount(amount);
 
-        long expected = itemPrice - amount;
         if (expected < 0 ) expected = 0;
 
         assertEquals(expected, fixedDiscount.applyDiscount(itemPrice));
@@ -31,17 +30,15 @@ class DiscountTest {
     @DisplayName("퍼센트 할인 discount() 메서드 테스트")
     @ParameterizedTest
     @CsvSource(value = {
-            "100, 50",
-            "50, 2",
-            "30, 10",
-            "3, 10,",
-            "20, 100",
-            "1000, 10"
+            "100, 50, 50",
+            "50, 2, 49",
+            "30, 10, 27",
+            "30, 20, 24",
+            "20, 100, 0",
+            "1000, 10, 900"
     })
-    void percentDiscountMethodTest(long itemPrice, long percent) {
+    void percentDiscountMethodTest(long itemPrice, long percent, long expected) {
         PercentDiscount percentDiscount = new PercentDiscount(percent);
-
-        long expected = itemPrice - (itemPrice * percent / 100);
 
         assertEquals(expected, percentDiscount.applyDiscount(itemPrice));
     }
