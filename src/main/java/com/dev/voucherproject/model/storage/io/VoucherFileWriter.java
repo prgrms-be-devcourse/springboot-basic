@@ -1,4 +1,4 @@
-package com.dev.voucherproject.model.storage.voucher.io;
+package com.dev.voucherproject.model.storage.io;
 
 
 import com.dev.voucherproject.model.voucher.Voucher;
@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
+import java.text.MessageFormat;
 
 @Component
 public class VoucherFileWriter {
@@ -44,8 +45,8 @@ public class VoucherFileWriter {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            logger.warn("{} 파일을 찾을 수 없습니다.", path);
-            throw new FileSystemNotFoundException("파일을 찾을 수 없습니다.");
+            logger.warn("{} 파일을 찾을 수 없습니다.", filename);
+            throw new FileSystemNotFoundException(MessageFormat.format("{0} 파일을 찾을 수 없습니다.", filename));
         }
     }
 }

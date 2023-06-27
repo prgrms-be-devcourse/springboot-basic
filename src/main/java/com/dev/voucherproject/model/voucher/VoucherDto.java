@@ -21,15 +21,8 @@ public class VoucherDto {
         return new VoucherDto(VoucherPolicy.PERCENT_DISCOUNT_VOUCHER, voucher.getVoucherId(), voucher.getDiscountNumber());
     }
 
-    public VoucherPolicy getVoucherPolicy() {
-        return voucherPolicy;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public long getDiscountNumber() {
-        return discountNumber;
+    @Override
+    public String toString() {
+        return "[%s, %d] %s".formatted(voucherPolicy.name(), discountNumber, uuid.toString());
     }
 }

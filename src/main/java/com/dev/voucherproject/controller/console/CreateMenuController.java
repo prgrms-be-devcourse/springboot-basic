@@ -33,9 +33,11 @@ public class CreateMenuController implements MenuController {
 
         Voucher voucher = voucherStorage.insert(Voucher.of(voucherPolicy, discountNumber, UUID.randomUUID()));
         logger.info("바우처 생성 :: {}", voucher.toString());
+
+        console.newLine();
     }
 
-    private long selectPolicy(VoucherPolicy voucherPolicy) {
+    private long selectPolicy(final VoucherPolicy voucherPolicy) {
         long discountNumber;
 
         if (voucherPolicy == VoucherPolicy.FIXED_AMOUNT_VOUCHER) {

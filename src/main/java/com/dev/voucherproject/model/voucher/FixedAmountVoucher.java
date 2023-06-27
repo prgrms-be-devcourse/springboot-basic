@@ -17,7 +17,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public long discount(long beforeDiscount) {
-        if (beforeDiscount - amount < 0) {
+        if (amount > beforeDiscount) {
             return 0;
         }
 
