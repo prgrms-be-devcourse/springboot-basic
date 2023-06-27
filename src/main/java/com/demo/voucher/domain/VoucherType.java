@@ -1,10 +1,14 @@
 package com.demo.voucher.domain;
 
+import com.demo.voucher.domain.dto.VoucherCommandDescriptionDto;
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+@Getter
 public enum VoucherType {
 
     FIXED_AMOUNT("1",
@@ -36,25 +40,15 @@ public enum VoucherType {
                 .findFirst();
     }
 
+    private String getCommand() {
+        return command;
+    }
 
     public boolean validateAmount(String amount) {
         return amountValidation.apply(amount);
     }
 
-    public String getRequestAmountDescription() {
-        return requestAmountDescription;
-    }
-
-    private String getCommand() {
-        return command;
-    }
-
-    public String getVoucherDescription() {
-        return voucherDescription;
-    }
-
-    @Override
-    public String toString() {
-        return command + ": " + voucherDescription;
+    public VoucherCommandDescriptionDto getVoucherCommandAndDescription() {
+        return new VoucherCommandDescriptionDto(command, voucherDescription);
     }
 }

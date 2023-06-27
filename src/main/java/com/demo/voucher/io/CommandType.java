@@ -1,7 +1,10 @@
 package com.demo.voucher.io;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum CommandType {
     EXIT("exit", "Type exit to exit the program."),
     CREATE("create", "Type create to create a new voucher."),
@@ -20,14 +23,5 @@ public enum CommandType {
         return Arrays.stream(CommandType.values())
                 .filter(c -> c.getCommand().equals(input))
                 .count() == 1;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    @Override
-    public String toString() {
-        return description;
     }
 }

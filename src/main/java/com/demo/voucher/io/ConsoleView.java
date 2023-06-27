@@ -41,7 +41,7 @@ public class ConsoleView implements Input, Output {
     public void showMenu() {
         System.out.println(VOUCHER_PROGRAM_START_OUTPUT);
         Arrays.stream(CommandType.values())
-                .forEach(c -> System.out.println(c.toString()));
+                .forEach(c -> System.out.println(c.getDescription()));
     }
 
     @Override

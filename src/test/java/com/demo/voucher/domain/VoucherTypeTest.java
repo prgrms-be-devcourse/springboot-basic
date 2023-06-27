@@ -27,8 +27,8 @@ class VoucherTypeTest {
 
     private static Stream<Arguments> voucherTypeAmountDescription() {
         return Stream.of(
-                Arguments.of(VoucherType.FIXED_AMOUNT, "할인 고정 금액은 1 이상의 정수여야 합니다."),
-                Arguments.of(VoucherType.PERCENT_DISCOUNT, "할인 비율은 1 이상 99 이하의 정수여야 합니다.")
+                Arguments.of(VoucherType.FIXED_AMOUNT, "할인 고정 금액은 1 이상의 정수여야 합니다. 할인 금액을 입력해주세요 : "),
+                Arguments.of(VoucherType.PERCENT_DISCOUNT, "할인 비율은 1 이상 99 이하의 정수여야 합니다. 할인 비율을 입력해주세요 : ")
         );
     }
 
@@ -97,9 +97,9 @@ class VoucherTypeTest {
 
     @ParameterizedTest
     @MethodSource("voucherTypeToString")
-    @DisplayName("Voucher Type이 오버라이드한 toString이 제대로 출력되는지 확인하는 테스트")
+    @DisplayName("Voucher Type을 DTO로 변환하는지 검증하는 테스트")
     void testToString(VoucherType voucherType, String expectedToString) {
-        assertEquals(voucherType.toString(), expectedToString);
+        assertEquals(voucherType.getVoucherCommandAndDescription().toString(), expectedToString);
     }
 
     @Test
@@ -109,12 +109,5 @@ class VoucherTypeTest {
                 .hasSize(2)
                 .contains(VoucherType.FIXED_AMOUNT)
                 .contains(VoucherType.PERCENT_DISCOUNT);
-    }
-
-    @ParameterizedTest
-    @CsvSource({"FIXED_AMOUNT, 1: 고정 할인 바우처", "PERCENT_DISCOUNT, 2: 비율 할인 바우처"})
-    @DisplayName("valueOf() 메서드를 통해 Voucher Type Enum 객체의 오버라이드된 toString 확인하는 테스트")
-    void valueOf(String voucherName, String voucherToString) {
-        assertEquals(VoucherType.valueOf(voucherName).toString(), voucherToString);
     }
 }
