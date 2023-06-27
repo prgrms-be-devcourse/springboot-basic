@@ -4,7 +4,6 @@ import kr.co.programmers.springbootbasic.voucher.Voucher;
 import kr.co.programmers.springbootbasic.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-//@Primary
-//@Profile("dev")
+@Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
     private final Map<UUID, Voucher> repository;

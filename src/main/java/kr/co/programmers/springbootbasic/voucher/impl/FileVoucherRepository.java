@@ -10,6 +10,7 @@ import kr.co.programmers.springbootbasic.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -31,7 +32,7 @@ import java.util.UUID;
 
 @Repository
 @Primary
-//@Profile("real")
+@Profile("deploy")
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String FILE_WRITE_FORMAT = """
