@@ -8,6 +8,7 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -80,14 +81,14 @@ public class Console {
     public String inputMenuSelection() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues("exit", "create", "list")
+                .withInlinePossibleValues(Arrays.stream(Menu.values()).map(Menu::getMenuName).toList())
                 .read(">>");
     }
 
     public String inputVoucherPolicySelection() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues("fix", "per")
+                .withInlinePossibleValues(Arrays.stream(VoucherPolicy.values()).map(VoucherPolicy::getPolicyName).toList())
                 .read(">>");
     }
 }

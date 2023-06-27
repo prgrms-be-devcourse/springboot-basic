@@ -22,4 +22,8 @@ public enum VoucherPolicy {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
     }
+
+    public String getPolicyName() {
+        return policyName;
+    }
 }
