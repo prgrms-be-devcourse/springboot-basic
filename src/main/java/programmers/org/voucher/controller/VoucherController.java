@@ -1,9 +1,10 @@
 package programmers.org.voucher.controller;
 
+import org.springframework.stereotype.Component;
 import programmers.org.voucher.constant.Command;
 import programmers.org.voucher.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
-import programmers.org.voucher.io.ConsoleService;
+import programmers.org.voucher.io.VoucherConsole;
 import programmers.org.voucher.service.VoucherService;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import static programmers.org.voucher.exception.ErrorMessage.COMMAND_ERROR_MESSAGE;
 import static programmers.org.voucher.exception.ErrorMessage.VOUCHER_ERROR_MESSAGE;
 
+@Component
 public class VoucherController {
 
     private final VoucherService voucherService;
@@ -29,7 +31,7 @@ public class VoucherController {
             Optional<Command> command = Command.find(commandString);
 
             if (command.isEmpty()) {
-                consoleService.printInputCommandError();
+                voucherConsole.printError(COMMAND_ERROR_MESSAGE.getErrorMessage());
                 continue;
             }
 
