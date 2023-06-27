@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class TextIoConsoleTest {
 
@@ -32,8 +32,8 @@ class TextIoConsoleTest {
 
 
     @Test
-    @DisplayName("VoucherCreateRequest 생성 입력 실행 - 성공")
-    void inputVoucherCreateInfo() {
+    @DisplayName("성공: 바우처 생성 정보 입력 실행 - 바우처 타입(fixed)")
+    void inputVoucherCreateInfo_VoucherTypeFixed() {
         //given
         List<String> inputs = mockTextTerminal.getInputs();
         inputs.add("fixed");
@@ -48,46 +48,75 @@ class TextIoConsoleTest {
     }
 
     @Test
-    @DisplayName("VoucherCreateRequest 생성 입력 실행 - 잘못된 바우처 타입 - 예외 발생")
-    void inputVoucherCreateInfo_ButInvalidVoucherType_Then_Exception() {
+    @DisplayName("성공: 바우처 생성 정보 입력 실행 - 바우처 타입(percent)")
+    void inputVoucherCreateInfo_VoucherTypePercent() {
         //given
         List<String> inputs = mockTextTerminal.getInputs();
-        inputs.add("invalid");
+        inputs.add("percent");
+        inputs.add("10");
 
         //when
+        VoucherCreateRequest result = textIoConsole.inputVoucherCreateInfo();
+
         //then
-        assertThatThrownBy(() -> textIoConsole.inputVoucherCreateInfo())
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(result.getVoucherType()).isEqualTo(VoucherType.PERCENT);
+        assertThat(result.getAmount()).isEqualTo(10);
     }
 
     @Test
-    @DisplayName("VoucherCreateRequest 생성 입력 실행 - fixed 입력 - 잘못된 할인값 - 예외 발생")
-    void inputVoucherCreateInfo_VoucherTypeFixed_ButInvalidAmount_Then_Exception() {
+    @DisplayName("성공: 바우처 생성 정보 입력 실행 - 잘못된 바우처 타입 - 재 입력")
+    void inputVoucherCreateInfo_ButInvalidVoucherType_Then_Rerun() {
         //given
         List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add("invalid");
         inputs.add("fixed");
-        inputs.add("-1");
+        inputs.add("10");
 
         //when
+        VoucherCreateRequest result = textIoConsole.inputVoucherCreateInfo();
+
         //then
-        assertThatThrownBy(() -> textIoConsole.inputVoucherCreateInfo())
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(result.getVoucherType()).isEqualTo(VoucherType.FIXED_AMOUNT);
+        assertThat(result.getAmount()).isEqualTo(10);
     }
 
     @ParameterizedTest
     @CsvSource({
-            "-1", "101"
+            "-10", "-1", "0"
     })
-    @DisplayName("VoucherCreateRequest 생성 입력 실행 - percent 입력 - 잘못된 할인값 - 예외 발생")
-    void inputVoucherCreateInfo_VoucherTypePercent_ButInvalidAmount_Then_Exception(String amount) {
+    @DisplayName("성공: 바우처 생성 정보 입력 실행 - 바우처 타입(fixed) - 잘못된 할인값 - 재 입력")
+    void inputVoucherCreateInfo_VoucherTypeFixed_ButInvalidAmount_Then_Rerun(String invalidAmount) {
+        //given
+        List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add("fixed");
+        inputs.add(invalidAmount);
+        inputs.add("10");
+
+        //when
+        VoucherCreateRequest result = textIoConsole.inputVoucherCreateInfo();
+
+        //then
+        assertThat(result.getVoucherType()).isEqualTo(VoucherType.FIXED_AMOUNT);
+        assertThat(result.getAmount()).isEqualTo(10);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1", "0", "100", "101"
+    })
+    @DisplayName("성공: 바우처 생성 정보 입력 실행 - 바우처 타입(percent) - 잘못된 할인값 - 재 입력")
+    void inputVoucherCreateInfo_VoucherTypePercent_ButInvalidAmount_Then_Rerun(String invalidAmount) {
         //given
         List<String> inputs = mockTextTerminal.getInputs();
         inputs.add("percent");
-        inputs.add(amount);
+        inputs.add(invalidAmount);
+        inputs.add("10");
 
         //when
+        VoucherCreateRequest result = textIoConsole.inputVoucherCreateInfo();
+
         //then
-        assertThatThrownBy(() -> textIoConsole.inputVoucherCreateInfo())
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(result.getVoucherType()).isEqualTo(VoucherType.PERCENT);
+        assertThat(result.getAmount()).isEqualTo(10);
     }
 }
