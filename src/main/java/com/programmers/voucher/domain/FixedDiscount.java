@@ -7,10 +7,8 @@ public class FixedDiscount extends Discount {
     private static final long MIN_AMOUNT = 1;
     private static final long MAX_AMOUNT = 1_000_000_000;
 
-    private final VoucherType voucherType = VoucherType.FIXED;
-
     public FixedDiscount(long amount) {
-        super(amount);
+        super(VoucherType.FIXED, amount);
         validateDiscountAmount(amount);
     }
 
@@ -18,10 +16,6 @@ public class FixedDiscount extends Discount {
     public long applyDiscount(long itemPrice) {
         if (itemPrice < getValue()) return 0;
         return itemPrice - getValue();
-    }
-
-    public VoucherType getVoucherType() {
-        return voucherType;
     }
 
     private void validateDiscountAmount(long amount) {

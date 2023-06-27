@@ -2,9 +2,11 @@ package com.programmers.voucher.domain;
 
 public abstract class Discount {
 
+    private final VoucherType voucherType;
     private final long value;
 
-    public Discount(long value) {
+    protected Discount(VoucherType voucherType, long value) {
+        this.voucherType = voucherType;
         this.value = value;
     }
 
@@ -18,11 +20,13 @@ public abstract class Discount {
         throw new IllegalArgumentException("");
     }
 
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
     public long getValue() {
         return value;
     }
-
-    public abstract VoucherType getVoucherType();
 
     public abstract long applyDiscount(long beforeDiscount);
 }
