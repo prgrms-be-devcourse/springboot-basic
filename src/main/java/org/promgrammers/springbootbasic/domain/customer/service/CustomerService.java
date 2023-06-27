@@ -23,7 +23,7 @@ public class CustomerService {
     public CustomersResponse findAllByCustomerType(CustomerType customerType) {
         List<Customer> customers = customerRepository.findAllByCustomerType(customerType);
 
-        if (customers.isEmpty()) {
+        if (customers == null || customers.isEmpty()) {
             throw new EmptyListException("해당 타입으로 저장된 고객이 없습니다."); // 예외를 던지는 처리
         }
 

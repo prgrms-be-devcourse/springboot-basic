@@ -41,7 +41,7 @@ public class VoucherService {
     public VoucherListResponse findAll() {
         List<Voucher> voucherList = voucherRepository.findAll();
 
-        if (voucherList.isEmpty()) {
+        if (voucherList == null || voucherList.isEmpty()) {
             throw new EmptyListException("저장된 바우처가 없습니다.");
         }
 
