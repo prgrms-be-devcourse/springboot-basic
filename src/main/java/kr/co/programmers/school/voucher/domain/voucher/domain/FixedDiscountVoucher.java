@@ -1,5 +1,6 @@
 package kr.co.programmers.school.voucher.domain.voucher.domain;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedDiscountVoucher implements Voucher {
@@ -14,5 +15,10 @@ public class FixedDiscountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public String printVoucher() {
+        return MessageFormat.format("[Fixed Voucher - {0}] ₩ {1}  discount", voucherId, amount);
     }
 }
