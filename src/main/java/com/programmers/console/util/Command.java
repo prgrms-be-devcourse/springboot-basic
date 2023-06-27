@@ -1,24 +1,17 @@
 package com.programmers.console.util;
 
-import com.programmers.global.exception.VoucherCommandException;
-
-import java.util.Arrays;
-
 public enum Command {
-    LIST("list"),
-    CREATE("create"),
-    EXIT("exit");
+    LIST,
+    CREATE,
+    EXIT;
 
-    private final String type;
-
-    Command(String type) {
-        this.type = type;
-    }
+    private static final String NOT_FOUND_MESSAGE = "[ERROR] 해당 명령어를 찾을 수 없습니다.\n";
 
     public static Command of(String type) {
-        return Arrays.stream(Command.values())
-                .filter(menuType -> menuType.type.equals(type))
-                .findFirst()
-                .orElseThrow(VoucherCommandException::new);
+        try {
+            return valueOf(type.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(NOT_FOUND_MESSAGE);
+        }
     }
 }
