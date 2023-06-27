@@ -24,4 +24,9 @@ public class DiscountByFixedAmount implements DiscountStrategy {
 	public String getType() {
 		return DISCOUNT_TYPE_NAME;
 	}
+
+	@Override
+	public int getAmount() {
+		return amount;
+	}
 }

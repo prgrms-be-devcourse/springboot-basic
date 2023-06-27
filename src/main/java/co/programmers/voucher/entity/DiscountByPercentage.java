@@ -12,8 +12,13 @@ public class DiscountByPercentage implements DiscountStrategy {
 
 	private static void validate(Integer amount) throws IllegalArgumentException {
 		if (amount <= 0 || amount >= MAX_AMOUNT) {
+
 			throw new IllegalArgumentException("Amount must be between 0 and 100");
 		}
+	}
+
+	public int getAmount() {
+		return amount;
 	}
 
 	@Override
