@@ -22,10 +22,10 @@ class CustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("조회 성공 - 파일에 저장된 블랙리스트 조회 ")
+    @DisplayName("조회 성공 - 파일에 저장된 고객을 타입별로 모두 조회(BLACK)")
     void successFindAllTest() throws Exception {
         //given -> when
-        List<Customer> customers = customerRepository.findAllBlackCustomers();
+        List<Customer> customers = customerRepository.findAllByCustomerType(CustomerType.BLACK);
 
         //then
         assertNotNull(customers);

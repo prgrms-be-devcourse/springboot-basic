@@ -30,7 +30,7 @@ class CustomerServiceTest {
     void successFindAllTest() throws Exception {
 
         //given -> when
-        CustomersResponse customersResponse = customerService.findAllByBlackTypeCustomer();
+        CustomersResponse customersResponse = customerService.findAllByCustomerType(CustomerType.BLACK);
         List<CustomerResponse> customers = customersResponse.customers();
 
         //then
