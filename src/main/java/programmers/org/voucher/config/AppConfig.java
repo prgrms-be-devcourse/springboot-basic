@@ -2,11 +2,9 @@ package programmers.org.voucher.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import programmers.org.voucher.controller.VoucherController;
-import programmers.org.voucher.io.ConsoleService;
-import programmers.org.voucher.repository.MemoryVoucherRepository;
-import programmers.org.voucher.repository.VoucherRepository;
-import programmers.org.voucher.service.VoucherService;
+import programmers.org.voucher.io.Input;
+import programmers.org.voucher.io.Output;
+import programmers.org.voucher.io.VoucherConsole;
 
 @Configuration
 public class AppConfig {
@@ -27,7 +25,7 @@ public class AppConfig {
     }
 
     @Bean
-    public ConsoleService consoleService() {
-        return new ConsoleService();
+    public VoucherConsole console() {
+        return new VoucherConsole(new Input(), new Output());
     }
 }
