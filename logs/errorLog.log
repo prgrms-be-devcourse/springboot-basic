@@ -26,3 +26,277 @@ Caused by: java.lang.IllegalArgumentException: Invalid value: 123
 	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
 	... 5 common frames omitted
+2023-06-28 02:48:17.975 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:113)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:50:44.744 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:96)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:51:30.214 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:96)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:51:57.252 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:98)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:53:08.601 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:96)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:54:43.234 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:35)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:57:49.187 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:35)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:58:11.309 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:35)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:58:45.018 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:35)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 02:59:08.564 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:35)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 03:03:47.815 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:35)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 03:04:00.558 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:36)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 03:06:58.519 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.FixedAmountVoucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:37)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 03:07:25.322 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.FixedAmountVoucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:38)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 03:08:06.782 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.repository.VoucherRepositoryImpl.findVoucherById(VoucherRepositoryImpl.java:38)
+	at com.prgmrs.voucher.service.VoucherService.findVoucherById(VoucherService.java:43)
+	at com.prgmrs.voucher.controller.VoucherController.findVoucherById(VoucherController.java:33)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:94)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:47)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 03:10:23.407 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.ClassCastException: class com.prgmrs.voucher.model.PercentDiscountVoucher cannot be cast to class com.prgmrs.voucher.model.FixedAmountVoucher (com.prgmrs.voucher.model.PercentDiscountVoucher and com.prgmrs.voucher.model.FixedAmountVoucher are in unnamed module of loader 'app')
+	at com.prgmrs.voucher.view.ConsoleView.lambda$showList$0(ConsoleView.java:136)
+	at java.base/java.util.HashMap$EntrySpliterator.forEachRemaining(HashMap.java:1850)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at com.prgmrs.voucher.view.ConsoleView.showList(ConsoleView.java:133)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:50)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-06-28 03:10:52.157 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.ClassCastException: class com.prgmrs.voucher.model.PercentDiscountVoucher cannot be cast to class com.prgmrs.voucher.model.FixedAmountVoucher (com.prgmrs.voucher.model.PercentDiscountVoucher and com.prgmrs.voucher.model.FixedAmountVoucher are in unnamed module of loader 'app')
+	at com.prgmrs.voucher.view.ConsoleView.lambda$showList$0(ConsoleView.java:136)
+	at java.base/java.util.HashMap$EntrySpliterator.forEachRemaining(HashMap.java:1850)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at com.prgmrs.voucher.view.ConsoleView.showList(ConsoleView.java:133)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:50)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted

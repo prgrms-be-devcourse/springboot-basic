@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.domain;
+package com.prgmrs.voucher.model;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 
