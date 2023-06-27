@@ -1,6 +1,6 @@
-package com.programmers.voucher.strategy;
+package com.programmers.voucher.domain.voucher.pattern.strategy;
 
-import com.programmers.voucher.util.VoucherErrorMessages;
+import com.programmers.voucher.global.util.VoucherErrorMessages;
 
 public class PercentValidationStrategy implements VoucherValidationStrategy {
     @Override

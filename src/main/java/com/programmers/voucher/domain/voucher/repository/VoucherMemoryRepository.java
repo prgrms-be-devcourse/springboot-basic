@@ -1,6 +1,6 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.domain.voucher.repository;
 
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

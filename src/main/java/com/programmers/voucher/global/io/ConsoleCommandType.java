@@ -1,6 +1,6 @@
-package com.programmers.voucher.enumtype;
+package com.programmers.voucher.global.io;
 
-import com.programmers.voucher.util.ConsoleErrorMessages;
+import com.programmers.voucher.global.util.ConsoleErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

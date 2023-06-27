@@ -1,11 +1,11 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.controller.VoucherController;
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.enumtype.ConsoleCommandType;
-import com.programmers.voucher.enumtype.VoucherType;
-import com.programmers.voucher.io.Console;
-import com.programmers.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.controller.VoucherController;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.global.io.Console;
+import com.programmers.voucher.domain.voucher.request.VoucherCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

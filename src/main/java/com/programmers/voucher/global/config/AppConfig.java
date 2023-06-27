@@ -1,4 +1,4 @@
-package com.programmers.voucher;
+package com.programmers.voucher.global.config;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;

@@ -1,4 +1,4 @@
-package com.programmers.voucher.util;
+package com.programmers.voucher.global.util;
 
 public interface VoucherErrorMessages {
     String INVALID_VOUCHER_TYPE = "Voucher type is invalid. Current input: ";

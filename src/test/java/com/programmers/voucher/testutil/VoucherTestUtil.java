@@ -1,8 +1,8 @@
 package com.programmers.voucher.testutil;
 
-import com.programmers.voucher.domain.FixedAmountVoucher;
-import com.programmers.voucher.domain.PercentDiscountVoucher;
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.domain.FixedAmountVoucher;
+import com.programmers.voucher.domain.voucher.domain.PercentDiscountVoucher;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
 
 import java.util.UUID;
 

@@ -1,8 +1,8 @@
-package com.programmers.voucher.controller;
+package com.programmers.voucher.domain.voucher.controller;
 
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.request.VoucherCreateRequest;
-import com.programmers.voucher.service.VoucherService;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;

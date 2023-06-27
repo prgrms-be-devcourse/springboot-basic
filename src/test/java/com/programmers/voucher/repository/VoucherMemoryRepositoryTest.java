@@ -1,6 +1,8 @@
 package com.programmers.voucher.repository;
 
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.repository.VoucherMemoryRepository;
+import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,9 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.enumtype.VoucherType;
-import com.programmers.voucher.repository.VoucherRepository;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.service.VoucherService;
+import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

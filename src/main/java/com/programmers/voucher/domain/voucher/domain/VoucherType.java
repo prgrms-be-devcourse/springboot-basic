@@ -1,39 +1,37 @@
-package com.programmers.voucher.enumtype;
+package com.programmers.voucher.domain.voucher.domain;
 
-import com.programmers.voucher.domain.FixedAmountVoucher;
-import com.programmers.voucher.domain.PercentDiscountVoucher;
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.strategy.FixedAmountValidationStrategy;
-import com.programmers.voucher.strategy.PercentValidationStrategy;
-import com.programmers.voucher.strategy.VoucherValidationStrategy;
-import com.programmers.voucher.util.VoucherErrorMessages;
+import com.programmers.voucher.domain.voucher.pattern.factory.FixedAmountVoucherFactory;
+import com.programmers.voucher.domain.voucher.pattern.factory.PercentDiscountVoucherFactory;
+import com.programmers.voucher.domain.voucher.pattern.factory.VoucherFactory;
+import com.programmers.voucher.domain.voucher.pattern.strategy.FixedAmountValidationStrategy;
+import com.programmers.voucher.domain.voucher.pattern.strategy.PercentValidationStrategy;
+import com.programmers.voucher.domain.voucher.pattern.strategy.VoucherValidationStrategy;
+import com.programmers.voucher.global.util.VoucherErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.BiFunction;
 
 public enum VoucherType {
     FIXED_AMOUNT("fixed",
             new FixedAmountValidationStrategy(),
-            FixedAmountVoucher::new),
+            new FixedAmountVoucherFactory()),
     PERCENT("percent",
             new PercentValidationStrategy(),
-            PercentDiscountVoucher::new);
+            new PercentDiscountVoucherFactory());
 
     private static final Logger LOG = LoggerFactory.getLogger(VoucherType.class);
 
     private final String type;
     private final VoucherValidationStrategy voucherValidator;
-    private final BiFunction<UUID, Long, Voucher> createInstance;
+    private final VoucherFactory voucherFactory;
 
     VoucherType(String value,
-                VoucherValidationStrategy voucherValidator,
-                BiFunction<UUID, Long, Voucher> createInstance) {
+                VoucherValidationStrategy voucherValidator, VoucherFactory voucherFactory) {
         this.type = value;
-        this.createInstance = createInstance;
+        this.voucherFactory = voucherFactory;
         this.voucherValidator = voucherValidator;
     }
 
@@ -54,6 +52,6 @@ public enum VoucherType {
     }
 
     public Voucher createVoucher(UUID voucherId, long amount) {
-        return createInstance.apply(voucherId, amount);
+        return voucherFactory.publishVoucher(voucherId, amount);
     }
 }

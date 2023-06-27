@@ -1,10 +1,10 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.controller.VoucherController;
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.enumtype.ConsoleCommandType;
-import com.programmers.voucher.io.Console;
-import com.programmers.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.controller.VoucherController;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.global.io.Console;
+import com.programmers.voucher.domain.voucher.request.VoucherCreateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

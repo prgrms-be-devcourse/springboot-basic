@@ -1,8 +1,8 @@
-package com.programmers.voucher.service;
+package com.programmers.voucher.domain.voucher.service;
 
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.enumtype.VoucherType;
-import com.programmers.voucher.repository.VoucherRepository;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package com.programmers.voucher.request;
+package com.programmers.voucher.domain.voucher.request;
 
-import com.programmers.voucher.enumtype.VoucherType;
+import com.programmers.voucher.domain.voucher.domain.VoucherType;
 
 public class VoucherCreateRequest {
     private final VoucherType voucherType;
