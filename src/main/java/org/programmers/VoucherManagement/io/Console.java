@@ -2,7 +2,7 @@ package org.programmers.VoucherManagement.io;
 
 import org.programmers.VoucherManagement.CommandType;
 import org.programmers.VoucherManagement.DiscountType;
-import org.programmers.VoucherManagement.voucher.domain.Voucher;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -32,15 +32,15 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printVoucherList(List<Voucher> voucherList) {
+    public void printVoucherList(List<GetVoucherResponse> voucherList) {
         voucherList
                 .stream()
-                .forEach(voucher -> {
+                .forEach(response -> {
                     System.out.println(MessageFormat.format("{0} : {1} 타입의 {2}{3} 할인 voucher"
-                            , voucher.getVoucherId()
-                            , voucher.getDiscountType().getType()
-                            , voucher.getDiscountValue()
-                            , voucher.getDiscountType().getSymbol()));
+                            , response.getVoucherId()
+                            , response.getDiscountType().getType()
+                            , response.getDiscountValue()
+                            , response.getDiscountType().getSymbol()));
                 });
     }
 

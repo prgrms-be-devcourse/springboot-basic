@@ -3,8 +3,8 @@ package org.programmers.VoucherManagement;
 import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.io.Console;
 import org.programmers.VoucherManagement.voucher.api.VoucherController;
-import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +38,7 @@ public class VoucherManagementRunner implements CommandLineRunner {
             voucherController.createVoucher(new CreateVoucherRequest(discountType, discountValue));
         }
         if (commandType.isList()) {
-            List<Voucher> voucherList = voucherController.getVoucherList();
+            List<GetVoucherResponse> voucherList = voucherController.getVoucherList();
             console.printVoucherList(voucherList);
         }
         if (commandType.isExit()) {

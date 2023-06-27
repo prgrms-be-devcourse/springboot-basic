@@ -1,6 +1,6 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.voucher.domain.Voucher;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ public interface Output {
     void printDiscountType();
     void printDiscountValue();
     void printExitMessage();
-    void printVoucherList(List<Voucher> voucherList);
+    void printVoucherList(List<GetVoucherResponse> voucherList);
 }
