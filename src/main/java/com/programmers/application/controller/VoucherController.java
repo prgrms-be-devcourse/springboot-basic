@@ -28,6 +28,6 @@ public class VoucherController implements Controller{
         io.write("=== Voucher Program ===");
         io.write("Enter a exit to exit the program");
         io.write("Enter a create to create a new voucher");
-        io.write("Enter a List to list all vouchers");
+        io.write("Enter a list to list all vouchers");
     }
 }

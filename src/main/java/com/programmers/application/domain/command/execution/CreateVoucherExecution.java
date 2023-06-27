@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class CreateVoucherExecution implements VoucherExecution{
+    public static final String BLANK_STRING = " ";
     private final VoucherService voucherService;
     private final IO io;
 
@@ -20,7 +21,7 @@ public class CreateVoucherExecution implements VoucherExecution{
     @Override
     public void run() throws IOException {
         printOption(io);
-        String[] typeAndAmount = io.read().split(" ");
+        String[] typeAndAmount = io.read().split(BLANK_STRING);
         validateAmount(typeAndAmount);
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(typeAndAmount[0], Long.parseLong(typeAndAmount[1]));
         voucherService.createVoucher(voucherCreationRequest);
@@ -36,6 +37,6 @@ public class CreateVoucherExecution implements VoucherExecution{
         io.write("=== Create Voucher ===");
         io.write("Enter a fixed or percent to create the discount voucher");
         io.write("Enter the amount of the discount voucher");
-        io.write("For example) enter fixed 1000 like this");
+        io.write("For example) fixed 1000");
     }
 }
