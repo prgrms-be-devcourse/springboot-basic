@@ -1,10 +1,12 @@
 package programmers.org.voucher.repository;
 
+import org.springframework.stereotype.Repository;
 import programmers.org.voucher.domain.Voucher;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
