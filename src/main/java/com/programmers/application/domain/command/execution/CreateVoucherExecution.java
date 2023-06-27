@@ -7,6 +7,7 @@ import com.programmers.application.service.VoucherService;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class CreateVoucherExecution implements VoucherExecution{
     public static final String BLANK_STRING = " ";
@@ -22,9 +23,16 @@ public class CreateVoucherExecution implements VoucherExecution{
     public void run() throws IOException {
         printOption(io);
         String[] typeAndAmount = io.read().split(BLANK_STRING);
+        validateType(typeAndAmount);
         validateAmount(typeAndAmount);
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(typeAndAmount[0], Long.parseLong(typeAndAmount[1]));
         voucherService.createVoucher(voucherCreationRequest);
+    }
+
+    private static void validateType(String[] typeAndAmount) {
+        if (Objects.isNull(typeAndAmount[0]) || typeAndAmount[0].isBlank() || typeAndAmount[0].isEmpty()) {
+            throw new IllegalArgumentException("옳바른 타입을 입력해 주세요. 입력값: " + Arrays.toString(typeAndAmount));
+        }
     }
 
     private void validateAmount(String[] typeAndAmount) {
