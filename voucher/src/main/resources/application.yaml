@@ -1,3 +1,7 @@
 filepath:
   blacklist: "classpath:/customer_blacklist.csv"
   voucher: "classpath:/sample.csv"
+
+mysql:
+  user-id: "root"
+  password: "1234"
