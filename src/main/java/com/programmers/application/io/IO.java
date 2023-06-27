@@ -1,7 +1,9 @@
 package com.programmers.application.io;
 
-public interface IO {
-    void write(String input);
+import java.io.IOException;
 
-    String read();
+public interface IO {
+    void write(String input) throws IOException;
+
+    String read() throws IOException;
 }

@@ -6,10 +6,12 @@ import com.programmers.application.domain.command.execution.VoucherExecution;
 import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
 
+import java.io.IOException;
+
 public enum Command {
     EXIT, CREATE, LIST;
 
-    public void executeVoucher(VoucherService voucherService, Command command, IO io) {
+    public void executeVoucher(VoucherService voucherService, Command command, IO io) throws IOException {
         switch (command) {
             case EXIT -> System.exit(1);
             case CREATE -> {

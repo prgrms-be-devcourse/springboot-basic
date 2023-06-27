@@ -4,6 +4,7 @@ import com.programmers.application.io.IO;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class FrontController implements Controller{
     }
 
     @Override
-    public void process() {
+    public void process() throws IOException {
         printMenu();
         ServiceCommand serviceCommand = ServiceCommand.valueOf(io.read().toUpperCase());
         if (serviceCommand == ServiceCommand.EXIT) {
@@ -30,7 +31,7 @@ public class FrontController implements Controller{
         controller.process();
     }
 
-    private void printMenu() {
+    private void printMenu() throws IOException {
         io.write("=== Program ===");
         io.write("Enter a voucher to use the voucher program");
         io.write("Enter a customer to use the customer program");

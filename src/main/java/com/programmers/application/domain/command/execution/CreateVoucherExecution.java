@@ -5,6 +5,7 @@ import com.programmers.application.dto.request.VoucherCreationRequest;
 import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class CreateVoucherExecution implements VoucherExecution{
@@ -17,7 +18,7 @@ public class CreateVoucherExecution implements VoucherExecution{
     }
 
     @Override
-    public void run() {
+    public void run() throws IOException {
         printOption(io);
         String[] typeAndAmount = io.read().split(" ");
         validateAmount(typeAndAmount);
@@ -31,7 +32,7 @@ public class CreateVoucherExecution implements VoucherExecution{
         }
     }
 
-    private static void printOption(IO io) {
+    private static void printOption(IO io) throws IOException {
         io.write("=== Create Voucher ===");
         io.write("Enter a fixed or percent to create the discount voucher");
         io.write("Enter the amount of the discount voucher");

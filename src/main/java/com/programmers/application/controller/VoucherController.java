@@ -5,6 +5,8 @@ import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class VoucherController implements Controller{
     private final IO io;
@@ -16,13 +18,13 @@ public class VoucherController implements Controller{
     }
 
     @Override
-    public void process() {
+    public void process() throws IOException {
         printMenu();
         Command command = Command.valueOf(io.read().toUpperCase());
         command.executeVoucher(voucherService, command, io);
     }
 
-    private void printMenu() {
+    private void printMenu() throws IOException {
         io.write("=== Voucher Program ===");
         io.write("Enter a exit to exit the program");
         io.write("Enter a create to create a new voucher");

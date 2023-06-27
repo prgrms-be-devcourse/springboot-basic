@@ -4,6 +4,7 @@ import com.programmers.application.dto.reponse.VoucherInfoResponse;
 import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ListVoucherExecution implements VoucherExecution {
@@ -16,9 +17,10 @@ public class ListVoucherExecution implements VoucherExecution {
     }
 
     @Override
-    public void run() {
+    public void run() throws IOException {
         List<VoucherInfoResponse> voucherList = voucherService.findVoucherList();
-        voucherList.stream()
-                .forEach(voucherInfoResponse -> io.write(voucherInfoResponse.toString()));
+        for (VoucherInfoResponse voucherInfoResponse : voucherList) {
+            io.write(voucherInfoResponse.toString());
+        }
     }
 }
