@@ -7,6 +7,7 @@ import me.kimihiqq.vouchermanagement.domain.Voucher;
 import me.kimihiqq.vouchermanagement.dto.VoucherDto;
 import me.kimihiqq.vouchermanagement.option.MainMenuOption;
 import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
+import me.kimihiqq.vouchermanagement.service.CustomerService;
 import me.kimihiqq.vouchermanagement.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import me.kimihiqq.vouchermanagement.io.Console;
@@ -19,6 +20,8 @@ import java.io.IOException;
 public class VoucherControllerImpl implements VoucherController {
     private final Console console;
     private final VoucherService voucherService;
+
+    private final CustomerService customerService;
 
     @Override
     public void run() {
@@ -42,6 +45,13 @@ public class VoucherControllerImpl implements VoucherController {
                         log.info("Listing all vouchers");
                         voucherService.listVouchers().forEach(voucher ->
                                 console.printLine(voucher.getVoucherId() + ": " + voucher.getType() + " - " + voucher.getDiscount())
+                        );
+                        break;
+
+                    case BLACKLIST:
+                        log.info("Listing all blacklisted customers");
+                        customerService.getBlacklistedCustomers().forEach(customer ->
+                                console.printLine(customer.getId() + ": " + customer.getName() + " - " + customer.getStatus())
                         );
                         break;
                 }
