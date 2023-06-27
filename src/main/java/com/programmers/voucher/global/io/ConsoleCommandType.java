@@ -11,6 +11,7 @@ public enum ConsoleCommandType {
     CREATE("create"),
     LIST("list"),
     HELP("help"),
+    BLACKLIST("blacklist"),
     EXIT("exit");
 
     private static final Logger LOG = LoggerFactory.getLogger(ConsoleCommandType.class);
