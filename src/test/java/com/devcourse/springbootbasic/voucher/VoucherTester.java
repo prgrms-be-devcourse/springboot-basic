@@ -1,11 +1,11 @@
 package com.devcourse.springbootbasic.voucher;
 
-import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
-import com.devcourse.springbootbasic.engine.io.InputConsole;
-import com.devcourse.springbootbasic.engine.model.VoucherType;
-import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
-import com.devcourse.springbootbasic.engine.voucher.repository.MemoryVoucherRepository;
-import com.devcourse.springbootbasic.engine.voucher.service.VoucherService;
+import com.devcourse.springbootbasic.application.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.io.InputConsole;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.domain.Voucher;
+import com.devcourse.springbootbasic.application.repository.MemoryVoucherRepository;
+import com.devcourse.springbootbasic.application.service.VoucherService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

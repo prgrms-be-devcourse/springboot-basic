@@ -1,8 +1,8 @@
-package com.devcourse.springbootbasic.engine.voucher.factory;
+package com.devcourse.springbootbasic.application.factory;
 
-import com.devcourse.springbootbasic.engine.model.VoucherType;
-import com.devcourse.springbootbasic.engine.voucher.domain.PercentDiscountVoucher;
-import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
+import com.devcourse.springbootbasic.application.domain.PercentDiscountVoucher;
+import com.devcourse.springbootbasic.application.domain.Voucher;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
 
 import java.util.UUID;
 

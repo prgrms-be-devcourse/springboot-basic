@@ -1,17 +1,16 @@
-package com.devcourse.springbootbasic.engine.voucher.service;
+package com.devcourse.springbootbasic.application.service;
 
-import com.devcourse.springbootbasic.engine.config.Message;
-import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
-import com.devcourse.springbootbasic.engine.model.VoucherType;
-import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
-import com.devcourse.springbootbasic.engine.voucher.domain.VoucherDto;
-import com.devcourse.springbootbasic.engine.voucher.factory.FixedVoucherFactory;
-import com.devcourse.springbootbasic.engine.voucher.factory.PercentVoucherFactory;
-import com.devcourse.springbootbasic.engine.voucher.repository.VoucherRepository;
+import com.devcourse.springbootbasic.application.constant.Message;
+import com.devcourse.springbootbasic.application.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.domain.Voucher;
+import com.devcourse.springbootbasic.application.dto.VoucherDto;
+import com.devcourse.springbootbasic.application.factory.FixedVoucherFactory;
+import com.devcourse.springbootbasic.application.factory.PercentVoucherFactory;
+import com.devcourse.springbootbasic.application.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VoucherService {

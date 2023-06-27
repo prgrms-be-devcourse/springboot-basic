@@ -1,14 +1,14 @@
 package com.devcourse.springbootbasic.list;
 
-import com.devcourse.springbootbasic.engine.io.InputConsole;
-import com.devcourse.springbootbasic.engine.io.OutputConsole;
-import com.devcourse.springbootbasic.engine.model.VoucherType;
-import com.devcourse.springbootbasic.engine.voucher.domain.FixedAmountVoucher;
-import com.devcourse.springbootbasic.engine.voucher.domain.PercentDiscountVoucher;
-import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
-import com.devcourse.springbootbasic.engine.voucher.repository.MemoryVoucherRepository;
-import com.devcourse.springbootbasic.engine.voucher.repository.VoucherRepository;
-import com.devcourse.springbootbasic.engine.voucher.service.VoucherService;
+import com.devcourse.springbootbasic.application.io.InputConsole;
+import com.devcourse.springbootbasic.application.io.OutputConsole;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.domain.FixedAmountVoucher;
+import com.devcourse.springbootbasic.application.domain.PercentDiscountVoucher;
+import com.devcourse.springbootbasic.application.domain.Voucher;
+import com.devcourse.springbootbasic.application.repository.MemoryVoucherRepository;
+import com.devcourse.springbootbasic.application.repository.VoucherRepository;
+import com.devcourse.springbootbasic.application.service.VoucherService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

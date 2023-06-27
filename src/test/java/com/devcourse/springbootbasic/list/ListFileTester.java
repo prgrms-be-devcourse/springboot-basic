@@ -1,7 +1,7 @@
 package com.devcourse.springbootbasic.list;
 
-import com.devcourse.springbootbasic.engine.config.YamlProperties;
-import com.devcourse.springbootbasic.engine.voucher.service.VoucherService;
+import com.devcourse.springbootbasic.application.constant.YamlProperties;
+import com.devcourse.springbootbasic.application.service.VoucherService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

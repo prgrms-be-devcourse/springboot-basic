@@ -1,9 +1,9 @@
-package com.devcourse.springbootbasic.engine.voucher.repository;
+package com.devcourse.springbootbasic.application.repository;
 
-import com.devcourse.springbootbasic.engine.config.YamlProperties;
-import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
-import com.devcourse.springbootbasic.engine.config.Message;
-import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
+import com.devcourse.springbootbasic.application.constant.YamlProperties;
+import com.devcourse.springbootbasic.application.domain.Voucher;
+import com.devcourse.springbootbasic.application.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.constant.Message;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

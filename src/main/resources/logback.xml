@@ -37,7 +37,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.devcourse.springbootbasic.engine.exception" level="error">
+    <logger name="com.devcourse.springbootbasic.application.exception" level="error">
         <appender-ref ref="FILE_LOG"/>
     </logger>
 

@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.engine.config;
+package com.devcourse.springbootbasic.application.constant;
 
 public record Message() {
 
@@ -12,8 +12,11 @@ public record Message() {
     public static final String INVALID_FILE_ACCESS = "부적절한 파일 접근입니다.";
 
     // Output
-    public static final String END_GAME = "\n프로그램을 종료합니다.";
-    public static final String CREATION_DONE = "\n바우처가 생성되었습니다.";
-    public static final String LIST_VOUCHERS = "\n-Your Voucher List-";
-    public static final String BLACK_CUSTOMER = "\n진상 목록입니다.";
+    public static final String START_GAME_PROMPT = "=== Voucher Program ===";
+    public static final String END_GAME_PROMPT = "프로그램을 종료합니다.";
+    public static final String CREATION_DONE_PROMPT = "바우처가 생성되었습니다.";
+    public static final String VOUCHER_TYPE_PROMPT = "--- 바우처 옵션 선택 ---";
+    public static final String LIST_MENU_PROMPT = "--- 출력 옵션 선택 ---";
+    public static final String LIST_VOUCHERS_PROMPT = "- 생성한 바우처 목록입니다. -";
+    public static final String BLACK_CUSTOMER_PROMPT = "진상 목록입니다.";
 }

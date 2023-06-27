@@ -1,9 +1,9 @@
 package com.devcourse.springbootbasic.voucher;
 
-import com.devcourse.springbootbasic.engine.config.YamlProperties;
-import com.devcourse.springbootbasic.engine.model.VoucherType;
-import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
-import com.devcourse.springbootbasic.engine.voucher.service.VoucherService;
+import com.devcourse.springbootbasic.application.constant.YamlProperties;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.domain.Voucher;
+import com.devcourse.springbootbasic.application.service.VoucherService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

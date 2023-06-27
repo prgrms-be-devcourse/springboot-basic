@@ -1,8 +1,8 @@
 package com.devcourse.springbootbasic.menu;
 
-import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
-import com.devcourse.springbootbasic.engine.io.InputConsole;
-import com.devcourse.springbootbasic.engine.model.Menu;
+import com.devcourse.springbootbasic.application.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.io.InputConsole;
+import com.devcourse.springbootbasic.application.dto.Menu;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

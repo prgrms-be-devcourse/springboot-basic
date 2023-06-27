@@ -1,6 +1,6 @@
-package com.devcourse.springbootbasic.engine.voucher.repository;
+package com.devcourse.springbootbasic.application.repository;
 
-import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
+import com.devcourse.springbootbasic.application.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

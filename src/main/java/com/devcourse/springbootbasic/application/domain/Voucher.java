@@ -1,7 +1,8 @@
-package com.devcourse.springbootbasic.engine.voucher.domain;
+package com.devcourse.springbootbasic.application.domain;
 
-import com.devcourse.springbootbasic.engine.model.VoucherType;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -22,9 +23,6 @@ public abstract class Voucher {
     }
 
     public String toString() {
-        return voucherType.name() + " -> " +
-                "id:" + voucherId +
-                ", discount" + voucherType.getTypeString() +
-                ":" + discountValue;
+        return MessageFormat.format("{0}(id: {1}, {2}: {3})", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue);
     }
 }

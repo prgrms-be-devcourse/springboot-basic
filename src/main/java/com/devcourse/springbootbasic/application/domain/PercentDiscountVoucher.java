@@ -1,6 +1,6 @@
-package com.devcourse.springbootbasic.engine.voucher.domain;
+package com.devcourse.springbootbasic.application.domain;
 
-import com.devcourse.springbootbasic.engine.model.VoucherType;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
 
 import java.util.UUID;
 

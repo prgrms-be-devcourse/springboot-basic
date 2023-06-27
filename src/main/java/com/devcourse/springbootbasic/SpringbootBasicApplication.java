@@ -1,6 +1,6 @@
 package com.devcourse.springbootbasic;
 
-import com.devcourse.springbootbasic.engine.Platform;
+import com.devcourse.springbootbasic.application.Platform;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

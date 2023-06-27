@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.engine.exception;
+package com.devcourse.springbootbasic.application.exception;
 
 public class InvalidDataException extends RuntimeException {
 

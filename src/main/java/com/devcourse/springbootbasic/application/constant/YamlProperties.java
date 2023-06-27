@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.engine.config;
+package com.devcourse.springbootbasic.application.constant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
