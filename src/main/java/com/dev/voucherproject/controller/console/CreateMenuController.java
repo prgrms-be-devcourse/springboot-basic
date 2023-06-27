@@ -10,10 +10,14 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 @Controller
-public class CreateMenuController extends MenuUsingConsoleAndStorage {
+public class CreateMenuController implements MenuController {
     private static final Logger logger = LoggerFactory.getLogger(CreateMenuController.class);
-    public CreateMenuController(VoucherStorage voucherStorage, Console console) {
-        super(voucherStorage, console);
+    private final Console console;
+    private final VoucherStorage voucherStorage;
+
+    public CreateMenuController(Console console, VoucherStorage voucherStorage) {
+        this.console = console;
+        this.voucherStorage = voucherStorage;
     }
 
     @Override

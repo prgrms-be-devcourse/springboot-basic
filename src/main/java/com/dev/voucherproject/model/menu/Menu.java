@@ -52,4 +52,8 @@ public enum Menu {
     private boolean isExistMenu(String input) {
         return this.menuName.equals(input);
     }
+
+    public String getMenuName() {
+        return menuName;
+    }
 }

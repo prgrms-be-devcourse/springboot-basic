@@ -8,9 +8,13 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class ListMenuController extends MenuUsingConsoleAndStorage {
-    public ListMenuController(VoucherStorage voucherStorage, Console console) {
-        super(voucherStorage, console);
+public class ListMenuController implements MenuController {
+    private final Console console;
+    private final VoucherStorage voucherStorage;
+
+    public ListMenuController(Console console, VoucherStorage voucherStorage) {
+        this.console = console;
+        this.voucherStorage = voucherStorage;
     }
 
     @Override
