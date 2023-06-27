@@ -5,7 +5,7 @@ import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.global.io.ConsoleCommandType;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.global.io.Console;
-import com.programmers.voucher.domain.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

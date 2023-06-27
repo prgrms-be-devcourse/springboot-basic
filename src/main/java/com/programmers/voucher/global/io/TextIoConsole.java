@@ -1,7 +1,7 @@
 package com.programmers.voucher.global.io;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
-import com.programmers.voucher.domain.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.global.util.VoucherErrorMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;

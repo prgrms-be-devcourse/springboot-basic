@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain.voucher.request;
+package com.programmers.voucher.domain.voucher.dto.request;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 
