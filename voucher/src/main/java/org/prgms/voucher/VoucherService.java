@@ -9,8 +9,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    void createVoucher(AmountType amountType) {
-
+    void createVoucher(VoucherCreateDto voucherCreateDto) {
     }
 
     List<Voucher> listVoucher() {
