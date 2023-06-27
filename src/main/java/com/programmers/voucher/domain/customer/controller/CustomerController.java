@@ -14,7 +14,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public List<Customer> findCustomers() {
-        return customerService.findCustomers();
+    public List<Customer> findBlacklistCustomers() {
+        return customerService.findBlacklistCustomers();
     }
 }
