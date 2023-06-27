@@ -1,21 +1,15 @@
 package org.promgrammers.springbootbasic.domain.voucher.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 
 public enum VoucherType {
 
-    FIXED("FIXED", "1"),
-    PERCENT("PERCENT", "2");
+    FIXED("1"),
+    PERCENT("2");
 
-    private final String type;
     private final String typeNumber;
-    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 
-    VoucherType(String type, String typeNumber) {
-        this.type = type;
+    VoucherType(String typeNumber) {
         this.typeNumber = typeNumber;
     }
 

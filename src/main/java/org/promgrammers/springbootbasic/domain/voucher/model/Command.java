@@ -4,16 +4,14 @@ import java.util.Arrays;
 
 public enum Command {
 
-    EXIT("exit","1"),
-    CREATE("create","2"),
-    LIST("list","3"),
-    BLACKLIST("blacklist","4");
+    EXIT("1"),
+    CREATE("2"),
+    LIST("3"),
+    BLACKLIST("4");
 
-    private final String command;
     private final String commandNumber;
 
-    Command(String command, String commandNumber) {
-        this.command = command;
+    Command(String commandNumber) {
         this.commandNumber = commandNumber;
     }
 
