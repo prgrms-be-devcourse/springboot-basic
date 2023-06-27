@@ -14,7 +14,7 @@ import java.util.*;
 @AllArgsConstructor
 public class VoucherService {
 
-    private VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
 
     public Voucher createVoucher(VoucherType type, Long discount) {
         Voucher voucher = null;
