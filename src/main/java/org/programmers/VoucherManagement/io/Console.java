@@ -47,7 +47,7 @@ public class Console implements Input, Output {
     @Override
     public CommandType readType() {
         String type = SCANNER.nextLine();
-        return CommandType.from(type);
+        return CommandType.from(type.toLowerCase());
     }
 
     @Override
