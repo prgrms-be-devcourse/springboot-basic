@@ -1,9 +1,9 @@
-package me.kimihiqq.vouchermanagement.service;
+package me.kimihiqq.vouchermanagement.domain.customer.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kimihiqq.vouchermanagement.domain.Customer;
+import me.kimihiqq.vouchermanagement.domain.customer.Customer;
 import me.kimihiqq.vouchermanagement.option.CustomerStatus;
 import org.springframework.stereotype.Service;
 

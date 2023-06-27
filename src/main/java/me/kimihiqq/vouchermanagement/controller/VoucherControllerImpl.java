@@ -3,16 +3,14 @@ package me.kimihiqq.vouchermanagement.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kimihiqq.vouchermanagement.domain.Voucher;
-import me.kimihiqq.vouchermanagement.dto.VoucherDto;
+import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.dto.VoucherDto;
 import me.kimihiqq.vouchermanagement.option.MainMenuOption;
 import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
-import me.kimihiqq.vouchermanagement.service.CustomerService;
-import me.kimihiqq.vouchermanagement.service.VoucherService;
+import me.kimihiqq.vouchermanagement.domain.customer.service.CustomerService;
+import me.kimihiqq.vouchermanagement.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import me.kimihiqq.vouchermanagement.io.Console;
-
-import java.io.IOException;
 
 @Slf4j
 @Controller

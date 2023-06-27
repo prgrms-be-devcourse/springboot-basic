@@ -1,4 +1,4 @@
-package me.kimihiqq.vouchermanagement.dto;
+package me.kimihiqq.vouchermanagement.domain.customer.dto;
 
 public class CustomerDto {
     private String customerId;

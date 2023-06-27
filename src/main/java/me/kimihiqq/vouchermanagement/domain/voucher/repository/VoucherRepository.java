@@ -1,6 +1,6 @@
-package me.kimihiqq.vouchermanagement.repository;
+package me.kimihiqq.vouchermanagement.domain.voucher.repository;
 
-import me.kimihiqq.vouchermanagement.domain.Voucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

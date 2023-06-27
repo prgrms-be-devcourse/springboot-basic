@@ -1,10 +1,11 @@
 package me.kimihiqq.vouchermanagement.service;
 
-import me.kimihiqq.vouchermanagement.domain.FixedAmountVoucher;
-import me.kimihiqq.vouchermanagement.domain.PercentDiscountVoucher;
-import me.kimihiqq.vouchermanagement.domain.Voucher;
-import me.kimihiqq.vouchermanagement.dto.VoucherDto;
-import me.kimihiqq.vouchermanagement.repository.VoucherRepository;
+import me.kimihiqq.vouchermanagement.domain.voucher.FixedAmountVoucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.PercentDiscountVoucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.dto.VoucherDto;
+import me.kimihiqq.vouchermanagement.domain.voucher.service.VoucherServiceImpl;
+import me.kimihiqq.vouchermanagement.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

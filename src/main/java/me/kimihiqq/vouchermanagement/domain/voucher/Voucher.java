@@ -1,4 +1,4 @@
-package me.kimihiqq.vouchermanagement.domain;
+package me.kimihiqq.vouchermanagement.domain.voucher;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
-package me.kimihiqq.vouchermanagement.service;
+package me.kimihiqq.vouchermanagement.domain.customer.service;
 
-import me.kimihiqq.vouchermanagement.domain.Customer;
+import me.kimihiqq.vouchermanagement.domain.customer.Customer;
 
 import java.util.List;
 

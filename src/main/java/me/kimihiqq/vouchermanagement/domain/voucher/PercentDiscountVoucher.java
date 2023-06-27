@@ -1,4 +1,4 @@
-package me.kimihiqq.vouchermanagement.domain;
+package me.kimihiqq.vouchermanagement.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 

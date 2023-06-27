@@ -1,9 +1,9 @@
-package me.kimihiqq.vouchermanagement.repository;
+package me.kimihiqq.vouchermanagement.domain.voucher.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kimihiqq.vouchermanagement.domain.FixedAmountVoucher;
-import me.kimihiqq.vouchermanagement.domain.PercentDiscountVoucher;
-import me.kimihiqq.vouchermanagement.domain.Voucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.FixedAmountVoucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.PercentDiscountVoucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

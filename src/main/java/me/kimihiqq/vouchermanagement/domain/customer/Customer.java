@@ -1,4 +1,4 @@
-package me.kimihiqq.vouchermanagement.domain;
+package me.kimihiqq.vouchermanagement.domain.customer;
 
 import me.kimihiqq.vouchermanagement.option.CustomerStatus;
 

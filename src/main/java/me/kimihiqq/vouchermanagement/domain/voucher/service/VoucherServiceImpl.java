@@ -1,13 +1,13 @@
-package me.kimihiqq.vouchermanagement.service;
+package me.kimihiqq.vouchermanagement.domain.voucher.service;
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kimihiqq.vouchermanagement.domain.FixedAmountVoucher;
-import me.kimihiqq.vouchermanagement.domain.PercentDiscountVoucher;
-import me.kimihiqq.vouchermanagement.domain.Voucher;
-import me.kimihiqq.vouchermanagement.dto.VoucherDto;
-import me.kimihiqq.vouchermanagement.repository.VoucherRepository;
+import me.kimihiqq.vouchermanagement.domain.voucher.FixedAmountVoucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.PercentDiscountVoucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
+import me.kimihiqq.vouchermanagement.domain.voucher.dto.VoucherDto;
+import me.kimihiqq.vouchermanagement.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
