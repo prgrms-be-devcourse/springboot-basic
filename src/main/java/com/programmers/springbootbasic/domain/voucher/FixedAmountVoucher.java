@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
     private final int amount;
-    static final int MIN_AMOUNT = 10;
-    static final int MAX_AMOUNT = 10_000_000;
+    private static final int MIN_AMOUNT = 10;
+    private static final int MAX_AMOUNT = 10_000_000;
 
     public FixedAmountVoucher(UUID voucherId, String name, LocalDateTime createdDate, LocalDateTime expirationDate, int amount) {
         this(voucherId, name, 0L, createdDate, expirationDate, amount);
