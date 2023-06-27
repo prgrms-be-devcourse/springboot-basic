@@ -2,6 +2,7 @@ package com.programmers.application.domain;
 
 import com.programmers.application.domain.voucher.Voucher;
 import com.programmers.application.domain.voucher.VoucherFactory;
+import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @CsvSource(value = {"100, 1000, 900", "500, 1000, 500"})
     void discount(long discountAmount, long originalPrice, long expectedPrice) {
-        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(VOUCHER_TYPE, discountAmount);
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(VOUCHER_TYPE, discountAmount);
         Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
         assertThat(voucher.discount(originalPrice)).isEqualTo(expectedPrice);
     }
@@ -29,7 +30,7 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @CsvSource(value = {"1001, 1000, 0", "2000, 1000, 0"})
     void discountTo0Won(long discountAmount, long originalPrice, long expectedPrice) {
-        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(VOUCHER_TYPE, discountAmount);
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(VOUCHER_TYPE, discountAmount);
         Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
         assertThat(voucher.discount(originalPrice)).isEqualTo(expectedPrice);
     }
@@ -38,7 +39,7 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @ValueSource(longs = {-1000, -1, 5001, 5002, 10000})
     void notIncludeDiscountAmountRange(long discountAmount) {
-        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(VOUCHER_TYPE, discountAmount);
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(VOUCHER_TYPE, discountAmount);
         Assertions.assertThatThrownBy(() -> VoucherFactory.createVoucher(voucherCreationRequest))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);

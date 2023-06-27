@@ -2,6 +2,7 @@ package com.programmers.application.repository;
 
 import com.programmers.application.domain.voucher.Voucher;
 import com.programmers.application.domain.voucher.VoucherFactory;
+import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +28,7 @@ class MemoryVoucherRepositoryTest {
             "percent, 10"})
     void save(String voucherType, long discountAmount) {
         //give
-        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(voucherType, discountAmount);
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
         Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
 
         //when
@@ -42,8 +43,8 @@ class MemoryVoucherRepositoryTest {
     @Test
     void findAll() {
         //give
-        VoucherCreationRequest voucherCreationRequest1 = new VoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
-        VoucherCreationRequest voucherCreationRequest2 = new VoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
+        VoucherCreationRequest voucherCreationRequest1 = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
+        VoucherCreationRequest voucherCreationRequest2 = RequestFactory.createVoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
 
         Voucher voucher1 = VoucherFactory.createVoucher(voucherCreationRequest1);
         Voucher voucher2 = VoucherFactory.createVoucher(voucherCreationRequest2);

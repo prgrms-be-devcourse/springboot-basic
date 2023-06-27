@@ -2,6 +2,7 @@ package com.programmers.application.service;
 
 import com.programmers.application.domain.voucher.VoucherType;
 import com.programmers.application.dto.reponse.VoucherInfoResponse;
+import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import com.programmers.application.repository.MemoryVoucherRepository;
 import com.programmers.application.repository.VoucherRepository;
@@ -33,7 +34,7 @@ class VoucherServiceTest {
             "PERCENT, 10"})
     void createVoucher(String voucherType, long discountAmount) {
         //give
-        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(voucherType, discountAmount);
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
 
         //when
         UUID voucherId = voucherService.createVoucher(voucherCreationRequest);
@@ -49,7 +50,7 @@ class VoucherServiceTest {
             "wrongType, 100",
             "weirdType, 10"})
     void inputIncorrectVoucherType(String voucherType, long discountAmount) {
-        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(voucherType, discountAmount);
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -58,7 +59,7 @@ class VoucherServiceTest {
     @ParameterizedTest
     @NullAndEmptySource
     void inputNullVoucherType(String voucherType) {
-        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(voucherType, PERCENT_DISCOUNT_AMOUNT))
+        Assertions.assertThatThrownBy(() -> RequestFactory.createVoucherCreationRequest(voucherType, PERCENT_DISCOUNT_AMOUNT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
@@ -69,7 +70,7 @@ class VoucherServiceTest {
     void input0VoucherDiscountAmount(VoucherType voucherType) {
         final long discountAmount = 0;
         String requestVoucherType = voucherType.name();
-        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(requestVoucherType , discountAmount))
+        Assertions.assertThatThrownBy(() -> RequestFactory.createVoucherCreationRequest(requestVoucherType , discountAmount))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
@@ -78,8 +79,8 @@ class VoucherServiceTest {
     @Test
     void findVoucherList() {
         //give
-        VoucherCreationRequest voucherCreationRequest1 = new VoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
-        VoucherCreationRequest voucherCreationRequest2 = new VoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
+        VoucherCreationRequest voucherCreationRequest1 = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
+        VoucherCreationRequest voucherCreationRequest2 = RequestFactory.createVoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
         voucherService.createVoucher(voucherCreationRequest1);
         voucherService.createVoucher(voucherCreationRequest2);
 

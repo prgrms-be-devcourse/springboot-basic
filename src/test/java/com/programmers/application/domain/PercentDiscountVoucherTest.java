@@ -2,6 +2,7 @@ package com.programmers.application.domain;
 
 import com.programmers.application.domain.voucher.Voucher;
 import com.programmers.application.domain.voucher.VoucherFactory;
+import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +25,7 @@ class PercentDiscountVoucherTest {
             "50, 1000, 500",
             "100, 1000, 0"})
     void discount(long discountAmount, long originalPrice, long expectedPrice) {
-        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(VOUCHER_TYPE, discountAmount);
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(VOUCHER_TYPE, discountAmount);
         Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
         assertThat(voucher.discount(originalPrice)).isEqualTo(expectedPrice);
     }
@@ -33,7 +34,7 @@ class PercentDiscountVoucherTest {
     @ParameterizedTest
     @ValueSource(longs = {-1000, -1, 101, 102, 1003})
     void notIncludeDiscountAmountRange(long discountAmount) {
-        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(VOUCHER_TYPE, discountAmount);
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(VOUCHER_TYPE, discountAmount);
         Assertions.assertThatThrownBy(() -> VoucherFactory.createVoucher(voucherCreationRequest))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);
