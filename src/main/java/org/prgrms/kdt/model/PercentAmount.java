@@ -5,7 +5,7 @@ public class PercentAmount implements Amount {
 	private final int amount;
 
 	public PercentAmount(int amount) {
-		if (!validate(amount)){
+		if (!validate(amount)) {
 			throw new IllegalArgumentException("PercentAmount의 할인 값은 1이상 100이하 이어야 합니다.");
 		}
 
@@ -14,7 +14,7 @@ public class PercentAmount implements Amount {
 
 	@Override
 	public boolean validate(int amount) {
-		if (amount <= 0 || amount > 100 ){
+		if (amount <= 0 || amount > 100) {
 			return false;
 		}
 

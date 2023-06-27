@@ -9,6 +9,7 @@ public final class VoucherMapper {
 
 	private VoucherMapper() {
 	}
+
 	public static VoucherDTO entityToDTO(VoucherEntity voucherEntity) {
 		Long voucherId = voucherEntity.getVoucherId();
 		Amount amount = voucherEntity.getAmount();

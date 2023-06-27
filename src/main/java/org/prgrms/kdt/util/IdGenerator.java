@@ -2,7 +2,6 @@ package org.prgrms.kdt.util;
 
 import java.security.SecureRandom;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -25,7 +24,7 @@ public class IdGenerator {
 
 		do {
 			randomKey = random.nextLong();
-		}while(!store.add(randomKey));
+		} while (!store.add(randomKey));
 
 		return randomKey;
 	}

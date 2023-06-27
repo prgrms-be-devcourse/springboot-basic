@@ -2,10 +2,10 @@ package org.prgrms.kdt.controller;
 
 import java.util.List;
 
-import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.util.VoucherFactory;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.OutputView;
@@ -51,7 +51,7 @@ public class MainController {
 				try {
 					VoucherDTO voucherDTO = VoucherFactory.getVoucherDTO(amount, voucherType);
 					this.voucherService.createVoucher(voucherDTO);
-				}catch (IllegalArgumentException e){
+				} catch (IllegalArgumentException e) {
 					outputView.displayAmountErrorMessage();
 					executeCommand(Command.CREATE);
 				}

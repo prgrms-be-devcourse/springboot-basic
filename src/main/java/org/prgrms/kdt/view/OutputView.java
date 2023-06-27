@@ -13,7 +13,6 @@ public interface OutputView {
 
 	public void displayAmountErrorMessage();
 
-
 	public void displayVoucherList(List<VoucherDTO> voucherTypes);
 
 }
