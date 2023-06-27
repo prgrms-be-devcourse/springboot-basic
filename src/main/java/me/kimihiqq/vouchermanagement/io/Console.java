@@ -74,13 +74,4 @@ public class Console implements Input, Output {
             throw new RuntimeException("Error writing input", e);
         }
     }
-
-    @Override
-    public void printInstructions() {
-        printLine("=== Voucher Program ===");
-        printLine("Type **exit** to exit the program.");
-        printLine("Type **create** to create a new voucher.");
-        printLine("Type **list** to list all vouchers.");
-    }
-
 }
