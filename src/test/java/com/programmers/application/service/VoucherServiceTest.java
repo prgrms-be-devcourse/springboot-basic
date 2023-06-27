@@ -1,11 +1,10 @@
-package com.programmers.voucher.service;
+package com.programmers.application.service;
 
 import com.programmers.application.domain.voucher.VoucherType;
 import com.programmers.application.dto.reponse.VoucherInfoResponse;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import com.programmers.application.repository.MemoryVoucherRepository;
 import com.programmers.application.repository.VoucherRepository;
-import com.programmers.application.service.VoucherService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
