@@ -13,6 +13,11 @@ public class Console {
             "Type '3' to list all vouchers.",
             "Type '4' to show blackList Customer"
     };
+    private static final String[] VOUCHER_CHOICE_GUIDE_MESSAGES = {
+            "=== Voucher 타입을 골라주세요. ===",
+            "Type '1' is 'Fixed' Voucher.",
+            "Type '2' is 'Percent' Voucher."
+    };
 
     public Console(Input input, Output output) {
         this.input = input;
@@ -28,7 +33,7 @@ public class Console {
     }
 
     public String askForVoucherType() {
-        output.print("Voucher 타입을 'fixed', 'percent'중 골라주세요. : ");
+        output.print(VOUCHER_CHOICE_GUIDE_MESSAGES);
         return input();
     }
 
