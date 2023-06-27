@@ -24,7 +24,7 @@ class VoucherServiceTest {
     private static final int EXPECTED_COUNT = 2;
 
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
-    private VoucherService voucherService = new VoucherService(voucherRepository);
+    private VoucherService voucherService = new VoucherServiceImpl(voucherRepository);
 
     @DisplayName("다양한 바우처 생성 성공 테스트")
     @ParameterizedTest
