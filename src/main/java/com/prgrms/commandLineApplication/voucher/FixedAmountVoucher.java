@@ -1,7 +1,5 @@
 package com.prgrms.commandLineApplication.voucher;
 
-import com.prgrms.commandLineApplication.validation.VoucherValidation;
-
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
@@ -11,7 +9,7 @@ public class FixedAmountVoucher extends Voucher {
   }
 
   public static FixedAmountVoucher of(UUID voucherId, String voucherType, int discountAmount) {
-    VoucherValidation.checkFixedDiscountAmount(discountAmount);
+    VoucherValidator.checkFixedDiscountAmount(discountAmount);
     return new FixedAmountVoucher(voucherId, voucherType, discountAmount);
   }
 
