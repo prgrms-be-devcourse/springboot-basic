@@ -7,7 +7,6 @@ public class InputView {
 
     public String input() {
         String input = SCANNER.nextLine();
-
         return input;
     }
 }
