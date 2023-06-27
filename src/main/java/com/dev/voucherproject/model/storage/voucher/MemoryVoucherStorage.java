@@ -1,14 +1,15 @@
-package com.dev.voucherproject.storage;
+package com.dev.voucherproject.model.storage.voucher;
 
 import com.dev.voucherproject.model.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class MemoryVoucherStorage implements VoucherStorage
-{
+@Profile("dev")
+public class MemoryVoucherStorage implements VoucherStorage {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override

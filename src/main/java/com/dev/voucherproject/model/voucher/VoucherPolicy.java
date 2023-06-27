@@ -19,6 +19,7 @@ public enum VoucherPolicy {
     public static VoucherPolicy convertStringInputToPolicy(String input) {
         return Arrays.stream(VoucherPolicy.values())
                 .filter(v -> v.isExistPolicy(input))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
     }
 }

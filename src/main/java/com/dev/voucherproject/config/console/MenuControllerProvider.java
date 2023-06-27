@@ -1,5 +1,4 @@
-package com.dev.voucherproject.model.menu;
-
+package com.dev.voucherproject.config.console;
 
 
 import com.dev.voucherproject.controller.console.MenuController;

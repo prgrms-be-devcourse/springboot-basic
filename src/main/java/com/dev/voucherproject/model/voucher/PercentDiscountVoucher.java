@@ -25,4 +25,9 @@ public class PercentDiscountVoucher implements Voucher {
     public long getDiscountNumber() {
         return this.percent;
     }
+
+    @Override
+    public String toString() {
+        return "PERCENT_DISCOUNT_VOUCHER,%d,%s".formatted(percent, voucherId);
+    }
 }

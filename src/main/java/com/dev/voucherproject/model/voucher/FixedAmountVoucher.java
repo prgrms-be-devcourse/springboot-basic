@@ -28,4 +28,9 @@ public class FixedAmountVoucher implements Voucher {
     public long getDiscountNumber() {
         return this.amount;
     }
+
+    @Override
+    public String toString() {
+        return "FIXED_AMOUNT_VOUCHER,%d,%s".formatted(amount, voucherId);
+    }
 }
