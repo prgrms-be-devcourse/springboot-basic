@@ -21,7 +21,7 @@ public class VoucherControllerImpl implements VoucherController {
     @Override
     public void run() {
         String input;
-        printInstructions();
+        console.printInstructions();
         while (!(input = console.readLine()).equalsIgnoreCase("exit")) {
             try {
                 handleInput(input);
@@ -29,15 +29,8 @@ public class VoucherControllerImpl implements VoucherController {
                 log.error("Error reading input", e);
                 console.printLine("입력을 읽는 중에 오류가 발생했습니다.");
             }
-            printInstructions();
+            console.printInstructions();
         }
-    }
-
-    private void printInstructions() {
-        console.printLine("=== Voucher Program ===");
-        console.printLine("Type **exit** to exit the program.");
-        console.printLine("Type **create** to create a new voucher.");
-        console.printLine("Type **list** to list all vouchers.");
     }
 
     private void handleInput(String input) throws IOException {
