@@ -2,28 +2,26 @@ package com.prgrms.spring;
 
 import com.prgrms.spring.controller.voucher.VoucherController;
 import com.prgrms.spring.domain.menu.MenuType;
+import com.prgrms.spring.exception.Error;
+import com.prgrms.spring.io.ConsoleView;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
-import java.util.Scanner;
 
 @AllArgsConstructor
 @Component
 public class AppRunner implements CommandLineRunner {
     private final VoucherController voucherController;
-    private final Scanner scanner = new Scanner(System.in);
+
+    private final ConsoleView consoleView;
 
     @Override
     public void run(String... args) throws Exception {
         boolean isExecute = true;
         while (isExecute) {
-            for (MenuType mt : MenuType.values()) {
-                System.out.println(mt.getName() + " -> " + mt.getExplain());
-            }
-            String type = scanner.nextLine();
-            MenuType menuType = MenuType.matchType(type);
+            consoleView.showMenu();
+            MenuType menuType = MenuType.matchType(consoleView.getMenu());
             switch (menuType) {
                 case EXIT:
                     isExecute = false;
@@ -35,7 +33,7 @@ public class AppRunner implements CommandLineRunner {
                     voucherController.getAllVoucher();
                     break;
                 default:
-                    System.out.println("Error");
+                    consoleView.showErrorMsg(Error.VALIDATION_WRONG_TYPE);
                     break;
             }
         }
