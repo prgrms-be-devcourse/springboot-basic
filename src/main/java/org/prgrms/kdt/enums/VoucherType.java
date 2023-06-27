@@ -15,7 +15,7 @@ public enum VoucherType {
 
 	public static VoucherType valueOf(int voucherIdx) {
 		return Arrays.stream(VoucherType.values())
-			.filter(voucher -> voucher.getVoucherIdx() == voucherIdx)
+			.filter(voucher -> voucher.voucherIdx == voucherIdx)
 			.findFirst()
 			.orElseThrow(() -> new IllegalArgumentException(UN_SUPPORTED_VOUCHER_MESSAGE));
 	}

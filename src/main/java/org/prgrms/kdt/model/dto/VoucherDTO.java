@@ -11,10 +11,6 @@ public class VoucherDTO {
 
 	private final VoucherType voucherType;
 
-	public VoucherDTO(Amount amount, VoucherType voucherType) {
-		this(null, amount, voucherType);
-	}
-
 	public VoucherDTO(Long voucherId, Amount amount, VoucherType voucherType) {
 		this.voucherId = voucherId;
 		this.amount = amount;

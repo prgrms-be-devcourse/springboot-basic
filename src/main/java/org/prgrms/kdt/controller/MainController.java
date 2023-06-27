@@ -15,11 +15,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class MainController {
 
-	private InputView inputView;
+	private final InputView inputView;
 
-	private OutputView outputView;
+	private final OutputView outputView;
 
-	private VoucherService voucherService;
+	private final VoucherService voucherService;
 
 	@Autowired
 	public MainController(InputView inputView,

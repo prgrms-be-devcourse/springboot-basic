@@ -16,19 +16,15 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
 	private Map<Long, VoucherEntity> map;
 
-	private IdGenerator idGenerator;
 
 	@Autowired
-	public InMemoryVoucherRepository(Map<Long, VoucherEntity> map, IdGenerator idGenerator) {
+	public InMemoryVoucherRepository(Map<Long, VoucherEntity> map) {
 		this.map = map;
-		this.idGenerator = idGenerator;
 	}
 
 
 	@Override
 	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
-		Long voucherId = idGenerator.getRandomId();
-		voucherEntity.setVoucherId(voucherId);
 		VoucherEntity voucher = saveVoucher(voucherEntity);
 		return voucherEntity;
 	}

@@ -5,13 +5,12 @@ import java.util.List;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.springframework.stereotype.Component;
 
-@Component
 
 public interface VoucherRepository {
 
-	public VoucherEntity createVoucher(VoucherEntity voucherEntity);
+	VoucherEntity createVoucher(VoucherEntity voucherEntity);
 
-	public List<VoucherEntity> readAll();
+	List<VoucherEntity> readAll();
 
-	public VoucherEntity saveVoucher(VoucherEntity voucherEntity);
+	VoucherEntity saveVoucher(VoucherEntity voucherEntity);
 }

@@ -5,7 +5,10 @@ import org.prgrms.kdt.model.Amount;
 import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 
-public class VoucherMapper {
+public final class VoucherMapper {
+
+	private VoucherMapper() {
+	}
 	public static VoucherDTO entityToDTO(VoucherEntity voucherEntity) {
 		Long voucherId = voucherEntity.getVoucherId();
 		Amount amount = voucherEntity.getAmount();
