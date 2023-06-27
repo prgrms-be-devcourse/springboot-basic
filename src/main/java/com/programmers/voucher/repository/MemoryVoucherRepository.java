@@ -12,27 +12,27 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private static final Map<UUID, VoucherEntity> storage = new ConcurrentHashMap<>();
+    private static final Map<UUID, VoucherEntity> STORAGE = new ConcurrentHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
         VoucherEntity voucherEntity = VoucherMapper.convertDomainToEntity(voucher);
-        storage.put(voucherEntity.getVoucherId(), voucherEntity);
+        STORAGE.put(voucherEntity.getVoucherId(), voucherEntity);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        if (storage.isEmpty()) {
+        if (STORAGE.isEmpty()) {
             throw new NotFoundException();
         }
-        return storage.values().stream().map(VoucherMapper::convertEntityToDomain).toList();
+        return STORAGE.values().stream().map(VoucherMapper::convertEntityToDomain).toList();
     }
 
     @Override
     public Voucher findById(UUID voucherId) {
-        if (!storage.containsKey(voucherId)) throw new NotFoundException();
-        return VoucherMapper.convertEntityToDomain(storage.get(voucherId));
+        if (!STORAGE.containsKey(voucherId)) throw new NotFoundException();
+        return VoucherMapper.convertEntityToDomain(STORAGE.get(voucherId));
 
     }
 }
