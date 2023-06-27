@@ -15,7 +15,7 @@ class CommandTest {
     @ParameterizedTest
     @DisplayName("생성 성공 - 올바른 커맨합드 입력")
     @CsvSource(
-            {"exit, EXIT", "create, CREATE", "list,LIST", "blackList,BLACKLIST"})
+            {"1, EXIT", "2, CREATE", "3,LIST", "4,BLACKLIST"})
     void createCommandSuccessTest(String inputCommand, Command expectedCommand) {
 
         //given -> when
@@ -27,7 +27,7 @@ class CommandTest {
 
     @DisplayName("생성 실패 - 올바르지 않은 커맨드 입력")
     @ParameterizedTest
-    @ValueSource(strings = {"exi", "reate", "listttt", "blackListtt"})
+    @ValueSource(strings = {"exi", "reate", "listttt", "blackListtt", "5", "7", "&^^", "", " "})
     void createCommandFailTest(String input) throws Exception {
 
         assertThrows(IllegalArgumentException.class, () -> Command.of(input));
