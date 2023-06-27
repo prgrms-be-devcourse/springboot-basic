@@ -7,7 +7,6 @@ import java.util.Collection;
 
 import static com.dev.bootbasic.voucher.domain.VoucherType.FIXED;
 import static com.dev.bootbasic.voucher.domain.VoucherType.PERCENT;
-import static java.lang.System.lineSeparator;
 
 @Component
 public class ViewManager {
@@ -18,9 +17,11 @@ public class ViewManager {
             Type create to create a new voucher.
             Type list to list all vouchers.
             """;
-    private static final String VOUCHER_TYPE_MESSAGE = "=== Voucher Type Choice ===\n" +
-            "Type fixed {Amount}\n" +
-            "Type percent {1 ~ 100}\n";
+    private static final String VOUCHER_TYPE_MESSAGE = """
+            === Voucher Type Choice ===
+            Type fixed {%s ~ %s}
+            Type percent {%s ~ %s} 
+            """;
     private static final int VOUCHER_TYPE_INDEX = 0;
     private static final int VOUCHER_AMOUNT_INDEX = 1;
     private static final String SPACE = " ";
@@ -38,7 +39,8 @@ public class ViewManager {
     }
 
     public VoucherCreateRequest readVoucherCreateInfo() {
-        outputView.showMessage(VOUCHER_TYPE_MESSAGE);
+        outputView.showMessage(String.format(VOUCHER_TYPE_MESSAGE, FIXED.getMinimumAmount(), FIXED.getMaximumAmount()
+                , PERCENT.getMinimumAmount(), PERCENT.getMaximumAmount()));
 
         String voucher = inputView.inputLine();
         String[] voucherInfo = voucher.split(SPACE);
