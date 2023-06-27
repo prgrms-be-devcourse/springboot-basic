@@ -1,9 +1,13 @@
 package programmers.org.voucher.domain;
 
+import programmers.org.voucher.constant.VoucherType;
+
 import java.util.UUID;
 
 public interface Voucher {
     UUID getVoucherId();
 
-    int discount(int amount);
+    VoucherType getVoucherType();
+
+    int getDiscountAmount();
 }

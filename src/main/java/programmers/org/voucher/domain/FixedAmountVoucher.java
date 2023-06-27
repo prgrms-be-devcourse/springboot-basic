@@ -1,5 +1,7 @@
 package programmers.org.voucher.domain;
 
+import programmers.org.voucher.constant.VoucherType;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -19,15 +21,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public int discount(int amount) {
-        return amount - discountAmount;
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED;
     }
 
     @Override
-    public String toString() {
-        return "FixedAmountVoucher{" +
-                "voucherId=" + voucherId +
-                ", discountAmount=" + discountAmount +
-                '}';
+    public int getDiscountAmount() {
+        return discountAmount;
     }
 }

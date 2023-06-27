@@ -1,5 +1,7 @@
 package programmers.org.voucher.domain;
 
+import programmers.org.voucher.constant.VoucherType;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -19,15 +21,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public int discount(int amount) {
-        return amount * discountRate / 100;
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
     }
 
     @Override
-    public String toString() {
-        return "PercentDiscountVoucher{" +
-                "voucherId=" + voucherId +
-                ", discountRate=" + discountRate +
-                '}';
+    public int getDiscountAmount() {
+        return discountRate;
     }
 }
