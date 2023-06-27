@@ -27,13 +27,13 @@ public class CreateVoucherExecution implements VoucherExecution{
         voucherService.createVoucher(voucherCreationRequest);
     }
 
-    private static void validateAmount(String[] typeAndAmount) {
+    private void validateAmount(String[] typeAndAmount) {
         if (!typeAndAmount[1].matches("[0-9]+")) {
             throw new IllegalArgumentException("숫자를 입력해 주세요. 입력값: " + Arrays.toString(typeAndAmount));
         }
     }
 
-    private static void printOption(IO io) throws IOException {
+    private void printOption(IO io) throws IOException {
         io.write("=== Create Voucher ===");
         io.write("Enter a fixed or percent to create the discount voucher");
         io.write("Enter the amount of the discount voucher");
