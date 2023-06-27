@@ -1,10 +1,12 @@
 package kr.co.programmers.springbootbasic;
 
+import kr.co.programmers.springbootbasic.dto.CustomerResponseDto;
 import kr.co.programmers.springbootbasic.dto.VoucherRequestDto;
 import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
 import kr.co.programmers.springbootbasic.io.Input;
 import kr.co.programmers.springbootbasic.io.MenuCommand;
 import kr.co.programmers.springbootbasic.io.Output;
+import kr.co.programmers.springbootbasic.customer.CustomerService;
 import kr.co.programmers.springbootbasic.voucher.VoucherService;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
 import org.slf4j.Logger;
@@ -18,15 +20,17 @@ import java.util.List;
 @Component
 public class Processor implements ApplicationRunner {
     private static final Logger logger = LoggerFactory.getLogger(Processor.class);
-    private boolean isExit;
     private final Input inputConsole;
     private final Output outputConsole;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
+    private boolean isExit;
 
-    public Processor(Input inputConsole, Output outputConsole, VoucherService voucherService) {
+    public Processor(Input inputConsole, Output outputConsole, VoucherService voucherService, CustomerService userService) {
         this.inputConsole = inputConsole;
         this.outputConsole = outputConsole;
         this.voucherService = voucherService;
+        this.customerService = userService;
         this.isExit = false;
     }
 
@@ -54,6 +58,7 @@ public class Processor implements ApplicationRunner {
             case EXIT -> isExit = true;
             case CREATE -> createVoucher();
             case LIST -> listAllVoucher();
+            case BLACK_LIST -> listAllBlackCustomer();
         }
     }
 
@@ -63,14 +68,19 @@ public class Processor implements ApplicationRunner {
 
         outputConsole.printAmountEnterMessage(type);
         long amount = inputConsole.readAmount();
-        VoucherRequestDto requestDto = new VoucherRequestDto(type, amount);
-        VoucherResponseDto responseDto = voucherService.createVoucher(requestDto);
+        VoucherRequestDto voucherRequestDto = new VoucherRequestDto(type, amount);
+        VoucherResponseDto voucherResponseDto = voucherService.createVoucher(voucherRequestDto);
 
-        outputConsole.printMessage(responseDto);
+        outputConsole.printVoucherMessage(voucherResponseDto);
     }
 
-    private void listAllVoucher() {
-        List<VoucherResponseDto> responseDtos = voucherService.listAllVoucher();
-        outputConsole.printMessage(responseDtos);
+    private void listAllVoucher() throws RuntimeException {
+        List<VoucherResponseDto> voucherResponseDtos = voucherService.listAllVoucher();
+        outputConsole.printVoucherListMessage(voucherResponseDtos);
+    }
+
+    private void listAllBlackCustomer() {
+        List<CustomerResponseDto> customerResponseDtos = customerService.listAllBlackCustomer();
+        outputConsole.printCustomerListMessage(customerResponseDtos);
     }
 }

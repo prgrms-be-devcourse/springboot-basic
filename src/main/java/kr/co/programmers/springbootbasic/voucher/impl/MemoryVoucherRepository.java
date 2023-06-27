@@ -40,8 +40,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(UUID voucherId, Voucher voucher) {
+    public void save(Voucher voucher) {
         logger.info("MemoryVoucherRepository에 바우처를 저장합니다...");
-        repository.put(voucherId, voucher);
+        repository.put(voucher.getId(), voucher);
     }
 }
