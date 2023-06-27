@@ -5,12 +5,13 @@ import com.prgms.voucher.voucherproject.domain.Voucher;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private final long percent;
     private final UUID voucherId;
+    private final long percent;
 
-    public PercentDiscountVoucher(long percent, UUID voucherId) {
-        this.percent = percent;
+
+    public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
+        this.percent = percent;
     }
 
     @Override
@@ -21,5 +22,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent/100);
+    }
+
+    @Override
+    public String toString() {
+        return "| UUID:" + getVoucherId() + "  | VoucherType: PercentVoucher | percent:" + percent +" |";
     }
 }
