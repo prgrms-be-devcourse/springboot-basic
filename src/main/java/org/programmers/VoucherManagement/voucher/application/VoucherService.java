@@ -1,6 +1,7 @@
 package org.programmers.VoucherManagement.voucher.application;
 
 import lombok.RequiredArgsConstructor;
+import org.programmers.VoucherManagement.DiscountType;
 import org.programmers.VoucherManagement.voucher.dao.VoucherRepository;
 import org.programmers.VoucherManagement.voucher.domain.FixedAmountVoucher;
 import org.programmers.VoucherManagement.voucher.domain.PercentAmountVoucher;
@@ -17,14 +18,16 @@ public class VoucherService {
     private final VoucherRepository repository;
 
     public Voucher saveVoucher(CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher = null; //todo : 이걸 null로 처리하는 것 외에 더 좋은 방법이 있을까요?
+        Voucher voucher;
+        DiscountType discountType = createVoucherRequest.getDiscountType();
+        voucher = switch (discountType) {
+            case FIXED ->
+                    new FixedAmountVoucher(UUID.randomUUID(), discountType, createVoucherRequest.getDiscountValue());
+            case PERCENT ->
+                    new PercentAmountVoucher(UUID.randomUUID(), discountType, createVoucherRequest.getDiscountValue());
+            default -> throw new IllegalArgumentException("바우처 종류가 존재하지 않습니다. "); // 유효하지 않은 할인 유형 예외 발생
+        };
 
-        if (createVoucherRequest.getDiscountType().isFixed()) {
-            voucher = new FixedAmountVoucher(UUID.randomUUID(), createVoucherRequest.getDiscountType(), createVoucherRequest.getDiscountValue());
-        }
-        if (createVoucherRequest.getDiscountType().isPercent()) {
-            voucher = new PercentAmountVoucher(UUID.randomUUID(), createVoucherRequest.getDiscountType(), createVoucherRequest.getDiscountValue());
-        }
         return repository.save(voucher);
     }
 
