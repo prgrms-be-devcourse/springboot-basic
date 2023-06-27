@@ -4,9 +4,9 @@ import com.programmers.voucher.enumtype.VoucherType;
 
 public class VoucherCreateRequest {
     private final VoucherType voucherType;
-    private final int amount;
+    private final long amount;
 
-    public VoucherCreateRequest(VoucherType type, int amount) {
+    public VoucherCreateRequest(VoucherType type, long amount) {
         this.voucherType = type;
         this.amount = amount;
     }
@@ -15,7 +15,7 @@ public class VoucherCreateRequest {
         return voucherType;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 }

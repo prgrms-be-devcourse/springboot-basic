@@ -48,7 +48,7 @@ public class TextIoConsole implements Console {
     @Override
     public VoucherCreateRequest inputVoucherCreateInfo() {
         VoucherType voucherType = inputVoucherType();
-        int amount = inputDiscountAmount();
+        long amount = inputDiscountAmount();
         voucherType.validateAmount(amount);
 
         return new VoucherCreateRequest(voucherType, amount);
@@ -61,8 +61,8 @@ public class TextIoConsole implements Console {
         return VoucherType.getValue(rawVoucherType);
     }
 
-    private int inputDiscountAmount() {
-        return textIO.newIntInputReader()
+    private long inputDiscountAmount() {
+        return textIO.newLongInputReader()
                 .read("2. [amount]");
     }
 
