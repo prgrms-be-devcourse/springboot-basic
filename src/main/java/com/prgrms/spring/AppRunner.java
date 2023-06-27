@@ -3,18 +3,20 @@ package com.prgrms.spring;
 import com.prgrms.spring.controller.voucher.VoucherController;
 import com.prgrms.spring.domain.menu.MenuType;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.util.Scanner;
 
 @AllArgsConstructor
-@Controller
-public class AppRunner implements Runnable {
+@Component
+public class AppRunner implements CommandLineRunner {
     private final VoucherController voucherController;
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public void run() {
+    public void run(String... args) throws Exception {
         boolean isExecute = true;
         while (isExecute) {
             for (MenuType mt : MenuType.values()) {
