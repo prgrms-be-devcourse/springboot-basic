@@ -1,5 +1,7 @@
 package com.programmers.voucher;
 
+import com.programmers.voucher.domain.customer.controller.CustomerController;
+import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.global.io.ConsoleCommandType;
@@ -19,10 +21,12 @@ public class ConsoleMenu implements CommandLineRunner {
 
     private final Console console;
     private final VoucherController voucherController;
+    private final CustomerController customerController;
 
-    public ConsoleMenu(Console console, VoucherController voucherController) {
+    public ConsoleMenu(Console console, VoucherController voucherController, CustomerController customerController) {
         this.console = console;
         this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
 
@@ -63,6 +67,9 @@ public class ConsoleMenu implements CommandLineRunner {
             case HELP -> {
                 printCommandSet();
             }
+            case BLACKLIST -> {
+                printBlacklist();
+            }
             case EXIT -> {
                 return exitConsole();
             }
@@ -95,6 +102,15 @@ public class ConsoleMenu implements CommandLineRunner {
     private void printCommandSet() {
         LOG.info("Prints the help commands.");
         console.printCommandSet();
+    }
+
+    private void printBlacklist() {
+        List<Customer> customers = customerController.findBlacklistCustomers();
+        String customerInfos = customers.stream()
+                .map(Customer::fullInfoString)
+                .reduce("", (a, b) -> a + "\n" + b);
+
+        console.print(customerInfos);
     }
 
     private boolean exitConsole() {

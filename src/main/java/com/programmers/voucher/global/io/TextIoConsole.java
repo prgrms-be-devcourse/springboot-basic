@@ -37,6 +37,7 @@ public class TextIoConsole implements Console {
         printCommand(ConsoleCommandType.CREATE, "to create a new voucher.");
         printCommand(ConsoleCommandType.LIST, "to list all vouchers.");
         printCommand(ConsoleCommandType.HELP, "to list command set.");
+        printCommand(ConsoleCommandType.BLACKLIST, "to list blacklist.");
     }
 
     private void printCommand(ConsoleCommandType commandType, String behavior) {
