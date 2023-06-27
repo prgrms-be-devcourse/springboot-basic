@@ -9,20 +9,23 @@ import programmers.org.voucher.service.VoucherService;
 import java.util.List;
 import java.util.Optional;
 
+import static programmers.org.voucher.exception.ErrorMessage.COMMAND_ERROR_MESSAGE;
+import static programmers.org.voucher.exception.ErrorMessage.VOUCHER_ERROR_MESSAGE;
+
 public class VoucherController {
 
     private final VoucherService voucherService;
-    private final ConsoleService consoleService;
+    private final VoucherConsole voucherConsole;
 
-    public VoucherController(VoucherService voucherService, ConsoleService consoleService) {
+    public VoucherController(VoucherService voucherService, VoucherConsole voucherConsole) {
         this.voucherService = voucherService;
-        this.consoleService = consoleService;
+        this.voucherConsole = voucherConsole;
     }
 
     public void run() {
         while(true) {
-            consoleService.printManual();
-            String commandString = consoleService.inputCommand();
+            voucherConsole.printManual();
+            String commandString = voucherConsole.inputCommand();
             Optional<Command> command = Command.find(commandString);
 
             if (command.isEmpty()) {
@@ -32,10 +35,10 @@ public class VoucherController {
 
             switch (command.get()) {
                 case CREATE:
-                        createVoucher();
+                    createVoucher();
                     break;
                 case LIST:
-                        printVoucherList();
+                    printVoucherList();
                     break;
                 case EXIT:
                     return;
@@ -44,19 +47,19 @@ public class VoucherController {
     }
 
     private void createVoucher() {
-        String voucherType = consoleService.inputVoucherType();
+        String voucherType = voucherConsole.inputVoucherType();
         Optional<VoucherType> findVoucherType = VoucherType.find(voucherType);
 
         if (findVoucherType.isEmpty()) {
-            consoleService.printInputVoucherTypeError();
+            voucherConsole.printError(VOUCHER_ERROR_MESSAGE.getErrorMessage());
             return;
         }
-        int voucherInfo = consoleService.inputVoucherInfo();
+        int voucherInfo = voucherConsole.inputVoucherInfo();
         voucherService.create(voucherInfo, findVoucherType.get());
     }
 
     private void printVoucherList() {
         List<Voucher> voucherList = voucherService.getAllVouchers();
-        consoleService.printVoucherList(voucherList);
+        voucherConsole.printVoucherList(voucherList);
     }
 }
