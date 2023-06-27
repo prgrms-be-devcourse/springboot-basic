@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.voucher.domain;
 
+import com.programmers.voucher.domain.voucher.dto.VoucherDto;
+
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -8,6 +10,8 @@ public abstract class Voucher {
     public Voucher(UUID voucherId) {
         this.voucherId = voucherId;
     }
+
+    public abstract VoucherDto toDto();
 
     public UUID getVoucherId() {
         return voucherId;

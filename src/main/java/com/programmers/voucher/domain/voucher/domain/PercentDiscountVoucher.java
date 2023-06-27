@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.voucher.domain;
 
+import com.programmers.voucher.domain.voucher.dto.VoucherDto;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
@@ -13,6 +15,11 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public long totalAmount(long beforeAmount) {
         return beforeAmount - beforeAmount * percent / 100;
+    }
+
+    @Override
+    public VoucherDto toDto() {
+        return new VoucherDto(super.voucherId, VoucherType.PERCENT, percent);
     }
 
     @Override

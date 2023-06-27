@@ -4,9 +4,11 @@ import com.programmers.voucher.domain.customer.controller.CustomerController;
 import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.global.exception.DataAccessException;
 import com.programmers.voucher.global.io.ConsoleCommandType;
 import com.programmers.voucher.global.io.Console;
-import com.programmers.voucher.domain.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
+import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -47,6 +49,11 @@ public class ConsoleMenu implements CommandLineRunner {
         boolean keepRunningClient = true;
         try {
             keepRunningClient = runClient();
+        } catch (DataAccessException ex) {
+            LOG.error("Unhandled exception thrown: " + CommonErrorMessages.CANNOT_ACCESS_FILE, ex);
+            console.print(ex.getMessage());
+
+            keepRunningClient = false;
         } catch (RuntimeException ex) {
             LOG.warn("Invalid input occurred.", ex);
             console.print(ex.getMessage());

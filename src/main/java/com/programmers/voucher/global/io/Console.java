@@ -1,6 +1,6 @@
 package com.programmers.voucher.global.io;
 
-import com.programmers.voucher.domain.voucher.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 
 public interface Console {
     ConsoleCommandType inputInitialCommand();
