@@ -5,13 +5,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+import static com.dev.bootbasic.voucher.domain.VoucherType.FIXED;
+import static com.dev.bootbasic.voucher.domain.VoucherType.PERCENT;
+import static java.lang.System.lineSeparator;
+
 @Component
 public class ViewManager {
 
-    private static final String INPUT_COMMAND_MESSAGE = "=== Voucher Program ===\n" +
-            "Type exit to exit the program.\n" +
-            "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.\n";
+    private static final String INPUT_COMMAND_MESSAGE = """
+            === Voucher Program ===
+            Type exit to exit the program.
+            Type create to create a new voucher.
+            Type list to list all vouchers.
+            """;
     private static final String VOUCHER_TYPE_MESSAGE = "=== Voucher Type Choice ===\n" +
             "Type fixed {Amount}\n" +
             "Type percent {1 ~ 100}\n";
