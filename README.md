@@ -41,5 +41,5 @@
 - [X] 고객 블랙 리스트 명단을 csv로 작성한다.
 - [X] 고객 블랙 리스트를 조회할 수 있도록 한다. `CustomerFileStorage#findAll();`
     - [ ] Voucher, Customer 관련 기능 분리, `VoucherApp#VoucherManagementApp`, `VoucherApp#CustomerManagementApp`
-    - [ ] 고객 블랙 리스트 조회 서비스를 이용하도록, blacklist command 추가
+    - [X] 고객 블랙 리스트 조회 서비스를 이용하도록, blacklist command 추가
     - [X] Customer Domain 추가

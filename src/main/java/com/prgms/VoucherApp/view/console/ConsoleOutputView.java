@@ -29,14 +29,15 @@ public class ConsoleOutputView implements Output {
         printExitMenuCommand();
         printCreateMenuCommand();
         printListMenuCommand();
+        printBlackListMenuCommand();
     }
 
 
-    public void printProgram() {
+    private void printProgram() {
         textTerminal.println("=== Voucher Program ===");
     }
 
-    public void printExitMenuCommand() {
+    private void printExitMenuCommand() {
         textTerminal.print("Type ");
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
@@ -49,7 +50,7 @@ public class ConsoleOutputView implements Output {
         textTerminal.println("the program.");
     }
 
-    public void printCreateMenuCommand() {
+    private void printCreateMenuCommand() {
         textTerminal.print("Type ");
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
@@ -57,12 +58,20 @@ public class ConsoleOutputView implements Output {
         textTerminal.println("to create a new voucher.");
     }
 
-    public void printListMenuCommand() {
+    private void printListMenuCommand() {
         textTerminal.print("Type ");
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
         }, text -> text.print("list "));
         textTerminal.println("to list all vouchers.");
+    }
+
+    private void printBlackListMenuCommand() {
+        textTerminal.print("Type ");
+        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+            terminalProperties.setPromptBold(true);
+        }, text -> text.print("blacklist "));
+        textTerminal.println("to list all blacklist.");
     }
 
     @Override

@@ -1,66 +1,52 @@
 package com.prgms.VoucherApp.controller;
 
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
-import com.prgms.VoucherApp.domain.voucher.model.VoucherCreator;
-import com.prgms.VoucherApp.domain.voucher.model.VoucherReader;
+import com.prgms.VoucherApp.domain.customer.controller.CustomerManagementApp;
+import com.prgms.VoucherApp.domain.voucher.controller.VoucherManagementApp;
 import com.prgms.VoucherApp.view.Command;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.Output;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
-
 @Controller
 public class VoucherApp implements Runnable {
 
-    private final VoucherCreator voucherCreator;
-    private final VoucherReader voucherReader;
-    private final Input input;
+    private final VoucherManagementApp voucherManagementApp;
+    private final CustomerManagementApp customerManagementApp;
     private final Output output;
+    private final Input input;
 
-    public VoucherApp(VoucherCreator voucherCreator, VoucherReader voucherReader, Input input, Output output) {
-        this.voucherCreator = voucherCreator;
-        this.voucherReader = voucherReader;
+    public VoucherApp(VoucherManagementApp voucherManagementApp, CustomerManagementApp customerManagementApp, Input input, Output output) {
+        this.voucherManagementApp = voucherManagementApp;
+        this.customerManagementApp = customerManagementApp;
         this.input = input;
         this.output = output;
     }
 
+
     @Override
     public void run() {
-        while (true) {
+        boolean isPower = true;
+        while (isPower) {
             output.printDisplayMenu();
             String inputCommand = input.inputCommand();
             Command command = Command.findByCommand(inputCommand);
             switch (command) {
                 case EXIT -> {
+                    isPower = false;
                     return;
                 }
 
                 case CREATE -> {
-                    VoucherType policy = getVoucherPolicyType();
-                    long amount = getDiscountAmount(policy);
-                    Voucher voucher = voucherCreator.createVoucher(policy, amount);
-                    output.printCreatedMsg(voucher);
+                    voucherManagementApp.createVoucher();
                 }
 
                 case LIST -> {
-                    List<VoucherDto> vouchers = voucherReader.readVoucherList();
-                    output.printVoucherList(vouchers);
+                    voucherManagementApp.readVouchers();
+                }
+
+                case BLACKLIST -> {
                 }
             }
         }
-    }
-
-    private VoucherType getVoucherPolicyType() {
-        output.printDisplayVoucherPolicy();
-        String inputVoucherPolicy = input.inputVoucherPolicy();
-        return VoucherType.findByPolicy(inputVoucherPolicy);
-    }
-
-    private long getDiscountAmount(VoucherType policy) {
-        output.printDisplayDiscountCondition(policy);
-        return input.inputDiscountAmount(policy);
     }
 }

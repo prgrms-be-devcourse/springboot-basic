@@ -23,7 +23,7 @@ public class ConsoleInputView implements Input {
     public String inputCommand() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues("exit", "create", "list")
+                .withInlinePossibleValues("exit", "create", "list", "blacklist")
                 .withValueChecker((val, itemName) -> {
                     if (!Command.containsCommand(val)) {
                         log.warn("inputCommand [{}] is invalid value", val);

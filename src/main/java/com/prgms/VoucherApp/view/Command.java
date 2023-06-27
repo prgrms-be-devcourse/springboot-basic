@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Command {
-    EXIT("exit"), CREATE("create"), LIST("list");
+    EXIT("exit"), CREATE("create"), LIST("list"), BLACKLIST("blacklist");
 
     private final String command;
     private static final Map<String, Command> COMMAND_MAP = Collections.unmodifiableMap(Arrays.stream(values())
