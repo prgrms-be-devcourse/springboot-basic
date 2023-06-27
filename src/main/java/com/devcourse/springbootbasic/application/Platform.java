@@ -76,7 +76,7 @@ public class Platform {
         commandLineTemplate.printVoucher(voucher);
     }
 
-    private void listMenuTask() throws IOException {
+    private void listMenuTask() {
         List<String> list = new ListMenuTemplate(customerService, voucherService).listTask(
                 commandLineTemplate.listTask()
         );
