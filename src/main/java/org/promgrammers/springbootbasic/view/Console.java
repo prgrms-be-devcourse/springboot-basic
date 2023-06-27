@@ -8,10 +8,10 @@ public class Console {
     private static final String NUMBER_REGEX = "-?\\d+";
     private static final String[] COMMAND_GUIDE_MESSAGES = {
             "=== Voucher Program ===",
-            "Type 'exit' to exit the program.",
-            "Type 'create' to create a new voucher.",
-            "Type 'list' to list all vouchers.",
-            "Type 'blackList' to show blackList Customer"
+            "Type '1' to exit the program.",
+            "Type '2' to create a new voucher.",
+            "Type '3' to list all vouchers.",
+            "Type '4' to show blackList Customer"
     };
 
     public Console(Input input, Output output) {
