@@ -2,9 +2,12 @@ package me.kimihiqq.vouchermanagement.io;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.kimihiqq.vouchermanagement.option.ConsoleOption;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.EnumSet;
 
 @Slf4j
 @Component
@@ -37,6 +40,17 @@ public class Console implements Input, Output {
                 log.error("Invalid number input. Try again.", e);
             }
         }
+    }
+
+    public <E extends Enum<E> & ConsoleOption> E promptUserChoice(Class<E> enumType) {
+        Arrays.stream(enumType.getEnumConstants())
+                .forEach(option -> printLine(option.getKey() + ": " + option.getDescription()));
+
+        int userChoice = Integer.parseInt(readLine());
+        return EnumSet.allOf(enumType).stream()
+                .filter(option -> option.getKey() == userChoice)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Option: " + userChoice));
     }
 
     @Override
