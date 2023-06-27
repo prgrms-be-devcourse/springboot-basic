@@ -15,24 +15,25 @@ public class ConsoleView implements Input, Output {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    private static final String VOUCHER_PROGRAM_START_OUTPUT = "\n=== Voucher Program ===";
+    private static final String VOUCHER_PROGRAM_START_OUTPUT = "=== Voucher Program ===";
     private static final String NO_VOUCHER_HISTORY = "등록된 바우처가 없습니다.";
     private static final String SPACE = " ";
 
     @Override
-    public String getMenu() {
+    public String getMenu(String requestMenuPrompt) {
+        System.out.print(requestMenuPrompt);
         return scanner.nextLine();
     }
 
     @Override
     public String getVoucherType(String requestVoucherTypePrompt) {
-        System.out.println(requestVoucherTypePrompt);
+        System.out.print(requestVoucherTypePrompt);
         return scanner.nextLine();
     }
 
     @Override
     public String getAmount(VoucherType voucherType) {
-        System.out.println(voucherType.getAmountDescription());
+        System.out.print(voucherType.getRequestAmountDescription());
         return scanner.nextLine();
     }
 

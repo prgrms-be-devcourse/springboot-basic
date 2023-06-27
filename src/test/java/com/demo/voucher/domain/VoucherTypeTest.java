@@ -92,7 +92,7 @@ class VoucherTypeTest {
     @ParameterizedTest
     @MethodSource("voucherTypeAmountDescription")
     void getVoucherDescription(VoucherType voucherType, String amountDescription) {
-        assertEquals(voucherType.getAmountDescription(), amountDescription);
+        assertEquals(voucherType.getRequestAmountDescription(), amountDescription);
     }
 
     @ParameterizedTest
