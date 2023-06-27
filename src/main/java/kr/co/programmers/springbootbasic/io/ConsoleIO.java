@@ -1,7 +1,8 @@
 package kr.co.programmers.springbootbasic.io;
 
+import kr.co.programmers.springbootbasic.dto.CustomerResponseDto;
 import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
-import kr.co.programmers.springbootbasic.util.VoucherUtils;
+import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
@@ -64,20 +65,32 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
-    public void printMessage(VoucherResponseDto dto) {
-        String message = VoucherUtils.formatVoucherResponseDto(dto);
+    public void printVoucherMessage(VoucherResponseDto dto) {
+        String message = ApplicationUtils.formatVoucherResponseDto(dto);
         System.out.print(message);
     }
 
     @Override
-    public void printMessage(List<VoucherResponseDto> lists) {
-        String message = lists.stream()
-                .map(VoucherUtils::formatVoucherResponseDto)
+    public void printVoucherListMessage(List<VoucherResponseDto> list) {
+        String message = list.stream()
+                .map(ApplicationUtils::formatVoucherResponseDto)
                 .collect(Collectors.joining());
         if (message.isEmpty()) {
-            System.out.println(ConsoleMessage.EMPTY_HISTORY_MESSAGE);
+            System.out.println(ConsoleMessage.EMPTY_LIST_MESSAGE);
         } else {
             System.out.print(message);
+        }
+    }
+
+    @Override
+    public void printCustomerListMessage(List<CustomerResponseDto> list) {
+        String message = list.stream()
+                .map(ApplicationUtils::formatCustomerResponseDto)
+                .collect(Collectors.joining());
+        if (message.isEmpty()) {
+            System.out.println(ConsoleMessage.EMPTY_LIST_MESSAGE);
+        } else {
+            System.out.println(message);
         }
     }
 

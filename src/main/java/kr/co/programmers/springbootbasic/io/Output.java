@@ -1,6 +1,7 @@
 package kr.co.programmers.springbootbasic.io;
 
 
+import kr.co.programmers.springbootbasic.dto.CustomerResponseDto;
 import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
 
@@ -15,9 +16,10 @@ public interface Output {
 
     void printMessage(String message);
 
-    void printMessage(VoucherResponseDto dto);
+    void printVoucherMessage(VoucherResponseDto dto);
 
-    void printMessage(List<VoucherResponseDto> lists);
+    void printVoucherListMessage(List<VoucherResponseDto> list);
+    void printCustomerListMessage(List<CustomerResponseDto> list);
 
     void printExit();
 }
