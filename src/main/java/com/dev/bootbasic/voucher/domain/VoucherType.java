@@ -3,7 +3,8 @@ package com.dev.bootbasic.voucher.domain;
 public enum VoucherType {
 
     FIXED(1_000, 100_000),
-    PERCENT(1, 100);
+    PERCENT(1, 100)
+    ;
 
     private static final String INVALID_VOUCHER_TYPE_MESSAGE = "생성할 수 없는 바우처 타입입니다.";
     private static final String INVALID_VALUE_MESSAGE = " Invalid value: ";

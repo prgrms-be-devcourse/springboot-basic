@@ -4,7 +4,8 @@ public enum Command {
 
     CREATE,
     LIST,
-    EXIT;
+    EXIT
+    ;
 
     private static final String INVALID_COMMAND_MESSAGE = "는(은) 실행할 수 없는 명령입니다.";
 
