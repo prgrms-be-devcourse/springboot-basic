@@ -4,7 +4,8 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
-  private static final int PERCENT_RATE_BASE = 100;
+  protected static final int MINIMUM_VALUE = 0;
+  protected static final int PERCENT_RATE_BASE = 100;
 
   private PercentDiscountVoucher(UUID voucherId, String voucherType, int discountAmount) {
     super(voucherId, voucherType, discountAmount);
