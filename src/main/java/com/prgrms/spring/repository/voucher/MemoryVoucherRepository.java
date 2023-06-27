@@ -1,4 +1,4 @@
-package com.prgrms.spring.infrastructure.voucher;
+package com.prgrms.spring.repository.voucher;
 
 import com.prgrms.spring.domain.voucher.Voucher;
 import org.springframework.stereotype.Repository;

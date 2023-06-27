@@ -4,7 +4,7 @@ import com.prgrms.spring.domain.voucher.FixedAmountVoucher;
 import com.prgrms.spring.domain.voucher.PercentDiscountVoucher;
 import com.prgrms.spring.domain.voucher.Voucher;
 import com.prgrms.spring.domain.voucher.VoucherType;
-import com.prgrms.spring.infrastructure.voucher.VoucherRepository;
+import com.prgrms.spring.repository.voucher.VoucherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
