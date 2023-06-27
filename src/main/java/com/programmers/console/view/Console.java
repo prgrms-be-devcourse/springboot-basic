@@ -58,8 +58,8 @@ public class Console implements InputView, OutputView {
     @Override
     public void printVoucher(VoucherResponseDto responseDto) {
         println(MessageFormat.format(ConsoleMessage.PRINT_VOUCHER_MESSAGE_FORM.getMessage(),
-                responseDto.getDiscount().getVoucherType(), responseDto.getVoucherID(),
-                discountValueFormat(responseDto.getDiscount()), responseDto.getCreatedDate()));
+                responseDto.discount().getVoucherType(), responseDto.voucherId(),
+                discountValueFormat(responseDto.discount()), responseDto.createdDate()));
     }
 
     @Override
