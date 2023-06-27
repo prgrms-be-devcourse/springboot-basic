@@ -7,9 +7,10 @@ import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PercentDiscountVoucher implements Voucher {
-
+    private final String voucherName = "PercentDiscountVoucher";
     private final UUID voucherId;
     private final long discount;
+    private final String discountUnit = "%";
 
     public static PercentDiscountVoucher newInstance(UUID voucherId, long discount) {
         return new PercentDiscountVoucher(voucherId, discount);
@@ -23,5 +24,15 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long getDiscount() {
         return discount;
+    }
+
+    @Override
+    public String getDiscountUnit() {
+        return discountUnit;
+    }
+
+    @Override
+    public String getVoucherName() {
+        return voucherName;
     }
 }
