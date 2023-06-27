@@ -1,5 +1,6 @@
 package programmers.org.voucher.service;
 
+import org.springframework.stereotype.Service;
 import programmers.org.voucher.constant.VoucherType;
 import programmers.org.voucher.domain.FixedAmountVoucher;
 import programmers.org.voucher.domain.PercentDiscountVoucher;
@@ -9,6 +10,7 @@ import programmers.org.voucher.repository.VoucherRepository;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
