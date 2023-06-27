@@ -1,6 +1,6 @@
-package com.programmers.voucher.domain;
+package com.programmers.application.domain.voucher;
 
-import com.programmers.voucher.dto.request.VoucherCreationRequest;
+import com.programmers.application.dto.request.VoucherCreationRequest;
 
 import java.util.UUID;
 

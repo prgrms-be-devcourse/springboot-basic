@@ -1,4 +1,4 @@
-package com.programmers.voucher.dto.request;
+package com.programmers.application.dto.request;
 
 import java.util.Objects;
 

@@ -1,11 +1,11 @@
-package com.programmers.voucher.service;
+package com.programmers.application.service;
 
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.VoucherFactory;
-import com.programmers.voucher.dto.reponse.ResponseFactory;
-import com.programmers.voucher.dto.reponse.VoucherInfoResponse;
-import com.programmers.voucher.dto.request.VoucherCreationRequest;
-import com.programmers.voucher.repository.VoucherRepository;
+import com.programmers.application.domain.voucher.Voucher;
+import com.programmers.application.domain.voucher.VoucherFactory;
+import com.programmers.application.dto.reponse.ResponseFactory;
+import com.programmers.application.dto.reponse.VoucherInfoResponse;
+import com.programmers.application.dto.request.VoucherCreationRequest;
+import com.programmers.application.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

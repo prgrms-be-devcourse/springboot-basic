@@ -1,4 +1,4 @@
-package com.programmers.voucher;
+package com.programmers.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,25 +1,25 @@
-package com.programmers.voucher.domain;
+package com.programmers.application.domain.voucher;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class FixedAmountVoucher extends Voucher {
-    private static final int MAX_DISCOUNT_AMOUNT = 5000;
+public class PercentDiscountVoucher extends Voucher{
+    private static final int MAX_DISCOUNT_AMOUNT = 100;
     private static final int MIN_DISCOUNT_AMOUNT = 0;
 
-    private FixedAmountVoucher(UUID voucherId, long discountAmount) {
+    private PercentDiscountVoucher(UUID voucherId, long discountAmount) {
         super(voucherId, discountAmount);
     }
 
     protected static Voucher of(UUID voucherId, long discountAmount) {
         validateVoucherId(voucherId);
         validateDiscountAmount(discountAmount);
-        return new FixedAmountVoucher(voucherId, discountAmount);
+        return new PercentDiscountVoucher(voucherId, discountAmount);
     }
 
     @Override
-    public long discount(long originPrice) {
-        return Math.max(originPrice - getDiscountAmount(), 0);
+    public long discount(long originalPrice) {
+        return originalPrice - (originalPrice * getDiscountAmount() / MAX_DISCOUNT_AMOUNT);
     }
 
     private static void validateVoucherId(UUID voucherId) {

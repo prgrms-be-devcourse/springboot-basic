@@ -1,4 +1,4 @@
-package com.programmers.voucher.dto.reponse;
+package com.programmers.application.dto.reponse;
 
 import java.util.UUID;
 

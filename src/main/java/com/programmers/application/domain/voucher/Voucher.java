@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain;
+package com.programmers.application.domain.voucher;
 
 import java.util.UUID;
 
@@ -19,6 +19,5 @@ public abstract class Voucher {
         return discountAmount;
     }
 
-    abstract long discount(long beforeAmount);
-
+    public abstract long discount(long originalPrice);
 }

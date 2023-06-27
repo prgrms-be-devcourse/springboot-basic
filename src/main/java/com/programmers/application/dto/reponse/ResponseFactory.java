@@ -1,6 +1,6 @@
-package com.programmers.voucher.dto.reponse;
+package com.programmers.application.dto.reponse;
 
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.application.domain.voucher.Voucher;
 
 public class ResponseFactory {
     public static VoucherInfoResponse createVoucherInfoResponse(Voucher voucher) {
