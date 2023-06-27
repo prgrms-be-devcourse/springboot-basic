@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public enum VoucherType {
 	
@@ -18,7 +17,7 @@ public enum VoucherType {
 	PERCENT("percent", (percent) -> new PercentAmountVoucher(UUID.randomUUID(), percent), PercentAmountVoucher::new);
 	
 	private static final String ERROR_NO_SUCH_VOUCHER_TYPE = "[Error] Can't Find Such Voucher Type";
-	private static final List<VoucherType> VOUCHER_TYPE = Arrays.stream(VoucherType.values()).collect(Collectors.toList());
+	private static final List<VoucherType> VOUCHER_TYPE_VALUES = Arrays.stream(VoucherType.values()).toList();
 	private final String type;
 	private final Function<Long, Voucher> voucherFunction;
 	private final BiFunction<UUID, Long, Voucher> voucherBiFunction;
@@ -28,7 +27,9 @@ public enum VoucherType {
 		this.voucherFunction = voucherFunction;
 		this.voucherBiFunction = voucherBiFunction;
 	}
-	
+
+	public String getType() { return type; }
+
 	public Voucher createVoucher(long number) {
 		return voucherFunction.apply(number);
 	}
@@ -36,7 +37,7 @@ public enum VoucherType {
 	public Voucher exsistVoucher(UUID voucherId, long number) { return voucherBiFunction.apply(voucherId, number); }
 	
 	public static VoucherType of(String type) {
-		return VOUCHER_TYPE.stream()
+		return VOUCHER_TYPE_VALUES.stream()
 				       .filter(vt -> vt.type.equals(type))
 				       .findFirst()
 				       .orElseThrow(() -> new NoSuchVoucherTypeException(ERROR_NO_SUCH_VOUCHER_TYPE));
