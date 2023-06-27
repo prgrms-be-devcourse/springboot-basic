@@ -8,7 +8,6 @@ import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +34,7 @@ public class CommandLineApplication implements CommandLineRunner {
         }
     }
 
-    private void executeApplication() throws IOException {
+    private void executeApplication() {
         Command command;
         while ((command = viewManager.readCommand()) != EXIT) {
             switch (command) {
@@ -45,7 +44,7 @@ public class CommandLineApplication implements CommandLineRunner {
         }
     }
 
-    private void createVoucher() throws IOException {
+    private void createVoucher() {
         VoucherCreateRequest request = viewManager.readVoucherCreateInfo();
         UUID voucherId = voucherController.createVoucher(request);
         viewManager.showMessage(voucherId.toString());
