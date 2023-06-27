@@ -1,5 +1,8 @@
 package org.programmers.VoucherManagement;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,8 +15,11 @@ public enum CommandType {
     CREATE("create"),
     LIST("list");
 
+    private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
     private static final Map<String,CommandType> COMMAND_TYPE_MAP =
-            Collections.unmodifiableMap(Arrays.stream(values()).collect(Collectors.toMap(CommandType::getType, Function.identity())));
+            Collections.unmodifiableMap(Arrays
+                    .stream(values())
+                    .collect(Collectors.toMap(CommandType::getType, Function.identity())));
     private final String type;
 
     CommandType(String type){
@@ -40,6 +46,7 @@ public enum CommandType {
         if(COMMAND_TYPE_MAP.containsKey(type)){
             return COMMAND_TYPE_MAP.get(type);
         }
+        logger.info(MessageFormat.format("{0}에 해당하는 Command가 존재하지 않습니다.\n",type));
         throw new IllegalAccessError(MessageFormat.format("{0}에 해당하는 Command가 존재하지 않습니다.\n",type));
     }
 }
