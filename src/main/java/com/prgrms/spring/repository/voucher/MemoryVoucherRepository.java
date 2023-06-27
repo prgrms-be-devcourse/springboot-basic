@@ -24,6 +24,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Map<UUID, Voucher> findAll() {
-        return storage;
+        return new ConcurrentHashMap<>(storage);
     }
 }
