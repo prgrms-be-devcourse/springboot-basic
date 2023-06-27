@@ -1,7 +1,6 @@
 package prgms.spring_week1;
 
 import org.springframework.stereotype.Component;
-import prgms.spring_week1.domain.customer.repository.BlackListRepository;
 import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;

@@ -7,11 +7,7 @@ import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
 import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import prgms.spring_week1.domain.voucher.service.validation.impl.DiscountAmountValidation;
-import prgms.spring_week1.domain.voucher.service.validation.impl.PercentDiscountValidation;
 import prgms.spring_week1.exception.NoSuchVoucherType;
-import prgms.spring_week1.io.Input;
-import prgms.spring_week1.io.Output;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -19,17 +15,9 @@ import java.util.stream.Stream;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final Output output;
-    private final Input input;
-    private final DiscountAmountValidation discountAmountValidation;
-    private final PercentDiscountValidation percentDiscountValidation;
 
-    public VoucherService(VoucherRepository voucherRepository, Output output, Input input, @Qualifier("amount") DiscountAmountValidation discountAmountValidation,@Qualifier("percent") PercentDiscountValidation percentDiscountValidation) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.output = output;
-        this.input = input;
-        this.discountAmountValidation = discountAmountValidation;
-        this.percentDiscountValidation = percentDiscountValidation;
     }
 
     public VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
