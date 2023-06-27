@@ -15,10 +15,8 @@ public class FixedAmountVoucher extends Voucher {
     return new FixedAmountVoucher(voucherId, voucherType, discountAmount);
   }
 
-  public int discount(int price) {
-    int result = price - getDiscountAmount();
-    return result;
-
+  int discount(int price) {
+    return price - discountAmount;
   }
 
 }
