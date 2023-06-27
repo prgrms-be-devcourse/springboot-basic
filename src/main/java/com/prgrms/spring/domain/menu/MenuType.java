@@ -1,5 +1,6 @@
 package com.prgrms.spring.domain.menu;
 
+import com.prgrms.spring.exception.Error;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,6 @@ public enum MenuType {
         return Arrays.stream(values())
                 .filter(v -> type.equals(v.name))
                 .findFirst()
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> new IllegalStateException(String.valueOf(Error.VALIDATION_WRONG_TYPE)));
     }
 }

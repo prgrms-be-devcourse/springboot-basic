@@ -1,5 +1,6 @@
 package com.prgrms.spring.domain.voucher;
 
+import com.prgrms.spring.exception.Error;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,6 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(v -> type == Integer.parseInt(v.id))
                 .findFirst()
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> new IllegalStateException(String.valueOf(Error.VALIDATION_WRONG_TYPE)));
     }
 }
