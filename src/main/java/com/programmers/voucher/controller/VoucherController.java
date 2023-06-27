@@ -20,10 +20,10 @@ public class VoucherController {
 
     public VoucherResponseDto create (VoucherRequestDto requestDto) {
         Voucher voucher = voucherService.create(requestDto);
-        return VoucherMapper.domainToResponseDto(voucher);
+        return VoucherMapper.convertDomainToResponseDto(voucher);
     }
 
     public List<VoucherResponseDto> findAll() {
-        return voucherService.findVouchers().stream().map(VoucherMapper::domainToResponseDto).toList();
+        return voucherService.findVouchers().stream().map(VoucherMapper::convertDomainToResponseDto).toList();
     }
 }

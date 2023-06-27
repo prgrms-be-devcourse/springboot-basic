@@ -19,7 +19,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     public Voucher create(VoucherRequestDto requestDto) {
-        Voucher voucher = VoucherMapper.requestDtoToDomain(requestDto);
+        Voucher voucher = VoucherMapper.convertRequestDtoToDomain(requestDto);
         return voucherRepository.save(voucher);
     }
 

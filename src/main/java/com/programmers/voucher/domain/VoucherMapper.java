@@ -8,21 +8,21 @@ import java.time.LocalDateTime;
 
 public class VoucherMapper {
 
-    public static Voucher requestDtoToDomain(VoucherRequestDto requestDto) {
+    public static Voucher convertRequestDtoToDomain(VoucherRequestDto requestDto) {
         return new Voucher(requestDto.voucherId(), requestDto.discount(), LocalDateTime.now());
     }
 
-    public static VoucherResponseDto domainToResponseDto(Voucher voucher) {
+    public static VoucherResponseDto convertDomainToResponseDto(Voucher voucher) {
         return new VoucherResponseDto(voucher.getVoucherId(), voucher.getDiscount(),
                 voucher.getCreatedDate());
     }
 
-    public static VoucherEntity domainToEntity(Voucher voucher) {
+    public static VoucherEntity convertDomainToEntity(Voucher voucher) {
         return new VoucherEntity(voucher.getVoucherId(), voucher.getDiscount(),
                 voucher.getCreatedDate());
     }
 
-    public static Voucher entityToDomain(VoucherEntity voucherEntity) {
+    public static Voucher convertEntityToDomain(VoucherEntity voucherEntity) {
         return new Voucher(voucherEntity.getVoucherId(), voucherEntity.getDiscount(),
                 voucherEntity.getCreatedDate());
     }

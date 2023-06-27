@@ -16,7 +16,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        VoucherEntity voucherEntity = VoucherMapper.domainToEntity(voucher);
+        VoucherEntity voucherEntity = VoucherMapper.convertDomainToEntity(voucher);
         storage.put(voucherEntity.getVoucherId(), voucherEntity);
         return voucher;
     }
@@ -26,13 +26,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
         if (storage.isEmpty()) {
             throw new NotFoundException();
         }
-        return storage.values().stream().map(VoucherMapper::entityToDomain).toList();
+        return storage.values().stream().map(VoucherMapper::convertEntityToDomain).toList();
     }
 
     @Override
     public Voucher findById(UUID voucherId) {
         if (!storage.containsKey(voucherId)) throw new NotFoundException();
-        return VoucherMapper.entityToDomain(storage.get(voucherId));
+        return VoucherMapper.convertEntityToDomain(storage.get(voucherId));
 
     }
 }
