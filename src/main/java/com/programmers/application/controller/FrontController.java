@@ -12,6 +12,7 @@ import java.util.Map;
 @Component
 @Primary
 public class FrontController implements Controller {
+    private static final int ABNORMAL_EXIT = 1;
     private final Map<ServiceCommand, Controller> controllerMap = new HashMap();
     private final VoucherController voucherController;
     private final IO io;
@@ -28,7 +29,7 @@ public class FrontController implements Controller {
             printMenu();
             ServiceCommand serviceCommand = ServiceCommand.valueOf(io.read().toUpperCase());
             if (serviceCommand == ServiceCommand.EXIT) {
-                System.exit(1);
+                System.exit(ABNORMAL_EXIT);
             }
             Controller controller = controllerMap.get(serviceCommand);
             controller.process();

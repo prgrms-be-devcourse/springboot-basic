@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-class VoucherServiceTest {
+class VoucherServiceImplTest {
     private static final int FIXED_DISCOUNT_AMOUNT = 100;
     private static final int PERCENT_DISCOUNT_AMOUNT = 10;
     private static final String FIXED_AMOUNT_VOUCHER_TYPE = "fixed";
