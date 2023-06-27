@@ -4,6 +4,7 @@ import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.global.exception.DataAccessException;
+import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
@@ -26,7 +27,7 @@ public class VoucherFileRepository implements VoucherRepository {
         try {
             this.file = resource.getFile();
         } catch (IOException e) {
-            throw new DataAccessException("File not found.");
+            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
     }
 
@@ -42,7 +43,7 @@ public class VoucherFileRepository implements VoucherRepository {
             bw.write(voucherInfo);
             bw.newLine();
         } catch (IOException e) {
-            throw new DataAccessException("Cannot write.");
+            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
     }
 
@@ -58,7 +59,7 @@ public class VoucherFileRepository implements VoucherRepository {
                 vouchers.add(voucher);
             }
         } catch (IOException e) {
-            throw new DataAccessException("cannot read.");
+            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
 
         return vouchers;

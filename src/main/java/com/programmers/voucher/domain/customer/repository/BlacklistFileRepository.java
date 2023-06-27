@@ -2,12 +2,16 @@ package com.programmers.voucher.domain.customer.repository;
 
 import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.global.exception.DataAccessException;
+import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +26,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
         try {
             this.file = resource.getFile();
         } catch (IOException e) {
-            throw new DataAccessException("File not found.");
+            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
     }
 
@@ -38,7 +42,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
                 customers.add(customer);
             }
         } catch (IOException e) {
-            throw new DataAccessException("Read fail.");
+            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
         return customers;
     }
