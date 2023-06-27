@@ -9,7 +9,6 @@ public class Voucher {
 
     public Voucher(long id, VoucherType type, Policy policy) {
         validate(type, policy);
-        validateType(type);
         this.id = id;
         this.type = type;
         this.policy = policy;
