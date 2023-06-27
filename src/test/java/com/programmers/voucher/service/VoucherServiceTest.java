@@ -3,7 +3,6 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.VoucherType;
 import com.programmers.voucher.repository.VoucherRepository;
-import com.programmers.voucher.request.VoucherCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,10 +33,11 @@ class VoucherServiceTest {
     @DisplayName("FixedAmountVoucher 생성 - 성공")
     void createFixedAmountVoucher() {
         //given
-        VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10);
+        VoucherType voucherType = VoucherType.FIXED_AMOUNT;
+        long amount = 10;
 
         //when
-        voucherService.createVoucher(request);
+        voucherService.createVoucher(voucherType, amount);
 
         //then
         then(voucherRepository).should().save(any());
@@ -47,10 +47,11 @@ class VoucherServiceTest {
     @DisplayName("PercentDiscountVoucher 생성 - 성공")
     void createPercentDiscountVoucher() {
         //given
-        VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.PERCENT, 10);
+        VoucherType voucherType = VoucherType.PERCENT;
+        long percent = 10;
 
         //when
-        voucherService.createVoucher(request);
+        voucherService.createVoucher(voucherType, percent);
 
         //then
         then(voucherRepository).should().save(any());

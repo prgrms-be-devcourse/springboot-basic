@@ -16,8 +16,10 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public UUID createVoucher(VoucherCreateRequest voucherCreateRequest) {
-        return voucherService.createVoucher(voucherCreateRequest);
+    public UUID createVoucher(VoucherCreateRequest request) {
+        return voucherService.createVoucher(
+                request.getVoucherType(),
+                request.getAmount());
     }
 
     public List<Voucher> findVouchers() {

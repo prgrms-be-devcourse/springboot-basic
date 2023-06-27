@@ -3,7 +3,6 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.VoucherType;
 import com.programmers.voucher.repository.VoucherRepository;
-import com.programmers.voucher.request.VoucherCreateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,11 +20,9 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public UUID createVoucher(VoucherCreateRequest request) {
-        VoucherType voucherType = request.getVoucherType();
-
+    public UUID createVoucher(VoucherType voucherType, long amount) {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = voucherType.createVoucher(voucherId, request);
+        Voucher voucher = voucherType.createVoucher(voucherId, amount);
 
         voucherRepository.save(voucher);
 

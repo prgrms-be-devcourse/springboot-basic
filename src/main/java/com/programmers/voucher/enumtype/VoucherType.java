@@ -3,7 +3,6 @@ package com.programmers.voucher.enumtype;
 import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.request.VoucherCreateRequest;
 import com.programmers.voucher.strategy.FixedAmountValidationStrategy;
 import com.programmers.voucher.strategy.PercentValidationStrategy;
 import com.programmers.voucher.strategy.VoucherValidationStrategy;
@@ -19,22 +18,20 @@ import java.util.function.BiFunction;
 public enum VoucherType {
     FIXED_AMOUNT("fixed",
             new FixedAmountValidationStrategy(),
-            (voucherId, request) -> new FixedAmountVoucher(voucherId, request.getAmount())
-    ),
+            FixedAmountVoucher::new),
     PERCENT("percent",
             new PercentValidationStrategy(),
-            (voucherId, request) -> new PercentDiscountVoucher(voucherId, request.getAmount())
-    );
+            PercentDiscountVoucher::new);
 
     private static final Logger LOG = LoggerFactory.getLogger(VoucherType.class);
 
     private final String type;
     private final VoucherValidationStrategy voucherValidator;
-    private final BiFunction<UUID, VoucherCreateRequest, Voucher> createInstance;
+    private final BiFunction<UUID, Long, Voucher> createInstance;
 
     VoucherType(String value,
                 VoucherValidationStrategy voucherValidator,
-                BiFunction<UUID, VoucherCreateRequest, Voucher> createInstance) {
+                BiFunction<UUID, Long, Voucher> createInstance) {
         this.type = value;
         this.createInstance = createInstance;
         this.voucherValidator = voucherValidator;
@@ -56,7 +53,7 @@ public enum VoucherType {
         voucherValidator.validateAmount(amount);
     }
 
-    public Voucher createVoucher(UUID voucherId, VoucherCreateRequest request) {
-        return createInstance.apply(voucherId, request);
+    public Voucher createVoucher(UUID voucherId, long amount) {
+        return createInstance.apply(voucherId, amount);
     }
 }
