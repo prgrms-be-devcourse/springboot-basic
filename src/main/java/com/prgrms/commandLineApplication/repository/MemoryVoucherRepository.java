@@ -2,9 +2,11 @@ package com.prgrms.commandLineApplication.repository;
 
 import com.prgrms.commandLineApplication.voucher.Voucher;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class MemoryVoucherRepository implements VoucherRepository {
 
@@ -16,8 +18,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
   }
 
   @Override
-  public Map<UUID, Voucher> findAll() {
-    return voucherStorage;
+  public List<Voucher> findAll() {
+    return voucherStorage.values()
+            .stream()
+            .collect(Collectors.toList());
   }
 
 }

@@ -4,8 +4,7 @@ import com.prgrms.commandLineApplication.repository.VoucherRepository;
 import com.prgrms.commandLineApplication.voucher.Voucher;
 import com.prgrms.commandLineApplication.voucher.VoucherFactory;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 public class VoucherService {
 
@@ -15,7 +14,7 @@ public class VoucherService {
     this.voucherRepository = voucherRepository;
   }
 
-  public Map<UUID, Voucher> viewList() {
+  public List<Voucher> findAllVouchers() {
     return voucherRepository.findAll();
   }
 
