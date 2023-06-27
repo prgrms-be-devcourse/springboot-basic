@@ -1,5 +1,6 @@
 package com.prgms.springbootbasic.ui;
 
+import com.prgms.springbootbasic.model.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class Console {
 		return inputView.enterVoucherNumber();
 	}
 	
-	public void showVoucherList(List<String> vouchers) {
+	public void showVoucherList(List<Voucher> vouchers) {
 		outputView.showVoucherList(vouchers);
 	}
 	

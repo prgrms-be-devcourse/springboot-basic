@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class InputView {
 	
-	private final TextIO textIO = TextIoFactory.getTextIO();
+	private static final TextIO textIO = TextIoFactory.getTextIO();
 	
 	public String enterMenu() {
 		return textIO.newStringInputReader()

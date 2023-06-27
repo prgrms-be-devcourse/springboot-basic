@@ -1,15 +1,20 @@
 package com.prgms.springbootbasic.ui;
 
+import com.prgms.springbootbasic.model.Voucher;
+import com.prgms.springbootbasic.util.VoucherType;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class OutputView {
-	
-	private final TextTerminal textTerminal = TextIoFactory.getTextTerminal();
+
+	private static final String FORMAT_FIXED = "voucher type : %s voucher Id : %s amount : %d";
+	private static final String FORMAT_PERCENT = "voucher type : %s voucher Id : %s percent : %d";
+	private static final TextTerminal textTerminal = TextIoFactory.getTextTerminal();
 	
 	public void init() {
 		textTerminal.println("=== Voucher Application ===");
@@ -27,10 +32,17 @@ public class OutputView {
 		textTerminal.println("\nNumber of voucher's amount or percent.");
 	}
 	
-	public void showVoucherList(List<String> vouchers) {
+	public void showVoucherList(List<Voucher> vouchers) {
 		textTerminal.println("\n=== voucher list ===");
 		vouchers.stream()
-				.forEach(v -> textTerminal.println(v));
+				.map(v -> {
+					VoucherType voucherType = v.getVoucherType();
+					UUID voucherId = v.getVoucherId();
+					Long number = v.getNumber();
+					if (voucherType == VoucherType.FIXED) return String.format(FORMAT_FIXED, voucherType, voucherId, number);
+					return String.format(FORMAT_PERCENT, voucherType, voucherId, number);
+				})
+				.forEach(textTerminal::println);
 		textTerminal.println("");
 	}
 	
