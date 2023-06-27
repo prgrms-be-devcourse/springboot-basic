@@ -20,13 +20,9 @@ public enum Command {
     }
 
     public static Command of(String inputCommand) {
-        try {
-            return Arrays.stream(values())
-                    .filter(value -> value.command.equals(inputCommand.toLowerCase()))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어 입력입니다 => " + inputCommand));
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
+        return Arrays.stream(values())
+                .filter(value -> value.command.equals(inputCommand.toLowerCase()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어 입력입니다 => " + inputCommand));
     }
 }
