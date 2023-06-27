@@ -10,4 +10,6 @@ public interface Voucher {
     long getAmount();
 
     String getVoucherType();
+
+    String getDiscountInfo();
 }

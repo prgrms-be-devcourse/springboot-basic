@@ -15,7 +15,7 @@ public class ConsoleView implements Input, Output {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    private static final String VOUCHER_PROGRAM_START_OUTPUT = "=== Voucher Program ===";
+    private static final String VOUCHER_PROGRAM_START_OUTPUT = "\n=== Voucher Program ===";
     private static final String NO_VOUCHER_HISTORY = "등록된 바우처가 없습니다.";
     private static final String SPACE = " ";
 
@@ -60,6 +60,6 @@ public class ConsoleView implements Input, Output {
             System.out.println(NO_VOUCHER_HISTORY);
             return;
         }
-        voucherHistory.values().forEach(v -> System.out.println(MessageFormat.format("{0}{1}{2}{3}{4}", v.getVoucherId(), SPACE, v.getVoucherType(), SPACE, v.getAmount())));
+        voucherHistory.values().forEach(v -> System.out.println(MessageFormat.format("{0}{1}{2}{3}{4}", v.getVoucherId(), SPACE, v.getVoucherType(), SPACE, v.getDiscountInfo())));
     }
 }

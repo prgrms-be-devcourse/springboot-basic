@@ -1,17 +1,24 @@
 package com.demo.voucher.controller;
 
+import com.demo.voucher.domain.VoucherType;
 import com.demo.voucher.io.CommandType;
 import com.demo.voucher.io.Input;
 import com.demo.voucher.io.Output;
 import com.demo.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
+import java.util.Optional;
+
 @Controller
 public class VoucherController implements Runnable {
     private static final String INPUT_COMMAND_ERROR = "올바른 명령어를 입력하지 않았습니다.";
+    private static final String INPUT_VOUCHER_TYPE_ERROR = "올바른 바우처 타입을 입력하지 않았습니다.";
+    private static final String INPUT_AMOUNT_ERROR = "올바른 할인 금액을 입력하지 않았습니다.";
     private static final String EXIT = "exit";
     private static final String CREATE_VOUCHER = "create";
     private static final String LIST_ALL_VOUCHERS = "list";
+    private static final String REQUEST_VOUCHER_TYPE_PROMPT = "생성할 바우처 타입을 입력해주세요.";
+
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
@@ -27,10 +34,8 @@ public class VoucherController implements Runnable {
         boolean isProgramRunnable = true;
 
         while (isProgramRunnable) {
-            // TODO: Voucher Program 시작 메뉴 설명 출력 (exit, create, list)
             output.showMenu();
 
-            // TODO: 사용자로부터 COMMAND 입력 받기 (exit, create, list)
             String inputCommand = input.getMenu();
             if (!CommandType.isValidCommandInput(inputCommand)) {
                 output.inputError(INPUT_COMMAND_ERROR);
@@ -38,16 +43,25 @@ public class VoucherController implements Runnable {
             }
 
             switch (inputCommand) {
-                // TODO: exit - 프로그램 종료
                 case EXIT -> isProgramRunnable = false;
-                // TODO: create
                 case CREATE_VOUCHER -> {
-                    // TODO: VoucherType 출력
-                    // TODO: 사용자로부터 VoucherType 입력 받은 후 DiscountAmount 또는 PercentAmount 입력 받기
-                    // TODO: VoucherService의 create voucher
+                    output.showVoucherType();
+
+                    String inputVoucherType = input.getVoucherType(REQUEST_VOUCHER_TYPE_PROMPT);
+                    Optional<VoucherType> voucherType = VoucherType.getVoucherTypeByCommand(inputVoucherType);
+                    if (voucherType.isEmpty()) {
+                        output.inputError(INPUT_VOUCHER_TYPE_ERROR);
+                        continue;
+                    }
+
+                    String inputAmount = input.getAmount(voucherType.get());
+                    if (!voucherType.get().validateAmount(inputAmount)) {
+                        output.inputError(INPUT_AMOUNT_ERROR);
+                        continue;
+                    }
+                    voucherService.createVoucher(voucherType.get(), inputAmount);
                 }
-                // TODO: list - VoucherService로부터 모든 Voucher 가져오기
-                case LIST_ALL_VOUCHERS -> output.showAllVoucher(voucherService.findAllVouchers());
+                case LIST_ALL_VOUCHERS -> output.showAllVouchers(voucherService.findAllVouchers());
             }
         }
     }
