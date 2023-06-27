@@ -6,6 +6,7 @@ import java.util.UUID;
 public class FixedAmountVoucher extends Voucher {
     private static final int MAX_DISCOUNT_AMOUNT = 5000;
     private static final int MIN_DISCOUNT_AMOUNT = 0;
+    public static final int MIN_AMOUNT = 0;
 
     private FixedAmountVoucher(UUID voucherId, long discountAmount) {
         super(voucherId, discountAmount);
@@ -19,7 +20,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public long discount(long originalPrice) {
-        return Math.max(originalPrice - getDiscountAmount(), 0);
+        return Math.max(originalPrice - getDiscountAmount(), MIN_AMOUNT);
     }
 
     private static void validateVoucherId(UUID voucherId) {
