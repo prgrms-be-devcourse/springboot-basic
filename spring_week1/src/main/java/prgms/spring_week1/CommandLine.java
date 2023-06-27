@@ -11,7 +11,6 @@ import prgms.spring_week1.domain.voucher.service.VoucherService;
 import prgms.spring_week1.exception.EmptyListException;
 import prgms.spring_week1.exception.NoSuchOptionValue;
 import prgms.spring_week1.exception.NoSuchVoucherType;
-import prgms.spring_week1.io.Console;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
@@ -49,7 +48,6 @@ public class CommandLine implements Runnable{
             }
         }
 
-
     private Menu findMenuName(String inputText){
         try {
            Menu selectMenu = Menu.findMenuType(inputText);
@@ -77,7 +75,6 @@ public class CommandLine implements Runnable{
                     output.printInsertVoucherInfo(newVoucher);
                 }
             }
-
         }catch (NoSuchVoucherType e){
             output.printNoSuchVoucherType();
         }
@@ -89,6 +86,5 @@ public class CommandLine implements Runnable{
         }catch (EmptyListException e){
             output.printEmptyListMessage();
         }
-
     }
 }

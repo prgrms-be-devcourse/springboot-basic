@@ -6,11 +6,13 @@ public enum VoucherType {
 
     private final String voucherType;
 
+    VoucherType(String voucherType) {
+        this.voucherType = voucherType;
+    }
+
     public String getVoucherType() {
         return voucherType;
     }
 
-    VoucherType(String voucherType) {
-        this.voucherType = voucherType;
-    }
+
 }

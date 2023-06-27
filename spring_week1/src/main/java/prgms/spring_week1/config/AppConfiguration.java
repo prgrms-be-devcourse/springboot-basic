@@ -6,7 +6,6 @@ import prgms.spring_week1.io.Console;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 
-
 @Configuration
 public class AppConfiguration {
     @Bean

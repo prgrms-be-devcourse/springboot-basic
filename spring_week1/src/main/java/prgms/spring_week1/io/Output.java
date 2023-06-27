@@ -2,8 +2,6 @@ package prgms.spring_week1.io;
 
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
-import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
-import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 
 import java.util.List;
 
