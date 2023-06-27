@@ -7,13 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class VoucherInquiryResponseDTO {
+public class VoucherResponseDTO {
 	private int id;
-	private String name;
-	private String description;
 	private String discountType;
 	private Integer discountAmount;
-	private String createdAt;
-	private String expiredAt;
-
 }

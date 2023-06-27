@@ -3,12 +3,13 @@ package co.programmers.voucher.controller;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
 import co.programmers.voucher.dto.Response;
-import co.programmers.voucher.dto.VoucherCreationRequestDTO;
+import co.programmers.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher.service.CreationService;
 import co.programmers.voucher.service.InquiryService;
 import co.programmers.voucher.view.InputView;
@@ -16,12 +17,12 @@ import co.programmers.voucher.view.OutputView;
 
 @Controller
 public class VoucherCommandLineRunner implements CommandLineRunner {
+	private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
 	private final CreationService creationService;
 	private final InquiryService inquiryService;
 	private final OutputView outputView;
 	private final InputView<String> inputView;
 
-	@Autowired
 	public VoucherCommandLineRunner(CreationService creationService, InquiryService inquiryService,
 			OutputView outputView, InputView<String> inputView) {
 		this.creationService = creationService;
@@ -37,46 +38,48 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 		do {
 			outputView.printGuideMessage();
 			menu = inputView.input();
+			logger.info("Input : {}", menu);
 			switch (menu.toLowerCase()) {
-				case ("exit"):
-				case ("x"):
+				case "exit":
+				case "x":
 					return;
-				case ("create"):
-				case ("c"):
-					VoucherCreationRequestDTO voucherCreationRequestDTO = request();
-					response = creationService.run(voucherCreationRequestDTO);
+				case "create":
+				case "c":
+					response = createVoucher();
 					break;
-				case ("list"):
-				case ("l"):
-					response = inquiryService.run(new VoucherCreationRequestDTO());
+				case "list":
+				case "l":
+					response = inquiryService.run();
 					break;
 				default:
-					throw new IllegalArgumentException("* Invalid input for menu *");
+					response = new Response<>(Response.State.FAILED, "* Invalid input for menu *");
+					break;
 			}
 			outputView.print(response);
 		} while (!"EXIT".equalsIgnoreCase(menu));
 	}
 
-	VoucherCreationRequestDTO request() throws IOException {
+	private Response createVoucher() throws IOException {
+		try {
+			VoucherRequestDTO voucherRequestDTO = request();
+			return creationService.run(voucherRequestDTO);
+		} catch (NumberFormatException numberFormatException) {
+			return new Response(Response.State.FAILED, "* Invalid Input for voucher *");
+		}
+	}
+
+	VoucherRequestDTO request() throws IOException, NumberFormatException {
 		String requestMessageFormat = "Input {0} >> ";
 
 		outputView.print(MessageFormat.format(requestMessageFormat, "amount"));
 		int amount = Integer.parseInt(inputView.input());
 
-		outputView.print(MessageFormat.format(requestMessageFormat, "name"));
-		String name = inputView.input();
-
-		outputView.print(MessageFormat.format(requestMessageFormat, "description"));
-		String description = inputView.input();
-
 		outputView.print(MessageFormat.format(requestMessageFormat,
 				"discount type. Fixed(for FixedAmountVoucher) or Percent(for PercentDiscountVoucher)"));
 		String type = inputView.input();
 
-		return VoucherCreationRequestDTO.builder()
+		return VoucherRequestDTO.builder()
 				.discountAmount(amount)
-				.name(name)
-				.description(description)
 				.discountStrategy(type)
 				.build();
 	}
