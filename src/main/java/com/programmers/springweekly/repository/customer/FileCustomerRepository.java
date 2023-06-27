@@ -28,12 +28,11 @@ public class FileCustomerRepository implements CustomerRepository {
         return Collections.unmodifiableMap(customerMap);
     }
 
-    private void saveIfBlacklistedCustomer(String[] readLine) {
-        UUID uuid = UUID.fromString(readLine[0]);
-        CustomerType customerType = CustomerType.findCustomerType(readLine[1]);
+    private void saveIfBlacklistedCustomer(String uuid, String customerType) {
+        CustomerType type = CustomerType.findCustomerType(customerType);
 
-        if (CustomerType.isBlacklistedCustomer(customerType)) {
-            Customer customer = new Customer(uuid, CustomerType.BLACKLIST);
+        if (CustomerType.isBlacklistedCustomer(type)) {
+            Customer customer = new Customer(UUID.fromString(uuid), CustomerType.BLACKLIST);
 
             customerMap.put(customer.getCustomerId(), customer);
         }
@@ -46,7 +45,7 @@ public class FileCustomerRepository implements CustomerRepository {
 
             while ((line = bufferedReader.readLine()) != null) {
                 String[] readLine = line.split(",");
-                saveIfBlacklistedCustomer(readLine);
+                saveIfBlacklistedCustomer(readLine[0], readLine[1]);
             }
 
         } catch (Exception e) {
