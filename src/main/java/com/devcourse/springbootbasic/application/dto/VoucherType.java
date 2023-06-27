@@ -1,12 +1,12 @@
-package com.devcourse.springbootbasic.engine.model;
+package com.devcourse.springbootbasic.application.dto;
 
-import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
-import com.devcourse.springbootbasic.engine.config.Message;
+import com.devcourse.springbootbasic.application.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.constant.Message;
 
 import java.util.Arrays;
 public enum VoucherType {
-    FIXED_AMOUNT("1", "Amount"),
-    PERCENT_DISCOUNT("2", "Percent");
+    FIXED_AMOUNT("1", "Fixed Amount Discount Voucher"),
+    PERCENT_DISCOUNT("2", "Percent Discount Voucher");
 
     private final String typeOrdinal;
     private final String typeString;
@@ -21,6 +21,10 @@ public enum VoucherType {
                 .filter(vt -> vt.typeOrdinal.equals(voucherTypeString))
                 .findAny()
                 .orElseThrow(() -> new InvalidDataException(Message.INVALID_VOUCHER_TYPE));
+    }
+
+    public String getTypeOrdinal() {
+        return typeOrdinal;
     }
 
     public String getTypeString() {
