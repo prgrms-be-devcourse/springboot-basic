@@ -16,8 +16,7 @@ public class VoucherFactory {
                 Validator.percentValidate(discount);
                 return new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(discount));
             }
+            default -> throw new IllegalArgumentException("There is no voucher menu.");
         }
-
-        throw new IllegalArgumentException("There is no voucher menu.");
     }
 }

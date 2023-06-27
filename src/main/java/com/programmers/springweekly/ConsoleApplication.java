@@ -57,6 +57,7 @@ public class ConsoleApplication implements CommandLineRunner {
 
                         console.outputErrorMessage("There are no saved blacklists.");
                     }
+                    default -> throw new IllegalArgumentException("The type you are looking for is not found.");
                 }
             } catch (Exception e) {
                 log.error(e.getMessage());
