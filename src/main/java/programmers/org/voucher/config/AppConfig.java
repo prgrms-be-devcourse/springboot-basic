@@ -10,21 +10,6 @@ import programmers.org.voucher.io.VoucherConsole;
 public class AppConfig {
 
     @Bean
-    public VoucherController voucherController() {
-        return new VoucherController(voucherService(), consoleService());
-    }
-
-    @Bean
-    public VoucherService voucherService() {
-        return new VoucherService(voucherRepository());
-    }
-
-    @Bean
-    public VoucherRepository voucherRepository() {
-        return new MemoryVoucherRepository();
-    }
-
-    @Bean
     public VoucherConsole console() {
         return new VoucherConsole(new Input(), new Output());
     }
