@@ -10,11 +10,11 @@ public enum VoucherType {
     FIXED_AMOUNT("1",
             "고정 할인 바우처",
             "할인 고정 금액은 1 이상의 정수여야 합니다.",
-            (String inputAmount) -> Pattern.matches("^(?:[1-9]|[1-9]\\d)$", inputAmount)),
+            (String inputAmount) -> Pattern.matches("^[1-9]\\d*$", inputAmount)),
     PERCENT_DISCOUNT("2",
             "비율 할인 바우처",
             "할인 비율은 1 이상 99 이하의 정수여야 합니다.",
-            (String inputAmount) -> Pattern.matches("^[1-9]\\d*$", inputAmount));
+            (String inputAmount) -> Pattern.matches("^(?:[1-9]|[1-9]\\d)$", inputAmount));
 
 
     private final String command;
@@ -42,7 +42,7 @@ public enum VoucherType {
     }
 
     public String getAmountDescription() {
-        return this.amountDescription;
+        return amountDescription;
     }
 
     private String getCommand() {
