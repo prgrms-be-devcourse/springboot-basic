@@ -1,4 +1,4 @@
-package kr.co.programmers.school.voucher.domain.voucher.domain;
+package kr.co.programmers.school.voucher.domain.voucher.enums;
 
 import kr.co.programmers.school.voucher.domain.voucher.exception.ApplicationException;
 import kr.co.programmers.school.voucher.domain.voucher.exception.ErrorMessage;
