@@ -12,5 +12,5 @@ public interface Output {
 
     void inputError(String errorResponse);
 
-    void showAllVoucher(Map<UUID, Voucher> voucherHistory);
+    void showAllVouchers(Map<UUID, Voucher> voucherHistory);
 }
