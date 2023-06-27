@@ -26,4 +26,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         return storage.put(voucher.getVoucherId(), voucher);
     }
+
+    @Override
+    public void clear() {
+        storage.clear();
+    }
 }

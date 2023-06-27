@@ -12,4 +12,6 @@ public interface VoucherRepository {
     Map<UUID, Voucher> findAll();
 
     Voucher insert(Voucher voucher);
+
+    void clear();
 }
