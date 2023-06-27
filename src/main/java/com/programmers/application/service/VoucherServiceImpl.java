@@ -9,6 +9,7 @@ import com.programmers.application.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -29,6 +30,9 @@ public class VoucherServiceImpl implements VoucherService{
     @Override
     public List<VoucherInfoResponse> findVoucherList() {
         List<Voucher> voucherList = voucherRepository.findAll();
+        if (voucherList.isEmpty()) {
+            throw new NoSuchElementException("바우처 목록이 비어있습니다.");
+        }
         return voucherList.stream()
                 .map(ResponseFactory::createVoucherInfoResponse)
                 .toList();

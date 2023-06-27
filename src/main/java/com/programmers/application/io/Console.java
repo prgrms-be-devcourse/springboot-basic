@@ -15,7 +15,7 @@ public class Console implements IO{
 
     @Override
     public void write(String input) throws IOException {
-        bufferedWriter.write(input);
+        bufferedWriter.write(input + "\n");
         bufferedWriter.flush();
     }
 

@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 class VoucherServiceTest {
@@ -64,7 +65,7 @@ class VoucherServiceTest {
                 .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
 
-    @DisplayName("바우처 할인양이 0일경우 예외 발생 테스트")
+    @DisplayName("바우처 할인양이 0일 경우 예외 발생 테스트")
     @ParameterizedTest
     @EnumSource(VoucherType.class)
     void input0VoucherDiscountAmount(VoucherType voucherType) {
@@ -89,5 +90,16 @@ class VoucherServiceTest {
 
         //then
         Assertions.assertThat(voucherList.size()).isEqualTo(EXPECTED_COUNT);
+    }
+
+    @DisplayName("바우처 목록 비어있을 경우 예외 발생 테스트")
+    @Test
+    void findEmptyVoucherList() {
+        //nothing given
+
+        //then
+        Assertions.assertThatThrownBy(() -> voucherService.findVoucherList())
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("바우처 목록이 비어있습니다.");
     }
 }
