@@ -13,7 +13,7 @@ public enum VoucherType {
             (String inputAmount) -> Pattern.matches("^[1-9]\\d*$", inputAmount)),
     PERCENT_DISCOUNT("2",
             "비율 할인 바우처",
-            "할인 비율은 1 이상 99 이하의 정수여야 합니다. 할인 비율을 입력해주세요 :",
+            "할인 비율은 1 이상 99 이하의 정수여야 합니다. 할인 비율을 입력해주세요 : ",
             (String inputAmount) -> Pattern.matches("^(?:[1-9]|[1-9]\\d)$", inputAmount));
 
 
