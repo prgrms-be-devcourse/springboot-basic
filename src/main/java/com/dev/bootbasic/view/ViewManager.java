@@ -25,7 +25,7 @@ public class ViewManager {
             """;
     private static final int VOUCHER_TYPE_INDEX = 0;
     private static final int VOUCHER_AMOUNT_INDEX = 1;
-    private static final String SPACE = " ";
+    private static final String SPACE_SEPARATOR = " ";
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -44,7 +44,7 @@ public class ViewManager {
                 , PERCENT.getMinimumAmount(), PERCENT.getMaximumAmount()));
 
         String voucher = inputView.inputLine();
-        String[] voucherInfo = voucher.split(SPACE);
+        String[] voucherInfo = voucher.split(SPACE_SEPARATOR);
 
         String voucherType = voucherInfo[VOUCHER_TYPE_INDEX];
         int amount = Integer.parseInt(voucherInfo[VOUCHER_AMOUNT_INDEX]);
