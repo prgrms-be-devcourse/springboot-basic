@@ -10,4 +10,8 @@ public class Customer {
         this.customerId = customerId;
         this.name = name;
     }
+
+    public String fullInfoString() {
+        return "customerId: " + customerId + ", name: " + name;
+    }
 }
