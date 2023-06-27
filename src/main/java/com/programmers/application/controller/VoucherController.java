@@ -22,8 +22,7 @@ public class VoucherController implements Controller{
         command.executeVoucher(voucherService, command, io);
     }
 
-    @Override
-    public void printMenu() {
+    private void printMenu() {
         io.write("=== Voucher Program ===");
         io.write("Enter a exit to exit the program");
         io.write("Enter a create to create a new voucher");

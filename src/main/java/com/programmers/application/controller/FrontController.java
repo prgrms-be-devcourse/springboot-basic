@@ -30,8 +30,7 @@ public class FrontController implements Controller{
         controller.process();
     }
 
-    @Override
-    public void printMenu() {
+    private void printMenu() {
         io.write("=== Program ===");
         io.write("Enter a voucher to use the voucher program");
         io.write("Enter a customer to use the customer program");
