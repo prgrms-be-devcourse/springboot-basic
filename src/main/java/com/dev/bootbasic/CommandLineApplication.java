@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import static com.dev.bootbasic.view.Command.EXIT;
+
 @Component
 public class CommandLineApplication implements CommandLineRunner {
 
@@ -34,14 +36,12 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void executeApplication() throws IOException {
-        Command command = viewManager.readCommand();
-        while (command != Command.EXIT) {
-
+        Command command;
+        while ((command = viewManager.readCommand()) != EXIT) {
             switch (command) {
                 case CREATE -> createVoucher();
                 case LIST -> showAllVouchers();
             }
-            command = viewManager.readCommand();
         }
     }
 
