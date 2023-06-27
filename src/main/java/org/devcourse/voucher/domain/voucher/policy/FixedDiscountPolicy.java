@@ -15,9 +15,4 @@ public class FixedDiscountPolicy extends DiscountPolicy {
     protected boolean invalid(int providedAmount) {
         return providedAmount < 0 || providedAmount > 100_000;
     }
-
-    @Override
-    public String toString() {
-        return "%d원 할인 가능".formatted(providedAmount);
-    }
 }

@@ -15,9 +15,4 @@ public class PercentDiscountPolicy extends DiscountPolicy {
     protected boolean invalid(int providedAmount) {
         return providedAmount < 0 || providedAmount > 100;
     }
-
-    @Override
-    public String toString() {
-        return "%d퍼센트 할인 가능".formatted(providedAmount);
-    }
 }
