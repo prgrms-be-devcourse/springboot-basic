@@ -2,9 +2,12 @@ package me.kimihiqq.vouchermanagement.io;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.kimihiqq.vouchermanagement.option.ConsoleOption;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.EnumSet;
 
 @Slf4j
 @Component
@@ -30,13 +33,34 @@ public class Console implements Input, Output {
     }
 
     public long readDiscount(String prompt) {
+        printLine(prompt);
         while (true) {
             try {
-                return Long.parseLong(readLine(prompt));
+                long discount = Long.parseLong(readLine());
+                if (discount < 0) {
+                    throw new IllegalArgumentException("Discount amount cannot be negative.");
+                }
+                if (discount > 100) {
+                    throw new IllegalArgumentException("Discount rate cannot be greater than 100.");
+                }
+                return discount;
             } catch (NumberFormatException e) {
-                log.error("Invalid number input. Try again.", e);
+                printLine("Please enter a valid number.");
+            } catch (IllegalArgumentException e) {
+                printLine(e.getMessage() + " Please try again.");
             }
         }
+    }
+
+    public <E extends Enum<E> & ConsoleOption> E promptUserChoice(Class<E> enumType) {
+        Arrays.stream(enumType.getEnumConstants())
+                .forEach(option -> printLine(option.getKey() + ": " + option.getDescription()));
+
+        int userChoice = Integer.parseInt(readLine());
+        return EnumSet.allOf(enumType).stream()
+                .filter(option -> option.getKey() == userChoice)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Option: " + userChoice));
     }
 
     @Override
@@ -50,4 +74,13 @@ public class Console implements Input, Output {
             throw new RuntimeException("Error writing input", e);
         }
     }
+
+    @Override
+    public void printInstructions() {
+        printLine("=== Voucher Program ===");
+        printLine("Type **exit** to exit the program.");
+        printLine("Type **create** to create a new voucher.");
+        printLine("Type **list** to list all vouchers.");
+    }
+
 }

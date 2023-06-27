@@ -11,7 +11,11 @@ public class PercentDiscountVoucher implements Voucher {
     private final String type;
     private final long discount;
 
+
     public PercentDiscountVoucher(UUID voucherId, String type, long discountRate) {
+        if (discountRate < 0 || discountRate > 100) {
+            throw new IllegalArgumentException("Discount rate must be between 0 and 100.");
+        }
         this.voucherId = voucherId;
         this.type = "Percent";
         this.discount = discountRate;
