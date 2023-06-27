@@ -1,0 +1,6 @@
+system:
+  blacklist:
+    allow: true
+    display-uuid: false
+  voucher:
+    maximum-fixed-amount: 10000

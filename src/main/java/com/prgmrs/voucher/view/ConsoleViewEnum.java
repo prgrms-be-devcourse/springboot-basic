@@ -6,7 +6,8 @@ public enum ConsoleViewEnum {
     CREATE_THE_VOUCHER("create"),
     CREATE_FIXED_AMOUNT_VOUCHER("fixed"),
     CREATE_PERCENT_DISCOUNT_VOUCHER("percent"),
-    NOTHING_MATCHED("nothing");
+    NOTHING_MATCHED("nothing"),
+    SHOW_BLACKLIST("blacklist");
 
     private final String value;
     ConsoleViewEnum(String value) {
