@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain.voucher.repository;
 
 import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.global.exception.DataAccessException;
 import org.springframework.context.annotation.Profile;
@@ -8,11 +9,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @Profile("dev")
@@ -46,6 +46,28 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        List<Voucher> vouchers = new ArrayList<>();
+        try (
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                ) {
+            String nextLine;
+            while ((nextLine = br.readLine()) != null) {
+                Voucher voucher = csvToVoucher(nextLine);
+                vouchers.add(voucher);
+            }
+        } catch (IOException e) {
+            throw new DataAccessException("cannot read.");
+        }
+
+        return vouchers;
+    }
+
+    private Voucher csvToVoucher(String nextLine) {
+        String[] voucherInfo = nextLine.split(",");
+        UUID voucherId = UUID.fromString(voucherInfo[0]);
+        VoucherType voucherType = VoucherType.valueOf(voucherInfo[1]);
+        long amount = Long.parseLong(voucherInfo[2]);
+
+        return voucherType.createVoucher(voucherId, amount);
     }
 }
