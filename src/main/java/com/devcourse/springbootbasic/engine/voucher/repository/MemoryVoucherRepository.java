@@ -4,10 +4,7 @@ import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile({"dev"})
@@ -16,16 +13,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> voucherMap = new HashMap<>();
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Optional<Voucher> insert(Voucher voucher) {
         voucherMap.put(voucher.getVoucherId(), voucher);
-        return voucher;
+        return Optional.of(voucher);
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return voucherMap.values().stream().toList();
+    public List<String> findAll() {
+        return voucherMap.values()
+                .stream()
+                .map(Voucher::toString)
+                .toList();
     }
 
+    @Override
     public void setVoucherMap(Map<UUID, Voucher> voucherMap) {
         this.voucherMap = voucherMap;
     }

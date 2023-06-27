@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile({"default"})
@@ -37,25 +34,24 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(getFile(), true);
+    public Optional<Voucher> insert(Voucher voucher) {
+        try (
+                FileOutputStream fileOutputStream = new FileOutputStream(getFile(), true)
+        ) {
             String voucherInfo = "%s\n".formatted(voucher.toString());
             fileOutputStream.write(voucherInfo.getBytes());
+            return Optional.of(voucher);
         } catch (IOException e) {
             throw new InvalidDataException(Message.INVALID_FILE_ACCESS, e.getCause());
         }
-        return voucher;
     }
 
     @Override
     public List<String> findAll() {
         List<String> voucherRecord = new ArrayList<>();
-        try {
-            File file = getFile();
-            BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader(file)
-            );
+        try (
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile()))
+        ) {
             String record;
             while ((record = bufferedReader.readLine()) != null) {
                 voucherRecord.add(record);
@@ -64,9 +60,5 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new InvalidDataException(Message.INVALID_FILE_ACCESS, e.getCause());
         }
         return voucherRecord;
-    }
-
-    @Override
-    public void setVoucherMap(Map<UUID, Voucher> map) {
     }
 }

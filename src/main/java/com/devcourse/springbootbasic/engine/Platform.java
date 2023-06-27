@@ -59,10 +59,8 @@ public class Platform {
                 yield true;
             }
             case CREATE -> {
-                // script 짜듯이 한다.
                 Voucher voucher = createVoucherTask();
                 output.printVoucher(voucher);
-                logger.debug("Voucher Creation Success");
                 yield false;
             }
             case LIST -> {
@@ -100,8 +98,12 @@ public class Platform {
 
     private Voucher createVoucherTask() {
         VoucherType voucherType = voucherTypeInput();
-        double voucherDiscount = voucherDiscountInput(voucherType);
-        return voucherService.createVoucher(new VoucherDto(voucherType, voucherDiscount));
+        return voucherService.createVoucher(
+                new VoucherDto(
+                        voucherType,
+                        voucherDiscountInput(voucherType)
+                )
+        );
     }
 
     private VoucherType voucherTypeInput() {

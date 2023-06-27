@@ -4,12 +4,13 @@ import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 // standard interface
 public interface VoucherRepository {
-    Voucher insert(Voucher voucher);
+    Optional<Voucher> insert(Voucher voucher);
 
-    <T> List<T> findAll();
+    List<String> findAll();
 
-    void setVoucherMap(Map<UUID, Voucher> map);
+    default void setVoucherMap(Map<UUID, Voucher> map) {}
 }

@@ -1,6 +1,7 @@
 package com.devcourse.springbootbasic.engine.io;
 
 import com.devcourse.springbootbasic.engine.config.Message;
+import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -29,13 +30,13 @@ public class OutputConsole {
         printLine();
     }
 
-    public <T> void printVoucher(T t) {
-        printMessage(MessageFormat.format("{0} {1}", t.toString(), Message.CREATION_DONE));
+    public void printVoucher(Voucher voucher) {
+        printMessage(MessageFormat.format("{0} {1}", voucher.toString(), Message.CREATION_DONE));
     }
 
-    public <T> void printVouchers(List<T> voucherList) {
+    public void printVouchers(List<String> voucherList) {
         printMessage(Message.LIST_VOUCHERS);
-        voucherList.forEach(this::printVoucher);
+        voucherList.forEach(this::printMessage);
         printLine();
     }
 

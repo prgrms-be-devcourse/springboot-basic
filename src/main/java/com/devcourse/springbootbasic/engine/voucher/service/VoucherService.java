@@ -1,5 +1,7 @@
 package com.devcourse.springbootbasic.engine.voucher.service;
 
+import com.devcourse.springbootbasic.engine.config.Message;
+import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.model.VoucherType;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import com.devcourse.springbootbasic.engine.voucher.domain.VoucherDto;
@@ -9,6 +11,7 @@ import com.devcourse.springbootbasic.engine.voucher.repository.VoucherRepository
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VoucherService {
@@ -27,23 +30,11 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherDto voucherDto) {
-        return voucherRepository.insert(convertDtoToDomain(voucherDto));
+        return voucherRepository.insert(convertDtoToDomain(voucherDto))
+                .orElseThrow(() -> new InvalidDataException(Message.INAVLID_VOUCHER_INSERTION));
     }
-    // TODO resolve this ok?
-    public <T> List<T> getAllVouchers() {
-        return voucherRepository.findAll();
-    } //
-}
 
-/*
-* data
-* 1. request, param (spring request parameter)
-* 2. entity -> (db 혹은 persist layer)
-* 3. response, result ->
-*
-* controller -> request, param
-* service -> response, entity
-* <- layer -> 집어넣을를 instance ->
-* repository -> entity (Voucher)
-*
-* */
+    public List<String> getAllVouchers() {
+        return voucherRepository.findAll();
+    }
+}
