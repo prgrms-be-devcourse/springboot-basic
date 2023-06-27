@@ -14,23 +14,7 @@ public class Voucher {
         this.policy = policy;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public VoucherType getType() {
-        return type;
-    }
-
-    public Policy getPolicy() {
-        return policy;
-    }
-
-    public int useVoucherAndRetrieve(int receivedAmount) {
-        return policy.execute(receivedAmount);
-    }
-
-    private void validate(VoucherType type, Policy policy) {
+    private void validate(VoucherType type, DiscountPolicy policy) {
         validateType(type);
         validatePolicy(policy);
     }
@@ -45,5 +29,9 @@ public class Voucher {
         if (policy == null) {
             throw new RuntimeException("바우처 정책은 빈 값일 수 없습니다");
         }
+    }
+
+    public int useVoucherAndRetrieve(int receivedAmount) {
+        return policy.discount(receivedAmount);
     }
 }
