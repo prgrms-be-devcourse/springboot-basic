@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.view;
 
+import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
@@ -16,4 +17,6 @@ public interface Output {
     void printCreatedMsg(Voucher voucher);
 
     void printVoucherList(List<VoucherDto> voucher);
+
+    void printBlackLists(List<CustomerDto> blackLists);
 }

@@ -33,7 +33,6 @@ public class VoucherApp implements Runnable {
             switch (command) {
                 case EXIT -> {
                     isPower = false;
-                    return;
                 }
 
                 case CREATE -> {
@@ -45,6 +44,7 @@ public class VoucherApp implements Runnable {
                 }
 
                 case BLACKLIST -> {
+                    customerManagementApp.readBlackList();
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.view.console;
 
+import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
@@ -104,10 +105,10 @@ public class ConsoleOutputView implements Output {
         }, text -> {
             switch (voucherType) {
                 case FIXED_VOUCHER -> {
-                    text.println("0 이상으로 입력해주세요.");
+                    text.println("Please enter a value greater than or equal to 0.");
                 }
                 case PERCENT_VOUCHER -> {
-                    text.println("0 이상 100 이하로 입력해주세요.");
+                    text.println("Please enter a value between 0 and 100");
                 }
             }
         });
@@ -117,16 +118,27 @@ public class ConsoleOutputView implements Output {
     public void printCreatedMsg(Voucher voucher) {
         VoucherDto voucherDto = voucher.convertVoucherDto();
         log.info("The discount coupon {} was created successfully.", voucherDto.getVoucherInfo());
-        textTerminal.println(voucherDto.getVoucherInfo() + " 할인권이 생성되었습니다.");
+        textTerminal.println(voucherDto.getVoucherInfo() + " Voucher was created");
     }
 
     @Override
     public void printVoucherList(List<VoucherDto> voucherDtos) {
         if (voucherDtos.isEmpty()) {
             log.error("The user tried to view the list, but currently, the list is empty");
-            textTerminal.println("저장되어있는 할인권이 없습니다.");
+            textTerminal.println("There are no available discount vouchers stored.");
             return;
         }
         voucherDtos.forEach((voucher -> textTerminal.println(voucher.getVoucherInfo())));
+    }
+
+    @Override
+    public void printBlackLists(List<CustomerDto> blackLists) {
+        if (blackLists.isEmpty()) {
+            log.error("The user tried to view the list, but currently, the list is empty");
+            textTerminal.println("There are no blacklisted entries currently registered.");
+            return;
+        }
+
+        blackLists.forEach((blackList -> textTerminal.println(blackList.getCustomerInfo())));
     }
 }
