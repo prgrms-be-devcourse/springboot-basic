@@ -1,9 +1,10 @@
 package prgms.spring_week1.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
-import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
-import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class Console implements Input,Output{
+    private static final Logger log = LoggerFactory.getLogger(Console.class);
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final String NEW_LINE = "\n";
     private final String printMenuListMessage = "=== Voucher Program ==="+ NEW_LINE +

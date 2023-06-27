@@ -1,5 +1,7 @@
 package prgms.spring_week1;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
@@ -9,6 +11,7 @@ import prgms.spring_week1.domain.voucher.service.VoucherService;
 import prgms.spring_week1.exception.EmptyListException;
 import prgms.spring_week1.exception.NoSuchOptionValue;
 import prgms.spring_week1.exception.NoSuchVoucherType;
+import prgms.spring_week1.io.Console;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
@@ -21,6 +24,7 @@ public class CommandLine implements Runnable{
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private boolean IS_RUNNING = true;
+    private static final Logger log = LoggerFactory.getLogger(CommandLine.class);
 
     public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
