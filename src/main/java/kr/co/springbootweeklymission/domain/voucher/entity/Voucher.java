@@ -1,19 +1,17 @@
 package kr.co.springbootweeklymission.domain.voucher.entity;
 
-import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
 import kr.co.springbootweeklymission.domain.voucher.api.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.domain.voucher.api.response.VoucherResDTO;
+import kr.co.springbootweeklymission.domain.voucher.entity.model.VoucherPolicy;
 import kr.co.springbootweeklymission.domain.voucher.exception.WrongVoucherPolicyException;
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-@Component
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Voucher {
