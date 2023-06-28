@@ -16,7 +16,7 @@ public class VoucherService {
     private VoucherRepository voucherRepository;
 
     @Autowired
-    public VoucherService(VoucherRepositoryImpl voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
