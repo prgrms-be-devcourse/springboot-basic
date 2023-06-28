@@ -2,17 +2,10 @@ package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
-    private final long amount = 20;
+public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID voucherId) {
-        this.voucherId = voucherId;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
+        super(voucherId);
     }
 
     @Override
@@ -23,10 +16,5 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(Long beforeDiscount) {
         return beforeDiscount - amount;
-    }
-
-    @Override
-    public long getAmount() {
-        return amount;
     }
 }

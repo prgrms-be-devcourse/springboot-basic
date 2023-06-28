@@ -31,8 +31,4 @@ public class FileMemberRepository implements MemberRepository{
         return List.copyOf(storage.values());
     }
 
-    @PreDestroy
-    public void fileWrite() {
-        Loader.saveMemoryMemberToFile(storage, filePath);
-    }
 }

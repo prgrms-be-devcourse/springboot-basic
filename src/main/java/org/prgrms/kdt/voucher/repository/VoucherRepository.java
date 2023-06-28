@@ -1,9 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.springframework.expression.AccessException;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
