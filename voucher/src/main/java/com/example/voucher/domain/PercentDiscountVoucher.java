@@ -3,6 +3,7 @@ package com.example.voucher.domain;
 import java.util.UUID;
 
 import com.example.voucher.domain.enums.VoucherType;
+import com.example.voucher.utils.validator.VoucherValidator;
 
 public class PercentDiscountVoucher implements Voucher {
 
@@ -14,6 +15,7 @@ public class PercentDiscountVoucher implements Voucher {
 	VoucherType voucherType = VoucherType.PercentDiscount;
 
 	public PercentDiscountVoucher(UUID voucherId, long percent) {
+		VoucherValidator.validatePercent(percent);
 		this.voucherId = voucherId;
 		this.percent = percent;
 	}
@@ -25,6 +27,8 @@ public class PercentDiscountVoucher implements Voucher {
 
 	@Override
 	public long discount(long beforeAmount) {
+		VoucherValidator.validateNonZero(beforeAmount);
+
 		return beforeAmount * (percent / PERCENT_DIVISOR);
 	}
 
