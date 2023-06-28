@@ -5,6 +5,10 @@ import org.programmers.VoucherManagement.DiscountType;
 
 public interface Input {
     CommandType readType();
+
     DiscountType readDiscountType();
-    int readDiscountValue();
+
+    int readFixedDiscountValue();
+
+    int readPercentDiscountValue();
 }
