@@ -7,9 +7,11 @@ import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.view.ConsoleView;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ConsoleApplication implements CommandLineRunner {
@@ -21,9 +23,15 @@ public class ConsoleApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         while (isRunning) {
-            String menuNumber = consoleView.readMenuNumber();
-            Menu selectedMenu = Menu.of(menuNumber);
-            executeMenu(selectedMenu);
+            try {
+                String menuNumber = consoleView.readMenuNumber();
+                Menu selectedMenu = Menu.of(menuNumber);
+                executeMenu(selectedMenu);
+            } catch (Exception e) {
+                String message = e.getMessage();
+                log.error(message);
+                consoleView.showExceptionMessage(message);
+            }
         }
     }
 

@@ -48,6 +48,10 @@ public class ConsoleView {
         return inputView.inputWithTrimming();
     }
 
+    public void showExceptionMessage(String message) {
+        outputView.printWithLineBreak(message);
+    }
+
     public void showQuitMessage() {
         outputView.printWithLineBreak(QUIT_MESSAGE);
     }
