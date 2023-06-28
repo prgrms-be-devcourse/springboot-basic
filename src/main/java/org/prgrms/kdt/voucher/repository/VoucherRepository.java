@@ -10,6 +10,8 @@ import java.util.UUID;
 
 public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId); //?
-    Voucher insert(Voucher voucher) throws IOException; //?
-    List<Voucher> findAll() throws IOException; //?
+
+    Voucher insert(Voucher voucher); //?
+
+    List<Voucher> findAll(); //?
 }

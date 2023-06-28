@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface MemberRepository {
-    List<Member> findAllBlackMember() throws IOException;
+    List<Member> findAllBlackMember();
 }

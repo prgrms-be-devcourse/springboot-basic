@@ -2,18 +2,14 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 @Profile({"dev","default"})
-@Repository
+@Component
 public class MemoryVoucherRepository implements VoucherRepository{
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

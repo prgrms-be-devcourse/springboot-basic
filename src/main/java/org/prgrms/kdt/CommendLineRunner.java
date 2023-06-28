@@ -4,6 +4,7 @@ import org.prgrms.kdt.commendLine.ConsoleInput;
 import org.prgrms.kdt.commendLine.ConsoleOutput;
 import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.member.controller.MemberController;
+import org.prgrms.kdt.util.ErrorMessage;
 import org.prgrms.kdt.util.Menu;
 import org.prgrms.kdt.voucher.controller.VoucherController;
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 
 @Component
 public class CommendLineRunner implements CommandLineRunner {
@@ -43,22 +43,21 @@ public class CommendLineRunner implements CommandLineRunner {
     }
 
     // handler mapping
-    private boolean executeAction(Menu menu) throws IOException {
-        if (menu == Menu.CREATE) { //swtich
-            voucherController.create();
-            return true;
+    private boolean executeAction(Menu menu){
+        switch (menu) {
+            case CREATE:
+                voucherController.create();
+                return true;
+            case EXIT:
+                return false;
+            case LIST:
+                voucherController.findAll();
+                return true;
+            case BLACK_LIST:
+                memberController.findAllBlackMember();
+                return true;
+            default:
+                throw new InvalidInputException(ErrorMessage.INVALID_INPUT);
         }
-        if (menu == Menu.EXIT) {
-            return false;
-        }
-        if (menu == Menu.LIST) {
-            voucherController.findAll();
-            return true;
-        }
-        if (menu == Menu.BLACK_LIST) {
-            memberController.findAllBlackMember();
-            return true;
-        }
-        throw new InvalidInputException();
     }
 }

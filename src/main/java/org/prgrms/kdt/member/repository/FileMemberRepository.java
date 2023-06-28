@@ -1,30 +1,38 @@
 package org.prgrms.kdt.member.repository;
 
 import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.member.domain.MemberStatus;
-import org.prgrms.kdt.util.Converter;
+import org.prgrms.kdt.util.Loader;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-@Repository
+@Component
 public class FileMemberRepository implements MemberRepository{
     @Value("${filePath.blackList}")
     private String filePath;
-    @Override
-    public List<Member> findAllBlackMember() throws IOException {
-        List<Member> blackList = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        String line = "";
+    private Map<UUID, Member> storage;
 
-        while ((line = reader.readLine()) != null) {
-            blackList.add(Converter.stringToMember(line, MemberStatus.BLACK));
-        }
-        return blackList;
+//    public FileMemberRepository() {
+//        this.storage = Loader.loadFileToMemoryMember(filePath);
+//    }
+
+    @PostConstruct
+    public void init(){
+        this.storage = Loader.loadFileToMemoryMember(filePath);
+    }
+
+    @Override
+    public List<Member> findAllBlackMember(){
+        return List.copyOf(storage.values());
+    }
+
+    @PreDestroy
+    public void fileWrite() {
+        Loader.saveMemoryMemberToFile(storage, filePath);
     }
 }

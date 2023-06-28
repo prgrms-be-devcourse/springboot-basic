@@ -19,18 +19,12 @@ public final class Converter {
         return MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
-    public static String[] stringToArray(String originalString, String delimiter){
-        return originalString.split(delimiter);
+    public static String memberToString(Member member){
+        return MessageFormat.format("{0},{1}", member.getMemberId(), member.getMemberName());
     }
 
-    public static Voucher stringArrToVoucher(String[] stringArr){
-        if (stringArr[1].equals("FixedAmountVoucher")){
-            return new FixedAmountVoucher(UUID.fromString(stringArr[0]));
-        }
-        if (stringArr[1].equals("PercentDiscountVoucher")){
-            return new PercentDiscountVoucher(UUID.fromString(stringArr[0]));
-        }
-        throw new InvalidInputException();
+    public static String[] stringToArray(String originalString, String delimiter){
+        return originalString.split(delimiter);
     }
 
     public static Voucher stringToVoucher(String str){

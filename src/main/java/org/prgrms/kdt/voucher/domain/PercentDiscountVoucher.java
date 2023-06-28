@@ -5,7 +5,6 @@ import java.util.UUID;
 // enum && using enum
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final String voucherType = "PercentDiscountVoucher";
     private final long amount = 20;
 
     public PercentDiscountVoucher(UUID voucherId) {
@@ -19,12 +18,14 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String getVoucherType() {
-        return voucherType;
+        return VoucherType.PERCENT.getName();
     }
+
     @Override
     public long getAmount() {
         return amount;
     }
+
     @Override
     public long discount(Long beforeDiscount) {
         return beforeDiscount * (amount / 100);

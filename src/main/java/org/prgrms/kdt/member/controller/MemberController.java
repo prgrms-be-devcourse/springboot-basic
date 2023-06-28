@@ -3,12 +3,11 @@ package org.prgrms.kdt.member.controller;
 import org.prgrms.kdt.commendLine.ConsoleOutput;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.service.MemberService;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.List;
 
-@Controller
+@Component
 public class MemberController {
     private final MemberService memberService;
 
@@ -16,7 +15,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public void findAllBlackMember() throws IOException {
+    public void findAllBlackMember() {
         List<Member> allBlackMember = memberService.findAllBlackMember();
         ConsoleOutput.printAllBlackList(allBlackMember);
     }
