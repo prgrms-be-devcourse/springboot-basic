@@ -20,8 +20,8 @@ class FixedDiscountPolicyTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {-1, -1999, 100000000})
-    @DisplayName("고정 할인 정책을 생성에 실패한다")
+    @ValueSource(ints = {-1, 100_001})
+    @DisplayName("고정 할인 정책을 생성에 실패한다 - 임계 범위 초과")
     void failCreateFixedDiscountPolicy(int amount) {
         assertThatThrownBy(() -> new FixedDiscountPolicy(amount))
                 .isExactlyInstanceOf(RuntimeException.class)
