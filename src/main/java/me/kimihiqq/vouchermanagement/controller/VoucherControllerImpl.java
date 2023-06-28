@@ -18,7 +18,6 @@ import me.kimihiqq.vouchermanagement.io.Console;
 public class VoucherControllerImpl implements VoucherController {
     private final Console console;
     private final VoucherService voucherService;
-
     private final CustomerService customerService;
 
     @Override
@@ -55,7 +54,7 @@ public class VoucherControllerImpl implements VoucherController {
                 }
             } catch (Exception e) {
                 log.error("Error reading input", e);
-                console.printLine("입력을 읽는 중에 오류가 발생했습니다.");
+                console.printLine("입력을 읽는 중 오류가 발생했습니다.");
             }
         }
     }
