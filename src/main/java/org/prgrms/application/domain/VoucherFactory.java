@@ -7,7 +7,7 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
-    public static Voucher create(VoucherType voucherType, double voucherDetail) {
+    public Voucher create(VoucherType voucherType, double voucherDetail) {
         switch (voucherType) {
             case FIXED:
                 return new FixedAmountVoucher(UUID.randomUUID(), voucherDetail);
