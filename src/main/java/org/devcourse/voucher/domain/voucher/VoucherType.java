@@ -20,8 +20,10 @@ public enum VoucherType {
     }
 
     public static VoucherType find(String typeName) {
+        String inputTypeName = typeName.toLowerCase();
+
         return Arrays.stream(values())
-                .filter(type -> type.typeName.equals(typeName))
+                .filter(type -> type.typeName.equals(inputTypeName))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("사용 불가능한 바우처 타입입니다"));
     }
