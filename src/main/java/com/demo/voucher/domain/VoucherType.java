@@ -3,10 +3,13 @@ package com.demo.voucher.domain;
 import com.demo.voucher.domain.dto.VoucherCommandDescriptionDto;
 import lombok.Getter;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 public enum VoucherType {
@@ -20,6 +23,9 @@ public enum VoucherType {
             "할인 비율은 1 이상 99 이하의 정수여야 합니다. 할인 비율을 입력해주세요 : ",
             (String inputAmount) -> Pattern.matches("^(?:[1-9]|[1-9]\\d)$", inputAmount));
 
+
+    private static final Map<String, VoucherType> VOUCHER_TYPE_MAP = Collections.unmodifiableMap(Stream.of(values())
+            .collect(Collectors.toMap(VoucherType::getCommand, Function.identity())));
 
     private final String command;
     private final String voucherDescription;
@@ -35,9 +41,7 @@ public enum VoucherType {
     }
 
     public static Optional<VoucherType> getVoucherTypeByCommand(String inputVoucherType) {
-        return Arrays.stream(values())
-                .filter(v -> v.getCommand().equals(inputVoucherType))
-                .findFirst();
+        return Optional.ofNullable(VOUCHER_TYPE_MAP.get(inputVoucherType));
     }
 
     private String getCommand() {
