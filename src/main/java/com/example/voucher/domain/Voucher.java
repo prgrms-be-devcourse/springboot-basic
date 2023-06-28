@@ -24,7 +24,7 @@ public class Voucher {
         this.amount = amount;
     }
 
-    public double applyDiscount(DiscountPolicy discountPolicy) {
+    public double applyVoucherDiscount(DiscountPolicy discountPolicy) {
         return discountPolicy.applyDiscount(this);
     }
 }
