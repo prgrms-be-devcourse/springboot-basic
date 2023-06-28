@@ -2,12 +2,12 @@ package com.prgmrs.voucher.controller;
 
 import com.prgmrs.voucher.service.BlacklistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.UUID;
 
-@Controller
+@Component
 public class BlacklistController {
     private BlacklistService blacklistService;
     @Autowired
