@@ -1,7 +1,7 @@
 package com.prgrms.model.voucher;
 
+import com.prgrms.model.order.OrderItem;
 import java.util.UUID;
-
 
 public abstract class Voucher {
     public UUID voucherId;
@@ -22,7 +22,13 @@ public abstract class Voucher {
         return discount;
     }
 
-    public VoucherPolicy getVoucherPolicy() { return voucherPolicy; }
+    public VoucherPolicy getVoucherPolicy() {
+        return voucherPolicy;
+    }
 
-    abstract public long sale(long beforeDiscount);
+    public long getRealPrice(OrderItem orderItem) {
+        return sale(orderItem.productPrice());
+    }
+    abstract public long sale(long price);
+
 }
