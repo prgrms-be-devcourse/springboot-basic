@@ -1,5 +1,7 @@
 package org.prgrms.kdtspringdemo;
 
+import org.prgrms.kdtspringdemo.view.console.input.ScannerInput;
+import org.prgrms.kdtspringdemo.view.console.output.PrintOutput;
 import org.prgrms.kdtspringdemo.voucher.constant.CommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
@@ -11,11 +13,10 @@ import java.util.List;
 
 @Component
 public class CommandLineApplication {
-    private final VoucherConsole voucherConsole;
+    private final VoucherConsole voucherConsole = new VoucherConsole(new ScannerInput(), new PrintOutput());
     private final VoucherService voucherService;
 
-    public CommandLineApplication(VoucherConsole voucherConsole, VoucherService voucherService) {
-        this.voucherConsole = voucherConsole;
+    public CommandLineApplication(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 

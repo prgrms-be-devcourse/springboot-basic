@@ -4,9 +4,7 @@ import org.prgrms.kdtspringdemo.view.console.input.Input;
 import org.prgrms.kdtspringdemo.view.console.output.Output;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
-import org.springframework.stereotype.Component;
 
-@Component
 public class VoucherConsole {
     private static final String INIT_MESSAGE = "=== Voucher Program ===\n" +
             "Type exit to exit the program.\n" +
