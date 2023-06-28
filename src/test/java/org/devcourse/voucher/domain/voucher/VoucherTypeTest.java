@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class VoucherTypeTest {
 
@@ -27,4 +28,12 @@ class VoucherTypeTest {
         assertThat(foundVoucherType).isEqualTo(VoucherType.PERCENT);
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"point", "perceent", "fixx", "fiiix", "money"})
+    @DisplayName("제공되지 않은 바우처 타입을 입력해 실패한다")
+    void failFindVoucherTypePercent(String type) {
+        assertThatThrownBy(() -> VoucherType.find(type))
+                .isExactlyInstanceOf(RuntimeException.class)
+                .hasMessage("사용 불가능한 바우처 타입입니다");
+    }
 }
