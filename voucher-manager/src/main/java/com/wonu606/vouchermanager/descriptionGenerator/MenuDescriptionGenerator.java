@@ -1,7 +1,6 @@
 package com.wonu606.vouchermanager.descriptionGenerator;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class MenuDescriptionGenerator {
 

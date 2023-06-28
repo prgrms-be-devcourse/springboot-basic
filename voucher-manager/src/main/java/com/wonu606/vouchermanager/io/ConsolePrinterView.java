@@ -45,6 +45,7 @@ public class ConsolePrinterView {
     public void printExitMessage() {
         textTerminal.println(exitDescription);
     }
+
     public void close() {
         textTerminal.dispose();
     }

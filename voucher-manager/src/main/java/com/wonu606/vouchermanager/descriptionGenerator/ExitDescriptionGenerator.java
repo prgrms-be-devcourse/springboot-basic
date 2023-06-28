@@ -1,7 +1,5 @@
 package com.wonu606.vouchermanager.descriptionGenerator;
 
-import java.util.List;
-
 public class ExitDescriptionGenerator {
 
     public String generate() {

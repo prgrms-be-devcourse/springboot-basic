@@ -2,7 +2,7 @@ package com.wonu606.Controller.command;
 
 import com.wonu606.vouchermanager.io.ConsolePrinterView;
 
-public class VoucherExitCommand implements VoucherCommand{
+public class VoucherExitCommand implements VoucherCommand {
 
     private final ConsolePrinterView printerView;
 
