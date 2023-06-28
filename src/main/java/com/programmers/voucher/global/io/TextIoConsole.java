@@ -4,7 +4,7 @@ import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.global.util.CommonErrorMessages;
 import com.programmers.voucher.global.util.ConsoleMessages;
-import com.programmers.voucher.global.util.VoucherErrorMessages;
+import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.Objects;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.*;
 import static com.programmers.voucher.global.util.ConsoleMessages.*;
-import static com.programmers.voucher.global.util.VoucherErrorMessages.*;
+import static com.programmers.voucher.domain.voucher.util.VoucherErrorMessages.*;
 
 @Component
 public class TextIoConsole implements Console {

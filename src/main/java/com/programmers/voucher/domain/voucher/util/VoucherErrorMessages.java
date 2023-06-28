@@ -1,4 +1,4 @@
-package com.programmers.voucher.global.util;
+package com.programmers.voucher.domain.voucher.util;
 
 public interface VoucherErrorMessages {
     String UNHANDLED_VOUCHER_TYPE = "Voucher type is unhandled";

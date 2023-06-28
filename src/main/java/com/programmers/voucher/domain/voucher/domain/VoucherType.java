@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.programmers.voucher.global.util.VoucherErrorMessages.INVALID_VOUCHER_TYPE;
+import static com.programmers.voucher.domain.voucher.util.VoucherErrorMessages.INVALID_VOUCHER_TYPE;
 
 public enum VoucherType {
     FIXED_AMOUNT("fixed",

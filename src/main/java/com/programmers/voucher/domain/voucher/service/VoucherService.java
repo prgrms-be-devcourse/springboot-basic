@@ -3,12 +3,15 @@ package com.programmers.voucher.domain.voucher.service;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
+import com.programmers.voucher.domain.voucher.util.VoucherMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.programmers.voucher.domain.voucher.util.VoucherMessages.CREATED_NEW_VOUCHER;
 
 @Service
 public class VoucherService {
@@ -26,7 +29,8 @@ public class VoucherService {
 
         voucherRepository.save(voucher);
 
-        LOG.info("Created new Voucher. Voucher: {}", voucher.toString());
+        String logMessage = VoucherMessages.addVoucher(CREATED_NEW_VOUCHER, voucher.toString());
+        LOG.info(logMessage);
         return voucherId;
     }
 
