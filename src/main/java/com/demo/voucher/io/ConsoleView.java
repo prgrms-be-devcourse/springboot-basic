@@ -2,6 +2,7 @@ package com.demo.voucher.io;
 
 import com.demo.voucher.domain.Voucher;
 import com.demo.voucher.domain.VoucherType;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
+@Component
 public class ConsoleView implements Input, Output {
 
     private static final Scanner scanner = new Scanner(System.in);
