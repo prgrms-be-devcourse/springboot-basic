@@ -2,7 +2,8 @@ package org.prgrms.kdtspringdemo.view.console;
 
 import org.prgrms.kdtspringdemo.view.console.input.Input;
 import org.prgrms.kdtspringdemo.view.console.output.Output;
-import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
+import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +17,8 @@ public class VoucherConsole {
             "다시 입력 부탁드립니다.\n";
     private static final String CHOICE_VOUCHER_TYPE_MESSAGE = "바우처 타입을 입력하세요.\n(ex : FIXED or PERCENT)\n";
     private static final String FIXED_DISCOUNT_VOUCHER_MESSAGE = "할인 금액을 입력하세요.\n";
+    private static final String SUCCESS_CREATED_FIXED_VOUCHER = "type : %s\ndiscount : %s 원\n";
+    private static final String SUCCESS_CREATED_PERCENT_VOUCHER = "type : %s\ndiscount : %s 퍼센트\n";
     private final Input input;
     private final Output output;
 
@@ -28,7 +31,7 @@ public class VoucherConsole {
         output.write(INIT_MESSAGE);
     }
 
-    public String InputCommand() {
+    public String inputCommand() {
         return input.read();
     }
 
@@ -40,17 +43,23 @@ public class VoucherConsole {
         output.write(INVALID_COMMAND_MESSAGE);
     }
 
-    public String ChooseVoucherType() {
+    public String chooseVoucherType() {
         output.write(CHOICE_VOUCHER_TYPE_MESSAGE);
         return input.read();
     }
 
-    public Long InputDiscountByVoucher() {
+    public Long inputDiscountByVoucher() {
         output.write(FIXED_DISCOUNT_VOUCHER_MESSAGE);
         return Long.parseLong(input.read());
     }
 
-    public void printCreatedVoucher(Voucher voucher) {
-        output.write(voucher);
+    public void printCreatedVoucher(VoucherDto voucher) {
+        if (voucher.getVoucherType().equals(VoucherType.FIXED)) {
+            output.writeFormat(SUCCESS_CREATED_FIXED_VOUCHER, voucher.getVoucherType().name(), voucher.getDiscount());
+        }
+
+        if (voucher.getVoucherType().equals(VoucherType.PERCENT)) {
+            output.writeFormat(SUCCESS_CREATED_PERCENT_VOUCHER, voucher.getVoucherType().name(), voucher.getDiscount());
+        }
     }
 }

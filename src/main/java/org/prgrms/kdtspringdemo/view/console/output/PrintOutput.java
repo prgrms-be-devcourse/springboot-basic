@@ -8,4 +8,9 @@ public class PrintOutput implements Output {
     public <T> void write(T value) {
         System.out.print(value);
     }
+
+    @Override
+    public <T> void writeFormat(String format, T... value) {
+        System.out.printf(format, value);
+    }
 }

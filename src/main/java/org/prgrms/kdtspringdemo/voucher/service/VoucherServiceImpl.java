@@ -1,6 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
-import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
+import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
@@ -20,15 +21,17 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Voucher createVoucher(VoucherType voucherType, long discount) {
-        switch (voucherType) {
+    public VoucherDto createVoucher(VoucherDto voucherDto) {
+        switch (voucherDto.getVoucherType()) {
             case FIXED -> {
-                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherType, discount);
-                return voucherRepository.save(fixedAmountVoucher);
+                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getDiscount());
+                Voucher voucher = voucherRepository.save(fixedAmountVoucher);
+                return VoucherDto.toDto(voucher);
             }
             case PERCENT -> {
-                Voucher percentAmountVoucher = new PercentAmountVoucher(UUID.randomUUID(), voucherType, discount);
-                return voucherRepository.save(percentAmountVoucher);
+                Voucher percentAmountVoucher = new PercentAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getDiscount());
+                Voucher voucher = voucherRepository.save(percentAmountVoucher);
+                return VoucherDto.toDto(voucher);
             }
             default -> {
                 throw new IllegalArgumentException(INVALID_VOUCHER_TYPE);
@@ -37,7 +40,10 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public List<Voucher> getAllVoucher() {
-        return voucherRepository.findAll();
+    public List<VoucherDto> getAllVoucher() {
+        List<Voucher> voucherList = voucherRepository.findAll();
+        return voucherList.stream()
+                .map(v -> new VoucherDto(v.getVoucherType(), v.getDiscount()))
+                .collect(Collectors.toList());
     }
 }

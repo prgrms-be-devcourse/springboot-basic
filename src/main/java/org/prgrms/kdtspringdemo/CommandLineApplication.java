@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo;
 
 import org.prgrms.kdtspringdemo.voucher.constant.CommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
+import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
 import org.springframework.stereotype.Component;
@@ -36,18 +36,23 @@ public class CommandLineApplication {
             }
             case CREATE -> {
                 String userVoucherType = voucherConsole.chooseVoucherType().toUpperCase();
-                VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
-                Long discount = voucherConsole.inputDiscountByVoucher();
-                Voucher voucher = voucherService.createVoucher(voucherType, discount);
+                VoucherDto voucher = createVoucher(userVoucherType);
                 voucherConsole.printCreatedVoucher(voucher);
             }
             case LIST -> {
-                List<Voucher> vouchers = voucherService.getAllVoucher();
+                List<VoucherDto> vouchers = voucherService.getAllVoucher();
                 vouchers.forEach(voucherConsole::printCreatedVoucher);
             }
             default -> {
                 voucherConsole.printInvalidCommandSelected();
             }
         }
+    }
+
+    private VoucherDto createVoucher(String userVoucherType) {
+        VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
+        Long discount = voucherConsole.inputDiscountByVoucher();
+        VoucherDto voucherDto = new VoucherDto(voucherType, discount);
+        return voucherService.createVoucher(voucherDto);
     }
 }
