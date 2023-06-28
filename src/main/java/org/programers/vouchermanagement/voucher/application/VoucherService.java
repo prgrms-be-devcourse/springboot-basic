@@ -4,6 +4,7 @@ import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherRepository;
 import org.programers.vouchermanagement.voucher.dto.VoucherCreationRequest;
 import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
+import org.programers.vouchermanagement.voucher.dto.VoucherUpdateRequest;
 import org.programers.vouchermanagement.voucher.dto.VouchersResponse;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,13 @@ public class VoucherService {
     public VouchersResponse findAll() {
         List<Voucher> result = voucherRepository.findAll();
         return new VouchersResponse(result.stream().map(VoucherResponse::new).collect(Collectors.toList()));
+    }
+
+    public void update(VoucherUpdateRequest request) {
+        voucherRepository.update(new Voucher(request.getId(), request.getPolicy(), request.getType()));
+    }
+
+    public void deleteById(UUID id) {
+        voucherRepository.deleteById(id);
     }
 }
