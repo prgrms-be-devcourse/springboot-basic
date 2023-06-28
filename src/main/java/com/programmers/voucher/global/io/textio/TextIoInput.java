@@ -1,12 +1,12 @@
-package com.programmers.voucher.global.io;
+package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
-import com.programmers.voucher.global.util.CommonErrorMessages;
-import com.programmers.voucher.global.util.ConsoleMessages;
 import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
+import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.global.io.ConsoleInput;
+import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.beryx.textio.TextIO;
-import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.*;
-import static com.programmers.voucher.global.util.ConsoleMessages.*;
 import static com.programmers.voucher.domain.voucher.util.VoucherErrorMessages.*;
+import static com.programmers.voucher.global.util.ConsoleMessages.*;
 
 @Component
-public class TextIoConsole implements Console {
+public class TextIoInput implements ConsoleInput {
     private final TextIO textIO;
 
-    public TextIoConsole(TextIO textIO) {
+    public TextIoInput(TextIO textIO) {
         this.textIO = textIO;
     }
 
@@ -32,29 +32,6 @@ public class TextIoConsole implements Console {
                 .read();
 
         return ConsoleCommandType.getValue(command);
-    }
-
-    @Override
-    public void printCommandSet() {
-        TextTerminal<?> textTerminal = textIO.getTextTerminal();
-
-        textTerminal.println(ConsoleMessages.VOUCHER_PROGRAM);
-        printCommand(ConsoleCommandType.EXIT, EXIT_BEHAVIOR);
-        printCommand(ConsoleCommandType.CREATE, CREATE_BEHAVIOR);
-        printCommand(ConsoleCommandType.LIST, LIST_BEHAVIOR);
-        printCommand(ConsoleCommandType.HELP, HELP_BEHAVIOR);
-        printCommand(ConsoleCommandType.BLACKLIST, BLACKLIST_BEHAVIOR);
-    }
-
-    private void printCommand(ConsoleCommandType commandType, String behavior) {
-        TextTerminal<?> textTerminal = textIO.getTextTerminal();
-
-        textTerminal.print(INPUT);
-        textTerminal.executeWithPropertiesConfigurator(
-                props -> props.setPromptBold(true),
-                t -> t.print(" " + commandType.getInput() + " ")
-        );
-        textTerminal.println(behavior);
     }
 
     @Override
@@ -125,17 +102,4 @@ public class TextIoConsole implements Console {
         }
         return messages;
     }
-
-    @Override
-    public void print(String result) {
-        TextTerminal<?> textTerminal = textIO.getTextTerminal();
-        textTerminal.println(result);
-    }
-
-    @Override
-    public void exit() {
-        TextTerminal<?> textTerminal = textIO.getTextTerminal();
-        textTerminal.println(EXIT_CONSOLE);
-    }
-
 }

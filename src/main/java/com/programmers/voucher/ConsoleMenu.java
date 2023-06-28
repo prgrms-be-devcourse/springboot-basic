@@ -2,18 +2,13 @@ package com.programmers.voucher;
 
 import com.programmers.voucher.domain.customer.controller.CustomerController;
 import com.programmers.voucher.domain.voucher.controller.VoucherController;
-import com.programmers.voucher.global.exception.DataAccessException;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.ConsoleCommandType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConsoleMenu implements CommandLineRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(ConsoleMenu.class);
-
     private final Console console;
     private final VoucherController voucherController;
     private final CustomerController customerController;
@@ -38,15 +33,14 @@ public class ConsoleMenu implements CommandLineRunner {
         boolean keepRunningClient = true;
         try {
             keepRunningClient = runClient();
+
         } catch (IllegalArgumentException ex) {
-            LOG.warn("Invalid input occurred.", ex);
             console.print(ex.getMessage());
-        } catch (DataAccessException ex) {
+
+        }  catch (RuntimeException ex) {
             console.print(ex.getMessage());
 
             keepRunningClient = false;
-        } catch (RuntimeException ex) {
-            LOG.error("Unexpected exception thrown.", ex);
         }
         return keepRunningClient;
     }
