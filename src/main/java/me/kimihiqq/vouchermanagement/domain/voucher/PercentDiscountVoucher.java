@@ -21,7 +21,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     private void validateDiscountRate(long discountRate) {
-        if (discountRate < 0 || discountRate > 100) {
+        if (discountRate <= 0 || discountRate > 100) {
             throw new IllegalArgumentException("Discount rate must be between 0 and 100.");
         }
     }

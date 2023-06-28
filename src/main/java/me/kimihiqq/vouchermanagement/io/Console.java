@@ -31,12 +31,6 @@ public class Console implements Input, Output {
         while (true) {
             try {
                 long discount = Long.parseLong(readLine());
-                if (discount < 0) {
-                    throw new IllegalArgumentException("Discount amount cannot be negative.");
-                }
-                if (discount > 100) {
-                    throw new IllegalArgumentException("Discount rate cannot be greater than 100.");
-                }
                 return discount;
             } catch (NumberFormatException e) {
                 printLine("Please enter a valid number.");
