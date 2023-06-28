@@ -1,4 +1,4 @@
-package kr.co.programmers.school.voucher.view;
+package kr.co.programmers.school.voucher.global.view;
 
 import java.util.Scanner;
 

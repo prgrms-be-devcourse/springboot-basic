@@ -1,7 +1,7 @@
 package kr.co.programmers.school.voucher.global.config;
 
-import kr.co.programmers.school.voucher.view.InputView;
-import kr.co.programmers.school.voucher.view.OutputView;
+import kr.co.programmers.school.voucher.global.view.InputView;
+import kr.co.programmers.school.voucher.global.view.OutputView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package kr.co.programmers.school.voucher.view;
+package kr.co.programmers.school.voucher.global.view;
 
 import kr.co.programmers.school.voucher.domain.voucher.dto.VoucherListResponse;
 
@@ -20,12 +20,8 @@ public class OutputView {
     }
 
     public void printFixedDiscountVoucherMessage() {
-        System.out.println("할인 금액을 입력하세요. (자연수만 가능)");
+        System.out.println("할인 금액을 입력하세요. (2,147,483,647 이하 자연수만 가능)");
         printInputMessage();
-    }
-
-    public void printInvalidRangeMessage() {
-        System.out.println("잘못된 입력값입니다.");
     }
 
     public void printSuccessMessage() {
@@ -33,6 +29,11 @@ public class OutputView {
     }
 
     public void printVoucherList(VoucherListResponse voucherListResponse) {
+        if (voucherListResponse.isEmpty()) {
+            System.out.println("등록된 바우처가 없습니다.");
+            return;
+        }
+
         System.out.println(voucherListResponse.getVoucherList());
     }
 

@@ -21,7 +21,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public VoucherListResponse getAllVoucher() {
+    public VoucherListResponse getAllVouchers() {
         List<Voucher> voucherList = voucherRepository.findAll();
         VoucherListResponse voucherListResponse = VoucherListResponse.from(voucherList);
         return voucherListResponse;
