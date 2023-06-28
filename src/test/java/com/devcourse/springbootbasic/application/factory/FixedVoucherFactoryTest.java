@@ -1,12 +1,11 @@
 package com.devcourse.springbootbasic.application.factory;
 
 import com.devcourse.springbootbasic.application.dto.VoucherType;
-import com.devcourse.springbootbasic.application.factory.FixedVoucherFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 class FixedVoucherFactoryTest {
 

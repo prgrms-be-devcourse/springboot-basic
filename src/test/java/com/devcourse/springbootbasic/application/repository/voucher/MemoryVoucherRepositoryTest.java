@@ -3,7 +3,6 @@ package com.devcourse.springbootbasic.application.repository.voucher;
 import com.devcourse.springbootbasic.application.domain.FixedAmountVoucher;
 import com.devcourse.springbootbasic.application.domain.PercentDiscountVoucher;
 import com.devcourse.springbootbasic.application.domain.Voucher;
-import com.devcourse.springbootbasic.application.repository.voucher.MemoryVoucherRepository;
 import com.devcourse.springbootbasic.application.dto.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,18 +18,12 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
 @ActiveProfiles("dev")
 class MemoryVoucherRepositoryTest {
-
-    @Configuration
-    @ComponentScan(
-            basePackages = "com.devcourse.springbootbasic.application.repository"
-    )
-    static class Config {}
 
     @Autowired
     MemoryVoucherRepository memoryVoucherRepository;
@@ -51,7 +44,7 @@ class MemoryVoucherRepositoryTest {
         int count = memoryVoucherRepository.findAll().size();
         memoryVoucherRepository.insert(voucher);
         assertThat(memoryVoucherRepository.findAll(), notNullValue());
-        assertThat(memoryVoucherRepository.findAll().size(), is(count+1));
+        assertThat(memoryVoucherRepository.findAll().size(), is(count + 1));
     }
 
     @Test
@@ -59,5 +52,12 @@ class MemoryVoucherRepositoryTest {
     void findAll() {
         assertThat(memoryVoucherRepository.findAll(), notNullValue());
         assertThat(memoryVoucherRepository.findAll(), not(empty()));
+    }
+
+    @Configuration
+    @ComponentScan(
+            basePackages = "com.devcourse.springbootbasic.application.repository"
+    )
+    static class Config {
     }
 }

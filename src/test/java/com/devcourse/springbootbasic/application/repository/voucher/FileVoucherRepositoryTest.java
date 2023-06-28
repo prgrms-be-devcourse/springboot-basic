@@ -1,16 +1,10 @@
 package com.devcourse.springbootbasic.application.repository.voucher;
 
 import com.devcourse.springbootbasic.application.constant.YamlProperties;
-import com.devcourse.springbootbasic.application.domain.FixedAmountVoucher;
-import com.devcourse.springbootbasic.application.dto.VoucherType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.yaml.snakeyaml.Yaml;
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class FileVoucherRepositoryTest {
 

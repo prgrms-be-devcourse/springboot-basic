@@ -1,9 +1,8 @@
 package com.devcourse.springbootbasic.application.factory;
 
 import com.devcourse.springbootbasic.application.domain.FixedAmountVoucher;
-import com.devcourse.springbootbasic.application.dto.VoucherType;
 import com.devcourse.springbootbasic.application.domain.Voucher;
-import org.springframework.stereotype.Component;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
 
 import java.util.UUID;
 

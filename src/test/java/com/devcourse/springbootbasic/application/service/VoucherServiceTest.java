@@ -3,23 +3,16 @@ package com.devcourse.springbootbasic.application.service;
 import com.devcourse.springbootbasic.application.dto.VoucherDto;
 import com.devcourse.springbootbasic.application.dto.VoucherType;
 import com.devcourse.springbootbasic.application.repository.voucher.MemoryVoucherRepository;
-import com.devcourse.springbootbasic.application.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringJUnitConfig
 @ActiveProfiles("dev")

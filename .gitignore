@@ -11,6 +11,7 @@ graldew.bat
 HELP.md
 .idea/
 src/main/resources/voucher_record.txt
+logs/
 
 ### STS ###
 .apt_generated

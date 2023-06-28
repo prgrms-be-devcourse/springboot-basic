@@ -1,69 +1,79 @@
 classDiagram
     class SpringbootBasicApplication
     class Platform
+
     SpringbootBasicApplication --> Platform
-    Platform --> InputConsole
-    Platform --> OutputConsole
-    Platform --> VoucherService
+
+    class CommandLineTemplate
+    class CreateVoucherTemplate
+    class ListMenuTemplate
+
+    Platform --> CommandLineTemplate
+    CommandLineTemplate --> CreateVoucherTemplate
+    CommandLineTemplate --> ListMenuTemplate
+    ListMenuTemplate --> CustomerService
+    CustomerService --> CustomerRepository
 
     class InvalidDataException
-    InvalidDataException --> OutputConsole
-    Platform --> InvalidDataException
     class YamlProperties {
         version
         voucerRecordPath
         blackCustomerPath
         description
     }
-    YamlProperties <-- InputConsole
+    YamlProperties --> FileVoucherRepository
+    YamlProperties --> CustomerRepository
 
-    class ListMenu {
-        <<enumeration>>
-        VOUCHER_LIST
-        BLACK_CUSTOMER_LIST
-    }
+
     class Menu {
         <<enumeration>>
         EXIT
         CREATE
         LIST
     }
+    Menu --> CommandLineTemplate
+    class ListMenu {
+        <<enumeration>>
+        VOUCHER_LIST
+        BLACK_CUSTOMER_LIST
+    }
+    ListMenu --> CommandLineTemplate
+    ListMenu --> ListMenuTemplate
     class VoucherType {
         <<enumeration>>
         FIXED_AMOUNT
         PERCENT_DISCOUNT
     }
-    Platform -- ListMenu
-    Platform -- Menu
-    Platform -- VoucherType
+    VoucherType --> CommandLineTemplate
+    VoucherType --> CreateVoucherTemplate
 
     class VoucherService {
         createVoucher()
         getAllVoucher()
     }
-    VoucherService --> VoucherRepository
+    CreateVoucherTemplate -- VoucherDto
+    VoucherDto --> VoucherService
+    ListMenuTemplate --> VoucherService
+    VoucherService --> VoucherFactory
 
     class VoucherRepository {
         insert()
         findAll()
         setVoucherMap()
     }
+    VoucherService --> VoucherRepository
     class MemoryVoucherRepository {voucherMap}
     class FileVoucherRepository { getFile() }
     VoucherRepository <.. MemoryVoucherRepository
     VoucherRepository <.. FileVoucherRepository
-    FileVoucherRepository --> YamlProperties
 
     class VoucherFactory {
         create()
     }
-    VoucherType --> VoucherFactory
-    Platform --> VoucherType
+    VoucherFactory <.. FixedVoucherFactory
+    VoucherFactory <.. PercentVoucherFactory
     class FixedVoucherFactory
     class PercentVoucherFactory
-    VoucherFactory --> FixedVoucherFactory
-    VoucherFactory --> PercentVoucherFactory
-
     class Voucher {
         <<interface>>
         discountedPrice(long)
@@ -80,7 +90,6 @@ classDiagram
         voucherType
         discountPercent
     }
-    FixedAmountVoucher <-- FixedVoucherFactory
-    PercentDiscountVoucher <-- PercentVoucherFactory
     Voucher <.. FixedAmountVoucher
     Voucher <.. PercentDiscountVoucher
+    VoucherFactory --> Voucher

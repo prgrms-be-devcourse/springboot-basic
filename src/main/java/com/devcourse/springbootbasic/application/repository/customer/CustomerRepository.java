@@ -1,6 +1,5 @@
 package com.devcourse.springbootbasic.application.repository.customer;
 
-import com.devcourse.springbootbasic.application.Platform;
 import com.devcourse.springbootbasic.application.constant.YamlProperties;
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 import org.springframework.stereotype.Repository;

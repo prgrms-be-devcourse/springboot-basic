@@ -1,14 +1,16 @@
 package com.devcourse.springbootbasic.application.repository.voucher;
 
+import com.devcourse.springbootbasic.application.constant.Message;
 import com.devcourse.springbootbasic.application.constant.YamlProperties;
 import com.devcourse.springbootbasic.application.domain.Voucher;
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
-import com.devcourse.springbootbasic.application.constant.Message;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Profile({"default"})
@@ -23,7 +25,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> insert(Voucher voucher) {
         try (
-                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath, true));
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath, true))
         ) {
             String voucherInfo = "%s\n".formatted(voucher.toString());
             bufferedWriter.write(voucherInfo);

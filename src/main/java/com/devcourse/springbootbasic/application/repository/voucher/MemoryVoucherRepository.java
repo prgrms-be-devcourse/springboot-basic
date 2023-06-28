@@ -5,7 +5,9 @@ import com.devcourse.springbootbasic.application.domain.VoucherMap;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Profile({"dev"})

@@ -41,7 +41,7 @@
         <appender-ref ref="FILE_LOG"/>
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="CONSOLE_LOG"/>
     </root>
 </configuration>
