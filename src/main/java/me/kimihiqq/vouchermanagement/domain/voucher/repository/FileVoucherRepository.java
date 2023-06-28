@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.kimihiqq.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
+import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -46,15 +47,15 @@ public class FileVoucherRepository implements VoucherRepository {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 Voucher voucher = null;
-                if (parts[1].equalsIgnoreCase("Fixed")) {
+                if (VoucherTypeOption.valueOf(parts[1].toUpperCase()) == VoucherTypeOption.FIXED) {
                     long discount = Long.parseLong(parts[2]);
                     if (discount >= 0) {
-                        voucher = new FixedAmountVoucher(UUID.fromString(parts[0]), parts[1], discount);
+                        voucher = new FixedAmountVoucher(UUID.fromString(parts[0]), discount);
                     }
                 } else {
                     long discount = Long.parseLong(parts[2]);
                     if (discount >= 0 && discount <= 100) {
-                        voucher = new PercentDiscountVoucher(UUID.fromString(parts[0]), parts[1], discount);
+                        voucher = new PercentDiscountVoucher(UUID.fromString(parts[0]), discount);
                     }
                 }
                 if (voucher != null) {
