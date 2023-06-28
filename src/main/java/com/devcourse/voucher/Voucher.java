@@ -30,12 +30,16 @@ public class Voucher {
     }
 
     public BigDecimal apply(long price) {
-        used();
+        this.voucherStatus = USED;
         return discountPolicy.discount(price);
     }
 
     public boolean isUsed() {
         return this.voucherStatus == USED;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public LocalDateTime getExpireAt() {
@@ -44,9 +48,5 @@ public class Voucher {
 
     public VoucherStatus getVoucherStatus() {
         return voucherStatus;
-    }
-
-    private void used() {
-        this.voucherStatus = USED;
     }
 }

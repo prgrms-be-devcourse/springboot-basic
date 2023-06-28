@@ -23,6 +23,7 @@ public class VoucherValidator {
 
     public void validateExpiration(LocalDateTime expiredAt) {
         LocalDateTime now = LocalDateTime.now();
+
         if (expiredAt.isBefore(now)) {
             throw new IllegalArgumentException("Expiration time cannot be the past.");
         }
@@ -35,6 +36,7 @@ public class VoucherValidator {
 
     private void isExpired(Voucher voucher) {
         LocalDateTime now = LocalDateTime.now();
+
         if (now.isAfter(voucher.getExpireAt())) {
             throw new IllegalStateException("This voucher is expired");
         }

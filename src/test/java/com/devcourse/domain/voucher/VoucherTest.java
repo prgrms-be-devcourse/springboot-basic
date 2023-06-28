@@ -2,7 +2,6 @@ package com.devcourse.domain.voucher;
 
 import com.devcourse.voucher.Voucher;
 import com.devcourse.voucher.VoucherStatus;
-import com.devcourse.voucher.VoucherValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
