@@ -4,14 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
+import static org.programmers.VoucherManagement.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
 
 @Slf4j
 public enum DiscountType {

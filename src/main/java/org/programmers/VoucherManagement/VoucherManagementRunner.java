@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
+import static org.programmers.VoucherManagement.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
 
 @Component
 @RequiredArgsConstructor

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
+import static org.programmers.VoucherManagement.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
 
 @Service
 @RequiredArgsConstructor

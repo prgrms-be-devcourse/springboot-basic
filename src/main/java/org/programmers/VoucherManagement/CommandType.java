@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_EXIST_COMMAND;
+import static org.programmers.VoucherManagement.exception.VoucherExceptionMessage.NOT_EXIST_COMMAND;
 
 public enum CommandType {
     EXIT("exit"),
