@@ -1,6 +1,6 @@
-package org.prgms.vouchermanagement.service;
+package org.prgms.vouchermanagement.voucher.service;
 
-import org.prgms.vouchermanagement.repository.MemoryVoucherRepository;
+import org.prgms.vouchermanagement.voucher.repository.MemoryVoucherRepository;
 import org.prgms.vouchermanagement.voucher.FixedAmountVoucher;
 import org.prgms.vouchermanagement.voucher.PercentDiscountVoucher;
 import org.prgms.vouchermanagement.voucher.Voucher;

@@ -1,6 +1,6 @@
 package org.prgms.vouchermanagement.io;
 
-import org.prgms.vouchermanagement.validator.VoucherInputValidator;
+import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 import org.prgms.vouchermanagement.voucher.FixedAmountVoucher;
 import org.prgms.vouchermanagement.voucher.PercentDiscountVoucher;
 import org.prgms.vouchermanagement.voucher.Voucher;

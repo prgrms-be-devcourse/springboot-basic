@@ -3,6 +3,7 @@ package org.prgms.vouchermanagement.validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 
 import java.util.InputMismatchException;
 

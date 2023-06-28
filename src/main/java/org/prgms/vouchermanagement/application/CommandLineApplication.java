@@ -2,7 +2,7 @@ package org.prgms.vouchermanagement.application;
 
 import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.io.Console;
-import org.prgms.vouchermanagement.service.VoucherService;
+import org.prgms.vouchermanagement.voucher.service.VoucherService;
 import org.prgms.vouchermanagement.voucher.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.slf4j.Logger;

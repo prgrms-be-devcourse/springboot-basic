@@ -22,7 +22,7 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="org.prgms.vouchermanagement.validator.VoucherInputValidator" level="error">
+    <logger name="org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator" level="error">
         <appender-ref ref="Error"/>
     </logger>
 

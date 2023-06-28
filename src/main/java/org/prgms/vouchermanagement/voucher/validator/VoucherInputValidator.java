@@ -1,4 +1,4 @@
-package org.prgms.vouchermanagement.validator;
+package org.prgms.vouchermanagement.voucher.validator;
 
 import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
 import org.slf4j.Logger;
