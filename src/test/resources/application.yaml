@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    username: sa
+    url: jdbc:h2:tcp://localhost/~/testcase
+  profiles:
+    active: test
+logging:
+  level:
+    org:
+      springframework:
+        jdbc: debug
+blackListStoragePath: "src/main/resources/storage/blacklist.csv"
