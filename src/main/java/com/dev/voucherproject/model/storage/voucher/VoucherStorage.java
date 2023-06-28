@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface VoucherStorage {
     Optional<Voucher> findById(UUID voucherId);
 
-    Voucher insert(Voucher voucher);
+    void insert(Voucher voucher);
 
     List<Voucher> findAll();
 }
