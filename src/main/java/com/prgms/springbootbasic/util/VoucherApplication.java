@@ -16,13 +16,11 @@ import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public interface VoucherApplication {
 
     ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
     Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
-
 
     static MenuController menuController() {
         return ac.getBean(MenuController.class);

@@ -33,17 +33,11 @@ public class OutputView {
 	public void showVoucherList(List<Voucher> vouchers) {
 		textTerminal.println("\n=== voucher list ===");
 		vouchers.stream()
-				.map(v -> {
-					VoucherType voucherType = v.getVoucherType();
-					UUID voucherId = v.getVoucherId();
-					Long number = v.getNumber();
-					if (voucherType == VoucherType.FIXED) return String.format(FORMAT_FIXED, voucherType, voucherId, number);
-					return String.format(FORMAT_PERCENT, voucherType, voucherId, number);
-				})
+				.map(this::changeVoucherToString)
 				.forEach(textTerminal::println);
 		textTerminal.println("");
 	}
-	
+
 	public void exit() {
 		textTerminal.println("\nexit program.");
 	}
@@ -54,6 +48,14 @@ public class OutputView {
 	
 	public void close() {
 		textTerminal.dispose();
+	}
+
+	private String changeVoucherToString(Voucher voucher) {
+		VoucherType voucherType = voucher.getVoucherType();
+		UUID voucherId = voucher.getVoucherId();
+		Long number = voucher.getNumber();
+		if (voucherType == VoucherType.FIXED) return String.format(FORMAT_FIXED, voucherType, voucherId, number);
+		return String.format(FORMAT_PERCENT, voucherType, voucherId, number);
 	}
 	
 }
