@@ -8,30 +8,34 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FixedAmountVoucherTest {
-
     @Test
     @DisplayName("FixedDiscountVoucher discount 성공 테스트")
     void discountSuccess() {
-        long discountAmount = 5000;
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(discountAmount);
-        assertEquals(95000,fixedAmountVoucher.discount(100000));
+        long validBeforeDiscount = 100000;
+        long validDiscountAmount = 5000;
+        long expectedResult = 95000;
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(validDiscountAmount);
+        assertEquals(expectedResult,fixedAmountVoucher.discount(validBeforeDiscount));
     }
 
     @Test
     @DisplayName("FixedDiscountVoucher discount 실패 테스트")
     void discountFail(){
-        long discountAmount = 5000;
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(discountAmount);
-        assertNotEquals(5000,fixedAmountVoucher.discount(100000));
+        long validBeforeDiscount = 100000;
+        long validDiscountAmount = 5000;
+        long unexpectedResult = 5000;
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(validDiscountAmount);
+        assertNotEquals(unexpectedResult,fixedAmountVoucher.discount(validBeforeDiscount));
     }
 
     @Test
     @DisplayName("FixedDiscountVoucher beforeDiscount 음수 예외처리 성공 테스트")
     void discountExceptionSuccess(){
-        long discountAmount = 5000;
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(discountAmount);
+        long invalidBeforeDiscount = -10000;
+        long validDiscountAmount = 5000;
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(validDiscountAmount);
         assertThrowsExactly(IllegalArgumentException.class, ()->{
-            fixedAmountVoucher.discount(-100000);
+            fixedAmountVoucher.discount(invalidBeforeDiscount);
         });
     }
 
