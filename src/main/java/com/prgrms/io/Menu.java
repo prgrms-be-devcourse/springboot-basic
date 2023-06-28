@@ -8,9 +8,9 @@ public enum Menu {
     CREATE,
     LIST;
 
-    public static Optional<Menu> findBySelectedMenu(String selectedMenu) {
+    public static Optional<Menu> findByMenu(String menu) {
         return Arrays.stream(values())
-                .filter(m -> m.name().equalsIgnoreCase(selectedMenu))
+                .filter(m -> m.name().equalsIgnoreCase(menu))
                 .findFirst();
     }
 }
