@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.exception;
+package org.programmers.VoucherManagement.voucher.exception;
 
 public enum VoucherExceptionMessage {
     NOT_INCLUDE_1_TO_100("할인율은 1부터 100사이의 값이여야 합니다."),

@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.util;
+package org.programmers.VoucherManagement.global.util;
 
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;

@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.voucher.application;
 
 import lombok.RequiredArgsConstructor;
-import org.programmers.VoucherManagement.DiscountType;
-import org.programmers.VoucherManagement.exception.VoucherException;
+import org.programmers.VoucherManagement.voucher.domain.DiscountType;
+import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.dao.VoucherRepository;
 import org.programmers.VoucherManagement.voucher.domain.FixedAmountVoucher;
 import org.programmers.VoucherManagement.voucher.domain.PercentAmountVoucher;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.programmers.VoucherManagement.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
+import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
 
 @Service
 @RequiredArgsConstructor

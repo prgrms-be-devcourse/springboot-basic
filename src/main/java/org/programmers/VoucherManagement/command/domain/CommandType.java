@@ -1,6 +1,6 @@
-package org.programmers.VoucherManagement;
+package org.programmers.VoucherManagement.command.domain;
 
-import org.programmers.VoucherManagement.exception.VoucherException;
+import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.programmers.VoucherManagement.exception.VoucherExceptionMessage.NOT_EXIST_COMMAND;
+import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_COMMAND;
 
 public enum CommandType {
     EXIT("exit"),

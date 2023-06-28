@@ -1,7 +1,5 @@
 package org.programmers.VoucherManagement.voucher.domain;
 
-import org.programmers.VoucherManagement.DiscountType;
-
 import java.util.UUID;
 
 public class PercentAmountVoucher extends Voucher{

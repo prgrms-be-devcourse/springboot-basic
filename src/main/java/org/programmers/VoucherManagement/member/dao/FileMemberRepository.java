@@ -1,7 +1,7 @@
 package org.programmers.VoucherManagement.member.dao;
 
 import org.programmers.VoucherManagement.member.domain.Member;
-import org.programmers.VoucherManagement.util.Converter;
+import org.programmers.VoucherManagement.global.util.Converter;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -12,7 +12,7 @@ import static org.programmers.VoucherManagement.member.exception.MemberException
 
 @Repository
 public class FileMemberRepository implements MemberRepository {
-    private static final File file = new File("src/main/java/org/programmers/VoucherManagement/file/customer-blacklist.csv");
+    private static final File file = new File("src/main/resources/file/customer-blacklist.csv");
 
     @Override
     public List<Member> findAllByMemberStatus() {

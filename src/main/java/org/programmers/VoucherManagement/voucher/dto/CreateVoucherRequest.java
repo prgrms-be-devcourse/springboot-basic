@@ -1,6 +1,6 @@
 package org.programmers.VoucherManagement.voucher.dto;
 
-import org.programmers.VoucherManagement.DiscountType;
+import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 
 public class CreateVoucherRequest {
 

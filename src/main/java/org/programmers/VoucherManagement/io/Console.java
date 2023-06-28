@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.CommandType;
-import org.programmers.VoucherManagement.DiscountType;
-import org.programmers.VoucherManagement.exception.VoucherException;
+import org.programmers.VoucherManagement.command.domain.CommandType;
+import org.programmers.VoucherManagement.voucher.domain.DiscountType;
+import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.member.dto.GetMemberResponse;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
 import org.slf4j.Logger;
@@ -12,8 +12,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.programmers.VoucherManagement.exception.VoucherExceptionMessage.NOT_INCLUDE_1_TO_100;
-import static org.programmers.VoucherManagement.exception.VoucherExceptionMessage.VOUCHER_AMOUNT_IS_NOT_NUMBER;
+import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_INCLUDE_1_TO_100;
+import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.VOUCHER_AMOUNT_IS_NOT_NUMBER;
 
 public class Console implements Input, Output {
     private static final Scanner SCANNER = new Scanner(System.in);

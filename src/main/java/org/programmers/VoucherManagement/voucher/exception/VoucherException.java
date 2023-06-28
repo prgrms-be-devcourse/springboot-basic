@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.exception;
+package org.programmers.VoucherManagement.voucher.exception;
 
 public class VoucherException extends RuntimeException {
 

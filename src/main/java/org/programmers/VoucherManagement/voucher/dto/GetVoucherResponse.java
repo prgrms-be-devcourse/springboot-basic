@@ -1,8 +1,7 @@
 package org.programmers.VoucherManagement.voucher.dto;
 
-import lombok.Builder;
 import lombok.Getter;
-import org.programmers.VoucherManagement.DiscountType;
+import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
 import java.util.UUID;
