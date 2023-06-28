@@ -1,7 +1,6 @@
 package com.programmers.voucher.uitl;
 
 import com.programmers.console.util.Command;
-import com.programmers.global.exception.VoucherCommandException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -23,6 +22,6 @@ class CommandTest {
     })
     void 유효하지_않은_커맨드_입력_테스트(String command) {
         assertThatThrownBy(() -> Command.of(command))
-                .isInstanceOf(VoucherCommandException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

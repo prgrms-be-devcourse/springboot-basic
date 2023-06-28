@@ -1,6 +1,5 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.global.exception.DiscountValueException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -19,7 +18,7 @@ class DiscountValueTest {
     })
     public void maxAndMinDiscountAmountTest(long amount) {
         assertThatThrownBy(() -> new FixedDiscount(amount))
-                .isInstanceOf(DiscountValueException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("할인 퍼센트가 최대값 100 최소값 1의 유효범위를 넘어가는 경우")
@@ -33,6 +32,6 @@ class DiscountValueTest {
     })
     public void maxAndMinPercentTest(long percent) {
         assertThatThrownBy(() -> new PercentDiscount(percent))
-                .isInstanceOf(DiscountValueException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
