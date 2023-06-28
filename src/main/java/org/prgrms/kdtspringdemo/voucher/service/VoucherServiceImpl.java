@@ -23,10 +23,12 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher createVoucher(VoucherType voucherType, long discount) {
         switch (voucherType) {
             case FIXED -> {
-                return voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), voucherType, discount));
+                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherType, discount);
+                return voucherRepository.save(fixedAmountVoucher);
             }
             case PERCENT -> {
-                return voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(), voucherType, discount));
+                Voucher percentAmountVoucher = new PercentAmountVoucher(UUID.randomUUID(), voucherType, discount);
+                return voucherRepository.save(percentAmountVoucher);
             }
             default -> {
                 throw new IllegalArgumentException(INVALID_VOUCHER_TYPE);
