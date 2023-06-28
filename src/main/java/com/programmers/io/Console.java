@@ -40,17 +40,6 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public String readVoucherName() {
-        String voucherType = readInput();
-
-        return reformatVoucherName(voucherType);
-    }
-
-    public String reformatVoucherName(String input) {
-        return input.trim().replace(" ", "").toLowerCase();
-    }
-
-    @Override
     public void printDiscountValueInput() {
         System.out.println(DISCOUNT_VALUE_MESSAGE);
     }

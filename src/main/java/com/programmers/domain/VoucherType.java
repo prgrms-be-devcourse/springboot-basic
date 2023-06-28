@@ -35,30 +35,6 @@ public enum VoucherType {
                 });
     }
 
-    public static VoucherType findVoucherTypeByNumber(String input) {
-        checkVoucherTypeInputEmpty(input);
-
-        return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> Objects.equals(voucherType.number, input))
-                .findAny()
-                .orElseThrow(() -> {
-                    log.error("the invalid voucher type number input found. input value = {}", input);
-                    return new IllegalArgumentException();
-                });
-    }
-
-    public static VoucherType findVoucherTypeByName(String input) {
-        checkVoucherTypeInputEmpty(input);
-
-        return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> Objects.equals(voucherType.name, input))
-                .findAny()
-                .orElseThrow(() -> {
-                    log.error("The invalid voucher type name input found. input value = {}", input);
-                    return new IllegalArgumentException();
-                });
-    }
-
     private static void checkVoucherTypeInputEmpty(String input) {
         if (input.isEmpty()) {
             log.error("The voucher type input not found.");

@@ -65,10 +65,6 @@ public class FileVoucherRepository implements VoucherRepository {
         long discountValue = Long.parseLong(voucherInfo[6]);
         String name = voucherInfo[8];
 
-        if (VoucherType.findVoucherTypeByName(type) == VoucherType.FixedAmountVoucher) {
-            return new FixedAmountVoucher(id, name, discountValue);
-        }
-
-        return new PercentDiscountVoucher(id, name, discountValue);
+        return VoucherType.constructVoucher(type, id, name, discountValue);
     }
 }

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -47,16 +46,6 @@ public class VoucherController {
         }
     }
 
-    public VoucherType getVoucherType() {
-        String voucherTypeInput = console.readVoucherName();
-
-        if (isNumeric(voucherTypeInput)) {
-            return VoucherType.findVoucherTypeByNumber(voucherTypeInput);
-        }
-
-        return VoucherType.findVoucherTypeByName(voucherTypeInput);
-    }
-
     public Voucher createVoucher() {
         Voucher voucher = makeVoucher();
         voucherService.save(voucher);
@@ -68,48 +57,24 @@ public class VoucherController {
 
     public Voucher makeVoucher() {
         console.printVoucherType();
-        VoucherType voucherType = getVoucherType();
+        String voucherTypeInput = voucherService.reformatVoucherType(console.readInput());
 
         console.printDiscountValueInput();
-        Long discountValue = changeDiscountValueToNumber(console.readInput());
+        Long discountValue = voucherService.changeDiscountValueToNumber(console.readInput());
 
         console.printVoucherNameInput();
         String voucherName = console.readInput();
 
-        if (voucherType == VoucherType.FixedAmountVoucher) {
-            return new FixedAmountVoucher(UUID.randomUUID(), voucherName, discountValue);
-        }
-
-        return new PercentDiscountVoucher(UUID.randomUUID(), voucherName, discountValue);
-    }
-
-    public boolean isNumeric(String str) {
-        if (str == null) {
-            return false;
-        }
-
-        try {
-            Integer.parseInt(str);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
-
-    public Long changeDiscountValueToNumber(String discountValue) {
-        try {
-            Long.parseLong(discountValue);
-        } catch (NumberFormatException e) {
-            log.error("The discount value input is not in numeric format. input value = {}", discountValue);
-            throw new IllegalArgumentException();
-        }
-        return Long.parseLong(discountValue);
+        return VoucherType.constructVoucher(voucherTypeInput, voucherName, discountValue);
     }
 
     public List<Voucher> getVoucherList() {
         console.printVoucherListTitle();
+        List<Voucher> vouchers = voucherService.findAll();
+        console.printVouchers(vouchers);
+        log.info("The voucher list has been printed.");
 
-        return voucherService.findAll();
+        return vouchers;
     }
 
     private List<String> getBlacklist() {

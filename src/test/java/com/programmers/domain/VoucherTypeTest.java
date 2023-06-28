@@ -7,6 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.UUID;
+
 class VoucherTypeTest {
 
     @DisplayName("입력된 숫자에 맞는 바우처를 찾는다")
@@ -16,32 +18,10 @@ class VoucherTypeTest {
         String input = "1";
 
         //when
-        VoucherType result = VoucherType.findVoucherTypeByNumber(input);
+        VoucherType result = VoucherType.FindVoucherType(input);
 
         //then
         Assertions.assertThat(result).isEqualTo(VoucherType.FixedAmountVoucher);
-    }
-
-    @DisplayName("입력된 숫자가 비었을 경우 예외처리한다")
-    @EmptySource
-    @ParameterizedTest
-    void findVoucherTypeByNumberWithEmptyInput(String input) {
-        //given
-        //when
-        //then
-        Assertions.assertThatThrownBy(() -> VoucherType.findVoucherTypeByNumber(input))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @DisplayName("입력된 숫자가 형식에 맞지 않는 경우 예외처리한다")
-    @ValueSource(strings = {"ab", " ", "22", "c"})
-    @ParameterizedTest
-    void findVoucherTypeByNumberWithWrongInput(String input) {
-        //given
-        //when
-        //then
-        Assertions.assertThatThrownBy(() -> VoucherType.findVoucherTypeByNumber(input))
-                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("입력된 이름에 맞는 바우처를 찾는다")
@@ -51,31 +31,47 @@ class VoucherTypeTest {
         String input = "percentdiscountvoucher";
 
         //when
-        VoucherType result = VoucherType.findVoucherTypeByName(input);
+        VoucherType result = VoucherType.FindVoucherType(input);
 
         //then
         Assertions.assertThat(result).isEqualTo(VoucherType.PercentDiscountVoucher);
     }
 
-    @DisplayName("입력된 이름이 비었을 경우 예외처리한다")
+    @DisplayName("입력된 값이 비었을 경우 예외처리한다")
     @EmptySource
     @ParameterizedTest
-    void findVoucherTypeByNameWithEmptyInput(String input) {
+    void findVoucherTypeByNumberWithEmptyInput(String input) {
         //given
         //when
         //then
-        Assertions.assertThatThrownBy(() -> VoucherType.findVoucherTypeByName(input))
+        Assertions.assertThatThrownBy(() -> VoucherType.FindVoucherType(input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("입력된 이름이 형식에 맞지 않는 경우 예외처리한다")
+    @DisplayName("입력된 값이 형식에 맞지 않는 경우 예외처리한다")
     @ValueSource(strings = {"ab", " ", "22", "c"})
     @ParameterizedTest
-    void findVoucherTypeByNameWithWrongInput(String input) {
+    void findVoucherTypeByNumberWithWrongInput(String input) {
         //given
         //when
         //then
-        Assertions.assertThatThrownBy(() -> VoucherType.findVoucherTypeByName(input))
+        Assertions.assertThatThrownBy(() -> VoucherType.FindVoucherType(input))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("타입에 맞는 바우처를 생성한다")
+    @Test
+    void constructVoucherWithUUID() {
+        //given
+        UUID uuid = UUID.randomUUID();
+        String voucherTypeInput = "percentdiscountvoucher";
+        String voucherName = "voucher name for test";
+        Long discountValue = 10L;
+
+        //when
+        Voucher result = VoucherType.constructVoucher(voucherTypeInput, uuid, voucherName, discountValue);
+
+        //then
+        Assertions.assertThat(result.getVoucherId()).isEqualTo(uuid);
     }
 }
