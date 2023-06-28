@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.UUID;
 
-@Qualifier("fixed")
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;

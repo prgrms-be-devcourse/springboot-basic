@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.UUID;
 
-@Qualifier("percent")
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
