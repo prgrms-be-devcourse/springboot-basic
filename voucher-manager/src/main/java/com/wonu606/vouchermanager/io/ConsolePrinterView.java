@@ -9,13 +9,19 @@ public class ConsolePrinterView {
 
     private final TextTerminal textTerminal = TextIoFactory.getTextTerminal();
 
-    private String menuDescription;
-    private String creationDescription;
-    private String exitDescription;
+    private String menuDescription = "";
+    private String creationDescription = "";
+    private String exitDescription = "";
 
-    public ConsolePrinterView(String menuDescription, String creationDescription, String exitDescription) {
+    public void setMenuDescription(String menuDescription) {
         this.menuDescription = menuDescription;
+    }
+
+    public void setCreationDescription(String creationDescription) {
         this.creationDescription = creationDescription;
+    }
+
+    public void setExitDescription(String exitDescription) {
         this.exitDescription = exitDescription;
     }
 

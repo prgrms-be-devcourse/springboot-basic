@@ -4,6 +4,9 @@ import java.util.List;
 
 public class CreationDescriptionGenerator {
 
+    public CreationDescriptionGenerator() {
+    }
+
     public String generate(List<String> voucherTypes) {
         StringBuilder builder = new StringBuilder();
 
@@ -11,8 +14,6 @@ public class CreationDescriptionGenerator {
         for (String voucherType : voucherTypes) {
             builder.append(String.format("[%s]\n", voucherType));
         }
-
-        builder.append("타입과 값을 입력해주세요.(띄워쓰기 단위로 구분)");
         return builder.toString();
     }
 }

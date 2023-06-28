@@ -1,18 +1,29 @@
 package com.wonu606.Controller.command;
 
+import java.util.Optional;
+
 public class CommandResult {
 
-    private final boolean state;
+    private final boolean continuing;
+    private Optional<String> exceptionMessage = Optional.empty();
 
     public CommandResult() {
-        state = true;
+        continuing = true;
     }
 
-    public CommandResult(boolean state) {
-        this.state = state;
+    public CommandResult(boolean Continuing) {
+        this.continuing = Continuing;
     }
 
-    public boolean isState() {
-        return state;
+    public boolean isContinuing() {
+        return continuing;
+    }
+
+    public Optional<String> getExceptionMessage() {
+        return exceptionMessage;
+    }
+
+    public void setExceptionMessage(String exceptionMessage) {
+        this.exceptionMessage = Optional.of(exceptionMessage);
     }
 }
