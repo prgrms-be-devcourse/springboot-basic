@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -18,12 +19,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        ArrayList<Voucher> voucherList = new ArrayList<>();
-
-        Collection<Voucher> vouchers = storage.values();
-        for (Voucher voucher : vouchers) {
-            voucherList.add(voucher);
-        }
-        return voucherList;
+        List<Voucher> voucherList = new ArrayList<>();
+        return storage.values()
+                .stream().collect(Collectors.toList());
     }
 }
