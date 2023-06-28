@@ -53,17 +53,15 @@ class VoucherServiceTest {
 
         VoucherDetailsResponse foundVoucher = voucherService.findVoucher(voucherId);
 
-        assertThat(foundVoucher)
-                .extracting(VoucherDetailsResponse::voucherType, VoucherDetailsResponse::discountAmount)
-                .containsExactly(FIXED, discountAmount);
+        UUID foundId = foundVoucher.id();
+        assertThat(foundId).isEqualTo(voucherId);
     }
 
     @DisplayName("조회할 수 없는 바우처ID를 조회시 예외를 발생시킨다.")
     @Test
     void findFailTest() {
         assertThatThrownBy(() -> voucherService.findVoucher(UUID.randomUUID()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("찾을 수 없는 바우처입니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

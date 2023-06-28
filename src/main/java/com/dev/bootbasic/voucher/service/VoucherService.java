@@ -1,13 +1,18 @@
 package com.dev.bootbasic.voucher.service;
 
 
-import com.dev.bootbasic.voucher.domain.*;
+import com.dev.bootbasic.voucher.domain.Voucher;
+import com.dev.bootbasic.voucher.domain.VoucherFactory;
 import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import com.dev.bootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Service
 public class VoucherService {
@@ -22,8 +27,7 @@ public class VoucherService {
     }
 
     public UUID createVoucher(VoucherCreateRequest request) {
-        UUID voucherId = UUID.randomUUID();
-        Voucher createdVoucher = voucherFactory.create(voucherId, request.voucherType(), request.discountAmount());
+        Voucher createdVoucher = voucherFactory.create(request.voucherType(), request.discountAmount());
         return voucherRepository.saveVoucher(createdVoucher);
     }
 
@@ -31,7 +35,14 @@ public class VoucherService {
         Voucher foundVoucher = voucherRepository.findVoucher(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_VOUCHER_MESSAGE));
 
-        return VoucherDetailsResponse.create(foundVoucher);
+        return VoucherDetailsResponse.from(foundVoucher);
+    }
+
+    public List<VoucherDetailsResponse> findAllVouchers() {
+        Collection<Voucher> allVouchers = voucherRepository.getAllVouchers();
+
+        return allVouchers.stream().map(VoucherDetailsResponse::from)
+                .collect(toUnmodifiableList());
     }
 
 }

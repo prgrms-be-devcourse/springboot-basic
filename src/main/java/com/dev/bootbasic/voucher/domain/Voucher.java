@@ -1,5 +1,6 @@
 package com.dev.bootbasic.voucher.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -11,23 +12,11 @@ public abstract class Voucher {
     private final int discountAmount;
 
     protected Voucher(UUID id, VoucherType voucherType, int discountAmount) {
-        validateId(id);
-        validateType(voucherType);
+        Objects.requireNonNull(id, NOT_ASSIGNED_VOUCHER_ID_MESSAGE);
+        Objects.requireNonNull(voucherType, NOT_ASSIGNED_VOUCHER_TYPE_MESSAGE);
         this.id = id;
         this.voucherType = voucherType;
         this.discountAmount = discountAmount;
-    }
-
-    private void validateId(UUID id) {
-        if (id == null) {
-            throw new IllegalArgumentException(NOT_ASSIGNED_VOUCHER_ID_MESSAGE);
-        }
-    }
-
-    private void validateType(VoucherType type) {
-        if (type == null) {
-            throw new IllegalArgumentException(NOT_ASSIGNED_VOUCHER_TYPE_MESSAGE);
-        }
     }
 
     public UUID getId() {

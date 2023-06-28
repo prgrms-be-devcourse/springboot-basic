@@ -20,7 +20,7 @@ class VoucherFactoryTest {
             "percent, 50, PERCENT"
     })
     void createVoucherTest(String type, int amount, VoucherType expectedVoucherType) {
-        Voucher voucher = voucherFactory.create(UUID.randomUUID(), type, amount);
+        Voucher voucher = voucherFactory.create(type, amount);
 
         assertThat(voucher)
                 .extracting(Voucher::getVoucherType, Voucher::getDiscountAmount)
@@ -35,7 +35,7 @@ class VoucherFactoryTest {
     })
     void createVoucherFailTest(String type, int amount, RuntimeException exception) {
 
-        assertThatThrownBy(() -> voucherFactory.create(UUID.randomUUID(), type, amount))
+        assertThatThrownBy(() -> voucherFactory.create(type, amount))
                 .isInstanceOf(exception.getClass());
     }
 

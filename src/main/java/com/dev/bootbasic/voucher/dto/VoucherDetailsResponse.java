@@ -3,9 +3,19 @@ package com.dev.bootbasic.voucher.dto;
 import com.dev.bootbasic.voucher.domain.Voucher;
 import com.dev.bootbasic.voucher.domain.VoucherType;
 
-public record VoucherDetailsResponse(VoucherType voucherType, int discountAmount) {
+import java.util.UUID;
 
-    public static VoucherDetailsResponse create(Voucher voucher) {
-        return new VoucherDetailsResponse(voucher.getVoucherType(), voucher.getDiscountAmount());
+public record VoucherDetailsResponse(UUID id, VoucherType voucherType, int discountAmount) {
+
+    public static VoucherDetailsResponse from(Voucher voucher) {
+        return new VoucherDetailsResponse(voucher.getId(), voucher.getVoucherType(), voucher.getDiscountAmount());
     }
+
+    @Override
+    public String toString() {
+        return "Voucher Id= " + id +
+                " Type= " + voucherType +
+                " Amount= " + discountAmount;
+    }
+
 }
