@@ -18,12 +18,15 @@ public class VoucherService {
 	}
 
 	public Voucher createVoucher(VoucherType voucherType, long discount) {
-		Voucher voucher = null;
-		if (voucherType == VoucherType.FixedAmount) {
-			voucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
-		} else if (voucherType == VoucherType.PercentDiscount) {
-			voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
-		}
+		Voucher voucher = switch (voucherType) {
+			case FixedAmount -> {
+				yield  new FixedAmountVoucher(UUID.randomUUID(), discount);
+			}
+			case PercentDiscount -> {
+				yield  new PercentDiscountVoucher(UUID.randomUUID(), discount);
+			}
+			case Null -> null;
+		};
 
 		voucherRepository.save(voucher);
 
