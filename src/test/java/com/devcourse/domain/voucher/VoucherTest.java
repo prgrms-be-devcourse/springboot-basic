@@ -26,7 +26,7 @@ class VoucherTest {
 
         // then
         assertThat(appliedPrice).isEqualTo(result);
-        assertThat(voucher.getVoucherStatus()).isEqualTo(VoucherStatus.USED);
+        assertThat(voucher.getStatus()).isEqualTo(VoucherStatus.USED);
     }
 
     @ParameterizedTest
@@ -41,6 +41,6 @@ class VoucherTest {
 
         // then
         assertThat(appliedPrice).isEqualTo(result);
-        assertThat(voucher.getVoucherStatus()).isEqualTo(VoucherStatus.USED);
+        assertThat(voucher.getStatus()).isEqualTo(VoucherStatus.USED);
     }
 }

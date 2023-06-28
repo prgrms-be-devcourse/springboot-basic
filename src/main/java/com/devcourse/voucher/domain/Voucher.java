@@ -10,13 +10,13 @@ public class Voucher {
     public final UUID id;
     private final DiscountPolicy discountPolicy;
     private final LocalDateTime expireAt;
-    private VoucherStatus voucherStatus;
+    private VoucherStatus status;
 
-    public Voucher(UUID id, DiscountPolicy discountPolicy, LocalDateTime expireAt, VoucherStatus voucherStatus) {
+    public Voucher(UUID id, DiscountPolicy discountPolicy, LocalDateTime expireAt, VoucherStatus status) {
         this.id = id;
         this.discountPolicy = discountPolicy;
         this.expireAt = expireAt;
-        this.voucherStatus = voucherStatus;
+        this.status = status;
     }
 
     public static Voucher fixed(int discountAmount, LocalDateTime expireAt) {
@@ -30,12 +30,12 @@ public class Voucher {
     }
 
     public BigDecimal apply(long price) {
-        this.voucherStatus = USED;
+        this.status = USED;
         return discountPolicy.discount(price);
     }
 
     public boolean isUsed() {
-        return this.voucherStatus == USED;
+        return this.status == USED;
     }
 
     public UUID getId() {
@@ -46,7 +46,11 @@ public class Voucher {
         return expireAt;
     }
 
-    public VoucherStatus getVoucherStatus() {
-        return voucherStatus;
+    public VoucherStatus getStatus() {
+        return status;
+    }
+
+    public VoucherType getType() {
+        return discountPolicy.getType();
     }
 }
