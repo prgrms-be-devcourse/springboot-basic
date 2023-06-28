@@ -12,6 +12,12 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = amount;
     }
 
+    // 복사를 위한 생성자
+    public FixedAmountVoucher(FixedAmountVoucher other) {
+        this.voucherId = other.voucherId;
+        this.amount = other.amount;
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
@@ -21,6 +27,11 @@ public class FixedAmountVoucher implements Voucher {
     public double discount(double beforeDiscount) {
         double discountedAmount = beforeDiscount - amount;
         return (discountedAmount < 0) ? 0 : discountedAmount;
+    }
+
+    @Override
+    public Voucher copy() {
+        return new FixedAmountVoucher(this);
     }
 
     @Override

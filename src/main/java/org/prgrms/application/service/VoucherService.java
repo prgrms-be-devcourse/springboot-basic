@@ -1,14 +1,12 @@
 package org.prgrms.application.service;
 
-import org.prgrms.application.domain.FixedAmountVoucher;
 import org.prgrms.application.domain.Voucher;
 import org.prgrms.application.domain.VoucherFactory;
 import org.prgrms.application.domain.VoucherType;
 import org.prgrms.application.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Service
 public class VoucherService {
@@ -26,7 +24,7 @@ public class VoucherService {
         voucherRepository.insert(voucher);
     }
 
-    public Map<UUID, Voucher> getVoucherList() {
+    public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
 

@@ -5,8 +5,7 @@ import org.prgrms.application.domain.VoucherType;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Controller
 public class VoucherController {
@@ -17,7 +16,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Map<UUID, Voucher> getStorage() {
+    public List<Voucher> getStorage() {
         return voucherService.getVoucherList();
     }
 
