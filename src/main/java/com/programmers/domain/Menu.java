@@ -21,8 +21,6 @@ public enum Menu {
     }
 
     public static Menu findMenu(String input) {
-        log.warn("The menu input will be validated.");
-
         if (input.isEmpty()) {
             log.error("The menu input not found.");
             throw new IllegalArgumentException();

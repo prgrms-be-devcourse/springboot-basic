@@ -21,8 +21,6 @@ public enum VoucherType {
     }
 
     public static VoucherType findVoucherTypeByNumber(String input) {
-        log.warn("The voucher type number input will be validated.");
-
         if (input.isEmpty()) {
             log.error("The voucher type number input not found.");
             throw new IllegalArgumentException();
@@ -38,8 +36,6 @@ public enum VoucherType {
     }
 
     public static VoucherType findVoucherTypeByName(String input) {
-        log.warn("The voucher type name input will be validated.");
-
         if (input.isEmpty()) {
             log.error("The voucher type name input not found.");
             throw new IllegalArgumentException();

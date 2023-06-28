@@ -14,8 +14,6 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, String voucherName, long amount) {
-        log.warn("The voucher input will be validated. voucher type = {}", FixedAmountVoucher.class.getName());
-
         if (voucherName.isEmpty() || amount < 0) {
             log.error("Empty Input or the invalid voucher input found. voucher type = {}", FixedAmountVoucher.class.getName());
 
