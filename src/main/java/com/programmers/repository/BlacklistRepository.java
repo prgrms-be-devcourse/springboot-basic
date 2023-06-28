@@ -3,10 +3,10 @@ package com.programmers.repository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,27 +14,25 @@ import java.util.List;
 @Repository
 public class BlacklistRepository {
 
-    private final File file;
+    private final Path path;
 
     public BlacklistRepository(@Value("${file.blacklist.file-path}") String filePath) {
-        this.file = new File(filePath);
+        this.path = Paths.get(filePath);
     }
 
     public List<String> findAll() {
         List<String> blacklist = new ArrayList<>();
 
         try {
-            if (file.exists()) {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    blacklist.add(line);
-                }
+            if (Files.exists(path)) {
+                List<String> fileBlacklist = Files.readAllLines(path).stream()
+                        .toList();
 
-                reader.close();
+                blacklist.addAll(fileBlacklist);
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
+
         return Collections.unmodifiableList(blacklist);
     }
 }

@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,40 +21,38 @@ import java.util.UUID;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final File file;
+    private final Path path;
 
     public FileVoucherRepository(@Value("${file.voucher.file-path}") String filePath) {
-        this.file = new File(filePath);
+        this.path = Paths.get(filePath);
     }
 
     @Override
     public void save(Voucher voucher) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile(), true)); //path?
             writer.write(voucher.toString());
             writer.newLine();
 
             writer.flush();
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 
     @Override
     public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
-
         try {
-            if (file.exists()) {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    voucherList.add(extractVoucher(line));
-                }
+            if (Files.exists(path)) {
+                List<Voucher> vouchers = Files.readAllLines(path).stream()
+                        .map(this::extractVoucher)
+                        .toList();
 
-                reader.close();
+                voucherList.addAll(vouchers);
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
+
         return Collections.unmodifiableList(voucherList);
     }
 
