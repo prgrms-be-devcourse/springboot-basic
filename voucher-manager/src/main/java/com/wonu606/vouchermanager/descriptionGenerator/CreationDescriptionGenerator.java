@@ -4,9 +4,6 @@ import java.util.List;
 
 public class CreationDescriptionGenerator {
 
-    public CreationDescriptionGenerator() {
-    }
-
     public String generate(List<String> voucherTypes) {
         StringBuilder builder = new StringBuilder();
 

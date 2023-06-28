@@ -4,19 +4,14 @@ import com.wonu606.vouchermanager.domain.VoucherVO;
 import com.wonu606.vouchermanager.io.ConsoleInputView;
 import com.wonu606.vouchermanager.io.ConsolePrinterView;
 import com.wonu606.vouchermanager.service.VoucherService;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class VoucherCreateCommand implements VoucherCommand {
 
     private final ConsoleInputView inputView;
     private final ConsolePrinterView printerView;
     private final VoucherService voucherService;
-
-    public VoucherCreateCommand(ConsoleInputView inputView, ConsolePrinterView printerView,
-            VoucherService voucherService) {
-        this.inputView = inputView;
-        this.printerView = printerView;
-        this.voucherService = voucherService;
-    }
 
     @Override
     public CommandResult execute() {

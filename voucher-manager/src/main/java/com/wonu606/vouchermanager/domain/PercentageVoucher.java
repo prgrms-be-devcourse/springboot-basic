@@ -1,7 +1,9 @@
 package com.wonu606.vouchermanager.domain;
 
 import java.util.UUID;
+import lombok.ToString;
 
+@ToString
 public class PercentageVoucher extends Voucher {
 
     private final double percentage;
@@ -26,12 +28,5 @@ public class PercentageVoucher extends Voucher {
     @Override
     public double calculateDiscountedPrice(double originalPrice) {
         return originalPrice * (1 - percentage / 100);
-    }
-
-    @Override
-    public String toString() {
-        return "PercentageVoucher{" +
-                "percentage=" + percentage +
-                '}';
     }
 }

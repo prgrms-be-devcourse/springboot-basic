@@ -1,7 +1,9 @@
 package com.wonu606.vouchermanager.domain;
 
 import java.util.UUID;
+import lombok.ToString;
 
+@ToString
 public class FixedAmountVoucher extends Voucher {
 
     private final double fixedAmount;
@@ -25,12 +27,5 @@ public class FixedAmountVoucher extends Voucher {
 
     private boolean isInvalidFixedAmount(double fixedAmount) {
         return fixedAmount < 0;
-    }
-
-    @Override
-    public String toString() {
-        return "FixedAmountVoucher{" +
-                "fixedAmount=" + fixedAmount +
-                '}';
     }
 }
