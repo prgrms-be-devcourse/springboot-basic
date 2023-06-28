@@ -3,9 +3,8 @@ package org.devcourse.voucher.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-abstract class Voucher {
+public abstract class Voucher {
     private final UUID voucherId;
-
     Voucher() {
         this.voucherId = UUID.randomUUID();
     }
