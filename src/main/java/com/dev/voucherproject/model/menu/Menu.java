@@ -17,7 +17,7 @@ public enum Menu {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.isExistMenu(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("입력에 해당하는 메뉴 정책을 찾을 수 없습니다."));
     }
 
     private boolean isExistMenu(final String input) {

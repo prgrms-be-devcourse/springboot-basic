@@ -22,7 +22,7 @@ public enum VoucherPolicy {
         return Arrays.stream(VoucherPolicy.values())
                 .filter(voucherPolicy -> voucherPolicy.isExistPolicy(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("입력에 해당하는 바우처 정책을 찾을 수 없습니다."));
     }
 
     public static List<String> getPolicyNames() {
