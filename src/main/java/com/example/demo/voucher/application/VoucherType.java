@@ -8,15 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED_AMOUNT_VOUCHER("1", "Fixed Amount Voucher", "Enter the fixed amount for the voucher:") {
+    FIXED_AMOUNT_VOUCHER("1") {
         @Override
         public Voucher createVoucher(UUID id, long value) {
             return new FixedAmountVoucher(id, value);
         }
     },
-    PERCENT_DISCOUNT_VOUCHER("2", "Percent Discount Voucher", "Enter the percent discount for the voucher:") {
+    PERCENT_DISCOUNT_VOUCHER("2") {
         @Override
         public Voucher createVoucher(UUID id, long value) {
             return new PercentDiscountVoucher(id, value);
@@ -24,35 +26,19 @@ public enum VoucherType {
     };
 
     private final String counter;
-    private final String name;
-    private final String promptMessage;
 
-    private static final Map<String, VoucherType> counterToVoucherType = new HashMap<>();
+    private static final Map<String, VoucherType> counterToVoucherType = Stream
+            .of(values())
+            .collect(Collectors.toMap(VoucherType::getCounter, v -> v));
 
-    static {
-        for (VoucherType type : VoucherType.values()) {
-            counterToVoucherType.put(type.counter, type);
-        }
-    }
-
-    VoucherType(String counter, String name, String promptMessage) {
+    VoucherType(String counter) {
         this.counter = counter;
-        this.name = name;
-        this.promptMessage = promptMessage;
     }
 
     public abstract Voucher createVoucher(UUID id, long value);
 
     public String getCounter() {
         return this.counter;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getPromptMessage() {
-        return this.promptMessage;
     }
 
     public static Optional<VoucherType> fromCounter(String counter) {

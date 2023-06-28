@@ -5,6 +5,7 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
+    private final String name = "FixedAmountVoucher";
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -23,5 +24,15 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public String toString() {
         return "FixedAmountVoucher: " + amount;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public long getValue() {
+        return amount;
     }
 }

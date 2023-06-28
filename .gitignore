@@ -32,4 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 src/main/java/com/example/demo/order
+src/main/java/com/example/demo/Demo1Application.java
+src/main/resources/application.yaml
+logs/*
 

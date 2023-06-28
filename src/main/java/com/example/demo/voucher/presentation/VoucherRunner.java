@@ -3,12 +3,17 @@ package com.example.demo.voucher.presentation;
 import com.example.demo.common.AppConfiguration;
 import com.example.demo.common.io.Input;
 import com.example.demo.common.io.Output;
-import com.example.demo.voucher.application.VoucherCommand;
+import com.example.demo.voucher.presentation.command.VoucherCommand;
 import com.example.demo.voucher.application.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class VoucherRunner {
+
+    private static Logger logger = LoggerFactory.getLogger(VoucherRunner.class);
+
     public static void main(String[] args) {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
@@ -30,7 +35,11 @@ public class VoucherRunner {
                 VoucherCommand strategy = applicationContext.getBean(command, VoucherCommand.class);
                 strategy.execute(voucherService);
             } catch (NoSuchBeanDefinitionException ex) {
+                logger.error(ex.getMessage());
                 output.printLine("Unknown command");
+            } catch (IllegalArgumentException ax) {
+                output.printLine(ax.getMessage());
+                logger.error(ax.getMessage());
             }
         }
     }

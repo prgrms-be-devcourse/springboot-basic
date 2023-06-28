@@ -6,8 +6,10 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
+    private final String name = "PercentDiscountVoucher";
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        isValid(percent);
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -25,5 +27,20 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String toString() {
         return "PercentDiscountVoucher: " + percent;
+    }
+
+    private void isValid(long percent) {
+        if (percent >= 100 || percent <= 0)
+            throw new IllegalArgumentException("1~99 사이의 숫자만 입력 가능합니다.");
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public long getValue() {
+        return percent;
     }
 }
