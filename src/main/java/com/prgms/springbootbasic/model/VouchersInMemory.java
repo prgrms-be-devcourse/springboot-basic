@@ -9,12 +9,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("test")
 public class VouchersInMemory implements VouchersStorage {
 	
-	private static final Map<UUID, Voucher> storage = new HashMap<>();
+	private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 	
 	public List<Voucher> findAll() {
 		return storage.values()
