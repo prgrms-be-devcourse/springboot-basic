@@ -1,6 +1,9 @@
 package org.prgms.voucher.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.prgms.voucher.voucher.VoucherPolicy;
 
 import java.util.UUID;
@@ -9,7 +12,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
 public class VoucherResponseDto {
     private long amount = 0;
     private UUID id;
