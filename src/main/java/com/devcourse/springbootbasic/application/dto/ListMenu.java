@@ -2,12 +2,16 @@ package com.devcourse.springbootbasic.application.dto;
 
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.constant.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
 public enum ListMenu {
     VOUCHER_LIST("1", "Created Vouchers List"),
     BLACK_CUSTOMER_LIST("2", "Black Customers List");
+
+    private static final Logger logger = LoggerFactory.getLogger(ListMenu.class);
 
     private final String listMenuOrdinal;
     private final String listMenuPrompt;
@@ -21,7 +25,10 @@ public enum ListMenu {
         return Arrays.stream(ListMenu.values())
                 .filter(l -> l.listMenuOrdinal.equals(input))
                 .findAny()
-                .orElseThrow(() -> new InvalidDataException(Message.INVALID_LIST_MENU));
+                .orElseThrow(() -> {
+                    logger.error("Menu Error - {} : {}", input, Message.INVALID_LIST_MENU);
+                    return new InvalidDataException(Message.INVALID_LIST_MENU);
+                });
     }
 
     public String getListMenuOrdinal() {

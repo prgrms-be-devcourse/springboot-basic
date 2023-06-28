@@ -2,11 +2,15 @@ package com.devcourse.springbootbasic.application.dto;
 
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.constant.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 public enum VoucherType {
     FIXED_AMOUNT("1", "Fixed Amount Discount Voucher"),
     PERCENT_DISCOUNT("2", "Percent Discount Voucher");
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 
     private final String typeOrdinal;
     private final String typeString;
@@ -20,7 +24,10 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(vt -> vt.typeOrdinal.equals(voucherTypeString))
                 .findAny()
-                .orElseThrow(() -> new InvalidDataException(Message.INVALID_VOUCHER_TYPE));
+                .orElseThrow(() -> {
+                    logger.error("Menu Error - {} : {}", voucherTypeString, Message.INVALID_VOUCHER_TYPE);
+                    return new InvalidDataException(Message.INVALID_VOUCHER_TYPE);
+                });
     }
 
     public String getTypeOrdinal() {
