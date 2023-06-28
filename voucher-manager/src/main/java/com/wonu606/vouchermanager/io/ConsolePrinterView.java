@@ -11,12 +11,12 @@ public class ConsolePrinterView {
 
     private String menuDescription;
     private String creationDescription;
-    private String exitMessage;
+    private String exitDescription;
 
-    public ConsolePrinterView(String menuDescription, String creationDescription, String exitMessage) {
+    public ConsolePrinterView(String menuDescription, String creationDescription, String exitDescription) {
         this.menuDescription = menuDescription;
         this.creationDescription = creationDescription;
-        this.exitMessage = exitMessage;
+        this.exitDescription = exitDescription;
     }
 
     public void printMenu() {
@@ -24,7 +24,7 @@ public class ConsolePrinterView {
     }
 
     public void printCreatableList() {
-
+        textTerminal.println(creationDescription);
     }
 
     public void printVoucherList(List<Voucher> voucherList) {
@@ -37,7 +37,7 @@ public class ConsolePrinterView {
     }
 
     public void printExitMessage() {
-        textTerminal.println(exitMessage);
+        textTerminal.println(exitDescription);
     }
     public void close() {
         textTerminal.dispose();
