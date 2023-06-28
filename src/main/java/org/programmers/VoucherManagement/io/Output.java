@@ -9,9 +9,11 @@ public interface Output {
 
     void printDiscountType();
 
-    void printDiscountValue();
-
     void printExitMessage();
 
     void printVoucherList(List<GetVoucherResponse> voucherList);
+
+    void printInputFixedAmountMessage();
+
+    void printInputPercentAmountMessage();
 }

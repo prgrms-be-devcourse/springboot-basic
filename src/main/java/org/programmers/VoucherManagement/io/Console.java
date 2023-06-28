@@ -29,11 +29,6 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printDiscountValue() {
-        System.out.println(ConsoleMessage.DISCOUNT_VALUE_MESSAGE);
-    }
-
-    @Override
     public void printExitMessage() {
         System.out.println(ConsoleMessage.EXIT_MESSAGE);
     }
@@ -49,6 +44,16 @@ public class Console implements Input, Output {
                             , response.getDiscountValue()
                             , response.getDiscountType().getSymbol()));
                 });
+    }
+
+    @Override
+    public void printInputFixedAmountMessage() {
+        System.out.println(ConsoleMessage.INPUT_FIXED_DISCOUNT_AMOUNT_MESSAGE);
+    }
+
+    @Override
+    public void printInputPercentAmountMessage() {
+        System.out.println(ConsoleMessage.INPUT_PERCENT_DISCOUNT_AMOUNT_MESSAGE);
     }
 
     @Override
