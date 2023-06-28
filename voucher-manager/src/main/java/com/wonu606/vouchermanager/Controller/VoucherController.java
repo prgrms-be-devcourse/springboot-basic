@@ -1,10 +1,10 @@
-package com.wonu606.Controller;
+package com.wonu606.vouchermanager.Controller;
 
-import com.wonu606.Controller.command.CommandResult;
-import com.wonu606.Controller.command.VoucherCommand;
-import com.wonu606.Controller.command.VoucherCreateCommand;
-import com.wonu606.Controller.command.VoucherExitCommand;
-import com.wonu606.Controller.command.VoucherListCommand;
+import com.wonu606.vouchermanager.Controller.command.CommandResult;
+import com.wonu606.vouchermanager.Controller.command.VoucherCommand;
+import com.wonu606.vouchermanager.Controller.command.VoucherCreateCommand;
+import com.wonu606.vouchermanager.Controller.command.VoucherExitCommand;
+import com.wonu606.vouchermanager.Controller.command.VoucherListCommand;
 import com.wonu606.vouchermanager.descriptionGenerator.CreationDescriptionGenerator;
 import com.wonu606.vouchermanager.descriptionGenerator.ExitDescriptionGenerator;
 import com.wonu606.vouchermanager.descriptionGenerator.MenuDescriptionGenerator;
