@@ -17,7 +17,6 @@ class MemoryVoucherRepositoryTest {
     private static final int FIXED_DISCOUNT_AMOUNT = 100;
     private static final String FIXED_AMOUNT_VOUCHER_TYPE = "fixed";
     private static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "percent";
-    private static final int EXPECTED_COUNT = 2;
 
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
@@ -42,6 +41,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 목록 조회 성공 테스트")
     @Test
     void findAll() {
+        final int expectedCount = 2;
         //give
         VoucherCreationRequest voucherCreationRequest1 = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
         VoucherCreationRequest voucherCreationRequest2 = RequestFactory.createVoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
@@ -56,6 +56,9 @@ class MemoryVoucherRepositoryTest {
         List<Voucher> voucherList = voucherRepository.findAll();
 
         //then
-        Assertions.assertThat(voucherList.size()).isEqualTo(EXPECTED_COUNT);
+        Assertions.assertThat(voucherList)
+                .hasSize(expectedCount)
+                .contains(voucher1)
+                .contains(voucher2);
     }
 }

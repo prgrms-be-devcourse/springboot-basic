@@ -41,7 +41,7 @@ class VoucherServiceImplTest {
         UUID voucherId = voucherService.createVoucher(voucherCreationRequest);
 
         //then
-        Assertions.assertThat(voucherRepository.findByVoucherId(voucherId).isPresent()).isTrue();
+        Assertions.assertThat(voucherRepository.findByVoucherId(voucherId)).isPresent();
 
     }
 
@@ -89,7 +89,7 @@ class VoucherServiceImplTest {
         List<VoucherInfoResponse> voucherList = voucherService.findVoucherList();
 
         //then
-        Assertions.assertThat(voucherList.size()).isEqualTo(EXPECTED_COUNT);
+        Assertions.assertThat(voucherList).hasSize(EXPECTED_COUNT);
     }
 
     @DisplayName("바우처 목록 비어있을 경우 예외 발생 테스트")
