@@ -11,7 +11,7 @@ public enum CommandType {
     public static CommandType findCommandType(String userCommand) {
         return Arrays.stream(CommandType.values())
                 .filter(commandType -> commandType.name().equals(userCommand))
-                .findAny()
+                .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("입력을 잘못하였습니다."));
     }
 }

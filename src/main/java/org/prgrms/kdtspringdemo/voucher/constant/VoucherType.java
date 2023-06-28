@@ -9,7 +9,7 @@ public enum VoucherType {
     public static VoucherType findVoucherType(String userVoucherType) {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> voucherType.name().equals(userVoucherType))
-                .findAny()
+                .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("입력을 잘못하였습니다."));
     }
 }
