@@ -24,7 +24,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Value("${file-repository-path}")
+    @Value("${voucher-list-file-path}")
     private String filePath;
 
     @Override

@@ -3,6 +3,7 @@ package org.prgms.voucher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.voucher.option.Option;
+import org.prgms.voucher.service.CustomerService;
 import org.prgms.voucher.service.VoucherService;
 import org.prgms.voucher.view.VoucherView;
 import org.prgms.voucher.voucher.VoucherPolicy;
@@ -16,6 +17,7 @@ public class VoucherApplicationRunner implements CommandLineRunner {
 
     private final VoucherView voucherView;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
     private final boolean isRunning = true;
 
     @Override
@@ -34,6 +36,9 @@ public class VoucherApplicationRunner implements CommandLineRunner {
                         break;
                     case LIST:
                         voucherView.printVouchers(voucherService.getVoucherList());
+                        break;
+                    case BLACK_LIST:
+                        voucherView.printCustomers(customerService.getBlackList());
                         break;
                     default:
                         return;

@@ -3,6 +3,7 @@ package org.prgms.voucher.view;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+import org.prgms.voucher.dto.BlackCustomerResponseDto;
 import org.prgms.voucher.dto.VoucherResponseDto;
 import org.prgms.voucher.option.Option;
 import org.prgms.voucher.voucher.VoucherPolicy;
@@ -49,6 +50,16 @@ public class ConsoleVoucherView implements VoucherView {
     @Override
     public void printError(String message) {
         terminal.println(message);
+    }
+
+    @Override
+    public void printCustomers(List<BlackCustomerResponseDto> customers) {
+        terminal.println("=== Black list ===");
+        terminal.println(
+                customers.stream()
+                        .map(customer -> MessageFormat.format("id: {0}, name: {1}", customer.getId(), customer.getName()))
+                        .collect(Collectors.joining(System.lineSeparator()))
+        );
     }
 
     @Override

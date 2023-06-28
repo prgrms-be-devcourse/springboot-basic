@@ -4,16 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.prgms.voucher.voucher.VoucherPolicy;
-
-import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class VoucherResponseDto {
-    private long amount;
-    private UUID id;
-    private VoucherPolicy voucherPolicy;
+public class BlackCustomerResponseDto {
+    private long id;
+    private String name;
 }

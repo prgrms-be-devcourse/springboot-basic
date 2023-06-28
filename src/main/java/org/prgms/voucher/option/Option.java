@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 public enum Option {
     CREATE("create", "Type create to create a new voucher."),
     LIST("list", "Type list to list all vouchers."),
+    BLACK_LIST("black-list", "Type black-list to list all members on the black list"),
     EXIT("exit", "Type exit to exit the program.");
 
     private static final Map<String, Option> OPTION_MAP =
