@@ -2,6 +2,8 @@ package org.programmers.VoucherManagement;
 
 import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.io.Console;
+import org.programmers.VoucherManagement.member.api.MemberController;
+import org.programmers.VoucherManagement.member.dto.GetMemberResponse;
 import org.programmers.VoucherManagement.voucher.api.VoucherController;
 import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
@@ -18,6 +20,7 @@ public class VoucherManagementRunner implements CommandLineRunner {
     private static Console console = new Console();
     private static CommandType commandType;
     private final VoucherController voucherController;
+    private final MemberController memberController;
 
     @Override
     public void run(String... args) throws Exception {
@@ -41,6 +44,10 @@ public class VoucherManagementRunner implements CommandLineRunner {
         }
         if (commandType.isExit()) {
             console.printExitMessage();
+        }
+        if(commandType.isBlackList()){
+            List<GetMemberResponse> blackMemberList = memberController.getBlackMemberList();
+            console.printMemberList(blackMemberList);
         }
     }
 

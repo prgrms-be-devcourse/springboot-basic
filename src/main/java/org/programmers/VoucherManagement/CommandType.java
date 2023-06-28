@@ -3,6 +3,7 @@ package org.programmers.VoucherManagement;
 import org.programmers.VoucherManagement.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -14,7 +15,8 @@ import static org.programmers.VoucherManagement.exception.VoucherExceptionMessag
 public enum CommandType {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACKLIST("blacklist");
 
     private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
     private static final Map<String, CommandType> COMMAND_TYPE_MAP =
@@ -41,6 +43,10 @@ public enum CommandType {
 
     public boolean isList() {
         return this.equals(CommandType.LIST);
+    }
+
+    public boolean isBlackList() {
+        return this.equals(CommandType.BLACKLIST);
     }
 
     public static CommandType from(String type) {
