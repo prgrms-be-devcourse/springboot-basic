@@ -23,10 +23,7 @@ public enum Menu {
     }
 
     public static Menu findMenu(String input) {
-        if (input.isEmpty()) {
-            log.error("The menu input not found.");
-            throw new IllegalArgumentException();
-        }
+        checkMenuInputEmpty(input);
 
         return Arrays.stream(Menu.values())
                 .filter(menu -> Objects.equals(menu.name, input) || Objects.equals(menu.number, input))
@@ -35,5 +32,12 @@ public enum Menu {
                     log.error("The invalid menu input found. input value = {}", input);
                     return new IllegalArgumentException();
                 });
+    }
+
+    private static void checkMenuInputEmpty(String input) {
+        if (input.isEmpty()) {
+            log.error("The menu input not found.");
+            throw new IllegalArgumentException();
+        }
     }
 }

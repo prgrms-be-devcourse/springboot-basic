@@ -14,15 +14,19 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, String voucherName, long amount) {
+        checkVoucherInput(voucherName, amount);
+
+        this.voucherId = voucherId;
+        this.voucherName = voucherName;
+        this.amount = amount;
+    }
+
+    private void checkVoucherInput(String voucherName, long amount) {
         if (voucherName.isEmpty() || amount < 0) {
             log.error("Empty Input or the invalid voucher input found. voucher type = {}", FixedAmountVoucher.class.getName());
 
             throw new IllegalArgumentException();
         }
-
-        this.voucherId = voucherId;
-        this.voucherName = voucherName;
-        this.amount = amount;
     }
 
     @Override

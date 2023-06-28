@@ -14,15 +14,19 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, String voucherName, long percent) {
+        checkVoucherInput(voucherName, percent);
+
+        this.voucherId = voucherId;
+        this.voucherName = voucherName;
+        this.percent = percent;
+    }
+
+    private void checkVoucherInput(String voucherName, long percent) {
         if (voucherName.isEmpty() || percent < 1 || percent > 100) {
             log.error("Empty Input or the invalid voucher input found. voucher type = {}", PercentDiscountVoucher.class.getName());
 
             throw new IllegalArgumentException();
         }
-
-        this.voucherId = voucherId;
-        this.voucherName = voucherName;
-        this.percent = percent;
     }
 
     @Override
