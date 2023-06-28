@@ -5,7 +5,6 @@ import com.programmers.voucher.domain.voucher.controller.VoucherController;
 import com.programmers.voucher.global.exception.DataAccessException;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.ConsoleCommandType;
-import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -25,32 +24,29 @@ public class ConsoleMenu implements CommandLineRunner {
         this.customerController = customerController;
     }
 
-
     @Override
     public void run(String... args) throws Exception {
-        LOG.info("Started Voucher Console Application.");
         console.printCommandSet();
 
         boolean keepRunningClient = true;
         while (keepRunningClient) {
             keepRunningClient = runAndProcessClient();
         }
-
-        LOG.info("Exit the Voucher Console Application.");
     }
 
     private boolean runAndProcessClient() {
         boolean keepRunningClient = true;
         try {
             keepRunningClient = runClient();
+        } catch (IllegalArgumentException ex) {
+            LOG.warn("Invalid input occurred.", ex);
+            console.print(ex.getMessage());
         } catch (DataAccessException ex) {
-            LOG.error("Unhandled exception thrown: " + CommonErrorMessages.CANNOT_ACCESS_FILE, ex);
             console.print(ex.getMessage());
 
             keepRunningClient = false;
         } catch (RuntimeException ex) {
-            LOG.warn("Invalid input occurred.", ex);
-            console.print(ex.getMessage());
+            LOG.error("Unexpected exception thrown.", ex);
         }
         return keepRunningClient;
     }

@@ -3,6 +3,8 @@ package com.programmers.voucher.domain.customer.repository;
 import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.global.exception.DataAccessException;
 import com.programmers.voucher.global.util.CommonErrorMessages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -18,6 +20,8 @@ import java.util.UUID;
 
 @Repository
 public class BlacklistFileRepository implements BlacklistRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(BlacklistFileRepository.class);
+
     private final File file;
 
     public BlacklistFileRepository(@Value("${file.blacklist.path}") String filePath,
@@ -26,6 +30,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
         try {
             this.file = resource.getFile();
         } catch (IOException e) {
+            LOG.error(CommonErrorMessages.CANNOT_ACCESS_FILE + " - " + filePath, e);
             throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
     }
@@ -42,6 +47,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
                 customers.add(customer);
             }
         } catch (IOException e) {
+            LOG.error(CommonErrorMessages.CANNOT_ACCESS_FILE + " - " + file.getPath(), e);
             throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
         return customers;

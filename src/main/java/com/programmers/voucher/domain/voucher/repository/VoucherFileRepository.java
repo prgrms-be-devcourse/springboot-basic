@@ -5,6 +5,8 @@ import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.global.exception.DataAccessException;
 import com.programmers.voucher.global.util.CommonErrorMessages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
@@ -19,6 +21,8 @@ import java.util.UUID;
 @Repository
 @Profile("dev")
 public class VoucherFileRepository implements VoucherRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(VoucherFileRepository.class);
+
     private final File file;
 
     public VoucherFileRepository(@Value("${file.vouchers.path}") String filePath,
@@ -27,6 +31,7 @@ public class VoucherFileRepository implements VoucherRepository {
         try {
             this.file = resource.getFile();
         } catch (IOException e) {
+            LOG.error(CommonErrorMessages.CANNOT_ACCESS_FILE + " - " + filePath, e);
             throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
     }
@@ -43,6 +48,7 @@ public class VoucherFileRepository implements VoucherRepository {
             bw.write(voucherInfo);
             bw.newLine();
         } catch (IOException e) {
+            LOG.error(CommonErrorMessages.CANNOT_ACCESS_FILE + " - " + file.getPath(), e);
             throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
     }
@@ -59,6 +65,7 @@ public class VoucherFileRepository implements VoucherRepository {
                 vouchers.add(voucher);
             }
         } catch (IOException e) {
+            LOG.error(CommonErrorMessages.CANNOT_ACCESS_FILE + " - " + file.getPath(), e);
             throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
         }
 
