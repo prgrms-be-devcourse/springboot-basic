@@ -8,7 +8,5 @@ public interface Voucher {
 
     UUID getVoucherId();
     long discountAmount(long beforeDiscount);
-    LocalDate getCreatedDate();
-    LocalDate getExpirationDate();
 
 }

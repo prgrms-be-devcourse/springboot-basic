@@ -10,8 +10,8 @@ public class PercentDiscountVoucher implements Voucher {
     private final LocalDate createdDate;
     private final LocalDate expirationDate;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDate createdDate, LocalDate expirationDate) {
-        this.voucherId = voucherId;
+    private PercentDiscountVoucher(long percent, LocalDate createdDate, LocalDate expirationDate) {
+        this.voucherId = UUID.randomUUID();
         this.percent = percent;
         this.createdDate = createdDate;
         this.expirationDate = expirationDate;
@@ -27,13 +27,19 @@ public class PercentDiscountVoucher implements Voucher {
         return (beforeDiscount * percent) / 100;
     }
 
-    @Override
+    public long getPercent() {
+        return percent;
+    }
+
     public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    @Override
     public LocalDate getExpirationDate() {
         return expirationDate;
+    }
+
+    public static Voucher createPercentDiscountVoucher(long percent, LocalDate createdDate, LocalDate expirationDate) {
+        return new PercentDiscountVoucher(percent, createdDate, expirationDate);
     }
 }
