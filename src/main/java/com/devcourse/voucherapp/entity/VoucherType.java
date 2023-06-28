@@ -10,8 +10,9 @@ import java.util.Arrays;
 import java.util.UUID;
 import lombok.Getter;
 
+@Getter
 public enum VoucherType {
-    FIX("1", "고정 할인") {
+    FIX("1", "고정 할인", "\n고정 할인 금액을 입력하세요. (1이상의 자연수, 단위: 원)") {
         private static final String FIX_DISCOUNT_PRICE_REGEX = "^[1-9][0-9]*$";
         private static final String INVALID_FIX_DISCOUNT_PRICE_MESSAGE = "입력하신 금액이 조건에 맞지 않습니다.";
 
@@ -30,7 +31,7 @@ public enum VoucherType {
             }
         }
     },
-    PERCENT("2", "비율 할인") {
+    PERCENT("2", "비율 할인", "\n비율 할인 퍼센트를 입력하세요. (1이상 100이하의 자연수, 단위: %)") {
         private static final String PERCENT_DISCOUNT_RATE_REGEX = "^[1-9]|[1-9][0-9]|100$";
         private static final String INVALID_PERCENT_DISCOUNT_RATE_MESSAGE = "입력하신 퍼센트가 조건에 맞지 않습니다.";
 
@@ -52,14 +53,14 @@ public enum VoucherType {
 
     private static final String NOT_EXIST_VOUCHER_TYPE_MESSAGE = "입력하신 할인권 방식은 없는 방식입니다.";
 
-    @Getter
     private final String number;
-
     private final String name;
+    private final String message;
 
-    VoucherType(String number, String name) {
+    VoucherType(String number, String name, String message) {
         this.number = number;
         this.name = name;
+        this.message = message;
     }
 
     public static VoucherType getVoucherType(String voucherTypeNumber) {
