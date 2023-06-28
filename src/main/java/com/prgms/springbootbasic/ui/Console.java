@@ -1,5 +1,7 @@
 package com.prgms.springbootbasic.ui;
 
+import com.prgms.springbootbasic.model.Voucher;
+
 import java.util.List;
 
 public class Console {
@@ -27,7 +29,7 @@ public class Console {
 		return inputView.enterVoucherNumber();
 	}
 	
-	public void showVoucherList(List<String> vouchers) {
+	public void showVoucherList(List<Voucher> vouchers) {
 		outputView.showVoucherList(vouchers);
 	}
 	

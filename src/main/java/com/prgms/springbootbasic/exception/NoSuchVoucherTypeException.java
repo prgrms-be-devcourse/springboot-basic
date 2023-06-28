@@ -1,9 +1,11 @@
 package com.prgms.springbootbasic.exception;
 
+import com.prgms.springbootbasic.util.ExceptionMessage;
+
 public class NoSuchVoucherTypeException extends NullPointerException {
-	
-	public NoSuchVoucherTypeException(String message) {
-		super(message);
+
+	public NoSuchVoucherTypeException(ExceptionMessage message) {
+		super(message.getMessage());
 	}
 	
 }

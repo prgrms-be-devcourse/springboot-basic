@@ -2,31 +2,36 @@ package com.prgms.springbootbasic.model;
 
 import com.prgms.springbootbasic.exception.DuplicationKeyException;
 
+import com.prgms.springbootbasic.util.ExceptionMessage;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
 import java.util.Map;
-import java.util.HashMap;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class VouchersInMemory {
+@Repository
+@Profile("test")
+public class VouchersInMemory implements VouchersStorage {
 	
-	private static final Map<UUID, Voucher> storage = new HashMap<>();
-	
-	public Optional<Voucher> findById(UUID voucherId) {
-		return Optional.of(storage.get(voucherId));
-	}
+	private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 	
 	public List<Voucher> findAll() {
-		return storage.keySet()
+		return storage.values()
 				.stream()
-				.map(key -> storage.get(key))
-				.collect(Collectors.toList());
+				.toList();
 	}
 	
 	public void save(Voucher voucher) {
-		if (storage.containsKey(voucher.getVoucherId())) throw new DuplicationKeyException("이미 존재하는 키 입니다. voucherId : " + voucher.getVoucherId());
+		throwDuplicationKeyException(voucher.getVoucherId());
 		storage.put(voucher.getVoucherId(), voucher);
+	}
+
+	private void throwDuplicationKeyException(UUID voucherId) {
+		if (storage.containsKey(voucherId)) {
+			throw new DuplicationKeyException(ExceptionMessage.DUPLICATION_KEY);
+		}
 	}
 	
 }

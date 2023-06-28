@@ -1,17 +1,18 @@
 package com.prgms.springbootbasic.model;
 
 import com.prgms.springbootbasic.exception.UnderMinimumAmountException;
-import com.prgms.springbootbasic.model.Voucher;
+import com.prgms.springbootbasic.util.ExceptionMessage;
+import com.prgms.springbootbasic.util.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 	
 	private static final long MINIMUM = 0;
-	private static final String VOUCHER_TYPE = "Fixed";
-	private static final String FORMAT_STRING = "voucher type : {0} voucher Id : {1} amount : {2}";
-	private static final String UNDER_MINIMUM_EXCEPTION_MESSAGE = "Fixed voucher have to discount over 0. amount : ";
+	private static final String FORMAT_CSV = "%s,%s,%d\n";
+	private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 	
 	private final UUID voucherId;
 	private final long amount;
@@ -21,24 +22,28 @@ public class FixedAmountVoucher implements Voucher {
 		this.voucherId = voucherId;
 		this.amount = amount;
 	}
-	
+
+	@Override
+	public VoucherType getVoucherType() {
+		return VoucherType.FIXED;
+	}
+
 	@Override
 	public UUID getVoucherId() {
 		return voucherId;
 	}
+
+	@Override
+	public Long getNumber() { return amount; }
 	
 	@Override
-	public long discount(long beforeAmount) {
-		return beforeAmount - amount;
-	}
-	
-	@Override
-	public String toString() {
-		return MessageFormat.format(FORMAT_STRING, VOUCHER_TYPE, voucherId, amount);
-	}
-	
+	public String formatOfCSV() { return String.format(FORMAT_CSV, VoucherType.FIXED.getType(), voucherId, amount); }
+
 	private void throwWhenUnderMinimum(long amount) {
-		if (amount <= MINIMUM) throw new UnderMinimumAmountException(UNDER_MINIMUM_EXCEPTION_MESSAGE + amount);
+		if (amount <= MINIMUM) {
+			logger.error("Fixed 바우처는 0과 음수를 가질 수 없습니다. amount : {}", amount);
+			throw new UnderMinimumAmountException(ExceptionMessage.UNDER_MINIMUM_AMOUNT);
+		}
 	}
 	
 }

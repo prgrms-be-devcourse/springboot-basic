@@ -1,10 +1,14 @@
 package com.prgms.springbootbasic.model;
 
+import com.prgms.springbootbasic.util.VoucherType;
+
 import java.util.UUID;
 
 public interface Voucher {
-	
+
+	VoucherType getVoucherType();
 	UUID getVoucherId();
-	long discount(long beforeAmount);
-	
+	Long getNumber();
+	String formatOfCSV();
+
 }

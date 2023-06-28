@@ -1,18 +1,19 @@
 package com.prgms.springbootbasic.model;
 
 import com.prgms.springbootbasic.exception.OutOfRangePercentException;
-import com.prgms.springbootbasic.model.Voucher;
+import com.prgms.springbootbasic.util.ExceptionMessage;
+import com.prgms.springbootbasic.util.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
 import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
 	
 	private static final long MINIMUM = 0;
 	private static final long MAXIMUM = 100;
-	private static final String VOUCHER_TYPE = "Percent";
-	private static final String FORMAT_STRING = "voucher type : {0} voucher Id : {1} percent : {2}";
-	private static final String OUT_OF_RANGE_EXCEPTION_MESSAGE = "Percent voucher have to discount in range of 1 to 100 percent. : ";
+	private static final String FORMAT_CSV = "%s,%s,%d\n";
+	private static final Logger logger = LoggerFactory.getLogger(PercentAmountVoucher.class);
 	
 	private final UUID voucherId;
 	private final long percent;
@@ -22,24 +23,28 @@ public class PercentAmountVoucher implements Voucher {
 		this.voucherId = voucherId;
 		this.percent = percent;
 	}
-	
+
+	@Override
+	public VoucherType getVoucherType() {
+		return VoucherType.PERCENT;
+	}
+
 	@Override
 	public UUID getVoucherId() {
 		return voucherId;
 	}
+
+	@Override
+	public Long getNumber() { return percent; }
 	
 	@Override
-	public long discount(long beforeAmount) {
-		return beforeAmount * (percent / 100);
-	}
-	
-	@Override
-	public String toString() {
-		return MessageFormat.format(FORMAT_STRING, VOUCHER_TYPE, voucherId, percent);
-	}
-	
+	public String formatOfCSV() { return String.format(FORMAT_CSV, VoucherType.PERCENT.getType(), voucherId, percent); }
+
 	private void throwWhenOutOfRangePercent(long percent) {
-		if (percent <= MINIMUM || percent > MAXIMUM) throw new OutOfRangePercentException(OUT_OF_RANGE_EXCEPTION_MESSAGE + percent);
+		if (percent <= MINIMUM || percent > MAXIMUM) {
+			logger.error("Percent 바우처는 0 이하 혹은 100 초과하는 값을 가질 수 없습니다. percent : {}", percent);
+			throw new OutOfRangePercentException(ExceptionMessage.OUT_OF_RANGE_PERCENT);
+		}
 	}
 	
 }
