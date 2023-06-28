@@ -3,11 +3,12 @@ package org.prgrms.kdtspringdemo.voucher.ropository;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -27,6 +28,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(storage.values());
+        return Collections.unmodifiableList(new ArrayList<>(storage.values()));
     }
 }
