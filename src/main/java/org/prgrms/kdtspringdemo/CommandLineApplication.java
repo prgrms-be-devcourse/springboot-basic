@@ -54,6 +54,6 @@ public class CommandLineApplication {
         VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
         Long discount = voucherConsole.inputDiscountByVoucher();
         VoucherDto voucherDto = new VoucherDto(voucherType, discount);
-        return voucherService.createVoucher(voucherDto);
+        return voucherService.create(voucherDto);
     }
 }

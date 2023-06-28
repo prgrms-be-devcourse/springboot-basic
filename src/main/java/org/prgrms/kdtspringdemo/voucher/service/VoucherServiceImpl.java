@@ -22,7 +22,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherDto createVoucher(VoucherDto voucherDto) {
+    public VoucherDto create(VoucherDto voucherDto) {
         switch (voucherDto.getVoucherType()) {
             case FIXED -> {
                 Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getDiscount());
