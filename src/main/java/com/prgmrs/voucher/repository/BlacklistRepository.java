@@ -18,6 +18,6 @@ public class BlacklistRepository {
     }
 
     public Map<UUID, String> findAll() {
-        return fileBlacklistDatabase.getCache();
+        return fileBlacklistDatabase.load();
     }
 }

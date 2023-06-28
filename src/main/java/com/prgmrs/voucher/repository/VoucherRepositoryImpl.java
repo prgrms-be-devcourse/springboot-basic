@@ -20,17 +20,17 @@ public class VoucherRepositoryImpl implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        voucherDatabase.putCache(voucher.getVoucherId(), voucher);
+        voucherDatabase.store(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public Map<UUID, Voucher> findAll() {
-        return voucherDatabase.getCache();
+        return voucherDatabase.load();
     }
 
     @Override
     public Voucher findVoucherById(UUID uuid) {
-        Map<UUID, Voucher> cache = voucherDatabase.getCache();
+        Map<UUID, Voucher> cache = voucherDatabase.load();
         return cache.get(uuid);
     }
 }

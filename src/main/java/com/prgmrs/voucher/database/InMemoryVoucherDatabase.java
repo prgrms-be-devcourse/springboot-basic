@@ -14,12 +14,12 @@ public class InMemoryVoucherDatabase implements VoucherDatabase {
     private static Map<UUID, Voucher> cache = new HashMap<>();
 
     @Override
-    public Map<UUID, Voucher> getCache() {
+    public Map<UUID, Voucher> load() {
         return cache;
     }
 
     @Override
-    public void putCache(UUID voucherId, Voucher voucher) {
+    public void store(UUID voucherId, Voucher voucher) {
         cache.put(voucherId, voucher);
     }
 }

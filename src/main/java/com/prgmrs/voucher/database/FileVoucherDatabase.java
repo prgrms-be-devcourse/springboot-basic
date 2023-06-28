@@ -22,7 +22,7 @@ public class FileVoucherDatabase implements VoucherDatabase {
     String filename = "src/main/resources/vouchers.csv";
 
     @Override
-    public Map<UUID, Voucher> getCache() {
+    public Map<UUID, Voucher> load() {
         boolean append = Files.exists(Paths.get(filename));
         Map<UUID, Voucher> cache = new HashMap<>();
 
@@ -54,7 +54,7 @@ public class FileVoucherDatabase implements VoucherDatabase {
     }
 
     @Override
-    public void putCache(UUID voucherId, Voucher voucher) {
+    public void store(UUID voucherId, Voucher voucher) {
         boolean append = Files.exists(Paths.get(filename));
         try (CSVWriter writer = new CSVWriter(new FileWriter(filename, append))) {
             if(!append) {

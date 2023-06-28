@@ -14,7 +14,7 @@ import java.util.UUID;
 public class FileBlacklistDatabase {
     String filename = "src/main/resources/blacklist.csv";
 
-    public Map<UUID, String> getCache() {
+    public Map<UUID, String> load() {
         boolean append = Files.exists(Paths.get(filename));
         Map<UUID, String> cache = new HashMap<>();
 
