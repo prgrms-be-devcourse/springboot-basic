@@ -1,7 +1,6 @@
 package com.devcourse.springbootbasic.application.dto;
 
-import com.devcourse.springbootbasic.application.global.dto.ListMenu;
-import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

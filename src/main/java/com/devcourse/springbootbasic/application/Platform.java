@@ -1,20 +1,19 @@
 package com.devcourse.springbootbasic.application;
 
-import com.devcourse.springbootbasic.application.domain.voucher.data.Voucher;
-import com.devcourse.springbootbasic.application.global.dto.Menu;
-import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import com.devcourse.springbootbasic.application.global.io.InputConsole;
-import com.devcourse.springbootbasic.application.global.io.OutputConsole;
-import com.devcourse.springbootbasic.application.domain.customer.service.CustomerService;
-import com.devcourse.springbootbasic.application.domain.voucher.service.VoucherService;
-import com.devcourse.springbootbasic.application.global.template.CommandLineTemplate;
-import com.devcourse.springbootbasic.application.global.template.CreateMenuTemplate;
-import com.devcourse.springbootbasic.application.global.template.ListMenuTemplate;
+import com.devcourse.springbootbasic.application.domain.Voucher;
+import com.devcourse.springbootbasic.application.dto.Menu;
+import com.devcourse.springbootbasic.application.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.io.InputConsole;
+import com.devcourse.springbootbasic.application.io.OutputConsole;
+import com.devcourse.springbootbasic.application.service.CustomerService;
+import com.devcourse.springbootbasic.application.service.VoucherService;
+import com.devcourse.springbootbasic.application.template.CommandLineTemplate;
+import com.devcourse.springbootbasic.application.template.CreateMenuTemplate;
+import com.devcourse.springbootbasic.application.template.ListMenuTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -26,7 +25,10 @@ public class Platform {
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    public Platform(InputConsole input, OutputConsole output, VoucherService voucherService, CustomerService customerService) {
+    public Platform(
+            InputConsole input, OutputConsole output,
+            VoucherService voucherService, CustomerService customerService
+    ) {
         this.commandLineTemplate = new CommandLineTemplate(input, output);
         this.voucherService = voucherService;
         this.customerService = customerService;
@@ -45,14 +47,14 @@ public class Platform {
     private boolean getUserMenuInput() {
         try {
             return branchByMenu(commandLineTemplate.menuTask());
-        } catch (InvalidDataException | IOException e) {
+        } catch (InvalidDataException e) {
             commandLineTemplate.errorTask(e);
             logger.error(e.getMessage(), e.getCause());
         }
         return false;
     }
 
-    private boolean branchByMenu(Menu menu) throws IOException {
+    private boolean branchByMenu(Menu menu) {
         return switch (menu) {
             case EXIT -> {
                 commandLineTemplate.endGameTask();
