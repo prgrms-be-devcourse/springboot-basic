@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class VoucherRequest {
     private static final Pattern PERCENT_INPUT_RANGE_PATTERN = Pattern.compile("^[1-9][0-9]?$|^100$");
-    private static final Pattern FIXED_INPUT_PATTERN = Pattern.compile("^[1-9]\\d*$");
+    private static final Pattern FIXED_INPUT_RANGE_PATTERN = Pattern.compile("^[1-9]\\d*$");
 
     private final int amount;
     private final VoucherType voucherType;
@@ -30,7 +30,7 @@ public class VoucherRequest {
             return PERCENT_INPUT_RANGE_PATTERN.matcher(amount).matches();
         }
 
-        return FIXED_INPUT_PATTERN.matcher(amount).matches();
+        return FIXED_INPUT_RANGE_PATTERN.matcher(amount).matches();
     }
 
     public VoucherType getVoucherType() {
@@ -39,9 +39,5 @@ public class VoucherRequest {
 
     public int getAmount() {
         return this.amount;
-    }
-
-    public String toString() {
-        return this.voucherType + " " + this.amount;
     }
 }
