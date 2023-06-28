@@ -18,60 +18,48 @@ public class CommandLineApplication {
 	}
 
 	public void run() {
-
 		while (isOn) {
 			Console.printModeType();
 			ModeType mode = ModeType.getTypeMode(Console.readModeType());
+			processMode(mode);
+		}
+	}
 
-			switch (mode) {
-
-				case Exit:
-					isOn = false;
-					break;
-
-				case Create:
-					createVoucher();
-					break;
-
-				case List:
-					getVouchers();
-					break;
-
-				case Null:
-					Console.printError("Mode를 다시 선택해주세요");
-					break;
-			}
+	public void processMode(ModeType mode) {
+		switch (mode) {
+			case Exit -> isOn = false;
+			case Create -> createVoucher();
+			case List -> getVouchers();
+			case Null -> Console.printError("Mode를 다시 선택해주세요");
 		}
 	}
 
 	public void createVoucher() {
-		boolean isSatisfied = false;
-		while (!isSatisfied) {
+		Console.printVoucherType();
+		VoucherType voucherType = VoucherType.getVouchersType(Console.readVoucherType());
+		Voucher voucher = processVoucherType(voucherType);
+
+		while (voucher == null) {
+			Console.printError("VoucherType을 다시 선택해주세요");
 			Console.printVoucherType();
-			VoucherType voucherType = VoucherType.getVouchersType(Console.readVoucherType());
-
-			Voucher voucher = null;
-			switch (voucherType) {
-
-				case FixedAmount:
-					Console.printDiscountAmount();
-					voucher = voucherService.createVoucher(voucherType, Console.readDiscount());
-					Console.printVoucherInfo(voucher.getInfo());
-					isSatisfied = true;
-					break;
-
-				case PercentDiscount:
-					Console.printDiscountPercent();
-					voucher = voucherService.createVoucher(voucherType, Console.readDiscount());
-					Console.printVoucherInfo(voucher.getInfo());
-					isSatisfied = true;
-					break;
-
-				case Null:
-					Console.printError("VoucherType을 다시 선택해주세요");
-					break;
-			}
+			voucherType = VoucherType.getVouchersType(Console.readVoucherType());
+			voucher = processVoucherType(voucherType);
 		}
+	}
+
+	public Voucher processVoucherType(VoucherType voucherType) {
+		Voucher voucher = switch (voucherType) {
+			case FixedAmount -> {
+				Console.printDiscountAmount();
+				yield voucherService.createVoucher(voucherType, Console.readDiscount());
+			}
+			case PercentDiscount -> {
+				Console.printDiscountPercent();
+				yield voucherService.createVoucher(voucherType, Console.readDiscount());
+			}
+			case Null -> null;
+		};
+		return voucher;
 	}
 
 	public void getVouchers() {
