@@ -6,6 +6,7 @@ import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -39,16 +40,19 @@ public class CommandLineApplication {
     private void execute(Command command) {
         switch (command) {
             case EXIT -> isRunning = false;
-            case CREATE -> create();
+            case CREATE -> {
+                VoucherResponseDto responseDto = create();
+                console.printVoucher(responseDto);
+            }
             case LIST -> findAll();
         }
     }
 
-    private void create() {
+    private VoucherResponseDto create() {
         VoucherType voucherType = inputVoucherInfo();
         long discountInfo = inputDiscountInfo();
         Discount discount = Discount.of(voucherType, discountInfo);
-        createVoucher(discount);
+        return createVoucher(discount);
     }
 
     private VoucherType inputVoucherInfo() {
@@ -56,6 +60,7 @@ public class CommandLineApplication {
             try {
                 return VoucherType.of(console.inputVoucherType());
             } catch (IllegalArgumentException e) {
+                e.getStackTrace();
                 console.println(e.getMessage());
             }
         }
@@ -71,9 +76,9 @@ public class CommandLineApplication {
         }
     }
 
-    private void createVoucher(Discount discount) {
+    private VoucherResponseDto createVoucher(Discount discount) {
         VoucherRequestDto requestDto = new VoucherRequestDto(UUID.randomUUID(), discount);
-        console.printVoucher(voucherController.create(requestDto));
+        return voucherController.create(requestDto);
     }
 
     private void findAll() {
