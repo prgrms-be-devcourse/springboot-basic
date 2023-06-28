@@ -10,7 +10,7 @@ public interface OutputView {
 
     void printVoucher(VoucherResponseDto responseDto);
 
-    void println(String message);
+    <T> void println(T message);
 
-    void print(String message);
+    <T> void print(T message);
 }

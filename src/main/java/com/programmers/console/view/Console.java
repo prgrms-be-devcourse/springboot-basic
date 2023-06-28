@@ -63,12 +63,12 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public void println(String message) {
+    public <T> void println(T message) {
         System.out.println(message);
     }
 
     @Override
-    public void print(String message) {
+    public <T> void print(T message) {
         System.out.print(message);
     }
 
