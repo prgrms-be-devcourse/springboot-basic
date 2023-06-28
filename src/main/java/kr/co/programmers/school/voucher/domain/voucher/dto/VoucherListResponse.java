@@ -20,4 +20,12 @@ public class VoucherListResponse {
                 .map(Voucher::printVoucher)
                 .toList();
     }
+
+    public boolean isEmpty() {
+        if (voucherList.isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
 }
