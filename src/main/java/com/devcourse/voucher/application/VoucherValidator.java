@@ -1,5 +1,6 @@
-package com.devcourse.voucher;
+package com.devcourse.voucher.application;
 
+import com.devcourse.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

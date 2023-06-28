@@ -1,4 +1,4 @@
-package com.devcourse.voucher;
+package com.devcourse.voucher.domain;
 
 public enum VoucherStatus {
     USED,

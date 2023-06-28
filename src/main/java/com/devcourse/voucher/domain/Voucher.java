@@ -1,10 +1,10 @@
-package com.devcourse.voucher;
+package com.devcourse.voucher.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.devcourse.voucher.VoucherStatus.*;
+import static com.devcourse.voucher.domain.VoucherStatus.*;
 
 public class Voucher {
     public final UUID id;

@@ -1,10 +1,10 @@
 package com.devcourse.domain.voucher;
 
-import com.devcourse.voucher.DiscountPolicy;
-import com.devcourse.voucher.FixedAmountPolicy;
-import com.devcourse.voucher.Voucher;
-import com.devcourse.voucher.VoucherStatus;
-import com.devcourse.voucher.VoucherValidator;
+import com.devcourse.voucher.domain.DiscountPolicy;
+import com.devcourse.voucher.domain.FixedAmountPolicy;
+import com.devcourse.voucher.domain.Voucher;
+import com.devcourse.voucher.domain.VoucherStatus;
+import com.devcourse.voucher.application.VoucherValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

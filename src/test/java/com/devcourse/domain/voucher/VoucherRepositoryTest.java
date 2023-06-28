@@ -1,6 +1,8 @@
-package com.devcourse.voucher.repository;
+package com.devcourse.domain.voucher;
 
-import com.devcourse.voucher.Voucher;
+import com.devcourse.voucher.domain.Voucher;
+import com.devcourse.voucher.domain.repository.MemoryVoucherRepository;
+import com.devcourse.voucher.domain.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

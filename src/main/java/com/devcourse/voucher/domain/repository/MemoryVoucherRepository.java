@@ -1,6 +1,6 @@
-package com.devcourse.voucher.repository;
+package com.devcourse.voucher.domain.repository;
 
-import com.devcourse.voucher.Voucher;
+import com.devcourse.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
