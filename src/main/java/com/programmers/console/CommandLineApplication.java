@@ -1,6 +1,5 @@
 package com.programmers.console;
 
-import com.programmers.global.exception.VoucherCommandException;
 import com.programmers.console.util.Command;
 import com.programmers.console.view.Console;
 import com.programmers.voucher.controller.VoucherController;
@@ -13,10 +12,13 @@ import java.util.UUID;
 
 @Component
 public class CommandLineApplication {
+
+    private static final String WRONG_INPUT_MESSAGE_FOR_VALUE = "[ERROR] 숫자를 입력해 주세요.";
     private boolean isRunning = true;
 
     private final VoucherController voucherController;
     private final Console console;
+
 
     public CommandLineApplication(Console console, VoucherController voucherController) {
         this.console = console;
@@ -53,7 +55,7 @@ public class CommandLineApplication {
         while (true) {
             try {
                 return VoucherType.of(console.inputVoucherType());
-            } catch (VoucherCommandException e) {
+            } catch (IllegalArgumentException e) {
                 console.println(e.getMessage());
             }
         }
@@ -64,7 +66,7 @@ public class CommandLineApplication {
             try {
                 return Long.parseLong(console.inputDiscountValue());
             } catch (NumberFormatException e) {
-                console.println(e.getMessage());
+                console.println(WRONG_INPUT_MESSAGE_FOR_VALUE);
             }
         }
     }

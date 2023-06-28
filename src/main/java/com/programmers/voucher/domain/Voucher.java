@@ -1,8 +1,7 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.global.exception.NotFoundException;
-
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class Voucher {
@@ -11,7 +10,7 @@ public class Voucher {
     private final Discount discount;
     private final LocalDateTime createdDate;
 
-    private static final String VOUCHER_NULL_MESSAGE = "[ERROR] Voucher ID를 찾을 수 없습니다.";
+    private static final String VOUCHER_NULL_MESSAGE = "[ERROR] 유효하지 않은 Voucher Id 입니다. (null)";
 
     public Voucher(UUID voucherId, Discount discount, LocalDateTime createdDate) {
         validateVoucherId(voucherId);
@@ -37,6 +36,6 @@ public class Voucher {
     }
 
     private void validateVoucherId(UUID voucherId) {
-        if (voucherId == null) throw new NotFoundException(VOUCHER_NULL_MESSAGE);
+        if (voucherId == null) throw new IllegalArgumentException(VOUCHER_NULL_MESSAGE);
     }
 }
