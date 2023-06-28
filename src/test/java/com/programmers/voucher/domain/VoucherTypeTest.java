@@ -15,4 +15,12 @@ class VoucherTypeTest {
     void canGetVoucherTypeWithUserInput(String command, VoucherType voucherType) {
         assertEquals(voucherType, VoucherType.of(command));
     }
+
+    @DisplayName("올바르지 않은 커맨드가 입력되면 예외를 발생한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"3", "4", "FIXED", "PERCENT", "fixed", "percent"})
+    void getVoucherTypeFailTest(String command) {
+        assertThatThrownBy(() -> VoucherType.of(command))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
