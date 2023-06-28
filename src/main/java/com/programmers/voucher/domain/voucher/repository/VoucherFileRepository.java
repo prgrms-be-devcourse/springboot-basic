@@ -44,10 +44,7 @@ public class VoucherFileRepository implements VoucherRepository {
         try (
                 BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))
         ) {
-            VoucherDto voucherDto = voucher.toDto();
-            String voucherInfo = voucherDto.getCustomerId()
-                    + "," + voucherDto.getVoucherType()
-                    + "," + voucherDto.getAmount();
+            String voucherInfo = voucherToCsv(voucher);
             bw.write(voucherInfo);
             bw.newLine();
         } catch (IOException e) {
@@ -55,6 +52,13 @@ public class VoucherFileRepository implements VoucherRepository {
             LOG.error(errorMessage, e);
             throw new DataAccessException(CANNOT_ACCESS_FILE, e);
         }
+    }
+
+    private String voucherToCsv(Voucher voucher) {
+        VoucherDto voucherDto = voucher.toDto();
+        return voucherDto.getCustomerId()
+                + "," + voucherDto.getVoucherType()
+                + "," + voucherDto.getAmount();
     }
 
     @Override
