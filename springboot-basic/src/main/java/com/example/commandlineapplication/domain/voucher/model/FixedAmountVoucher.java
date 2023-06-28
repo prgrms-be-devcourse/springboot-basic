@@ -4,7 +4,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
 
   private final UUID voucherId;
   private final long discount;

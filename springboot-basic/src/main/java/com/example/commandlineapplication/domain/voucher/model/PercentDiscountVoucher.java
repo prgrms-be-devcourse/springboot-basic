@@ -4,7 +4,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
 
   private static final double FULL_PERCENT = 100;
   private final UUID voucherId;

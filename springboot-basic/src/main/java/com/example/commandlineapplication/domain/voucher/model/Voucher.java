@@ -2,11 +2,11 @@ package com.example.commandlineapplication.domain.voucher.model;
 
 import java.util.UUID;
 
-public interface Voucher {
+public abstract class Voucher {
 
-  UUID getVoucherId();
+  public abstract UUID getVoucherId();
 
-  double discountedPrice(long beforeDiscount);
+  public abstract double discountedPrice(long beforeDiscount);
 
-  VoucherType getVoucherType();
+  public abstract VoucherType getVoucherType();
 }
