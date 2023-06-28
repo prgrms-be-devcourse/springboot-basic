@@ -26,17 +26,13 @@ public class OutputView {
         System.out.print("번호 입력 : ");
     }
 
-    public static void outputCommentAboutAmountOfPolicy() {
-        System.out.print("고정 할인 금액을 입력 : ");
-    }
-
-    public static void outputCommentAboutPercentOfPolicy() {
-        System.out.print("고정 할인 퍼센트를 입력 : ");
+    public static void outputCommentAboutPolicy() {
+        System.out.print("할인값 : ");
     }
 
     public static void outputVouchers(VouchersResponse response) {
         for (VoucherResponse voucher : response.getVouchers()) {
-            System.out.println(Converter.toString(voucher));
+            System.out.printf("%s %s %s%n", voucher.getId(), voucher.getType(), voucher.getValue());
         }
     }
 

@@ -21,7 +21,7 @@ public class VoucherService {
     }
 
     public VoucherResponse save(VoucherCreationRequest request) {
-        Voucher voucher = voucherRepository.save(new Voucher(request.getPolicy()));
+        Voucher voucher = voucherRepository.save(new Voucher(request.getPolicy(), request.getType()));
         return new VoucherResponse(voucher);
     }
 

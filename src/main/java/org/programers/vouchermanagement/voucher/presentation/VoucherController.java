@@ -21,10 +21,10 @@ public class VoucherController {
         OutputView.outputDiscountPolicyType();
         DiscountPolicyType type = InputView.inputDiscountPolicy();
 
-        OutputView.outputCommentAboutPercentOfPolicy();
+        OutputView.outputCommentAboutPolicy();
         int value = InputView.inputValueOfPolicy();
 
-        VoucherCreationRequest request = new VoucherCreationRequest(type.createPolicy(value));
+        VoucherCreationRequest request = new VoucherCreationRequest(type.createPolicy(value), type.getType());
         voucherService.save(request);
     }
 
