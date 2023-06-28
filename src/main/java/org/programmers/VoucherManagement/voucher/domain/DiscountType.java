@@ -1,6 +1,7 @@
 package org.programmers.VoucherManagement.voucher.domain;
 
 import lombok.extern.slf4j.Slf4j;
+import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +51,6 @@ public enum DiscountType {
             return DISCOUNT_TYPE_MAP.get(key);
         }
         logger.info(NOT_EXIST_DISCOUNT_TYPE.getMessage());
-        throw new IllegalArgumentException(NOT_EXIST_DISCOUNT_TYPE.getMessage());
+        throw new VoucherException(NOT_EXIST_DISCOUNT_TYPE);
     }
 }

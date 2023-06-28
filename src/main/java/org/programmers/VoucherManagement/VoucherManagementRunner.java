@@ -56,16 +56,15 @@ public class VoucherManagementRunner implements CommandLineRunner {
     private int readDiscountValue(DiscountType discountType){
         int discountValue;
         switch (discountType) {
-            case FIXED:
+            case FIXED -> {
                 console.printInputFixedAmountMessage();
                 discountValue = console.readFixedDiscountValue();
-                break;
-            case PERCENT:
+            }
+            case PERCENT -> {
                 console.printInputPercentAmountMessage();
                 discountValue = console.readPercentDiscountValue();
-                break;
-            default:
-                throw new IllegalArgumentException(NOT_EXIST_DISCOUNT_TYPE.getMessage());
+            }
+            default -> throw new IllegalArgumentException(NOT_EXIST_DISCOUNT_TYPE.getMessage());
         }
         return discountValue;
     }
