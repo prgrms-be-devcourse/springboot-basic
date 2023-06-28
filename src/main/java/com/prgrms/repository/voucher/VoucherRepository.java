@@ -1,7 +1,5 @@
 package com.prgrms.repository.voucher;
 
-
-import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.Voucher;
 
 import java.util.List;
