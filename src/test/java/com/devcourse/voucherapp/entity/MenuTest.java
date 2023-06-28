@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class MenuTest {
 
-    @DisplayName("존재하는 메뉴를 입력했을 때, 해당 메뉴 객체가 반환되는지 테스트")
+    @DisplayName("존재하는 메뉴 번호 입력 시, 해당 메뉴 객체가 반환된다.")
     @Test
     void selectExistedMenuTest() {
         Menu createMenu = Menu.of("1");
@@ -21,7 +21,7 @@ class MenuTest {
         assertEquals(Menu.QUIT, quitMenu);
     }
 
-    @DisplayName("존재하지 않는 메뉴를 입력했을 때, 예외처리 수행 테스트")
+    @DisplayName("존재하지 않는 메뉴 번호 입력 시, MenuInputException 예외가 발생한다.")
     @Test
     void selectNotExistedMenuTest() {
         assertThrows(MenuInputException.class, () -> Menu.of("10000"));

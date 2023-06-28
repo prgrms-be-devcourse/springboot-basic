@@ -18,6 +18,6 @@ public class VoucherController {
     }
 
     public Collection<Voucher> findAllVouchers() {
-        return voucherService.list();
+        return voucherService.findAllVouchers();
     }
 }

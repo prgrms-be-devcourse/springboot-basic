@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ConsoleView {
+public class ViewManager {
 
     private static final String MENU_TITLE = "\n[할인권 프로그램 v1.0]";
     private static final String INPUT_MESSAGE = "입력 : ";
