@@ -1,8 +1,8 @@
 package com.devcourse.springbootbasic.application.global.io;
 
 import com.devcourse.springbootbasic.application.domain.voucher.dto.DiscountValue;
-import com.devcourse.springbootbasic.application.global.model.ListMenu;
-import com.devcourse.springbootbasic.application.global.model.Menu;
+import com.devcourse.springbootbasic.application.global.dto.ListMenu;
+import com.devcourse.springbootbasic.application.global.dto.Menu;
 import com.devcourse.springbootbasic.application.domain.voucher.dto.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;

@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.factory;
+package com.devcourse.springbootbasic.application.domain.voucher.factory;
 
 import com.devcourse.springbootbasic.application.domain.voucher.dto.VoucherType;
 import com.devcourse.springbootbasic.application.domain.voucher.factory.FixedVoucherFactory;

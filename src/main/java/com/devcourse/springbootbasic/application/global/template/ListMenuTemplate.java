@@ -1,6 +1,6 @@
 package com.devcourse.springbootbasic.application.global.template;
 
-import com.devcourse.springbootbasic.application.global.model.ListMenu;
+import com.devcourse.springbootbasic.application.global.dto.ListMenu;
 import com.devcourse.springbootbasic.application.domain.customer.service.CustomerService;
 import com.devcourse.springbootbasic.application.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;

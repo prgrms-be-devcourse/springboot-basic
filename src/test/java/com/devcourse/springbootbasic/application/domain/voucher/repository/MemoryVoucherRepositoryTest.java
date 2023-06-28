@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.repository;
+package com.devcourse.springbootbasic.application.domain.voucher.repository;
 
 import com.devcourse.springbootbasic.application.domain.voucher.data.FixedAmountVoucher;
 import com.devcourse.springbootbasic.application.domain.voucher.data.PercentDiscountVoucher;

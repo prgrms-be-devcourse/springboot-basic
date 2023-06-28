@@ -1,8 +1,8 @@
 package com.devcourse.springbootbasic.application.global.template;
 
 import com.devcourse.springbootbasic.application.domain.voucher.data.Voucher;
-import com.devcourse.springbootbasic.application.global.model.ListMenu;
-import com.devcourse.springbootbasic.application.global.model.Menu;
+import com.devcourse.springbootbasic.application.global.dto.ListMenu;
+import com.devcourse.springbootbasic.application.global.dto.Menu;
 import com.devcourse.springbootbasic.application.domain.voucher.dto.VoucherDto;
 import com.devcourse.springbootbasic.application.domain.voucher.dto.VoucherType;
 import com.devcourse.springbootbasic.application.global.io.InputConsole;

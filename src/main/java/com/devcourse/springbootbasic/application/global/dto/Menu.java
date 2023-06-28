@@ -1,7 +1,7 @@
-package com.devcourse.springbootbasic.application.global.model;
+package com.devcourse.springbootbasic.application.global.dto;
 
-import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.constant.Message;
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

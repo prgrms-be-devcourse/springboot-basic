@@ -1,7 +1,7 @@
 package com.devcourse.springbootbasic.application;
 
 import com.devcourse.springbootbasic.application.domain.voucher.data.Voucher;
-import com.devcourse.springbootbasic.application.global.model.Menu;
+import com.devcourse.springbootbasic.application.global.dto.Menu;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.io.InputConsole;
 import com.devcourse.springbootbasic.application.global.io.OutputConsole;

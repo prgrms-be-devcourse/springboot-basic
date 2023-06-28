@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.dto;
+package com.devcourse.springbootbasic.application.domain.voucher.dto;
 
 import com.devcourse.springbootbasic.application.domain.voucher.dto.VoucherType;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
