@@ -2,14 +2,21 @@ package org.programmers.VoucherManagement.io;
 
 import org.programmers.VoucherManagement.CommandType;
 import org.programmers.VoucherManagement.DiscountType;
+import org.programmers.VoucherManagement.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
 
+import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_INCLUDE_1_TO_100;
+import static org.programmers.VoucherManagement.exception.ExceptionMessage.VOUCHER_AMOUNT_IS_NOT_NUMBER;
+
 public class Console implements Input, Output {
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
 
     @Override
     public void printType() {
@@ -57,8 +64,28 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public int readDiscountValue() {
-        return Integer.parseInt(SCANNER.nextLine());
+    public int readFixedDiscountValue() {
+        try {
+            return Integer.parseInt(SCANNER.nextLine());
+        } catch (NumberFormatException e) {
+            logger.info(VOUCHER_AMOUNT_IS_NOT_NUMBER.getMessage());
+            throw new NumberFormatException(VOUCHER_AMOUNT_IS_NOT_NUMBER.getMessage());
+        }
+    }
+
+    @Override
+    public int readPercentDiscountValue() {
+        try {
+            int percent = Integer.parseInt(SCANNER.nextLine());
+            if (percent < 0 || percent > 100) {
+                logger.info(NOT_INCLUDE_1_TO_100.getMessage());
+                throw new VoucherException(NOT_INCLUDE_1_TO_100);
+            }
+            return percent;
+        } catch (NumberFormatException e) {
+            logger.info(VOUCHER_AMOUNT_IS_NOT_NUMBER.getMessage());
+            throw new NumberFormatException(VOUCHER_AMOUNT_IS_NOT_NUMBER.getMessage());
+        }
     }
 
 }
