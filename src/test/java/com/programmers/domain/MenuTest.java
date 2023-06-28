@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class MenuTest {
 
-    @DisplayName("입력에 맞는 메뉴를 찾는다")
+    @DisplayName("입력에 맞는 메뉴를 문자로 찾는다")
     @Test
     void findMenu() {
         //given
@@ -20,6 +20,19 @@ class MenuTest {
 
         //then
         Assertions.assertThat(result).isEqualTo(Menu.CREATE);
+    }
+
+    @DisplayName("입력에 맞는 메뉴를 숫자로 찾는다")
+    @Test
+    void findMenuWithNumber() {
+        //given
+        String input = "3";
+
+        //when
+        Menu result = Menu.findMenu(input);
+
+        //then
+        Assertions.assertThat(result).isEqualTo(Menu.LIST);
     }
 
     @DisplayName("메뉴가 입력되지 않으면 예외처리한다")
