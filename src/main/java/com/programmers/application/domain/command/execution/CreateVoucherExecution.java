@@ -6,12 +6,11 @@ import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class CreateVoucherExecution implements VoucherExecution{
-    private static final String BLANK_STRING = " ";
+    private static final String SEPARATOR = " ";
     private static final int TYPE_INDEX = 0;
     private static final int AMOUNT_INDEX = 1;
     private final VoucherService voucherService;
@@ -25,7 +24,7 @@ public class CreateVoucherExecution implements VoucherExecution{
     @Override
     public void run() throws IOException {
         printOption(io);
-        String[] typeAndAmount = io.read().split(BLANK_STRING);
+        String[] typeAndAmount = io.read().split(SEPARATOR);
         validateType(typeAndAmount);
         validateAmount(typeAndAmount);
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(typeAndAmount[TYPE_INDEX], Long.parseLong(typeAndAmount[AMOUNT_INDEX]));
