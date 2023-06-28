@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 public class MenuController {
 
     private final Console console;
-
     public MenuController(Console console) {
         this.console = console;
     }
@@ -17,7 +16,7 @@ public class MenuController {
         try {
             String command = console.init();
             Menu menu = Menu.of(command);
-            VoucherController commandLineController = menu.getCommandLineController(console);
+            VoucherController commandLineController = menu.getCommandLineController();
             return commandLineController.run();
         } catch (Exception e) {
             console.showExceptionMessage(e.getMessage());

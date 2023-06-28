@@ -6,8 +6,7 @@ import com.prgms.springbootbasic.util.VoucherApplication;
 public class CommanmdLineApplication {
 	
 	public static void main(String[] args) {
-		VoucherApplication voucherApplication = new VoucherApplication();
-		MenuController controller = voucherApplication.getController();
+		MenuController controller = VoucherApplication.menuController();
 		while (controller.run());
 	}
 	

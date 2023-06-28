@@ -1,7 +1,9 @@
 package com.prgms.springbootbasic.controller;
 
 import com.prgms.springbootbasic.ui.Console;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class ExitController implements VoucherController {
 
     private final Console console;
