@@ -1,7 +1,7 @@
 package org.programmers.VoucherManagement.io;
 
 public enum ConsoleMessage {
-    START_TYPE_MESSAGE("=== Voucher Program ===\n" +
+    START_TYPE_MESSAGE("\n=== Voucher Program ===\n" +
             "[exit] - 프로그램을 종료하려면 exit을 입력하세요.\n" +
             "[create] - 새 voucher를 입력하려면 create를 입력하세요.\n" +
             "[list] - 등록된 voucher를 조회하려면 list를 입력하세요."),

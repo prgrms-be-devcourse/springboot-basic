@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
+
 @Component
 @RequiredArgsConstructor
 public class VoucherManagementRunner implements CommandLineRunner {
@@ -22,7 +24,6 @@ public class VoucherManagementRunner implements CommandLineRunner {
         do {
             console.printType();
             commandType = console.readType();
-
             execute(commandType);
         } while (!commandType.isExit());
     }
@@ -31,10 +32,7 @@ public class VoucherManagementRunner implements CommandLineRunner {
         if (commandType.isCreate()) {
             console.printDiscountType();
             DiscountType discountType = console.readDiscountType();
-
-            console.printDiscountValue();
-            int discountValue = console.readDiscountValue();
-
+            int discountValue = readDiscountValue(discountType);
             voucherController.createVoucher(new CreateVoucherRequest(discountType, discountValue));
         }
         if (commandType.isList()) {
@@ -44,5 +42,22 @@ public class VoucherManagementRunner implements CommandLineRunner {
         if (commandType.isExit()) {
             console.printExitMessage();
         }
+    }
+
+    private int readDiscountValue(DiscountType discountType){
+        int discountValue;
+        switch (discountType) {
+            case FIXED:
+                console.printInputFixedAmountMessage();
+                discountValue = console.readFixedDiscountValue();
+                break;
+            case PERCENT:
+                console.printInputPercentAmountMessage();
+                discountValue = console.readPercentDiscountValue();
+                break;
+            default:
+                throw new IllegalArgumentException(NOT_EXIST_DISCOUNT_TYPE.getMessage());
+        }
+        return discountValue;
     }
 }
