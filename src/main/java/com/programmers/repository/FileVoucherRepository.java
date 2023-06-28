@@ -1,7 +1,5 @@
 package com.programmers.repository;
 
-import com.programmers.domain.FixedAmountVoucher;
-import com.programmers.domain.PercentDiscountVoucher;
 import com.programmers.domain.Voucher;
 import com.programmers.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Value;
