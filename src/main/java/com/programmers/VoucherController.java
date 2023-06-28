@@ -114,7 +114,10 @@ public class VoucherController {
 
     private List<String> getBlacklist() {
         console.printBlacklistTitle();
+        List<String> blacklist = blacklistService.findAll();
+        console.printBlacklist(blacklist);
+        log.info("The blacklist has been printed.");
 
-        return blacklistService.findAll();
+        return blacklist;
     }
 }
