@@ -5,7 +5,6 @@ import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,20 +14,18 @@ public class CommandLineApplication {
     private final VoucherConsole voucherConsole;
     private final VoucherService voucherService;
 
-    @Autowired
     public CommandLineApplication(VoucherConsole voucherConsole, VoucherService voucherService) {
         this.voucherConsole = voucherConsole;
         this.voucherService = voucherService;
     }
 
     public void run() {
-        String userCommand = "";
+        CommandType userCommand = CommandType.NONE;
 
-        while (!userCommand.equals(CommandType.EXIT.name())) {
+        while (!userCommand.equals(CommandType.EXIT)) {
             voucherConsole.printInitMessage();
-            userCommand = voucherConsole.InputCommand().toUpperCase();
-            CommandType commandType = CommandType.findCommandType(userCommand);
-            executeCommand(commandType);
+            userCommand = CommandType.findCommandType(voucherConsole.inputCommand().toUpperCase());
+            executeCommand(userCommand);
         }
     }
 
@@ -38,9 +35,9 @@ public class CommandLineApplication {
                 voucherConsole.printSystemShutdown();
             }
             case CREATE -> {
-                String userVoucherType = voucherConsole.ChooseVoucherType().toUpperCase();
+                String userVoucherType = voucherConsole.chooseVoucherType().toUpperCase();
                 VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
-                Long discount = voucherConsole.InputDiscountByVoucher();
+                Long discount = voucherConsole.inputDiscountByVoucher();
                 Voucher voucher = voucherService.createVoucher(voucherType, discount);
                 voucherConsole.printCreatedVoucher(voucher);
             }

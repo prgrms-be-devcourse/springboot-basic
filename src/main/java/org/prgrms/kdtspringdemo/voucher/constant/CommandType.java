@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo.voucher.constant;
 import java.util.Arrays;
 
 public enum CommandType {
+    NONE,
     EXIT,
     CREATE,
     LIST;
