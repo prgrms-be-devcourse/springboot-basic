@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class VoucherServiceImpl implements VoucherService {
     private static final String INVALID_VOUCHER_TYPE = "바우처 형식이 알맞지 않습니다.";
+
     private final VoucherRepository voucherRepository;
 
     public VoucherServiceImpl(VoucherRepository voucherRepository) {

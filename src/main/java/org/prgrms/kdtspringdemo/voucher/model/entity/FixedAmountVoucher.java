@@ -7,6 +7,7 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
     private static final long MIN_DISCOUNT = 0;
     private static final String OUT_OF_RANGE_DISCOUNT = "할인 범위가 아닙니다.";
+
     private final UUID voucherId;
     private final VoucherType voucherType;
     private final long discount;
