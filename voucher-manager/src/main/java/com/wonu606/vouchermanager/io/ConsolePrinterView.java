@@ -28,15 +28,18 @@ public class ConsolePrinterView {
     }
 
     public void printMenu() {
-        textTerminal.println(menuDescription);
+        textTerminal.println();
+        textTerminal.print(menuDescription);
+        textTerminal.println();
     }
 
     public void printCreatableList() {
+        textTerminal.println("\n=== 바우처 타입 ===");
         textTerminal.println(creationDescription);
     }
 
     public void printVoucherList(List<Voucher> voucherList) {
-        textTerminal.println("=== 바우처 리스트 ===");
+        textTerminal.println("\n=== 바우처 리스트 ===");
         voucherList.forEach(v -> textTerminal.println(v.toString()));
     }
 
@@ -45,7 +48,9 @@ public class ConsolePrinterView {
     }
 
     public void printExitMessage() {
+        textTerminal.println();
         textTerminal.println(exitDescription);
+        textTerminal.println();
     }
 
     public void close() {
