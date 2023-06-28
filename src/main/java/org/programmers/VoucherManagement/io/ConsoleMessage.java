@@ -2,6 +2,7 @@ package org.programmers.VoucherManagement.io;
 
 public enum ConsoleMessage {
     START_TYPE_MESSAGE("\n=== Voucher Program ===\n" +
+            "[blacklist] - 블랙리스트에 해당하는 고객 명단을 조회하려면 blacklist를 입력하세요.\n" +
             "[exit] - 프로그램을 종료하려면 exit을 입력하세요.\n" +
             "[create] - 새 voucher를 입력하려면 create를 입력하세요.\n" +
             "[list] - 등록된 voucher를 조회하려면 list를 입력하세요."),
@@ -11,7 +12,8 @@ public enum ConsoleMessage {
     EXIT_MESSAGE("voucher 프로그램을 종료합니다."),
     DISCOUNT_VALUE_MESSAGE("할인 금액(% or ₩)을 입력하세요."),
     INPUT_FIXED_DISCOUNT_AMOUNT_MESSAGE("할인 금액(₩)을 입력하세요.(단위를 제외한 정수)"),
-    INPUT_PERCENT_DISCOUNT_AMOUNT_MESSAGE("할인 금액(%)을 입력하세요.(단위를 제외한 정수)");
+    INPUT_PERCENT_DISCOUNT_AMOUNT_MESSAGE("할인 금액(%)을 입력하세요.(단위를 제외한 정수)"),
+    START_VIEW_BLACKLIST_MESSAGE("===[블랙리스트 멤버 목록]===");
 
     private final String message;
 
