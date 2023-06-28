@@ -2,6 +2,7 @@ package com.prgmrs.voucher.controller;
 
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.service.VoucherService;
+import com.prgmrs.voucher.view.ConsoleViewEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +13,14 @@ import java.util.UUID;
 public class VoucherController {
 
     private VoucherService voucherService;
+
     @Autowired
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
-    public UUID createFixedAmountVoucher(long value) {
-        return voucherService.createFixedAmountVoucher(value);
-    }
-
-    public UUID createPercentDiscountVoucher(long value) {
-        return voucherService.createPercentDiscountVoucher(value);
+    public UUID createVoucher(long value, ConsoleViewEnum type) {
+        return voucherService.createVoucher(value, type);
     }
 
     public Map<UUID, Voucher> findAll() {

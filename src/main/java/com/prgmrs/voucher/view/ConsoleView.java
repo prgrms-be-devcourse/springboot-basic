@@ -116,7 +116,7 @@ public class ConsoleView {
                         write("typed amount invalid.");
                         break;
                     }
-                    uuid = voucherController.createFixedAmountVoucher(value);
+                    uuid = voucherController.createVoucher(value, ConsoleViewEnum.CREATE_FIXED_AMOUNT_VOUCHER);
                     voucher = voucherController.findVoucherById(uuid);
                     write("=== Successfully created a new voucher ===");
                     write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
@@ -133,7 +133,7 @@ public class ConsoleView {
                         write("typed amount invalid.");
                         break;
                     }
-                    uuid = voucherController.createPercentDiscountVoucher(value);
+                    uuid = voucherController.createVoucher(value, ConsoleViewEnum.CREATE_PERCENT_DISCOUNT_VOUCHER);
                     voucher = voucherController.findVoucherById(uuid);
                     write("=== Successfully created a new voucher ===");
                     write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));

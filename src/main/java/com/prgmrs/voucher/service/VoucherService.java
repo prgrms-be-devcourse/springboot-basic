@@ -4,7 +4,7 @@ import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.repository.VoucherRepository;
-import com.prgmrs.voucher.repository.VoucherRepositoryImpl;
+import com.prgmrs.voucher.view.ConsoleViewEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,19 +20,19 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public UUID createFixedAmountVoucher(long value) {
+    public UUID createVoucher(long value, ConsoleViewEnum type) {
+        Voucher voucher;
         UUID uuid = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(uuid, value);
+        if("fixed".equals(type.name())) {
+            voucher = new FixedAmountVoucher(uuid, value);
+        } else if("percent".equals(type.name())) {
+            voucher = new PercentDiscountVoucher(uuid, value);
+        } else {
+            throw new RuntimeException();
+        }
         voucherRepository.save(voucher);
         return uuid;
 
-    }
-
-    public UUID createPercentDiscountVoucher(long value) {
-        UUID uuid = UUID.randomUUID();
-        Voucher voucher = new PercentDiscountVoucher(uuid, value);
-        voucherRepository.save(voucher);
-        return uuid;
     }
 
     public Map<UUID, Voucher> findAll() {
