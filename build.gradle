@@ -17,6 +17,8 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.slf4j:slf4j-api:1.7.32' // SLF4J 의존성 추가
+	implementation 'ch.qos.logback:logback-classic:1.2.6' // Logback 의존성 추가
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
