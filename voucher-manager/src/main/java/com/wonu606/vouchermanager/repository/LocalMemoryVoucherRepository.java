@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 public class LocalMemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> voucherStore;
@@ -23,8 +23,14 @@ public class LocalMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
+        if (voucherStore.containsKey(voucher.getUuid())) {
+            throw new IllegalArgumentException(
+                    "이미 존재하는 바우처의 uuid입니다. [uuid]: " + voucher.getUuid());
+        }
+
         persistVoucher(voucher);
+        return voucher;
     }
 
     @Override
