@@ -6,14 +6,14 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 @Component
 @Primary
 public class FrontController implements Controller {
     private static final int ABNORMAL_EXIT = 1;
-    private final Map<ServiceCommand, Controller> controllerMap = new HashMap();
+    private final Map<ServiceCommand, Controller> controllerMap = new EnumMap<>(ServiceCommand.class);
     private final VoucherController voucherController;
     private final IO io;
 
