@@ -1,4 +1,4 @@
-package org.prgms.voucher;
+package org.prgms.voucher.application;
 
 public class CommandLineApplication implements Console {
     @Override

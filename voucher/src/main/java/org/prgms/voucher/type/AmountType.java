@@ -1,4 +1,4 @@
-package org.prgms.voucher;
+package org.prgms.voucher.type;
 
 public enum AmountType {
     FIX("fix", 1),

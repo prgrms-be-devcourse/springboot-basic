@@ -1,4 +1,6 @@
-package org.prgms.voucher;
+package org.prgms.voucher.voucher;
+
+import org.prgms.voucher.type.AmountType;
 
 public class VoucherCreateDto {
     private int discountAmount;

@@ -1,4 +1,6 @@
-package org.prgms.voucher;
+package org.prgms.voucher.option;
+
+import org.prgms.voucher.voucher.Voucher;
 
 public class PercentAmount implements Voucher {
 

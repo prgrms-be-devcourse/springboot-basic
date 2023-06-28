@@ -1,4 +1,6 @@
-package org.prgms.voucher;
+package org.prgms.voucher.voucher;
+
+import org.prgms.voucher.voucher.repository.VoucherRepository;
 
 import java.util.List;
 
