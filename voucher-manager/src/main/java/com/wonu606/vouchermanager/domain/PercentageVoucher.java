@@ -27,4 +27,11 @@ public class PercentageVoucher extends Voucher {
     public double calculateDiscountedPrice(double originalPrice) {
         return originalPrice * (1 - percentage / 100);
     }
+
+    @Override
+    public String toString() {
+        return "PercentageVoucher{" +
+                "percentage=" + percentage +
+                '}';
+    }
 }

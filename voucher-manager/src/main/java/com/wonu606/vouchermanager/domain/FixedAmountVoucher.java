@@ -26,4 +26,11 @@ public class FixedAmountVoucher extends Voucher {
     private boolean isInvalidFixedAmount(double fixedAmount) {
         return fixedAmount < 0;
     }
+
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher{" +
+                "fixedAmount=" + fixedAmount +
+                '}';
+    }
 }
