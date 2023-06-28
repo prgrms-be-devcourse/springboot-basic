@@ -22,7 +22,7 @@ class MemoryVoucherServiceTest {
 		voucherRepository = new MemoryVoucherRepository();
 	}
 
-	@DisplayName("save 메서드 동작확인")
+	@DisplayName("Voucher가 있을 때 save메서드가 성공하면 Voucher의 UUID를 반환한다")
 	@Test
 	void save() {
 		Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L);
@@ -31,10 +31,9 @@ class MemoryVoucherServiceTest {
 		UUID actual = voucherRepository.save(voucher);
 
 		assertEquals(expected, actual);
-
 	}
 
-	@DisplayName("findlAll 메서드 동작확인")
+	@DisplayName("빈 저장소에 특정 크기만큼 Voucher를 저장했을 때 findAll 메서드가 성공하면 해당 크기만큼 Voucher를 반환한다")
 	@Test
 	void findAll() {
 		List<Voucher> vouchers = LongStream.range(1, 11)
@@ -48,13 +47,14 @@ class MemoryVoucherServiceTest {
 
 		int actualSize = voucherRepository.findAll().size();
 		assertEquals(expectedSize, actualSize);
-
 	}
 
-	@DisplayName("findlAll 수행시 값이 없을 때")
+	@DisplayName("빈 저장소에서 findlAll를 수행하면 iterator가 바라보는 다음값이 없다")
 	@Test
 	void findAll_but_not_data() {
 		List<Voucher> vouchers = voucherRepository.findAll();
 
+		boolean isEmpty = !vouchers.iterator().hasNext();
+		assertTrue(isEmpty, "데이터가 없어야 합니다.");
 	}
 }
