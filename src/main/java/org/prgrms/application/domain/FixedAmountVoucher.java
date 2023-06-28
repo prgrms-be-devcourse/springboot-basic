@@ -18,11 +18,10 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public Double discount(Double beforeDiscount) {
+    public double discount(double beforeDiscount) {
         double discountedAmount = beforeDiscount - amount;
         return (discountedAmount < 0) ? 0 : discountedAmount;
     }
-
 
     @Override
     public String toString() {

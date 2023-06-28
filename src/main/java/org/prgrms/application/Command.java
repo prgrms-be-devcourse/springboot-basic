@@ -16,7 +16,6 @@ public class Command implements CommandLineRunner {
     private final VoucherController voucherController;
     private boolean isRunning = true;
 
-    @Autowired
     public Command(InputView inputView, OutputView outputView, VoucherController voucherController) {
         this.inputView = inputView;
         this.outputView = outputView;

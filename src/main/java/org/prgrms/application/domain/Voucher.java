@@ -6,5 +6,5 @@ public interface Voucher {
 
     UUID getVoucherId();
 
-    Double discount(Double beforeDiscount);
+    double discount(double beforeDiscount);
 }
