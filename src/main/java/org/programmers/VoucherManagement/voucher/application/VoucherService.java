@@ -2,6 +2,7 @@ package org.programmers.VoucherManagement.voucher.application;
 
 import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.DiscountType;
+import org.programmers.VoucherManagement.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.dao.VoucherRepository;
 import org.programmers.VoucherManagement.voucher.domain.FixedAmountVoucher;
 import org.programmers.VoucherManagement.voucher.domain.PercentAmountVoucher;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +30,7 @@ public class VoucherService {
                     new FixedAmountVoucher(UUID.randomUUID(), discountType, createVoucherRequest.getDiscountValue());
             case PERCENT ->
                     new PercentAmountVoucher(UUID.randomUUID(), discountType, createVoucherRequest.getDiscountValue());
-            default -> throw new IllegalArgumentException("바우처 종류가 존재하지 않습니다."); // 유효하지 않은 할인 유형 예외 발생
+            default -> throw new VoucherException(NOT_EXIST_DISCOUNT_TYPE); // 유효하지 않은 할인 유형 예외 발생
         };
 
         voucher = repository.save(voucher);

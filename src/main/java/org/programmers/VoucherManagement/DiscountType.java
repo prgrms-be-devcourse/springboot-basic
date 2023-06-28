@@ -11,28 +11,30 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
+
 @Slf4j
 public enum DiscountType {
-    PERCENT("percent","%"),
-    FIXED("fixed","₩");
+    PERCENT("percent", "%"),
+    FIXED("fixed", "₩");
 
     private final String type;
     private final String symbol;
 
     private static final Logger logger = LoggerFactory.getLogger(DiscountType.class);
-    private static final Map<String,DiscountType> DISCOUNT_TYPE_MAP = Collections
+    private static final Map<String, DiscountType> DISCOUNT_TYPE_MAP = Collections
             .unmodifiableMap(Arrays.stream(values()).collect(Collectors.toMap(DiscountType::getType, Function.identity())));
 
-    DiscountType(String type,String symbol) {
+    DiscountType(String type, String symbol) {
         this.type = type;
         this.symbol = symbol;
     }
 
-    public boolean isPercent(){
+    public boolean isPercent() {
         return this.equals(PERCENT);
     }
 
-    public boolean isFixed(){
+    public boolean isFixed() {
         return this.equals(FIXED);
     }
 
@@ -44,11 +46,11 @@ public enum DiscountType {
         return symbol;
     }
 
-    public static DiscountType from(String key){
-        if(DISCOUNT_TYPE_MAP.containsKey(key)){
+    public static DiscountType from(String key) {
+        if (DISCOUNT_TYPE_MAP.containsKey(key)) {
             return DISCOUNT_TYPE_MAP.get(key);
         }
-        logger.info(MessageFormat.format("{0}에 해당하는 바우처가 존재하지 않습니다.",key));
-        throw new IllegalArgumentException(MessageFormat.format("{0}에 해당하는 바우처가 존재하지 않습니다.",key));
+        logger.info(NOT_EXIST_DISCOUNT_TYPE.getMessage());
+        throw new IllegalArgumentException(NOT_EXIST_DISCOUNT_TYPE.getMessage());
     }
 }

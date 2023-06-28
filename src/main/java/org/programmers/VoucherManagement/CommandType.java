@@ -1,14 +1,15 @@
 package org.programmers.VoucherManagement;
 
+import org.programmers.VoucherManagement.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.programmers.VoucherManagement.exception.ExceptionMessage.NOT_EXIST_COMMAND;
 
 public enum CommandType {
     EXIT("exit"),
@@ -16,13 +17,13 @@ public enum CommandType {
     LIST("list");
 
     private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
-    private static final Map<String,CommandType> COMMAND_TYPE_MAP =
+    private static final Map<String, CommandType> COMMAND_TYPE_MAP =
             Collections.unmodifiableMap(Arrays
                     .stream(values())
                     .collect(Collectors.toMap(CommandType::getType, Function.identity())));
     private final String type;
 
-    CommandType(String type){
+    CommandType(String type) {
         this.type = type;
     }
 
@@ -30,23 +31,23 @@ public enum CommandType {
         return type;
     }
 
-    public boolean isExit(){
+    public boolean isExit() {
         return this.equals(CommandType.EXIT);
     }
 
-    public boolean isCreate(){
+    public boolean isCreate() {
         return this.equals(CommandType.CREATE);
     }
 
-    public boolean isList(){
+    public boolean isList() {
         return this.equals(CommandType.LIST);
     }
 
-    public static CommandType from(String type){
-        if(COMMAND_TYPE_MAP.containsKey(type)){
+    public static CommandType from(String type) {
+        if (COMMAND_TYPE_MAP.containsKey(type)) {
             return COMMAND_TYPE_MAP.get(type);
         }
-        logger.info(MessageFormat.format("{0}에 해당하는 Command가 존재하지 않습니다.\n",type));
-        throw new IllegalAccessError(MessageFormat.format("{0}에 해당하는 Command가 존재하지 않습니다.\n",type));
+        logger.info(NOT_EXIST_COMMAND.getMessage());
+        throw new VoucherException(NOT_EXIST_COMMAND);
     }
 }
