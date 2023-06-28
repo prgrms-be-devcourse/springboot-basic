@@ -16,14 +16,30 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Profile("file")
-@Repository
+@Repository // proxy -> new Proxy(FileVoucherRepository);
 public class FileVoucherRepository implements VoucherRepository{
+/*
+    private static class ProxyRepository {
 
+        VoucherRepository repository;
+
+        public Optional<Voucher> findById(UUID voucherId) {
+            try {
+                repository.findById(voucherId);
+            } catch (IOException e) {
+                throw new DataAccessException(); // -> RuntimeException
+            }
+        }
+    }
+*/
+    // data load -> repository?
+    // run -> file 1 read -> load -> map, List, Collection -> (running) -> sync -> -> close -> persist(save)
     @Value("${filePath.voucher}")
     private String filePath;
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) throws IOException {
+    public Optional<Voucher> findById(UUID voucherId) {
+
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line = "";
 
@@ -33,6 +49,7 @@ public class FileVoucherRepository implements VoucherRepository{
                 return Optional.of(Converter.stringArrToVoucher(record));
             }
         }
+
         return Optional.empty();
     }
 

@@ -10,7 +10,11 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import java.text.MessageFormat;
 import java.util.UUID;
 
-public class Converter {
+public final class Converter {
+    private Converter() {
+        throw new RuntimeException("생성 안돼!!");
+    }
+
     public static String voucherToString(Voucher voucher){
         return MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }

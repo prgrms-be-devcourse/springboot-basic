@@ -4,7 +4,13 @@ import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import java.util.List;
 
-public class ConsoleOutput {
+// how to call private
+public final class ConsoleOutput {
+
+    private ConsoleOutput() {
+        throw new RuntimeException("호출하지마!");
+    }
+
     public static void printMenu() {
         System.out.println("Type -exit- to exit the program.\n" +
                 "Type -create- to create a new voucher.\n" +
@@ -12,20 +18,13 @@ public class ConsoleOutput {
                 "Type -blacklist- to list all blackList");
     }
 
-    public static void printVoucherTypes() {
-        System.out.println("1. FixedAmountVoucher\n" +
-                "2. PercentDiscountVoucher");
-    }
-
     public static void printAllBoucher(List<Voucher> vouchers) {
-        vouchers.stream()
-                .forEach(e -> System.out.println(e.getVoucherType()));
+        vouchers.forEach(e -> System.out.println(e.getVoucherType()));
         System.out.println();
     }
 
     public static void printAllBlackList(List<Member> blackList){
-        blackList.stream()
-                .forEach(e -> System.out.println(e.getMemberName()));
+        blackList.forEach(e -> System.out.println(e.getMemberName()));
         System.out.println();
     }
 

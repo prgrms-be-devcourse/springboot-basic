@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
+// enum && using enum
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final String voucherType = "PercentDiscountVoucher";

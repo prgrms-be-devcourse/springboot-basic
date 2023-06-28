@@ -19,22 +19,13 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void create() throws IOException {
-        boolean isRunning = true;
-        while (isRunning){
-            try {
-                String inputType = ConsoleInput.getVoucherTypes();
-                VoucherType voucherType = VoucherType.getType(inputType);
-                voucherService.createVoucher(voucherType);
-                isRunning = false;
-
-            }catch (InvalidInputException e){
-                ConsoleOutput.printMessage("지원하지 않는 바우처 입니다.");
-            }
-        }
+    public void create() {
+        String inputType = ConsoleInput.getVoucherTypes();
+        VoucherType voucherType = VoucherType.getType(inputType);
+        voucherService.createVoucher(voucherType);
     }
 
-    public void findAll() throws IOException {
+    public void findAll() {
         List<Voucher> vouchers = voucherService.findAll();
         ConsoleOutput.printAllBoucher(vouchers);
     }

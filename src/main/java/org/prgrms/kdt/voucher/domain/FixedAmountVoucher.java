@@ -19,7 +19,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String getVoucherType() {
-        return voucherType;
+        return VoucherType.FIXED.getName();
     }
 
     @Override
