@@ -7,8 +7,9 @@ import com.example.voucher.domain.enums.VoucherType;
 public class FixedAmountVoucher implements Voucher {
 
 	private final UUID voucherId;
-	VoucherType voucherType = VoucherType.FixedAmount;
 	private final long amount;
+
+	VoucherType voucherType = VoucherType.FixedAmount;
 
 	public FixedAmountVoucher(UUID voucherId, long amount) {
 		this.voucherId = voucherId;
