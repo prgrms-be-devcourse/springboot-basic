@@ -8,5 +8,5 @@ public interface Voucher {
 
     String getVoucherName();
 
-    long getDiscountValue();
+    long discount(long beforeDiscount);
 }

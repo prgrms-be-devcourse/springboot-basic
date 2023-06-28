@@ -38,4 +38,18 @@ class FixedAmountVoucherTest {
         Assertions.assertThatThrownBy(() -> new FixedAmountVoucher(UUID.randomUUID(), "", -1L))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("할인이 적용된 최종 값을 구한다")
+    @Test
+    void discount() {
+        //given
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testVoucher", 20L);
+        long originalAmount = 100L;
+
+        //when
+        long result = fixedAmountVoucher.discount(originalAmount);
+
+        //then
+        Assertions.assertThat(result).isEqualTo(80L);
+    }
 }

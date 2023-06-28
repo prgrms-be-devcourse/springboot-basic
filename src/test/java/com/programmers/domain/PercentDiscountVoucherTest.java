@@ -41,4 +41,18 @@ class PercentDiscountVoucherTest {
         Assertions.assertThatThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), "", input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("할인이 적용된 최종 값을 구한다")
+    @Test
+    void discount() {
+        //given
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testVoucher", 33L);
+        long originalAmount = 222L;
+
+        //when
+        long result = percentDiscountVoucher.discount(originalAmount);
+
+        //then
+        Assertions.assertThat(result).isEqualTo(148L);
+    }
 }
