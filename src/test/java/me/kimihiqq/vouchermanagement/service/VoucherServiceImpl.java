@@ -42,7 +42,7 @@ class VoucherServiceImplTest {
 
         Voucher result = voucherService.createVoucher(voucherDto);
 
-        assertEquals(VoucherTypeOption.FIXED, result.getType());
+        assertEquals(VoucherTypeOption.FIXED.name(), result.getType());
         assertEquals(10, result.getDiscount());
     }
 

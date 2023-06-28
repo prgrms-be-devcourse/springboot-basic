@@ -27,19 +27,17 @@ public class VoucherServiceImpl implements VoucherService {
         VoucherTypeOption type = VoucherTypeOption.valueOf(voucherDto.type().toUpperCase());
         long discount = voucherDto.discount();
 
-        if (type == VoucherTypeOption.FIXED) {
-            if (discount < 0) {
-                throw new IllegalArgumentException("Discount amount cannot be negative.");
-            }
-            voucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
-        } else if (type == VoucherTypeOption.PERCENT) {
-            if (discount < 0 || discount > 100) {
-                throw new IllegalArgumentException("Discount rate must be between 0 and 100.");
-            }
-            voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
-        } else {
-            throw new IllegalArgumentException("Invalid voucher type: " + type);
+        switch (type) {
+            case FIXED:
+                voucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
+                break;
+            case PERCENT:
+                voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid voucher type: " + type);
         }
+
         log.info("Voucher created with id: {}", voucher.getVoucherId());
         return voucherRepository.save(voucher);
     }
