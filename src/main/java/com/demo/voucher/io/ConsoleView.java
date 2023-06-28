@@ -46,7 +46,7 @@ public class ConsoleView implements Input, Output {
 
     @Override
     public void showVoucherType() {
-        Arrays.stream(VoucherType.values()).forEach(v -> System.out.println(v.toString()));
+        Arrays.stream(VoucherType.values()).forEach(v -> System.out.println(v.getVoucherCommandAndDescription()));
 
     }
 
