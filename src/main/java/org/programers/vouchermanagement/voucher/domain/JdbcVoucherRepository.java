@@ -50,9 +50,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        String sql = "update voucher set id = ?, type = ?, value = ? where id = ?";
+        String sql = "update voucher set type = ?, value = ? where id = ?";
         jdbcTemplate.update(sql,
-                voucher.getId().toString(),
                 voucher.getType().toString(),
                 voucher.getPolicy().getValue(),
                 voucher.getId().toString());
@@ -61,8 +60,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID id) {
         String sql = "delete from voucher where id = ?";
-        jdbcTemplate.update(sql,
-                id.toString());
+        jdbcTemplate.update(sql, id.toString());
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
