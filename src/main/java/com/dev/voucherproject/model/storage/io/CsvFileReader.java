@@ -29,14 +29,19 @@ public class CsvFileReader {
         try {
             File file = resource.getFile();
 
-            if (!file.exists()) {
-                return Collections.emptyList();
-            }
+            if (file.exists()) {
+                List<String> lines = Files.readAllLines(file.toPath());
 
-            return Files.readAllLines(file.toPath());
+                if (lines.size() >= 1) {
+                    return lines.stream()
+                            .takeWhile(line -> !line.isBlank())
+                            .toList();
+                }
+            }
+            return Collections.emptyList();
         } catch (IOException e) {
-            logger.warn("{} 파일을 찾을 수 없습니다.", filename);
-            throw new FileSystemNotFoundException(MessageFormat.format("{0} 파일을 찾을 수 없습니다.", filename));
+            logger.warn("{} 파일을 읽을 수 없습니다.", filename);
+            throw new FileSystemNotFoundException(MessageFormat.format("{} 파일을 읽을 수 없습니다.", filename));
         }
     }
 
