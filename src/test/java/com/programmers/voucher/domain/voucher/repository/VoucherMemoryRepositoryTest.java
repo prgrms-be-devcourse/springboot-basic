@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.domain.voucher.repository;
 
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.repository.VoucherMemoryRepository;
