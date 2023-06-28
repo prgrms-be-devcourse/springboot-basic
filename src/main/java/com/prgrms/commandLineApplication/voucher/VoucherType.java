@@ -17,9 +17,6 @@ public enum VoucherType {
             .forEach(voucher -> voucherTypes.put(voucher.name(), voucher));
   }
 
-  VoucherType() {
-  }
-
   public static VoucherType valueOfType(String type) {
     return Optional.ofNullable(voucherTypes.get(type))
             .orElseThrow(() -> new IllegalArgumentException(ERROR_MESSAGE));

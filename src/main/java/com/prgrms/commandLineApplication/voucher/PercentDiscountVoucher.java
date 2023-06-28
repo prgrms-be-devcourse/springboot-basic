@@ -17,8 +17,7 @@ public class PercentDiscountVoucher extends Voucher {
   }
 
   public int discount(int price) {
-    int result = price - (price * discountAmount / PERCENT_RATE_BASE);
-    return result;
+    return price - (price * discountAmount / PERCENT_RATE_BASE);
   }
 
 }
