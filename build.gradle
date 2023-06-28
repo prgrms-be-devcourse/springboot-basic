@@ -8,7 +8,7 @@ apply plugin: 'java'
 
 
 group = 'com.dev'
-version = 'V2'
+version = 'V3'
 
 java {
 	sourceCompatibility = '17'
