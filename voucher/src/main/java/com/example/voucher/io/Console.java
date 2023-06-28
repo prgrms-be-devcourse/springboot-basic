@@ -47,12 +47,14 @@ public class Console {
 	public static Integer readVoucherType() {
 		Integer type = scanner.nextInt();
 		scanner.nextLine();
+
 		return type;
 	}
 
 	public static long readDiscount() {
 		Long discount = scanner.nextLong();
 		scanner.nextLine();
+
 		return discount;
 	}
 

@@ -59,6 +59,7 @@ public class CommandLineApplication {
 			}
 			case Null -> null;
 		};
+
 		return voucher;
 	}
 

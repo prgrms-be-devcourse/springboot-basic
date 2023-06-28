@@ -16,6 +16,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	public UUID save(Voucher voucher) {
 		UUID voucherId = voucher.getVoucherId();
 		map.put(voucherId, voucher);
+
 		return map.get(voucherId).getVoucherId();
 	}
 
