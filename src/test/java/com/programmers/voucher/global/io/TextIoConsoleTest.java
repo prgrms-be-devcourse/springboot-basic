@@ -2,7 +2,6 @@ package com.programmers.voucher.global.io;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
-import com.programmers.voucher.global.io.TextIoConsole;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.mock.MockTextTerminal;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,13 +20,18 @@ class TextIoConsoleTest {
     private TextIO textIO;
 
     private TextIoConsole textIoConsole;
+    private TextIoInput textIoInput;
+    private TextIoOutput textIoOutput;
 
     @BeforeEach
     void init() {
         mockTextTerminal = new MockTextTerminal();
         textIO = new TextIO(mockTextTerminal);
 
-        textIoConsole = new TextIoConsole(textIO);
+        textIoInput = new TextIoInput(textIO);
+        textIoOutput = new TextIoOutput(textIO);
+
+        textIoConsole = new TextIoConsole(textIoInput, textIoOutput);
     }
 
 
