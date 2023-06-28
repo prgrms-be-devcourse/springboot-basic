@@ -85,12 +85,14 @@ class VoucherTypeTest {
 
     @ParameterizedTest
     @MethodSource("voucherTypeDescription")
+    @DisplayName("voucher type에 따라 voucher에 대한 설명을 제대로 가져오는지 확인하는 테스트")
     void getAmountDescription(VoucherType voucherType, String voucherDescription) {
         assertEquals(voucherType.getVoucherDescription(), voucherDescription);
     }
 
     @ParameterizedTest
     @MethodSource("voucherTypeAmountDescription")
+    @DisplayName("Voucher Type에 따라 사용자로부터 요청하는 할인 amount 입력 값에 대한 설명을 잘 가져오는지 확인하는 테스트")
     void getVoucherDescription(VoucherType voucherType, String amountDescription) {
         assertEquals(voucherType.getRequestAmountDescription(), amountDescription);
     }
