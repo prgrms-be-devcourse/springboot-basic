@@ -23,11 +23,15 @@ public class VoucherFactory {
 
         VoucherType voucherType = createVoucherRequest.voucherType();
 
+        return convertToVoucher(UUID.randomUUID(), voucherType, createVoucherRequest.discountAmount());
+    }
+
+    public static Voucher convertToVoucher(UUID voucherId, VoucherType voucherType, long amount) {
         switch (voucherType) {
             case FIXED:
-                return new FixedAmountVoucher(UUID.randomUUID(), createVoucherRequest.discountAmount());
+                return new FixedAmountVoucher(voucherId, amount);
             case PERCENT:
-                return new PercentDiscountVoucher(UUID.randomUUID(), createVoucherRequest.discountAmount());
+                return new PercentDiscountVoucher(voucherId, amount);
             default:
                 logger.error("Invalid Voucher Type => {}", voucherType);
                 throw new IllegalArgumentException("유효하지 않은 Voucher 요청입니다.");
