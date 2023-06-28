@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.Controller.command;
+package com.wonu606.vouchermanager.controller.command;
 
 import com.wonu606.vouchermanager.domain.VoucherVO;
 import com.wonu606.vouchermanager.io.ConsoleInputView;
