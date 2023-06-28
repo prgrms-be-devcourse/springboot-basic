@@ -10,7 +10,7 @@ import com.example.voucher.service.VoucherService;
 
 public class CommandLineApplication {
 
-	private VoucherService voucherService;
+	final private VoucherService voucherService;
 	private boolean isOn = true;
 
 	public CommandLineApplication(VoucherService voucherService) {
