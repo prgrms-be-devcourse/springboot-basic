@@ -9,9 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
@@ -28,7 +26,7 @@ public class VouchersInFile implements VouchersStorage {
 	public void save(Voucher voucher) throws IOException {
 		File file = VoucherApplication.file(FILE_PATH);
 		try {
-			Files.write(file.toPath(), voucher.formatOfCSV().getBytes(), )
+			Files.write(file.toPath(), voucher.formatOfCSV().getBytes(), StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			logger.error("파일을 쓸 수 없습니다. file path : {}", file.toPath());
 			throw new CantWriteFileException(ExceptionMessage.CANT_WRITE_FILE);
