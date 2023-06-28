@@ -32,7 +32,7 @@ public class VoucherService {
         return voucherRepository.insert(newVoucher);
     }
 
-    public List<Voucher> list() {
+    public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
 
