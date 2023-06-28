@@ -1,17 +1,18 @@
 package com.example.voucher.domain;
 
 import com.example.voucher.domain.discount.DiscountPolicy;
+import java.util.UUID;
 
 public class Voucher {
-    private final String voucherId;
+    private final UUID voucherId;
     private double amount;
 
-    public Voucher(String voucherId, double amount) {
+    public Voucher(UUID voucherId, double amount) {
         this.voucherId = voucherId;
         this.amount = amount;
     }
 
-    public String getVoucherId() {
+    public UUID getVoucherId() {
         return voucherId;
     }
 
