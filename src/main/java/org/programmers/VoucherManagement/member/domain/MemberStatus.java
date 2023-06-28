@@ -1,6 +1,6 @@
 package org.programmers.VoucherManagement.member.domain;
 
-import ch.qos.logback.core.pattern.color.BlackCompositeConverter;
+import java.util.Arrays;
 
 public enum MemberStatus {
     BLACK,
@@ -12,5 +12,12 @@ public enum MemberStatus {
 
     public boolean isWhite() {
         return this.equals(WHITE);
+    }
+
+    public static MemberStatus from(String status) {
+        return Arrays.stream(values())
+                .filter(enumValue -> enumValue.name().equalsIgnoreCase(status))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(""));
     }
 }
