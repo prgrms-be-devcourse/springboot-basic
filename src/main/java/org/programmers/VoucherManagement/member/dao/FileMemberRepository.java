@@ -11,7 +11,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.*;
+import static org.programmers.VoucherManagement.global.exception.FileExceptionMessage.CAN_NOT_READ_LINE;
+import static org.programmers.VoucherManagement.global.exception.FileExceptionMessage.NOT_EXIST_FILE;
 
 @Repository
 public class FileMemberRepository implements MemberRepository {
