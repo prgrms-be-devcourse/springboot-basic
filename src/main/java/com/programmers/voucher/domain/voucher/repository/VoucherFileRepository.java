@@ -52,7 +52,7 @@ public class VoucherFileRepository implements VoucherRepository {
         List<Voucher> vouchers = new ArrayList<>();
         try (
                 BufferedReader br = new BufferedReader(new FileReader(file));
-                ) {
+        ) {
             String nextLine;
             while ((nextLine = br.readLine()) != null) {
                 Voucher voucher = csvToVoucher(nextLine);

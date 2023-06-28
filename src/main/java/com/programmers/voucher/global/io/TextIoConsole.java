@@ -82,7 +82,7 @@ public class TextIoConsole implements Console {
                 .noneMatch(rawType -> Objects.equals(rawType, val));
 
         List<String> messages = new ArrayList<>();
-        if(invalidVoucherType) {
+        if (invalidVoucherType) {
             messages.add(VoucherErrorMessages.INVALID_VOUCHER_TYPE + val);
         }
         return messages;
@@ -96,7 +96,7 @@ public class TextIoConsole implements Console {
 
     private List<String> fixedAmountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
-        if(val <= 0) {
+        if (val <= 0) {
             messages.add(VoucherErrorMessages.INVALID_FIXED_AMOUNT + val);
         }
         return messages;
@@ -111,7 +111,7 @@ public class TextIoConsole implements Console {
 
     private List<String> percentDiscountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
-        if(val <= 0 || val >= 100) {
+        if (val <= 0 || val >= 100) {
             messages.add(VoucherErrorMessages.INVALID_PERCENT_DISCOUNT + val);
         }
         return messages;
