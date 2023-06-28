@@ -1,6 +1,7 @@
 package me.kimihiqq.vouchermanagement.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 
 import java.util.UUID;
 
@@ -8,13 +9,13 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final String type;
+    private final VoucherTypeOption type;
     private final long discount;
 
-    public FixedAmountVoucher(UUID voucherId, String type, long discountAmount) {
+    public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         validateDiscountAmount(discountAmount);
         this.voucherId = voucherId;
-        this.type = "Fixed";
+        this.type = VoucherTypeOption.FIXED;
         this.discount = discountAmount;
     }
 
@@ -31,7 +32,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String getType() {
-        return type;
+        return type.name();
     }
 
     @Override

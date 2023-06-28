@@ -6,6 +6,7 @@ import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.dto.VoucherDto;
 import me.kimihiqq.vouchermanagement.domain.voucher.service.VoucherServiceImpl;
 import me.kimihiqq.vouchermanagement.domain.voucher.repository.VoucherRepository;
+import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -35,21 +36,21 @@ class VoucherServiceImplTest {
 
     @Test
     void testCreateVoucher() {
-        VoucherDto voucherDto = new VoucherDto("fixed", 10);
+        VoucherDto voucherDto = new VoucherDto("FIXED", 10);
         when(voucherRepository.save(any(Voucher.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         Voucher result = voucherService.createVoucher(voucherDto);
 
-        assertEquals("Fixed", result.getType());
+        assertEquals(VoucherTypeOption.FIXED, result.getType());
         assertEquals(10, result.getDiscount());
     }
 
     @Test
     void testListVouchers() {
         List<Voucher> vouchers = new ArrayList<>();
-        vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), "fixed", 10));
-        vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), "percent", 10));
+        vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), 10));
+        vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), 10));
 
         when(voucherRepository.findAll()).thenReturn(vouchers);
 

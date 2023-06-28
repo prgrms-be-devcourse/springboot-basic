@@ -1,6 +1,7 @@
 package me.kimihiqq.vouchermanagement.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 
 import java.util.UUID;
 
@@ -8,17 +9,21 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final String type;
+    private final VoucherTypeOption type;
     private final long discount;
 
 
-    public PercentDiscountVoucher(UUID voucherId, String type, long discountRate) {
+    public PercentDiscountVoucher(UUID voucherId, long discountRate) {
+        validateDiscountRate(discountRate);
+        this.voucherId = voucherId;
+        this.type = VoucherTypeOption.PERCENT;
+        this.discount = discountRate;
+    }
+
+    private void validateDiscountRate(long discountRate) {
         if (discountRate < 0 || discountRate > 100) {
             throw new IllegalArgumentException("Discount rate must be between 0 and 100.");
         }
-        this.voucherId = voucherId;
-        this.type = "Percent";
-        this.discount = discountRate;
     }
 
     @Override
@@ -28,12 +33,13 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String getType() {
-        return type;
+        return type.name();
     }
 
     @Override
-    public long getDiscount() {return discount;}
-
+    public long getDiscount() {
+        return discount;
+    }
 
     @Override
     public long discount(long beforeDiscount) {
