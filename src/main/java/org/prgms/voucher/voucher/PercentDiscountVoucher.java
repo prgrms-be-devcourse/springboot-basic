@@ -1,14 +1,10 @@
 package org.prgms.voucher.voucher;
 
 import lombok.Getter;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
-@Slf4j
 @Getter
-@ToString
 public class PercentDiscountVoucher implements Voucher {
 
     private final VoucherPolicy voucherPolicy = VoucherPolicy.PERCENT_DISCOUNT;

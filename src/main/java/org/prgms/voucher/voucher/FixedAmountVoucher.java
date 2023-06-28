@@ -1,11 +1,9 @@
 package org.prgms.voucher.voucher;
 
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
-@Slf4j
 @Getter
 public class FixedAmountVoucher implements Voucher {
 

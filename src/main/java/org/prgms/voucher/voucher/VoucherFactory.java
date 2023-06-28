@@ -24,6 +24,7 @@ public class VoucherFactory {
                 validateFixedAmount(amount);
                 return new FixedAmountVoucher(amount, UUID.randomUUID());
             default:
+                log.error("존재하지 않는 바우처 타입: {}", amount);
                 throw new NoSuchElementException("존재하지 않는 바우처 타입입니다.");
         }
     }

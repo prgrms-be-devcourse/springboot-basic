@@ -1,4 +1,4 @@
-package org.prgms.voucher.controller;
+package org.prgms.voucher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,12 +7,12 @@ import org.prgms.voucher.service.VoucherService;
 import org.prgms.voucher.view.VoucherView;
 import org.prgms.voucher.voucher.VoucherPolicy;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Controller
+@Component
 @RequiredArgsConstructor
-public class VoucherController implements CommandLineRunner {
+public class VoucherApplicationRunner implements CommandLineRunner {
 
     private final VoucherView voucherView;
     private final VoucherService voucherService;
@@ -39,7 +39,6 @@ public class VoucherController implements CommandLineRunner {
                         return;
                 }
             } catch (Exception e) {
-                log.error("message: {}", e.getMessage());
                 voucherView.printError(e.getMessage());
             }
 
