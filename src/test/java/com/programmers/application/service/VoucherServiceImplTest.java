@@ -23,7 +23,6 @@ class VoucherServiceImplTest {
     private static final int PERCENT_DISCOUNT_AMOUNT = 10;
     private static final String FIXED_AMOUNT_VOUCHER_TYPE = "fixed";
     private static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "percent";
-    private static final int EXPECTED_COUNT = 2;
 
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
     private VoucherService voucherService = new VoucherServiceImpl(voucherRepository);
@@ -79,6 +78,7 @@ class VoucherServiceImplTest {
     @DisplayName("바우처 목록 조회 성공 테스트")
     @Test
     void findVoucherList() {
+        final int expectedCount = 2;
         //give
         VoucherCreationRequest voucherCreationRequest1 = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
         VoucherCreationRequest voucherCreationRequest2 = RequestFactory.createVoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
@@ -89,7 +89,7 @@ class VoucherServiceImplTest {
         List<VoucherInfoResponse> voucherList = voucherService.findVoucherList();
 
         //then
-        Assertions.assertThat(voucherList).hasSize(EXPECTED_COUNT);
+        Assertions.assertThat(voucherList).hasSize(expectedCount);
     }
 
     @DisplayName("바우처 목록 비어있을 경우 예외 발생 테스트")
