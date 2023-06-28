@@ -14,12 +14,12 @@ public class VoucherMapper {
 
     public static VoucherResponseDto convertDomainToResponseDto(Voucher voucher) {
         return new VoucherResponseDto(voucher.getVoucherId(), voucher.getDiscount(),
-                voucher.getCreatedDate());
+                voucher.getCreatedAt());
     }
 
     public static VoucherEntity convertDomainToEntity(Voucher voucher) {
         return new VoucherEntity(voucher.getVoucherId(), voucher.getDiscount(),
-                voucher.getCreatedDate());
+                voucher.getCreatedAt());
     }
 
     public static Voucher convertEntityToDomain(VoucherEntity voucherEntity) {
