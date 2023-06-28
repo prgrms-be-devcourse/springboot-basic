@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
+@Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -34,6 +34,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return storage.values().stream().toList();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        UUID voucherId = voucher.getVoucherId();
+        if (!storage.containsKey(voucher)) {
+            throw new IllegalArgumentException("해당 Voucher ID가 존재하지 않습니다. => " + voucherId);
+        }
+        storage.put(voucherId, voucher);
+        return voucher;
     }
 
     @Override
