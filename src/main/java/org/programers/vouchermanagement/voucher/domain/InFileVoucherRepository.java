@@ -66,4 +66,14 @@ public class InFileVoucherRepository implements VoucherRepository {
             throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.");
         }
     }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new RuntimeException("지원하지 않는 메서드입니다.");
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        throw new RuntimeException("지원하지 않는 메서드입니다.");
+    }
 }

@@ -7,8 +7,10 @@ import org.programers.vouchermanagement.view.InputView;
 import org.programers.vouchermanagement.view.OutputView;
 import org.programers.vouchermanagement.voucher.presentation.VoucherController;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
+@Profile("!test")
 @Controller
 public class VoucherManagementController implements CommandLineRunner {
 
