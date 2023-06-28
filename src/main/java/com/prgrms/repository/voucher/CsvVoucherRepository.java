@@ -2,6 +2,7 @@ package com.prgrms.repository.voucher;
 
 import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.Voucher;
+import com.prgrms.model.voucher.VoucherList;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getAllVoucherList() {
+    public VoucherList getAllVoucherList() {
         return null;
     }
 }
