@@ -22,13 +22,13 @@ public class VoucherController implements Runnable {
 
   @Override
   public void run() {
-    while (true) {
+    boolean isRunning = true;
+
+    while (isRunning) {
       output.printMenu();
       Command command = Command.of(input.selectOption());
 
       switch (command) {
-        case EXIT:
-          return;
         case CREATE:
           output.printCreateOption();
 
@@ -45,6 +45,9 @@ public class VoucherController implements Runnable {
           continue;
         case LIST:
           voucherService.history();
+          continue;
+        case EXIT:
+          isRunning = false;
       }
     }
   }
