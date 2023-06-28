@@ -8,7 +8,7 @@ group = 'org.prgms'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 }
 
 configurations {
@@ -27,6 +27,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.beryx:text-io:3.4.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 }
 
 tasks.named('test') {

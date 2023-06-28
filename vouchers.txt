@@ -1,0 +1,2 @@
+{"amount":100000,"id":"97afda30-57a6-429a-b1e1-3aa2baa05b62","voucherPolicy":"FIXED_AMOUNT"}
+{"voucherPolicy":"PERCENT_DISCOUNT","amount":20,"id":"d6f2ab52-6558-470b-82fd-abeca08ce84f"}

@@ -3,11 +3,15 @@ package org.prgms.voucher.view;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
-import org.prgms.voucher.voucher.Voucher;
+import org.prgms.voucher.dto.VoucherResponseDto;
+import org.prgms.voucher.option.Option;
+import org.prgms.voucher.voucher.VoucherPolicy;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @Component
 public class ConsoleVoucherView implements VoucherView {
@@ -15,20 +19,31 @@ public class ConsoleVoucherView implements VoucherView {
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final TextTerminal terminal = TextIoFactory.getTextIO().getTextTerminal();
 
-    private final String[] options = {"exit", "create", "list"};
-    private final String[] voucherTypes = {"FixedAmount", "PercentDiscount"};
+    private final String[] options = Arrays.stream(Option.values())
+            .map(Option::getOption)
+            .toArray(String[]::new);
+    private final String[] voucherTypes = Arrays.stream(VoucherPolicy.values())
+            .map(VoucherPolicy::getVoucherPolicy)
+            .toArray(String[]::new);
 
     @Override
     public void printOptions() {
         terminal.println("=== Voucher Program ===");
-        terminal.println("Type exit to exit the program.");
-        terminal.println("Type create to create a new voucher.");
-        terminal.println("Type list to list all vouchers.");
+        terminal.println(
+                Arrays.stream(Option.values())
+                        .map(Option::getInfo)
+                        .collect(Collectors.joining(System.lineSeparator()))
+        );
     }
 
     @Override
-    public void printVouchers(List<Voucher> vouchers) {
-        vouchers.forEach(voucher -> terminal.println(voucher.toString()));
+    public void printVouchers(List<VoucherResponseDto> vouchers) {
+        terminal.println("=== Voucher list ====");
+        terminal.println(
+                vouchers.stream()
+                        .map(voucher -> MessageFormat.format("id: {0}, voucher policy: {1}, amount: {2}", voucher.getId(), voucher.getVoucherPolicy(), voucher.getAmount()))
+                        .collect(Collectors.joining(System.lineSeparator()))
+        );
     }
 
     @Override

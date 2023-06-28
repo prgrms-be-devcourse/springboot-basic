@@ -1,6 +1,6 @@
 package org.prgms.voucher.view;
 
-import org.prgms.voucher.voucher.Voucher;
+import org.prgms.voucher.dto.VoucherResponseDto;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public interface VoucherView {
 
     void printOptions();
 
-    void printVouchers(List<Voucher> vouchers);
+    void printVouchers(List<VoucherResponseDto> vouchers);
 
     String readChoice();
 

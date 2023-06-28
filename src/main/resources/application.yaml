@@ -1,0 +1,4 @@
+spring.config.activate.on-profile: dev
+file-repository-path: ./vouchers.txt
+---
+spring.config.activate.on-profile: local
