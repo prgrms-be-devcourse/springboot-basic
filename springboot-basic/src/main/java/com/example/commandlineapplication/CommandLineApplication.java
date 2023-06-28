@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CommandLineApplication implements CommandLineRunner {
 
-  private static final Logger log = LoggerFactory.getLogger(CommandLineApplication.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CommandLineApplication.class);
   private final VoucherController voucherController;
 
   public CommandLineApplication(VoucherController voucherController) {
@@ -18,7 +18,7 @@ public class CommandLineApplication implements CommandLineRunner {
   }
 
   public static void main(String[] args) {
-    log.info("voucher가 실행되었습니다.");
+    LOG.info("voucher가 실행되었습니다.");
     SpringApplication.run(CommandLineApplication.class, args);
   }
 

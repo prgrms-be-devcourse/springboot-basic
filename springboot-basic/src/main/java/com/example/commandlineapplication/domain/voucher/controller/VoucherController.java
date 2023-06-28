@@ -9,12 +9,15 @@ import com.example.commandlineapplication.global.io.Command;
 import com.example.commandlineapplication.global.io.Input;
 import com.example.commandlineapplication.global.io.Output;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
 public class VoucherController implements Runnable {
 
+  private static final Logger LOG = LoggerFactory.getLogger(VoucherController.class);
   private final Input input;
   private final Output output;
   private final VoucherFactory voucherFactory;
@@ -26,28 +29,33 @@ public class VoucherController implements Runnable {
 
     while (isRunning) {
       output.printMenu();
-      Command command = Command.of(input.selectOption());
+      try {
+        Command command = Command.of(input.selectOption());
 
-      switch (command) {
-        case CREATE:
-          output.printCreateOption();
+        switch (command) {
+          case CREATE:
+            output.printCreateOption();
 
-          VoucherType inputVoucherType = VoucherType.of(input.selectOption());
+            VoucherType inputVoucherType = VoucherType.of(input.selectOption());
 
-          output.printDiscount();
+            output.printDiscount();
 
-          Integer discount = input.getDiscount();
+            Integer discount = input.getDiscount();
 
-          VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputVoucherType,
-              discount);
-          Voucher voucher = voucherFactory.create(voucherCreateRequest);
-          voucherService.insert(voucher);
-          continue;
-        case LIST:
-          voucherService.history();
-          continue;
-        case EXIT:
-          isRunning = false;
+            VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputVoucherType,
+                discount);
+            Voucher voucher = voucherFactory.create(voucherCreateRequest);
+            voucherService.insert(voucher);
+            continue;
+          case LIST:
+            voucherService.history();
+            continue;
+          case EXIT:
+            isRunning = false;
+        }
+      } catch (Exception e) {
+        LOG.warn(e.getMessage());
+        return;
       }
     }
   }
