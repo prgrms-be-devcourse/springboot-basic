@@ -1,91 +1,26 @@
 package com.prgrms.controller;
 
-import com.prgrms.io.Input;
-import com.prgrms.io.Menu;
-import com.prgrms.io.Output;
-import com.prgrms.model.dto.VoucherResponse;
+import com.prgrms.model.dto.VoucherRequest;
 import com.prgrms.model.voucher.Discount;
+import com.prgrms.model.voucher.Voucher;
+import com.prgrms.model.voucher.VoucherList;
 import com.prgrms.model.voucher.VoucherPolicy;
 import com.prgrms.service.voucher.VoucherService;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class VoucherController implements CommandLineRunner {
+public class VoucherController {
 
-    private Input input = new Input();
-    private Output output = new Output();
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherService voucherService;
 
-    @Override
-    public void run(String... args) {
-        boolean isRunning = true;
-
-        while (isRunning) {
-            output.viewStartMessage();
-            try {
-                switch (getMenuType()) {
-                    case EXIT:
-                        isRunning = false;
-                        exit();
-                        break;
-                    case CREATE:
-                        create();
-                        break;
-                    case LIST:
-                        list();
-                        break;
-                    default:
-                        throw new IllegalArgumentException();
-                }
-            } catch (IllegalArgumentException e) {
-                logger.error("사용자의 잘못된 입력이 발생하였습니다.");
-                output.viewInputError();
-            }
-        }
+    public void createVoucher(VoucherRequest voucherRequest) {
+         voucherService.createVoucher(voucherRequest);
     }
 
-    public Menu getMenuType() {
-        return input.enterMenu().orElseThrow(() -> new IllegalArgumentException());
-    }
-
-    public void exit() {
-        output.viewEndMessage();
-    }
-
-    public void create() {
-        output.viewVoucherOption();
-        input.enterVoucherPolicy()
-                .ifPresentOrElse(
-                        voucherPolicy -> create(voucherPolicy),
-                        () -> {
-                            throw new IllegalArgumentException();
-                        });
-
-    }
-
-    public void create(VoucherPolicy voucherPolicy) {
-        output.viewDiscountGuide(voucherPolicy);
-
-        Discount discount = new Discount(input.enterDiscount());
-        voucherService.createVoucher(voucherPolicy, discount);
-
-        output.viewCompleteVoucher();
-    }
-
-    public void list() {
-        List<VoucherResponse> voucherList = voucherService.getAllVoucherList();
-        if (voucherService.isEmptyRepository(voucherList)) {
-            output.viewEmptyRepository();
-        }
-        output.viewVoucherList(voucherList);
+    public VoucherList listVoucher() {
+        return voucherService.getAllVoucherList();
     }
 }
