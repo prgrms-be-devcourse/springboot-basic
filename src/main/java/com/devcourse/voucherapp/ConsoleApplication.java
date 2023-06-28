@@ -1,8 +1,5 @@
 package com.devcourse.voucherapp;
 
-import static com.devcourse.voucherapp.entity.Menu.getMenu;
-import static com.devcourse.voucherapp.entity.VoucherType.getVoucherType;
-
 import com.devcourse.voucherapp.controller.VoucherController;
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
@@ -25,7 +22,7 @@ public class ConsoleApplication implements CommandLineRunner {
     public void run(String... args) {
         while (isRunning) {
             String menuNumber = consoleView.readMenuNumber();
-            Menu selectedMenu = getMenu(menuNumber);
+            Menu selectedMenu = Menu.of(menuNumber);
             executeMenu(selectedMenu);
         }
     }
@@ -40,7 +37,7 @@ public class ConsoleApplication implements CommandLineRunner {
 
     private void createVoucher() {
         String voucherTypeNumber = consoleView.readVoucherTypeNumber();
-        VoucherType voucherType = getVoucherType(voucherTypeNumber);
+        VoucherType voucherType = VoucherType.of(voucherTypeNumber);
 
         String message = voucherType.getMessage();
         String discountAmount = consoleView.readDiscountAmount(message);

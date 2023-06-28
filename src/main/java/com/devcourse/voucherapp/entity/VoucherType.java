@@ -6,8 +6,11 @@ import com.devcourse.voucherapp.entity.voucher.FixDiscountVoucher;
 import com.devcourse.voucherapp.entity.voucher.PercentDiscountVoucher;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.exception.VoucherInputException;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.Getter;
 
 @Getter
@@ -26,6 +29,8 @@ public enum VoucherType {
     );
 
     private static final String NOT_EXIST_VOUCHER_TYPE_MESSAGE = "입력하신 할인권 방식은 없는 방식입니다.";
+    private static final Map<String, VoucherType> VOUCHER_TYPES = Collections.unmodifiableMap(Stream.of(values())
+            .collect(Collectors.toMap(VoucherType::getNumber, Function.identity())));
 
     private final String number;
     private final String name;
@@ -39,11 +44,12 @@ public enum VoucherType {
         this.voucherGenerator = voucherGenerator;
     }
 
-    public static VoucherType getVoucherType(String voucherTypeNumber) {
-        return Arrays.stream(VoucherType.values())
-                .filter(type -> voucherTypeNumber.equals(type.getNumber()))
-                .findFirst()
-                .orElseThrow(() -> new VoucherInputException(NOT_EXIST_VOUCHER_TYPE_MESSAGE));
+    public static VoucherType of(String voucherTypeNumber) {
+        if (VOUCHER_TYPES.containsKey(voucherTypeNumber)) {
+            return VOUCHER_TYPES.get(voucherTypeNumber);
+        }
+
+        throw new VoucherInputException(NOT_EXIST_VOUCHER_TYPE_MESSAGE);
     }
 
     public Voucher makeVoucher(String discountAmount) {

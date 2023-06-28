@@ -3,7 +3,11 @@ package com.devcourse.voucherapp.entity;
 import static java.text.MessageFormat.format;
 
 import com.devcourse.voucherapp.exception.MenuInputException;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.Getter;
 
 public enum Menu {
@@ -12,6 +16,8 @@ public enum Menu {
     QUIT("3", "프로그램 종료");
 
     private static final String NOT_EXIST_MENU_MESSAGE = "입력하신 메뉴는 없는 메뉴입니다.";
+    private static final Map<String, Menu> MENUS = Collections.unmodifiableMap(Stream.of(values())
+            .collect(Collectors.toMap(Menu::getNumber, Function.identity())));
 
     @Getter
     private final String number;
@@ -23,23 +29,12 @@ public enum Menu {
         this.name = name;
     }
 
-    public static Menu getMenu(String menuNumber) {
-        return Arrays.stream(Menu.values())
-            .filter(menu -> menuNumber.equals(menu.getNumber()))
-            .findFirst()
-            .orElseThrow(() -> new MenuInputException(NOT_EXIST_MENU_MESSAGE));
-    }
+    public static Menu of(String menuNumber) {
+        if (MENUS.containsKey(menuNumber)) {
+            return MENUS.get(menuNumber);
+        }
 
-    public boolean isCreate() {
-        return this == Menu.CREATE;
-    }
-
-    public boolean isList() {
-        return this == Menu.LIST;
-    }
-
-    public boolean isQuit() {
-        return this == Menu.QUIT;
+        throw new MenuInputException(NOT_EXIST_MENU_MESSAGE);
     }
 
     @Override
