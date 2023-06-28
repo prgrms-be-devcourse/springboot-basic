@@ -32,14 +32,20 @@ public class VoucherControllerImpl implements VoucherController {
                     case CREATE:
                         VoucherTypeOption voucherTypeOption = console.promptUserChoice(VoucherTypeOption.class);
                         long discount = console.readDiscount("Enter discount amount or rate: ");
+
                         log.info("Creating voucher with type: " + voucherTypeOption.getDescription() + ", and discount: " + discount);
+
                         VoucherDto voucherDto = new VoucherDto(voucherTypeOption.name(), discount);
                         Voucher createdVoucher = voucherService.createVoucher(voucherDto);
+
                         console.printLine(createdVoucher.getVoucherId() + ": " + createdVoucher.getType() + " - " + createdVoucher.getDiscount());
+
                         log.info("Created voucher with ID: " + createdVoucher.getVoucherId());
+
                         break;
                     case LIST:
                         log.info("Listing all vouchers");
+
                         voucherService.listVouchers().forEach(voucher ->
                                 console.printLine(voucher.getVoucherId() + ": " + voucher.getType() + " - " + voucher.getDiscount())
                         );
@@ -47,6 +53,7 @@ public class VoucherControllerImpl implements VoucherController {
 
                     case BLACKLIST:
                         log.info("Listing all blacklisted customers");
+
                         customerService.getBlacklistedCustomers().forEach(customer ->
                                 console.printLine(customer.getId() + ": " + customer.getName() + " - " + customer.getStatus())
                         );
@@ -54,6 +61,7 @@ public class VoucherControllerImpl implements VoucherController {
                 }
             } catch (Exception e) {
                 log.error("Error reading input", e);
+
                 console.printLine("입력을 읽는 중 오류가 발생했습니다.");
             }
         }
