@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 public class VoucherService {
 
-    private VoucherRepository voucherRepository;
-    private VoucherFactory voucherFactory;
+    private final VoucherRepository voucherRepository;
+    private final VoucherFactory voucherFactory;
 
     public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;

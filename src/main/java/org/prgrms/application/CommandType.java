@@ -13,4 +13,5 @@ public enum CommandType {
                 .filter(s -> s.name().equals(selection.toUpperCase()))
                 .findFirst();
     }
+
 }
