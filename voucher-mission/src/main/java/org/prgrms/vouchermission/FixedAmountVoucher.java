@@ -29,7 +29,9 @@ public class FixedAmountVoucher implements Voucher {
         return beforeDiscount - amount;
     }
 
-    public long getAmount() { return amount;}
+    public long getAmount() {
+        return amount;
+    }
 
     public LocalDate getCreatedDate() {
         return createdDate;
