@@ -7,6 +7,8 @@ import com.programmers.voucher.global.io.ConsoleCommandType;
 import com.programmers.voucher.global.io.ConsoleInput;
 import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.beryx.textio.TextIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import static com.programmers.voucher.global.util.ConsoleMessages.*;
 
 @Component
 public class TextIoInput implements ConsoleInput {
+    private static final Logger LOG = LoggerFactory.getLogger(TextIoInput.class);
+
     private final TextIO textIO;
 
     public TextIoInput(TextIO textIO) {
@@ -67,6 +71,7 @@ public class TextIoInput implements ConsoleInput {
         List<String> messages = new ArrayList<>();
         if (invalidVoucherType) {
             String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_VOUCHER_TYPE, val);
+            LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
         return messages;
@@ -82,6 +87,7 @@ public class TextIoInput implements ConsoleInput {
         List<String> messages = new ArrayList<>();
         if (val <= FIXED_AMOUNT_MIN) {
             String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_FIXED_AMOUNT, val);
+            LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
         return messages;
@@ -98,6 +104,7 @@ public class TextIoInput implements ConsoleInput {
         List<String> messages = new ArrayList<>();
         if (val <= PERCENT_DISCOUNT_MIN || val >= PERCENT_DISCOUNT_MAX) {
             String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_PERCENT_DISCOUNT, val);
+            LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
         return messages;
