@@ -4,25 +4,28 @@ import java.util.UUID;
 
 public class VoucherDto {
     private final VoucherPolicy voucherPolicy;
-    private final UUID uuid;
+    private final UUID voucherId;
     private final long discountNumber;
 
-    private VoucherDto(VoucherPolicy voucherPolicy, UUID uuid, long discountNumber) {
+    private VoucherDto(VoucherPolicy voucherPolicy, UUID voucherId, long discountNumber) {
         this.voucherPolicy = voucherPolicy;
-        this.uuid = uuid;
+        this.voucherId = voucherId;
         this.discountNumber = discountNumber;
     }
-
-    public static VoucherDto fromVoucher(Voucher voucher) {
-        if (voucher instanceof FixedAmountVoucher) {
-            return new VoucherDto(VoucherPolicy.FIXED_AMOUNT_VOUCHER, voucher.getVoucherId(), voucher.getDiscountNumber());
-        }
-
-        return new VoucherDto(VoucherPolicy.PERCENT_DISCOUNT_VOUCHER, voucher.getVoucherId(), voucher.getDiscountNumber());
+    
+    public static VoucherDto fromEntity(VoucherPolicy voucherPolicy, Voucher voucher) {
+        return new VoucherDto(voucherPolicy, voucher.getVoucherId(), voucher.getDiscountNumber());
     }
 
-    @Override
-    public String toString() {
-        return "[%s, %d] %s".formatted(voucherPolicy.name(), discountNumber, uuid.toString());
+    public VoucherPolicy getVoucherPolicy() {
+        return voucherPolicy;
+    }
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public long getDiscountNumber() {
+        return discountNumber;
     }
 }
