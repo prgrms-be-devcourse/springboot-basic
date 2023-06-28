@@ -2,14 +2,13 @@ package com.devcourse.voucherapp.entity.voucher;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.exception.VoucherInputException;
+import com.devcourse.voucherapp.exception.DiscountAmountException;
 import java.util.UUID;
 import lombok.Getter;
 
 public class PercentDiscountVoucher implements Voucher {
 
     private static final String PERCENT_DISCOUNT_RATE_REGEX = "^[1-9]|[1-9][0-9]|100$";
-    private static final String INVALID_PERCENT_DISCOUNT_RATE_MESSAGE = "입력하신 퍼센트가 조건에 맞지 않습니다.";
 
     @Getter
     private final UUID voucherId;
@@ -28,7 +27,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private int getValidRate(String discountRate) {
         if (isNotValid(discountRate)) {
-            throw new VoucherInputException(INVALID_PERCENT_DISCOUNT_RATE_MESSAGE);
+            throw new DiscountAmountException(discountRate);
         }
 
         return Integer.parseInt(discountRate);

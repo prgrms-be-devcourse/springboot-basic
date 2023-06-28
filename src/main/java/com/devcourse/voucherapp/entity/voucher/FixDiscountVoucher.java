@@ -2,14 +2,13 @@ package com.devcourse.voucherapp.entity.voucher;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.exception.VoucherInputException;
+import com.devcourse.voucherapp.exception.DiscountAmountException;
 import java.util.UUID;
 import lombok.Getter;
 
 public class FixDiscountVoucher implements Voucher {
 
     private static final String FIX_DISCOUNT_PRICE_REGEX = "^[1-9][0-9]*$";
-    private static final String INVALID_FIX_DISCOUNT_PRICE_MESSAGE = "입력하신 금액이 조건에 맞지 않습니다.";
 
     @Getter
     private final UUID voucherId;
@@ -28,7 +27,7 @@ public class FixDiscountVoucher implements Voucher {
 
     private int getValidPrice(String discountPrice) {
         if (isNotValid(discountPrice)) {
-            throw new VoucherInputException(INVALID_FIX_DISCOUNT_PRICE_MESSAGE);
+            throw new DiscountAmountException(discountPrice);
         }
 
         return Integer.parseInt(discountPrice);

@@ -5,7 +5,7 @@ import static java.text.MessageFormat.format;
 import com.devcourse.voucherapp.entity.voucher.FixDiscountVoucher;
 import com.devcourse.voucherapp.entity.voucher.PercentDiscountVoucher;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
-import com.devcourse.voucherapp.exception.VoucherInputException;
+import com.devcourse.voucherapp.exception.VoucherTypeInputException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,7 +28,6 @@ public enum VoucherType {
             PercentDiscountVoucher::new
     );
 
-    private static final String NOT_EXIST_VOUCHER_TYPE_MESSAGE = "입력하신 할인권 방식은 없는 방식입니다.";
     private static final Map<String, VoucherType> VOUCHER_TYPES = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(VoucherType::getNumber, Function.identity())));
 
@@ -49,7 +48,7 @@ public enum VoucherType {
             return VOUCHER_TYPES.get(voucherTypeNumber);
         }
 
-        throw new VoucherInputException(NOT_EXIST_VOUCHER_TYPE_MESSAGE);
+        throw new VoucherTypeInputException(voucherTypeNumber);
     }
 
     public Voucher makeVoucher(String discountAmount) {

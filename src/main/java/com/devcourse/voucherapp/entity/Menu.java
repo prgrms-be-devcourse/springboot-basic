@@ -15,7 +15,6 @@ public enum Menu {
     LIST("2", "할인권 조회"),
     QUIT("3", "프로그램 종료");
 
-    private static final String NOT_EXIST_MENU_MESSAGE = "입력하신 메뉴는 없는 메뉴입니다.";
     private static final Map<String, Menu> MENUS = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(Menu::getNumber, Function.identity())));
 
@@ -34,7 +33,7 @@ public enum Menu {
             return MENUS.get(menuNumber);
         }
 
-        throw new MenuInputException(NOT_EXIST_MENU_MESSAGE);
+        throw new MenuInputException(menuNumber);
     }
 
     @Override
