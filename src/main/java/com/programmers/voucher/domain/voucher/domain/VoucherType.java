@@ -3,13 +3,15 @@ package com.programmers.voucher.domain.voucher.domain;
 import com.programmers.voucher.domain.voucher.pattern.factory.FixedAmountVoucherFactory;
 import com.programmers.voucher.domain.voucher.pattern.factory.PercentDiscountVoucherFactory;
 import com.programmers.voucher.domain.voucher.pattern.factory.VoucherFactory;
-import com.programmers.voucher.global.util.VoucherErrorMessages;
+import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
+
+import static com.programmers.voucher.global.util.VoucherErrorMessages.INVALID_VOUCHER_TYPE;
 
 public enum VoucherType {
     FIXED_AMOUNT("fixed",
@@ -33,9 +35,9 @@ public enum VoucherType {
                 .filter(t -> Objects.equals(t.type, voucherType))
                 .findAny()
                 .orElseThrow(() -> {
-                    String errorMessage = VoucherErrorMessages.INVALID_VOUCHER_TYPE + voucherType;
+                    String errorMessage = CommonErrorMessages.currentInput(INVALID_VOUCHER_TYPE, voucherType);
 
-                    LOG.warn("Invalid voucher type: {}", errorMessage);
+                    LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);
                 });
     }

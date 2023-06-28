@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.programmers.voucher.global.util.CommonErrorMessages.CANNOT_ACCESS_FILE;
+
 @Repository
 @Profile("dev")
 public class VoucherFileRepository implements VoucherRepository {
@@ -31,8 +33,9 @@ public class VoucherFileRepository implements VoucherRepository {
         try {
             this.file = resource.getFile();
         } catch (IOException e) {
-            LOG.error(CommonErrorMessages.CANNOT_ACCESS_FILE + " - " + filePath, e);
-            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
+            String errorMessage = CommonErrorMessages.filePath(CANNOT_ACCESS_FILE, filePath);
+            LOG.error(errorMessage, e);
+            throw new DataAccessException(CANNOT_ACCESS_FILE, e);
         }
     }
 
@@ -48,8 +51,9 @@ public class VoucherFileRepository implements VoucherRepository {
             bw.write(voucherInfo);
             bw.newLine();
         } catch (IOException e) {
-            LOG.error(CommonErrorMessages.CANNOT_ACCESS_FILE + " - " + file.getPath(), e);
-            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
+            String errorMessage = CommonErrorMessages.filePath(CANNOT_ACCESS_FILE, file.getPath());
+            LOG.error(errorMessage, e);
+            throw new DataAccessException(CANNOT_ACCESS_FILE, e);
         }
     }
 
@@ -65,8 +69,9 @@ public class VoucherFileRepository implements VoucherRepository {
                 vouchers.add(voucher);
             }
         } catch (IOException e) {
-            LOG.error(CommonErrorMessages.CANNOT_ACCESS_FILE + " - " + file.getPath(), e);
-            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
+            String errorMessage = CommonErrorMessages.filePath(CANNOT_ACCESS_FILE, file.getPath());
+            LOG.error(errorMessage, e);
+            throw new DataAccessException(CANNOT_ACCESS_FILE, e);
         }
 
         return vouchers;

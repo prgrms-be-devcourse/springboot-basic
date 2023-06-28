@@ -2,6 +2,7 @@ package com.programmers.voucher.global.io;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
+import com.programmers.voucher.global.util.CommonErrorMessages;
 import com.programmers.voucher.global.util.VoucherErrorMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import static com.programmers.voucher.global.util.VoucherErrorMessages.*;
 
 @Component
 public class TextIoConsole implements Console {
@@ -83,7 +86,8 @@ public class TextIoConsole implements Console {
 
         List<String> messages = new ArrayList<>();
         if (invalidVoucherType) {
-            messages.add(VoucherErrorMessages.INVALID_VOUCHER_TYPE + val);
+            String errorMessage = CommonErrorMessages.currentInput(INVALID_VOUCHER_TYPE, val);
+            messages.add(errorMessage);
         }
         return messages;
     }
@@ -97,7 +101,8 @@ public class TextIoConsole implements Console {
     private List<String> fixedAmountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
         if (val <= 0) {
-            messages.add(VoucherErrorMessages.INVALID_FIXED_AMOUNT + val);
+            String errorMessage = CommonErrorMessages.currentInput(INVALID_FIXED_AMOUNT, val);
+            messages.add(errorMessage);
         }
         return messages;
     }
@@ -112,7 +117,8 @@ public class TextIoConsole implements Console {
     private List<String> percentDiscountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
         if (val <= 0 || val >= 100) {
-            messages.add(VoucherErrorMessages.INVALID_PERCENT_DISCOUNT + val);
+            String errorMessage = CommonErrorMessages.currentInput(INVALID_PERCENT_DISCOUNT, val);
+            messages.add(errorMessage);
         }
         return messages;
     }

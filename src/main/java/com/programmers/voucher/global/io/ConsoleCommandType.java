@@ -1,11 +1,13 @@
 package com.programmers.voucher.global.io;
 
-import com.programmers.voucher.global.util.ConsoleErrorMessages;
+import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
+
+import static com.programmers.voucher.global.util.ConsoleErrorMessages.INVALID_CONSOLE_COMMAND;
 
 public enum ConsoleCommandType {
     CREATE("create"),
@@ -27,9 +29,9 @@ public enum ConsoleCommandType {
                 .filter(i -> Objects.equals(i.input, input))
                 .findAny()
                 .orElseThrow(() -> {
-                    String errorMessage = ConsoleErrorMessages.INVALID_CONSOLE_COMMAND + input;
+                    String errorMessage = CommonErrorMessages.currentInput(INVALID_CONSOLE_COMMAND, input);
 
-                    LOG.warn("Invalid command type: {}", errorMessage);
+                    LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);
                 });
     }
