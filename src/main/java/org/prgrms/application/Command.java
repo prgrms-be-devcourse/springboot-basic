@@ -36,7 +36,7 @@ public class Command implements CommandLineRunner {
             case CREATE -> {
                 outputView.printSelectVoucherType();
                 VoucherType voucherType = inputView.selectVoucherType();
-                Double voucherDetail = inputView.inputVoucherDetails();
+                double voucherDetail = inputView.inputVoucherDetails();
                 voucherController.createVoucher(voucherType, voucherDetail);
             }
 

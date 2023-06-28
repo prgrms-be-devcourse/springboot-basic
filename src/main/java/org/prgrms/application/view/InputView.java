@@ -14,20 +14,21 @@ public class InputView {
 
     public CommandType selectCommandType() {
         String selection = sc.nextLine();
-        Optional<CommandType> commandType = CommandType.findBySelection(selection);
+        CommandType commandType = CommandType.findBySelection(selection);
 
-        return commandType.orElseThrow(() -> new IllegalArgumentException("잘못된 명령입니다."));
+        return commandType;
     }
 
     public VoucherType selectVoucherType() {
         String selection = sc.nextLine();
-        Optional<VoucherType> voucherType = VoucherType.findBySelection(selection);
-        return voucherType.orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다."));
+        VoucherType voucherType = VoucherType.findBySelection(selection);
+
+        return voucherType;
 
     }
 
-    public Double inputVoucherDetails() {
-        Double voucherDetail = sc.nextDouble();
+    public double inputVoucherDetails() {
+        double voucherDetail = sc.nextDouble();
         sc.nextLine();
         return voucherDetail;
     }

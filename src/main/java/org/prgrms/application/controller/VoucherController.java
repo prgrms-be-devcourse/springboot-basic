@@ -20,7 +20,7 @@ public class VoucherController {
         return voucherService.getVoucherList();
     }
 
-    public void createVoucher(VoucherType voucherType, Double voucherDetail) {
+    public void createVoucher(VoucherType voucherType, double voucherDetail) {
         voucherService.createVoucher(voucherType, voucherDetail);
     }
 }
