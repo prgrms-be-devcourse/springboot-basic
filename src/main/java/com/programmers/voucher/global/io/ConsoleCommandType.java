@@ -29,7 +29,7 @@ public enum ConsoleCommandType {
                 .filter(i -> Objects.equals(i.input, input))
                 .findAny()
                 .orElseThrow(() -> {
-                    String errorMessage = CommonErrorMessages.currentInput(INVALID_CONSOLE_COMMAND, input);
+                    String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_CONSOLE_COMMAND, input);
 
                     LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);

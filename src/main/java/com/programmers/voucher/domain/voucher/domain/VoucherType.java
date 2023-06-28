@@ -35,7 +35,7 @@ public enum VoucherType {
                 .filter(t -> Objects.equals(t.type, voucherType))
                 .findAny()
                 .orElseThrow(() -> {
-                    String errorMessage = CommonErrorMessages.currentInput(INVALID_VOUCHER_TYPE, voucherType);
+                    String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_VOUCHER_TYPE, voucherType);
 
                     LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);

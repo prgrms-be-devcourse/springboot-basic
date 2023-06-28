@@ -89,7 +89,7 @@ public class TextIoConsole implements Console {
 
         List<String> messages = new ArrayList<>();
         if (invalidVoucherType) {
-            String errorMessage = CommonErrorMessages.currentInput(INVALID_VOUCHER_TYPE, val);
+            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_VOUCHER_TYPE, val);
             messages.add(errorMessage);
         }
         return messages;
@@ -104,7 +104,7 @@ public class TextIoConsole implements Console {
     private List<String> fixedAmountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
         if (val <= FIXED_AMOUNT_MIN) {
-            String errorMessage = CommonErrorMessages.currentInput(INVALID_FIXED_AMOUNT, val);
+            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_FIXED_AMOUNT, val);
             messages.add(errorMessage);
         }
         return messages;
@@ -120,7 +120,7 @@ public class TextIoConsole implements Console {
     private List<String> percentDiscountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
         if (val <= PERCENT_DISCOUNT_MIN || val >= PERCENT_DISCOUNT_MAX) {
-            String errorMessage = CommonErrorMessages.currentInput(INVALID_PERCENT_DISCOUNT, val);
+            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_PERCENT_DISCOUNT, val);
             messages.add(errorMessage);
         }
         return messages;
