@@ -10,11 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class VoucherServiceImplTest {
     private static final VoucherRepository repository = new MemoryVoucherRepository();
@@ -34,17 +35,36 @@ class VoucherServiceImplTest {
     }
 
     @Test
-    @DisplayName("Voucher Service를 통해 uuid를 통해 voucher들을 모두 정상적으로 탐색하는지 검증하는 테스트")
+    @DisplayName("Voucher Service에서 uuid를 통해 생성한 바우처를 정상적으로 가져오는지 확인하는 테스트")
     void getVoucher() {
         // given
-        Map<UUID, Voucher> vouchers = voucherService.findAllVouchers();
+        UUID uuid = UUID.randomUUID();
+        repository.insert(new FixedAmountVoucher(uuid, 2000));
 
         // when
-        List<UUID> uuids = vouchers.values().stream().map(Voucher::getVoucherId).toList();
+        Voucher foundVoucher = voucherService.getVoucher(uuid);
 
         // then
-        assertThat(uuids.stream().map(voucherService::getVoucher).toList())
-                .hasSize(2);
+        assertEquals(foundVoucher.getVoucherId(), uuid);
+    }
+
+
+    @Test
+    @DisplayName("Voucher service에서 uuid로 바우처를 탐색하지 못하는 경우 던지는 예외 처리 검증 테스트")
+    void getVoucher_UUID로_바우처를_찾지못하는_예외처리_확인_테스트() {
+        // given
+        UUID wrongUUID = UUID.randomUUID();
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            // when
+            voucherService.getVoucher(UUID.randomUUID());
+        });
+
+        // then
+        String expectedMessage = "바우처를 찾을 수 없습니다.";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
