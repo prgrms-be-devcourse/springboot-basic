@@ -1,7 +1,9 @@
 package com.example.commandlineapplication.global.io;
 
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Output {
 
   public void printMenu() {

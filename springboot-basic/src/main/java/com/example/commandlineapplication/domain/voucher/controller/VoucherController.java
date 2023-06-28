@@ -9,8 +9,10 @@ import com.example.commandlineapplication.global.io.Command;
 import com.example.commandlineapplication.global.io.Input;
 import com.example.commandlineapplication.global.io.Output;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
+@Component
 public class VoucherController implements Runnable {
 
   private final Input input;
