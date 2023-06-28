@@ -1,10 +1,9 @@
-package com.devcourse.domain.voucher;
+package com.devcourse.voucher.application;
 
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import com.devcourse.voucher.domain.DiscountPolicy;
 import com.devcourse.voucher.domain.FixedAmountPolicy;
 import com.devcourse.voucher.domain.Voucher;
-import com.devcourse.voucher.application.VoucherValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.devcourse.voucher.domain.VoucherStatus.*;
-import static com.devcourse.voucher.domain.VoucherType.*;
+import static com.devcourse.voucher.domain.VoucherStatus.USED;
+import static com.devcourse.voucher.domain.VoucherType.FIXED;
+import static com.devcourse.voucher.domain.VoucherType.PERCENT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class VoucherValidatorTest {
@@ -26,8 +26,22 @@ class VoucherValidatorTest {
     @DisplayName("바우처 생성 유효성 테스트")
     class creationValidationTest {
         private final LocalDateTime expiredAt = LocalDateTime.now().plusMonths(1);
+
+        @ParameterizedTest
+        @DisplayName("없는 바우처 타입을 받으면 예외가 발생한다.")
+        @ValueSource(strings = {"hejow", "john", "drake", "camo"})
+        void validateVoucherTypeTest(String inputSymbol) {
+            // given
+            int discount = 50;
+            CreateVoucherRequest request = new CreateVoucherRequest(inputSymbol, discount, expiredAt);
+
+            // when, then
+            assertThatThrownBy(() -> voucherValidator.validateRequest(request))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
         @Test
-        @DisplayName("할인량은 0보다 커야한다.")
+        @DisplayName("0보다 작은 할인량을 받으면 예외가 발생한다..")
         void validateDiscountAmountTest() {
             // given
             String voucherSymbol = FIXED.getSymbol();
@@ -40,7 +54,7 @@ class VoucherValidatorTest {
         }
 
         @ParameterizedTest
-        @DisplayName("할인률은 0보다 크고 100보다 작거나 같아야 한다.")
+        @DisplayName("0보다 작거나 100보다 큰 할인률을 받으면 예외가 발생한다.")
         @ValueSource(ints = {-1, 101})
         void validateDiscountRateTest(int discountRate) {
             // given
@@ -53,7 +67,7 @@ class VoucherValidatorTest {
         }
 
         @Test
-        @DisplayName("바우처 만료일은 현재보다 과거일 수 없다.")
+        @DisplayName("현재보다 과거인 만료일을 받으면 예외가 발생한다.")
         void validateExpirationTest() {
             // given
             String voucherSymbol = FIXED.getSymbol();
@@ -67,12 +81,12 @@ class VoucherValidatorTest {
     }
 
     @Nested
-    @DisplayName("바우처 검증 테스트")
+    @DisplayName("바우처 사용 검증 테스트")
     class voucherValidateTest {
         private final int discount = 50;
 
         @Test
-        @DisplayName("유효기간이 지난 바우처는 사용할 수 없다.")
+        @DisplayName("유효기간이 지난 바우처를 사용하면 예외가 발생한다.")
         void expiredVoucherTest() {
             // given
             Voucher voucher = Voucher.percent(discount, invalideExpiration);
@@ -83,7 +97,7 @@ class VoucherValidatorTest {
         }
 
         @Test
-        @DisplayName("이미 사용한 바우처는 사용할 수 없다.")
+        @DisplayName("이미 사용한 바우처를 사용하려고 하면 예외가 발생한다.")
         void usedVoucherTest() {
             // given
             LocalDateTime expiredAt = LocalDateTime.now();

@@ -13,11 +13,12 @@ public class VoucherValidator {
     private static final int MAX_DISCOUNT = 100;
 
     public void validateRequest(CreateVoucherRequest request) {
-        String symbol = request.typeSymbol();
-        validateVoucherType(symbol);
+        String inputSymbol = request.typeSymbol();
+
+        validateVoucherType(inputSymbol);
         validateExpiration(request.expiredAt());
 
-        if (VoucherType.isFixed(symbol)) {
+        if (VoucherType.isFixed(inputSymbol)) {
             validateFixedAmount(request.discount());
         }
 

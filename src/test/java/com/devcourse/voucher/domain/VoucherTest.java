@@ -1,7 +1,5 @@
-package com.devcourse.domain.voucher;
+package com.devcourse.voucher.domain;
 
-import com.devcourse.voucher.domain.Voucher;
-import com.devcourse.voucher.domain.VoucherStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -15,7 +13,7 @@ class VoucherTest {
     private final LocalDateTime expiredAt = LocalDateTime.now().plusMonths(1);
 
     @ParameterizedTest
-    @DisplayName("바우처를 사용하면 할인량으로 계산되어야 한다.")
+    @DisplayName("고정 할인 바우처로 계산 시 결과가 같으며 사용완료 상태여야 한다.")
     @CsvSource({"1000, 500, 500", "2500, 1000, 1500", "127, 1, 126"})
     void applyFixedAmountTest(int price, int discountAmount, BigDecimal result) {
         // given
@@ -26,11 +24,11 @@ class VoucherTest {
 
         // then
         assertThat(appliedPrice).isEqualTo(result);
-        assertThat(voucher.getStatus()).isEqualTo(VoucherStatus.USED);
+        assertThat(voucher.isUsed()).isTrue();
     }
 
     @ParameterizedTest
-    @DisplayName("바우처를 사용하면 할인률로 계산되어야 한다.")
+    @DisplayName("퍼센트 할인 바우처로 계산 시 결과가 같으며 사용완료 상태여야 한다.")
     @CsvSource({"1000, 50, 500.0", "2500, 100, 0.0", "120, 10, 108.0"})
     void applyPercentDiscountTest(int price, int discountRate, BigDecimal result) {
         // given
@@ -41,6 +39,6 @@ class VoucherTest {
 
         // then
         assertThat(appliedPrice).isEqualTo(result);
-        assertThat(voucher.getStatus()).isEqualTo(VoucherStatus.USED);
+        assertThat(voucher.isUsed()).isTrue();
     }
 }

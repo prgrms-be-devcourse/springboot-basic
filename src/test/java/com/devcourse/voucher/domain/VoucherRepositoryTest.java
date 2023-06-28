@@ -1,6 +1,5 @@
-package com.devcourse.domain.voucher;
+package com.devcourse.voucher.domain;
 
-import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.domain.repository.MemoryVoucherRepository;
 import com.devcourse.voucher.domain.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +39,7 @@ class VoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("가져온 바우처들의 개수가 맞아야 한다.")
+    @DisplayName("저장소에서 가져온 바우처들의 개수가 맞아야 한다.")
     void findAllTest() {
         // given
         int start = 50;

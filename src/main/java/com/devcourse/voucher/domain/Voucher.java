@@ -42,6 +42,10 @@ public class Voucher {
         return id;
     }
 
+    public DiscountPolicy getDiscountPolicy() {
+        return discountPolicy;
+    }
+
     public LocalDateTime getExpireAt() {
         return expireAt;
     }
