@@ -1,5 +1,7 @@
-package com.programmers.voucher.global.io;
+package com.programmers.voucher.global.io.textio;
 
+import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.global.io.ConsoleOutput;
 import com.programmers.voucher.global.util.ConsoleMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;

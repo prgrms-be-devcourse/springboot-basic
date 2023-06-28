@@ -2,6 +2,9 @@ package com.programmers.voucher.global.io;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
+import com.programmers.voucher.global.io.textio.TextIoConsole;
+import com.programmers.voucher.global.io.textio.TextIoInput;
+import com.programmers.voucher.global.io.textio.TextIoOutput;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.mock.MockTextTerminal;
 import org.junit.jupiter.api.BeforeEach;

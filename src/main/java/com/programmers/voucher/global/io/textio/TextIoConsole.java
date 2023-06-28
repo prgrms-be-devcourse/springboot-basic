@@ -1,6 +1,8 @@
-package com.programmers.voucher.global.io;
+package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
+import com.programmers.voucher.global.io.Console;
+import com.programmers.voucher.global.io.ConsoleCommandType;
 import org.springframework.stereotype.Component;
 
 @Component

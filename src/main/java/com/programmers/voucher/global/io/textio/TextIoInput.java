@@ -1,8 +1,10 @@
-package com.programmers.voucher.global.io;
+package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
+import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.global.io.ConsoleInput;
 import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.beryx.textio.TextIO;
 import org.springframework.stereotype.Component;
