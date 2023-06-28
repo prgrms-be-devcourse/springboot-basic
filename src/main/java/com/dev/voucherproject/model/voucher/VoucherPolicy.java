@@ -20,18 +20,14 @@ public enum VoucherPolicy {
 
     public static VoucherPolicy convertStringInputToPolicy(String input) {
         return Arrays.stream(VoucherPolicy.values())
-                .filter(v -> v.isExistPolicy(input))
+                .filter(voucherPolicy -> voucherPolicy.isExistPolicy(input))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
     }
 
-    public String getPolicyName() {
-        return policyName;
-    }
-
     public static List<String> getPolicyNames() {
         return Arrays.stream(VoucherPolicy.values())
-                .map(v -> v.policyName)
+                .map(voucherPolicy -> voucherPolicy.policyName)
                 .toList();
     }
 }

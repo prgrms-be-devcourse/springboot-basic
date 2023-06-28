@@ -15,7 +15,7 @@ public enum Menu {
 
     public static Menu convertInputToMenu(final String input) {
         return Arrays.stream(Menu.values())
-                .filter(m -> m.isExistMenu(input))
+                .filter(menu -> menu.isExistMenu(input))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
     }
@@ -30,7 +30,7 @@ public enum Menu {
 
     public static List<String> getMenuNames() {
         return Arrays.stream(Menu.values())
-                .map(m -> m.menuName)
+                .map(menu -> menu.menuName)
                 .toList();
     }
 }
