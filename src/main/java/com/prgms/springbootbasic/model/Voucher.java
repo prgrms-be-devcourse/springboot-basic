@@ -9,7 +9,6 @@ public interface Voucher {
 	VoucherType getVoucherType();
 	UUID getVoucherId();
 	Long getNumber();
-	long discount(long beforeAmount);
-	byte[] formatOfCSV();
+	String formatOfCSV();
 	
 }
