@@ -12,12 +12,16 @@ public class FixedAmountVoucher implements Voucher {
     private final long discount;
 
     public FixedAmountVoucher(UUID voucherId, String type, long discountAmount) {
-        if (discountAmount < 0) {
-            throw new IllegalArgumentException("Discount amount cannot be negative.");
-        }
+        validateDiscountAmount(discountAmount);
         this.voucherId = voucherId;
         this.type = "Fixed";
         this.discount = discountAmount;
+    }
+
+    private void validateDiscountAmount(long discountAmount) {
+        if (discountAmount <= 0) {
+            throw new IllegalArgumentException("Discount amount must be positive.");
+        }
     }
 
     @Override
