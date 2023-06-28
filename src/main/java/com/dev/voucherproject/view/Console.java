@@ -26,19 +26,23 @@ public class Console {
     public void printMenu() {
         textTerminal.println("=== Voucher Program ===");
         textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(props -> props.setPromptBold(true), t -> t.print(Menu.EXIT.getMenuName()));
+        textTerminal.executeWithPropertiesConfigurator(props ->
+                props.setPromptBold(true), t -> t.print(Menu.EXIT.getMenuName()));
         textTerminal.println(" to exit the program.");
 
         textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(props -> props.setPromptBold(true), t -> t.print(Menu.CREATE.getMenuName()));
+        textTerminal.executeWithPropertiesConfigurator(props ->
+                props.setPromptBold(true), t -> t.print(Menu.CREATE.getMenuName()));
         textTerminal.println(" to create a new voucher.");
 
         textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(props -> props.setPromptBold(true), t -> t.print(Menu.LIST.getMenuName()));
+        textTerminal.executeWithPropertiesConfigurator(props ->
+                props.setPromptBold(true), t -> t.print(Menu.LIST.getMenuName()));
         textTerminal.println(" to list all vouchers.");
 
         textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(props -> props.setPromptBold(true), t -> t.print(Menu.BLACKLIST.getMenuName()));
+        textTerminal.executeWithPropertiesConfigurator(props ->
+                props.setPromptBold(true), t -> t.print(Menu.BLACKLIST.getMenuName()));
         textTerminal.println(" to list all vouchers.");
     }
 
@@ -63,7 +67,7 @@ public class Console {
     }
 
     public void printVoucher(VoucherDto dto) {
-        textTerminal.println(dto.toString());
+        textTerminal.println("[%s, %d] %s".formatted(dto.getVoucherPolicy().name(), dto.getDiscountNumber(), dto.getVoucherId().toString()));
     }
 
     public void printAllCustomers(List<CustomerDto> dtos) {
@@ -71,7 +75,7 @@ public class Console {
         textTerminal.println();
     }
     public void printCustomer(CustomerDto dto) {
-        textTerminal.println(dto.toString());
+        textTerminal.println("[id, name] %s, %s".formatted(dto.getCustomerId(), dto.getCustomerName()));
     }
 
     public long inputAmount() {

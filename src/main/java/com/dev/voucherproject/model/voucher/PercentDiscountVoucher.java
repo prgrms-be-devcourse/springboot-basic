@@ -27,7 +27,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String toString() {
-        return "PERCENT_DISCOUNT_VOUCHER,%d,%s".formatted(percent, voucherId);
+    public VoucherDto conversionDto() {
+        return VoucherDto.fromEntity(VoucherPolicy.PERCENT_DISCOUNT_VOUCHER, this);
     }
 }

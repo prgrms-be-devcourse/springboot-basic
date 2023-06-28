@@ -11,6 +11,7 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = amount;
     }
 
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
@@ -30,7 +31,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String toString() {
-        return "FIXED_AMOUNT_VOUCHER,%d,%s".formatted(amount, voucherId);
+    public VoucherDto conversionDto() {
+        return VoucherDto.fromEntity(VoucherPolicy.FIXED_AMOUNT_VOUCHER, this);
     }
 }

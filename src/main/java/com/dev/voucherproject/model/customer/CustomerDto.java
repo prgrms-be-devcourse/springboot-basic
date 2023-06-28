@@ -15,8 +15,11 @@ public class CustomerDto {
         return new CustomerDto(customer.getCustomerId(), customer.getCustomerName());
     }
 
-    @Override
-    public String toString() {
-        return "[id, name] %s, %s".formatted(customerId.toString(), customerName);
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 }
