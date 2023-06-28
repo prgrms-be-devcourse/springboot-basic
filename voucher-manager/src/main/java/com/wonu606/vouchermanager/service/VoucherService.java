@@ -6,7 +6,9 @@ import com.wonu606.vouchermanager.repository.VoucherRepository;
 import com.wonu606.vouchermanager.service.factory.VoucherFactory;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoucherService {
 
     private final VoucherFactory voucherFactory = new VoucherFactory();

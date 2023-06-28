@@ -14,7 +14,9 @@ import com.wonu606.vouchermanager.service.VoucherService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class VoucherController {
 
     private final VoucherService voucherService;
@@ -89,14 +91,10 @@ public class VoucherController {
 
     private void initPrinterView(ConsolePrinterView printerView) {
         printerView.setMenuDescription(
-                new MenuDescriptionGenerator().generate(new ArrayList<>(commandMap.keySet()))
-        );
+                new MenuDescriptionGenerator().generate(new ArrayList<>(commandMap.keySet())));
         printerView.setCreationDescription(
-                new CreationDescriptionGenerator().generate(voucherService.getVoucherTypes())
-        );
-        printerView.setExitDescription(
-                new ExitDescriptionGenerator().generate()
-        );
+                new CreationDescriptionGenerator().generate(voucherService.getVoucherTypes()));
+        printerView.setExitDescription(new ExitDescriptionGenerator().generate());
     }
 
 
