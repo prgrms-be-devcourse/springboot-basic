@@ -4,34 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.model.entity.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {
 
-	private Map<Long, VoucherEntity> map;
+	private Map<Long, Voucher> map;
 
 	@Autowired
-	public InMemoryVoucherRepository(Map<Long, VoucherEntity> map) {
+	public InMemoryVoucherRepository(Map<Long, Voucher> map) {
 		this.map = map;
 	}
 
 	@Override
-	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
-		VoucherEntity voucher = saveVoucher(voucherEntity);
+	public Voucher createVoucher(Voucher voucherEntity) {
+		Voucher voucher = saveVoucher(voucherEntity);
 		return voucherEntity;
 	}
 
 	@Override
-	public List<VoucherEntity> readAll() {
+	public List<Voucher> readAll() {
 		return new ArrayList<>(map.values());
 	}
 
 	@Override
-	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
-		map.put(voucherEntity.getVoucherId(), voucherEntity);
-		return voucherEntity;
+	public Voucher saveVoucher(Voucher voucher) {
+		map.put(voucher.getVoucherId(), voucher);
+		return voucher;
 	}
 }

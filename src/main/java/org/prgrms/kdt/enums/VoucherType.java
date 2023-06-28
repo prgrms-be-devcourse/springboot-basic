@@ -7,7 +7,7 @@ public enum VoucherType {
 	PercentDiscountVoucher(2);
 
 	private final static String UN_SUPPORTED_VOUCHER_MESSAGE = "잘 못된 입력 입니다.";
-	private int voucherIdx;
+	private final int voucherIdx;
 
 	VoucherType(int voucherIdx) {
 		this.voucherIdx = voucherIdx;

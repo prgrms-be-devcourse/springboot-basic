@@ -3,7 +3,7 @@ package org.prgrms.kdt;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.model.entity.Voucher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
 	@Bean
-	Map<Long, VoucherEntity> getInMemoryVoucherMap() {
+	Map<Long, Voucher> getInMemoryVoucherMap() {
 		return new HashMap<>();
 	}
 }
