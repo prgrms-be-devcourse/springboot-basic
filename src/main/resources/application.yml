@@ -1,0 +1,9 @@
+spring:
+  application:
+    version: 0.0.1
+
+greeting: |
+  === Voucher Application ===
+  Type "EXIT" to exit the program.
+  Type "CREATE" to create a new voucher.
+  Type "LIST" to list all vouchers. 
