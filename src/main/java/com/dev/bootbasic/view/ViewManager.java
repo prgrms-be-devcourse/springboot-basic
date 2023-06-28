@@ -1,8 +1,8 @@
 package com.dev.bootbasic.view;
 
+import com.dev.bootbasic.view.dto.VoucherDetailsViewResponse;
 import com.dev.bootbasic.voucher.domain.VoucherType;
 import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
-import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class ViewManager {
         return new VoucherCreateRequest(voucherType, amount);
     }
 
-    public void showCollectionMessage(List<VoucherDetailsResponse> vouchers) {
+    public void showCollectionMessage(List<VoucherDetailsViewResponse> vouchers) {
         vouchers.forEach(message -> showMessage(message.toString()));
     }
 

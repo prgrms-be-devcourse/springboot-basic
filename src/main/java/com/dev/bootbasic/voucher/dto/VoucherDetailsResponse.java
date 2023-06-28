@@ -11,11 +11,4 @@ public record VoucherDetailsResponse(UUID id, VoucherType voucherType, int disco
         return new VoucherDetailsResponse(voucher.getId(), voucher.getVoucherType(), voucher.getDiscountAmount());
     }
 
-    @Override
-    public String toString() {
-        return "Voucher Id= " + id +
-                " Type= " + voucherType +
-                " Amount= " + discountAmount;
-    }
-
 }
