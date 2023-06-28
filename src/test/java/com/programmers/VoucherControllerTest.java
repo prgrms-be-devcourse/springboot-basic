@@ -28,10 +28,10 @@ import java.util.NoSuchElementException;
 class VoucherControllerTest {
 
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
-            "Type 'exit' to exit the program.\n" +
-            "Type 'create' to create a new voucher.\n" +
-            "Type 'list' to list all vouchers.\n" +
-            "Type 'black' to check the blacklist.";
+            "Type 'exit' or '1' to exit the program.\n" +
+            "Type 'create' or '2' to create a new voucher.\n" +
+            "Type 'list' or '3' to list all vouchers.\n" +
+            "Type 'black' or '4' to check the blacklist.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
             "Select voucher. (Type voucher name or number.)\n" +
             "1. Fixed Amount Voucher\n" +
