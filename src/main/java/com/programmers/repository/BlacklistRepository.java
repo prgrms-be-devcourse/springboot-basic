@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -34,6 +35,6 @@ public class BlacklistRepository {
             }
         } catch (IOException e) {
         }
-        return blacklist;
+        return Collections.unmodifiableList(blacklist);
     }
 }

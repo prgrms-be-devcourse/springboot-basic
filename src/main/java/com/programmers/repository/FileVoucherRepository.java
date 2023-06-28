@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +52,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
         }
-        return voucherList;
+        return Collections.unmodifiableList(voucherList);
     }
 
     public Voucher extractVoucher(String line) {
