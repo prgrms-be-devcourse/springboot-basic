@@ -3,6 +3,7 @@ package com.programmers.voucher.global.io;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.global.util.CommonErrorMessages;
+import com.programmers.voucher.global.util.ConsoleMessages;
 import com.programmers.voucher.global.util.VoucherErrorMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.*;
+import static com.programmers.voucher.global.util.ConsoleMessages.*;
 import static com.programmers.voucher.global.util.VoucherErrorMessages.*;
 
 @Component
@@ -36,18 +38,18 @@ public class TextIoConsole implements Console {
     public void printCommandSet() {
         TextTerminal<?> textTerminal = textIO.getTextTerminal();
 
-        textTerminal.println("=== Voucher Program ===");
-        printCommand(ConsoleCommandType.EXIT, "to exit the program.");
-        printCommand(ConsoleCommandType.CREATE, "to create a new voucher.");
-        printCommand(ConsoleCommandType.LIST, "to list all vouchers.");
-        printCommand(ConsoleCommandType.HELP, "to list command set.");
-        printCommand(ConsoleCommandType.BLACKLIST, "to list blacklist.");
+        textTerminal.println(ConsoleMessages.VOUCHER_PROGRAM);
+        printCommand(ConsoleCommandType.EXIT, EXIT_BEHAVIOR);
+        printCommand(ConsoleCommandType.CREATE, CREATE_BEHAVIOR);
+        printCommand(ConsoleCommandType.LIST, LIST_BEHAVIOR);
+        printCommand(ConsoleCommandType.HELP, HELP_BEHAVIOR);
+        printCommand(ConsoleCommandType.BLACKLIST, BLACKLIST_BEHAVIOR);
     }
 
     private void printCommand(ConsoleCommandType commandType, String behavior) {
         TextTerminal<?> textTerminal = textIO.getTextTerminal();
 
-        textTerminal.print("Type");
+        textTerminal.print(INPUT);
         textTerminal.executeWithPropertiesConfigurator(
                 props -> props.setPromptBold(true),
                 t -> t.print(" " + commandType.getInput() + " ")
@@ -75,7 +77,7 @@ public class TextIoConsole implements Console {
     private VoucherType inputVoucherType() {
         String rawVoucherType = textIO.newStringInputReader()
                 .withValueChecker((val, itemName) -> voucherTypeValidateErrorMessages(val))
-                .read("1. [fixed | percent]");
+                .read(VOUCHER_TYPES);
 
         return VoucherType.getValue(rawVoucherType);
     }
@@ -96,7 +98,7 @@ public class TextIoConsole implements Console {
     private long inputFixedAmount() {
         return textIO.newLongInputReader()
                 .withValueChecker((val, itemName) -> fixedAmountValidateErrorMessages(val))
-                .read("2. [amount]");
+                .read(AMOUNT);
     }
 
     private List<String> fixedAmountValidateErrorMessages(Long val) {
@@ -112,7 +114,7 @@ public class TextIoConsole implements Console {
     private long inputPercentDiscount() {
         return textIO.newLongInputReader()
                 .withValueChecker((val, itemName) -> percentDiscountValidateErrorMessages(val))
-                .read("2. [percent]");
+                .read(PERCENT);
     }
 
     private List<String> percentDiscountValidateErrorMessages(Long val) {
@@ -133,7 +135,7 @@ public class TextIoConsole implements Console {
     @Override
     public void exit() {
         TextTerminal<?> textTerminal = textIO.getTextTerminal();
-        textTerminal.println("Bye Bye.");
+        textTerminal.println(EXIT_CONSOLE);
     }
 
 }
