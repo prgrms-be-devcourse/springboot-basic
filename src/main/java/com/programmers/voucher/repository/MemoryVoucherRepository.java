@@ -23,9 +23,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        if (STORAGE.isEmpty()) {
-            throw new NotFoundException();
-        }
         return STORAGE.values().stream().map(VoucherMapper::convertEntityToDomain).toList();
     }
 
