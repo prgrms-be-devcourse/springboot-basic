@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.*;
 import static com.programmers.voucher.global.util.VoucherErrorMessages.*;
 
 @Component
@@ -100,7 +101,7 @@ public class TextIoConsole implements Console {
 
     private List<String> fixedAmountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
-        if (val <= 0) {
+        if (val <= FIXED_AMOUNT_MIN) {
             String errorMessage = CommonErrorMessages.currentInput(INVALID_FIXED_AMOUNT, val);
             messages.add(errorMessage);
         }
@@ -116,7 +117,7 @@ public class TextIoConsole implements Console {
 
     private List<String> percentDiscountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
-        if (val <= 0 || val >= 100) {
+        if (val <= PERCENT_DISCOUNT_MIN || val >= PERCENT_DISCOUNT_MAX) {
             String errorMessage = CommonErrorMessages.currentInput(INVALID_PERCENT_DISCOUNT, val);
             messages.add(errorMessage);
         }
