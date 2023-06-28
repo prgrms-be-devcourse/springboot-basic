@@ -9,11 +9,19 @@ import lombok.*;
 
 @Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class VoucherResponse {
+    private final String exceptionMessage = "기본생성자는 만들 수 없습니다.";
     private VoucherPolicy voucherPolicy;
     private Discount discount;
+
+    public VoucherResponse() {
+        throw new IllegalArgumentException(exceptionMessage);
+    }
+
+    public long getDiscountedValue() {
+        return discount.getDiscount();
+    }
 
     public static VoucherResponse of(Voucher voucher) {
         return VoucherResponse.builder()
