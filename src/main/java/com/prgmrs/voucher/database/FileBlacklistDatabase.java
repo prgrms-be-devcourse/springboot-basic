@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Component
 public class FileBlacklistDatabase {
-    String filename = "src/main/resources/blacklist.csv";
+    String filename = "src/main/csv/blacklist.csv";
 
     public Map<UUID, String> load() {
         boolean append = Files.exists(Paths.get(filename));

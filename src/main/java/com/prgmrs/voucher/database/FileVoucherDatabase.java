@@ -19,7 +19,7 @@ import java.util.UUID;
 @Component
 @Profile("!dev")
 public class FileVoucherDatabase implements VoucherDatabase {
-    String filename = "src/main/resources/vouchers.csv";
+    String filename = "src/main/csv/vouchers.csv";
 
     @Override
     public Map<UUID, Voucher> load() {
