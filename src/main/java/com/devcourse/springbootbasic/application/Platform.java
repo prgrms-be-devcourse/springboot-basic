@@ -1,15 +1,15 @@
 package com.devcourse.springbootbasic.application;
 
-import com.devcourse.springbootbasic.application.domain.Voucher;
-import com.devcourse.springbootbasic.application.dto.Menu;
-import com.devcourse.springbootbasic.application.exception.InvalidDataException;
-import com.devcourse.springbootbasic.application.io.InputConsole;
-import com.devcourse.springbootbasic.application.io.OutputConsole;
-import com.devcourse.springbootbasic.application.service.CustomerService;
-import com.devcourse.springbootbasic.application.service.VoucherService;
-import com.devcourse.springbootbasic.application.template.CommandLineTemplate;
-import com.devcourse.springbootbasic.application.template.CreateMenuTemplate;
-import com.devcourse.springbootbasic.application.template.ListMenuTemplate;
+import com.devcourse.springbootbasic.application.domain.voucher.data.Voucher;
+import com.devcourse.springbootbasic.application.global.model.Menu;
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.global.io.InputConsole;
+import com.devcourse.springbootbasic.application.global.io.OutputConsole;
+import com.devcourse.springbootbasic.application.domain.customer.service.CustomerService;
+import com.devcourse.springbootbasic.application.domain.voucher.service.VoucherService;
+import com.devcourse.springbootbasic.application.global.template.CommandLineTemplate;
+import com.devcourse.springbootbasic.application.global.template.CreateMenuTemplate;
+import com.devcourse.springbootbasic.application.global.template.ListMenuTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
