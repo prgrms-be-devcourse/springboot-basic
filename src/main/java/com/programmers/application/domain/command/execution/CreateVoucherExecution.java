@@ -22,7 +22,7 @@ public class CreateVoucherExecution implements VoucherExecution{
 
     @Override
     public void run() throws IOException {
-        printOption(io);
+        printOption();
         String[] typeAndAmount = io.read().split(SEPARATOR);
         String type = typeAndAmount[TYPE_INDEX];
         String amount = typeAndAmount[AMOUNT_INDEX];
@@ -44,7 +44,7 @@ public class CreateVoucherExecution implements VoucherExecution{
         }
     }
 
-    private void printOption(IO io) throws IOException {
+    private void printOption() throws IOException {
         io.write("=== Create Voucher ===");
         io.write("Enter a fixed or percent to create the discount voucher");
         io.write("Enter the amount of the discount voucher");
