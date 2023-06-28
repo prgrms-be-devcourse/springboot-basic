@@ -8,7 +8,12 @@ public class FixedDiscountPolicy extends DiscountPolicy {
 
     @Override
     public int discount(int targetAmount) {
-        return targetAmount - providedAmount;
+        int discountedResult = targetAmount - providedAmount;
+
+        if (discountedResult < 0) {
+            return 0;
+        }
+        return discountedResult;
     }
 
     @Override

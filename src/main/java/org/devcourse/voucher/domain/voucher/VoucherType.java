@@ -19,9 +19,11 @@ public enum VoucherType {
         this.policy = policy;
     }
 
-    public static VoucherType find(String typeName) {
+    public static VoucherType find(String input) {
+        String lowerCaseInput = input.toLowerCase();
+
         return Arrays.stream(values())
-                .filter(type -> type.typeName.equals(typeName))
+                .filter(type -> type.typeName.equals(lowerCaseInput))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("사용 불가능한 바우처 타입입니다"));
     }
