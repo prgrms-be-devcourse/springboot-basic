@@ -12,9 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemoryVoucherRepository implements VoucherRepository {
     private static final Map<UUID, Voucher> memoryStorage = new ConcurrentHashMap<>();
 
-    public MemoryVoucherRepository() {
-    }
-
     @Override
     public Voucher save(Voucher voucher) {
         memoryStorage.put(voucher.getId(), voucher);
@@ -24,5 +21,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return List.copyOf(memoryStorage.values());
+    }
+
+    @Override
+    public void deleteAll() {
+        memoryStorage.clear();
     }
 }

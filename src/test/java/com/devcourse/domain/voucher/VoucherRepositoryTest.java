@@ -3,6 +3,7 @@ package com.devcourse.domain.voucher;
 import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.domain.repository.MemoryVoucherRepository;
 import com.devcourse.voucher.domain.repository.VoucherRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class VoucherRepositoryTest {
     private final VoucherRepository voucherRepository = new MemoryVoucherRepository();
     private final LocalDateTime expiredAt = LocalDateTime.now();
+
+    @BeforeEach
+    void clearRepository() {
+        voucherRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("저장된 바우처와 요청한 바우처가 동일하고 사용하지 않은 상태여야 한다.")
