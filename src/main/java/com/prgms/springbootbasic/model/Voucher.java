@@ -10,5 +10,5 @@ public interface Voucher {
 	UUID getVoucherId();
 	Long getNumber();
 	String formatOfCSV();
-	
+
 }

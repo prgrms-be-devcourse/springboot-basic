@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public enum VoucherType {
-	
+
 	FIXED("fixed", (amount) -> new FixedAmountVoucher(UUID.randomUUID(), amount), FixedAmountVoucher::new),
 	PERCENT("percent", (percent) -> new PercentAmountVoucher(UUID.randomUUID(), percent), PercentAmountVoucher::new);
 
@@ -22,12 +21,10 @@ public enum VoucherType {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 	private final String type;
 	private final Function<Long, Voucher> voucherFunction;
-	private final BiFunction<UUID, Long, Voucher> voucherBiFunction;
 	
-	VoucherType(String type, Function<Long, Voucher> voucherFunction, BiFunction<UUID, Long, Voucher> voucherBiFunction) {
+	VoucherType(String type, Function<Long, Voucher> voucherFunction) {
 		this.type = type;
 		this.voucherFunction = voucherFunction;
-		this.voucherBiFunction = voucherBiFunction;
 	}
 
 	public String getType() { return type; }
@@ -35,8 +32,6 @@ public enum VoucherType {
 	public Voucher createVoucher(long number) {
 		return voucherFunction.apply(number);
 	}
-	
-	public Voucher exsistVoucher(UUID voucherId, long number) { return voucherBiFunction.apply(voucherId, number); }
 	
 	public static VoucherType of(String type) {
 		return VOUCHER_TYPE_VALUES.stream()

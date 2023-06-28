@@ -39,7 +39,7 @@ public class PercentAmountVoucher implements Voucher {
 	
 	@Override
 	public String formatOfCSV() { return String.format(FORMAT_CSV, VoucherType.PERCENT.getType(), voucherId, percent); }
-	
+
 	private void throwWhenOutOfRangePercent(long percent) {
 		if (percent <= MINIMUM || percent > MAXIMUM) {
 			logger.error("Percent 바우처는 0 이하 혹은 100 초과하는 값을 가질 수 없습니다. percent : {}", percent);

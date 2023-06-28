@@ -4,12 +4,10 @@ import com.prgms.springbootbasic.model.Voucher;
 import com.prgms.springbootbasic.util.VoucherType;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
-@Component
 public class OutputView {
 
 	private static final String FORMAT_FIXED = "voucher type : %s voucher Id : %s amount : %d";
