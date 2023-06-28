@@ -13,17 +13,16 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherCreator voucherCreator;
 
-    public void createVoucher(VoucherRequest voucherRequest) {
+    public Voucher createVoucher(VoucherRequest voucherRequest) {
         Discount discount = voucherRequest.getDiscount();
         VoucherPolicy voucherPolicy = voucherRequest.getVoucherPolicy();
 
         Voucher voucher = voucherCreator.createVoucher(discount, voucherPolicy);
 
-        voucherRepository.insert(voucher);
+        return voucherRepository.insert(voucher);
     }
-
     public VoucherList getAllVoucherList() {
-        return new VoucherList(voucherRepository.getAllVoucherList());
+        return voucherRepository.getAllVoucherList();
     }
 
 }
