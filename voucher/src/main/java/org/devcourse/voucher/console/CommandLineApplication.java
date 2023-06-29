@@ -8,17 +8,14 @@ import static java.lang.System.exit;
 
 @Component
 public class CommandLineApplication implements ApplicationRunner {
-    public static final String CREATE_COMMAND_STRING = "create";
-    public static final String LIST_COMMAND_STRING = "list";
-    public static final String EXIT_COMMAND_STRING = "exit";
-
+    private static boolean isRunning = true;
     private final Console console = new Console();
 
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        String commandInput;
-        while (true) {
+    public void run(ApplicationArguments args) {
+        isRunning = true;
+        while (isRunning) {
             console.printMenu();
             commandInput = console.input();
             execute(commandInput);
@@ -41,5 +38,10 @@ public class CommandLineApplication implements ApplicationRunner {
             default:
                 throw new IllegalArgumentException("Unsupported command: " + command);
         }
+
+    }
+
+    private void stopRunning() {
+        isRunning = false;
     }
 }
