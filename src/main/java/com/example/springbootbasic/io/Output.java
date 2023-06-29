@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Output {
     void printCommandList();
-    void listAllVoucher(List<Voucher> vouchers);
+    void printAllVouchers(List<Voucher> vouchers);
 }
