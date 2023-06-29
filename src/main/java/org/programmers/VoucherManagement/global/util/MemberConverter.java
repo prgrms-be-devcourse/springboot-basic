@@ -5,8 +5,9 @@ import org.programmers.VoucherManagement.member.domain.MemberStatus;
 
 import java.util.UUID;
 
-public class Converter {
+public class MemberConverter {
     private static final String SEPARATOR = ",";
+
     public static Member toMember(String line){
         String[] chunks = line.split(SEPARATOR);
 

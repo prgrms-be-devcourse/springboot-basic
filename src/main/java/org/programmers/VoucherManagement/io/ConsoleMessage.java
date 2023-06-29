@@ -11,8 +11,6 @@ public enum ConsoleMessage {
             "[fixed] : 고정 금액(₩) 할인 voucher\n"),
     EXIT_MESSAGE("voucher 프로그램을 종료합니다."),
     DISCOUNT_VALUE_MESSAGE("할인 금액(% or ₩)을 입력하세요."),
-    INPUT_FIXED_DISCOUNT_AMOUNT_MESSAGE("할인 금액(₩)을 입력하세요.(단위를 제외한 정수)"),
-    INPUT_PERCENT_DISCOUNT_AMOUNT_MESSAGE("할인 금액(%)을 입력하세요.(단위를 제외한 정수)"),
     START_VIEW_BLACKLIST_MESSAGE("===[블랙리스트 멤버 목록]===");
 
     private final String message;

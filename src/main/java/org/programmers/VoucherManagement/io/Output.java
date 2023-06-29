@@ -1,7 +1,8 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.dto.GetMemberResponse;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
+import org.programmers.VoucherManagement.member.dto.GetMemberListRes;
+import org.programmers.VoucherManagement.member.dto.GetMemberRes;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
 
 import java.util.List;
 
@@ -12,11 +13,9 @@ public interface Output {
 
     void printExitMessage();
 
-    void printVoucherList(List<GetVoucherResponse> voucherList);
+    void printVoucherList(GetVoucherListRes getVoucherListRes);
 
-    void printMemberList(List<GetMemberResponse> memberList);
+    void printMemberList(GetMemberListRes memberList);
 
-    void printInputFixedAmountMessage();
-
-    void printInputPercentAmountMessage();
+    void printInputAmountMessage();
 }
