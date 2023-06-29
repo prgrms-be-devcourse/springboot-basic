@@ -1,71 +1,69 @@
 package org.programmers.VoucherManagement;
 
 import lombok.RequiredArgsConstructor;
-import org.programmers.VoucherManagement.command.domain.CommandType;
+import org.programmers.VoucherManagement.io.CommandType;
 import org.programmers.VoucherManagement.io.Console;
 import org.programmers.VoucherManagement.member.api.MemberController;
-import org.programmers.VoucherManagement.member.dto.GetMemberResponse;
+import org.programmers.VoucherManagement.member.dto.GetMemberListRes;
 import org.programmers.VoucherManagement.voucher.api.VoucherController;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
+import org.programmers.VoucherManagement.voucher.dto.CreateVoucherReq;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
-
 @Component
 @RequiredArgsConstructor
 public class VoucherManagementRunner implements CommandLineRunner {
-    private static Console console = new Console();
-    private static CommandType commandType;
+    private final Console console;
     private final VoucherController voucherController;
     private final MemberController memberController;
 
     @Override
     public void run(String... args) throws Exception {
-        do {
+        CommandType commandType;
+        boolean isEnd = false;
+
+        while (!isEnd) {
             console.printType();
             commandType = console.readType();
+
+            if (commandType.isExit()){
+                isEnd = true;
+            }
+
             execute(commandType);
-        } while (!commandType.isExit());
+        }
     }
 
     private void execute(CommandType commandType) {
-        if (commandType.isCreate()) {
-            console.printDiscountType();
-            DiscountType discountType = console.readDiscountType();
-            int discountValue = readDiscountValue(discountType);
-            voucherController.createVoucher(new CreateVoucherRequest(discountType, discountValue));
-        }
-        if (commandType.isList()) {
-            List<GetVoucherResponse> voucherList = voucherController.getVoucherList();
-            console.printVoucherList(voucherList);
-        }
-        if (commandType.isExit()) {
-            console.printExitMessage();
-        }
-        if(commandType.isBlackList()){
-            List<GetMemberResponse> blackMemberList = memberController.getBlackMemberList();
-            console.printMemberList(blackMemberList);
+        switch (commandType) {
+            case CREATE -> {
+                console.printDiscountType();
+                CreateVoucherReq request = makeCreateVoucherRequest(); // 유효성까지 다 되어있어서 request setting 되어이썽야함.
+                voucherController.createVoucher(request);
+            }
+            case LIST -> {
+               GetVoucherListRes voucherList = voucherController.getVoucherList();
+                console.printVoucherList(voucherList);
+            }
+            case EXIT -> {
+                console.printExitMessage();
+            }
+            case BLACKLIST -> {
+                GetMemberListRes blackMemberList = memberController.getBlackMemberList();
+                console.printMemberList(blackMemberList);
+            }
         }
     }
 
-    private int readDiscountValue(DiscountType discountType){
-        int discountValue;
-        switch (discountType) {
-            case FIXED -> {
-                console.printInputFixedAmountMessage();
-                discountValue = console.readFixedDiscountValue();
-            }
-            case PERCENT -> {
-                console.printInputPercentAmountMessage();
-                discountValue = console.readPercentDiscountValue();
-            }
-            default -> throw new IllegalArgumentException(NOT_EXIST_DISCOUNT_TYPE.getMessage());
-        }
-        return discountValue;
+    private CreateVoucherReq makeCreateVoucherRequest() {
+        DiscountType discountType = console.readDiscountType();
+        int discountValue = console.readDiscountValue(discountType);
+
+        return new CreateVoucherReq(discountType, discountValue);
     }
+
 }

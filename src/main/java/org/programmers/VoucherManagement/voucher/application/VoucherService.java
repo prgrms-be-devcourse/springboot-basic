@@ -2,45 +2,43 @@ package org.programmers.VoucherManagement.voucher.application;
 
 import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
-import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.dao.VoucherRepository;
 import org.programmers.VoucherManagement.voucher.domain.FixedAmountVoucher;
 import org.programmers.VoucherManagement.voucher.domain.PercentAmountVoucher;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
-import org.springframework.stereotype.Service;
+import org.programmers.VoucherManagement.voucher.dto.CreateVoucherReq;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherRes;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
-
-@Service
+@Component
 @RequiredArgsConstructor
 public class VoucherService {
+
     private final VoucherRepository repository;
 
-    public GetVoucherResponse saveVoucher(CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher;
-        DiscountType discountType = createVoucherRequest.getDiscountType();
-        voucher = switch (discountType) {
-            case FIXED ->
-                    new FixedAmountVoucher(UUID.randomUUID(), discountType, createVoucherRequest.getDiscountValue());
+    public GetVoucherRes saveVoucher(CreateVoucherReq createVoucherReq) {
+        DiscountType discountType = createVoucherReq.getDiscountType();
+
+        Voucher voucher = switch (discountType) {
+            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), discountType, createVoucherReq.getDiscountValue());
             case PERCENT ->
-                    new PercentAmountVoucher(UUID.randomUUID(), discountType, createVoucherRequest.getDiscountValue());
-            default -> throw new VoucherException(NOT_EXIST_DISCOUNT_TYPE); // 유효하지 않은 할인 유형 예외 발생
+                    new PercentAmountVoucher(UUID.randomUUID(), discountType, createVoucherReq.getDiscountValue());
         };
-
         voucher = repository.save(voucher);
-        return GetVoucherResponse.toDto(voucher);
+        return GetVoucherRes.toDto(voucher);
     }
 
-    public List<GetVoucherResponse> getVoucherList() {
-        return repository.findAll()
+    public GetVoucherListRes getVoucherList() {
+        List<GetVoucherRes> getVoucherResList = repository.findAll()
                 .stream()
-                .map(GetVoucherResponse::toDto)
+                .map(GetVoucherRes::toDto)
                 .collect(Collectors.toList());
+        return new GetVoucherListRes(getVoucherResList);
     }
+
 }
