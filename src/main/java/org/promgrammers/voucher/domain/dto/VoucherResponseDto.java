@@ -13,8 +13,9 @@ public class VoucherResponseDto {
 
     private final UUID id;
 
+    private final long amount;
+
     private final VoucherType voucherType;
 
-    private final long amount;
 
 }

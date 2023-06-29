@@ -10,12 +10,12 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    VoucherType getVoucherType() {
+    public VoucherType getVoucherType() {
         return VoucherType.FixedAmount;
     }
 
     @Override
-    long calculateDiscount(long price) {
+    public long calculateDiscount(long price) {
         long discountAmount = price - getAmount();
         return Math.max(discountAmount, 0);
     }

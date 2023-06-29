@@ -10,13 +10,12 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    VoucherType getVoucherType() {
+    public VoucherType getVoucherType() {
         return VoucherType.PercentDiscount;
     }
 
     @Override
-    long calculateDiscount(long price) {
-        long discountAmount = price * (100 - getAmount()) / 100;
-        return discountAmount;
+    public long calculateDiscount(long price) {
+        return price * (100 - getAmount()) / 100;
     }
 }
