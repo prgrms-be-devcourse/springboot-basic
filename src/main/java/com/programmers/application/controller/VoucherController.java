@@ -1,6 +1,6 @@
 package com.programmers.application.controller;
 
-import com.programmers.application.domain.command.Command;
+import com.programmers.application.controller.command.Command;
 import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
 import org.springframework.stereotype.Component;

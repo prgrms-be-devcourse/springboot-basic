@@ -1,4 +1,4 @@
-package com.programmers.application.domain.command.execution;
+package com.programmers.application.controller.command.execution;
 
 import com.programmers.application.dto.reponse.VoucherInfoResponse;
 import com.programmers.application.io.IO;

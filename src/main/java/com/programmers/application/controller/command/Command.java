@@ -1,8 +1,8 @@
-package com.programmers.application.domain.command;
+package com.programmers.application.controller.command;
 
-import com.programmers.application.domain.command.execution.CreateVoucherExecution;
-import com.programmers.application.domain.command.execution.ListVoucherExecution;
-import com.programmers.application.domain.command.execution.VoucherExecution;
+import com.programmers.application.controller.command.execution.CreateVoucherExecution;
+import com.programmers.application.controller.command.execution.ListVoucherExecution;
+import com.programmers.application.controller.command.execution.VoucherExecution;
 import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
 
