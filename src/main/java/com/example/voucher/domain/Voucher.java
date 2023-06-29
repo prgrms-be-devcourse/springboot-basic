@@ -1,6 +1,5 @@
 package com.example.voucher.domain;
 
-import com.example.voucher.domain.discount.DiscountPolicy;
 import com.example.voucher.domain.dto.VoucherDto;
 import java.util.UUID;
 
@@ -23,10 +22,6 @@ public class Voucher {
 
     public void setAmount(double amount) {
         this.amount = amount;
-    }
-
-    public double applyVoucherDiscount(DiscountPolicy discountPolicy) {
-        return discountPolicy.applyDiscount(this);
     }
 
     public VoucherDto toDTO() {
