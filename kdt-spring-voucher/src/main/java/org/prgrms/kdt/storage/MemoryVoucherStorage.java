@@ -11,9 +11,8 @@ public class MemoryVoucherStorage implements VoucherStorage {
     private final static List<Voucher> memoryVoucherDatabase = new ArrayList<>();
 
     @Override
-    public Voucher saveVoucher(Voucher newVoucher) {
-        memoryVoucherDatabase.add(newVoucher);
-        return newVoucher;
+    public void saveVoucher(Voucher newVoucher) {
+        memoryVoucherList.add(newVoucher);
     }
 
     @Override
