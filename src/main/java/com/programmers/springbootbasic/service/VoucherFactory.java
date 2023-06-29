@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class VoucherFactory {
+
+    private VoucherFactory() {
+
+    }
+
     public static Voucher from(VoucherType voucherType, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int discount) {
         switch (voucherType) {
             case RATE -> {
