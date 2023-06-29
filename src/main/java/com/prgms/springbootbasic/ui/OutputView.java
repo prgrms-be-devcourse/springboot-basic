@@ -1,43 +1,48 @@
 package com.prgms.springbootbasic.ui;
 
-import com.prgms.springbootbasic.model.Voucher;
-import com.prgms.springbootbasic.util.VoucherType;
+import com.prgms.springbootbasic.util.Menu;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class OutputView {
-
-	private static final String FORMAT_FIXED = "voucher type : %s voucher Id : %s amount : %d";
-	private static final String FORMAT_PERCENT = "voucher type : %s voucher Id : %s percent : %d";
 	private static final TextTerminal textTerminal = TextIoFactory.getTextTerminal();
-	
+	private final MemberOutputView memberOutputView;
+	private final VoucherOutputView voucherOutputView;
+
+	public OutputView(MemberOutputView memberOutputView, VoucherOutputView voucherOutputView) {
+		this.memberOutputView = memberOutputView;
+		this.voucherOutputView = voucherOutputView;
+	}
+
 	public void init() {
-		textTerminal.println("=== Voucher Application ===");
+		textTerminal.println("=== Application ===");
 		textTerminal.println("Type exit to exit program.");
-		textTerminal.println("Type create to create a new voucher");
-		textTerminal.println("Type list to list all vouchers");
+		textTerminal.println("Type voucher to voucher application");
+		textTerminal.println("Type member to member application");
 	}
-	
+
+	public void initApplication(Menu menu) {
+		if (menu == Menu.MEMBER) {
+			memberOutputView.initApplication();
+			return;
+		}
+		voucherOutputView.initApplication();
+	}
+
 	public void showWhenEntervoucherType() {
-		textTerminal.println("\nType fixed to create a new fixed voucher.");
-		textTerminal.println("Type percent to create a new percent voucher.");
+		voucherOutputView.showWhenEntervoucherType();
 	}
-	
-	public void showWhenEntervoucherNumber() {
-		textTerminal.println("\nNumber of voucher's amount or percent.");
+
+	public void showWhenEnterVoucherNumber() {
+		voucherOutputView.showWhenEntervoucherNumber();
 	}
-	
-	public void showVoucherList(List<Voucher> vouchers) {
-		textTerminal.println("\n=== voucher list ===");
-		vouchers.stream()
-				.map(this::changeVoucherToString)
-				.forEach(textTerminal::println);
-		textTerminal.println("");
+
+	public void showList(List<String> list) {
+		list.forEach(textTerminal::println);
 	}
 
 	public void exit() {
@@ -50,14 +55,6 @@ public class OutputView {
 	
 	public void close() {
 		textTerminal.dispose();
-	}
-
-	private String changeVoucherToString(Voucher voucher) {
-		VoucherType voucherType = voucher.getVoucherType();
-		UUID voucherId = voucher.getVoucherId();
-		Long number = voucher.getNumber();
-		if (voucherType == VoucherType.FIXED) return String.format(FORMAT_FIXED, voucherType, voucherId, number);
-		return String.format(FORMAT_PERCENT, voucherType, voucherId, number);
 	}
 	
 }
