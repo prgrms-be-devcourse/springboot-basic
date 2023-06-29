@@ -31,7 +31,7 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.write(voucherInfo);
             return Optional.of(voucher);
         } catch (IOException e) {
-            throw new InvalidDataException(Message.INVALID_FILE_ACCESS, e.getCause());
+            throw new InvalidDataException(Message.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
         }
     }
 
@@ -46,7 +46,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 voucherRecord.add(record);
             }
         } catch (IOException e) {
-            throw new InvalidDataException(Message.INVALID_FILE_ACCESS, e.getCause());
+            throw new InvalidDataException(Message.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
         }
         return voucherRecord;
     }

@@ -30,7 +30,7 @@ public enum Menu {
                 .findAny()
                 .orElseThrow(() -> {
                     logger.error("Menu Error - {} : {}", menuString, Message.INVALID_MENU);
-                    return new InvalidDataException(Message.INVALID_MENU);
+                    return new InvalidDataException(Message.INVALID_MENU.getMessageText());
                 });
     }
 

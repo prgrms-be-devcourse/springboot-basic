@@ -27,7 +27,7 @@ public enum VoucherType {
                 .findAny()
                 .orElseThrow(() -> {
                     logger.error("Menu Error - {} : {}", voucherTypeString, Message.INVALID_VOUCHER_TYPE);
-                    return new InvalidDataException(Message.INVALID_VOUCHER_TYPE);
+                    return new InvalidDataException(Message.INVALID_VOUCHER_TYPE.getMessageText());
                 });
     }
 

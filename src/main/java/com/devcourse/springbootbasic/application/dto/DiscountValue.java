@@ -20,14 +20,14 @@ public class DiscountValue {
     private void validatePositive() {
         if (value < 0) {
             logger.error("Discount Value Error - {} is under 0", value);
-            throw new InvalidDataException(Message.INVALID_DISCOUNT_VALUE);
+            throw new InvalidDataException(Message.INVALID_DISCOUNT_VALUE.getMessageText());
         }
     }
 
     private void validatePercent(VoucherType voucherType) {
         if (voucherType.equals(VoucherType.PERCENT_DISCOUNT) && value > 100) {
             logger.error("Discount Value Error - {} is upper than 100%", value);
-            throw new InvalidDataException(Message.INVALID_DISCOUNT_VALUE);
+            throw new InvalidDataException(Message.INVALID_DISCOUNT_VALUE.getMessageText());
         }
     }
 

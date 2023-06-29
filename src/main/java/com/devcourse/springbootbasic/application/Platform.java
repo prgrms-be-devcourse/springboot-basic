@@ -12,6 +12,7 @@ import com.devcourse.springbootbasic.application.template.CreateMenuTemplate;
 import com.devcourse.springbootbasic.application.template.ListMenuTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -37,14 +38,14 @@ public class Platform {
     public void run() {
         logger.debug("Program Started");
         while (true) {
-            if (getUserMenuInput()) {
+            if (isEndGame()) {
                 logger.debug("Program Terminated");
                 break;
             }
         }
     }
 
-    private boolean getUserMenuInput() {
+    private boolean isEndGame() {
         try {
             return branchByMenu(commandLineTemplate.menuTask());
         } catch (InvalidDataException e) {

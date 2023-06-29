@@ -21,7 +21,7 @@ public class OutputConsole {
     private static final TextTerminal<?> textTerminal = textIO.getTextTerminal();
 
     public void showMenu() {
-        textTerminal.println(Message.START_GAME_PROMPT);
+        textTerminal.println(Message.START_GAME_PROMPT.getMessageText());
 
         Arrays.stream(Menu.values())
                 .forEach(menu -> {
@@ -33,7 +33,7 @@ public class OutputConsole {
     }
 
     public void showVoucherType() {
-        textTerminal.println(Message.VOUCHER_TYPE_PROMPT);
+        textTerminal.println(Message.VOUCHER_TYPE_PROMPT.getMessageText());
 
         Arrays.stream(VoucherType.values())
                 .forEach(voucherType -> {
@@ -43,7 +43,7 @@ public class OutputConsole {
     }
 
     public void showListMenu() {
-        textTerminal.println(Message.LIST_MENU_PROMPT);
+        textTerminal.println(Message.LIST_MENU_PROMPT.getMessageText());
 
         Arrays.stream(ListMenu.values())
                 .forEach(listMenu -> {
@@ -61,7 +61,7 @@ public class OutputConsole {
     }
 
     public void endPlatform() {
-        printMessage(Message.END_GAME_PROMPT);
+        printMessage(Message.END_GAME_PROMPT.getMessageText());
     }
 
     public void printVoucher(Voucher voucher) {
@@ -69,13 +69,13 @@ public class OutputConsole {
     }
 
     public void printVouchers(List<String> voucherList) {
-        printMessage(Message.LIST_VOUCHERS_PROMPT);
+        printMessage(Message.LIST_VOUCHERS_PROMPT.getMessageText());
         voucherList.forEach(this::printMessage);
         textTerminal.println();
     }
 
     public void printBlackCustomers(List<String> blackCustomers) {
-        printMessage(Message.BLACK_CUSTOMER_PROMPT);
+        printMessage(Message.BLACK_CUSTOMER_PROMPT.getMessageText();
         blackCustomers.forEach(this::printMessage);
         textTerminal.println();
     }

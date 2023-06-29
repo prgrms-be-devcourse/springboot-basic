@@ -27,7 +27,7 @@ public enum ListMenu {
                 .findAny()
                 .orElseThrow(() -> {
                     logger.error("Menu Error - {} : {}", input, Message.INVALID_LIST_MENU);
-                    return new InvalidDataException(Message.INVALID_LIST_MENU);
+                    return new InvalidDataException(Message.INVALID_LIST_MENU.getMessageText());
                 });
     }
 

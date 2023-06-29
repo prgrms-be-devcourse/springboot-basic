@@ -30,7 +30,7 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherDto voucherDto) {
         return voucherRepository.insert(convertDtoToDomain(voucherDto))
-                .orElseThrow(() -> new InvalidDataException(Message.INAVLID_VOUCHER_INSERTION));
+                .orElseThrow(() -> new InvalidDataException(Message.INAVLID_VOUCHER_INSERTION.getMessageText()));
     }
 
     public List<String> getAllVouchers() {
