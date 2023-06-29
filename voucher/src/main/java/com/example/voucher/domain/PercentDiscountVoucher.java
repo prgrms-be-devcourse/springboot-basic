@@ -28,6 +28,8 @@ public class PercentDiscountVoucher implements Voucher {
 	@Override
 	public long discount(long beforeAmount) {
 		VoucherValidator.validateNonZero(beforeAmount);
+		VoucherValidator.validatePositive(beforeAmount);
+
 
 		double discountPercent = percent / PERCENT_DIVISOR;
 		double discountAmount = beforeAmount * discountPercent;

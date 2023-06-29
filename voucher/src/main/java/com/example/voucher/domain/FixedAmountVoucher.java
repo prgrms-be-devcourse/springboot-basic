@@ -25,6 +25,7 @@ public class FixedAmountVoucher implements Voucher {
 	@Override
 	public long discount(long beforeAmount) {
 		VoucherValidator.validateNonZero(beforeAmount);
+		VoucherValidator.validatePositive(beforeAmount);
 		VoucherValidator.validateGreaterThan(beforeAmount, amount);
 
 		return beforeAmount - amount;
