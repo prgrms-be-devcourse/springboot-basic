@@ -1,7 +1,9 @@
 package programmers.org.voucher.constant;
 
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.NoSuchElementException;
+
+import static programmers.org.voucher.exception.ErrorMessage.VOUCHER_ERROR_MESSAGE;
 
 public enum VoucherType {
     FIXED("fixed"), PERCENT("percent");
@@ -12,9 +14,10 @@ public enum VoucherType {
         this.voucherTypeString = voucherTypeString;
     }
 
-    public static Optional<VoucherType> find(String voucherTypeString) {
+    public static VoucherType find(String voucherTypeString) {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> voucherType.voucherTypeString.equals(voucherTypeString))
-                .findAny();
+                .findAny()
+                .orElseThrow(() -> new NoSuchElementException(VOUCHER_ERROR_MESSAGE.getMessage()));
     }
 }
