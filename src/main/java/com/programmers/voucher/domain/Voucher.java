@@ -5,21 +5,32 @@ import java.util.UUID;
 
 public class Voucher {
 
+    private static final String VOUCHER_NULL_MESSAGE = "[ERROR] 유효하지 않은 Voucher Id 입니다. (null)";
+    private static final String EXPIRED_VOUCHER_MESSAGE = "[ERROR] 기간이 만료된 Voucher 입니다.";
+    private static int VOUCHER_EXPIRATION_POLICY = 7;
+
     private final UUID voucherId;
     private final Discount discount;
     private final LocalDateTime createdAt;
-    // 기한을 갖는 값 객체를 만들어서 필드로 갖는다.
-
-    private static final String VOUCHER_NULL_MESSAGE = "[ERROR] 유효하지 않은 Voucher Id 입니다. (null)";
+    private final LocalDateTime expiration;
 
     public Voucher(UUID voucherId, Discount discount, LocalDateTime createdAt) {
         validateVoucherId(voucherId);
         this.voucherId = voucherId;
         this.discount = discount;
         this.createdAt = createdAt;
+        this.expiration = applyExpiration();
+    }
+
+    public Voucher(UUID voucherId, Discount discount, LocalDateTime createdAt, LocalDateTime expiration) {
+        this.voucherId = voucherId;
+        this.discount = discount;
+        this.createdAt = createdAt;
+        this.expiration = expiration;
     }
 
     public long discount(long itemPrice) {
+        checkVoucherExpiration();
         return discount.applyDiscount(itemPrice);
     }
 
@@ -35,7 +46,19 @@ public class Voucher {
         return createdAt;
     }
 
+    public LocalDateTime getExpiration() {
+        return expiration;
+    }
+
     private void validateVoucherId(UUID voucherId) {
         if (voucherId == null) throw new IllegalArgumentException(VOUCHER_NULL_MESSAGE);
+    }
+
+    private LocalDateTime applyExpiration() {
+        return createdAt.plusDays(VOUCHER_EXPIRATION_POLICY);
+    }
+
+    private void checkVoucherExpiration() {
+        if (LocalDateTime.now().isAfter(expiration)) throw new IllegalArgumentException(EXPIRED_VOUCHER_MESSAGE);
     }
 }
