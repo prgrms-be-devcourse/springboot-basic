@@ -29,8 +29,9 @@ public class CommandLineApplication {
     public void run() {
         while (isRunning) {
             try {
-                Command command = Command.of(console.inputMenu());
-                execute(command);
+                String inputMenuText = console.inputMenu();
+                Command inputCommand = Command.of(inputMenuText);
+                execute(inputCommand);
             } catch (RuntimeException e) {
                 console.println(e.getMessage());
             }
