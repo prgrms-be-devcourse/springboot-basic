@@ -1,13 +1,10 @@
 package org.programmers.VoucherManagement.member.dao;
 
-import org.programmers.VoucherManagement.global.properties.FileProperties;
 import org.programmers.VoucherManagement.io.Console;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.global.util.MemberConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +17,12 @@ import static org.programmers.VoucherManagement.global.exception.FileExceptionMe
 
 @Component
 public class FileMemberRepository implements MemberRepository {
-    private final File file = new File("src/main/resources/file/customer-blacklist.csv");
+    private final File file;
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
+
+    private FileMemberRepository(@Value("${app.path.file}") String filePath) {
+        this.file = new File(filePath);
+    }
 
     @Override
     public List<Member> findAllByMemberStatus() {
@@ -40,7 +41,7 @@ public class FileMemberRepository implements MemberRepository {
             throw new RuntimeException(NOT_EXIST_FILE.getMessage(), ex);
         } catch (IOException ex) {
             logger.info(CAN_NOT_READ_LINE.getMessage());
-            throw new RuntimeException(CAN_NOT_READ_LINE.getMessage(),ex);
+            throw new RuntimeException(CAN_NOT_READ_LINE.getMessage(), ex);
         }
 
         return memberList;
