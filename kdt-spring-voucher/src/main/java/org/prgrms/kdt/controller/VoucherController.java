@@ -6,6 +6,8 @@ import org.prgrms.kdt.output.Output;
 import org.prgrms.kdt.storage.VoucherStorage;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,7 @@ public class VoucherController {
     private final VoucherStorage voucherStorage;
     private final Output output;
     private final UserInput userInput;
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     @Autowired
     public VoucherController(VoucherStorage voucherStorage, Output output, UserInput userInput) {
@@ -41,25 +44,29 @@ public class VoucherController {
     }
 
     private void invalidFixedVoucherValueException() {
+        long amount = 0L;
         try {
-            long amount = userInput.userInputVoucherValue();
+            amount = userInput.userInputVoucherValue();
             if (amount < 0) {
                 throw new IllegalArgumentException("Please enter a positive number");
             }
             voucherStorage.saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), amount));
         } catch (IllegalArgumentException e) {
+            logger.error("Your inputValue:'{}' is negative.", amount);
             output.displayError(e);
         }
     }
 
     private void invalidPercentVoucherValueException() {
+        long percent = 0L;
         try {
-            long percent = userInput.userInputVoucherValue();
+            percent = userInput.userInputVoucherValue();
             if (percent < 0 || percent > 100) {
                 throw new IllegalArgumentException("Please enter 0 to 100");
             }
             voucherStorage.saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), percent));
         } catch (IllegalArgumentException e) {
+            logger.error("Your inputValue:'{}' is not between 0 and 100.",percent);
             output.displayError(e);
         }
     }
