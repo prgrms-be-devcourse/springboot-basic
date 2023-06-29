@@ -35,14 +35,19 @@
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
-# .idea/artifacts
-# .idea/compiler.xml
-# .idea/jarRepositories.xml
-# .idea/modules.xml
-# .idea/*.iml
-# .idea/modules
-# *.iml
-# *.ipr
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/*.iml
+.idea/modules
+.idea/.gitignore
+.idea/misc.xml
+.idea/vcs.xml
+.idea/
+*.iml
+*.ipr
+
 
 # CMake
 cmake-build-*/
@@ -140,4 +145,33 @@ fabric.properties
 hs_err_pid*
 replay_pid*
 
-# End of https://www.toptal.com/developers/gitignore/api/intellij,java
+# End of https://www.toptal.com/developers/gitignore/api/intelij,java
+
+### Gradle ###
+.gradle
+**/build/
+!src/**/build/
+gradle/
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+### Gradle Patch ###
+# Java heap dump
+*.hprof
+
+# End of https://www.toptal.com/developers/gitignore/api/gradle
