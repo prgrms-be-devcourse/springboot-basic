@@ -45,4 +45,18 @@ public class WalletService {
         List<Wallet> wallets = walletRepository.findAllByVoucherId(voucherId);
         return new WalletsResponse(wallets.stream().map(WalletResponse::new).collect(Collectors.toList()));
     }
+
+    public WalletsResponse findByMemberId(UUID memberId) {
+        List<Wallet> wallets = walletRepository.findAllByMemberId(memberId);
+        return new WalletsResponse(wallets.stream().map(WalletResponse::new).collect(Collectors.toList()));
+    }
+
+    public WalletsResponse findAll() {
+        List<Wallet> wallets = walletRepository.findAll();
+        return new WalletsResponse(wallets.stream().map(WalletResponse::new).collect(Collectors.toList()));
+    }
+
+    public void deleteById(UUID id) {
+        walletRepository.deleteById(id);
+    }
 }

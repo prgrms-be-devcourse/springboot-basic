@@ -49,15 +49,15 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public List<Wallet> findAllByMemberId(UUID memberId) {
-        String sql = "select * from wallet where member_id = ?";
-        return jdbcTemplate.query(sql, walletRowMapper(), memberId.toString());
-    }
-
-    @Override
     public List<Wallet> findAllByVoucherId(UUID voucherId) {
         String sql = "select * from wallet where voucher_id = ?";
         return jdbcTemplate.query(sql, walletRowMapper(), voucherId.toString());
+    }
+
+    @Override
+    public List<Wallet> findAllByMemberId(UUID memberId) {
+        String sql = "select * from wallet where member_id = ?";
+        return jdbcTemplate.query(sql, walletRowMapper(), memberId.toString());
     }
 
     @Override

@@ -77,4 +77,14 @@ class JdbcWalletRepositoryTest {
         // then
         assertThat(result.get(0).getId()).isEqualTo(wallet.getId());
     }
+
+    @Order(4)
+    @Test
+    void 지갑을_회원_아이디로_조회한다() {
+        // given & when
+        List<Wallet> result = walletRepository.findAllByMemberId(wallet.getMember().getId());
+
+        // then
+        assertThat(result.get(0).getId()).isEqualTo(wallet.getId());
+    }
 }
