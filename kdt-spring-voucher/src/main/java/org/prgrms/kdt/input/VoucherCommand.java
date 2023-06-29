@@ -21,6 +21,6 @@ public enum VoucherCommand {
         if (validateVoucherCommand(voucherCommand)) {
             return VOUCHER_COMMAND_MAP.get(voucherCommand);
         }
-        return VOUCHER_COMMAND_MAP.get("wrong");
+        return WRONG;
     }
 }
