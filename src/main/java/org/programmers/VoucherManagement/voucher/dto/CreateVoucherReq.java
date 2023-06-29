@@ -7,10 +7,11 @@ public class CreateVoucherReq {
     private final DiscountType discountType;
     private final int discountValue;
 
-    public CreateVoucherReq(DiscountType discountType, int discountValue){
+    public CreateVoucherReq(DiscountType discountType, int discountValue) {
         this.discountType = discountType;
         this.discountValue = discountValue;
     }
+
     public int getDiscountValue() {
         return discountValue;
     }
@@ -18,4 +19,4 @@ public class CreateVoucherReq {
     public DiscountType getDiscountType() {
         return discountType;
     }
- }
+}

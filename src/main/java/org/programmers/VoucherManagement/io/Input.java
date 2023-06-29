@@ -6,6 +6,7 @@ public interface Input {
     CommandType readType();
 
     DiscountType readDiscountType();
+
     int readValue();
 
 }
