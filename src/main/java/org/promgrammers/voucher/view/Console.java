@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Console {
     private final Scanner scanner;
 
-    public void printList(String[] messages) {
+    public void print(String[] messages) {
         for (String message : messages) {
             System.out.println(message);
         }
@@ -41,7 +41,13 @@ public class Console {
         long amount = askDiscount();
 
         return new VoucherRequestDto(voucherType, amount);
+    }
 
+    public void display() {
+        System.out.println("=== Voucher Program ===");
+        System.out.println("Type 'exit' to exit the program.");
+        System.out.println("Type 'create' to create a new voucher.");
+        System.out.println("Type 'list' to list all vouchers.");
     }
 
 }
