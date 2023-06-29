@@ -30,7 +30,7 @@ public class CreateCommand implements VoucherCommand {
 
         VoucherType.fromCounter(voucherTypeInput).ifPresentOrElse(
                 voucherType -> {
-                    VoucherTypeMessage message = VoucherTypeMessageMapper.getMessage(voucherType);
+                    VoucherTypeMessage message = VoucherTypeMessageMapper.getInstance().getMessage(voucherType);
                     output.printLine(message.getMessage());
                     long value = Long.parseLong(input.readLine());
                     voucherService.createVoucher(voucherType, value);
@@ -42,7 +42,7 @@ public class CreateCommand implements VoucherCommand {
     private void printMenu() {
         output.printLine("Please enter the voucher type:");
         Arrays.stream(VoucherType.values())
-                .map(type -> type.getCounter() + " : " + VoucherTypeMessageMapper.getMessage(type).getMessage())
+                .map(type -> type.getCounter() + " : " + VoucherTypeMessageMapper.getInstance().getMessage(type).getMessage())
                 .forEach(output::printLine);
     }
 
