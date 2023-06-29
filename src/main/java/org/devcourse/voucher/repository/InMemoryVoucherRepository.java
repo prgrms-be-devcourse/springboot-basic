@@ -27,12 +27,17 @@ public class InMemoryVoucherRepository implements VoucherRepository{
 
         voucherStorage.put(saveVoucher.getId(), saveVoucher);
 
-        return voucher;
+        return saveVoucher;
     }
 
     @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(voucherStorage.values());
+    }
+
+    @Override
+    public void deleteAll() {
+        voucherStorage.clear();
     }
 
 }
