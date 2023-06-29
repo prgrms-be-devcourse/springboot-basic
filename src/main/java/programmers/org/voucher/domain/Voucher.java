@@ -10,4 +10,6 @@ public interface Voucher {
     VoucherType getVoucherType();
 
     int getDiscountAmount();
+
+    void validate(int discount);
 }
