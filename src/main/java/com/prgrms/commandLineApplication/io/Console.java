@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Console implements Input, Output {
 
-  Scanner scanner = new Scanner(System.in);
+  private static final Scanner scanner = new Scanner(System.in);
 
   public static final String PRINT_MENU = """
           === Voucher Program ===
@@ -15,6 +15,10 @@ public class Console implements Input, Output {
           Type create to create a new voucher.
           Type list to list all vouchers.
           """;
+
+  public String userInput() {
+    return scanner.nextLine();
+  }
 
   @Override
   public String readMenu() {
@@ -28,7 +32,7 @@ public class Console implements Input, Output {
 
   @Override
   public int readVoucherAmount() {
-    return scanner.nextInt();
+    return Integer.parseInt(scanner.nextLine());
   }
 
   public void printMenu() {
