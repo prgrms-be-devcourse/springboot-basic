@@ -25,6 +25,10 @@ public enum CommandType {
         this.description = description;
     }
 
+    public static CommandType getCommandType(String input) {
+        return COMMAND_MAP.get(input);
+    }
+
     public static boolean isValidCommandInput(String input) {
         return COMMAND_MAP.containsKey(input);
     }

@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +42,7 @@ class VoucherTypeTest {
     @CsvSource({"1, 고정 할인 바우처", "2, 비율 할인 바우처"})
     @DisplayName("입력 받는 Voucher Type Command(1,2)를 통해 어떤 Voucher Type인지 검증해내는 테스트")
     void getVoucherTypeByCommand(String inputType, String voucherDescription) {
-        assertEquals(VoucherType.getVoucherTypeByCommand(inputType).get().getVoucherDescription(), voucherDescription);
+        assertEquals(VoucherType.getVoucherTypeByCommand(inputType).getVoucherDescription(), voucherDescription);
 
     }
 
@@ -51,7 +50,7 @@ class VoucherTypeTest {
     @ValueSource(strings = {"0", "3", "fixed", "percent"})
     @DisplayName("입력 받는 Voucher Type Input 값이 Voucher Type의 command에 없는 문자열인 경우 Voucher Type을 찾지 못하는 테스트")
     void getVoucherTypeByCommand_fail(String inputType) {
-        assertEquals(VoucherType.getVoucherTypeByCommand(inputType), Optional.empty());
+        assertFalse(VoucherType.isValidVoucherTypeInput(inputType));
 
     }
 

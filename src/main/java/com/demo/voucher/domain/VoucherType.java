@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -40,8 +39,12 @@ public enum VoucherType {
         this.amountValidation = amountValidation;
     }
 
-    public static Optional<VoucherType> getVoucherTypeByCommand(String inputVoucherType) {
-        return Optional.ofNullable(VOUCHER_TYPE_MAP.get(inputVoucherType));
+    public static boolean isValidVoucherTypeInput(String inputVoucherType) {
+        return VOUCHER_TYPE_MAP.containsKey(inputVoucherType);
+    }
+
+    public static VoucherType getVoucherTypeByCommand(String inputVoucherType) {
+        return VOUCHER_TYPE_MAP.get(inputVoucherType);
     }
 
     private String getCommand() {
