@@ -20,7 +20,10 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public long discountAppliedPrice(long beforeDiscount) {
-        return beforeDiscount - amount;
+        long finalPrice = beforeDiscount - amount;
+        return finalPrice > 0 ? finalPrice : 0;
+    }
+
     }
 
     @Override
