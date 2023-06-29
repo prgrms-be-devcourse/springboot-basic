@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,13 +82,19 @@ class VoucherServiceImplTest {
         //give
         VoucherCreationRequest voucherCreationRequest1 = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
         VoucherCreationRequest voucherCreationRequest2 = RequestFactory.createVoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
-        voucherService.createVoucher(voucherCreationRequest1);
-        voucherService.createVoucher(voucherCreationRequest2);
+        ArrayList<VoucherCreationRequest> voucherCreationRequests = new ArrayList<>(List.of(voucherCreationRequest1, voucherCreationRequest2));
+        createAndSaveVoucher(voucherCreationRequests);
 
         //when
         List<VoucherInfoResponse> voucherList = voucherService.findVoucherList();
 
         //then
         Assertions.assertThat(voucherList).hasSize(expectedCount);
+    }
+
+    private void createAndSaveVoucher(List<VoucherCreationRequest> voucherCreationRequestList) {
+        voucherCreationRequestList
+                .stream()
+                .forEach(voucherService::createVoucher);
     }
 }
