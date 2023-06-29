@@ -2,7 +2,6 @@ package com.programmers.application.controller;
 
 import com.programmers.application.io.IO;
 import jakarta.annotation.PostConstruct;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -10,8 +9,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 @Component
-@Primary
-public class FrontController implements Controller {
+public class FrontController {
     private static final int ABNORMAL_EXIT = 1;
     private final Map<ServiceCommand, Controller> controllerMap = new EnumMap<>(ServiceCommand.class);
     private final VoucherController voucherController;
@@ -23,7 +21,6 @@ public class FrontController implements Controller {
         this.io = io;
     }
 
-    @Override
     public void process() throws IOException {
         try {
             printMenu();
