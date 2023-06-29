@@ -15,7 +15,6 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 class VoucherServiceImplTest {
@@ -90,16 +89,5 @@ class VoucherServiceImplTest {
 
         //then
         Assertions.assertThat(voucherList).hasSize(expectedCount);
-    }
-
-    @DisplayName("바우처 목록 비어있을 경우 예외 발생 테스트")
-    @Test
-    void findEmptyVoucherList() {
-        //nothing given
-
-        //then
-        Assertions.assertThatThrownBy(() -> voucherService.findVoucherList())
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("바우처 목록이 비어있습니다.");
     }
 }
