@@ -1,6 +1,9 @@
 package org.programers.vouchermanagement.view;
 
+import org.programers.vouchermanagement.member.domain.MemberStatus;
+
 import java.util.Scanner;
+import java.util.UUID;
 
 public class InputView {
 
@@ -14,6 +17,14 @@ public class InputView {
 
     public static Command inputCommand() {
         return Command.from(SCANNER.nextInt());
+    }
+
+    public static UUID inputUUID() {
+        return UUID.fromString(SCANNER.next());
+    }
+
+    public static MemberStatus inputMemberStatus() {
+        return MemberStatus.valueOf(SCANNER.next());
     }
 
     public static DiscountPolicyType inputDiscountPolicy() {
