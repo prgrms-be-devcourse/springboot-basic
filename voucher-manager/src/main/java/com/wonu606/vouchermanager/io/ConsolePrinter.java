@@ -5,7 +5,7 @@ import org.beryx.textio.TextTerminal;
 
 public class ConsolePrinter {
 
-    private final TextTerminal textTerminal = TextIoFactory.getTextTerminal();
+    private final TextTerminal<?> textTerminal = TextIoFactory.getTextTerminal();
 
     public void displayMessage(String message) {
         textTerminal.println(message);
