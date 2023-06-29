@@ -27,7 +27,6 @@ class DiscountValueTest {
             0,
             -1,
             -100,
-            0,
             101,
     })
     public void maxAndMinPercentTest(long percent) {
