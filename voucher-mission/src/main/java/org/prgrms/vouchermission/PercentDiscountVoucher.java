@@ -27,18 +27,6 @@ public class PercentDiscountVoucher implements Voucher {
         return beforeDiscount * (100 - percent);
     }
 
-    public long getPercent() {
-        return percent;
-    }
-
-    public LocalDate getCreatedDate() {
-        return createdDate;
-    }
-
-    public LocalDate getExpirationDate() {
-        return expirationDate;
-    }
-
     public static Voucher createPercentDiscountVoucher(long percent, LocalDate createdDate, LocalDate expirationDate) {
         return new PercentDiscountVoucher(percent, createdDate, expirationDate);
     }
