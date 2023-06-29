@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class MemberRepository {
+public class BlacklistRepository {
 
     private static final Path file = Paths.get("src/main/resources/blacklist.csv");
 
