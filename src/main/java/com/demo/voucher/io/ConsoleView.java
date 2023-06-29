@@ -16,7 +16,7 @@ public class ConsoleView implements Input, Output, InputError {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    private static final String VOUCHER_PROGRAM_START_OUTPUT = "=== Voucher Program ===";
+    private static final String VOUCHER_PROGRAM_START_OUTPUT = "===== 바우처 프로그램 =====";
     private static final String REQUEST_MENU_TYPE_PROMPT = "\n명령 메뉴를 입력해주세요 : ";
     private static final String REQUEST_VOUCHER_TYPE_PROMPT = "생성할 바우처 타입을 입력해주세요 : ";
     private static final String NO_VOUCHER_HISTORY = "등록된 바우처가 없습니다.";
@@ -44,7 +44,7 @@ public class ConsoleView implements Input, Output, InputError {
     public void showMenu() {
         System.out.println(VOUCHER_PROGRAM_START_OUTPUT);
         Arrays.stream(CommandType.values())
-                .forEach(c -> System.out.println(c.getDescription()));
+                .forEach(c -> System.out.println(c.getCommandTypeDescription()));
     }
 
     @Override

@@ -14,22 +14,22 @@ class CommandTypeTest {
 
     private static Stream<Arguments> commandTypes() {
         return Stream.of(
-                Arguments.of("create", CommandType.CREATE),
-                Arguments.of("list", CommandType.LIST),
-                Arguments.of("exit", CommandType.EXIT)
+                Arguments.of("생성", CommandType.CREATE),
+                Arguments.of("목록", CommandType.LIST),
+                Arguments.of("종료", CommandType.EXIT)
         );
     }
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"exit", "create", "list"})
+    @ValueSource(strings = {"종료", "생성", "목록"})
     @DisplayName("입력 받는 명령어 메뉴가 올바른 경우 테스트")
     void isValidCommandInput_메서드_올바른메뉴_입력테스트(String commandInput) {
         assertTrue(CommandType.isValidCommandInput(commandInput));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"exitt", "0", "voucher", "2"})
+    @ValueSource(strings = {"create", "바우처 생성", "0", "voucher", "2"})
     @DisplayName("입력 받는 명령어 메뉴가 올바르지 않은 경우 테스트")
     void isValidCommandInput_메서드_올바르지_않은_메뉴_입력테스트(String commandInput) {
         assertFalse(CommandType.isValidCommandInput(commandInput));
@@ -44,7 +44,7 @@ class CommandTypeTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"creat", "lst", " ", "\n", "1", "2", "0", "생성"})
+    @ValueSource(strings = {"바우처 생성", "목록 조회", " ", "\n", "1", "2", "0", "create", "list", "exit"})
     @DisplayName("올바른 Command Type Input을 입력하지 않았을 때 COMMAND_MAP으로부터 Command Type Enum 객체를 탐색하지 못하여 실패하는 테스트")
     void getCommandType_fail(String input) {
         assertFalse(CommandType.isValidCommandInput(input));
