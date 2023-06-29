@@ -26,21 +26,25 @@ public class PercentDiscountVoucher implements Voucher {
 	}
 
 	@Override
+	public Long getValue() {
+		return percent;
+	}
+
+	@Override
+	public VoucherType getVoucherType() {
+		return voucherType;
+	}
+
+	@Override
 	public long discount(long beforeAmount) {
 		VoucherValidator.validateNonZero(beforeAmount);
 		VoucherValidator.validatePositive(beforeAmount);
 
-
 		double discountPercent = percent / PERCENT_DIVISOR;
 		double discountAmount = beforeAmount * discountPercent;
-		long discountedAmount = beforeAmount - (long) discountAmount;
+		long discountedAmount = beforeAmount - (long)discountAmount;
 
 		return discountedAmount;
-	}
-
-	@Override
-	public String getInfo() {
-		return String.format("VoucherType : %s, discountPercent : %d", voucherType.getTypeName(), percent);
 	}
 
 }

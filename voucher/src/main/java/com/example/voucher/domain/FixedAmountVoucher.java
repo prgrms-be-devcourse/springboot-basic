@@ -23,17 +23,22 @@ public class FixedAmountVoucher implements Voucher {
 	}
 
 	@Override
+	public Long getValue() {
+		return amount;
+	}
+
+	@Override
+	public VoucherType getVoucherType() {
+		return voucherType;
+	}
+
+	@Override
 	public long discount(long beforeAmount) {
 		VoucherValidator.validateNonZero(beforeAmount);
 		VoucherValidator.validatePositive(beforeAmount);
 		VoucherValidator.validateGreaterThan(beforeAmount, amount);
 
 		return beforeAmount - amount;
-	}
-
-	@Override
-	public String getInfo() {
-		return String.format("VoucherType : %s, discountAmount : %d", voucherType.getTypeName(), amount);
 	}
 
 }

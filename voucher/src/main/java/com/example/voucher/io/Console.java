@@ -2,6 +2,9 @@ package com.example.voucher.io;
 
 import java.util.Scanner;
 
+import com.example.voucher.domain.dto.VoucherDTO;
+import com.example.voucher.domain.enums.VoucherType;
+
 public class Console {
 
 	private static Scanner scanner = new Scanner(System.in);
@@ -31,8 +34,15 @@ public class Console {
 		System.out.println("input percent for discount");
 	}
 
-	public static void printVoucherInfo(String info) {
-		System.out.println(info);
+	public static void printVoucherInfo(VoucherDTO voucherDTO) {
+		VoucherType voucherType = voucherDTO.voucherType();
+
+		switch (voucherType) {
+			case FixedAmount -> System.out.println(
+				String.format("VoucherType : %s, discountAmount : %d", voucherDTO.voucherType(), voucherDTO.value()));
+			case PercentDiscount -> System.out.println(
+				String.format("VoucherType : %s, discountPercent : %d", voucherDTO.voucherType(), voucherDTO.value()));
+		}
 	}
 
 	public static void printError(String errorMsg) {

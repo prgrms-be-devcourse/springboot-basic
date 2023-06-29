@@ -2,12 +2,16 @@ package com.example.voucher.domain;
 
 import java.util.UUID;
 
+import com.example.voucher.domain.enums.VoucherType;
+
 public interface Voucher {
 
 	UUID getVoucherId();
 
-	long discount(long beforeAmount);
+	Long getValue();
 
-	String getInfo();
+	VoucherType getVoucherType();
+
+	long discount(long beforeAmount);
 
 }

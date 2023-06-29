@@ -3,6 +3,7 @@ package com.example.voucher;
 import java.util.List;
 
 import com.example.voucher.domain.Voucher;
+import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.domain.enums.VoucherType;
 import com.example.voucher.io.Console;
 import com.example.voucher.io.ModeType;
@@ -53,6 +54,7 @@ public class CommandLineApplication {
 		Voucher voucher = switch (voucherType) {
 			case FixedAmount -> {
 				Console.printDiscountAmount();
+
 				yield voucherService.createVoucher(voucherType, Console.readDiscount());
 			}
 			case PercentDiscount -> {
@@ -67,7 +69,11 @@ public class CommandLineApplication {
 
 	public void getVouchers() {
 		List<Voucher> vouchers = voucherService.getVouchers();
-		vouchers.stream().forEach(v -> Console.printVoucherInfo(v.getInfo()));
+
+		vouchers.stream()
+			.map(o -> new VoucherDTO(o.getValue(), o.getVoucherType()))
+			.forEach(Console::printVoucherInfo);
+
 	}
 
 }
