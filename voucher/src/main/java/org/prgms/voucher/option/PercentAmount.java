@@ -49,6 +49,6 @@ public class PercentAmount implements Voucher {
 
     @Override
     public int discount(int amountBeforeDiscount) {
-        return amountBeforeDiscount - (amountBeforeDiscount * percentAmount / 100);
+        return Math.max(amountBeforeDiscount - (amountBeforeDiscount * percentAmount / 100), 0);
     }
 }
