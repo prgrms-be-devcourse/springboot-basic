@@ -1,5 +1,6 @@
 package org.devcourse.voucher.console;
 
 public interface Input {
-    public String input();
+    public Command inputCommand();
 }
+
