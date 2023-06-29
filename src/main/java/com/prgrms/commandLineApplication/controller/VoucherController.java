@@ -2,15 +2,22 @@ package com.prgrms.commandLineApplication.controller;
 
 import com.prgrms.commandLineApplication.io.Console;
 import com.prgrms.commandLineApplication.io.MenuType;
-import com.prgrms.commandLineApplication.repository.MemoryVoucherRepository;
 import com.prgrms.commandLineApplication.service.VoucherService;
+import com.prgrms.commandLineApplication.voucher.Voucher;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Controller
 public class VoucherController {
 
-  VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
-  Console console = new Console();
+  private final VoucherService voucherService;
+  private final Console console;
+
+  public VoucherController(VoucherService voucherService, Console console) {
+    this.voucherService = voucherService;
+    this.console = console;
+  }
 
   public void run() {
     while (true) {
@@ -21,15 +28,10 @@ public class VoucherController {
           case EXIT:
             return;
           case LIST:
-            console.printVoucherInformation();
+            list();
             break;
           case CREATE:
-            console.requestVoucherType();
-            String voucherType = console.readVoucherType();
-            console.requestDiscountAmount();
-            int disocuntAmount = console.readVoucherAmount();
-            voucherService.create(voucherType, disocuntAmount);
-            console.printCreateSuccess();
+            create();
             break;
           default:
             console.printError();
@@ -38,6 +40,22 @@ public class VoucherController {
         System.out.println(e.getMessage());
       }
     }
+  }
+
+  private void list() {
+    List<Voucher> list = voucherService.findAllVouchers();
+    console.printAllVoucher(list);
+  }
+
+  private void create() {
+    console.requestVoucherType();
+    String voucherType = console.readVoucherType();
+
+    console.requestDiscountAmount();
+    int discountAmount = console.readVoucherAmount();
+
+    voucherService.create(voucherType, discountAmount);
+    console.printCreateSuccess();
   }
 
 }
