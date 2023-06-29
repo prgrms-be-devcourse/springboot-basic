@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS member;
 CREATE TABLE voucher (
     id VARCHAR(36),
     type VARCHAR(20) NOT NULL,
-    value int NOT NULL,
+    voucher_value int NOT NULL,
     primary key (id)
 );
 
