@@ -2,8 +2,7 @@ package org.prgrms.kdt.exception;
 
 import org.prgrms.kdt.util.ErrorMessage;
 
-// exception /  error message
-public class InvalidInputException extends RuntimeException{
+public class InvalidInputException extends RuntimeException {
     public InvalidInputException() {
     }
 

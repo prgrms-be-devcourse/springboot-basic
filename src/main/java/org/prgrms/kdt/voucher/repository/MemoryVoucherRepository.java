@@ -4,12 +4,15 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Profile({"dev","default"})
+@Profile({"dev", "default"})
 @Component
-public class MemoryVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
@@ -25,6 +28,6 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findAll() {
-        return List.copyOf(storage.values()); //?
+        return List.copyOf(storage.values());
     }
 }

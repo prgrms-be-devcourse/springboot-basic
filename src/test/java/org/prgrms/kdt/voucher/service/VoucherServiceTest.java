@@ -1,10 +1,7 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
@@ -16,7 +13,6 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,13 +21,13 @@ class VoucherServiceTest {
     private VoucherService voucherService;
 
     @BeforeEach
-    public void setUp(){
+    public void setup() {
         mockVoucherRepository = mock(VoucherRepository.class);
         voucherService = new VoucherService(mockVoucherRepository);
     }
 
     @Test
-    public void createVoucherTest_FixedVoucher생성(){
+    public void creat메서드로_FixedVoucher생성() {
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID());
         when(mockVoucherRepository.insert(fixedAmountVoucher)).thenReturn(fixedAmountVoucher);
 
@@ -41,7 +37,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    public void createVoucherTest_PercentDiscountVoucher생성(){
+    public void create메서드로_PercentDiscountVoucher생성() {
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID());
         when(mockVoucherRepository.insert(percentDiscountVoucher)).thenReturn(percentDiscountVoucher);
 

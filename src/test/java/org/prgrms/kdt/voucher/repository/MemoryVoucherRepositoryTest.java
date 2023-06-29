@@ -23,7 +23,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void findByIdTest_존재하는_바우처_조회() {
+    public void findById테스트_존재하는_바우처_조회() {
         UUID voucherId = UUID.randomUUID();
         FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId);
         memoryVoucherRepository.insert(voucher);
@@ -35,7 +35,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void findByIdTest_존재하지_않는_바우처_조회() {
+    public void findById테스트_존재하지_않는_바우처_조회() {
         UUID voucherId = UUID.randomUUID();
         FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId);
         memoryVoucherRepository.insert(voucher);
@@ -49,7 +49,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void insertTest(){
+    public void insert테스트() {
         UUID voucherId = UUID.randomUUID();
         FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId);
         memoryVoucherRepository.insert(voucher);
@@ -60,7 +60,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void findAllTest(){
+    public void findAll테스트() {
         FixedAmountVoucher voucher1 = new FixedAmountVoucher(UUID.randomUUID());
         memoryVoucherRepository.insert(voucher1);
         FixedAmountVoucher voucher2 = new FixedAmountVoucher(UUID.randomUUID());

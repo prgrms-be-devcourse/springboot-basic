@@ -43,7 +43,7 @@ public class CommendLineRunner implements CommandLineRunner {
     }
 
     // handler mapping
-    private boolean executeAction(Menu menu){
+    private boolean executeAction(Menu menu) {
         switch (menu) {
             case CREATE:
                 voucherController.create();

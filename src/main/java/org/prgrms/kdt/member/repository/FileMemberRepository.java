@@ -6,24 +6,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class FileMemberRepository implements MemberRepository{
+public class FileMemberRepository implements MemberRepository {
     @Value("${filePath.blackList}")
     private String filePath;
     private Map<UUID, Member> storage;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.storage = Loader.loadFileToMemoryMember(filePath);
     }
 
     @Override
-    public List<Member> findAllBlackMember(){
+    public List<Member> findAllBlackMember() {
         return List.copyOf(storage.values());
     }
 

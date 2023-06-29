@@ -15,20 +15,20 @@ public final class Converter {
         throw new RuntimeException("생성 안돼!!");
     }
 
-    public static String voucherToString(Voucher voucher){
+    public static String voucherToString(Voucher voucher) {
         return MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
-    public static String[] stringToArray(String originalString, String delimiter){
+    public static String[] stringToArray(String originalString, String delimiter) {
         return originalString.split(delimiter);
     }
 
-    public static Voucher stringToVoucher(String str){
+    public static Voucher stringToVoucher(String str) {
         String[] stringArr = str.split(",");
-        if (stringArr[1].equals("FixedAmountVoucher")){
+        if (stringArr[1].equals("FixedAmountVoucher")) {
             return new FixedAmountVoucher(UUID.fromString(stringArr[0]));
         }
-        if (stringArr[1].equals("PercentDiscountVoucher")){
+        if (stringArr[1].equals("PercentDiscountVoucher")) {
             return new PercentDiscountVoucher(UUID.fromString(stringArr[0]));
         }
         throw new InvalidInputException();

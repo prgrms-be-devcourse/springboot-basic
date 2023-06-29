@@ -14,7 +14,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public long discount(Long beforeDiscount) {
+    public double discount(double beforeDiscount) {
         return beforeDiscount - amount;
     }
 }

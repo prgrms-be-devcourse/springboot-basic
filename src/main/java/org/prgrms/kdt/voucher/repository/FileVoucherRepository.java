@@ -11,19 +11,14 @@ import javax.annotation.PreDestroy;
 import java.util.*;
 
 @Profile("file")
-@Component // proxy -> new Proxy(FileVoucherRepository);
+@Component
 public class FileVoucherRepository implements VoucherRepository {
-    // data load -> repository?
-    // run -> file 1 read -> load -> map, List, Collection -> (running) -> sync -> -> close -> persist(save)
     @Value("${filePath.voucher}")
     private String filePath;
     private Map<UUID, Voucher> storage;
 
-//    public FileVoucherRepository() {
-//        this.storage = Loader.loadFileToMemoryVoucher(filePath);
-//    }
     @PostConstruct
-    public void init(){
+    public void init() {
         this.storage = Loader.loadFileToMemoryVoucher(filePath);
     }
 

@@ -24,16 +24,12 @@ public final class ConsoleOutput {
         System.out.println();
     }
 
-    public static void printAllBlackList(List<Member> blackList){
+    public static void printAllBlackList(List<Member> blackList) {
         blackList.forEach(e -> System.out.println(e.getMemberName()));
         System.out.println();
     }
 
-    public static void printMessage(String str){
-        System.out.println(str);
-    }
-
-    public static void printError(){
+    public static void printError() {
         System.out.println("잘못된 입력입니다. 다시 입력해 주십시오\n");
     }
 }
