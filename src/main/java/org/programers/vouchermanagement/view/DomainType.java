@@ -2,39 +2,36 @@ package org.programers.vouchermanagement.view;
 
 import java.util.Arrays;
 
-public enum Command {
-    CREATE(1),
-    READ(2),
-    UPDATE(3),
-    DELETE(4);
+public enum DomainType {
+    VOUCHER(1), MEMBER(2), WALLET(3), EXIT(4);
 
     private final int number;
 
-    Command(int number) {
+    DomainType(int number) {
         this.number = number;
     }
 
-    public static Command from(int number) {
+    public static DomainType from(int number) {
         return Arrays.stream(values())
                 .filter(menu -> menu.number == number)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 명령어 번호입니다. : " + number));
     }
 
-    public boolean isCreate() {
-        return this == CREATE;
+    public boolean isVoucher() {
+        return this == VOUCHER;
     }
 
-    public boolean isRead() {
-        return this == READ;
+    public boolean isMember() {
+        return this == MEMBER;
     }
 
-    public boolean isUpdate() {
-        return this == UPDATE;
+    public boolean isWallet() {
+        return this == WALLET;
     }
 
-    public boolean isDelete() {
-        return this == DELETE;
+    public boolean isExit() {
+        return this == EXIT;
     }
 
     public int getNumber() {

@@ -3,6 +3,7 @@ package org.programers.vouchermanagement;
 import org.programers.vouchermanagement.member.domain.MemberStatus;
 import org.programers.vouchermanagement.member.presentation.MemberController;
 import org.programers.vouchermanagement.view.Command;
+import org.programers.vouchermanagement.view.DomainType;
 import org.programers.vouchermanagement.view.InputView;
 import org.programers.vouchermanagement.view.OutputView;
 import org.programers.vouchermanagement.voucher.presentation.VoucherController;
@@ -28,23 +29,23 @@ public class VoucherManagementController implements CommandLineRunner {
         while(isRunning) {
             OutputView.outputCommand();
 
-            Command command = InputView.inputCommand();
-            if (command.isBlacklist()) {
+            DomainType type = InputView.inputDomainType();
+            if (type.isVoucher()) {
                 memberController.findAllInBlacklist(MemberStatus.BLACK);
                 continue;
             }
 
-            if (command.isCreateVoucher()) {
+            if (type.isMember()) {
                 voucherController.save();
                 continue;
             }
 
-            if (command.isListVoucher()) {
+            if (type.isWallet()) {
                 voucherController.findAll();
                 continue;
             }
 
-            if (command.isExit()) {
+            if (type.isExit()) {
                 isRunning = false;
             }
         }
