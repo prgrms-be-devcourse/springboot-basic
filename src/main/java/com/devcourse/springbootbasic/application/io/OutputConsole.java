@@ -75,7 +75,7 @@ public class OutputConsole {
     }
 
     public void printBlackCustomers(List<String> blackCustomers) {
-        printMessage(Message.BLACK_CUSTOMER_PROMPT.getMessageText();
+        printMessage(Message.BLACK_CUSTOMER_PROMPT.getMessageText());
         blackCustomers.forEach(this::printMessage);
         textTerminal.println();
     }

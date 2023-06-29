@@ -26,7 +26,5 @@ public abstract class Voucher {
         return voucherType;
     }
 
-    public String toString() {
-        return MessageFormat.format("{0}(id: {1}, {2}: {3})", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue);
-    }
+    public abstract String toString();
 }

@@ -2,6 +2,7 @@ package com.devcourse.springbootbasic.application.domain;
 
 import com.devcourse.springbootbasic.application.dto.VoucherType;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
@@ -13,6 +14,11 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public double discountedPrice(long originalPrice) {
         return originalPrice - (1 - discountValue / (double) 100);
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("{0}(id: {1}, {2}: {3})", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue);
     }
 
 }
