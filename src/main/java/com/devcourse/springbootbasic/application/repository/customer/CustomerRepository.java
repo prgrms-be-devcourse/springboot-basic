@@ -14,8 +14,8 @@ public class CustomerRepository {
 
     private final String filepath;
 
-    public CustomerRepository(YamlProperties yamlProperties) {
-        this.filepath = yamlProperties.getBlackCustomerPath();
+    public CustomerRepository(String filepath) {
+        this.filepath = filepath;
     }
 
     public List<String> findAllBlackCustomers() {

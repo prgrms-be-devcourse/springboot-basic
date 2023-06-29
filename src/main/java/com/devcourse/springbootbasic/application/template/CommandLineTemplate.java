@@ -1,14 +1,11 @@
 package com.devcourse.springbootbasic.application.template;
 
 import com.devcourse.springbootbasic.application.constant.Message;
-import com.devcourse.springbootbasic.application.domain.Voucher;
 import com.devcourse.springbootbasic.application.dto.ListMenu;
 import com.devcourse.springbootbasic.application.dto.Menu;
 import com.devcourse.springbootbasic.application.dto.VoucherDto;
-import com.devcourse.springbootbasic.application.dto.VoucherType;
 import com.devcourse.springbootbasic.application.io.InputConsole;
 import com.devcourse.springbootbasic.application.io.OutputConsole;
-import com.devcourse.springbootbasic.application.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -13,33 +13,20 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class VoucherMapTest {
 
     VoucherMap voucherMap;
 
-    @BeforeEach
-    void init() {
-        voucherMap = new VoucherMap(new HashMap<>());
-    }
-
     static Stream<Arguments> provideValids() {
         return Stream.of(
-                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT,100)),
-                Arguments.of(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT,13)),
-                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT,14))
+                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 100)),
+                Arguments.of(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 13)),
+                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 14))
         );
-    }
-
-    @ParameterizedTest
-    @DisplayName("정상적인 값(UUID, Voucher) 넣으면 성공")
-    @MethodSource("provideValids")
-    void 정상요소추가테스트(Voucher voucher) {
-        voucherMap.addVoucher(voucher);
-        assertThat(voucherMap.getAllVouchers(), not(empty()));
     }
 
     static Stream<Arguments> provideInvalids() {
@@ -48,6 +35,19 @@ class VoucherMapTest {
                 Arguments.of(123),
                 Arguments.of(List.of(12, 3))
         );
+    }
+
+    @BeforeEach
+    void init() {
+        voucherMap = new VoucherMap(new HashMap<>());
+    }
+
+    @ParameterizedTest
+    @DisplayName("정상적인 값(UUID, Voucher) 넣으면 성공")
+    @MethodSource("provideValids")
+    void 정상요소추가테스트(Voucher voucher) {
+        voucherMap.addVoucher(voucher);
+        assertThat(voucherMap.getAllVouchers(), not(empty()));
     }
 
     @ParameterizedTest
