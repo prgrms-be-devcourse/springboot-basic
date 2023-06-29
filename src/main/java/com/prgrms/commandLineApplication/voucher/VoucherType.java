@@ -18,8 +18,7 @@ public enum VoucherType {
   }
 
   public static VoucherType valueOfType(String type) {
-    System.out.println(ERROR_MESSAGE + " -> " + type);
-    return Optional.ofNullable(VOUCHER_TYPES.get(type))
+    return Optional.ofNullable(VOUCHER_TYPES.get(type.toUpperCase()))
             .orElseThrow(() -> new IllegalArgumentException(ERROR_MESSAGE + " -> " + type));
   }
 
