@@ -1,7 +1,5 @@
 package com.prgmrs.voucher.model;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {

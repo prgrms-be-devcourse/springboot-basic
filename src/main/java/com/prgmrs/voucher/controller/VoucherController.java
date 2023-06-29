@@ -2,7 +2,7 @@ package com.prgmrs.voucher.controller;
 
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.service.VoucherService;
-import com.prgmrs.voucher.view.ConsoleViewEnum;
+import com.prgmrs.voucher.view.ConsoleViewVoucherCreationEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public UUID createVoucher(long value, ConsoleViewEnum type) {
+    public UUID createVoucher(long value, ConsoleViewVoucherCreationEnum type) {
         return voucherService.createVoucher(value, type);
     }
 

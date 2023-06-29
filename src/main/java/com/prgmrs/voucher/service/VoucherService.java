@@ -4,7 +4,9 @@ import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.repository.VoucherRepository;
-import com.prgmrs.voucher.view.ConsoleViewEnum;
+import com.prgmrs.voucher.view.ConsoleViewVoucherCreationEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private VoucherRepository voucherRepository;
 
     @Autowired
@@ -20,19 +23,24 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public UUID createVoucher(long value, ConsoleViewEnum type) {
+    public UUID createVoucher(long value, ConsoleViewVoucherCreationEnum type) {
         Voucher voucher;
         UUID uuid = UUID.randomUUID();
-        if("fixed".equals(type.name())) {
+        if(ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER == type) {
             voucher = new FixedAmountVoucher(uuid, value);
-        } else if("percent".equals(type.name())) {
-            voucher = new PercentDiscountVoucher(uuid, value);
-        } else {
-            throw new RuntimeException();
+            voucherRepository.save(voucher);
+            return uuid;
         }
-        voucherRepository.save(voucher);
-        return uuid;
 
+        if(ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER == type) {
+            voucher = new PercentDiscountVoucher(uuid, value);
+            voucherRepository.save(voucher);
+            return uuid;
+        }
+
+        RuntimeException re = new RuntimeException("unexpected voucher type");
+        logger.error("unexpected error occurred: ", re);
+        throw re;
     }
 
     public Map<UUID, Voucher> findAll() {

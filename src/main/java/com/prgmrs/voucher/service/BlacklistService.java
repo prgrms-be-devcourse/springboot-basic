@@ -18,5 +18,4 @@ public class BlacklistService {
     public Map<UUID, String> findAll() {
         return blacklistRepository.findAll();
     }
-
 }
