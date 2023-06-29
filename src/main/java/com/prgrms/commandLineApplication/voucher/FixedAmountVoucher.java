@@ -1,20 +1,23 @@
 package com.prgrms.commandLineApplication.voucher;
 
+import java.util.UUID;
+
 public class FixedAmountVoucher extends Voucher {
 
-  public FixedAmountVoucher(String voucherType, double discountAmount) {
-    super(voucherType, discountAmount);
+  protected static final int MINIMUM_VALUE = 0;
+  protected static final int MAXIMUM_VALUE = 10000;
+
+  private FixedAmountVoucher(UUID voucherId, String voucherType, int discountAmount) {
+    super(voucherId, voucherType, discountAmount);
   }
 
-  public double discount(double price) {
-    validateDiscountAmount(getDiscountAmount());
-    return price - getDiscountAmount();
+  public static FixedAmountVoucher of(UUID voucherId, String voucherType, int discountAmount) {
+    VoucherValidator.checkFixedDiscountAmount(discountAmount);
+    return new FixedAmountVoucher(voucherId, voucherType, discountAmount);
   }
 
-  void validateDiscountAmount(double price) {
-    if (price < getDiscountAmount() || getDiscountAmount() < 0) {
-      throw new IllegalArgumentException("Invalid discount amount range (0 ~ price)");
-    }
+  int discount(int price) {
+    return price - discountAmount;
   }
 
 }

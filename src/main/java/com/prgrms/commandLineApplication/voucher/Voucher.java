@@ -4,12 +4,13 @@ import java.util.UUID;
 
 public abstract class Voucher {
 
-  private final UUID voucherId;
-  private final double discountAmount;
-  private final String voucherType;
+  protected final UUID voucherId;
+  protected final int discountAmount;
+  protected final String voucherType;
 
-  public Voucher(String voucherType, double discountAmount) {
-    this.voucherId = UUID.randomUUID();
+  protected Voucher(UUID voucherId, String voucherType, int discountAmount) {
+    VoucherValidator.checkId(voucherId);
+    this.voucherId = voucherId;
     this.voucherType = voucherType;
     this.discountAmount = discountAmount;
   }
@@ -18,7 +19,7 @@ public abstract class Voucher {
     return voucherId;
   }
 
-  public double getDiscountAmount() {
+  public int getDiscountAmount() {
     return discountAmount;
   }
 
@@ -26,14 +27,6 @@ public abstract class Voucher {
     return voucherType;
   }
 
-  public void validateVoucherId(UUID voucherId) {
-    if (voucherId == null) {
-      throw new IllegalArgumentException("Invalid ID");
-    }
-  }
-
-  abstract double discount(double price);
-
-  abstract void validateDiscountAmount(double discountAmount);
+  abstract int discount(int price);
 
 }

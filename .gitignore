@@ -3,6 +3,9 @@
 
 HELP.md
 .DS_Store
+.idea
+.idea/
+.name
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider

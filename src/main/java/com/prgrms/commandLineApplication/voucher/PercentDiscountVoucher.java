@@ -1,21 +1,24 @@
 package com.prgrms.commandLineApplication.voucher;
 
+import java.util.UUID;
+
 public class PercentDiscountVoucher extends Voucher {
-  private static final int PERCENT_RATE_BASE = 100;
 
-  public PercentDiscountVoucher(String voucherType, double discountAmount) {
-    super(voucherType, discountAmount);
+  protected static final int MINIMUM_VALUE = 0;
+  protected static final int PERCENT_RATE_BASE = 100;
+
+  private PercentDiscountVoucher(UUID voucherId, String voucherType, int discountAmount) {
+    super(voucherId, voucherType, discountAmount);
   }
 
-  public double discount(double price) {
-    validateDiscountAmount(getDiscountAmount());
-    return price - (getDiscountAmount() / PERCENT_RATE_BASE) * price;
+  public static PercentDiscountVoucher of(UUID voucherId, String voucherType, int discountAmount) {
+    VoucherValidator.checkPercentDiscountAmount(discountAmount);
+    return new PercentDiscountVoucher(voucherId, voucherType, discountAmount);
   }
 
-  void validateDiscountAmount(double discountAmount) {
-    if (PERCENT_RATE_BASE < discountAmount || discountAmount < 0) {
-      throw new IllegalArgumentException("Invalid discount amount range (0 ~ 100)");
-    }
+  public int discount(int price) {
+    int result = price - (price * discountAmount / PERCENT_RATE_BASE);
+    return result;
   }
 
 }
