@@ -1,7 +1,7 @@
 package org.devcourse.voucher.domain;
 
 public class FixedAmountVoucher extends Voucher {
-    private final String TYPE = "FIXED";
+    private final VoucherType type = VoucherType.FIXED;
     private final long discountAmount;
 
 
@@ -10,9 +10,8 @@ public class FixedAmountVoucher extends Voucher {
         this.discountAmount = discountAmount;
     }
 
-    @Override
-    public String getType() {
-        return TYPE;
+    public VoucherType getType() {
+        return type;
     }
 
     @Override
