@@ -5,9 +5,9 @@ import java.util.UUID;
 public abstract class Voucher {
     private UUID voucherId;
     private DiscountType discountType;
-    private int discountValue;
+    private DiscountValue discountValue;
 
-    public Voucher(UUID voucherId, DiscountType discountType, int discountValue) {
+    public Voucher(UUID voucherId, DiscountType discountType, DiscountValue discountValue) {
         this.voucherId = voucherId;
         this.discountType = discountType;
         this.discountValue = discountValue;
@@ -21,7 +21,7 @@ public abstract class Voucher {
         return discountType;
     }
 
-    public int getDiscountValue() {
+    public DiscountValue getDiscountValue() {
         return discountValue;
     }
 

@@ -29,7 +29,9 @@ public class GetVoucherRes {
     }
 
     public static GetVoucherRes toDto(Voucher voucher) {
-        return new GetVoucherRes(voucher.getVoucherId(), voucher.getDiscountType(), voucher.getDiscountValue());
+        return new GetVoucherRes(voucher.getVoucherId()
+                , voucher.getDiscountType()
+                , voucher.getDiscountValue().getValue());
     }
 
 

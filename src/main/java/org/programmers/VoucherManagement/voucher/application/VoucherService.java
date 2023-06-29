@@ -1,11 +1,8 @@
 package org.programmers.VoucherManagement.voucher.application;
 
 import lombok.RequiredArgsConstructor;
-import org.programmers.VoucherManagement.voucher.domain.DiscountType;
+import org.programmers.VoucherManagement.voucher.domain.*;
 import org.programmers.VoucherManagement.voucher.dao.VoucherRepository;
-import org.programmers.VoucherManagement.voucher.domain.FixedAmountVoucher;
-import org.programmers.VoucherManagement.voucher.domain.PercentAmountVoucher;
-import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.dto.CreateVoucherReq;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherRes;
@@ -25,9 +22,10 @@ public class VoucherService {
         DiscountType discountType = createVoucherReq.getDiscountType();
 
         Voucher voucher = switch (discountType) {
-            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), discountType, createVoucherReq.getDiscountValue());
+            case FIXED ->
+                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherReq.getDiscountValue()));
             case PERCENT ->
-                    new PercentAmountVoucher(UUID.randomUUID(), discountType, createVoucherReq.getDiscountValue());
+                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherReq.getDiscountValue()));
         };
         voucher = repository.save(voucher);
         return GetVoucherRes.toDto(voucher);
