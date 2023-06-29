@@ -8,13 +8,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class DiscountValueTest {
 
-    @DisplayName("할인 값이 최대값 1,000,000,000 최소값 1의 유효범위를 넘어가는 경우")
+    @DisplayName("할인 값이 1미만 1,000,000,000 초과인 경우 에러를 반환한다")
     @ParameterizedTest
     @ValueSource(longs = {
             -1,
             0,
-            -2,
-            9423452343123L
+            1000000001,
+            1,
+            1000000000
     })
     public void maxAndMinDiscountAmountTest(long amount) {
         assertThatThrownBy(() -> new FixedDiscount(amount))
