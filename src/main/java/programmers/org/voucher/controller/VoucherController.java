@@ -22,7 +22,9 @@ public class VoucherController {
     }
 
     public void run() {
-        while (true) {
+        boolean isExit = false;
+
+        while (!isExit) {
             voucherConsole.printManual();
             String inputCommand = voucherConsole.inputCommand();
 
@@ -36,7 +38,7 @@ public class VoucherController {
                         printVoucherList();
                         break;
                     case EXIT:
-                        return;
+                        isExit = true;
                 }
             } catch (NoSuchElementException e) {
                 voucherConsole.printError(e.getMessage());
