@@ -5,11 +5,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Profile({"dev","default"})
 @Component
 public class MemoryVoucherRepository implements VoucherRepository{
-    private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

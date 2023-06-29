@@ -68,6 +68,6 @@ class MemoryVoucherRepositoryTest {
 
         List<Voucher> voucherList = memoryVoucherRepository.findAll();
 
-        assertThat(voucherList, contains(voucher1, voucher2));
+        assertThat(voucherList, containsInAnyOrder(voucher1, voucher2));
     }
 }

@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class Loader {
     private Loader() {
@@ -16,7 +17,7 @@ public final class Loader {
     }
 
     public static Map<UUID, Voucher> loadFileToMemoryVoucher(String filePath) {
-        Map<UUID, Voucher> vouchers = new LinkedHashMap<>();
+        Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line = "";
@@ -32,7 +33,7 @@ public final class Loader {
     }
 
     public static Map<UUID, Member> loadFileToMemoryMember(String filePath) {
-        Map<UUID, Member> Members = new LinkedHashMap<>();
+        Map<UUID, Member> Members = new ConcurrentHashMap<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line = "";
@@ -48,19 +49,9 @@ public final class Loader {
     }
 
     public static void saveMemoryVoucherToFile(Map<UUID, Voucher> memoryStorage, String filePath) {
-        try (FileWriter writer = new FileWriter(filePath, true)) {
+        try (FileWriter writer = new FileWriter(filePath, false)) {
             for (Map.Entry<UUID, Voucher> entry : memoryStorage.entrySet()) {
                 writer.append(Converter.voucherToString(entry.getValue()) + "\n");
-            }
-        } catch (IOException e) {
-            throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);
-        }
-    }
-
-    public static void saveMemoryMemberToFile(Map<UUID, Member> memoryStorage, String filePath) {
-        try (FileWriter writer = new FileWriter(filePath, true)) {
-            for (Map.Entry<UUID, Member> entry : memoryStorage.entrySet()) {
-                writer.append(Converter.memberToString(entry.getValue()));
             }
         } catch (IOException e) {
             throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);

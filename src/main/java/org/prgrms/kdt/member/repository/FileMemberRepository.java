@@ -17,10 +17,6 @@ public class FileMemberRepository implements MemberRepository{
     private String filePath;
     private Map<UUID, Member> storage;
 
-//    public FileMemberRepository() {
-//        this.storage = Loader.loadFileToMemoryMember(filePath);
-//    }
-
     @PostConstruct
     public void init(){
         this.storage = Loader.loadFileToMemoryMember(filePath);
