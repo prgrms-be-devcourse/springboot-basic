@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev
+
+saveType: "File Management"
+voucherStoragePath: "src/main/resources/storage/voucherStorage.txt"
+blackListStoragePath: "src/main/resources/storage/blacklist.csv"
+
+---
+
+spring:
+  profiles:
+    active: local
+
+saveType: "Memory Management"
+blackListStoragePath: "src/main/resources/storage/blacklist.csv"

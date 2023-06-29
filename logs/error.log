@@ -1,0 +1,76 @@
+14:00:16.057 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31771 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:00:16.058 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:00:16.290 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.391 seconds (JVM running for 0.765)
+14:00:18.871 [main] ERROR o.p.s.c.CommandLineController - 잘못된 명령어 입력입니다
+14:01:17.405 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31780 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:01:17.406 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:01:17.631 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.383 seconds (JVM running for 0.702)
+14:01:19.059 [main] ERROR o.p.s.c.CommandLineController - 잘못된 명령어 입력입니다 => d
+14:02:23.175 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31811 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:02:23.175 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:02:23.396 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.379 seconds (JVM running for 0.711)
+14:02:24.398 [main] ERROR o.p.s.c.CommandLineController - 잘못된 명령어 입력입니다 => s
+14:03:10.142 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31820 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:03:10.142 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:03:10.362 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.369 seconds (JVM running for 0.647)
+14:03:13.461 [main] ERROR o.p.s.d.voucher.model.VoucherType - Invalid Voucher Type => asdf
+14:03:13.462 [main] ERROR o.p.s.c.CommandLineController - 잘못된 Voucher 타입입니다.
+14:04:40.128 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31845 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:04:40.129 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:04:40.358 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.388 seconds (JVM running for 0.706)
+14:04:45.474 [main] ERROR o.p.s.d.voucher.model.VoucherType - 잘못된 Voucher 타입입니다. => d
+14:04:45.474 [main] ERROR o.p.s.c.CommandLineController - 잘못된 Voucher 타입입니다. => d
+14:06:00.363 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31854 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:06:00.364 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:06:00.587 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.372 seconds (JVM running for 0.763)
+14:06:05.059 [main] ERROR o.p.s.c.CommandLineController - 잘못된 Voucher 타입입니다. => 2
+14:06:23.522 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31860 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:06:23.524 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:06:23.763 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.406 seconds (JVM running for 0.707)
+14:06:26.489 [main] ERROR o.p.s.d.v.service.VoucherService - Empty Voucher Repository
+14:06:26.489 [main] ERROR o.p.s.c.CommandLineController - 저장된 바우처가 없습니다.
+14:07:28.444 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31884 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:07:28.445 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:07:28.665 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.368 seconds (JVM running for 0.662)
+14:07:30.942 [main] ERROR o.p.s.c.CommandLineController - 저장된 바우처가 없습니다.
+14:07:43.571 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31894 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:07:43.572 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:07:43.796 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.375 seconds (JVM running for 0.657)
+14:07:50.719 [main] ERROR o.p.s.d.v.m.PercentDiscountVoucher - Invalid DiscountAmount => 333
+14:07:50.719 [main] ERROR o.p.s.c.CommandLineController - 할인율은 100보다 클 수 없습니다.
+14:08:27.708 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31914 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:08:27.709 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:08:27.938 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.379 seconds (JVM running for 0.712)
+14:08:48.159 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31919 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:08:48.160 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:08:48.390 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.381 seconds (JVM running for 0.681)
+14:08:53.609 [main] ERROR o.p.s.c.CommandLineController - 할인율은 100보다 클 수 없습니다. => 333
+14:09:05.753 [main] ERROR o.p.s.c.CommandLineController - 입력값은 숫자여야 합니다.
+14:09:55.477 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31928 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:09:55.478 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:09:55.706 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.385 seconds (JVM running for 0.709)
+14:10:00.881 [main] ERROR o.p.s.c.CommandLineController - 할인율은 0보다 적을 수 없습니다. => 0
+14:11:49.615 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31946 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:11:49.616 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:11:49.839 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.388 seconds (JVM running for 0.649)
+14:11:59.334 [main] ERROR o.p.s.c.CommandLineController - 할인율은 100보다 클 수 없습니다. => 2222
+14:12:37.525 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31959 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:12:37.527 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:12:37.773 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.395 seconds (JVM running for 0.698)
+14:12:43.625 [main] ERROR o.p.s.c.CommandLineController - 입력값은 숫자여야 합니다.asdf
+14:13:10.905 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31969 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:13:10.906 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:13:11.146 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.403 seconds (JVM running for 0.671)
+14:13:13.729 [main] ERROR o.p.s.c.CommandLineController - 잘못된 Voucher 타입입니다. => asdf
+14:13:29.512 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31979 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:13:29.513 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "local"
+14:13:29.747 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.381 seconds (JVM running for 0.646)
+14:13:33.415 [main] ERROR o.p.s.c.CommandLineController - 잘못된 Voucher 타입입니다. => asdf
+14:14:37.288 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 31987 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:14:37.290 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "dev"
+14:14:37.527 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.459 seconds (JVM running for 1.023)
+14:14:45.774 [main] ERROR o.p.s.c.CommandLineController - 잘못된 Voucher 타입입니다. => asdfasdf
+14:15:55.075 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 32002 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+14:15:55.076 [main] INFO  o.p.s.VoucherManagementApplication - The following 1 profile is active: "dev"
+14:15:55.302 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.37 seconds (JVM running for 0.667)
+14:15:58.854 [main] ERROR o.p.s.c.CommandLineController - 입력값은 숫자여야 합니다. => asdf
