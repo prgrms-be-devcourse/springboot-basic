@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.exception.DatabaseException;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;
@@ -23,51 +24,60 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void findById테스트_존재하는_바우처_조회() {
-        UUID voucherId = UUID.randomUUID();
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId);
-        memoryVoucherRepository.insert(voucher);
+    void findById_존재하는_바우처_조회() {
+        //given
+        Voucher savedVoucher = new FixedAmountVoucher(UUID.randomUUID());
+        memoryVoucherRepository.insert(savedVoucher);
+        UUID existVoucherId = savedVoucher.getVoucherId();
 
-        Optional<Voucher> findVoucher = memoryVoucherRepository.findById(voucherId);
-        UUID findVoucherId = findVoucher.get().getVoucherId();
+        //when
+        Optional<Voucher> foundVoucher = memoryVoucherRepository.findById(existVoucherId);
 
-        assertThat(findVoucherId, is(voucherId));
+        //then
+        assertThat(foundVoucher.get(), is(savedVoucher));
     }
 
     @Test
-    public void findById테스트_존재하지_않는_바우처_조회() {
-        UUID voucherId = UUID.randomUUID();
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId);
-        memoryVoucherRepository.insert(voucher);
+    void findById_존재하지_않는_바우처_조회() {
+        //given
+        Voucher savedVoucher = new FixedAmountVoucher(UUID.randomUUID());
+        memoryVoucherRepository.insert(savedVoucher);
+        UUID notExistVoucherId = UUID.randomUUID();
 
-        UUID differentVoucherId = UUID.randomUUID();
-        Optional<Voucher> findVoucher = memoryVoucherRepository.findById(differentVoucherId);
+        //when
+        Optional<Voucher> foundVoucher = memoryVoucherRepository.findById(notExistVoucherId);
 
+        //then
         assertThrows(DatabaseException.class, () -> {
-            findVoucher.orElseThrow(DatabaseException::new);
+            foundVoucher.orElseThrow(DatabaseException::new);
         });
     }
 
     @Test
-    public void insert테스트() {
-        UUID voucherId = UUID.randomUUID();
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId);
-        memoryVoucherRepository.insert(voucher);
+    void insert() {
+        //given
+        Voucher insertVoucher = new PercentDiscountVoucher(UUID.randomUUID());
 
-        Optional<Voucher> findVoucher = memoryVoucherRepository.findById(voucherId);
+        //when
+        memoryVoucherRepository.insert(insertVoucher);
 
-        assertThat(findVoucher.get(), is(voucher));
+        //then
+        Optional<Voucher> foundVoucher = memoryVoucherRepository.findById(insertVoucher.getVoucherId());
+        assertThat(foundVoucher.get(), is(insertVoucher));
     }
 
     @Test
-    public void findAll테스트() {
-        FixedAmountVoucher voucher1 = new FixedAmountVoucher(UUID.randomUUID());
-        memoryVoucherRepository.insert(voucher1);
-        FixedAmountVoucher voucher2 = new FixedAmountVoucher(UUID.randomUUID());
-        memoryVoucherRepository.insert(voucher2);
+    void findAll() {
+        //given
+        Voucher savedVoucher1 = new FixedAmountVoucher(UUID.randomUUID());
+        Voucher savedVoucher2 = new FixedAmountVoucher(UUID.randomUUID());
+        memoryVoucherRepository.insert(savedVoucher1);
+        memoryVoucherRepository.insert(savedVoucher2);
 
-        List<Voucher> voucherList = memoryVoucherRepository.findAll();
+        //when
+        List<Voucher> foundVoucherList = memoryVoucherRepository.findAll();
 
-        assertThat(voucherList, containsInAnyOrder(voucher1, voucher2));
+        //then
+        assertThat(foundVoucherList, containsInAnyOrder(savedVoucher1, savedVoucher2));
     }
 }

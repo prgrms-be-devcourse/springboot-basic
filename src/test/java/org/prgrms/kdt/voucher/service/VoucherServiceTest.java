@@ -21,28 +21,34 @@ class VoucherServiceTest {
     private VoucherService voucherService;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mockVoucherRepository = mock(VoucherRepository.class);
         voucherService = new VoucherService(mockVoucherRepository);
     }
 
     @Test
-    public void creat메서드로_FixedVoucher생성() {
+    void creat_FixedVoucher_생성() {
+        //given
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID());
         when(mockVoucherRepository.insert(fixedAmountVoucher)).thenReturn(fixedAmountVoucher);
 
-        Voucher voucher = voucherService.createVoucher(VoucherType.FIXED);
+        //when
+        Voucher cratedVoucher = voucherService.createVoucher(VoucherType.FIXED);
 
-        assertThat(voucher, is(instanceOf(FixedAmountVoucher.class)));
+        //then
+        assertThat(cratedVoucher, is(instanceOf(FixedAmountVoucher.class)));
     }
 
     @Test
-    public void create메서드로_PercentDiscountVoucher생성() {
+    void create_PercentDiscountVoucher_생성() {
+        //given
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID());
         when(mockVoucherRepository.insert(percentDiscountVoucher)).thenReturn(percentDiscountVoucher);
 
-        Voucher voucher = voucherService.createVoucher(VoucherType.PERCENT);
+        //when
+        Voucher cratedVoucher = voucherService.createVoucher(VoucherType.PERCENT);
 
-        assertThat(voucher, is(instanceOf(PercentDiscountVoucher.class)));
+        //then
+        assertThat(cratedVoucher, is(instanceOf(PercentDiscountVoucher.class)));
     }
 }

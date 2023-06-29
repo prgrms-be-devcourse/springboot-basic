@@ -10,12 +10,15 @@ import static org.hamcrest.Matchers.is;
 class FixedAmountVoucherTest {
 
     @Test
-    public void discount테스트() {
+    void discount() {
+        //given
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID());
 
-        double discountPrice = fixedAmountVoucher.discount(100);
+        //when
+        double discountedPrice = fixedAmountVoucher.discount(100);
 
-        assertThat(discountPrice, is(80.0));
+        //then
+        assertThat(discountedPrice, is(80.0));
     }
 
 }

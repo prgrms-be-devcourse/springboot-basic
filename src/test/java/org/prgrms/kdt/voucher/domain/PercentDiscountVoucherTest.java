@@ -9,11 +9,14 @@ import static org.hamcrest.Matchers.is;
 
 class PercentDiscountVoucherTest {
     @Test
-    public void discount테스트() {
+    void discount() {
+        //given
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID());
 
-        double discountPrice = percentDiscountVoucher.discount(150);
+        //when
+        double discountedPrice = percentDiscountVoucher.discount(150);
 
-        assertThat(discountPrice, is(120.0));
+        //then
+        assertThat(discountedPrice, is(120.0));
     }
 }

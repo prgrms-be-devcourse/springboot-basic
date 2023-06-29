@@ -9,8 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class Loader {
@@ -18,15 +17,14 @@ public final class Loader {
         throw new RuntimeException("생성 안돼!!");
     }
 
-    public static Map<UUID, Voucher> loadFileToMemoryVoucher(String filePath) {
-        Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
+    public static List<Voucher> loadFileToMemoryVoucher(String filePath) {
+        List<Voucher> vouchers = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line = "";
 
             while ((line = reader.readLine()) != null) {
-                UUID curId = UUID.fromString(Converter.stringToArray(line, ",")[0]);
-                vouchers.put(curId, Converter.stringToVoucher(line));
+                vouchers.add(Converter.stringToVoucher(line));
             }
             return vouchers;
         } catch (IOException e) {
@@ -34,15 +32,14 @@ public final class Loader {
         }
     }
 
-    public static Map<UUID, Member> loadFileToMemoryMember(String filePath) {
-        Map<UUID, Member> Members = new ConcurrentHashMap<>();
+    public static List<Member> loadFileToMemoryMember(String filePath) {
+        List<Member> Members = new LinkedList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line = "";
 
             while ((line = reader.readLine()) != null) {
-                UUID curId = UUID.fromString(Converter.stringToArray(line, ",")[0]);
-                Members.put(curId, Converter.stringToMember(line, MemberStatus.BLACK));
+                Members.add(Converter.stringToMember(line, MemberStatus.BLACK));
             }
             return Members;
         } catch (IOException e) {
@@ -54,6 +51,16 @@ public final class Loader {
         try (FileWriter writer = new FileWriter(filePath, false)) {
             for (Map.Entry<UUID, Voucher> entry : memoryStorage.entrySet()) {
                 writer.append(Converter.voucherToString(entry.getValue()) + "\n");
+            }
+        } catch (IOException e) {
+            throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);
+        }
+    }
+
+    public static void saveMemoryMemberToFile(Map<UUID, Member> memoryStorage, String filePath) {
+        try (FileWriter writer = new FileWriter(filePath, false)) {
+            for (Map.Entry<UUID, Member> entry : memoryStorage.entrySet()) {
+                writer.append(Converter.memberToString(entry.getValue()) + "\n");
             }
         } catch (IOException e) {
             throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);
