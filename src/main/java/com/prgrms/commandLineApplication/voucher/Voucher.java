@@ -1,32 +1,35 @@
 package com.prgrms.commandLineApplication.voucher;
 
+import com.prgrms.commandLineApplication.discount.Discount;
+import com.prgrms.commandLineApplication.discount.FixedDiscount;
+import com.prgrms.commandLineApplication.discount.PercentDiscount;
+import com.prgrms.commandLineApplication.validator.Validator;
+
 import java.util.UUID;
 
-public abstract class Voucher {
+public class Voucher {
 
-  protected final UUID voucherId;
-  protected final int discountAmount;
-  protected final String voucherType;
+  private final UUID voucherId;
+  private final Discount discount;
 
-  protected Voucher(UUID voucherId, String voucherType, int discountAmount) {
-    VoucherValidator.checkId(voucherId);
+  public Voucher(UUID voucherId, Discount discount) {
+    Validator.checkId(voucherId);
     this.voucherId = voucherId;
-    this.voucherType = voucherType;
-    this.discountAmount = discountAmount;
+    this.discount = discount;
   }
 
   public UUID getVoucherId() {
     return voucherId;
   }
 
-  public int getDiscountAmount() {
-    return discountAmount;
+  public Discount getDiscount() {
+    return discount;
   }
 
-  public String getVoucherType() {
-    return voucherType;
+  public int supplyDiscountAmount() {
+    return this.discount instanceof FixedDiscount
+            ? ((FixedDiscount) discount).getDiscountAmount()
+            : ((PercentDiscount) discount).getDiscountAmount();
   }
-
-  abstract int discount(int price);
 
 }
