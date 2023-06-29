@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -35,7 +37,7 @@ class JdbcVoucherRepositoryTest {
 
     @Order(2)
     @Test
-    void 바우처를_조회한다() {
+    void 바우처를_아이디로_조회한다() {
         // given & when
         Voucher result = voucherRepository.getById(voucher.getId());
 
@@ -44,6 +46,19 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Order(3)
+    @Test
+    void 바우처를_모두_조회한다() {
+        // given
+        voucherRepository.save(new Voucher(new FixedAmountPolicy(10), VoucherType.FIXED_AMOUNT));
+
+        // when
+        List<Voucher> result = voucherRepository.findAll();
+
+        // then
+        assertThat(result).hasSize(2);
+    }
+
+    @Order(4)
     @Test
     void 바우처를_수정한다() {
         // given
@@ -56,7 +71,7 @@ class JdbcVoucherRepositoryTest {
         assertThat(voucherRepository.getById(voucher.getId()).getType()).isEqualTo(VoucherType.PERCENT);
     }
 
-    @Order(4)
+    @Order(5)
     @Test
     void 바우처를_삭제한다() {
         // given & when
