@@ -12,6 +12,7 @@ public class FixedDiscount extends Discount {
     private static final String WRONG_AMOUNT_RANGE_MESSAGE =
             MessageFormat.format("[ERROR] 값의 유효범위는 {0}이상 {1}이하입니다.",
                     MIN_AMOUNT, MAX_AMOUNT);
+
     public FixedDiscount(long amount) {
         super(VoucherType.FIXED);
         validateDiscountAmount(amount);
