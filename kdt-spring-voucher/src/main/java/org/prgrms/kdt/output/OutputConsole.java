@@ -54,7 +54,7 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void displayError(RuntimeException e) {
+    public void displayError(Exception e) {
         System.out.println(e.getMessage());
     }
 

@@ -30,6 +30,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String getVoucherName() {
-        return MessageFormat.format("[{0}]", getClass().getSimpleName());
+        return MessageFormat.format("{0}", getClass().getSimpleName());
     }
 }

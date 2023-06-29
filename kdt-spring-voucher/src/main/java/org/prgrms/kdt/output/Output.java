@@ -1,7 +1,7 @@
 package org.prgrms.kdt.output;
 
 public interface Output {
-    String VOUCHER_PRINT_FORMAT = "%-25s id: %s discountValue: %d";
+    String VOUCHER_PRINT_FORMAT = "[%-25s] id: %s discountValue: %d";
 
     void displayMenu();
 
@@ -15,7 +15,7 @@ public interface Output {
 
     void userInputWrongValue();
 
-    void displayError(RuntimeException e);
+    void displayError(Exception e);
 
     void displayAllVoucherList();
 }
