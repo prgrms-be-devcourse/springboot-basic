@@ -35,4 +35,14 @@ public class WalletService {
         Wallet wallet = walletRepository.save(new Wallet(voucher, member));
         return new WalletResponse(wallet);
     }
+
+    public WalletResponse findById(UUID id) {
+        Wallet wallet = walletRepository.getById(id);
+        return new WalletResponse(wallet);
+    }
+
+    public WalletsResponse findByVoucherId(UUID voucherId) {
+        List<Wallet> wallets = walletRepository.findAllByVoucherId(voucherId);
+        return new WalletsResponse(wallets.stream().map(WalletResponse::new).collect(Collectors.toList()));
+    }
 }
