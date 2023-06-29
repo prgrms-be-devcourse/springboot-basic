@@ -9,9 +9,9 @@ public class FixedAmountVoucher implements Voucher {
     private final int discountValue;
 
     public FixedAmountVoucher(long id, int discountValue) {
+        validateDiscountValue(discountValue);
         this.id = id;
         this.discountValue = discountValue;
-        validateDiscountValue(discountValue);
     }
 
     private void validateDiscountValue(int discountValue) {
