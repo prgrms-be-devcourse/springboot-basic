@@ -5,10 +5,13 @@ import org.promgrammers.voucher.domain.PercentDiscountVoucher;
 import org.promgrammers.voucher.domain.Voucher;
 import org.promgrammers.voucher.domain.VoucherType;
 import org.promgrammers.voucher.domain.dto.VoucherRequestDto;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+
+@Component
 public class VoucherFactory {
 
     private final long MIN_FIXED_AMOUNT = 0L;

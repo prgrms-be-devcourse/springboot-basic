@@ -8,14 +8,11 @@ import java.util.Scanner;
 
 
 @RequiredArgsConstructor
+
 public class Console {
     private final Scanner scanner;
 
-    public void print(String[] messages) {
-        for (String message : messages) {
-            System.out.println(message);
-        }
-    }
+
 
     public void print(String message) {
         System.out.println(message);
