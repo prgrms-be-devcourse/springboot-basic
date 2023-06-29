@@ -14,7 +14,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<Voucher> findById(long id) {
+    public Optional<Voucher> findById(UUID id) {
         return Optional.ofNullable(map.get(id));
     }
 

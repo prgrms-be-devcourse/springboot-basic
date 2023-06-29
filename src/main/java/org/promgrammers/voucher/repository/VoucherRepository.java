@@ -4,10 +4,11 @@ import org.promgrammers.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface VoucherRepository {
 
-    Optional<Voucher> findById(long id);
+    Optional<Voucher> findById(UUID id);
 
     List<Voucher> findAll();
 
