@@ -15,11 +15,11 @@ import java.util.UUID;
 public class CommandLineApplication {
 
     private static final String WRONG_INPUT_MESSAGE_FOR_VALUE = "[ERROR] 숫자를 입력해 주세요.";
-    private boolean isRunning = true;
 
     private final VoucherController voucherController;
     private final Console console;
 
+    private boolean isRunning = true;
 
     public CommandLineApplication(Console console, VoucherController voucherController) {
         this.console = console;
@@ -63,7 +63,6 @@ public class CommandLineApplication {
             try {
                 return VoucherType.of(console.inputVoucherType());
             } catch (IllegalArgumentException e) {
-                e.getStackTrace();
                 console.println(e.getMessage());
             }
         }
