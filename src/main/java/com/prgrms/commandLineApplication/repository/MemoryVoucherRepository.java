@@ -25,4 +25,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
             .toList();
   }
 
+  @Override
+  public Voucher findById(UUID id) {
+    return voucherStorage.get(id);
+  }
+
 }

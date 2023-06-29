@@ -6,6 +6,7 @@ import com.prgrms.commandLineApplication.voucher.VoucherFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -18,6 +19,10 @@ public class VoucherService {
 
   public List<Voucher> findAllVouchers() {
     return voucherRepository.findAll();
+  }
+
+  public Voucher findVoucher(UUID id) {
+    return voucherRepository.findById(id);
   }
 
   public void create(String voucherType, int discountAmount) {
