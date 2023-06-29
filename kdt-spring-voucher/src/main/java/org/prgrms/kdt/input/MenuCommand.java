@@ -28,6 +28,6 @@ public enum MenuCommand {
             return MENU_COMMAND_MAP.get(menuCommand);
         }
         logger.warn("Your inputValue:'{}' is wrong.", menuCommand);
-        return MENU_COMMAND_MAP.get("wrong");
+        return WRONG;
     }
 }
