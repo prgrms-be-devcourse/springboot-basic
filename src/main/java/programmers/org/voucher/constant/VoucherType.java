@@ -8,15 +8,15 @@ import static programmers.org.voucher.exception.ErrorMessage.VOUCHER_ERROR_MESSA
 public enum VoucherType {
     FIXED("fixed"), PERCENT("percent");
 
-    private final String voucherTypeString;
+    private final String content;
 
-    VoucherType(String voucherTypeString) {
-        this.voucherTypeString = voucherTypeString;
+    VoucherType(String content) {
+        this.content = content;
     }
 
-    public static VoucherType find(String voucherTypeString) {
+    public static VoucherType find(String content) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.voucherTypeString.equals(voucherTypeString))
+                .filter(voucherType -> voucherType.content.equals(content))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException(VOUCHER_ERROR_MESSAGE.getMessage()));
     }

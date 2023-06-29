@@ -10,15 +10,15 @@ public enum Command {
     LIST("list"),
     EXIT("exit");
 
-    private final String commandString;
+    private final String content;
 
     Command(String commandString) {
-        this.commandString = commandString;
+        this.content = commandString;
     }
 
-    public static Command find(String commandString) {
+    public static Command find(String content) {
         return Arrays.stream(Command.values())
-                .filter(command -> command.commandString.equals(commandString))
+                .filter(command -> command.content.equals(content))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException(COMMAND_ERROR_MESSAGE.getMessage()));
     }

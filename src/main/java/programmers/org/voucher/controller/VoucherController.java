@@ -24,10 +24,10 @@ public class VoucherController {
     public void run() {
         while (true) {
             voucherConsole.printManual();
-            String commandString = voucherConsole.inputCommand();
+            String inputCommand = voucherConsole.inputCommand();
 
             try {
-                Command command = Command.find(commandString);
+                Command command = Command.find(inputCommand);
                 switch (command) {
                     case CREATE:
                         createVoucher();
