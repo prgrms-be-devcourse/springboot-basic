@@ -39,11 +39,13 @@ public class VoucherController {
             case LIST:
                 List<Voucher> voucherList = service.getVoucherList();
                 consoleIO.displayVoucherList(voucherList);
+                return true;
 
             case CREATE:
                 String type = consoleIO.selectVoucherType();
                 double discount = consoleIO.readDouble("discount");
                 service.createVoucher(type, UUID.randomUUID(), discount);
+                return true;
 
             default:
                 throw new IllegalArgumentException("수행할 수 없는 메뉴입니다.");
