@@ -8,6 +8,10 @@ public class InputView {
 
     private InputView() {}
 
+    public static DomainType inputDomainType() {
+        return DomainType.from(SCANNER.nextInt());
+    }
+
     public static Command inputCommand() {
         return Command.from(SCANNER.nextInt());
     }

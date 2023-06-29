@@ -11,6 +11,13 @@ public class OutputView {
     private OutputView() {
     }
 
+    public static void outputDomainType() {
+        System.out.println("도메인 리스트");
+        for (DomainType value : DomainType.values()) {
+            System.out.printf("%d %s%n", value.getNumber(), value);
+        }
+    }
+
     public static void outputCommand() {
         System.out.println("명령어 리스트");
         for (Command value : Command.values()) {
