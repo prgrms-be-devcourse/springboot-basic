@@ -1,6 +1,9 @@
 package com.prgmrs.voucher.database;
 
 import com.opencsv.CSVReader;
+import com.prgmrs.voucher.exception.FileNotReadException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
@@ -12,27 +15,29 @@ import java.util.UUID;
 
 @Component
 public class FileBlacklistDatabase {
-    String filename = "src/main/csv/blacklist.csv";
+    private static final Logger logger = LoggerFactory.getLogger(FileBlacklistDatabase.class);
+    private static final String FILENAME = "src/main/csv/blacklist.csv";
 
     public Map<UUID, String> load() {
-        boolean append = Files.exists(Paths.get(filename));
-        Map<UUID, String> cache = new HashMap<>();
+        boolean append = Files.exists(Paths.get(FILENAME));
+        Map<UUID, String> storage = new HashMap<>();
 
         if (!append) {
-            return cache;
+            return storage;
         }
 
-        try (CSVReader reader = new CSVReader(new FileReader(filename))) {
+        try (CSVReader reader = new CSVReader(new FileReader(FILENAME))) {
             String[] nextLine;
             reader.readNext();  // Skip header
             while ((nextLine = reader.readNext()) != null) {
                 UUID uuid = UUID.fromString(nextLine[0]);
                 String name = nextLine[1];
-                cache.put(uuid, name);
+                storage.put(uuid, name);
                 }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("unexpected error occurred : ", e);
+            throw new FileNotReadException("File was not read successfully.");
         }
-        return cache;
+        return storage;
     }
 }

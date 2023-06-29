@@ -11,15 +11,15 @@ import java.util.UUID;
 @Component
 @Profile("dev")
 public class InMemoryVoucherDatabase implements VoucherDatabase {
-    private static Map<UUID, Voucher> cache = new HashMap<>();
+    private static Map<UUID, Voucher> storage = new HashMap<>();
 
     @Override
     public Map<UUID, Voucher> load() {
-        return cache;
+        return storage;
     }
 
     @Override
     public void store(UUID voucherId, Voucher voucher) {
-        cache.put(voucherId, voucher);
+        storage.put(voucherId, voucher);
     }
 }

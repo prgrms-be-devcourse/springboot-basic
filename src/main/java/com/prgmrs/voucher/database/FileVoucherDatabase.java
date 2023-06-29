@@ -2,9 +2,12 @@ package com.prgmrs.voucher.database;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.prgmrs.voucher.exception.FileNotReadException;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -19,38 +22,41 @@ import java.util.UUID;
 @Component
 @Profile("!dev")
 public class FileVoucherDatabase implements VoucherDatabase {
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherDatabase.class);
     String filename = "src/main/csv/vouchers.csv";
 
     @Override
     public Map<UUID, Voucher> load() {
         boolean append = Files.exists(Paths.get(filename));
-        Map<UUID, Voucher> cache = new HashMap<>();
+        Map<UUID, Voucher> storage = new HashMap<>();
 
         if (!append) {
-            return cache;
+            return storage;
         }
 
         try (CSVReader reader = new CSVReader(new FileReader(filename))) {
             String[] nextLine;
-            Voucher voucher;
             reader.readNext();  // Skip header
             while ((nextLine = reader.readNext()) != null) {
                 UUID uuid = UUID.fromString(nextLine[0]);
                 String code = nextLine[1];
                 String value = nextLine[2];
 
-                if(code.equals("fixed")) {
-                    voucher = new FixedAmountVoucher(uuid, Long.parseLong(value));
-                    cache.put(uuid, voucher);
-                } else if (code.equals("percent")) {
-                    voucher = new PercentDiscountVoucher(uuid, Long.parseLong(value));
-                    cache.put(uuid, voucher);
+                if("fixed".equals(code)) {
+                    Voucher voucher = new FixedAmountVoucher(uuid, Long.parseLong(value));
+                    storage.put(uuid, voucher);
+                }
+
+                if ("percent".equals(code)) {
+                    Voucher voucher = new PercentDiscountVoucher(uuid, Long.parseLong(value));
+                    storage.put(uuid, voucher);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("unexpected error occurred : ", e);
+            throw new FileNotReadException("File was not read successfully.");
         }
-        return cache;
+        return storage;
     }
 
     @Override
@@ -64,11 +70,15 @@ public class FileVoucherDatabase implements VoucherDatabase {
 
             if(voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
                  writer.writeNext(new String[]{ voucherId.toString(), "fixed", Long.toString(fixedAmountVoucher.getAmount())});
-            } else if(voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
+                 return;
+            }
+
+            if(voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
                  writer.writeNext(new String[]{ voucherId.toString(), "percent", Long.toString(percentDiscountVoucher.getPercent())});
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("unexpected error occurred : ", e);
+            throw new FileNotReadException("File was not read successfully.");
         }
     }
 }
