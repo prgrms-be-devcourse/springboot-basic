@@ -1,0 +1,12 @@
+version: "1.0"
+description: "JDBC-H2"
+
+spring:
+  datasource:
+    url: jdbc:h2:~/voucher_management
+    username: sa
+
+  sql:
+    init:
+      platform: h2
+      mode: always
