@@ -1,7 +1,7 @@
 package org.programers.vouchermanagement.member.domain;
 
 import org.junit.jupiter.api.*;
-import org.programers.vouchermanagement.member.exception.NoSuchMemberException;
+import org.programers.vouchermanagement.global.exception.NoSuchDomainException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -79,7 +79,7 @@ class JdbcMemberRepositoryTest {
 
         // then
         assertThatThrownBy(() -> memberRepository.getById(member.getId()))
-                .isInstanceOf(NoSuchMemberException.class)
+                .isInstanceOf(NoSuchDomainException.class)
                 .hasMessage("존재하지 않는 회원입니다.");
     }
 }
