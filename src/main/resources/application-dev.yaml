@@ -1,2 +1,5 @@
 file:
   path: file/voucher.csv
+
+black:
+  path: file/blacklist.csv

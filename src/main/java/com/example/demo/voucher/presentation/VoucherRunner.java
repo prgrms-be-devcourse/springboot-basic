@@ -3,8 +3,7 @@ package com.example.demo.voucher.presentation;
 import com.example.demo.common.AppConfiguration;
 import com.example.demo.common.io.Input;
 import com.example.demo.common.io.Output;
-import com.example.demo.voucher.presentation.command.VoucherCommand;
-import com.example.demo.voucher.application.VoucherService;
+import com.example.demo.common.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -21,7 +20,6 @@ public class VoucherRunner {
         applicationContext.register(AppConfiguration.class);
         applicationContext.refresh();
 
-        var voucherService = applicationContext.getBean(VoucherService.class);
         var input = applicationContext.getBean(Input.class);
         var output = applicationContext.getBean(Output.class);
 
@@ -42,12 +40,13 @@ public class VoucherRunner {
             output.printLine("Type exit to exit the program.");
             output.printLine("Type create to create a new voucher.");
             output.printLine("Type list to list all vouchers.");
+            output.printLine("Type blacklist to list all blacklist.");
 
             command = input.readLine();
 
             try {
-                VoucherCommand strategy = applicationContext.getBean(command, VoucherCommand.class);
-                strategy.execute(voucherService);
+                Command strategy = applicationContext.getBean(command, Command.class);
+                strategy.execute();
             } catch (NoSuchBeanDefinitionException ex) {
                 logger.error(ex.getMessage());
                 output.printLine("Unknown command");
