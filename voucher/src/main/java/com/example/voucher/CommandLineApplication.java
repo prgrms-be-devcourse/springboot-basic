@@ -36,13 +36,15 @@ public class CommandLineApplication {
 
 	public void createVoucher() {
 		Console.printVoucherType();
-		VoucherType voucherType = VoucherType.getVouchersType(Console.readVoucherType());
+		Integer inputVoucherType = Console.readVoucherType();
+		VoucherType voucherType = VoucherType.getVouchersType(inputVoucherType);
 		Voucher voucher = processVoucherType(voucherType);
 
 		while (voucher == null) {
 			Console.printError("VoucherType을 다시 선택해주세요");
 			Console.printVoucherType();
-			voucherType = VoucherType.getVouchersType(Console.readVoucherType());
+			inputVoucherType = Console.readVoucherType();
+			voucherType = VoucherType.getVouchersType(inputVoucherType);
 			voucher = processVoucherType(voucherType);
 		}
 	}
