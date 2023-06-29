@@ -1,8 +1,6 @@
 package com.prgrms.commandLineApplication.voucher;
 
 import com.prgrms.commandLineApplication.discount.Discount;
-import com.prgrms.commandLineApplication.discount.FixedDiscount;
-import com.prgrms.commandLineApplication.discount.PercentDiscount;
 import com.prgrms.commandLineApplication.validator.Validator;
 
 import java.util.UUID;
@@ -18,6 +16,10 @@ public class Voucher {
     this.discount = discount;
   }
 
+  public int supplyDiscount(int price) {
+    return discount.executeDiscount(price);
+  }
+
   public UUID getVoucherId() {
     return voucherId;
   }
@@ -27,9 +29,7 @@ public class Voucher {
   }
 
   public int supplyDiscountAmount() {
-    return this.discount instanceof FixedDiscount
-            ? ((FixedDiscount) discount).getDiscountAmount()
-            : ((PercentDiscount) discount).getDiscountAmount();
+    return discount.getDiscountAmount();
   }
 
 }
