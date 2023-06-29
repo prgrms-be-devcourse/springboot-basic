@@ -34,4 +34,8 @@ public class InputView {
     public static int inputValueOfPolicy() {
         return SCANNER.nextInt();
     }
+
+    public static WalletReadOption inputWalletReadOption() {
+        return WalletReadOption.from(SCANNER.nextInt());
+    }
 }
