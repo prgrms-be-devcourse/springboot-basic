@@ -54,12 +54,13 @@ public class CommandLineApplication {
 		Voucher voucher = switch (voucherType) {
 			case FixedAmount -> {
 				Console.printDiscountAmount();
-
-				yield voucherService.createVoucher(voucherType, Console.readDiscount());
+				long discountAmount = Console.readDiscount();
+				yield voucherService.createVoucher(voucherType, discountAmount);
 			}
 			case PercentDiscount -> {
 				Console.printDiscountPercent();
-				yield voucherService.createVoucher(voucherType, Console.readDiscount());
+				long discountPercent = Console.readDiscount();
+				yield voucherService.createVoucher(voucherType, discountPercent);
 			}
 			case Null -> null;
 		};
