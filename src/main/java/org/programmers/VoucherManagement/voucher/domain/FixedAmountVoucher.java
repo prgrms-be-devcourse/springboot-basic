@@ -7,8 +7,4 @@ public class FixedAmountVoucher extends Voucher {
         super(voucherId, discountType, discountValue);
     }
 
-    @Override
-    public long calculateDiscountPrice(long beforePrice) {
-        return beforePrice - this.discountValue;
-    }
 }
