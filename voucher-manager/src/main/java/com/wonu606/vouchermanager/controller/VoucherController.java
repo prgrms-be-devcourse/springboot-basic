@@ -5,15 +5,15 @@ import com.wonu606.vouchermanager.io.ConsoleIO;
 import com.wonu606.vouchermanager.service.VoucherService;
 import java.util.List;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class VoucherController {
 
     private final VoucherService service;
-    private final ConsoleIO consoleIO = new ConsoleIO();
+    private final ConsoleIO consoleIO;
 
     public void run() {
         boolean continueProcessing = true;

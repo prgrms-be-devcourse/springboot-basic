@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsoleIO {
 
-    ConsoleInput input = new ConsoleInput();
-    ConsolePrinter printer = new ConsolePrinter();
+    private final ConsoleInput input = new ConsoleInput();
+    private final ConsolePrinter printer = new ConsolePrinter();
 
     public String selectMenu() {
         displayMenu();
