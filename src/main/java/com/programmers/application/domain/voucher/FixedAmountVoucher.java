@@ -8,8 +8,11 @@ public class FixedAmountVoucher extends Voucher {
     private static final int MIN_DISCOUNT_AMOUNT = 0;
     public static final int MIN_PRICE = 0;
 
+    private final long discountAmount;
+
     private FixedAmountVoucher(UUID voucherId, long discountAmount) {
-        super(voucherId, discountAmount);
+        super(voucherId);
+        this.discountAmount = discountAmount;
     }
 
     protected static Voucher of(UUID voucherId, long discountAmount) {
@@ -20,7 +23,12 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public long discount(long originalPrice) {
-        return Math.max(originalPrice - getDiscountAmount(), MIN_PRICE);
+        return Math.max(originalPrice - discountAmount, MIN_PRICE);
+    }
+
+    @Override
+    public long getDiscountAmount() {
+        return discountAmount;
     }
 
     private static void validateVoucherId(UUID voucherId) {

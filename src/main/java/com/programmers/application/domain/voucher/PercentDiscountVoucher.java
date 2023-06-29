@@ -7,8 +7,11 @@ public class PercentDiscountVoucher extends Voucher{
     private static final int MAX_DISCOUNT_AMOUNT = 100;
     private static final int MIN_DISCOUNT_AMOUNT = 0;
 
+    private final long discountAmount;
+
     private PercentDiscountVoucher(UUID voucherId, long discountAmount) {
-        super(voucherId, discountAmount);
+        super(voucherId);
+        this.discountAmount = discountAmount;
     }
 
     protected static Voucher of(UUID voucherId, long discountAmount) {
@@ -19,7 +22,12 @@ public class PercentDiscountVoucher extends Voucher{
 
     @Override
     public long discount(long originalPrice) {
-        return originalPrice - (originalPrice * getDiscountAmount() / MAX_DISCOUNT_AMOUNT);
+        return originalPrice - (originalPrice * discountAmount / MAX_DISCOUNT_AMOUNT);
+    }
+
+    @Override
+    public long getDiscountAmount() {
+        return discountAmount;
     }
 
     private static void validateVoucherId(UUID voucherId) {
