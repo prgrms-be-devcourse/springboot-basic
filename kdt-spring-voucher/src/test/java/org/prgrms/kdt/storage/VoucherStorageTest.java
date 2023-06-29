@@ -1,34 +1,36 @@
-package org.prgrms.kdt.database;
+package org.prgrms.kdt.storage;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
 import java.util.UUID;
 
-class VoucherDatabaseTest {
+class VoucherStorageTest {
     ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
     @Test
     void saveVoucher() {
         //given
-        VoucherDatabase voucherDatabase = ac.getBean(VoucherDatabase.class);
+        VoucherStorage voucherStorage = ac.getBean(VoucherStorage.class);
+        List<Voucher> voucherList = List.of(new FixedAmountVoucher(UUID.randomUUID(), 10),
+                new PercentDiscountVoucher(UUID.randomUUID(), 20));
 
         //when
-        voucherDatabase.saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10));
-        voucherDatabase.saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 20));
+        voucherList.stream().forEach(voucherStorage::saveVoucher);
 
         //then
-        Assertions.assertThat(voucherDatabase.findAllVoucher().get(0))
+        Assertions.assertThat(voucherStorage.findAllVoucher().get(0))
                 .isInstanceOf(FixedAmountVoucher.class);
-        Assertions.assertThat(voucherDatabase.findAllVoucher().get(1))
+        Assertions.assertThat(voucherStorage.findAllVoucher().get(1))
                 .isInstanceOf(PercentDiscountVoucher.class);
-        Assertions.assertThat(voucherDatabase.findAllVoucher().size())
+        Assertions.assertThat(voucherStorage.findAllVoucher().size())
                 .isEqualTo(2);
     }
-
 }
