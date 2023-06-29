@@ -8,6 +8,7 @@ import org.programers.vouchermanagement.voucher.domain.FixedAmountPolicy;
 import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherRepository;
 import org.programers.vouchermanagement.voucher.domain.VoucherType;
+import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -86,5 +88,17 @@ class JdbcWalletRepositoryTest {
 
         // then
         assertThat(result.get(0).getId()).isEqualTo(wallet.getId());
+    }
+
+    @Order(5)
+    @Test
+    void 지갑을_바우처_아이디로_삭제한다() {
+        // given & when
+        walletRepository.deleteById(wallet.getId());
+
+        // then
+        assertThatThrownBy(() -> walletRepository.getById(wallet.getId()))
+                .isInstanceOf(NoSuchVoucherException.class)
+                .hasMessage("존재하지 않는 지갑입니다.");
     }
 }
