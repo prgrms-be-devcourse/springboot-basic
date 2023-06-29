@@ -75,7 +75,7 @@ public class Console {
         textTerminal.println();
     }
     public void printCustomer(CustomerDto dto) {
-        textTerminal.println("[id, name] %s, %s".formatted(dto.getCustomerId(), dto.getCustomerName()));
+        textTerminal.println("[id, name] %s, %s".formatted(dto.getCustomerId(), dto.getName()));
     }
 
     public long inputAmount() {

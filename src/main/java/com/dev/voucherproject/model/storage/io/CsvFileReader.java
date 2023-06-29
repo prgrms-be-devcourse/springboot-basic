@@ -34,7 +34,7 @@ public class CsvFileReader {
 
                 if (lines.size() >= 1) {
                     return lines.stream()
-                            .takeWhile(line -> !line.isBlank())
+                            .filter(line -> !line.isBlank())
                             .toList();
                 }
             }

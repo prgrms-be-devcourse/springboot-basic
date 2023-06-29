@@ -23,7 +23,7 @@ public class BlacklistMenuController implements MenuController {
         List<Customer> customers = blacklistStorage.findAll();
 
         List<CustomerDto> dtos = customers.stream()
-                .map(CustomerDto::fromCustomer)
+                .map(CustomerDto::fromEntity)
                 .toList();
 
         console.printAllCustomers(dtos);

@@ -4,18 +4,18 @@ import java.util.UUID;
 
 public class Customer {
     private UUID customerId;
-    private String customerName;
+    private String name;
 
-    public Customer(UUID customerId, String customerName) {
+    public Customer(UUID customerId, String name) {
         this.customerId = customerId;
-        this.customerName = customerName;
+        this.name = name;
     }
 
     public UUID getCustomerId() {
         return customerId;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getName() {
+        return name;
     }
 }
