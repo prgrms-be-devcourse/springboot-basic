@@ -15,7 +15,7 @@ public enum VoucherType {
   }
 
   private boolean isEquals(String inputVoucherType, VoucherType voucher) {
-    return voucher.getLowerCaseVoucherType().equals(inputVoucherType);
+    return voucher.getLowerCaseVoucherType().equalsIgnoreCase(inputVoucherType);
   }
 
   public String getLowerCaseVoucherType() {
