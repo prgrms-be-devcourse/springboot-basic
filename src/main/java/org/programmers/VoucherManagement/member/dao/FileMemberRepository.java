@@ -26,24 +26,21 @@ public class FileMemberRepository implements MemberRepository {
 
     @Override
     public List<Member> findAllByMemberStatus() {
-        List<Member> memberList = new ArrayList<>();
-
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-//            List<String> lines = new ArrayList();
+            List<String> lines = new ArrayList<>();
 
             while ((line = br.readLine()) != null) {
-                Member member = MemberConverter.toMember(line);
-                memberList.add(member);
+                lines.add(line);
             }
-        } catch (FileNotFoundException ex) {
-            logger.info(NOT_EXIST_FILE.getMessage());
-            throw new RuntimeException(NOT_EXIST_FILE.getMessage(), ex);
-        } catch (IOException ex) {
-            logger.info(CAN_NOT_READ_LINE.getMessage());
-            throw new RuntimeException(CAN_NOT_READ_LINE.getMessage(), ex);
-        }
 
-        return memberList;
+            return MemberConverter.toMembers(lines);
+        } catch (FileNotFoundException e) {
+            logger.info(NOT_EXIST_FILE.getMessage());
+            throw new RuntimeException(NOT_EXIST_FILE.getMessage(), e);
+        } catch (IOException e) {
+            logger.info(CAN_NOT_READ_LINE.getMessage());
+            throw new RuntimeException(CAN_NOT_READ_LINE.getMessage(), e);
+        }
     }
 }
