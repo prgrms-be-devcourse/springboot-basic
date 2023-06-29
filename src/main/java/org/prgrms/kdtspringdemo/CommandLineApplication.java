@@ -7,12 +7,13 @@ import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class CommandLineApplication {
+public class CommandLineApplication implements CommandLineRunner {
     private final VoucherConsole voucherConsole = new VoucherConsole(new ScannerInput(), new PrintOutput());
     private final VoucherService voucherService;
 
@@ -20,7 +21,8 @@ public class CommandLineApplication {
         this.voucherService = voucherService;
     }
 
-    public void run() {
+    @Override
+    public void run(String... args) {
         CommandType userCommand = CommandType.NONE;
 
         while (!userCommand.equals(CommandType.EXIT)) {
