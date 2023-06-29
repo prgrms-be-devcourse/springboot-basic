@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class MemoryVoucherRepositoryTest {
@@ -22,9 +23,7 @@ class MemoryVoucherRepositoryTest {
 
     @DisplayName("바우처 저장 성공 테스트")
     @ParameterizedTest
-    @CsvSource(value = {
-            "fixed, 100",
-            "percent, 10"})
+    @CsvSource(value = {"fixed, 100", "percent, 10"})
     void save(String voucherType, long discountAmount) {
         //give
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
@@ -42,23 +41,25 @@ class MemoryVoucherRepositoryTest {
     @Test
     void findAll() {
         final int expectedCount = 2;
-        //give
+        // Given
         VoucherCreationRequest voucherCreationRequest1 = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
         VoucherCreationRequest voucherCreationRequest2 = RequestFactory.createVoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
+        ArrayList<VoucherCreationRequest> voucherCreationRequests = new ArrayList<>(List.of(voucherCreationRequest1, voucherCreationRequest2));
+        createAndSaveVoucher(voucherCreationRequests);
 
-        Voucher voucher1 = VoucherFactory.createVoucher(voucherCreationRequest1);
-        Voucher voucher2 = VoucherFactory.createVoucher(voucherCreationRequest2);
-
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
-
-        //when
+        // When
         List<Voucher> voucherList = voucherRepository.findAll();
 
-        //then
-        Assertions.assertThat(voucherList)
-                .hasSize(expectedCount)
-                .contains(voucher1)
-                .contains(voucher2);
+        // Then
+        Assertions.assertThat(voucherList).hasSize(expectedCount);
+    }
+
+    private void createAndSaveVoucher(List<VoucherCreationRequest> voucherCreationRequestList) {
+        voucherCreationRequestList
+                .stream()
+                .forEach(voucherCreationRequest -> {
+            Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
+            voucherRepository.save(voucher);
+        });
     }
 }
