@@ -36,7 +36,7 @@ public class PercentAmountVoucher implements Voucher {
 
     @Override
     public long executeDiscount(long beforeDiscount) {
-        return beforeDiscount * (discount / 100);
+        return beforeDiscount * (discount / MAX_DISCOUNT);
     }
 
     @Override
