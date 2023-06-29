@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private static final int INITIAL_MONEY = 100000;
+    private static final int INITIAL_MONEY = 100_000;
     private static final String VOUCHER_TYPE = "바우처 종류";
     private static final String AFTER_DISCOUNT_VALUE = "할인가";
     private static final String PUBLISH_DATE = "발행일";
