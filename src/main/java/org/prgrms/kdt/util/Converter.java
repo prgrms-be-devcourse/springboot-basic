@@ -19,6 +19,10 @@ public final class Converter {
         return MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
+    public static String memberToString(Member member){
+        return MessageFormat.format("{0},{1}", member.getMemberId(), member.getMemberName());
+    }
+
     public static String[] stringToArray(String originalString, String delimiter) {
         return originalString.split(delimiter);
     }

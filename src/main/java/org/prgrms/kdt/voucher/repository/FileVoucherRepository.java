@@ -9,17 +9,19 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Profile("file")
 @Component
 public class FileVoucherRepository implements VoucherRepository {
     @Value("${filePath.voucher}")
     private String filePath;
-    private Map<UUID, Voucher> storage;
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @PostConstruct
-    public void init() {
-        this.storage = Loader.loadFileToMemoryVoucher(filePath);
+    public void load() {
+        List<Voucher> vouchers = Loader.loadFileToMemoryVoucher(filePath);
+        vouchers.forEach(v -> storage.put(v.getVoucherId(), v));
     }
 
     @Override
