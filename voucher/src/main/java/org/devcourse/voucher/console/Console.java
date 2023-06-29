@@ -2,7 +2,7 @@ package org.devcourse.voucher.console;
 
 import java.util.Scanner;
 
-public class Console implements Input, Output{
+public class Console implements Input, Output {
 
     private final Scanner sc = new Scanner(System.in);
 
@@ -34,5 +34,22 @@ public class Console implements Input, Output{
         }
 
         return command;
+    }
+
+    @Override
+    public void printCommandMessage(Command command) {
+        switch (command) {
+            case CREATE:
+                System.out.println("Create Voucher");
+                break;
+            case LIST:
+                System.out.println("List Voucher");
+                break;
+            case EXIT:
+                System.out.println("Terminate Application");
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + command);
+        }
     }
 }

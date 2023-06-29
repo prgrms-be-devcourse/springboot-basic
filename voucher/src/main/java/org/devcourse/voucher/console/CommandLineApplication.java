@@ -17,24 +17,23 @@ public class CommandLineApplication implements ApplicationRunner {
         isRunning = true;
         while (isRunning) {
             console.printMenu();
-            commandInput = console.input();
+            Command commandInput = console.inputCommand();
             execute(commandInput);
         }
     }
 
-    protected void execute(String command) throws IllegalArgumentException {
+    protected void execute(Command command) throws IllegalArgumentException {
+        console.printCommandMessage(command);
         switch (command) {
-            case CREATE_COMMAND_STRING:
+            case CREATE:
                 // 바우처 생성
-                System.out.println("Create Voucher");
                 break;
-            case LIST_COMMAND_STRING:
+            case LIST:
                 // 바우처 조회
-                System.out.println("List Voucher");
                 break;
-            case EXIT_COMMAND_STRING:
-                System.out.println("Terminate Application");
-                System.exit(0);
+            case EXIT:
+                stopRunning();
+                break;
             default:
                 throw new IllegalArgumentException("Unsupported command: " + command);
         }
