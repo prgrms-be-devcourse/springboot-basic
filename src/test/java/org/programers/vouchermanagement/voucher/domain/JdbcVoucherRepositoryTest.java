@@ -20,11 +20,6 @@ class JdbcVoucherRepositoryTest {
 
     private Voucher voucher;
 
-    @BeforeAll
-    void setup() {
-        voucher = new Voucher(new FixedAmountPolicy(100), VoucherType.FIXED_AMOUNT);
-    }
-
     @Order(1)
     @Test
     void 바우처를_저장한다() {
