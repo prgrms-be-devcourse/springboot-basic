@@ -6,7 +6,12 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(long discountPercent) {
         super();
-        this.discountPercent = discountPercent;
+        if(discountPercent >= 0){
+            throw new IllegalArgumentException("discountPercent는 0보다 커야 합니다.");
+        }
+        else {
+            this.discountPercent = discountPercent;
+        }
     }
 
     public VoucherType getType() {
