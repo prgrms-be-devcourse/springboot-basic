@@ -1,6 +1,5 @@
 package com.example.voucher.io;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public enum ModeType {
@@ -12,14 +11,12 @@ public enum ModeType {
 
 	private String typeName;
 
-	private static final Map<String, ModeType> modeTypeMap = new HashMap<>() {
-		{
-			put("exit", ModeType.Exit);
-			put("create", ModeType.Create);
-			put("list", ModeType.List);
-			put("null", ModeType.Null);
-		}
-	};
+	private static final Map<String, ModeType> modeTypeMap;
+
+	static {
+		modeTypeMap = Map.of("exit", ModeType.Exit, "create", ModeType.Create, "list", ModeType.List, "null",
+			ModeType.Null);
+	}
 
 	ModeType(String typeName) {
 		this.typeName = typeName;
