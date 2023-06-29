@@ -10,19 +10,19 @@ import com.example.voucher.domain.Voucher;
 
 public class MemoryVoucherRepository implements VoucherRepository {
 
-	private final Map<UUID, Voucher> map = new ConcurrentHashMap<>();
+	private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 
 	@Override
 	public UUID save(Voucher voucher) {
 		UUID voucherId = voucher.getVoucherId();
-		map.put(voucherId, voucher);
+		voucherMap.put(voucherId, voucher);
 
-		return map.get(voucherId).getVoucherId();
+		return voucherMap.get(voucherId).getVoucherId();
 	}
 
 	@Override
 	public List<Voucher> findAll() {
-		return new ArrayList<>(map.values());
+		return new ArrayList<>(voucherMap.values());
 	}
 
 }
