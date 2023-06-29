@@ -30,14 +30,14 @@ public class Console implements InputView, OutputView {
 
     @Override
     public String inputMenu() {
-        print(ConsoleMessage.COMMAND_MESSAGE.getMessage());
+        println(ConsoleMessage.COMMAND_MESSAGE.getMessage());
         print(ARROW);
         return userInput();
     }
 
     @Override
     public String inputVoucherType() {
-        print(ConsoleMessage.CREATE_VOUCHER_TYPE_MESSAGE.getMessage());
+        println(ConsoleMessage.CREATE_VOUCHER_TYPE_MESSAGE.getMessage());
         print(ARROW);
         return userInput();
     }
