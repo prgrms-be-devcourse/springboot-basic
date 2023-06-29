@@ -23,13 +23,13 @@ import co.programmers.voucher_management.voucher.entity.Voucher;
 @Profile("dev")
 public class FileRepository implements VoucherRepository {
 	private final String filePath;
-	private final int voucherCnt;
 	private final Path path;
+	private int voucherCount;
 
-	private FileRepository(@Value(value = "${file.path}") String filePath) throws IOException {
+	private FileRepository(@Value(value = "${file.voucher.path}") String filePath) throws IOException {
 		this.filePath = filePath;
 		path = Paths.get(filePath);
-		voucherCnt = getVoucherCount();
+		voucherCount = getVoucherCount();
 	}
 
 	@Override
@@ -40,6 +40,7 @@ public class FileRepository implements VoucherRepository {
 		String[] parsedVoucherData = {id, amount, discountType};
 		try (CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath, true))) {
 			csvWriter.writeNext(parsedVoucherData);
+			voucherCount++;
 		}
 	}
 
@@ -48,7 +49,7 @@ public class FileRepository implements VoucherRepository {
 		Reader reader = Files.newBufferedReader(path);
 		try (CSVReader csvReader = new CSVReader(reader)) {
 			List<VoucherResponseDTO> vouchers = new ArrayList<>();
-			int fileLine = voucherCnt;
+			int fileLine = voucherCount;
 			for (int line = 0; line < fileLine; line++) {
 				String[] voucher = csvReader.readNext();
 				VoucherResponseDTO voucherResponseDTO = processToResponseFormat(voucher);

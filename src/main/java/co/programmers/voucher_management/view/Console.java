@@ -37,6 +37,12 @@ public class Console implements InputView, OutputView {
 
 	@Override
 	public void print(Object content) {
+		if (content instanceof List) {
+			for (var c : (List)content) {
+				print(c);
+			}
+			return;
+		}
 		System.out.print(content);
 	}
 
@@ -58,6 +64,5 @@ public class Console implements InputView, OutputView {
 					((VoucherResponseDTO)content).getDiscountAmount()));
 
 		}
-
 	}
 }

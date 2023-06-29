@@ -8,12 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
+import co.programmers.voucher_management.view.InputView;
+import co.programmers.voucher_management.view.OutputView;
 import co.programmers.voucher_management.voucher.dto.Response;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher_management.voucher.service.CreationService;
 import co.programmers.voucher_management.voucher.service.InquiryService;
-import co.programmers.voucher_management.view.InputView;
-import co.programmers.voucher_management.view.OutputView;
 
 @Controller
 public class VoucherCommandLineRunner implements CommandLineRunner {

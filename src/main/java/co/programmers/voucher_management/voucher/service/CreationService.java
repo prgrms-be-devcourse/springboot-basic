@@ -16,8 +16,8 @@ import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 @Service
 public class CreationService {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
-	private int voucherCnt;
 	private final VoucherRepository repository;
+	private int voucherCnt;
 
 	public CreationService(VoucherRepository repository) throws IOException {
 		this.repository = repository;
