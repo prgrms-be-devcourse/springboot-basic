@@ -94,7 +94,6 @@ class VoucherServiceImplTest {
 
     private void createAndSaveVoucher(List<VoucherCreationRequest> voucherCreationRequestList) {
         voucherCreationRequestList
-                .stream()
                 .forEach(voucherService::createVoucher);
     }
 }

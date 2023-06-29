@@ -55,11 +55,9 @@ class MemoryVoucherRepositoryTest {
     }
 
     private void createAndSaveVoucher(List<VoucherCreationRequest> voucherCreationRequestList) {
-        voucherCreationRequestList
-                .stream()
-                .forEach(voucherCreationRequest -> {
+        for (VoucherCreationRequest voucherCreationRequest : voucherCreationRequestList) {
             Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
             voucherRepository.save(voucher);
-        });
+        }
     }
 }
