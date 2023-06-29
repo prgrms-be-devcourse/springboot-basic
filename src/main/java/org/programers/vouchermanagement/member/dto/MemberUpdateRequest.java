@@ -6,8 +6,8 @@ import java.util.UUID;
 
 public class MemberUpdateRequest {
 
-    private UUID id;
-    private MemberStatus status;
+    private final UUID id;
+    private final MemberStatus status;
 
     public MemberUpdateRequest(UUID id, MemberStatus status) {
         this.id = id;
