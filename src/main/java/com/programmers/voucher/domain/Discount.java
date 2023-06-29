@@ -15,9 +15,11 @@ public abstract class Discount {
         };
     }
 
+    public abstract long applyDiscount(long beforeDiscount);
+
+    public abstract long getAmount();
+
     public VoucherType getVoucherType() {
         return voucherType;
     }
-
-    public abstract long applyDiscount(long beforeDiscount);
 }

@@ -25,6 +25,7 @@ public class FixedDiscount extends Discount {
         return itemPrice - amount;
     }
 
+    @Override
     public long getAmount() {
         return amount;
     }

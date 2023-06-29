@@ -75,12 +75,14 @@ public class Console implements InputView, OutputView {
     }
 
     private String discountValueFormat(Discount discount) {
-        if (discount instanceof PercentDiscount percentDiscount) {
-            return percentDiscount.getPercent() + PERCENT;
-        }
-        if (discount instanceof FixedDiscount fixedDiscount) {
-            DecimalFormat formatter = new DecimalFormat("###,###,###");
-            return formatter.format(fixedDiscount.getAmount()) + WON;
+        switch (discount.getVoucherType()) {
+            case FIXED -> {
+                DecimalFormat formatter = new DecimalFormat("###,###,###");
+                return formatter.format(discount.getAmount()) + WON;
+            }
+            case PERCENT -> {
+                return discount.getAmount() + PERCENT;
+            }
         }
         throw new IllegalArgumentException(WRONG_DISCOUNT_TYPE_MESSAGE);
     }

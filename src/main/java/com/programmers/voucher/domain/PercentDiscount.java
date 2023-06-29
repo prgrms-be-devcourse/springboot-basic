@@ -18,13 +18,15 @@ public class PercentDiscount extends Discount {
         this.percent = percent;
     }
 
-    public long getPercent() {
-        return percent;
-    }
 
     @Override
     public long applyDiscount(long itemPrice) {
         return itemPrice - (itemPrice * percent / MAX_PERCENT);
+    }
+
+    @Override
+    public long getAmount() {
+        return percent;
     }
 
     private void validateDiscountAmount(long percent) {
