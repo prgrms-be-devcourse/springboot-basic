@@ -31,7 +31,7 @@ public class VoucherApp {
                     VoucherCommand UserInputVoucherCommand = VoucherCommand.findByUserInputVoucherCommand(userInputVoucherCreateMenuCommand);
                     voucherController.createVoucher(UserInputVoucherCommand);
                 }
-                case LIST -> voucherController.showVoucherList();
+                case LIST -> outputConsole.displayAllVoucherList();
                 case WRONG -> outputConsole.userInputWrongValue();
             }
         }
