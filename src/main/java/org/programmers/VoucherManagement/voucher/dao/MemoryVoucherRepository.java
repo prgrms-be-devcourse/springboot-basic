@@ -1,13 +1,13 @@
 package org.programmers.VoucherManagement.voucher.dao;
 
-
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
+
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
+@Component
 public class MemoryVoucherRepository implements VoucherRepository {
     private static final Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
@@ -19,6 +19,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return map.values().stream().toList();
+        return map.values()
+                .stream()
+                .toList();
     }
 }
