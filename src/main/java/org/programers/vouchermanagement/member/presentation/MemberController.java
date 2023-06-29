@@ -15,8 +15,8 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public void findAllByStatus(MemberStatus status) {
-        MembersResponse response = memberService.findAllByStatus(status);
+    public void findAllInBlacklist(MemberStatus status) {
+        MembersResponse response = memberService.findAllInBlacklist(status);
         OutputView.outputMembers(response);
     }
 }
