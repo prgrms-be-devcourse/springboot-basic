@@ -4,13 +4,13 @@ public enum ErrorMessage {
     COMMAND_ERROR_MESSAGE("유효하지 않은 커맨드입니다."),
     VOUCHER_ERROR_MESSAGE("유효하지 않은 바우처 타입입니다.");
 
-    private final String errorMessage;
+    private final String message;
 
-    ErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    ErrorMessage(String message) {
+        this.message = message;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 }

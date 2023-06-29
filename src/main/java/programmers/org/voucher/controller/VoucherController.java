@@ -31,7 +31,7 @@ public class VoucherController {
             Optional<Command> command = Command.find(commandString);
 
             if (command.isEmpty()) {
-                voucherConsole.printError(COMMAND_ERROR_MESSAGE.getErrorMessage());
+                voucherConsole.printError(COMMAND_ERROR_MESSAGE.getMessage());
                 continue;
             }
 
@@ -53,7 +53,7 @@ public class VoucherController {
         Optional<VoucherType> findVoucherType = VoucherType.find(voucherType);
 
         if (findVoucherType.isEmpty()) {
-            voucherConsole.printError(VOUCHER_ERROR_MESSAGE.getErrorMessage());
+            voucherConsole.printError(VOUCHER_ERROR_MESSAGE.getMessage());
             return;
         }
         int voucherInfo = voucherConsole.inputVoucherInfo();
