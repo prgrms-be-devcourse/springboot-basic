@@ -5,7 +5,8 @@ import com.prgms.springbootbasic.controller.MenuController;
 import com.prgms.springbootbasic.controller.VoucherController;
 import com.prgms.springbootbasic.controller.VoucherCreateController;
 import com.prgms.springbootbasic.controller.VoucherListController;
-import com.prgms.springbootbasic.controller.ExitController;
+import com.prgms.springbootbasic.controller.MemberController;
+import com.prgms.springbootbasic.controller.BlackListMemberController;
 
 import com.prgms.springbootbasic.exception.NoSuchFileException;
 import org.slf4j.Logger;
@@ -26,11 +27,10 @@ public interface VoucherApplication {
         return ac.getBean(MenuController.class);
     }
 
+    static MemberController blackListMemberController() { return ac.getBean(BlackListMemberController.class); }
     static VoucherController voucherCreateController() { return ac.getBean(VoucherCreateController.class); }
 
     static VoucherController voucherListController() { return ac.getBean(VoucherListController.class); }
-
-    static VoucherController exitController() { return ac.getBean(ExitController.class); }
 
     static File file(String location) throws FileNotFoundException {
         try {
