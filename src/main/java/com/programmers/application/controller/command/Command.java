@@ -13,7 +13,7 @@ public enum Command {
 
     public void executeVoucher(VoucherService voucherService, Command command, IO io) throws IOException {
         switch (command) {
-            case EXIT -> System.exit(1);
+            case EXIT -> io.write("Voucher 서비스를 종료합니다.");
             case CREATE -> {
                 VoucherExecution voucherExecution = new CreateVoucherExecution(voucherService, io);
                 voucherExecution.run();
