@@ -3,6 +3,8 @@ package com.prgms.springbootbasic.member.model;
 import com.prgms.springbootbasic.global.exception.CantReadFileException;
 import com.prgms.springbootbasic.global.util.ExceptionMessage;
 import com.prgms.springbootbasic.global.util.Application;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +17,7 @@ import java.util.UUID;
 @Repository
 public class BlackList {
 
+    private static final Logger logger = LoggerFactory.getLogger(BlackList.class);
     @Value("${file.blacklist}")
     private String FILE_PATH;
 
@@ -26,6 +29,7 @@ public class BlackList {
                         .map(m -> getMember(m.split(",")))
                         .toList();
         } catch (Exception e) {
+            logger.error("파일을 읽을 수 없습니다. file path : {}", FILE_PATH);
             throw new CantReadFileException(ExceptionMessage.CANT_READ_FILE);
         }
     }
