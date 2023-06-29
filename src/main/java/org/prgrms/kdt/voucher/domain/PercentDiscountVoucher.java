@@ -2,30 +2,20 @@ package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
-    private final String voucherType = "PercentDiscountVoucher";
-    private final long amount = 20;
+// enum && using enum
+public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId) {
-        this.voucherId = voucherId;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
+        super(voucherId);
     }
 
     @Override
     public String getVoucherType() {
-        return voucherType;
+        return VoucherType.PERCENT.getName();
     }
+
     @Override
-    public long getAmount() {
-        return amount;
-    }
-    @Override
-    public long discount(Long beforeDiscount) {
-        return beforeDiscount * (amount / 100);
+    public double discount(double beforeDiscount) {
+        return beforeDiscount * ((100 - amount) / 100);
     }
 }

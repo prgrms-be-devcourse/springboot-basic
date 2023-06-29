@@ -4,7 +4,6 @@ import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -15,7 +14,7 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Member> findAllBlackMember() throws IOException {
+    public List<Member> findAllBlackMember() {
         return memberRepository.findAllBlackMember();
     }
 }

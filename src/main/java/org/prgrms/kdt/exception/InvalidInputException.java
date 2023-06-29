@@ -1,9 +1,16 @@
 package org.prgrms.kdt.exception;
 
-public class InvalidInputException extends RuntimeException{
-    public static final String msg = "입력이 잘못되었습니다.";
+import org.prgrms.kdt.util.ErrorMessage;
 
+public class InvalidInputException extends RuntimeException {
     public InvalidInputException() {
-        super(msg);
+    }
+
+    public InvalidInputException(ErrorMessage message) {
+        super(message.getMassage());
+    }
+
+    public InvalidInputException(ErrorMessage message, Throwable cause) {
+        super(message.getMassage(), cause);
     }
 }

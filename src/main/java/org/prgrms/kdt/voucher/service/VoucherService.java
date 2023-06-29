@@ -1,13 +1,12 @@
 package org.prgrms.kdt.voucher.service;
 
+import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,12 +19,12 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType voucherType) throws IOException {
+    public Voucher createVoucher(VoucherType voucherType) {
         Optional<Voucher> userVoucher = Optional.empty();
-        if (voucherType == VoucherType.FIXED){
+        if (voucherType == VoucherType.FIXED) {
             userVoucher = Optional.of(new FixedAmountVoucher(UUID.randomUUID()));
         }
-        if (voucherType == VoucherType.PERCENT){
+        if (voucherType == VoucherType.PERCENT) {
             userVoucher = Optional.of(new PercentDiscountVoucher(UUID.randomUUID()));
         }
 
@@ -34,7 +33,7 @@ public class VoucherService {
         return voucher;
     }
 
-    public List<Voucher> findAll() throws IOException {
+    public List<Voucher> findAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers;
     }

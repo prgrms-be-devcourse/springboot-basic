@@ -16,7 +16,7 @@ public enum Menu {
         this.menuString = menuString;
     }
 
-    public static Menu getMenu(String str){
+    public static Menu getMenu(String str) {
         return Arrays.stream(Menu.values())
                 .filter((e) -> e.menuString.equals(str))
                 .findFirst()
