@@ -1,89 +1,65 @@
 package com.wonu606.vouchermanager.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.wonu606.vouchermanager.domain.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.Voucher;
-import com.wonu606.vouchermanager.domain.VoucherVO;
 import com.wonu606.vouchermanager.repository.LocalMemoryVoucherRepository;
 import com.wonu606.vouchermanager.repository.VoucherRepository;
-import com.wonu606.vouchermanager.service.factory.VoucherFactory;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.DisplayName;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 class VoucherServiceTest {
 
     @Test
-    @DisplayName("VO.type == fixed라면 FixedAmountVoucher를 생성한다.")
-    void createFixedAmountVoucher() {
+    void 타입이름이_fixed면_FixedAmountVoucher_생성해야_한다() {
         // given
-        VoucherVO voucherVO = new VoucherVO("fixed", 50.0d);
-        VoucherService voucherService = new VoucherService(new LocalMemoryVoucherRepository());
+        VoucherRepository repository = new LocalMemoryVoucherRepository();
+        VoucherService service = new VoucherService(repository);
 
-        // then
-        Voucher voucher = voucherService.createVoucher(voucherVO);
+        String typeName = "fixed";
+        UUID uuid = UUID.randomUUID();
+        double discount = 5000;
 
         // when
+        Voucher voucher = service.createVoucher(typeName, uuid, discount);
+
+        // then
         assertEquals(FixedAmountVoucher.class, voucher.getClass());
     }
 
     @Test
-    @DisplayName("VO.type == percentage라면 PercentageVoucher를 생성한다.")
-    void createPercentageVoucher() {
+    void 타입이름이_percent면_PercentageVoucher_생성해야_한다() {
         // given
-        VoucherVO voucherVO = new VoucherVO("percentage", 50.0d);
-        VoucherService voucherService = new VoucherService(new LocalMemoryVoucherRepository());
+        VoucherRepository repository = new LocalMemoryVoucherRepository();
+        VoucherService service = new VoucherService(repository);
 
-        // then
-        Voucher voucher = voucherService.createVoucher(voucherVO);
+        String typeName = "percent";
+        UUID uuid = UUID.randomUUID();
+        double discount = 50;
 
         // when
+        Voucher voucher = service.createVoucher(typeName, uuid, discount);
+
+        // then
         assertEquals(PercentageVoucher.class, voucher.getClass());
     }
 
     @Test
-    @DisplayName("존재하지 않는 타입이라면 IllegalArgumentException 예외 발생한다.")
-    void createSomethingDontKnow() {
+    void createVoucher시_객체가_저장되어야_한다() {
         // given
-        VoucherVO voucherVO = new VoucherVO("aaa", 50.0d);
-        VoucherService voucherService = new VoucherService(new LocalMemoryVoucherRepository());
+        VoucherRepository repository = new LocalMemoryVoucherRepository();
+        VoucherService service = new VoucherService(repository);
 
-        // then & when
-        assertThrows(IllegalArgumentException.class, () -> voucherService.createVoucher(voucherVO));
-    }
-
-    @Test
-    void getVoucherTypes() {
-        // given
-        VoucherService voucherService = new VoucherService(new LocalMemoryVoucherRepository());
-        VoucherFactory voucherFactory = new VoucherFactory();
+        String typeName = "percent";
+        UUID uuid = UUID.randomUUID();
+        double discount = 50;
 
         // when
-        List<String> expectedVoucherTypes = voucherService.getVoucherTypes();
+        Voucher voucher = service.createVoucher(typeName, uuid, discount);
 
         // then
-        assertEquals(new ArrayList<>(voucherFactory.getCreatableVoucherTypes()),
-                expectedVoucherTypes);
-    }
-
-    @Test
-    void getVoucherList() {
-        // given
-        VoucherVO voucherVO1 = new VoucherVO("fixed", 50.0d);
-        VoucherVO voucherVO2 = new VoucherVO("percentage", 50.0d);
-
-        VoucherRepository voucherRepository = new LocalMemoryVoucherRepository();
-        VoucherService voucherService = new VoucherService(voucherRepository);
-
-        // when
-        voucherService.createVoucher(voucherVO1);
-        voucherService.createVoucher(voucherVO2);
-
-        // then
-        assertEquals(voucherRepository.findAll(), voucherService.getVoucherList());
+        assertEquals(1, service.getVoucherList().size());
     }
 }
