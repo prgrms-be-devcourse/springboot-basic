@@ -11,12 +11,10 @@ class GuideMessageTest {
         GuideMessage startMessage = GuideMessage.START;
         System.out.println(startMessage);
 
-
         GuideMessage closeMessage = GuideMessage.CLOSE;
         System.out.println(closeMessage);
 
         GuideMessage completeCreateMessage = GuideMessage.COMPLETE_CREATE;
         System.out.println(completeCreateMessage);
     }
-
 }

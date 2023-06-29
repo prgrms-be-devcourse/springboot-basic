@@ -9,8 +9,6 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherRequestTest {
-
-
     @Test
     @DisplayName("기본생성자 예외 던지는지 테스트")
     void getExceptionDefaultCreator() {

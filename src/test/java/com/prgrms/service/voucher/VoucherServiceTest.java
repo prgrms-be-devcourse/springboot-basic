@@ -36,7 +36,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    public void testCreateVoucher_ReturnsCreatedVoucher() {
+    public void testCreateVoucherCreatedVoucher() {
         VoucherRequest voucherRequest = new VoucherRequest(VoucherPolicy.FixedAmountVoucher, new Discount(10));
         Voucher createdVoucher = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FixedAmountVoucher);
         ;
@@ -54,7 +54,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    public void testGetAllVoucherList_ReturnsVoucherList() {
+    public void testGetAllVoucherListVoucherList() {
         Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FixedAmountVoucher);
         Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherPolicy.PercentDiscountVoucher);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);

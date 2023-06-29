@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherCreatorTest {
-
     private static final Discount DISCOUNT = new Discount(20);
 
     @Test

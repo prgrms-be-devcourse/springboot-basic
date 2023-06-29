@@ -43,7 +43,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void testInsert_ReturnsInsertedVoucher() {
+    public void testInsert_InsertedVoucher() {
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FixedAmountVoucher);
 
@@ -54,7 +54,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void testGetAllVoucherList_ReturnsAllVouchers() {
+    public void testGetAllVoucherList_AllVouchers() {
         UUID voucherId1 = UUID.randomUUID();
         UUID voucherId2 = UUID.randomUUID();
 

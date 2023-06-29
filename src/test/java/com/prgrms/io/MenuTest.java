@@ -17,7 +17,7 @@ class MenuTest {
         String selectMenu = "list";
         Optional<Menu> menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.LIST,menu.get());
+        assertEquals(Menu.LIST, menu.get());
     }
 
     @Test
@@ -26,7 +26,7 @@ class MenuTest {
         String selectMenu = "LIST";
         Optional<Menu> menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.LIST,menu.get());
+        assertEquals(Menu.LIST, menu.get());
     }
 
     @Test
@@ -35,7 +35,7 @@ class MenuTest {
         String selectMenu = "create";
         Optional<Menu> menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.CREATE,menu.get());
+        assertEquals(Menu.CREATE, menu.get());
     }
 
     @Test
@@ -44,7 +44,7 @@ class MenuTest {
         String selectMenu = "CREATE";
         Optional<Menu> menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.CREATE,menu.get());
+        assertEquals(Menu.CREATE, menu.get());
     }
 
     @Test
@@ -53,7 +53,7 @@ class MenuTest {
         String selectMenu = "exit";
         Optional<Menu> menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.EXIT,menu.get());
+        assertEquals(Menu.EXIT, menu.get());
     }
 
     @Test
@@ -62,7 +62,7 @@ class MenuTest {
         String selectMenu = "EXIT";
         Optional<Menu> menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.EXIT,menu.get());
+        assertEquals(Menu.EXIT, menu.get());
     }
 
     @Test
@@ -71,7 +71,7 @@ class MenuTest {
         String selectMenu = "ExIt";
         Optional<Menu> menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.EXIT,menu.get());
+        assertEquals(Menu.EXIT, menu.get());
     }
 
     @Test

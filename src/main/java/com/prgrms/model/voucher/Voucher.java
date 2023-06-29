@@ -1,6 +1,7 @@
 package com.prgrms.model.voucher;
 
 import com.prgrms.model.order.OrderItem;
+
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -29,6 +30,7 @@ public abstract class Voucher {
     public double getRealPrice(OrderItem orderItem) {
         return orderItem.productPrice() - sale(orderItem.productPrice());
     }
+
     abstract public double sale(long price);
 
 }

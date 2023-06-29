@@ -15,7 +15,7 @@ public class VoucherController {
     private final VoucherService voucherService;
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-         return voucherService.createVoucher(voucherRequest);
+        return voucherService.createVoucher(voucherRequest);
     }
 
     public VoucherList listVoucher() {
