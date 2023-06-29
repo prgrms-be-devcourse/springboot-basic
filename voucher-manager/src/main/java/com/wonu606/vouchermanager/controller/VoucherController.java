@@ -53,11 +53,11 @@ public class VoucherController {
     }
 
     private void terminal() {
+        consoleIO.displayMessage("곧 프로그램을 종료합니다.");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException ignored) {
         }
-        consoleIO.displayMessage("곧 프로그램을 종료합니다.");
         consoleIO.terminal();
     }
 }
