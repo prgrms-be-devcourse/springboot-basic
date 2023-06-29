@@ -1,12 +1,16 @@
 package org.programers.vouchermanagement.voucher.presentation;
 
+import org.programers.vouchermanagement.view.Command;
 import org.programers.vouchermanagement.voucher.application.VoucherService;
 import org.programers.vouchermanagement.voucher.dto.VoucherCreationRequest;
+import org.programers.vouchermanagement.voucher.dto.VoucherUpdateRequest;
 import org.programers.vouchermanagement.voucher.dto.VouchersResponse;
 import org.programers.vouchermanagement.view.DiscountPolicyType;
 import org.programers.vouchermanagement.view.InputView;
 import org.programers.vouchermanagement.view.OutputView;
 import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -17,7 +21,34 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void save() {
+    public void run() {
+        OutputView.outputCommand();
+        Command command = InputView.inputCommand();
+
+        if (command.isCreate()) {
+            save();
+            return;
+        }
+
+        if(command.isRead()) {
+            VouchersResponse response = voucherService.findAll();
+            OutputView.outputVouchers(response);
+            return;
+        }
+
+        if (command.isUpdate()) {
+            update();
+            return;
+        }
+
+        if (command.isDelete()) {
+            OutputView.outputUUIDComment();
+            UUID id = InputView.inputUUID();
+            voucherService.deleteById(id);
+        }
+    }
+
+    private void save() {
         OutputView.outputDiscountPolicyType();
         DiscountPolicyType type = InputView.inputDiscountPolicy();
 
@@ -28,8 +59,15 @@ public class VoucherController {
         voucherService.save(request);
     }
 
-    public void findAll() {
-        VouchersResponse response = voucherService.findAll();
-        OutputView.outputVouchers(response);
+    private void update() {
+        OutputView.outputUUIDComment();
+        UUID id = InputView.inputUUID();
+
+        OutputView.outputDiscountPolicyType();
+        DiscountPolicyType type = InputView.inputDiscountPolicy();
+
+        OutputView.outputCommentAboutPolicy();
+        int value = InputView.inputValueOfPolicy();
+        voucherService.update(new VoucherUpdateRequest(id, type.createPolicy(value), type.getType()));
     }
 }

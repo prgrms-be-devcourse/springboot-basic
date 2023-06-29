@@ -31,6 +31,7 @@ public class VoucherManagementController implements CommandLineRunner {
 
             DomainType type = InputView.inputDomainType();
             if (type.isVoucher()) {
+                voucherController.run();
                 continue;
             }
 
@@ -40,7 +41,6 @@ public class VoucherManagementController implements CommandLineRunner {
             }
 
             if (type.isWallet()) {
-                voucherController.findAll();
                 continue;
             }
 
