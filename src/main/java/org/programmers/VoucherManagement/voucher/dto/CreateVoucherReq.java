@@ -4,8 +4,8 @@ import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 
 public class CreateVoucherReq {
 
-    private DiscountType discountType;
-    private int discountValue;
+    private final DiscountType discountType;
+    private final int discountValue;
 
     public CreateVoucherReq(DiscountType discountType, int discountValue){
         this.discountType = discountType;

@@ -6,9 +6,9 @@ import org.programmers.VoucherManagement.member.domain.MemberStatus;
 import java.util.UUID;
 
 public class GetMemberRes {
-    private UUID memberID;
-    private String name;
-    private MemberStatus memberStatus;
+    private final UUID memberID;
+    private final String name;
+    private final MemberStatus memberStatus;
 
     public GetMemberRes(UUID memberID, String name, MemberStatus memberStatus) {
         this.memberID = memberID;

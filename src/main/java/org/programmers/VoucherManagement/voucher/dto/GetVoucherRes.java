@@ -6,9 +6,9 @@ import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import java.util.UUID;
 
 public class GetVoucherRes {
-    UUID voucherId;
-    DiscountType discountType;
-    int discountValue;
+    private final UUID voucherId;
+    private final DiscountType discountType;
+    private final int discountValue;
 
     public GetVoucherRes(UUID voucherId, DiscountType discountType, int discountValue) {
         this.voucherId = voucherId;

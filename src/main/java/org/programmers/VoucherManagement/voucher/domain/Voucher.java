@@ -3,9 +3,9 @@ package org.programmers.VoucherManagement.voucher.domain;
 import java.util.UUID;
 
 public abstract class Voucher {
-    UUID voucherId;
-    DiscountType discountType;
-    int discountValue;
+    private UUID voucherId;
+    private DiscountType discountType;
+    private int discountValue;
 
     public Voucher(UUID voucherId, DiscountType discountType, int discountValue) {
         this.voucherId = voucherId;
