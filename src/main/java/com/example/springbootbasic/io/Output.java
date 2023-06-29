@@ -5,6 +5,6 @@ import com.example.springbootbasic.voucher.Voucher;
 import java.util.List;
 
 public interface Output {
-    void printCommand();
+    void printCommandList();
     void listAllVoucher(List<Voucher> vouchers);
 }
