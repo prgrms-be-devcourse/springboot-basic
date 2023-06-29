@@ -47,7 +47,7 @@ public class Platform {
 
     private boolean isEndGame() {
         try {
-            return branchByMenu(commandLineTemplate.menuTask());
+            return isExitMenuBranch(commandLineTemplate.menuTask());
         } catch (InvalidDataException e) {
             commandLineTemplate.errorTask(e);
             logger.error(e.getMessage(), e.getCause());
@@ -55,7 +55,7 @@ public class Platform {
         return false;
     }
 
-    private boolean branchByMenu(Menu menu) {
+    private boolean isExitMenuBranch(Menu menu) {
         return switch (menu) {
             case EXIT -> {
                 commandLineTemplate.endGameTask();
