@@ -1,5 +1,9 @@
 package com.prgrms.commandLineApplication.io;
 
+import com.prgrms.commandLineApplication.voucher.Voucher;
+
+import java.util.List;
+
 public interface Output {
 
   void printMenu();
@@ -10,7 +14,7 @@ public interface Output {
 
   void printError();
 
-  void printVoucherInformation();
+  void printAllVoucher(List<Voucher> vouchers);
 
   void printCreateSuccess();
 
