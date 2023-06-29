@@ -5,7 +5,6 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;
 
-// how to call private
 public final class ConsoleOutput {
 
     private ConsoleOutput() {
