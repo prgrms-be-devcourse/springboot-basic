@@ -50,7 +50,7 @@ public final class Loader {
     public static void saveMemoryVoucherToFile(Map<UUID, Voucher> memoryStorage, String filePath) {
         try (FileWriter writer = new FileWriter(filePath, true)) {
             for (Map.Entry<UUID, Voucher> entry : memoryStorage.entrySet()) {
-                writer.append(Converter.voucherToString(entry.getValue()));
+                writer.append(Converter.voucherToString(entry.getValue()) + "\n");
             }
         } catch (IOException e) {
             throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);
