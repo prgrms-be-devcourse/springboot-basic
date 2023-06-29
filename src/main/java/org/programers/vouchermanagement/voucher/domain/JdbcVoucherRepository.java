@@ -23,7 +23,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "insert into voucher (id, type, value) values (?, ?, ?)";
+        String sql = "insert into voucher (id, type, voucher_value) values (?, ?, ?)";
         jdbcTemplate.update(sql,
                 voucher.getId().toString(),
                 voucher.getType().toString(),
@@ -50,7 +50,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        String sql = "update voucher set type = ?, value = ? where id = ?";
+        String sql = "update voucher set type = ?, voucher_value = ? where id = ?";
         jdbcTemplate.update(sql,
                 voucher.getType().toString(),
                 voucher.getPolicy().getValue(),
@@ -67,7 +67,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return (rs, rowNum) -> {
             Voucher voucher;
             VoucherType type = VoucherType.valueOf(rs.getString("type"));
-            int value = rs.getInt("value");
+            int value = rs.getInt("voucher_value");
             if (type.isFixedAmount()) {
                 voucher = new Voucher(UUID.fromString(rs.getString("id")),
                         new FixedAmountPolicy(value), type);
