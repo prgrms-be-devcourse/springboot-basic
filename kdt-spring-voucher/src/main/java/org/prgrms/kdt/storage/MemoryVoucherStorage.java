@@ -1,14 +1,16 @@
 package org.prgrms.kdt.storage;
 
 import org.prgrms.kdt.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Profile("default")
 public class MemoryVoucherStorage implements VoucherStorage {
-    private final static List<Voucher> memoryVoucherDatabase = new ArrayList<>();
+    private final static List<Voucher> memoryVoucherList = new ArrayList<>();
 
     @Override
     public void saveVoucher(Voucher newVoucher) {
@@ -17,6 +19,6 @@ public class MemoryVoucherStorage implements VoucherStorage {
 
     @Override
     public List<Voucher> findAllVoucher() {
-        return memoryVoucherDatabase;
+        return memoryVoucherList;
     }
 }
