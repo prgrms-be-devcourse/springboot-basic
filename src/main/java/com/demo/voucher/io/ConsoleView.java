@@ -2,6 +2,7 @@ package com.demo.voucher.io;
 
 import com.demo.voucher.domain.Voucher;
 import com.demo.voucher.domain.VoucherType;
+import com.demo.voucher.io.exception.InputError;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -11,23 +12,25 @@ import java.util.Scanner;
 import java.util.UUID;
 
 @Component
-public class ConsoleView implements Input, Output {
+public class ConsoleView implements Input, Output, InputError {
 
     private static final Scanner scanner = new Scanner(System.in);
 
     private static final String VOUCHER_PROGRAM_START_OUTPUT = "=== Voucher Program ===";
+    private static final String REQUEST_MENU_TYPE_PROMPT = "\n명령 메뉴를 입력해주세요 : ";
+    private static final String REQUEST_VOUCHER_TYPE_PROMPT = "생성할 바우처 타입을 입력해주세요 : ";
     private static final String NO_VOUCHER_HISTORY = "등록된 바우처가 없습니다.";
     private static final String SPACE = " ";
 
     @Override
-    public String getMenu(String requestMenuPrompt) {
-        System.out.print(requestMenuPrompt);
+    public String requestMenu() {
+        System.out.print(REQUEST_MENU_TYPE_PROMPT);
         return scanner.nextLine();
     }
 
     @Override
-    public String getVoucherType(String requestVoucherTypePrompt) {
-        System.out.print(requestVoucherTypePrompt);
+    public String requestVoucherType() {
+        System.out.print(REQUEST_VOUCHER_TYPE_PROMPT);
         return scanner.nextLine();
     }
 

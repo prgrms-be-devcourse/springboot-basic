@@ -3,9 +3,9 @@ package com.demo.voucher.io;
 import com.demo.voucher.domain.VoucherType;
 
 public interface Input {
-    String getMenu(String requestMenuPrompt);
+    String requestMenu();
 
-    String getVoucherType(String requestVoucherTypePrompt);
+    String requestVoucherType();
 
     String getAmount(VoucherType voucherType);
 }
