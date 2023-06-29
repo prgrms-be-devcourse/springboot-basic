@@ -22,8 +22,7 @@ class LocalMemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("save()를 이용해 저장하면 저장이 된다.")
-    void testSave() {
+    void save시_저장되어야_한다() {
         // given
         UUID generatedUuid = UUID.randomUUID();
         Voucher generatedVoucher = new PercentageVoucher(generatedUuid, 10.0d);
@@ -37,8 +36,7 @@ class LocalMemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("저장한 바우처는 uuid 그대로 저장된다.")
-    void testFindById() {
+    void 저장한_객체는_uuid_그대로_저장된다() {
         // given
         UUID generatedUuid = UUID.randomUUID();
         Voucher generatedVoucher = new FixedAmountVoucher(generatedUuid, 5000);
@@ -54,8 +52,7 @@ class LocalMemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("여러 바우처를 저장할 경우 모두 저장되어야 한다.")
-    void testFindAll() {
+    void 여러_바우처_저장시_모두_저장되어야_한다() {
         // given
         Voucher voucher1 = new PercentageVoucher(UUID.randomUUID(), 10.0d);
         Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 5000);
@@ -69,8 +66,7 @@ class LocalMemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("존재하는 uuid를 삭제할 경우 삭제되어야 한다.")
-    void testDeleteByIdWhenUuidExists() {
+    void 존재하는_uuid를_삭제할_경우_삭제되어야_한다() {
         // given
         UUID uuid = UUID.randomUUID();
         Voucher voucher = new FixedAmountVoucher(uuid, 5000);
@@ -84,8 +80,7 @@ class LocalMemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 uuid를 삭제할 경우 변화가 없어야 한다.")
-    void testDeleteByIdWhenUuidDoesNotExist() {
+    void 존재하지_않는_uuid_삭제시_저장소의_변화가_없어야_한다() {
         // given
         Voucher generatedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 5000);
 
@@ -99,8 +94,7 @@ class LocalMemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("deleteAll()를 실행하면 저장소가 비어야 한다.")
-    void testDeleteAll() {
+    void deleteAll시_저장소가_비어져야_한다() {
         // given
         Voucher voucher1 = new PercentageVoucher(UUID.randomUUID(), 10.0d);
         Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 5000);
