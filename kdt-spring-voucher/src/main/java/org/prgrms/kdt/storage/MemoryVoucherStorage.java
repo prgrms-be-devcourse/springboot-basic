@@ -1,4 +1,4 @@
-package org.prgrms.kdt.database;
+package org.prgrms.kdt.storage;
 
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MemoryVoucherDatabase implements VoucherDatabase {
+public class MemoryVoucherStorage implements VoucherStorage {
     private final static List<Voucher> memoryVoucherDatabase = new ArrayList<>();
 
     @Override
