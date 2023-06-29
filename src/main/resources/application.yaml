@@ -1,6 +1,6 @@
 system:
   blacklist:
-    allow: true
-    display-uuid: false
+    blacklistAllow: true
+    blacklistShowId: true
   voucher:
-    maximum-fixed-amount: 10000
+    maximum-fixed-amount: 1000
