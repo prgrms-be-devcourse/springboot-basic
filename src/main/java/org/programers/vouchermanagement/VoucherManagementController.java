@@ -31,12 +31,11 @@ public class VoucherManagementController implements CommandLineRunner {
 
             DomainType type = InputView.inputDomainType();
             if (type.isVoucher()) {
-                memberController.findAllInBlacklist(MemberStatus.BLACK);
                 continue;
             }
 
             if (type.isMember()) {
-                voucherController.save();
+                memberController.run();
                 continue;
             }
 

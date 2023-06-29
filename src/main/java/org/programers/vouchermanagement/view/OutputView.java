@@ -1,5 +1,6 @@
 package org.programers.vouchermanagement.view;
 
+import org.programers.vouchermanagement.member.domain.MemberStatus;
 import org.programers.vouchermanagement.member.dto.MemberResponse;
 import org.programers.vouchermanagement.member.dto.MembersResponse;
 import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
@@ -41,6 +42,17 @@ public class OutputView {
         for (VoucherResponse voucher : response.getVouchers()) {
             System.out.printf("%s %s %s%n", voucher.getId(), voucher.getType(), voucher.getValue());
         }
+    }
+
+    public static void outputMemberStatus() {
+        System.out.println("선택할 수 있는 회원 상태 리스트");
+        for (MemberStatus value : MemberStatus.values()) {
+            System.out.printf("%s%n", value);
+        }
+    }
+
+    public static void outputUUIDComment() {
+        System.out.print("수정/삭제할 도메인의 아이디 : ");
     }
 
     public static void outputMembers(MembersResponse response) {
