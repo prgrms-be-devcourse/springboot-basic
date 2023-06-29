@@ -16,6 +16,6 @@ public class CustomerService {
     }
 
     public List<BlackConsumer> blackConsumerList() {
-        return new ArrayList<>(blackListRepository.getBlackConsumerList());
+        return blackListRepository.getBlackConsumerList();
     }
 }
