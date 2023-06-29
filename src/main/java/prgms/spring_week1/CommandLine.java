@@ -39,7 +39,7 @@ public class CommandLine implements Runnable {
             output.printMenuList();
             String selectOption = input.inputTextOption();
             switch (findMenuName(selectOption)) {
-                case EXIT -> System.exit(0);
+                case EXIT -> IS_RUNNING = false;
                 case CREATE -> selectVoucherType();
                 case LIST -> printAllVoucher();
                 case BLACK -> output.printBlackConsumerList(customerService.blackConsumerList());
