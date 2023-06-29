@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("!dev")
+@Profile("default")
 public class MemoryRepository implements VoucherRepository {
     private final List<Voucher> vouchers = new ArrayList<>();
 
@@ -24,13 +24,11 @@ public class MemoryRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        System.out.println("memory");
         return new ArrayList<>(vouchers);
     }
 
     @Override
     public void insert(Voucher voucher) {
-        System.out.println("memory");
         vouchers.add(voucher);
     }
 
