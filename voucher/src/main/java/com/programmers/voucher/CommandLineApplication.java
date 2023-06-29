@@ -1,77 +1,89 @@
 package com.programmers.voucher;
 
 import com.programmers.voucher.console.Console;
-import com.programmers.voucher.domain.Type;
-import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
-import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
-import com.programmers.voucher.domain.voucher.VoucherFactory;
+import com.programmers.voucher.console.Printer;
+import com.programmers.voucher.domain.CommandType;
+import com.programmers.voucher.domain.voucher.*;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 
-public class CommandLineApplication implements Runnable{
+import java.io.IOException;
+
+public class CommandLineApplication implements CommandLineRunner {
     private final Console console;
     private final VoucherStream voucherStream;
     private final VoucherFactory voucherFactory;
     private final BlackListStream blackListStream;
+    private final Printer printer;
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream) {
+    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream, Printer printer) {
         this.console = console;
         this.voucherStream = voucherStream;
         this.voucherFactory = voucherFactory;
         this.blackListStream = blackListStream;
+        this.printer = printer;
     }
-
     @Override
-    public void run() {
+    public void run(String... args) throws Exception {
         while (true) {
-            Type type;
+            CommandType commandType;
             try {
-                type = console.getCondition();
+                String inputCondition = console.getCondition();
+                commandType = convertAndValidateInput(inputCondition);
+                doLogic(commandType);
             } catch (Exception e) {
-                System.out.println("[Error Occurred] " + e.getMessage());
+                log.info("Error Occurred : {}", e.getMessage());
+                printer.printError(e);
                 continue;
             }
-            showListOfVouchers(type);
-            createVouchers(type);
-            showBlackListCustomer(type);
-            if (type == Type.EXIT) {
-                System.out.println("프로그램이 종료됩니다.");
+            if (commandType == CommandType.EXIT) {
+                printer.printEndMessage();
                 break;
             }
         }
     }
 
-    private void showListOfVouchers(Type type) {
-        if (type == Type.LIST) {
-            voucherStream.findAll().forEach(
-                    (k, v) -> {
-                        if (v instanceof FixedAmountVoucher) {
-                            System.out.println("[FixedAmountVoucher | Voucher ID] : " + k + " | discount amount : " + ((FixedAmountVoucher) v).getAmount());
-                        } else {
-                            System.out.println("[PercentDiscountVoucher | ID] : " + k + " | discount percent : " + ((PercentDiscountVoucher) v).getPercent());
-                        }
-                    }
-            );
-        }
+    private CommandType convertAndValidateInput(String inputCondition) {
+        return CommandType.convertStringToCommandType(inputCondition).orElseThrow(
+                () -> new IllegalArgumentException("지원하지 않는 type 입니다. 다시 확인 부탁드립니다.")
+        );
     }
 
-    private void createVouchers(Type type) {
-        if (type == Type.CREATE) {
-            try {
-                voucherFactory.createVoucher(console.getVoucherVersion());
-            } catch (IllegalArgumentException e) {
-                System.out.println();
-                System.out.println("=== Error Occurred ===");
-                System.out.println(e.getMessage());
+    private void doLogic(CommandType commandType) throws IOException {
+        switch (commandType) {
+            case CREATE -> {
+                logicForCommandTypeCreate();
+            }
+            case LIST -> {
+                logicForCommandTypeList();
+            }
+            case BLACK -> {
+                logicForCommandTypeBlack();
             }
         }
     }
 
-    private void showBlackListCustomer(Type type) {
-        if (type == Type.BLACK) {
-            System.out.println();
-            System.out.println(" === BlackList Customer === ");
-            blackListStream.findAll().forEach( c -> System.out.println("- " + c));
+    private void logicForCommandTypeCreate() {
+        try {
+            Integer inputVersion = console.getVoucherVersion();
+            VoucherEnum voucherEnum = VoucherEnum.decideVoucherType(inputVersion);
+            voucherFactory.createVoucher(voucherEnum);
+        } catch (IllegalArgumentException e) {
+            printer.printError(e);
+            System.out.println(e.getMessage());
         }
     }
+
+    private void logicForCommandTypeList() {
+        printer.printListOfVoucher(voucherStream.findAll());
+    }
+
+    private void logicForCommandTypeBlack() throws IOException {
+        printer.printBlackList(blackListStream.findAll());
+    }
+
 }

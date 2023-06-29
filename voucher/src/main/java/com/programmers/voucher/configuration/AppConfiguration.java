@@ -2,6 +2,7 @@ package com.programmers.voucher.configuration;
 
 import com.programmers.voucher.CommandLineApplication;
 import com.programmers.voucher.console.Console;
+import com.programmers.voucher.console.Printer;
 import com.programmers.voucher.console.TextIoConsole;
 import com.programmers.voucher.domain.voucher.VoucherFactory;
 import com.programmers.voucher.stream.BlackListStream;
@@ -18,8 +19,8 @@ public class AppConfiguration {
     }
 
     @Bean
-    public CommandLineApplication commandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream) {
-        return new CommandLineApplication(console, voucherStream, voucherFactory, blackListStream);
+    public CommandLineApplication commandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream, Printer printer) {
+        return new CommandLineApplication(console, voucherStream, voucherFactory, blackListStream, printer);
     }
 
     @Bean
