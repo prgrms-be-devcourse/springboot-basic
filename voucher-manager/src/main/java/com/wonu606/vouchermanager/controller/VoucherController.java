@@ -1,101 +1,61 @@
 package com.wonu606.vouchermanager.controller;
 
-import com.wonu606.vouchermanager.controller.command.CommandResult;
-import com.wonu606.vouchermanager.controller.command.VoucherCommand;
-import com.wonu606.vouchermanager.controller.command.VoucherCreateCommand;
-import com.wonu606.vouchermanager.controller.command.VoucherExitCommand;
-import com.wonu606.vouchermanager.controller.command.VoucherListCommand;
-import com.wonu606.vouchermanager.descriptionGenerator.CreationDescriptionGenerator;
-import com.wonu606.vouchermanager.descriptionGenerator.ExitDescriptionGenerator;
-import com.wonu606.vouchermanager.descriptionGenerator.MenuDescriptionGenerator;
-import com.wonu606.vouchermanager.io.ConsoleInputView;
-import com.wonu606.vouchermanager.io.ConsolePrinterView;
+import com.wonu606.vouchermanager.domain.Voucher;
+import com.wonu606.vouchermanager.io.ConsoleIO;
 import com.wonu606.vouchermanager.service.VoucherService;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import org.springframework.stereotype.Controller;
+import java.util.List;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@Controller
+@Component
+@RequiredArgsConstructor
 public class VoucherController {
 
-    private final VoucherService voucherService;
-    private final Map<String, VoucherCommand> commandMap;
-    private final ConsoleInputView inputView;
-    private final ConsolePrinterView printerView;
-
-    public VoucherController(ConsoleInputView inputView, ConsolePrinterView printerView,
-            VoucherService voucherService) {
-        this.voucherService = voucherService;
-        this.inputView = inputView;
-        this.printerView = printerView;
-
-        commandMap = new HashMap<>();
-        initCommandMap(commandMap);
-        initPrinterView(this.printerView);
-    }
+    private final VoucherService service;
+    private final ConsoleIO consoleIO = new ConsoleIO();
 
     public void run() {
-        CommandResult result = new CommandResult();
-        while (result.isContinuing()) {
-            String menuSelection = getMenuSelection();
-
-            result = executeCommand(menuSelection);
-            reportResult(result);
+        boolean continueProcessing = true;
+        while (continueProcessing) {
+            try {
+                String menuName = consoleIO.selectMenu();
+                continueProcessing = performMenu(menuName);
+            } catch (IllegalArgumentException exception) {
+                consoleIO.displayMessage(exception.getMessage());
+            }
         }
-        close();
+        terminal();
     }
 
-    private String getMenuSelection() {
-        printerView.printMenu();
-        return inputView.inputString("menu");
-    }
+    private boolean performMenu(String menuName) {
+        VoucherMenu menu = VoucherMenu.getVoucherTypeByName(menuName)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
 
-    private CommandResult executeCommand(String commandKey) {
-        VoucherCommand command = commandMap.get(commandKey);
-        if (command == null) {
-            return createErrorResult("존재하지 않는 메뉴입니다.");
+        switch (menu) {
+            case EXIT:
+                return false;
+
+            case LIST:
+                List<Voucher> voucherList = service.getVoucherList();
+                consoleIO.displayVoucherList(voucherList);
+
+            case CREATE:
+                String type = consoleIO.selectVoucherType();
+                double discount = consoleIO.readDouble("discount");
+                service.createVoucher(type, UUID.randomUUID(), discount);
+
+            default:
+                throw new IllegalArgumentException("수행할 수 없는 메뉴입니다.");
         }
-
-        try {
-            return command.execute();
-        } catch (Exception e) {
-            return createErrorResult(e.getMessage());
-        }
     }
 
-    private CommandResult createErrorResult(String exceptionMessage) {
-        CommandResult result = new CommandResult();
-        result.setExceptionMessage(exceptionMessage);
-        return result;
-    }
-
-    private void reportResult(CommandResult result) {
-        result.getExceptionMessage().ifPresent(printerView::printMessage);
-    }
-
-    private void close() {
+    private void terminal() {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException ignored) {
         }
-        inputView.close();
-        printerView.close();
+        consoleIO.displayMessage("곧 프로그램을 종료합니다.");
+        consoleIO.terminal();
     }
-
-    private void initCommandMap(Map<String, VoucherCommand> commandMap) {
-        commandMap.put("create", new VoucherCreateCommand(inputView, printerView, voucherService));
-        commandMap.put("list", new VoucherListCommand(printerView, voucherService));
-        commandMap.put("exit", new VoucherExitCommand(printerView));
-    }
-
-    private void initPrinterView(ConsolePrinterView printerView) {
-        printerView.setMenuDescription(
-                new MenuDescriptionGenerator().generate(new ArrayList<>(commandMap.keySet())));
-        printerView.setCreationDescription(
-                new CreationDescriptionGenerator().generate(voucherService.getVoucherTypes()));
-        printerView.setExitDescription(new ExitDescriptionGenerator().generate());
-    }
-
-
 }
