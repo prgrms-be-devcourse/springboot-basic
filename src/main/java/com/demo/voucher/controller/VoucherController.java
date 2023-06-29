@@ -6,14 +6,8 @@ import com.demo.voucher.io.ConsoleView;
 import com.demo.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
-import java.util.Optional;
-
 @Controller
 public class VoucherController implements Runnable {
-    private static final String EXIT = "exit";
-    private static final String CREATE_VOUCHER = "create";
-    private static final String LIST_ALL_VOUCHERS = "list";
-
     private final ConsoleView consoleView;
     private final VoucherService voucherService;
 
@@ -34,26 +28,27 @@ public class VoucherController implements Runnable {
                 continue;
             }
 
-            switch (inputCommand) {
+            CommandType commandType = CommandType.getCommandType(inputCommand);
+            switch (commandType) {
                 case EXIT -> isProgramRunnable = false;
-                case CREATE_VOUCHER -> {
+                case CREATE -> {
                     consoleView.showVoucherType();
 
                     String inputVoucherType = consoleView.requestVoucherType();
-                    Optional<VoucherType> voucherType = VoucherType.getVoucherTypeByCommand(inputVoucherType);
-                    if (voucherType.isEmpty()) {
+                    if (!VoucherType.isValidVoucherTypeInput(inputVoucherType)) {
                         consoleView.showVoucherTypeError();
                         continue;
                     }
 
-                    String inputAmount = consoleView.getAmount(voucherType.get());
-                    if (!voucherType.get().validateAmount(inputAmount)) {
+                    VoucherType voucherType = VoucherType.getVoucherTypeByCommand(inputVoucherType);
+                    String inputAmount = consoleView.getAmount(voucherType);
+                    if (!voucherType.validateAmount(inputAmount)) {
                         consoleView.showAmountError();
                         continue;
                     }
-                    voucherService.createVoucher(voucherType.get(), inputAmount);
+                    voucherService.createVoucher(voucherType, inputAmount);
                 }
-                case LIST_ALL_VOUCHERS -> consoleView.showAllVouchers(voucherService.findAllVouchers());
+                case LIST -> consoleView.showAllVouchers(voucherService.findAllVouchers());
             }
         }
     }
