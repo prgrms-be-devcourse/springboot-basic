@@ -8,10 +8,7 @@ import programmers.org.voucher.io.VoucherConsole;
 import programmers.org.voucher.service.VoucherService;
 
 import java.util.List;
-import java.util.Optional;
-
-import static programmers.org.voucher.exception.ErrorMessage.COMMAND_ERROR_MESSAGE;
-import static programmers.org.voucher.exception.ErrorMessage.VOUCHER_ERROR_MESSAGE;
+import java.util.NoSuchElementException;
 
 @Component
 public class VoucherController {
@@ -25,39 +22,39 @@ public class VoucherController {
     }
 
     public void run() {
-        while(true) {
+        while (true) {
             voucherConsole.printManual();
             String commandString = voucherConsole.inputCommand();
-            Optional<Command> command = Command.find(commandString);
 
-            if (command.isEmpty()) {
-                voucherConsole.printError(COMMAND_ERROR_MESSAGE.getMessage());
-                continue;
-            }
-
-            switch (command.get()) {
-                case CREATE:
-                    createVoucher();
-                    break;
-                case LIST:
-                    printVoucherList();
-                    break;
-                case EXIT:
-                    return;
+            try {
+                Command command = Command.find(commandString);
+                switch (command) {
+                    case CREATE:
+                        createVoucher();
+                        break;
+                    case LIST:
+                        printVoucherList();
+                        break;
+                    case EXIT:
+                        return;
+                }
+            } catch (NoSuchElementException e) {
+                voucherConsole.printError(e.getMessage());
             }
         }
     }
 
     private void createVoucher() {
         String voucherType = voucherConsole.inputVoucherType();
-        Optional<VoucherType> findVoucherType = VoucherType.find(voucherType);
 
-        if (findVoucherType.isEmpty()) {
-            voucherConsole.printError(VOUCHER_ERROR_MESSAGE.getMessage());
-            return;
+        try {
+            VoucherType findVoucherType = VoucherType.find(voucherType);
+            int voucherInfo = voucherConsole.inputVoucherInfo();
+            voucherService.create(voucherInfo, findVoucherType);
+
+        } catch (NoSuchElementException e) {
+            voucherConsole.printError(e.getMessage());
         }
-        int voucherInfo = voucherConsole.inputVoucherInfo();
-        voucherService.create(voucherInfo, findVoucherType.get());
     }
 
     private void printVoucherList() {
