@@ -6,6 +6,8 @@ import org.programers.vouchermanagement.member.dto.MembersResponse;
 import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
 import org.programers.vouchermanagement.voucher.dto.VouchersResponse;
 import org.programers.vouchermanagement.util.Converter;
+import org.programers.vouchermanagement.wallet.dto.WalletResponse;
+import org.programers.vouchermanagement.wallet.dto.WalletsResponse;
 
 public class OutputView {
 
@@ -17,6 +19,7 @@ public class OutputView {
         for (DomainType value : DomainType.values()) {
             System.out.printf("%d %s%n", value.getNumber(), value);
         }
+        System.out.print("번호 입력 : ");
     }
 
     public static void outputCommand() {
@@ -24,6 +27,7 @@ public class OutputView {
         for (Command value : Command.values()) {
             System.out.printf("%d %s%n", value.getNumber(), value);
         }
+        System.out.print("번호 입력 : ");
     }
 
     public static void outputDiscountPolicyType() {
@@ -58,6 +62,29 @@ public class OutputView {
     public static void outputMembers(MembersResponse response) {
         for (MemberResponse member : response.getMembers()) {
             System.out.println(Converter.toString(member));
+        }
+    }
+
+    public static void outputVoucherIdComment() {
+        System.out.print("바우처 아이디 입력 : ");
+    }
+
+    public static void outputMemberIdComment() {
+        System.out.print("회원 아이디 입력 : ");
+    }
+
+    public static void outputWalletReadOption() {
+        System.out.println("지갑 읽기 옵션 - 어떤 아이디로 조회할지 선택");
+        for (WalletReadOption value : WalletReadOption.values()) {
+            System.out.printf("%d %s%n", value.getNumber(), value);
+        }
+        System.out.print("번호 입력 : ");
+    }
+
+    public static void outputWallets(WalletsResponse response) {
+        for (WalletResponse wallet : response.getWallets()) {
+            System.out.println(String.format("id : %s | voucherId : %s | memberId :  %s",
+                    wallet.getId(), wallet.getVoucher().getId(), wallet.getMember().getId()));
         }
     }
 }
