@@ -152,6 +152,8 @@ replay_pid*
 **/build/
 !src/**/build/
 gradle/
+HELP.md
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -178,3 +180,5 @@ gradle-app.setting
 
 ### ErrorLogs ##
 errorLogs/
+
+
