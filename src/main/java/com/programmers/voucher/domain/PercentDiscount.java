@@ -6,18 +6,25 @@ public class PercentDiscount extends Discount {
 
     private static final long MIN_PERCENT = 1;
     private static final long MAX_PERCENT = 100;
+
+    private final long percent;
     private static final String WRONG_PERCENT_RANGE_MESSAGE =
             MessageFormat.format("[ERROR] 값의 유효범위는 {0}이상 {1}이하입니다.",
                     MIN_PERCENT, MAX_PERCENT);
 
     public PercentDiscount(long percent) {
-        super(VoucherType.PERCENT, percent);
+        super(VoucherType.PERCENT);
         validateDiscountAmount(percent);
+        this.percent = percent;
+    }
+
+    public long getPercent() {
+        return percent;
     }
 
     @Override
     public long applyDiscount(long itemPrice) {
-        return itemPrice - (itemPrice * getValue() / MAX_PERCENT);
+        return itemPrice - (itemPrice * percent / MAX_PERCENT);
     }
 
     private void validateDiscountAmount(long percent) {
