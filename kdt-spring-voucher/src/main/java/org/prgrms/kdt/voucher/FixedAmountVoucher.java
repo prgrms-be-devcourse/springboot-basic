@@ -1,7 +1,6 @@
 package org.prgrms.kdt.voucher;
 
-import org.springframework.stereotype.Component;
-
+import java.text.MessageFormat;
 import java.util.UUID;
 
 
@@ -24,10 +23,13 @@ public class FixedAmountVoucher implements Voucher {
         return finalPrice > 0 ? finalPrice : 0;
     }
 
+    @Override
+    public long getVoucherDiscountValue() {
+        return amount;
     }
 
     @Override
-    public String toString() {
-        return String.format("%-25s id: %s fixedAmount: %d", "[FixedAmountVoucher]", voucherId.toString(), amount);
+    public String getVoucherName() {
+        return MessageFormat.format("[{0}]", getClass().getSimpleName());
     }
 }

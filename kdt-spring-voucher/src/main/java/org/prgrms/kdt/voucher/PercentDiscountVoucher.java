@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 
@@ -23,8 +24,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String toString() {
-        return String.format("%-25s id: %s discountPercent: %d", "[PercentDiscountVoucher]", voucherId.toString(), percent);
+    public long getVoucherDiscountValue() {
+        return percent;
     }
 
+    @Override
+    public String getVoucherName() {
+        return MessageFormat.format("[{0}]", getClass().getSimpleName());
+    }
 }
