@@ -6,6 +6,8 @@ import com.prgrms.model.voucher.VoucherPolicy;
 
 import lombok.*;
 
+import java.util.Objects;
+
 
 @Getter
 @Builder
@@ -19,7 +21,7 @@ public class VoucherResponse {
         throw new IllegalArgumentException(exceptionMessage);
     }
 
-    public long getDiscountedValue() {
+    public double getDiscountedValue() {
         return discount.getDiscount();
     }
 
@@ -28,5 +30,23 @@ public class VoucherResponse {
                 .voucherPolicy(voucher.getVoucherPolicy())
                 .discount(voucher.getVoucherDiscount())
                 .build();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherPolicy, discount);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        VoucherResponse other = (VoucherResponse) obj;
+        return Objects.equals(voucherPolicy, other.voucherPolicy) &&
+                Objects.equals(discount, other.discount);
     }
 }
