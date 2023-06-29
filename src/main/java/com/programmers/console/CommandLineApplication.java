@@ -40,19 +40,22 @@ public class CommandLineApplication {
     private void execute(Command command) {
         switch (command) {
             case EXIT -> isRunning = false;
-            case CREATE -> {
-                VoucherResponseDto responseDto = create();
-                console.printVoucher(responseDto);
-            }
+            case CREATE -> create();
             case LIST -> findAll();
         }
     }
 
-    private VoucherResponseDto create() {
+    private void create() {
+        VoucherRequestDto requestDto = createRequestDtoByUserInput();
+        VoucherResponseDto createdVoucherResponse = createVoucher(requestDto);
+        printVoucher(createdVoucherResponse);
+    }
+
+    private VoucherRequestDto createRequestDtoByUserInput() {
         VoucherType voucherType = inputVoucherInfo();
         long discountInfo = inputDiscountInfo();
         Discount discount = Discount.of(voucherType, discountInfo);
-        return createVoucher(discount);
+        return new VoucherRequestDto(UUID.randomUUID(), discount);
     }
 
     private VoucherType inputVoucherInfo() {
@@ -76,12 +79,15 @@ public class CommandLineApplication {
         }
     }
 
-    private VoucherResponseDto createVoucher(Discount discount) {
-        VoucherRequestDto requestDto = new VoucherRequestDto(UUID.randomUUID(), discount);
+    private VoucherResponseDto createVoucher(VoucherRequestDto requestDto) {
         return voucherController.create(requestDto);
     }
 
     private void findAll() {
         console.printVouchers(voucherController.findAll());
+    }
+
+    private void printVoucher(VoucherResponseDto responseDto) {
+        console.printVoucher(responseDto);
     }
 }
