@@ -21,12 +21,16 @@ public class VoucherService {
 
     public void create(int discount, VoucherType voucherType) {
         switch (voucherType) {
-            case FIXED:
-                saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), discount));
+            case FIXED: {
+                Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
+                saveVoucher(voucher);
                 break;
-            case PERCENT:
-                saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), discount));
+            }
+            case PERCENT: {
+                Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
+                saveVoucher(voucher);
                 break;
+            }
         }
     }
 
