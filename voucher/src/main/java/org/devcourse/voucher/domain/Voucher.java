@@ -12,5 +12,5 @@ public abstract class Voucher {
     public UUID getVoucherId(){
         return voucherId;
     }
-    public abstract long discount(long beforeDiscount) throws IllegalArgumentException;
+    public abstract long discount(long beforeDiscount);
 }
