@@ -68,15 +68,10 @@ public class OutputConsole {
         printMessage(MessageFormat.format("{0} {1}", voucher.toString(), Message.CREATION_DONE_PROMPT));
     }
 
-    public void printVouchers(List<String> voucherList) {
-        printMessage(Message.LIST_VOUCHERS_PROMPT.getMessageText());
-        voucherList.forEach(this::printMessage);
+    public void printList(String message, List<String> list) {
+        printMessage(message);
+        list.forEach(this::printMessage);
         textTerminal.println();
     }
 
-    public void printBlackCustomers(List<String> blackCustomers) {
-        printMessage(Message.BLACK_CUSTOMER_PROMPT.getMessageText());
-        blackCustomers.forEach(this::printMessage);
-        textTerminal.println();
-    }
 }

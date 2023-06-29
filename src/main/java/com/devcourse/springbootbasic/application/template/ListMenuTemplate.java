@@ -24,4 +24,5 @@ public class ListMenuTemplate {
             case BLACK_CUSTOMER_LIST -> customerService.getBlackCustomers();
         };
     }
+
 }
