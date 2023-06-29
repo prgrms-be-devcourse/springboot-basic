@@ -1,6 +1,6 @@
 package org.programers.vouchermanagement.wallet.domain;
 
-import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
+import org.programers.vouchermanagement.global.exception.NoSuchDomainException;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public interface WalletRepository {
 
     default Wallet getById(UUID id) {
         return findById(id).
-                orElseThrow(() -> new NoSuchVoucherException("존재하지 않는 지갑입니다."));
+                orElseThrow(() -> new NoSuchDomainException("존재하지 않는 지갑입니다."));
     }
 
     List<Wallet> findAllByVoucherId(UUID voucherId);

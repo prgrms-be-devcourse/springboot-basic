@@ -1,6 +1,5 @@
 package org.programers.vouchermanagement.voucher.domain;
 
-import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 import org.programers.vouchermanagement.util.Converter;
 import org.springframework.stereotype.Repository;
 

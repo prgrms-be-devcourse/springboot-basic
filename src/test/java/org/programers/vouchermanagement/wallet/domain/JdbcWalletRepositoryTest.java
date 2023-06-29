@@ -1,6 +1,7 @@
 package org.programers.vouchermanagement.wallet.domain;
 
 import org.junit.jupiter.api.*;
+import org.programers.vouchermanagement.global.exception.NoSuchDomainException;
 import org.programers.vouchermanagement.member.domain.Member;
 import org.programers.vouchermanagement.member.domain.MemberRepository;
 import org.programers.vouchermanagement.member.domain.MemberStatus;
@@ -8,7 +9,6 @@ import org.programers.vouchermanagement.voucher.domain.FixedAmountPolicy;
 import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherRepository;
 import org.programers.vouchermanagement.voucher.domain.VoucherType;
-import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -98,7 +98,7 @@ class JdbcWalletRepositoryTest {
 
         // then
         assertThatThrownBy(() -> walletRepository.getById(wallet.getId()))
-                .isInstanceOf(NoSuchVoucherException.class)
+                .isInstanceOf(NoSuchDomainException.class)
                 .hasMessage("존재하지 않는 지갑입니다.");
     }
 }
