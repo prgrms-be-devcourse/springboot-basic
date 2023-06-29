@@ -7,5 +7,7 @@ public interface Voucher {
 
     long discountAppliedPrice(long beforeDiscount);
 
-    public String toString();
+    long getVoucherDiscountValue();
+
+    String getVoucherName();
 }
