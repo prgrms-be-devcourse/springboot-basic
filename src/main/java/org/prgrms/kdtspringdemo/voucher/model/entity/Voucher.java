@@ -14,6 +14,4 @@ public interface Voucher {
     long executeDiscount(long beforeDiscount);
 
     long validateDiscount(long discount);
-
-    String toString();
 }

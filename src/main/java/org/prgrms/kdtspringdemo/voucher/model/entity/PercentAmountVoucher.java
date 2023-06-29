@@ -44,6 +44,7 @@ public class PercentAmountVoucher implements Voucher {
         if (discount <= MIN_DISCOUNT || discount > MAX_DISCOUNT) {
             throw new IllegalArgumentException(OUT_OF_RANGE_DISCOUNT);
         }
+
         return discount;
     }
 }

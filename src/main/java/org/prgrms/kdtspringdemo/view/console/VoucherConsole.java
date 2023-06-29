@@ -40,10 +40,6 @@ public class VoucherConsole {
         output.write(SYSTEM_SHUTDOWN_MESSAGE);
     }
 
-    public void printInvalidCommandSelected() {
-        output.write(INVALID_COMMAND_MESSAGE);
-    }
-
     public String chooseVoucherType() {
         output.write(CHOICE_VOUCHER_TYPE_MESSAGE);
         return input.read();
@@ -62,5 +58,9 @@ public class VoucherConsole {
         if (voucher.getVoucherType().equals(VoucherType.PERCENT)) {
             output.writeFormat(SUCCESS_CREATED_PERCENT_VOUCHER, voucher.getVoucherType().name(), voucher.getDiscount());
         }
+    }
+
+    public void printInvalidCommandSelected() {
+        output.write(INVALID_COMMAND_MESSAGE);
     }
 }

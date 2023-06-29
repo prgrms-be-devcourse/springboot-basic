@@ -43,6 +43,7 @@ public class FixedAmountVoucher implements Voucher {
         if (discount <= MIN_DISCOUNT) {
             throw new IllegalArgumentException(OUT_OF_RANGE_DISCOUNT);
         }
+
         return discount;
     }
 }
