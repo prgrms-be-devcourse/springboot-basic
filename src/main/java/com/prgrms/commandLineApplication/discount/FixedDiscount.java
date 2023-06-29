@@ -1,6 +1,7 @@
 package com.prgrms.commandLineApplication.discount;
 
 import com.prgrms.commandLineApplication.validator.Validator;
+import com.prgrms.commandLineApplication.voucher.VoucherType;
 
 public class FixedDiscount extends Discount {
 
@@ -8,23 +9,23 @@ public class FixedDiscount extends Discount {
   public static final int MINIMUM_VALUE = 0;
   public static final int MAXIMUM_VALUE = 10_000;
 
-  private FixedDiscount(String voucherType, int discountAmount) {
-    super(voucherType);
+  private FixedDiscount(int discountAmount) {
+    super(VoucherType.FIXED);
     this.discountAmount = discountAmount;
-
   }
 
-  public static FixedDiscount of(String voucherType, int discountAmount) {
+  public static FixedDiscount of(int discountAmount) {
     Validator.checkFixedDiscount(discountAmount);
-    return new FixedDiscount(voucherType, discountAmount);
+    return new FixedDiscount(discountAmount);
   }
 
+  @Override
   public int getDiscountAmount() {
     return discountAmount;
   }
 
   @Override
-  public int discount(int price) {
+  public int executeDiscount(int price) {
     return price - discountAmount;
   }
 

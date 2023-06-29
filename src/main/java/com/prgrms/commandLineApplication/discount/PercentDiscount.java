@@ -1,6 +1,7 @@
 package com.prgrms.commandLineApplication.discount;
 
 import com.prgrms.commandLineApplication.validator.Validator;
+import com.prgrms.commandLineApplication.voucher.VoucherType;
 
 public class PercentDiscount extends Discount {
 
@@ -8,22 +9,23 @@ public class PercentDiscount extends Discount {
   public static final int MINIMUM_VALUE = 0;
   public static final int PERCENT_RATE_BASE = 100;
 
-  private PercentDiscount(String voucherType, int discountAmount) {
-    super(voucherType);
+  private PercentDiscount(int discountAmount) {
+    super(VoucherType.PERCENT);
     this.discountAmount = discountAmount;
   }
 
-  public static PercentDiscount of(String voucherType, int discountAmount) {
+  public static PercentDiscount of(int discountAmount) {
     Validator.checkPercentDiscount(discountAmount);
-    return new PercentDiscount(voucherType, discountAmount);
+    return new PercentDiscount(discountAmount);
   }
 
+  @Override
   public int getDiscountAmount() {
     return discountAmount;
   }
 
   @Override
-  public int discount(int price) {
+  public int executeDiscount(int price) {
     return price - (price * discountAmount / PERCENT_RATE_BASE);
   }
 

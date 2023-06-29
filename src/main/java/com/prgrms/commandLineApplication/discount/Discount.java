@@ -1,17 +1,21 @@
 package com.prgrms.commandLineApplication.discount;
 
+import com.prgrms.commandLineApplication.voucher.VoucherType;
+
 public abstract class Discount {
 
-  protected final String voucherType;
+  protected final VoucherType voucherType;
 
-  public Discount(String voucherType) {
+  public Discount(VoucherType voucherType) {
     this.voucherType = voucherType;
   }
 
-  public String getVoucherType() {
+  public VoucherType getVoucherType() {
     return voucherType;
   }
 
-  abstract int discount(int price);
+  public abstract int executeDiscount(int price);
+
+  public abstract int getDiscountAmount();
 
 }
