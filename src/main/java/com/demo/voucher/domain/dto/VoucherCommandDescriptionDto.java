@@ -1,8 +1,5 @@
 package com.demo.voucher.domain.dto;
 
-import lombok.Data;
-
-@Data
 public class VoucherCommandDescriptionDto {
     private final String command;
     private final String description;
