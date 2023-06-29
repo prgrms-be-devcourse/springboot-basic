@@ -7,4 +7,8 @@ public class VoucherException extends RuntimeException {
     public VoucherException(VoucherExceptionMessage exceptionMessage) {
         super(exceptionMessage.getMessage());
     }
+
+    public VoucherException(VoucherExceptionMessage exceptionMessage, Throwable cause) {
+        super(exceptionMessage.getMessage(), cause);
+    }
 }

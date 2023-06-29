@@ -1,11 +1,15 @@
 package org.programmers.VoucherManagement.member.dao;
 
+import org.programmers.VoucherManagement.global.properties.FileProperties;
 import org.programmers.VoucherManagement.io.Console;
 import org.programmers.VoucherManagement.member.domain.Member;
-import org.programmers.VoucherManagement.global.util.Converter;
+import org.programmers.VoucherManagement.global.util.MemberConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,27 +18,31 @@ import java.util.List;
 import static org.programmers.VoucherManagement.global.exception.FileExceptionMessage.CAN_NOT_READ_LINE;
 import static org.programmers.VoucherManagement.global.exception.FileExceptionMessage.NOT_EXIST_FILE;
 
-@Repository
+@Component
 public class FileMemberRepository implements MemberRepository {
-    private static final File file = new File("src/main/resources/file/customer-blacklist.csv");
+    private final File file = new File("src/main/resources/file/customer-blacklist.csv");
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
 
     @Override
     public List<Member> findAllByMemberStatus() {
         List<Member> memberList = new ArrayList<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
+//            List<String> lines = new ArrayList();
+
             while ((line = br.readLine()) != null) {
-                Member member = Converter.toMember(line);
+                Member member = MemberConverter.toMember(line);
                 memberList.add(member);
             }
         } catch (FileNotFoundException ex) {
             logger.info(NOT_EXIST_FILE.getMessage());
-            throw new RuntimeException(NOT_EXIST_FILE.getMessage());
+            throw new RuntimeException(NOT_EXIST_FILE.getMessage(), ex);
         } catch (IOException ex) {
             logger.info(CAN_NOT_READ_LINE.getMessage());
-            throw new RuntimeException(CAN_NOT_READ_LINE.getMessage());
+            throw new RuntimeException(CAN_NOT_READ_LINE.getMessage(),ex);
         }
+
         return memberList;
     }
 }

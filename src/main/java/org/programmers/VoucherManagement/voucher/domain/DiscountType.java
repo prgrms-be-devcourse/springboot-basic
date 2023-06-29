@@ -1,6 +1,5 @@
 package org.programmers.VoucherManagement.voucher.domain;
 
-import lombok.extern.slf4j.Slf4j;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +12,10 @@ import java.util.stream.Collectors;
 
 import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
 
-@Slf4j
 public enum DiscountType {
     PERCENT("percent", "%"),
     FIXED("fixed", "₩");
+
 
     private final String type;
     private final String symbol;
@@ -47,10 +46,13 @@ public enum DiscountType {
     }
 
     public static DiscountType from(String key) {
-        if (DISCOUNT_TYPE_MAP.containsKey(key)) {
-            return DISCOUNT_TYPE_MAP.get(key);
+        try {
+            if (DISCOUNT_TYPE_MAP.containsKey(key)) {
+                return DISCOUNT_TYPE_MAP.get(key);
+            }
+            throw new VoucherException(NOT_EXIST_DISCOUNT_TYPE);
+        } catch (VoucherException e) {
+            throw new VoucherException(NOT_EXIST_DISCOUNT_TYPE, e);
         }
-        logger.info(NOT_EXIST_DISCOUNT_TYPE.getMessage());
-        throw new VoucherException(NOT_EXIST_DISCOUNT_TYPE);
     }
 }

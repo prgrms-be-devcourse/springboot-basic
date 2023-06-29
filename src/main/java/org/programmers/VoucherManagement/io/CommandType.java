@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.command.domain;
+package org.programmers.VoucherManagement.io;
 
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
@@ -23,6 +23,7 @@ public enum CommandType {
             Collections.unmodifiableMap(Arrays
                     .stream(values())
                     .collect(Collectors.toMap(CommandType::getType, Function.identity())));
+
     private final String type;
 
     CommandType(String type) {
@@ -34,6 +35,7 @@ public enum CommandType {
     }
 
     public boolean isExit() {
+
         return this.equals(CommandType.EXIT);
     }
 
@@ -50,10 +52,13 @@ public enum CommandType {
     }
 
     public static CommandType from(String type) {
-        if (COMMAND_TYPE_MAP.containsKey(type)) {
-            return COMMAND_TYPE_MAP.get(type);
+        try{
+            if (COMMAND_TYPE_MAP.containsKey(type)) {
+                return COMMAND_TYPE_MAP.get(type);
+            }
+            throw new VoucherException(NOT_EXIST_COMMAND);
+        }catch (VoucherException e){
+            throw new VoucherException(NOT_EXIST_COMMAND,e);
         }
-        logger.info(NOT_EXIST_COMMAND.getMessage());
-        throw new VoucherException(NOT_EXIST_COMMAND);
     }
 }

@@ -17,9 +17,13 @@ public enum MemberStatus {
     }
 
     public static MemberStatus from(String status) {
-        return Arrays.stream(values())
-                .filter(enumValue -> enumValue.name().equalsIgnoreCase(status))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(NOT_EXIST_MEMBER_STATUS.getMessage()));
+        try {
+            return Arrays.stream(values())
+                    .filter(enumValue -> enumValue.name().equalsIgnoreCase(status))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException(NOT_EXIST_MEMBER_STATUS.getMessage()));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(NOT_EXIST_MEMBER_STATUS.getMessage(), e);
+        }
     }
 }
