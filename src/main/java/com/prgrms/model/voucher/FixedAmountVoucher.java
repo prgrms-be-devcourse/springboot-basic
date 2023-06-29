@@ -9,7 +9,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public long sale(long price) {
-        return price - getVoucherDiscount().getDiscount();
+    public double sale(long price) {
+        return getVoucherDiscount().getDiscount();
     }
 }

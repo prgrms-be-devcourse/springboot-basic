@@ -26,9 +26,9 @@ public abstract class Voucher {
         return voucherPolicy;
     }
 
-    public long getRealPrice(OrderItem orderItem) {
-        return sale(orderItem.productPrice());
+    public double getRealPrice(OrderItem orderItem) {
+        return orderItem.productPrice() - sale(orderItem.productPrice());
     }
-    abstract public long sale(long price);
+    abstract public double sale(long price);
 
 }
