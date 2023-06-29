@@ -1,6 +1,5 @@
 package com.example.voucher.domain.enums;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public enum VoucherType {
@@ -10,13 +9,11 @@ public enum VoucherType {
 	Null("Null");
 
 	private final String typeName;
+	private static final Map<Integer, VoucherType> voucherTypeMap;
 
-	private static final Map<Integer, VoucherType> voucherTypeMap = new HashMap<>() {
-		{
-			put(1, VoucherType.FixedAmount);
-			put(2, VoucherType.PercentDiscount);
-		}
-	};
+	static {
+		voucherTypeMap = Map.of(1, VoucherType.FixedAmount, 2, VoucherType.PercentDiscount);
+	}
 
 	VoucherType(String typeName) {
 		this.typeName = typeName;
