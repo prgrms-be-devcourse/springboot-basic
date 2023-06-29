@@ -15,9 +15,9 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount)  throws IllegalArgumentException{
-        if (beforeDiscount < 0) {
-            throw new IllegalArgumentException("beforeDiscount는 음수일 수 없습니다.");
+    public long discount(long beforeDiscount) throws IllegalArgumentException {
+        if (beforeDiscount < 0 | beforeDiscount < discountAmount) {
+            throw new IllegalArgumentException("Invalid beforeDiscount value:" + beforeDiscount);
         }
         return beforeDiscount - discountAmount;
     }
