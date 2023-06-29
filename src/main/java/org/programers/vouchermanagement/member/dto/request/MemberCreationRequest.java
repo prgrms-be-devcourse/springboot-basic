@@ -1,4 +1,4 @@
-package org.programers.vouchermanagement.member.dto;
+package org.programers.vouchermanagement.member.dto.request;
 
 import org.programers.vouchermanagement.member.domain.MemberStatus;
 

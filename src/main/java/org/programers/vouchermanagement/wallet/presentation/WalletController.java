@@ -5,8 +5,8 @@ import org.programers.vouchermanagement.view.InputView;
 import org.programers.vouchermanagement.view.OutputView;
 import org.programers.vouchermanagement.view.WalletReadOption;
 import org.programers.vouchermanagement.wallet.application.WalletService;
-import org.programers.vouchermanagement.wallet.dto.WalletCreationRequest;
-import org.programers.vouchermanagement.wallet.dto.WalletsResponse;
+import org.programers.vouchermanagement.wallet.dto.request.WalletCreationRequest;
+import org.programers.vouchermanagement.wallet.dto.response.WalletsResponse;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;

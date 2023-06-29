@@ -1,4 +1,4 @@
-package org.programers.vouchermanagement.wallet.dto;
+package org.programers.vouchermanagement.wallet.dto.request;
 
 import java.util.UUID;
 

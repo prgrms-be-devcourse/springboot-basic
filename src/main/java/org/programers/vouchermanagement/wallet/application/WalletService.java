@@ -6,9 +6,9 @@ import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherRepository;
 import org.programers.vouchermanagement.wallet.domain.Wallet;
 import org.programers.vouchermanagement.wallet.domain.WalletRepository;
-import org.programers.vouchermanagement.wallet.dto.WalletCreationRequest;
-import org.programers.vouchermanagement.wallet.dto.WalletResponse;
-import org.programers.vouchermanagement.wallet.dto.WalletsResponse;
+import org.programers.vouchermanagement.wallet.dto.request.WalletCreationRequest;
+import org.programers.vouchermanagement.wallet.dto.response.WalletResponse;
+import org.programers.vouchermanagement.wallet.dto.response.WalletsResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

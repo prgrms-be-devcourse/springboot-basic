@@ -1,4 +1,4 @@
-package org.programers.vouchermanagement.voucher.dto;
+package org.programers.vouchermanagement.voucher.dto.response;
 
 import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherPolicy;
