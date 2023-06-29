@@ -6,6 +6,8 @@ import com.dev.bootbasic.view.dto.VoucherDetailsViewResponse;
 import com.dev.bootbasic.voucher.controller.VoucherController;
 import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,7 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private final ViewManager viewManager;
     private final VoucherController voucherController;
+    private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     public CommandLineApplication(ViewManager viewManager, VoucherController voucherController) {
         this.viewManager = viewManager;
@@ -32,6 +35,7 @@ public class CommandLineApplication implements CommandLineRunner {
             executeApplication();
         } catch (Exception e) {
             viewManager.showMessage(e.getMessage());
+            logger.warn("Log Message: {}", e.getMessage());
             run();
         }
     }
