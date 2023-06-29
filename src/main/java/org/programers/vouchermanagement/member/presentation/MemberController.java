@@ -2,9 +2,9 @@ package org.programers.vouchermanagement.member.presentation;
 
 import org.programers.vouchermanagement.member.application.MemberService;
 import org.programers.vouchermanagement.member.domain.MemberStatus;
-import org.programers.vouchermanagement.member.dto.MemberCreationRequest;
-import org.programers.vouchermanagement.member.dto.MemberUpdateRequest;
-import org.programers.vouchermanagement.member.dto.MembersResponse;
+import org.programers.vouchermanagement.member.dto.request.MemberCreationRequest;
+import org.programers.vouchermanagement.member.dto.request.MemberUpdateRequest;
+import org.programers.vouchermanagement.member.dto.response.MembersResponse;
 import org.programers.vouchermanagement.view.Command;
 import org.programers.vouchermanagement.view.InputView;
 import org.programers.vouchermanagement.view.OutputView;

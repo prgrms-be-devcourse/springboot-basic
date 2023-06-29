@@ -1,13 +1,13 @@
 package org.programers.vouchermanagement.view;
 
 import org.programers.vouchermanagement.member.domain.MemberStatus;
-import org.programers.vouchermanagement.member.dto.MemberResponse;
-import org.programers.vouchermanagement.member.dto.MembersResponse;
-import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
-import org.programers.vouchermanagement.voucher.dto.VouchersResponse;
+import org.programers.vouchermanagement.member.dto.response.MemberResponse;
+import org.programers.vouchermanagement.member.dto.response.MembersResponse;
+import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
+import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
 import org.programers.vouchermanagement.util.Converter;
-import org.programers.vouchermanagement.wallet.dto.WalletResponse;
-import org.programers.vouchermanagement.wallet.dto.WalletsResponse;
+import org.programers.vouchermanagement.wallet.dto.response.WalletResponse;
+import org.programers.vouchermanagement.wallet.dto.response.WalletsResponse;
 
 public class OutputView {
 

@@ -1,4 +1,4 @@
-package org.programers.vouchermanagement.member.dto;
+package org.programers.vouchermanagement.member.dto.response;
 
 import org.programers.vouchermanagement.member.domain.Member;
 

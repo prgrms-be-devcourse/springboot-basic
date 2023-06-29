@@ -2,10 +2,10 @@ package org.programers.vouchermanagement.voucher.application;
 
 import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherRepository;
-import org.programers.vouchermanagement.voucher.dto.VoucherCreationRequest;
-import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
-import org.programers.vouchermanagement.voucher.dto.VoucherUpdateRequest;
-import org.programers.vouchermanagement.voucher.dto.VouchersResponse;
+import org.programers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
+import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
+import org.programers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
+import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

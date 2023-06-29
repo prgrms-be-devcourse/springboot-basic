@@ -1,4 +1,4 @@
-package org.programers.vouchermanagement.voucher.dto;
+package org.programers.vouchermanagement.voucher.dto.response;
 
 import java.util.List;
 

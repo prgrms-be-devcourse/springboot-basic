@@ -2,9 +2,9 @@ package org.programers.vouchermanagement.voucher.presentation;
 
 import org.programers.vouchermanagement.view.Command;
 import org.programers.vouchermanagement.voucher.application.VoucherService;
-import org.programers.vouchermanagement.voucher.dto.VoucherCreationRequest;
-import org.programers.vouchermanagement.voucher.dto.VoucherUpdateRequest;
-import org.programers.vouchermanagement.voucher.dto.VouchersResponse;
+import org.programers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
+import org.programers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
+import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
 import org.programers.vouchermanagement.view.DiscountPolicyType;
 import org.programers.vouchermanagement.view.InputView;
 import org.programers.vouchermanagement.view.OutputView;

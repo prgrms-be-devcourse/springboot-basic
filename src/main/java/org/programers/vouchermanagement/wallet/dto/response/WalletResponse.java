@@ -1,7 +1,7 @@
-package org.programers.vouchermanagement.wallet.dto;
+package org.programers.vouchermanagement.wallet.dto.response;
 
-import org.programers.vouchermanagement.member.dto.MemberResponse;
-import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
+import org.programers.vouchermanagement.member.dto.response.MemberResponse;
+import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.programers.vouchermanagement.wallet.domain.Wallet;
 
 import java.util.UUID;

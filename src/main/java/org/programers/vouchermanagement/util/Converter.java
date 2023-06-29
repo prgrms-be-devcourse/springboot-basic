@@ -2,7 +2,7 @@ package org.programers.vouchermanagement.util;
 
 import org.programers.vouchermanagement.member.domain.Member;
 import org.programers.vouchermanagement.member.domain.MemberStatus;
-import org.programers.vouchermanagement.member.dto.MemberResponse;
+import org.programers.vouchermanagement.member.dto.response.MemberResponse;
 import org.programers.vouchermanagement.voucher.domain.*;
 
 import java.util.UUID;

@@ -4,10 +4,10 @@ import org.programers.vouchermanagement.member.domain.Member;
 import org.programers.vouchermanagement.member.domain.BlacklistRepository;
 import org.programers.vouchermanagement.member.domain.MemberRepository;
 import org.programers.vouchermanagement.member.domain.MemberStatus;
-import org.programers.vouchermanagement.member.dto.MemberCreationRequest;
-import org.programers.vouchermanagement.member.dto.MemberResponse;
-import org.programers.vouchermanagement.member.dto.MemberUpdateRequest;
-import org.programers.vouchermanagement.member.dto.MembersResponse;
+import org.programers.vouchermanagement.member.dto.request.MemberCreationRequest;
+import org.programers.vouchermanagement.member.dto.response.MemberResponse;
+import org.programers.vouchermanagement.member.dto.request.MemberUpdateRequest;
+import org.programers.vouchermanagement.member.dto.response.MembersResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
