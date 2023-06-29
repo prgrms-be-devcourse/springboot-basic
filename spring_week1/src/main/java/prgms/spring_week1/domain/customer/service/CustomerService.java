@@ -3,6 +3,7 @@ package prgms.spring_week1.domain.customer.service;
 import org.springframework.stereotype.Service;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class CustomerService {
         this.blackListRepository = blackListRepository;
     }
 
-    public List<BlackConsumer> blackConsumerList(){
+    public List<BlackConsumer> blackConsumerList() {
         return new ArrayList<>(blackListRepository.getBlackConsumerList());
     }
 }

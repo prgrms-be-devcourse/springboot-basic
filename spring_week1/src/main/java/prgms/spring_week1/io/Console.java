@@ -4,39 +4,40 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public class Console implements Input,Output{
+public class Console implements Input, Output {
     private static final Logger log = LoggerFactory.getLogger(Console.class);
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final String NEW_LINE = "\n";
-    private final String printMenuListMessage = "=== Voucher Program ==="+ NEW_LINE +
-            "Type exit to exit the program."+ NEW_LINE +
-            "Type create to create a new voucher."+ NEW_LINE +
-            "Type list to list all vouchers."+NEW_LINE+
+    private final String printMenuListMessage = "=== Voucher Program ===" + NEW_LINE +
+            "Type exit to exit the program." + NEW_LINE +
+            "Type create to create a new voucher." + NEW_LINE +
+            "Type list to list all vouchers." + NEW_LINE +
             "Type black to list all blackList";
-    private final String printTypeSelectMessage = " === Voucher Select ==="+ NEW_LINE +
+    private final String printTypeSelectMessage = " === Voucher Select ===" + NEW_LINE +
             "Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> FixedAmountVoucher" + NEW_LINE +
             "Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> PercentDiscountVoucher";
 
     @Override
-    public String inputTextOption(){
+    public String inputTextOption() {
         try {
             return br.readLine();
-        }catch (IOException e){
+        } catch (IOException e) {
             printWrongMenuMessage();
             return null;
         }
     }
 
     @Override
-    public String inputVoucherType(){
+    public String inputVoucherType() {
         try {
             return br.readLine();
-        }catch (IOException e){
+        } catch (IOException e) {
             printWrongMenuMessage();
             return null;
         }
@@ -48,8 +49,8 @@ public class Console implements Input,Output{
         try {
             printInsertFixedVoucherMessage();
             long discountAmount = Long.parseLong(br.readLine());
-            while(IS_VALID_AMOUNT){
-                if(discountAmount > 0) {
+            while (IS_VALID_AMOUNT) {
+                if (discountAmount > 0) {
                     break;
                 }
                 printInsertFixedVoucherMessage();
@@ -59,7 +60,7 @@ public class Console implements Input,Output{
             }
             return discountAmount;
 
-        }catch (IOException e){
+        } catch (IOException e) {
             printWrongMenuMessage();
             return null;
         }
@@ -71,8 +72,8 @@ public class Console implements Input,Output{
         try {
             printInsertPercentVoucherMessage();
             int discountAmount = Integer.parseInt(br.readLine());
-            while(IS_VALID_AMOUNT){
-                if(discountAmount > 0 && discountAmount <= 100d) {
+            while (IS_VALID_AMOUNT) {
+                if (discountAmount > 0 && discountAmount <= 100d) {
                     break;
                 }
                 printInsertPercentVoucherMessage();
@@ -82,7 +83,7 @@ public class Console implements Input,Output{
             }
             return discountAmount;
 
-        }catch (IOException e){
+        } catch (IOException e) {
             printWrongMenuMessage();
             return 0;
         }
@@ -101,7 +102,7 @@ public class Console implements Input,Output{
     @Override
     public void printAllVoucher(List<Voucher> voucherList) {
         for (Voucher voucher : voucherList) {
-            switch (voucher.getVoucherType()){
+            switch (voucher.getVoucherType()) {
                 case FIXED -> printDiscountFixedVoucherInfo(voucher);
                 case PERCENT -> printDiscountAmountVoucherInfo(voucher);
             }
@@ -146,7 +147,7 @@ public class Console implements Input,Output{
     @Override
     public void printDiscountFixedVoucherInfo(Voucher fixedAmountVoucher) {
         System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
-                            "할인 가격 :" + fixedAmountVoucher.getDiscount() + "원");
+                "할인 가격 :" + fixedAmountVoucher.getDiscount() + "원");
     }
 
     @Override

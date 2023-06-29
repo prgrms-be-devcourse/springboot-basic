@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +18,17 @@ public class CsvRepository implements BlackListRepository {
     }
 
     @Override
-    public List<BlackConsumer> getBlackConsumerList(){
+    public List<BlackConsumer> getBlackConsumerList() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(CsvFilePath)));
             List<BlackConsumer> blackConsumerList = new ArrayList<>();
             String line = "";
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 String[] consumer = line.split(",");
-                blackConsumerList.add(new BlackConsumer(consumer[0],consumer[1]));
+                blackConsumerList.add(new BlackConsumer(consumer[0], consumer[1]));
             }
             return blackConsumerList;
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("해당 파일이 존재하지 않습니다");
             return null;
         }

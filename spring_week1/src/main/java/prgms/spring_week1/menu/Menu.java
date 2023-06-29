@@ -1,6 +1,7 @@
 package prgms.spring_week1.menu;
 
 import prgms.spring_week1.exception.NoSuchOptionValue;
+
 import java.util.stream.Stream;
 
 public enum Menu {
@@ -16,7 +17,7 @@ public enum Menu {
         this.menuName = menuName;
     }
 
-    public static Menu findMenuType(String inputText) throws NoSuchOptionValue{
+    public static Menu findMenuType(String inputText) throws NoSuchOptionValue {
         return Stream.of(Menu.values())
                 .filter(menu -> menu.menuName.equalsIgnoreCase(inputText))
                 .findFirst()

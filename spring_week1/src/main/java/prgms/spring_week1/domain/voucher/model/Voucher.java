@@ -1,6 +1,7 @@
 package prgms.spring_week1.domain.voucher.model;
 
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
+
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -17,7 +18,10 @@ public abstract class Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
-    public VoucherType getVoucherType() {return  voucherType;}
+
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
 
     public long getDiscount() {
         return discount;

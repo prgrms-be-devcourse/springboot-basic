@@ -16,7 +16,7 @@ import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
 
 @Component
-public class CommandLine implements Runnable{
+public class CommandLine implements Runnable {
     private final Input input;
     private final Output output;
     private final VoucherRepository voucherRepository;
@@ -44,26 +44,26 @@ public class CommandLine implements Runnable{
                 case LIST -> printAllVoucher();
                 case BLACK -> output.printBlackConsumerList(customerService.blackConsumerList());
                 default -> output.printWrongMenuMessage();
-                }
             }
         }
+    }
 
-    private Menu findMenuName(String inputText){
+    private Menu findMenuName(String inputText) {
         try {
-           Menu selectMenu = Menu.findMenuType(inputText);
-           return selectMenu;
-        }catch (NoSuchOptionValue e){
+            Menu selectMenu = Menu.findMenuType(inputText);
+            return selectMenu;
+        } catch (NoSuchOptionValue e) {
             return Menu.INVALID;
         }
     }
 
-    private void selectVoucherType(){
+    private void selectVoucherType() {
         output.printTypeSelectMessage();
         try {
             String select = input.inputVoucherType();
             VoucherType voucherType = voucherService.matchVoucherType(select);
             System.out.println(voucherType);
-            switch (voucherType){
+            switch (voucherType) {
                 case FIXED -> {
                     long discountAmount = input.insertDiscountAmountVoucher();
                     Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
@@ -75,15 +75,15 @@ public class CommandLine implements Runnable{
                     output.printInsertVoucherInfo(newVoucher);
                 }
             }
-        }catch (NoSuchVoucherType e){
+        } catch (NoSuchVoucherType e) {
             output.printNoSuchVoucherType();
         }
     }
 
-    private void printAllVoucher(){
-        try{
+    private void printAllVoucher() {
+        try {
             output.printAllVoucher(voucherRepository.findAll());
-        }catch (EmptyListException e){
+        } catch (EmptyListException e) {
             output.printEmptyListMessage();
         }
     }

@@ -9,11 +9,12 @@ import prgms.spring_week1.io.Output;
 @Configuration
 public class AppConfiguration {
     @Bean
-    public Input input(){
+    public Input input() {
         return new Console();
     }
+
     @Bean
-    public Output output(){
+    public Output output() {
         return new Console();
     }
 }

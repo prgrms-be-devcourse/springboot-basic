@@ -7,6 +7,7 @@ import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.exception.NoSuchVoucherType;
+
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -27,7 +28,7 @@ public class VoucherService {
 
     private VoucherType makeVoucherTypeStream(String inputSelectText) {
         Optional<VoucherType> matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText);
-        if(matchedVoucherType.isEmpty()) {
+        if (matchedVoucherType.isEmpty()) {
             throw new NoSuchVoucherType();
         }
         return matchedVoucherType.get();
