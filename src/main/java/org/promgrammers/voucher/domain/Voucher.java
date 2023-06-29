@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-abstract class Voucher {
+public abstract class Voucher {
     private final long amount;
     private final UUID id;
 
