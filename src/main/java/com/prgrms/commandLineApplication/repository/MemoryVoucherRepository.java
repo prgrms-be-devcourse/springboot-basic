@@ -1,12 +1,14 @@
 package com.prgrms.commandLineApplication.repository;
 
 import com.prgrms.commandLineApplication.voucher.Voucher;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
   private static final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();

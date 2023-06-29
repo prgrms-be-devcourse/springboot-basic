@@ -3,9 +3,11 @@ package com.prgrms.commandLineApplication.service;
 import com.prgrms.commandLineApplication.repository.VoucherRepository;
 import com.prgrms.commandLineApplication.voucher.Voucher;
 import com.prgrms.commandLineApplication.voucher.VoucherFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class VoucherService {
 
   private final VoucherRepository voucherRepository;

@@ -1,7 +1,10 @@
 package com.prgrms.commandLineApplication.voucher;
 
+import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 
+@Component
 public class VoucherFactory {
 
   public static Voucher createVoucher(String voucherType, int discountAmount) {
