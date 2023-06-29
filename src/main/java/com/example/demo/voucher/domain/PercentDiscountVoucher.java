@@ -25,8 +25,9 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     private void isValid(long percent) {
-        if (percent >= 100 || percent <= 0)
+        if (percent >= 100 || percent <= 0) {
             throw new IllegalArgumentException("1~99 사이의 숫자만 입력 가능합니다.");
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.demo.voucher.infrastructure;
 
 import com.example.demo.voucher.domain.Voucher;
 import com.example.demo.voucher.domain.repository.VoucherRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Profile("!dev")
 public class MemoryRepository implements VoucherRepository {
     private final List<Voucher> vouchers = new ArrayList<>();
 
@@ -22,11 +24,13 @@ public class MemoryRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
+        System.out.println("memory");
         return new ArrayList<>(vouchers);
     }
 
     @Override
     public void insert(Voucher voucher) {
+        System.out.println("memory");
         vouchers.add(voucher);
     }
 

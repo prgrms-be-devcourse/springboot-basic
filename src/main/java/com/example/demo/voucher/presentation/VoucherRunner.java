@@ -9,17 +9,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.Environment;
 
 public class VoucherRunner {
 
     private static Logger logger = LoggerFactory.getLogger(VoucherRunner.class);
 
     public static void main(String[] args) {
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.getEnvironment().setActiveProfiles("dev");
+        applicationContext.register(AppConfiguration.class);
+        applicationContext.refresh();
 
         var voucherService = applicationContext.getBean(VoucherService.class);
         var input = applicationContext.getBean(Input.class);
         var output = applicationContext.getBean(Output.class);
+
+        var environment = applicationContext.getBean(Environment.class);
+        String[] activeProfiles = environment.getActiveProfiles();
+        if (activeProfiles.length == 0) {
+            logger.info("No active profiles");
+        } else {
+            for (String profile : activeProfiles) {
+                logger.info("Active profile: {}", profile);
+            }
+        }
 
         String command = "";
 
@@ -37,10 +51,11 @@ public class VoucherRunner {
             } catch (NoSuchBeanDefinitionException ex) {
                 logger.error(ex.getMessage());
                 output.printLine("Unknown command");
-            } catch (IllegalArgumentException ax) {
-                output.printLine(ax.getMessage());
-                logger.error(ax.getMessage());
+            } catch (RuntimeException ex) {
+                output.printLine(ex.getMessage());
+                logger.error(ex.getMessage());
             }
         }
     }
+
 }
