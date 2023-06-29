@@ -2,6 +2,7 @@ package com.wonu606.vouchermanager.repository;
 
 import com.wonu606.vouchermanager.domain.Voucher;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,7 +41,8 @@ public class LocalMemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(voucherStore.values());
+        ArrayList<Voucher> voucherList = new ArrayList<>(voucherStore.values());
+        return Collections.unmodifiableList(voucherList);
     }
 
     @Override
