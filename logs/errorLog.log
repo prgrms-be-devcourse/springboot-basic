@@ -7,7 +7,7 @@ java.lang.IllegalStateException: Failed to execute CommandLineRunner
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
 	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
 Caused by: java.lang.IllegalArgumentException: Invalid value: 123
-	at com.prgmrs.voucher.view.ConsoleViewEnum.findByCommand(ConsoleServiceEnum.java:25)
+	at com.prgmrs.voucher.view.ConsoleViewOptionEnum.findByCommand(ConsoleServiceEnum.java:25)
 	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleService.java:42)
 	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
@@ -21,7 +21,7 @@ java.lang.IllegalStateException: Failed to execute CommandLineRunner
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
 	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
 Caused by: java.lang.IllegalArgumentException: Invalid value: 123
-	at com.prgmrs.voucher.view.ConsoleViewEnum.findByCommand(ConsoleServiceEnum.java:25)
+	at com.prgmrs.voucher.view.ConsoleViewOptionEnum.findByCommand(ConsoleServiceEnum.java:25)
 	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleService.java:42)
 	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
@@ -533,3 +533,17 @@ Caused by: java.lang.IllegalArgumentException: Invalid boolean value [blacklist:
 	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:155)
 	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:73)
 	... 36 common frames omitted
+2023-06-29 01:50:16.658 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.prgmrs.voucher.model.Voucher.getVoucherId()" because "voucher" is null
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:122)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:60)
+	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
