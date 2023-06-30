@@ -9,33 +9,42 @@ public class Console {
 
 	private static Scanner scanner = new Scanner(System.in);
 
+	private static final String APPLICATION_MODE_TYPE_MESSAGE = """
+		=== Voucher Program ===
+		Type exit to exit the program.
+		Type create to create a new voucher.
+		Type list to list all vouchers.
+		""";
+	private static final String VOUCHER_CREATE_TYPE_MESSAGE = """
+		Input Number for select VoucherType
+		1. FixedAmount
+		2. PercentDiscount
+    	""";
+	private static final String DISCOUNT_PRICE_MESSAGE = """
+ 		input price for discount
+ 		""";
+	private static final String DISCOUNT_PERCENT_MESSAGE = """
+		input percent for discount
+		""";
+
 	private Console() {
 
 	}
 
 	public static void printModeType() {
-		System.out.println();
-		System.out.println("=== Voucher Program ===");
-		System.out.println("Type exit to exit the program.");
-		System.out.println("Type create to create a new voucher.");
-		System.out.println("Type list to list all vouchers.");
+		System.out.println(APPLICATION_MODE_TYPE_MESSAGE);
 	}
 
 	public static void printVoucherType() {
-		System.out.println();
-		System.out.println("Input Number for select VoucherType");
-		System.out.println("1. FixedAmount");
-		System.out.println("2. PercentDiscount");
+		System.out.println(VOUCHER_CREATE_TYPE_MESSAGE);
 	}
 
 	public static void printDiscountAmount() {
-		System.out.println();
-		System.out.println("input price for discount");
+		System.out.println(DISCOUNT_PRICE_MESSAGE);
 	}
 
 	public static void printDiscountPercent() {
-		System.out.println();
-		System.out.println("input percent for discount");
+		System.out.println(DISCOUNT_PERCENT_MESSAGE);
 	}
 
 	public static void printVoucherInfo(VoucherDTO voucherDTO) {
@@ -50,7 +59,6 @@ public class Console {
 	}
 
 	public static void printError(String errorMsg) {
-		System.out.println();
 		System.out.println(errorMsg);
 	}
 
