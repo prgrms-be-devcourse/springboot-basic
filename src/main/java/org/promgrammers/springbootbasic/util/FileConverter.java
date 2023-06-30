@@ -45,9 +45,10 @@ public class FileConverter {
         String[] parts = line.split(DELIMITER);
 
         UUID customerId = UUID.fromString(parts[0]);
-        CustomerType voucherType = CustomerType.valueOf(parts[1]);
+        String username = parts[1];
+        CustomerType voucherType = CustomerType.valueOf(parts[2]);
 
-        return new Customer(customerId, voucherType);
+        return new Customer(customerId, username,voucherType);
     }
 
     public static String voucherToLine(Voucher voucher) {

@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CustomerRepository {
+public class FileCustomerRepository {
 
     private final Path filePath;
 
-    public CustomerRepository(@Value("${blackListStoragePath}") String blackListStoragePath) {
+    public FileCustomerRepository(@Value("${blackListStoragePath}") String blackListStoragePath) {
         this.filePath = Paths.get(blackListStoragePath);
     }
 
@@ -40,7 +40,7 @@ public class CustomerRepository {
         List<Customer> customers = new ArrayList<>();
         List<Customer> allCustomers = findAll();
         for (Customer customer : allCustomers) {
-            if (customer.customerType() == customerType) {
+            if (customer.getCustomerType() == customerType) {
                 customers.add(customer);
             }
         }

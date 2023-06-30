@@ -70,8 +70,8 @@ class FileConverterTest {
         Customer customer = FileConverter.parseCustomerFromLine(line);
 
         //then
-        assertThat(customer.customerId()).isEqualTo(expectedCustomerId);
-        assertThat(customer.customerType()).isEqualTo(CustomerType.BLACK);
+        assertThat(customer.getCustomerId()).isEqualTo(expectedCustomerId);
+        assertThat(customer.getCustomerType()).isEqualTo(CustomerType.BLACK);
     }
 
     @Test
