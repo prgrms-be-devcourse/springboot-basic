@@ -13,10 +13,6 @@ public enum CustomerType {
     }
 
     public static boolean isBlacklistedCustomer(CustomerType customerType) {
-        if (customerType == CustomerType.BLACKLIST) {
-            return true;
-        }
-
-        return false;
+        return customerType == CustomerType.BLACKLIST;
     }
 }
