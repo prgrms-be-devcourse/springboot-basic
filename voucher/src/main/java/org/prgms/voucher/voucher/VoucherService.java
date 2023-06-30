@@ -11,12 +11,6 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private static final int INITIAL_MONEY = 100_000;
-    private static final String VOUCHER_TYPE = "바우처 종류";
-    private static final String AFTER_DISCOUNT_VALUE = "할인가";
-    private static final String PUBLISH_DATE = "발행일";
-    private static final String EXPIRATION_DATE = "만료일";
-    private static final String SEPARATOR = ": ";
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -39,19 +33,6 @@ public class VoucherService {
             voucherRepository.save(voucher);
         }
         // exception
-    }
-
-    void listVoucher() {
-        List<Voucher> vouchers = voucherRepository.findAll();
-
-        StringBuilder sb = new StringBuilder();
-
-        for (Voucher voucher : vouchers) {
-            sb.append("\n");
-            sb.append(VOUCHER_TYPE).append(SEPARATOR).append(voucher.getOptionType()).append("\n");
-            sb.append(AFTER_DISCOUNT_VALUE).append(SEPARATOR).append(voucher.discount(INITIAL_MONEY)).append("\n");
-            sb.append(PUBLISH_DATE).append(SEPARATOR).append(voucher.getPublishDate()).append("\n");
-            sb.append(EXPIRATION_DATE).append(SEPARATOR).append(voucher.getExpirationDate()).append("\n");
         }
 
     public List<AmountVoucher> listAmountVoucher() {
