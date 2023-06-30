@@ -1,23 +1,24 @@
 package com.prgms.voucher.voucherproject.domain;
 
+import java.util.InputMismatchException;
+import java.util.stream.Stream;
+
 public enum VoucherType {
-    FIXED(1),
-    PERCENT(2);
+    FIXED(1, "fixed"),
+    PERCENT(2, "percent");
 
-    private int voucherType;
+    private int voucherNum;
+    private String voucherType;
 
-    VoucherType(int i) {
-        this.voucherType = i;
+    VoucherType(int voucherNum, String voucherType) {
+        this.voucherNum = voucherNum;
+        this.voucherType = voucherType;
     }
 
     public static VoucherType getSelectedVoucherType(int selectedNum){
-        switch (selectedNum){
-            case 1:
-                return FIXED;
-            case 2:
-                return PERCENT;
-            default:
-                return null; //TODO: null없애고 싶은데 default를 없애면 return 오류가 남
-        }
+        return Stream.of(VoucherType.values())
+                .filter(voucherType -> voucherType.voucherNum == selectedNum)
+                .findFirst()
+                .orElseThrow(() -> new InputMismatchException("존재하지 않는 바우처 타입입니다."));
     }
 }
