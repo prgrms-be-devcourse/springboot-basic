@@ -74,7 +74,12 @@ public class CommandLine implements Runnable {
                     output.printInsertVoucherInfo(newVoucher);
                 }
                 case PERCENT -> {
+                    output.printInsertPercentVoucherMessage();
                     int discountPercent = input.insertDiscountPercentVoucher();
+                    while(discountPercent < 0 || discountPercent > 100){
+                        output.printInsertPercentVoucherMessage();
+                        discountPercent = input.insertDiscountPercentVoucher();
+                    }
                     Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
                     output.printInsertVoucherInfo(newVoucher);
                 }

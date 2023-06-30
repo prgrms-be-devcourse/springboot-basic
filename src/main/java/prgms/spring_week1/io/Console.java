@@ -61,23 +61,10 @@ public class Console implements Input, Output {
 
     @Override
     public int insertDiscountPercentVoucher() {
-        boolean IS_VALID_AMOUNT = true;
         try {
-            printInsertPercentVoucherMessage();
-            int discountAmount = Integer.parseInt(br.readLine());
-            while (IS_VALID_AMOUNT) {
-                if (discountAmount > 0 && discountAmount <= 100) {
-                    break;
-                }
-                printInsertPercentVoucherMessage();
-                discountAmount = Integer.parseInt(br.readLine());
-
-                System.out.println("error");
-            }
-            return discountAmount;
-
+            Integer discountPercent = Integer.parseInt(br.readLine());
+            return discountPercent;
         } catch (IOException e) {
-            printWrongMenuMessage();
             return 0;
         }
     }
