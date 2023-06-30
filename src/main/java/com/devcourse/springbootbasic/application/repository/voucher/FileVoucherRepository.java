@@ -37,17 +37,17 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<String> findAll() {
-        List<String> voucherRecord = new ArrayList<>();
+        List<String> vouchers = new ArrayList<>();
         try (
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath))
         ) {
-            String record;
-            while ((record = bufferedReader.readLine()) != null) {
-                voucherRecord.add(record);
+            String voucherInfo;
+            while ((voucherInfo = bufferedReader.readLine()) != null) {
+                vouchers.add(voucherInfo);
             }
         } catch (IOException e) {
             throw new InvalidDataException(Message.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
         }
-        return voucherRecord;
+        return vouchers;
     }
 }
