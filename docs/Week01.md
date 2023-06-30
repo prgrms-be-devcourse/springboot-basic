@@ -2,10 +2,9 @@
 
 - [x] Spring Boot CLI 이용 Gradle 프로젝트 구성
   - ![img.png](img/week01-img01.png)
-- [ ] 바우처 관리 Command-line Application 제작
-  - [링크](https://dzone.com/articles/interactive-console-applications-in-java) 참고하여 `text-io` 라이브러리 사용하기
-  - [ ] 스프링부트 애플리케이션으로 생성 (Web 없이)
-  - [ ] 프로그램이 시작하면 아래와 같이 지원가능한 명령어 알려줌
+- [x] 바우처 관리 Command-line Application 제작
+  - [x] 스프링부트 애플리케이션으로 생성 (Web 없이)
+  - [x] 프로그램이 시작하면 아래와 같이 지원가능한 명령어 알려줌
 
 ```shell
 === Voucher Program ===
@@ -14,12 +13,12 @@ Type "create" to create a new voucher.
 Type "list" to list all vouchers.
 ```
 
-  - [ ] create / list 커맨드 지원
+  - [x] create / list 커맨드 지원
     - create 커맨드를 통해 바우처 생성 가능 (FixedAmountVoucher, PercentDiscountVoucher)
     - list 커맨드를 통해 만들어진 바우처 조회 가능
     - `this.바우처` 정보를 메모리에서 관리. (당장은 영속성 고려 X)
-  - [ ] 적절한 로그를 기록하고 `logback` 설정을 해서 에러는 파일로 기록됨
-  - [ ] 실행가능한 `jar` 파일 생성
+  - [x] 적절한 로그를 기록하고 `logback` 설정을 해서 에러는 파일로 기록됨
+  - [x] 실행가능한 `jar` 파일 생성
 
 <br>
 
