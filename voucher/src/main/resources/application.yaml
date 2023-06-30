@@ -5,3 +5,9 @@ filepath:
 mysql:
   user-id: "root"
   password: "1234"
+
+name:
+  voucher:
+    fixed-amount-voucher: "FixedAmountVoucher"
+    percent-discount-voucher: "PercentDiscountVoucher"
+
