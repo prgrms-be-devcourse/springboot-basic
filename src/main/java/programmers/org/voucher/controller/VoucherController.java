@@ -1,5 +1,6 @@
 package programmers.org.voucher.controller;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import programmers.org.voucher.constant.Command;
 import programmers.org.voucher.constant.VoucherType;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
-public class VoucherController {
+public class VoucherController implements CommandLineRunner {
 
     private final VoucherService voucherService;
     private final VoucherConsole voucherConsole;
@@ -21,6 +22,11 @@ public class VoucherController {
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
         this.voucherConsole = new VoucherConsole(new Input(), new Output());
+    }
+
+    @Override
+    public void run(String... args) {
+        run();
     }
 
     public void run() {
