@@ -1,26 +1,24 @@
 package org.prgrms.kdt.model.repository;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.prgrms.kdt.controller.MainController;
-import org.prgrms.kdt.model.entity.Voucher;
+import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Primary
 @Repository
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
 
-	private ObjectMapper objectMapper;
-	private FileIO fileIO;
+	private final ObjectMapper objectMapper;
+	private final FileIO fileIO;
 	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
 	public FileVoucherRepository(ObjectMapper objectMapper, FileIO fileIO) {
@@ -29,33 +27,43 @@ public class FileVoucherRepository implements VoucherRepository{
 	}
 
 	@Override
-	public Voucher createVoucher(Voucher voucher) {
-		return saveVoucher(voucher);
+	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
+		return saveVoucher(voucherEntity);
 	}
 
 	@Override
-	public List<Voucher> readAll() {
+	public List<VoucherEntity> readAll() {
 		String fileAllText = fileIO.loadStringFromFile();
-		List<Voucher> vouchers = null;
-		try {
-			vouchers = objectMapper.readValue(fileAllText, new TypeReference<List<Voucher>>() {});
-		} catch (JsonProcessingException e) {
-			logger.error("readAll 메서드에서 파일 불러오기 실패");
-			logger.error(e.toString());
-		}
-		return vouchers;
+		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
+		return voucherEntities;
+	}
+
+	private List<VoucherEntity> toVoucherEntities(String fileAllText) {
+		List<VoucherEntity> voucherEntities = new ArrayList<>();
+
+		Arrays.stream(fileAllText.split(System.lineSeparator()))
+			.forEach(line -> {
+				try {
+					VoucherEntity voucherEntity = objectMapper.readValue(line, VoucherEntity.class);
+					voucherEntities.add(voucherEntity);
+				} catch (JsonProcessingException e) {
+					logger.error("readAll 메서드에서 파일 불러오기 실패");
+					logger.error(e.toString());
+				}
+			});
+		return voucherEntities;
 	}
 
 	@Override
-	public Voucher saveVoucher(Voucher voucher) {
+	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
 		try {
-			String voucherJson = objectMapper.writeValueAsString(voucher);
+			String voucherJson = objectMapper.writeValueAsString(voucherEntity);
 			fileIO.saveStringToFile(voucherJson + System.lineSeparator());
 		} catch (JsonProcessingException e) {
 			logger.error("save 메서드에서 voucher 저장 실패");
 			logger.error(e.toString());
 		}
 
-		return voucher;
+		return voucherEntity;
 	}
 }

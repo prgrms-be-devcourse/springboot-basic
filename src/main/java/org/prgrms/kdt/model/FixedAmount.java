@@ -14,11 +14,7 @@ public class FixedAmount implements Amount {
 
 	@Override
 	public boolean validate(int amount) {
-		if (amount < 1) {
-			return false;
-		}
-
-		return true;
+		return amount >= 1;
 	}
 
 	@Override

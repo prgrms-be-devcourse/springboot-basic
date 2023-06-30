@@ -15,11 +15,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.FixedAmount;
 import org.prgrms.kdt.model.dto.VoucherDTO;
-import org.prgrms.kdt.model.entity.Voucher;
+import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.InMemoryVoucherRepository;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 
-class VoucherServiceTest {
+class VoucherEntityServiceTest {
 
 	private static Stream<Arguments> voucherDTOProvider() {
 		List<VoucherDTO> voucherDTOS1 = Arrays.asList(
@@ -52,7 +52,7 @@ class VoucherServiceTest {
 	@MethodSource("voucherDTOProvider")
 	void createVoucherTest(List<VoucherDTO> voucherDTOs) {
 		// given
-		Map<Long, Voucher> store = new HashMap<>();
+		Map<Long, VoucherEntity> store = new HashMap<>();
 		VoucherRepository voucherRepository = new InMemoryVoucherRepository(store);
 		VoucherService voucherService = new VoucherService(voucherRepository);
 

@@ -14,11 +14,7 @@ public class PercentAmount implements Amount {
 
 	@Override
 	public boolean validate(int amount) {
-		if (amount <= 0 || amount > 100) {
-			return false;
-		}
-
-		return true;
+		return amount > 0 && amount <= 100;
 	}
 
 	@Override

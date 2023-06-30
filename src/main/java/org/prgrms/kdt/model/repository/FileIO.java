@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class FileIO {
 
-	private final String filePath = "";
+	private final String filePath = "voucher.txt";
 
 	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
@@ -33,6 +33,7 @@ public class FileIO {
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
 				stringBuilder.append(line);
+				stringBuilder.append(System.lineSeparator());
 			}
 			bufferedReader.close();
 			return stringBuilder.toString();

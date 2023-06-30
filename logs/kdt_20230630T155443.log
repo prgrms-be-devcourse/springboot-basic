@@ -1,0 +1,9 @@
+15:54:46.840 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+15:54:55.822 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+15:55:00.252 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
+15:55:03.063 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
+15:55:04.560 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+15:55:09.968 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+15:55:16.624 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+15:55:18.117 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+15:55:20.321 [main] INFO  o.p.kdt.controller.MainController - 바우처 메인 컨트롤러 종료

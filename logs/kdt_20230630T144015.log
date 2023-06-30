@@ -1,0 +1,20 @@
+14:40:19.827 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
+14:40:19.828 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.prgrms.kdt.model.entity.VoucherEntity` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
+ at [Source: (String)"[{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}]"; line: 1, column: 3] (through reference chain: java.util.ArrayList[0])
+14:40:19.828 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+14:40:25.041 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
+14:40:26.854 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
+14:40:31.207 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
+14:40:31.208 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.prgrms.kdt.model.entity.VoucherEntity` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
+ at [Source: (String)"[{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}]{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":-6772873238073566221}"; line: 1, column: 3] (through reference chain: java.util.ArrayList[0])
+14:40:31.208 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+14:40:37.006 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
+14:40:37.007 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.prgrms.kdt.model.entity.VoucherEntity` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
+ at [Source: (String)"[{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}]{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":-6772873238073566221}"; line: 1, column: 3] (through reference chain: java.util.ArrayList[0])
+14:40:37.007 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+14:40:40.888 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
+14:40:52.432 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
+14:40:54.955 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
+14:40:54.956 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.prgrms.kdt.model.entity.VoucherEntity` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
+ at [Source: (String)"[{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}]{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":-6772873238073566221}{"amount":{"amount":100},"voucherType":"PercentDiscountVoucher","voucherId":2009074456848829698}"; line: 1, column: 3] (through reference chain: java.util.ArrayList[0])
+14:40:54.956 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

@@ -2,6 +2,8 @@ package org.prgrms.kdt.enums;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public enum VoucherType {
 	FixedAmountVoucher(1),
 	PercentDiscountVoucher(2);
@@ -18,6 +20,11 @@ public enum VoucherType {
 			.filter(voucher -> voucher.voucherIdx == voucherIdx)
 			.findFirst()
 			.orElseThrow(() -> new IllegalArgumentException(UN_SUPPORTED_VOUCHER_MESSAGE));
+	}
+
+	@JsonCreator
+	public static VoucherType value(String voucherString) {
+		return VoucherType.valueOf(voucherString);
 	}
 
 	public int getVoucherIdx() {

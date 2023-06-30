@@ -1,0 +1,4 @@
+15:02:30.245 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
+15:02:30.246 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "voucherId" (class org.prgrms.kdt.model.entity.VoucherEntity), not marked as ignorable (one known property: "voucherType"])
+ at [Source: (String)"{"voucherType":"FixedAmountVoucher","voucherId":-2607564893433574624}"; line: 1, column: 69] (through reference chain: java.lang.Object[0]->org.prgrms.kdt.model.entity.VoucherEntity["voucherId"])
+15:02:30.246 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

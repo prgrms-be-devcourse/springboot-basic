@@ -1,0 +1,14 @@
+16:16:37.382 [main] INFO  o.p.k.m.r.FileVoucherRepository - {"voucherId":2417062074987446051,"amount":10,"voucherType":"FixedAmountVoucher"}
+{"voucherId":-6295249156531896716,"amount":10,"voucherType":"FixedAmountVoucher"}
+{"voucherId":2740606598656328128,"amount":100,"voucherType":"FixedAmountVoucher"}
+{"voucherId":-8136649390127638347,"amount":10,"voucherType":"FixedAmountVoucher"}
+{"voucherId":2124239445301127757,"amount":10,"voucherType":"FixedAmountVoucher"}
+{"voucherId":4411271803875221743,"amount":10,"voucherType":"FixedAmountVoucher"}
+
+16:16:37.446 [main] ERROR o.p.k.m.r.FileVoucherRepository - 2417062074987446051
+16:16:37.447 [main] ERROR o.p.k.m.r.FileVoucherRepository - -6295249156531896716
+16:16:37.447 [main] ERROR o.p.k.m.r.FileVoucherRepository - 2740606598656328128
+16:16:37.447 [main] ERROR o.p.k.m.r.FileVoucherRepository - -8136649390127638347
+16:16:37.447 [main] ERROR o.p.k.m.r.FileVoucherRepository - 2124239445301127757
+16:16:37.447 [main] ERROR o.p.k.m.r.FileVoucherRepository - 4411271803875221743
+16:16:37.451 [main] INFO  o.p.kdt.controller.MainController - 바우처 리스트 출력

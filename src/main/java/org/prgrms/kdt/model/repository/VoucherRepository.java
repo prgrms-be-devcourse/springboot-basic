@@ -2,13 +2,13 @@ package org.prgrms.kdt.model.repository;
 
 import java.util.List;
 
-import org.prgrms.kdt.model.entity.Voucher;
+import org.prgrms.kdt.model.entity.VoucherEntity;
 
 public interface VoucherRepository {
 
-	Voucher createVoucher(Voucher voucher);
+	VoucherEntity createVoucher(VoucherEntity voucherEntity);
 
-	List<Voucher> readAll();
+	List<VoucherEntity> readAll();
 
-	Voucher saveVoucher(Voucher voucher);
+	VoucherEntity saveVoucher(VoucherEntity voucherEntity);
 }

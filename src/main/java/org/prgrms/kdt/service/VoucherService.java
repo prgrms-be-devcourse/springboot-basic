@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.prgrms.kdt.controller.MainController;
 import org.prgrms.kdt.model.dto.VoucherDTO;
-import org.prgrms.kdt.model.entity.Voucher;
+import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.util.VoucherMapper;
 import org.slf4j.Logger;
@@ -25,8 +25,8 @@ public class VoucherService {
 	}
 
 	public void createVoucher(VoucherDTO voucherDTO) {
-		Voucher voucher = VoucherMapper.toVoucher(voucherDTO);
-		voucherRepository.createVoucher(voucher);
+		VoucherEntity voucherEntity = VoucherMapper.toVoucher(voucherDTO);
+		voucherRepository.createVoucher(voucherEntity);
 	}
 
 	public List<VoucherDTO> getVouchers() {

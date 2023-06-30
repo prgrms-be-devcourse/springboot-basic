@@ -3,7 +3,7 @@ package org.prgrms.kdt;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.prgrms.kdt.model.entity.Voucher;
+import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.FileIO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,13 +16,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AppConfig {
 
 	@Bean
-	Map<Long, Voucher> getInMemoryVoucherMap() {
+	Map<Long, VoucherEntity> getInMemoryVoucherMap() {
 		return new HashMap<>();
 	}
 
 	@Bean
-	FileIO getFileIO(){ return new FileIO(); }
+	FileIO getFileIO() {
+		return new FileIO();
+	}
 
 	@Bean
-	ObjectMapper getObjectMapper() { return new ObjectMapper(); }
+	ObjectMapper getObjectMapper() {
+		return new ObjectMapper();
+	}
 }
