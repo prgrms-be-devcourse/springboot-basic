@@ -19,12 +19,6 @@ import java.io.IOException;
 public class VoucherController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
-    private static final String VOUCHER_OPTION_MESSAGE = "input F or P(F: Fixed, P: Percent)";
-    private static final String FIXED_AMOUNT_INPUT_MESSAGE = "input fixed amount";
-    private static final String FIXED_AMOUNT_VOUCHER_CREATE_MESSAGE = "Fixed Amount Voucher Created!!";
-    private static final String PERCENT_DISCOUNT_INPUT_MESSAGE = "input percent discount";
-    private static final String PERCENT_DISCOUNT_VOUCHER_CREATE_MESSAGE = "Percent Discount Voucher Created!!";
-
     private final VoucherService voucherService;
     private final IOController ioController;
 

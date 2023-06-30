@@ -1,5 +1,8 @@
-package com.programmers.springbasic.domain.voucher.model;
+package com.programmers.springbasic.domain.voucher.view;
 
+import lombok.Getter;
+
+@Getter
 public enum VoucherMenu {
     MAIN_MENU_MESSAGE("=== Voucher Program ==="),
     EXIT_MENU_MESSAGE("Type exit to exit the program."),
@@ -10,10 +13,5 @@ public enum VoucherMenu {
 
     VoucherMenu(String message) {
         this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return message;
     }
 }
