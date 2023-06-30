@@ -1,6 +1,5 @@
 package co.programmers.voucher_management.voucher.controller;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.slf4j.Logger;
@@ -8,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
+import co.programmers.voucher_management.exception.InvalidUserInputException;
 import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
 import co.programmers.voucher_management.voucher.dto.Response;
@@ -32,10 +32,10 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		String menu;
 		Response response;
-		do {
+		while (true) {
 			outputView.printGuideMessage();
 			menu = inputView.input();
 			logger.info("Input : {}", menu);
@@ -56,19 +56,19 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 					break;
 			}
 			outputView.print(response);
-		} while (!"EXIT".equalsIgnoreCase(menu));
-	}
-
-	private Response createVoucher() throws IOException {
-		try {
-			VoucherRequestDTO voucherRequestDTO = request();
-			return creationService.run(voucherRequestDTO);
-		} catch (NumberFormatException numberFormatException) {
-			return new Response(Response.State.FAILED, "* Invalid Input for voucher *");
 		}
 	}
 
-	VoucherRequestDTO request() throws IOException, NumberFormatException {
+	private Response<String> createVoucher() {
+		try {
+			VoucherRequestDTO voucherRequestDTO = request();
+			return creationService.run(voucherRequestDTO);
+		} catch (InvalidUserInputException invalidUserInputException) {
+			return new Response<>(Response.State.FAILED, invalidUserInputException.getMessage());
+		}
+	}
+
+	VoucherRequestDTO request() {
 		String requestMessageFormat = "Input {0} >> ";
 
 		outputView.print(MessageFormat.format(requestMessageFormat, "amount"));
