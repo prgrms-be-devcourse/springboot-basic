@@ -19,21 +19,21 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public String inputCommand(String command) {
-        System.out.println("명령어를 입력해주세요.(exit,create,list)");
+    public String inputCommand() {
+        System.out.print("명령어를 입력해주세요.(exit,create,list) :");
         return input.nextLine();
     }
 
     @Override
-    public String inputVoucherType(String voucherType) {
-        System.out.println("생성할 voucher의 종류를 입력해주세요.(FixedAmountVoucher, PercentDiscountVoucher)");
+    public String inputVoucherType() {
+        System.out.print("생성할 voucher의 종류를 입력해주세요.(FixedDiscountVoucher, PercentDiscountVoucher) : ");
         return input.nextLine();
     }
 
     @Override
-    public long inputVoucherDiscount(long voucherDiscount) {
+    public long inputVoucherDiscount() {
         System.out.println("생성할 voucher의 금액을 입력해주세요!");
-        return input.nextInt();
+        return Long.parseLong(input.nextLine());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Console implements Input, Output {
         } else {
             System.out.println("생성된 Voucher의 목록은 다음과 같습니다.");
             for (Voucher voucher : voucherMap.values()) {
-                System.out.println("Voucher Type: " + voucher.getVoucherType() + "Discount" + voucher.getDiscount());
+                System.out.println("Voucher Type: " + voucher.getVoucherType() + " + Discount" + voucher.getDiscount());
             }
         }
     }
