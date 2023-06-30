@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PercentDiscountVoucher extends Voucher {
 
-  private static final double FULL_PERCENT = 100;
+  private static final double MAX_PERCENT = 100;
+  private static final long MIN_PERCENT = 0;
   private final UUID voucherId;
   private final long discountPercent;
 
@@ -17,7 +18,14 @@ public class PercentDiscountVoucher extends Voucher {
 
   @Override
   public double discountedPrice(long price) {
-    return price * (discountPercent / FULL_PERCENT);
+    checkDiscountPercent();
+    return price - price * (discountPercent / MAX_PERCENT);
+  }
+
+  private void checkDiscountPercent() {
+    if (discountPercent > MAX_PERCENT || discountPercent < MIN_PERCENT) {
+      throw new IllegalArgumentException("할인율 범위를 확인해주세요.");
+    }
   }
 
   @Override
