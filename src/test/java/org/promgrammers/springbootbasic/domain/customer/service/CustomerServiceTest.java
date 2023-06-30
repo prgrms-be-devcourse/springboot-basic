@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomerResponse;
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersResponse;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
-import org.promgrammers.springbootbasic.domain.customer.repository.CustomerRepository;
+import org.promgrammers.springbootbasic.domain.customer.repository.FileCustomerRepository;
 
 import java.util.List;
 
@@ -17,12 +17,12 @@ class CustomerServiceTest {
 
     private String blackListStoragePath = "src/main/resources/storage/blacklist.csv";
     private CustomerService customerService;
-    private CustomerRepository customerRepository;
+    private FileCustomerRepository fileCustomerRepository;
 
     @BeforeEach
     void setUp() {
-        customerRepository = new CustomerRepository(blackListStoragePath);
-        customerService = new CustomerService(customerRepository);
+        fileCustomerRepository = new FileCustomerRepository(blackListStoragePath);
+        customerService = new CustomerService(fileCustomerRepository);
     }
 
     @Test
