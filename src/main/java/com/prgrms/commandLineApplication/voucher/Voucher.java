@@ -1,7 +1,8 @@
 package com.prgrms.commandLineApplication.voucher;
 
 import com.prgrms.commandLineApplication.voucher.discount.Discount;
-import com.prgrms.commandLineApplication.validator.Validator;
+import com.prgrms.commandLineApplication.voucher.validator.VoucherValidator;
+import com.prgrms.commandLineApplication.voucher.discount.validator.DiscountValidator;
 
 import java.util.UUID;
 
@@ -11,7 +12,8 @@ public class Voucher {
   private final Discount discount;
 
   public Voucher(UUID voucherId, Discount discount) {
-    Validator.checkId(voucherId);
+    VoucherValidator.checkId(voucherId);
+    DiscountValidator.checkDiscount(discount);
     this.voucherId = voucherId;
     this.discount = discount;
   }
