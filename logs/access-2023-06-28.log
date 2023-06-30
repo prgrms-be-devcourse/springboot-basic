@@ -1,0 +1,111 @@
+14:28:39.302 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLException: No suitable driver found for jdbc:mysql//localhost/week1
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:706)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.insertCustomer(JdbcCustomerRepository.java:70)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:85)
+14:28:39.338 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLException: No suitable driver found for jdbc:mysql//localhost/week1
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:706)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.insertCustomer(JdbcCustomerRepository.java:70)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:86)
+14:28:39.339 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLException: No suitable driver found for jdbc:mysql//localhost/week1
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:706)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.findAllNames(JdbcCustomerRepository.java:48)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:88)
+14:30:19.194 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLException: No suitable driver found for jdbc:mysql//localhost/week1
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:706)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.insertCustomer(JdbcCustomerRepository.java:71)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:86)
+14:30:19.207 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLException: No suitable driver found for jdbc:mysql//localhost/week1
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:706)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.insertCustomer(JdbcCustomerRepository.java:71)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:87)
+14:30:19.210 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLException: No suitable driver found for jdbc:mysql//localhost/week1
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:706)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.findAllNames(JdbcCustomerRepository.java:49)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:89)
+14:31:49.202 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 0c2a6325-7082-3bfc-9f10-2179185c2a2c, createdAt -> new-user
+14:31:49.210 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 3226c7dc-c81e-3cda-9c9c-21754835bb68, createdAt -> tester00
+14:31:49.211 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 88bcb2d5-3a93-386f-a03d-6e66a7cece65, createdAt -> tester01
+14:31:49.214 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 725e73ce-4a36-3fde-87dc-5aa9b6ebad9e, createdAt -> tester02
+14:31:49.215 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> d7476d62-e578-3a47-a91a-633c0c1d030a, createdAt -> new-user2
+14:31:49.218 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : new-user
+14:31:49.219 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : tester00
+14:31:49.219 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : tester01
+14:31:49.220 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : tester02
+14:31:49.221 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : new-user2
+14:33:09.806 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLException: No value specified for parameter 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1084)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.deleteAllCustomers(JdbcCustomerRepository.java:89)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:100)
+14:33:09.814 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- deleted count -> 0
+14:33:10.206 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'new-user@gmail.com' for key 'customers.unq_user_email'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:118)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.insertCustomer(JdbcCustomerRepository.java:77)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:103)
+14:33:10.506 [main] ERROR o.p.k.v.r.JdbcCustomerRepository -- Gor error while closing connection
+java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'new-user2@gmail.com' for key 'customers.unq_user_email'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:118)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.insertCustomer(JdbcCustomerRepository.java:77)
+	at org.prgrms.kdt.repository.JdbcCustomerRepository.main(JdbcCustomerRepository.java:104)
+14:33:10.821 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 0c2a6325-7082-3bfc-9f10-2179185c2a2c, createdAt -> new-user
+14:33:10.826 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 3226c7dc-c81e-3cda-9c9c-21754835bb68, createdAt -> tester00
+14:33:10.827 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 88bcb2d5-3a93-386f-a03d-6e66a7cece65, createdAt -> tester01
+14:33:10.829 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 725e73ce-4a36-3fde-87dc-5aa9b6ebad9e, createdAt -> tester02
+14:33:10.830 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> d7476d62-e578-3a47-a91a-633c0c1d030a, createdAt -> new-user2
+14:33:10.851 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : new-user
+14:33:10.852 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : tester00
+14:33:10.852 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : tester01
+14:33:10.853 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : tester02
+14:33:10.857 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : new-user2
+14:34:17.299 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- deleted count -> 5
+14:34:17.959 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 56820807-afa1-3405-aada-abfede554191, createdAt -> new-user
+14:34:17.962 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 2132b87a-f7cb-3861-9bf4-173542fc1663, createdAt -> new-user2
+14:34:17.966 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : new-user
+14:34:17.983 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : new-user2
+14:40:12.156 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- deleted count -> 2
+14:40:13.153 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 5bf84956-6da3-38c9-93b2-28f8c2cd9d31, createdAt -> updated-user2
+14:40:13.155 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 7404c340-de12-39f6-b5a7-96b57d0b9a44, createdAt -> new-user
+14:40:13.160 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : updated-user2
+14:40:13.161 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found name : new-user
+15:05:58.058 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- deleted count -> 3
+15:05:58.094 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- created customerId -> b6597efb-545f-4b65-b71f-b19340067d9d
+15:05:58.504 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 9c0a2e7e-bc1a-36dc-8450-e7c0f932780a, createdAt -> new-user
+15:05:58.509 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found customerId : 9c0a2e7e-bc1a-36dc-8450-e7c0f932780a
+15:09:05.299 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- deleted count -> 1
+15:09:05.334 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- created customerId -> f379bea8-2036-490a-9d76-69ba4198b512
+15:09:05.695 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> 5ae56557-43e3-3e25-9cc9-e86196760607, createdAt -> new-user
+15:09:05.715 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found customerId : 5ae56557-43e3-3e25-9cc9-e86196760607
+15:12:31.517 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- deleted count -> 1
+15:12:31.549 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- created customerId -> d0eaf6fc-67f0-4a70-9b89-c8165aee7812
+15:12:32.008 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- customer id -> d0eaf6fc-67f0-4a70-9b89-c8165aee7812, createdAt -> new-user
+15:12:32.017 [main] INFO  o.p.k.v.r.JdbcCustomerRepository -- Found customerId : d0eaf6fc-67f0-4a70-9b89-c8165aee7812
