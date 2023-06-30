@@ -44,7 +44,6 @@ public class Console implements Input, Output {
         try {
             return br.readLine();
         } catch (IOException e) {
-            printWrongMenuMessage();
             return null;
         }
     }
