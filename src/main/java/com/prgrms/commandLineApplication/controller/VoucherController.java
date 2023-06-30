@@ -34,7 +34,7 @@ public class VoucherController {
           default -> console.printMenuError();
         }
       } catch (RuntimeException e) {
-        System.out.println(e.getMessage());
+        console.printErrorMessage(e);
       }
     }
   }

@@ -18,4 +18,6 @@ public interface Output {
 
   void printCreateSuccess();
 
+  void printErrorMessage(Exception e);
+
 }
