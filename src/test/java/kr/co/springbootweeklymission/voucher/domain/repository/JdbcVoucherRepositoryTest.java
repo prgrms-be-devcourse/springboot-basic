@@ -84,4 +84,18 @@ class JdbcVoucherRepositoryTest {
         assertThat(actual.getVoucherPolicy()).isEqualTo(VoucherPolicy.PERCENT_DISCOUNT);
         assertThat(actual.getAmount()).isEqualTo(20);
     }
+
+    @Test
+    @Order(5)
+    void 특정_바우처를_삭제() {
+        //given
+        Voucher voucher = VoucherCreators.createFixedDiscount();
+        voucherRepository.save(voucher);
+
+        //when
+        voucherRepository.deleteById(voucher.getVoucherId());
+
+        //then
+        assertThat(voucherRepository.findById(voucher.getVoucherId()).isEmpty()).isTrue();
+    }
 }

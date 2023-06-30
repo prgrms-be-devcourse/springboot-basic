@@ -3,6 +3,7 @@ package kr.co.springbootweeklymission.voucher.domain.repository;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -40,10 +41,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 "select * " +
                 "from tbl_vouchers " +
                 "where voucher_id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(
-                sql,
-                voucherRowMapper(),
-                voucherId.toString()));
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(
+                    sql,
+                    voucherRowMapper(),
+                    voucherId.toString()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -66,6 +71,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucher.getAmount(),
                 voucher.getVoucherPolicy().toString(),
                 voucher.getVoucherId().toString());
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        String sql = "" +
+                "delete from tbl_vouchers " +
+                "where voucher_id = ?";
+        jdbcTemplate.update(sql, voucherId.toString());
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
