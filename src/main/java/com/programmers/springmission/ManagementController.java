@@ -36,17 +36,9 @@ public class ManagementController implements CommandLineRunner {
                 OptionType inputValue = OptionType.of(console.inputOption());
 
                 switch (inputValue) {
-                    case EXIT:
-                        exitVoucherProgram();
-                        break;
-                    case CREATE:
-                        createVoucher();
-                        break;
-                    case LIST:
-                        loadVoucherList();
-                        break;
-                    default:
-                        exitVoucherProgram();
+                    case EXIT -> exitVoucherProgram();
+                    case CREATE -> createVoucher();
+                    case LIST -> loadVoucherList();
                 }
             } catch (VoucherException voucherException) {
                 console.output(voucherException.getMessage());
