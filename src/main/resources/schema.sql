@@ -15,16 +15,8 @@ create table tbl_vouchers (
 create table tbl_members (
     member_id varchar(50) not null unique ,
     member_status varchar(50) not null ,
+    voucher_id varchar(50) ,
 
-    primary key (member_id)
-);
-
-create table tbl_vouchers_members (
-    voucher_member_id varchar(50) not null unique ,
-    voucher_id varchar(50) not null ,
-    member_id varchar(5) not null ,
-
-    primary key (voucher_member_id) ,
-    foreign key (voucher_id) references tbl_vouchers (voucher_id) on delete cascade on update cascade ,
-    foreign key (member_id) references tbl_members (member_id) on delete cascade on update cascade
+    primary key (member_id) ,
+    foreign key (voucher_id) references tbl_vouchers (voucher_id)
 );
