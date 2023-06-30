@@ -1,5 +1,6 @@
 package com.programmers.springbasic.domain.voucher.controller;
 
+import com.programmers.springbasic.domain.voucher.view.IOConsole;
 import com.programmers.springbasic.domain.voucher.dto.request.CommandDTO;
 import com.programmers.springbasic.domain.voucher.dto.request.CreateFixedAmountVoucherRequestDTO;
 import com.programmers.springbasic.domain.voucher.dto.request.CreatePercentDiscountVoucherRequestDTO;
@@ -7,6 +8,7 @@ import com.programmers.springbasic.domain.voucher.dto.request.VoucherOptionDTO;
 import com.programmers.springbasic.domain.voucher.model.CommandOption;
 import com.programmers.springbasic.domain.voucher.model.VoucherOption;
 import com.programmers.springbasic.domain.voucher.service.VoucherService;
+import com.programmers.springbasic.domain.voucher.view.VoucherCreateMessage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,50 +22,50 @@ public class VoucherController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     private final VoucherService voucherService;
-    private final IOController ioController;
+    private final IOConsole ioConsole = new IOConsole();
 
     private boolean keepGoingFlag = true;
 
     public void run() throws IOException {
         try {
             while (keepGoingFlag) {
-                ioController.showMenu();
+                ioConsole.showMenu();
 
-                String inputCommand = ioController.getInput();
+                String inputCommand = ioConsole.getInput();
                 CommandDTO commandDTO = new CommandDTO(inputCommand);
 
                 executeCommand(commandDTO);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-            ioController.closeIOResource();
+            ioConsole.closeIOResource();
         }
     }
 
     private void executeCommand(CommandDTO inputCommandDTO) throws Exception {
         String command = inputCommandDTO.getInputCommand();
 
-        if (command.equals(CommandOption.CREATE.toString())) {
-            ioController.printSingleOutput(VOUCHER_OPTION_MESSAGE);
+        if (command.equals(CommandOption.CREATE.getCommand())) {
+            ioConsole.printSingleOutput(VoucherCreateMessage.VOUCHER_OPTION_MESSAGE.getMessage());
 
-            String inputVoucherOption = ioController.getInput();
+            String inputVoucherOption = ioConsole.getInput();
             VoucherOptionDTO voucherOptionDTO = new VoucherOptionDTO(inputVoucherOption);
 
             handleCreateVoucher(voucherOptionDTO); // create voucher
             return;
         }
 
-        if (command.equals(CommandOption.LIST.toString())) {
-            ioController.printSingleOutput(VOUCHER_OPTION_MESSAGE);
+        if (command.equals(CommandOption.LIST.getCommand())) {
+            ioConsole.printSingleOutput(VoucherCreateMessage.VOUCHER_OPTION_MESSAGE.getMessage());
 
-            String inputVoucherOption = ioController.getInput();
+            String inputVoucherOption = ioConsole.getInput();
             VoucherOptionDTO voucherOptionDTO = new VoucherOptionDTO(inputVoucherOption);
 
             handleListVoucher(voucherOptionDTO);    // list voucher
             return;
         }
 
-        if (command.equals(CommandOption.EXIT.toString())) {
+        if (command.equals(CommandOption.EXIT.getCommand())) {
             keepGoingFlag = false;
         }
     }
@@ -71,44 +73,34 @@ public class VoucherController {
     private void handleCreateVoucher(VoucherOptionDTO voucherOptionDTO) throws IOException {
         String voucherOption = voucherOptionDTO.getVoucherOption();
 
-        if (voucherOption.equals(VoucherOption.FIXED_AMOUNT_VOUCHER.toString())) {
-            ioController.printSingleOutput(FIXED_AMOUNT_INPUT_MESSAGE);
-            String fixedAmountInput = ioController.getInput();
+        if (voucherOption.equals(VoucherOption.FIXED_AMOUNT_VOUCHER.getVoucherOption())) {
+            ioConsole.printSingleOutput(VoucherCreateMessage.FIXED_AMOUNT_INPUT_MESSAGE.getMessage());
+            String fixedAmountInput = ioConsole.getInput();
             CreateFixedAmountVoucherRequestDTO createFixedAmountVoucherRequestDTO = new CreateFixedAmountVoucherRequestDTO(fixedAmountInput);
 
-            double fixedAmount = getFixedAmountFromInput(createFixedAmountVoucherRequestDTO);
-            voucherService.createFixedAmountVoucher(fixedAmount);
-            ioController.printSingleOutput(FIXED_AMOUNT_VOUCHER_CREATE_MESSAGE);
+            voucherService.createFixedAmountVoucher(createFixedAmountVoucherRequestDTO);
+            ioConsole.printSingleOutput(VoucherCreateMessage.FIXED_AMOUNT_VOUCHER_CREATE_MESSAGE.getMessage());
         }
 
-        if (voucherOption.equals(VoucherOption.PERCENT_DISCOUNT_VOUCHER.toString())) {
-            ioController.printSingleOutput(PERCENT_DISCOUNT_INPUT_MESSAGE);
-            String percentDiscountInput = ioController.getInput();
+        if (voucherOption.equals(VoucherOption.PERCENT_DISCOUNT_VOUCHER.getVoucherOption())) {
+            ioConsole.printSingleOutput(VoucherCreateMessage.PERCENT_DISCOUNT_INPUT_MESSAGE.getMessage());
+            String percentDiscountInput = ioConsole.getInput();
             CreatePercentDiscountVoucherRequestDTO createPercentDiscountVoucherRequestDTO = new CreatePercentDiscountVoucherRequestDTO(percentDiscountInput);
 
-            double percentDiscount = getPercentDiscountFromInput(createPercentDiscountVoucherRequestDTO);
-            voucherService.createPercentDiscountVoucher(percentDiscount);
-            ioController.printSingleOutput(PERCENT_DISCOUNT_VOUCHER_CREATE_MESSAGE);
+            voucherService.createPercentDiscountVoucher(createPercentDiscountVoucherRequestDTO);
+            ioConsole.printSingleOutput(VoucherCreateMessage.PERCENT_DISCOUNT_VOUCHER_CREATE_MESSAGE.getMessage());
         }
-    }
-
-    private double getFixedAmountFromInput(CreateFixedAmountVoucherRequestDTO createFixedAmountVoucherRequestDTO) {
-        return Double.parseDouble(createFixedAmountVoucherRequestDTO.getInputFixedAmount());
-    }
-
-    private double getPercentDiscountFromInput(CreatePercentDiscountVoucherRequestDTO createPercentDiscountVoucherRequestDTO) {
-        return Double.parseDouble(createPercentDiscountVoucherRequestDTO.getInputPercent());
     }
 
     private void handleListVoucher(VoucherOptionDTO voucherOptionDTO) throws IOException {
         String voucherOption = voucherOptionDTO.getVoucherOption();
 
-        if (voucherOption.equals(VoucherOption.FIXED_AMOUNT_VOUCHER.toString())) {
-            ioController.printListOutput(voucherService.getAllFixedAmountVoucherInfo());
+        if (voucherOption.equals(VoucherOption.FIXED_AMOUNT_VOUCHER.getVoucherOption())) {
+            ioConsole.printListOutput(voucherService.getAllFixedAmountVoucherInfo());
         }
 
-        if (voucherOption.equals(VoucherOption.PERCENT_DISCOUNT_VOUCHER.toString())) {
-            ioController.printListOutput(voucherService.getAllPercentDiscountVoucherInfo());
+        if (voucherOption.equals(VoucherOption.PERCENT_DISCOUNT_VOUCHER.getVoucherOption())) {
+            ioConsole.printListOutput(voucherService.getAllPercentDiscountVoucherInfo());
         }
     }
 }
