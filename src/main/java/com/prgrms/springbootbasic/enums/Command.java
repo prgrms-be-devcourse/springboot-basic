@@ -12,7 +12,7 @@ public enum Command {
         this.inputCommand = inputCommand;
     }
 
-    public static Command of(String inputCommand) {
+    public static Command checkInputCommand(String inputCommand) {
         return Arrays.stream(values())
                 .filter(e -> e.inputCommand.equalsIgnoreCase(inputCommand))
                 .findFirst()
