@@ -9,13 +9,17 @@ import com.prgrms.springbootbasic.io.Input;
 import com.prgrms.springbootbasic.io.Output;
 import com.prgrms.springbootbasic.repository.VoucherRepository;
 import com.prgrms.springbootbasic.service.VoucherService;
+import java.io.Console;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import org.beryx.textio.TextIO;
-import org.beryx.textio.TextTerminal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
+import org.springframework.boot.CommandLineRunner;
 
-public class Console<T extends TextTerminal>  implements Input, Output {
+public class ConsoleApplication implements Input, Output, CommandLineRunner {
+
     private TextIO textIO;
     private T terminal;
     private final FixedDiscountVoucherController fixedDiscountVoucherController;
@@ -26,7 +30,7 @@ public class Console<T extends TextTerminal>  implements Input, Output {
     public Console(TextIO textIO, T terminal, VoucherRepository voucherRepository) {
         this.textIO = textIO;
         this.terminal = terminal;
-        this.voucherService= new VoucherService(voucherRepository);
+        this.voucherService = new VoucherService(voucherRepository);
         this.fixedDiscountVoucherController = new FixedDiscountVoucherController(this, this, voucherService);
         this.percentDiscountVoucherController = new PercentDiscountVoucherController(this, this, voucherService);
     }
@@ -37,22 +41,47 @@ public class Console<T extends TextTerminal>  implements Input, Output {
     }
 
     @Override
+    public String readVoucherType(String message) {
+        return null;
+    }
+
+    @Override
+    public String readVoucherValue(String message) {
+        return null;
+    }
+
+    @Override
     public String readString(String message) {
         return textIO.newStringInputReader().read(message);
     }
 
     @Override
-    public void println(String message) {
+    public void printlnCommand(String message) {
         terminal.println(message);
     }
 
-    public void run(){
+    @Override
+    public void printCreateVoucherType() {
+
+    }
+
+    @Override
+    public void printlnVoucherList(Map<UUID, Voucher> voucherMap) {
+
+    }
+
+    @Override
+    public void errorMessage(String errorMessage) {
+
+    }
+
+    public void run() {
         consoleMenu();
-        while (true){
+        while (true) {
             String inputCommand = readCommand("명령어를 입력해주세요.(exit, create, list)");
             switch (inputCommand) {
                 case "exit":
-                    println("프로그램을 종료합니다.");
+                    printlnCommand("프로그램을 종료합니다.");
                     return;
                 case "create":
                     create();
@@ -61,12 +90,13 @@ public class Console<T extends TextTerminal>  implements Input, Output {
                     list();
                     break;
                 default:
-                    println("허용된 명령어가 아닙니다. exit(종료), create(바우처 생성), list(바우처 목록)중 하나를 선택하세요.");
+                    printlnCommand("허용된 명령어가 아닙니다. exit(종료), create(바우처 생성), list(바우처 목록)중 하나를 선택하세요.");
                     logger.error("명령어 입력 오류");
                     break;
             }
         }
     }
+
     private void create() {
         String voucherType = readString("생성할 voucher의 종류를 입력해주세요.(FixedAmountVoucher, PercentDiscountVoucher)");
         switch (voucherType) {
@@ -77,8 +107,8 @@ public class Console<T extends TextTerminal>  implements Input, Output {
                 percentDiscountVoucherController.createPercentDiscountVoucher();
                 break;
             default:
-                println("입력가능한 Voucher Type은 고정 금액 할인과 퍼센트 금액 할인 타입 입니다.");
-                println("FixedAmountVoucher과 PercentDiscountVoucher 중 하나를 선택하여 생성해주세요.");
+                printlnCommand("입력가능한 Voucher Type은 고정 금액 할인과 퍼센트 금액 할인 타입 입니다.");
+                printlnCommand("FixedAmountVoucher과 PercentDiscountVoucher 중 하나를 선택하여 생성해주세요.");
                 logger.error("Voucher Type입력 오류");
                 break;
         }
@@ -89,27 +119,32 @@ public class Console<T extends TextTerminal>  implements Input, Output {
             List<Voucher> vouchers = voucherService.fetchAllVouchers();
 
             if (vouchers.isEmpty()) {
-                println("생성된 Voucher가 없습니다.");
+                printlnCommand("생성된 Voucher가 없습니다.");
             } else {
-                println("생성된 Voucher 목록입니다.");
+                printlnCommand("생성된 Voucher 목록입니다.");
                 for (Voucher voucher : vouchers) {
                     if (voucher instanceof FixedDiscountVoucher) {
-                        println("FixedAmountVoucher: " + voucher.getDiscount());
+                        printlnCommand("FixedAmountVoucher: " + voucher.getDiscount());
                     } else if (voucher instanceof PercentDiscountVoucher) {
-                        println("PercentDiscountVoucher: " + voucher.getDiscount());
+                        printlnCommand("PercentDiscountVoucher: " + voucher.getDiscount());
                     }
                 }
             }
         } catch (Exception e) {
-            println("Voucher 목록을 가져오는 중 오류가 발생했습니다.");
+            printlnCommand("Voucher 목록을 가져오는 중 오류가 발생했습니다.");
             logger.error("Voucher 목록 불러오기 오류");
         }
     }
 
-    public void consoleMenu(){
+    public void consoleMenu() {
         terminal.println("=== Voucher Program ===");
         terminal.println("Type exit to exit the program.");
         terminal.println("Type create to create a new voucher.");
         terminal.println("Type list to list all vouchers.");
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+
     }
 }
