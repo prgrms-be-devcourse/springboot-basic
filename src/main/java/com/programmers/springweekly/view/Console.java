@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Console implements Input, Output {
 
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     private static final String PROGRAM_TITLE = "=== Voucher Program ===";
     private static final String PROGRAM_EXIT_GUIDE = "Type exit to exit the program.";
@@ -23,7 +23,7 @@ public class Console implements Input, Output {
 
     @Override
     public String inputMessage() {
-        return scanner.nextLine();
+        return SCANNER.nextLine();
     }
 
     @Override

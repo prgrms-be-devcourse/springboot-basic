@@ -40,11 +40,13 @@ public class ConsoleApplication implements CommandLineRunner {
                         running = false;
                     }
                     case BLACKLIST -> getBlackList();
-                    default -> throw new IllegalArgumentException("The type you are looking for is not found.");
+                    default -> throw new IllegalArgumentException("Input :" + selectMenu + "The type you are looking for is not found.");
                 }
-                
+
+            } catch (IllegalArgumentException e) {
+                log.error("잘못된 입력값 입니다 -> " + e.getMessage());
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error("알 수 없는 에러입니다 -> " + e.getMessage());
             }
         }
     }
