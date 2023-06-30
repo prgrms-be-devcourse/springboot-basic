@@ -16,19 +16,19 @@ public class Console implements Input, Output {
 
     private final String printMenuListMessage =
             """
-            === Voucher Program ===
-            Type exit to exit the program.
-            Type create to create a new voucher.
-            Type list to list all vouchers.
-            Type black to list all blackList
-            """;
+                    === Voucher Program ===
+                    Type exit to exit the program.
+                    Type create to create a new voucher.
+                    Type list to list all vouchers.
+                    Type black to list all blackList
+                    """;
 
     private final String printTypeSelectMessage =
             """
-             === Voucher Select ===
-             Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> FixedAmountVoucher       
-             Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> PercentDiscountVoucher
-             """;
+                    === Voucher Select ===
+                    Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> FixedAmountVoucher       
+                    Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> PercentDiscountVoucher
+                    """;
 
     @Override
     public String inputTextOption() {
@@ -50,26 +50,14 @@ public class Console implements Input, Output {
 
     @Override
     public Long insertDiscountAmountVoucher() {
-        boolean IS_VALID_AMOUNT = true;
         try {
-            printInsertFixedVoucherMessage();
             long discountAmount = Long.parseLong(br.readLine());
-            while (IS_VALID_AMOUNT) {
-                if (discountAmount > 0) {
-                    break;
-                }
-                printInsertFixedVoucherMessage();
-                discountAmount = Long.parseLong(br.readLine());
-
-
-            }
             return discountAmount;
-
         } catch (IOException e) {
-            printWrongMenuMessage();
             return null;
         }
     }
+
 
     @Override
     public int insertDiscountPercentVoucher() {
