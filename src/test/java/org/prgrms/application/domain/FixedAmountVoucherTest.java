@@ -3,6 +3,7 @@ package org.prgrms.application.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.prgrms.application.domain.voucher.FixedAmountVoucher;
 
 import java.util.UUID;
 

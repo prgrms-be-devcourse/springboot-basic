@@ -1,14 +1,12 @@
 package org.prgrms.application.domain;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.prgrms.application.domain.voucher.VoucherType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherTypeTest {
 
@@ -19,7 +17,6 @@ class VoucherTypeTest {
         VoucherType foundType = VoucherType.findBySelection(voucherType);
         assertThat(foundType).isEqualTo(VoucherType.FIXED);
     }
-
 
     @ParameterizedTest
     @ValueSource(strings = {"Percent","percent"})

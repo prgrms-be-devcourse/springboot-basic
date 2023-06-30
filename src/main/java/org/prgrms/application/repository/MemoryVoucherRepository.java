@@ -1,6 +1,6 @@
 package org.prgrms.application.repository;
 
-import org.prgrms.application.domain.Voucher;
+import org.prgrms.application.domain.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

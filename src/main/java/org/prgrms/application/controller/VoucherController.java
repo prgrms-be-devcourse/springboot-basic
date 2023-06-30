@@ -1,7 +1,7 @@
 package org.prgrms.application.controller;
 
-import org.prgrms.application.domain.Voucher;
-import org.prgrms.application.domain.VoucherType;
+import org.prgrms.application.domain.voucher.Voucher;
+import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.stereotype.Controller;
 

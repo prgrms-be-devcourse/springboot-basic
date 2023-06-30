@@ -21,7 +21,7 @@ class CommandTypeTest {
     @ParameterizedTest
     @CsvSource({"sdfsdfdd","watgwg","ryjryj"})
     @DisplayName("실페 케이스 : commandType에서 지정하지 않은 값 입력")
-    void failWrongCommandType(String commandType){
+    void failWrongType(String commandType){
         assertThatThrownBy(() -> CommandType.findBySelection(commandType))
                 .isInstanceOf(IllegalArgumentException.class);
     }

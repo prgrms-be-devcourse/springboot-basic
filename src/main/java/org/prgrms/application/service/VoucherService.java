@@ -1,8 +1,8 @@
 package org.prgrms.application.service;
 
-import org.prgrms.application.domain.Voucher;
-import org.prgrms.application.domain.VoucherFactory;
-import org.prgrms.application.domain.VoucherType;
+import org.prgrms.application.domain.voucher.Voucher;
+import org.prgrms.application.domain.voucher.VoucherFactory;
+import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 

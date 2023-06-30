@@ -1,7 +1,7 @@
 package org.prgrms.application.view;
 
 import org.prgrms.application.CommandType;
-import org.prgrms.application.domain.VoucherType;
+import org.prgrms.application.domain.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 import java.util.Scanner;
 

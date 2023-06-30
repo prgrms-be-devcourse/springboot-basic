@@ -1,6 +1,6 @@
 package org.prgrms.application.repository;
 
-import org.prgrms.application.domain.Voucher;
+import org.prgrms.application.domain.voucher.Voucher;
 
 import java.util.List;
 
