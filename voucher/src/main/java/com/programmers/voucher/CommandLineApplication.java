@@ -56,18 +56,18 @@ public class CommandLineApplication implements CommandLineRunner {
     private void doLogic(CommandType commandType) throws IOException {
         switch (commandType) {
             case CREATE -> {
-                logicForCommandTypeCreate();
+                create();
             }
             case LIST -> {
-                logicForCommandTypeList();
+                showList();
             }
             case BLACK -> {
-                logicForCommandTypeBlack();
+                showBlackList();
             }
         }
     }
 
-    private void logicForCommandTypeCreate() {
+    private void create() {
         try {
             Integer inputVersion = console.getVoucherVersion();
             VoucherEnum voucherEnum = VoucherEnum.decideVoucherType(inputVersion);
@@ -78,11 +78,11 @@ public class CommandLineApplication implements CommandLineRunner {
         }
     }
 
-    private void logicForCommandTypeList() {
+    private void showList() {
         printer.printListOfVoucher(voucherStream.findAll());
     }
 
-    private void logicForCommandTypeBlack() throws IOException {
+    private void showBlackList() throws IOException {
         printer.printBlackList(blackListStream.findAll());
     }
 
