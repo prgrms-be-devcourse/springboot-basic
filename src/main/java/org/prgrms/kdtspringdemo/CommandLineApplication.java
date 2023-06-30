@@ -25,7 +25,7 @@ public class CommandLineApplication implements CommandLineRunner {
     public void run(String... args) {
         CommandType userCommand = CommandType.NONE;
 
-        while (!userCommand.equals(CommandType.EXIT)) {
+        while (userCommand != CommandType.EXIT) {
             voucherConsole.printInitMessage();
             userCommand = CommandType.findCommandType(voucherConsole.inputCommand().toUpperCase());
             executeCommand(userCommand);
