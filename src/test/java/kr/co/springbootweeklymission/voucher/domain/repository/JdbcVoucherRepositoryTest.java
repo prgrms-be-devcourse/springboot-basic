@@ -1,5 +1,8 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
+import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.voucher.domain.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import org.junit.jupiter.api.MethodOrderer;
@@ -11,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,11 +29,7 @@ class JdbcVoucherRepositoryTest {
     @Order(1)
     void 고정_할인_바우처를_등록() {
         //given
-        Voucher voucher = Voucher.builder()
-                .voucherId(UUID.randomUUID())
-                .amount(10)
-                .voucherPolicy(VoucherPolicy.FIXED_DISCOUNT)
-                .build();
+        Voucher voucher = VoucherCreators.createFixedDiscount();
 
         //when
         Voucher actual = voucherRepository.save(voucher);
@@ -44,11 +42,7 @@ class JdbcVoucherRepositoryTest {
     @Order(2)
     void 등록된_모든_바우처를_조회() {
         //given
-        Voucher voucher = Voucher.builder()
-                .voucherId(UUID.randomUUID())
-                .amount(10)
-                .voucherPolicy(VoucherPolicy.PERCENT_DISCOUNT)
-                .build();
+        Voucher voucher = VoucherCreators.createPercentDiscount();
         voucherRepository.save(voucher);
 
         //when
@@ -56,5 +50,38 @@ class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(actual).hasSize(2);
+    }
+
+    @Test
+    @Order(3)
+    void 특정_바우처를_조회() {
+        //given
+        Voucher voucher = VoucherCreators.createPercentDiscount();
+        voucherRepository.save(voucher);
+
+        //when
+        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+
+        //then
+        assertThat(actual).isEqualTo(voucher);
+    }
+
+    @Test
+    @Order(4)
+    void 특정_바우처를_수정() {
+        //given
+        Voucher voucher = VoucherCreators.createFixedDiscount();
+        voucherRepository.save(voucher);
+        Voucher updateVoucher = VoucherCreators.updateVoucher(voucher.getVoucherId(), 20, VoucherPolicy.PERCENT_DISCOUNT);
+
+        //when
+        voucherRepository.update(updateVoucher);
+        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+
+        //then
+        assertThat(actual.getVoucherPolicy()).isEqualTo(VoucherPolicy.PERCENT_DISCOUNT);
+        assertThat(actual.getAmount()).isEqualTo(20);
     }
 }
