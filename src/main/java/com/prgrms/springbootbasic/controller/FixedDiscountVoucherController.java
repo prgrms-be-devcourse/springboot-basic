@@ -1,12 +1,16 @@
 package com.prgrms.springbootbasic.controller;
 
+import static com.prgrms.springbootbasic.Console.logger;
+
 import com.prgrms.springbootbasic.domain.Voucher;
 import com.prgrms.springbootbasic.io.Input;
 import com.prgrms.springbootbasic.io.Output;
 import com.prgrms.springbootbasic.service.VoucherService;
-import static com.prgrms.springbootbasic.Console.logger;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class FixedDiscountVoucherController {
+
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
