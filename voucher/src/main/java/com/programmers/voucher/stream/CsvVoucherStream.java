@@ -18,7 +18,7 @@ import java.util.*;
 @Profile(value = "dev")
 public class CsvVoucherStream implements VoucherStream {
     @Value("${filepath.voucher}")
-    private String SAMPLE_CSV_FILE_PATH;
+    private String sampleCsvFilePath;
     File file;
     BufferedWriter bw;
     BufferedReader br;
@@ -28,7 +28,7 @@ public class CsvVoucherStream implements VoucherStream {
     @Override
     public Voucher save(Voucher voucher) {
         try {
-            String path = resourceLoader.getResource(SAMPLE_CSV_FILE_PATH).getURI().getPath();
+            String path = resourceLoader.getResource(sampleCsvFilePath).getURI().getPath();
             file = new File(path);
             bw = new BufferedWriter(new FileWriter(file, true));
             String csvDelimiter = isFixedAmountVoucher(voucher) ? fixedAmountVoucherString(voucher) : percentDiscountVoucherString(voucher);
@@ -75,7 +75,7 @@ public class CsvVoucherStream implements VoucherStream {
     private void loadCSVFile(HashMap<String, Voucher> voucherHashMap) {
         String line = "";
         try {
-            String path = resourceLoader.getResource(SAMPLE_CSV_FILE_PATH).getURI().getPath();
+            String path = resourceLoader.getResource(sampleCsvFilePath).getURI().getPath();
             file = new File(path);
             br = new BufferedReader(new FileReader(file));
             while ((line = br.readLine()) != null) {
