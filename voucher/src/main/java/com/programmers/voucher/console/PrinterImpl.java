@@ -16,13 +16,22 @@ public class PrinterImpl implements Printer {
         System.out.println();
         voucherList.forEach(
                 (k, v) -> {
-                    if (v instanceof FixedAmountVoucher) {
-                        System.out.println("[FixedAmountVoucher | Voucher ID] : " + k + " | discount amount : " + ((FixedAmountVoucher) v).getAmount());
-                    } else {
-                        System.out.println("[PercentDiscountVoucher | ID] : " + k + " | discount percent : " + ((PercentDiscountVoucher) v).getPercent());
-                    }
+                    printFixedAmountVoucher(k, v);
+                    printPercentDiscountVoucher(k, v);
                 }
         );
+    }
+
+    private static void printFixedAmountVoucher(String k, Voucher v) {
+        if (v instanceof FixedAmountVoucher) {
+            System.out.println("[FixedAmountVoucher | Voucher ID] : " + k + " | discount amount : " + ((FixedAmountVoucher) v).getAmount());
+        }
+    }
+
+    private static void printPercentDiscountVoucher(String k, Voucher v) {
+        if (v instanceof PercentDiscountVoucher) {
+            System.out.println("[PercentDiscountVoucher | ID] : " + k + " | discount percent : " + ((PercentDiscountVoucher) v).getPercent());
+        }
     }
 
     @Override
