@@ -5,3 +5,30 @@
 
 22:25:02.553 [main] INFO  c.p.s.ManagementController -- 잘못된 할인 범위입니다.
 
+22:53:53.373 [main] INFO  c.p.springmission.VoucherApplication -- Starting VoucherApplication using Java 17.0.6 with PID 49154 (/Users/jaeyoon/Desktop/Coding/DevCourse/Assignment/springboot-basic/out/production/classes started by jaeyoon in /Users/jaeyoon/Desktop/Coding/DevCourse/Assignment/springboot-basic)
+22:53:53.374 [main] INFO  c.p.springmission.VoucherApplication -- No active profile set, falling back to 1 default profile: "default"
+22:53:53.688 [main] INFO  c.p.springmission.VoucherApplication -- Started VoucherApplication in 0.543 seconds (process running for 1.142)
+22:53:56.948 [main] INFO  c.p.s.ManagementController -- 유효하지 않은 메뉴입니다.
+
+22:54:08.299 [main] INFO  c.p.s.ManagementController -- 잘못된 할인 범위입니다.
+
+22:54:11.467 [main] INFO  c.p.s.ManagementController -- 유효하지 않은 바우처입니다.
+
+23:10:58.138 [main] INFO  c.p.springmission.VoucherApplication -- Starting VoucherApplication using Java 17.0.6 with PID 49826 (/Users/jaeyoon/Desktop/Coding/DevCourse/Assignment/springboot-basic/out/production/classes started by jaeyoon in /Users/jaeyoon/Desktop/Coding/DevCourse/Assignment/springboot-basic)
+23:10:58.140 [main] INFO  c.p.springmission.VoucherApplication -- No active profile set, falling back to 1 default profile: "default"
+23:10:58.401 [main] INFO  c.p.springmission.VoucherApplication -- Started VoucherApplication in 0.42 seconds (process running for 0.907)
+23:11:01.714 [main] INFO  c.p.s.ManagementController -- 유효하지 않은 메뉴입니다.
+
+23:11:03.178 [main] INFO  c.p.s.ManagementController -- 유효하지 않은 메뉴입니다.
+
+23:28:20.791 [main] INFO  c.p.springmission.VoucherApplication -- Starting VoucherApplication using Java 17.0.6 with PID 50645 (/Users/jaeyoon/Desktop/Coding/DevCourse/Assignment/springboot-basic/out/production/classes started by jaeyoon in /Users/jaeyoon/Desktop/Coding/DevCourse/Assignment/springboot-basic)
+23:28:20.792 [main] INFO  c.p.springmission.VoucherApplication -- No active profile set, falling back to 1 default profile: "default"
+23:28:21.031 [main] INFO  c.p.springmission.VoucherApplication -- Started VoucherApplication in 0.384 seconds (process running for 0.857)
+23:28:43.633 [main] INFO  c.p.s.ManagementController -- 유효하지 않은 바우처입니다.
+
+23:44:58.958 [main] INFO  c.p.springmission.VoucherApplication -- Starting VoucherApplication using Java 17.0.6 with PID 51344 (/Users/jaeyoon/Desktop/Coding/DevCourse/Assignment/springboot-basic/out/production/classes started by jaeyoon in /Users/jaeyoon/Desktop/Coding/DevCourse/Assignment/springboot-basic)
+23:44:58.960 [main] INFO  c.p.springmission.VoucherApplication -- No active profile set, falling back to 1 default profile: "default"
+23:44:59.214 [main] INFO  c.p.springmission.VoucherApplication -- Started VoucherApplication in 0.406 seconds (process running for 0.868)
+23:45:04.263 [main] INFO  c.p.s.ManagementController -- 유효하지 않은 바우처입니다.
+
+23:45:12.308 [main] INFO  c.p.s.ManagementController -- For input string: "abc"

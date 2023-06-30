@@ -51,6 +51,8 @@ public class ManagementController implements CommandLineRunner {
             } catch (VoucherException voucherException) {
                 console.output(voucherException.getMessage());
                 logger.info(voucherException.getMessage());
+            } catch (NumberFormatException numberFormatException) {
+                logger.info(numberFormatException.getMessage());
             }
 
         }
@@ -69,7 +71,7 @@ public class ManagementController implements CommandLineRunner {
 
     private void passToController() {
         VoucherType inputType = VoucherType.of(console.inputOption());
-        long inputAmount = console.inputVoucherAmount();
+        long inputAmount = Long.parseLong(console.inputVoucherAmount());
 
         VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputType, inputAmount);
         voucherController.createVoucher(voucherCreateRequest);

@@ -46,12 +46,12 @@ public class Console {
         output.write("Success Create Voucher !" + newLine);
     }
 
-    public long inputVoucherAmount() {
+    public String inputVoucherAmount() {
         output.write("""
                 === Input Voucher Amount ===
                 Type the amount you want
                 """);
-        return Long.parseLong(input.read());
+        return input.read();
     }
 
     public void output(String message) {
