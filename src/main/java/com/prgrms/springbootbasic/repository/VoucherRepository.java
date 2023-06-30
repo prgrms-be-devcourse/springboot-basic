@@ -1,9 +1,10 @@
 package com.prgrms.springbootbasic.repository;
 
 import com.prgrms.springbootbasic.domain.Voucher;
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public interface VoucherRepository {
     Voucher insert(Voucher voucher);
-    List<Voucher> getAllVouchersList();
+    Map<UUID,Voucher> getAllVouchersList();
 }

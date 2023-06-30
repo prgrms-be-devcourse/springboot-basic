@@ -1,9 +1,8 @@
 package com.prgrms.springbootbasic.repository;
 
 import com.prgrms.springbootbasic.domain.Voucher;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
@@ -20,7 +19,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getAllVouchersList() {
-        return new ArrayList<>(storage.values());
+    public Map<UUID, Voucher> getAllVouchersList() {
+        return Collections.unmodifiableMap(storage);
     }
 }
