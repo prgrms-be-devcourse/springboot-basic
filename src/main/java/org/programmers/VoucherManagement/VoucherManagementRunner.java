@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.io.CommandExecutor;
 import org.programmers.VoucherManagement.io.CommandType;
 import org.programmers.VoucherManagement.io.Console;
+import org.programmers.VoucherManagement.voucher.domain.Voucher;
+import org.programmers.VoucherManagement.voucher.exception.VoucherException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,21 +17,29 @@ import org.springframework.stereotype.Component;
 public class VoucherManagementRunner implements CommandLineRunner {
     private final Console console;
     private final CommandExecutor commandExecutor;
+    private final Logger logger = LoggerFactory.getLogger(VoucherManagementRunner.class);
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
         CommandType commandType;
         boolean isEnd = false;
 
         while (!isEnd) {
-            console.printType();
-            commandType = console.readType();
+            try{
+                console.printType();
+                commandType = console.readType();
 
-            if (commandType.isExit()){
-                isEnd = true;
+                if (commandType.isExit()){
+                    isEnd = true;
+                }
+                commandExecutor.execute(commandType);
+
+            }catch (VoucherException e){
+                logger.info(e.getMessage());
             }
-
-            commandExecutor.execute(commandType);
+            catch(IllegalArgumentException e){
+                logger.info(e.getMessage());
+            }
         }
     }
 
