@@ -18,7 +18,7 @@ import static org.programmers.VoucherManagement.global.exception.FileExceptionMe
 @Component
 public class FileMemberRepository implements MemberRepository {
     private final File file;
-    private static final Logger logger = LoggerFactory.getLogger(Console.class);
+    private final Logger logger = LoggerFactory.getLogger(Console.class);
 
     private FileMemberRepository(@Value("${app.path.file}") String filePath) {
         this.file = new File(filePath);
