@@ -9,56 +9,76 @@ import com.prgms.voucher.voucherproject.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final Console console = new Console();
+    private final String CREATE_FIXED_MSG = "고정 할인 금액을 입력하세요. (1이상)";
+    private final String CREATE_PERCENT_MSG = "퍼센트 할인 금액을 입력하세요. (1~99)";
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    public void list(){
-        ArrayList<Voucher> voucherArrayList = voucherRepository.findAll();
-        if(voucherArrayList.size() == 0) {
-            console.printNoVoucher();
+    private void createFixedVoucher() {
+        console.printMsg(CREATE_FIXED_MSG);
+        long discount = console.inputDiscountAmount();
+        console.bufferDeleted();
+
+        if (discount <= 0) {
+            throw new IllegalArgumentException("잘못된 고정 할인 금액입니다.");
         }
-        if(voucherArrayList.size() > 0){
-            voucherArrayList.forEach(voucher -> {console.printMsg(voucher.toString());});
+
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
+        voucherRepository.save(fixedAmountVoucher);
+    }
+
+    private void createPercentVoucher() {
+        console.printMsg(CREATE_PERCENT_MSG);
+        long percent = console.inputDiscountAmount();
+        console.bufferDeleted();
+
+        if (percent <= 0 || percent > 99) {
+            throw new IllegalArgumentException("잘못된 퍼센트 할인 금액입니다.");
+        }
+
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+        voucherRepository.save(percentDiscountVoucher);
+    }
+
+    public void list() {
+        List<Voucher> voucherArrayList = voucherRepository.findAll();
+
+        if (voucherArrayList.isEmpty()) {
+            console.printNoVoucher();
+        } else {
+            voucherArrayList.forEach(voucher -> {
+                console.printMsg(voucher.toString());
+            });
         }
     }
 
-    public void create(VoucherType voucherType){
+    public void create(VoucherType voucherType) {
         switch (voucherType) {
             case FIXED:
-                console.printMsg("고정 할인 금액을 입력하세요. (1이상)");
-                long discount = console.inputDiscountAmount();
-                console.bufferDeleted();
-                if(discount <= 0) {
-                    throw new IllegalArgumentException("잘못된 고정 할인 금액입니다.");
+                try {
+                    createFixedVoucher();
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getLocalizedMessage());
                 }
-                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
-                voucherRepository.save(fixedAmountVoucher);
                 break;
 
             case PERCENT:
-                console.printMsg("퍼센트 할인 금액을 입력하세요. (1~100)");
-                long percent = console.inputDiscountAmount();
-                console.bufferDeleted();
-                if(percent <= 0 || percent > 100) {
-                    throw new IllegalArgumentException("잘못된 퍼센트 할인 금액입니다.");
+                try {
+                    createPercentVoucher();
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getLocalizedMessage());
                 }
-                Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
-                voucherRepository.save(percentDiscountVoucher); //TODO : percentVoucher는 save 안 되는 문제 (UUID도 null로 들어감)
                 break;
-
-            default:
-                throw new IllegalArgumentException("잘못된 Voucher Type 입니다.");
         }
-
     }
 
     public Voucher getVoucher(UUID voucherId) {
