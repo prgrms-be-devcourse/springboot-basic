@@ -10,16 +10,16 @@ public enum VoucherType {
     FIXED_VOUCHER("fix"),
     PERCENT_VOUCHER("percent");
 
-    private final String voucherPolicy;
+    private final String voucherType;
     private static final Map<String, VoucherType> VOUCHER_POLICY_MAP = Collections.unmodifiableMap(Arrays.stream(values())
             .collect(Collectors.toMap(VoucherType::getVoucherPolicy, Function.identity())));
 
     VoucherType(String voucherPolicy) {
-        this.voucherPolicy = voucherPolicy;
+        this.voucherType = voucherPolicy;
     }
 
     public String getVoucherPolicy() {
-        return this.voucherPolicy;
+        return this.voucherType;
     }
 
     public static VoucherType findByPolicy(String policy) {
@@ -28,5 +28,9 @@ public enum VoucherType {
 
     public static boolean containsVoucherPolicy(String policy) {
         return VOUCHER_POLICY_MAP.containsKey(policy);
+    }
+
+    public static String[] getAllVoucherType() {
+        return VOUCHER_POLICY_MAP.keySet().toArray(String[]::new);
     }
 }

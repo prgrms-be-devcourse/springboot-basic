@@ -12,6 +12,9 @@ import java.util.List;
 
 public class ConsoleInputView implements Input {
 
+    private static final Long DISCOUNT_AMOUNT_MIN_VALUE = 0L;
+    private static final Long DISCOUNT_PERCENTAGE_MAX_VALUE = 100L;
+
     private static final Logger log = LoggerFactory.getLogger(ConsoleInputView.class);
     private final TextIO textIO;
 
@@ -23,7 +26,7 @@ public class ConsoleInputView implements Input {
     public String inputCommand() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues("exit", "create", "list", "blacklist")
+                .withInlinePossibleValues(Command.getAllCommands())
                 .withValueChecker((val, itemName) -> {
                     if (!Command.containsCommand(val)) {
                         log.warn("inputCommand [{}] is invalid value", val);
@@ -38,7 +41,7 @@ public class ConsoleInputView implements Input {
     public String inputVoucherPolicy() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues("fix", "percent")
+                .withInlinePossibleValues(VoucherType.getAllVoucherType())
                 .withValueChecker((val, itemName) -> {
                     if (!VoucherType.containsVoucherPolicy(val)) {
                         log.warn("inputVoucherPolicy [{}] is invalid value", val);
@@ -54,13 +57,13 @@ public class ConsoleInputView implements Input {
         return switch (policy) {
             case FIXED_VOUCHER -> textIO.newLongInputReader()
                     .withInputTrimming(true)
-                    .withMinVal(0L)
+                    .withMinVal(DISCOUNT_AMOUNT_MIN_VALUE)
                     .withParseErrorMessagesProvider((val, itemName) -> {
                         log.warn("fixed Discount Amount is only Number, The entered value is [{}]", val);
                         return List.of("Please input a positive number");
                     })
                     .withValueChecker((val, itemName) -> {
-                        if (val < 0) {
+                        if (val < DISCOUNT_AMOUNT_MIN_VALUE) {
                             log.warn("fixed Discount Amount is only Positive Number, The entered value is [{}]", val);
                             return List.of("Please input a positive number");
                         }
@@ -69,14 +72,14 @@ public class ConsoleInputView implements Input {
                     .read("할인 금액을 입력해주세요 >>");
             case PERCENT_VOUCHER -> textIO.newLongInputReader()
                     .withInputTrimming(true)
-                    .withMinVal(0L)
-                    .withMaxVal(100L)
+                    .withMinVal(DISCOUNT_AMOUNT_MIN_VALUE)
+                    .withMaxVal(DISCOUNT_PERCENTAGE_MAX_VALUE)
                     .withParseErrorMessagesProvider((val, itemName) -> {
                         log.warn("PercentVoucher amount is only Number, The entered value is [{}]", val);
                         return List.of("Please input a positive number");
                     })
                     .withValueChecker((val, itemName) -> {
-                        if (val < 0 || val > 100) {
+                        if (val < DISCOUNT_AMOUNT_MIN_VALUE || val > DISCOUNT_PERCENTAGE_MAX_VALUE) {
                             log.warn("PercentVoucher amount is only Positive Number and Less Than Or Equals 100, The entered value is [{}]", val);
                             return List.of("Please input a positive number and Less Than Or Equals 100");
                         }

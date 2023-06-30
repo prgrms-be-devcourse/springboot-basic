@@ -28,4 +28,8 @@ public enum Command {
     public static boolean containsCommand(String command) {
         return COMMAND_MAP.containsKey(command);
     }
+
+    public static String[] getAllCommands() {
+        return COMMAND_MAP.keySet().toArray(String[]::new);
+    }
 }
