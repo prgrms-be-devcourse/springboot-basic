@@ -28,6 +28,10 @@ public class FixedAmountVoucher implements Voucher {
         return this.voucherId;
     }
 
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
+
     @Override
     public long discount(long originalPrice) {
         long discountedPrice = originalPrice - amount;

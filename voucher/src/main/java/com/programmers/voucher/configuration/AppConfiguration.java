@@ -7,11 +7,22 @@ import com.programmers.voucher.console.TextIoConsole;
 import com.programmers.voucher.domain.voucher.VoucherFactory;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class AppConfiguration {
+    @Value("${mysql.user-id}")
+    private  String MYSQL_ID;
+
+    @Value("${mysql.password}")
+    private String MYSQL_PASSWORD;
 
     @Bean
     public Console console() {
@@ -27,5 +38,21 @@ public class AppConfiguration {
     public VoucherFactory voucherFactory(Console console, VoucherStream voucherStream) {
         return new VoucherFactory(console, voucherStream);
     }
+    @Bean
+    public DataSource dataSource() {
+        HikariDataSource dataSource = DataSourceBuilder.create()
+                .url("jdbc:mysql://localhost:3308/customer")
+                .username(MYSQL_ID)
+                .password(MYSQL_PASSWORD)
+                .type(HikariDataSource.class)
+                .build();
+//            dataSource.setMaximumPoolSize(1000);    // Pool의 최대 Connection 생성 개수
+//            dataSource.setMinimumIdle(100);         // Connection 생성 개수
+        return dataSource;
+    }
 
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
+    }
 }
