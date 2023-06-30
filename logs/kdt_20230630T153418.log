@@ -1,6 +1,0 @@
-15:34:23.161 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
-15:34:24.890 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
-15:34:26.063 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
-15:34:26.065 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.prgrms.kdt.model.entity.VoucherEntity` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
- at [Source: (String)"{"amount":10,"voucherType":2,"voucherId":3357478214022974262}"; line: 1, column: 2] (through reference chain: java.lang.Object[0])
-15:34:26.065 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

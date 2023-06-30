@@ -1,4 +1,0 @@
-14:44:58.283 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
-14:44:58.284 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.prgrms.kdt.model.entity.VoucherEntity` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
- at [Source: (String)"[{"amount":{"amount":100},"voucherType":"PercentDiscountVoucher","voucherId":2009074456848829698}]"; line: 1, column: 3] (through reference chain: java.util.ArrayList[0])
-14:44:58.284 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

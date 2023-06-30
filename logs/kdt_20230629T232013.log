@@ -1,5 +1,0 @@
-23:20:19.288 [main] INFO  o.p.k.m.r.FileVoucherRepository - {"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}
-23:20:19.310 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll try 실패
-23:20:19.311 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize value of type `java.util.ArrayList<java.lang.Object>` from Object value (token `JsonToken.START_OBJECT`)
- at [Source: (String)"{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}"; line: 1, column: 1]
-23:20:19.311 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

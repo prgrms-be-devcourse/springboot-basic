@@ -1,6 +1,0 @@
-23:22:59.093 [main] INFO  o.p.k.m.r.FileVoucherRepository - [{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}]
-23:22:59.127 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll try 실패
-23:22:59.127 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.prgrms.kdt.model.entity.VoucherEntity` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"[{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}]"; line: 1, column: 2] (through reference chain: java.util.ArrayList[0])
-23:22:59.128 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
-01:38:45.636 [main] INFO  o.p.kdt.controller.MainController - 바우처 메인 컨트롤러 종료

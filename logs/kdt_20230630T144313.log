@@ -1,4 +1,0 @@
-14:43:20.712 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
-14:43:20.712 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize value of type `java.util.ArrayList<org.prgrms.kdt.model.entity.VoucherEntity>` from Object value (token `JsonToken.START_OBJECT`)
- at [Source: (String)"{"amount":{"amount":100},"voucherType":"PercentDiscountVoucher","voucherId":2009074456848829698}{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":7368409227876119486}"; line: 1, column: 1]
-14:43:20.713 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

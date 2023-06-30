@@ -1,7 +1,0 @@
-14:38:45.519 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
-14:38:49.348 [main] ERROR o.p.k.m.r.FileVoucherRepository - saveStringToFile메서드에서 파일에 문자열 저장 실패
-14:38:49.348 [main] ERROR o.p.k.m.r.FileVoucherRepository - java.io.FileNotFoundException:  (지정된 경로를 찾을 수 없습니다)
-14:38:49.348 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
-14:39:03.921 [main] ERROR o.p.k.m.r.FileVoucherRepository - loadStringFromFile메서드에서 파일에 문자열 불러오기 실패
-14:39:03.921 [main] ERROR o.p.k.m.r.FileVoucherRepository - java.io.FileNotFoundException:  (핸들이 잘못되었습니다)
-14:39:03.921 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

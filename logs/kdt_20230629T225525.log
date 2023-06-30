@@ -1,6 +1,0 @@
-22:55:28.730 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
-22:55:32.242 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
-22:55:37.409 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
-22:55:38.622 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
-22:55:54.361 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
-22:55:58.107 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공

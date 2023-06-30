@@ -1,2 +1,0 @@
-%PARSER_ERROR[clr] [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
-%PARSER_ERROR[clr] [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공

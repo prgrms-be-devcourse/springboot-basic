@@ -1,8 +1,0 @@
-01:41:01.778 [main] INFO  o.p.k.m.r.FileVoucherRepository - null
-01:41:01.779 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
-01:41:03.791 [main] INFO  o.p.k.m.r.FileVoucherRepository - null
-01:41:03.792 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
-01:41:04.828 [main] INFO  o.p.k.m.r.FileVoucherRepository - null
-01:41:04.829 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
-01:41:30.959 [main] INFO  o.p.k.m.r.FileVoucherRepository - null
-01:41:30.959 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

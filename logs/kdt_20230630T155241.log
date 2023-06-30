@@ -1,6 +1,0 @@
-15:52:44.605 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
-15:52:46.491 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
-15:52:47.974 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll 메서드에서 파일 불러오기 실패
-15:52:47.974 [main] ERROR o.p.k.m.r.FileVoucherRepository - com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "voucherId" (class org.prgrms.kdt.model.entity.VoucherEntity), not marked as ignorable (2 known properties: "amount", "voucherType"])
- at [Source: (String)"{"amount":10,"voucherType":"FixedAmountVoucher","voucherId":-3958549239265385731}{"amount":10,"voucherType":"FixedAmountVoucher","voucherId":4911845978780123562}"; line: 1, column: 81] (through reference chain: org.prgrms.kdt.model.entity.VoucherEntity["voucherId"])
-15:52:47.975 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

@@ -1,5 +1,0 @@
-22:57:19.199 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
-22:57:22.493 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
-22:57:24.474 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
-22:57:52.040 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
-22:57:53.470 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
