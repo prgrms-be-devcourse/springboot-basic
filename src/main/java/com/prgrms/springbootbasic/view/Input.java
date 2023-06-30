@@ -2,12 +2,9 @@ package com.prgrms.springbootbasic.view;
 
 public interface Input {
 
-    //콘솔 명령어 입력
-    String readCommand(String message);
+    String inputCommand(String message);
 
-    //바우처 타입
-    String readVoucherType(String message);
+    String inputVoucherType(String voucherType);
 
-    //바우처 금액
-    String readVoucherValue(String message);
+    long inputVoucherDiscount(long discount);
 }
