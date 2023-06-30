@@ -1,12 +1,9 @@
 package co.programmers.voucher_management.voucher.service;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher_management.voucher.controller.VoucherCommandLineRunner;
 import co.programmers.voucher_management.voucher.dto.Response;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
@@ -15,32 +12,24 @@ import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 
 @Service
 public class CreationService {
-	private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
+	private static final Logger logger = LoggerFactory.getLogger(CreationService.class);
 	private final VoucherRepository repository;
 	private int voucherCnt;
 
-	public CreationService(VoucherRepository repository) throws IOException {
+	public CreationService(VoucherRepository repository) {
 		this.repository = repository;
 		voucherCnt = repository.getVoucherCount();
 	}
 
-	public Response run(VoucherRequestDTO voucherRequestDTO) throws IOException {
+	public Response run(VoucherRequestDTO voucherRequestDTO) {
 		DiscountStrategy discountStrategy;
-		String discountType = voucherRequestDTO.getDiscountStrategy();
+		String discountTypeName = voucherRequestDTO.getDiscountStrategy();
 		int amount = voucherRequestDTO.getDiscountAmount();
-		try {
-			discountStrategy = DiscountTypeGenerator.of(discountType, amount);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			logger.debug("Voucher creation error : wrong type of discount");
-			return Response.builder()
-					.state(Response.State.FAILED)
-					.responseData(illegalArgumentException.getMessage())
-					.build();
-		}
 		int id = assignId();
+		discountStrategy = DiscountTypeGenerator.of(discountTypeName, amount);
 		Voucher voucher = new Voucher(id, discountStrategy);
+		logger.info("Voucher created : id {}, discount type {}, amount {}", id, discountTypeName, amount);
 		repository.save(voucher);
-		logger.debug("Voucher created : id[{}], discount type[{}], amount[{}], ", id, discountType, amount);
 		return Response.builder()
 				.state(Response.State.SUCCESS)
 				.build();

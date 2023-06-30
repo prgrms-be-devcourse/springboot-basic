@@ -21,8 +21,12 @@ public class Console implements InputView, OutputView {
 	private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	@Override
-	public Object input() throws IOException {
-		return bufferedReader.readLine();
+	public Object input() {
+		try {
+			return bufferedReader.readLine();
+		} catch (IOException ioException) {
+			throw new RuntimeException("BufferedReader Failed");
+		}
 	}
 
 	@Override
