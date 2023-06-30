@@ -50,12 +50,12 @@ public class ConsoleApplication implements CommandLineRunner {
                     case BLACKLIST -> {
                         Map<UUID, Customer> customerMap = customerController.getBlackList();
 
-                        if (customerMap.size() != 0) {
-                            console.outputGetCustomerBlackList(customerMap);
+                        if (customerMap.isEmpty()) {
+                            console.outputErrorMessage("There are no saved blacklists.");
                             break;
                         }
 
-                        console.outputErrorMessage("There are no saved blacklists.");
+                        console.outputGetCustomerBlackList(customerMap);
                     }
                     default -> throw new IllegalArgumentException("The type you are looking for is not found.");
                 }
