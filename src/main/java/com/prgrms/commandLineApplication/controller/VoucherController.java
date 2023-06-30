@@ -23,18 +23,15 @@ public class VoucherController {
     while (true) {
       try {
         console.printMenu();
+        MenuType menuType = MenuType.valueOfType(console.readMenu());
 
-        switch (MenuType.valueOfType(console.readMenu())) {
-          case EXIT:
+        switch (menuType) {
+          case EXIT -> {
             return;
-          case LIST:
-            list();
-            break;
-          case CREATE:
-            create();
-            break;
-          default:
-            console.printError();
+          }
+          case LIST -> list();
+          case CREATE -> create();
+          default -> console.printError();
         }
       } catch (RuntimeException e) {
         System.out.println(e.getMessage());
