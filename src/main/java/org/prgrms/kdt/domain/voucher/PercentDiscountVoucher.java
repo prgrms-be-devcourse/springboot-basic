@@ -8,10 +8,14 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent < 0) throw new IllegalArgumentException("할인 퍼센트는 양수여야 합니다.");
-        if (percent > 100) throw new IllegalArgumentException("할인 퍼센트는 100 미만이어야 합니다.");
+        validate(percent);
         this.voucherId = voucherId;
         this.percent = percent;
+    }
+
+    private static void validate(long percent) {
+        if (percent < 0) throw new IllegalArgumentException("할인 퍼센트는 양수여야 합니다.");
+        if (percent > 100) throw new IllegalArgumentException("할인 퍼센트는 100 미만이어야 합니다.");
     }
 
     @Override
