@@ -9,15 +9,16 @@ public class SpaceLineAggregator implements LineAggregator {
 	@Override
 	public String aggregate(Object object) {
 		StringBuilder sb = new StringBuilder("");
+
 		try {
 			List<Object> objects = FieldExtractor.extract(object);
+			int lastIdx = objects.size() - 1;
+
 			for (int i = 0; i < objects.size(); i++) {
-				if (i == objects.size() - 1) {
-					sb.append(object).append("\n");
-				} else {
-					sb.append(object).append(" ");
-				}
+				sb.append(objects.get(i));
+				sb.append(i != lastIdx ? " " : "");
 			}
+			sb.append("\n");
 		} catch (IllegalAccessException e) {
 
 		}
