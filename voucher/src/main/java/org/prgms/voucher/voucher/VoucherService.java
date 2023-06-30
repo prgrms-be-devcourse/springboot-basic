@@ -1,8 +1,6 @@
 package org.prgms.voucher.voucher;
 
-import org.prgms.voucher.option.FixedAmount;
-import org.prgms.voucher.option.PercentAmount;
-import org.prgms.voucher.type.OptionType;
+import org.prgms.voucher.voucher.factory.VoucherFactory;
 import org.prgms.voucher.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,22 +16,11 @@ public class VoucherService {
     }
 
     public AmountVoucher createAmountVoucher(VoucherCreateDto voucherCreateDto) {
-        if (voucherCreateDto.getOptionType() == OptionType.FIXED_AMOUNT) {
-            Voucher voucher = new FixedAmount(
-                    UUID.randomUUID(),
-                    voucherCreateDto.getAmount());
+        VoucherFactory voucherFactory = voucherCreateDto.getOptionType().getVoucherFactory();
+        AmountVoucher amountVoucher = voucherFactory.createVoucher(UUID.randomUUID(), voucherCreateDto.getAmount());
 
         return voucherRepository.save(amountVoucher);
-        } else if (voucherCreateDto.getOptionType() == OptionType.PERCENT_AMOUNT) {
-            Voucher voucher = new PercentAmount(
-                    UUID.randomUUID(),
-                    voucherCreateDto.getAmount()
-            );
-
-            voucherRepository.save(voucher);
-        }
-        // exception
-        }
+    }
 
     public List<AmountVoucher> listAmountVoucher() {
         return voucherRepository.findAll();

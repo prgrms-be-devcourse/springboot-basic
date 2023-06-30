@@ -8,22 +8,26 @@ public enum VoucherOptionType {
     FIXED_AMOUNT(
             "fixed amount",
             "fix",
-            1
+            1,
+            new FixedAmountVoucherFactory()
     ),
     PERCENT_AMOUNT(
             "percent amount",
             "percent",
-            2
+            2,
+            new PercentAmountVoucherFactory()
     );
 
     private final String typeName;
     private final String shortTypeName;
     private final int choiceNumber;
-    
-    VoucherOptionType(String optionType, String shortOptionType, int choiceNumber) {
+    private final VoucherFactory voucherFactory;
+
+    VoucherOptionType(String optionType, String shortOptionType, int choiceNumber, VoucherFactory voucherFactory) {
         this.typeName = optionType;
         this.shortTypeName = shortOptionType;
         this.choiceNumber = choiceNumber;
+        this.voucherFactory = voucherFactory;
     }
 
     public String getTypeName() {
@@ -36,5 +40,9 @@ public enum VoucherOptionType {
 
     public int getChoiceNumber() {
         return choiceNumber;
+    }
+
+    public VoucherFactory getVoucherFactory() {
+        return voucherFactory;
     }
 }
