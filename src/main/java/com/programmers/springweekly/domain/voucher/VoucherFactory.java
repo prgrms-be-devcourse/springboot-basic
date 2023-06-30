@@ -1,7 +1,6 @@
 package com.programmers.springweekly.domain.voucher;
 
 import com.programmers.springweekly.util.Validator;
-import java.util.UUID;
 
 public class VoucherFactory {
 
@@ -10,13 +9,13 @@ public class VoucherFactory {
         switch (voucherType) {
             case FIXED -> {
                 Validator.fixedAmountValidate(discount);
-                return new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(discount));
+                return new FixedAmountVoucher(Long.parseLong(discount));
             }
             case PERCENT -> {
                 Validator.percentValidate(discount);
-                return new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(discount));
+                return new PercentDiscountVoucher(Long.parseLong(discount));
             }
-            default -> throw new IllegalArgumentException("There is no voucher menu.");
+            default -> throw new IllegalArgumentException("Input: " + voucherType + "There is no voucher menu.");
         }
     }
 }
