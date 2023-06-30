@@ -22,22 +22,20 @@ public class CommandExecutor {
 
     public void execute(CommandType commandType) {
         switch (commandType) {
-            case CREATE:
+            case CREATE -> {
                 console.printDiscountType();
                 CreateVoucherReq request = makeCreateVoucherRequest();
                 voucherController.createVoucher(request);
-                break;
-            case LIST:
+            }
+            case LIST -> {
                 GetVoucherListRes voucherList = voucherController.getVoucherList();
                 console.printVoucherList(voucherList);
-                break;
-            case EXIT:
-                console.printExitMessage();
-                break;
-            case BLACKLIST:
+            }
+            case EXIT -> console.printExitMessage();
+            case BLACKLIST -> {
                 GetMemberListRes blackMemberList = memberController.getBlackMemberList();
                 console.printMemberList(blackMemberList);
-                break;
+            }
         }
     }
 
