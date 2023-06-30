@@ -13,8 +13,9 @@ import java.util.List;
 public class Console implements Input, Output {
     private static final Logger log = LoggerFactory.getLogger(Console.class);
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    private final String NEW_LINE = "\n";
-    private final String printMenuListMessage = """
+
+    private final String printMenuListMessage =
+            """
             === Voucher Program ===
             Type exit to exit the program.
             Type create to create a new voucher.
