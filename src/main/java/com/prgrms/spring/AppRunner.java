@@ -26,7 +26,14 @@ public class AppRunner implements CommandLineRunner {
         while (isExecute) {
             logger.info("프로그램 시작.");
             consoleView.showMenu();
-            MenuType menuType = MenuType.matchType(consoleView.getMenu());
+            MenuType menuType = null;
+            try {
+                menuType = MenuType.matchType(consoleView.getMenu());
+            } catch (IllegalStateException e) {
+                logger.error("input error!");
+                consoleView.showErrorMsg(Error.VALIDATION_WRONG_TYPE);
+                continue;
+            }
             switch (menuType) {
                 case EXIT:
                     isExecute = false;
@@ -36,9 +43,6 @@ public class AppRunner implements CommandLineRunner {
                     break;
                 case LIST_VOUCHER:
                     voucherController.getAllVoucher();
-                    break;
-                default:
-                    consoleView.showErrorMsg(Error.VALIDATION_WRONG_TYPE);
                     break;
             }
         }

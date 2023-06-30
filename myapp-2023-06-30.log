@@ -45,3 +45,5 @@ Caused by: java.lang.NumberFormatException: For input string: ""
 	at com.prgrms.spring.AppRunner.run(AppRunner.java:35)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:768)
 	... 5 common frames omitted
+15:18:34.922 [main] ERROR com.prgrms.spring.AppRunner - input error!
+15:18:36.307 [main] ERROR com.prgrms.spring.AppRunner - input error!
