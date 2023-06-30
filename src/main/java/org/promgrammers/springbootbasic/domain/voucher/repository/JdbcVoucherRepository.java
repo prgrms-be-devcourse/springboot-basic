@@ -69,7 +69,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             Voucher voucher = template.queryForObject(FIND_BY_ID, param, voucherRowMapper);
             return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("찾지 못했습니다. => " + voucherId);
+            logger.error("해당 ID를 찾지 못했습니다. => " + voucherId);
             return Optional.empty();
         }
     }

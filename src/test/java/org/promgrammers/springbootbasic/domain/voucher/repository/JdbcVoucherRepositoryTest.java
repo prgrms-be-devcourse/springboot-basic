@@ -41,7 +41,7 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("저장 성공 - 바우처 저장")
-    void insert() throws Exception {
+    void insertSuccessTest() throws Exception {
 
         //given
         UUID voucherId = UUID.randomUUID();
