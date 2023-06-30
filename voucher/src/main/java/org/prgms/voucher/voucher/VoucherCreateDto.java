@@ -1,7 +1,5 @@
 package org.prgms.voucher.voucher;
 
-import org.prgms.voucher.type.VoucherOptionType;
-
 public class VoucherCreateDto {
 
     private final VoucherOptionType voucherOptionType;

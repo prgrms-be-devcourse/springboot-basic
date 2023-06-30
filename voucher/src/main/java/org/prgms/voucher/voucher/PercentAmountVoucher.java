@@ -1,7 +1,5 @@
 package org.prgms.voucher.voucher;
 
-import org.prgms.voucher.type.VoucherOptionType;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
