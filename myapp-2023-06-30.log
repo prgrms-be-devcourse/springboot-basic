@@ -47,3 +47,18 @@ Caused by: java.lang.NumberFormatException: For input string: ""
 	... 5 common frames omitted
 15:18:34.922 [main] ERROR com.prgrms.spring.AppRunner - input error!
 15:18:36.307 [main] ERROR com.prgrms.spring.AppRunner - input error!
+15:21:23.213 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:314)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292)
+	at com.prgrms.spring.Application.main(Application.java:11)
+Caused by: java.lang.IllegalArgumentException: 유효하지 않은 할인 금액입니다!
+	at com.prgrms.spring.domain.voucher.FixedAmountVoucher.newInstance(FixedAmountVoucher.java:16)
+	at com.prgrms.spring.service.voucher.VoucherService.createVoucher(VoucherService.java:22)
+	at com.prgrms.spring.controller.voucher.VoucherController.createVoucher(VoucherController.java:32)
+	at com.prgrms.spring.AppRunner.run(AppRunner.java:42)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:768)
+	... 5 common frames omitted
