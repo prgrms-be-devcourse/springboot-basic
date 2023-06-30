@@ -11,6 +11,8 @@ public class OutputView {
     public static final String VOUCHER_OPTION_MESSAGE = "    Fixed Amount Voucher를 발행하려면 fix를 입력해주세요.\n    Percent Voucher를 발행하려면 percent를 입력해주세요.\n    명령어를 입력해주세요 >> (fix, percent): ";
     public static final String FIXED_VOUCHER_AMOUNT_MESSAGE = "할인 금액을 입력해주세요 >> ";
     public static final String PERCENT_VOUCHER_AMOUNT_MESSAGE = "    0 이상 100 이하로 입력해주세요.\n    할인 비율을 입력해주세요 >> ";
+    public static final String FIXED_VOUCHER_CREATE_MESSAGE = "    Fixed Voucher, Discount Amount: %d 할인권이 생성되었습니다.";
+    public static final String PERCENT_VOUCHER_CREATE_MESSAGE = "    Percent Voucher, Discount Percent Amount: %d 할인권이 생성되었습니다.";
 
 
     public void printStartingMessage() {
@@ -29,6 +31,13 @@ public class OutputView {
         switch (voucherType) {
             case FIXED_AMOUNT_VOUCHER -> System.out.println(FIXED_VOUCHER_AMOUNT_MESSAGE);
             case PERCENT_DISCOUNT_VOUCHER -> System.out.println(PERCENT_VOUCHER_AMOUNT_MESSAGE);
+        }
+    }
+
+    public void printVoucherCreateMessage(VoucherType voucherType, Integer amount) {
+        switch (voucherType) {
+            case FIXED_AMOUNT_VOUCHER -> System.out.println(String.format(FIXED_VOUCHER_CREATE_MESSAGE, amount));
+            case PERCENT_DISCOUNT_VOUCHER -> System.out.println(String.format(PERCENT_VOUCHER_CREATE_MESSAGE, amount));
         }
     }
 

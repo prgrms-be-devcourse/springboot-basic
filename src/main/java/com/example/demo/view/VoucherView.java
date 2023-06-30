@@ -5,12 +5,12 @@ import com.example.demo.util.CommandType;
 import com.example.demo.util.VoucherType;
 import java.util.List;
 
-public class ConsoleView {
+public class VoucherView {
 
     private final InputView inputView;
     private final OutputView outputView;
 
-    public ConsoleView() {
+    public VoucherView() {
         this.inputView = new InputView();
         this.outputView = new OutputView();
     }
@@ -32,6 +32,10 @@ public class ConsoleView {
     public Integer readVoucherAmount(VoucherType voucherType) {
         outputView.printVoucherAmountInfoMessage(voucherType);
         return inputView.readVoucherAmount(voucherType);
+    }
+
+    public void printVoucherCreateMessage(VoucherType voucherType, Integer amount) {
+        outputView.printVoucherCreateMessage(voucherType, amount);
     }
 
     public void printVoucherList(List<VoucherDto> list) {
