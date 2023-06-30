@@ -2,7 +2,7 @@ package org.promgrammers.springbootbasic.domain.voucher.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
-import org.promgrammers.springbootbasic.exception.DuplicateIDException;
+import org.promgrammers.springbootbasic.exception.repository.DuplicateIDException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

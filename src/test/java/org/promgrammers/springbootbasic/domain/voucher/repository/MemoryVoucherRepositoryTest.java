@@ -11,7 +11,7 @@ import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.MemoryVoucherRepository;
-import org.promgrammers.springbootbasic.exception.DuplicateIDException;
+import org.promgrammers.springbootbasic.exception.repository.DuplicateIDException;
 
 import java.util.List;
 import java.util.Optional;
