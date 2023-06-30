@@ -11,8 +11,9 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
     private final LocalDate createdDate;
     private final LocalDate expirationDate;
+    private static final String TYPE = "AMOUNT";
 
-    private FixedAmountVoucher(long amount, LocalDate createdDate, LocalDate expirationDate) {
+    public FixedAmountVoucher(long amount, LocalDate createdDate, LocalDate expirationDate) {
         this.voucherId = UUID.randomUUID();
         this.amount = amount;
         this.createdDate = createdDate;

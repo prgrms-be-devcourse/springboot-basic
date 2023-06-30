@@ -9,8 +9,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
     private final LocalDate createdDate;
     private final LocalDate expirationDate;
+    private static final String TYPE = "PERCENT";
 
-    private PercentDiscountVoucher(long percent, LocalDate createdDate, LocalDate expirationDate) {
+    public PercentDiscountVoucher(long percent, LocalDate createdDate, LocalDate expirationDate) {
         this.voucherId = UUID.randomUUID();
         this.percent = percent;
         this.createdDate = createdDate;

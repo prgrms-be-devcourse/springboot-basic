@@ -15,21 +15,16 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher create(VoucherType type, long value, LocalDate createdDate, LocalDate expirationDate) {
+    public Voucher create(String type, long value, LocalDate createdDate, LocalDate expirationDate) {
 
-        Voucher newVoucher = null;
+        try {
+            VoucherFactory voucherFactory = VoucherFactory.valueOf(type);
+            Voucher voucher = voucherFactory.createVoucher(value, createdDate, expirationDate);
+            return voucherRepository.insert(voucher);
 
-        if (type == VoucherType.PERCENT) {
-            newVoucher = PercentDiscountVoucher.createPercentDiscountVoucher(value, createdDate, expirationDate);
-        } else if (type == VoucherType.AMOUNT) {
-            FixedAmountVoucher.createPercentDiscountVoucher(value, createdDate, expirationDate);
+        } catch (IllegalStateException e) {
+            throw new IllegalArgumentException();
         }
-
-        if (newVoucher == null) {
-           // 오류던질 예정
-        }
-
-        return voucherRepository.insert(newVoucher);
     }
 
     public List<Voucher> findAll() {
