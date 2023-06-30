@@ -7,9 +7,13 @@ import com.prgrms.springbootbasic.repository.VoucherRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoucherService {
+
     private final VoucherRepository voucherRepository;
+
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
