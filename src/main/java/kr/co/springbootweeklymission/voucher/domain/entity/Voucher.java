@@ -15,14 +15,16 @@ public class Voucher {
     private UUID voucherId;
     private int amount;
     private VoucherPolicy voucherPolicy;
+    private UUID memberId;
 
     @Builder
     private Voucher(UUID voucherId,
                     int amount,
-                    VoucherPolicy voucherPolicy) {
+                    VoucherPolicy voucherPolicy, UUID memberId) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherPolicy = voucherPolicy;
+        this.memberId = memberId;
     }
 
     public static Voucher toVoucher(VoucherReqDTO.CREATE create) {

@@ -82,10 +82,21 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
-        return (rs, rowNum) -> Voucher.builder()
-                .voucherId(UUID.fromString(rs.getString("voucher_id")))
-                .amount(rs.getInt("voucher_amount"))
-                .voucherPolicy(VoucherPolicy.valueOf(rs.getString("voucher_policy")))
-                .build();
+        return (rs, rowNum) -> {
+            if (rs.getString("member_id") == null) {
+                return Voucher.builder()
+                        .voucherId(UUID.fromString(rs.getString("voucher_id")))
+                        .amount(rs.getInt("voucher_amount"))
+                        .voucherPolicy(VoucherPolicy.valueOf(rs.getString("voucher_policy")))
+                        .build();
+            }
+
+            return Voucher.builder()
+                    .voucherId(UUID.fromString(rs.getString("voucher_id")))
+                    .amount(rs.getInt("voucher_amount"))
+                    .voucherPolicy(VoucherPolicy.valueOf(rs.getString("voucher_policy")))
+                    .memberId(UUID.fromString(rs.getString("member_id")))
+                    .build();
+        };
     }
 }

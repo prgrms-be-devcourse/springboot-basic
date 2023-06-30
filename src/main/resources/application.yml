@@ -4,7 +4,7 @@ description: "바우처를 DB(MySQL) 저장소에 저장 - JDBC 활용"
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/voucher_schema?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/schema_voucher?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: password
 

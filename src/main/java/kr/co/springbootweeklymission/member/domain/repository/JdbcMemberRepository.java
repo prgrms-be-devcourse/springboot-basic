@@ -61,19 +61,9 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     private RowMapper<Member> memberRowMapper() {
-        return (rs, rowNum) -> {
-            if (rs.getString("voucher_id") == null) {
-                return Member.builder()
-                        .memberId(UUID.fromString(rs.getString("member_id")))
-                        .memberStatus(MemberStatus.valueOf(rs.getString("member_status")))
-                        .build();
-            }
-
-            return Member.builder()
-                    .memberId(UUID.fromString(rs.getString("member_id")))
-                    .memberStatus(MemberStatus.valueOf(rs.getString("member_status")))
-                    .voucherId(UUID.fromString(rs.getString("voucher_id")))
-                    .build();
-        };
+        return (rs, rowNum) -> Member.builder()
+                .memberId(UUID.fromString(rs.getString("member_id")))
+                .memberStatus(MemberStatus.valueOf(rs.getString("member_status")))
+                .build();
     }
 }

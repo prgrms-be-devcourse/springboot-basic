@@ -11,15 +11,12 @@ import java.util.UUID;
 public class Member {
     private UUID memberId;
     private MemberStatus memberStatus;
-    private UUID voucherId;
 
     @Builder
     private Member(UUID memberId,
-                   MemberStatus memberStatus,
-                   UUID voucherId) {
+                   MemberStatus memberStatus) {
         this.memberId = memberId;
         this.memberStatus = memberStatus;
-        this.voucherId = voucherId;
     }
 
     public boolean isBlackMember() {

@@ -7,7 +7,7 @@
 - Gradle(Build Tool)
 
 ### 테이블 설계
-![img_1.png](img_1.png)
+![img_2.png](img_2.png)
 - 바우처와 회원은 다대일 관계입니다. 
   - 한명의 회원은 여러개의 바우처를 가질 수 있다.
 
