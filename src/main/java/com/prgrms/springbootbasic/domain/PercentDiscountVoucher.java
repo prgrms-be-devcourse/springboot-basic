@@ -1,15 +1,14 @@
 package com.prgrms.springbootbasic.domain;
 
+import com.prgrms.springbootbasic.enums.VoucherType;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 
-public class PercentDiscountVoucher implements Voucher{
+@AllArgsConstructor
+public class PercentDiscountVoucher implements Voucher {
+
     private final UUID voucherId;
     private final long percentDiscount;
-
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        this.voucherId = voucherId;
-        this.percentDiscount = percent;
-    }
 
     @Override
     public UUID getVoucherId() {
@@ -19,5 +18,10 @@ public class PercentDiscountVoucher implements Voucher{
     @Override
     public long getDiscount() {
         return percentDiscount;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
     }
 }
