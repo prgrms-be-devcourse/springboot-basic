@@ -1,6 +1,7 @@
 package com.prgrms.commandLineApplication.repository;
 
 import com.prgrms.commandLineApplication.voucher.Voucher;
+import com.prgrms.commandLineApplication.voucher.validator.VoucherValidator;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
   @Override
   public Voucher findById(UUID id) {
+    VoucherValidator.checkId(id);
     return voucherStorage.get(id);
   }
 
