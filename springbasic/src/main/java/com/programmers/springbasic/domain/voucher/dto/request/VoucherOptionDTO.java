@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class VoucherOptionDTO {
-    private static final String VALID_VOUCHER_OPTION_REGEXP = "^(P|F)$";
+    private static final String VALID_VOUCHER_OPTION_REGEXP = "^(PERCENT|FIXED)$";
     private static final String INVALID_VOUCHER_OPTION_MESSAGE = "지원하지 않는 Voucher Option 입니다.";
 
     private String voucherOption;
