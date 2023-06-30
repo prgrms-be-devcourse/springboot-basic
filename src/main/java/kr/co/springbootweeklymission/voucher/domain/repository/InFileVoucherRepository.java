@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Profile("dev")
+@Profile("file")
 @Repository
 public class InFileVoucherRepository implements VoucherRepository {
     private static final File VOUCHER_FILE = new File("src/main/resources/files/voucher_file.txt");
