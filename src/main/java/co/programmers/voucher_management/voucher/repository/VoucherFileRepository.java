@@ -23,12 +23,12 @@ import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 
 @Repository
 @Profile("dev")
-public class FileRepository implements VoucherRepository {
+public class VoucherFileRepository implements VoucherRepository {
 	private final String filePath;
 	private final Path path;
 	private int voucherCount;
 
-	private FileRepository(@Value(value = "${file.voucher.path}") String filePath) {
+	private VoucherFileRepository(@Value(value = "${file.voucher.path}") String filePath) {
 		this.filePath = filePath;
 		path = Paths.get(filePath);
 		voucherCount = getVoucherCount();

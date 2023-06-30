@@ -12,21 +12,21 @@ import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
 import co.programmers.voucher_management.Response;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
-import co.programmers.voucher_management.voucher.service.CreationService;
-import co.programmers.voucher_management.voucher.service.InquiryService;
+import co.programmers.voucher_management.voucher.service.VoucherCreationService;
+import co.programmers.voucher_management.voucher.service.VoucherInquiryService;
 
 @Controller
 public class VoucherCommandLineRunner implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
-	private final CreationService creationService;
-	private final InquiryService inquiryService;
+	private final VoucherCreationService voucherCreationService;
+	private final VoucherInquiryService voucherInquiryService;
 	private final OutputView outputView;
 	private final InputView<String> inputView;
 
-	public VoucherCommandLineRunner(CreationService creationService, InquiryService inquiryService,
+	public VoucherCommandLineRunner(VoucherCreationService voucherCreationService, VoucherInquiryService voucherInquiryService,
 			OutputView outputView, InputView<String> inputView) {
-		this.creationService = creationService;
-		this.inquiryService = inquiryService;
+		this.voucherCreationService = voucherCreationService;
+		this.voucherInquiryService = voucherInquiryService;
 		this.outputView = outputView;
 		this.inputView = inputView;
 	}
@@ -49,7 +49,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 					break;
 				case "list":
 				case "l":
-					response = inquiryService.run();
+					response = voucherInquiryService.run();
 					break;
 				default:
 					response = new Response<>(Response.State.FAILED, "* Invalid input for menu *");
@@ -62,7 +62,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 	private Response<String> createVoucher() {
 		try {
 			VoucherRequestDTO voucherRequestDTO = request();
-			return creationService.run(voucherRequestDTO);
+			return voucherCreationService.run(voucherRequestDTO);
 		} catch (InvalidUserInputException invalidUserInputException) {
 			return new Response<>(Response.State.FAILED, invalidUserInputException.getMessage());
 		}

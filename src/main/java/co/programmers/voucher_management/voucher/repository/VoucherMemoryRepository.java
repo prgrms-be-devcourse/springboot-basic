@@ -11,10 +11,10 @@ import co.programmers.voucher_management.voucher.entity.Voucher;
 
 @Repository
 @Profile("local")
-public class MemoryRepository implements VoucherRepository {
+public class VoucherMemoryRepository implements VoucherRepository {
 	private static final ArrayList<Voucher> repository = new ArrayList<>();
 
-	private MemoryRepository() {
+	private VoucherMemoryRepository() {
 	}
 
 	@Override

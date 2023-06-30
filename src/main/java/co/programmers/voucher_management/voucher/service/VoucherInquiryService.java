@@ -11,10 +11,10 @@ import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 
 @Service
-public class InquiryService {
+public class VoucherInquiryService {
 	private final VoucherRepository voucherRepository;
 
-	private InquiryService(VoucherRepository voucherRepository) {
+	private VoucherInquiryService(VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
 	}
 
@@ -29,7 +29,7 @@ public class InquiryService {
 	public Response run() {
 		List<Voucher> inquiredData = voucherRepository.findAll();
 		List<VoucherResponseDTO> voucherResponseDTOs = inquiredData.stream()
-				.map(InquiryService::mapToDResponseDTO)
+				.map(VoucherInquiryService::mapToDResponseDTO)
 				.collect(Collectors.toList());
 		return Response.builder()
 				.state(Response.State.SUCCESS)

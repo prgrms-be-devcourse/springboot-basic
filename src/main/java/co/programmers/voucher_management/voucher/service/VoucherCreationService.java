@@ -11,12 +11,12 @@ import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 
 @Service
-public class CreationService {
-	private static final Logger logger = LoggerFactory.getLogger(CreationService.class);
+public class VoucherCreationService {
+	private static final Logger logger = LoggerFactory.getLogger(VoucherCreationService.class);
 	private final VoucherRepository repository;
 	private int voucherCnt;
 
-	public CreationService(VoucherRepository repository) {
+	public VoucherCreationService(VoucherRepository repository) {
 		this.repository = repository;
 		voucherCnt = repository.getVoucherCount();
 	}
