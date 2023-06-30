@@ -5,13 +5,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucherRequest;
+import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherResponse;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
+import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
-import org.promgrammers.springbootbasic.domain.voucher.repository.impl.MemoryVoucherRepository;
+import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
+import org.promgrammers.springbootbasic.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,14 +32,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("jdbc")
+@SpringBootTest
 class VoucherServiceTest {
 
-    private MemoryVoucherRepository voucherRepository;
+    @MockBean
+    CommandLineController controller;
+    @Autowired
+    private JdbcVoucherRepository voucherRepository;
+    @Autowired
     private VoucherService voucherService;
 
     @BeforeAll
     void beforeAll() {
-        voucherRepository = new MemoryVoucherRepository();
         voucherService = new VoucherService(voucherRepository);
     }
 
@@ -128,7 +141,25 @@ class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
 
         // when -> then
-        assertThrows(IllegalArgumentException.class, () -> voucherService.findById(voucherId));
+        assertThrows(BusinessException.class, () -> voucherService.findById(voucherId));
+    }
+
+    @Test
+    @DisplayName("업데이트 성공 - 해당 바우처가 존재할 때")
+    void updateSuccessTest() throws Exception {
+
+        //given
+        UUID voucherId = UUID.randomUUID();
+        long discount = 20;
+        PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, discount);
+        voucherRepository.insert(voucher);
+        UpdateVoucherRequest updateRequest = new UpdateVoucherRequest(voucherId, voucher.getVoucherType(), 10);
+
+        //when
+        VoucherResponse updateVoucher = voucherService.update(updateRequest);
+        //then
+        assertThat(updateVoucher.voucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(updateVoucher.amount()).isEqualTo(10);
     }
 
     @Test
