@@ -5,6 +5,7 @@ import com.devcourse.springbootbasic.application.dto.VoucherDto;
 import com.devcourse.springbootbasic.application.dto.VoucherType;
 import com.devcourse.springbootbasic.application.repository.voucher.MemoryVoucherRepository;
 import com.devcourse.springbootbasic.application.service.VoucherService;
+import com.devcourse.springbootbasic.application.util.template.CreateMenuTemplate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

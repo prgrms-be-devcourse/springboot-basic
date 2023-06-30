@@ -18,7 +18,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("{0}(id: {1}, {2}: {3})", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue);
+        return MessageFormat.format("{0}(id: {1}, {2}: {3} amount)", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue);
     }
 
 }

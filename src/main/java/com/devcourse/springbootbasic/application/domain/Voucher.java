@@ -2,7 +2,6 @@ package com.devcourse.springbootbasic.application.domain;
 
 import com.devcourse.springbootbasic.application.dto.VoucherType;
 
-import java.text.MessageFormat;
 import java.util.UUID;
 
 public abstract class Voucher {

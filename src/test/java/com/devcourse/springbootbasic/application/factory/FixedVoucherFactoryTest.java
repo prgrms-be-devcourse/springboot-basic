@@ -1,6 +1,7 @@
 package com.devcourse.springbootbasic.application.factory;
 
 import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.util.factory.FixedVoucherFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

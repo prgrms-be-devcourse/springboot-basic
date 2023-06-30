@@ -8,6 +8,7 @@ import com.devcourse.springbootbasic.application.repository.customer.CustomerRep
 import com.devcourse.springbootbasic.application.repository.voucher.MemoryVoucherRepository;
 import com.devcourse.springbootbasic.application.service.CustomerService;
 import com.devcourse.springbootbasic.application.service.VoucherService;
+import com.devcourse.springbootbasic.application.util.template.ListMenuTemplate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

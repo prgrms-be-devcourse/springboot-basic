@@ -18,7 +18,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("{0}(id: {1}, {2}: {3})", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue);
+        return MessageFormat.format("{0}(id: {1}, {2}: {3} percent)", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue);
     }
 
 }

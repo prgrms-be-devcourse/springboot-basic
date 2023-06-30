@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.factory;
+package com.devcourse.springbootbasic.application.util.factory;
 
 import com.devcourse.springbootbasic.application.domain.Voucher;
 

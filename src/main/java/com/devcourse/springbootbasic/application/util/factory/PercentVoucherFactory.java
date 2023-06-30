@@ -1,18 +1,17 @@
-package com.devcourse.springbootbasic.application.factory;
+package com.devcourse.springbootbasic.application.util.factory;
 
-import com.devcourse.springbootbasic.application.domain.FixedAmountVoucher;
+import com.devcourse.springbootbasic.application.domain.PercentDiscountVoucher;
 import com.devcourse.springbootbasic.application.domain.Voucher;
 import com.devcourse.springbootbasic.application.dto.VoucherType;
 
 import java.util.UUID;
 
-public class FixedVoucherFactory implements VoucherFactory {
-
+public class PercentVoucherFactory implements VoucherFactory {
     @Override
     public Voucher create(double voucherDiscount) {
-        return new FixedAmountVoucher(
+        return new PercentDiscountVoucher(
                 UUID.randomUUID(),
-                VoucherType.FIXED_AMOUNT,
+                VoucherType.PERCENT_DISCOUNT,
                 voucherDiscount
         );
     }

@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.template;
+package com.devcourse.springbootbasic.application.util.template;
 
 import com.devcourse.springbootbasic.application.constant.Message;
 import com.devcourse.springbootbasic.application.dto.ListMenu;
