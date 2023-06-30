@@ -1,9 +1,5 @@
 package com.example.commandlineapplication.domain.voucher.controller;
 
-import com.example.commandlineapplication.domain.voucher.dto.VoucherCreateRequest;
-import com.example.commandlineapplication.domain.voucher.model.Voucher;
-import com.example.commandlineapplication.domain.voucher.model.VoucherType;
-import com.example.commandlineapplication.domain.voucher.service.VoucherFactory;
 import com.example.commandlineapplication.domain.voucher.service.VoucherService;
 import com.example.commandlineapplication.global.io.Command;
 import com.example.commandlineapplication.global.io.Input;
@@ -20,7 +16,6 @@ public class VoucherController implements Runnable {
   private static final Logger LOG = LoggerFactory.getLogger(VoucherController.class);
   private final Input input;
   private final Output output;
-  private final VoucherFactory voucherFactory;
   private final VoucherService voucherService;
 
   @Override
@@ -34,18 +29,7 @@ public class VoucherController implements Runnable {
 
         switch (command) {
           case CREATE:
-            output.printCreateOption();
-
-            VoucherType inputVoucherType = VoucherType.of(input.selectOption());
-
-            output.printDiscount();
-
-            Integer discount = input.getDiscount();
-
-            VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputVoucherType,
-                discount);
-            Voucher voucher = voucherFactory.create(voucherCreateRequest);
-            voucherService.insert(voucher);
+            voucherService.createVoucher();
             continue;
           case LIST:
             voucherService.history();
