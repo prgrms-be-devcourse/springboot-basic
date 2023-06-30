@@ -2,8 +2,8 @@ package org.promgrammers.springbootbasic.domain.voucher.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
+import org.promgrammers.springbootbasic.exception.repository.FileWriteException;
 import org.promgrammers.springbootbasic.exception.repository.InvalidFilePathException;
-import org.promgrammers.springbootbasic.exception.repository.VoucherFileWriteException;
 import org.promgrammers.springbootbasic.util.FileConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +93,7 @@ public class FileVoucherRepository implements VoucherRepository {
             return voucher;
         } catch (IOException e) {
             logger.error("Voucher 업데이트 실패", e.getMessage());
-            throw new VoucherFileWriteException("Voucher 업데이트에 실패했습니다.");
+            throw new FileWriteException("Voucher 업데이트에 실패했습니다.");
         }
     }
 
@@ -102,7 +102,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             Files.write(filePath, Collections.emptyList(), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
-            throw new VoucherFileWriteException("Failed to delete all vouchers.");
+            throw new FileWriteException("Failed to delete all vouchers.");
         }
     }
 }
