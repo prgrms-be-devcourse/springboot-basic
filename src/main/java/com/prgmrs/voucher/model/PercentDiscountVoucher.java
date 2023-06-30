@@ -1,5 +1,7 @@
 package com.prgmrs.voucher.model;
 
+import com.prgmrs.voucher.exception.WrongRangeFormatException;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -21,6 +23,9 @@ public class PercentDiscountVoucher implements Voucher {
     }
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        if (percent < 1 || percent > 100) {
+            throw new WrongRangeFormatException("percent not between 1-100");
+        }
+        return (beforeDiscount * percent) / 100;
     }
 }
