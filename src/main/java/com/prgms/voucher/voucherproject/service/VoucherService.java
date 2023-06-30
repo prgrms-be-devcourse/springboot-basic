@@ -27,11 +27,6 @@ public class VoucherService {
         console.printMsg(CREATE_FIXED_MSG);
         long discount = console.inputDiscountAmount();
         console.bufferDeleted();
-
-        if (discount <= 0) {
-            throw new IllegalArgumentException("잘못된 고정 할인 금액입니다.");
-        }
-
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
         voucherRepository.save(fixedAmountVoucher);
     }
@@ -40,11 +35,6 @@ public class VoucherService {
         console.printMsg(CREATE_PERCENT_MSG);
         long percent = console.inputDiscountAmount();
         console.bufferDeleted();
-
-        if (percent <= 0 || percent > 99) {
-            throw new IllegalArgumentException("잘못된 퍼센트 할인 금액입니다.");
-        }
-
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
         voucherRepository.save(percentDiscountVoucher);
     }
