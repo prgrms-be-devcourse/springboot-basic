@@ -9,15 +9,15 @@ public enum VoucherType {
     FIXED("fixed"),
     PERCENT("percent");
 
-    private final String content;
+    private final String type;
 
-    VoucherType(String content) {
-        this.content = content;
+    VoucherType(String type) {
+        this.type = type;
     }
 
-    public static VoucherType find(String content) {
+    public static VoucherType find(String type) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.content.equals(content))
+                .filter(voucherType -> voucherType.type.equals(type))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException(VOUCHER_ERROR_MESSAGE.getMessage()));
     }
