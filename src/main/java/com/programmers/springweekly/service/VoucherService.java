@@ -17,10 +17,10 @@ public class VoucherService {
 
     public void saveVoucher(VoucherType voucherType, String discount) {
         Voucher voucher = VoucherFactory.createVoucher(voucherType, discount);
-        voucherRepository.saveVoucher(voucher);
+        voucherRepository.save(voucher);
     }
 
     public Map<UUID, Voucher> findVoucherAll() {
-        return voucherRepository.getVoucherMap();
+        return voucherRepository.getList();
     }
 }

@@ -28,7 +28,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private String filePath;
 
     @Override
-    public void saveVoucher(Voucher voucher) {
+    public void save(Voucher voucher) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
 
             String voucherId = String.valueOf(voucher.getVoucherId());
@@ -42,14 +42,14 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.newLine();
 
             bufferedWriter.flush();
-            
+
         } catch (Exception e) {
             log.error("error message: {}", e.getMessage());
         }
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherMap() {
+    public Map<UUID, Voucher> getList() {
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath))) {
             String line = "";
 

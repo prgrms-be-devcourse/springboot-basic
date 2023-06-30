@@ -15,12 +15,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 
     @Override
-    public void saveVoucher(Voucher voucher) {
+    public void save(Voucher voucher) {
         voucherMap.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherMap() {
+    public Map<UUID, Voucher> getList() {
         return Collections.unmodifiableMap(voucherMap);
     }
 }

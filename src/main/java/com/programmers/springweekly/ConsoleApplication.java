@@ -53,7 +53,6 @@ public class ConsoleApplication implements CommandLineRunner {
 
     private void createVoucher() {
         console.outputSelectCreateVoucherGuide();
-
         VoucherType voucherType = VoucherType.findVoucherMenu(console.inputMessage());
 
         console.outputDiscountGuide();
