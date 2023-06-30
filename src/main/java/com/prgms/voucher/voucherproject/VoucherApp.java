@@ -5,21 +5,20 @@ import com.prgms.voucher.voucherproject.io.Console;
 import com.prgms.voucher.voucherproject.repository.MemoryVoucherRepository;
 import com.prgms.voucher.voucherproject.repository.VoucherRepository;
 import com.prgms.voucher.voucherproject.service.VoucherService;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class VoucherApp implements Runnable{
     private final Console console = new Console();
-    private final VoucherService voucherService;
-    private static VoucherRepository voucherRepository;
+    private VoucherService voucherService;
 
     public VoucherApp(VoucherService voucherService) {
         this.voucherService = voucherService;
-        this.voucherRepository = voucherRepository;
     }
 
 
     public static void main(String[] args) {
-        voucherRepository = new MemoryVoucherRepository();
-        new VoucherApp(new VoucherService(voucherRepository)).run();
+        new VoucherApp().run();
     }
 
     @Override
