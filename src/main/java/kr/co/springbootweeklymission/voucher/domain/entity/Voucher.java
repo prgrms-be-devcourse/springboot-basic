@@ -5,13 +5,11 @@ import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
+@Getter
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Voucher {
@@ -60,9 +58,5 @@ public class Voucher {
         return this.voucherPolicy
                 .getDiscount()
                 .apply(price, this.amount);
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
     }
 }
