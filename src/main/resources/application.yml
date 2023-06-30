@@ -1,0 +1,3 @@
+app:
+  path:
+    file: src/main/resources/file/customer-blacklist.csv
