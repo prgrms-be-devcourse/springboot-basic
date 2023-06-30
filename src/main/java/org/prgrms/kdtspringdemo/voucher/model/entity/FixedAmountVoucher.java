@@ -34,8 +34,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long executeDiscount(long beforeDiscount) {
-        return beforeDiscount - discount;
+    public long executeDiscount(long originPrice) {
+        return originPrice - discount;
     }
 
     @Override
