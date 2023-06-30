@@ -1,18 +1,18 @@
 package org.prgms.voucher.voucher.repository;
 
-import org.prgms.voucher.voucher.Voucher;
+import org.prgms.voucher.voucher.AmountVoucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-    Map<UUID, Voucher> memoryStorage = new HashMap<>();
+    Map<UUID, AmountVoucher> memoryStorage = new HashMap<>();
 
     @Override
-    public Voucher save(Voucher voucher) {
-        memoryStorage.put(voucher.getVoucherId(), voucher);
-        return voucher;
+    public AmountVoucher save(AmountVoucher amountVoucher) {
+        memoryStorage.put(amountVoucher.getId(), amountVoucher);
+        return amountVoucher;
     }
 
     @Override

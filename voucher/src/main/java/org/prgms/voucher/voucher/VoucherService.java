@@ -23,13 +23,13 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    void createVoucher(VoucherCreateDto voucherCreateDto) {
+    public AmountVoucher createAmountVoucher(VoucherCreateDto voucherCreateDto) {
         if (voucherCreateDto.getOptionType() == OptionType.FIXED_AMOUNT) {
             Voucher voucher = new FixedAmount(
                     UUID.randomUUID(),
                     voucherCreateDto.getAmount());
 
-            voucherRepository.save(voucher);
+        return voucherRepository.save(amountVoucher);
         } else if (voucherCreateDto.getOptionType() == OptionType.PERCENT_AMOUNT) {
             Voucher voucher = new PercentAmount(
                     UUID.randomUUID(),

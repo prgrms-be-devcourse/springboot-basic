@@ -1,11 +1,11 @@
 package org.prgms.voucher.voucher.repository;
 
-import org.prgms.voucher.voucher.Voucher;
+import org.prgms.voucher.voucher.AmountVoucher;
 
 import java.util.List;
 
 public interface VoucherRepository {
-    Voucher save(Voucher voucher);
+    AmountVoucher save(AmountVoucher amountVoucher);
 
-    List<Voucher> findAll();
+    List<AmountVoucher> findAll();
 }

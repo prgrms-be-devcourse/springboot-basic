@@ -1,13 +1,14 @@
 package org.prgms.voucher.voucher;
 
-import org.prgms.voucher.type.OptionType;
+import org.prgms.voucher.type.VoucherOptionType;
 
 public class VoucherCreateDto {
-    private final OptionType optionType;
+
+    private final VoucherOptionType voucherOptionType;
     private final int amount;
 
-    public VoucherCreateDto(OptionType optionType, int amount) {
-        this.optionType = optionType;
+    public VoucherCreateDto(VoucherOptionType voucherOptionType, int amount) {
+        this.voucherOptionType = voucherOptionType;
         this.amount = amount;
     }
 
@@ -15,7 +16,7 @@ public class VoucherCreateDto {
         return amount;
     }
 
-    public OptionType getOptionType() {
-        return optionType;
+    public VoucherOptionType getOptionType() {
+        return voucherOptionType;
     }
 }
