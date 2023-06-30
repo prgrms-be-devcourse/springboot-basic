@@ -1,5 +1,7 @@
 package com.example.springbootbasic.voucher;
 
+import java.text.MessageFormat;
+
 public class FixedAmountVoucher implements Voucher {
     private final long fixedAmount;
 
@@ -10,6 +12,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - fixedAmount;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("VoucherType: {0}, percent: {1}$", this.getClass().getName(), fixedAmount);
     }
 
     public long getFixedAmount() {
