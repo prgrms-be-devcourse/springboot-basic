@@ -7,14 +7,14 @@ import java.util.List;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Primary
 @Repository
+@Qualifier("FileVoucherRepository")
 public class FileVoucherRepository implements VoucherRepository {
 
 	private final ObjectMapper objectMapper;

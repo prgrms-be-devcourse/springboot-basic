@@ -6,9 +6,11 @@ import java.util.Map;
 
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Qualifier("InMemoryVoucherRepository")
 public class InMemoryVoucherRepository implements VoucherRepository {
 
 	private final Map<Long, VoucherEntity> map;

@@ -12,30 +12,28 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.prgrms.kdt.model.FixedAmount;
-import org.prgrms.kdt.model.entity.FixedDiscountVoucherEntity;
-import org.prgrms.kdt.model.entity.PercentDiscountVoucherEntity;
+import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 
 class InMemoryVoucherRepositoryTestEntity {
 
 	private static Stream<Arguments> vouchersProvider() {
 		List<VoucherEntity> vouchers1 = Arrays.asList(
-			new FixedDiscountVoucherEntity(5L, new FixedAmount(100)),
-			new PercentDiscountVoucherEntity(6L, new FixedAmount(50)),
-			new FixedDiscountVoucherEntity(7L, new FixedAmount(200))
+			new VoucherEntity(5L, 100, VoucherType.FixedAmountVoucher),
+			new VoucherEntity(6L, 10, VoucherType.PercentDiscountVoucher),
+			new VoucherEntity(7L, 50, VoucherType.FixedAmountVoucher)
 		);
 
 		List<VoucherEntity> vouchers2 = Arrays.asList(
-			new FixedDiscountVoucherEntity(5L, new FixedAmount(100)),
-			new PercentDiscountVoucherEntity(2L, new FixedAmount(50)),
-			new PercentDiscountVoucherEntity(4L, new FixedAmount(40))
+			new VoucherEntity(5L, 30, VoucherType.PercentDiscountVoucher),
+			new VoucherEntity(2L, 20, VoucherType.FixedAmountVoucher),
+			new VoucherEntity(4L, 10, VoucherType.FixedAmountVoucher)
 		);
 
 		List<VoucherEntity> vouchers3 = Arrays.asList(
-			new PercentDiscountVoucherEntity(3L, new FixedAmount(100)),
-			new FixedDiscountVoucherEntity(2L, new FixedAmount(50)),
-			new FixedDiscountVoucherEntity(1L, new FixedAmount(200))
+			new VoucherEntity(3L, 10, VoucherType.FixedAmountVoucher),
+			new VoucherEntity(2L, 50, VoucherType.PercentDiscountVoucher),
+			new VoucherEntity(1L, 30, VoucherType.PercentDiscountVoucher)
 		);
 
 		return Stream.of(

@@ -1,6 +1,0 @@
-{"voucherId":2417062074987446051,"amount":10,"voucherType":"FixedAmountVoucher"}
-{"voucherId":-6295249156531896716,"amount":10,"voucherType":"FixedAmountVoucher"}
-{"voucherId":2740606598656328128,"amount":100,"voucherType":"FixedAmountVoucher"}
-{"voucherId":-8136649390127638347,"amount":10,"voucherType":"FixedAmountVoucher"}
-{"voucherId":2124239445301127757,"amount":10,"voucherType":"FixedAmountVoucher"}
-{"voucherId":4411271803875221743,"amount":10,"voucherType":"FixedAmountVoucher"}

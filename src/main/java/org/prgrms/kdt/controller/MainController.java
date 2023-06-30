@@ -40,8 +40,8 @@ public class MainController {
 			try {
 				command = inputView.getCommand();
 				executeCommand(command);
-			} catch (Exception e) {
-				logger.error("사용자 Command 입력 실패");
+			} catch (IllegalArgumentException e) {
+				logger.error("잘못된 Command 입력");
 				outputView.displayCommandErrorMessage();
 			}
 		} while (command != Command.EXIT);

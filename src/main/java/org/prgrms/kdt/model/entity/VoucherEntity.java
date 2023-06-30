@@ -10,6 +10,9 @@ public class VoucherEntity {
 
 	private VoucherType voucherType;
 
+	/**
+	 * <p>json으로 deserialization하는 ObjectMapper 클래스에서 default 생성자를 요구하여 작성하였습니다.</p>
+	 */
 	public VoucherEntity() {
 	}
 
