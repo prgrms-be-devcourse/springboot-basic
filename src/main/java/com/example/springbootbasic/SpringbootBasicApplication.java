@@ -6,13 +6,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SpringbootBasicApplication {
+	private final CliVoucherApplication cliVoucherApplication;
 
+	public SpringbootBasicApplication(CliVoucherApplication cliVoucherApplication) {
+		this.cliVoucherApplication = cliVoucherApplication;
+	}
 
 	public static void main(String[] args) {
-		var applicationContext = SpringApplication.run(SpringbootBasicApplication.class, args);
-		var cliVoucherApplication = applicationContext.getBean(CliVoucherApplication.class);
-
-		cliVoucherApplication.run();
+		SpringApplication.run(SpringbootBasicApplication.class, args);
+//		cliVoucherApplication.run();
 	}
 
 }
