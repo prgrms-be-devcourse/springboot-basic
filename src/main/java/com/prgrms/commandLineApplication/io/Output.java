@@ -12,7 +12,7 @@ public interface Output {
 
   void requestDiscountAmount();
 
-  void printError();
+  void printMenuError();
 
   void printAllVoucher(List<Voucher> vouchers);
 

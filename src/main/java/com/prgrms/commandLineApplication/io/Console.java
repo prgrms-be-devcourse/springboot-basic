@@ -11,6 +11,14 @@ public class Console implements Input, Output {
 
   private static final Scanner scanner = new Scanner(System.in);
 
+  public static final String FIXED = "- fixed ";
+  public static final String PERCENT = "- percent";
+  public static final String ENTER_CREATE_TYPE = "Enter the type you want to create";
+  public static final String ENTER_CREATE_VALUE = "Enter the value you want to create";
+  public static final String SELECT_MENU_ERROR = "Select from the menu in the view";
+  public static final String UUID = "- UUID : ";
+  public static final String VOUCHER = "- VOUCHER : ";
+  public static final String CREATE_SUCCESS = "Successfully created";
   public static final String PRINT_MENU = """
           === Voucher Program ===
           Type exit to exit the program.
@@ -18,7 +26,8 @@ public class Console implements Input, Output {
           Type list to list all vouchers.
           """;
 
-  public String userInput() {
+
+  private String userInput() {
     return scanner.nextLine();
   }
 
@@ -44,31 +53,31 @@ public class Console implements Input, Output {
 
   @Override
   public void requestVoucherType() {
-    System.out.println("- fixed \n- percent");
-    System.out.println("Enter the type you want to create");
+    System.out.println(FIXED + PERCENT);
+    System.out.println(ENTER_CREATE_TYPE);
   }
 
   @Override
   public void requestDiscountAmount() {
-    System.out.println("Enter the value you want to create");
+    System.out.println(ENTER_CREATE_VALUE);
   }
 
   @Override
-  public void printError() {
-    System.out.println("Select from the menu in the view");
+  public void printMenuError() {
+    System.out.println(SELECT_MENU_ERROR);
   }
 
   @Override
   public void printAllVoucher(List<Voucher> vouchers) {
     for (Voucher voucher : vouchers) {
-      System.out.println("UUID : " + voucher.getVoucherId() +
-              "\nVoucher : " + voucher.getDiscount().getVoucherType() + " , " + voucher.supplyDiscountAmount());
+      System.out.println(UUID + voucher.getVoucherId());
+      System.out.println(VOUCHER + voucher.getDiscount().getVoucherType() + " , " + voucher.supplyDiscountAmount());
     }
   }
 
   @Override
   public void printCreateSuccess() {
-    System.out.println("Successfully created");
+    System.out.println(CREATE_SUCCESS);
   }
 
 }

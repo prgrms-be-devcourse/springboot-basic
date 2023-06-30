@@ -31,7 +31,7 @@ public class VoucherController {
           }
           case LIST -> list();
           case CREATE -> create();
-          default -> console.printError();
+          default -> console.printMenuError();
         }
       } catch (RuntimeException e) {
         System.out.println(e.getMessage());
