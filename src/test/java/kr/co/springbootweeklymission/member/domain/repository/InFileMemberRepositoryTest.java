@@ -1,7 +1,6 @@
-package kr.co.springbootweeklymission.member.repository;
+package kr.co.springbootweeklymission.member.domain.repository;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
-import kr.co.springbootweeklymission.member.domain.repository.InFileMemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
