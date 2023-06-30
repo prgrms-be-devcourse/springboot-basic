@@ -32,4 +32,9 @@ public class FixedAmountVoucher implements Voucher {
         return new VoucherDto(UUID.fromString(this.id.toString()), new Integer(discountAmount), VoucherType.FIXED_AMOUNT_VOUCHER);
     }
 
+    @Override
+    public UUID getUUID() {
+        return this.id;
+    }
+
 }
