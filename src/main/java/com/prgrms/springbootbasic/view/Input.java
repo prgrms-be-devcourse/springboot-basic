@@ -2,9 +2,9 @@ package com.prgrms.springbootbasic.view;
 
 public interface Input {
 
-    String inputCommand(String message);
+    String inputCommand();
 
-    String inputVoucherType(String voucherType);
+    String inputVoucherType();
 
-    long inputVoucherDiscount(long discount);
+    long inputVoucherDiscount();
 }
