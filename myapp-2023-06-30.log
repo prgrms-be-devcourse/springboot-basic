@@ -1,0 +1,30 @@
+14:35:12.615 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:314)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292)
+	at com.prgrms.spring.Application.main(Application.java:11)
+Caused by: java.lang.IllegalStateException: VALIDATION_WRONG_TYPE
+	at com.prgrms.spring.domain.menu.MenuType.lambda$matchType$1(MenuType.java:24)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.prgrms.spring.domain.menu.MenuType.matchType(MenuType.java:24)
+	at com.prgrms.spring.AppRunner.run(AppRunner.java:29)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:768)
+	... 5 common frames omitted
+14:35:19.239 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:314)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292)
+	at com.prgrms.spring.Application.main(Application.java:11)
+Caused by: java.lang.IllegalStateException: VALIDATION_WRONG_TYPE
+	at com.prgrms.spring.domain.menu.MenuType.lambda$matchType$1(MenuType.java:24)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.prgrms.spring.domain.menu.MenuType.matchType(MenuType.java:24)
+	at com.prgrms.spring.AppRunner.run(AppRunner.java:29)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:768)
+	... 5 common frames omitted
