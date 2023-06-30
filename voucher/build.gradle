@@ -20,6 +20,9 @@ dependencies {
     implementation 'org.beryx:text-io:3.1.0'
     // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
     implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.32'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
