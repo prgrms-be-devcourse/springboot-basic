@@ -1,7 +1,5 @@
 package com.example.springbootbasic.voucher;
 
-import com.example.springbootbasic.io.Console;
-import com.example.springbootbasic.io.Output;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,23 +7,16 @@ import java.util.List;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final Output output;
 
-    public VoucherService(VoucherRepository voucherRepository, Output output) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.output = output;
     }
 
-    public void commandExit() {
-        Console.print("Terminate Program...");
+    public void commandCreate(Voucher voucher) {
+        voucherRepository.save(voucher);
     }
 
-    public void commandCreate() {
-        
-    }
-
-    public void commandList() {
-        List<Voucher> all = voucherRepository.findAll();
-        output.printAllVouchers(all);
+    public List<Voucher> commandList() {
+        return voucherRepository.findAll();
     }
 }
