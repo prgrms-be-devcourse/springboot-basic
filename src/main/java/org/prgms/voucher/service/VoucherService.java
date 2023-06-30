@@ -19,7 +19,6 @@ import java.util.UUID;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-    private final VoucherFactory voucherFactory;
 
     public VoucherResponseDto findVoucher(UUID id) {
 
@@ -31,9 +30,9 @@ public class VoucherService {
     }
 
     public Voucher create(VoucherPolicy voucherPolicy, long amount) {
-        Voucher voucher = voucherFactory.createVoucher(voucherPolicy, amount);
+        Voucher voucher = VoucherFactory.createVoucher(voucherPolicy, amount);
         log.debug("바우처 생성: {}", voucher);
-        return this.voucherRepository.save(voucher);
+        return voucherRepository.save(voucher);
     }
 
     public List<VoucherResponseDto> getVoucherList() {

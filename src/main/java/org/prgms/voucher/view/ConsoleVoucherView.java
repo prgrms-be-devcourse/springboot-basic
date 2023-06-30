@@ -9,7 +9,6 @@ import org.prgms.voucher.option.Option;
 import org.prgms.voucher.voucher.VoucherPolicy;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,17 +16,16 @@ import java.util.stream.Collectors;
 @Component
 public class ConsoleVoucherView implements VoucherView {
 
-    private final TextIO textIO = TextIoFactory.getTextIO();
-    private final TextTerminal terminal = TextIoFactory.getTextIO().getTextTerminal();
+    private final static TextIO textIO = TextIoFactory.getTextIO();
+    private final static TextTerminal terminal = TextIoFactory.getTextIO().getTextTerminal();
 
-    private final String[] options = Arrays.stream(Option.values())
+    private final static String[] options = Arrays.stream(Option.values())
             .map(Option::getOption)
             .toArray(String[]::new);
-    private final String[] voucherTypes = Arrays.stream(VoucherPolicy.values())
+    private final static String[] voucherTypes = Arrays.stream(VoucherPolicy.values())
             .map(VoucherPolicy::getVoucherPolicy)
             .toArray(String[]::new);
 
-    @Override
     public void printOptions() {
         terminal.println("=== Voucher Program ===");
         terminal.println(
@@ -42,7 +40,7 @@ public class ConsoleVoucherView implements VoucherView {
         terminal.println("=== Voucher list ====");
         terminal.println(
                 vouchers.stream()
-                        .map(voucher -> MessageFormat.format("id: {0}, voucher policy: {1}, amount: {2}", voucher.getId(), voucher.getVoucherPolicy(), voucher.getAmount()))
+                        .map(VoucherResponseDto::toString)
                         .collect(Collectors.joining(System.lineSeparator()))
         );
     }
@@ -57,7 +55,7 @@ public class ConsoleVoucherView implements VoucherView {
         terminal.println("=== Black list ===");
         terminal.println(
                 customers.stream()
-                        .map(customer -> MessageFormat.format("id: {0}, name: {1}", customer.getId(), customer.getName()))
+                        .map(BlackCustomerResponseDto::toString)
                         .collect(Collectors.joining(System.lineSeparator()))
         );
     }

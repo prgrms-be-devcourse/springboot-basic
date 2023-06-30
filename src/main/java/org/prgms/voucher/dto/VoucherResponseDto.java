@@ -1,19 +1,22 @@
 package org.prgms.voucher.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.prgms.voucher.voucher.VoucherPolicy;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 public class VoucherResponseDto {
-    private long amount;
-    private UUID id;
-    private VoucherPolicy voucherPolicy;
+    private final long amount;
+    private final UUID id;
+    private final VoucherPolicy voucherPolicy;
+
+    @Override
+    public String toString() {
+        return MessageFormat
+                .format("id: {0}, voucher policy: {1}, amount: {2}", id, voucherPolicy, amount);
+    }
 }
