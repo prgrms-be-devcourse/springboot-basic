@@ -6,12 +6,25 @@ import java.util.UUID;
 public class VoucherDto {
 
     private final UUID id;
-    private final int discountAmount;
+    private final Integer discountAmount;
     private final VoucherType voucherType;
 
     public VoucherDto(UUID id, int discountAmount, VoucherType voucherType) {
         this.id = id;
         this.discountAmount = discountAmount;
         this.voucherType = voucherType;
+    }
+
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
+    @Override
+    public String toString() {
+        return switch (voucherType) {
+            case FIXED_AMOUNT_VOUCHER -> String.format("    Fixed Voucher, Discount Amount: %d 할인권이 생성되었습니다.", discountAmount);
+            case PERCENT_DISCOUNT_VOUCHER -> String.format("    Percent Voucher, Discount percent Amount: %d 할인권이 생성되었습니다.", discountAmount);
+            default -> throw new IllegalArgumentException("잘 못된 바우처 타입입니다.");
+        };
     }
 }
