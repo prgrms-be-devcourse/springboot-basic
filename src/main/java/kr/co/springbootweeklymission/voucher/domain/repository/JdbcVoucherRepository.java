@@ -1,8 +1,10 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
+import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -39,6 +41,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        String sql = "" +
+                "select * " +
+                "from tbl_vouchers";
+        return jdbcTemplate.query(sql, voucherRowMapper());
+    }
+
+    private RowMapper<Voucher> voucherRowMapper() {
+        return (rs, rowNum) -> Voucher.builder()
+                .voucherId(UUID.fromString(rs.getString("voucher_id")))
+                .amount(rs.getInt("voucher_amount"))
+                .voucherPolicy(VoucherPolicy.valueOf(rs.getString("voucher_policy")))
+                .build();
     }
 }
