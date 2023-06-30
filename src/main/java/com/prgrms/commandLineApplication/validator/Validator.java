@@ -1,7 +1,7 @@
 package com.prgrms.commandLineApplication.validator;
 
-import com.prgrms.commandLineApplication.discount.FixedDiscount;
-import com.prgrms.commandLineApplication.discount.PercentDiscount;
+import com.prgrms.commandLineApplication.voucher.discount.FixedDiscount;
+import com.prgrms.commandLineApplication.voucher.discount.PercentDiscount;
 
 import java.util.UUID;
 

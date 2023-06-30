@@ -2,7 +2,7 @@ package com.prgrms.commandLineApplication.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.prgrms.commandLineApplication.discount.PercentDiscount;
+import com.prgrms.commandLineApplication.voucher.discount.PercentDiscount;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

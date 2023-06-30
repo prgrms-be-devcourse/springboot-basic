@@ -1,4 +1,4 @@
-package com.prgrms.commandLineApplication.discount;
+package com.prgrms.commandLineApplication.voucher.discount;
 
 import com.prgrms.commandLineApplication.validator.Validator;
 import com.prgrms.commandLineApplication.voucher.VoucherType;

@@ -1,6 +1,6 @@
 package com.prgrms.commandLineApplication.voucher;
 
-import com.prgrms.commandLineApplication.discount.Discount;
+import com.prgrms.commandLineApplication.voucher.discount.Discount;
 import com.prgrms.commandLineApplication.validator.Validator;
 
 import java.util.UUID;
