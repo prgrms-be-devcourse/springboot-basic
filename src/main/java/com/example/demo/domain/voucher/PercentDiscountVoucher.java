@@ -23,4 +23,9 @@ public class PercentDiscountVoucher implements Voucher {
     public VoucherDto convertToVoucherDto() {
         return new VoucherDto(UUID.fromString(this.id.toString()), new Integer(discountPercent), VoucherType.PERCENT_DISCOUNT_VOUCHER);
     }
+
+    @Override
+    public UUID getUUID() {
+        return this.id;
+    }
 }
