@@ -35,9 +35,4 @@ public class InMemoryVoucherRepository implements VoucherRepository{
         return new ArrayList<>(voucherStorage.values());
     }
 
-    @Override
-    public void deleteAll() {
-        voucherStorage.clear();
-    }
-
 }
