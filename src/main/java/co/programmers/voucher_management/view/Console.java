@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import co.programmers.voucher_management.voucher.dto.Response;
+import co.programmers.voucher_management.Response;
 import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
 
 @Component

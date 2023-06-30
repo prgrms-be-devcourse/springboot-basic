@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import co.programmers.voucher_management.exception.InvalidUserInputException;
 import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
-import co.programmers.voucher_management.voucher.dto.Response;
+import co.programmers.voucher_management.Response;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher_management.voucher.service.CreationService;
 import co.programmers.voucher_management.voucher.service.InquiryService;

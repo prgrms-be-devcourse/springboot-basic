@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher_management.voucher.dto.Response;
+import co.programmers.voucher_management.Response;
 import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;
@@ -27,8 +27,8 @@ public class InquiryService {
 	}
 
 	public Response run() {
-		List<Voucher> inquiriedData = voucherRepository.findAll();
-		List<VoucherResponseDTO> voucherResponseDTOs = inquiriedData.stream()
+		List<Voucher> inquiredData = voucherRepository.findAll();
+		List<VoucherResponseDTO> voucherResponseDTOs = inquiredData.stream()
 				.map(InquiryService::mapToDResponseDTO)
 				.collect(Collectors.toList());
 		return Response.builder()

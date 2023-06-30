@@ -1,6 +1,6 @@
 package co.programmers.voucher_management.view;
 
-import co.programmers.voucher_management.voucher.dto.Response;
+import co.programmers.voucher_management.Response;
 
 public interface OutputView {
 	void printGuideMessage();
