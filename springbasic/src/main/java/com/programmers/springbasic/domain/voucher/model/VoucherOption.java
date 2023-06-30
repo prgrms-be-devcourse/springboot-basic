@@ -1,16 +1,14 @@
 package com.programmers.springbasic.domain.voucher.model;
 
+import lombok.Getter;
+
+@Getter
 public enum VoucherOption {
-    FIXED_AMOUNT_VOUCHER("F"), PERCENT_DISCOUNT_VOUCHER("P");
+    FIXED_AMOUNT_VOUCHER("FIXED"), PERCENT_DISCOUNT_VOUCHER("PERCENT");
 
     private String voucherOption;
 
     VoucherOption(String voucherOption) {
         this.voucherOption = voucherOption;
-    }
-
-    @Override
-    public String toString() {
-        return voucherOption;
     }
 }

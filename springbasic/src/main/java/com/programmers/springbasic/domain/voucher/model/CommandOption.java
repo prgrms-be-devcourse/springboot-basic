@@ -1,5 +1,8 @@
 package com.programmers.springbasic.domain.voucher.model;
 
+import lombok.Getter;
+
+@Getter
 public enum CommandOption {
     EXIT("exit"), CREATE("create"), LIST("list");
 
@@ -7,10 +10,5 @@ public enum CommandOption {
 
     CommandOption(String command) {
         this.command = command;
-    }
-
-    @Override
-    public String toString() {
-        return command;
     }
 }
