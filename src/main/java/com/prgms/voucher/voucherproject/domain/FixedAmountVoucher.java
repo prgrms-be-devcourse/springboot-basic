@@ -2,7 +2,7 @@ package com.prgms.voucher.voucherproject.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 
@@ -11,9 +11,8 @@ public class FixedAmountVoucher implements Voucher{
         this.voucherId = voucherId;
     }
 
-
     @Override
-    public UUID getVoucherId() {
+    public UUID getId() {
         return voucherId;
     }
 
@@ -23,7 +22,7 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public String toString() {
-        return "| UUID:" + getVoucherId() + " | VoucherType: FixedVoucher | amount:" + amount +" |";
+        return "| UUID:" + getId() + "  | VoucherType: FixedVoucher | amount:" + amount + " |";
     }
 
 

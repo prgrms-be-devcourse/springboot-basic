@@ -3,6 +3,6 @@ package com.prgms.voucher.voucherproject.domain;
 import java.util.UUID;
 
 public interface Voucher {
-    UUID getVoucherId();
+    UUID getId();
     long discount(long beforeDiscount);
 }
