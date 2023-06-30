@@ -3,7 +3,6 @@ package com.programmers.springweekly.controller;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.service.VoucherService;
-import com.programmers.springweekly.view.Console;
 import java.util.Map;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Controller;
 public class VoucherController {
 
     private final VoucherService voucherService;
-    private final Console console;
 
     public void createVoucher(VoucherType voucherType, String inputNumber) {
         voucherService.saveVoucher(voucherType, inputNumber);
