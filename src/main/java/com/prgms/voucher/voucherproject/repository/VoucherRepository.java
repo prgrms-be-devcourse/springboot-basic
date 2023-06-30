@@ -7,10 +7,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    public Optional<Voucher> findById(UUID voucherId); // voucher가 존재하지 않을 수 있음을 Optional로
+    public Optional<Voucher> findById(UUID voucherId);
+
     void save(Voucher voucher);
 
     ArrayList<Voucher> findAll();
-
 
 }

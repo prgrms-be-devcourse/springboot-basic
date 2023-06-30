@@ -17,12 +17,12 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public void save(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getId(), voucher);
     }
 
     @Override
     public ArrayList<Voucher> findAll() {
-        return new ArrayList<Voucher>(storage.values());
+        return new ArrayList<>(storage.values());
      }
 
 }

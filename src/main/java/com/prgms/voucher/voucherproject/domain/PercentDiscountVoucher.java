@@ -1,6 +1,5 @@
 package com.prgms.voucher.voucherproject.domain;
 
-import com.prgms.voucher.voucherproject.domain.Voucher;
 
 import java.util.UUID;
 
