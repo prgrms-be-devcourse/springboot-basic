@@ -6,7 +6,8 @@ import java.util.NoSuchElementException;
 import static programmers.org.voucher.exception.ErrorMessage.VOUCHER_ERROR_MESSAGE;
 
 public enum VoucherType {
-    FIXED("fixed"), PERCENT("percent");
+    FIXED("fixed"),
+    PERCENT("percent");
 
     private final String content;
 
