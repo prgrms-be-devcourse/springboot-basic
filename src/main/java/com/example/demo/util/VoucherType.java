@@ -31,5 +31,4 @@ public enum VoucherType {
         }
         throw new IllegalArgumentException("잘 못된 명령어 입니다.");
     }
-    
 }
