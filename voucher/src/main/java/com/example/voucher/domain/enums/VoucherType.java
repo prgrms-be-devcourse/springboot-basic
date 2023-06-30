@@ -1,30 +1,34 @@
 package com.example.voucher.domain.enums;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 
 public enum VoucherType {
 
-	FixedAmount("FixedAmount"),
-	PercentDiscount("PercentDiscount"),
-	Null("Null");
+	FixedAmountDiscount("FixedAmount", 1),
+	PercentDiscount("PercentDiscount", 2);
 
 	private final String typeName;
-	private static final Map<Integer, VoucherType> voucherTypeMap;
+	private final Integer inputNum;
 
-	static {
-		voucherTypeMap = Map.of(1, VoucherType.FixedAmount, 2, VoucherType.PercentDiscount);
-	}
-
-	VoucherType(String typeName) {
+	VoucherType(String typeName, Integer inputNum) {
 		this.typeName = typeName;
+		this.inputNum = inputNum;
 	}
 
 	public String getTypeName() {
 		return typeName;
 	}
 
-	public static VoucherType getVouchersType(Integer readVoucherType) {
-		return voucherTypeMap.getOrDefault(readVoucherType, VoucherType.Null);
+	public Integer getInputNum(){
+		return inputNum;
+	}
+
+	public static Optional<VoucherType> getVouchersType(Integer readVoucherType) {
+		return Arrays.stream(VoucherType.values())
+				.filter( e -> readVoucherType == e.getInputNum())
+				.findAny();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.example.voucher;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
@@ -21,8 +22,12 @@ public class CommandLineApplication {
 	public void run() {
 		while (isOn) {
 			Console.printModeType();
-			ModeType mode = ModeType.getTypeMode(Console.readModeType());
-			processMode(mode);
+			String readModeType = Console.readModeType();
+
+			ModeType.getTypeMode(readModeType).ifPresentOrElse(
+				(mode) -> processMode(mode),
+				() -> Console.printError("Mode를 다시 선택해주세요")
+			);
 		}
 	}
 
@@ -31,28 +36,30 @@ public class CommandLineApplication {
 			case Exit -> isOn = false;
 			case Create -> createVoucher();
 			case List -> getVouchers();
-			case Null -> Console.printError("Mode를 다시 선택해주세요");
 		}
 	}
 
 	public void createVoucher() {
-		Console.printVoucherType();
-		Integer inputVoucherType = Console.readVoucherType();
-		VoucherType voucherType = VoucherType.getVouchersType(inputVoucherType);
-		Voucher voucher = processVoucherType(voucherType);
+		AtomicBoolean haveToCreate = new AtomicBoolean(true);
 
-		while (voucher == null) {
-			Console.printError("VoucherType을 다시 선택해주세요");
+		while (haveToCreate.get()) {
 			Console.printVoucherType();
-			inputVoucherType = Console.readVoucherType();
-			voucherType = VoucherType.getVouchersType(inputVoucherType);
-			voucher = processVoucherType(voucherType);
+			Integer inputVoucherType = Console.readVoucherType();
+			VoucherType.getVouchersType(inputVoucherType).ifPresentOrElse(
+				(voucherType) -> {
+					processVoucherType(voucherType);
+					haveToCreate.set(false);
+				},
+				() -> {
+					Console.printError("VoucherType을 다시 선택해주세요");
+				}
+			);
 		}
 	}
 
 	public Voucher processVoucherType(VoucherType voucherType) {
 		Voucher voucher = switch (voucherType) {
-			case FixedAmount -> {
+			case FixedAmountDiscount -> {
 				Console.printDiscountAmount();
 				long discountAmount = Console.readDiscount();
 				yield voucherService.createVoucher(voucherType, discountAmount);
@@ -62,7 +69,6 @@ public class CommandLineApplication {
 				long discountPercent = Console.readDiscount();
 				yield voucherService.createVoucher(voucherType, discountPercent);
 			}
-			case Null -> null;
 		};
 
 		return voucher;
@@ -74,7 +80,6 @@ public class CommandLineApplication {
 		vouchers.stream()
 			.map(o -> new VoucherDTO(o.getValue(), o.getVoucherType()))
 			.forEach(Console::printVoucherInfo);
-
 	}
 
 }

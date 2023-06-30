@@ -1,22 +1,16 @@
 package com.example.voucher.io;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 
 public enum ModeType {
 
 	Exit("exit"),
 	Create("create"),
-	List("list"),
-	Null("null");
+	List("list");
 
 	private String typeName;
-
-	private static final Map<String, ModeType> modeTypeMap;
-
-	static {
-		modeTypeMap = Map.of("exit", ModeType.Exit, "create", ModeType.Create, "list", ModeType.List, "null",
-			ModeType.Null);
-	}
 
 	ModeType(String typeName) {
 		this.typeName = typeName;
@@ -26,8 +20,10 @@ public enum ModeType {
 		return typeName;
 	}
 
-	public static ModeType getTypeMode(String typeName) {
-		return modeTypeMap.getOrDefault(typeName, ModeType.Null);
+	public static Optional<ModeType> getTypeMode(String typeName) {
+		return Arrays.stream(ModeType.values())
+					.filter(e->typeName.equals(e.getTypeName()))
+					.findAny();
 	}
 
 }
