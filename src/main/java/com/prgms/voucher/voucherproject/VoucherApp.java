@@ -1,16 +1,18 @@
 package com.prgms.voucher.voucherproject;
 
+import com.prgms.voucher.voucherproject.domain.MenuType;
 import com.prgms.voucher.voucherproject.domain.VoucherType;
 import com.prgms.voucher.voucherproject.io.Console;
 import com.prgms.voucher.voucherproject.repository.MemoryVoucherRepository;
-import com.prgms.voucher.voucherproject.repository.VoucherRepository;
 import com.prgms.voucher.voucherproject.service.VoucherService;
-import lombok.NoArgsConstructor;
+import java.util.InputMismatchException;
 
-@NoArgsConstructor
-public class VoucherApp implements Runnable{
+public class VoucherApp implements Runnable {
+    private int EXIT_NUM = 1;
     private final Console console = new Console();
-    private VoucherService voucherService;
+
+    private final VoucherService voucherService;
+
 
     public VoucherApp(VoucherService voucherService) {
         this.voucherService = voucherService;
@@ -18,41 +20,44 @@ public class VoucherApp implements Runnable{
 
 
     public static void main(String[] args) {
-        new VoucherApp().run();
+        new VoucherApp(new VoucherService(new MemoryVoucherRepository())).run();
     }
 
     @Override
     public void run() {
-        while(true){
+
+        while (EXIT_NUM > 0) {
             console.printMenu();
-            switch (console.inputCommand().toLowerCase()){
-                case "exit":
-                    return;
 
-                case "create":
-                    console.printKindOfVoucher();
-                    int selectedNum = console.inputSelectedVoucherType();
-                    VoucherType voucherType = VoucherType.getSelectedVoucherType(selectedNum);
-                    if(voucherType != null){
-                        try{
+            try {
+                switch (MenuType.getSelectedMenuType(console.inputCommand().toLowerCase())) {
+                    case EXIT:
+                        EXIT_NUM = -1;
+                        console.printMsg("프로그램을 종료합니다.");
+                        break;
+
+                    case CREATE:
+                        console.printKindOfVoucher();
+                        int selectedNum = console.inputSelectedVoucherType();
+                        console.bufferDeleted();
+
+                        try {
+                            VoucherType voucherType = VoucherType.getSelectedVoucherType(selectedNum);
                             voucherService.create(voucherType);
+                        } catch (InputMismatchException e) {
+                            System.out.println(e.getLocalizedMessage());
                         }
-                        catch (Exception e){ //TODO: 잘못된 VoucherType 입력 시 예외처리 안됨
-                            e.getMessage();
-                        }
-                    }
-                    else {
-                        console.printErrorMsg();
-                    }
-                    break;
 
-                case "list":
-                    voucherService.list();
-                    break;
+                        break;
 
-                default:
-                    console.printErrorMsg();
+                    case LIST:
+                        voucherService.list();
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                console.printErrorMsg();
             }
+
         }
 
     }
