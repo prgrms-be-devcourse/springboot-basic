@@ -29,6 +29,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final String SAVE = "INSERT INTO customers(customer_id, username, customer_type) VALUES(:customerId, :username, :customerType)";
     private static final String FIND_BY_ID = "SELECT * FROM customers WHERE customer_id = :customerId";
+    private static final String FIND_BY_USERNAME = "SELECT * FROM customers WHERE username = :username";
     private static final String FIND_ALL = "SELECT * FROM customers";
     private static final String UPDATE = "UPDATE customers SET username = :username, customer_type = :customerType WHERE customer_id = :customerId";
     private static final String DELETE_ALL = "DELETE FROM customers";
@@ -70,6 +71,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
             logger.error("해당 ID를 찾을 수 없습니다. => " + customerId);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> findByUsername(String username) {
+        try {
+            Map<String, Object> param = Map.of("username", username);
+            Customer customer = template.queryForObject(FIND_BY_USERNAME, param, customerRowMapper);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("해당 Username을 찾을 수 없습니다. => " + username);
             return Optional.empty();
         }
     }

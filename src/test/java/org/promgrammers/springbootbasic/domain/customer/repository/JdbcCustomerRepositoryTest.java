@@ -75,7 +75,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("단건 조회 성공 - 고객 조회")
+    @DisplayName("단건 조회 성공 - 고객ID로 조회")
     void findByIdSuccessTest() throws Exception {
 
         //given
@@ -104,6 +104,41 @@ class JdbcCustomerRepositoryTest {
 
         // when
         Optional<Customer> repositoryById = assertDoesNotThrow(() -> customerRepository.findById(nonExistentCustomerId));
+
+        // then
+        assertThat(repositoryById.isPresent()).isEqualTo(false);
+    }
+
+    @Test
+    @DisplayName("단건 조회 성공 - 고객 Username으로 조회")
+    void findByUsernameSuccessTest() throws Exception {
+
+        //given
+        UUID customerId = UUID.randomUUID();
+        String username = "A";
+        Customer customer = new Customer(customerId, username);
+        Customer savedCustomer = assertDoesNotThrow(() -> customerRepository.save(customer));
+
+        //when
+        Optional<Customer> repositoryById = assertDoesNotThrow(() -> customerRepository.findByUsername(savedCustomer.getUsername()));
+        Customer foundCustomer = repositoryById.get();
+
+        //then
+        assertThat(repositoryById.isPresent()).isEqualTo(true);
+        assertThat(foundCustomer.getCustomerId()).isEqualTo(savedCustomer.getCustomerId());
+        assertThat(foundCustomer.getCustomerType()).isEqualTo(savedCustomer.getCustomerType());
+        assertThat(foundCustomer.getUsername()).isEqualTo(savedCustomer.getUsername());
+    }
+
+    @Test
+    @DisplayName("단건 조회 실패 - 존재하지 않는 고객 Username")
+    void findByUsernameNonexistentVoucherTest() throws Exception {
+
+        // given
+        String nonExistentCustomerUsername = "AAA";
+
+        // when
+        Optional<Customer> repositoryById = assertDoesNotThrow(() -> customerRepository.findByUsername(nonExistentCustomerUsername));
 
         // then
         assertThat(repositoryById.isPresent()).isEqualTo(false);
