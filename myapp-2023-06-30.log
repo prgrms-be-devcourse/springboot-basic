@@ -28,3 +28,20 @@ Caused by: java.lang.IllegalStateException: VALIDATION_WRONG_TYPE
 	at com.prgrms.spring.AppRunner.run(AppRunner.java:29)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:768)
 	... 5 common frames omitted
+15:14:53.855 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:314)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292)
+	at com.prgrms.spring.Application.main(Application.java:11)
+Caused by: java.lang.NumberFormatException: For input string: ""
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+	at java.base/java.lang.Long.parseLong(Long.java:721)
+	at java.base/java.lang.Long.parseLong(Long.java:836)
+	at com.prgrms.spring.io.ConsoleView.getVoucherDiscount(ConsoleView.java:30)
+	at com.prgrms.spring.controller.voucher.VoucherController.createVoucher(VoucherController.java:31)
+	at com.prgrms.spring.AppRunner.run(AppRunner.java:35)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:768)
+	... 5 common frames omitted

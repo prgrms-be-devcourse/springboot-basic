@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Controller
 @AllArgsConstructor
@@ -36,6 +39,10 @@ public class VoucherController {
     }
 
     public void getAllVoucher() {
-        consoleView.showAllVouchers(voucherService.getAllVoucher());
+        List<Voucher> voucherList = new ArrayList<>(voucherService.getAllVoucher());
+        List<String> outputList = new ArrayList<>();
+        voucherList.forEach(voucher -> outputList.add(String.format("%s : %d %s", voucher.getVoucherName(), voucher.getDiscount(), voucher.getDiscountUnit())));
+
+        consoleView.showAllVouchers(outputList);
     }
 }

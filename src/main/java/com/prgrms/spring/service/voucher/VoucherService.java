@@ -27,13 +27,8 @@ public class VoucherService {
         return voucher;
     }
 
-    public List<String> getAllVoucher() {
+    public Collection<Voucher> getAllVoucher() {
         Map<UUID, Voucher> vouchers = voucherRepository.findAll();
-        List<Voucher> voucherList = new ArrayList<>(vouchers.values());
-        List<String> outputList = new ArrayList<>();
-
-        voucherList.forEach(voucher -> outputList.add(String.format("%s : %d %s", voucher.getVoucherName(), voucher.getDiscount(), voucher.getDiscountUnit())));
-
-        return outputList;
+        return vouchers.values();
     }
 }
