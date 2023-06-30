@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PercentDiscountPolicyTest {
-
     @ParameterizedTest
     @ValueSource(ints = {-1, 101})
     void 할인비율이_유효하지_않으면_예외가_발생한다(int percent) {
