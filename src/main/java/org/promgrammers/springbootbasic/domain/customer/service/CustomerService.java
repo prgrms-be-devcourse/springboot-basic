@@ -7,13 +7,16 @@ import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersRe
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.CustomerRepository;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
-import org.promgrammers.springbootbasic.exception.EmptyListException;
+import org.promgrammers.springbootbasic.exception.BusinessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.promgrammers.springbootbasic.exception.ErrorCode.DUPLICATED_USERNAME;
+import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_CUSTOMER;
 
 @Service
 public class CustomerService {
@@ -26,6 +29,7 @@ public class CustomerService {
 
     @Transactional
     public CustomerResponse createCustomer(CreateCustomerRequest customerRequest) {
+        duplicateUsernameCheck(customerRequest.username());
         Customer customer = new Customer(UUID.randomUUID(), customerRequest.username());
         customerRepository.save(customer);
         return new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType());
@@ -36,7 +40,16 @@ public class CustomerService {
         return customerRepository.findById(customerId)
                 .map(customer -> new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType()))
                 .or(() -> {
-                    throw new IllegalArgumentException("해당 고객 아이디는 존재하지 않습니다. : => " + customerId);
+                    throw new BusinessException(NOT_FOUND_CUSTOMER);
+                });
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<CustomerResponse> findCustomerByUsername(String username) {
+        return customerRepository.findByUsername(username)
+                .map(customer -> new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType()))
+                .or(() -> {
+                    throw new BusinessException(NOT_FOUND_CUSTOMER);
                 });
     }
 
@@ -45,7 +58,7 @@ public class CustomerService {
         List<Customer> customerList = customerRepository.findAll();
 
         if (customerList == null || customerList.isEmpty()) {
-            throw new EmptyListException("저장된 고객이 없습니다.");
+            throw new BusinessException(NOT_FOUND_CUSTOMER);
         }
 
         List<CustomerResponse> customerResponseList = customerRepository.findAll()
@@ -64,7 +77,7 @@ public class CustomerService {
     @Transactional
     public CustomerResponse updateCustomer(UpdateCustomerRequest updateCustomerRequest) {
         Customer customer = customerRepository.findById(updateCustomerRequest.customerId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 고객을 찾을 수 없습니다. => " + updateCustomerRequest.customerId()));
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
 
         customer.updateUsername(updateCustomerRequest.username());
         customer.updateCustomerType(updateCustomerRequest.customerType());
@@ -72,5 +85,11 @@ public class CustomerService {
 
         CustomerResponse customerResponse = new CustomerResponse(updateCustomerRequest.customerId(), updateCustomerRequest.username(), updateCustomerRequest.customerType());
         return customerResponse;
+    }
+
+    private void duplicateUsernameCheck(String username) {
+        if (customerRepository.findByUsername(username).isPresent()) {
+            throw new BusinessException(DUPLICATED_USERNAME);
+        }
     }
 }

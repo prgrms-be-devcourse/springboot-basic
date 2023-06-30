@@ -12,6 +12,7 @@ import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomerRes
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersResponse;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
+import org.promgrammers.springbootbasic.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -71,7 +72,7 @@ class CustomerServiceTest {
         customerRepository.save(new Customer(UUID.randomUUID(), existingUsername));
 
         // when -> then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             CreateCustomerRequest createCustomerRequest = new CreateCustomerRequest(existingUsername);
             customerService.createCustomer(createCustomerRequest);
         });
@@ -104,7 +105,37 @@ class CustomerServiceTest {
         UUID customerId = UUID.randomUUID();
 
         // when -> then
-        assertThrows(IllegalArgumentException.class, () -> customerService.findCustomerById(customerId));
+        assertThrows(BusinessException.class, () -> customerService.findCustomerById(customerId));
+    }
+
+    @Test
+    @DisplayName("단건 조회 성공 - Username이 존재하는 경우")
+    void findCustomerByUsernameSuccessTest() throws Exception {
+
+        //given
+        UUID customerId = UUID.randomUUID();
+        String username = "A";
+        Customer customer = new Customer(customerId, username);
+        customerRepository.save(customer);
+
+        //when
+        Optional<CustomerResponse> findCustomer = customerService.findCustomerByUsername(customer.getUsername());
+
+        //then
+        assertThat(findCustomer.isPresent()).isEqualTo(true);
+        assertThat(findCustomer.get().customerId()).isEqualTo(customer.getCustomerId());
+        assertThat(findCustomer.get().username()).isEqualTo(customer.getUsername());
+    }
+
+    @Test
+    @DisplayName("단건 조회 실패 - Username이 존재하지 않는 경우")
+    void findCustomerByUsernameFailTest() throws Exception {
+
+        // given
+        String username = "B";
+
+        // when -> then
+        assertThrows(BusinessException.class, () -> customerService.findCustomerByUsername(username));
     }
 
     @Test
