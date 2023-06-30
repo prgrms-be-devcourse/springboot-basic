@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import programmers.org.voucher.constant.Command;
 import programmers.org.voucher.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
+import programmers.org.voucher.io.Input;
+import programmers.org.voucher.io.Output;
 import programmers.org.voucher.io.VoucherConsole;
 import programmers.org.voucher.service.VoucherService;
 
@@ -16,9 +18,9 @@ public class VoucherController {
     private final VoucherService voucherService;
     private final VoucherConsole voucherConsole;
 
-    public VoucherController(VoucherService voucherService, VoucherConsole voucherConsole) {
+    public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
-        this.voucherConsole = voucherConsole;
+        this.voucherConsole = new VoucherConsole(new Input(), new Output());
     }
 
     public void run() {
