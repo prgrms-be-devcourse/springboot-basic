@@ -14,16 +14,12 @@ public enum MenuType {
     }
 
     public static MenuType getSelectedMenuType(String menuName) {
-        switch (menuName) {
-            case "exit":
-                return EXIT;
-            case "create":
-                return CREATE;
-            case "list":
-                return LIST;
-            default:
-                throw new InputMismatchException("잘못된 명령어입니다.");
-        }
+        return switch (menuName) {
+            case "exit" -> EXIT;
+            case "create" -> CREATE;
+            case "list" -> LIST;
+            default -> throw new InputMismatchException("잘못된 명령어입니다.");
+        };
     }
 
 

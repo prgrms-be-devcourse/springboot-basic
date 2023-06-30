@@ -15,10 +15,14 @@ public enum VoucherType {
         this.voucherType = voucherType;
     }
 
-    public static VoucherType getSelectedVoucherType(int selectedNum){
+    public static VoucherType getSelectedVoucherType(int selectedNum) {
         return Stream.of(VoucherType.values())
                 .filter(voucherType -> voucherType.voucherNum == selectedNum)
                 .findFirst()
                 .orElseThrow(() -> new InputMismatchException("존재하지 않는 바우처 타입입니다."));
+    }
+
+    public String getVoucherType() {
+        return voucherType;
     }
 }
