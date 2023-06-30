@@ -4,11 +4,10 @@ import com.prgms.voucher.voucherproject.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository{
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+public class MemoryVoucherRepository implements VoucherRepository {
+    private final Map<UUID, Voucher> storage = new HashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -23,6 +22,6 @@ public class MemoryVoucherRepository implements VoucherRepository{
     @Override
     public ArrayList<Voucher> findAll() {
         return new ArrayList<>(storage.values());
-     }
+    }
 
 }
