@@ -4,8 +4,6 @@ import org.programmers.VoucherManagement.member.dto.GetMemberListRes;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -17,7 +15,6 @@ import static org.programmers.VoucherManagement.voucher.exception.VoucherExcepti
 @Component
 public class Console implements Input, Output {
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final Logger logger = LoggerFactory.getLogger(Console.class);
 
     @Override
     public void printType() {
@@ -84,7 +81,6 @@ public class Console implements Input, Output {
         try {
             return Integer.parseInt(SCANNER.nextLine());
         } catch (NumberFormatException e) {
-            logger.info(VOUCHER_AMOUNT_IS_NOT_NUMBER.getMessage());
             throw new NumberFormatException(VOUCHER_AMOUNT_IS_NOT_NUMBER.getMessage());
         }
     }
@@ -95,7 +91,7 @@ public class Console implements Input, Output {
         int value = readValue();
 
         try {
-            if (discountType.isPercent() && isValidPercentDiscountValue(value)) {
+            if (discountType.isPercent() && !isValidPercentDiscountValue(value)) {
                 throw new VoucherException(NOT_INCLUDE_1_TO_100);
             }
         } catch (VoucherException e) {
