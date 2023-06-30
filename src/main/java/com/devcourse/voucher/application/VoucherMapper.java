@@ -28,6 +28,10 @@ public class VoucherMapper {
     }
 
     private GetVoucherResponse toResponse(Voucher voucher) {
-        return new GetVoucherResponse(voucher.getId(), voucher.getType(), voucher.getExpireAt(), voucher.getStatus());
+        return new GetVoucherResponse(voucher.getId(),
+                voucher.getType(),
+                voucher.getDiscount(),
+                voucher.getExpireAt(),
+                voucher.getStatus());
     }
 }

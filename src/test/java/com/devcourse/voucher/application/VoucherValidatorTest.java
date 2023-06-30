@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,9 +20,12 @@ import static com.devcourse.voucher.domain.VoucherType.FIXED;
 import static com.devcourse.voucher.domain.VoucherType.PERCENT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@SpringJUnitConfig(VoucherValidator.class)
 class VoucherValidatorTest {
-    private final VoucherValidator voucherValidator = new VoucherValidator();
-    private final LocalDateTime invalideExpiration = LocalDateTime.of(2022, 1, 1, 0, 0);
+    @Autowired
+    private VoucherValidator voucherValidator;
+
+    private final LocalDateTime invalidExpiration = LocalDateTime.of(2022, 1, 1, 0, 0);
 
     @Nested
     @DisplayName("바우처 생성 유효성 테스트")
@@ -72,7 +77,7 @@ class VoucherValidatorTest {
             // given
             String voucherSymbol = FIXED.getSymbol();
             int discountAmount = 1_500;
-            CreateVoucherRequest request = new CreateVoucherRequest(voucherSymbol, discountAmount, invalideExpiration);
+            CreateVoucherRequest request = new CreateVoucherRequest(voucherSymbol, discountAmount, invalidExpiration);
 
             // when, then
             assertThatThrownBy(() -> voucherValidator.validateRequest(request))
@@ -89,7 +94,7 @@ class VoucherValidatorTest {
         @DisplayName("유효기간이 지난 바우처를 사용하면 예외가 발생한다.")
         void expiredVoucherTest() {
             // given
-            Voucher voucher = Voucher.percent(discount, invalideExpiration);
+            Voucher voucher = Voucher.percent(discount, invalidExpiration);
 
             // when, then
             assertThatThrownBy(() -> voucherValidator.isUsable(voucher))

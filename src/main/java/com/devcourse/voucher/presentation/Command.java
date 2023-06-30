@@ -1,4 +1,4 @@
-package com.devcourse.console;
+package com.devcourse.voucher.presentation;
 
 import org.apache.commons.lang3.StringUtils;
 

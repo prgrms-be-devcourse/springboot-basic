@@ -1,6 +1,6 @@
 package com.devcourse;
 
-import com.devcourse.console.Command;
+import com.devcourse.voucher.presentation.Command;
 import com.devcourse.console.Console;
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import com.devcourse.voucher.presentation.VoucherController;

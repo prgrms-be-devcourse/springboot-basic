@@ -46,6 +46,10 @@ public class Voucher {
         return discountPolicy;
     }
 
+    public BigDecimal getDiscount() {
+        return discountPolicy.discountAmount();
+    }
+
     public LocalDateTime getExpireAt() {
         return expireAt;
     }

@@ -24,6 +24,11 @@ public class PercentDiscountPolicy implements DiscountPolicy {
         return PERCENT;
     }
 
+    @Override
+    public BigDecimal discountAmount() {
+        return BigDecimal.valueOf(discountRate);
+    }
+
     private double calculate(long price) {
         return price * ((MAX_RATE - discountRate) / MAX_RATE);
     }

@@ -6,4 +6,6 @@ public interface DiscountPolicy {
     BigDecimal discount(long price);
 
     VoucherType getType();
+
+    BigDecimal discountAmount();
 }

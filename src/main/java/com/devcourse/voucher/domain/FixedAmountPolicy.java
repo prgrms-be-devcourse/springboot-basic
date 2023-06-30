@@ -24,6 +24,11 @@ public class FixedAmountPolicy implements DiscountPolicy {
         return FIXED;
     }
 
+    @Override
+    public BigDecimal discountAmount() {
+        return BigDecimal.valueOf(discountAmount);
+    }
+
     private long calculate(long price) {
         long result = price - discountAmount;
         return result < ZERO ? ZERO : result;
