@@ -4,12 +4,13 @@ import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 
 import java.util.UUID;
 
-public record CustomerResponse(UUID customerId, CustomerType customerType) {
+public record CustomerResponse(UUID customerId, String username, CustomerType customerType) {
 
     @Override
     public String toString() {
-        return "블랙 리스트 유저 목록 [" +
+        return "[" +
                 "customerId : '" + customerId + '\'' +
+                ", username : '" + username + '\'' +
                 ", customerType : '" + customerType + '\'' +
                 ']';
     }
