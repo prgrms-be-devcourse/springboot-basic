@@ -1,6 +1,7 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
 import kr.co.springbootweeklymission.infrastructure.error.exception.FileIOException;
+import kr.co.springbootweeklymission.infrastructure.error.exception.NotSupportedException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.infrastructure.util.FileConverter;
 import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
@@ -58,6 +59,11 @@ public class InFileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER);
         }
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
     }
 
     private static Optional<Voucher> getVoucherById(UUID voucherId,

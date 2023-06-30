@@ -1,5 +1,7 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
+import kr.co.springbootweeklymission.infrastructure.error.exception.NotSupportedException;
+import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -31,6 +33,11 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         return VOUCHER_MEMORY.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
     }
 
     public void clear() {
