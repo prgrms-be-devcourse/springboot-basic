@@ -5,11 +5,13 @@ import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersRe
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.BlackCustomerRepository;
-import org.promgrammers.springbootbasic.exception.EmptyListException;
+import org.promgrammers.springbootbasic.exception.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_CUSTOMER;
 
 @Service
 public class BlackCustomerService {
@@ -24,7 +26,7 @@ public class BlackCustomerService {
         List<Customer> customers = blackCustomerRepository.findAllByCustomerType(customerType);
 
         if (customers == null || customers.isEmpty()) {
-            throw new EmptyListException("해당 타입으로 저장된 고객이 없습니다."); // 예외를 던지는 처리
+            throw new BusinessException(NOT_FOUND_CUSTOMER);
         }
 
         return new CustomersResponse(customers.stream()

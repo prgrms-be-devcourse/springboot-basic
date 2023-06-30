@@ -7,7 +7,10 @@ public enum ErrorCode {
 
     //고객
     NOT_FOUND_CUSTOMER(404, "NOT_FOUND", "존재하지 않는 Customer입니다."),
-    DUPLICATED_USERNAME(400, "BAD_REQUEST", "이미 존재하는 Username입니다.");
+    DUPLICATED_USERNAME(400, "BAD_REQUEST", "이미 존재하는 Username입니다."),
+
+    //바우처
+    NOT_FOUND_VOUCHER(404,"NOT_FOUND","Voucher가 존재하지 않습니다.");
 
     private final int status;
     private final String code;
