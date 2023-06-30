@@ -1,22 +1,18 @@
 package co.programmers.voucher_management.voucher.repository;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
+import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 
 @Repository
 @Profile("local")
 public class MemoryRepository implements VoucherRepository {
 	private static final ArrayList<Voucher> repository = new ArrayList<>();
-	private static final Logger logger = LoggerFactory.getLogger(MemoryRepository.class);
 
 	private MemoryRepository() {
 	}
@@ -26,19 +22,14 @@ public class MemoryRepository implements VoucherRepository {
 		repository.add(voucher);
 	}
 
-	public List<VoucherResponseDTO> findAll() throws IOException {
-		if (repository.isEmpty()) {
-			throw new IOException("Empty repository");
-		}
-		List<VoucherResponseDTO> vouchers = new ArrayList<>();
+	public List<Voucher> findAll() {
+		List<Voucher> vouchers = new ArrayList<>();
 		for (Voucher voucher : repository) {
-			logger.debug("Inquire voucher - id : {}, discount type : {}, amount : {}",
-					voucher.getId(), voucher.getDiscountStrategy().getType(),
-					voucher.getDiscountStrategy().getAmount());
-			vouchers.add(VoucherResponseDTO.builder()
-					.id(voucher.getId())
-					.discountType(voucher.getDiscountStrategy().getType())
-					.discountAmount(voucher.getDiscountStrategy().getAmount())
+			int id = voucher.getId();
+			DiscountStrategy discountStrategy = voucher.getDiscountStrategy();
+			vouchers.add(Voucher.builder()
+					.id(id)
+					.discountStrategy(discountStrategy)
 					.build());
 		}
 		return vouchers;
