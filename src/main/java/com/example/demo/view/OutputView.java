@@ -8,11 +8,12 @@ public class OutputView {
 
     public static final String STARTING_MESSAGE = "=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType list to list all vouchers.";
     public static final String COMMAND_OPTION_MESSAGE = "명령어를 입력해주세요 >> (exit, create, list): ";
-    public static final String VOUCHER_OPTION_MESSAGE = "    Fixed Amount Voucher를 발행하려면 fix를 입력해주세요.\n    Percent Voucher를 발행하려면 percent를 입력해주세요.\n    명령어를 입력해주세요 >> (fix, percent): ";
+    public static final String VOUCHER_OPTION_MESSAGE = "    Fixed Voucher를 발행하려면 fix를 입력해주세요.\n    Percent Voucher를 발행하려면 percent를 입력해주세요.\n    명령어를 입력해주세요 >> (fix, percent): ";
     public static final String FIXED_VOUCHER_AMOUNT_MESSAGE = "할인 금액을 입력해주세요 >> ";
-    public static final String PERCENT_VOUCHER_AMOUNT_MESSAGE = "    0 이상 100 이하로 입력해주세요.\n    할인 비율을 입력해주세요 >> ";
+    public static final String PERCENT_VOUCHER_AMOUNT_MESSAGE = "    1 이상 100 이하로 입력해주세요.\n    할인 비율을 입력해주세요 >> ";
     public static final String FIXED_VOUCHER_CREATE_MESSAGE = "    Fixed Voucher, Discount Amount: %d 할인권이 생성되었습니다.";
     public static final String PERCENT_VOUCHER_CREATE_MESSAGE = "    Percent Voucher, Discount Percent Amount: %d 할인권이 생성되었습니다.";
+    public static final String VOUCHER_LIST_EMPTY_MESSAGE = "저장되어 있는 쿠폰이 없습니다.";
 
 
     public void printStartingMessage() {
@@ -20,17 +21,17 @@ public class OutputView {
     }
 
     public void printCommandOptionMessage() {
-        System.out.println(COMMAND_OPTION_MESSAGE);
+        System.out.print(COMMAND_OPTION_MESSAGE);
     }
 
     public void printVoucherOptionMessage() {
-        System.out.println(VOUCHER_OPTION_MESSAGE);
+        System.out.print(VOUCHER_OPTION_MESSAGE);
     }
 
     public void printVoucherAmountInfoMessage(VoucherType voucherType) {
         switch (voucherType) {
-            case FIXED_AMOUNT_VOUCHER -> System.out.println(FIXED_VOUCHER_AMOUNT_MESSAGE);
-            case PERCENT_DISCOUNT_VOUCHER -> System.out.println(PERCENT_VOUCHER_AMOUNT_MESSAGE);
+            case FIXED_AMOUNT_VOUCHER -> System.out.print(FIXED_VOUCHER_AMOUNT_MESSAGE);
+            case PERCENT_DISCOUNT_VOUCHER -> System.out.print(PERCENT_VOUCHER_AMOUNT_MESSAGE);
         }
     }
 
@@ -42,6 +43,12 @@ public class OutputView {
     }
 
     public void printVoucherList(List<VoucherDto> list) {
-
+        if (list.isEmpty()) {
+            System.out.println(VOUCHER_LIST_EMPTY_MESSAGE);
+            return;
+        }
+        list.forEach((voucherDto -> {
+            System.out.println(voucherDto.toString());
+        }));
     }
 }
