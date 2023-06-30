@@ -3,13 +3,11 @@ package co.programmers.voucher_management.view;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.MessageFormat;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import co.programmers.voucher_management.Response;
-import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
+import co.programmers.voucher_management.common.Response;
 
 @Component
 public class Console implements InputView, OutputView {
@@ -17,7 +15,8 @@ public class Console implements InputView, OutputView {
 			"=== Voucher Program ===\n"
 					+ "Type exit or 'x' to exit  the program.\n"
 					+ "Type create or 'c' to create a new voucher.\n"
-					+ "Type list or 'l' to list all vouchers.";
+					+ "Type list or 'l' to list all vouchers.\n"
+					+ "Type blacklist or 'b' to list customer blackLists";
 	private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	@Override
@@ -61,12 +60,7 @@ public class Console implements InputView, OutputView {
 		}
 		Object responseData = contents.getResponseData();
 		for (var content : (List)responseData) {
-			System.out.println(MessageFormat.format("id : {0}", ((VoucherResponseDTO)content).getId()));
-			System.out.println(MessageFormat.format("discountType : {0}",
-					((VoucherResponseDTO)content).getDiscountType()));
-			System.out.println(MessageFormat.format("discountAmount : {0}",
-					((VoucherResponseDTO)content).getDiscountAmount()));
-
+			System.out.println(content.toString());
 		}
 	}
 }

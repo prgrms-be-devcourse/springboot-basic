@@ -7,10 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
+import co.programmers.voucher_management.common.Response;
+import co.programmers.voucher_management.customer.service.CustomerInquiryService;
 import co.programmers.voucher_management.exception.InvalidUserInputException;
 import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
-import co.programmers.voucher_management.Response;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher_management.voucher.service.VoucherCreationService;
 import co.programmers.voucher_management.voucher.service.VoucherInquiryService;
@@ -20,13 +21,17 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
 	private final VoucherCreationService voucherCreationService;
 	private final VoucherInquiryService voucherInquiryService;
+	private final CustomerInquiryService customerInquiryService;
+
 	private final OutputView outputView;
 	private final InputView<String> inputView;
 
-	public VoucherCommandLineRunner(VoucherCreationService voucherCreationService, VoucherInquiryService voucherInquiryService,
-			OutputView outputView, InputView<String> inputView) {
+	public VoucherCommandLineRunner(VoucherCreationService voucherCreationService,
+			VoucherInquiryService voucherInquiryService,
+			CustomerInquiryService customerInquiryService, OutputView outputView, InputView<String> inputView) {
 		this.voucherCreationService = voucherCreationService;
 		this.voucherInquiryService = voucherInquiryService;
+		this.customerInquiryService = customerInquiryService;
 		this.outputView = outputView;
 		this.inputView = inputView;
 	}
@@ -50,6 +55,10 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 				case "list":
 				case "l":
 					response = voucherInquiryService.run();
+					break;
+				case "blackList":
+				case "b":
+					response = customerInquiryService.inquireBlackList();
 					break;
 				default:
 					response = new Response<>(Response.State.FAILED, "* Invalid input for menu *");
