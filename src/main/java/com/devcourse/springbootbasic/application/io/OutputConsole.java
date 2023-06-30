@@ -56,16 +56,16 @@ public class OutputConsole {
         textTerminal.println(message);
     }
 
+    public void printMessage(String message, String messagePostfix) {
+        textTerminal.println(MessageFormat.format("{0}{1}", message, messagePostfix));
+    }
+
     public void printError(Exception e) {
         printMessage(e.getMessage());
     }
 
     public void endPlatform() {
         printMessage(Message.END_GAME_PROMPT.getMessageText());
-    }
-
-    public void printVoucher(Voucher voucher) {
-        printMessage(MessageFormat.format("{0} {1}", voucher.toString(), Message.CREATION_DONE_PROMPT));
     }
 
     public void printList(String message, List<String> list) {

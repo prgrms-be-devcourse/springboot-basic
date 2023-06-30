@@ -84,8 +84,9 @@ public class CommandLineTemplate {
 
     private void createTask() {
         VoucherDto voucherDto = createVoucherDto();
-        output.printVoucher(
-                createMenuTemplate.createTask(voucherDto)
+        output.printMessage(
+                createMenuTemplate.createTask(voucherDto).toString(),
+                Message.CREATION_DONE_PROMPT.getMessageText()
         );
     }
 
