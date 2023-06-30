@@ -54,6 +54,7 @@ public class VoucherService {
             sb.append(EXPIRATION_DATE).append(SEPARATOR).append(voucher.getExpirationDate()).append("\n");
         }
 
-        System.out.print(sb);
+    public List<AmountVoucher> listAmountVoucher() {
+        return voucherRepository.findAll();
     }
 }
