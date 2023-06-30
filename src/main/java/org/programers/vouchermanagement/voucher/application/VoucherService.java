@@ -7,11 +7,13 @@ import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.programers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @Service
 public class VoucherService {
 
@@ -21,6 +23,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    @Transactional
     public VoucherResponse save(VoucherCreationRequest request) {
         Voucher voucher = voucherRepository.save(new Voucher(request.getPolicy(), request.getType()));
         return new VoucherResponse(voucher);
@@ -36,10 +39,12 @@ public class VoucherService {
         return new VouchersResponse(result.stream().map(VoucherResponse::new).collect(Collectors.toList()));
     }
 
+    @Transactional
     public void update(VoucherUpdateRequest request) {
         voucherRepository.update(new Voucher(request.getId(), request.getPolicy(), request.getType()));
     }
 
+    @Transactional
     public void deleteById(UUID id) {
         voucherRepository.deleteById(id);
     }

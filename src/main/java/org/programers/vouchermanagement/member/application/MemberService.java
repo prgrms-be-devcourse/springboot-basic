@@ -9,11 +9,13 @@ import org.programers.vouchermanagement.member.dto.response.MemberResponse;
 import org.programers.vouchermanagement.member.dto.request.MemberUpdateRequest;
 import org.programers.vouchermanagement.member.dto.response.MembersResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @Service
 public class MemberService {
 
@@ -25,6 +27,7 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional
     public MemberResponse save(MemberCreationRequest request) {
         Member member = memberRepository.save(new Member(request.getStatus()));
         return new MemberResponse(member);
@@ -45,10 +48,12 @@ public class MemberService {
         return new MembersResponse(members.stream().map(MemberResponse::new).collect(Collectors.toList()));
     }
 
+    @Transactional
     public void update(MemberUpdateRequest request) {
         memberRepository.update(new Member(request.getId(), request.getStatus()));
     }
 
+    @Transactional
     public void deleteById(UUID id) {
         memberRepository.deleteById(id);
     }

@@ -10,11 +10,13 @@ import org.programers.vouchermanagement.wallet.dto.request.WalletCreationRequest
 import org.programers.vouchermanagement.wallet.dto.response.WalletResponse;
 import org.programers.vouchermanagement.wallet.dto.response.WalletsResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @Service
 public class WalletService {
 
@@ -28,6 +30,7 @@ public class WalletService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional
     public WalletResponse save(WalletCreationRequest request) {
         Voucher voucher = voucherRepository.getById(request.getVoucherId());
         Member member = memberRepository.getById(request.getMemberId());
@@ -56,6 +59,7 @@ public class WalletService {
         return new WalletsResponse(wallets.stream().map(WalletResponse::new).collect(Collectors.toList()));
     }
 
+    @Transactional
     public void deleteById(UUID id) {
         walletRepository.deleteById(id);
     }
