@@ -44,6 +44,6 @@ class MemoryVoucherRepositoryTest {
         // when
         List<Voucher> result = repository.findAll();
         // then
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result).hasSize(2);
     }
 }
