@@ -18,11 +18,11 @@ public class VoucherValidator {
         validateVoucherType(inputSymbol);
         validateExpiration(request.expiredAt());
 
-        if (VoucherType.isFixed(inputSymbol)) {
+        if (VoucherType.isFixType(inputSymbol)) {
             validateFixedAmount(request.discount());
+        } else {
+            validatePercentRate(request.discount());
         }
-
-        validatePercentRate(request.discount());
     }
 
     public void isUsable(Voucher voucher) {
@@ -31,7 +31,7 @@ public class VoucherValidator {
     }
 
     private void validateVoucherType(String symbol) {
-        if (VoucherType.isIncorrectSymbol(symbol)) {
+        if (VoucherType.isIncorrectType(symbol)) {
             throw new IllegalArgumentException("Your input is incorrect. Type correctly");
         }
     }

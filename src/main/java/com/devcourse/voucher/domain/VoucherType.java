@@ -6,8 +6,7 @@ import java.util.Arrays;
 
 public enum VoucherType {
     FIXED("fixed"),
-    PERCENT("percent")
-    ;
+    PERCENT("percent");
 
     private final String symbol;
 
@@ -19,12 +18,12 @@ public enum VoucherType {
         return symbol;
     }
 
-    public static boolean isIncorrectSymbol(String input) {
+    public static boolean isIncorrectType(String input) {
         return Arrays.stream(VoucherType.values())
                 .noneMatch(type -> isSame(type, input));
     }
 
-    public static boolean isFixed(String input) {
+    public static boolean isFixType(String input) {
         return StringUtils.equals(FIXED.symbol, input.toLowerCase());
     }
 

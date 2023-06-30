@@ -14,7 +14,7 @@ public class VoucherMapper {
     public Voucher mapFrom(CreateVoucherRequest request) {
         String symbol = request.typeSymbol();
 
-        if (VoucherType.isFixed(symbol)) {
+        if (VoucherType.isFixType(symbol)) {
             return Voucher.fixed(request.discount(), request.expiredAt());
         }
 
