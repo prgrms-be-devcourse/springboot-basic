@@ -1,4 +1,4 @@
-package com.devcourse.voucher.presentation;
+package com.devcourse.console;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,15 +9,19 @@ public enum Command {
     LIST("list"),
     EXIT("exit");
 
+    private static final String NOT_SUPPORT_COMMAND = "[Error] Your Input Is Not Support Command : ";
+
     private final String symbol;
 
     Command(String symbol) {
         this.symbol = symbol;
     }
 
-    public static boolean isIncorrectCommand(String input) {
+    public static Command from(String input) {
         return Arrays.stream(Command.values())
-                .noneMatch(command -> isSame(command, input));
+                .filter(command -> isSame(command, input))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(NOT_SUPPORT_COMMAND + input));
     }
 
     private static boolean isSame(Command command, String input) {

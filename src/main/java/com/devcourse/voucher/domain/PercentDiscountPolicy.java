@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import static com.devcourse.voucher.domain.VoucherType.*;
 
 public class PercentDiscountPolicy implements DiscountPolicy {
-    private static final VoucherType type = PERCENT;
     private static final int MAX_RATE = 100;
 
     private final double discountRate;
@@ -22,7 +21,7 @@ public class PercentDiscountPolicy implements DiscountPolicy {
 
     @Override
     public VoucherType getType() {
-        return type;
+        return PERCENT;
     }
 
     private double calculate(long price) {

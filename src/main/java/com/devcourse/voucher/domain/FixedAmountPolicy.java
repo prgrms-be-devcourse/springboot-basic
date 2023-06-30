@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import static com.devcourse.voucher.domain.VoucherType.*;
 
 public class FixedAmountPolicy implements DiscountPolicy {
-    private static final VoucherType type = FIXED;
     private static final int ZERO = 0;
 
     private final int discountAmount;
@@ -22,7 +21,7 @@ public class FixedAmountPolicy implements DiscountPolicy {
 
     @Override
     public VoucherType getType() {
-        return type;
+        return FIXED;
     }
 
     private long calculate(long price) {

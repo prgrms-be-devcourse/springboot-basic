@@ -9,8 +9,14 @@ import java.time.LocalDateTime;
 
 @Component
 public class VoucherValidator {
-    private static final int MIN_DISCOUNT = 0;
+    public static final String NOT_SUPPORT_TYPE = "[Error] Your Input Is Not Support Type. Input : ";
+    public static final String INVALID_DISCOUNT_AMOUNT = "[Error] Discount Amount MUST Be Bigger Than Zero. Input : ";
+    public static final String INVALID_DISCOUNT_RATE = "[Error] Discount Rate MUST Be Bigger Than ZERO, Smaller Than Hunnit. Input : ";
+    public static final String INVALID_EXPIRATION_TIME = "[Error] Expiration Time Cannot Be The Past. Input : ";
+    public static final String EXPIRED_VOUCHER = "[Error] This Voucher Is EXPIRED";
+    public static final String USED_VOUCHER = "[Error] This Voucher Is Already USED";
     private static final int MAX_DISCOUNT = 100;
+    private static final int MIN_DISCOUNT = 0;
 
     public void validateRequest(CreateVoucherRequest request) {
         String inputSymbol = request.typeSymbol();
@@ -32,19 +38,19 @@ public class VoucherValidator {
 
     private void validateVoucherType(String symbol) {
         if (VoucherType.isIncorrectType(symbol)) {
-            throw new IllegalArgumentException("Your input is incorrect. Type correctly");
+            throw new IllegalArgumentException(NOT_SUPPORT_TYPE + symbol);
         }
     }
 
     private void validateFixedAmount(int discountAmount) {
         if (discountAmount <= MIN_DISCOUNT) {
-            throw new IllegalArgumentException("Discount Amount cannot be smaller than zero.");
+            throw new IllegalArgumentException(INVALID_DISCOUNT_AMOUNT + discountAmount);
         }
     }
 
     private void validatePercentRate(int discountRate) {
         if (discountRate <= MIN_DISCOUNT || MAX_DISCOUNT < discountRate) {
-            throw new IllegalArgumentException("Discount Rate must be bigger than ZERO and smaller than HUNNIT");
+            throw new IllegalArgumentException(INVALID_DISCOUNT_RATE + discountRate);
         }
     }
 
@@ -52,7 +58,7 @@ public class VoucherValidator {
         LocalDateTime now = LocalDateTime.now();
 
         if (expiredAt.isBefore(now)) {
-            throw new IllegalArgumentException("Expiration time cannot be the past.");
+            throw new IllegalArgumentException(INVALID_EXPIRATION_TIME + expiredAt);
         }
     }
 
@@ -60,13 +66,13 @@ public class VoucherValidator {
         LocalDateTime now = LocalDateTime.now();
 
         if (now.isAfter(voucher.getExpireAt())) {
-            throw new IllegalStateException("This voucher is expired");
+            throw new IllegalStateException(EXPIRED_VOUCHER);
         }
     }
 
     private void isUsed(Voucher voucher) {
         if (voucher.isUsed()) {
-            throw new IllegalStateException("This voucher is already used");
+            throw new IllegalStateException(USED_VOUCHER);
         }
     }
 }
