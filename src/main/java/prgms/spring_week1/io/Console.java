@@ -80,7 +80,7 @@ public class Console implements Input, Output {
             printInsertPercentVoucherMessage();
             int discountAmount = Integer.parseInt(br.readLine());
             while (IS_VALID_AMOUNT) {
-                if (discountAmount > 0 && discountAmount <= 100d) {
+                if (discountAmount > 0 && discountAmount <= 100) {
                     break;
                 }
                 printInsertPercentVoucherMessage();
