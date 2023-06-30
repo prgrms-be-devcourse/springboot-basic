@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.prgrms.kdt.model.entity.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,9 +20,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Voucher createVoucher(Voucher voucherEntity) {
-		Voucher voucher = saveVoucher(voucherEntity);
-		return voucherEntity;
+	public Voucher createVoucher(Voucher voucher) {
+		return saveVoucher(voucher);
 	}
 
 	@Override

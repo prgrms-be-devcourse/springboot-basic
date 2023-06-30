@@ -1,0 +1,2 @@
+22:41:04.028 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
+22:41:05.727 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공

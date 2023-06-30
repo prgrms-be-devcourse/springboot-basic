@@ -5,14 +5,16 @@ import java.util.List;
 import org.prgrms.kdt.model.dto.VoucherDTO;
 
 public interface OutputView {
-	public void displayCommandGuideMessage();
+	void displayCommandGuideMessage();
 
-	public void displayExitMessage();
+	void displayExitMessage();
 
-	public void displayCreateVoucherMessage();
+	void displayCreateVoucherMessage();
 
-	public void displayAmountErrorMessage();
+	void displayAmountErrorMessage();
 
-	public void displayVoucherList(List<VoucherDTO> voucherTypes);
+	void displayVoucherList(List<VoucherDTO> voucherTypes);
+
+	void displayCommandErrorMessage();
 
 }

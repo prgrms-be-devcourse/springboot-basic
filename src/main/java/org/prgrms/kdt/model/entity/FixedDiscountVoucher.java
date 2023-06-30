@@ -36,7 +36,7 @@ public class FixedDiscountVoucher implements Voucher {
 		Long afterDiscount = beforeDiscount - amount.getAmount();
 
 		if (afterDiscount < 0) {
-			return 0L;
+			throw new ArithmeticException("할인 값이 음수 일 수는 없습니다.");
 		}
 
 		return afterDiscount;

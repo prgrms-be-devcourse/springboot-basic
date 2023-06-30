@@ -37,8 +37,13 @@ public class MainController {
 
 		do {
 			outputView.displayCommandGuideMessage();
-			command = inputView.getCommand();
-			executeCommand(command);
+			try {
+				command = inputView.getCommand();
+				executeCommand(command);
+			} catch (Exception e) {
+				logger.error("사용자 Command 입력 실패");
+				outputView.displayCommandErrorMessage();
+			}
 		} while (command != Command.EXIT);
 	}
 
@@ -55,7 +60,7 @@ public class MainController {
 					this.voucherService.createVoucher(voucherDTO);
 					logger.error("바우처 생성 성공");
 				} catch (IllegalArgumentException e) {
-					logger.error("바우처 생성 실패");
+					logger.error("잘못 된 할인 값으로 인한 바우처 생성 실패");
 					outputView.displayAmountErrorMessage();
 					executeCommand(Command.CREATE);
 				}

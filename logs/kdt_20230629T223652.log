@@ -1,0 +1,3 @@
+22:36:55.718 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
+22:36:59.113 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+22:37:00.843 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

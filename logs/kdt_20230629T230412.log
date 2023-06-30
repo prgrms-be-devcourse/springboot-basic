@@ -1,0 +1,4 @@
+23:04:16.856 [main] INFO  o.p.kdt.controller.MainController - 바우처 생성 시도
+23:04:19.943 [main] ERROR o.p.kdt.controller.MainController - 바우처 생성 성공
+23:04:22.441 [main] ERROR o.p.kdt.controller.MainController - {"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}{"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":-5897853005060746007}
+23:04:22.456 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

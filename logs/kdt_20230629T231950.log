@@ -1,0 +1,4 @@
+23:19:56.000 [main] ERROR o.p.k.m.r.FileVoucherRepository - {"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}
+23:19:56.021 [main] ERROR o.p.k.m.r.FileVoucherRepository - readAll try 실패
+23:19:56.021 [main] ERROR o.p.k.m.r.FileVoucherRepository - e
+23:19:56.021 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패

@@ -102,6 +102,11 @@ public class ConsoleView implements InputView, OutputView {
 		}
 	}
 
+	@Override
+	public void displayCommandErrorMessage() {
+		System.out.println("잘 못된 명령어 입니다.");
+	}
+
 	public void printVoucherDTO(VoucherDTO voucherDTO) {
 		Amount amount = voucherDTO.getAmount();
 		String voucherDataString = MessageFormat.format("voucher id: {0} voucher type: {1} voucher amount: {2}",

@@ -1,0 +1,6 @@
+23:05:25.684 [main] ERROR o.p.kdt.controller.MainController - {"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}
+23:05:25.706 [main] ERROR o.p.kdt.controller.MainController - readAll try 실패
+23:05:25.706 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
+23:18:40.113 [main] ERROR o.p.kdt.controller.MainController - {"amount":{"amount":100},"voucherType":"FixedAmountVoucher","voucherId":1938563542208535134}
+23:18:40.113 [main] ERROR o.p.kdt.controller.MainController - readAll try 실패
+23:18:40.114 [main] ERROR o.p.kdt.controller.MainController - 사용자 Command 입력 실패
