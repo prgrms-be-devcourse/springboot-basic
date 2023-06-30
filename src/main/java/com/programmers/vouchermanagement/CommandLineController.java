@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement;
 
 import com.programmers.vouchermanagement.view.Console;
+import com.programmers.vouchermanagement.voucher.domain.DiscountType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class CommandLineController implements CommandLineRunner {
         String command = Console.selectCommand();
         switch (command) {
             case "create" -> {
-                String discountType = Console.selectDiscountType();
+                DiscountType discountType = DiscountType.from(Console.selectDiscountType());
                 int discountAmount = Integer.parseInt(Console.inputDiscountAmount());
                 VoucherDto.Request request = new VoucherDto.Request(discountType, discountAmount);
                 voucherController.createVoucher(request);

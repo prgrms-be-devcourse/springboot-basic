@@ -1,9 +1,6 @@
 package com.programmers.vouchermanagement.voucher.application;
 
-import com.programmers.vouchermanagement.voucher.domain.FixedAmountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.PercentDiscountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
+import com.programmers.vouchermanagement.voucher.domain.*;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +18,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     public void createVoucher(VoucherDto.Request request) {
-        String discountType = request.discountType();
+        DiscountType discountType = request.discountType();
         int discountAmount = request.discountAmount();
         Voucher voucher = toEntity(discountType, discountAmount);
         voucherRepository.save(voucher);
@@ -33,14 +30,11 @@ public class VoucherService {
         return toDto(vouchers);
     }
 
-    private static Voucher toEntity(String discountType, int discountAmount) {
-        if (discountType.equals("fix")) {
+    private static Voucher toEntity(DiscountType discountType, int discountAmount) {
+        if (DiscountType.FIX == discountType) {
             return new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
         }
-        if (discountType.equals("percent")) {
-            return new PercentDiscountVoucher(UUID.randomUUID(), discountAmount);
-        }
-        throw new IllegalArgumentException("생성할 수 없는 바우처입니다. 다시 선택해주세요.");
+        return new PercentDiscountVoucher(UUID.randomUUID(), discountAmount);
     }
 
     private VoucherDto.Response toDto(List<Voucher> vouchers) {
