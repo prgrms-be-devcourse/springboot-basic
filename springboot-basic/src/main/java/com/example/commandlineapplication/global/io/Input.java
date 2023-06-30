@@ -1,18 +1,11 @@
 package com.example.commandlineapplication.global.io;
 
-import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Input {
+public interface Input {
 
-  private static final Scanner scanner = new Scanner(System.in);
+  String selectOption();
 
-  public String selectOption() {
-    return scanner.nextLine();
-  }
-
-  public Integer getDiscount() {
-    return Integer.valueOf(scanner.nextLine());
-  }
+  Integer getDiscount();
 }

@@ -4,8 +4,7 @@ import com.example.commandlineapplication.domain.voucher.dto.VoucherCreateReques
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import com.example.commandlineapplication.domain.voucher.repository.MemoryVoucherRepository;
-import com.example.commandlineapplication.global.io.Input;
-import com.example.commandlineapplication.global.io.Output;
+import com.example.commandlineapplication.global.io.Console;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,19 +16,16 @@ public class VoucherService {
 
   private final static Logger LOG = LoggerFactory.getLogger(VoucherService.class);
   private final MemoryVoucherRepository memoryVoucherRepository;
-  private final Output output;
-  private final Input input;
+  private final Console console;
   private final VoucherFactory voucherFactory;
 
   public void createVoucher() {
-    output.printCreateOption();
-    VoucherType inputVoucherType = VoucherType.of(input.selectOption());
+    VoucherType inputVoucherType = console.selectVoucherTypeOption();
 
-    output.printDiscount();
-    Integer discount = input.getDiscount();
+    Integer inputDiscount = console.selectDiscount();
 
     VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputVoucherType,
-        discount);
+        inputDiscount);
 
     Voucher voucher = voucherFactory.create(voucherCreateRequest);
 
@@ -42,6 +38,6 @@ public class VoucherService {
   }
 
   public void history() {
-    output.printHistory();
+    console.printHistory();
   }
 }
