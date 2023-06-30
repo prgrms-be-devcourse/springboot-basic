@@ -25,19 +25,23 @@ public class CliVoucherApplication {
         while (true) {
             output.printCommandList();
             Optional<Command> inputCommand = input.getInputCommand("Type command: ");
-            if (inputCommand.isEmpty()) continue;
+            if (inputCommand.isEmpty()) {
+                continue;
+            }
             Command command = inputCommand.get();
 
             switch (command) {
                 case EXIT -> {
-                    voucherService.commandExit();
+                    Console.print("Terminate Program...");
                     return;
                 }
                 case CREATE -> {
-                    voucherService.commandCreate();
+                    Voucher voucher = input.inputVoucherInfo();
+                    voucherService.commandCreate(voucher);
                 }
                 case LIST -> {
-                    voucherService.commandList();
+                    var voucherList = voucherService.commandList();
+                    output.printAllVouchers(voucherList);
                 }
                 default -> {
                     Console.print("Invalid command, type again!\n");
