@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class MemberConverter {
     private static final String SEPARATOR = ",";
 
-    private static Member toMember(String line) {
+    public static Member toMember(String line) { //test 위해 public
         String[] chunks = line.split(SEPARATOR);
 
         UUID uuid = UUID.fromString(chunks[0]);
