@@ -15,9 +15,11 @@ public class Member {
 
     @Builder
     private Member(UUID memberId,
-                   MemberStatus memberStatus) {
+                   MemberStatus memberStatus,
+                   UUID voucherId) {
         this.memberId = memberId;
         this.memberStatus = memberStatus;
+        this.voucherId = voucherId;
     }
 
     public boolean isBlackMember() {

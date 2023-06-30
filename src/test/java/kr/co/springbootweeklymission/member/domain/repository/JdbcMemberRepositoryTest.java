@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -31,5 +33,23 @@ public class JdbcMemberRepositoryTest {
 
         //then
         assertThat(actual.getMemberId()).isEqualTo(member.getMemberId());
+    }
+
+    @Test
+    @Order(2)
+    void 모든_블랙_회원을_조회() {
+        //given
+        Member member1 = MemberCreators.createBlackMember();
+        Member member2 = MemberCreators.createBlackMember();
+        Member member3 = MemberCreators.createWhiteMember();
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+
+        //when
+        List<Member> actual = memberRepository.findMembersByBlack();
+
+        //then
+        assertThat(actual).hasSize(3);
     }
 }

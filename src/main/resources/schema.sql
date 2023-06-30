@@ -1,8 +1,7 @@
 use voucher_schema;
 
-drop table if exists tbl_vouchers_members;
-drop table if exists tbl_vouchers;
 drop table if exists tbl_members;
+drop table if exists tbl_vouchers;
 
 create table tbl_vouchers (
     voucher_id varchar(50) not null unique ,

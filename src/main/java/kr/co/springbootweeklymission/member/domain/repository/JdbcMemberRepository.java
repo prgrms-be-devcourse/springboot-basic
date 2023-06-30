@@ -1,12 +1,15 @@
 package kr.co.springbootweeklymission.member.domain.repository;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
+import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.UUID;
 
 @Primary
 @Repository
@@ -32,6 +35,17 @@ public class JdbcMemberRepository implements MemberRepository {
 
     @Override
     public List<Member> findMembersByBlack() {
-        return null;
+        String sql = "" +
+                "select * " +
+                "from tbl_members " +
+                "where member_status = ?";
+        return jdbcTemplate.query(sql, memberRowMapper(), MemberStatus.BLACK.toString());
+    }
+
+    private RowMapper<Member> memberRowMapper() {
+        return (rs, rowNum) -> Member.builder()
+                .memberId(UUID.fromString(rs.getString("member_id")))
+                .memberStatus(MemberStatus.valueOf(rs.getString("member_status")))
+                .build();
     }
 }

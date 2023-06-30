@@ -15,4 +15,11 @@ public class MemberCreators {
                 .memberStatus(MemberStatus.BLACK)
                 .build();
     }
+
+    public static Member createWhiteMember() {
+        return Member.builder()
+                .memberId(UUID.randomUUID())
+                .memberStatus(MemberStatus.WHITE)
+                .build();
+    }
 }
