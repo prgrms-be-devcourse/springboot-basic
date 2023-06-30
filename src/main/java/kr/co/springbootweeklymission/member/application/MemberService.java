@@ -17,7 +17,7 @@ public class MemberService {
         final List<Member> members = memberRepository.findMembersByBlack();
 
         return members.stream()
-                .map(Member::toMemberReadDto)
+                .map(MemberResDTO.READ::toMemberReadDto)
                 .toList();
     }
 }

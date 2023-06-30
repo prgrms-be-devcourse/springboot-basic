@@ -22,7 +22,7 @@ public class VoucherService {
     public List<VoucherResDTO.READ> getVouchersAll() {
         final List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers.stream()
-                .map(Voucher::toVoucherReadDto)
+                .map(VoucherResDTO.READ::toVoucherReadDto)
                 .toList();
     }
 }

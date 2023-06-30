@@ -24,7 +24,7 @@ public class InFileVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         try {
             final Writer writer = new FileWriter(VOUCHER_FILE, true);
-            final VoucherResDTO.FILE file = Voucher.toVoucherFile(voucher);
+            final VoucherResDTO.FILE file = VoucherResDTO.FILE.toVoucherFile(voucher);
             writer.write(FileConverter.toVoucherString(file));
             writer.flush();
             writer.close();

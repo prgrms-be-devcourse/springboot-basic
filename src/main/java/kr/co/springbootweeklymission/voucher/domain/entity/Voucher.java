@@ -3,7 +3,6 @@ package kr.co.springbootweeklymission.voucher.domain.entity;
 import kr.co.springbootweeklymission.infrastructure.error.exception.WrongVoucherPolicyException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
-import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import lombok.*;
 
@@ -31,22 +30,6 @@ public class Voucher {
                 .voucherId(UUID.randomUUID())
                 .amount(create.getAmount())
                 .voucherPolicy(create.getVoucherPolicy())
-                .build();
-    }
-
-    public static VoucherResDTO.READ toVoucherReadDto(Voucher voucher) {
-        return VoucherResDTO.READ.builder()
-                .voucherId(voucher.voucherId)
-                .amount(voucher.amount)
-                .voucherPolicy(voucher.voucherPolicy)
-                .build();
-    }
-
-    public static VoucherResDTO.FILE toVoucherFile(Voucher voucher) {
-        return VoucherResDTO.FILE.builder()
-                .voucherId(voucher.voucherId)
-                .amount(voucher.amount)
-                .voucherPolicy(voucher.voucherPolicy)
                 .build();
     }
 
