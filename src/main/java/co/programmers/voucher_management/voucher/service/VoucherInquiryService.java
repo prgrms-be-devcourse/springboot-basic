@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher_management.Response;
+import co.programmers.voucher_management.common.Response;
 import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;
