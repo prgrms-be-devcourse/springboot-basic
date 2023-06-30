@@ -18,15 +18,7 @@ public class VoucherController {
     private final VoucherService voucherService;
     private final Console console;
 
-    public void createVoucher() {
-        console.outputSelectCreateVoucherGuide();
-
-        VoucherType voucherType = VoucherType.findVoucherMenu(console.inputMessage());
-
-        console.outputDiscountGuide();
-        String inputNumber = console.inputMessage();
-        log.info("user input: {} ", inputNumber);
-
+    public void createVoucher(VoucherType voucherType, String inputNumber) {
         voucherService.saveVoucher(voucherType, inputNumber);
     }
 

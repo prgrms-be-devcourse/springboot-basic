@@ -5,6 +5,7 @@ import com.programmers.springweekly.controller.VoucherController;
 import com.programmers.springweekly.domain.ProgramMenu;
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.voucher.Voucher;
+import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.view.Console;
 import java.util.Map;
 import java.util.UUID;
@@ -32,36 +33,53 @@ public class ConsoleApplication implements CommandLineRunner {
                 ProgramMenu selectMenu = ProgramMenu.findProgramMenu(console.inputMessage());
 
                 switch (selectMenu) {
-                    case CREATE -> voucherController.createVoucher();
-                    case LIST -> {
-                        Map<UUID, Voucher> voucherMap = voucherController.getVoucherList();
-
-                        if (voucherMap.isEmpty()) {
-                            console.outputErrorMessage("No vouchers saved");
-                            break;
-                        }
-
-                        console.outputGetVoucherAll(voucherMap);
-                    }
+                    case CREATE -> createVoucher();
+                    case LIST -> getVoucherList();
                     case EXIT -> {
                         console.outputExitMessage();
                         running = false;
                     }
-                    case BLACKLIST -> {
-                        Map<UUID, Customer> customerMap = customerController.getBlackList();
-
-                        if (customerMap.isEmpty()) {
-                            console.outputErrorMessage("There are no saved blacklists.");
-                            break;
-                        }
-
-                        console.outputGetCustomerBlackList(customerMap);
-                    }
+                    case BLACKLIST -> getBlackList();
                     default -> throw new IllegalArgumentException("The type you are looking for is not found.");
                 }
+                
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }
+    }
+
+    private void createVoucher() {
+        console.outputSelectCreateVoucherGuide();
+
+        VoucherType voucherType = VoucherType.findVoucherMenu(console.inputMessage());
+
+        console.outputDiscountGuide();
+        String inputNumber = console.inputMessage();
+        log.info("user input: {} ", inputNumber);
+
+        voucherController.createVoucher(voucherType, inputNumber);
+    }
+
+    private void getVoucherList() {
+        Map<UUID, Voucher> voucherMap = voucherController.getVoucherList();
+
+        if (voucherMap.isEmpty()) {
+            console.outputErrorMessage("No vouchers saved");
+            return;
+        }
+
+        console.outputGetVoucherAll(voucherMap);
+    }
+
+    private void getBlackList() {
+        Map<UUID, Customer> customerMap = customerController.getBlackList();
+
+        if (customerMap.isEmpty()) {
+            console.outputErrorMessage("There are no saved blacklists.");
+            return;
+        }
+
+        console.outputGetCustomerBlackList(customerMap);
     }
 }
