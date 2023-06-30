@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class InMemoryVoucherRepository implements VoucherRepository{
+public class InMemoryVoucherRepository implements VoucherRepository {
 
     private final static Map<Long, Voucher> voucherStorage = new HashMap<>();
     private final static AtomicLong idGenerator = new AtomicLong(1);

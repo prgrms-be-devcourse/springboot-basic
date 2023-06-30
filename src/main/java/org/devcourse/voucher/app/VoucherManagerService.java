@@ -5,7 +5,7 @@ import org.devcourse.voucher.repository.VoucherRepository;
 
 import java.util.List;
 
-public class VoucherManagerService implements VoucherService{
+public class VoucherManagerService implements VoucherService {
 
     private final VoucherRepository voucherRepository;
 
