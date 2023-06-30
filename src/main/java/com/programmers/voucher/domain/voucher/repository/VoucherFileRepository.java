@@ -35,7 +35,7 @@ public class VoucherFileRepository implements VoucherRepository {
         } catch (IOException e) {
             String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, filePath);
             LOG.error(errorMessage, e);
-            throw new DataAccessException(CANNOT_ACCESS_FILE, e);
+            throw new DataAccessException(errorMessage, e);
         }
     }
 
@@ -50,7 +50,7 @@ public class VoucherFileRepository implements VoucherRepository {
         } catch (IOException e) {
             String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, file.getPath());
             LOG.error(errorMessage, e);
-            throw new DataAccessException(CANNOT_ACCESS_FILE, e);
+            throw new DataAccessException(errorMessage, e);
         }
     }
 
@@ -75,7 +75,7 @@ public class VoucherFileRepository implements VoucherRepository {
         } catch (IOException e) {
             String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, file.getPath());
             LOG.error(errorMessage, e);
-            throw new DataAccessException(CANNOT_ACCESS_FILE, e);
+            throw new DataAccessException(errorMessage, e);
         }
 
         return vouchers;
