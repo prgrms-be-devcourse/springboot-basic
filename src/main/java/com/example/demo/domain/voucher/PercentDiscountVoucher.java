@@ -1,14 +1,26 @@
 package com.example.demo.domain.voucher;
 
+import com.example.demo.dto.VoucherDto;
+import com.example.demo.util.VoucherType;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID id;
-    private final int discountPercent;
+    private final Integer discountPercent;
 
-    public PercentDiscountVoucher(UUID id, int discountPercent) {
+    public PercentDiscountVoucher(UUID id, Integer discountPercent) {
         this.id = id;
         this.discountPercent = discountPercent;
+    }
+
+    @Override
+    public double disCount(int beforeAmount) {
+        return beforeAmount * (discountPercent / 100.0);
+    }
+
+    @Override
+    public VoucherDto convertToVoucherDto() {
+        return new VoucherDto(UUID.fromString(this.id.toString()), new Integer(discountPercent), VoucherType.PERCENT_DISCOUNT_VOUCHER);
     }
 }
