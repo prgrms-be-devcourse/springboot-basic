@@ -1,5 +1,6 @@
 package org.promgrammers.voucher.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.promgrammers.voucher.domain.FixedAmountVoucher;
 import org.promgrammers.voucher.domain.PercentDiscountVoucher;
 import org.promgrammers.voucher.domain.Voucher;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 
 @Component
+@Slf4j
 public class VoucherFactory {
 
     private final long MIN_FIXED_AMOUNT = 0L;
@@ -32,19 +34,22 @@ public class VoucherFactory {
                 validatePercentage(amount);
                 return new PercentDiscountVoucher(amount, UUID.randomUUID());
             default:
+                log.error("유효하지 않은 바우처 타입 -> {}", voucherType);
                 throw new NoSuchElementException("유효하지 않은 Voucher 입니다.");
         }
     }
 
     private void validatePercentage(long percentage) {
         if (!(MIN_PERCENTAGE <= percentage && percentage <= MAX_PERCENTAGE)) {
-            throw new IllegalArgumentException("퍼센트 값은 0이상 100이하여야 합니다.");
+            log.warn("할인 비율 오류 -> {}", percentage);
+            throw new IllegalArgumentException("할인 비율은 0이상 100이하여야 합니다.");
         }
     }
 
     private void validateFixedAmount(long fixedAmount) {
         if (!(MIN_FIXED_AMOUNT <= fixedAmount)) {
-            throw new IllegalArgumentException("금액은 0이상이어야 합니다.");
+            log.warn("할인 금액 오류 -> {}", fixedAmount);
+            throw new IllegalArgumentException("할인 금액은 0이상이어야 합니다.");
         }
     }
 }
