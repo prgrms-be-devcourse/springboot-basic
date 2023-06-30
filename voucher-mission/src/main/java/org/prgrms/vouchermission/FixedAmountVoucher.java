@@ -29,8 +29,4 @@ public class FixedAmountVoucher implements Voucher {
         return beforeDiscount - amount;
     }
 
-    public static Voucher createPercentDiscountVoucher(long amount, LocalDate createdDate, LocalDate expirationDate) {
-        return new FixedAmountVoucher(amount, createdDate, expirationDate);
-    }
-
 }
