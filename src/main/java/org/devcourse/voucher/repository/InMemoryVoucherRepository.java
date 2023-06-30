@@ -10,21 +10,25 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryVoucherRepository implements VoucherRepository {
 
-    private final static Map<Long, Voucher> voucherStorage = new HashMap<>();
-    private final static AtomicLong idGenerator = new AtomicLong(1);
+    private final Map<Long, Voucher> voucherStorage = new HashMap<>();
+    private final AtomicLong idGenerator = new AtomicLong(1);
 
     @Override
     public Voucher save(Voucher voucher) {
+        validateInputVoucher(voucher);
+
+        return saveWithSequenceId(voucher);
+    }
+
+    private void validateInputVoucher(Voucher voucher) {
         if (voucher == null) {
             throw new RuntimeException("빈 값을 저장 할 수 없습니다");
         }
+    }
 
-        Voucher saveVoucher = voucher;
-        if (voucher.getId() == 0) {
-            long id = idGenerator.getAndIncrement();
-            saveVoucher = new Voucher(id, voucher.getType(), voucher.getPolicyAmount());
-        }
-
+    private Voucher saveWithSequenceId(Voucher voucher) {
+        long id = idGenerator.getAndIncrement();
+        Voucher saveVoucher = voucher.newInstanceWithId(id);
         voucherStorage.put(saveVoucher.getId(), saveVoucher);
 
         return saveVoucher;

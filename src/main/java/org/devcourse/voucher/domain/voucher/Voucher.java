@@ -24,15 +24,12 @@ public class Voucher {
         return id;
     }
 
-    public VoucherType getType() {
-        return type;
-    }
-
-    public int getPolicyAmount() {
-        return policy.getAmount();
-    }
-
     public int retrieveBalance(int receivedAmount) {
         return policy.discount(receivedAmount);
     }
+
+    public Voucher newInstanceWithId(long id) {
+        return new Voucher(id, this.type, this.policy.getAmount());
+    }
+
 }
