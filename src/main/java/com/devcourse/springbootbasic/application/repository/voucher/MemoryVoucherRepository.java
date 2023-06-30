@@ -20,9 +20,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         voucherMap.addVoucher(voucher);
-        return Optional.of(voucher);
+        return voucher;
     }
 
     @Override

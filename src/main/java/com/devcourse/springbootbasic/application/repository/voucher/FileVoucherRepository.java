@@ -23,13 +23,13 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         try (
                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath, true))
         ) {
             String voucherInfo = "%s\n".formatted(voucher.toString());
             bufferedWriter.write(voucherInfo);
-            return Optional.of(voucher);
+            return voucher;
         } catch (IOException e) {
             throw new InvalidDataException(Message.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
         }
