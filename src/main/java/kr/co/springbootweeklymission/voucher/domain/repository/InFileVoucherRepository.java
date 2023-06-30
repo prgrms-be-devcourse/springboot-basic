@@ -66,6 +66,11 @@ public class InFileVoucherRepository implements VoucherRepository {
         throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
+    }
+
     private static Optional<Voucher> getVoucherById(UUID voucherId,
                                                     BufferedReader reader) throws IOException {
         String info = reader.readLine();
