@@ -45,11 +45,11 @@ public class Console implements Input, Output {
     public void printlnVoucherList(Map<UUID, Voucher> voucherMap) {
         if (voucherMap.isEmpty()) {
             System.out.println("생성된 voucher가 없습니다.");
-        } else {
-            System.out.println("생성된 Voucher의 목록은 다음과 같습니다.");
-            for (Voucher voucher : voucherMap.values()) {
-                System.out.println("Voucher Type: " + voucher.getVoucherType() + " + Discount" + voucher.getDiscount());
-            }
+            return;
+        }
+        System.out.println("생성된 Voucher의 목록은 다음과 같습니다.");
+        for (Voucher voucher : voucherMap.values()) {
+            System.out.println("Voucher Type: " + voucher.getVoucherType() + " + Discount" + voucher.getDiscount());
         }
     }
 }
