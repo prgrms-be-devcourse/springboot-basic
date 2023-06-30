@@ -1,7 +1,8 @@
 package com.prgms.VoucherApp.view;
 
 import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.domain.VoucherPolicy;
+import com.prgms.VoucherApp.domain.VoucherType;
+import com.prgms.VoucherApp.dto.VoucherDto;
 
 import java.util.List;
 
@@ -10,11 +11,9 @@ public interface Output {
 
     void printDisplayVoucherPolicy();
 
-    void printDisplayDiscountCondition(VoucherPolicy policy);
-
-    void printNotCreatedMsg();
+    void printDisplayDiscountCondition(VoucherType policy);
 
     void printCreatedMsg(Voucher voucher);
 
-    void printVoucherList(List<Voucher> voucher);
+    void printVoucherList(List<VoucherDto> voucher);
 }

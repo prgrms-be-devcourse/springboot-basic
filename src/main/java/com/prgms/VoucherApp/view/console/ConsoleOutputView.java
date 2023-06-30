@@ -1,7 +1,8 @@
 package com.prgms.VoucherApp.view.console;
 
 import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.domain.VoucherPolicy;
+import com.prgms.VoucherApp.domain.VoucherType;
+import com.prgms.VoucherApp.dto.VoucherDto;
 import com.prgms.VoucherApp.view.Output;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -67,42 +68,56 @@ public class ConsoleOutputView implements Output {
     @Override
     public void printDisplayVoucherPolicy() {
         textTerminal.println("=== Voucher Create ===");
-        for (VoucherPolicy policy : VoucherPolicy.values()) {
+        for (VoucherType voucherType : VoucherType.values()) {
             textTerminal.print("Type ");
             textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
                 terminalProperties.setPromptBold(true);
-            }, text -> text.print(policy.getVoucherPolicy()));
-            textTerminal.println(" to create : " + policy.getPolicyDescription());
+            }, text -> {
+                switch (voucherType) {
+                    case FIXED_VOUCHER -> {
+                        text.print(voucherType.getVoucherPolicy());
+                        text.println(" to create " + "a Fixed Amount Voucher.");
+                    }
+                    case PERCENT_VOUCHER -> {
+                        text.print(voucherType.getVoucherPolicy());
+                        text.println(" to create " + "a Percent Voucher.");
+                    }
+                }
+            });
         }
     }
 
     @Override
-    public void printDisplayDiscountCondition(VoucherPolicy policy) {
+    public void printDisplayDiscountCondition(VoucherType voucherType) {
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
             terminalProperties.setPromptColor(Color.red);
-        }, text -> text.println(policy.getDiscountCondition()));
+        }, text -> {
+            switch (voucherType) {
+                case FIXED_VOUCHER -> {
+                    text.println("0 이상으로 입력해주세요.");
+                }
+                case PERCENT_VOUCHER -> {
+                    text.println("0 이상 100 이하로 입력해주세요.");
+                }
+            }
+        });
     }
 
     @Override
     public void printCreatedMsg(Voucher voucher) {
-        log.info("The discount coupon {} was created successfully.", voucher);
-        textTerminal.println(voucher + "할인권이 생성되었습니다.");
+        VoucherDto voucherDto = voucher.convertVoucherDto();
+        log.info("The discount coupon {} was created successfully.", voucherDto.getVoucherInfo());
+        textTerminal.println(voucherDto.getVoucherInfo() + " 할인권이 생성되었습니다.");
     }
 
     @Override
-    public void printNotCreatedMsg() {
-        log.info("The discount coupon was not created due to an unknown error.");
-        textTerminal.println("알 수 없는 오류로 할인권이 생성되지 않았습니다.");
-    }
-
-    @Override
-    public void printVoucherList(List<Voucher> voucher) {
-        if (voucher.isEmpty()) {
+    public void printVoucherList(List<VoucherDto> voucherDtos) {
+        if (voucherDtos.isEmpty()) {
             log.error("The user tried to view the list, but currently, the list is empty");
             textTerminal.println("저장되어있는 할인권이 없습니다.");
             return;
         }
-        voucher.forEach((item -> textTerminal.println(item.toString())));
+        voucherDtos.forEach((voucher -> textTerminal.println(voucher.getVoucherInfo())));
     }
 }

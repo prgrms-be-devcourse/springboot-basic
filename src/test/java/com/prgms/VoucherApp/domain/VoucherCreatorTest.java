@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain;
 
+import com.prgms.VoucherApp.model.VoucherCreator;
 import com.prgms.VoucherApp.storage.VoucherStorage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,8 +22,8 @@ class VoucherCreatorTest {
     @Test
     @DisplayName("할인권 개별 저장 테스트")
     void saveVoucher() {
-        Voucher fixedVoucher = voucherCreator.createVoucher(VoucherPolicy.FIXED_VOUCHER, 1000L);
-        Voucher percentVoucher = voucherCreator.createVoucher(VoucherPolicy.PERCENT_VOUCHER, 50L);
+        Voucher fixedVoucher = voucherCreator.createVoucher(VoucherType.FIXED_VOUCHER, 1000L);
+        Voucher percentVoucher = voucherCreator.createVoucher(VoucherType.PERCENT_VOUCHER, 50L);
 
         Optional<Voucher> findFixedVoucher = voucherStorage.findByVoucherId(fixedVoucher.getUUID());
         Optional<Voucher> findPercentVoucher = voucherStorage.findByVoucherId(percentVoucher.getUUID());
@@ -34,8 +35,8 @@ class VoucherCreatorTest {
     @Test
     @DisplayName("할인권 목록 저장 테스트")
     void saveVouchers() {
-        Voucher fixedVoucher = voucherCreator.createVoucher(VoucherPolicy.FIXED_VOUCHER, 1000L);
-        Voucher percentVoucher = voucherCreator.createVoucher(VoucherPolicy.PERCENT_VOUCHER, 50L);
+        Voucher fixedVoucher = voucherCreator.createVoucher(VoucherType.FIXED_VOUCHER, 1000L);
+        Voucher percentVoucher = voucherCreator.createVoucher(VoucherType.PERCENT_VOUCHER, 50L);
 
         Assertions.assertThat(voucherStorage.findAll()).contains(fixedVoucher, percentVoucher);
     }
