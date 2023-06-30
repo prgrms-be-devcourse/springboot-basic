@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Repository
 public class VoucherRepositoryImpl implements VoucherRepository {
-
+    private static final String FILEPATH = "src/main/csv/vouchers.csv";
     private VoucherDatabase voucherDatabase;
 
     @Autowired
@@ -20,17 +20,17 @@ public class VoucherRepositoryImpl implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        voucherDatabase.store(voucher.getVoucherId(), voucher);
+        voucherDatabase.store(voucher.getVoucherId(), voucher, FILEPATH);
     }
 
     @Override
     public Map<UUID, Voucher> findAll() {
-        return voucherDatabase.load();
+        return voucherDatabase.load(FILEPATH);
     }
 
     @Override
     public Voucher findVoucherById(UUID uuid) {
-        Map<UUID, Voucher> cache = voucherDatabase.load();
-        return cache.get(uuid);
+        Map<UUID, Voucher> storage = voucherDatabase.load(FILEPATH);
+        return storage.get(uuid);
     }
 }

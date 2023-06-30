@@ -16,17 +16,17 @@ import java.util.UUID;
 @Component
 public class FileBlacklistDatabase {
     private static final Logger logger = LoggerFactory.getLogger(FileBlacklistDatabase.class);
-    private static final String FILENAME = "src/main/csv/blacklist.csv";
 
-    public Map<UUID, String> load() {
-        boolean append = Files.exists(Paths.get(FILENAME));
+    public Map<UUID, String> load(String filePath) {
         Map<UUID, String> storage = new HashMap<>();
+        boolean append = Files.exists(Paths.get(filePath));
 
         if (!append) {
             return storage;
         }
 
-        try (CSVReader reader = new CSVReader(new FileReader(FILENAME))) {
+
+        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             String[] nextLine;
             reader.readNext();  // Skip header
             while ((nextLine = reader.readNext()) != null) {

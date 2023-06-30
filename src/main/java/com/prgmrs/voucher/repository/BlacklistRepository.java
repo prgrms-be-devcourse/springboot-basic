@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public class BlacklistRepository {
-
+    private static final String FILEPATH = "src/main/csv/blacklist.csv";
     private FileBlacklistDatabase fileBlacklistDatabase;
 
     @Autowired
@@ -18,6 +18,6 @@ public class BlacklistRepository {
     }
 
     public Map<UUID, String> findAll() {
-        return fileBlacklistDatabase.load();
+        return fileBlacklistDatabase.load(FILEPATH);
     }
 }

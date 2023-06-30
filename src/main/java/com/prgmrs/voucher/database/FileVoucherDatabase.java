@@ -23,18 +23,17 @@ import java.util.UUID;
 @Profile("!dev")
 public class FileVoucherDatabase implements VoucherDatabase {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherDatabase.class);
-    String filename = "src/main/csv/vouchers.csv";
 
     @Override
-    public Map<UUID, Voucher> load() {
-        boolean append = Files.exists(Paths.get(filename));
+    public Map<UUID, Voucher> load(String filePath) {
+        boolean append = Files.exists(Paths.get(filePath));
         Map<UUID, Voucher> storage = new HashMap<>();
 
         if (!append) {
             return storage;
         }
 
-        try (CSVReader reader = new CSVReader(new FileReader(filename))) {
+        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             String[] nextLine;
             reader.readNext();  // Skip header
             while ((nextLine = reader.readNext()) != null) {
@@ -60,9 +59,9 @@ public class FileVoucherDatabase implements VoucherDatabase {
     }
 
     @Override
-    public void store(UUID voucherId, Voucher voucher) {
-        boolean append = Files.exists(Paths.get(filename));
-        try (CSVWriter writer = new CSVWriter(new FileWriter(filename, append))) {
+    public void store(UUID voucherId, Voucher voucher, String filePath) {
+        boolean append = Files.exists(Paths.get(filePath));
+        try (CSVWriter writer = new CSVWriter(new FileWriter(filePath, append))) {
             if(!append) {
                 String[] header = { "UUID", "Voucher Type", "Voucher Value" };
                 writer.writeNext(header);
