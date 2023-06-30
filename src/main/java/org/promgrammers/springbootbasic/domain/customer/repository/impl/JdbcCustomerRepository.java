@@ -1,6 +1,7 @@
-package org.promgrammers.springbootbasic.domain.customer.repository;
+package org.promgrammers.springbootbasic.domain.customer.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
+import org.promgrammers.springbootbasic.domain.customer.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -13,7 +14,11 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Profile("jdbc")

@@ -7,6 +7,7 @@ import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

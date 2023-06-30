@@ -10,6 +10,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.repository.impl.MemoryVoucherRepository;
 import org.promgrammers.springbootbasic.exception.DuplicateIDException;
 
 import java.util.List;

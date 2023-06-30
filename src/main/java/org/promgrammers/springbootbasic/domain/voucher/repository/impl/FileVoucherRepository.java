@@ -1,6 +1,7 @@
-package org.promgrammers.springbootbasic.domain.voucher.repository;
+package org.promgrammers.springbootbasic.domain.voucher.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import org.promgrammers.springbootbasic.exception.InvalidFilePathException;
 import org.promgrammers.springbootbasic.exception.VoucherFileWriteException;
 import org.promgrammers.springbootbasic.util.FileConverter;

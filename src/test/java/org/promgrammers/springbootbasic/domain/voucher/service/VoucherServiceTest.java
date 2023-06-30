@@ -11,7 +11,7 @@ import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherRespo
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
-import org.promgrammers.springbootbasic.domain.voucher.repository.MemoryVoucherRepository;
+import org.promgrammers.springbootbasic.domain.voucher.repository.impl.MemoryVoucherRepository;
 
 import java.util.Arrays;
 import java.util.List;
