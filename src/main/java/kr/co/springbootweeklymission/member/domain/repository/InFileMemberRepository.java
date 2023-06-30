@@ -14,6 +14,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Profile("memory")
 @Repository
@@ -22,7 +24,7 @@ public class InFileMemberRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_SAVE);
     }
 
     @Override
@@ -36,6 +38,11 @@ public class InFileMemberRepository implements MemberRepository {
         } catch (IOException e) {
             throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_BLACK_MEMBER);
         }
+    }
+
+    @Override
+    public Optional<Member> findById(UUID memberId) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_FOUND);
     }
 
     private List<Member> getMembersByBlack(BufferedReader reader) throws IOException {

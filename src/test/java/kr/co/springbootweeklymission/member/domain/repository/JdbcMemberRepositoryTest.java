@@ -1,5 +1,7 @@
 package kr.co.springbootweeklymission.member.domain.repository;
 
+import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.member.domain.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import org.junit.jupiter.api.MethodOrderer;
@@ -51,5 +53,20 @@ public class JdbcMemberRepositoryTest {
 
         //then
         assertThat(actual).hasSize(3);
+    }
+
+    @Test
+    @Order(3)
+    void 특정_회원을_조회() {
+        //given
+        Member member = MemberCreators.createBlackMember();
+        memberRepository.save(member);
+
+        //when
+        Member actual = memberRepository.findById(member.getMemberId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
+
+        //then
+        assertThat(actual).isEqualTo(member);
     }
 }

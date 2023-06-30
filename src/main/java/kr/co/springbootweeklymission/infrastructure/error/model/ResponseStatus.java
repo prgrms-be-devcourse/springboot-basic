@@ -13,9 +13,12 @@ public enum ResponseStatus {
     FAIL_NOT_FOUND_COMMAND("해당 명령어를 찾을 수 없습니다."),
     FAIL_NOT_SUPPORTED_UPDATE("파일 및 메모리 저장소에서 수정 기능은 지원하지 않습니다."),
     FAIL_NOT_SUPPORTED_DELETE("파일 및 메모리 저장소에서 삭제 기능은 지원하지 않습니다."),
+    FAIL_NOT_SUPPORTED_SAVE("파일 및 메모리 저장소에서 저장 기능은 지원하지 않습니다."),
+    FAIL_NOT_SUPPORTED_FOUND("파일 및 메모리 저장소에서 조회 기능은 지원하지 않습니다."),
 
     //fail member
     FAIL_NOT_FOUND_BLACK_MEMBER("I/O 문제로 블랙 회원이 조회되지 않았습니다."),
+    FAIL_NOT_FOUND_MEMBER("해당 회원을 찾을 수 없습니다."),
 
     //fail Voucher
     FAIL_WRONG_DISCOUNT("할인전 가격보다 할인 가격이 더 클 수 없습니다."),
