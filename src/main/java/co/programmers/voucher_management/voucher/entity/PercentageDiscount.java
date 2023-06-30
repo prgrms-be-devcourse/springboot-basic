@@ -1,11 +1,11 @@
 package co.programmers.voucher_management.voucher.entity;
 
-public class DiscountByPercentage implements DiscountStrategy {
+public class PercentageDiscount implements DiscountStrategy {
 	private static final int MAX_AMOUNT = 100;
-	private static final String DISCOUNT_TYPE_NAME = "percentage";
+	private static final String DISCOUNT_TYPE_NAME = "percent";
 	private final int amount;
 
-	public DiscountByPercentage(int amount) {
+	public PercentageDiscount(int amount) {
 		validate(amount);
 		this.amount = amount;
 	}
