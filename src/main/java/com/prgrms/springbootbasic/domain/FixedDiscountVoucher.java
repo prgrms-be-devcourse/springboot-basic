@@ -1,15 +1,14 @@
 package com.prgrms.springbootbasic.domain;
 
+import com.prgrms.springbootbasic.enums.VoucherType;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 
-public class FixedDiscountVoucher implements Voucher{
+@AllArgsConstructor
+public class FixedDiscountVoucher implements Voucher {
+
     private final UUID voucherId;
     private final long fixedDiscount;
-
-    public FixedDiscountVoucher(UUID voucherId, long fixedDiscount) {
-        this.voucherId = voucherId;
-        this.fixedDiscount = fixedDiscount;
-    }
 
     @Override
     public UUID getVoucherId() {
@@ -19,5 +18,10 @@ public class FixedDiscountVoucher implements Voucher{
     @Override
     public long getDiscount() {
         return fixedDiscount;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED;
     }
 }
