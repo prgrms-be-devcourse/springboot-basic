@@ -1,0 +1,15 @@
+16:04:59.447 [main] INFO  org.prgrms.kdt.Main -- property -> {} ./voucher-list.txt
+16:04:59.451 [main] INFO  org.prgrms.kdt.Main -- resource.getClass().getCanonicalName() = {}org.springframework.core.io.FileUrlResource
+16:04:59.453 [main] INFO  org.prgrms.kdt.Main -- bean.getClass().getCanonicalName() = {}org.prgrms.kdt.repository.voucher.FileVoucherRepository
+16:05:28.554 [main] INFO  org.prgrms.kdt.Main -- property -> {} ./voucher-list.txt
+16:05:28.582 [main] INFO  org.prgrms.kdt.Main -- resource.getClass().getCanonicalName() = {}org.springframework.core.io.FileUrlResource
+16:05:28.586 [main] INFO  org.prgrms.kdt.Main -- bean.getClass().getCanonicalName() = {}org.prgrms.kdt.repository.voucher.FileVoucherRepository
+%PARSER_ERROR[clr] [main] INFO  org.prgrms.kdt.Main -- property -> {} ./voucher-list.txt
+%PARSER_ERROR[clr] [main] INFO  org.prgrms.kdt.Main -- resource.getClass().getCanonicalName() = {}org.springframework.core.io.FileUrlResource
+%PARSER_ERROR[clr] [main] INFO  org.prgrms.kdt.Main -- bean.getClass().getCanonicalName() = {}org.prgrms.kdt.repository.voucher.FileVoucherRepository
+%PARSER_ERROR[clr] [main] INFO  org.prgrms.kdt.Main -- property -> {} ./voucher-list.txt
+%PARSER_ERROR[clr] [main] INFO  org.prgrms.kdt.Main -- resource.getClass().getCanonicalName() = {}org.springframework.core.io.FileUrlResource
+%PARSER_ERROR[clr] [main] INFO  org.prgrms.kdt.Main -- bean.getClass().getCanonicalName() = {}org.prgrms.kdt.repository.voucher.FileVoucherRepository
+16:16:45.636 [main] INFO  org.prgrms.kdt.Main -- property -> {} ./voucher-list.txt
+16:16:45.658 [main] INFO  org.prgrms.kdt.Main -- resource.getClass().getCanonicalName() = {}org.springframework.core.io.FileUrlResource
+16:16:45.672 [main] INFO  org.prgrms.kdt.Main -- bean.getClass().getCanonicalName() = {}org.prgrms.kdt.repository.voucher.FileVoucherRepository
