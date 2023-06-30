@@ -3,8 +3,8 @@ package com.prgrms.springbootbasic.enums;
 import java.util.Arrays;
 
 public enum VoucherType {
-    FIXED("Fixed"),
-    PERCENT("Percent");
+    FIXED("FixedDiscountVoucher"),
+    PERCENT("PercentDiscountVoucher");
     private final String inputVoucherType;
 
     VoucherType(String inputVoucherType) {
