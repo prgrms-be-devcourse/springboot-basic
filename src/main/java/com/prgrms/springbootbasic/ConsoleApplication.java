@@ -5,8 +5,6 @@ import com.prgrms.springbootbasic.controller.PercentDiscountVoucherController;
 import com.prgrms.springbootbasic.domain.FixedDiscountVoucher;
 import com.prgrms.springbootbasic.domain.PercentDiscountVoucher;
 import com.prgrms.springbootbasic.domain.Voucher;
-import com.prgrms.springbootbasic.io.Input;
-import com.prgrms.springbootbasic.io.Output;
 import com.prgrms.springbootbasic.repository.VoucherRepository;
 import com.prgrms.springbootbasic.service.VoucherService;
 import java.io.Console;
@@ -18,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 
-public class ConsoleApplication implements Input, Output, CommandLineRunner {
+public class ConsoleApplication implements CommandLineRunner {
 
     private TextIO textIO;
     private T terminal;
