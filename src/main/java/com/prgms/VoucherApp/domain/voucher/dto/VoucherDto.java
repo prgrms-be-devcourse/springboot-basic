@@ -11,10 +11,10 @@ public class VoucherDto {
     private final BigDecimal discountAmount;
     private final VoucherType voucherType;
 
-    public VoucherDto(String voucherId, String discountAmount, String voucherType) {
+    public VoucherDto(String voucherId, String discountAmount, String voucherTypeName) {
         this.voucherId = UUID.fromString(voucherId);
         this.discountAmount = BigDecimal.valueOf(Double.parseDouble(discountAmount));
-        this.voucherType = VoucherType.findByPolicy(voucherType);
+        this.voucherType = VoucherType.findByVoucherTypeName(voucherTypeName);
     }
 
     public UUID getVoucherId() {

@@ -27,9 +27,9 @@ public class VoucherManagementApp {
     }
 
     public void createVoucher() {
-        VoucherType policy = getVoucherPolicyType();
-        long amount = getDiscountAmount(policy);
-        Voucher voucher = voucherCreator.createVoucher(policy, amount);
+        VoucherType voucherType = getVoucherType();
+        long amount = getDiscountAmount(voucherType);
+        Voucher voucher = voucherCreator.createVoucher(voucherType, amount);
         output.printCreatedMsg(voucher);
     }
 
@@ -38,14 +38,14 @@ public class VoucherManagementApp {
         output.printVoucherList(vouchers);
     }
 
-    private VoucherType getVoucherPolicyType() {
+    private VoucherType getVoucherType() {
         output.printDisplayVoucherPolicy();
-        String inputVoucherPolicy = input.inputVoucherPolicy();
-        return VoucherType.findByPolicy(inputVoucherPolicy);
+        String inputVoucherTypeName = input.inputVoucherType();
+        return VoucherType.findByVoucherTypeName(inputVoucherTypeName);
     }
 
-    private long getDiscountAmount(VoucherType policy) {
-        output.printDisplayDiscountCondition(policy);
-        return input.inputDiscountAmount(policy);
+    private long getDiscountAmount(VoucherType voucherType) {
+        output.printDisplayDiscountCondition(voucherType);
+        return input.inputDiscountAmount(voucherType);
     }
 }

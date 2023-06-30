@@ -85,11 +85,11 @@ public class ConsoleOutputView implements Output {
             }, text -> {
                 switch (voucherType) {
                     case FIXED_VOUCHER -> {
-                        text.print(voucherType.getVoucherPolicy());
+                        text.print(voucherType.getVoucherTypeName());
                         text.println(" to create " + "a Fixed Amount Voucher.");
                     }
                     case PERCENT_VOUCHER -> {
-                        text.print(voucherType.getVoucherPolicy());
+                        text.print(voucherType.getVoucherTypeName());
                         text.println(" to create " + "a Percent Voucher.");
                     }
                 }

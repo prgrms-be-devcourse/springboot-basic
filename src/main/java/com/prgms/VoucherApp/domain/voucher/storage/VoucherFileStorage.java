@@ -54,7 +54,7 @@ public class VoucherFileStorage implements VoucherStorage {
             VoucherDto voucherDto = voucher.convertVoucherDto();
             String voucherId = String.valueOf(voucherDto.getVoucherId());
             String discountAmount = String.valueOf(voucherDto.getDiscountAmount());
-            String voucherType = String.valueOf(voucherDto.getVoucherType().getVoucherPolicy());
+            String voucherType = String.valueOf(voucherDto.getVoucherType().getVoucherTypeName());
             bufferedWriter.write(voucherId);
             bufferedWriter.write(",");
             bufferedWriter.write(discountAmount);
@@ -99,6 +99,6 @@ public class VoucherFileStorage implements VoucherStorage {
         }
 
         log.warn("entered VoucherType {} is invalid", voucherDto.getVoucherType());
-        throw new IllegalArgumentException(voucherDto.getVoucherType() + "is invalid voucher type");
+        throw new IllegalArgumentException(voucherDto.getVoucherType() + " is invalid voucher type");
     }
 }

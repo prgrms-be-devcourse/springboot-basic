@@ -38,12 +38,12 @@ public class ConsoleInputView implements Input {
     }
 
     @Override
-    public String inputVoucherPolicy() {
+    public String inputVoucherType() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .withInlinePossibleValues(VoucherType.getAllVoucherType())
                 .withValueChecker((val, itemName) -> {
-                    if (!VoucherType.containsVoucherPolicy(val)) {
+                    if (!VoucherType.containsVoucherType(val)) {
                         log.warn("inputVoucherPolicy [{}] is invalid value", val);
                         return List.of("Please input a valid value.");
                     }
