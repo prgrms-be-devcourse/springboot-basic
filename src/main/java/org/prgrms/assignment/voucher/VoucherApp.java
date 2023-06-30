@@ -1,6 +1,9 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.assignment.voucher;
 
-import org.prgrms.kdt.voucher.controller.VoucherController;
+import org.prgrms.assignment.voucher.controller.VoucherController;
+import org.prgrms.kdt.KdtApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

@@ -1,4 +1,10 @@
 <configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+    </root>
 
     <property name="LOG_PATTERN" value="(%d{HH:mm:ss.SSS}) [%thread] %-5level %logger{36} -%kvp- %msg%n" />
 
@@ -10,7 +16,11 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+<!--    <logger name = "org.prgrms.kdt" level="error">-->
+<!--        <appender-ref ref="ROLLING_FILE" />-->
+<!--    </logger>-->
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/kdt_${bySecond}</file>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
@@ -28,13 +38,4 @@
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-
-    <logger name = "org.prgrms.kdt" level="debug">
-        <appender-ref ref="FILE" />
-    </logger>
-
-
-    <root level="warn">
-        <appender-ref ref="STDOUT" />
-    </root>
 </configuration>

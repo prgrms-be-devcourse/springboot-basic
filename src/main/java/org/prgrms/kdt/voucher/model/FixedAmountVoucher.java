@@ -43,4 +43,14 @@ public class FixedAmountVoucher implements Voucher {
     public String getVoucherName() {
         return voucherName;
     }
+
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher{" +
+            "voucherId=" + voucherId +
+            ", amount=" + amount +
+            ", voucherName='" + voucherName + '\'' +
+            ", voucherTypeNum=" + voucherTypeNum +
+            '}';
+    }
 }

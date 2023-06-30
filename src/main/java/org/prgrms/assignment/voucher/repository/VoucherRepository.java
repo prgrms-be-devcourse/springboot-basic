@@ -1,6 +1,6 @@
-package org.prgrms.kdt.voucher.repository;
+package org.prgrms.assignment.voucher.repository;
 
-import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.assignment.voucher.model.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface VoucherRepository {
-    Optional<Voucher> findByiD(UUID voucherId);
+    Optional<Voucher> findByID(UUID voucherId);
     Voucher insert(Voucher voucher);
     List<Voucher> findAll();
 }

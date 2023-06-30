@@ -13,13 +13,13 @@ import java.util.InputMismatchException;
 import static org.prgrms.kdt.voucher.view.ConsoleOutput.SELECT_VOUCHER_MESSAGE;
 
 @Controller
-public class MyController {
+public class VoucherController {
 
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
 
-    public MyController(Input input, Output output, VoucherService voucherService) {
+    public VoucherController(Input input, Output output, VoucherService voucherService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;

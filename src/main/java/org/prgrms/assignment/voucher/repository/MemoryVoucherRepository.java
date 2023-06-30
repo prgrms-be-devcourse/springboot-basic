@@ -1,24 +1,23 @@
-package org.prgrms.kdt.voucher.repository;
+package org.prgrms.assignment.voucher.repository;
 
-import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.assignment.voucher.model.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository("dev")
-@Profile("dev")
-@Qualifier("dev")
-public class JdbcVoucherRepository implements VoucherRepository{
+
+
+
+@Repository("local")
+@Profile({"local", "test"})
+@Qualifier("local")
+public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     @Override
-    public Optional<Voucher> findByiD(UUID voucherId) {
+    public Optional<Voucher> findByID(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
 
@@ -30,6 +29,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        return new ArrayList<>(storage.values());
     }
+
 }
