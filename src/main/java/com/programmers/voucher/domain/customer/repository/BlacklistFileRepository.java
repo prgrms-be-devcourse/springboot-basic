@@ -34,7 +34,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
         } catch (IOException e) {
             String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, filePath);
             LOG.error(errorMessage, e);
-            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
+            throw new DataAccessException(CANNOT_ACCESS_FILE, e);
         }
     }
 
@@ -52,7 +52,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
         } catch (IOException e) {
             String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, file.getPath());
             LOG.error(errorMessage, e);
-            throw new DataAccessException(CommonErrorMessages.CANNOT_ACCESS_FILE, e);
+            throw new DataAccessException(CANNOT_ACCESS_FILE, e);
         }
         return customers;
     }

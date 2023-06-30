@@ -1,18 +1,21 @@
 package com.programmers.voucher.global.util;
 
-public interface ConsoleMessages {
+public final class ConsoleMessages {
     //voucher program messages
-    String VOUCHER_PROGRAM = "=== Voucher Program ===";
-    String INPUT = "Type";
-    String EXIT_BEHAVIOR = "to exit the program.";
-    String CREATE_BEHAVIOR = "to create a new voucher.";
-    String LIST_BEHAVIOR = "to list all vouchers.";
-    String HELP_BEHAVIOR = "to list command set.";
-    String BLACKLIST_BEHAVIOR = "to list blacklist.";
+    public static final String VOUCHER_PROGRAM = "=== Voucher Program ===";
+    public static final String INPUT = "Type";
+    public static final String EXIT_BEHAVIOR = "to exit the program.";
+    public static final String CREATE_BEHAVIOR = "to create a new voucher.";
+    public static final String LIST_BEHAVIOR = "to list all vouchers.";
+    public static final String HELP_BEHAVIOR = "to list command set.";
+    public static final String BLACKLIST_BEHAVIOR = "to list blacklist.";
 
-    String VOUCHER_TYPES = "[fixed | percent]";
-    String AMOUNT = "[amount]";
-    String PERCENT = "[percent]";
+    public static final String VOUCHER_TYPES = "[fixed | percent]";
+    public static final String AMOUNT = "[amount]";
+    public static final String PERCENT = "[percent]";
 
-    String EXIT_CONSOLE = "Bye Bye.";
+    public static final String EXIT_CONSOLE = "Bye Bye.";
+
+    private ConsoleMessages() {
+    }
 }
