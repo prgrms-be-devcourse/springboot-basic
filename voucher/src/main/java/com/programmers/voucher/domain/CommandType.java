@@ -6,7 +6,7 @@ import java.util.Optional;
 public enum CommandType {
     CREATE("create"),
     LIST("list"),
-    BLACK("black"),
+    BLACKLIST("black"),
     EXIT("exit");
 
     private final String string;

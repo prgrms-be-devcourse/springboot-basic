@@ -61,7 +61,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case LIST -> {
                 showList();
             }
-            case BLACK -> {
+            case BLACKLIST -> {
                 showBlackList();
             }
         }
