@@ -6,23 +6,23 @@ import org.junit.jupiter.api.Test;
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomerResponse;
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersResponse;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
-import org.promgrammers.springbootbasic.domain.customer.repository.FileCustomerRepository;
+import org.promgrammers.springbootbasic.domain.customer.repository.impl.BlackCustomerRepository;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class CustomerServiceTest {
+class BlackCustomerServiceTest {
 
     private String blackListStoragePath = "src/main/resources/storage/blacklist.csv";
-    private CustomerService customerService;
-    private FileCustomerRepository fileCustomerRepository;
+    private BlackCustomerService blackCustomerService;
+    private BlackCustomerRepository blackCustomerRepository;
 
     @BeforeEach
     void setUp() {
-        fileCustomerRepository = new FileCustomerRepository(blackListStoragePath);
-        customerService = new CustomerService(fileCustomerRepository);
+        blackCustomerRepository = new BlackCustomerRepository(blackListStoragePath);
+        blackCustomerService = new BlackCustomerService(blackCustomerRepository);
     }
 
     @Test
@@ -30,7 +30,7 @@ class CustomerServiceTest {
     void successFindAllTest() throws Exception {
 
         //given -> when
-        CustomersResponse customersResponse = customerService.findAllByCustomerType(CustomerType.BLACK);
+        CustomersResponse customersResponse = blackCustomerService.findAllByCustomerType(CustomerType.BLACK);
         List<CustomerResponse> customers = customersResponse.customers();
 
         //then

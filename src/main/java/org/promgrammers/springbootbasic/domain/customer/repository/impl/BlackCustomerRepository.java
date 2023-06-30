@@ -1,4 +1,4 @@
-package org.promgrammers.springbootbasic.domain.customer.repository;
+package org.promgrammers.springbootbasic.domain.customer.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class FileCustomerRepository {
+public class BlackCustomerRepository {
 
     private final Path filePath;
 
-    public FileCustomerRepository(@Value("${blackListStoragePath}") String blackListStoragePath) {
+    public BlackCustomerRepository(@Value("${blackListStoragePath}") String blackListStoragePath) {
         this.filePath = Paths.get(blackListStoragePath);
     }
 
