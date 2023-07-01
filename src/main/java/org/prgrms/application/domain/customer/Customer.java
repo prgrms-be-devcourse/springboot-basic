@@ -8,9 +8,9 @@ public class Customer {
     private String name;
     private String email;
     private LocalDateTime lastLoginAt;
-    private final String createdAt;
+    private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, String createdAt) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         validate(name);
         this.customerId = customerId;
         this.name = name;
@@ -19,7 +19,7 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public Customer(UUID customerId, String createdAt) {validate(name);
+    public Customer(UUID customerId, LocalDateTime createdAt) {validate(name);
         validate(name);
         this.customerId = customerId;
         this.createdAt = createdAt;
@@ -30,7 +30,7 @@ public class Customer {
         this.name = name;
     }
 
-    public void login(){ //로그인에 따른 로그인 시간 변경
+    public void login(){ //로그인에 따른 로그인 시간 변
         this.lastLoginAt = LocalDateTime.now();
     }
 
@@ -50,7 +50,7 @@ public class Customer {
         return lastLoginAt;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
