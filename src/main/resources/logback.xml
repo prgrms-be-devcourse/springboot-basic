@@ -37,30 +37,34 @@
     <!--    STDOUT LOGGERS  -->
     <logger name="kr.co.programmers.springbootbasic.Processor" level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING_FILE" />
     </logger>
 
     <logger name="kr.co.programmers.springbootbasic.voucher" level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING_FILE" />
     </logger>
 
     <logger name="kr.co.programmers.springbootbasic.util" level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING_FILE" />
     </logger>
 
     <logger name="kr.co.programmers.springbootbasic.io.MenuCommand" level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING_FILE" />
     </logger>
 
-    <!--    ROLLING_FILE LOGGERS    -->
-    <logger name="kr.co.programmers.springbootbasic.voucher" level="info">
+<!--        ROLLING_FILE LOGGERS    -->
+    <logger name="kr.co.programmers.springbootbasic.voucher" level="warn">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
-    <logger name="kr.co.programmers.springbootbasic.util" level="info">
+    <logger name="kr.co.programmers.springbootbasic.util" level="warn">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
-    <logger name="kr.co.programmers.springbootbasic.io.MenuCommand" level="info">
+    <logger name="kr.co.programmers.springbootbasic.io.MenuCommand" level="warn">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 </configuration>
