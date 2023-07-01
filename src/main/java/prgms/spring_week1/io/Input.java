@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 @Component
 public class Input {
-    private static final Logger log = LoggerFactory.getLogger(Console.class);
+    private static final Logger log = LoggerFactory.getLogger(Input.class);
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public String inputTextOption() {

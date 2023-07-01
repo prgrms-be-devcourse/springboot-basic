@@ -33,7 +33,6 @@ public class CommandLine implements Runnable {
 
     private boolean IS_RUNNING = true;
 
-
     @Override
     public void run() {
         while (IS_RUNNING) {

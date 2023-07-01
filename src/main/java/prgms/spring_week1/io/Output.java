@@ -1,5 +1,7 @@
 package prgms.spring_week1.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Component
 public class Output {
+    private static final Logger log = LoggerFactory.getLogger(Output.class);
     private final String printMenuListMessage =
             """
                     === Voucher Program ===
@@ -24,7 +27,6 @@ public class Output {
                     Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> PercentDiscountVoucher
                     """;
 
-
     public void printMenuList() {
         System.out.println(printMenuListMessage);
     }
@@ -34,7 +36,7 @@ public class Output {
     }
 
     public void printAllVoucher(List<Voucher> voucherList) {
-        if(voucherList.isEmpty()){
+        if (voucherList.isEmpty()) {
             printEmptyListMessage();
             return;
         }
@@ -68,7 +70,7 @@ public class Output {
     }
 
     public void printBlackConsumerList(List<BlackConsumer> blackConsumerList) {
-        if(blackConsumerList.isEmpty()){
+        if (blackConsumerList.isEmpty()) {
             printEmptyBlackListMessage();
             return;
         }
