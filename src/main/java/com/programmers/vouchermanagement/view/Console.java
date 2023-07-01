@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.view;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Console {
 
@@ -40,7 +41,9 @@ public class Console {
 
     public static void outputVouchers(VoucherDto.Response vouchers) {
         System.out.println("\nThis is a list of vouchers");
-        System.out.println(vouchers);
+        System.out.println(vouchers.voucherName().stream()
+                .map(voucher -> voucher + System.lineSeparator())
+                .collect(Collectors.joining()));
     }
 
     public static void outputErrorMessage(String errorMessage) {
