@@ -58,7 +58,6 @@ public class Console implements Input, Output {
         }
     }
 
-
     @Override
     public int insertDiscountPercentVoucher() {
         try {
