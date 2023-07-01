@@ -27,12 +27,13 @@ public class VoucherService {
                 orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId));
     }
 
-    public List<VoucherDTO> toVoucherDTOList() {
+    public List<VoucherDTO> convertToVoucherDTOs() {
         return voucherRepository.findAll().
                 stream().
                 map(voucher -> new VoucherDTO(voucher.getVoucherType(),
                         voucher.getVoucherName(),
-                        voucher.getBenefit()))
+                        voucher.getBenefit(),
+                        voucher.getCreatedAt()))
                 .toList();
     }
 

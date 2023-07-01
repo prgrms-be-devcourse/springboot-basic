@@ -2,18 +2,13 @@ package org.prgrms.assignment.voucher.controller;
 
 import org.prgrms.assignment.voucher.model.Command;
 import org.prgrms.assignment.voucher.model.Menu;
-import org.prgrms.assignment.voucher.model.Voucher;
 import org.prgrms.assignment.voucher.model.VoucherType;
 import org.prgrms.assignment.voucher.service.VoucherService;
 import org.prgrms.assignment.voucher.view.Input;
 import org.prgrms.assignment.voucher.view.Output;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.util.InputMismatchException;
-import java.util.Optional;
-import java.util.UUID;
 
 import static org.prgrms.kdt.voucher.view.ConsoleOutput.SELECT_VOUCHER_MESSAGE;
 
@@ -34,8 +29,9 @@ public class VoucherController {
         while(true) {
             try {
                 output.showMenu(Menu.values());
-                Command command = new Command(input.getCommandInput());
-                switch (Menu.of(command.getCommand())) {
+                String command = input.getCommandInput();
+
+                switch (Menu.of(command)) {
                     case EXIT-> {
                         return;
                     }
@@ -52,7 +48,7 @@ public class VoucherController {
                     }
                     case LIST -> {
                         output.showVoucherList(voucherService
-                                .toVoucherDTOList());
+                                .convertToVoucherDTOs());
                     }
                 }
             } catch(IllegalArgumentException | InputMismatchException e) {
