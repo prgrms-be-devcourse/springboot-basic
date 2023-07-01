@@ -18,14 +18,15 @@ import prgms.spring_week1.menu.Menu;
 @Component
 public class CommandLine implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(CommandLine.class);
-
-    private final Console console;
+    private final Input input;
+    private final Output output;
     private final VoucherRepository voucherRepository;
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    public CommandLine(Console console, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
-        this.console = console;
+    public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
+        this.input = input;
+        this.output = output;
         this.voucherRepository = voucherRepository;
         this.voucherService = voucherService;
         this.customerService = customerService;
