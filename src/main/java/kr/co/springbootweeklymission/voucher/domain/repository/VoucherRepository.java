@@ -18,4 +18,6 @@ public interface VoucherRepository {
     void update(Voucher voucher);
 
     void deleteById(UUID voucherId);
+
+    void deleteVoucherByVoucherIdAndMemberId(UUID voucherId, UUID memberId);
 }

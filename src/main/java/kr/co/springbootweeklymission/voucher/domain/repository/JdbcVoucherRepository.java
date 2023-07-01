@@ -106,6 +106,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(sql, voucherId.toString());
     }
 
+    @Override
+    public void deleteVoucherByVoucherIdAndMemberId(UUID voucherId,
+                                                    UUID memberId) {
+        String sql = "" +
+                "delete from tbl_vouchers " +
+                "where voucher_id = ? " +
+                "and member_id = ?";
+        jdbcTemplate.update(sql, voucherId, memberId);
+    }
+
     private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
             if (rs.getString("member_id") == null) {

@@ -176,4 +176,22 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThat(voucherRepository.findById(voucher.getVoucherId())).isEmpty();
     }
+
+    @Test
+    @Order(5)
+    void deleteVoucherByVoucherIdAndMemberId_특정_회원이_가진_특정_바우처를_삭제_SUCCESS() {
+        //given
+        Voucher voucher = VoucherCreators.createFixedDiscount();
+        Member member = MemberCreators.createWhiteMember();
+        voucherRepository.save(voucher);
+        memberRepository.save(member);
+        voucher.assigningVouchers(member);
+        voucherRepository.update(voucher);
+
+        //when
+        voucherRepository.deleteVoucherByVoucherIdAndMemberId(voucher.getVoucherId(), member.getMemberId());
+
+        //then
+        assertThat(voucherRepository.findById(voucher.getVoucherId())).isEmpty();
+    }
 }

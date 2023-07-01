@@ -76,6 +76,12 @@ public class InFileVoucherRepository implements VoucherRepository {
         throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
     }
 
+    @Override
+    public void deleteVoucherByVoucherIdAndMemberId(UUID voucherId,
+                                                    UUID memberId) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
+    }
+
     private static Optional<Voucher> getVoucherById(UUID voucherId,
                                                     BufferedReader reader) throws IOException {
         String info = reader.readLine();
