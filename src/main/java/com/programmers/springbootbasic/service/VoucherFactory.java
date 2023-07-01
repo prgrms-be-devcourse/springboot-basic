@@ -16,7 +16,7 @@ public class VoucherFactory {
 
     public static Voucher from(VoucherType voucherType, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int discount) {
         switch (voucherType) {
-            case RATE -> {
+            case PERCENT -> {
                 if (minimumPriceCondition == null || minimumPriceCondition == 0) {
                     return new PercentDiscountVoucher(UUID.randomUUID(), name, createdDate, expirationDate, discount);
                 }

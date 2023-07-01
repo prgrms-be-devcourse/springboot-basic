@@ -15,7 +15,7 @@ class VoucherTypeTest {
         VoucherType voucherType = VoucherType.from(type);
 
         // then
-        assertThat(voucherType).isEqualTo(VoucherType.RATE);
+        assertThat(voucherType).isEqualTo(VoucherType.PERCENT);
     }
 
     @Test

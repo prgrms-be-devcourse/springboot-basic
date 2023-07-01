@@ -3,7 +3,7 @@ package com.programmers.springbootbasic.domain.voucher;
 import java.util.Arrays;
 
 public enum VoucherType {
-    RATE("정률 할인"),
+    PERCENT("정률 할인"),
     FIX("정액 할인");
 
     private final String voucherType;
