@@ -3,11 +3,16 @@ package kr.co.programmers.springbootbasic.voucher.impl;
 import kr.co.programmers.springbootbasic.exception.NoValidAmountException;
 import kr.co.programmers.springbootbasic.voucher.Voucher;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
     public FixedAmountVoucher(UUID voucherId, long fixedAmount) {
         super(VoucherType.FIXED_AMOUNT, voucherId, fixedAmount);
+    }
+    public FixedAmountVoucher(UUID voucherId, long fixedAmount, LocalDateTime createdAt) {
+        super(VoucherType.FIXED_AMOUNT, voucherId, fixedAmount, createdAt);
     }
 
     @Override

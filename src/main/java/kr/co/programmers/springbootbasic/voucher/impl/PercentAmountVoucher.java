@@ -4,11 +4,17 @@ import kr.co.programmers.springbootbasic.exception.NoValidDiscountPrice;
 import kr.co.programmers.springbootbasic.voucher.Voucher;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentAmountVoucher extends Voucher {
+
     public PercentAmountVoucher(UUID voucherId, long percentAmount) {
         super(VoucherType.PERCENT_AMOUNT, voucherId, percentAmount);
+    }
+
+    public PercentAmountVoucher(UUID voucherId, long percentAmount, LocalDateTime createdAt) {
+        super(VoucherType.PERCENT_AMOUNT, voucherId, percentAmount, createdAt);
     }
 
     @Override

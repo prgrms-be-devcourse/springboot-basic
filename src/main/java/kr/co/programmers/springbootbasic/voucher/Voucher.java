@@ -4,12 +4,14 @@ import kr.co.programmers.springbootbasic.exception.NoValidAmountException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public abstract class Voucher {
     private final VoucherType type;
     private final UUID id;
     private final long amount;
+    private final LocalDateTime createdAt;
     protected static final long ZERO = 0;
     protected static final long ONE_HUNDRED = 100;
     protected static final long MAX_FIXED_AMOUNT = 1_000_000;
@@ -22,6 +24,17 @@ public abstract class Voucher {
         this.type = type;
         this.id = id;
         this.amount = amount;
+        this.createdAt = null;
+    }
+
+    public Voucher(VoucherType type, UUID id, long amount, LocalDateTime createdAt) {
+        logger.info("{} 바우처 생성을 시작합니다...", type);
+
+        checkValidAmount(type, amount);
+        this.type = type;
+        this.id = id;
+        this.amount = amount;
+        this.createdAt = createdAt;
     }
 
     public abstract long discount(long productPrice);
@@ -36,6 +49,10 @@ public abstract class Voucher {
 
     public long getAmount() {
         return amount;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     private void checkValidAmount(VoucherType type, long amount) throws NoValidAmountException {
