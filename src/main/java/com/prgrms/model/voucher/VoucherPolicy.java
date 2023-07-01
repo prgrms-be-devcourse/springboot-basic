@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum VoucherPolicy {
-    FixedAmountVoucher("1",
+    FIXED_AMOUNT_VOUCHER("1",
             "얼만큼 할인 받고 싶은지 입력하세요 (단위: 원):",
             "원"),
-    PercentDiscountVoucher("2",
+    PERCENT_DISCOUNT_VOUCHER("2",
             "할인율을 입력하세요 (0~100 사이의 값):",
             "%");
 

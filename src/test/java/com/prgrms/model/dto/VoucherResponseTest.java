@@ -21,7 +21,7 @@ class VoucherResponseTest {
     @Test
     void ofVoucherRequest() {
         UUID voucherId = UUID.randomUUID();
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FixedAmountVoucher);
+        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
 
         assertEquals(VoucherResponse.of(createdVoucher),VoucherResponse.of(createdVoucher));
     }

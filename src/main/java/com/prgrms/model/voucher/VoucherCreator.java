@@ -15,8 +15,8 @@ public class VoucherCreator {
         UUID id = UUID.randomUUID();
 
         switch (voucherPolicy) {
-            case FixedAmountVoucher -> voucher = new FixedAmountVoucher(id, discount, voucherPolicy);
-            case PercentDiscountVoucher -> voucher = new PercentDiscountVoucher(id, discount, voucherPolicy);
+            case FIXED_AMOUNT_VOUCHER -> voucher = new FixedAmountVoucher(id, discount, voucherPolicy);
+            case PERCENT_DISCOUNT_VOUCHER -> voucher = new PercentDiscountVoucher(id, discount, voucherPolicy);
             default -> throw new IllegalArgumentException(errorMessage);
         }
         return voucher;

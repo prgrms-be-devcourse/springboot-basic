@@ -22,7 +22,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     public void testFindById_ExistingVoucherId_ReturnsVoucher() {
         UUID voucherId1 = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FixedAmountVoucher);
+        Voucher voucher = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
         UUID voucherId = voucher.getVoucherId();
 
         voucherRepository.insert(voucher);
@@ -45,7 +45,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     public void testInsert_InsertedVoucher() {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FixedAmountVoucher);
+        Voucher voucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
 
         Voucher result = voucherRepository.insert(voucher);
 
@@ -58,8 +58,8 @@ class MemoryVoucherRepositoryTest {
         UUID voucherId1 = UUID.randomUUID();
         UUID voucherId2 = UUID.randomUUID();
 
-        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FixedAmountVoucher);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherPolicy.PercentDiscountVoucher);
+        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherPolicy.PERCENT_DISCOUNT_VOUCHER);
         voucherRepository.insert(createdVoucher1);
         voucherRepository.insert(createdVoucher2);
 

@@ -1,13 +1,9 @@
 package com.prgrms.model.voucher;
 
-import com.prgrms.service.voucher.VoucherService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +14,7 @@ class VoucherPolicyTest {
         String policy = "1";
         Optional<VoucherPolicy> voucherPolicy = VoucherPolicy.findByPolicy(policy);
 
-        assertEquals(VoucherPolicy.FixedAmountVoucher, voucherPolicy.get());
+        assertEquals(VoucherPolicy.FIXED_AMOUNT_VOUCHER, voucherPolicy.get());
     }
 
     @Test
@@ -27,7 +23,7 @@ class VoucherPolicyTest {
         String policy = "2";
         Optional<VoucherPolicy> voucherPolicy = VoucherPolicy.findByPolicy(policy);
 
-        assertEquals(VoucherPolicy.PercentDiscountVoucher, voucherPolicy.get());
+        assertEquals(VoucherPolicy.PERCENT_DISCOUNT_VOUCHER, voucherPolicy.get());
     }
 
     @Test

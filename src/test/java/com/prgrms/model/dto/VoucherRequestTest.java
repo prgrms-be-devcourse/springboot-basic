@@ -4,8 +4,6 @@ import com.prgrms.model.voucher.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherRequestTest {
@@ -17,7 +15,7 @@ class VoucherRequestTest {
 
     @Test
     void ofVoucherRequest() {
-        VoucherPolicy voucherPolicy = VoucherPolicy.FixedAmountVoucher;
+        VoucherPolicy voucherPolicy = VoucherPolicy.FIXED_AMOUNT_VOUCHER;
         Discount discount = new Discount(20);
         VoucherRequest voucherRequest = VoucherRequest.of(voucherPolicy, discount);
 

@@ -11,7 +11,7 @@ class VoucherCreatorTest {
     @Test
     @DisplayName("고정된 금액의 바우처")
     public void testCreateVoucherFixedAmountVoucher() {
-        VoucherPolicy voucherPolicy = VoucherPolicy.FixedAmountVoucher;
+        VoucherPolicy voucherPolicy = VoucherPolicy.FIXED_AMOUNT_VOUCHER;
         VoucherCreator voucherCreator = new VoucherCreator();
 
         Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherPolicy);
@@ -25,7 +25,7 @@ class VoucherCreatorTest {
     @Test
     @DisplayName("할인율에 따른 바우처")
     public void testCreateVoucher_PercentDiscountVoucher_ReturnsPercentDiscountVoucher() {
-        VoucherPolicy voucherPolicy = VoucherPolicy.PercentDiscountVoucher;
+        VoucherPolicy voucherPolicy = VoucherPolicy.PERCENT_DISCOUNT_VOUCHER;
         VoucherCreator voucherCreator = new VoucherCreator();
 
         Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherPolicy);

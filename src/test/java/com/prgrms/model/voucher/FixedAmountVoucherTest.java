@@ -1,11 +1,8 @@
 package com.prgrms.model.voucher;
 
-import com.prgrms.controller.VoucherController;
 import com.prgrms.model.order.OrderItem;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 
 import java.util.UUID;
 
@@ -19,7 +16,7 @@ class FixedAmountVoucherTest {
     public void getPricePositiveResult() {
         orderItem = new OrderItem(UUID.randomUUID(), 1000, 1);
         UUID voucherId = UUID.randomUUID();
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FixedAmountVoucher);
+        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
 
 
         assertEquals(980, createdVoucher.getRealPrice(orderItem));
@@ -30,7 +27,7 @@ class FixedAmountVoucherTest {
     public void getPriceNegativeResult() {
         orderItem = new OrderItem(UUID.randomUUID(), 10, 1);
         UUID voucherId = UUID.randomUUID();
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FixedAmountVoucher);
+        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
 
         assertEquals(-10, createdVoucher.getRealPrice(orderItem));
     }
