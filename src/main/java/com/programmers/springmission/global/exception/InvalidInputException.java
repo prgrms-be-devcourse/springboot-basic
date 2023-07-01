@@ -1,8 +1,8 @@
 package com.programmers.springmission.global.exception;
 
-public class VoucherException extends RuntimeException {
+public class InvalidInputException extends RuntimeException {
 
-    public VoucherException(ErrorMessage errorMessage) {
+    public InvalidInputException(ErrorMessage errorMessage) {
         super(errorMessage.getMessage());
     }
 }

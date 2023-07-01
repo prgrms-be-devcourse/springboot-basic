@@ -1,7 +1,7 @@
 package com.programmers.springmission.voucher.domain.enums;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.VoucherException;
+import com.programmers.springmission.global.exception.InvalidInputException;
 
 import java.util.Arrays;
 
@@ -22,7 +22,7 @@ public enum VoucherType {
         return Arrays.stream(VOUCHER_POLICIES)
                 .filter(voucherPolicy -> voucherPolicy.policy.equals(inputPolicy))
                 .findFirst()
-                .orElseThrow(() -> new VoucherException(ErrorMessage.INVALID_VOUCHER_TYPE));
+                .orElseThrow(() -> new InvalidInputException(ErrorMessage.INVALID_VOUCHER_TYPE));
     }
 }
 

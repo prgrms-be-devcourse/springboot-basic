@@ -1,7 +1,7 @@
 package com.programmers.springmission.view;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.VoucherException;
+import com.programmers.springmission.global.exception.InvalidInputException;
 
 import java.util.Arrays;
 
@@ -27,7 +27,7 @@ public enum OptionType {
         return Arrays.stream(OPTION_TYPES)
                 .filter(optionType -> optionType.inputOption.equals(inputOption))
                 .findFirst()
-                .orElseThrow(() -> new VoucherException(ErrorMessage.INVALID_OPTION_TYPE));
+                .orElseThrow(() -> new InvalidInputException(ErrorMessage.INVALID_OPTION_TYPE));
     }
 }
 

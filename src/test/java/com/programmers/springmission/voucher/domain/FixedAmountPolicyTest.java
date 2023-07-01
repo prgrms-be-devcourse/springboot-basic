@@ -1,7 +1,7 @@
 package com.programmers.springmission.voucher.domain;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.VoucherException;
+import com.programmers.springmission.global.exception.InvalidInputException;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -40,7 +40,7 @@ class FixedAmountPolicyTest {
 
         // then
         assertThatThrownBy(() -> new Voucher(UUID.randomUUID(), new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT))
-                .isInstanceOf(VoucherException.class)
+                .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }
 }

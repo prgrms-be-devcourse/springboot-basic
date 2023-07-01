@@ -1,6 +1,6 @@
 package com.programmers.springmission;
 
-import com.programmers.springmission.global.exception.VoucherException;
+import com.programmers.springmission.global.exception.InvalidInputException;
 import com.programmers.springmission.view.Console;
 import com.programmers.springmission.view.OptionType;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
@@ -39,13 +39,12 @@ public class ManagementController implements CommandLineRunner {
                     case CREATE -> createVoucher();
                     case LIST -> loadVoucherList();
                 }
-            } catch (VoucherException voucherException) {
+            } catch (InvalidInputException voucherException) {
                 console.output(voucherException.getMessage());
                 logger.info(voucherException.getMessage());
             } catch (NumberFormatException numberFormatException) {
                 logger.info(numberFormatException.getMessage());
             }
-
         }
     }
 

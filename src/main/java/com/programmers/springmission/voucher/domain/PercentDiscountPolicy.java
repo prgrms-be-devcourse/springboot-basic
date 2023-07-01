@@ -1,7 +1,7 @@
 package com.programmers.springmission.voucher.domain;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.VoucherException;
+import com.programmers.springmission.global.exception.InvalidInputException;
 
 public class PercentDiscountPolicy implements VoucherPolicy {
 
@@ -27,7 +27,7 @@ public class PercentDiscountPolicy implements VoucherPolicy {
 
     protected void validate(long amount) {
         if (amount <= MIN_PERCENT || amount > MAX_PERCENT) {
-            throw new VoucherException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
+            throw new InvalidInputException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
         }
     }
 }

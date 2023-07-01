@@ -1,7 +1,7 @@
 package com.programmers.springmission.voucher.domain;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.VoucherException;
+import com.programmers.springmission.global.exception.InvalidInputException;
 
 public class FixedAmountPolicy implements VoucherPolicy {
 
@@ -25,7 +25,7 @@ public class FixedAmountPolicy implements VoucherPolicy {
 
     private void validate(long amount) {
         if (amount <= MIN_AMOUNT) {
-            throw new VoucherException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
+            throw new InvalidInputException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
         }
     }
 }
