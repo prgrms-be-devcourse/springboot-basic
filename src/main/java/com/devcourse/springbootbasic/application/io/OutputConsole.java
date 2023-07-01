@@ -1,7 +1,6 @@
 package com.devcourse.springbootbasic.application.io;
 
-import com.devcourse.springbootbasic.application.constant.Message;
-import com.devcourse.springbootbasic.application.domain.Voucher;
+import com.devcourse.springbootbasic.application.constant.OutputMessage;
 import com.devcourse.springbootbasic.application.dto.ListMenu;
 import com.devcourse.springbootbasic.application.dto.Menu;
 import com.devcourse.springbootbasic.application.dto.VoucherType;
@@ -21,7 +20,7 @@ public class OutputConsole {
     private static final TextTerminal<?> textTerminal = textIO.getTextTerminal();
 
     public void showMenu() {
-        textTerminal.println(Message.START_GAME_PROMPT.getMessageText());
+        textTerminal.println(OutputMessage.START_GAME_PROMPT.getMessageText());
 
         Arrays.stream(Menu.values())
                 .forEach(menu -> {
@@ -33,7 +32,7 @@ public class OutputConsole {
     }
 
     public void showVoucherType() {
-        textTerminal.println(Message.VOUCHER_TYPE_PROMPT.getMessageText());
+        textTerminal.println(OutputMessage.VOUCHER_TYPE_PROMPT.getMessageText());
 
         Arrays.stream(VoucherType.values())
                 .forEach(voucherType -> {
@@ -43,7 +42,7 @@ public class OutputConsole {
     }
 
     public void showListMenu() {
-        textTerminal.println(Message.LIST_MENU_PROMPT.getMessageText());
+        textTerminal.println(OutputMessage.LIST_MENU_PROMPT.getMessageText());
 
         Arrays.stream(ListMenu.values())
                 .forEach(listMenu -> {
@@ -56,16 +55,13 @@ public class OutputConsole {
         textTerminal.println(message);
     }
 
-    public void printMessage(String message, String messagePostfix) {
-        textTerminal.println(MessageFormat.format("{0}{1}", message, messagePostfix));
-    }
-
     public void printError(Exception e) {
         printMessage(e.getMessage());
+        e.printStackTrace();
     }
 
-    public void endPlatform() {
-        printMessage(Message.END_GAME_PROMPT.getMessageText());
+    public void closePlatform() {
+        printMessage(OutputMessage.END_GAME_PROMPT.getMessageText());
     }
 
     public void printList(String message, List<String> list) {
