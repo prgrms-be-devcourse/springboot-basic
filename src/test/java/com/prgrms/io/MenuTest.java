@@ -1,11 +1,12 @@
 package com.prgrms.io;
 
+//Junit
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+//assertJ
+import static org.assertj.core.api.Assertions.*;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MenuTest {
 
@@ -13,71 +14,73 @@ class MenuTest {
     @DisplayName("소문자 list")
     public void findLowerList() {
         String selectMenu = "list";
-        Optional<Menu> menu = Menu.findByMenu(selectMenu);
+        Menu menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.LIST, menu.get());
+        assertThat(menu).isEqualTo(Menu.LIST);
     }
 
     @Test
     @DisplayName("대문자 LIST")
     public void findUpperList() {
         String selectMenu = "LIST";
-        Optional<Menu> menu = Menu.findByMenu(selectMenu);
+        Menu menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.LIST, menu.get());
+        assertThat(menu).isEqualTo(Menu.LIST);
     }
 
     @Test
     @DisplayName("소문자 create")
     public void findLowerCreate() {
         String selectMenu = "create";
-        Optional<Menu> menu = Menu.findByMenu(selectMenu);
+        Menu menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.CREATE, menu.get());
+        assertThat(menu).isEqualTo(Menu.CREATE);
     }
 
     @Test
     @DisplayName("대문자 CREATE")
     public void findUpperCREATE() {
         String selectMenu = "CREATE";
-        Optional<Menu> menu = Menu.findByMenu(selectMenu);
+        Menu menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.CREATE, menu.get());
+        assertThat(menu).isEqualTo(Menu.CREATE);
     }
 
     @Test
     @DisplayName("소문자 exit")
     public void findLowerExit() {
         String selectMenu = "exit";
-        Optional<Menu> menu = Menu.findByMenu(selectMenu);
+        Menu menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.EXIT, menu.get());
+        assertThat(menu).isEqualTo(Menu.EXIT);
     }
 
     @Test
     @DisplayName("대문자 EXIT")
     public void findUpperExit() {
         String selectMenu = "EXIT";
-        Optional<Menu> menu = Menu.findByMenu(selectMenu);
+        Menu menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.EXIT, menu.get());
+        assertThat(menu).isEqualTo(Menu.EXIT);
     }
 
     @Test
     @DisplayName("대소문자 섞인 메뉴")
     public void findMixedMenu() {
         String selectMenu = "ExIt";
-        Optional<Menu> menu = Menu.findByMenu(selectMenu);
+        Menu menu = Menu.findByMenu(selectMenu);
 
-        assertEquals(Menu.EXIT, menu.get());
+        assertThat(menu).isEqualTo(Menu.EXIT);
     }
 
     @Test
     @DisplayName("없는 메뉴에 대한 예외 테스트")
     void findByPolicyNotExistVoucherPolicy() {
         String menu = "cccc";
-        Optional<Menu> selectedMenu = Menu.findByMenu(menu);
 
-        assertEquals(Optional.empty(), selectedMenu);
+        assertThatThrownBy(() -> Menu.findByMenu(menu))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("올바른 선택지가 아닙니다.");
     }
+
 }
