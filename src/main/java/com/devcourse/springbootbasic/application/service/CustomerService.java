@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.application.service;
 
+import com.devcourse.springbootbasic.application.domain.customer.Customer;
 import com.devcourse.springbootbasic.application.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<String> getBlackCustomers() {
-        return customerRepository.findAllBlackCustomers();
+    public List<Customer> getBlackCustomers() {
+        return customerRepository.findAll();
     }
 }
