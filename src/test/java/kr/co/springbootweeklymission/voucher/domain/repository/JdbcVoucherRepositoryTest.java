@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,20 +28,38 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @Order(1)
-    void 고정_할인_바우처를_등록() {
+    void save_고정_할인_바우처를_등록_SUCCESS() {
         //given
         Voucher voucher = VoucherCreators.createFixedDiscount();
 
         //when
-        Voucher actual = voucherRepository.save(voucher);
+        voucherRepository.save(voucher);
+        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+
 
         //then
-        assertThat(actual.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(actual).isEqualTo(voucher);
+    }
+
+    @Test
+    @Order(1)
+    void save_퍼센트_할인_바우처를_등록_SUCCESS() {
+        //given
+        Voucher voucher = VoucherCreators.createPercentDiscount();
+
+        //when
+        voucherRepository.save(voucher);
+        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+
+        //then
+        assertThat(actual).isEqualTo(voucher);
     }
 
     @Test
     @Order(2)
-    void 등록된_모든_바우처를_조회() {
+    void findAll_등록된_모든_바우처를_조회_SUCCESS() {
         //given
         Voucher voucher = VoucherCreators.createPercentDiscount();
         voucherRepository.save(voucher);
@@ -49,12 +68,12 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> actual = voucherRepository.findAll();
 
         //then
-        assertThat(actual).hasSize(2);
+        assertThat(actual).hasSize(3);
     }
 
     @Test
     @Order(3)
-    void 특정_바우처를_조회() {
+    void findById_특정_바우처를_조회_SUCCESS() {
         //given
         Voucher voucher = VoucherCreators.createPercentDiscount();
         voucherRepository.save(voucher);
@@ -68,8 +87,15 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @Order(3)
+    void findById_특정_바우처를_조회_EMPTY() {
+        //given & when & then
+        assertThat(voucherRepository.findById(UUID.randomUUID())).isEmpty();
+    }
+
+    @Test
     @Order(4)
-    void 특정_바우처를_수정() {
+    void update_특정_바우처를_수정_SUCCESS() {
         //given
         Voucher voucher = VoucherCreators.createFixedDiscount();
         voucherRepository.save(voucher);
@@ -86,7 +112,7 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @Order(5)
-    void 특정_바우처를_삭제() {
+    void deleteById_특정_바우처를_삭제_SUCCESS() {
         //given
         Voucher voucher = VoucherCreators.createFixedDiscount();
         voucherRepository.save(voucher);
