@@ -1,8 +1,6 @@
 package com.programmers.voucher.domain.voucher;
 
 import com.programmers.voucher.stream.voucher.VoucherStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -11,7 +9,6 @@ import java.util.UUID;
 public class VoucherFactory {
 
     private final VoucherStream voucherStream;
-    private static final Logger log = LoggerFactory.getLogger(VoucherFactory.class.getSimpleName());
 
     public VoucherFactory(VoucherStream voucherStream) {
         this.voucherStream = voucherStream;
@@ -34,7 +31,6 @@ public class VoucherFactory {
 
     private static void validateRate(Integer rate) {
         if (rate >= 100) {
-            log.info("rate exceeded, [user input] : {}", rate);
             throw new IllegalArgumentException("rate cannot exceed 100 percent. Do you want FixedAmountVoucher?");
         }
     }

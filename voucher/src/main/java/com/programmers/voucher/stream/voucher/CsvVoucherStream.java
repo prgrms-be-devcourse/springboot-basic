@@ -3,8 +3,6 @@ package com.programmers.voucher.stream.voucher;
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -23,7 +21,6 @@ public class CsvVoucherStream implements VoucherStream {
     private String fixedAmountVoucher;
     @Value("${name.voucher.percent-discount-voucher")
     private String percentDiscountVoucher;
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     @Override
@@ -38,8 +35,7 @@ public class CsvVoucherStream implements VoucherStream {
             bufferedWriter.write(csvDelimiter);
             bufferedWriter.newLine();
         } catch (IOException e) {
-            log.warn("BufferedWriter 동작 중 에러 발생 | [error] : {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         } finally {
             closeBufferedWriter(bufferedWriter);
         }
@@ -63,8 +59,7 @@ public class CsvVoucherStream implements VoucherStream {
             bufferedWriter.flush();
             bufferedWriter.close();
         } catch (IOException e) {
-            log.warn("BufferedWriter 종료 중 에러 발생 | [error] : {}", e.getMessage());
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
     }
 
@@ -87,8 +82,7 @@ public class CsvVoucherStream implements VoucherStream {
                 putDataToHashMap(voucherHashMap, line);
             }
         } catch (Exception e) {
-            log.warn("CSV파일 읽어들이는 도중 에러 발생 | [error] : {}", e.getMessage());
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         } finally {
             closeBufferedReader(bufferedReader);
         }
@@ -109,8 +103,7 @@ public class CsvVoucherStream implements VoucherStream {
                 bufferedReader.close();
             }
         } catch (IOException e) {
-            log.warn("BufferedReader 종료 중 에러 발생 | [error] : {}", e.getMessage());
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
     }
 }

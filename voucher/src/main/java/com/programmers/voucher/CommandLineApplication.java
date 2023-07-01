@@ -39,7 +39,7 @@ public class CommandLineApplication implements CommandLineRunner {
                 commandType = convertAndValidateInput(inputCondition);
                 doLogic(commandType);
             } catch (Exception e) {
-                log.info("Error Occurred : {}", e.getMessage());
+                log.info("Exception Occurred ", e);
                 printer.printError(e);
                 continue;
             }
@@ -77,8 +77,7 @@ public class CommandLineApplication implements CommandLineRunner {
             createFixedAmountVoucher(voucherEnum);
             createPercentDiscountVoucher(voucherEnum);
         } catch (IllegalArgumentException e) {
-            printer.printError(e);
-            System.out.println(e.getMessage());
+            throw e;
         }
     }
 
@@ -100,10 +99,7 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private VoucherEnum decideVoucherType(Integer inputVersion) {
         return VoucherEnum.decideVoucherType(inputVersion).orElseThrow(
-                () -> {
-                    log.info("지원하지 않는 버전, [user input] : {}", inputVersion);
-                    return new IllegalArgumentException("지원하지 않는 버전입니다. 버전을 다시 확인 해주세요.");
-                }
+                () -> new IllegalArgumentException("지원하지 않는 버전입니다. 버전을 다시 확인 해주세요.")
         );
     }
 

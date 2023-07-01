@@ -1,8 +1,5 @@
 package com.programmers.voucher.domain.voucher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -16,7 +13,6 @@ public enum VoucherEnum {
     }
 
     public static Optional<VoucherEnum> decideVoucherType(int number) {
-        Logger logger = LoggerFactory.getLogger(VoucherEnum.class.getSimpleName());
         return Arrays.stream(VoucherEnum.values())
                 .filter(v -> v.number == number)
                 .findAny();
