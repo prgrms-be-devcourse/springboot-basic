@@ -14,9 +14,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.programmers.voucher.global.util.CommonErrorMessages.CANNOT_ACCESS_FILE;
 
@@ -54,13 +52,6 @@ public class VoucherFileRepository implements VoucherRepository {
         }
     }
 
-    private String voucherToCsv(Voucher voucher) {
-        VoucherDto voucherDto = voucher.toDto();
-        return voucherDto.getCustomerId()
-                + "," + voucherDto.getVoucherType()
-                + "," + voucherDto.getAmount();
-    }
-
     @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
@@ -79,6 +70,33 @@ public class VoucherFileRepository implements VoucherRepository {
         }
 
         return vouchers;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return findAll().stream()
+                .filter(voucher -> Objects.equals(voucher.getVoucherId(), voucherId))
+                .findAny();
+    }
+
+    @Override
+    public void deleteAll() {
+        try(
+                BufferedWriter bw = new BufferedWriter(new FileWriter(file))
+        ) {
+            bw.write("");
+        } catch (IOException e) {
+            String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, file.getPath());
+            LOG.error(errorMessage, e);
+            throw new DataAccessException(errorMessage, e);
+        }
+    }
+
+    private String voucherToCsv(Voucher voucher) {
+        VoucherDto voucherDto = voucher.toDto();
+        return voucherDto.getVoucherId()
+                + "," + voucherDto.getVoucherType()
+                + "," + voucherDto.getAmount();
     }
 
     private Voucher csvToVoucher(String nextLine) {

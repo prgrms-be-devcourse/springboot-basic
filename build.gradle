@@ -18,6 +18,10 @@ repositories {
 dependencies {
     //text io
     implementation 'org.beryx:text-io:3.4.1'
+    //jdbc
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    //h2
+    runtimeOnly 'com.h2database:h2'
 
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

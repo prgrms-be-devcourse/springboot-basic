@@ -8,4 +8,8 @@ public final class VoucherErrorMessages {
 
     private VoucherErrorMessages() {
     }
+
+    public static String addVoucherId(String message, String voucherId) {
+        return message + " VoucherId: " + voucherId;
+    }
 }
