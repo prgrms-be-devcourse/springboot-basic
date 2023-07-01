@@ -147,4 +147,5 @@ gradle-app.setting
 *.iml
 *.idea
 **/META-INF/**
-src/main/resources/voucher.csv
+**/resources/voucher.csv
+**/resources/customer_blacklist.csv
