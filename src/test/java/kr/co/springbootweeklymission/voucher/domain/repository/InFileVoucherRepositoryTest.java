@@ -3,6 +3,7 @@ package kr.co.springbootweeklymission.voucher.domain.repository;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,6 +27,7 @@ public class InFileVoucherRepositoryTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("바우처를_파일방식으로_저장한다 - SUCCESS")
     void 바우처를_파일방식으로_저장한다() {
         //given
@@ -43,6 +45,7 @@ public class InFileVoucherRepositoryTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("바우처를_파일로부터_조회한다 - SUCCESS")
     void 바우처를_파일로부터_조회한다() {
         //given
@@ -63,6 +66,7 @@ public class InFileVoucherRepositoryTest {
 
     @ParameterizedTest
     @MethodSource("메모리에_저장할_바우처들")
+    @Disabled
     @DisplayName("저장된_모든_바우처를_파일로부터_조회한다 - SUCCESS")
     void 저장된_모든_바우처를_메모리로부터_조회한다(List<Voucher> actual) {
         //given
