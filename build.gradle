@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.devcourse'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2'
 
 java {
 	sourceCompatibility = '17'
@@ -18,9 +18,26 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// textIO
 	compileOnly('org.beryx:text-io:3.4.1')
+
+	// configurationProperties
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(Test) {
+	enabled = false
+}
+
+sourceSets {
+	main {
+		java {
+			exclude("**/main/resources/voucher_record.csv")
+		}
+	}
 }

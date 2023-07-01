@@ -10,7 +10,8 @@ gradlew
 graldew.bat
 HELP.md
 .idea/
-src/main/resources/voucher_record.txt
+src/main/resources/voucher_record.csv
+src/main/resources/customer_blacklist.csv
 logs/
 
 ### STS ###
