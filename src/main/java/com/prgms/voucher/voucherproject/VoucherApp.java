@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.InputMismatchException;
 
-import static com.prgms.voucher.voucherproject.domain.MenuType.EXIT;
 
 public class VoucherApp implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
-    private int EXIT_NUM = 1;
+    private boolean NOTEXIT = true;
     private final Console console = new Console();
 
     private final VoucherService voucherService;
@@ -34,14 +33,14 @@ public class VoucherApp implements Runnable {
     @Override
     public void run() {
 
-        while (EXIT_NUM > 0) {
+        while (NOTEXIT) {
             console.printMenu();
             menuName = console.inputCommand().toLowerCase();
 
             try {
                 switch (MenuType.getSelectedMenuType(menuName)) {
                     case EXIT -> {
-                        EXIT_NUM = -1;
+                        NOTEXIT = false;
                         console.printMsg("프로그램을 종료합니다.");
                     }
                     case CREATE -> {
