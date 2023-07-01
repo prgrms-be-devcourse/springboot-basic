@@ -50,6 +50,11 @@ public class InFileMemberRepository implements MemberRepository {
         throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
     }
 
+    @Override
+    public void deleteById(UUID memberId) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
+    }
+
     private List<Member> getMembersByBlack(BufferedReader reader) throws IOException {
         final List<Member> members = new ArrayList<>();
         String info = reader.readLine();

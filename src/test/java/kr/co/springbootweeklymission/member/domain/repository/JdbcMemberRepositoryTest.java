@@ -87,4 +87,18 @@ public class JdbcMemberRepositoryTest {
         //then
         assertThat(actual).isEqualTo(updateMember);
     }
+
+    @Test
+    @Order(5)
+    void 특정_회원을_삭제() {
+        //given
+        Member member = MemberCreators.createBlackMember();
+        memberRepository.save(member);
+
+        //when
+        memberRepository.deleteById(member.getMemberId());
+
+        //then
+        assertThat(memberRepository.findById(member.getMemberId())).isEmpty();
+    }
 }

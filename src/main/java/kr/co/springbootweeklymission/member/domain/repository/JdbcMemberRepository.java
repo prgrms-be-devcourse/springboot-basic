@@ -73,6 +73,14 @@ public class JdbcMemberRepository implements MemberRepository {
         );
     }
 
+    @Override
+    public void deleteById(UUID memberId) {
+        String sql = "" +
+                "delete from tbl_members " +
+                "where member_id = ?";
+        jdbcTemplate.update(sql, memberId.toString());
+    }
+
     private RowMapper<Member> memberRowMapper() {
         return (rs, rowNum) -> Member.builder()
                 .memberId(UUID.fromString(rs.getString("member_id")))

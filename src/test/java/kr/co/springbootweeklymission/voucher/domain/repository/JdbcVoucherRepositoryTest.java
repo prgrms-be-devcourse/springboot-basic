@@ -95,6 +95,6 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.deleteById(voucher.getVoucherId());
 
         //then
-        assertThat(voucherRepository.findById(voucher.getVoucherId()).isEmpty()).isTrue();
+        assertThat(voucherRepository.findById(voucher.getVoucherId())).isEmpty();
     }
 }
