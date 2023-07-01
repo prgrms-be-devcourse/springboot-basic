@@ -13,8 +13,12 @@ public class VoucherDto {
         this.discountNumber = discountNumber;
     }
 
-    public static VoucherDto fromVoucher(VoucherPolicy voucherPolicy, Voucher voucher) {
-        return new VoucherDto(voucherPolicy, voucher.getVoucherId(), voucher.getDiscountNumber());
+    public static VoucherDto fromVoucher(Voucher voucher) {
+        if (voucher instanceof FixedAmountVoucher) {
+            return new VoucherDto(VoucherPolicy.FIXED_AMOUNT_VOUCHER, voucher.getVoucherId(), voucher.getDiscountNumber());
+        }
+
+        return new VoucherDto(VoucherPolicy.PERCENT_DISCOUNT_VOUCHER, voucher.getVoucherId(), voucher.getDiscountNumber());
     }
 
     public VoucherPolicy getVoucherPolicy() {

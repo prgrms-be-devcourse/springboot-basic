@@ -1,13 +1,14 @@
 package com.dev.voucherproject.view;
 
-import com.dev.voucherproject.model.menu.Menu;
 import com.dev.voucherproject.model.voucher.VoucherDto;
 import com.dev.voucherproject.model.voucher.VoucherPolicy;
+import com.dev.voucherproject.model.menu.Menu;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -53,12 +54,12 @@ public class Console {
     }
 
 
-    public void printAllVoucherDtos(List<VoucherDto> dtos) {
-        dtos.forEach(this::printVoucherDtos);
+    public void printAllVouchers(List<VoucherDto> dtos) {
+        dtos.forEach(this::printVoucher);
         textTerminal.println();
     }
 
-    public void printVoucherDtos(VoucherDto dto) {
+    public void printVoucher(VoucherDto dto) {
         textTerminal.printf("[%s, %d] %s\n", dto.getVoucherPolicy().name(), dto.getDiscountNumber(), dto.getUuid().toString());
     }
 
@@ -77,19 +78,17 @@ public class Console {
                 .read(">>");
     }
 
-    public Menu inputMenuSelection() {
-        String input = textIO.newStringInputReader()
+    public String inputMenuSelection() {
+        return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues("exit", "create", "list")
+                .withInlinePossibleValues(Arrays.stream(Menu.values()).map(Menu::getMenuName).toList())
                 .read(">>");
-        return Menu.convertStringInputToMenu(input);
     }
 
-    public VoucherPolicy inputVoucherPolicySelection() {
-        String input = textIO.newStringInputReader()
+    public String inputVoucherPolicySelection() {
+        return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues("fix", "per")
+                .withInlinePossibleValues(Arrays.stream(VoucherPolicy.values()).map(VoucherPolicy::getPolicyName).toList())
                 .read(">>");
-        return VoucherPolicy.convertStringInputToPolicy(input);
     }
 }

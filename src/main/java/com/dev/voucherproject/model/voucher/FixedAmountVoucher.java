@@ -17,11 +17,20 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public long discount(long beforeDiscount) {
+        if (beforeDiscount - amount < 0) {
+            return 0;
+        }
+
         return beforeDiscount - amount;
     }
 
     @Override
     public long getDiscountNumber() {
         return this.amount;
+    }
+
+    @Override
+    public String toString() {
+        return "FIXED_AMOUNT_VOUCHER,%d,%s".formatted(amount, voucherId);
     }
 }
