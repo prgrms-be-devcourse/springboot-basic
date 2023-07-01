@@ -120,6 +120,10 @@ public class Console implements Input, Output {
 
     @Override
     public void printBlackConsumerList(List<BlackConsumer> blackConsumerList) {
+        if(blackConsumerList.isEmpty()){
+            printEmptyBlackListMessage();
+            return;
+        }
         blackConsumerList.forEach(bl -> System.out.println(bl.getName() + " " + bl.getAge()));
     }
 
