@@ -25,7 +25,7 @@ public class PercentDiscountPolicy implements VoucherPolicy {
         return beforeDiscount - (beforeDiscount * amount / 100);
     }
 
-    protected void validate(long amount) {
+    private void validate(long amount) {
         if (amount <= MIN_PERCENT || amount > MAX_PERCENT) {
             throw new InvalidInputException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
         }
