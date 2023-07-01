@@ -55,14 +55,14 @@ public class VoucherControllerTest {
         Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
-        VoucherList voucherList = new VoucherList(list);
-        Mockito.when(voucherService.getAllVoucherList()).thenReturn(voucherList);
+        VoucherRegistry voucherRegistry = new VoucherRegistry(list);
+        Mockito.when(voucherService.getAllVoucherList()).thenReturn(voucherRegistry);
 
         // When
-        VoucherList result = voucherController.listVoucher();
+        VoucherRegistry result = voucherController.listVoucher();
 
         // Then
-        Assertions.assertEquals(voucherList, result);
+        Assertions.assertEquals(voucherRegistry, result);
         Mockito.verify(voucherService, Mockito.times(1)).getAllVoucherList();
     }
 
@@ -73,12 +73,12 @@ public class VoucherControllerTest {
         Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId1, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
-        VoucherList voucherList = new VoucherList(list);
-        Mockito.when(voucherService.getAllVoucherList()).thenReturn(voucherList);
+        VoucherRegistry voucherRegistry = new VoucherRegistry(list);
+        Mockito.when(voucherService.getAllVoucherList()).thenReturn(voucherRegistry);
         // When
-        VoucherList result = voucherController.listVoucher();
+        VoucherRegistry result = voucherController.listVoucher();
         // Then
-        Assertions.assertEquals(voucherList, result);
+        Assertions.assertEquals(voucherRegistry, result);
         Mockito.verify(voucherService, Mockito.times(1)).getAllVoucherList();
     }
 }

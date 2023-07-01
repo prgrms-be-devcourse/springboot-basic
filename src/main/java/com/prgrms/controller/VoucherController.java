@@ -2,7 +2,7 @@ package com.prgrms.controller;
 
 import com.prgrms.model.dto.VoucherRequest;
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherList;
+import com.prgrms.model.voucher.VoucherRegistry;
 import com.prgrms.service.voucher.VoucherService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class VoucherController {
         return voucherService.createVoucher(voucherRequest);
     }
 
-    public VoucherList listVoucher() {
+    public VoucherRegistry listVoucher() {
         return voucherService.getAllVoucherList();
     }
 }

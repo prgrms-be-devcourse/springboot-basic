@@ -5,12 +5,12 @@ import com.prgrms.model.dto.VoucherResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class VoucherList {
+public class VoucherRegistry {
     private final int VOUCHER_MIN_SIZE = 0;
     private final String EmptyException = "등록된 바우처가 없습니다.";
     private List<Voucher> voucherList;
 
-    public VoucherList(List<Voucher> voucherList) {
+    public VoucherRegistry(List<Voucher> voucherList) {
         validateVoucherListSize(voucherList);
         this.voucherList = voucherList;
     }

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VoucherListTest {
+class VoucherRegistryTest {
     UUID voucherId1 = UUID.randomUUID();
     UUID voucherId2 = UUID.randomUUID();
 
@@ -22,7 +22,7 @@ class VoucherListTest {
     void validVoucherList() {
         List<Voucher> list = new ArrayList<>();
 
-        assertThrows(IllegalArgumentException.class, () -> new VoucherList(list));
+        assertThrows(IllegalArgumentException.class, () -> new VoucherRegistry(list));
     }
 
     @Test
@@ -35,8 +35,8 @@ class VoucherListTest {
         List<VoucherResponse> voucherResponseList = List.of(voucherResponse1, voucherResponse2);
 
         List<Voucher> vouchers = List.of(createdVoucher1, createdVoucher2);
-        VoucherList voucherList = new VoucherList(vouchers);
+        VoucherRegistry voucherRegistry = new VoucherRegistry(vouchers);
 
-        assertEquals(voucherResponseList, voucherList.convertVoucherResponse());
+        assertEquals(voucherResponseList, voucherRegistry.convertVoucherResponse());
     }
 }

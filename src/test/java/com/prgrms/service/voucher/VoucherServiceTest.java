@@ -58,14 +58,14 @@ class VoucherServiceTest {
         Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
-        VoucherList voucherList = new VoucherList(list);
+        VoucherRegistry voucherRegistry = new VoucherRegistry(list);
 
-        when(voucherRepository.getAllVoucherList()).thenReturn(voucherList);
+        when(voucherRepository.getAllVoucherList()).thenReturn(voucherRegistry);
 
-        VoucherList result = voucherService.getAllVoucherList();
+        VoucherRegistry result = voucherService.getAllVoucherList();
 
         assertNotNull(result);
-        assertEquals(voucherList, result);
+        assertEquals(voucherRegistry, result);
         verify(voucherRepository, times(1)).getAllVoucherList();
     }
 }

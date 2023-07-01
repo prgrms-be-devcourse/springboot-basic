@@ -2,7 +2,7 @@ package com.prgrms.io;
 
 import com.prgrms.model.dto.VoucherRequest;
 import com.prgrms.model.voucher.Discount;
-import com.prgrms.model.voucher.VoucherList;
+import com.prgrms.model.voucher.VoucherRegistry;
 import com.prgrms.model.voucher.VoucherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -42,7 +42,7 @@ public class ViewManager {
         output.outputView(GuideMessage.CLOSE.toString());
     }
 
-    public void viewVoucherList(VoucherList list) {
+    public void viewVoucherList(VoucherRegistry list) {
         output.outputView(list.toString());
     }
 

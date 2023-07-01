@@ -63,7 +63,7 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.insert(createdVoucher1);
         voucherRepository.insert(createdVoucher2);
 
-        VoucherList result = voucherRepository.getAllVoucherList();
+        VoucherRegistry result = voucherRepository.getAllVoucherList();
 
         VoucherResponse voucherResponse1 = VoucherResponse.of(createdVoucher1);
         VoucherResponse voucherResponse2 = VoucherResponse.of(createdVoucher2);

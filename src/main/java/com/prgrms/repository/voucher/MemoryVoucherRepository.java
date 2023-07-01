@@ -1,7 +1,7 @@
 package com.prgrms.repository.voucher;
 
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherList;
+import com.prgrms.model.voucher.VoucherRegistry;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +25,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherList getAllVoucherList() {
-        return new VoucherList(storage.values().stream()
+    public VoucherRegistry getAllVoucherList() {
+        return new VoucherRegistry(storage.values().stream()
                 .collect(Collectors.toList()));
     }
 

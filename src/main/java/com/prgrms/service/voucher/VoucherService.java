@@ -22,7 +22,7 @@ public class VoucherService {
         return voucherRepository.insert(voucher);
     }
 
-    public VoucherList getAllVoucherList() {
+    public VoucherRegistry getAllVoucherList() {
         return voucherRepository.getAllVoucherList();
     }
 

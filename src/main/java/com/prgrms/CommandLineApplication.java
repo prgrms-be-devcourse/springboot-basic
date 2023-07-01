@@ -4,7 +4,7 @@ import com.prgrms.controller.VoucherController;
 import com.prgrms.io.Menu;
 import com.prgrms.io.ViewManager;
 import com.prgrms.model.dto.VoucherRequest;
-import com.prgrms.model.voucher.VoucherList;
+import com.prgrms.model.voucher.VoucherRegistry;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +35,8 @@ public class CommandLineApplication implements CommandLineRunner {
                         voucherController.createVoucher(voucherRequest);
                     }
                     case LIST -> {
-                        VoucherList voucherList = voucherController.listVoucher();
-                        viewManager.viewVoucherList(voucherList);
+                        VoucherRegistry voucherRegistry = voucherController.listVoucher();
+                        viewManager.viewVoucherList(voucherRegistry);
                     }
                 }
             } catch (IllegalArgumentException e) {

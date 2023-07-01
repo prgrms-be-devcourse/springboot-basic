@@ -1,9 +1,8 @@
 package com.prgrms.repository.voucher;
 
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherList;
+import com.prgrms.model.voucher.VoucherRegistry;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,5 +11,5 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
-    VoucherList getAllVoucherList();
+    VoucherRegistry getAllVoucherList();
 }
