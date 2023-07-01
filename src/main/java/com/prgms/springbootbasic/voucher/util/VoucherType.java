@@ -3,7 +3,6 @@ package com.prgms.springbootbasic.voucher.util;
 import com.prgms.springbootbasic.voucher.model.FixedAmountVoucher;
 import com.prgms.springbootbasic.voucher.model.PercentAmountVoucher;
 import com.prgms.springbootbasic.voucher.model.Voucher;
-import com.prgms.springbootbasic.global.exception.NoSuchVoucherTypeException;
 import com.prgms.springbootbasic.global.util.ExceptionMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,7 @@ public enum VoucherType {
 				       .findFirst()
 				       .orElseThrow(() -> {
 						   logger.warn("해당하는 바우처 타입이 없습니다. 입력한 값 : {}", type);
-						   return new NoSuchVoucherTypeException(ExceptionMessage.NO_SUCH_VOUCHER_TYPE);
+						   return new IllegalArgumentException(ExceptionMessage.NO_SUCH_VOUCHER_TYPE.getMessage());
 					   });
 	}
 	

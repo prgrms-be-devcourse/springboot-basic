@@ -16,7 +16,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.io.Resource;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public interface Application {
 
@@ -32,15 +32,14 @@ public interface Application {
 
     static VoucherController voucherListController() { return ac.getBean(VoucherListController.class); }
 
-    static File file(String location) throws FileNotFoundException {
+    static File file(String location) {
         try {
             Resource resource = ac.getResource(location);
             return resource.getFile();
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.error("파일을 찾을 수가 없습니다. file path : {}", location);
             throw new NoSuchFileException(ExceptionMessage.NO_SUCH_FILE);
         }
-
     }
 
 }

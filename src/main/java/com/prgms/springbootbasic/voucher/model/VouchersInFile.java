@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
@@ -24,7 +25,7 @@ public class VouchersInFile implements VouchersStorage {
 	@Value("${file.voucher}") private String FILE_PATH;
 
 	@Override
-	public void save(Voucher voucher) throws IOException {
+	public void save(Voucher voucher) {
 		File file = Application.file(FILE_PATH);
 		try {
 			Files.write(file.toPath(), voucher.formatOfCSV().getBytes(), StandardOpenOption.APPEND);
@@ -35,7 +36,7 @@ public class VouchersInFile implements VouchersStorage {
 	}
 	
 	@Override
-	public List<Voucher> findAll() throws IOException {
+	public List<Voucher> findAll() {
 		try {
 			File file = Application.file(FILE_PATH);
 			return Files.readAllLines(file.toPath())

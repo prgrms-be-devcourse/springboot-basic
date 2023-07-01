@@ -1,7 +1,6 @@
 package com.prgms.springbootbasic.member.util;
 
 import com.prgms.springbootbasic.member.controller.MemberController;
-import com.prgms.springbootbasic.global.exception.NoSuchMenuException;
 import com.prgms.springbootbasic.global.util.ExceptionMessage;
 import com.prgms.springbootbasic.global.util.Application;
 import org.slf4j.Logger;
@@ -34,7 +33,7 @@ public enum MemberMenu {
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.warn("해당하는 메뉴가 없습니다. 입력 값 : {}", command);
-                    return new NoSuchMenuException(ExceptionMessage.NO_SUCH_MENU);
+                    return new IllegalArgumentException(ExceptionMessage.NO_SUCH_MENU.getMessage());
                 });
     }
 

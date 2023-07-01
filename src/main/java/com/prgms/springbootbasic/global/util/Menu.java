@@ -1,6 +1,5 @@
 package com.prgms.springbootbasic.global.util;
 
-import com.prgms.springbootbasic.global.exception.NoSuchMenuException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +26,7 @@ public enum Menu {
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.warn("해당되는 메뉴가 없습니다. 입력 값 : {}", command);
-                    return new NoSuchMenuException(ExceptionMessage.NO_SUCH_MENU);
+                    return new IllegalArgumentException(ExceptionMessage.NO_SUCH_MENU.getMessage());
                 });
     }
 

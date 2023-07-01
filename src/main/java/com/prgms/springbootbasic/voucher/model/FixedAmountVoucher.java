@@ -1,6 +1,5 @@
 package com.prgms.springbootbasic.voucher.model;
 
-import com.prgms.springbootbasic.global.exception.UnderMinimumAmountException;
 import com.prgms.springbootbasic.global.util.ExceptionMessage;
 import com.prgms.springbootbasic.voucher.util.VoucherType;
 import org.slf4j.Logger;
@@ -42,7 +41,7 @@ public class FixedAmountVoucher implements Voucher {
 	private void throwWhenUnderMinimum(long amount) {
 		if (amount <= MINIMUM) {
 			logger.error("Fixed 바우처는 0과 음수를 가질 수 없습니다. amount : {}", amount);
-			throw new UnderMinimumAmountException(ExceptionMessage.UNDER_MINIMUM_AMOUNT);
+			throw new IllegalArgumentException(ExceptionMessage.UNDER_MINIMUM_AMOUNT.getMessage());
 		}
 	}
 	

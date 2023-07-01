@@ -1,7 +1,5 @@
 package com.prgms.springbootbasic.voucher.model;
 
-import com.prgms.springbootbasic.global.exception.DuplicationKeyException;
-
 import com.prgms.springbootbasic.global.util.ExceptionMessage;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -30,7 +28,7 @@ public class VouchersInMemory implements VouchersStorage {
 
 	private void throwDuplicationKeyException(UUID voucherId) {
 		if (storage.containsKey(voucherId)) {
-			throw new DuplicationKeyException(ExceptionMessage.DUPLICATION_KEY);
+			throw new IllegalArgumentException(ExceptionMessage.DUPLICATION_KEY.getMessage());
 		}
 	}
 	

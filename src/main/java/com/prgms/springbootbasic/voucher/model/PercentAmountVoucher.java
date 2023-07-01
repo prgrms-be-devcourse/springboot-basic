@@ -1,6 +1,5 @@
 package com.prgms.springbootbasic.voucher.model;
 
-import com.prgms.springbootbasic.global.exception.OutOfRangePercentException;
 import com.prgms.springbootbasic.global.util.ExceptionMessage;
 import com.prgms.springbootbasic.voucher.util.VoucherType;
 import org.slf4j.Logger;
@@ -43,7 +42,7 @@ public class PercentAmountVoucher implements Voucher {
 	private void throwWhenOutOfRangePercent(long percent) {
 		if (percent <= MINIMUM || percent > MAXIMUM) {
 			logger.error("Percent 바우처는 0 이하 혹은 100 초과하는 값을 가질 수 없습니다. percent : {}", percent);
-			throw new OutOfRangePercentException(ExceptionMessage.OUT_OF_RANGE_PERCENT);
+			throw new IllegalArgumentException(ExceptionMessage.OUT_OF_RANGE_PERCENT.getMessage());
 		}
 	}
 	
