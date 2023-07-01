@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile(value = "test")
+@Profile(value = "jdbc")
 public class JdbcCustomerStream implements CustomerStream {
 
     @Value(value = "${mysql.user-id}")

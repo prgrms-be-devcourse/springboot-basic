@@ -30,7 +30,7 @@ public class PrinterImpl implements Printer {
 
     private static void printPercentDiscountVoucher(String k, Voucher v) {
         if (v instanceof PercentDiscountVoucher) {
-            System.out.println("[PercentDiscountVoucher | ID] : " + k + " | discount percent : " + ((PercentDiscountVoucher) v).getPercent());
+            System.out.println("[PercentDiscountVoucher | ID] : " + k + " | discount percent : " + ((PercentDiscountVoucher) v).getRate());
         }
     }
 

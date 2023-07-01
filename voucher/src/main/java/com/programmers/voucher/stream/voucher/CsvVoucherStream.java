@@ -51,7 +51,7 @@ public class CsvVoucherStream implements VoucherStream {
     }
 
     private String percentDiscountVoucherString(Voucher voucher) {
-        return this.percentDiscountVoucher + ", " + voucher.getVoucherId() + "," + ((PercentDiscountVoucher) voucher).getPercent();
+        return this.percentDiscountVoucher + ", " + voucher.getVoucherId() + "," + ((PercentDiscountVoucher) voucher).getRate();
     }
 
     private void closeBufferedWriter(BufferedWriter bufferedWriter) {

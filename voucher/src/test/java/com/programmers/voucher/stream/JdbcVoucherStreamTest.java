@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -39,22 +38,20 @@ class JdbcVoucherStreamTest {
         JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
         }
-
         @Bean
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
+        JdbcVoucherStream jdbcVoucherStream(DataSource dataSource) {
+            return new JdbcVoucherStream(dataSource);
         }
     }
 
     @Autowired
     DataSource dataSource;
     @Autowired
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     JdbcVoucherStream voucherStream;
 
     @BeforeEach
     void initialization() {
-        voucherStream = new JdbcVoucherStream(dataSource, namedParameterJdbcTemplate);
+        voucherStream = new JdbcVoucherStream(dataSource);
         voucherStream.deleteAll();
     }
 

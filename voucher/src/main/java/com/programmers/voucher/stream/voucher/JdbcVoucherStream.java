@@ -4,59 +4,51 @@ import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@Profile("jdbc")
+@Profile(value = "jdbc")
 @Repository
 public class JdbcVoucherStream implements VoucherStream{
-
-    private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcVoucherStream(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcVoucherStream(DataSource dataSource) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
     public Voucher save(Voucher voucher) {
-        Map<String, Object> paramMap = new HashMap<>();
-        saveFixedAmountVoucher(voucher, paramMap);
-        savePercentDiscountVoucher(voucher, paramMap);
+        SqlParameterSource param = new BeanPropertySqlParameterSource(voucher);
+        saveFixedAmountVoucher(voucher, param);
+        savePercentDiscountVoucher(voucher, param);
         return voucher;
     }
 
-    private void saveFixedAmountVoucher(Voucher voucher, Map<String, Object> paramMap) {
+    private void saveFixedAmountVoucher(Voucher voucher, SqlParameterSource param) {
         if (voucher instanceof FixedAmountVoucher) {
-            paramMap.put("voucherId", voucher.getVoucherId());
-            paramMap.put("amount", ((FixedAmountVoucher) voucher).getAmount());
-            paramMap.put("rate", null);
-            jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, amount, rate)  VALUES (:voucherId,'FixedAmountVoucher',:amount,:rate)",
-                    paramMap);
+            jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, amount)  VALUES (:voucherId,'FixedAmountVoucher',:amount)",
+                    param);
         }
     }
 
-    private void savePercentDiscountVoucher(Voucher voucher, Map<String, Object> paramMap) {
+    private void savePercentDiscountVoucher(Voucher voucher, SqlParameterSource param) {
         if (voucher instanceof PercentDiscountVoucher) {
-            paramMap.put("voucherId", voucher.getVoucherId());
-            paramMap.put("amount", null);
-            paramMap.put("rate", ((PercentDiscountVoucher) voucher).getPercent());
-            jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, amount, rate)  VALUES (:voucherId,'PercentDiscountVoucher',:amount,:rate)",
-                    paramMap);
+            jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, rate)  VALUES (:voucherId,'PercentDiscountVoucher',:rate)",
+                    param);
         }
     }
 
     public Voucher findById(String voucherId) {
         return jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucherId",
-                Collections.singletonMap("voucherId", voucherId),
+                Map.of("voucherId", voucherId),
                 (resultSet, i) -> voucherRowMapper(resultSet));
     }
 
@@ -69,37 +61,30 @@ public class JdbcVoucherStream implements VoucherStream{
     }
 
     public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
+        jdbcTemplate.update("DELETE FROM vouchers", Map.of());
     }
 
     public Voucher update(Voucher voucher) {
-        updateFixedAmountVoucher(voucher);
-        updatePercentDiscountVoucher(voucher);
+        SqlParameterSource param = new BeanPropertySqlParameterSource(voucher);
+        updateFixedAmountVoucher(voucher, param);
+        updatePercentDiscountVoucher(voucher, param);
         return voucher;
     }
 
-    private void updateFixedAmountVoucher(Voucher voucher) {
+    private void updateFixedAmountVoucher(Voucher voucher, SqlParameterSource param) {
         if (voucher instanceof FixedAmountVoucher) {
-            var paramMap = new HashMap<String, Object>(){{
-                put("voucherId", voucher.getVoucherId());
-                put("amount", ((FixedAmountVoucher) voucher).getAmount());
-            }};
             jdbcTemplate.update("UPDATE vouchers SET amount = :amount WHERE voucher_id = :voucherId",
-                    paramMap);
+                    param);
+
         }
     }
 
-    private void updatePercentDiscountVoucher(Voucher voucher) {
+    private void updatePercentDiscountVoucher(Voucher voucher, SqlParameterSource param) {
         if (voucher instanceof PercentDiscountVoucher) {
-            var paramMap = new HashMap<String, Object>(){{
-                put("voucherId", voucher.getVoucherId());
-                put("rate", ((PercentDiscountVoucher) voucher).getPercent());
-            }};
             jdbcTemplate.update("UPDATE vouchers SET amount = :amount WHERE voucher_id = :voucherId",
-                    paramMap);
+                    param);
         }
     }
-
 
     private static Voucher voucherRowMapper(ResultSet resultSet) throws SQLException {
         String voucherId = resultSet.getString("voucher_id");

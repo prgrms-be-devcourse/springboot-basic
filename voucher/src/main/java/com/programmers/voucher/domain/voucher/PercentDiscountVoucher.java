@@ -5,18 +5,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class PercentDiscountVoucher implements Voucher{
     private String voucherId;
-    private long percent;
+    private long rate;
 
     public PercentDiscountVoucher() {
     }
 
-    public PercentDiscountVoucher(String voucherId, long percent) {
+    public PercentDiscountVoucher(String voucherId, long rate) {
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.rate = rate;
     }
 
-    public long getPercent() {
-        return percent;
+    public long getRate() {
+        return rate;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public long discount(long originalPrice) {
-        return originalPrice * (percent / 100);
+        return originalPrice * (rate / 100);
     }
 
 }
