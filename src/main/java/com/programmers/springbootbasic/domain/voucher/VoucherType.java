@@ -6,6 +6,8 @@ public enum VoucherType {
     PERCENT("정률 할인"),
     FIX("정액 할인");
 
+    private static final String INVALID_VOUCHER_TYPE = "잘못된 바우처 유형. 현재 입력 값: ";
+
     private final String voucherType;
 
     VoucherType(String voucherType) {
@@ -16,6 +18,6 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(o -> type.equals(o.voucherType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 쿠폰 유형"));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE + type));
     }
 }
