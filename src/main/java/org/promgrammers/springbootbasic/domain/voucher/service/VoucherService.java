@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_VOUCHER;
@@ -38,12 +37,10 @@ public class VoucherService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<VoucherResponse> findById(UUID voucherId) {
-        return voucherRepository.findById(voucherId)
-                .map(voucher -> new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()))
-                .or(() -> {
-                    throw new BusinessException(NOT_FOUND_VOUCHER);
-                });
+    public VoucherResponse findById(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> new BusinessException(NOT_FOUND_VOUCHER));
+
+        return new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
     @Transactional(readOnly = true)

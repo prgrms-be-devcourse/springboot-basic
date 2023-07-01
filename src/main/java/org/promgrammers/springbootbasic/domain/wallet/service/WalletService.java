@@ -1,5 +1,9 @@
 package org.promgrammers.springbootbasic.domain.wallet.service;
 
+import org.promgrammers.springbootbasic.domain.customer.model.Customer;
+import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
+import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.promgrammers.springbootbasic.domain.wallet.dto.request.CreateWalletRequest;
 import org.promgrammers.springbootbasic.domain.wallet.dto.response.WalletListResponse;
 import org.promgrammers.springbootbasic.domain.wallet.dto.response.WalletResponse;
@@ -18,16 +22,24 @@ import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUNT_WAL
 public class WalletService {
 
     private final JdbcWalletRepository walletRepository;
+    private final JdbcVoucherRepository voucherRepository;
 
-    public WalletService(JdbcWalletRepository walletRepository) {
+    public WalletService(JdbcWalletRepository walletRepository, JdbcVoucherRepository voucherRepository, JdbcCustomerRepository customerRepository) {
         this.walletRepository = walletRepository;
+        this.voucherRepository = voucherRepository;
+        this.customerRepository = customerRepository;
     }
+
+    private final JdbcCustomerRepository customerRepository;
+
 
     @Transactional
     public WalletResponse create(CreateWalletRequest walletRequest) {
-        Wallet wallet = new Wallet(walletRequest.voucher(), walletRequest.customer());
+        Customer customer = customerRepository.getCustomerById(walletRequest.customerId());
+        Voucher voucher = voucherRepository.getVoucherById(walletRequest.voucherId());
+        Wallet wallet = new Wallet(voucher,customer);
         walletRepository.save(wallet);
-        return new WalletResponse(wallet.getWalletId(), wallet.getVoucher(), wallet.getCustomer());
+        return new WalletResponse(wallet);
     }
 
     @Transactional(readOnly = true)
@@ -38,7 +50,7 @@ public class WalletService {
 
         List<WalletResponse> walletResponseList = walletList
                 .stream()
-                .map(wallet -> new WalletResponse(wallet.getWalletId(), wallet.getVoucher(), wallet.getCustomer()))
+                .map(WalletResponse::new)
                 .toList();
 
         return new WalletListResponse(walletResponseList);
@@ -47,7 +59,7 @@ public class WalletService {
     @Transactional(readOnly = true)
     public WalletResponse findById(UUID walletId) {
         Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new BusinessException(NOT_FOUNT_WALLET));
-        return new WalletResponse(walletId, wallet.getVoucher(), wallet.getCustomer());
+        return new WalletResponse(wallet);
     }
 
     @Transactional(readOnly = true)
@@ -57,7 +69,7 @@ public class WalletService {
         validateList(walletList);
 
         List<WalletResponse> walletResponseList = walletList.stream()
-                .map(wallet -> new WalletResponse(wallet.getWalletId(), wallet.getVoucher(), wallet.getCustomer()))
+                .map(wallet -> new WalletResponse(wallet))
                 .toList();
 
         return new WalletListResponse(walletResponseList);
@@ -70,7 +82,7 @@ public class WalletService {
         validateList(walletList);
 
         List<WalletResponse> walletResponseList = walletList.stream()
-                .map(wallet -> new WalletResponse(wallet.getWalletId(), wallet.getVoucher(), wallet.getCustomer()))
+                .map(WalletResponse::new)
                 .toList();
 
         return new WalletListResponse(walletResponseList);

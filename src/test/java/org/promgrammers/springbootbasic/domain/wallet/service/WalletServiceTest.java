@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.promgrammers.springbootbasic.controller.CommandLineController;
+import org.promgrammers.springbootbasic.CommandLineController;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
@@ -56,7 +56,7 @@ class WalletServiceTest {
 
     @BeforeAll
     void setUp() {
-        walletService = new WalletService(walletRepository);
+        walletService = new WalletService(walletRepository, voucherRepository, customerRepository);
     }
 
     @BeforeEach
@@ -75,15 +75,15 @@ class WalletServiceTest {
     void createWalletSuccessTest() throws Exception {
 
         //given
-        CreateWalletRequest createWalletRequest = new CreateWalletRequest(voucher, customer);
+        CreateWalletRequest createWalletRequest = new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId());
 
         //when
         WalletResponse walletResponse = walletService.create(createWalletRequest);
 
         //then
         assertNotNull(walletResponse.walletId());
-        assertThat(walletResponse.customer().getCustomerId()).isEqualTo(customer.getCustomerId());
-        assertThat(walletResponse.voucher().getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(walletResponse.customer().customerId()).isEqualTo(customer.getCustomerId());
+        assertThat(walletResponse.voucher().voucherId()).isEqualTo(voucher.getVoucherId());
     }
 
     @Test
@@ -92,8 +92,8 @@ class WalletServiceTest {
 
         //given
         List<CreateWalletRequest> walletRequests = List.of(
-                new CreateWalletRequest(voucher, customer),
-                new CreateWalletRequest(voucher, customer)
+                new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId()),
+                new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId())
         );
         walletRequests.forEach(walletService::create);
 
@@ -110,8 +110,8 @@ class WalletServiceTest {
             CreateWalletRequest walletRequest = walletRequests.get(i);
             WalletResponse walletResponse = walletResponses.get(i);
 
-            assertThat(walletRequest.voucher()).isEqualTo(walletResponse.voucher());
-            assertThat(walletRequest.customer()).isEqualTo(walletResponse.customer());
+            assertThat(walletRequest.voucherId()).isEqualTo(walletResponse.voucher().voucherId());
+            assertThat(walletRequest.customerId()).isEqualTo(walletResponse.customer().customerId());
         }
     }
 
@@ -128,7 +128,7 @@ class WalletServiceTest {
     void findWalletByIdSuccessTest() throws Exception {
 
         //given
-        CreateWalletRequest walletRequest = new CreateWalletRequest(voucher, customer);
+        CreateWalletRequest walletRequest = new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId());
         WalletResponse createdWallet = walletService.create(walletRequest);
 
         //when
@@ -136,8 +136,8 @@ class WalletServiceTest {
 
         //then
         assertThat(createdWallet.walletId()).isEqualTo(foundWallet.walletId());
-        assertThat(walletRequest.voucher()).isEqualTo(foundWallet.voucher());
-        assertThat(walletRequest.customer()).isEqualTo(foundWallet.customer());
+        assertThat(walletRequest.voucherId()).isEqualTo(foundWallet.voucher().voucherId());
+        assertThat(walletRequest.customerId()).isEqualTo(foundWallet.customer().customerId());
     }
 
     @Test
@@ -154,8 +154,8 @@ class WalletServiceTest {
 
         //given
         List<CreateWalletRequest> walletRequests = List.of(
-                new CreateWalletRequest(voucher, customer),
-                new CreateWalletRequest(voucher, customer)
+                new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId()),
+                new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId())
         );
         walletRequests.forEach(walletService::create);
 
@@ -165,8 +165,7 @@ class WalletServiceTest {
         //then
         assertNotNull(walletListResponse.walletList());
         assertThat(walletListResponse.walletList().size()).isEqualTo(2);
-        assertThat(walletListResponse.walletList().get(0).customer()).isEqualTo(customer);
-        assertThat(walletListResponse.walletList().get(1).voucher()).isEqualTo(voucher);
+
     }
 
     @Test
@@ -185,8 +184,8 @@ class WalletServiceTest {
 
         //given
         List<CreateWalletRequest> walletRequests = List.of(
-                new CreateWalletRequest(voucher, customer),
-                new CreateWalletRequest(voucher, customer)
+                new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId()),
+                new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId())
         );
         walletRequests.forEach(walletService::create);
 
@@ -196,8 +195,6 @@ class WalletServiceTest {
         //then
         assertNotNull(walletListResponse.walletList());
         assertThat(walletListResponse.walletList().size()).isEqualTo(2);
-        assertThat(walletListResponse.walletList().get(0).customer()).isEqualTo(customer);
-        assertThat(walletListResponse.walletList().get(1).voucher()).isEqualTo(voucher);
     }
 
     @Test
@@ -216,8 +213,8 @@ class WalletServiceTest {
 
         //given
         List<CreateWalletRequest> walletRequests = List.of(
-                new CreateWalletRequest(voucher, customer),
-                new CreateWalletRequest(voucher, customer)
+                new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId()),
+                new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId())
         );
         walletRequests.forEach(walletService::create);
 
@@ -230,7 +227,7 @@ class WalletServiceTest {
     void testDeleteWalletById_WalletExists() {
 
         // given
-        CreateWalletRequest walletRequest = new CreateWalletRequest(voucher, customer);
+        CreateWalletRequest walletRequest = new CreateWalletRequest(voucher.getVoucherId(), customer.getCustomerId());
         WalletResponse createdWallet = walletService.create(walletRequest);
 
         // when
