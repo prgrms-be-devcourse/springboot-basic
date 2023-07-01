@@ -11,7 +11,7 @@ import java.util.UUID;
 @Component
 @Profile("dev")
 public class InMemoryVoucherDatabase implements VoucherDatabase {
-    private static Map<UUID, Voucher> storage = new HashMap<>();
+    private static final Map<UUID, Voucher> storage = new HashMap<>();
 
     @Override
     public Map<UUID, Voucher> load(String filePath) {

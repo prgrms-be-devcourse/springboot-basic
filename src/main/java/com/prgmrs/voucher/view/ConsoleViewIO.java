@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConsoleViewIO {
-    Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
     public void write(String message) {
         System.out.println(message);
     }

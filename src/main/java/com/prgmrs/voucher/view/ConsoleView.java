@@ -7,7 +7,6 @@ import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.setting.BlacklistProperties;
 import com.prgmrs.voucher.setting.VoucherProperties;
 import com.prgmrs.voucher.util.InputHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -22,7 +21,6 @@ public class ConsoleView {
     private final BlacklistProperties blacklistProperties;
     private final VoucherProperties voucherProperties;
 
-    @Autowired
     public ConsoleView(VoucherController voucherController, BlacklistController blackListController,
                        BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
         this.voucherController = voucherController;

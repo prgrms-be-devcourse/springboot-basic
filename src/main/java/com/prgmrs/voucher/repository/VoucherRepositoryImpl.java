@@ -2,7 +2,6 @@ package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.database.VoucherDatabase;
 import com.prgmrs.voucher.model.Voucher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -11,9 +10,8 @@ import java.util.UUID;
 @Repository
 public class VoucherRepositoryImpl implements VoucherRepository {
     private static final String FILEPATH = "src/main/csv/vouchers.csv";
-    private VoucherDatabase voucherDatabase;
+    private final VoucherDatabase voucherDatabase;
 
-    @Autowired
     public VoucherRepositoryImpl(VoucherDatabase voucherDatabase) {
         this.voucherDatabase = voucherDatabase;
     }
