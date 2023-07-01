@@ -1,6 +1,7 @@
 package com.example.voucher.repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +23,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findAll() {
-		return new ArrayList<>(voucherMap.values());
+		return Collections.unmodifiableList(new ArrayList<>(voucherMap.values()));
 	}
 
 }
