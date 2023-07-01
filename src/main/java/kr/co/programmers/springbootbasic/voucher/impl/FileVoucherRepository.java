@@ -9,7 +9,6 @@ import kr.co.programmers.springbootbasic.voucher.VoucherRepository;
 import kr.co.programmers.springbootbasic.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -31,8 +30,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Primary
-@Profile("deploy")
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String FILE_WRITE_FORMAT = """
@@ -65,6 +62,16 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteByVoucherId(UUID voucherId) {
+        Path path = Paths.get(FileVoucherRepositoryProperties.SAVE_PATH + voucherId);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            throw new RuntimeException("삭제할 바우처가 존재하지 않습니다.\n");
+        }
+    }
+
+    @Override
     public List<Voucher> listAll() throws RuntimeException {
         File directory = new File(FileVoucherRepositoryProperties.SAVE_PATH);
         Optional<String[]> fileList = Optional.ofNullable(directory.list());
@@ -78,7 +85,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         VoucherType type = voucher.getType();
         UUID id = voucher.getId();
         long amount = voucher.getAmount();
@@ -89,6 +96,8 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new FileSaveFailException("기존의 바우처가 존재해서 파일로 저장하는데 실패했습니다.\n");
         }
         writeVoucherOnFile(type, id, amount);
+
+        return voucher;
     }
 
     private void initFileDirectory() throws IOException {
@@ -128,12 +137,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private Voucher makeVoucherByType(List<String> voucherData) {
         VoucherType type = VoucherType.valueOf(voucherData.get(FileVoucherRepositoryProperties.VOUCHER_TYPE_INDEX));
-        UUID id = UUID.fromString(voucherData.get(FileVoucherRepositoryProperties.VOUCHER_UUID_INDEX));
+        UUID voucherId = UUID.fromString(voucherData.get(FileVoucherRepositoryProperties.VOUCHER_UUID_INDEX));
         long amount = Long.parseLong(voucherData.get(FileVoucherRepositoryProperties.VOUCHER_AMOUNT_INDEX));
 
         return switch (type) {
-            case PERCENT_AMOUNT -> new PercentAmountVoucher(id, amount);
-            case FIXED_AMOUNT -> new FixedAmountVoucher(id, amount);
+            case PERCENT_AMOUNT -> new PercentAmountVoucher(voucherId, amount);
+            case FIXED_AMOUNT -> new FixedAmountVoucher(voucherId, amount);
         };
     }
 

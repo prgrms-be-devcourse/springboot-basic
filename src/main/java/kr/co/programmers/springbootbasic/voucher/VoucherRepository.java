@@ -5,7 +5,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    void save(Voucher voucher);
+    Voucher save(Voucher voucher);
     Optional<Voucher> findByVoucherId(UUID voucherId);
+    void deleteByVoucherId(UUID voucherId);
     List<Voucher> listAll();
 }

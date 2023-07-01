@@ -31,10 +31,10 @@ public class VoucherService {
             case FIXED_AMOUNT -> new FixedAmountVoucher(voucherId, amount);
             case PERCENT_AMOUNT -> new PercentAmountVoucher(voucherId, amount);
         };
-        voucherRepository.save(voucher);
+        Voucher savedVoucher = voucherRepository.save(voucher);
         logger.info("바우처 생성에 성공했습니다.");
 
-        return ApplicationUtils.convertToVoucherResponseDto(voucher);
+        return ApplicationUtils.convertToVoucherResponseDto(savedVoucher);
     }
 
     public List<VoucherResponseDto> listAllVoucher() throws RuntimeException {

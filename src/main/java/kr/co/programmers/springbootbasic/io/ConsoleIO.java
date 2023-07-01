@@ -30,7 +30,7 @@ public class ConsoleIO implements Input, Output {
         int input = scanner.nextInt();
         scanner.nextLine();
 
-        return VoucherType.resolve(input);
+        return VoucherType.resolveCommand(input);
     }
 
     @Override
