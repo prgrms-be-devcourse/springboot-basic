@@ -13,7 +13,7 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
-    default Customer getById(UUID customerId) {
+    default Customer getCustomerById(UUID customerId) {
         return findById(customerId)
                 .orElseThrow(() -> new NonExistentDomainException("존재하지 않는 고객입니다."));
     }

@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
 
-    default Voucher getById(UUID voucherId) {
+    default Voucher getVoucherById(UUID voucherId) {
         return findById(voucherId)
                 .orElseThrow(() -> new NonExistentDomainException("존재하지 않는 바우처입니다."));
     }
