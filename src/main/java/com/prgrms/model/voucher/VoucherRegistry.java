@@ -1,41 +1,20 @@
 package com.prgrms.model.voucher;
 
-import com.prgrms.model.dto.VoucherResponse;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class VoucherRegistry {
-    private final int VOUCHER_MIN_SIZE = 0;
-    private final String EmptyException = "등록된 바우처가 없습니다.";
-    private List<Voucher> voucherList;
 
-    public VoucherRegistry(List<Voucher> voucherList) {
-        validateVoucherListSize(voucherList);
-        this.voucherList = voucherList;
+    private final List<Voucher> voucherRegistry;
+
+    public VoucherRegistry(List<Voucher> voucherRegistry) {
+        this.voucherRegistry = voucherRegistry;
     }
 
-    private void validateVoucherListSize(List<Voucher> vouchers) {
-        if (vouchers.size() == VOUCHER_MIN_SIZE) {
-            throw new IllegalArgumentException(EmptyException);
-        }
+    public boolean isEmpty(List<Voucher> voucherRegistry ){
+        return voucherRegistry.isEmpty();
     }
 
-    public List<VoucherResponse> convertVoucherResponse() {
-        return this.voucherList.stream()
-                .map(VoucherResponse::of)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        for (VoucherResponse voucherResponse : convertVoucherResponse()) {
-            System.out.println(voucherResponse.getVoucherType().name() + " : "
-                    + voucherResponse.getDiscountedValue()
-                    + voucherResponse.getVoucherType().getUnit());
-        }
-        return sb.toString();
+    public List<Voucher> getVoucherRegistry () {
+        return voucherRegistry.stream().toList();
     }
 }
