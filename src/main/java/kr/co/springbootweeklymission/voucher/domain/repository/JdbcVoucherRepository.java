@@ -52,15 +52,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findVouchersByMemberId(UUID memberId) {
-        String sql = "" +
-                "select * " +
-                "from tbl_vouchers " +
-                "where member_id = ?";
-        return jdbcTemplate.query(sql, voucherRowMapper(), memberId.toString());
-    }
-
-    @Override
     public List<Voucher> findAll() {
         String sql = "" +
                 "select * " +
@@ -104,16 +95,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 "delete from tbl_vouchers " +
                 "where voucher_id = ?";
         jdbcTemplate.update(sql, voucherId.toString());
-    }
-
-    @Override
-    public void deleteVoucherByVoucherIdAndMemberId(UUID voucherId,
-                                                    UUID memberId) {
-        String sql = "" +
-                "delete from tbl_vouchers " +
-                "where voucher_id = ? " +
-                "and member_id = ?";
-        jdbcTemplate.update(sql, voucherId, memberId);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

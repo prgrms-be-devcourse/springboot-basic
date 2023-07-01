@@ -9,9 +9,9 @@ import java.util.UUID;
 public interface MemberRepository {
     Member save(Member member);
 
-    List<Member> findMembersByBlack();
-
     Optional<Member> findById(UUID memberId);
+
+    List<Member> findMembersByBlack();
 
     void update(Member member);
 

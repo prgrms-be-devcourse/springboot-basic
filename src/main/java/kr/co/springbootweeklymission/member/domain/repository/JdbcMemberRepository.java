@@ -36,15 +36,6 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
-    public List<Member> findMembersByBlack() {
-        String sql = "" +
-                "select * " +
-                "from tbl_members " +
-                "where member_status = ?";
-        return jdbcTemplate.query(sql, memberRowMapper(), MemberStatus.BLACK.toString());
-    }
-
-    @Override
     public Optional<Member> findById(UUID memberId) {
         String sql = "" +
                 "select * " +
@@ -58,6 +49,15 @@ public class JdbcMemberRepository implements MemberRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Member> findMembersByBlack() {
+        String sql = "" +
+                "select * " +
+                "from tbl_members " +
+                "where member_status = ?";
+        return jdbcTemplate.query(sql, memberRowMapper(), MemberStatus.BLACK.toString());
     }
 
     @Override

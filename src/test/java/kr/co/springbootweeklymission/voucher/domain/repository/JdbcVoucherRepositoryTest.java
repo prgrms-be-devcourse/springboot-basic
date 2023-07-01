@@ -2,8 +2,6 @@ package kr.co.springbootweeklymission.voucher.domain.repository;
 
 import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.member.creators.MemberCreators;
-import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
 import kr.co.springbootweeklymission.voucher.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
@@ -77,35 +75,6 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(2)
-    void findVouchersByMemberId_특정_고객의_모든_바우처를_조회_EMPTY() {
-        //given & when & then
-        assertThat(voucherRepository.findVouchersByMemberId(UUID.randomUUID())).isEmpty();
-    }
-
-    @Test
-    @Order(2)
-    void findVouchersByMemberId_특정_고객의_모든_바우처를_조회_SUCCESS() {
-        //given
-        Member member = MemberCreators.createWhiteMember();
-        memberRepository.save(member);
-        Voucher voucher1 = VoucherCreators.createPercentDiscount();
-        Voucher voucher2 = VoucherCreators.createPercentDiscount();
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
-        voucher1.assignVoucher(member);
-        voucher2.assignVoucher(member);
-        voucherRepository.update(voucher1);
-        voucherRepository.update(voucher2);
-
-        //when
-        List<Voucher> actual = voucherRepository.findVouchersByMemberId(member.getMemberId());
-
-        //then
-        assertThat(actual).hasSize(2);
-    }
-
-    @Test
     @Order(3)
     void findById_특정_바우처를_조회_SUCCESS() {
         //given
@@ -145,25 +114,6 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(4)
-    void update_특정_바우처에게_회원을_할당_SUCCESS() {
-        //given
-        Voucher voucher = VoucherCreators.createFixedDiscount();
-        Member member = MemberCreators.createWhiteMember();
-        voucherRepository.save(voucher);
-        memberRepository.save(member);
-
-        //when
-        voucher.assignVoucher(member);
-        voucherRepository.update(voucher);
-        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
-                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
-
-        //then
-        assertThat(actual).isEqualTo(voucher);
-    }
-
-    @Test
     @Order(5)
     void deleteById_특정_바우처를_삭제_SUCCESS() {
         //given
@@ -172,24 +122,6 @@ class JdbcVoucherRepositoryTest {
 
         //when
         voucherRepository.deleteById(voucher.getVoucherId());
-
-        //then
-        assertThat(voucherRepository.findById(voucher.getVoucherId())).isEmpty();
-    }
-
-    @Test
-    @Order(5)
-    void deleteVoucherByVoucherIdAndMemberId_특정_회원이_가진_특정_바우처를_삭제_SUCCESS() {
-        //given
-        Voucher voucher = VoucherCreators.createFixedDiscount();
-        Member member = MemberCreators.createWhiteMember();
-        voucherRepository.save(voucher);
-        memberRepository.save(member);
-        voucher.assignVoucher(member);
-        voucherRepository.update(voucher);
-
-        //when
-        voucherRepository.deleteVoucherByVoucherIdAndMemberId(voucher.getVoucherId(), member.getMemberId());
 
         //then
         assertThat(voucherRepository.findById(voucher.getVoucherId())).isEmpty();

@@ -28,6 +28,11 @@ public class InFileMemberRepository implements MemberRepository {
     }
 
     @Override
+    public Optional<Member> findById(UUID memberId) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_READ);
+    }
+
+    @Override
     public List<Member> findMembersByBlack() {
         try {
             final BufferedReader reader = new BufferedReader(new FileReader(MEMBER_FILE));
@@ -38,11 +43,6 @@ public class InFileMemberRepository implements MemberRepository {
         } catch (IOException e) {
             throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_BLACK_MEMBER);
         }
-    }
-
-    @Override
-    public Optional<Member> findById(UUID memberId) {
-        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_READ);
     }
 
     @Override

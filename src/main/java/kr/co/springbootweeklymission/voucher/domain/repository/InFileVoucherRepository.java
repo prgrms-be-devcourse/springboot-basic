@@ -49,11 +49,6 @@ public class InFileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findVouchersByMemberId(UUID memberId) {
-        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_READ);
-    }
-
-    @Override
     public List<Voucher> findAll() {
         try {
             final BufferedReader reader = new BufferedReader(new FileReader(VOUCHER_FILE));
@@ -73,12 +68,6 @@ public class InFileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
-    }
-
-    @Override
-    public void deleteVoucherByVoucherIdAndMemberId(UUID voucherId,
-                                                    UUID memberId) {
         throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
     }
 
