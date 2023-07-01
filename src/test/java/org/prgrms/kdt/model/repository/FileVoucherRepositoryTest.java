@@ -1,14 +1,10 @@
 package org.prgrms.kdt.model.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -73,7 +69,7 @@ class FileVoucherRepositoryTest {
 	}
 
 	private FileIO getFileIO(Path voucherFilePath) {
-		String fileName= voucherFilePath.getFileName().toString();
+		String fileName = voucherFilePath.getFileName().toString();
 		String dirPath = voucherFilePath.getParent().toString();
 
 		FileIO fileIO = new FileIO(fileName, dirPath);

@@ -84,11 +84,10 @@ class VoucherMapperTest {
 		);
 
 		return Stream.of(
-			Arguments.of(voucherDTOS1,voucherEntities1),
-			Arguments.of(voucherDTOS2,voucherEntities2),
-			Arguments.of(voucherDTOS3,voucherEntities3)
+			Arguments.of(voucherDTOS1, voucherEntities1),
+			Arguments.of(voucherDTOS2, voucherEntities2),
+			Arguments.of(voucherDTOS3, voucherEntities3)
 		);
 	}
-
 
 }
