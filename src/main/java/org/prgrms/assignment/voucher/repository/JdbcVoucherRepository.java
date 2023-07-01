@@ -24,7 +24,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
-    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, name, voucher_type, created_at, benefit) VALUES(?, ?, ?, ?, ?)";
+    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, name, voucher_type, created_at, benefit) VALUES(UUID_TO_BIN(?), ?, ?, ?, ?)";
     private static final String UPDATE_SQL = "UPDATE vouchers SET name = ?, benefit = ? WHERE voucher_id = ?";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String DELETE_ALL_SQL = "DELETE * FROM vouchers";
@@ -54,7 +54,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int update = jdbcTemplate.update(INSERT_SQL,
             voucher.getVoucherId().toString().getBytes(),
             voucher.getVoucherName(),
-            voucher.getVoucherType(),
+            voucher.getVoucherType().toString(),
             voucher.getCreatedAt(),
             voucher.getBenefit());
         if(update != 1) {
