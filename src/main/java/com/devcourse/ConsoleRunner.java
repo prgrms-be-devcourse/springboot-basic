@@ -18,7 +18,7 @@ import java.util.StringTokenizer;
 public class ConsoleRunner {
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String NOT_SUPPORT_DATE_FORMAT = "[Error] Your Input is incorrect Date Format : ";
-    public static final String NOT_A_NUMBER = "[Error] Your Input is not a Number : ";
+    private static final String NOT_A_NUMBER = "[Error] Your Input is not a Number : ";
 
     private final VoucherController voucherController;
     private final Console console = new Console();
@@ -43,7 +43,7 @@ public class ConsoleRunner {
         String inputCommand = console.readCommand();
         Command command = Command.from(inputCommand);
 
-        if (isCreation(command)) {
+        if (command.isCreation()) {
             String information = console.readVoucherInformation();
             return initCreationRequest(command, information);
         }
@@ -81,9 +81,5 @@ public class ConsoleRunner {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(NOT_A_NUMBER + discount);
         }
-    }
-
-    private boolean isCreation(Command command) {
-        return command == Command.CREATE;
     }
 }

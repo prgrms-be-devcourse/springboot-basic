@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 
 @Component
 public class VoucherValidator {
-    public static final String NOT_SUPPORT_TYPE = "[Error] Your Input Is Not Support Type. Input : ";
-    public static final String INVALID_DISCOUNT_AMOUNT = "[Error] Discount Amount MUST Be Bigger Than Zero. Input : ";
-    public static final String INVALID_DISCOUNT_RATE = "[Error] Discount Rate MUST Be Bigger Than ZERO, Smaller Than Hunnit. Input : ";
-    public static final String INVALID_EXPIRATION_TIME = "[Error] Expiration Time Cannot Be The Past. Input : ";
-    public static final String EXPIRED_VOUCHER = "[Error] This Voucher Is EXPIRED";
-    public static final String USED_VOUCHER = "[Error] This Voucher Is Already USED";
+    private static final String NOT_SUPPORT_TYPE = "[Error] Your Input Is Not Support Type. Input : ";
+    private static final String INVALID_DISCOUNT_AMOUNT = "[Error] Discount Amount MUST Be Bigger Than Zero. Input : ";
+    private static final String INVALID_DISCOUNT_RATE = "[Error] Discount Rate MUST Be Bigger Than ZERO, Smaller Than Hunnit. Input : ";
+    private static final String INVALID_EXPIRATION_TIME = "[Error] Expiration Time Cannot Be The Past. Input : ";
+    private static final String EXPIRED_VOUCHER = "[Error] This Voucher Is EXPIRED";
+    private static final String USED_VOUCHER = "[Error] This Voucher Is Already USED";
     private static final int MAX_DISCOUNT = 100;
     private static final int MIN_DISCOUNT = 0;
 
