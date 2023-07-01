@@ -93,8 +93,8 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher2 = VoucherCreators.createPercentDiscount();
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
-        voucher1.assigningVouchers(member);
-        voucher2.assigningVouchers(member);
+        voucher1.assignVoucher(member);
+        voucher2.assignVoucher(member);
         voucherRepository.update(voucher1);
         voucherRepository.update(voucher2);
 
@@ -154,7 +154,7 @@ class JdbcVoucherRepositoryTest {
         memberRepository.save(member);
 
         //when
-        voucher.assigningVouchers(member);
+        voucher.assignVoucher(member);
         voucherRepository.update(voucher);
         Voucher actual = voucherRepository.findById(voucher.getVoucherId())
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
@@ -185,7 +185,7 @@ class JdbcVoucherRepositoryTest {
         Member member = MemberCreators.createWhiteMember();
         voucherRepository.save(voucher);
         memberRepository.save(member);
-        voucher.assigningVouchers(member);
+        voucher.assignVoucher(member);
         voucherRepository.update(voucher);
 
         //when

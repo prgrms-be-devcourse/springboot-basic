@@ -1,5 +1,6 @@
 package kr.co.springbootweeklymission.voucher.creators;
 
+import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 
@@ -30,6 +31,14 @@ public class VoucherCreators {
                                         VoucherPolicy voucherPolicy) {
         return Voucher.builder()
                 .voucherId(voucherId)
+                .amount(amount)
+                .voucherPolicy(voucherPolicy)
+                .build();
+    }
+
+    public static VoucherReqDTO.UPDATE updateVoucherInformation(int amount,
+                                                                VoucherPolicy voucherPolicy) {
+        return VoucherReqDTO.UPDATE.builder()
                 .amount(amount)
                 .voucherPolicy(voucherPolicy)
                 .build();

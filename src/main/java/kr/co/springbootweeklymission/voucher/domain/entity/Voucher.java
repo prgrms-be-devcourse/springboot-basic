@@ -50,7 +50,16 @@ public class Voucher {
         return this.memberId != null;
     }
 
-    public void assigningVouchers(Member member) {
+    public void assignVoucher(Member member) {
         this.memberId = member.getMemberId();
+    }
+
+    public void unassignedVoucher() {
+        this.memberId = null;
+    }
+
+    public void updateVoucherInformation(VoucherReqDTO.UPDATE update) {
+        this.amount = update.getAmount();
+        this.voucherPolicy = update.getVoucherPolicy();
     }
 }
