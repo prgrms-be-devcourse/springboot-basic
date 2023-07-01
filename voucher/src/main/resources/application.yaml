@@ -1,13 +1,36 @@
-filepath:
-  blacklist: "classpath:/customer_blacklist.csv"
-  voucher: "classpath:/sample.csv"
-
-mysql:
-  user-id: "root"
-  password: "1234"
-
 name:
   voucher:
     fixed-amount-voucher: "FixedAmountVoucher"
     percent-discount-voucher: "PercentDiscountVoucher"
 
+
+spring:
+  profiles:
+    active: memory
+
+---
+spring:
+  profiles:
+    active: csv
+
+filepath:
+  blacklist: "classpath:/customer_blacklist.csv"
+  voucher: "classpath:/sample.csv"
+
+
+---
+spring:
+  profiles:
+    active: jdbc
+
+  datasource:
+    url: jdbc:mysql://localhost:3308/customer
+    username: root
+    password: 1234
+    type: com.zaxxer.hikari.HikariDataSource
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc: debug

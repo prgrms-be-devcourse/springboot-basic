@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-@Profile(value = "local")
+@Profile(value = "memory")
 public class MemoryVoucherStream implements VoucherStream {
     private final HashMap<String, Voucher> voucherList = new HashMap<>();
 

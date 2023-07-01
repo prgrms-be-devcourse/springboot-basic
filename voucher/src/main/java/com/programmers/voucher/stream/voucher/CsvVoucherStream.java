@@ -15,7 +15,7 @@ import java.io.*;
 import java.util.*;
 
 @Repository
-@Profile(value = "dev")
+@Profile(value = "csv")
 public class CsvVoucherStream implements VoucherStream {
     @Value("${filepath.voucher}")
     private String sampleCsvFilePath;
