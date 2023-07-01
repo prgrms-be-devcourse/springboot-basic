@@ -1,4 +1,4 @@
-package co.programmers.voucher_management.voucher.controller;
+package co.programmers.voucher_management;
 
 import java.text.MessageFormat;
 
@@ -56,7 +56,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 				case "l":
 					response = voucherInquiryService.run();
 					break;
-				case "blackList":
+				case "blacklist":
 				case "b":
 					response = customerInquiryService.inquireBlackList();
 					break;
