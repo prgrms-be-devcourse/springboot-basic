@@ -34,11 +34,11 @@ public class InputConsole {
         return ListMenu.getListMenu(input);
     }
 
-    public double readDiscountValue(VoucherType voucherType) {
-        double input = textIO.newDoubleInputReader()
+    public DiscountValue readDiscountValue(VoucherType voucherType) {
+        String inputDiscountValue = textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .read("Discount Value: ");
-        return new DiscountValue(voucherType, input).getValue();
+        return new DiscountValue(voucherType, inputDiscountValue);
     }
 
 }
