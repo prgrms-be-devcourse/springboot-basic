@@ -84,7 +84,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-
+        String sql = "delete from customer";
+        template.update(sql, Map.of());
     }
 
     @Override
