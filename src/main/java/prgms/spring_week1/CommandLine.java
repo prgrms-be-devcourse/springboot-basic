@@ -66,7 +66,7 @@ public class CommandLine implements Runnable {
                 case FIXED -> {
                     output.printInsertFixedVoucherMessage();
                     long discountAmount = input.insertDiscountAmountVoucher();
-                    while(discountAmount <= 0){
+                    while (discountAmount <= 0) {
                         output.printInsertFixedVoucherMessage();
                         discountAmount = input.insertDiscountAmountVoucher();
                     }
@@ -76,7 +76,7 @@ public class CommandLine implements Runnable {
                 case PERCENT -> {
                     output.printInsertPercentVoucherMessage();
                     int discountPercent = input.insertDiscountPercentVoucher();
-                    while(discountPercent < 0 || discountPercent > 100){
+                    while (discountPercent < 0 || discountPercent > 100) {
                         output.printInsertPercentVoucherMessage();
                         discountPercent = input.insertDiscountPercentVoucher();
                     }
