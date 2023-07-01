@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,7 +60,20 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("성공 - customer 목록 조회")
     void findAll() {
+        //given
+        Customer customerA = new Customer(UUID.randomUUID(), "customerA");
+        Customer customerB = new Customer(UUID.randomUUID(), "customerB");
+        customerJdbcRepository.save(customerA);
+        customerJdbcRepository.save(customerB);
+
+        //when
+        List<Customer> findCustomers = customerJdbcRepository.findAll();
+
+        //then
+        assertThat(findCustomers).usingRecursiveFieldByFieldElementComparator()
+                .contains(customerA, customerB);
     }
 
     @Test
