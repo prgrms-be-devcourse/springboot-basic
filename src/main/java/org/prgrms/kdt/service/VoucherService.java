@@ -26,14 +26,14 @@ public class VoucherService {
 	}
 
 	public void createVoucher(VoucherDTO voucherDTO) {
-		VoucherEntity voucherEntity = VoucherMapper.toVoucher(voucherDTO);
+		VoucherEntity voucherEntity = VoucherMapper.toVoucherEntity(voucherDTO);
 		voucherRepository.createVoucher(voucherEntity);
 	}
 
 	public List<VoucherDTO> getVouchers() {
 		return voucherRepository.readAll()
 			.stream()
-			.map(VoucherMapper::toDTO)
+			.map(VoucherMapper::toVoucherDTO)
 			.collect(Collectors.toList());
 	}
 }

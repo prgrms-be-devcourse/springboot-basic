@@ -33,4 +33,28 @@ public class VoucherEntity {
 	public VoucherType getVoucherType() {
 		return voucherType;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		VoucherEntity that = (VoucherEntity)o;
+
+		if (amount != that.amount)
+			return false;
+		if (!voucherId.equals(that.voucherId))
+			return false;
+		return voucherType == that.voucherType;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = voucherId.hashCode();
+		result = 31 * result + amount;
+		result = 31 * result + voucherType.hashCode();
+		return result;
+	}
 }

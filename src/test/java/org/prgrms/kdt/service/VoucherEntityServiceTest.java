@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.FixedAmount;
+import org.prgrms.kdt.model.PercentAmount;
 import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.InMemoryVoucherRepository;
@@ -24,20 +25,20 @@ class VoucherEntityServiceTest {
 	private static Stream<Arguments> voucherDTOProvider() {
 		List<VoucherDTO> voucherDTOS1 = Arrays.asList(
 			new VoucherDTO(5L, new FixedAmount(100), VoucherType.FixedAmountVoucher),
-			new VoucherDTO(6L, new FixedAmount(50), VoucherType.PercentDiscountVoucher),
+			new VoucherDTO(6L, new PercentAmount(50), VoucherType.PercentDiscountVoucher),
 			new VoucherDTO(7L, new FixedAmount(200), VoucherType.FixedAmountVoucher)
 		);
 
 		List<VoucherDTO> voucherDTOS2 = Arrays.asList(
 			new VoucherDTO(5L, new FixedAmount(100), VoucherType.FixedAmountVoucher),
-			new VoucherDTO(2L, new FixedAmount(50), VoucherType.PercentDiscountVoucher),
-			new VoucherDTO(4L, new FixedAmount(40), VoucherType.PercentDiscountVoucher)
+			new VoucherDTO(2L, new PercentAmount(50), VoucherType.PercentDiscountVoucher),
+			new VoucherDTO(4L, new PercentAmount(40), VoucherType.PercentDiscountVoucher)
 		);
 
 		List<VoucherDTO> voucherDTOS3 = Arrays.asList(
-			new VoucherDTO(3L, new FixedAmount(100), VoucherType.PercentDiscountVoucher),
+			new VoucherDTO(3L, new PercentAmount(50), VoucherType.PercentDiscountVoucher),
 			new VoucherDTO(2L, new FixedAmount(50), VoucherType.FixedAmountVoucher),
-			new VoucherDTO(1L, new FixedAmount(200), VoucherType.FixedAmountVoucher)
+			new VoucherDTO(1L, new PercentAmount(100), VoucherType.PercentDiscountVoucher)
 		);
 
 		return Stream.of(
@@ -59,14 +60,12 @@ class VoucherEntityServiceTest {
 		//when
 		voucherDTOs.stream()
 			.forEach(voucher -> voucherService.createVoucher(voucher));
-		List<Long> expectedIds = voucherService.getVouchers()
+		List<VoucherDTO> expectedVoucherDTOs = voucherService.getVouchers()
 			.stream()
-			.map(VoucherDTO::getVoucherId)
 			.collect(Collectors.toList());
 
 		//then
 		Assertions.assertThat(voucherDTOs)
-			.flatExtracting(VoucherDTO::getVoucherId)
-			.containsExactlyInAnyOrderElementsOf(expectedIds);
+			.containsExactlyInAnyOrderElementsOf(expectedVoucherDTOs);
 	}
 }

@@ -54,14 +54,12 @@ class InMemoryVoucherRepositoryTestEntity {
 		//when
 		voucherEntities.stream()
 			.forEach(voucher -> voucherRepository.createVoucher(voucher));
-		List<Long> expectedIds = voucherRepository.readAll()
+		List<VoucherEntity> expectedVoucherEntities = voucherRepository.readAll()
 			.stream()
-			.map(VoucherEntity::getVoucherId)
 			.collect(Collectors.toList());
 
 		//then
 		Assertions.assertThat(voucherEntities)
-			.flatExtracting(VoucherEntity::getVoucherId)
-			.containsExactlyInAnyOrderElementsOf(expectedIds);
+			.containsExactlyInAnyOrderElementsOf(expectedVoucherEntities);
 	}
 }
