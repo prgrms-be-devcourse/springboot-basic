@@ -71,10 +71,28 @@ public class CommandLineApplication implements CommandLineRunner {
     private void create() {
         try {
             Integer inputVersion = console.getVoucherVersion();
-            voucherFactory.createVoucher(decideVoucherType(inputVersion));
+            VoucherEnum voucherEnum = decideVoucherType(inputVersion);
+            createFixedAmountVoucher(voucherEnum);
+            createPercentDiscountVoucher(voucherEnum);
         } catch (IllegalArgumentException e) {
             printer.printError(e);
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void createFixedAmountVoucher(VoucherEnum voucherEnum) {
+        Integer inputNumber;
+        if (voucherEnum == VoucherEnum.FIXED) {
+            inputNumber = console.getAmount();
+            voucherFactory.createVoucher(voucherEnum, inputNumber);
+        }
+    }
+
+    private void createPercentDiscountVoucher(VoucherEnum voucherEnum) {
+        Integer inputNumber;
+        if (voucherEnum == VoucherEnum.PERCENT) {
+            inputNumber = console.getRate();
+            voucherFactory.createVoucher(voucherEnum, inputNumber);
         }
     }
 

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -35,8 +34,8 @@ public class AppConfiguration {
     }
 
     @Bean
-    public VoucherFactory voucherFactory(Console console, VoucherStream voucherStream) {
-        return new VoucherFactory(console, voucherStream);
+    public VoucherFactory voucherFactory(VoucherStream voucherStream) {
+        return new VoucherFactory(voucherStream);
     }
     @Bean
     public DataSource dataSource() {
@@ -51,8 +50,4 @@ public class AppConfiguration {
         return dataSource;
     }
 
-    @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
-    }
 }
