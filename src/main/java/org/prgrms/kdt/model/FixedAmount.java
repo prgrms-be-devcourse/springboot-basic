@@ -21,4 +21,21 @@ public class FixedAmount implements Amount {
 	public int getAmount() {
 		return this.amount;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		FixedAmount that = (FixedAmount)o;
+
+		return amount == that.amount;
+	}
+
+	@Override
+	public int hashCode() {
+		return amount;
+	}
 }
