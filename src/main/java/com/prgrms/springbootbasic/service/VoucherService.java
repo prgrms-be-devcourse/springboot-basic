@@ -21,8 +21,8 @@ public class VoucherService {
     public Voucher createVoucher(VoucherType type, long discount) {
         Voucher voucher;
         switch (type) {
-            case FIXED -> voucher = new FixedDiscountVoucher(UUID.randomUUID(), discount);
-            case PERCENT -> voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
+            case FIXED -> voucher = new FixedDiscountVoucher(discount);
+            case PERCENT -> voucher = new PercentDiscountVoucher(discount);
             default -> throw new IllegalStateException("입력가능한 Voucher Type은 " + type + "입니다.");
         }
         return voucherRepository.insert(voucher);
