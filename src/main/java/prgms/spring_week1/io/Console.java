@@ -139,4 +139,9 @@ public class Console implements Input, Output {
         System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
                 "할인률 :" + percentDiscountVoucher.getDiscount() + " 퍼센트");
     }
+
+    @Override
+    public void printEmptyBlackListMessage() {
+        System.out.println("블랙리스트 목록이 없습니다.");
+    }
 }

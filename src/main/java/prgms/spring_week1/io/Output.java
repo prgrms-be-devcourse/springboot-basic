@@ -29,4 +29,5 @@ public interface Output {
     void printDiscountFixedVoucherInfo(Voucher fixedAmountVoucher);
 
     void printDiscountAmountVoucherInfo(Voucher percentDiscountVoucher);
+    void printEmptyBlackListMessage();
 }
