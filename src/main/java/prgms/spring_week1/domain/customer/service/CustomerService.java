@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
