@@ -25,7 +25,7 @@ public class FixedAmountPolicy implements VoucherPolicy {
     }
 
     private void validateAmount(long amount) {
-        if (amount < MIN_AMOUNT) {
+        if (amount <= MIN_AMOUNT) {
             throw new InvalidInputException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
         }
     }
