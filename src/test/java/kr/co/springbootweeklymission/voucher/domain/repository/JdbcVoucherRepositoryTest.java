@@ -2,6 +2,9 @@ package kr.co.springbootweeklymission.voucher.domain.repository;
 
 import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.member.domain.creators.MemberCreators;
+import kr.co.springbootweeklymission.member.domain.entity.Member;
+import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
 import kr.co.springbootweeklymission.voucher.domain.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
@@ -25,6 +28,8 @@ class JdbcVoucherRepositoryTest {
 
     @Autowired
     JdbcVoucherRepository voucherRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
     @Order(1)
@@ -108,6 +113,25 @@ class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(actual).isEqualTo(updateVoucher);
+    }
+
+    @Test
+    @Order(4)
+    void update_특정_바우처에게_회원을_할당_SUCCESS() {
+        //given
+        Voucher voucher = VoucherCreators.createFixedDiscount();
+        Member member = MemberCreators.createWhiteMember();
+        voucherRepository.save(voucher);
+        memberRepository.save(member);
+
+        //when
+        voucher.assigningVouchers(member);
+        voucherRepository.update(voucher);
+        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+
+        //then
+        assertThat(actual).isEqualTo(voucher);
     }
 
     @Test

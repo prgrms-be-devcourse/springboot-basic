@@ -61,15 +61,31 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
+        if (!voucher.isMember()) {
+            String sql = "" +
+                    "update tbl_vouchers set " +
+                    "voucher_amount = ?, " +
+                    "voucher_policy = ? " +
+                    "where voucher_id = ?";
+            jdbcTemplate.update(
+                    sql,
+                    voucher.getAmount(),
+                    voucher.getVoucherPolicy().toString(),
+                    voucher.getVoucherId().toString());
+            return;
+        }
+
         String sql = "" +
                 "update tbl_vouchers set " +
                 "voucher_amount = ?, " +
-                "voucher_policy = ? " +
+                "voucher_policy = ?, " +
+                "member_id = ? " +
                 "where voucher_id = ?";
         jdbcTemplate.update(
                 sql,
                 voucher.getAmount(),
                 voucher.getVoucherPolicy().toString(),
+                voucher.getMemberId().toString(),
                 voucher.getVoucherId().toString());
     }
 

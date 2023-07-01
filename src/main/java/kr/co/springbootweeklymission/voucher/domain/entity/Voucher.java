@@ -2,6 +2,7 @@ package kr.co.springbootweeklymission.voucher.domain.entity;
 
 import kr.co.springbootweeklymission.infrastructure.error.exception.WrongVoucherPolicyException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import lombok.*;
@@ -43,5 +44,13 @@ public class Voucher {
         return this.voucherPolicy
                 .getDiscount()
                 .apply(price, this.amount);
+    }
+
+    public boolean isMember() {
+        return this.memberId != null;
+    }
+
+    public void assigningVouchers(Member member) {
+        this.memberId = member.getMemberId();
     }
 }
