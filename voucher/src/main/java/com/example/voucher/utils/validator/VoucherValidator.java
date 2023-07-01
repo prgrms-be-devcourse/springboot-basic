@@ -2,6 +2,10 @@ package com.example.voucher.utils.validator;
 
 public class VoucherValidator {
 
+	private VoucherValidator() {
+
+	}
+
 	public static void validatePercent(long percent) {
 		if (percent < 0 || percent > 100) {
 			throw new IllegalArgumentException("패센트 값은 0 과 100사이여야 합니다");
