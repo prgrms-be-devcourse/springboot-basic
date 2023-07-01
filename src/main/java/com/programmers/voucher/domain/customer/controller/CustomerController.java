@@ -19,10 +19,7 @@ public class CustomerController {
 
     public void findBlacklistCustomers() {
         List<Customer> customers = customerService.findBlacklistCustomers();
-        String customerInfos = customers.stream()
-                .map(Customer::fullInfoString)
-                .reduce("", (a, b) -> a + "\n" + b);
 
-        console.print(customerInfos);
+        console.printCustomers(customers);
     }
 }

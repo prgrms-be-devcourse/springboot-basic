@@ -1,11 +1,15 @@
 package com.programmers.voucher.global.io.textio;
 
+import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.global.io.ConsoleCommandType;
 import com.programmers.voucher.global.io.ConsoleOutput;
 import com.programmers.voucher.global.util.ConsoleMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static com.programmers.voucher.global.util.ConsoleMessages.*;
 
@@ -27,6 +31,18 @@ public class TextIoOutput implements ConsoleOutput {
         printCommand(ConsoleCommandType.LIST, LIST_BEHAVIOR);
         printCommand(ConsoleCommandType.HELP, HELP_BEHAVIOR);
         printCommand(ConsoleCommandType.BLACKLIST, BLACKLIST_BEHAVIOR);
+    }
+
+    @Override
+    public void printVouchers(List<Voucher> vouchers) {
+        vouchers.forEach(voucher ->
+                print(voucher.fullInfoString()));
+    }
+
+    @Override
+    public void printCustomers(List<Customer> customers) {
+        customers.forEach(customer ->
+                print(customer.fullInfoString()));
     }
 
     private void printCommand(ConsoleCommandType commandType, String behavior) {

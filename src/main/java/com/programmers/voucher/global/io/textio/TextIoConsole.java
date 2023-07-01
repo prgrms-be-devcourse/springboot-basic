@@ -1,9 +1,13 @@
 package com.programmers.voucher.global.io.textio;
 
+import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.ConsoleCommandType;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class TextIoConsole implements Console {
@@ -28,6 +32,16 @@ public class TextIoConsole implements Console {
     @Override
     public void printCommandSet() {
         textIoOutput.printCommandSet();
+    }
+
+    @Override
+    public void printVouchers(List<Voucher> vouchers) {
+        textIoOutput.printVouchers(vouchers);
+    }
+
+    @Override
+    public void printCustomers(List<Customer> customers) {
+        textIoOutput.printCustomers(customers);
     }
 
     @Override

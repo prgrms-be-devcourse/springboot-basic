@@ -33,10 +33,6 @@ public class VoucherController {
     public void findVouchers() {
         List<Voucher> vouchers = voucherService.findVouchers();
 
-        String vouchersForPrint = vouchers.stream()
-                .map(Voucher::fullInfoString)
-                .reduce("", (a, b) -> a + "\n" + b);
-
-        console.print(vouchersForPrint);
+        console.printVouchers(vouchers);
     }
 }

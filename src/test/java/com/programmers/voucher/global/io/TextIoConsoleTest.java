@@ -1,5 +1,9 @@
 package com.programmers.voucher.global.io;
 
+import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.voucher.domain.FixedAmountVoucher;
+import com.programmers.voucher.domain.voucher.domain.PercentDiscountVoucher;
+import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.global.io.textio.TextIoConsole;
@@ -14,6 +18,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -125,5 +130,40 @@ class TextIoConsoleTest {
         //then
         assertThat(result.getVoucherType()).isEqualTo(VoucherType.PERCENT);
         assertThat(result.getAmount()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("성공 - 회원 목록 출력")
+    void printCustomers() {
+        //given
+        Customer customerA = new Customer(UUID.randomUUID(), "customerA");
+        Customer customerB = new Customer(UUID.randomUUID(), "customerB");
+        List<Customer> givenCustomers = List.of(customerA, customerB);
+
+        //when
+        textIoConsole.printCustomers(givenCustomers);
+
+        //then
+        String expectedOutput = customerA.fullInfoString() + "\n" + customerB.fullInfoString();
+        String output = mockTextTerminal.getOutput();
+
+        assertThat(output).isEqualTo(expectedOutput);
+    }
+
+    @Test
+    void printVouchers() {
+        //given
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        PercentDiscountVoucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+        List<Voucher> givenVouchers = List.of(fixedVoucher, percentVoucher);
+
+        //when
+        textIoConsole.printVouchers(givenVouchers);
+
+        //then
+        String expectedOutput = fixedVoucher.fullInfoString() + "\n" + percentVoucher.fullInfoString();
+        String output = mockTextTerminal.getOutput();
+
+        assertThat(output).isEqualTo(expectedOutput);
     }
 }
