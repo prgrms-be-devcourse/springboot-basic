@@ -81,8 +81,7 @@ class JdbcVoucherRepositoryTest {
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
 
         //then
-        assertThat(actual.getVoucherPolicy()).isEqualTo(VoucherPolicy.PERCENT_DISCOUNT);
-        assertThat(actual.getAmount()).isEqualTo(20);
+        assertThat(actual).isEqualTo(updateVoucher);
     }
 
     @Test

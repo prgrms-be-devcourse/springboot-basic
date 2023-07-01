@@ -12,4 +12,6 @@ public interface MemberRepository {
     List<Member> findMembersByBlack();
 
     Optional<Member> findById(UUID memberId);
+
+    void update(Member member);
 }

@@ -22,4 +22,11 @@ public class MemberCreators {
                 .memberStatus(MemberStatus.WHITE)
                 .build();
     }
+
+    public static Member updateMemberStatus(UUID memberId, MemberStatus memberStatus) {
+        return Member.builder()
+                .memberId(memberId)
+                .memberStatus(memberStatus)
+                .build();
+    }
 }

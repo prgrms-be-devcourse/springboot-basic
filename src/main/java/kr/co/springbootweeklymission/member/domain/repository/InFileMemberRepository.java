@@ -42,7 +42,12 @@ public class InFileMemberRepository implements MemberRepository {
 
     @Override
     public Optional<Member> findById(UUID memberId) {
-        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_FOUND);
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_READ);
+    }
+
+    @Override
+    public void update(Member member) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
     }
 
     private List<Member> getMembersByBlack(BufferedReader reader) throws IOException {

@@ -4,6 +4,7 @@ import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundExce
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.member.domain.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
+import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -68,5 +69,22 @@ public class JdbcMemberRepositoryTest {
 
         //then
         assertThat(actual).isEqualTo(member);
+    }
+
+    @Test
+    @Order(4)
+    void 특정_회원의_정보를_수정() {
+        //given
+        Member member = MemberCreators.createBlackMember();
+        memberRepository.save(member);
+        Member updateMember = MemberCreators.updateMemberStatus(member.getMemberId(), MemberStatus.WHITE);
+
+        //when
+        memberRepository.update(updateMember);
+        Member actual = memberRepository.findById(member.getMemberId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
+
+        //then
+        assertThat(actual).isEqualTo(updateMember);
     }
 }

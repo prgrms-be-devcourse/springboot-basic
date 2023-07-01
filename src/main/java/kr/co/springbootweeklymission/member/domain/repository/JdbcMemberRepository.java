@@ -60,6 +60,19 @@ public class JdbcMemberRepository implements MemberRepository {
         }
     }
 
+    @Override
+    public void update(Member member) {
+        String sql = "" +
+                "update tbl_members set " +
+                "member_status = ? " +
+                "where member_id = ?";
+        jdbcTemplate.update(
+                sql,
+                member.getMemberStatus().toString(),
+                member.getMemberId().toString()
+        );
+    }
+
     private RowMapper<Member> memberRowMapper() {
         return (rs, rowNum) -> Member.builder()
                 .memberId(UUID.fromString(rs.getString("member_id")))
