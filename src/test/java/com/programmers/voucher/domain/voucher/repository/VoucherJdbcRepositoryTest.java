@@ -80,4 +80,20 @@ class VoucherJdbcRepositoryTest {
         assertThat(findVoucher).usingRecursiveComparison().isEqualTo(findVoucher);
     }
 
+    @Test
+    @DisplayName("성공 - voucher 전체 삭제")
+    void deleteAll() {
+        //given
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        PercentDiscountVoucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+        voucherJdbcRepository.save(fixedVoucher);
+        voucherJdbcRepository.save(percentVoucher);
+
+        //when
+        voucherJdbcRepository.deleteAll();
+
+        //then
+        List<Voucher> findVouchers = voucherJdbcRepository.findAll();
+        assertThat(findVouchers).isEmpty();
+    }
 }

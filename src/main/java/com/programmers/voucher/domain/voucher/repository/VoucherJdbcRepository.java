@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -68,7 +69,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-
+        String sql = "delete from voucher";
+        template.update(sql, Map.of());
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
