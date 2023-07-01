@@ -8,9 +8,10 @@ public enum Menu {
     CREATE,
     LIST;
 
-    public static Optional<Menu> findByMenu(String menu) {
+    public static Menu findByMenu(String menu) {
         return Arrays.stream(values())
                 .filter(m -> m.name().equalsIgnoreCase(menu))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_SELECTION.getMessage()));
     }
 }

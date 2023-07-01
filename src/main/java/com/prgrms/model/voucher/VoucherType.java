@@ -1,30 +1,29 @@
 package com.prgrms.model.voucher;
 
+import com.prgrms.io.ErrorMessage;
+
 import java.util.Arrays;
 import java.util.Optional;
 
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("1",
-            "얼만큼 할인 받고 싶은지 입력하세요 (단위: 원):",
-            "원"),
+            "얼만큼 할인 받고 싶은지 입력하세요 :"),
     PERCENT_DISCOUNT_VOUCHER("2",
-            "할인율을 입력하세요 (0~100 사이의 값):",
-            "%");
+            "할인율을 입력하세요 :");
 
     private final String number;
     private final String discountGuide;
-    private final String unit;
 
-    VoucherType(String number, String discountGuide, String unit) {
+    VoucherType(String number, String discountGuide) {
         this.number = number;
         this.discountGuide = discountGuide;
-        this.unit = unit;
     }
 
-    public static Optional<VoucherType> findByPolicy(String policy) {
+    public static VoucherType findByPolicy(String policy) {
         return Arrays.stream(VoucherType.values())
                 .filter(p -> p.number.equals(policy))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(()->new IllegalArgumentException(ErrorMessage.INVALID_SELECTION.getMessage()));
     }
 
     public String voucherPolicyOptionGuide() {
@@ -35,7 +34,4 @@ public enum VoucherType {
         return discountGuide;
     }
 
-    public String getUnit() {
-        return unit;
-    }
 }
