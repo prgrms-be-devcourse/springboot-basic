@@ -1,5 +1,10 @@
 package prgms.spring_week1.domain.voucher.model.type;
 
+import prgms.spring_week1.exception.NoSuchVoucherType;
+
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public enum VoucherType {
     FIXED("FixedAmountVoucher"),
     PERCENT("PercentDiscountVoucher");
@@ -12,6 +17,25 @@ public enum VoucherType {
 
     public String getVoucherType() {
         return voucherType;
+    }
+
+    public static VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
+        VoucherType selectedVoucherType = VoucherType.makeVoucherTypeStream(inputSelectText);
+        return selectedVoucherType;
+    }
+
+    public static VoucherType makeVoucherTypeStream(String inputSelectText) {
+        Optional<VoucherType> matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText);
+        if (matchedVoucherType.isEmpty()) {
+            throw new NoSuchVoucherType();
+        }
+
+        return matchedVoucherType.get();
+    }
+
+    private static Optional<VoucherType> getMatchVoucherTypeFilter(Stream<VoucherType> voucherType, String inputSelectText) {
+        return voucherType.filter(v -> v.getVoucherType().equalsIgnoreCase(inputSelectText))
+                .findFirst();
     }
 
 }

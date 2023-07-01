@@ -20,24 +20,6 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
-        VoucherType selectedVoucherType = makeVoucherTypeStream(inputSelectText);
-        return selectedVoucherType;
-    }
-
-    private VoucherType makeVoucherTypeStream(String inputSelectText) {
-        Optional<VoucherType> matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText);
-        if (matchedVoucherType.isEmpty()) {
-            throw new NoSuchVoucherType();
-        }
-
-        return matchedVoucherType.get();
-    }
-
-    private Optional<VoucherType> getMatchVoucherTypeFilter(Stream<VoucherType> voucherType, String inputSelectText) {
-        return voucherType.filter(v -> v.getVoucherType().equalsIgnoreCase(inputSelectText))
-                .findFirst();
-    }
 
     public Voucher insertFixedAmountVoucher(Long discountAmount) {
         return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, discountAmount));

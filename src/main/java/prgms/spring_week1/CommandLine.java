@@ -61,7 +61,7 @@ public class CommandLine implements Runnable {
         output.printTypeSelectMessage();
         try {
             String select = input.inputVoucherType();
-            VoucherType voucherType = voucherService.matchVoucherType(select);
+            VoucherType voucherType = VoucherType.matchVoucherType(select);
             switch (voucherType) {
                 case FIXED -> {
                     output.printInsertFixedVoucherMessage();
