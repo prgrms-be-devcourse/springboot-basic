@@ -15,7 +15,7 @@ public enum VoucherType {
         this.typeName = typeName;
     }
 
-    public static VoucherType of(String voucherType) {
+    public static VoucherType from(String voucherType) {
         return Arrays.stream(values())
                 .filter(voucher -> voucher.typeNumber.equals(voucherType) || voucher.typeName.equals(voucherType.toLowerCase()))
                 .findFirst()

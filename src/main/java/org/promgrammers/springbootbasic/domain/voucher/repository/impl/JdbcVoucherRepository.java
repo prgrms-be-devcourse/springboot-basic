@@ -94,7 +94,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final RowMapper<Voucher> voucherRowMapper = ((rs, rowNum) -> {
         String voucherId = rs.getString("voucher_id");
         long amount = rs.getLong("amount");
-        VoucherType voucherType = VoucherType.of(rs.getString("voucher_type"));
+        VoucherType voucherType = VoucherType.from(rs.getString("voucher_type"));
 
         return VoucherFactory.convertToVoucher(UUID.fromString(voucherId), voucherType, amount);
     });

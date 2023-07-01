@@ -5,9 +5,9 @@ import java.util.Arrays;
 public enum Command {
 
     EXIT("1"),
-    CREATE("2"),
-    LIST("3"),
-    BLACKLIST("4");
+    VOUCHER("2"),
+    CUSTOMER("3"),
+    WALLET("4");
 
     private final String commandNumber;
 
@@ -15,7 +15,7 @@ public enum Command {
         this.commandNumber = commandNumber;
     }
 
-    public static Command of(String inputCommandNumber) {
+    public static Command from(String inputCommandNumber) {
         return Arrays.stream(values())
                 .filter(value -> value.commandNumber.equals(inputCommandNumber))
                 .findFirst()

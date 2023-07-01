@@ -15,11 +15,11 @@ class CommandTest {
     @ParameterizedTest
     @DisplayName("생성 성공 - 올바른 커맨합드 입력")
     @CsvSource(
-            {"1, EXIT", "2, CREATE", "3,LIST", "4,BLACKLIST"})
+            {"1, EXIT", "2, VOUCHER", "3,CUSTOMER", "4,WALLET"})
     void createCommandSuccessTest(String inputCommand, Command expectedCommand) {
 
         //given -> when
-        Command createdCommand = assertDoesNotThrow(() -> Command.of(inputCommand));
+        Command createdCommand = assertDoesNotThrow(() -> Command.from(inputCommand));
 
         //then
         assertThat(createdCommand).isEqualTo(expectedCommand);
@@ -30,6 +30,6 @@ class CommandTest {
     @ValueSource(strings = {"exi", "reate", "listttt", "blackListtt", "5", "7", "&^^", "", " "})
     void createCommandFailTest(String input) throws Exception {
 
-        assertThrows(IllegalArgumentException.class, () -> Command.of(input));
+        assertThrows(IllegalArgumentException.class, () -> Command.from(input));
     }
 }
