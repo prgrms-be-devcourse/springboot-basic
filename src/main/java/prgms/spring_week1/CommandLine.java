@@ -37,14 +37,14 @@ public class CommandLine implements Runnable {
     @Override
     public void run() {
         while (IS_RUNNING) {
-            output.printMenuList();
-            String selectOption = input.inputTextOption();
+            console.printMenuList();
+            String selectOption = console.inputTextOption();
             switch (findMenuName(selectOption)) {
                 case EXIT -> IS_RUNNING = false;
                 case CREATE -> selectVoucherType();
                 case LIST -> printAllVoucher();
-                case BLACK -> output.printBlackConsumerList(customerService.blackConsumerList());
-                default -> output.printWrongMenuMessage();
+                case BLACK -> console.printBlackConsumerList(customerService.blackConsumerList());
+                default -> console.printWrongMenuMessage();
             }
         }
     }
@@ -52,21 +52,21 @@ public class CommandLine implements Runnable {
     private void insertFixedAmountVoucher() {
         long discountAmount = -1;
         while (discountAmount <= 0) {
-            output.printInsertFixedVoucherMessage();
-            discountAmount = input.insertDiscountAmountVoucher();
+            console.printInsertFixedVoucherMessage();
+            discountAmount = console.insertDiscountAmountVoucher();
         }
         Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
-        output.printInsertVoucherInfo(newVoucher);
+        console.printInsertVoucherInfo(newVoucher);
     }
 
     private void insertPercentDiscountVoucher() {
         int discountPercent = -1;
         while (discountPercent < 0 || discountPercent > 100) {
-            output.printInsertPercentVoucherMessage();
-            discountPercent = input.insertDiscountPercentVoucher();
+            console.printInsertPercentVoucherMessage();
+            discountPercent = console.insertDiscountPercentVoucher();
         }
         Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
-        output.printInsertVoucherInfo(newVoucher);
+        console.printInsertVoucherInfo(newVoucher);
     }
 
     private Menu findMenuName(String inputText) {
@@ -79,20 +79,20 @@ public class CommandLine implements Runnable {
     }
 
     private void selectVoucherType() {
-        output.printTypeSelectMessage();
+        console.printTypeSelectMessage();
         try {
-            String select = input.inputVoucherType();
+            String select = console.inputVoucherType();
 
             switch (VoucherType.makeVoucherType(select)) {
                 case FIXED -> insertFixedAmountVoucher();
                 case PERCENT -> insertPercentDiscountVoucher();
             }
         } catch (NoSuchVoucherTypeException e) {
-            output.printNoSuchVoucherType();
+            console.printNoSuchVoucherType();
         }
     }
 
     private void printAllVoucher() {
-        output.printAllVoucher(voucherRepository.findAll());
+        console.printAllVoucher(voucherRepository.findAll());
     }
 }

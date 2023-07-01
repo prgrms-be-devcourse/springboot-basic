@@ -1,11 +1,5 @@
 package prgms.spring_week1.io;
 
-public interface Input {
-    String inputTextOption();
+public class Input {
 
-    String inputVoucherType();
-
-    Long insertDiscountAmountVoucher();
-
-    int insertDiscountPercentVoucher();
 }
