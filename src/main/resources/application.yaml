@@ -3,4 +3,7 @@ spring:
     active: local
 
 file:
-  path: src/main/resources/voucher.csv
+  blacklist:
+    path: src/main/resources/customer_blacklist.csv
+  voucher:
+    path: src/main/resources/voucher.csv
