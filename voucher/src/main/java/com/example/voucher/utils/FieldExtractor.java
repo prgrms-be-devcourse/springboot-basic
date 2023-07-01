@@ -15,6 +15,7 @@ public class FieldExtractor {
 			Object value = field.get(object);
 			objects.add(value);
 		}
+		
 		return objects;
 	}
 
