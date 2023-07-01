@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,20 +28,37 @@ public class JdbcMemberRepositoryTest {
 
     @Test
     @Order(1)
-    void 블랙_회원을_등록() {
+    void save_블랙_회원을_등록_SUCCESS() {
         //given
         Member member = MemberCreators.createBlackMember();
 
         //when
-        Member actual = memberRepository.save(member);
+        memberRepository.save(member);
+        Member actual = memberRepository.findById(member.getMemberId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
 
         //then
-        assertThat(actual.getMemberId()).isEqualTo(member.getMemberId());
+        assertThat(actual).isEqualTo(member);
+    }
+
+    @Test
+    @Order(1)
+    void save_화이트_회원을_등록_SUCCESS() {
+        //given
+        Member member = MemberCreators.createWhiteMember();
+
+        //when
+        memberRepository.save(member);
+        Member actual = memberRepository.findById(member.getMemberId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
+
+        //then
+        assertThat(actual).isEqualTo(member);
     }
 
     @Test
     @Order(2)
-    void 모든_블랙_회원을_조회() {
+    void findMembersByBlack_모든_블랙_회원을_조회_SUCCESS() {
         //given
         Member member1 = MemberCreators.createBlackMember();
         Member member2 = MemberCreators.createBlackMember();
@@ -58,7 +76,7 @@ public class JdbcMemberRepositoryTest {
 
     @Test
     @Order(3)
-    void 특정_회원을_조회() {
+    void findById_특정_회원을_조회_SUCCESS() {
         //given
         Member member = MemberCreators.createBlackMember();
         memberRepository.save(member);
@@ -72,8 +90,15 @@ public class JdbcMemberRepositoryTest {
     }
 
     @Test
+    @Order(3)
+    void findById_특정_회원을_조회_EMPTY() {
+        //given & when & then
+        assertThat(memberRepository.findById(UUID.randomUUID())).isEmpty();
+    }
+
+    @Test
     @Order(4)
-    void 특정_회원의_정보를_수정() {
+    void update_특정_회원의_정보를_수정_SUCCESS() {
         //given
         Member member = MemberCreators.createBlackMember();
         memberRepository.save(member);
@@ -90,7 +115,7 @@ public class JdbcMemberRepositoryTest {
 
     @Test
     @Order(5)
-    void 특정_회원을_삭제() {
+    void deleteById_특정_회원을_삭제_SUCCESS() {
         //given
         Member member = MemberCreators.createBlackMember();
         memberRepository.save(member);
