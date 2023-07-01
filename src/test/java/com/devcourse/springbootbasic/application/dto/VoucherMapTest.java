@@ -1,5 +1,10 @@
-package com.devcourse.springbootbasic.application.domain;
+package com.devcourse.springbootbasic.application.dto;
 
+import com.devcourse.springbootbasic.application.domain.voucher.FixedAmountVoucher;
+import com.devcourse.springbootbasic.application.domain.voucher.PercentDiscountVoucher;
+import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
+import com.devcourse.springbootbasic.application.dto.DiscountValue;
+import com.devcourse.springbootbasic.application.dto.VoucherMap;
 import com.devcourse.springbootbasic.application.dto.VoucherType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,22 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class VoucherMapTest {
 
     VoucherMap voucherMap;
-
-    static Stream<Arguments> provideValids() {
-        return Stream.of(
-                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 100)),
-                Arguments.of(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 13)),
-                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 14))
-        );
-    }
-
-    static Stream<Arguments> provideInvalids() {
-        return Stream.of(
-                Arguments.of("My name is SuperMan"),
-                Arguments.of(123),
-                Arguments.of(List.of(12, 3))
-        );
-    }
 
     @BeforeEach
     void init() {
@@ -62,6 +51,22 @@ class VoucherMapTest {
     void 리스트형태반환테스트() {
         var list = voucherMap.getAllVouchers();
         assertThat(list, notNullValue());
+    }
+
+    static Stream<Arguments> provideValids() {
+        return Stream.of(
+                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"))),
+                Arguments.of(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"))),
+                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14")))
+        );
+    }
+
+    static Stream<Arguments> provideInvalids() {
+        return Stream.of(
+                Arguments.of("My name is SuperMan"),
+                Arguments.of(123),
+                Arguments.of(List.of(12, 3))
+        );
     }
 
 }

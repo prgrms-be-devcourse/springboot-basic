@@ -14,7 +14,8 @@ class ListMenuTest {
     @DisplayName("올바른 출력 메뉴 선택하면 성공")
     @ValueSource(strings = {"1", "2"})
     void 출력메뉴테스트(String input) {
-        assertDoesNotThrow(() -> ListMenu.getListMenu(input));
+        var result = ListMenu.getListMenu(input);
+        assertDoesNotThrow(() -> result);
     }
 
     @ParameterizedTest
