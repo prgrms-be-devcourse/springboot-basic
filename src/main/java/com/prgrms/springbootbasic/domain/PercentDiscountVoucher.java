@@ -8,16 +8,11 @@ import lombok.Getter;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final long percentDiscount;
+    private final long discount;
 
-    public PercentDiscountVoucher(long percentDiscount) {
+    public PercentDiscountVoucher(long discount) {
         this.voucherId = UUID.randomUUID();
-        this.percentDiscount = percentDiscount;
-    }
-
-    @Override
-    public long getDiscount() {
-        return percentDiscount;
+        this.discount = discount;
     }
 
     @Override

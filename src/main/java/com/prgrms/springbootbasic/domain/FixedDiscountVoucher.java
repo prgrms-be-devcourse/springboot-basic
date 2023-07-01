@@ -8,16 +8,11 @@ import lombok.Getter;
 public class FixedDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final long fixedDiscount;
+    private final long discount;
 
-    public FixedDiscountVoucher(long fixedDiscount) {
+    public FixedDiscountVoucher(long discount) {
         this.voucherId = UUID.randomUUID();
-        this.fixedDiscount = fixedDiscount;
-    }
-
-    @Override
-    public long getDiscount() {
-        return fixedDiscount;
+        this.discount = discount;
     }
 
     @Override
