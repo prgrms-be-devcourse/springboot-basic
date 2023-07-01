@@ -10,6 +10,7 @@ import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
 import prgms.spring_week1.exception.NoSuchOptionValueException;
 import prgms.spring_week1.exception.NoSuchVoucherTypeException;
+import prgms.spring_week1.io.Console;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
@@ -18,22 +19,20 @@ import prgms.spring_week1.menu.Menu;
 public class CommandLine implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(CommandLine.class);
 
-    private final Input input;
-    private final Output output;
+    private final Console console;
     private final VoucherRepository voucherRepository;
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    private boolean IS_RUNNING = true;
-
-
-    public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
-        this.input = input;
-        this.output = output;
+    public CommandLine(Console console, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
+        this.console = console;
         this.voucherRepository = voucherRepository;
         this.voucherService = voucherService;
         this.customerService = customerService;
     }
+
+    private boolean IS_RUNNING = true;
+
 
     @Override
     public void run() {
