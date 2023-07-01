@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.programmers.voucher.global.util.DataErrorMessages.INCORRECT_UPDATED_RESULT_SIZE;
@@ -54,6 +55,21 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         String sql = "select * from voucher";
         return template.query(sql, voucherRowMapper());
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
