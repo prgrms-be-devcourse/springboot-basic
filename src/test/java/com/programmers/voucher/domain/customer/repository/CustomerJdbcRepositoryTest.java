@@ -98,6 +98,17 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("성공 - customer 단건 삭제")
     void deleteById() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer");
+        customerJdbcRepository.save(customer);
+
+        //when
+        customerJdbcRepository.deleteById(customer.getCustomerId());
+
+        //then
+        Optional<Customer> optionalCustomer = customerJdbcRepository.findById(customer.getCustomerId());
+        assertThat(optionalCustomer).isEmpty();
     }
 }
