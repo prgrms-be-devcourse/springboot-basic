@@ -19,17 +19,12 @@ public enum VoucherType {
         return voucherType;
     }
 
-    public static VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherTypeException {
-        VoucherType selectedVoucherType = VoucherType.makeVoucherTypeStream(inputSelectText);
-        return selectedVoucherType;
-    }
-
-    public static VoucherType makeVoucherTypeStream(String inputSelectText) {
+    public static VoucherType makeVoucherType(String inputSelectText) {
         Optional<VoucherType> matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText);
+
         if (matchedVoucherType.isEmpty()) {
             throw new NoSuchVoucherTypeException();
         }
-
         return matchedVoucherType.get();
     }
 

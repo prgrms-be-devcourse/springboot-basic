@@ -50,6 +50,26 @@ public class CommandLine implements Runnable {
         }
     }
 
+    private void insertFixedAmountVoucher() {
+        long discountAmount = -1;
+        while (discountAmount <= 0) {
+            output.printInsertFixedVoucherMessage();
+            discountAmount = input.insertDiscountAmountVoucher();
+        }
+        Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
+        output.printInsertVoucherInfo(newVoucher);
+    }
+
+    private void insertPercentDiscountVoucher() {
+        int discountPercent = -1;
+        while (discountPercent < 0 || discountPercent > 100) {
+            output.printInsertPercentVoucherMessage();
+            discountPercent = input.insertDiscountPercentVoucher();
+        }
+        Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
+        output.printInsertVoucherInfo(newVoucher);
+    }
+
     private Menu findMenuName(String inputText) {
         try {
             Menu selectMenu = Menu.findMenuType(inputText);
@@ -63,28 +83,10 @@ public class CommandLine implements Runnable {
         output.printTypeSelectMessage();
         try {
             String select = input.inputVoucherType();
-            VoucherType voucherType = VoucherType.matchVoucherType(select);
-            switch (voucherType) {
-                case FIXED -> {
-                    output.printInsertFixedVoucherMessage();
-                    long discountAmount = input.insertDiscountAmountVoucher();
-                    while (discountAmount <= 0) {
-                        output.printInsertFixedVoucherMessage();
-                        discountAmount = input.insertDiscountAmountVoucher();
-                    }
-                    Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
-                    output.printInsertVoucherInfo(newVoucher);
-                }
-                case PERCENT -> {
-                    output.printInsertPercentVoucherMessage();
-                    int discountPercent = input.insertDiscountPercentVoucher();
-                    while (discountPercent < 0 || discountPercent > 100) {
-                        output.printInsertPercentVoucherMessage();
-                        discountPercent = input.insertDiscountPercentVoucher();
-                    }
-                    Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
-                    output.printInsertVoucherInfo(newVoucher);
-                }
+
+            switch (VoucherType.makeVoucherType(select)) {
+                case FIXED -> insertFixedAmountVoucher();
+                case PERCENT -> insertPercentDiscountVoucher();
             }
         } catch (NoSuchVoucherTypeException e) {
             output.printNoSuchVoucherType();
