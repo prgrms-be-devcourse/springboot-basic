@@ -21,6 +21,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         if (voucehrList.isEmpty()) {
             throw new EmptyListException("조회 가능한 바우처 리스트가 없습니다.");
         }
+
         return voucehrList;
     }
 

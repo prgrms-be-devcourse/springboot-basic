@@ -31,6 +31,7 @@ public class CsvRepository implements BlackListRepository {
                 String[] consumer = line.split(",");
                 blackConsumerList.add(new BlackConsumer(consumer[0], consumer[1]));
             }
+
             return blackConsumerList;
         } catch (IOException e) {
             System.out.println("해당 파일이 존재하지 않습니다");

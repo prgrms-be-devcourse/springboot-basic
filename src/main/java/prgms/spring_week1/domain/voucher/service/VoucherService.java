@@ -22,7 +22,6 @@ public class VoucherService {
 
     public VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
         VoucherType selectedVoucherType = makeVoucherTypeStream(inputSelectText);
-
         return selectedVoucherType;
     }
 
@@ -31,6 +30,7 @@ public class VoucherService {
         if (matchedVoucherType.isEmpty()) {
             throw new NoSuchVoucherType();
         }
+
         return matchedVoucherType.get();
     }
 
