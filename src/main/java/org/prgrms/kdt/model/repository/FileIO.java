@@ -18,7 +18,7 @@ public class FileIO {
 	public FileIO(String fileName, String dirPath) {
 		this.fileName = fileName;
 		this.dirPath = dirPath;
-		this.file = new File(dirPath, fileName);;
+		this.file = new File(dirPath, fileName);
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);

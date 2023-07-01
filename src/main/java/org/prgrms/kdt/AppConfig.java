@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @ComponentScan(basePackages = "org.prgrms.kdt")
-@PropertySource(value = "classpath:application-dev.yml",  factory = YamlPropertiesFactory.class)
+@PropertySource(value = "classpath:application-dev.yml", factory = YamlPropertiesFactory.class)
 public class AppConfig {
 
 	@Value("${repository.file.dirPath}")
