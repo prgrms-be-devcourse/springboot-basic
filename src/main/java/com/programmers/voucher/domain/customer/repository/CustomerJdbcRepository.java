@@ -62,15 +62,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
         }
     }
 
-    private RowMapper<Customer> customerRowMapper() {
-        return (rs, rowNum) -> {
-            UUID customerId = UUID.fromString(rs.getString("customer_id"));
-            String name = rs.getString("name");
-
-            return new Customer(customerId, name);
-        };
-    }
-
     @Override
     public List<Customer> findAll() {
         String sql = "select * from customer";
@@ -94,5 +85,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId);
         template.update(sql, param);
+    }
+
+    private RowMapper<Customer> customerRowMapper() {
+        return (rs, rowNum) -> {
+            UUID customerId = UUID.fromString(rs.getString("customer_id"));
+            String name = rs.getString("name");
+
+            return new Customer(customerId, name);
+        };
     }
 }
