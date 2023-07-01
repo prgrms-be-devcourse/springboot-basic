@@ -3,7 +3,8 @@ package com.programmers.voucher;
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.console.Printer;
 import com.programmers.voucher.domain.CommandType;
-import com.programmers.voucher.domain.voucher.*;
+import com.programmers.voucher.domain.voucher.VoucherEnum;
+import com.programmers.voucher.domain.voucher.VoucherFactory;
 import com.programmers.voucher.stream.BlackListStream;
 import com.programmers.voucher.stream.VoucherStream;
 import org.slf4j.Logger;
@@ -70,12 +71,20 @@ public class CommandLineApplication implements CommandLineRunner {
     private void create() {
         try {
             Integer inputVersion = console.getVoucherVersion();
-            VoucherEnum voucherEnum = VoucherEnum.decideVoucherType(inputVersion);
-            voucherFactory.createVoucher(voucherEnum);
+            voucherFactory.createVoucher(decideVoucherType(inputVersion));
         } catch (IllegalArgumentException e) {
             printer.printError(e);
             System.out.println(e.getMessage());
         }
+    }
+
+    private VoucherEnum decideVoucherType(Integer inputVersion) {
+        return VoucherEnum.decideVoucherType(inputVersion).orElseThrow(
+                () -> {
+                    log.info("지원하지 않는 버전, [user input] : {}", inputVersion);
+                    return new IllegalArgumentException("지원하지 않는 버전입니다. 버전을 다시 확인 해주세요.");
+                }
+        );
     }
 
     private void showList() {
