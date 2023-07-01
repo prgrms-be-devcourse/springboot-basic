@@ -51,11 +51,8 @@ public class VoucherController {
                         voucherService.createVoucher(voucherType, benefit);
                     }
                     case LIST -> {
-//                        output.showVoucherList(voucherService
-//                                .toVoucherDTOList());
-                        output.printMessage(voucherService
-                            .getVoucherById(UUID.fromString("5c9cd042-180f-11ee-98b3-0242ac110002"))
-                            .getVoucherName());
+                        output.showVoucherList(voucherService
+                                .toVoucherDTOList());
                     }
                 }
             } catch(IllegalArgumentException | InputMismatchException e) {
