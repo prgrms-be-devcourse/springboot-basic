@@ -2,10 +2,8 @@ package com.programmers.voucher.domain.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-@Primary
 @Component
 public class FixedAmountVoucher implements Voucher {
     private String voucherId;
