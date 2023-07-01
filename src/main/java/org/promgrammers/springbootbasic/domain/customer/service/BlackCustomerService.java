@@ -9,7 +9,6 @@ import org.promgrammers.springbootbasic.exception.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_CUSTOMER;
 
@@ -28,9 +27,10 @@ public class BlackCustomerService {
         if (customers == null || customers.isEmpty()) {
             throw new BusinessException(NOT_FOUND_CUSTOMER);
         }
-
-        return new CustomersResponse(customers.stream()
+        List<CustomerResponse> customerResponses = customers.stream()
                 .map(customer -> new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType()))
-                .collect(Collectors.toList()));
+                .toList();
+
+        return new CustomersResponse(customerResponses);
     }
 }
