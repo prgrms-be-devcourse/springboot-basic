@@ -29,6 +29,11 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findVouchersByMemberId(UUID memberId) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_READ);
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return VOUCHER_MEMORY.values()
                 .stream()

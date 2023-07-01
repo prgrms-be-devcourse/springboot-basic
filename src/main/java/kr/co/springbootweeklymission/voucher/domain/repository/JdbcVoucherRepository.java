@@ -52,6 +52,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findVouchersByMemberId(UUID memberId) {
+        String sql = "" +
+                "select * " +
+                "from tbl_vouchers " +
+                "where member_id = ?";
+        return jdbcTemplate.query(sql, voucherRowMapper(), memberId.toString());
+    }
+
+    @Override
     public List<Voucher> findAll() {
         String sql = "" +
                 "select * " +

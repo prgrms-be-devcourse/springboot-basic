@@ -77,6 +77,35 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @Order(2)
+    void findVouchersByMemberId_특정_고객의_모든_바우처를_조회_EMPTY() {
+        //given & when & then
+        assertThat(voucherRepository.findVouchersByMemberId(UUID.randomUUID())).isEmpty();
+    }
+
+    @Test
+    @Order(2)
+    void findVouchersByMemberId_특정_고객의_모든_바우처를_조회_SUCCESS() {
+        //given
+        Member member = MemberCreators.createWhiteMember();
+        memberRepository.save(member);
+        Voucher voucher1 = VoucherCreators.createPercentDiscount();
+        Voucher voucher2 = VoucherCreators.createPercentDiscount();
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucher1.assigningVouchers(member);
+        voucher2.assigningVouchers(member);
+        voucherRepository.update(voucher1);
+        voucherRepository.update(voucher2);
+
+        //when
+        List<Voucher> actual = voucherRepository.findVouchersByMemberId(member.getMemberId());
+
+        //then
+        assertThat(actual).hasSize(2);
+    }
+
+    @Test
     @Order(3)
     void findById_특정_바우처를_조회_SUCCESS() {
         //given
