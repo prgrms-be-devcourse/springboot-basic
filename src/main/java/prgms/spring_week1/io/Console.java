@@ -35,7 +35,7 @@ public class Console implements Input, Output {
         try {
             return br.readLine();
         } catch (IOException e) {
-            return null;
+            return "";
         }
     }
 
@@ -44,7 +44,7 @@ public class Console implements Input, Output {
         try {
             return br.readLine();
         } catch (IOException e) {
-            return null;
+            return "";
         }
     }
 
@@ -54,7 +54,7 @@ public class Console implements Input, Output {
             long discountAmount = Long.parseLong(br.readLine());
             return discountAmount;
         } catch (IOException e) {
-            return null;
+            return -1L;
         }
     }
 
