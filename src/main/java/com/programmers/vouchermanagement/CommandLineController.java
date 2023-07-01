@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement;
 
+import com.programmers.vouchermanagement.view.Command;
 import com.programmers.vouchermanagement.view.Console;
 import com.programmers.vouchermanagement.voucher.domain.DiscountType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
@@ -32,22 +33,21 @@ public class CommandLineController implements CommandLineRunner {
     }
 
     private boolean isRunning() {
-        String command = Console.selectCommand();
+        Command command = Command.from(Console.selectCommand());
         switch (command) {
-            case "create" -> {
+            case CREATE -> {
                 DiscountType discountType = DiscountType.from(Console.selectDiscountType());
                 int discountAmount = Integer.parseInt(Console.inputDiscountAmount());
                 VoucherDto.Request request = new VoucherDto.Request(discountType, discountAmount);
                 voucherController.createVoucher(request);
             }
-            case "list" -> {
+            case LIST-> {
                 VoucherDto.Response vouchers = voucherController.getVouchers();
                 Console.outputVouchers(vouchers);
             }
-            case "exit" -> {
+            case EXIT -> {
                 return false;
             }
-            default -> throw new IllegalArgumentException("잘못 입력하였습니다. 다시 입력해주세요.");
         }
         return true;
     }
