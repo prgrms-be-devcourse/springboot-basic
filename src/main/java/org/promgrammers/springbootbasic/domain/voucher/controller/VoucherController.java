@@ -48,7 +48,7 @@ public class VoucherController {
         }
     }
 
-    public VoucherResponse createVoucher() {
+    private VoucherResponse createVoucher() {
         String inputVoucherType = console.askForVoucherType();
         VoucherType voucherType = VoucherType.from(inputVoucherType);
         long discountAmount = console.askForDiscountAmount();

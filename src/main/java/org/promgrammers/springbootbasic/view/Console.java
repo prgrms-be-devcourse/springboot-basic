@@ -32,8 +32,8 @@ public class Console {
             "Type '1' => 바우처 생성",
             "Type '2' => 바우처 전체 조회",
             "Type '3' => 바우처 ID로 조회",
-            "Type '4' => 내 바우처 수정",
-            "Type '5' => 바우처 전체 삭제"
+            "Type '4' => 바우처 전체 삭제",
+            "Type '5' => 내 바우처 수정"
     };
 
     private static final String[] CUSTOMER_MENU_GUIDE_MESSAGES = {
@@ -41,8 +41,8 @@ public class Console {
             "Type '1' => 고객 생성",
             "Type '2' => 고객 전체 조회",
             "Type '3' => 타입으로 고객 조회",
-            "Type '4' => 고객 이름 수정",
-            "Type '5' => 고객 전체 삭제"
+            "Type '4' => 고객 전체 삭제",
+            "Type '5' => 고객 이름 수정"
     };
 
     private static final String[] WALLET_MENU_GUIDE_MESSAGES = {
