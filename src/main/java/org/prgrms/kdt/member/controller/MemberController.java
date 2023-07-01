@@ -1,6 +1,5 @@
 package org.prgrms.kdt.member.controller;
 
-import org.prgrms.kdt.commendLine.ConsoleOutput;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.service.MemberService;
 import org.springframework.stereotype.Component;
@@ -15,8 +14,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public void findAllBlackMember() {
-        List<Member> allBlackMember = memberService.findAllBlackMember();
-        ConsoleOutput.printAllBlackList(allBlackMember);
+    public List<Member> findAllBlackMember() {
+        return memberService.findAllBlackMember();
     }
 }

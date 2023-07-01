@@ -3,7 +3,9 @@ package org.prgrms.kdt.voucher.repository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.prgrms.kdt.exception.DatabaseException;
+import org.prgrms.kdt.voucher.VoucherLoader;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 
@@ -15,13 +17,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class FileVoucherRepositoryTest {
-    public FileVoucherRepository fileVoucherRepository;
-
+    private FileVoucherRepository fileVoucherRepository;
+    private VoucherLoader mockVoucherLoader;
     @BeforeEach
     void setup() {
-        fileVoucherRepository = new FileVoucherRepository();
+        mockVoucherLoader = mock(VoucherLoader.class);
+        fileVoucherRepository = new FileVoucherRepository(mockVoucherLoader);
     }
 
     @Test
