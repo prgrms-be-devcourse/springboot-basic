@@ -1,37 +1,34 @@
 package com.devcourse.springbootbasic.application.repository.customer;
 
-import com.devcourse.springbootbasic.application.constant.YamlProperties;
+import com.devcourse.springbootbasic.application.domain.customer.Customer;
+import com.devcourse.springbootbasic.application.io.CsvReader;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
-@SpringJUnitConfig
 class CustomerRepositoryTest {
 
-    @Autowired
-    YamlProperties yamlProperties;
+    CustomerRepository customerRepository;
 
-    @Test
-    @DisplayName("진상고객 리스트 반환 테스트")
-    void 진상고객리스트반환테스트() {
-        var customerRepository = new CustomerRepository(yamlProperties);
-        var list = customerRepository.findAllBlackCustomers();
-        assertThat(list, notNullValue());
-        assertThat(list, not(empty()));
+    @BeforeEach
+    void init() {
+        customerRepository = new CustomerRepository(new CsvReader());
+        customerRepository.setFilepath("src/main/resources/customer_blacklist.csv");
     }
 
-    @Configuration
-    @ComponentScan(
-            basePackages = {"com.devcourse.springbootbasic.application"}
-    )
-    static class Config {
-
+    @Test
+    @DisplayName("블랙고객 리스트 반환 테스트")
+    void testFindAll() {
+        var result = customerRepository.findAll();
+        assertThat(result, notNullValue());
+        assertThat(result, instanceOf(List.class));
+        assertThat(result.get(0), instanceOf(Customer.class));
     }
 
 }

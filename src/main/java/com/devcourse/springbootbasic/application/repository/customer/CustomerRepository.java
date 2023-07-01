@@ -1,30 +1,34 @@
 package com.devcourse.springbootbasic.application.repository.customer;
 
-import com.devcourse.springbootbasic.application.constant.YamlProperties;
-import com.devcourse.springbootbasic.application.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.converter.CustomerConverter;
+import com.devcourse.springbootbasic.application.domain.customer.Customer;
+import com.devcourse.springbootbasic.application.io.CsvReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 @Repository
 public class CustomerRepository {
 
-    private final String filepath;
+    @Value("${settings.blackCustomerPath}")
+    private String filepath;
 
-    public CustomerRepository(String filepath) {
+    private final CsvReader csvReader;
+
+    public CustomerRepository(CsvReader csvReader) {
+        this.csvReader = csvReader;
+    }
+
+    public List<Customer> findAll() {
+        System.out.println(filepath);
+        return csvReader.readFile(filepath)
+                .stream()
+                .map(CustomerConverter::convertCsvToCustomer)
+                .toList();
+    }
+
+    public void setFilepath(String filepath) {
         this.filepath = filepath;
     }
-
-    public List<String> findAllBlackCustomers() {
-        try {
-            return Files.readAllLines(Path.of(filepath));
-        } catch (IOException e) {
-            throw new InvalidDataException(e.getMessage(), e.getCause());
-        }
-    }
-
 }
