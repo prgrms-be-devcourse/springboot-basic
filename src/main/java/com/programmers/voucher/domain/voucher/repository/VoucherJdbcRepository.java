@@ -37,7 +37,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 " values(:voucherId, :voucherType, :amount)";
         VoucherDto voucherDto = voucher.toDto();
         MapSqlParameterSource param = new MapSqlParameterSource()
-                .addValue("voucherId", voucherDto.getCustomerId().toString())
+                .addValue("voucherId", voucherDto.getVoucherId().toString())
                 .addValue("voucherType", voucherDto.getVoucherType().name())
                 .addValue("amount", voucherDto.getAmount());
 
@@ -74,11 +74,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
-            UUID customerId = UUID.fromString(rs.getString("voucher_id"));
+            UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
             VoucherType voucherType = VoucherType.valueOf(rs.getString("voucher_type"));
             long amount = rs.getLong("amount");
 
-            return voucherType.createVoucher(customerId, amount);
+            return voucherType.createVoucher(voucherId, amount);
         };
     }
 }

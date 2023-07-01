@@ -123,7 +123,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private String voucherToCsv(Voucher voucher) {
         VoucherDto voucherDto = voucher.toDto();
-        return voucherDto.getCustomerId()
+        return voucherDto.getVoucherId()
                 + "," + voucherDto.getVoucherType()
                 + "," + voucherDto.getAmount();
     }
