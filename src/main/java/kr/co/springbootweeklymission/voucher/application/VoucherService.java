@@ -44,6 +44,8 @@ public class VoucherService {
     }
 
     public void deleteVoucherById(UUID voucherId) {
-        voucherRepository.deleteById(voucherId);
+        final Voucher deleteVoucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+        voucherRepository.delete(deleteVoucher);
     }
 }

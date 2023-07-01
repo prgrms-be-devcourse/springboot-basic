@@ -52,7 +52,7 @@ public class VoucherServiceTest {
     }
 
     @Test
-    void 특정_바우처의_정보를_변경_SUCCESS() {
+    void updateVoucherById_특정_바우처의_정보를_변경_SUCCESS() {
         //given
         Voucher voucher = VoucherCreators.createFixedDiscount();
         VoucherReqDTO.UPDATE update = VoucherCreators.updateVoucherInformation(20, VoucherPolicy.PERCENT_DISCOUNT);

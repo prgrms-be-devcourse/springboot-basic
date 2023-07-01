@@ -90,11 +90,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
+    public void delete(Voucher voucher) {
         String sql = "" +
                 "delete from tbl_vouchers " +
                 "where voucher_id = ?";
-        jdbcTemplate.update(sql, voucherId.toString());
+        jdbcTemplate.update(sql, voucher.getVoucherId().toString());
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

@@ -121,7 +121,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         //when
-        voucherRepository.deleteById(voucher.getVoucherId());
+        voucherRepository.delete(voucher);
 
         //then
         assertThat(voucherRepository.findById(voucher.getVoucherId())).isEmpty();
