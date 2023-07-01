@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -32,9 +31,9 @@ public class VoucherService {
 
     private static Voucher toEntity(DiscountType discountType, int discountAmount) {
         if (DiscountType.FIX == discountType) {
-            return new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
+            return new FixedAmountVoucher(discountAmount);
         }
-        return new PercentDiscountVoucher(UUID.randomUUID(), discountAmount);
+        return new PercentDiscountVoucher(discountAmount);
     }
 
     private VoucherDto.Response toDto(List<Voucher> vouchers) {
