@@ -2,7 +2,7 @@ package kr.co.springbootweeklymission.member.domain.repository;
 
 import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.member.domain.creators.MemberCreators;
+import kr.co.springbootweeklymission.member.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
 import org.junit.jupiter.api.MethodOrderer;

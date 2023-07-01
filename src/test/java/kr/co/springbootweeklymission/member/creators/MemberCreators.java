@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.member.domain.creators;
+package kr.co.springbootweeklymission.member.creators;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;

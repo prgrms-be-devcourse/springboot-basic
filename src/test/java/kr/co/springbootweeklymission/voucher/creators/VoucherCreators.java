@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.voucher.domain.creators;
+package kr.co.springbootweeklymission.voucher.creators;
 
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
