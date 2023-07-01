@@ -1,4 +1,4 @@
-package com.programmers.springmission.voucher.response;
+package com.programmers.springmission.voucher.presentation.response;
 
 import com.programmers.springmission.voucher.domain.Voucher;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;

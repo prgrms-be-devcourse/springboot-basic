@@ -2,9 +2,9 @@ package com.programmers.springmission.voucher.application;
 
 import com.programmers.springmission.voucher.domain.Voucher;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
+import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
+import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
 import com.programmers.springmission.voucher.repository.InMemoryVoucherRepository;
-import com.programmers.springmission.voucher.request.VoucherCreateRequest;
-import com.programmers.springmission.voucher.response.VoucherResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.programmers.springmission.voucher.request;
+package com.programmers.springmission.voucher.presentation.request;
 
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import lombok.Getter;

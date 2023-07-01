@@ -1,6 +1,6 @@
 package com.programmers.springmission.view;
 
-import com.programmers.springmission.voucher.response.VoucherResponse;
+import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
 
 import java.util.List;
 
