@@ -1,27 +1,23 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.util.Loader;
+import org.prgrms.kdt.voucher.VoucherLoader;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Profile("file")
 @Component
 public class FileVoucherRepository implements VoucherRepository {
-    @Value("${filePath.voucher}")
-    private String filePath;
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> storage;
+    private final VoucherLoader voucherLoader;
 
-    @PostConstruct
-    public void load() {
-        List<Voucher> vouchers = Loader.loadFileToMemoryVoucher(filePath);
-        vouchers.forEach(v -> storage.put(v.getVoucherId(), v));
+    public FileVoucherRepository(VoucherLoader voucherLoader) {
+        this.voucherLoader = voucherLoader;
+        this.storage = this.voucherLoader.loadFileToMemoryVoucher();
     }
 
     @Override
@@ -42,6 +38,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PreDestroy
     public void fileWrite() {
-        Loader.saveMemoryVoucherToFile(storage, filePath);
+        voucherLoader.saveMemoryVoucherToFile(storage);
     }
 }

@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.exception.DatabaseException;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;

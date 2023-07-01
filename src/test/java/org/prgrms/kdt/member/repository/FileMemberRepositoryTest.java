@@ -2,6 +2,8 @@ package org.prgrms.kdt.member.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.prgrms.kdt.member.MemberLoader;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 
@@ -12,11 +14,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 class FileMemberRepositoryTest {
-    public FileMemberRepository fileMemberRepository;
+    private FileMemberRepository fileMemberRepository;
+    private MemberLoader mockMemberLoader;
 
     @BeforeEach
     void setup() {
-        fileMemberRepository = new FileMemberRepository();
+        mockMemberLoader = Mockito.mock(MemberLoader.class);
+        fileMemberRepository = new FileMemberRepository(mockMemberLoader);
         fileMemberRepository.insert(new Member(UUID.randomUUID(), "yaho", MemberStatus.BLACK));
         fileMemberRepository.insert(new Member(UUID.randomUUID(), "abc", MemberStatus.BLACK));
         fileMemberRepository.insert(new Member(UUID.randomUUID(), "defg", MemberStatus.BLACK));

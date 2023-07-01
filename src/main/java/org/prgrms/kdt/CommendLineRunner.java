@@ -25,7 +25,7 @@ public class CommendLineRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
         boolean isRunning = true;
         while (isRunning) {
             try {

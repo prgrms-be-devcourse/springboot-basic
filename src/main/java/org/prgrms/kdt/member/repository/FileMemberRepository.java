@@ -1,7 +1,8 @@
 package org.prgrms.kdt.member.repository;
 
+import org.prgrms.kdt.member.MemberLoader;
 import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.util.Loader;
+import org.prgrms.kdt.voucher.VoucherLoader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class FileMemberRepository implements MemberRepository {
-    @Value("${filePath.blackList}")
-    private String filePath;
-    private final Map<UUID, Member> storage = new ConcurrentHashMap<>();
+    private final Map<UUID, Member> storage;
+    private final MemberLoader memberLoader;
 
-    @PostConstruct
-    public void load() {
-        List<Member> members = Loader.loadFileToMemoryMember(filePath);
-        members.forEach(m -> storage.put(m.getMemberId(), m));
+    public FileMemberRepository(MemberLoader memberLoader) {
+        this.memberLoader = memberLoader;
+        this.storage = this.memberLoader.loadFileToMemoryMember();
     }
 
     @Override
@@ -37,6 +36,6 @@ public class FileMemberRepository implements MemberRepository {
 
     @PreDestroy
     public void fileWrite() {
-        Loader.saveMemoryMemberToFile(storage, filePath);
+        memberLoader.saveMemoryMemberToFile(storage);
     }
 }

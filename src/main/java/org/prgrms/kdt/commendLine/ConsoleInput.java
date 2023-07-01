@@ -7,9 +7,7 @@ import java.io.InputStreamReader;
 public final class ConsoleInput {
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    private ConsoleInput() {
-        throw new RuntimeException("생성 안돼!!");
-    }
+    private ConsoleInput() {throw new RuntimeException("생성 안돼!!");}
 
     public static String getUserMenu() throws IOException {
         return br.readLine();
