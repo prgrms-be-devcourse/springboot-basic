@@ -25,9 +25,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherRegistry getAllVoucherList() {
-        return new VoucherRegistry(storage.values().stream()
-                .collect(Collectors.toList()));
+    public VoucherRegistry getAllVoucher() {
+        return new VoucherRegistry(storage.values()
+                .stream()
+                .toList());
     }
-
 }

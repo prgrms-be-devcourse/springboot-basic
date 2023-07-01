@@ -4,6 +4,7 @@ import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherRegistry;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherRegistry getAllVoucherList() {
+    public VoucherRegistry getAllVoucher() {
         return null;
     }
 }
