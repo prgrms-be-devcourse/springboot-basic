@@ -16,12 +16,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherList = new ConcurrentHashMap<>();
 
     @Override
-    public List<Voucher> findAll() throws EmptyListException {
+    public List<Voucher> findAll() {
         List<Voucher> voucehrList = voucherList.values().stream().toList();
-        if (voucehrList.isEmpty()) {
-            throw new EmptyListException("조회 가능한 바우처 리스트가 없습니다.");
-        }
-
         return voucehrList;
     }
 

@@ -80,6 +80,11 @@ public class Console implements Input, Output {
 
     @Override
     public void printAllVoucher(List<Voucher> voucherList) {
+        if(voucherList.isEmpty()){
+            printEmptyListMessage();
+            return;
+        }
+
         for (Voucher voucher : voucherList) {
             switch (voucher.getVoucherType()) {
                 case FIXED -> printDiscountFixedVoucherInfo(voucher);

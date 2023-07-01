@@ -90,10 +90,6 @@ public class CommandLine implements Runnable {
     }
 
     private void printAllVoucher() {
-        try {
-            output.printAllVoucher(voucherRepository.findAll());
-        } catch (EmptyListException e) {
-            output.printEmptyListMessage();
-        }
+        output.printAllVoucher(voucherRepository.findAll());
     }
 }
