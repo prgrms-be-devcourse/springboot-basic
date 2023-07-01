@@ -10,7 +10,7 @@ public enum Command {
         this.inputCommand = inputCommand;
     }
 
-    public static Command checkInputCommand(String inputCommand) {
+    public static Command of(String inputCommand) {
         try {
             return Command.valueOf(inputCommand.toUpperCase());
         } catch (IllegalArgumentException e) {
