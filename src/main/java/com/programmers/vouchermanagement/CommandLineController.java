@@ -41,8 +41,8 @@ public class CommandLineController implements CommandLineRunner {
                 voucherController.createVoucher(request);
             }
             case "list" -> {
-                VoucherDto.Response voucherList = voucherController.getVoucherList();
-                Console.outputVoucherList(voucherList);
+                VoucherDto.Response vouchers = voucherController.getVouchers();
+                Console.outputVouchers(vouchers);
             }
             case "exit" -> {
                 return false;

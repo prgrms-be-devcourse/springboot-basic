@@ -38,9 +38,9 @@ public class Console {
         return input();
     }
 
-    public static void outputVoucherList(VoucherDto.Response voucherList) {
+    public static void outputVouchers(VoucherDto.Response vouchers) {
         System.out.println("\nThis is a list of vouchers");
-        System.out.println(voucherList);
+        System.out.println(vouchers);
     }
 
     public static void outputErrorMessage(String errorMessage) {

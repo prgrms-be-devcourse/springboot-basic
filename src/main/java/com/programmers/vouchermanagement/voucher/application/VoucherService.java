@@ -24,7 +24,7 @@ public class VoucherService {
         log.info("Create Voucher! DiscountType: {}, DiscountAmount: {}", voucher.getClass().getSimpleName(), discountAmount);
     }
 
-    public VoucherDto.Response getVoucherList() {
+    public VoucherDto.Response getVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
         return toDto(vouchers);
     }
