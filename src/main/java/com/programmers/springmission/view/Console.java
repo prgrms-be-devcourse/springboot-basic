@@ -1,6 +1,6 @@
 package com.programmers.springmission.view;
 
-import com.programmers.springmission.voucher.response.VoucherResponse;
+import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
 
 import java.util.List;
 
@@ -42,8 +42,8 @@ public class Console {
                 """ + newLine);
     }
 
-    public void outputCreate() {
-        output.write("Success Create Voucher !" + newLine);
+    public void outputCreate(VoucherResponse voucherResponse) {
+        output.write("Success Create Voucher !" + newLine + voucherResponse + newLine);
     }
 
     public String inputVoucherAmount() {

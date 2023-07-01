@@ -5,7 +5,7 @@ import com.programmers.springmission.view.Console;
 import com.programmers.springmission.view.OptionType;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.presentation.VoucherController;
-import com.programmers.springmission.voucher.request.VoucherCreateRequest;
+import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -30,7 +30,6 @@ public class ManagementController implements CommandLineRunner {
     public void run(String... args) {
 
         while (power) {
-
             try {
                 console.outputOption();
                 OptionType inputValue = OptionType.of(console.inputOption());
@@ -58,7 +57,6 @@ public class ManagementController implements CommandLineRunner {
     private void createVoucher() {
         console.outputCreateOption();
         passToController();
-        console.outputCreate();
     }
 
     private void passToController() {
@@ -66,7 +64,7 @@ public class ManagementController implements CommandLineRunner {
         long inputAmount = Long.parseLong(console.inputVoucherAmount());
 
         VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputType, inputAmount);
-        voucherController.createVoucher(voucherCreateRequest);
+        console.outputCreate(voucherController.createVoucher(voucherCreateRequest));
     }
 
     private void loadVoucherList() {

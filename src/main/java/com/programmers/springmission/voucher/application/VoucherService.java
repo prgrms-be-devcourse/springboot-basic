@@ -4,9 +4,9 @@ import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
 import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
 import com.programmers.springmission.voucher.domain.Voucher;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
+import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
+import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
 import com.programmers.springmission.voucher.repository.VoucherRepository;
-import com.programmers.springmission.voucher.request.VoucherCreateRequest;
-import com.programmers.springmission.voucher.response.VoucherResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(VoucherCreateRequest voucherCreateRequest) {
+    public VoucherResponse createVoucher(VoucherCreateRequest voucherCreateRequest) {
         VoucherType voucherType = voucherCreateRequest.getVoucherType();
         Voucher voucher = switch (voucherType) {
             case FIXED_AMOUNT ->
@@ -31,6 +31,7 @@ public class VoucherService {
         };
 
         voucherRepository.save(voucher);
+        return new VoucherResponse(voucher);
     }
 
     public List<VoucherResponse> findAllVoucher() {

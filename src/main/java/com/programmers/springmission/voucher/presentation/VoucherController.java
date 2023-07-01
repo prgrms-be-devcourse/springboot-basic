@@ -1,8 +1,8 @@
 package com.programmers.springmission.voucher.presentation;
 
 import com.programmers.springmission.voucher.application.VoucherService;
-import com.programmers.springmission.voucher.request.VoucherCreateRequest;
-import com.programmers.springmission.voucher.response.VoucherResponse;
+import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
+import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -16,8 +16,8 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void createVoucher(VoucherCreateRequest voucherCreateRequest) {
-        voucherService.createVoucher(voucherCreateRequest);
+    public VoucherResponse createVoucher(VoucherCreateRequest voucherCreateRequest) {
+        return voucherService.createVoucher(voucherCreateRequest);
     }
 
     public List<VoucherResponse> findAllVoucher() {
