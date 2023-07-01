@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.promgrammers.springbootbasic.exception.ErrorCode.DUPLICATED_USERNAME;
@@ -36,21 +35,15 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<CustomerResponse> findCustomerById(UUID customerId) {
-        return customerRepository.findById(customerId)
-                .map(customer -> new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType()))
-                .or(() -> {
-                    throw new BusinessException(NOT_FOUND_CUSTOMER);
-                });
+    public CustomerResponse findCustomerById(UUID customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
+        return new CustomerResponse(customerId, customer.getUsername(), customer.getCustomerType());
     }
 
     @Transactional(readOnly = true)
-    public Optional<CustomerResponse> findCustomerByUsername(String username) {
-        return customerRepository.findByUsername(username)
-                .map(customer -> new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType()))
-                .or(() -> {
-                    throw new BusinessException(NOT_FOUND_CUSTOMER);
-                });
+    public CustomerResponse findCustomerByUsername(String username) {
+        Customer customer = customerRepository.findByUsername(username).orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
+        return new CustomerResponse(customer.getCustomerId(), username, customer.getCustomerType());
     }
 
     @Transactional(readOnly = true)
@@ -79,6 +72,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(updateCustomerRequest.customerId())
                 .orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
 
+        duplicateUsernameCheck(updateCustomerRequest.username());
         customer.updateUsername(updateCustomerRequest.username());
         customer.updateCustomerType(updateCustomerRequest.customerType());
         customerRepository.update(customer);

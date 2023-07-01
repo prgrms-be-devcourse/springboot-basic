@@ -20,7 +20,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -89,12 +88,11 @@ class CustomerServiceTest {
         customerRepository.save(customer);
 
         //when
-        Optional<CustomerResponse> findCustomer = customerService.findCustomerById(customer.getCustomerId());
+        CustomerResponse findCustomer = customerService.findCustomerById(customer.getCustomerId());
 
         //then
-        assertThat(findCustomer.isPresent()).isEqualTo(true);
-        assertThat(findCustomer.get().customerId()).isEqualTo(customer.getCustomerId());
-        assertThat(findCustomer.get().username()).isEqualTo(customer.getUsername());
+        assertThat(findCustomer.customerId()).isEqualTo(customer.getCustomerId());
+        assertThat(findCustomer.username()).isEqualTo(customer.getUsername());
     }
 
     @Test
@@ -119,12 +117,11 @@ class CustomerServiceTest {
         customerRepository.save(customer);
 
         //when
-        Optional<CustomerResponse> findCustomer = customerService.findCustomerByUsername(customer.getUsername());
+        CustomerResponse findCustomer = customerService.findCustomerByUsername(customer.getUsername());
 
         //then
-        assertThat(findCustomer.isPresent()).isEqualTo(true);
-        assertThat(findCustomer.get().customerId()).isEqualTo(customer.getCustomerId());
-        assertThat(findCustomer.get().username()).isEqualTo(customer.getUsername());
+        assertThat(findCustomer.customerId()).isEqualTo(customer.getCustomerId());
+        assertThat(findCustomer.username()).isEqualTo(customer.getUsername());
     }
 
     @Test

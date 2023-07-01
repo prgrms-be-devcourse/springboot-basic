@@ -127,8 +127,8 @@ public class JdbcWalletRepository implements WalletRepository {
             UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
             UUID customerId = UUID.fromString(rs.getString("customer_id"));
 
-            Voucher voucher = voucherRepository.getById(voucherId);
-            Customer customer = customerRepository.getById(customerId);
+            Voucher voucher = voucherRepository.getVoucherById(voucherId);
+            Customer customer = customerRepository.getCustomerById(customerId);
 
             return new Wallet(walletId, voucher, customer);
         };
