@@ -22,9 +22,9 @@ public class CsvRepository implements BlackListRepository {
 
     @Override
     public List<BlackConsumer> getBlackConsumerList() {
+        List<BlackConsumer> blackConsumerList = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(CsvFilePath)));
-            List<BlackConsumer> blackConsumerList = new ArrayList<>();
             String line = "";
             while ((line = br.readLine()) != null) {
                 String[] consumer = line.split(",");
@@ -34,7 +34,7 @@ public class CsvRepository implements BlackListRepository {
             return blackConsumerList;
         } catch (IOException e) {
             System.out.println("해당 파일이 존재하지 않습니다");
-            return null;
+            return blackConsumerList;
         }
     }
 }
