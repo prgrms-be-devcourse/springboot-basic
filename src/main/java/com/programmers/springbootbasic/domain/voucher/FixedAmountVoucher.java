@@ -26,7 +26,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    protected Long getDiscountPrice(Long priceBeforeDiscount) {
+    public Long getDiscountPrice(Long priceBeforeDiscount) {
         if (priceBeforeDiscount <= amount) {
             return ZERO;
         }
