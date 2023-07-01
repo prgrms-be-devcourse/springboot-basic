@@ -10,7 +10,6 @@ import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
 import prgms.spring_week1.exception.NoSuchOptionValueException;
 import prgms.spring_week1.exception.NoSuchVoucherTypeException;
-import prgms.spring_week1.io.Console;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
@@ -38,14 +37,14 @@ public class CommandLine implements Runnable {
     @Override
     public void run() {
         while (IS_RUNNING) {
-            console.printMenuList();
-            String selectOption = console.inputTextOption();
+            output.printMenuList();
+            String selectOption = input.inputTextOption();
             switch (findMenuName(selectOption)) {
                 case EXIT -> IS_RUNNING = false;
                 case CREATE -> selectVoucherType();
                 case LIST -> printAllVoucher();
-                case BLACK -> console.printBlackConsumerList(customerService.blackConsumerList());
-                default -> console.printWrongMenuMessage();
+                case BLACK -> output.printBlackConsumerList(customerService.blackConsumerList());
+                default -> output.printWrongMenuMessage();
             }
         }
     }
@@ -53,21 +52,21 @@ public class CommandLine implements Runnable {
     private void insertFixedAmountVoucher() {
         long discountAmount = -1;
         while (discountAmount <= 0) {
-            console.printInsertFixedVoucherMessage();
-            discountAmount = console.insertDiscountAmountVoucher();
+            output.printInsertFixedVoucherMessage();
+            discountAmount = input.insertDiscountAmountVoucher();
         }
         Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
-        console.printInsertVoucherInfo(newVoucher);
+        output.printInsertVoucherInfo(newVoucher);
     }
 
     private void insertPercentDiscountVoucher() {
         int discountPercent = -1;
         while (discountPercent < 0 || discountPercent > 100) {
-            console.printInsertPercentVoucherMessage();
-            discountPercent = console.insertDiscountPercentVoucher();
+            output.printInsertPercentVoucherMessage();
+            discountPercent = input.insertDiscountPercentVoucher();
         }
         Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
-        console.printInsertVoucherInfo(newVoucher);
+        output.printInsertVoucherInfo(newVoucher);
     }
 
     private Menu findMenuName(String inputText) {
@@ -80,20 +79,20 @@ public class CommandLine implements Runnable {
     }
 
     private void selectVoucherType() {
-        console.printTypeSelectMessage();
+        output.printTypeSelectMessage();
         try {
-            String select = console.inputVoucherType();
+            String select = input.inputVoucherType();
 
             switch (VoucherType.makeVoucherType(select)) {
                 case FIXED -> insertFixedAmountVoucher();
                 case PERCENT -> insertPercentDiscountVoucher();
             }
         } catch (NoSuchVoucherTypeException e) {
-            console.printNoSuchVoucherType();
+            output.printNoSuchVoucherType();
         }
     }
 
     private void printAllVoucher() {
-        console.printAllVoucher(voucherRepository.findAll());
+        output.printAllVoucher(voucherRepository.findAll());
     }
 }
