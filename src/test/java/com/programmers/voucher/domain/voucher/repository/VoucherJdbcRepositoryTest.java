@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,4 +64,37 @@ class VoucherJdbcRepositoryTest {
                 .contains(fixedVoucher, percentVoucher);
     }
 
+    @Test
+    @DisplayName("성공 - voucher 단건 조회")
+    void findById() {
+        //given
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        voucherJdbcRepository.save(fixedVoucher);
+
+        //when
+        Optional<Voucher> optionalVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
+
+        //then
+        assertThat(optionalVoucher).isNotEmpty();
+        Voucher findVoucher = optionalVoucher.get();
+        assertThat(findVoucher).usingRecursiveComparison().isEqualTo(findVoucher);
+    }
+
+    @Test
+    @DisplayName("성공 - voucher 단건 업데이트")
+    void update() {
+        //given
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        voucherJdbcRepository.save(fixedVoucher);
+
+        //
+        FixedAmountVoucher updatedVoucher = new FixedAmountVoucher(fixedVoucher.getVoucherId(), 20);
+
+        //when
+        voucherJdbcRepository.update(updatedVoucher);
+
+        //then
+        Voucher findVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId()).get();
+        assertThat(findVoucher).usingRecursiveComparison().isEqualTo(updatedVoucher);
+    }
 }
