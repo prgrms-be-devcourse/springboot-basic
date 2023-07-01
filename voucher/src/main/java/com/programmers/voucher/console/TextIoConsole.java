@@ -2,7 +2,9 @@ package com.programmers.voucher.console;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TextIoConsole implements Console {
     private TextIO textIO = TextIoFactory.getTextIO();
 

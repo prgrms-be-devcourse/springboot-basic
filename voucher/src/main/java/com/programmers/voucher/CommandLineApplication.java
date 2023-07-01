@@ -10,9 +10,11 @@ import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Component
 public class CommandLineApplication implements CommandLineRunner {
     private final Console console;
     private final VoucherStream voucherStream;

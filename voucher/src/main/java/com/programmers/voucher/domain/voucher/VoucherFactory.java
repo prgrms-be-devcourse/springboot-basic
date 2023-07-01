@@ -3,9 +3,11 @@ package com.programmers.voucher.domain.voucher;
 import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class VoucherFactory {
 
     private final VoucherStream voucherStream;
