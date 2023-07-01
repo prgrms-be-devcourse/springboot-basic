@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain.voucher.dto;
 
+import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 
 import java.math.BigDecimal;
@@ -15,6 +16,12 @@ public class VoucherDto {
         this.voucherId = UUID.fromString(voucherId);
         this.discountAmount = BigDecimal.valueOf(Double.parseDouble(discountAmount));
         this.voucherType = VoucherType.findByVoucherTypeName(voucherTypeName);
+    }
+
+    public VoucherDto(Voucher voucher) {
+        this.voucherId = voucher.getVoucherId();
+        this.discountAmount = voucher.getDiscountAmount();
+        this.voucherType = voucher.getVoucherType();
     }
 
     public UUID getVoucherId() {

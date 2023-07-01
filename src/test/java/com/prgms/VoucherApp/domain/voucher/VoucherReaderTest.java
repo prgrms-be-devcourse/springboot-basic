@@ -1,8 +1,5 @@
-package com.prgms.VoucherApp.voucher.domain;
+package com.prgms.VoucherApp.domain.voucher;
 
-import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherReader;
 import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
 import org.assertj.core.api.Assertions;
@@ -25,8 +22,8 @@ class VoucherReaderTest {
     @Test
     @DisplayName("voucher 목록 출력")
     void findVoucherListTest() {
-        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
-        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000), VoucherType.FIXED_VOUCHER);
+        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT_VOUCHER);
 
         voucherStorage.save(fixedVoucher);
         voucherStorage.save(percentVoucher);
@@ -38,7 +35,7 @@ class VoucherReaderTest {
     @DisplayName("VoucherId를 사용하여 1개만 출력")
     void findByVoucherIdTest() {
         UUID uuid = UUID.randomUUID();
-        Voucher fixedVoucher = new FixedAmountVoucher(uuid, BigDecimal.valueOf(1000));
+        Voucher fixedVoucher = new FixedAmountVoucher(uuid, BigDecimal.valueOf(1000), VoucherType.FIXED_VOUCHER);
 
         voucherStorage.save(fixedVoucher);
 

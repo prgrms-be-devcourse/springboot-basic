@@ -1,10 +1,9 @@
-package com.prgms.VoucherApp.voucher.storage;
+package com.prgms.VoucherApp.domain.voucher.storage;
 
 import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
 import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.storage.VoucherFileStorage;
-import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
+import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +26,21 @@ public class VoucherFileStorageTest {
     @DisplayName("고정 비용 할인권 생성 테스트")
     void saveFixedVoucher() {
 
-        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000), VoucherType.FIXED_VOUCHER);
 
         storage.save(fixedVoucher);
 
-        assertThat(storage.findByVoucherId(fixedVoucher.getUUID()).get()).isEqualTo(fixedVoucher);
+        assertThat(storage.findByVoucherId(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
     }
 
     @Test
     @DisplayName("퍼센트 비율 할인권 생성 테스트")
     void savePercentVoucher() {
 
-        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
+        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT_VOUCHER);
 
         storage.save(percentVoucher);
 
-        assertThat(storage.findByVoucherId(percentVoucher.getUUID()).get()).isEqualTo(percentVoucher);
+        assertThat(storage.findByVoucherId(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
     }
 }

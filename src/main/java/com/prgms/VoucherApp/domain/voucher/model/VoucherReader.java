@@ -30,8 +30,9 @@ public class VoucherReader {
 
     public List<VoucherDto> readVoucherList() {
         List<Voucher> vouchers = voucherStorage.findAll();
+
         List<VoucherDto> voucherDtos = vouchers.stream()
-                .map(Voucher::convertVoucherDto)
+                .map(VoucherDto::new)
                 .toList();
         return voucherDtos;
     }

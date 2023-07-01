@@ -41,7 +41,7 @@ public class VoucherFileStorage implements VoucherStorage {
             while ((line = bufferedReader.readLine()) != null) {
                 VoucherDto voucherDto = createVoucherDto(line);
                 Voucher voucher = createVoucher(voucherDto);
-                voucherLinkedMap.put(voucher.getUUID(), voucher);
+                voucherLinkedMap.put(voucher.getVoucherId(), voucher);
             }
         } catch (IOException e) {
             log.error("initVoucherMap() method Exception, message : {}", e.getMessage());
@@ -51,22 +51,17 @@ public class VoucherFileStorage implements VoucherStorage {
     @Override
     public void save(Voucher voucher) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
-            VoucherDto voucherDto = voucher.convertVoucherDto();
-            String voucherId = String.valueOf(voucherDto.getVoucherId());
-            String discountAmount = String.valueOf(voucherDto.getDiscountAmount());
-            String voucherType = String.valueOf(voucherDto.getVoucherType().getVoucherTypeName());
-            bufferedWriter.write(voucherId);
+            bufferedWriter.write(voucher.getVoucherId().toString());
             bufferedWriter.write(",");
-            bufferedWriter.write(discountAmount);
+            bufferedWriter.write(voucher.getDiscountAmount().toString());
             bufferedWriter.write(",");
-            bufferedWriter.write(voucherType);
+            bufferedWriter.write(voucher.getVoucherType().getVoucherTypeName());
             bufferedWriter.newLine();
             bufferedWriter.flush();
+            voucherLinkedMap.put(voucher.getVoucherId(), voucher);
         } catch (IOException e) {
             log.error("{} Failed to write the content to the file. errorMessage : {}", getClass().getEnclosingMethod().getName(), e.getMessage());
         }
-
-        voucherLinkedMap.put(voucher.getUUID(), voucher);
     }
 
     @Override
@@ -93,9 +88,9 @@ public class VoucherFileStorage implements VoucherStorage {
     private Voucher createVoucher(VoucherDto voucherDto) {
         switch (voucherDto.getVoucherType()) {
             case FIXED_VOUCHER:
-                return new FixedAmountVoucher(voucherDto.getVoucherId(), voucherDto.getDiscountAmount());
+                return new FixedAmountVoucher(voucherDto.getVoucherId(), voucherDto.getDiscountAmount(), voucherDto.getVoucherType());
             case PERCENT_VOUCHER:
-                return new PercentDiscountVoucher(voucherDto.getVoucherId(), voucherDto.getDiscountAmount());
+                return new PercentDiscountVoucher(voucherDto.getVoucherId(), voucherDto.getDiscountAmount(), voucherDto.getVoucherType());
         }
 
         log.warn("entered VoucherType {} is invalid", voucherDto.getVoucherType());

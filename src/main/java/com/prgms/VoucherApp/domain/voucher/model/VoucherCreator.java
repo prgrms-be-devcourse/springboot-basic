@@ -21,8 +21,9 @@ public class VoucherCreator {
 
     public Voucher createVoucher(VoucherType voucherType, long amount) {
         Voucher voucher = switch (voucherType) {
-            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(amount));
-            case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(amount));
+            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(amount), voucherType);
+            case PERCENT_VOUCHER ->
+                    new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(amount), voucherType);
         };
         voucherStorage.save(voucher);
         return voucher;

@@ -1,7 +1,5 @@
-package com.prgms.VoucherApp.voucher.domain;
+package com.prgms.VoucherApp.domain.voucher;
 
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherCreator;
 import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
 import org.assertj.core.api.Assertions;
@@ -27,8 +25,8 @@ class VoucherCreatorTest {
         Voucher fixedVoucher = voucherCreator.createVoucher(VoucherType.FIXED_VOUCHER, 1000L);
         Voucher percentVoucher = voucherCreator.createVoucher(VoucherType.PERCENT_VOUCHER, 50L);
 
-        Optional<Voucher> findFixedVoucher = voucherStorage.findByVoucherId(fixedVoucher.getUUID());
-        Optional<Voucher> findPercentVoucher = voucherStorage.findByVoucherId(percentVoucher.getUUID());
+        Optional<Voucher> findFixedVoucher = voucherStorage.findByVoucherId(fixedVoucher.getVoucherId());
+        Optional<Voucher> findPercentVoucher = voucherStorage.findByVoucherId(percentVoucher.getVoucherId());
 
         Assertions.assertThat(findFixedVoucher.get()).isEqualTo(fixedVoucher);
         Assertions.assertThat(findPercentVoucher.get()).isEqualTo(percentVoucher);

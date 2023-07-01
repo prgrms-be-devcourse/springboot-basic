@@ -32,6 +32,6 @@ public class VoucherMemoryStorage implements VoucherStorage {
 
     @Override
     public void save(Voucher voucher) {
-        voucherLinkedMap.put(voucher.getUUID(), voucher);
+        voucherLinkedMap.put(voucher.getVoucherId(), voucher);
     }
 }
