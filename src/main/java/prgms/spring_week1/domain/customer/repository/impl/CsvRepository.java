@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

@@ -6,11 +6,8 @@ import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
 import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import prgms.spring_week1.exception.NoSuchVoucherType;
 
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Service
 public class VoucherService {
