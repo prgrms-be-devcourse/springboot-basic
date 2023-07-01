@@ -12,6 +12,7 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
+
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, Long benefit) {
         switch (voucherType) {
             case FIXED -> {
@@ -25,13 +26,13 @@ public class VoucherFactory {
     }
 
     // for Mapper
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, String voucherName, Long benefit) {
+    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, LocalDateTime createdAt, String voucherName, Long benefit) {
         switch (voucherType) {
             case FIXED -> {
-                return new FixedAmountVoucher(voucherId, benefit, LocalDateTime.now(), voucherName);
+                return new FixedAmountVoucher(voucherId, benefit, createdAt, voucherName);
             }
             case PERCENT -> {
-                return new PercentDiscountVoucher(voucherId, benefit, LocalDateTime.now(), voucherName);
+                return new PercentDiscountVoucher(voucherId, benefit, createdAt, voucherName);
             }
         }
         throw new RuntimeException("Failed to created Voucher!");

@@ -1,5 +1,7 @@
 package org.prgrms.assignment.voucher.model;
 
+import org.springframework.context.annotation.Bean;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -9,6 +11,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final String voucherName;
     private static int voucherNum = 0;
     private final LocalDateTime createdAt;
+
 
     // for Mapper
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt, String voucherName) {
