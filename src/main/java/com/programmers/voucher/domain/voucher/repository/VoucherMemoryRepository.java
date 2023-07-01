@@ -29,11 +29,6 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher) {
-
-    }
-
-    @Override
     public void deleteAll() {
 
     }

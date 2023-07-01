@@ -80,21 +80,4 @@ class VoucherJdbcRepositoryTest {
         assertThat(findVoucher).usingRecursiveComparison().isEqualTo(findVoucher);
     }
 
-    @Test
-    @DisplayName("성공 - voucher 단건 업데이트")
-    void update() {
-        //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
-        voucherJdbcRepository.save(fixedVoucher);
-
-        //
-        FixedAmountVoucher updatedVoucher = new FixedAmountVoucher(fixedVoucher.getVoucherId(), 20);
-
-        //when
-        voucherJdbcRepository.update(updatedVoucher);
-
-        //then
-        Voucher findVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId()).get();
-        assertThat(findVoucher).usingRecursiveComparison().isEqualTo(updatedVoucher);
-    }
 }

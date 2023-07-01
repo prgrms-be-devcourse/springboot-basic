@@ -67,24 +67,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher) {
-        VoucherDto voucherDto = voucher.toDto();
-
-        String sql = "update voucher set amount = :amount where voucher_id = :voucherId";
-        MapSqlParameterSource param = new MapSqlParameterSource()
-                .addValue("voucherId", voucherDto.getVoucherId().toString())
-                .addValue("amount", voucherDto.getAmount());
-
-        int updated = template.update(sql, param);
-        if(updated != 1) {
-            IncorrectResultSizeDataAccessException exception
-                    = new IncorrectResultSizeDataAccessException(INCORRECT_UPDATED_RESULT_SIZE, 1, updated);
-            LOG.error(exception.getMessage(), exception);
-            throw exception;
-        }
-    }
-
-    @Override
     public void deleteAll() {
 
     }
