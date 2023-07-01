@@ -1,6 +1,6 @@
 package prgms.spring_week1.domain.voucher.model.type;
 
-import prgms.spring_week1.exception.NoSuchVoucherType;
+import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -19,7 +19,7 @@ public enum VoucherType {
         return voucherType;
     }
 
-    public static VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherType {
+    public static VoucherType matchVoucherType(String inputSelectText) throws NoSuchVoucherTypeException {
         VoucherType selectedVoucherType = VoucherType.makeVoucherTypeStream(inputSelectText);
         return selectedVoucherType;
     }
@@ -27,7 +27,7 @@ public enum VoucherType {
     public static VoucherType makeVoucherTypeStream(String inputSelectText) {
         Optional<VoucherType> matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText);
         if (matchedVoucherType.isEmpty()) {
-            throw new NoSuchVoucherType();
+            throw new NoSuchVoucherTypeException();
         }
 
         return matchedVoucherType.get();

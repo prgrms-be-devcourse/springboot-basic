@@ -8,9 +8,8 @@ import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
-import prgms.spring_week1.exception.EmptyListException;
-import prgms.spring_week1.exception.NoSuchOptionValue;
-import prgms.spring_week1.exception.NoSuchVoucherType;
+import prgms.spring_week1.exception.NoSuchOptionValueException;
+import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.menu.Menu;
@@ -52,7 +51,7 @@ public class CommandLine implements Runnable {
         try {
             Menu selectMenu = Menu.findMenuType(inputText);
             return selectMenu;
-        } catch (NoSuchOptionValue e) {
+        } catch (NoSuchOptionValueException e) {
             return Menu.INVALID;
         }
     }
@@ -84,7 +83,7 @@ public class CommandLine implements Runnable {
                     output.printInsertVoucherInfo(newVoucher);
                 }
             }
-        } catch (NoSuchVoucherType e) {
+        } catch (NoSuchVoucherTypeException e) {
             output.printNoSuchVoucherType();
         }
     }
