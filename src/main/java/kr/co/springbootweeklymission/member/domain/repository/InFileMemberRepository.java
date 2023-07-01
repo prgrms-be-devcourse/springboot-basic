@@ -51,7 +51,7 @@ public class InFileMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void deleteById(UUID memberId) {
+    public void delete(Member member) {
         throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
     }
 

@@ -49,6 +49,8 @@ public class MemberService {
     }
 
     public void deleteMemberById(UUID memberId) {
-        memberRepository.deleteById(memberId);
+        final Member deleteMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
+        memberRepository.delete(deleteMember);
     }
 }

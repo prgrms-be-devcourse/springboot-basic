@@ -121,7 +121,7 @@ public class JdbcMemberRepositoryTest {
         memberRepository.save(member);
 
         //when
-        memberRepository.deleteById(member.getMemberId());
+        memberRepository.delete(member);
 
         //then
         assertThat(memberRepository.findById(member.getMemberId())).isEmpty();

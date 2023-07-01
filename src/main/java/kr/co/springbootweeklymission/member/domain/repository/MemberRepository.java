@@ -15,5 +15,5 @@ public interface MemberRepository {
 
     void update(Member member);
 
-    void deleteById(UUID memberId);
+    void delete(Member member);
 }
