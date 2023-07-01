@@ -1,10 +1,8 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.commendLine.ConsoleInput;
-import org.prgrms.kdt.commendLine.ConsoleOutput;
+import org.prgrms.kdt.commendLine.Console;
 import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.member.controller.MemberController;
-import org.prgrms.kdt.util.ErrorMessage;
 import org.prgrms.kdt.util.Menu;
 import org.prgrms.kdt.voucher.controller.VoucherController;
 import org.slf4j.Logger;
@@ -12,16 +10,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 
 @Component
 public class CommendLineRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommendLineRunner.class);
     private final VoucherController voucherController;
     private final MemberController memberController;
+    private final Console console;
 
-    public CommendLineRunner(VoucherController voucherController, MemberController memberController) {
+    public CommendLineRunner(VoucherController voucherController, MemberController memberController, Console console) {
         this.voucherController = voucherController;
         this.memberController = memberController;
+        this.console = console;
     }
 
     @Override
@@ -29,13 +31,14 @@ public class CommendLineRunner implements CommandLineRunner {
         boolean isRunning = true;
         while (isRunning) {
             try {
-                ConsoleOutput.printMenu();
-                String getUserMenu = ConsoleInput.getUserMenu();
+                console.printMenu();
+                String getUserMenu = console.getUserMenu();
                 Menu menu = Menu.getMenu(getUserMenu);
-                isRunning = executeAction(menu);
+                isRunning = menu.isNotExit();
+                executeAction(menu);
 
             } catch (InvalidInputException e) {
-                ConsoleOutput.printError();
+                console.printError();
             } catch (Exception e) {
                 logger.error(e.toString());
             }
@@ -43,21 +46,19 @@ public class CommendLineRunner implements CommandLineRunner {
     }
 
     // handler mapping
-    private boolean executeAction(Menu menu) {
+    private void executeAction(Menu menu) throws IOException {
         switch (menu) {
             case CREATE:
-                voucherController.create();
-                return true;
+                voucherController.create(console.getVoucherTypes());
+                break;
             case EXIT:
-                return false;
+                break;
             case LIST:
-                voucherController.findAll();
-                return true;
+                console.printAllBoucher(voucherController.findAll());
+                break;
             case BLACK_LIST:
-                memberController.findAllBlackMember();
-                return true;
-            default:
-                throw new InvalidInputException(ErrorMessage.INVALID_INPUT);
+                console.printAllBlackList(memberController.findAllBlackMember());
+                break;
         }
     }
 }

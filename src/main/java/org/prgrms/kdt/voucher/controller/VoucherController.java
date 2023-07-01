@@ -1,7 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.commendLine.ConsoleInput;
-import org.prgrms.kdt.commendLine.ConsoleOutput;
+import org.prgrms.kdt.commendLine.Console;
 import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.util.ErrorMessage;
 import org.prgrms.kdt.voucher.domain.Voucher;
@@ -20,18 +19,12 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void create() {
-        try {
-            String inputType = ConsoleInput.getVoucherTypes();
-            VoucherType voucherType = VoucherType.getType(inputType);
-            voucherService.createVoucher(voucherType);
-        } catch (IOException e) {
-            throw new InvalidInputException(ErrorMessage.INVALID_INPUT, e);
-        }
+    public void create(String inputType) {
+        VoucherType voucherType = VoucherType.getType(inputType);
+        voucherService.createVoucher(voucherType);
     }
 
-    public void findAll() {
-        List<Voucher> vouchers = voucherService.findAll();
-        ConsoleOutput.printAllBoucher(vouchers);
+    public List<Voucher> findAll() {
+        return voucherService.findAll();
     }
 }

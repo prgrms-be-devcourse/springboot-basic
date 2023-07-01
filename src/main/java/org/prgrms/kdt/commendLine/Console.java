@@ -2,28 +2,40 @@ package org.prgrms.kdt.commendLine;
 
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
-public final class ConsoleOutput {
+@Component
+public class Console {
+    private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    private ConsoleOutput() {
-        throw new RuntimeException("호출하지마!");
+    public String getUserMenu() throws IOException {
+        return br.readLine();
     }
 
-    public static void printMenu() {
+    public String getVoucherTypes() throws IOException {
+        System.out.print("1. FixedAmountVoucher 2. PercentDiscountVoucher\n " +
+                "번호를 선택하세요:");
+        return br.readLine();
+    }
+
+    public void printMenu() {
         System.out.println("Type -exit- to exit the program.\n" +
                 "Type -create- to create a new voucher.\n" +
                 "Type -list- to list all vouchers.\n" +
                 "Type -blacklist- to list all blackList");
     }
 
-    public static void printAllBoucher(List<Voucher> vouchers) {
+    public void printAllBoucher(List<Voucher> vouchers) {
         vouchers.forEach(e -> System.out.println(e.getVoucherType()));
         System.out.println();
     }
 
-    public static void printAllBlackList(List<Member> blackList) {
+    public void printAllBlackList(List<Member> blackList) {
         blackList.forEach(e -> System.out.println(e.getMemberName()));
         System.out.println();
     }

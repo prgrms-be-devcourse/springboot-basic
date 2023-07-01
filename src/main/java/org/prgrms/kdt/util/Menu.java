@@ -22,4 +22,8 @@ public enum Menu {
                 .findFirst()
                 .orElseThrow(InvalidInputException::new);
     }
+
+    public boolean isNotExit(){
+        return this != EXIT;
+    }
 }
