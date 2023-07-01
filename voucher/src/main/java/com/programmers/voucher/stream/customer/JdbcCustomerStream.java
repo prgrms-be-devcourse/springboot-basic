@@ -1,8 +1,9 @@
-package com.programmers.voucher.stream;
+package com.programmers.voucher.stream.customer;
 
 import com.programmers.voucher.domain.Customer;
 import com.programmers.voucher.domain.QueryType;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Profile(value = "test")
 public class JdbcCustomerStream implements CustomerStream {
 
     @Value(value = "${mysql.user-id}")

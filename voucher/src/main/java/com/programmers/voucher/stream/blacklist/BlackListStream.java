@@ -1,4 +1,4 @@
-package com.programmers.voucher.stream;
+package com.programmers.voucher.stream.blacklist;
 
 import java.io.IOException;
 import java.util.List;

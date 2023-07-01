@@ -1,4 +1,4 @@
-package com.programmers.voucher.stream;
+package com.programmers.voucher.stream.customer;
 
 import com.programmers.voucher.domain.Customer;
 

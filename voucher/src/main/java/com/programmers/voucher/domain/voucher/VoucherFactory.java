@@ -1,6 +1,6 @@
 package com.programmers.voucher.domain.voucher;
 
-import com.programmers.voucher.stream.VoucherStream;
+import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

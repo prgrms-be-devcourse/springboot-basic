@@ -1,4 +1,4 @@
-package com.programmers.voucher.stream;
+package com.programmers.voucher.stream.voucher;
 
 import com.programmers.voucher.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;

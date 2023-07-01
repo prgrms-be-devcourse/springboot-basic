@@ -3,6 +3,8 @@ package com.programmers.voucher.stream;
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.stream.voucher.MemoryVoucherStream;
+import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

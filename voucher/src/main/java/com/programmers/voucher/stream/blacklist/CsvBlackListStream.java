@@ -1,4 +1,4 @@
-package com.programmers.voucher.stream;
+package com.programmers.voucher.stream.blacklist;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
