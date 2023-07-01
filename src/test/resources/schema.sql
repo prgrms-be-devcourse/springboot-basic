@@ -5,4 +5,8 @@ create table voucher (
     amount int not null
 );
 
-select * from voucher;
+drop table if exists customer;
+create table customer (
+    customer_id uuid primary key,
+    name varchar(20) not null
+)
