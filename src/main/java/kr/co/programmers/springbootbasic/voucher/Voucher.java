@@ -24,7 +24,7 @@ public abstract class Voucher {
         this.amount = amount;
     }
 
-    public abstract long discount(long totalPrice);
+    public abstract long discount(long productPrice);
 
     public VoucherType getType() {
         return type;
