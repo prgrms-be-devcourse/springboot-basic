@@ -33,6 +33,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
 # Ignore Gradle build output directory
 build
 
@@ -51,3 +52,6 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+# log file
+logs/
