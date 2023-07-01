@@ -11,15 +11,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class BlackListReaderTest {
+class CustomerDaoTest {
 
     @Autowired
-    private BlackListReader blackListReader;
+    private CustomerDao customerDao;
 
     @Test
     @DisplayName("readBlackList")
     void readBlackListTest() {
-        List<CustomerStatus> list = blackListReader.readBlackLists()
+        List<CustomerStatus> list = customerDao.readBlackLists()
                 .stream()
                 .map(CustomerDto::getCustomerStatus)
                 .toList();
