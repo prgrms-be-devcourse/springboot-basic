@@ -7,14 +7,14 @@ import com.prgrms.springbootbasic.enums.VoucherType;
 import com.prgrms.springbootbasic.view.Console;
 import java.util.Map;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ConsoleApplication implements CommandLineRunner {
 
     private final Console console;
