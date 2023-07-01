@@ -2,7 +2,7 @@ package com.prgms.voucher.voucherproject.repository;
 
 import com.prgms.voucher.voucherproject.domain.Voucher;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,6 +11,6 @@ public interface VoucherRepository {
 
     void save(Voucher voucher);
 
-    ArrayList<Voucher> findAll();
+    List<Voucher> findAll();
 
 }
