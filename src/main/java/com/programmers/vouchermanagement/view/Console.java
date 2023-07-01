@@ -9,7 +9,7 @@ public class Console {
 
     private final static Scanner SCANNER = new Scanner(System.in);
 
-    private static String input() {
+    private static String inputString() {
         return SCANNER.nextLine();
     }
 
@@ -21,7 +21,7 @@ public class Console {
                 Type create to create a new voucher.
                 Type list to list all vouchers.
                 """);
-        return input();
+        return inputString();
     }
 
     public static String selectDiscountType() {
@@ -31,12 +31,22 @@ public class Console {
                 Type fix to select a fixed discount
                 Type percent to select a fixed discount
                 """);
-        return input();
+        return inputString();
     }
 
-    public static String inputDiscountAmount() {
+    public static int inputDiscountAmount() {
         System.out.println("\nPlease enter the discount amount\n");
-        return input();
+        return inputInt();
+    }
+
+    private static int inputInt() {
+        int inputValue = 0;
+        try {
+            inputValue = Integer.parseInt(inputString());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Please enter only numbers.");
+        }
+        return inputValue;
     }
 
     public static void outputVouchers(VoucherDto.Response vouchers) {

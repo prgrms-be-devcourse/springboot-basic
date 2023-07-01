@@ -37,7 +37,7 @@ public class CommandLineController implements CommandLineRunner {
         switch (command) {
             case CREATE -> {
                 DiscountType discountType = DiscountType.from(Console.selectDiscountType());
-                int discountAmount = Integer.parseInt(Console.inputDiscountAmount());
+                int discountAmount = Console.inputDiscountAmount();
                 VoucherDto.Request request = new VoucherDto.Request(discountType, discountAmount);
                 voucherController.createVoucher(request);
             }
