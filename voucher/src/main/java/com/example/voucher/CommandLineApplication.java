@@ -3,6 +3,8 @@ package com.example.voucher;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.springframework.stereotype.Controller;
+
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.domain.enums.VoucherType;
@@ -10,6 +12,9 @@ import com.example.voucher.io.Console;
 import com.example.voucher.io.ModeType;
 import com.example.voucher.service.VoucherService;
 
+import jakarta.annotation.PostConstruct;
+
+@Controller
 public class CommandLineApplication {
 
 	final private VoucherService voucherService;
@@ -17,6 +22,11 @@ public class CommandLineApplication {
 
 	public CommandLineApplication(VoucherService voucherService) {
 		this.voucherService = voucherService;
+	}
+
+	@PostConstruct
+	public void init() {
+		run();
 	}
 
 	public void run() {
