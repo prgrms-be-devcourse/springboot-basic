@@ -15,7 +15,7 @@ class FixedAmountPolicyTest {
     @DisplayName("FixedAmountPolicy 가 할인 성공적으로 하는지 확인")
     @ParameterizedTest
     @CsvSource({
-            "100, 10, 90", "300, 120, 180"
+            "100, 10, 90", "300, 120, 180", "100, 200, 0"
     })
     void fixed_policy_success_discount(long beforeDiscount, long amount, long expected) {
 
@@ -40,19 +40,6 @@ class FixedAmountPolicyTest {
         assertThatThrownBy(() -> new Voucher(new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
-    }
-
-    @DisplayName("FixedAmountVoucher 잘못된 할인 결과가 예외를 던지는지 확인")
-    @ParameterizedTest
-    @CsvSource({
-            "100, 110", "500, 600"
-    })
-    void fixed_policy_result_throw_wrong(long beforeDiscount, long amount) {
-
-        // then
-        assertThatThrownBy(() -> new Voucher(new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT).discount(beforeDiscount))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.INVALID_DISCOUNT_RESULT.getMessage());
     }
 }
 

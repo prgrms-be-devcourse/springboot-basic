@@ -20,19 +20,16 @@ public class FixedAmountPolicy implements VoucherPolicy {
     }
 
     public long discount(long beforeDiscount) {
-        validateDiscountResult(beforeDiscount);
+        if (beforeDiscount - amount < MIN_AMOUNT) {
+            return 0;
+        }
+
         return beforeDiscount - amount;
     }
 
     private void validateAmount(long amount) {
         if (amount <= MIN_AMOUNT) {
             throw new InvalidInputException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
-        }
-    }
-
-    private void validateDiscountResult(long beforeDiscount) {
-        if (beforeDiscount - amount < MIN_AMOUNT) {
-            throw new InvalidInputException(ErrorMessage.INVALID_DISCOUNT_RESULT);
         }
     }
 }
