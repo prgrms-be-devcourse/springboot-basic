@@ -63,7 +63,7 @@ class FileConverterTest {
     void parseCustomerFromLineSuccessTest() throws Exception {
 
         //given
-        String line = "381aec71-9e69-4355-8c69-8b687b0bf446,BLACK";
+        String line = "381aec71-9e69-4355-8c69-8b687b0bf446,A,BLACK";
         UUID expectedCustomerId = UUID.fromString("381aec71-9e69-4355-8c69-8b687b0bf446");
 
         //when

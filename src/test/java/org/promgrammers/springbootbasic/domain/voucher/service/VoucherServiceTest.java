@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.promgrammers.springbootbasic.controller.CommandLineController;
+import org.promgrammers.springbootbasic.CommandLineController;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
@@ -23,7 +23,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -125,12 +124,11 @@ class VoucherServiceTest {
         voucherRepository.insert(voucher);
 
         //when
-        Optional<VoucherResponse> findVoucher = voucherService.findById(voucher.getVoucherId());
+        VoucherResponse foundVoucher = voucherService.findById(voucher.getVoucherId());
 
         //then
-        assertTrue(findVoucher.isPresent());
-        assertThat(findVoucher.get().amount()).isEqualTo(amount);
-        assertThat(findVoucher.get().voucherId()).isEqualTo(voucherId);
+        assertThat(foundVoucher.amount()).isEqualTo(amount);
+        assertThat(foundVoucher.voucherId()).isEqualTo(voucherId);
     }
 
     @Test
