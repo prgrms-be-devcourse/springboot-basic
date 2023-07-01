@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain.customer.dto;
 
+import com.prgms.VoucherApp.domain.customer.Customer;
 import com.prgms.VoucherApp.domain.customer.CustomerStatus;
 
 import java.util.UUID;
@@ -14,12 +15,17 @@ public class CustomerDto {
         this.customerStatus = customerStatus;
     }
 
+    public CustomerDto(Customer customer) {
+        this.customerId = customer.getCustomerId();
+        this.customerStatus = customer.getCustomerStatus();
+    }
+
     public UUID getCustomerId() {
-        return customerId;
+        return this.customerId;
     }
 
     public CustomerStatus getCustomerStatus() {
-        return customerStatus;
+        return this.customerStatus;
     }
 
     public String getCustomerInfo() {
