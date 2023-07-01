@@ -1,5 +1,6 @@
 package org.prgrms.assignment.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
@@ -13,4 +14,6 @@ public interface Voucher {
     VoucherType getVoucherType();
 
     String getVoucherName();
+
+    LocalDateTime getCreatedAt();
 }

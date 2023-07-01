@@ -7,7 +7,6 @@ import org.prgrms.assignment.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,7 +21,7 @@ public class VoucherService {
         this.voucherFactory = voucherFactory;
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher getVoucherById(UUID voucherId) {
         return voucherRepository.
                 findByID(voucherId).
                 orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId));

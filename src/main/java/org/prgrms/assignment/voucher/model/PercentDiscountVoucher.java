@@ -1,5 +1,6 @@
 package org.prgrms.assignment.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -7,10 +8,20 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
     private final String voucherName;
     private static int voucherNum = 0;
+    private final LocalDateTime createdAt;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if(percent < 0 || percent >= 100)
-            throw new IllegalArgumentException("percent should be higher than 0 or lower than 100");
+    // for Mapper
+    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt, String voucherName) {
+        checkValid(percent);
+        this.voucherId = voucherId;
+        this.percent = percent;
+        this.createdAt = createdAt;
+        this.voucherName = voucherName;
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+        checkValid(percent);
+        this.createdAt = createdAt;
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherName = getClass().getSimpleName() + voucherNum++;
@@ -41,4 +52,14 @@ public class PercentDiscountVoucher implements Voucher {
         return voucherName;
     }
 
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    private void checkValid(long percent) {
+        if(percent < 0 || percent >= 100) {
+            throw new IllegalArgumentException("percent should be higher than 0 or lower than 100");
+        }
+    }
 }

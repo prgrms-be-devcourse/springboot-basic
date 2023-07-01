@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.InputMismatchException;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.prgrms.kdt.voucher.view.ConsoleOutput.SELECT_VOUCHER_MESSAGE;
 
@@ -50,8 +51,11 @@ public class VoucherController {
                         voucherService.createVoucher(voucherType, benefit);
                     }
                     case LIST -> {
-                        output.showVoucherList(voucherService
-                                .toVoucherDTOList());
+//                        output.showVoucherList(voucherService
+//                                .toVoucherDTOList());
+                        output.printMessage(voucherService
+                            .getVoucherById(UUID.fromString("5c9cd042-180f-11ee-98b3-0242ac110002"))
+                            .getVoucherName());
                     }
                 }
             } catch(IllegalArgumentException | InputMismatchException e) {
