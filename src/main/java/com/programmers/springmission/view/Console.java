@@ -50,6 +50,7 @@ public class Console {
         output.write("""
                 === Input Voucher Amount ===
                 Type the amount you want
+                0 < Fixed, 0 < Percent <= 100
                 """);
         return input.read();
     }
