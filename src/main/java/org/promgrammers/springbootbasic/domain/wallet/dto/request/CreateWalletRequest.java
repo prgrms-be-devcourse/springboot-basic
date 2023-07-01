@@ -1,8 +1,7 @@
 package org.promgrammers.springbootbasic.domain.wallet.dto.request;
 
-import org.promgrammers.springbootbasic.domain.customer.model.Customer;
-import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import java.util.UUID;
 
-public record CreateWalletRequest(Voucher voucher, Customer customer) {
+public record CreateWalletRequest(UUID voucherId, UUID customerId) {
 
 }
