@@ -12,8 +12,8 @@ public class Voucher {
     private final VoucherPolicy voucherPolicy;
     private final VoucherType voucherType;
 
-    public Voucher(UUID voucherId, VoucherPolicy voucherPolicy, VoucherType voucherType) {
-        this.voucherId = voucherId;
+    public Voucher(VoucherPolicy voucherPolicy, VoucherType voucherType) {
+        this.voucherId = UUID.randomUUID();
         this.voucherPolicy = voucherPolicy;
         this.voucherType = voucherType;
     }

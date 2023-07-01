@@ -7,8 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.UUID;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -22,7 +20,7 @@ class FixedAmountPolicyTest {
     void fixed_policy_success_discount(long beforeDiscount, long amount, long expected) {
 
         // given
-        Voucher voucher = new Voucher(UUID.randomUUID(), new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT);
+        Voucher voucher = new Voucher(new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT);
 
         // when
         long result = voucher.discount(beforeDiscount);
@@ -39,7 +37,7 @@ class FixedAmountPolicyTest {
     void fixed_policy_throw_wrong(long amount) {
 
         // then
-        assertThatThrownBy(() -> new Voucher(UUID.randomUUID(), new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT))
+        assertThatThrownBy(() -> new Voucher(new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }

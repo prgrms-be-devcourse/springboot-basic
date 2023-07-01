@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,8 +23,8 @@ class InMemoryVoucherRepositoryTest {
     @Test
     void repository_right_work_success() {
         // given
-        Voucher voucher1 = new Voucher(UUID.randomUUID(), new FixedAmountPolicy(10L), VoucherType.FIXED_AMOUNT);
-        Voucher voucher2 = new Voucher(UUID.randomUUID(), new PercentDiscountPolicy(10L), VoucherType.PERCENT_DISCOUNT);
+        Voucher voucher1 = new Voucher(new FixedAmountPolicy(10L), VoucherType.FIXED_AMOUNT);
+        Voucher voucher2 = new Voucher(new PercentDiscountPolicy(10L), VoucherType.PERCENT_DISCOUNT);
 
         // when
         repository.save(voucher1);
