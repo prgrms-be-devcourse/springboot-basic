@@ -18,7 +18,7 @@ public class VoucherService {
 
     public void create(String type, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int discount) {
         VoucherType voucherType = VoucherType.from(type);
-        Voucher createdVoucher = VoucherFactory.from(voucherType, name, minimumPriceCondition, createdDate, expirationDate, discount);
+        Voucher createdVoucher = VoucherFactory.of(voucherType, name, minimumPriceCondition, createdDate, expirationDate, discount);
         voucherRepository.save(createdVoucher);
     }
 

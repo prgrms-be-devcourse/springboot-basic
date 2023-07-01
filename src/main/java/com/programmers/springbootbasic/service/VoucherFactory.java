@@ -14,21 +14,12 @@ public class VoucherFactory {
 
     }
 
-    public static Voucher from(VoucherType voucherType, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int discount) {
-        switch (voucherType) {
-            case PERCENT -> {
-                if (minimumPriceCondition == null || minimumPriceCondition == 0) {
-                    return new PercentDiscountVoucher(UUID.randomUUID(), name, createdDate, expirationDate, discount);
-                }
-                return new PercentDiscountVoucher(UUID.randomUUID(), name, minimumPriceCondition, createdDate, expirationDate, discount);
-            }
-            case FIX -> {
-                if (minimumPriceCondition == null || minimumPriceCondition == 0) {
-                    return new FixedAmountVoucher(UUID.randomUUID(), name, createdDate, expirationDate, discount);
-                }
-                return new FixedAmountVoucher(UUID.randomUUID(), name, minimumPriceCondition, createdDate, expirationDate, discount);
-            }
-            default -> throw new IllegalArgumentException("잘못된 쿠폰 종류 입력");
-        }
+    public static Voucher of(VoucherType voucherType, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int discount) {
+        return switch (voucherType) {
+            case PERCENT ->
+                new PercentDiscountVoucher(UUID.randomUUID(), name, minimumPriceCondition, createdDate, expirationDate, discount);
+            case FIX ->
+                new FixedAmountVoucher(UUID.randomUUID(), name, minimumPriceCondition, createdDate, expirationDate, discount);
+        };
     }
 }
