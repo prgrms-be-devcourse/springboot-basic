@@ -32,9 +32,9 @@ public class VoucherList {
         StringBuilder sb = new StringBuilder();
 
         for (VoucherResponse voucherResponse : convertVoucherResponse()) {
-            System.out.println(voucherResponse.getVoucherPolicy().name() + " : "
+            System.out.println(voucherResponse.getVoucherType().name() + " : "
                     + voucherResponse.getDiscountedValue()
-                    + voucherResponse.getVoucherPolicy().getUnit());
+                    + voucherResponse.getVoucherType().getUnit());
         }
         return sb.toString();
     }

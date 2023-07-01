@@ -1,10 +1,8 @@
 package com.prgrms.io;
 
-import com.prgrms.model.voucher.VoucherPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

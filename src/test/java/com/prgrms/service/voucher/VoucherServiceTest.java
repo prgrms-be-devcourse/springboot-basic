@@ -37,11 +37,11 @@ class VoucherServiceTest {
 
     @Test
     public void testCreateVoucherCreatedVoucher() {
-        VoucherRequest voucherRequest = new VoucherRequest(VoucherPolicy.FIXED_AMOUNT_VOUCHER, new Discount(10));
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
+        VoucherRequest voucherRequest = new VoucherRequest(VoucherType.FIXED_AMOUNT_VOUCHER, new Discount(10));
+        Voucher createdVoucher = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         ;
 
-        when(voucherCreator.createVoucher(any(Discount.class), any(VoucherPolicy.class)))
+        when(voucherCreator.createVoucher(any(Discount.class), any(VoucherType.class)))
                 .thenReturn(createdVoucher);
         when(voucherRepository.insert(any(Voucher.class))).thenReturn(createdVoucher);
 
@@ -49,14 +49,14 @@ class VoucherServiceTest {
 
         assertNotNull(result);
         assertEquals(createdVoucher, result);
-        verify(voucherCreator, times(1)).createVoucher(any(Discount.class), any(VoucherPolicy.class));
+        verify(voucherCreator, times(1)).createVoucher(any(Discount.class), any(VoucherType.class));
         verify(voucherRepository, times(1)).insert(any(Voucher.class));
     }
 
     @Test
     public void testGetAllVoucherListVoucherList() {
-        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherPolicy.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
         VoucherList voucherList = new VoucherList(list);
 

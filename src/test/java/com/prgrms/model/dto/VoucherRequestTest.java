@@ -15,12 +15,12 @@ class VoucherRequestTest {
 
     @Test
     void ofVoucherRequest() {
-        VoucherPolicy voucherPolicy = VoucherPolicy.FIXED_AMOUNT_VOUCHER;
+        VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
         Discount discount = new Discount(20);
-        VoucherRequest voucherRequest = VoucherRequest.of(voucherPolicy, discount);
+        VoucherRequest voucherRequest = VoucherRequest.of(voucherType, discount);
 
         assertNotNull(voucherRequest);
-        assertEquals(voucherPolicy, voucherRequest.getVoucherPolicy());
+        assertEquals(voucherType, voucherRequest.getVoucherType());
         assertEquals(discount, voucherRequest.getDiscount());
     }
 }

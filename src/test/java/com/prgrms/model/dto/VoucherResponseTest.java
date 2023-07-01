@@ -3,7 +3,7 @@ package com.prgrms.model.dto;
 import com.prgrms.model.voucher.Discount;
 import com.prgrms.model.voucher.FixedAmountVoucher;
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherPolicy;
+import com.prgrms.model.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ class VoucherResponseTest {
     @Test
     void ofVoucherRequest() {
         UUID voucherId = UUID.randomUUID();
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
 
         assertEquals(VoucherResponse.of(createdVoucher),VoucherResponse.of(createdVoucher));
     }

@@ -11,29 +11,29 @@ class VoucherCreatorTest {
     @Test
     @DisplayName("고정된 금액의 바우처")
     public void testCreateVoucherFixedAmountVoucher() {
-        VoucherPolicy voucherPolicy = VoucherPolicy.FIXED_AMOUNT_VOUCHER;
+        VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
         VoucherCreator voucherCreator = new VoucherCreator();
 
-        Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherPolicy);
+        Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherType);
 
         assertNotNull(result);
         assertTrue(result instanceof FixedAmountVoucher);
         assertEquals(DISCOUNT, result.getVoucherDiscount());
-        assertEquals(voucherPolicy, result.getVoucherPolicy());
+        assertEquals(voucherType, result.getVoucherPolicy());
     }
 
     @Test
     @DisplayName("할인율에 따른 바우처")
     public void testCreateVoucher_PercentDiscountVoucher_ReturnsPercentDiscountVoucher() {
-        VoucherPolicy voucherPolicy = VoucherPolicy.PERCENT_DISCOUNT_VOUCHER;
+        VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         VoucherCreator voucherCreator = new VoucherCreator();
 
-        Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherPolicy);
+        Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherType);
 
         assertNotNull(result);
         assertTrue(result instanceof PercentDiscountVoucher);
         assertEquals(DISCOUNT, result.getVoucherDiscount());
-        assertEquals(voucherPolicy, result.getVoucherPolicy());
+        assertEquals(voucherType, result.getVoucherPolicy());
     }
 
     @Test
@@ -43,6 +43,6 @@ class VoucherCreatorTest {
         VoucherCreator voucherCreator = new VoucherCreator();
 
         assertThrows(IllegalArgumentException.class, () ->
-                voucherCreator.createVoucher(DISCOUNT, VoucherPolicy.valueOf(invalidVoucherPolicy)));
+                voucherCreator.createVoucher(DISCOUNT, VoucherType.valueOf(invalidVoucherPolicy)));
     }
 }

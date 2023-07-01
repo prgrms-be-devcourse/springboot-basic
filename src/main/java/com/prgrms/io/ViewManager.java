@@ -3,7 +3,7 @@ package com.prgrms.io;
 import com.prgrms.model.dto.VoucherRequest;
 import com.prgrms.model.voucher.Discount;
 import com.prgrms.model.voucher.VoucherList;
-import com.prgrms.model.voucher.VoucherPolicy;
+import com.prgrms.model.voucher.VoucherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class ViewManager {
     }
 
     public VoucherRequest guideCreateVoucher() {
-        Arrays.stream(VoucherPolicy.values())
+        Arrays.stream(VoucherType.values())
                 .forEach(voucherPolicy -> output.outputView(voucherPolicy.voucherPolicyOptionGuide()));
 
         return input.enterVoucherPolicy()
@@ -30,12 +30,12 @@ public class ViewManager {
                 .orElseThrow(() -> new IllegalArgumentException("등록된 바우처 정책이 아닙니다."));
     }
 
-    public VoucherRequest guideVoucherPolicy(VoucherPolicy voucherPolicy) {
-        output.outputView(voucherPolicy.discountGuide());
+    public VoucherRequest guideVoucherPolicy(VoucherType voucherType) {
+        output.outputView(voucherType.discountGuide());
         Discount discount = new Discount(input.enterDiscount());
         output.outputView(GuideMessage.COMPLETE_CREATE.toString());
 
-        return VoucherRequest.of(voucherPolicy, discount);
+        return VoucherRequest.of(voucherType, discount);
     }
 
     public void guideClose() {

@@ -7,12 +7,12 @@ import java.util.UUID;
 public abstract class Voucher {
     public UUID voucherId;
     public Discount discount;
-    public VoucherPolicy voucherPolicy;
+    public VoucherType voucherType;
 
-    public Voucher(UUID voucherId, Discount discount, VoucherPolicy voucherPolicy) {
+    public Voucher(UUID voucherId, Discount discount, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discount = discount;
-        this.voucherPolicy = voucherPolicy;
+        this.voucherType = voucherType;
     }
 
     public UUID getVoucherId() {
@@ -23,8 +23,8 @@ public abstract class Voucher {
         return discount;
     }
 
-    public VoucherPolicy getVoucherPolicy() {
-        return voucherPolicy;
+    public VoucherType getVoucherPolicy() {
+        return voucherType;
     }
 
     public double getRealPrice(OrderItem orderItem) {

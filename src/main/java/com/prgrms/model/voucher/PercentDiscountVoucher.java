@@ -5,8 +5,8 @@ import java.util.UUID;
 public class PercentDiscountVoucher extends Voucher {
     private final double PERCENT = 100;
 
-    public PercentDiscountVoucher(UUID voucherId, Discount discount, VoucherPolicy voucherPolicy) {
-        super(voucherId, discount, voucherPolicy);
+    public PercentDiscountVoucher(UUID voucherId, Discount discount, VoucherType voucherType) {
+        super(voucherId, discount, voucherType);
     }
 
     @Override

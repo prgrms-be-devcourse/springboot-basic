@@ -14,8 +14,8 @@ class VoucherListTest {
     UUID voucherId1 = UUID.randomUUID();
     UUID voucherId2 = UUID.randomUUID();
 
-    Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
-    Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherPolicy.PERCENT_DISCOUNT_VOUCHER);
+    Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+    Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
 
     @Test
     @DisplayName("빈 바우처를 호출하는 경우 예외를 던지는지 테스트")

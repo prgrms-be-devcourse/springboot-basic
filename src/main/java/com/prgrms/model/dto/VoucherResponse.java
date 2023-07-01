@@ -2,7 +2,7 @@ package com.prgrms.model.dto;
 
 import com.prgrms.model.voucher.Discount;
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherPolicy;
+import com.prgrms.model.voucher.VoucherType;
 
 import lombok.*;
 
@@ -14,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class VoucherResponse {
     private final String exceptionMessage = "기본생성자는 만들 수 없습니다.";
-    private VoucherPolicy voucherPolicy;
+    private VoucherType voucherType;
     private Discount discount;
 
     public VoucherResponse() {
@@ -27,14 +27,14 @@ public class VoucherResponse {
 
     public static VoucherResponse of(Voucher voucher) {
         return VoucherResponse.builder()
-                .voucherPolicy(voucher.getVoucherPolicy())
+                .voucherType(voucher.getVoucherPolicy())
                 .discount(voucher.getVoucherDiscount())
                 .build();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(voucherPolicy, discount);
+        return Objects.hash(voucherType, discount);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class VoucherResponse {
             return false;
         }
         VoucherResponse other = (VoucherResponse) obj;
-        return Objects.equals(voucherPolicy, other.voucherPolicy) &&
+        return Objects.equals(voucherType, other.voucherType) &&
                 Objects.equals(discount, other.discount);
     }
 }

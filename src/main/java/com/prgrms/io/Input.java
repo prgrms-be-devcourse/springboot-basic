@@ -1,6 +1,6 @@
 package com.prgrms.io;
 
-import com.prgrms.model.voucher.VoucherPolicy;
+import com.prgrms.model.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -15,9 +15,9 @@ public class Input {
         return Menu.findByMenu(selectedMenu);
     }
 
-    public Optional<VoucherPolicy> enterVoucherPolicy() {
+    public Optional<VoucherType> enterVoucherPolicy() {
         String selectedPolicy = sc.next();
-        return VoucherPolicy.findByPolicy(selectedPolicy);
+        return VoucherType.findByPolicy(selectedPolicy);
     }
 
     public Long enterDiscount() {

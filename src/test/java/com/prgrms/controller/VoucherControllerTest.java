@@ -35,8 +35,8 @@ public class VoucherControllerTest {
     @Test
     public void testCreateVoucher() {
         // Given
-        VoucherRequest voucherRequest = new VoucherRequest(VoucherPolicy.FIXED_AMOUNT_VOUCHER, new Discount(20));
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
+        VoucherRequest voucherRequest = new VoucherRequest(VoucherType.FIXED_AMOUNT_VOUCHER, new Discount(20));
+        Voucher createdVoucher = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         Mockito.when(voucherService.createVoucher(voucherRequest)).thenReturn(createdVoucher);
 
         // When
@@ -52,8 +52,8 @@ public class VoucherControllerTest {
     @DisplayName("voucherId 가 다른 두 바우처 정책의 리스트를 잘 만드는지 테스트합니다.")
     public void testListVoucher_DifferentVoucherId() {
         // Given
-        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherPolicy.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
         VoucherList voucherList = new VoucherList(list);
         Mockito.when(voucherService.getAllVoucherList()).thenReturn(voucherList);
@@ -70,8 +70,8 @@ public class VoucherControllerTest {
     @DisplayName("voucherId 가 같은 두 바우처 정책의 리스트를 잘 만드는지 테스트합니다. 통과되므로 추후에 중복의 경우를 만들지 못하도록 예외로")
     public void testListVoucher_SameVoucherId() {
         // Given
-        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherPolicy.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId1, new Discount(20), VoucherPolicy.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId1, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
         VoucherList voucherList = new VoucherList(list);
         Mockito.when(voucherService.getAllVoucherList()).thenReturn(voucherList);
