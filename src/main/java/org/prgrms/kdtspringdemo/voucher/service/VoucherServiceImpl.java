@@ -27,12 +27,12 @@ public class VoucherServiceImpl implements VoucherService {
             case FIXED -> {
                 Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
                 Voucher voucher = voucherRepository.save(fixedAmountVoucher);
-                return VoucherDto.toDto(voucher);
+                return convertToVoucherDto(voucher);
             }
             case PERCENT -> {
                 Voucher percentAmountVoucher = new PercentAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
                 Voucher voucher = voucherRepository.save(percentAmountVoucher);
-                return VoucherDto.toDto(voucher);
+                return convertToVoucherDto(voucher);
             }
             default -> {
                 throw new IllegalArgumentException(INVALID_VOUCHER_TYPE);
@@ -46,5 +46,12 @@ public class VoucherServiceImpl implements VoucherService {
         return voucherList.stream()
                 .map(v -> new VoucherDto(v.getVoucherType(), v.getDiscount()))
                 .collect(Collectors.toList());
+    }
+
+    private VoucherDto convertToVoucherDto(Voucher voucher) {
+        return new VoucherDto(
+                voucher.getVoucherType(),
+                voucher.getDiscount()
+        );
     }
 }
