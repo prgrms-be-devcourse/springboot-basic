@@ -40,10 +40,13 @@ public class CommandLineApplication {
 			Console.printModeType();
 			String readModeType = Console.readModeType();
 
-			ModeType.getTypeMode(readModeType).ifPresentOrElse(
-				(mode) -> processMode(mode),
-				() -> Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_MODE_SELECTION_PROMPT)
-			);
+			try{
+				ModeType modeType = ModeType.getTypeMode(readModeType);
+				processMode(modeType);
+			}catch(NoSuchElementException e){
+				logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
+				Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_MODE_SELECTION_PROMPT);
+			}
 		}
 	}
 

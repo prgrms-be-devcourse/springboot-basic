@@ -2,7 +2,10 @@ package com.example.voucher.io;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import com.example.voucher.constant.ConstantStrings;
 
 public enum ModeType {
 
@@ -20,10 +23,11 @@ public enum ModeType {
 		return typeName;
 	}
 
-	public static Optional<ModeType> getTypeMode(String typeName) {
+	public static ModeType getTypeMode(String typeName) {
 		return Arrays.stream(ModeType.values())
 					.filter(e->typeName.equals(e.getTypeName()))
-					.findAny();
+					.findAny()
+					.orElseThrow(() -> new NoSuchElementException(ConstantStrings.MESSAGE_PRINT_RETRY_VOUCHER_TYPE_SELECTION_PROMPT));
 	}
 
 }
