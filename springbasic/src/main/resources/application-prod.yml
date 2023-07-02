@@ -1,0 +1,6 @@
+voucher:
+  fixed-amount-file-path: src/main/resources/vouchers/fixedAmountVouchers.csv
+  percent-discount-file-path: src/main/resources/vouchers/percentDiscountVouchers.csv
+logging:
+  file:
+    name: src/main/resources/logs/error.log
