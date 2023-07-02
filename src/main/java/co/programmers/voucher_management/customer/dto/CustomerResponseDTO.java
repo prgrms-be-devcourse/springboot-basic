@@ -7,10 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class CustomerResponseDTO {
 	String name;
 
+	@Builder
 	public CustomerResponseDTO(Customer customer) {
 		name = customer.getName();
 	}

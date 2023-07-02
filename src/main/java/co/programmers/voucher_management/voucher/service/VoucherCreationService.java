@@ -13,30 +13,24 @@ import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 @Service
 public class VoucherCreationService {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherCreationService.class);
-	private final VoucherRepository repository;
-	private int voucherCnt;
+	private final VoucherRepository voucherRepository;
 
-	public VoucherCreationService(VoucherRepository repository) {
-		this.repository = repository;
-		voucherCnt = repository.getVoucherCount();
+	public VoucherCreationService(VoucherRepository voucherRepository) {
+		this.voucherRepository = voucherRepository;
 	}
 
 	public Response run(VoucherRequestDTO voucherRequestDTO) {
 		DiscountStrategy discountStrategy;
 		String discountTypeName = voucherRequestDTO.getDiscountStrategy();
 		int amount = voucherRequestDTO.getDiscountAmount();
-		int id = assignId();
 		discountStrategy = DiscountTypeGenerator.of(discountTypeName, amount);
-		Voucher voucher = new Voucher(id, discountStrategy);
-		logger.info("Voucher created : id {}, discount type {}, amount {}", id, discountTypeName, amount);
-		repository.save(voucher);
+		Voucher voucher = new Voucher(discountStrategy);
+		logger.info("Voucher created :discount type {}, amount {}", discountTypeName, amount);
+		voucherRepository.save(voucher);
 		return Response.builder()
 				.state(Response.State.SUCCESS)
 				.build();
 	}
 
-	private int assignId() {
-		return ++voucherCnt;
-	}
 
 }

@@ -19,14 +19,18 @@ public class VoucherInquiryService {
 	}
 
 	public Response run() {
-		List<Voucher> inquiredData = voucherRepository.findAll();
-		List<VoucherResponseDTO> voucherResponseDTOs = inquiredData.stream()
-				.map(VoucherResponseDTO::new)
-				.collect(Collectors.toList());
+		List<VoucherResponseDTO> voucherResponseDTOs;
+		try {
+			List<Voucher> inquiredData = voucherRepository.findAll();
+			voucherResponseDTOs = inquiredData.stream()
+					.map(VoucherResponseDTO::new)
+					.collect(Collectors.toList());
+		} catch (RuntimeException runtimeException) {
+			return new Response(Response.State.FAILED, runtimeException.getMessage());
+		}
 		return Response.builder()
 				.state(Response.State.SUCCESS)
 				.responseData(voucherResponseDTOs)
 				.build();
 	}
-
 }
