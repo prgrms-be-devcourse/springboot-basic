@@ -53,11 +53,12 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         Discount discount = new FixedDiscount(100);
         LocalDateTime createdAt = LocalDateTime.of(1998, 07, 29, 00, 00);
-
         LocalDateTime expiredAt = LocalDateTime.now().minusDays(1);
         Voucher expiredVoucher = new Voucher(voucherId, discount, createdAt, expiredAt);
 
-        assertThatThrownBy(() -> expiredVoucher.discount(50))
+        LocalDateTime usedAt = LocalDateTime.now();
+
+        assertThatThrownBy(() -> expiredVoucher.discountWith(50, usedAt))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -67,10 +68,11 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         Discount discount = new FixedDiscount(100);
         LocalDateTime createdAt = LocalDateTime.now();
-
         Voucher validVoucher = new Voucher(voucherId, discount, createdAt);
 
-        assertThatCode(() -> validVoucher.discount(50))
+        LocalDateTime usedAt = LocalDateTime.now();
+
+        assertThatCode(() -> validVoucher.discountWith(50, usedAt))
                 .doesNotThrowAnyException();
     }
 }

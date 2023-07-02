@@ -29,8 +29,8 @@ public class Voucher {
         this.expiredAt = expiration;
     }
 
-    public long discount(long itemPrice) {
-        checkVoucherExpiration();
+    public long discountWith(long itemPrice, LocalDateTime usedAt) {
+        checkVoucherExpiration(usedAt);
         return discount.applyDiscount(itemPrice);
     }
 
@@ -58,7 +58,7 @@ public class Voucher {
         return createdAt.plusDays(VOUCHER_EXPIRATION_POLICY);
     }
 
-    private void checkVoucherExpiration() {
-        if (LocalDateTime.now().isAfter(expiredAt)) throw new IllegalArgumentException(EXPIRED_VOUCHER_MESSAGE);
+    private void checkVoucherExpiration(LocalDateTime usedAt) {
+        if (usedAt.isAfter(expiredAt)) throw new IllegalArgumentException(EXPIRED_VOUCHER_MESSAGE);
     }
 }
