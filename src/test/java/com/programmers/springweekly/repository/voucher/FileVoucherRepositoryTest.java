@@ -37,7 +37,7 @@ public class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("파일 저장소에 퍼센트 할인 바우처가 정상적으로 등록된다.")
-    void savePercentVoucherToMemoryRepository() {
+    void savePercentVoucherToFileRepository() {
         // given
         Voucher voucher = new PercentDiscountVoucher(100);
 
