@@ -2,6 +2,8 @@ package com.programmers.voucher.domain;
 
 public abstract class Discount {
 
+    //여기서의 VoucherType은 사실상 Discount의 구현체 타입과 동일하므로 이를 DiscountType으로
+    //변수 명을 변경하면 어떨지 고민입니다.
     private final VoucherType voucherType;
 
     protected Discount(VoucherType voucherType) {

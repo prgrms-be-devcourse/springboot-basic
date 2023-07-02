@@ -24,6 +24,8 @@ public class VoucherController {
     }
 
     public List<VoucherResponseDto> findAll() {
-        return voucherService.findVouchers().stream().map(VoucherMapper::convertDomainToResponseDto).toList();
+        return voucherService.findVouchers().stream()
+                .map(VoucherMapper::convertDomainToResponseDto)
+                .toList();
     }
 }

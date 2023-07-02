@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 class VoucherTest {
@@ -29,9 +28,9 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         Discount discount = new FixedDiscount(100);
         LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiration = createdAt.plusDays(7);
+        LocalDateTime expiredAt = createdAt.plusDays(7);
 
-        Voucher createdVoucher = new Voucher(voucherId, discount, createdAt, expiration);
+        Voucher createdVoucher = new Voucher(voucherId, discount, createdAt, expiredAt);
 
         assertThat(createdVoucher).isNotNull();
     }
@@ -45,7 +44,7 @@ class VoucherTest {
 
         Voucher createdVoucher = new Voucher(voucherId, discount, createdAt);
 
-        assertThat(createdAt.plusDays(7)).isEqualTo(createdVoucher.getExpiration());
+        assertThat(createdAt.plusDays(7)).isEqualTo(createdVoucher.getExpiredAt());
     }
 
     @DisplayName("만료일이 지난 바우처는 사용이 불가능 하다")
@@ -55,8 +54,8 @@ class VoucherTest {
         Discount discount = new FixedDiscount(100);
         LocalDateTime createdAt = LocalDateTime.of(1998, 07, 29, 00, 00);
 
-        LocalDateTime expiration = LocalDateTime.now().minusDays(1);
-        Voucher expiredVoucher = new Voucher(voucherId, discount, createdAt, expiration);
+        LocalDateTime expiredAt = LocalDateTime.now().minusDays(1);
+        Voucher expiredVoucher = new Voucher(voucherId, discount, createdAt, expiredAt);
 
         assertThatThrownBy(() -> expiredVoucher.discount(50))
                 .isInstanceOf(IllegalArgumentException.class);
