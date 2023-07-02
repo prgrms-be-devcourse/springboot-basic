@@ -21,7 +21,7 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
-    <logger name="com.example.voucher" level="info">
+    <logger name="com.example.voucher" level="error">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
