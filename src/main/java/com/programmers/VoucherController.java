@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+import static com.programmers.util.ValueFormatter.*;
+
 @Controller
 public class VoucherController {
 
@@ -57,10 +59,10 @@ public class VoucherController {
 
     public Voucher makeVoucher() {
         console.printVoucherType();
-        String voucherTypeInput = voucherService.reformatVoucherType(console.readInput());
+        String voucherTypeInput = reformatVoucherType(console.readInput());
 
         console.printDiscountValueInput();
-        Long discountValue = voucherService.changeDiscountValueToNumber(console.readInput());
+        Long discountValue = changeDiscountValueToNumber(console.readInput());
 
         console.printVoucherNameInput();
         String voucherName = console.readInput();
