@@ -27,11 +27,13 @@ public class VoucherServiceImpl implements VoucherService {
             case FIXED -> {
                 Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
                 Voucher voucher = voucherRepository.save(fixedAmountVoucher);
+
                 return convertToVoucherDto(voucher);
             }
             case PERCENT -> {
                 Voucher percentAmountVoucher = new PercentAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
                 Voucher voucher = voucherRepository.save(percentAmountVoucher);
+
                 return convertToVoucherDto(voucher);
             }
             default -> {
@@ -43,6 +45,7 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public List<VoucherDto> getAllVoucher() {
         List<Voucher> voucherList = voucherRepository.findAll();
+
         return voucherList.stream()
                 .map(v -> new VoucherDto(v.getVoucherType(), v.getDiscount()))
                 .collect(Collectors.toList());

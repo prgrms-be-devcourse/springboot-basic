@@ -56,6 +56,7 @@ public class CommandLineApplication implements CommandLineRunner {
         VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
         Long amount = voucherConsole.inputAmountByVoucher(voucherType);
         VoucherDto voucherDto = new VoucherDto(voucherType, amount);
+
         return voucherService.create(voucherDto);
     }
 }
