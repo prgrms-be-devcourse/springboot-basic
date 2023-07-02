@@ -2,4 +2,4 @@
 15:56:00.804 [main] INFO  org.prgrms.kdt.Main -- resource.getClass().getCanonicalName() = {}org.springframework.core.io.FileUrlResource
 15:56:28.519 [main] INFO  org.prgrms.kdt.Main -- property -> {} ./voucher-list.txt
 15:56:28.541 [main] INFO  org.prgrms.kdt.Main -- resource.getClass().getCanonicalName() = {}org.springframework.core.io.FileUrlResource
-15:56:28.542 [main] INFO  org.prgrms.kdt.Main -- bean.getClass().getCanonicalName() = {}org.prgrms.kdt.repository.voucher.FileVoucherRepository
+15:56:28.542 [main] INFO  org.prgrms.kdt.Main -- bean.getClass().getCanonicalName() = {}org.prgrms.kdt.voucher.repository.FileVoucherRepository

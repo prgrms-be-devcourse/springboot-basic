@@ -1,5 +1,8 @@
 package org.prgrms.kdt.domain.voucher;
 
+import org.prgrms.kdt.utils.VoucherType;
+import org.prgrms.kdt.domain.voucher.Voucher;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -26,5 +29,15 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT_DISCOUNT_VOUCHER;
+    }
+
+    @Override
+    public Long getDiscountAmount() {
+        return percent;
     }
 }

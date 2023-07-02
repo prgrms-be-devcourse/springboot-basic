@@ -1,8 +1,8 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.KdtApplication;
-import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.utils.PathProperties;
+import org.prgrms.kdt.domain.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.*;
 
 @Repository
-@Profile("dev")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(KdtApplication.class);
 
