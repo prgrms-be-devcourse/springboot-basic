@@ -4,8 +4,11 @@ import org.prgrms.kdtspringdemo.view.console.input.Input;
 import org.prgrms.kdtspringdemo.view.console.output.Output;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VoucherConsole {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
     private static final String INIT_MESSAGE = """
             === Voucher Program ===
             Type exit to exit the program.
@@ -79,6 +82,7 @@ public class VoucherConsole {
         try {
             Long.parseLong(amount);
         } catch (NumberFormatException e) {
+            logger.error("원인 : {} -> 에러 메시지 : {}", amount, IS_NUMERIC_EXCEPTION_MESSAGE);
             throw new IllegalArgumentException(IS_NUMERIC_EXCEPTION_MESSAGE);
         }
     }
