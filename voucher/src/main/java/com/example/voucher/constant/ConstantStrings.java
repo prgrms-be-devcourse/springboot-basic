@@ -32,6 +32,7 @@ public class ConstantStrings {
 
 	public static final String PREFIX_ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE = "IllegalArgumentException : ";
 	public static final String PREFIX_INPUT_MISMATCH_EXCEPTION_MESSAGE = "InputMismatchException : ";
+	public static final String PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE = "NoSuchElementException : ";
 	public static final String PREFIX_EXCEPTION_MESSAGE = "Exception : ";
 
 	public static final String MESSAGE_ERROR_INPUT_NUMBER = """

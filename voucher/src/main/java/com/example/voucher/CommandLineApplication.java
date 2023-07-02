@@ -2,7 +2,7 @@ package com.example.voucher;
 
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +64,9 @@ public class CommandLineApplication {
 		} catch (InputMismatchException e) {
 			logger.error(ConstantStrings.PREFIX_INPUT_MISMATCH_EXCEPTION_MESSAGE + e.getMessage());
 			Console.printError(e.getMessage());
+		} catch (NoSuchElementException e) {
+			logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
+			Console.printError(e.getMessage());
 		} catch (Exception e) {
 			logger.error(ConstantStrings.PREFIX_EXCEPTION_MESSAGE + e.getMessage());
 			Console.printError(e.getMessage());
@@ -71,21 +74,10 @@ public class CommandLineApplication {
 	}
 
 	public void createVoucherDetail() {
-		AtomicBoolean haveToCreate = new AtomicBoolean(true);
-
-		while (haveToCreate.get()) {
-			Console.printVoucherType();
-			Integer inputVoucherType = Console.readVoucherType();
-			VoucherType.getVouchersType(inputVoucherType).ifPresentOrElse(
-				(voucherType) -> {
-					processVoucherType(voucherType);
-					haveToCreate.set(false);
-				},
-				() -> {
-					Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_VOUCHER_TYPE_SELECTION_PROMPT);
-				}
-			);
-		}
+		Console.printVoucherType();
+		Integer inputVoucherType = Console.readVoucherType();
+		VoucherType voucherType = VoucherType.getVouchersType(inputVoucherType);
+		processVoucherType(voucherType);
 	}
 
 	public Voucher processVoucherType(VoucherType voucherType) {
