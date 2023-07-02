@@ -13,15 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LocalMemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> voucherStore;
-
-    public LocalMemoryVoucherRepository() {
-        voucherStore = new ConcurrentHashMap<>();
-    }
-
-    public LocalMemoryVoucherRepository(Map<UUID, Voucher> voucherStore) {
-        this.voucherStore = voucherStore;
-    }
+    private final Map<UUID, Voucher> voucherStore = new ConcurrentHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -30,7 +22,7 @@ public class LocalMemoryVoucherRepository implements VoucherRepository {
                     "이미 존재하는 바우처의 uuid입니다. [uuid]: " + voucher.getUuid());
         }
 
-        persistVoucher(voucher);
+        voucherStore.put(voucher.getUuid(), voucher);
         return voucher;
     }
 
@@ -53,9 +45,5 @@ public class LocalMemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         voucherStore.clear();
-    }
-
-    private void persistVoucher(Voucher voucher) {
-        voucherStore.put(voucher.getUuid(), voucher);
     }
 }
