@@ -1,6 +1,5 @@
-package org.promgrammers.springbootbasic;
+package org.promgrammers.springbootbasic.controller;
 
-import org.promgrammers.springbootbasic.controller.CommandProgramStatus;
 import org.promgrammers.springbootbasic.domain.customer.controller.CustomerController;
 import org.promgrammers.springbootbasic.domain.voucher.controller.VoucherController;
 import org.promgrammers.springbootbasic.domain.voucher.model.Command;

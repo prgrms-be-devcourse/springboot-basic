@@ -3,7 +3,7 @@ package org.promgrammers.springbootbasic.domain.wallet.repository.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.promgrammers.springbootbasic.CommandLineController;
+import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;

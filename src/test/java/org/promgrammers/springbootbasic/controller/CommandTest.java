@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CommandTest {
 
     @ParameterizedTest
-    @DisplayName("생성 성공 - 올바른 커맨합드 입력")
+    @DisplayName("생성 성공 - 올바른 커맨드 입력")
     @CsvSource(
             {"1, EXIT", "2, VOUCHER", "3,CUSTOMER", "4,WALLET"})
     void createCommandSuccessTest(String inputCommand, Command expectedCommand) {

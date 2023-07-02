@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.promgrammers.springbootbasic.CommandLineController;
+import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
