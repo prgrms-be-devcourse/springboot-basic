@@ -45,7 +45,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
     }
 
-    public void clear() {
+    @Override
+    public void deleteAll() {
         VOUCHER_MEMORY.clear();
     }
 }

@@ -48,6 +48,7 @@ public class MemberService {
         memberRepository.update(updateMember);
     }
 
+    @Transactional
     public void deleteMemberById(UUID memberId) {
         final Member deleteMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));

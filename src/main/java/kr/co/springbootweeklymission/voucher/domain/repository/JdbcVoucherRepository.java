@@ -81,6 +81,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(sql, voucher.getVoucherId().toString());
     }
 
+    @Override
+    public void deleteAll() {
+        String sql = "delete from tbl_vouchers";
+        jdbcTemplate.update(sql);
+    }
+
     public static RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> Voucher.builder()
                 .voucherId(UUID.fromString(rs.getString("voucher_id")))

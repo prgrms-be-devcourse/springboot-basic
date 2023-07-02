@@ -8,15 +8,18 @@ import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.repository.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
+    @Transactional
     public void createVoucher(VoucherReqDTO.CREATE create) {
         final Voucher saveVoucher = Voucher.toVoucher(create);
         voucherRepository.save(saveVoucher);
@@ -35,6 +38,7 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional
     public void updateVoucherById(UUID voucherId,
                                   VoucherReqDTO.UPDATE update) {
         final Voucher updateVoucher = voucherRepository.findById(voucherId)
@@ -43,6 +47,7 @@ public class VoucherService {
         voucherRepository.update(updateVoucher);
     }
 
+    @Transactional
     public void deleteVoucherById(UUID voucherId) {
         final Voucher deleteVoucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));

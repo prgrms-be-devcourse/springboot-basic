@@ -27,6 +27,11 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
+    @BeforeAll
+    void beforeAll() {
+        voucherRepository.deleteAll();
+    }
+
     @Test
     @Order(1)
     void save_고정_할인_바우처를_등록_SUCCESS() {
