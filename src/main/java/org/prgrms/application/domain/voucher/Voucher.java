@@ -1,12 +1,12 @@
 package org.prgrms.application.domain.voucher;
 
-import java.util.UUID;
 
-public interface Voucher {
+public abstract class Voucher {
+    protected Long voucherId;
+    protected double amount;
 
-    Long getVoucherId();
+    public abstract Long getVoucherId();
 
-    double discount(double beforeDiscount);
+    public abstract double discount(double beforeDiscount);
 
-    Voucher copy();
 }
