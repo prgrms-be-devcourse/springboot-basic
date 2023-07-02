@@ -16,7 +16,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     private void validationAmount(int amount) {
-        if (amount <= MIN_AMOUNT) {
+        if (amount < MIN_AMOUNT) {
             throw new IllegalArgumentException("The minimum discount amount is 1.");
         }
     }
