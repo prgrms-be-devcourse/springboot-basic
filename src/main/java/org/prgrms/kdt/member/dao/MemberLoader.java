@@ -1,10 +1,9 @@
-package org.prgrms.kdt.member;
+package org.prgrms.kdt.member.dao;
 
-import org.prgrms.kdt.exception.DatabaseException;
+import org.prgrms.kdt.exception.FileAccessException;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.util.Converter;
-import org.prgrms.kdt.util.ErrorMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +35,7 @@ public class MemberLoader {
             }
             return Members;
         } catch (IOException e) {
-            throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);
+            throw new FileAccessException("파일에 접근하다 문제가 생겼습니다.", e);
         }
     }
 
@@ -46,7 +45,7 @@ public class MemberLoader {
                 writer.append(Converter.memberToString(entry.getValue()) + "\n");
             }
         } catch (IOException e) {
-            throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);
+            throw new FileAccessException("파일에 접근하다 문제가 생겼습니다.", e);
         }
     }
 }

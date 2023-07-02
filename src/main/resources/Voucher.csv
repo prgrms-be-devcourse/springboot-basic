@@ -1,7 +1,7 @@
-d4addb78-1f71-4b9b-9e19-06ce071c3214,FixedAmountVoucher,20
-23884136-3c18-4b00-9e4a-06e675393a83,PercentDiscountVoucher,20
-e6801502-7989-4b9a-ac83-9bf9dc38e0b0,PercentDiscountVoucher,20
-88044fcf-d71e-4df5-839a-008ec9d2cda5,FixedAmountVoucher,20
-ecd2418f-279e-40e8-8c07-c184dad2d5bd,PercentDiscountVoucher,20
-580d74de-d765-46d1-8fde-aefc14000fea,PercentDiscountVoucher,20
-da1d1591-60b3-4295-8ffa-32c20207d62a,PercentDiscountVoucher,20
+fdae67c5-067d-4278-b303-0deb4a6d989d,PERCENT,50
+b2dd7bef-2948-4fbf-b7c6-be5b94571738,FIXED,20
+c93f3713-2335-4c0d-acaa-68169d0fbf20,FIXED,190
+f8318821-3573-45a0-b47f-944e27cfec24,PERCENT,70
+f9d9f79c-4485-4930-9461-e527a2f5b189,FIXED,30
+a0699ef1-2cb6-402c-aedf-5606367fb7ce,PERCENT,20
+e2691edf-1e86-4740-ae9a-bde99866588b,PERCENT,20

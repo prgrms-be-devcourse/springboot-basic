@@ -2,23 +2,36 @@ package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
-public abstract class Voucher {
-    protected UUID voucherId;
-    protected final double amount = 20;
+public class Voucher {
+    private final UUID voucherId;
+    private final VoucherType voucherType;
+    private final DiscountPolicy discountPolicy;
 
-    public Voucher(UUID voucherId) {
+    public Voucher(VoucherType voucherType, DiscountPolicy discountPolicy) {
+        this.voucherId = UUID.randomUUID();
+        this.voucherType = voucherType;
+        this.discountPolicy = discountPolicy;
+    }
+
+    public Voucher(UUID voucherId, VoucherType voucherType, DiscountPolicy discountPolicy) {
         this.voucherId = voucherId;
+        this.voucherType = voucherType;
+        this.discountPolicy = discountPolicy;
     }
 
     public UUID getVoucherId() {
         return voucherId;
     }
 
-    public double getAmount() {
-        return amount;
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
-    public abstract String getVoucherType();
+    public DiscountPolicy getDiscountPolicy() {
+        return discountPolicy;
+    }
 
-    public abstract double discount(double beforeDiscount);
+    public double discount(double originPrice) {
+        return discountPolicy.applyDiscount(originPrice);
+    }
 }

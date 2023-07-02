@@ -1,13 +1,11 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.dao;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.member.domain.MemberStatus;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,10 +22,11 @@ class VoucherLoaderTest {
     }
 
     @Test
-    void 파일에_바우처_내용_저장_후_저장확인() {
+    @DisplayName("메모리의 바우처들 파일에 저장 후 저장된 파일 확인")
+    void saveMemoryVoucherToFile() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID());
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID());
+        Voucher voucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher voucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
         Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
         voucherMap.put(voucher1.getVoucherId(), voucher1);
         voucherMap.put(voucher2.getVoucherId(), voucher2);

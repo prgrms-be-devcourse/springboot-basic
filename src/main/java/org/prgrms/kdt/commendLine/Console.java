@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.MessageFormat;
 import java.util.List;
 
 @Component
@@ -23,6 +24,11 @@ public class Console {
         return br.readLine();
     }
 
+    public String getDiscountAmount() throws IOException{
+        System.out.print("할인 금액을 선택하세요:");
+        return br.readLine();
+    }
+
     public void printMenu() {
         System.out.println("Type -exit- to exit the program.\n" +
                 "Type -create- to create a new voucher.\n" +
@@ -31,7 +37,7 @@ public class Console {
     }
 
     public void printAllBoucher(List<Voucher> vouchers) {
-        vouchers.forEach(e -> System.out.println(e.getVoucherType()));
+        vouchers.forEach(e -> System.out.println(MessageFormat.format("{0},{1}", e.getVoucherType(), e.getDiscountPolicy().getAmount())));
         System.out.println();
     }
 

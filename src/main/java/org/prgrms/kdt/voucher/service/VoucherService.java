@@ -1,16 +1,12 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.exception.InvalidInputException;
-import org.prgrms.kdt.util.ErrorMessage;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.dto.CreateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -20,15 +16,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType voucherType) {
-        switch (voucherType){
-            case FIXED:
-                return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID()));
-            case PERCENT:
-                return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID()));
-            default:
-                throw new InvalidInputException(ErrorMessage.INVALID_INPUT);
-        }
+    public Voucher createVoucher(CreateRequest request) {
+        VoucherType voucherType = request.getVoucherType();
+        double discountAmount = request.getDiscountAmount();
+
+        return voucherRepository.insert(new Voucher(voucherType, voucherType.createPolicy(discountAmount)));
     }
 
     public List<Voucher> findAll() {

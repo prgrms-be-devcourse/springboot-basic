@@ -5,6 +5,8 @@ import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.member.controller.MemberController;
 import org.prgrms.kdt.util.Menu;
 import org.prgrms.kdt.voucher.controller.VoucherController;
+import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.dto.CreateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -27,7 +29,7 @@ public class CommendLineRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args){
+    public void run(String... args) {
         boolean isRunning = true;
         while (isRunning) {
             try {
@@ -49,9 +51,7 @@ public class CommendLineRunner implements CommandLineRunner {
     private void executeAction(Menu menu) throws IOException {
         switch (menu) {
             case CREATE:
-                voucherController.create(console.getVoucherTypes());
-                break;
-            case EXIT:
+                createVoucher();
                 break;
             case LIST:
                 console.printAllBoucher(voucherController.findAll());
@@ -60,5 +60,11 @@ public class CommendLineRunner implements CommandLineRunner {
                 console.printAllBlackList(memberController.findAllBlackMember());
                 break;
         }
+    }
+
+    private void createVoucher() throws IOException {
+        VoucherType voucherType = VoucherType.getType(console.getVoucherTypes());
+        double discountAmount = Double.parseDouble(console.getDiscountAmount());
+        voucherController.create(new CreateRequest(voucherType, discountAmount));
     }
 }

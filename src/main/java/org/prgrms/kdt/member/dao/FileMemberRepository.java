@@ -1,17 +1,12 @@
-package org.prgrms.kdt.member.repository;
+package org.prgrms.kdt.member.dao;
 
-import org.prgrms.kdt.member.MemberLoader;
 import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.voucher.VoucherLoader;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class FileMemberRepository implements MemberRepository {

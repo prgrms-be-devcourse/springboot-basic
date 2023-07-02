@@ -1,13 +1,15 @@
-package org.prgrms.kdt.voucher.repository;
+package org.prgrms.kdt.voucher.dao;
 
-import org.prgrms.kdt.voucher.VoucherLoader;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
 
 @Profile("file")
 @Component

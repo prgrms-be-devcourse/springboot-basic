@@ -1,9 +1,9 @@
-package org.prgrms.kdt.member.repository;
+package org.prgrms.kdt.member.dao;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.prgrms.kdt.member.MemberLoader;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 
@@ -14,8 +14,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 class FileMemberRepositoryTest {
-    private FileMemberRepository fileMemberRepository;
-    private MemberLoader mockMemberLoader;
+    FileMemberRepository fileMemberRepository;
+    MemberLoader mockMemberLoader;
 
     @BeforeEach
     void setup() {
@@ -27,6 +27,7 @@ class FileMemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("블랙리스트 맴버 전체 조회")
     void findAllBlackMember() {
         //when
         List<Member> foundBlackMembers = fileMemberRepository.findAllBlackMember();

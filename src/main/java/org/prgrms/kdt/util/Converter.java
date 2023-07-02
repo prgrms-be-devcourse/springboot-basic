@@ -3,9 +3,10 @@ package org.prgrms.kdt.util;
 import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.domain.FixedDiscountPolicy;
+import org.prgrms.kdt.voucher.domain.PercentDiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -16,7 +17,7 @@ public final class Converter {
     }
 
     public static String voucherToString(Voucher voucher) {
-        return MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+        return MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountPolicy().getAmount());
     }
 
     public static String memberToString(Member member){
@@ -29,11 +30,11 @@ public final class Converter {
 
     public static Voucher stringToVoucher(String str) {
         String[] stringArr = str.split(",");
-        if (stringArr[1].equals("FixedAmountVoucher")) {
-            return new FixedAmountVoucher(UUID.fromString(stringArr[0]));
+        if (stringArr[1].equals("FIXED")) {
+            return new Voucher(UUID.fromString(stringArr[0]), VoucherType.FIXED, new FixedDiscountPolicy(Double.parseDouble(stringArr[2])));
         }
-        if (stringArr[1].equals("PercentDiscountVoucher")) {
-            return new PercentDiscountVoucher(UUID.fromString(stringArr[0]));
+        if (stringArr[1].equals("PERCENT")) {
+            return new Voucher(UUID.fromString(stringArr[0]), VoucherType.PERCENT, new PercentDiscountPolicy(Double.parseDouble(stringArr[2])));
         }
         throw new InvalidInputException();
     }
