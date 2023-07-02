@@ -2,17 +2,15 @@ package com.demo.voucher.io;
 
 import com.demo.voucher.domain.Voucher;
 import com.demo.voucher.domain.VoucherType;
-import com.demo.voucher.io.exception.InputError;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 @Component
-public class ConsoleView implements Input, Output, InputError {
+public class ConsoleView implements Input, Output {
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -20,6 +18,7 @@ public class ConsoleView implements Input, Output, InputError {
     private static final String REQUEST_MENU_TYPE_PROMPT = "\n명령 메뉴를 입력해주세요 : ";
     private static final String REQUEST_VOUCHER_TYPE_PROMPT = "생성할 바우처 타입을 입력해주세요 : ";
     private static final String NO_VOUCHER_HISTORY = "등록된 바우처가 없습니다.";
+    private static final String EXIT_MESSAGE = "바우처 프로그램을 종료합니다";
     private static final String SPACE = " ";
 
     @Override
@@ -59,11 +58,18 @@ public class ConsoleView implements Input, Output, InputError {
     }
 
     @Override
-    public void showAllVouchers(Map<UUID, Voucher> voucherHistory) {
+    public void showAllVouchers(List<Voucher> voucherHistory) {
         if (voucherHistory.isEmpty()) {
             System.out.println(NO_VOUCHER_HISTORY);
             return;
         }
-        voucherHistory.values().forEach(v -> System.out.println(MessageFormat.format("{0}{1}{2}{3}{4}", v.getVoucherId(), SPACE, v.getVoucherTypeDescription(), SPACE, v.getDiscountInfo())));
+        voucherHistory.forEach(
+                v -> System.out.println(MessageFormat.format("{0}{1}{2}{3}{4}",
+                        v.getVoucherId(), SPACE, v.getVoucherType(), SPACE, v.getDiscountInfo())));
+    }
+
+    @Override
+    public void showExitMessage() {
+        System.out.println(EXIT_MESSAGE);
     }
 }

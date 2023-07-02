@@ -2,8 +2,7 @@ package com.demo.voucher.io;
 
 import com.demo.voucher.domain.Voucher;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 public interface Output {
     void showMenu();
@@ -12,5 +11,7 @@ public interface Output {
 
     void inputError(String errorResponse);
 
-    void showAllVouchers(Map<UUID, Voucher> voucherHistory);
+    void showAllVouchers(List<Voucher> voucherHistory);
+
+    void showExitMessage();
 }
