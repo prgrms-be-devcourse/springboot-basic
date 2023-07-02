@@ -12,17 +12,19 @@ public class Console implements Input, Output{
     /** Output **/
     @Override
     public void printMenu() {
-        System.out.println("=== Voucher Program ===");
-        System.out.println("Type **exit** to exit the program.");
-        System.out.println("Type **create** to create a new voucher.");
-        System.out.println("Type **list** to list all vouchers.");
+        System.out.println("""
+                === Voucher Program ===
+                Type **exit** to exit the program.
+                Type **create** to create a new voucher.
+                Type **list** to list all vouchers.""");
     }
 
     @Override
     public void printKindOfVoucher() {
-        System.out.println("1 -- 고정 할인 Voucher 생성");
-        System.out.println("2 -- 퍼센트 할인 Voucher 생성");
-        System.out.print("입력: ");
+        System.out.print("""
+                1 -- 고정 할인 Voucher 생성
+                2 -- 퍼센트 할인 Voucher 생성
+                입력: """);
     }
 
     @Override
