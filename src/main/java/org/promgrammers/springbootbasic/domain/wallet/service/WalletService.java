@@ -23,6 +23,7 @@ public class WalletService {
 
     private final JdbcWalletRepository walletRepository;
     private final JdbcVoucherRepository voucherRepository;
+    private final JdbcCustomerRepository customerRepository;
 
     public WalletService(JdbcWalletRepository walletRepository, JdbcVoucherRepository voucherRepository, JdbcCustomerRepository customerRepository) {
         this.walletRepository = walletRepository;
@@ -30,14 +31,12 @@ public class WalletService {
         this.customerRepository = customerRepository;
     }
 
-    private final JdbcCustomerRepository customerRepository;
-
 
     @Transactional
     public WalletResponse create(CreateWalletRequest walletRequest) {
         Customer customer = customerRepository.getCustomerById(walletRequest.customerId());
         Voucher voucher = voucherRepository.getVoucherById(walletRequest.voucherId());
-        Wallet wallet = new Wallet(voucher,customer);
+        Wallet wallet = new Wallet(voucher, customer);
         walletRepository.save(wallet);
         return new WalletResponse(wallet);
     }
