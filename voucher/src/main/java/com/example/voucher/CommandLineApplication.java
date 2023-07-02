@@ -3,6 +3,8 @@ package com.example.voucher;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import com.example.voucher.domain.Voucher;
@@ -16,6 +18,8 @@ import jakarta.annotation.PostConstruct;
 
 @Controller
 public class CommandLineApplication {
+
+	private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
 	final private VoucherService voucherService;
 	private boolean isOn = true;
@@ -50,6 +54,14 @@ public class CommandLineApplication {
 	}
 
 	public void createVoucher() {
+		try {
+			createVoucherDetail();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+
+	public void createVoucherDetail() {
 		AtomicBoolean haveToCreate = new AtomicBoolean(true);
 
 		while (haveToCreate.get()) {
