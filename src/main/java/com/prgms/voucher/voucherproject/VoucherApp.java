@@ -13,7 +13,7 @@ import java.util.InputMismatchException;
 
 public class VoucherApp implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
-    private boolean NOTEXIT = true;
+    private boolean EXIT = false;
     private final Console console = new Console();
 
     private final VoucherService voucherService;
@@ -33,14 +33,14 @@ public class VoucherApp implements Runnable {
     @Override
     public void run() {
 
-        while (NOTEXIT) {
+        while (!EXIT) {
             console.printMenu();
             menuName = console.inputCommand().toLowerCase();
 
             try {
                 switch (MenuType.getSelectedMenuType(menuName)) {
                     case EXIT -> {
-                        NOTEXIT = false;
+                        EXIT = true;
                         console.printMsg("프로그램을 종료합니다.");
                     }
                     case CREATE -> {
