@@ -25,11 +25,16 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        try {
+            Voucher voucher = store.get(voucherId);
+            return Optional.ofNullable(voucher);
+        } catch (NullPointerException ex) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public void deleteAll() {
-
+        store.clear();
     }
 }
