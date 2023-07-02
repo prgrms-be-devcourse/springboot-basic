@@ -13,32 +13,39 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.prgms.vouchermanagement.customer.domain.entity.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.distribution.Version.v5_7_latest;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.config.Charset.UTF8;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.distribution.Version.v5_7_latest;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerNamedJdbcRepositoryTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgms.vouchermanagement.customer"})
@@ -54,18 +61,8 @@ class CustomerNamedJdbcRepositoryTest {
         }
 
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-
-        @Bean
-        public CustomerNamedJdbcRepository customerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-            return new CustomerNamedJdbcRepository(jdbcTemplate);
+        public CustomerNamedJdbcRepository customerNamedJdbcRepository(DataSource dataSource) {
+            return new CustomerNamedJdbcRepository(dataSource);
         }
 
     }
@@ -93,7 +90,8 @@ class CustomerNamedJdbcRepositoryTest {
                 .addSchema("test_customer", classPathScript("schema.sql"))
                 .start();
 
-        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        logger.info("================= {}", newCustomer.getCreatedAt());
     }
 
     @AfterAll
@@ -116,5 +114,52 @@ class CustomerNamedJdbcRepositoryTest {
 
         Optional<Customer> retrievedCustomer = customerNamedJdbcRepository.findByID(newCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty()).isFalse();
+        assertThat(retrievedCustomer.get()).usingRecursiveComparison().isEqualTo(newCustomer);
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("전체 고객 조회 기능 test")
+    void testFindAll() {
+        List<Customer> customers = customerNamedJdbcRepository.findAll();
+        assertThat(customers.isEmpty()).isFalse();
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("이름으로 고객 조회 기능 test")
+    void testFindByName() {
+        Optional<Customer> customer = customerNamedJdbcRepository.findByName(newCustomer.getName());
+        assertThat(customer.isEmpty()).isFalse();
+
+        Optional<Customer> unknown = customerNamedJdbcRepository.findByName("unknown-user");
+        assertThat(unknown.isEmpty()).isTrue();
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("이메일로 고객 조회 기능 test")
+    void testFindByEmail() {
+        Optional<Customer> customer = customerNamedJdbcRepository.findByEmail(newCustomer.getEmail());
+        assertThat(customer.isEmpty()).isFalse();
+
+        Optional<Customer> unknown = customerNamedJdbcRepository.findByEmail("unknown-user@gmail.com");
+        assertThat(unknown.isEmpty()).isTrue();
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("고객 수정 기능 test")
+    void testUpdate() {
+        newCustomer.changeName("updated-user");
+        customerNamedJdbcRepository.update(newCustomer);
+
+        List<Customer> all = customerNamedJdbcRepository.findAll();
+        MatcherAssert.assertThat(all, hasSize(1));
+        MatcherAssert.assertThat(all, everyItem(samePropertyValuesAs(newCustomer)));
+
+        Optional<Customer> retrievedCustomer = customerNamedJdbcRepository.findByID(newCustomer.getCustomerId());
+        MatcherAssert.assertThat(retrievedCustomer.isEmpty(), is(false));
+        MatcherAssert.assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
     }
 }

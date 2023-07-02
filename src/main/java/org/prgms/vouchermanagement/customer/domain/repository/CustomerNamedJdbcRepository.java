@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -43,8 +44,8 @@ public class CustomerNamedJdbcRepository implements CustomerRepository{
     }};
     }
 
-    public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public CustomerNamedJdbcRepository(DataSource dataSource) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
@@ -53,19 +54,24 @@ public class CustomerNamedJdbcRepository implements CustomerRepository{
                 toParamMap(customer));
         if (updated != 1) {
             logger.error("Customer insert error");
-            throw new CustomerException(ExceptionMessageConstant.EMPTY_CUSTOMER_INSERT);
+            throw new CustomerException(ExceptionMessageConstant.EMPTY_CUSTOMER_INSERT_EXCEPTION);
         }
         return customer;
     }
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        int updated = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+                toParamMap(customer));
+        if (updated != 1) {
+            throw new CustomerException("Customer update error");
+        }
+        return customer;
     }
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        return jdbcTemplate.query("select * from customers", customerRowMapper);
     }
 
     @Override
@@ -82,12 +88,26 @@ public class CustomerNamedJdbcRepository implements CustomerRepository{
 
     @Override
     public Optional<Customer> findByName(String name) {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE name = :name",
+                    Collections.singletonMap("name", name),
+                    customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("No result found by Name");
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE email = :email",
+                    Collections.singletonMap("email", email),
+                    customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result");
+            return Optional.empty();
+        }
     }
 
     @Override
