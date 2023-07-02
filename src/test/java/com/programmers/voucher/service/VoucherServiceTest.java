@@ -1,6 +1,9 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.*;
+import com.programmers.voucher.domain.Discount;
+import com.programmers.voucher.domain.FixedDiscount;
+import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;

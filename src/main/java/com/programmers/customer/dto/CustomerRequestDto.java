@@ -1,4 +1,6 @@
 package com.programmers.customer.dto;
 
-public record CustomerRequestDto (String name){
+import java.util.UUID;
+
+public record CustomerRequestDto (UUID customerId, String name){
 }
