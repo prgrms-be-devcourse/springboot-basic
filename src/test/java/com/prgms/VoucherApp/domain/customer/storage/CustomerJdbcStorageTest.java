@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @Transactional
-class JdbcCustomerStorageTest {
+class CustomerJdbcStorageTest {
 
     @Autowired
     CustomerStorage customerStorage;

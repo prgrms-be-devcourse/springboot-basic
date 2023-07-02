@@ -17,12 +17,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class JdbcCustomerStorage implements CustomerStorage {
+public class CustomerJdbcStorage implements CustomerStorage {
 
-    private final static Logger logger = LoggerFactory.getLogger(JdbcCustomerStorage.class);
+    private final static Logger logger = LoggerFactory.getLogger(CustomerJdbcStorage.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public JdbcCustomerStorage(DataSource dataSource) {
+    public CustomerJdbcStorage(DataSource dataSource) {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
