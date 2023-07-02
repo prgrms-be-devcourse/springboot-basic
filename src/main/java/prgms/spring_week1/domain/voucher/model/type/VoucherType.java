@@ -23,7 +23,7 @@ public enum VoucherType {
         Optional<VoucherType> matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText);
 
         if (matchedVoucherType.isEmpty()) {
-            throw new NoSuchVoucherTypeException();
+            throw new NoSuchVoucherTypeException("해당 바우처 타입이 존재하지 않습니다.");
         }
         return matchedVoucherType.get();
     }
