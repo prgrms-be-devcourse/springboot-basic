@@ -9,7 +9,7 @@ public interface Voucher {
 
     VoucherType getVoucherType();
 
-    long getDiscount();
+    long getAmount();
 
     long executeDiscount(long originPrice);
 

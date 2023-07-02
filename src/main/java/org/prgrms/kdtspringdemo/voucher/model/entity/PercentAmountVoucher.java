@@ -11,12 +11,12 @@ public class PercentAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final VoucherType voucherType;
-    private final long discount;
+    private final long amount;
 
-    public PercentAmountVoucher(UUID voucherId, VoucherType voucherType, long discount) {
+    public PercentAmountVoucher(UUID voucherId, VoucherType voucherType, long amount) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
-        this.discount = validateDiscount(discount);
+        this.amount = validateDiscount(amount);
     }
 
     @Override
@@ -30,13 +30,13 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
-    public long getDiscount() {
-        return discount;
+    public long getAmount() {
+        return amount;
     }
 
     @Override
     public long executeDiscount(long originPrice) {
-        return originPrice * (discount / MAX_DISCOUNT);
+        return originPrice * (amount / MAX_DISCOUNT);
     }
 
     @Override

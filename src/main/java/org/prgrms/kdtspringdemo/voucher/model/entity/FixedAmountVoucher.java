@@ -10,12 +10,12 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final VoucherType voucherType;
-    private final long discount;
+    private final long amount;
 
-    public FixedAmountVoucher(UUID voucherId, VoucherType voucherType, long discount) {
+    public FixedAmountVoucher(UUID voucherId, VoucherType voucherType, long amount) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
-        this.discount = validateDiscount(discount);
+        this.amount = validateDiscount(amount);
     }
 
     @Override
@@ -29,13 +29,13 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long getDiscount() {
-        return discount;
+    public long getAmount() {
+        return amount;
     }
 
     @Override
     public long executeDiscount(long originPrice) {
-        return originPrice - discount;
+        return originPrice - amount;
     }
 
     @Override

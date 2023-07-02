@@ -47,14 +47,14 @@ public class VoucherServiceImpl implements VoucherService {
         List<Voucher> voucherList = voucherRepository.findAll();
 
         return voucherList.stream()
-                .map(v -> new VoucherDto(v.getVoucherType(), v.getDiscount()))
+                .map(VoucherDto::new)
                 .collect(Collectors.toList());
     }
 
     private VoucherDto convertToVoucherDto(Voucher voucher) {
         return new VoucherDto(
                 voucher.getVoucherType(),
-                voucher.getDiscount()
+                voucher.getAmount()
         );
     }
 }
