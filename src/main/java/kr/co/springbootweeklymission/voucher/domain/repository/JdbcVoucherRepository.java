@@ -61,31 +61,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        if (!voucher.isMember()) {
-            String sql = "" +
-                    "update tbl_vouchers set " +
-                    "voucher_amount = ?, " +
-                    "voucher_policy = ? " +
-                    "where voucher_id = ?";
-            jdbcTemplate.update(
-                    sql,
-                    voucher.getAmount(),
-                    voucher.getVoucherPolicy().toString(),
-                    voucher.getVoucherId().toString());
-            return;
-        }
-
         String sql = "" +
                 "update tbl_vouchers set " +
                 "voucher_amount = ?, " +
-                "voucher_policy = ?, " +
-                "member_id = ? " +
+                "voucher_policy = ? " +
                 "where voucher_id = ?";
         jdbcTemplate.update(
                 sql,
                 voucher.getAmount(),
                 voucher.getVoucherPolicy().toString(),
-                voucher.getMemberId().toString(),
                 voucher.getVoucherId().toString());
     }
 
@@ -98,21 +82,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
-        return (rs, rowNum) -> {
-            if (rs.getString("member_id") == null) {
-                return Voucher.builder()
-                        .voucherId(UUID.fromString(rs.getString("voucher_id")))
-                        .amount(rs.getInt("voucher_amount"))
-                        .voucherPolicy(VoucherPolicy.valueOf(rs.getString("voucher_policy")))
-                        .build();
-            }
-
-            return Voucher.builder()
-                    .voucherId(UUID.fromString(rs.getString("voucher_id")))
-                    .amount(rs.getInt("voucher_amount"))
-                    .voucherPolicy(VoucherPolicy.valueOf(rs.getString("voucher_policy")))
-                    .memberId(UUID.fromString(rs.getString("member_id")))
-                    .build();
-        };
+        return (rs, rowNum) -> Voucher.builder()
+                .voucherId(UUID.fromString(rs.getString("voucher_id")))
+                .amount(rs.getInt("voucher_amount"))
+                .voucherPolicy(VoucherPolicy.valueOf(rs.getString("voucher_policy")))
+                .build();
     }
 }

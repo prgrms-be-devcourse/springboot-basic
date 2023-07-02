@@ -2,7 +2,6 @@ package kr.co.springbootweeklymission.voucher.domain.entity;
 
 import kr.co.springbootweeklymission.infrastructure.error.exception.WrongVoucherPolicyException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import lombok.*;
@@ -16,16 +15,14 @@ public class Voucher {
     private UUID voucherId;
     private int amount;
     private VoucherPolicy voucherPolicy;
-    private UUID memberId;
 
     @Builder
     private Voucher(UUID voucherId,
                     int amount,
-                    VoucherPolicy voucherPolicy, UUID memberId) {
+                    VoucherPolicy voucherPolicy) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherPolicy = voucherPolicy;
-        this.memberId = memberId;
     }
 
     public static Voucher toVoucher(VoucherReqDTO.CREATE create) {
@@ -44,18 +41,6 @@ public class Voucher {
         return this.voucherPolicy
                 .getDiscount()
                 .apply(price, this.amount);
-    }
-
-    public boolean isMember() {
-        return this.memberId != null;
-    }
-
-    public void assignVoucher(Member member) {
-        this.memberId = member.getMemberId();
-    }
-
-    public void unassignedVoucher() {
-        this.memberId = null;
     }
 
     public void updateVoucherInformation(VoucherReqDTO.UPDATE update) {
