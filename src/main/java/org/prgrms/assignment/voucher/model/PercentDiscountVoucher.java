@@ -1,33 +1,22 @@
 package org.prgrms.assignment.voucher.model;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
     private final UUID voucherId;
     private final long percent;
-    private final String voucherName;
-    private static int voucherNum = 0;
     private final LocalDateTime createdAt;
-
-
-    // for Mapper
-    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt, String voucherName) {
-        checkValid(percent);
-        this.voucherId = voucherId;
-        this.percent = percent;
-        this.createdAt = createdAt;
-        this.voucherName = voucherName;
-    }
 
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
         checkValid(percent);
-        this.createdAt = createdAt;
         this.voucherId = voucherId;
         this.percent = percent;
-        this.voucherName = getClass().getSimpleName() + voucherNum++;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -36,8 +25,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override
@@ -50,14 +39,8 @@ public class PercentDiscountVoucher implements Voucher {
         return VoucherType.PERCENT;
     }
 
-    @Override
-    public String getVoucherName() {
-        return voucherName;
-    }
-
-    @Override
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public long discount(long beforeDiscount) {
+        return beforeDiscount * (percent / 100);
     }
 
     private void checkValid(long percent) {

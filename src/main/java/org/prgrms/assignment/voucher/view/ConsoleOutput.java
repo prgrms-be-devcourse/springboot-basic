@@ -29,9 +29,7 @@ public class ConsoleOutput implements Output {
         for(VoucherType voucherType : voucherTypes) {
             System.out.print(voucherType + " / ");
         }
-        System.out.println();
     }
-
 
     @Override
     public void showVoucherList(List<VoucherDTO> voucherDTOList) {
@@ -43,7 +41,6 @@ public class ConsoleOutput implements Output {
         StringBuilder stringBuilder = new StringBuilder();
         for(VoucherDTO voucherDTO : voucherDTOList) {
             stringBuilder.append(String.format("%-25s", voucherDTO.getVoucherType().toString()))
-                .append(String.format("%-25s", voucherDTO.getVoucherDTOName()))
                 .append(String.format("%-25s", voucherDTO.getBenefit()))
                 .append(String.format("%-25s", voucherDTO.getCreatedAt()))
                 .append('\n');

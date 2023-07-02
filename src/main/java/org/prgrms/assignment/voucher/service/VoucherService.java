@@ -31,9 +31,8 @@ public class VoucherService {
         return voucherRepository.findAll().
                 stream().
                 map(voucher -> new VoucherDTO(voucher.getVoucherType(),
-                        voucher.getVoucherName(),
-                        voucher.getBenefit(),
-                        voucher.getCreatedAt()))
+                    voucher.getBenefit(),
+                    voucher.getCreatedAt()))
                 .toList();
     }
 

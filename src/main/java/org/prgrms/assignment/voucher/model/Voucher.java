@@ -3,17 +3,28 @@ package org.prgrms.assignment.voucher.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface Voucher {
 
-    UUID getVoucherId();
+public class Voucher {
 
-    long discount(long beforeDiscount);
+    // mapping용 프로퍼티.
+    private UUID voucherId;
+    private VoucherType voucherType;
+    private LocalDateTime createdAt;
+    private long benefit;
 
-    long getBenefit();
+    public UUID getVoucherId() {
+        return voucherId;
+    }
 
-    VoucherType getVoucherType();
+    public long getBenefit() {
+        return benefit;
+    }
 
-    String getVoucherName();
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
 
-    LocalDateTime getCreatedAt();
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }

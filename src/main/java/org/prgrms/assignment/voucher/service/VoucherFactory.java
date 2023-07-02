@@ -22,17 +22,17 @@ public class VoucherFactory {
                 return new PercentDiscountVoucher(voucherId, benefit, LocalDateTime.now());
             }
         }
-        throw new RuntimeException("Failed to created Voucher!");
+        throw new RuntimeException("Failed to create Voucher!");
     }
 
     // for Mapper
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, LocalDateTime createdAt, String voucherName, Long benefit) {
+    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, LocalDateTime createdAt, Long benefit) {
         switch (voucherType) {
             case FIXED -> {
-                return new FixedAmountVoucher(voucherId, benefit, createdAt, voucherName);
+                return new FixedAmountVoucher(voucherId, benefit, createdAt);
             }
             case PERCENT -> {
-                return new PercentDiscountVoucher(voucherId, benefit, createdAt, voucherName);
+                return new PercentDiscountVoucher(voucherId, benefit, createdAt);
             }
         }
         throw new RuntimeException("Failed to created Voucher!");

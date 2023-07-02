@@ -6,50 +6,20 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
     private final UUID voucherId;
-    private final long amount;
-    private final String voucherName;
-    private static int voucherNum = 0;
     private final LocalDateTime createdAt;
+    private final long amount;
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private static final int MIN_VOUCHER_AMOUNT = 0;
 
-    // for mapper
-    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt, String voucherName) {
-        checkValid(amount);
-        this.voucherId = voucherId;
-        this.amount = amount;
-        this.createdAt = createdAt;
-        this.voucherName = voucherName;
-    }
-
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         checkValid(amount);
-        this.createdAt = createdAt;
         this.voucherId = voucherId;
         this.amount = amount;
-        this.voucherName = getClass().getSimpleName() + voucherNum++;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public long discount(long beforeDiscount) {
-        var discountedAmount = beforeDiscount - amount;
-        if(discountedAmount < 0) {
-            throw new IllegalArgumentException("Wrong discount Amount!");
-        }
-        return discountedAmount;
-    }
-
-    @Override
-    public long getBenefit() {
-        return amount;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -58,13 +28,26 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherName() {
-        return voucherName;
+    public UUID getVoucherId() {
+        return voucherId;
     }
 
     @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public long getBenefit() {
+        return amount;
+    }
+
+    public long discount(long beforeDiscount) {
+        long discountedAmount = beforeDiscount - amount;
+        if(discountedAmount < 0) {
+            throw new IllegalArgumentException("Wrong discount Amount!");
+        }
+        return discountedAmount;
     }
 
     private void checkValid(long amount) {
