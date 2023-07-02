@@ -38,4 +38,12 @@ public class PercentDiscountVoucher implements Voucher {
     public int hashCode() {
         return Objects.hash(id, discountRate);
     }
+
+    @Override
+    public String toString() {
+        return "PercentDiscountVoucher{" +
+                "id=" + id +
+                ", discountRate=" + discountRate +
+                '}';
+    }
 }
