@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -29,6 +30,13 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public int discount(int originalPrice) {
-        return originalPrice * (amount / MAX_PERCENT);
+        int discountedAmount = calculateDiscountedAmount(originalPrice);
+        return originalPrice - discountedAmount;
+    }
+
+    private int calculateDiscountedAmount(int originalPrice) {
+        BigDecimal percent = BigDecimal.valueOf(amount).divide(BigDecimal.valueOf(MAX_PERCENT));
+        BigDecimal discountedAmount = percent.multiply(BigDecimal.valueOf(originalPrice));
+        return discountedAmount.intValue();
     }
 }
