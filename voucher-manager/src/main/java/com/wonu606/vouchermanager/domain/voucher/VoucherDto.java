@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.domain;
+package com.wonu606.vouchermanager.domain.voucher;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;

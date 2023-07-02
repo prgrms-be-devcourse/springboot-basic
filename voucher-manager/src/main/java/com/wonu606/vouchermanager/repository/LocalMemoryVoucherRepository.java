@@ -1,6 +1,6 @@
 package com.wonu606.vouchermanager.repository;
 
-import com.wonu606.vouchermanager.domain.Voucher;
+import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

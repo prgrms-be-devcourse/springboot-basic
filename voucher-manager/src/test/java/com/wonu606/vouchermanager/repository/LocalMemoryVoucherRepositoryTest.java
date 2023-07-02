@@ -3,9 +3,9 @@ package com.wonu606.vouchermanager.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.wonu606.vouchermanager.domain.FixedAmountVoucher;
-import com.wonu606.vouchermanager.domain.PercentageVoucher;
-import com.wonu606.vouchermanager.domain.Voucher;
+import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
+import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;

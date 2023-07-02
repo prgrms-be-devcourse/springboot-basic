@@ -1,7 +1,7 @@
 package com.wonu606.vouchermanager.controller;
 
-import com.wonu606.vouchermanager.domain.Voucher;
-import com.wonu606.vouchermanager.domain.VoucherDto;
+import com.wonu606.vouchermanager.domain.voucher.Voucher;
+import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.io.ConsoleIO;
 import java.util.List;
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.wonu606.vouchermanager.io;
 
 import com.wonu606.vouchermanager.controller.VoucherMenu;
-import com.wonu606.vouchermanager.domain.Voucher;
+import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.service.VoucherType;
 import java.util.List;
 import lombok.AllArgsConstructor;

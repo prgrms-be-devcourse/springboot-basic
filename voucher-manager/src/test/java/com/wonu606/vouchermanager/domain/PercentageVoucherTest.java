@@ -3,6 +3,8 @@ package com.wonu606.vouchermanager.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
+import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
