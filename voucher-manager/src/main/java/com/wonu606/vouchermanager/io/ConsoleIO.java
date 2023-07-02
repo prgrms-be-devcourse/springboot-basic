@@ -12,9 +12,10 @@ public class ConsoleIO {
     private final ConsoleInput input = new ConsoleInput();
     private final ConsolePrinter printer = new ConsolePrinter();
 
-    public String selectMenu() {
+    public VoucherMenu selectMenu() {
         displayMenu();
-        return input.readString(VoucherMenu.getAllNames(), "Menu");
+        String menuSelection = input.readString(VoucherMenu.getAllNames(), "Menu");
+        return VoucherMenu.getVoucherTypeByName(menuSelection);
     }
 
     public String selectVoucherType() {

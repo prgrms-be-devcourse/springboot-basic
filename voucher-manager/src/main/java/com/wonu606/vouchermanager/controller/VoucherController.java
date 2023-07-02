@@ -15,12 +15,16 @@ public class VoucherController {
     private final VoucherService service;
     private final ConsoleIO consoleIO;
 
+    private static boolean isExitMenu(VoucherMenu menu) {
+        return menu != VoucherMenu.EXIT;
+    }
+
     public void run() {
-        boolean continueProcessing = true;
-        while (continueProcessing) {
+        VoucherMenu menu = VoucherMenu.START;
+        while (isExitMenu(menu)) {
             try {
-                String menuName = consoleIO.selectMenu();
-                continueProcessing = performMenu(menuName);
+                menu = consoleIO.selectMenu();
+                executeMenuAction(menu);
             } catch (IllegalArgumentException exception) {
                 consoleIO.displayMessage(exception.getMessage());
             }
@@ -28,24 +32,21 @@ public class VoucherController {
         terminal();
     }
 
-    private boolean performMenu(String menuName) {
-        VoucherMenu menu = VoucherMenu.getVoucherTypeByName(menuName)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
-
+    private void executeMenuAction(VoucherMenu menu) {
         switch (menu) {
             case EXIT:
-                return false;
+                return;
 
             case LIST:
                 List<Voucher> voucherList = service.getVoucherList();
                 consoleIO.displayVoucherList(voucherList);
-                return true;
+                return;
 
             case CREATE:
                 String type = consoleIO.selectVoucherType();
                 double discount = consoleIO.readDouble("discount");
                 service.createVoucher(type, UUID.randomUUID(), discount);
-                return true;
+                return;
 
             default:
                 throw new IllegalArgumentException("수행할 수 없는 메뉴입니다.");

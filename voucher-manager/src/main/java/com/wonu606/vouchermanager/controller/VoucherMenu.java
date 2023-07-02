@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 public enum VoucherMenu {
 
+    START,
     EXIT,
     CREATE,
     LIST;
