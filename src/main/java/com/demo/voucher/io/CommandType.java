@@ -1,7 +1,9 @@
 package com.demo.voucher.io;
 
+import com.demo.voucher.exception.CommandInputException;
 import com.demo.voucher.io.dto.CommandTypeDescriptionDto;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Getter
+@RequiredArgsConstructor
 public enum CommandType {
     EXIT("종료", "프로그램을 종료합니다."),
     CREATE("생성", "새로운 바우처를 생성합니다."),
@@ -21,17 +24,11 @@ public enum CommandType {
     private final String command;
     private final String description;
 
-    CommandType(String command, String description) {
-        this.command = command;
-        this.description = description;
-    }
-
-    public static CommandType getCommandType(String input) {
-        return COMMAND_MAP.get(input);
-    }
-
-    public static boolean isValidCommandInput(String input) {
-        return COMMAND_MAP.containsKey(input);
+    public static CommandType of(String input) throws CommandInputException {
+        if (COMMAND_MAP.containsKey(input)) {
+            return COMMAND_MAP.get(input);
+        }
+        throw new CommandInputException();
     }
 
     public CommandTypeDescriptionDto getCommandTypeDescription() {

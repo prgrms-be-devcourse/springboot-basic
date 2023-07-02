@@ -1,7 +1,10 @@
 package com.demo.voucher.domain;
 
 import com.demo.voucher.domain.dto.VoucherCommandDescriptionDto;
+import com.demo.voucher.exception.AmountInputException;
+import com.demo.voucher.exception.VoucherTypeInputException;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
 import java.util.Map;
@@ -11,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Getter
+@RequiredArgsConstructor
 public enum VoucherType {
 
     FIXED_AMOUNT("1",
@@ -31,28 +35,18 @@ public enum VoucherType {
     private final String requestAmountDescription;
     private final Function<String, Boolean> amountValidation;
 
-
-    VoucherType(String command, String description, String requestAmountDescription, Function<String, Boolean> amountValidation) {
-        this.command = command;
-        this.voucherDescription = description;
-        this.requestAmountDescription = requestAmountDescription;
-        this.amountValidation = amountValidation;
+    public static VoucherType of(String inputVoucherType) throws IllegalArgumentException {
+        if (VOUCHER_TYPE_MAP.containsKey(inputVoucherType)) {
+            return VOUCHER_TYPE_MAP.get(inputVoucherType);
+        }
+        throw new VoucherTypeInputException();
     }
 
-    public static boolean isValidVoucherTypeInput(String inputVoucherType) {
-        return VOUCHER_TYPE_MAP.containsKey(inputVoucherType);
-    }
-
-    public static VoucherType getVoucherTypeByCommand(String inputVoucherType) {
-        return VOUCHER_TYPE_MAP.get(inputVoucherType);
-    }
-
-    private String getCommand() {
-        return command;
-    }
-
-    public boolean validateAmount(String amount) {
-        return amountValidation.apply(amount);
+    public boolean isValidAmount(String amount) {
+        if (Boolean.FALSE.equals(amountValidation.apply(amount))) {
+            throw new AmountInputException();
+        }
+        return true;
     }
 
     public VoucherCommandDescriptionDto getVoucherCommandAndDescription() {

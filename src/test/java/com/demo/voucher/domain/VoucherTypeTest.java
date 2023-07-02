@@ -42,15 +42,7 @@ class VoucherTypeTest {
     @CsvSource({"1, 고정 할인 바우처", "2, 비율 할인 바우처"})
     @DisplayName("입력 받는 Voucher Type Command(1,2)를 통해 어떤 Voucher Type인지 검증해내는 테스트")
     void getVoucherTypeByCommand(String inputType, String voucherDescription) {
-        assertEquals(VoucherType.getVoucherTypeByCommand(inputType).getVoucherDescription(), voucherDescription);
-
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"0", "3", "fixed", "percent"})
-    @DisplayName("입력 받는 Voucher Type Input 값이 Voucher Type의 command에 없는 문자열인 경우 Voucher Type을 찾지 못하는 테스트")
-    void getVoucherTypeByCommand_fail(String inputType) {
-        assertFalse(VoucherType.isValidVoucherTypeInput(inputType));
+        assertEquals(VoucherType.of(inputType).getVoucherDescription(), voucherDescription);
 
     }
 
@@ -58,28 +50,48 @@ class VoucherTypeTest {
     @ValueSource(strings = {"1", "300", "1000", "5000"})
     @DisplayName("FIXED_AMOUNT 바우처 타입의 할인 value가 1 이상의 정수일 때 등록한 Pattern과 맞는지 검증하는 테스트")
     void validateAmount_fixed_type(String amount) {
-        assertTrue(VoucherType.FIXED_AMOUNT.validateAmount(amount));
+        assertTrue(VoucherType.FIXED_AMOUNT.isValidAmount(amount));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"0", "240.5", "one thousand"})
     @DisplayName("FIXED_AMOUNT 바우처 타입의 할인 value가 1 이상의 정수가 아닌 경우 등록한 Pattern과 맞지 않는지 검증하는 테스트")
     void validateAmount_fixed_type_fail(String amount) {
-        assertFalse(VoucherType.FIXED_AMOUNT.validateAmount(amount));
+        // given
+        String expectedMessage = "올바른 할인 금액을 입력하지 않았습니다.";
+
+        // when
+        Exception exception = assertThrows(RuntimeException.class, () -> VoucherType.FIXED_AMOUNT.isValidAmount(amount));
+
+        // then
+        assertThat(exception)
+                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(expectedMessage);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"1", "20", "99", "50"})
     @DisplayName("PERCENT_AMOUNT 바우처 타입의 할인 value가 1 이상, 99 이하의 정수일 때 등록한 Pattern과 맞는지 검증하는 테스트")
     void validateAmount_percent_type(String amount) {
-        assertTrue(VoucherType.PERCENT_DISCOUNT.validateAmount(amount));
+        assertTrue(VoucherType.PERCENT_DISCOUNT.isValidAmount(amount));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"0", "-20", "99.5", "55.5", "100", "fifty percent"})
     @DisplayName("PERCENT_AMOUNT 바우처 타입의 할인 value가 1 이상, 99 이하의 정수가 아닐 때 등록한 Pattern과 맞지 않는지 검증하는 테스트")
     void validateAmount_percent_type_fail(String amount) {
-        assertFalse(VoucherType.PERCENT_DISCOUNT.validateAmount(amount));
+        // given
+        String expectedMessage = "올바른 할인 금액을 입력하지 않았습니다.";
+
+        // when
+        Exception exception = assertThrows(RuntimeException.class, () -> VoucherType.PERCENT_DISCOUNT.isValidAmount(amount));
+
+        // then
+        assertThat(exception)
+                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(expectedMessage);
     }
 
     @ParameterizedTest
