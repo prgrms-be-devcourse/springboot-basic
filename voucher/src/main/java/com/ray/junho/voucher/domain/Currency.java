@@ -20,16 +20,16 @@ public class Currency {
         }
     }
 
-    public long minus(long value) {
-        return this.value - value;
+    public Currency minus(Currency value) {
+        return Currency.of(this.value - value.value);
     }
 
-    public boolean isLessThan(int value) {
-        return this.value < value;
+    public boolean isLessThan(Currency value) {
+        return this.value < value.value;
     }
 
-    public long multiply(double value) {
-        return (long) (this.value * value);
+    public Currency multiply(double value) {
+        return Currency.of((long) (this.value * value));
     }
 
     @Override

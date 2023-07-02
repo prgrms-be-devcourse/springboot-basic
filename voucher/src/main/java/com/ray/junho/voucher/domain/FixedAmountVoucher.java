@@ -23,11 +23,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public Currency discount(Currency beforeDiscount) {
         validateFixedAmount(beforeDiscount);
-        return Currency.of(beforeDiscount.minus(discountValue));
+        return beforeDiscount.minus(Currency.of(discountValue));
     }
 
     private void validateFixedAmount(Currency beforeDiscount) {
-        if (beforeDiscount.isLessThan(discountValue)) {
+        if (beforeDiscount.isLessThan(Currency.of(discountValue))) {
             throw new IllegalArgumentException("기존 금액 보다 바우처의 할인율이 더 큽니다");
         }
     }
