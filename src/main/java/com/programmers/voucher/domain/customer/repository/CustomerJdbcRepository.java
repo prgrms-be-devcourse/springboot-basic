@@ -34,9 +34,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public void save(Customer customer) {
         CustomerDto customerDto = customer.toDto();
 
-        String sql = "insert into customer(customer_id, name) values(:customerId, :name)";
+        String sql = "insert into customer(customer_id, email, name) values(:customerId, :email, :name)";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerDto.getCustomerId())
+                .addValue("email", customerDto.getEmail())
                 .addValue("name", customerDto.getName());
 
         int saved = template.update(sql, param);
@@ -95,9 +96,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private RowMapper<Customer> customerRowMapper() {
         return (rs, rowNum) -> {
             UUID customerId = UUID.fromString(rs.getString("customer_id"));
+            String email = rs.getString("email");
             String name = rs.getString("name");
 
-            return new Customer(customerId, name);
+            return new Customer(customerId, email, name);
         };
     }
 }

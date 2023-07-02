@@ -60,8 +60,9 @@ public class BlacklistFileRepository implements BlacklistRepository {
     private Customer csvToCustomer(String nextLine) {
         String[] customerInfo = nextLine.split(",");
         UUID customerId = UUID.fromString(customerInfo[0]);
-        String name = customerInfo[1];
-        Customer customer = new Customer(customerId, name);
+        String email = customerInfo[1];
+        String name = customerInfo[2];
+        Customer customer = new Customer(customerId, email, name);
         return customer;
     }
 }
