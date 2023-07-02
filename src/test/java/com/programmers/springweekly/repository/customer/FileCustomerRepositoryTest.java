@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FileCustomerRepositoryTest {
 
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     @Test
     @DisplayName("블랙 리스트 명단을 정상적으로 가져온다.")

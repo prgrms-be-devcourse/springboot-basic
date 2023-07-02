@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemoryVoucherRepositoryTest {
 
-    VoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
 
     @BeforeEach
     void createVoucherRepository() {

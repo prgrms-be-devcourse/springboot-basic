@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FileVoucherRepositoryTest {
 
     @Autowired
-    VoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
 
     @Test
     @DisplayName("파일 저장소에 고정 할인 바우처가 정상적으로 등록된다.")
