@@ -64,6 +64,20 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByEmail(String email) {
+        String sql = "select * from customer where email = :email";
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("email", email);
+
+        try {
+            Customer customer = template.queryForObject(sql, param, customerRowMapper());
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException ex) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public List<Customer> findAll() {
         String sql = "select * from customer";
         return template.query(sql, Map.of(), customerRowMapper());
@@ -79,7 +93,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
                 .addValue("customerId", customerDto.getCustomerId());
 
         int updated = template.update(sql, param);
-        if(updated != 1) {
+        if (updated != 1) {
             DataAccessException exception = new IncorrectResultSizeDataAccessException(1, updated);
             LOG.error(exception.getMessage(), exception);
             throw exception;

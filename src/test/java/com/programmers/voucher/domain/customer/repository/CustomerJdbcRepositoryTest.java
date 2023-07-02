@@ -75,6 +75,33 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("성공: customer 단건 조회(email)")
+    void findByEmail() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+        customerJdbcRepository.save(customer);
+
+        //when
+        Optional<Customer> optionalCustomer = customerJdbcRepository.findByEmail("customer@gmail.com");
+
+        //then
+        assertThat(optionalCustomer).isNotEmpty();
+        Customer findCustomer = optionalCustomer.get();
+        assertThat(findCustomer).usingRecursiveComparison().isEqualTo(customer);
+    }
+
+    @Test
+    @DisplayName("성공: customer 단건 조회(email) - 존재하지 않는 customer")
+    void findByEmail_ButEmpty() {
+        //given
+        //when
+        Optional<Customer> optionalCustomer = customerJdbcRepository.findByEmail("customer@gmail.com");
+
+        //then
+        assertThat(optionalCustomer).isEmpty();
+    }
+
+    @Test
     @DisplayName("성공: customer 목록 조회")
     void findAll() {
         //given

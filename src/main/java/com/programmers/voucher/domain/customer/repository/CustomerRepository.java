@@ -11,6 +11,8 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
+    Optional<Customer> findByEmail(String email);
+
     List<Customer> findAll();
 
     void update(Customer customer);
