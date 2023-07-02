@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FixedAmountVoucherTest {
     // given
-    private static final Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
+    private static final Voucher fixedAmountVoucher = new FixedAmountVoucher(2000);
 
     @Test
     @DisplayName("Fixed Voucher이 voucherId 값을 정상적으로 가져오는지 확인하는 테스트")
     void getVoucherId() {
         // given
         UUID uuid = UUID.randomUUID();
-        FixedAmountVoucher voucher = new FixedAmountVoucher(uuid, 2000);
+        FixedAmountVoucher voucher = new FixedAmountVoucher(2000);
 
         // when
         UUID voucherId = voucher.getVoucherId();
@@ -34,8 +34,8 @@ class FixedAmountVoucherTest {
 
     @Test
     @DisplayName("Fixed Voucher이 바우처 타입 설명을 제대로 리턴하는지 확인하는 테스트")
-    void getVoucherTypeDescription() {
-        assertEquals("고정 할인 바우처", fixedAmountVoucher.getVoucherTypeDescription());
+    void getVoucherType() {
+        assertEquals("고정 할인 바우처", fixedAmountVoucher.getVoucherType());
     }
 
     @Test

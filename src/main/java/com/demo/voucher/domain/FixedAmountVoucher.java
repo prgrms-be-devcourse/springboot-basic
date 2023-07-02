@@ -3,13 +3,13 @@ package com.demo.voucher.domain;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
-    private static final String unit = "원";
+    private static final String UNIT = "원";
 
     private final UUID voucherId;
     private final long amount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        this.voucherId = voucherId;
+    public FixedAmountVoucher(long amount) {
+        this.voucherId = UUID.randomUUID();
         this.amount = amount;
     }
 
@@ -29,12 +29,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherTypeDescription() {
+    public String getVoucherType() {
         return VoucherType.FIXED_AMOUNT.getVoucherDescription();
     }
 
     @Override
     public String getDiscountInfo() {
-        return amount + unit;
+        return amount + UNIT;
     }
 }

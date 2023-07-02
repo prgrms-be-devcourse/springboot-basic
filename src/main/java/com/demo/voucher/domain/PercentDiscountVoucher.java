@@ -3,15 +3,16 @@ package com.demo.voucher.domain;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private static final String unit = "%";
+    private static final String UNIT = "%";
 
     private final UUID voucherId;
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        this.voucherId = voucherId;
+    public PercentDiscountVoucher(long percent) {
+        this.voucherId = UUID.randomUUID();
         this.percent = percent;
     }
+
 
     @Override
     public UUID getVoucherId() {
@@ -29,12 +30,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherTypeDescription() {
+    public String getVoucherType() {
         return VoucherType.PERCENT_DISCOUNT.getVoucherDescription();
     }
 
     @Override
     public String getDiscountInfo() {
-        return percent + unit;
+        return percent + UNIT;
     }
 }
