@@ -1,5 +1,6 @@
 package com.example.voucher;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import com.example.voucher.constant.ConstantStrings;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.domain.enums.VoucherType;
@@ -40,7 +42,7 @@ public class CommandLineApplication {
 
 			ModeType.getTypeMode(readModeType).ifPresentOrElse(
 				(mode) -> processMode(mode),
-				() -> Console.printError("Mode를 다시 선택해주세요")
+				() -> Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_MODE_SELECTION_PROMPT)
 			);
 		}
 	}
@@ -56,8 +58,15 @@ public class CommandLineApplication {
 	public void createVoucher() {
 		try {
 			createVoucherDetail();
+		} catch (IllegalArgumentException e) {
+			logger.error(ConstantStrings.PREFIX_ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE + e.getMessage());
+			Console.printError(e.getMessage());
+		} catch (InputMismatchException e) {
+			logger.error(ConstantStrings.PREFIX_INPUT_MISMATCH_EXCEPTION_MESSAGE + e.getMessage());
+			Console.printError(e.getMessage());
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(ConstantStrings.PREFIX_EXCEPTION_MESSAGE + e.getMessage());
+			Console.printError(e.getMessage());
 		}
 	}
 
@@ -73,7 +82,7 @@ public class CommandLineApplication {
 					haveToCreate.set(false);
 				},
 				() -> {
-					Console.printError("VoucherType을 다시 선택해주세요");
+					Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_VOUCHER_TYPE_SELECTION_PROMPT);
 				}
 			);
 		}
