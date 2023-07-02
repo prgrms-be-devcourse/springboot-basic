@@ -20,91 +20,84 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class JdbcMemberRepositoryTest {
-
     @Autowired
     JdbcMemberRepository memberRepository;
+
+    Member member1;
+    Member member2;
+    Member member3;
+
+    @BeforeAll
+    void beforeAll() {
+        member1 = MemberCreators.createBlackMember();
+        member2 = MemberCreators.createBlackMember();
+        member3 = MemberCreators.createWhiteMember();
+    }
 
     @Test
     @Order(1)
     void save_블랙_회원을_등록_SUCCESS() {
-        //given
-        Member member = MemberCreators.createBlackMember();
-
-        //when
-        memberRepository.save(member);
-        Member actual = memberRepository.findById(member.getMemberId())
+        //given & when
+        memberRepository.save(member1);
+        Member actual = memberRepository.findById(member1.getMemberId())
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
 
         //then
-        assertThat(actual).isEqualTo(member);
-    }
-
-    @Test
-    @Order(1)
-    void save_화이트_회원을_등록_SUCCESS() {
-        //given
-        Member member = MemberCreators.createWhiteMember();
-
-        //when
-        memberRepository.save(member);
-        Member actual = memberRepository.findById(member.getMemberId())
-                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
-
-        //then
-        assertThat(actual).isEqualTo(member);
+        assertThat(actual).isEqualTo(member1);
     }
 
     @Test
     @Order(2)
+    void save_화이트_회원을_등록_SUCCESS() {
+        //given & when
+        memberRepository.save(member2);
+        Member actual = memberRepository.findById(member2.getMemberId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
+
+        //then
+        assertThat(actual).isEqualTo(member2);
+    }
+
+    @Test
+    @Order(3)
     void findMembersByBlack_모든_블랙_회원을_조회_SUCCESS() {
         //given
-        Member member1 = MemberCreators.createBlackMember();
-        Member member2 = MemberCreators.createBlackMember();
-        Member member3 = MemberCreators.createWhiteMember();
-        memberRepository.save(member1);
-        memberRepository.save(member2);
         memberRepository.save(member3);
 
         //when
         List<Member> actual = memberRepository.findMembersByBlack();
 
         //then
-        assertThat(actual).hasSize(3);
+        assertThat(actual).hasSize(2);
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void findById_특정_회원을_조회_SUCCESS() {
-        //given
-        Member member = MemberCreators.createBlackMember();
-        memberRepository.save(member);
-
-        //when
-        Member actual = memberRepository.findById(member.getMemberId())
+        //given & when
+        Member actual = memberRepository.findById(member1.getMemberId())
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
 
         //then
-        assertThat(actual).isEqualTo(member);
+        assertThat(actual).isEqualTo(member1);
     }
 
     @Test
-    @Order(3)
+    @Order(5)
     void findById_특정_회원을_조회_EMPTY() {
         //given & when & then
         assertThat(memberRepository.findById(UUID.randomUUID())).isEmpty();
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     void update_특정_회원의_정보를_수정_SUCCESS() {
         //given
-        Member member = MemberCreators.createBlackMember();
-        memberRepository.save(member);
-        Member updateMember = MemberCreators.updateMemberStatus(member.getMemberId(), MemberStatus.WHITE);
+        Member updateMember = MemberCreators.updateMemberStatus(member1.getMemberId(), MemberStatus.WHITE);
 
         //when
         memberRepository.update(updateMember);
-        Member actual = memberRepository.findById(member.getMemberId())
+        Member actual = memberRepository.findById(member1.getMemberId())
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
 
         //then
@@ -112,16 +105,12 @@ public class JdbcMemberRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     void deleteById_특정_회원을_삭제_SUCCESS() {
-        //given
-        Member member = MemberCreators.createBlackMember();
-        memberRepository.save(member);
-
-        //when
-        memberRepository.delete(member);
+        //given & when
+        memberRepository.delete(member1);
 
         //then
-        assertThat(memberRepository.findById(member.getMemberId())).isEmpty();
+        assertThat(memberRepository.findById(member1.getMemberId())).isEmpty();
     }
 }

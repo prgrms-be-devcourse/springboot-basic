@@ -21,54 +21,52 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JdbcVoucherRepositoryTest {
-
     @Autowired
     JdbcVoucherRepository voucherRepository;
     @Autowired
     MemberRepository memberRepository;
 
+    Voucher voucher1;
+    Voucher voucher2;
+    Voucher voucher3;
+
     @BeforeAll
     void beforeAll() {
         voucherRepository.deleteAll();
+        voucher1 = VoucherCreators.createFixedDiscount();
+        voucher2 = VoucherCreators.createPercentDiscount();
+        voucher3 = VoucherCreators.createPercentDiscount();
     }
 
     @Test
     @Order(1)
     void save_고정_할인_바우처를_등록_SUCCESS() {
-        //given
-        Voucher voucher = VoucherCreators.createFixedDiscount();
-
-        //when
-        voucherRepository.save(voucher);
-        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
-                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
-
-
-        //then
-        assertThat(actual).isEqualTo(voucher);
-    }
-
-    @Test
-    @Order(1)
-    void save_퍼센트_할인_바우처를_등록_SUCCESS() {
-        //given
-        Voucher voucher = VoucherCreators.createPercentDiscount();
-
-        //when
-        voucherRepository.save(voucher);
-        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
+        //given & when
+        voucherRepository.save(voucher1);
+        Voucher actual = voucherRepository.findById(voucher1.getVoucherId())
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
 
         //then
-        assertThat(actual).isEqualTo(voucher);
+        assertThat(actual).isEqualTo(voucher1);
     }
 
     @Test
     @Order(2)
+    void save_퍼센트_할인_바우처를_등록_SUCCESS() {
+        //given & when
+        voucherRepository.save(voucher2);
+        Voucher actual = voucherRepository.findById(voucher2.getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+
+        //then
+        assertThat(actual).isEqualTo(voucher2);
+    }
+
+    @Test
+    @Order(3)
     void findAll_등록된_모든_바우처를_조회_SUCCESS() {
         //given
-        Voucher voucher = VoucherCreators.createPercentDiscount();
-        voucherRepository.save(voucher);
+        voucherRepository.save(voucher3);
 
         //when
         List<Voucher> actual = voucherRepository.findAll();
@@ -78,38 +76,32 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void findById_특정_바우처를_조회_SUCCESS() {
-        //given
-        Voucher voucher = VoucherCreators.createPercentDiscount();
-        voucherRepository.save(voucher);
-
-        //when
-        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
+        //given & when
+        Voucher actual = voucherRepository.findById(voucher1.getVoucherId())
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
 
         //then
-        assertThat(actual).isEqualTo(voucher);
+        assertThat(actual).isEqualTo(voucher1);
     }
 
     @Test
-    @Order(3)
+    @Order(5)
     void findById_특정_바우처를_조회_EMPTY() {
         //given & when & then
         assertThat(voucherRepository.findById(UUID.randomUUID())).isEmpty();
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     void update_특정_바우처를_수정_SUCCESS() {
         //given
-        Voucher voucher = VoucherCreators.createFixedDiscount();
-        voucherRepository.save(voucher);
-        Voucher updateVoucher = VoucherCreators.updateVoucher(voucher.getVoucherId(), 20, VoucherPolicy.PERCENT_DISCOUNT);
+        Voucher updateVoucher = VoucherCreators.updateVoucher(voucher1.getVoucherId(), 20, VoucherPolicy.PERCENT_DISCOUNT);
 
         //when
         voucherRepository.update(updateVoucher);
-        Voucher actual = voucherRepository.findById(voucher.getVoucherId())
+        Voucher actual = voucherRepository.findById(voucher1.getVoucherId())
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
 
         //then
@@ -117,16 +109,12 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     void deleteById_특정_바우처를_삭제_SUCCESS() {
-        //given
-        Voucher voucher = VoucherCreators.createFixedDiscount();
-        voucherRepository.save(voucher);
-
-        //when
-        voucherRepository.delete(voucher);
+        //given & when
+        voucherRepository.delete(voucher1);
 
         //then
-        assertThat(voucherRepository.findById(voucher.getVoucherId())).isEmpty();
+        assertThat(voucherRepository.findById(voucher1.getVoucherId())).isEmpty();
     }
 }
