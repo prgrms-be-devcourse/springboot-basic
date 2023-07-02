@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @JdbcTest
 class CustomerJdbcRepositoryTest {
@@ -123,5 +125,17 @@ class CustomerJdbcRepositoryTest {
         //then
         Optional<Customer> optionalCustomer = customerJdbcRepository.findById(customer.getCustomerId());
         assertThat(optionalCustomer).isEmpty();
+    }
+
+    @Test
+    @DisplayName("예외 - customer 단건 삭제 - 존재하지 않는 customer")
+    void deleteById_ButNoSuchElement_Then_Exception() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer");
+
+        //when
+        //then
+        assertThatThrownBy(() -> customerJdbcRepository.deleteById(customer.getCustomerId()))
+                .isInstanceOf(IncorrectResultSizeDataAccessException.class);
     }
 }

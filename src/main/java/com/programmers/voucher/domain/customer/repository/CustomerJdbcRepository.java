@@ -84,7 +84,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
         String sql = "delete from customer where customer_id = :customerId";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId);
-        template.update(sql, param);
+        int deleted = template.update(sql, param);
+        if (deleted != 1) {
+            DataAccessException exception = new IncorrectResultSizeDataAccessException(1, deleted);
+            LOG.error(exception.getMessage(), exception);
+            throw exception;
+        }
     }
 
     private RowMapper<Customer> customerRowMapper() {
