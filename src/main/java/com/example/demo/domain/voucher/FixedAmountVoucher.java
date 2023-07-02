@@ -29,7 +29,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getUUID() {
+    public UUID getId() {
         return this.id;
     }
 

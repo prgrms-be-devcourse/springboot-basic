@@ -9,5 +9,5 @@ public interface Voucher {
 
     VoucherDto convertToVoucherDto();
 
-    UUID getUUID();
+    UUID getId();
 }
