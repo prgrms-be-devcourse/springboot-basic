@@ -24,7 +24,7 @@ public class CommandLine implements Runnable {
     private final Output output;
     private final VoucherRepository voucherRepository;
     private final VoucherService voucherService;
-    private final CustomerService customerService;
+    private final CustomerService customerService;;
 
     public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
@@ -50,23 +50,27 @@ public class CommandLine implements Runnable {
         }
     }
 
-    private void insertFixedAmountVoucher() {
+    private void insertFixedAmountValue(){
         output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
-        long discountAmount = Long.parseLong(input.input());
+        insertFixedAmountVoucher(Long.parseLong(input.input()));
+    }
+
+    private void insertFixedAmountVoucher(long discountAmount) {
         while (discountAmount <= 0) {
-            output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
-            discountAmount = Long.parseLong(input.input());
+            insertFixedAmountValue();
         }
         voucherService.insertFixedAmountVoucher(discountAmount);
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
-    private void insertPercentDiscountVoucher() {
+    private void insertPercentDiscountValue(){
         output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
-        int discountPercent = Integer.parseInt(input.input());
+        insertPercentDiscountVoucher(Integer.parseInt(input.input()));
+    }
+
+    private void insertPercentDiscountVoucher(int discountPercent) {
         while (discountPercent < 0 || discountPercent > 100) {
-            output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
-            discountPercent = Integer.parseInt(input.input());
+            insertPercentDiscountValue();
         }
         voucherService.insertPercentDiscountVoucher(discountPercent);
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
@@ -87,8 +91,8 @@ public class CommandLine implements Runnable {
             String select = input.input();
 
             switch (VoucherType.makeVoucherType(select)) {
-                case FIXED -> insertFixedAmountVoucher();
-                case PERCENT -> insertPercentDiscountVoucher();
+                case FIXED -> insertFixedAmountValue();
+                case PERCENT -> insertPercentDiscountValue();
             }
         } catch (NoSuchVoucherTypeException e) {
             output.outputMessage(ConsoleOutputMessage.INVALID_VOUCHER_TYPE_MESSAGE);
