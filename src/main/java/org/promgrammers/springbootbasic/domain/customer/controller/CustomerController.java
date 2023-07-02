@@ -44,8 +44,8 @@ public class CustomerController {
                 findByType();
             }
             case UPDATE -> {
-                CustomerResponse updateCustomer = update();
-                console.print(updateCustomer.customerOutput());
+                CustomerResponse updatedCustomer = update();
+                console.print(updatedCustomer.customerOutput());
             }
             case DELETE -> {
                 deleteAll();

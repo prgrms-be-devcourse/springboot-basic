@@ -33,13 +33,16 @@ public class VoucherController {
                 console.print("Voucher가 생성되었습니다. : \n   " + voucher.voucherOutput());
             }
             case FIND_ALL -> {
-                console.print(findAll().toString());
+                VoucherListResponse voucherList = findAll();
+                console.print(voucherList.toString());
             }
             case FIND_ONE -> {
-                console.print(findById().voucherOutput());
+                VoucherResponse foundVoucher = findById();
+                console.print(foundVoucher.voucherOutput());
             }
             case UPDATE -> {
-                console.print(update().voucherOutput());
+                VoucherResponse updatedVoucher = update();
+                console.print(updatedVoucher.voucherOutput());
             }
             case DELETE -> {
                 deleteAll();
