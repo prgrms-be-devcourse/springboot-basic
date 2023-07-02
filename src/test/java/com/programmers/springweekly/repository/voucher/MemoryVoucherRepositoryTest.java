@@ -3,7 +3,6 @@ package com.programmers.springweekly.repository.voucher;
 import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
 import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -72,6 +71,6 @@ public class MemoryVoucherRepositoryTest {
 
 
         // then
-        Assertions.assertThat(voucherRepository.getList()).isEqualTo(vouchers);
+        assertThat(voucherRepository.getList()).isEqualTo(vouchers);
     }
 }
