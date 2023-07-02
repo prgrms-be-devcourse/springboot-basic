@@ -7,12 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class VoucherResponseDTO {
-	private int id;
+	private String id;
 	private String discountType;
 	private Integer discountAmount;
 
+	@Builder
 	public VoucherResponseDTO(Voucher voucher) {
 		id = voucher.getId();
 		discountType = voucher.getDiscountStrategy().getType();
@@ -21,9 +21,7 @@ public class VoucherResponseDTO {
 
 	@Override
 	public String toString() {
-		return MessageFormat.format(
-				"ID : {0}\n"
-						+ "Discount Type : {1}\n"
-						+ "Discount Amount : {2}\n", id, discountType, discountAmount);
+		return MessageFormat.format("id : {0},discount type : {1},discount amount : {2}",
+				id, discountType, discountAmount);
 	}
 }
