@@ -15,11 +15,8 @@ import java.util.Scanner;
 @Component
 public class Console implements InputView, OutputView {
 
-    private static final String WRONG_DISCOUNT_TYPE_MESSAGE = "[ERROR] 올바르지 않은 Voucher Type 입니다.";
     private static final String ARROW = "> ";
-    private static final String EMPTY_SPACE = "";
-    private static final String PERCENT = "%";
-    private static final String WON = "₩";
+
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -50,21 +47,6 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public void printVouchers(List<VoucherResponseDto> vouchers) {
-        for (VoucherResponseDto voucher : vouchers) {
-            printVoucher(voucher);
-        }
-        println(EMPTY_SPACE);
-    }
-
-    @Override
-    public void printVoucher(VoucherResponseDto responseDto) {
-        println(MessageFormat.format(ConsoleMessage.PRINT_VOUCHER_MESSAGE_FORM.getMessage(),
-                responseDto.discount().getVoucherType(), responseDto.voucherId(),
-                discountValueFormat(responseDto.discount()), responseDto.createdDate()));
-    }
-
-    @Override
     public <T> void println(T message) {
         System.out.println(message);
     }
@@ -72,18 +54,5 @@ public class Console implements InputView, OutputView {
     @Override
     public <T> void print(T message) {
         System.out.print(message);
-    }
-
-    private String discountValueFormat(Discount discount) {
-        switch (discount.getVoucherType()) {
-            case FIXED -> {
-                DecimalFormat formatter = new DecimalFormat("###,###,###");
-                return formatter.format(discount.getAmount()) + WON;
-            }
-            case PERCENT -> {
-                return discount.getAmount() + PERCENT;
-            }
-        }
-        throw new IllegalArgumentException(WRONG_DISCOUNT_TYPE_MESSAGE);
     }
 }

@@ -1,6 +1,7 @@
 package com.programmers.console;
 
 import com.programmers.console.util.Command;
+import com.programmers.console.util.ResponseConverter;
 import com.programmers.console.view.Console;
 import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Discount;
@@ -9,12 +10,14 @@ import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
 public class CommandLineApplication {
 
     private static final String WRONG_INPUT_MESSAGE_FOR_VALUE = "[ERROR] 숫자를 입력해 주세요.";
+    private static final String EMPTY_SPACE = "";
 
     private final VoucherController voucherController;
     private final Console console;
@@ -42,7 +45,7 @@ public class CommandLineApplication {
         switch (command) {
             case EXIT -> isRunning = false;
             case CREATE -> create();
-            case LIST -> findAll();
+            case LIST -> displayVoucherList();
         }
     }
 
@@ -83,11 +86,18 @@ public class CommandLineApplication {
         return voucherController.create(requestDto);
     }
 
-    private void findAll() {
-        console.printVouchers(voucherController.findAll());
+    private void displayVoucherList() {
+        printVouchers(voucherController.findAll());
     }
 
     private void printVoucher(VoucherResponseDto responseDto) {
-        console.printVoucher(responseDto);
+        console.println(ResponseConverter.convertVoucherResponseToString(responseDto));
+        console.println(EMPTY_SPACE);
+    }
+
+    private void printVouchers(List<VoucherResponseDto> vouchers) {
+        for (VoucherResponseDto voucher : vouchers) {
+            printVoucher(voucher);
+        }
     }
 }
