@@ -1,17 +1,16 @@
 package org.prgrms.application.domain.customer;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class Customer {
-    private final UUID customerId;
+    private final Long customerId;
     private String name;
     private String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-        validate(name);
+    public Customer(Long customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+        validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -19,14 +18,16 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public Customer(UUID customerId, LocalDateTime createdAt) {validate(name);
-        validate(name);
+    public Customer(Long customerId, String name, String email, LocalDateTime createdAt) {
+        validateName(name);
+        this.name = name;
         this.customerId = customerId;
+        this.email = email;
         this.createdAt = createdAt;
     }
 
     public void changeName(String name){
-        validate(name);
+        validateName(name);
         this.name = name;
     }
 
@@ -34,7 +35,7 @@ public class Customer {
         this.lastLoginAt = LocalDateTime.now();
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
@@ -54,9 +55,20 @@ public class Customer {
         return createdAt;
     }
 
-    private void validate(String name) {
+    private void validateName(String name) {
         if(name.isBlank()){
             throw new RuntimeException("name should not be blank");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", lastLoginAt=" + lastLoginAt +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

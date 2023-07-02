@@ -1,4 +1,4 @@
-package org.prgrms.application.repository;
+package org.prgrms.application.repository.customer;
 
 import org.prgrms.application.domain.customer.Customer;
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -23,29 +22,27 @@ public class CustomerJdbcRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        var customerName = resultSet.getString("name");
+    //데이터베이스에서 데이터를 가져오는 역할(컬럼별로 데이터를 가져온다.)
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var customerId = resultSet.getLong("customer_id");
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
-    };
+        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);};
 
-    private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
+    // 맵의 키를 파라미터로 변경
+    private Map<String, Object> toParamMap(Customer customer) {return new HashMap<>() {{
+            put("customerId", customer.getCustomerId());
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("cratedAt", Timestamp.valueOf(customer.getCreatedAt()));
             put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-        }};
-    }
+        }};}
 
     @Override
     public Customer insert(Customer customer) {
-        var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :cratedAt)",
+        var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customerId, :name, :email, :cratedAt)",
                 toParamMap(customer));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
@@ -55,7 +52,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        var update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
+        var update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = :customerId",
                 toParamMap(customer)
         );
         if (update != HAS_UPDATE) {
@@ -64,22 +61,32 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return customer;
     }
 
+    //empty map을 사용한 이유 : queryForObject 가 특정한 객체를 요구하는 메서드 특성 때문에  map이나 sql파라미터소스를 전달해야 한다. 대신 가짜 맵을 전달
+    @Override
+    public int count() {
+        return jdbcTemplate.queryForObject("select count(*) from customers", Collections.emptyMap(), Integer.class);
+    }
+
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query("select * from customers", customerRowMapper);
     }
 
+
+    //getbytes 메소드 사용 이유 : 데이터를 전송하거나 저장을 위해선 바이트 형태로 변환해야 한다.
+    //Collections.singletonMap : 메소드의 주요 목적은 단일 항목을 가지는 작은 맵을 생성하는 것
     @Override
-    public Optional<Customer> findById(UUID customerId) {
+    public Optional<Customer> findById(Long customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE customer_id = :customerId",
+                    Collections.singletonMap("customerId", customerId),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
         }
     }
+
 
     @Override
     public Optional<Customer> findByName(String name) {
@@ -110,8 +117,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
         jdbcTemplate.getJdbcTemplate().update("DELETE FROM customers", Collections.emptyMap());
     }
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
+//    static UUID toUUID(byte[] bytes) {
+//        var byteBuffer = ByteBuffer.wrap(bytes);
+//        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+//    }
 }
