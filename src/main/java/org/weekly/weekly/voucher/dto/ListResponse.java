@@ -17,7 +17,7 @@ public class ListResponse implements Response{
 
     public String getResult() {
         if (result.isEmpty()) {
-            return PrintMsg.NO_VOUCHER_DATAS.getMsg();
+            return PrintMsg.NO_VOUCHER_DATAS.getMessage();
         }
 
         StringBuilder sb = new StringBuilder();

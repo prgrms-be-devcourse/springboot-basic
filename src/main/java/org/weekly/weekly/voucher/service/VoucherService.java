@@ -6,6 +6,7 @@ import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.dto.CreateResponse;
 import org.weekly.weekly.voucher.dto.ListResponse;
+import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public CreateResponse insertVoucher(VoucherDto voucherDto) {
+    public CreateResponse insertVoucher(VoucherCreationRequest voucherCreationRequest) {
         validateVoucher(voucherDto);
         Voucher voucher = voucherDto.parseToVoucher();
         this.voucherRepository.insert(voucher);

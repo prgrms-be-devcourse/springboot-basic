@@ -26,8 +26,8 @@ public class VoucherDto {
         this.discount = discount;
     }
 
-    public static VoucherDto parseDto(UUID voucherId, VoucherInfoRequest voucherInfoRequest, Discount discount, LocalDate registrationDate) {
-        checkException(voucherInfoRequest, registrationDate, discount);
+    public static VoucherDto parseDto(VoucherInfoRequest voucherInfoRequest, Discount discount) {
+        checkException(voucherInfoRequest, discount);
         return new VoucherDto(voucherId
                 , Long.parseLong(voucherInfoRequest.getAmount())
                 , registrationDate
@@ -44,7 +44,6 @@ public class VoucherDto {
             return;
         }
         VoucherException.notNumberFormat(voucherInfoRequest.getAmount(), input -> Long.parseLong(input) < RANGE_START);
-
     }
 
     public Voucher parseToVoucher() {

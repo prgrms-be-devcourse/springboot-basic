@@ -2,7 +2,7 @@ package org.weekly.weekly.ui.reader;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-import org.weekly.weekly.ui.exception.ReadException;
+import org.weekly.weekly.ui.exception.InputValidator;
 
 import java.util.Scanner;
 
@@ -23,6 +23,6 @@ public class ScannerWrap implements CommandReader{
     }
 
     private void checkException(String userInput) {
-        ReadException.isEmpty(userInput);
+        InputValidator.isEmpty(userInput);
     }
 }

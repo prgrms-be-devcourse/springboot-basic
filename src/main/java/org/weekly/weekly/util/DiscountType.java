@@ -9,32 +9,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum DiscountType {
-    FIXED("1", FixedDiscount.class, "1. Fixed Discount"),
-    PERCENT("2", PercentDiscount.class, "2. Percent Discount");
+    FIXED("1", FixedDiscount.class, "1. Fixed Discount", "바우처 할인 금액, 바우처 유효 개월 수"),
+    PERCENT("2", PercentDiscount.class, "2. Percent Discount", "0~100사이의 바우처 할인율, 바우처 유효 개월 수");
 
     private String no;
     private Class<? extends Discount> cls;
-    private String msg;
+    private String selectMessage;
+    private String inputExampleMessage;
 
-    private static final Map<String, DiscountType> discuontMap;
+    private static final Map<String, DiscountType> discuontTypeMap;
 
     static {
         Map<String, DiscountType> map = new HashMap<>();
         for (DiscountType discount : DiscountType.values()) {
             map.put(discount.no, discount);
         }
-        discuontMap = Collections.unmodifiableMap(map);
+        discuontTypeMap = Collections.unmodifiableMap(map);
     }
 
-    DiscountType(String no, Class<? extends Discount> cls, String msg) {
+    DiscountType(String no, Class<? extends Discount> cls, String msg, String exMessage) {
         this.no = no;
         this.cls = cls;
-        this.msg = msg;
+        this.selectMessage = msg;
+        this.inputExampleMessage = exMessage;
     }
 
-    public static DiscountType getDiscountMap(String no) {
-        if (discuontMap.containsKey(no)) {
-            return discuontMap.get(no);
+    public static DiscountType getDiscountTypeByNumber(String no) {
+        if (discuontTypeMap.containsKey(no)) {
+            return discuontTypeMap.get(no);
         }
         throw new RuntimeException(ExceptionMsg.NOT_DISCOUNT.getMsg());
     }
@@ -47,7 +49,11 @@ public enum DiscountType {
         return cls;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getSelectMessage() {
+        return selectMessage;
+    }
+
+    public String getInputExampleMessage() {
+        return inputExampleMessage;
     }
 }

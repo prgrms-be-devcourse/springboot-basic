@@ -4,8 +4,8 @@ import org.weekly.weekly.util.ExceptionMsg;
 
 import java.util.Arrays;
 
-public class ReadException {
-
+public class InputValidator {
+    private static final int VOUCHER_INPUT_SIZE = 2;
     public static void isEmpty(String userInput) {
         if (userInput == null || userInput.isBlank()) {
             throw new RuntimeException(ExceptionMsg.EMPTY.getMsg());
@@ -13,15 +13,15 @@ public class ReadException {
     }
 
     public static void notVoucherInputSize(String[] userInputs) {
-        if (userInputs.length != 2) {
-            throw new RuntimeException(ExceptionMsg.NOT_SAME_PARAM_SIZE.getMsg());
+        if (userInputs.length != VOUCHER_INPUT_SIZE) {
+            throw new InputException(ExceptionMsg.NOT_SAME_PARAM_SIZE);
         }
     }
     
-    public static void notVoucherInputFormat(String[] userInputs) {
+    public static void notVoucherInfoFormat(String[] userInputs) {
         if (Arrays.stream(userInputs)
                 .anyMatch(input -> isDigit(input.trim()))) {
-            throw new RuntimeException(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
+            throw new InputException(ExceptionMsg.NOT_INPUT_FORMAT);
         }
     }
 

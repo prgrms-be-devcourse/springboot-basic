@@ -2,17 +2,14 @@ package org.weekly.weekly.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.weekly.weekly.ui.exception.InputValidator;
 import org.weekly.weekly.ui.reader.CommandReader;
 import org.weekly.weekly.ui.writer.CommandWriter;
 import org.weekly.weekly.util.DiscountType;
 import org.weekly.weekly.util.VoucherMenu;
-import org.weekly.weekly.voucher.domain.Discount;
-import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.dto.VoucherInfoRequest;
-
-import java.time.LocalDate;
-import java.util.UUID;
+import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
 
 @Component
 public class CommandLineApplication {
@@ -29,19 +26,19 @@ public class CommandLineApplication {
         while(true) {
             try {
                 this.commandWriter.printVoucherProgram();
-                return VoucherMenu.getMenu(this.commandReader.readLine());
+                return VoucherMenu.getMenu(readUserInput());
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
             }
         }
     }
 
-    public VoucherDto readVoucher() {
+    public VoucherCreationRequest createVoucherFromInput() {
         while(true) {
             try {
-                Discount discount = readDiscount();
-                VoucherInfoRequest voucherInfoRequest = readVoucherInfo();
-                return VoucherDto.parseDto(UUID.randomUUID(), voucherInfoRequest, discount, LocalDate.now());
+                DiscountType discountType = readDiscountType();
+                VoucherInfoRequest voucherInfoRequest = readVoucherInfo(discountType);
+                return new VoucherCreationRequest(voucherInfoRequest, discountType);
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
             }
@@ -56,14 +53,24 @@ public class CommandLineApplication {
         this.commandWriter.printReuslt(response.getResult());
     }
 
-    private Discount readDiscount() throws Exception {
-        this.commandWriter.printSelectDiscount();
-        return DiscountType.getDiscountMap(this.commandReader.readLine()).getNewInstance();
+
+    private String readUserInput() {
+        String userInput = this.commandReader.readLine();
+        InputValidator.isEmpty(userInput);
+        return userInput;
     }
 
-    private VoucherInfoRequest readVoucherInfo() throws Exception {
-        this.commandWriter.printCreateVoucher();
-        return VoucherInfoRequest.of(this.commandReader.readLine());
+
+    private DiscountType readDiscountType() {
+        this.commandWriter.printSelectDiscount();
+        String no = readUserInput();
+        return DiscountType.getDiscountTypeByNumber(no);
+    }
+
+    private VoucherInfoRequest readVoucherInfo(DiscountType discountType){
+        this.commandWriter.printCreateVoucher(discountType);
+        String voucherInfo = readUserInput();
+        return VoucherInfoRequest.of(voucherInfo);
     }
 
 

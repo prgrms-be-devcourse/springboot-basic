@@ -18,32 +18,33 @@ public class CommandWriter {
     private void print(String msg) {System.out.print(msg);}
 
     public void printVoucherProgram() {
-        println(PrintMsg.EMPTY.getMsg());
-        println(PrintMsg.PROGRAM.getMsg());
+        println(PrintMsg.EMPTY.getMessage());
+        println(PrintMsg.PROGRAM.getMessage());
         Arrays.stream(VoucherMenu.values())
                 .forEach(voucherMenu -> System.out.println(voucherMenu.getPrintMsg()));
     }
 
     public void printErrorMsg(String errorMsg) {
         logger.warn(errorMsg);
-        println(PrintMsg.EMPTY.getMsg());
+        println(PrintMsg.EMPTY.getMessage());
         println(errorMsg);
     }
 
-    public void printCreateVoucher() {
-        println(PrintMsg.EMPTY.getMsg());
-        print(PrintMsg.CREATE_VOUCHER.getMsg());
+    public void printCreateVoucher(DiscountType discountType) {
+        println(PrintMsg.EMPTY.getMessage());
+        println(PrintMsg.CREATE_VOUCHER.getMessage() + discountType.getInputExampleMessage());
+        print(PrintMsg.INPUT_MESSAGE.getMessage());
     }
 
     public void printSelectDiscount() {
-        println(PrintMsg.EMPTY.getMsg());
-        println(PrintMsg.DISCOUNT_SELECT.getMsg());
+        println(PrintMsg.EMPTY.getMessage());
+        println(PrintMsg.DISCOUNT_SELECT.getMessage());
         Arrays.stream(DiscountType.values())
-                .forEach(discountMap -> System.out.println(discountMap.getMsg()));
+                .forEach(discountMap -> System.out.println(discountMap.getSelectMessage()));
     }
 
     public void printReuslt(String result) {
-        println(PrintMsg.EMPTY.getMsg());
+        println(PrintMsg.EMPTY.getMessage());
         println(result);
     }
 }

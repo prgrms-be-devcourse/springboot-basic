@@ -1,6 +1,6 @@
 package org.weekly.weekly.voucher.dto;
 
-import org.weekly.weekly.ui.exception.ReadException;
+import org.weekly.weekly.ui.exception.InputValidator;
 
 public class VoucherInfoRequest {
     private static final String SPLIT_FORMAT = ",";
@@ -32,9 +32,7 @@ public class VoucherInfoRequest {
     }
 
     private static void checkReadVoucherException(String[] inputs) {
-        ReadException.notVoucherInputSize(inputs);
-        ReadException.notVoucherInputFormat(inputs);
+        InputValidator.notVoucherInputSize(inputs);
+        InputValidator.notVoucherInfoFormat(inputs);
     }
-
-
 }
