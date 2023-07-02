@@ -48,11 +48,11 @@
 
 ## Part2
 
-- [ ] Hamcrest의 matcher를 이용하여 테스트 코드 작성해보기
-- [ ] 가능한 많은 단위 테스트 코드를 작성하기, 엣지 케이스 고려하기
+- [X] Hamcrest의 matcher를 이용하여 테스트 코드 작성해보기
+- [X] 가능한 많은 단위 테스트 코드를 작성하기, 엣지 케이스 고려하기
 
-- [ ] customers 테이블 정의 및 추가하기
-- [ ] Customer Repository 를 추가하고 JdbcTemplate 를 사용하기 #JdbcCustomerStorage
+- [X] customers 테이블 정의 및 추가하기
+- [X] Customer Repository 를 추가하고 JdbcTemplate 를 사용하기 #JdbcCustomerStorage
 
 - [ ] Voucher 정보를 DB로 관리하기
 - [ ] vouchers 테이블을 정의하기
