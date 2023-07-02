@@ -1,18 +1,18 @@
 package org.prgrms.kdt.controller;
 
-import org.prgrms.kdt.service.CustomerService;
+import org.prgrms.kdt.service.customer.CustomerService;
 import org.prgrms.kdt.utils.Option;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.utils.VoucherType;
 import org.prgrms.kdt.io.Console;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.service.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Component
+@Controller
 public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 

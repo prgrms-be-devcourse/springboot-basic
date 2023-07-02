@@ -1,4 +1,4 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt.service.customer;
 
 import org.prgrms.kdt.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;

@@ -1,12 +1,11 @@
 package org.prgrms.kdt.repository.customer;
 
+import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.utils.PathProperties;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
@@ -15,6 +14,41 @@ public class FileCustomerRepository implements CustomerRepository {
 
     public FileCustomerRepository(PathProperties pathProperties) {
         this.BLACKLIST_FILE_PATH = pathProperties.getBlacklist();
+    }
+
+    @Override
+    public Customer insert(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByName(String name) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Customer update(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
     @Override

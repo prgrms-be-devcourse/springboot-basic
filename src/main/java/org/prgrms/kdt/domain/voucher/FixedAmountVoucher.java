@@ -1,5 +1,7 @@
 package org.prgrms.kdt.domain.voucher;
 
+import org.prgrms.kdt.utils.VoucherType;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -31,5 +33,15 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     public long discount(long beforeDiscount) {
         var discountedAmount = beforeDiscount - amount;
         return (discountedAmount < 0) ? 0 : discountedAmount;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED_AMOUNT_VOUCHER;
+    }
+
+    @Override
+    public Long getDiscountAmount() {
+        return amount;
     }
 }

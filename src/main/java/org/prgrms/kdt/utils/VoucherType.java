@@ -9,20 +9,20 @@ import java.util.function.Function;
 
 public enum VoucherType {
 
-    FIXED_AMOUNT_VOUCHER(1, value->new FixedAmountVoucher(UUID.randomUUID(), value)),
-    PERCENT_DISCOUNT_VOUCHER(2, value->new PercentDiscountVoucher(UUID.randomUUID(), value));
+    FIXED_AMOUNT_VOUCHER("FIXED_AMOUNT_VOUCHER", value->new FixedAmountVoucher(UUID.randomUUID(), value)),
+    PERCENT_DISCOUNT_VOUCHER("PERCENT_DISCOUNT_VOUCHER", value->new PercentDiscountVoucher(UUID.randomUUID(), value));
 
-    private final int matchNum;
+    private final String matchString;
     private final Function<Long, Voucher> expression;
 
-    VoucherType(int matchNum,Function<Long, Voucher> expression) {
-        this.matchNum = matchNum;
+    VoucherType(String matchString,Function<Long, Voucher> expression) {
+        this.matchString = matchString;
         this.expression = expression;
     }
 
     public static VoucherType of(String input) {
         return java.util.Arrays.stream(values())
-                .filter(voucherType -> voucherType.matchNum == Integer.parseInt(input))
+                .filter(voucherType -> voucherType.matchString.equals(input))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("입력이 잘못되었습니다."));
     }
@@ -30,4 +30,5 @@ public enum VoucherType {
     public Voucher makeVoucher(long discount){
         return expression.apply(discount);
     }
+
 }
