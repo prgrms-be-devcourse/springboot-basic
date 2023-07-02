@@ -12,8 +12,12 @@ import java.util.InputMismatchException;
 
 
 public class VoucherApp implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
+
+    /* Field */
     private boolean EXIT = false;
+
+    /* Final */
+    private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
     private final Console console = new Console();
 
     private final VoucherService voucherService;
@@ -23,15 +27,14 @@ public class VoucherApp implements Runnable {
         this.voucherService = voucherService;
     }
 
-
     public static void main(String[] args) {
         new VoucherApp(new VoucherService(new MemoryVoucherRepository())).run();
     }
 
-    String menuName;
-
     @Override
     public void run() {
+
+        String menuName;
 
         while (!EXIT) {
             console.printMenu();
