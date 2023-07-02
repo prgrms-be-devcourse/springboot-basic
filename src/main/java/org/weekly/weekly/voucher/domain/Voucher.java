@@ -42,10 +42,6 @@ public class Voucher {
         VoucherValidator.validateAmount(discountType, amount);
     }
 
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
     public long applyDiscount(long beforeAmount) {
         long afterAmount = discount.applyDiscount(beforeAmount, amount);
 
@@ -57,10 +53,19 @@ public class Voucher {
         return 0L;
     }
 
-    @Override
-    public String toString() {
-        return MessageFormat.format("[ID: {0}, 금액: {1}, 등록일자: {2}, 유효기간: {3}]", voucherId,amount, registrationDate, expirationDate);
+    public UUID getVoucherId() {
+        return voucherId;
     }
 
+    public LocalDate getExpirationDate() {
+        return expirationDate;
+    }
 
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
 }

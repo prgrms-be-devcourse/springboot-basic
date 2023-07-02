@@ -1,6 +1,6 @@
 package org.weekly.weekly.util;
 
-public enum PrintMsg {
+public enum PrintMessage {
     PROGRAM("=== Voucher Program ==="),
     CREATE_VOUCHER("바우처를 생성합니다.\n" +
             "입력예시 => "),
@@ -11,9 +11,9 @@ public enum PrintMsg {
     CREATE_VOUCHER_SUCCESS("[바우처 생성에 성공]: "),
     FIND_ALL_VOUCHER_SUCCESS("[모든 바우처 조회 성공]: ");
 
-    private String message;
+    private final String message;
 
-    PrintMsg(String msg) {
+    PrintMessage(String msg) {
         this.message = msg;
     }
 

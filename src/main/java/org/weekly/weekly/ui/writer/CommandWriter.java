@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.voucher.domain.DiscountType;
-import org.weekly.weekly.util.PrintMsg;
+import org.weekly.weekly.util.PrintMessage;
 import org.weekly.weekly.util.VoucherMenu;
 
 import java.util.Arrays;
@@ -18,33 +18,33 @@ public class CommandWriter {
     private void print(String msg) {System.out.print(msg);}
 
     public void printVoucherProgram() {
-        println(PrintMsg.EMPTY.getMessage());
-        println(PrintMsg.PROGRAM.getMessage());
+        println(PrintMessage.EMPTY.getMessage());
+        println(PrintMessage.PROGRAM.getMessage());
         Arrays.stream(VoucherMenu.values())
                 .forEach(voucherMenu -> System.out.println(voucherMenu.getPrintMsg()));
     }
 
     public void printErrorMsg(String errorMsg) {
         logger.warn(errorMsg);
-        println(PrintMsg.EMPTY.getMessage());
+        println(PrintMessage.EMPTY.getMessage());
         println(errorMsg);
     }
 
     public void printCreateVoucher(DiscountType discountType) {
-        println(PrintMsg.EMPTY.getMessage());
-        println(PrintMsg.CREATE_VOUCHER.getMessage() + discountType.getInputExampleMessage());
-        print(PrintMsg.INPUT_MESSAGE.getMessage());
+        println(PrintMessage.EMPTY.getMessage());
+        println(PrintMessage.CREATE_VOUCHER.getMessage() + discountType.getInputExampleMessage());
+        print(PrintMessage.INPUT_MESSAGE.getMessage());
     }
 
     public void printSelectDiscount() {
-        println(PrintMsg.EMPTY.getMessage());
-        println(PrintMsg.DISCOUNT_SELECT.getMessage());
+        println(PrintMessage.EMPTY.getMessage());
+        println(PrintMessage.DISCOUNT_SELECT.getMessage());
         Arrays.stream(DiscountType.values())
                 .forEach(discountMap -> System.out.println(discountMap.getSelectMessage()));
     }
 
     public void printReuslt(String result) {
-        println(PrintMsg.EMPTY.getMessage());
+        println(PrintMessage.EMPTY.getMessage());
         println(result);
     }
 }

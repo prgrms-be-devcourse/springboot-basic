@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.CommandLineApplication;
-import org.weekly.weekly.util.PrintMsg;
+import org.weekly.weekly.util.PrintMessage;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.controller.VoucherController;
 import org.weekly.weekly.voucher.dto.Response;
@@ -51,13 +51,13 @@ public class VoucherManagementController {
     private void handleVoucherCreation() {
         VoucherCreationRequest voucherCreationRequest = this.commandLineApplication.createVoucherFromInput();
         Response response = voucherController.createVoucher(voucherCreationRequest);
-        logger.info("{}{}", PrintMsg.CREATE_VOUCHER_SUCCESS.getMessage(),response.getResult());
+        logger.info("{}{}", PrintMessage.CREATE_VOUCHER_SUCCESS.getMessage(),response.getResult());
         this.commandLineApplication.printResult(response);
     }
 
     private void handleVoucherSearch() {
         Response response = voucherController.getVouchers();
-        logger.info("{}{}",PrintMsg.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.getResult());
+        logger.info("{}{}", PrintMessage.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.getResult());
         this.commandLineApplication.printResult(response);
     }
 }
