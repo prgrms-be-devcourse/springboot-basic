@@ -1,8 +1,8 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.voucher.entity.VoucherEntity;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
+import com.programmers.voucher.entity.VoucherEntity;
 
 import java.time.LocalDateTime;
 

@@ -1,22 +1,14 @@
 package com.programmers.console.view;
 
 import com.programmers.console.util.ConsoleMessage;
-import com.programmers.voucher.domain.Discount;
-import com.programmers.voucher.domain.FixedDiscount;
-import com.programmers.voucher.domain.PercentDiscount;
-import com.programmers.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Component;
 
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
-import java.util.List;
 import java.util.Scanner;
 
 @Component
 public class Console implements InputView, OutputView {
 
     private static final String ARROW = "> ";
-
 
     private static final Scanner scanner = new Scanner(System.in);
 
