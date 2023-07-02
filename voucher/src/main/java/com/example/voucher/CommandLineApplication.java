@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
 import com.example.voucher.constant.ConstantStrings;
@@ -16,10 +17,10 @@ import com.example.voucher.io.Console;
 import com.example.voucher.io.ModeType;
 import com.example.voucher.service.VoucherService;
 
-import jakarta.annotation.PostConstruct;
+
 
 @Controller
-public class CommandLineApplication {
+public class CommandLineApplication implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
@@ -30,8 +31,8 @@ public class CommandLineApplication {
 		this.voucherService = voucherService;
 	}
 
-	@PostConstruct
-	public void init() {
+	@Override
+	public void run(String... args) throws Exception {
 		run();
 	}
 
@@ -40,10 +41,10 @@ public class CommandLineApplication {
 			Console.printModeType();
 			String readModeType = Console.readModeType();
 
-			try{
+			try {
 				ModeType modeType = ModeType.getTypeMode(readModeType);
 				processMode(modeType);
-			}catch(NoSuchElementException e){
+			} catch (NoSuchElementException e) {
 				logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
 				Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_MODE_SELECTION_PROMPT);
 			}
