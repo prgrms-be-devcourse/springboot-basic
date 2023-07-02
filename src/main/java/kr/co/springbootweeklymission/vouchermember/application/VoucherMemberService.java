@@ -41,4 +41,13 @@ public class VoucherMemberService {
                 .map(VoucherResDTO.READ::toVoucherReadDto)
                 .toList();
     }
+
+    @Transactional
+    public void deleteVoucherMemberByVoucherIdAndMemberId(VoucherMemberReqDTO.DELETE delete) {
+        final Voucher voucher = voucherRepository.findById(delete.getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
+        final Member member = memberRepository.findById(delete.getMemberId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
+        voucherMemberRepository.deleteByVoucherIdAndMemberId(voucher.getVoucherId(), member.getMemberId());
+    }
 }

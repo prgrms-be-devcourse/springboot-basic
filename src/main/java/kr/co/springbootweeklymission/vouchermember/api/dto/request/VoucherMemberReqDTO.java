@@ -13,4 +13,13 @@ public class VoucherMemberReqDTO {
         private UUID voucherId;
         private UUID memberId;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class DELETE {
+        private UUID voucherId;
+        private UUID memberId;
+    }
 }

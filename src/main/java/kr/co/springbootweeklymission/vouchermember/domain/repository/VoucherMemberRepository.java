@@ -9,4 +9,6 @@ public interface VoucherMemberRepository {
     VoucherMember save(VoucherMember voucherMember);
 
     List<VoucherMember> findVouchersMembersByMemberId(UUID memberId);
+
+    void deleteByVoucherIdAndMemberId(UUID voucherId, UUID memberId);
 }

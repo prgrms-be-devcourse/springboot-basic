@@ -44,6 +44,16 @@ public class JdbcVoucherMemberRepository implements VoucherMemberRepository {
         return jdbcTemplate.query(sql, voucherMemberRowMapper(), memberId.toString());
     }
 
+    @Override
+    public void deleteByVoucherIdAndMemberId(UUID voucherId,
+                                             UUID memberId) {
+        String sql = "" +
+                "delete from tbl_vouchers_members " +
+                "where voucher_id = ? " +
+                "and member_id = ?";
+        jdbcTemplate.update(sql, voucherId, memberId);
+    }
+
     private RowMapper<VoucherMember> voucherMemberRowMapper() {
         return (rs, rowNum) -> {
             String voucherSql = "" +

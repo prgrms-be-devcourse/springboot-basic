@@ -21,4 +21,8 @@ public class VoucherMemberController {
     public List<VoucherResDTO.READ> getVouchersByMemberId(UUID memberId) {
         return voucherMemberService.getVouchersByMemberId(memberId);
     }
+
+    public void deleteVoucherMemberByVoucherIdAndMemberId(VoucherMemberReqDTO.DELETE delete) {
+        voucherMemberService.deleteVoucherMemberByVoucherIdAndMemberId(delete);
+    }
 }

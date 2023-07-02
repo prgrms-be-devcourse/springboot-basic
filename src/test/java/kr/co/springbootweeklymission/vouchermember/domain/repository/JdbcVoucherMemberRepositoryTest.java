@@ -29,17 +29,27 @@ public class JdbcVoucherMemberRepositoryTest {
     @Autowired
     VoucherRepository voucherRepository;
 
+    Member member;
+    Voucher voucher1;
+    Voucher voucher2;
+
+    @BeforeAll
+    void beforeAll() {
+        member = MemberCreators.createWhiteMember();
+        voucher1 = VoucherCreators.createFixedDiscount();
+        voucher2 = VoucherCreators.createPercentDiscount();
+        memberRepository.save(member);
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+    }
+
     @Test
     @Order(1)
     void save_특정_고객에게_바우처_할당_SUCCESS() {
         //given
-        Voucher voucher = VoucherCreators.createFixedDiscount();
-        Member member = MemberCreators.createWhiteMember();
-        VoucherMember voucherMember = VoucherMemberCreators.createVoucherMember(voucher, member);
+        VoucherMember voucherMember = VoucherMemberCreators.createVoucherMember(voucher1, member);
 
         //when
-        voucherRepository.save(voucher);
-        memberRepository.save(member);
         VoucherMember actual = voucherMemberRepository.save(voucherMember);
 
         //then
@@ -50,21 +60,23 @@ public class JdbcVoucherMemberRepositoryTest {
     @Order(2)
     void findVouchersMembersByMemberId_특정_고객의_바우처들을_조회_SUCCESS() {
         //given
-        Voucher voucher1 = VoucherCreators.createFixedDiscount();
-        Voucher voucher2 = VoucherCreators.createPercentDiscount();
-        Member member = MemberCreators.createWhiteMember();
-        VoucherMember voucherMember1 = VoucherMemberCreators.createVoucherMember(voucher1, member);
-        VoucherMember voucherMember2 = VoucherMemberCreators.createVoucherMember(voucher2, member);
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
-        memberRepository.save(member);
-        voucherMemberRepository.save(voucherMember1);
-        voucherMemberRepository.save(voucherMember2);
+        VoucherMember voucherMember = VoucherMemberCreators.createVoucherMember(voucher2, member);
+        voucherMemberRepository.save(voucherMember);
 
         //when
         List<VoucherMember> actual = voucherMemberRepository.findVouchersMembersByMemberId(member.getMemberId());
 
         //then
         assertThat(actual).hasSize(2);
+    }
+
+    @Test
+    @Order(3)
+    void deleteVoucherMemberByVoucherAndMember_특정_회원의_특정_바우처를_삭제_SUCCESS() {
+        //given & then
+        voucherMemberRepository.deleteByVoucherIdAndMemberId(voucher1.getVoucherId(), member.getMemberId());
+
+        //then
+        assertThat(voucherMemberRepository.findVouchersMembersByMemberId(member.getMemberId())).hasSize(1);
     }
 }

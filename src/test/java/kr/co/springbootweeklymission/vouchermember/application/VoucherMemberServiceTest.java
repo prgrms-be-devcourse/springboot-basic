@@ -23,12 +23,11 @@ import static org.mockito.BDDMockito.given;
 public class VoucherMemberServiceTest {
     @InjectMocks
     VoucherMemberService voucherMemberService;
-
     @Mock
     VoucherMemberRepository voucherMemberRepository;
 
     @Test
-    void findVouchersByMemberId_특정_회원이_가진_바우처들을_조회_SUCCESS() {
+    void getVouchersByMemberId_특정_회원이_가진_바우처들을_조회_SUCCESS() {
         //given
         Member member = MemberCreators.createWhiteMember();
         List<VoucherMember> voucherMembers = new ArrayList<>();
