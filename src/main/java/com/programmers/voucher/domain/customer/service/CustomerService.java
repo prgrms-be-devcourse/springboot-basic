@@ -56,4 +56,8 @@ public class CustomerService {
 
         LOG.info(CustomerMessages.UPDATED_CUSTOMER_INFO, oldCustomerInfo, newCustomerInfo);
     }
+
+    public List<Customer> findCustomers() {
+        return customerRepository.findAll();
+    }
 }

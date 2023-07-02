@@ -10,10 +10,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -81,5 +83,23 @@ class CustomerServiceTest {
         //then
         assertThatThrownBy(() -> customerService.update(customer.getCustomerId(), "updatedName"))
                 .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    @DisplayName("성공: Customer 목록 조회")
+    void findCustomers() {
+        //given
+        Customer customerA = new Customer(UUID.randomUUID(), "customerA@gmail.com", "customerA");
+        Customer customerB = new Customer(UUID.randomUUID(), "customerB@gmail.com", "customerB");
+        List<Customer> customers = List.of(customerA, customerB);
+
+        given(customerRepository.findAll()).willReturn(customers);
+
+        //when
+        List<Customer> findCustomers = customerService.findCustomers();
+
+        //then
+        assertThat(findCustomers).usingRecursiveFieldByFieldElementComparator()
+                .contains(customerA, customerB);
     }
 }
