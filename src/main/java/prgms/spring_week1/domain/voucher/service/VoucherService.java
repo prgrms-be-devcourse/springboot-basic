@@ -1,7 +1,6 @@
 package prgms.spring_week1.domain.voucher.service;
 
 import org.springframework.stereotype.Service;
-import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
 import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
@@ -16,13 +15,13 @@ public class VoucherService {
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
-    
-    public Voucher insertFixedAmountVoucher(Long discountAmount) {
-        return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, discountAmount));
+
+    public void insertFixedAmountVoucher(Long discountAmount) {
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, discountAmount));
     }
 
-    public Voucher insertPercentDiscountVoucher(int fixedAmount) {
-        return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT, fixedAmount));
+    public void insertPercentDiscountVoucher(int fixedAmount) {
+        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT, fixedAmount));
     }
 
 }

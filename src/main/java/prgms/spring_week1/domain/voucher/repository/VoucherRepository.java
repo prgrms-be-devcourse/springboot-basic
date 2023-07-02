@@ -7,5 +7,5 @@ import java.util.List;
 public interface VoucherRepository {
     List<Voucher> findAll();
 
-    Voucher insert(Voucher voucher);
+    void insert(Voucher voucher);
 }

@@ -17,10 +17,6 @@ public class Output {
         System.out.println(outputMessage);
     }
 
-    public void printAllVoucher(List<Voucher> voucherList) {
-
-    }
-
     public void printBlackConsumerList(List<BlackConsumer> blackConsumerList) {
         if (blackConsumerList.isEmpty()) {
             outputMessage(ConsoleOutputMessage.EMPTY_BLACK_LIST_MESSAGE);

@@ -57,7 +57,7 @@ public class CommandLine implements Runnable {
             output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
             discountAmount = Long.parseLong(input.input());
         }
-        Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
+        voucherService.insertFixedAmountVoucher(discountAmount);
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
@@ -68,7 +68,7 @@ public class CommandLine implements Runnable {
             output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
             discountPercent = Integer.parseInt(input.input());
         }
-        Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
+        voucherService.insertPercentDiscountVoucher(discountPercent);
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
