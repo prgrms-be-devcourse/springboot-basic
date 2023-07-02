@@ -1,7 +1,5 @@
 package org.weekly.weekly.voucher.domain;
 
-import org.weekly.weekly.util.DiscountType;
-
 public class PercentDiscount implements Discount{
     private final int PERCENT = 100;
     @Override

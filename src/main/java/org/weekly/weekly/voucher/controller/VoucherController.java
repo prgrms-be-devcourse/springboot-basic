@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.weekly.weekly.util.PrintMsg;
-import org.weekly.weekly.voucher.dto.VoucherDto;
 import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
 import org.weekly.weekly.voucher.service.VoucherService;
@@ -21,7 +20,7 @@ public class VoucherController {
 
 
     public Response createVoucher(VoucherCreationRequest voucherCreationRequest) {
-        Response response = this.voucherService.insertVoucher(voucherCreationRequest);
+        this.voucherService.insertVoucher(voucherCreationRequest);
         this.commandLineApplication.printResult(response);
     }
 

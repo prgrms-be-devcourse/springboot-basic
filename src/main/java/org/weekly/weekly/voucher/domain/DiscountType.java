@@ -1,8 +1,6 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.voucher.domain;
 
-import org.weekly.weekly.voucher.domain.Discount;
-import org.weekly.weekly.voucher.domain.FixedDiscount;
-import org.weekly.weekly.voucher.domain.PercentDiscount;
+import org.weekly.weekly.util.ExceptionMsg;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -18,7 +18,7 @@ public class InputValidator {
         }
     }
     
-    public static void notVoucherInfoFormat(String[] userInputs) {
+    public static void notNumber(String[] userInputs) {
         if (Arrays.stream(userInputs)
                 .anyMatch(input -> isDigit(input.trim()))) {
             throw new InputException(ExceptionMsg.NOT_INPUT_FORMAT);

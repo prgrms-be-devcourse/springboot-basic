@@ -5,13 +5,12 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.weekly.weekly.util.DiscountType;
+import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Discount;
 import org.weekly.weekly.voucher.domain.FixedDiscount;
 import org.weekly.weekly.voucher.domain.PercentDiscount;
 import org.weekly.weekly.voucher.domain.Voucher;
-import org.weekly.weekly.voucher.dto.VoucherDto;
-import org.weekly.weekly.voucher.dto.VoucherInfoRequest;
+import org.weekly.weekly.voucher.dto.request.VoucherInfoRequest;
 import org.weekly.weekly.voucher.repository.VoucherRepository;
 
 import java.time.LocalDate;

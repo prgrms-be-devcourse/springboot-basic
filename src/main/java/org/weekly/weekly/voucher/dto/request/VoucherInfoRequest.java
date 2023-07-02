@@ -1,4 +1,4 @@
-package org.weekly.weekly.voucher.dto;
+package org.weekly.weekly.voucher.dto.request;
 
 import org.weekly.weekly.ui.exception.InputValidator;
 
@@ -7,11 +7,11 @@ public class VoucherInfoRequest {
     private static final int AMOUNT_NO = 0;
     private static final int EXPIRATION = 1;
 
-    private final String amount;
-    private final String expiration;
+    private final long amount;
+    private final long expiration;
 
 
-    private VoucherInfoRequest(String amount, String expiration) {
+    private VoucherInfoRequest(long amount, long expiration) {
         this.amount = amount;
         this.expiration = expiration;
     }
@@ -20,19 +20,21 @@ public class VoucherInfoRequest {
         String[] inputs = userInput.split(SPLIT_FORMAT);
         checkReadVoucherException(inputs);
 
-        return new VoucherInfoRequest(inputs[AMOUNT_NO].trim(), inputs[EXPIRATION].trim());
+        return new VoucherInfoRequest(
+                Long.parseLong(inputs[AMOUNT_NO].trim()),
+                Long.parseLong(inputs[EXPIRATION].trim()));
     }
 
-    public String getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public String getExpiration() {
+    public long getExpiration() {
         return expiration;
     }
 
     private static void checkReadVoucherException(String[] inputs) {
         InputValidator.notVoucherInputSize(inputs);
-        InputValidator.notVoucherInfoFormat(inputs);
+        InputValidator.notNumber(inputs);
     }
 }
