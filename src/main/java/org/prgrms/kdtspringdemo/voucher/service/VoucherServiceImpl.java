@@ -42,6 +42,13 @@ public class VoucherServiceImpl implements VoucherService {
         }
     }
 
+    private VoucherDto convertToVoucherDto(Voucher voucher) {
+        return new VoucherDto(
+                voucher.getVoucherType(),
+                voucher.getAmount()
+        );
+    }
+
     @Override
     public List<VoucherDto> getAllVoucher() {
         List<Voucher> voucherList = voucherRepository.findAll();
@@ -49,12 +56,5 @@ public class VoucherServiceImpl implements VoucherService {
         return voucherList.stream()
                 .map(VoucherDto::new)
                 .collect(Collectors.toList());
-    }
-
-    private VoucherDto convertToVoucherDto(Voucher voucher) {
-        return new VoucherDto(
-                voucher.getVoucherType(),
-                voucher.getAmount()
-        );
     }
 }
