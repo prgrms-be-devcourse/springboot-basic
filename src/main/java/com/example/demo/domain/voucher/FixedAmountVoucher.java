@@ -17,14 +17,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public double discount(double beforeAmount) {
         double result = beforeAmount - discountAmount;
-        if (isNegativeAmount(result)) {
+        if (result < 0) {
             return 0;
         }
         return result;
-    }
-
-    private boolean isNegativeAmount(double result) {
-        return result < 0;
     }
 
     @Override
