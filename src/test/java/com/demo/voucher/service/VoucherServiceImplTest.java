@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,8 +27,8 @@ class VoucherServiceImplTest {
         repository.clear();
 
         // given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1000);
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(30);
 
         repository.insert(fixedAmountVoucher);
         repository.insert(percentDiscountVoucher);
@@ -38,10 +38,10 @@ class VoucherServiceImplTest {
     @DisplayName("Voucher Service에서 uuid를 통해 생성한 바우처를 정상적으로 가져오는지 확인하는 테스트")
     void getVoucher() {
         // given
-        UUID uuid = UUID.randomUUID();
-        repository.insert(new FixedAmountVoucher(uuid, 2000));
+        repository.insert(new FixedAmountVoucher(2000));
 
         // when
+        UUID uuid = repository.findAll().get(0).getVoucherId();
         Voucher foundVoucher = voucherService.getVoucher(uuid);
 
         // then
@@ -55,10 +55,7 @@ class VoucherServiceImplTest {
         // given
         UUID wrongUUID = UUID.randomUUID();
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            // when
-            voucherService.getVoucher(UUID.randomUUID());
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> voucherService.getVoucher(wrongUUID));
 
         // then
         String expectedMessage = "바우처를 찾을 수 없습니다.";
@@ -71,7 +68,7 @@ class VoucherServiceImplTest {
     @DisplayName("Voucher Service를 통해 미리 저장해 놓은 바우처들을 Map으로부터 정상적으로 모두 탐색하는지 검증하는 테스트")
     void findAllVouchers() {
         // when
-        Map<UUID, Voucher> vouchers = voucherService.findAllVouchers();
+        List<Voucher> vouchers = voucherService.findAllVouchers();
 
         // then
         assertThat(vouchers).hasSize(2);

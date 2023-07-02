@@ -7,7 +7,7 @@ import com.demo.voucher.domain.VoucherType;
 import com.demo.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,20 +29,19 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Map<UUID, Voucher> findAllVouchers() {
+    public List<Voucher> findAllVouchers() {
         return voucherRepository.findAll();
     }
 
     @Override
     public Voucher createVoucher(VoucherType voucherType, String amount) {
-        UUID uuid = UUID.randomUUID();
         int amountValue = Integer.parseInt(amount);
         switch (voucherType) {
             case FIXED_AMOUNT -> {
-                return voucherRepository.insert(new FixedAmountVoucher(uuid, amountValue));
+                return voucherRepository.insert(new FixedAmountVoucher(amountValue));
             }
             case PERCENT_DISCOUNT -> {
-                return voucherRepository.insert(new PercentDiscountVoucher(uuid, amountValue));
+                return voucherRepository.insert(new PercentDiscountVoucher(amountValue));
             }
             default -> throw new RuntimeException(VOUCHER_NOT_CREATED_ERROR);
         }
