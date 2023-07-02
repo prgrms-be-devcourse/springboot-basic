@@ -1,5 +1,6 @@
 package com.ray.junho.voucher;
 
+import com.ray.junho.voucher.controller.CommandLineController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VoucherApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VoucherApplication.class, args);
+        SpringApplication
+                .run(VoucherApplication.class, args)
+                .getBean(CommandLineController.class)
+                .run();
     }
-
 }
