@@ -1,5 +1,7 @@
 package programmers.org.voucher.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import programmers.org.voucher.constant.Command;
@@ -15,6 +17,8 @@ import java.util.NoSuchElementException;
 
 @Component
 public class VoucherController implements CommandLineRunner {
+
+    private final static Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     private final VoucherService voucherService;
     private final VoucherConsole voucherConsole;
@@ -49,7 +53,7 @@ public class VoucherController implements CommandLineRunner {
                         isExit = true;
                 }
             } catch (NoSuchElementException e) {
-                voucherConsole.printError(e.getMessage());
+                logger.warn(e.getMessage());
             }
         }
     }
@@ -63,7 +67,7 @@ public class VoucherController implements CommandLineRunner {
             voucherService.create(voucherInfo, findVoucherType);
 
         } catch (NoSuchElementException e) {
-            voucherConsole.printError(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
