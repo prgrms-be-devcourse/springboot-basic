@@ -36,6 +36,10 @@ public class VoucherService {
                 .toList();
     }
 
+    public void update(Voucher voucher) {
+        voucherRepository.update(voucher);
+    }
+
     public Voucher createVoucher(VoucherType voucherType, long benefit) {
         Voucher voucher = voucherFactory.createVoucher(voucherType, UUID.randomUUID(), benefit);
         voucherRepository.insert(voucher);
