@@ -35,6 +35,7 @@ public class CommandLineController {
                     int discountAmount = console.readVoucherDiscountAmount(voucherType);
                     int voucherAmount = console.readVoucherAmountToCreate();
                     voucherService.create(voucherType, discountAmount, voucherAmount);
+                    console.printCSuccessfullyCreatedMessage();
                 }
             }
         }
