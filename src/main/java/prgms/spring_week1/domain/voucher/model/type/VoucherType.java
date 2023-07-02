@@ -20,12 +20,10 @@ public enum VoucherType {
     }
 
     public static VoucherType makeVoucherType(String inputSelectText) {
-        Optional<VoucherType> matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText);
+        VoucherType matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText)
+                .orElseThrow(() -> new NoSuchVoucherTypeException("해당 바우처 타입이 존재하지 않습니다."));
 
-        if (matchedVoucherType.isEmpty()) {
-            throw new NoSuchVoucherTypeException("해당 바우처 타입이 존재하지 않습니다.");
-        }
-        return matchedVoucherType.get();
+        return matchedVoucherType;
     }
 
     private static Optional<VoucherType> getMatchVoucherTypeFilter(Stream<VoucherType> voucherType, String inputSelectText) {
