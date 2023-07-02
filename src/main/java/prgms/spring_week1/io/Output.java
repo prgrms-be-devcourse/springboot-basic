@@ -13,13 +13,13 @@ import java.util.List;
 public class Output {
     private static final Logger log = LoggerFactory.getLogger(Output.class);
 
-    public void output(String outputMessage){
+    public void outputMessage(String outputMessage){
         System.out.println(outputMessage);
     }
 
     public void printAllVoucher(List<Voucher> voucherList) {
         if (voucherList.isEmpty()) {
-            output(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
+            outputMessage(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
             return;
         }
 
@@ -33,7 +33,7 @@ public class Output {
 
     public void printBlackConsumerList(List<BlackConsumer> blackConsumerList) {
         if (blackConsumerList.isEmpty()) {
-            output(ConsoleOutputMessage.EMPTY_BLACK_LIST_MESSAGE);
+            outputMessage(ConsoleOutputMessage.EMPTY_BLACK_LIST_MESSAGE);
             return;
         }
         blackConsumerList.forEach(bl -> System.out.println(bl.getName() + " " + bl.getAge()));

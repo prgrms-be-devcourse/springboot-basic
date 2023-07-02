@@ -12,6 +12,7 @@ import prgms.spring_week1.exception.NoSuchOptionValueException;
 import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
+import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
 
 @Component
@@ -35,38 +36,38 @@ public class CommandLine implements Runnable {
     public void run() {
         boolean IS_RUNNING = true;
         while (IS_RUNNING) {
-            output.printMenuList();
+            output.outputMessage(ConsoleOutputMessage.MENU_LIST_MESSAGE);
             String selectOption = input.input();
             switch (findMenuName(selectOption)) {
                 case EXIT -> IS_RUNNING = false;
                 case CREATE -> selectVoucherType();
                 case LIST -> printAllVoucher();
                 case BLACK -> output.printBlackConsumerList(customerService.blackConsumerList());
-                default -> output.printWrongMenuMessage();
+                default -> output.outputMessage(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
             }
         }
     }
 
     private void insertFixedAmountVoucher() {
-        output.printInsertFixedVoucherMessage();
+        output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
         long discountAmount = Long.parseLong(input.input());
         while (discountAmount <= 0) {
-            output.printInsertFixedVoucherMessage();
+            output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
             discountAmount = Long.parseLong(input.input());
         }
         Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
-        output.printInsertVoucherInfo(newVoucher);
+        output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
     private void insertPercentDiscountVoucher() {
-        output.printInsertPercentVoucherMessage();
+        output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
         int discountPercent = Integer.parseInt(input.input());
         while (discountPercent < 0 || discountPercent > 100) {
-            output.printInsertPercentVoucherMessage();
+            output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
             discountPercent = Integer.parseInt(input.input());
         }
         Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
-        output.printInsertVoucherInfo(newVoucher);
+        output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
     private Menu findMenuName(String inputText) {
@@ -79,7 +80,7 @@ public class CommandLine implements Runnable {
     }
 
     private void selectVoucherType() {
-        output.printTypeSelectMessage();
+        output.outputMessage(ConsoleOutputMessage.TYPE_SELECT_MESSAGE);
         try {
             String select = input.input();
 
@@ -88,7 +89,7 @@ public class CommandLine implements Runnable {
                 case PERCENT -> insertPercentDiscountVoucher();
             }
         } catch (NoSuchVoucherTypeException e) {
-            output.printNoSuchVoucherType();
+            output.outputMessage(ConsoleOutputMessage.INVALID_VOUCHER_TYPE_MESSAGE);
         }
     }
 
