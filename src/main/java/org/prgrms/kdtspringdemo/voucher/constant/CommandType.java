@@ -1,5 +1,7 @@
 package org.prgrms.kdtspringdemo.voucher.constant;
 
+import org.prgrms.kdtspringdemo.voucher.exception.ExceptionMessage;
+
 import java.util.Arrays;
 
 public enum CommandType {
@@ -8,10 +10,12 @@ public enum CommandType {
     CREATE,
     LIST;
 
+    private static final String CANT_FIND_COMMAND_TYPE = "알맞는 명령이 없습니다.";
+
     public static CommandType findCommandType(String userCommand) {
         return Arrays.stream(CommandType.values())
                 .filter(commandType -> commandType.name().equals(userCommand))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("입력을 잘못하였습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(CANT_FIND_COMMAND_TYPE));
     }
 }
