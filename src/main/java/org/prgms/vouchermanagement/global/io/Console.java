@@ -1,9 +1,9 @@
-package org.prgms.vouchermanagement.io;
+package org.prgms.vouchermanagement.global.io;
 
 import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
-import org.prgms.vouchermanagement.voucher.FixedAmountVoucher;
-import org.prgms.vouchermanagement.voucher.PercentDiscountVoucher;
-import org.prgms.vouchermanagement.voucher.Voucher;
+import org.prgms.vouchermanagement.voucher.domain.entity.FixedAmountVoucher;
+import org.prgms.vouchermanagement.voucher.domain.entity.PercentDiscountVoucher;
+import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 

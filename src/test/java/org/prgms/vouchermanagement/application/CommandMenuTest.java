@@ -2,7 +2,7 @@ package org.prgms.vouchermanagement.application;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

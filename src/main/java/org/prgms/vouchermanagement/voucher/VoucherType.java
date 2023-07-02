@@ -1,6 +1,6 @@
 package org.prgms.vouchermanagement.voucher;
 
-import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER_TYPE(1),

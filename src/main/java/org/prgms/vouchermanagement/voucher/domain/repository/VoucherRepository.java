@@ -1,6 +1,6 @@
-package org.prgms.vouchermanagement.voucher.repository;
+package org.prgms.vouchermanagement.voucher.domain.repository;
 
-import org.prgms.vouchermanagement.voucher.Voucher;
+import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 
 import java.util.Map;
 import java.util.Optional;

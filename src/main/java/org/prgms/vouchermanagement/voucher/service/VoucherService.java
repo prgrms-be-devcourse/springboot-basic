@@ -1,9 +1,9 @@
 package org.prgms.vouchermanagement.voucher.service;
 
-import org.prgms.vouchermanagement.voucher.repository.MemoryVoucherRepository;
-import org.prgms.vouchermanagement.voucher.FixedAmountVoucher;
-import org.prgms.vouchermanagement.voucher.PercentDiscountVoucher;
-import org.prgms.vouchermanagement.voucher.Voucher;
+import org.prgms.vouchermanagement.voucher.domain.repository.MemoryVoucherRepository;
+import org.prgms.vouchermanagement.voucher.domain.entity.FixedAmountVoucher;
+import org.prgms.vouchermanagement.voucher.domain.entity.PercentDiscountVoucher;
+import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +24,15 @@ public class VoucherService {
             FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amountOrPercent);
             memoryVoucherRepository.saveVoucher(voucher.getVoucherId(), voucher);
 
-        } else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
+        }
+
+        if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             PercentDiscountVoucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), amountOrPercent);
             memoryVoucherRepository.saveVoucher(voucher.getVoucherId(), voucher);
         }
     }
 
-    public Optional<Map<UUID, Voucher>> getVoucherList(VoucherType voucherType) {
+    public Optional<Map<UUID, Voucher>> getVoucherList() {
         return memoryVoucherRepository.getVoucherList();
     }
 }

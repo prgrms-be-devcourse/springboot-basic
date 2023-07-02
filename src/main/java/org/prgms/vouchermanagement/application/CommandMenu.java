@@ -1,6 +1,6 @@
 package org.prgms.vouchermanagement.application;
 
-import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 
 public enum CommandMenu {
 

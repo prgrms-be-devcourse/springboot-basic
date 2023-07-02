@@ -1,6 +1,6 @@
 package org.prgms.vouchermanagement.voucher.validator;
 
-import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,9 @@
 package org.prgms.vouchermanagement.application;
 
-import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
-import org.prgms.vouchermanagement.io.Console;
+import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.global.io.Console;
 import org.prgms.vouchermanagement.voucher.service.VoucherService;
-import org.prgms.vouchermanagement.voucher.Voucher;
+import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +95,7 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
 
         console.printSelectVoucherListType();
         voucherListType = VoucherType.getVoucherType(console.getVoucherTypeInput());
-        Optional<Map<UUID, Voucher>> voucherList = voucherService.getVoucherList(voucherListType);
+        Optional<Map<UUID, Voucher>> voucherList = voucherService.getVoucherList();
         console.printVoucherList(voucherList, voucherListType);
     }
 
