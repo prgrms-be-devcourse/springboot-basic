@@ -2,17 +2,17 @@ package com.wonu606.vouchermanager.service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public enum VoucherType {
     FIXED,
     PERCENT;
 
-    public static Optional<VoucherType> getVoucherTypeByName(String name) {
+    public static VoucherType getVoucherTypeByName(String name) {
         return Arrays.stream(VoucherType.values())
                 .filter(v -> v.name().equals(name.toUpperCase()))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처 타입입니다."));
     }
 
     public static List<String> getAllNames() {

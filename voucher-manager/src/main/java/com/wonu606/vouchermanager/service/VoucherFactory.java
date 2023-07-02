@@ -9,8 +9,7 @@ import java.util.UUID;
 public class VoucherFactory {
 
     public Voucher create(VoucherDto voucherDto) {
-        VoucherType creationType = VoucherType.getVoucherTypeByName(voucherDto.getType())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처 타입입니다."));
+        VoucherType creationType = VoucherType.getVoucherTypeByName(voucherDto.getType());
         
         switch (creationType) {
             case FIXED:
