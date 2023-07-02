@@ -1,6 +1,7 @@
 package com.programmers.springweekly.domain.voucher;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -9,6 +10,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class VoucherTest {
+
+    @Test
+    @DisplayName("팩토리에서 고정 할인 클래스를 생성한다.")
+    void createFixedDiscountOfFactory() {
+        // given && when
+        Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, "1000");
+
+        // then
+        assertThat(voucher).isInstanceOf(FixedAmountVoucher.class);
+    }
+
 
     @ParameterizedTest
     @CsvSource(value = {"1000:10000:9000", "2000:3000:1000", "10000:20000:10000"}, delimiter = ':')
@@ -22,6 +34,16 @@ public class VoucherTest {
 
         // then
         assertThat(discountPrice).isEqualTo(expectedDiscount);
+    }
+
+    @Test
+    @DisplayName("팩토리에서 퍼센트 할인 클래스를 생성한다.")
+    void createPercentDiscountOfFactory() {
+        // given && when
+        Voucher voucher = VoucherFactory.createVoucher(VoucherType.PERCENT, "100");
+
+        // then
+        assertThat(voucher).isInstanceOf(PercentDiscountVoucher.class);
     }
 
     @ParameterizedTest
