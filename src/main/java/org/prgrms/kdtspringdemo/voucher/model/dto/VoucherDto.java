@@ -5,19 +5,19 @@ import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 
 public class VoucherDto {
     private final VoucherType voucherType;
-    private final long discount;
+    private final long amount;
 
-    public VoucherDto(VoucherType voucherType, long discount) {
+    public VoucherDto(VoucherType voucherType, long amount) {
         this.voucherType = voucherType;
-        this.discount = discount;
+        this.amount = amount;
     }
 
     public VoucherType getVoucherType() {
         return voucherType;
     }
 
-    public long getDiscount() {
-        return discount;
+    public long getAmount() {
+        return amount;
     }
 
     public static VoucherDto toDto(Voucher voucher) {

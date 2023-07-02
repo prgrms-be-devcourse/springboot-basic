@@ -25,12 +25,12 @@ public class VoucherServiceImpl implements VoucherService {
     public VoucherDto create(VoucherDto voucherDto) {
         switch (voucherDto.getVoucherType()) {
             case FIXED -> {
-                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getDiscount());
+                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
                 Voucher voucher = voucherRepository.save(fixedAmountVoucher);
                 return VoucherDto.toDto(voucher);
             }
             case PERCENT -> {
-                Voucher percentAmountVoucher = new PercentAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getDiscount());
+                Voucher percentAmountVoucher = new PercentAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
                 Voucher voucher = voucherRepository.save(percentAmountVoucher);
                 return VoucherDto.toDto(voucher);
             }
