@@ -19,9 +19,7 @@ public class VoucherApp implements Runnable {
     /* Final */
     private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
     private final Console console = new Console();
-
     private final VoucherService voucherService;
-
 
     public VoucherApp(VoucherService voucherService) {
         this.voucherService = voucherService;
