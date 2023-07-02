@@ -12,15 +12,15 @@ class FixedDiscountPolicyTest {
 
     @Test
     @DisplayName("FixedDiscountPolicy객체 생성 시 검증 테스트")
-    void validate(){
-        assertThrows(InvalidDiscountException.class, () ->{
+    void validate() {
+        assertThrows(InvalidDiscountException.class, () -> {
             new FixedDiscountPolicy(-5);
         });
     }
 
     @Test
     @DisplayName("고정할인이 정상적으로 계산되는지 테스트")
-    void applyDiscount(){
+    void applyDiscount() {
         //given
         DiscountPolicy fixedDiscountPolicy = new FixedDiscountPolicy(30.0);
 

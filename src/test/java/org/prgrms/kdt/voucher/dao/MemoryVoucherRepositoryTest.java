@@ -3,6 +3,8 @@ package org.prgrms.kdt.voucher.dao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.exception.FileAccessException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
@@ -10,6 +12,7 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -69,7 +72,8 @@ class MemoryVoucherRepositoryTest {
         assertThat(foundVoucher.get(), is(insertVoucher));
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("voucherSource")
     @DisplayName("바우처 전체 조회 테스트")
     void findAll() {
         //given
@@ -83,5 +87,11 @@ class MemoryVoucherRepositoryTest {
 
         //then
         assertThat(foundVoucherList, containsInAnyOrder(savedVoucher1, savedVoucher2));
+    }
+
+    static Stream<Voucher[]> voucherSource() {
+        Voucher voucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher voucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        return Stream.of(new Voucher[][]{{voucher1, voucher2}});
     }
 }

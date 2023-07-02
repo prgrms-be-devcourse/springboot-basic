@@ -12,15 +12,15 @@ class PercentDiscountPolicyTest {
 
     @Test
     @DisplayName("PercentDiscountPolicy 객체 생성 시 검증 테스트")
-    void validate(){
-        assertThrows(InvalidDiscountException.class, () ->{
+    void validate() {
+        assertThrows(InvalidDiscountException.class, () -> {
             new PercentDiscountPolicy(200.0);
         });
     }
 
     @Test
     @DisplayName("퍼센트 할인이 정상적으로 계산되는지 테스트")
-    void applyDiscount(){
+    void applyDiscount() {
         //given
         DiscountPolicy percentDiscountPolicy = new PercentDiscountPolicy(20.0);
 

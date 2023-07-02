@@ -8,7 +8,8 @@ public abstract class DiscountPolicy {
     }
 
     public abstract double applyDiscount(double beforeDiscount);
-    public double getAmount(){
+
+    public double getAmount() {
         return amount;
     }
 }

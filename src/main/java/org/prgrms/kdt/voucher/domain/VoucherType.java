@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.domain;
 
+import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.voucher.exception.InvalidDiscountException;
 
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter((e) -> e.number == curNumber)
                 .findFirst()
-                .orElseThrow(() -> new InvalidDiscountException("입력한 바우처 타입은 지원하지 않습니다."));
+                .orElseThrow(() -> new InvalidInputException("입력한 바우처 타입은 지원하지 않습니다."));
     }
 
     public String getName() {

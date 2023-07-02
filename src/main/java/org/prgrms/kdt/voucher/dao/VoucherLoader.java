@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class VoucherLoader {
     private final String filePath;
+
     public VoucherLoader(@Value("${filePath.voucher}") String filePath) {
         this.filePath = filePath;
     }
