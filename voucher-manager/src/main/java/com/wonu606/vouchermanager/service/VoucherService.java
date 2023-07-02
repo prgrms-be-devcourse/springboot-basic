@@ -4,14 +4,14 @@ import com.wonu606.vouchermanager.domain.Voucher;
 import com.wonu606.vouchermanager.repository.VoucherRepository;
 import java.util.List;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class VoucherService {
 
-    private final VoucherFactory factory = new VoucherFactory();
+    private final VoucherFactory factory;
     private final VoucherRepository repository;
 
     public Voucher createVoucher(String typeName, UUID uuid, double discount) {

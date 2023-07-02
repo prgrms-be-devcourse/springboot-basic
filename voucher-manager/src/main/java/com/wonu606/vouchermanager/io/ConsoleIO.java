@@ -4,13 +4,15 @@ import com.wonu606.vouchermanager.controller.VoucherMenu;
 import com.wonu606.vouchermanager.domain.Voucher;
 import com.wonu606.vouchermanager.service.VoucherType;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class ConsoleIO {
 
-    private final ConsoleInput input = new ConsoleInput();
-    private final ConsolePrinter printer = new ConsolePrinter();
+    private final ConsoleInput input;
+    private final ConsolePrinter printer;
 
     public VoucherMenu selectMenu() {
         displayMenu();
