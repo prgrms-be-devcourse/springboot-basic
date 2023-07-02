@@ -30,7 +30,7 @@ public class CustomerService {
         return blacklistRepository.findAll();
     }
 
-    public UUID save(String email, String name) {
+    public UUID createCustomer(String email, String name) {
         boolean emailDuplication = customerRepository.findByEmail(email)
                 .isPresent();
         if(emailDuplication) {
@@ -45,7 +45,7 @@ public class CustomerService {
         return customer.getCustomerId();
     }
 
-    public void update(UUID customerId, String name) {
+    public void updateCustomer(UUID customerId, String name) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
         String oldCustomerInfo = customer.toString();
@@ -61,7 +61,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public void delete(UUID customerId) {
+    public void deleteCustomer(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
 

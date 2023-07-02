@@ -37,7 +37,7 @@ class CustomerServiceTest {
         given(customerRepository.findByEmail(any())).willReturn(Optional.empty());
 
         //when
-        customerService.save("customer@gmail.com", "customer");
+        customerService.createCustomer("customer@gmail.com", "customer");
 
         //then
         then(customerRepository).should().findByEmail(any());
@@ -53,7 +53,7 @@ class CustomerServiceTest {
         
         //when
         //then
-        assertThatThrownBy(() -> customerService.save("customer@gmailc.om", "customer"))
+        assertThatThrownBy(() -> customerService.createCustomer("customer@gmailc.om", "customer"))
                 .isInstanceOf(DuplicateKeyException.class);
     }
 
@@ -65,7 +65,7 @@ class CustomerServiceTest {
         given(customerRepository.findById(any())).willReturn(Optional.of(customer));
 
         //when
-        customerService.update(customer.getCustomerId(), "updatedName");
+        customerService.updateCustomer(customer.getCustomerId(), "updatedName");
 
         //then
         then(customerRepository).should().findById(any());
@@ -81,7 +81,7 @@ class CustomerServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> customerService.update(customer.getCustomerId(), "updatedName"))
+        assertThatThrownBy(() -> customerService.updateCustomer(customer.getCustomerId(), "updatedName"))
                 .isInstanceOf(NoSuchElementException.class);
     }
 
@@ -112,7 +112,7 @@ class CustomerServiceTest {
         given(customerRepository.findById(any())).willReturn(Optional.of(customer));
 
         //when
-        customerService.delete(customer.getCustomerId());
+        customerService.deleteCustomer(customer.getCustomerId());
 
         //then
         then(customerRepository).should().deleteById(any());
@@ -126,7 +126,7 @@ class CustomerServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> customerService.delete(UUID.randomUUID()))
+        assertThatThrownBy(() -> customerService.deleteCustomer(UUID.randomUUID()))
                 .isInstanceOf(NoSuchElementException.class);
     }
 }
