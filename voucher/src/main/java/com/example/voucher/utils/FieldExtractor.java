@@ -6,16 +6,17 @@ import java.util.List;
 
 public class FieldExtractor {
 
-	public static List<Object> extract(Object object) throws IllegalAccessException {
+	public static <T> List<T> extract(T object) throws IllegalAccessException {
 		Class<?> cls = object.getClass();
-		List<Object> objects = new ArrayList<>();
+		List<T> objects = new ArrayList<>();
 
 		for (Field field : cls.getDeclaredFields()) {
 			field.setAccessible(true);
 			Object value = field.get(object);
-			objects.add(value);
+			if (value != null && field.getType().isAssignableFrom(value.getClass())) {
+				objects.add((T)value);
+			}
 		}
-		
 		return objects;
 	}
 
