@@ -1,14 +1,9 @@
 package com.prgrms.springbootbasic.enums;
 
 public enum Command {
-    EXIT("exit"),
-    CREATE("create"),
-    LIST("list");
-    private final String inputCommand;
-
-    Command(String inputCommand) {
-        this.inputCommand = inputCommand;
-    }
+    EXIT,
+    CREATE,
+    LIST;
 
     public static Command of(String inputCommand) {
         try {
