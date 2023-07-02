@@ -25,7 +25,7 @@ public class FixedAmountVoucher extends Voucher {
         if (amount <= FIXED_AMOUNT_MIN) {
             String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_FIXED_AMOUNT, amount);
             LOG.warn(errorMessage);
-            throw new IllegalStateException(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
         }
     }
 
