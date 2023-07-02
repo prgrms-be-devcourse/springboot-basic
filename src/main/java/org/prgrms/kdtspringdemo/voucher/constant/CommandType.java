@@ -1,7 +1,5 @@
 package org.prgrms.kdtspringdemo.voucher.constant;
 
-import org.prgrms.kdtspringdemo.voucher.exception.ExceptionMessage;
-
 import java.util.Arrays;
 
 public enum CommandType {
