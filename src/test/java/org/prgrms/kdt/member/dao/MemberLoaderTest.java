@@ -1,8 +1,8 @@
 package org.prgrms.kdt.member.dao;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.member.dao.MemberLoader;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 
@@ -22,7 +22,8 @@ class MemberLoaderTest {
     }
 
     @Test
-    void 파일에_블랙멤버_저장_후_저장확인() {
+    @DisplayName("메모리의 블랙리스트들 파일에 저장 후 저장된 파일 확인")
+    void saveMemoryMemberToFile() {
         //given
         Member blackMember1 = new Member(UUID.randomUUID(), "haha", MemberStatus.BLACK);
         Member blackMember2 = new Member(UUID.randomUUID(), "hoho", MemberStatus.BLACK);

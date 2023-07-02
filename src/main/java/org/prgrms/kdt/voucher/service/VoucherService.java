@@ -1,8 +1,5 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.exception.InvalidInputException;
-import org.prgrms.kdt.voucher.domain.FixedDiscountPolicy;
-import org.prgrms.kdt.voucher.domain.PercentDiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;

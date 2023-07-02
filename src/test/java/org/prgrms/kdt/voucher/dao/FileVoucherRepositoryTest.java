@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.dao;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.exception.FileAccessException;
 import org.prgrms.kdt.voucher.domain.Voucher;
@@ -18,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class FileVoucherRepositoryTest {
-    private FileVoucherRepository fileVoucherRepository;
-    private VoucherLoader mockVoucherLoader;
+    FileVoucherRepository fileVoucherRepository;
+    VoucherLoader mockVoucherLoader;
     @BeforeEach
     void setup() {
         mockVoucherLoader = mock(VoucherLoader.class);
@@ -27,7 +28,8 @@ class FileVoucherRepositoryTest {
     }
 
     @Test
-    void findById_존재하는_바우처_찾기() {
+    @DisplayName("존재하는 바우처Id로 바우처 찾기")
+    void findByExistId() {
         //given
         Voucher savedVoucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
         Voucher savedVoucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(20.0));
@@ -43,7 +45,8 @@ class FileVoucherRepositoryTest {
     }
 
     @Test
-    void findById_존재하지_않는_바우처_찾기() {
+    @DisplayName("존재하지 않는 바우처Id로 바우처 찾기")
+    void findByNonExistId() {
         //given
         Voucher savedVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
         fileVoucherRepository.insert(savedVoucher);
@@ -59,6 +62,7 @@ class FileVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 저장 후 성공적으로 저장 되었는지 확인")
     void insert() {
         //given
         Voucher insertVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
@@ -72,6 +76,7 @@ class FileVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 전체 조회 테스트")
     void findAll() {
         //given
         Voucher savedVoucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
