@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -52,5 +53,33 @@ class CustomerServiceTest {
         //then
         assertThatThrownBy(() -> customerService.save("customer@gmailc.om", "customer"))
                 .isInstanceOf(DuplicateKeyException.class);
+    }
+
+    @Test
+    @DisplayName("성공: Customer 단건 업데이트")
+    void update() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+        given(customerRepository.findById(any())).willReturn(Optional.of(customer));
+
+        //when
+        customerService.update(customer.getCustomerId(), "updatedName");
+
+        //then
+        then(customerRepository).should().findById(any());
+        then(customerRepository).should().update(any());
+    }
+
+    @Test
+    @DisplayName("성공: Customer 단건 업데이트 - 존재하지 않는 customer")
+    void update_ButNoSuchElement_Then_Exception() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+        given(customerRepository.findById(any())).willReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> customerService.update(customer.getCustomerId(), "updatedName"))
+                .isInstanceOf(NoSuchElementException.class);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -42,5 +43,17 @@ public class CustomerService {
         LOG.info(CustomerMessages.CREATED_NEW_CUSTOMER, customer);
 
         return customer.getCustomerId();
+    }
+
+    public void update(UUID customerId, String name) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
+        String oldCustomerInfo = customer.toString();
+
+        customer.changeName(name);
+        customerRepository.update(customer);
+        String newCustomerInfo = customer.toString();
+
+        LOG.info(CustomerMessages.UPDATED_CUSTOMER_INFO, oldCustomerInfo, newCustomerInfo);
     }
 }
