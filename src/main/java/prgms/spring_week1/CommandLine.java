@@ -31,10 +31,9 @@ public class CommandLine implements Runnable {
         this.customerService = customerService;
     }
 
-    private boolean IS_RUNNING = true;
-
     @Override
     public void run() {
+        boolean IS_RUNNING = true;
         while (IS_RUNNING) {
             output.printMenuList();
             String selectOption = input.inputTextOption();
