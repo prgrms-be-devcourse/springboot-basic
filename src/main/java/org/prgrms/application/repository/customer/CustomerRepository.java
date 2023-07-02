@@ -11,13 +11,15 @@ public interface CustomerRepository {
 
     Customer update(Customer customer);
 
-    int count();
+    //    int count();
     //  Customer save(Customer customer);
 
     List<Customer> findAll();
 
     Optional<Customer> findById(Long customerId);
+
     Optional<Customer> findByName(String customerId);
+
     Optional<Customer> findByEmail(String customerId);
 
     void deleteAll();

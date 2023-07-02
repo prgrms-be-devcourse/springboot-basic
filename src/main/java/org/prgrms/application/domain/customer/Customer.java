@@ -26,14 +26,14 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public void changeName(String name){
+    public void changeName(String name) {
         validateName(name);
         this.name = name;
     }
 
-    public void login(){ //로그인에 따른 로그인 시간 변
-        this.lastLoginAt = LocalDateTime.now();
-    }
+//    public void login() {
+//        this.lastLoginAt = LocalDateTime.now();
+//    }
 
     public Long getCustomerId() {
         return customerId;
@@ -56,19 +56,8 @@ public class Customer {
     }
 
     private void validateName(String name) {
-        if(name.isBlank()){
+        if (name.isBlank()) {
             throw new RuntimeException("name should not be blank");
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", lastLoginAt=" + lastLoginAt +
-                ", createdAt=" + createdAt +
-                '}';
     }
 }

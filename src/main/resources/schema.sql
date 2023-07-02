@@ -7,11 +7,6 @@ CREATE TABLE customers
     created_at     datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     CONSTRAINT unq_user_email UNIQUE (email)
 );
---
--- INSERT INTO customers (customer_id, name, email) VALUES (UUID(), 'tester00', 'test00@gmail.com');
--- INSERT INTO customers (customer_id, name, email) VALUES (UUID(), 'tester01', 'test01@gmail.com');
--- INSERT INTO customers (customer_id, name, email) VALUES (UUID(), 'tester02', 'test02@gmail.com');
-
 
 CREATE TABLE vouchers
 (

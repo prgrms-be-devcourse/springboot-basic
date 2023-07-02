@@ -22,7 +22,7 @@ public class OutputView {
         }
     }
 
-    public void printSelectVoucherType(){
+    public void printSelectVoucherType() {
         System.out.println("Select VoucherType");
         System.out.println("Fixed");
         System.out.println("Percent");

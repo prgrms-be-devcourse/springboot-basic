@@ -28,7 +28,6 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.everyItem;
 import static org.prgrms.application.domain.voucher.VoucherType.FIXED;
 import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 
@@ -40,9 +39,10 @@ class VoucherJdbcRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"org.prgrms.application.domain.voucher","org.prgrms.application.repository.voucher"}
+            basePackages = {"org.prgrms.application.domain.voucher", "org.prgrms.application.repository.voucher"}
     )
-    static class Config {@Bean
+    static class Config {
+        @Bean
         public DataSource dataSource() {
             return new EmbeddedDatabaseBuilder()
                     .generateUniqueName(true)
@@ -71,7 +71,8 @@ class VoucherJdbcRepositoryTest {
         @Bean
         public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
             return new TransactionTemplate(platformTransactionManager);
-        }}
+        }
+    }
 
     @Autowired
     VoucherJdbcRepository voucherJdbcRepository;
@@ -84,7 +85,7 @@ class VoucherJdbcRepositoryTest {
     PercentAmountVoucher newPercentVoucher;
 
     @BeforeAll
-    void setup(){
+    void setup() {
         newFixedVoucher = new FixedAmountVoucher(1L, FIXED, 10000);
         newPercentVoucher = new PercentAmountVoucher(2L, PERCENT, 50);
     }
@@ -92,8 +93,8 @@ class VoucherJdbcRepositoryTest {
     @Test
     @Order(1)
     @DisplayName("바우처를 추가할 수 있다.")
-    public void testInsert(){
-        try{
+    public void testInsert() {
+        try {
             voucherJdbcRepository.insert(newPercentVoucher);
             voucherJdbcRepository.insert(newFixedVoucher);
         } catch (BadSqlGrammarException e) {

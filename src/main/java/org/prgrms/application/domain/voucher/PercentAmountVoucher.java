@@ -7,7 +7,7 @@ public class PercentAmountVoucher extends Voucher {
     private static final double ZERO_DISCOUNT = 0;
     private static final double HUNDRED_DISCOUNT = 100;
 
-    public PercentAmountVoucher(Long voucherId,VoucherType voucherType, double percentAmount) {
+    public PercentAmountVoucher(Long voucherId, VoucherType voucherType, double percentAmount) {
         validatePercent(percentAmount);
         this.voucherId = voucherId;
         this.voucherType = voucherType;
@@ -20,11 +20,11 @@ public class PercentAmountVoucher extends Voucher {
         }
     }
 
-    public double getPercentAmount(){
+    public double getPercentAmount() {
         return percentAmount;
     }
 
-    public void changePercentAmount(double percentAmount){
+    public void changePercentAmount(double percentAmount) {
         validatePercent(percentAmount);
     }
 

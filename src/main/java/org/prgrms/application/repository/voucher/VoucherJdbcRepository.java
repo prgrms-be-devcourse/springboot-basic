@@ -54,26 +54,27 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId());
 
-            switch (voucher.getVoucherType()){
+            switch (voucher.getVoucherType()) {
                 case FIXED:
                     FixedAmountVoucher fixedAmountVoucher = (FixedAmountVoucher) voucher;
                     put("voucherType", FIXED.toString());
-                    put("fixedAmount",fixedAmountVoucher.getFixedAmount());
+                    put("fixedAmount", fixedAmountVoucher.getFixedAmount());
                     put("percentAmount", null);
                     break;
                 case PERCENT:
                     PercentAmountVoucher percentAmountVoucher = (PercentAmountVoucher) voucher;
                     put("voucherType", PERCENT.toString());
-                    put("fixedAmount",null);
-                    put("percentAmount",percentAmountVoucher.getPercentAmount());
+                    put("fixedAmount", null);
+                    put("percentAmount", percentAmountVoucher.getPercentAmount());
             }
-    }};}
+        }};
+    }
 
     @Override
     public Voucher insert(Voucher voucher) {
         int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, fixed_amount, percent_amount) " +
-                                            "VALUES (:voucherId, :voucherType, :fixedAmount, :percentAmount)",
-                                            toParamMap(voucher));
+                        "VALUES (:voucherId, :voucherType, :fixedAmount, :percentAmount)",
+                toParamMap(voucher));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
         }
@@ -84,7 +85,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Voucher update(Voucher voucher) {
         int update = jdbcTemplate.update("UPDATE vouchers SET fixed_amount = :fixedAmount, percent_amount = :percentAmount WHERE voucher_id = :voucherId",
                 toParamMap(voucher));
-        if( update != HAS_UPDATE){
+        if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
         }
         return voucher;

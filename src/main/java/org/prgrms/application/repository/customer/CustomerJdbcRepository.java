@@ -31,16 +31,19 @@ public class CustomerJdbcRepository implements CustomerRepository {
         LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);};
+        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
+    };
 
     // 맵의 키를 파라미터로 변경
-    private Map<String, Object> toParamMap(Customer customer) {return new HashMap<>() {{
+    private Map<String, Object> toParamMap(Customer customer) {
+        return new HashMap<>() {{
             put("customerId", customer.getCustomerId());
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("cratedAt", Timestamp.valueOf(customer.getCreatedAt()));
             put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-        }};}
+        }};
+    }
 
     @Override
     public Customer insert(Customer customer) {
@@ -64,10 +67,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     //empty map을 사용한 이유 : queryForObject 가 특정한 객체를 요구하는 메서드 특성 때문에  map이나 sql파라미터소스를 전달해야 한다. 대신 가짜 맵을 전달
-    @Override
-    public int count() {
-        return jdbcTemplate.queryForObject("select count(*) from customers", Collections.emptyMap(), Integer.class);
-    }
+//    @Override
+//    public int count() {
+//        return jdbcTemplate.queryForObject("select count(*) from customers", Collections.emptyMap(), Integer.class);
+//    }
 
     @Override
     public List<Customer> findAll() {

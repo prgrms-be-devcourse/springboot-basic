@@ -1,9 +1,7 @@
-package org.prgrms.application.repository;
+package org.prgrms.application.repository.customer;
 
 import org.junit.jupiter.api.*;
 import org.prgrms.application.domain.customer.Customer;
-import org.prgrms.application.domain.voucher.Voucher;
-import org.prgrms.application.repository.customer.CustomerJdbcRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,7 @@ class CustomerJdbcRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"org.prgrms.application.domain.customer","org.prgrms.application.repository"}
+            basePackages = {"org.prgrms.application.domain.customer", "org.prgrms.application.repository"}
     )
     static class Config {
         @Bean
@@ -68,7 +66,8 @@ class CustomerJdbcRepositoryTest {
         @Bean
         public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
             return new TransactionTemplate(platformTransactionManager);
-        }}
+        }
+    }
 
     @Autowired
     CustomerJdbcRepository customerJdbcRepository;
