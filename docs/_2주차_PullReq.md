@@ -18,15 +18,10 @@
 - Service Layer의 경우 단위 테스트 (Mock 사용)를 활용해 테스트를 구현하였습니다.
 - 테스트에서 객체 생성에 필요한 공통 코드는 `Creators` 클래스로 빼두었습니다.
 - `File` 저장소에 관한 테스트는 `file`에 의존되어 `disable` 처리하였습니다.
-  <img width="502" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/31675711/31bb5785-b939-413b-b085-449ae6a45f26">
+![img_6.png](img_6.png)
 
 #### 테이블 설계
-![img_4.png](img_4.png)
-
-#### 심화 요구사항에 대한 전달 내용
-- 커밋 내용을 보면 심화 요구사항 기능 구현에 대해 커밋된 내용이 있는데, 7/2 ~ 7/5 간 일본 여행이 계획되어 있다보니, 중간에 수정 후  기본 요구사항인 CRUD만 제출하게 되었습니다. 😭😭 일본 여행 후 빠른 시일 내에 심화 요구사항도 제출하도록 하겠습니다..!!
-    - [x] 기본 CRUD
-    - [ ] 심화
+![img_7.png](img_7.png)
 
 ## ✅ PR 포인트 & 궁금한 점
 
