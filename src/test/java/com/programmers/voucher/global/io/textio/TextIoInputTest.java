@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class TextIoInputTest {
     private MockTextTerminal mockTextTerminal;
@@ -27,6 +27,37 @@ class TextIoInputTest {
         textIO = new TextIO(mockTextTerminal);
 
         textIoInput = new TextIoInput(textIO);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "exit", "help", "create", "list", "blacklist"
+    })
+    @DisplayName("성공: 콘솔 명령어 입력 실행")
+    void inputInitialCommand(String input) {
+        //given
+        List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add(input);
+
+        //when
+        textIoInput.inputInitialCommand();
+
+        //then
+        int readCalls = mockTextTerminal.getReadCalls();
+        assertThat(readCalls).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("예외: 콘솔 명령어 입력 실행 - 잘못된 콘솔 명령어")
+    void inputInitialCommand_ButInvalidCommandType_Then_Exception() {
+        //given
+        List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add("invalid");
+
+        //when
+        //then
+        assertThatThrownBy(() -> textIoInput.inputInitialCommand())
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -102,7 +133,7 @@ class TextIoInputTest {
     @CsvSource({
             "-1", "0", "100", "101"
     })
-    @DisplayName("성공: 바우처 생성 정보 입력 실행 - 바우처 타입(percent) - 잘못된 할인값 - 재 입력")
+    @DisplayName("성공: 바우처 생성 정보 입력 실행 - 바우처 타입(percent) - 잘못된 할인률 - 재 입력")
     void inputVoucherCreateInfo_VoucherTypePercent_ButInvalidAmount_Then_Rerun(String invalidAmount) {
         //given
         List<String> inputs = mockTextTerminal.getInputs();
