@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -23,12 +24,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     //데이터베이스에서 데이터를 가져오는 역할(컬럼별로 데이터를 가져온다.)
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {var customerName = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var customerId = resultSet.getLong("customer_id");
-        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        String customerName = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        Long customerId = resultSet.getLong("customer_id");
+        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);};
 
     // 맵의 키를 파라미터로 변경
@@ -42,7 +44,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customerId, :name, :email, :cratedAt)",
+        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customerId, :name, :email, :cratedAt)",
                 toParamMap(customer));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
@@ -116,9 +118,4 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public void deleteAll() {
         jdbcTemplate.getJdbcTemplate().update("DELETE FROM customers", Collections.emptyMap());
     }
-
-//    static UUID toUUID(byte[] bytes) {
-//        var byteBuffer = ByteBuffer.wrap(bytes);
-//        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-//    }
 }
