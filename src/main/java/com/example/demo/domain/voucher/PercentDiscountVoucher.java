@@ -7,21 +7,21 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID id;
-    private final Integer discountPercent;
+    private final double discountPercent;
 
-    public PercentDiscountVoucher(UUID id, Integer discountPercent) {
-        this.id = id;
+    public PercentDiscountVoucher(double discountPercent) {
+        this.id = UUID.randomUUID();
         this.discountPercent = discountPercent;
     }
 
     @Override
-    public double discount(int beforeAmount) {
+    public double discount(double beforeAmount) {
         return beforeAmount * (discountPercent / 100.0);
     }
 
     @Override
     public VoucherDto convertToVoucherDto() {
-        return new VoucherDto(UUID.fromString(this.id.toString()), new Integer(discountPercent), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        return new VoucherDto(UUID.fromString(this.id.toString()), discountPercent, VoucherType.PERCENT_DISCOUNT_VOUCHER);
     }
 
     @Override

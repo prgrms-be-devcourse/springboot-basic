@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface Voucher {
 
-    double discount(int beforeAmount);
+    double discount(double beforeAmount);
 
     VoucherDto convertToVoucherDto();
 

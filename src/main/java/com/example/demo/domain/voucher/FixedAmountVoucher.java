@@ -7,15 +7,15 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID id;
-    private final int discountAmount;
+    private final double discountAmount;
 
-    public FixedAmountVoucher(int discountAmount) {
+    public FixedAmountVoucher(double discountAmount) {
         this.id = UUID.randomUUID();
         this.discountAmount = discountAmount;
     }
 
     @Override
-    public double discount(int beforeAmount) {
+    public double discount(double beforeAmount) {
         double result = beforeAmount - discountAmount;
         if (isNegativeAmount(result)) {
             return 0;
