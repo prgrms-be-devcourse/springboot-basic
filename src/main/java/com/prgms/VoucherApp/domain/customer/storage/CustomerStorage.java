@@ -15,7 +15,7 @@ public interface CustomerStorage {
 
     Optional<Customer> findById(UUID id);
 
-    void update(Customer customer);
+    void updateStatus(UUID customerId, CustomerStatus status);
 
     void deleteById(UUID id);
 
