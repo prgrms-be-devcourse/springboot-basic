@@ -17,7 +17,7 @@ public class VoucherConsoleInterface {
 
     public void run() {
         VoucherMenu menu = VoucherMenu.START;
-        while (isExitMenu(menu)) {
+        while (isNotExitMenu(menu)) {
             try {
                 menu = consoleIO.selectMenu();
                 executeMenuAction(menu);
@@ -28,7 +28,7 @@ public class VoucherConsoleInterface {
         terminal();
     }
 
-    private boolean isExitMenu(VoucherMenu menu) {
+    private boolean isNotExitMenu(VoucherMenu menu) {
         return menu != VoucherMenu.EXIT;
     }
 
