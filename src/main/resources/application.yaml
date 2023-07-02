@@ -1,0 +1,19 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+file:
+  voucher:
+    file-path: src/main/resources/voucher_file.csv
+
+---
+file:
+  blacklist:
+    file-path: src/main/resources/blacklist.csv
