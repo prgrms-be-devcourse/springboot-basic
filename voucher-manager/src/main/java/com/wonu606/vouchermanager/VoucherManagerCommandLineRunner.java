@@ -12,7 +12,7 @@ public class VoucherManagerCommandLineRunner implements CommandLineRunner {
     private final VoucherController controller;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         controller.run();
     }
 }
