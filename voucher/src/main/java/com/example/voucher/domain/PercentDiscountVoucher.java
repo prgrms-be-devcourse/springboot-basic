@@ -2,7 +2,7 @@ package com.example.voucher.domain;
 
 import java.util.UUID;
 
-import com.example.voucher.domain.enums.VoucherType;
+import com.example.voucher.constant.VoucherType;
 import com.example.voucher.utils.validator.VoucherValidator;
 
 public class PercentDiscountVoucher implements Voucher {

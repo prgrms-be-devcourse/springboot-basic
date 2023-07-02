@@ -12,9 +12,9 @@ import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ConstantStrings;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
-import com.example.voucher.domain.enums.VoucherType;
+import com.example.voucher.constant.VoucherType;
 import com.example.voucher.io.Console;
-import com.example.voucher.io.ModeType;
+import com.example.voucher.constant.ModeType;
 import com.example.voucher.service.VoucherService;
 
 

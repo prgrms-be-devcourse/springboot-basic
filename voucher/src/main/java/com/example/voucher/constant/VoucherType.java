@@ -1,11 +1,7 @@
-package com.example.voucher.domain.enums;
+package com.example.voucher.constant;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import com.example.voucher.constant.ConstantStrings;
 
 public enum VoucherType {
 

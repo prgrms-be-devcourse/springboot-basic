@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import com.example.voucher.constant.ConstantStrings;
 import com.example.voucher.domain.dto.VoucherDTO;
-import com.example.voucher.domain.enums.VoucherType;
+import com.example.voucher.constant.VoucherType;
 
 public class Console {
 
