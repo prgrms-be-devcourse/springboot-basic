@@ -48,7 +48,8 @@ public class CommandLine implements Runnable {
     }
 
     private void insertFixedAmountVoucher() {
-        long discountAmount = -1;
+        output.printInsertFixedVoucherMessage();
+        long discountAmount = input.insertDiscountAmountVoucher();
         while (discountAmount <= 0) {
             output.printInsertFixedVoucherMessage();
             discountAmount = input.insertDiscountAmountVoucher();
@@ -58,7 +59,8 @@ public class CommandLine implements Runnable {
     }
 
     private void insertPercentDiscountVoucher() {
-        int discountPercent = -1;
+        output.printInsertPercentVoucherMessage();
+        int discountPercent = input.insertDiscountPercentVoucher();
         while (discountPercent < 0 || discountPercent > 100) {
             output.printInsertPercentVoucherMessage();
             discountPercent = input.insertDiscountPercentVoucher();
