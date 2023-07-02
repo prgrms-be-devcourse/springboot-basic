@@ -33,6 +33,17 @@ public class TextIoOutput implements ConsoleOutput {
         printCommand(ConsoleCommandType.BLACKLIST, BLACKLIST_BEHAVIOR);
     }
 
+    private void printCommand(ConsoleCommandType commandType, String behavior) {
+        TextTerminal<?> textTerminal = textIO.getTextTerminal();
+
+        textTerminal.print(INPUT);
+        textTerminal.executeWithPropertiesConfigurator(
+                props -> props.setPromptBold(true),
+                t -> t.print(" " + commandType.getInput() + " ")
+        );
+        textTerminal.println(behavior);
+    }
+
     @Override
     public void printVouchers(List<Voucher> vouchers) {
         vouchers.forEach(voucher ->
@@ -43,17 +54,6 @@ public class TextIoOutput implements ConsoleOutput {
     public void printCustomers(List<Customer> customers) {
         customers.forEach(customer ->
                 print(customer.fullInfoString()));
-    }
-
-    private void printCommand(ConsoleCommandType commandType, String behavior) {
-        TextTerminal<?> textTerminal = textIO.getTextTerminal();
-
-        textTerminal.print(INPUT);
-        textTerminal.executeWithPropertiesConfigurator(
-                props -> props.setPromptBold(true),
-                t -> t.print(" " + commandType.getInput() + " ")
-        );
-        textTerminal.println(behavior);
     }
 
     @Override
