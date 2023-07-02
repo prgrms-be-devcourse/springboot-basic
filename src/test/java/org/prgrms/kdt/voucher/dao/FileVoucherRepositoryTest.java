@@ -4,6 +4,8 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.exception.FileAccessException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
@@ -11,6 +13,7 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -27,12 +30,11 @@ class FileVoucherRepositoryTest {
         fileVoucherRepository = new FileVoucherRepository(mockVoucherLoader);
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("voucherSource")
     @DisplayName("존재하는 바우처Id로 바우처 찾기")
-    void findByExistId() {
+    void findByExistId(Voucher savedVoucher1, Voucher savedVoucher2) {
         //given
-        Voucher savedVoucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        Voucher savedVoucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(20.0));
         fileVoucherRepository.insert(savedVoucher1);
         fileVoucherRepository.insert(savedVoucher2);
         UUID existVoucherId = savedVoucher1.getVoucherId();
@@ -75,12 +77,11 @@ class FileVoucherRepositoryTest {
         assertThat(foundVoucher.get(), is(insertVoucher));
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("voucherSource")
     @DisplayName("바우처 전체 조회 테스트")
-    void findAll() {
+    void findAll(Voucher savedVoucher1, Voucher savedVoucher2) {
         //given
-        Voucher savedVoucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        Voucher savedVoucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
         fileVoucherRepository.insert(savedVoucher1);
         fileVoucherRepository.insert(savedVoucher2);
 
@@ -89,5 +90,11 @@ class FileVoucherRepositoryTest {
 
         //then
         assertThat(foundVoucherList, containsInAnyOrder(savedVoucher1, savedVoucher2));
+    }
+
+    static Stream<Voucher[]> voucherSource() {
+        Voucher voucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher voucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        return Stream.of(new Voucher[][]{{voucher1, voucher2}});
     }
 }
