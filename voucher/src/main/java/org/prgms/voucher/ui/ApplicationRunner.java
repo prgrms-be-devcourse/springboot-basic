@@ -32,13 +32,13 @@ public class ApplicationRunner implements CommandLineRunner {
         }
     }
 
-    void runPromotionConsole(PromotionType promotionType) {
+    private void runPromotionConsole(PromotionType promotionType) {
         if (promotionType == PromotionType.VOUCHER) {
             new VoucherConsole().printSupportedCommands();
         }
     }
 
-    void runByCommandType(PromotionType promotionType, CommandType commandType) throws IOException {
+    private void runByCommandType(PromotionType promotionType, CommandType commandType) throws IOException {
         if (commandType == CommandType.EXIT) {
             System.exit(0);
         }
