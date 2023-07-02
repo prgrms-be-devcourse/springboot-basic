@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -64,7 +65,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId);
 
-        return Optional.ofNullable(template.queryForObject(sql, param, voucherRowMapper()));
+        try {
+            Voucher voucher = template.queryForObject(sql, param, voucherRowMapper());
+            return Optional.ofNullable(voucher);
+        } catch (EmptyResultDataAccessException ex) {
+            return Optional.empty();
+        }
     }
 
     @Override

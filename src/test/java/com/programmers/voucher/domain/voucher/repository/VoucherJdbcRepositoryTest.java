@@ -81,6 +81,19 @@ class VoucherJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("성공 - voucher 단건 조회 - 존재하지 않는 voucher")
+    void findById_ButEmpty() {
+        //given
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+
+        //when
+        Optional<Voucher> optionalVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
+
+        //then
+        assertThat(optionalVoucher).isEmpty();
+    }
+
+    @Test
     @DisplayName("성공 - voucher 전체 삭제")
     void deleteAll() {
         //given
