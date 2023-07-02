@@ -1,18 +1,15 @@
 package org.prgrms.assignment.voucher.model;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
     private final UUID voucherId;
-    private final long percent;
+    private long percent;
     private final LocalDateTime createdAt;
 
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+        super();
         checkValid(percent);
         this.voucherId = voucherId;
         this.percent = percent;
@@ -37,6 +34,11 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT;
+    }
+
+    @Override
+    public void setBenefit(long benefit) {
+        this.percent = benefit;
     }
 
     public long discount(long beforeDiscount) {
