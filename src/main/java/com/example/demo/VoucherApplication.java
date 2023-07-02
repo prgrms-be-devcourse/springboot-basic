@@ -28,7 +28,7 @@ public class VoucherApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         voucherView.printStartingMessage();
 
-        Boolean shouldContinue = true;
+        boolean shouldContinue = true;
         while (shouldContinue) {
             CommandType commandType = voucherView.readCommandOption();
 
