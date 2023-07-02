@@ -13,7 +13,7 @@ import com.wonu606.vouchermanager.service.VoucherService;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
-class VoucherControllerTest {
+class VoucherConsoleInterfaceTest {
 
     @Test
     void exit를_입력하면_프로그램_terminal을_호출해야_한다() {
@@ -23,10 +23,10 @@ class VoucherControllerTest {
         ConsoleIO consoleIOMock = mock(ConsoleIO.class);
         when(consoleIOMock.selectMenu()).thenReturn("exit");
 
-        VoucherController voucherController = new VoucherController(serviceMock, consoleIOMock);
+        VoucherConsoleInterface voucherConsoleInterface = new VoucherConsoleInterface(serviceMock, consoleIOMock);
 
         // when
-        voucherController.run();
+        voucherConsoleInterface.run();
 
         // then
         verify(consoleIOMock, times(1)).selectMenu();
@@ -41,10 +41,10 @@ class VoucherControllerTest {
         ConsoleIO consoleIOMock = mock(ConsoleIO.class);
         when(consoleIOMock.selectMenu()).thenReturn("list").thenReturn("exit");
 
-        VoucherController voucherController = new VoucherController(serviceMock, consoleIOMock);
+        VoucherConsoleInterface voucherConsoleInterface = new VoucherConsoleInterface(serviceMock, consoleIOMock);
 
         // when
-        voucherController.run();
+        voucherConsoleInterface.run();
 
         // then
         verify(consoleIOMock, times(2)).selectMenu();
@@ -63,10 +63,10 @@ class VoucherControllerTest {
         VoucherService service = new VoucherService(new LocalMemoryVoucherRepository());
         int prevSize = service.getVoucherList().size();
 
-        VoucherController voucherController = new VoucherController(service, consoleIOMock);
+        VoucherConsoleInterface voucherConsoleInterface = new VoucherConsoleInterface(service, consoleIOMock);
 
         // when
-        voucherController.run();
+        voucherConsoleInterface.run();
 
         // then
         verify(consoleIOMock, times(2)).selectMenu();
