@@ -18,7 +18,7 @@ class VoucherTypeTest {
         String input = "1";
 
         //when
-        VoucherType result = VoucherType.FindVoucherType(input);
+        VoucherType result = VoucherType.findVoucherType(input);
 
         //then
         Assertions.assertThat(result).isEqualTo(VoucherType.FixedAmountVoucher);
@@ -31,7 +31,7 @@ class VoucherTypeTest {
         String input = "percentdiscountvoucher";
 
         //when
-        VoucherType result = VoucherType.FindVoucherType(input);
+        VoucherType result = VoucherType.findVoucherType(input);
 
         //then
         Assertions.assertThat(result).isEqualTo(VoucherType.PercentDiscountVoucher);
@@ -44,7 +44,7 @@ class VoucherTypeTest {
         //given
         //when
         //then
-        Assertions.assertThatThrownBy(() -> VoucherType.FindVoucherType(input))
+        Assertions.assertThatThrownBy(() -> VoucherType.findVoucherType(input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -55,7 +55,7 @@ class VoucherTypeTest {
         //given
         //when
         //then
-        Assertions.assertThatThrownBy(() -> VoucherType.FindVoucherType(input))
+        Assertions.assertThatThrownBy(() -> VoucherType.findVoucherType(input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

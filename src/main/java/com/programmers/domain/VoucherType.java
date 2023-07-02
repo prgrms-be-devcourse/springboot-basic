@@ -23,7 +23,7 @@ public enum VoucherType {
         this.voucherConstructor = voucherConstructor;
     }
 
-    public static VoucherType FindVoucherType(String input) {
+    public static VoucherType findVoucherType(String input) {
         checkVoucherTypeInputEmpty(input);
 
         return Arrays.stream(VoucherType.values())
@@ -43,12 +43,12 @@ public enum VoucherType {
     }
 
     public static Voucher constructVoucher(String voucherTypeInput, String voucherName, Long discountValue) {
-        VoucherType voucherType = FindVoucherType(voucherTypeInput);
+        VoucherType voucherType = findVoucherType(voucherTypeInput);
         return voucherType.makeVoucher(voucherName, discountValue);
     }
 
     public static Voucher constructVoucher(String voucherTypeInput, UUID uuid, String voucherName, Long discountValue) {
-        VoucherType voucherType = FindVoucherType(voucherTypeInput);
+        VoucherType voucherType = findVoucherType(voucherTypeInput);
         return voucherType.makeVoucher(uuid, voucherName, discountValue);
     }
 
