@@ -9,8 +9,8 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID id;
     private final int discountAmount;
 
-    public FixedAmountVoucher(UUID id, int discountAmount) {
-        this.id = id;
+    public FixedAmountVoucher(int discountAmount) {
+        this.id = UUID.randomUUID();
         this.discountAmount = discountAmount;
     }
 
@@ -29,7 +29,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public VoucherDto convertToVoucherDto() {
-        return new VoucherDto(UUID.fromString(this.id.toString()), new Integer(discountAmount), VoucherType.FIXED_AMOUNT_VOUCHER);
+        return new VoucherDto(UUID.fromString(this.id.toString()), discountAmount, VoucherType.FIXED_AMOUNT_VOUCHER);
     }
 
     @Override
