@@ -12,8 +12,8 @@ import java.util.List;
 public class ConsoleOutput implements Output {
 
     private static final String DEFAULT_PROGRAM_MESSAGE = "=== Voucher Program ===";
-    private static final String DEFAULT_VOUCHER_CATEGORIES = String.format("%-25s%-25s%-25s%-25s"
-            ,"VoucherType" ,"VoucherName" ,"Benefit", "CreatedAt");
+    private static final String DEFAULT_VOUCHER_CATEGORIES = String.format("%-25s%-25s%-25s"
+            ,"VoucherType" ,"Benefit", "CreatedAt");
     private static final String EMPTY_MESSAGE = "This Repository is EMPTY!!";
     public static final String SELECT_VOUCHER_MESSAGE = "TYPE YOUR VOUCHER";
 

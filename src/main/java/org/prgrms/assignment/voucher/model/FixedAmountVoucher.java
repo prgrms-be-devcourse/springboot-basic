@@ -11,11 +11,12 @@ public class FixedAmountVoucher extends Voucher {
 
     private final UUID voucherId;
     private final LocalDateTime createdAt;
-    private final long amount;
+    private long amount;
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private static final int MIN_VOUCHER_AMOUNT = 0;
 
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
+        super();
         checkValid(amount);
         this.voucherId = voucherId;
         this.amount = amount;
@@ -40,6 +41,11 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public long getBenefit() {
         return amount;
+    }
+
+    @Override
+    public void setBenefit(long benefit) {
+        this.amount = benefit;
     }
 
     public long discount(long beforeDiscount) {

@@ -12,6 +12,16 @@ public class Voucher {
     private LocalDateTime createdAt;
     private long benefit;
 
+    public Voucher() {
+    }
+
+    public Voucher(UUID voucherId, VoucherType voucherType, long benefit, LocalDateTime createdAt) {
+        this.voucherId = voucherId;
+        this.voucherType = voucherType;
+        this.benefit = benefit;
+        this.createdAt = createdAt;
+    }
+
     public UUID getVoucherId() {
         return voucherId;
     }
@@ -26,5 +36,9 @@ public class Voucher {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void setBenefit(long benefit) {
+        this.benefit = benefit;
     }
 }
