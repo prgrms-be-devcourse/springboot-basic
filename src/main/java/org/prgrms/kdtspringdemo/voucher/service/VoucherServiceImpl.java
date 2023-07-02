@@ -23,23 +23,21 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherDto create(VoucherDto voucherDto) {
+        Voucher voucher;
         switch (voucherDto.getVoucherType()) {
             case FIXED -> {
-                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
-                Voucher voucher = voucherRepository.save(fixedAmountVoucher);
-
-                return convertToVoucherDto(voucher);
+                voucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
             }
             case PERCENT -> {
-                Voucher percentAmountVoucher = new PercentAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
-                Voucher voucher = voucherRepository.save(percentAmountVoucher);
-
-                return convertToVoucherDto(voucher);
+                voucher = new PercentAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
             }
             default -> {
                 throw new IllegalArgumentException(INVALID_VOUCHER_TYPE);
             }
         }
+
+        Voucher savedVoucher = voucherRepository.save(voucher);
+        return convertToVoucherDto(savedVoucher);
     }
 
     private VoucherDto convertToVoucherDto(Voucher voucher) {
