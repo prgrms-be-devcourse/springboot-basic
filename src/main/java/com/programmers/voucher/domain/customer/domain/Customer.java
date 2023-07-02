@@ -30,4 +30,13 @@ public class Customer {
     public UUID getCustomerId() {
         return customerId;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
