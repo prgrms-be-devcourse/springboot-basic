@@ -32,7 +32,7 @@ class VoucherMapperTest {
 
     @ParameterizedTest
     @DisplayName("매핑된 결과물이 요청에 맞는 결과물이어야 한다.")
-    @MethodSource("symbolWithPolicyClass")
+    @MethodSource("symbolAndPolicySource")
     void mapToFixedTest(String symbol, Class<? extends DiscountPolicy> clazz) {
         // given
         int discount = 100;
@@ -66,7 +66,7 @@ class VoucherMapperTest {
         });
     }
 
-    static Stream<Arguments> symbolWithPolicyClass() {
+    static Stream<Arguments> symbolAndPolicySource() {
         return Stream.of(
                 arguments(FIXED.getSymbol(), FixedAmountPolicy.class),
                 arguments(PERCENT.getSymbol(), PercentDiscountPolicy.class)
