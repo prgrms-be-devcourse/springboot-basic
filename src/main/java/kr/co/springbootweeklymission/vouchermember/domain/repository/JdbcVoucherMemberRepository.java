@@ -28,9 +28,9 @@ public class JdbcVoucherMemberRepository implements VoucherMemberRepository {
                 "values (?, ?, ?)";
         jdbcTemplate.update(
                 sql,
-                voucherMember.getVoucherMemberId(),
-                voucherMember.getVoucher().getVoucherId(),
-                voucherMember.getMember().getMemberId()
+                voucherMember.getVoucherMemberId().toString(),
+                voucherMember.getVoucher().getVoucherId().toString(),
+                voucherMember.getMember().getMemberId().toString()
         );
         return voucherMember;
     }
@@ -60,7 +60,7 @@ public class JdbcVoucherMemberRepository implements VoucherMemberRepository {
                 "delete from tbl_vouchers_members " +
                 "where voucher_id = ? " +
                 "and member_id = ?";
-        jdbcTemplate.update(sql, voucherId, memberId);
+        jdbcTemplate.update(sql, voucherId.toString(), memberId.toString());
     }
 
     private RowMapper<VoucherMember> voucherMemberRowMapper() {

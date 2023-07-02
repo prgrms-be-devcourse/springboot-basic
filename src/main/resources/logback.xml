@@ -22,10 +22,9 @@
     </appender>
 
     <logger name="kr.co.springbootweeklymission" level="info">
-        <appender-ref ref="STDOUT"/>
     </logger>
 
-    <root name="org.springframework" level="debug">
-        <appender-ref ref="FILE"/>
+    <root name="org.springframework" level="info">
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

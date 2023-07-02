@@ -59,7 +59,7 @@ public class OutputView {
     }
 
     public static void outputCreateMember() {
-        log.info("================= 회원 생성 페이지=================");
+        log.info("================= 회원 생성 페이지 =================");
     }
 
     public static void outputUpdateMember() {
@@ -80,5 +80,19 @@ public class OutputView {
             log.info("\n[\n\tMember ID : {}\n\tMember Status : {}\n]"
                     , read.getMemberId(), read.getMemberStatus());
         }
+    }
+
+    public static void outputMembers(List<MemberResDTO.READ> reads) {
+        for (MemberResDTO.READ read : reads) {
+            outputMember(read);
+        }
+    }
+
+    public static void outputCreateVoucherMember() {
+        log.info("================= 바우처 고객 할당 페이지 =================");
+    }
+
+    public static void outputDeleteVoucherMember() {
+        log.info("================= 고객의 바우처 삭제 페이지 =================");
     }
 }

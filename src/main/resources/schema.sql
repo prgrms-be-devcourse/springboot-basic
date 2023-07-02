@@ -1,6 +1,6 @@
+drop table if exists tbl_vouchers_members;
 drop table if exists tbl_vouchers;
 drop table if exists tbl_members;
-drop table if exists tbl_vouchers_members;
 
 create table tbl_members
 (

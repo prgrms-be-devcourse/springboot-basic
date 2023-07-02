@@ -59,3 +59,4 @@ public class VoucherMemberService {
         voucherMemberRepository.deleteByVoucherIdAndMemberId(voucher.getVoucherId(), member.getMemberId());
     }
 }
+

@@ -16,21 +16,27 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public enum Command {
     //common
-    EXIT("exit", 1),
+    EXIT("프로그램 종료", 1),
 
     //member
-    CREATE_MEMBER("create member", 2),
-    UPDATE_MEMBER("update member", 3),
-    DELETE_MEMBER("delete member", 4),
-    READ_MEMBER("read member", 5),
-    READ_ALL_BLACK_MEMBER("read all black member", 6),
+    CREATE_MEMBER("회원 생성", 2),
+    UPDATE_MEMBER("회원 수정", 3),
+    DELETE_MEMBER("회원 삭제", 4),
+    READ_MEMBER("회원 조회", 5),
+    READ_ALL_BLACK_MEMBER("모든 블랙 회원 조회", 6),
 
     //voucher
-    CREATE_VOUCHER("create voucher", 7),
-    UPDATE_VOUCHER("update voucher", 8),
-    DELETE_VOUCHER("delete voucher", 9),
-    READ_VOUCHER("read voucher", 10),
-    READ_ALL_VOUCHERS("read all vouchers", 11);
+    CREATE_VOUCHER("바우처 생성", 7),
+    UPDATE_VOUCHER("바우처 수정", 8),
+    DELETE_VOUCHER("바우처 삭제", 9),
+    READ_VOUCHER("바우처 조회", 10),
+    READ_ALL_VOUCHERS("모든 바우처 조회", 11),
+
+    //voucher_member
+    CREATE_VOUCHER_MEMBER("고객에게 바우처를 할당", 12),
+    READ_VOUCHERS_BY_MEMBER("고객의 모든 바우처 조회", 13),
+    READ_MEMBERS_BY_VOUCHER("해당 바우처를 가진 모든 고객 조회", 14),
+    DELETE_VOUCHER_MEMBER("고객이 가진 바우처 삭제", 15);
 
     private final String command;
     private final int number;
@@ -82,5 +88,21 @@ public enum Command {
 
     public boolean isReadAllVouchers() {
         return this.number == Command.READ_ALL_VOUCHERS.getNumber();
+    }
+
+    public boolean isCreateVoucherMember() {
+        return this.number == Command.CREATE_VOUCHER_MEMBER.getNumber();
+    }
+
+    public boolean isReadVouchersByMember() {
+        return this.number == Command.READ_VOUCHERS_BY_MEMBER.getNumber();
+    }
+
+    public boolean isReadMembersByVoucher() {
+        return this.number == Command.READ_MEMBERS_BY_VOUCHER.getNumber();
+    }
+
+    public boolean isDeleteVoucherMember() {
+        return this.number == Command.DELETE_VOUCHER_MEMBER.getNumber();
     }
 }
