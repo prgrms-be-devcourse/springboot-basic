@@ -6,8 +6,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED("FixedAmountVoucher"),
-    PERCENT("PercentDiscountVoucher");
+    FIXED("Fixed"),
+    PERCENT("Percent");
 
     private final String voucherType;
 
