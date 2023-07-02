@@ -3,7 +3,7 @@ package com.devcourse.voucherapp.controller;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.service.VoucherService;
-import java.util.Collection;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -17,7 +17,7 @@ public class VoucherController {
         return voucherService.create(voucherType, discountAmount);
     }
 
-    public Collection<Voucher> findAllVouchers() {
+    public List<Voucher> findAllVouchers() {
         return voucherService.findAllVouchers();
     }
 }

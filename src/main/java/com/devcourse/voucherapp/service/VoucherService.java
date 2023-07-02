@@ -3,7 +3,7 @@ package com.devcourse.voucherapp.service;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.repository.VoucherRepository;
-import java.util.Collection;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class VoucherService {
         return voucherRepository.save(voucher);
     }
 
-    public Collection<Voucher> findAllVouchers() {
+    public List<Voucher> findAllVouchers() {
         return voucherRepository.findAllVouchers();
     }
 }

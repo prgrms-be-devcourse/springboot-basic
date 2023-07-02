@@ -1,8 +1,8 @@
 package com.devcourse.voucherapp.repository;
 
 import com.devcourse.voucherapp.entity.voucher.Voucher;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> storage = new HashMap<>();
+    private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -20,7 +20,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAllVouchers() {
-        return storage.values();
+    public List<Voucher> findAllVouchers() {
+        return List.copyOf(storage.values());
     }
 }

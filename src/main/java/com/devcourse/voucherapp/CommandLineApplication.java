@@ -5,7 +5,7 @@ import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.view.ViewManager;
-import java.util.Collection;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -55,7 +55,7 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void listAllVouchers() {
-        Collection<Voucher> vouchers = voucherController.findAllVouchers();
+        List<Voucher> vouchers = voucherController.findAllVouchers();
         viewManager.showAllVouchers(vouchers);
     }
 
