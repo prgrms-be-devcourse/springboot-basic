@@ -3,13 +3,15 @@ package com.prgms.voucher.voucherproject.domain;
 import java.util.InputMismatchException;
 
 public enum MenuType {
-    EXIT(1, "exit"), CREATE(2, "create"), LIST(3, "list");
+    EXIT(1, "exit"),
+    CREATE(2, "create"),
+    LIST(3, "list");
 
     private int menuType;
     private String menuName;
 
-    MenuType(int i, String menuName) {
-        this.menuType = i;
+    MenuType(int menuType, String menuName) {
+        this.menuType = menuType;
         this.menuName = menuName;
     }
 
