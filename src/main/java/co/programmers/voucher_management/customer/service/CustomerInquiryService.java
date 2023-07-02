@@ -1,5 +1,7 @@
 package co.programmers.voucher_management.customer.service;
 
+import static co.programmers.voucher_management.customer.dto.CustomerResponseDTO.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,16 +20,10 @@ public class CustomerInquiryService {
 		this.customerRepository = customerRepository;
 	}
 
-	private static CustomerResponseDTO mapToDResponseDTO(Customer customer) {
-		return CustomerResponseDTO.builder()
-				.name(customer.getName())
-				.build();
-	}
-
 	public Response inquireBlackList() {
 		List<Customer> inquiredData = customerRepository.findByRating(Customer.Rating.BLACKLIST);
 		List<CustomerResponseDTO> customerResponseDTOS = inquiredData.stream()
-				.map(CustomerInquiryService::mapToDResponseDTO)
+				.map(CustomerResponseDTO::new)
 				.collect(Collectors.toList());
 		return Response.builder()
 				.state(Response.State.SUCCESS)

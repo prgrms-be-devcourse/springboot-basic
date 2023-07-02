@@ -2,15 +2,18 @@ package co.programmers.voucher_management.customer.dto;
 
 import java.text.MessageFormat;
 
-import lombok.AllArgsConstructor;
+import co.programmers.voucher_management.customer.entity.Customer;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 @Builder
 public class CustomerResponseDTO {
 	String name;
+
+	public CustomerResponseDTO(Customer customer) {
+		name = customer.getName();
+	}
 
 	@Override
 	public String toString() {

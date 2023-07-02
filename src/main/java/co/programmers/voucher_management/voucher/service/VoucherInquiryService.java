@@ -18,18 +18,10 @@ public class VoucherInquiryService {
 		this.voucherRepository = voucherRepository;
 	}
 
-	private static VoucherResponseDTO mapToDResponseDTO(Voucher voucher) {
-		return VoucherResponseDTO.builder()
-				.id(voucher.getId())
-				.discountType(voucher.getDiscountStrategy().getType())
-				.discountAmount(voucher.getDiscountStrategy().getAmount())
-				.build();
-	}
-
 	public Response run() {
 		List<Voucher> inquiredData = voucherRepository.findAll();
 		List<VoucherResponseDTO> voucherResponseDTOs = inquiredData.stream()
-				.map(VoucherInquiryService::mapToDResponseDTO)
+				.map(VoucherResponseDTO::new)
 				.collect(Collectors.toList());
 		return Response.builder()
 				.state(Response.State.SUCCESS)
