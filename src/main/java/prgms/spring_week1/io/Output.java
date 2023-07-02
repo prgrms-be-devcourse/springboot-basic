@@ -23,8 +23,8 @@ public class Output {
     private final String printTypeSelectMessage =
             """
                     === Voucher Select ===
-                    Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> FixedAmountVoucher       
-                    Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> PercentDiscountVoucher
+                    Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> Fixed       
+                    Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> Percent
                     """;
 
     public void printMenuList() {
