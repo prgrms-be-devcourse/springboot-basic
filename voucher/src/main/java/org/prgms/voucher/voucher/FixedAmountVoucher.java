@@ -8,14 +8,14 @@ public class FixedAmountVoucher implements AmountVoucher {
     private final int amount;
     private final LocalDate publishDate;
     private final LocalDate expirationDate;
-    private final VoucherOptionType voucherOptionType;
+    private final AmountVoucherOptionType amountVoucherOptionType;
 
     public FixedAmountVoucher(UUID id, int amount) {
         this.id = id;
         this.amount = amount;
         this.publishDate = LocalDate.now();
         this.expirationDate = publishDate.plusMonths(6);
-        this.voucherOptionType = VoucherOptionType.FIXED_AMOUNT;
+        this.amountVoucherOptionType = AmountVoucherOptionType.FIXED_AMOUNT;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class FixedAmountVoucher implements AmountVoucher {
 
     @Override
     public String getOptionTypeName() {
-        return voucherOptionType.getTypeName();
+        return amountVoucherOptionType.getTypeName();
     }
 
     @Override

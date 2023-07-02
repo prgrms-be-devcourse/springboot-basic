@@ -4,7 +4,7 @@ import org.prgms.voucher.voucher.AmountVoucher;
 
 import java.util.List;
 
-public interface VoucherRepository {
+public interface AmountVoucherRepository {
     AmountVoucher save(AmountVoucher amountVoucher);
 
     List<AmountVoucher> findAll();

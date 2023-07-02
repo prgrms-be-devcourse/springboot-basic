@@ -1,29 +1,25 @@
 package org.prgms.voucher.voucher;
 
-import org.prgms.voucher.voucher.AmountVoucher;
-import org.prgms.voucher.voucher.VoucherService;
-import org.prgms.voucher.voucher.VoucherCreateDto;
-import org.prgms.voucher.voucher.VoucherPrintDto;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class VoucherController {
-    private final VoucherService voucherService;
+public class AmountVoucherController {
+    private final AmountVoucherService amountVoucherService;
     private static final int INITIAL_MONEY = 100_000;
 
-    public VoucherController(VoucherService voucherService) {
-        this.voucherService = voucherService;
+    public AmountVoucherController(AmountVoucherService amountVoucherService) {
+        this.amountVoucherService = amountVoucherService;
     }
 
-    public AmountVoucher createAmountVoucher(VoucherCreateDto voucherCreateDto) {
-        return voucherService.createAmountVoucher(voucherCreateDto);
+    public AmountVoucher createAmountVoucher(AmountVoucherCreateDto amountVoucherCreateDto) {
+        return amountVoucherService.createAmountVoucher(amountVoucherCreateDto);
     }
 
     public List<VoucherPrintDto> listVoucher() {
-        List<AmountVoucher> amountVouchers = voucherService.listAmountVoucher();
+        List<AmountVoucher> amountVouchers = amountVoucherService.listAmountVoucher();
         List<VoucherPrintDto> voucherPrintDtos = new ArrayList<>();
 
         for (AmountVoucher voucher : amountVouchers) {

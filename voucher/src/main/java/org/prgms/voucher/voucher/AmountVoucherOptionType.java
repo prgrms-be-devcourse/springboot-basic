@@ -2,9 +2,9 @@ package org.prgms.voucher.voucher;
 
 import org.prgms.voucher.voucher.factory.FixedAmountVoucherFactory;
 import org.prgms.voucher.voucher.factory.PercentAmountVoucherFactory;
-import org.prgms.voucher.voucher.factory.VoucherFactory;
+import org.prgms.voucher.voucher.factory.AmountVoucherFactory;
 
-public enum VoucherOptionType {
+public enum AmountVoucherOptionType {
     FIXED_AMOUNT(
             "fixed amount",
             "fix",
@@ -21,13 +21,13 @@ public enum VoucherOptionType {
     private final String typeName;
     private final String shortTypeName;
     private final int choiceNumber;
-    private final VoucherFactory voucherFactory;
+    private final AmountVoucherFactory amountVoucherFactory;
 
-    VoucherOptionType(String optionType, String shortOptionType, int choiceNumber, VoucherFactory voucherFactory) {
+    AmountVoucherOptionType(String optionType, String shortOptionType, int choiceNumber, AmountVoucherFactory amountVoucherFactory) {
         this.typeName = optionType;
         this.shortTypeName = shortOptionType;
         this.choiceNumber = choiceNumber;
-        this.voucherFactory = voucherFactory;
+        this.amountVoucherFactory = amountVoucherFactory;
     }
 
     public String getTypeName() {
@@ -42,7 +42,7 @@ public enum VoucherOptionType {
         return choiceNumber;
     }
 
-    public VoucherFactory getVoucherFactory() {
-        return voucherFactory;
+    public AmountVoucherFactory getVoucherFactory() {
+        return amountVoucherFactory;
     }
 }

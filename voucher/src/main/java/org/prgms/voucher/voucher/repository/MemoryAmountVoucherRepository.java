@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository {
+public class MemoryAmountVoucherRepository implements AmountVoucherRepository {
     Map<UUID, AmountVoucher> memoryStorage = new HashMap<>();
 
     @Override
@@ -16,10 +16,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        List<Voucher> vouchers = new ArrayList<>(memoryStorage.values());
-        vouchers.sort(Comparator.comparing(Voucher::getExpirationDate).reversed()
-                .thenComparing(Voucher::getCreatedAt));
+    public List<AmountVoucher> findAll() {
+        List<AmountVoucher> vouchers = new ArrayList<>(memoryStorage.values());
+        vouchers.sort(Comparator.comparing(AmountVoucher::getExpirationDate).reversed());
+
         return vouchers;
     }
 }

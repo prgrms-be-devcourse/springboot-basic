@@ -1,6 +1,6 @@
 package org.prgms.voucher.application;
 
-import org.prgms.voucher.voucher.VoucherController;
+import org.prgms.voucher.voucher.AmountVoucherController;
 import org.prgms.voucher.voucher.VoucherPrintDto;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +13,10 @@ public class CommandLineApplication implements Console, OutPut {
     private static final String PUBLISH_DATE = "발행일";
     private static final String EXPIRATION_DATE = "만료일";
     private static final String SEPARATOR = ": ";
-    private final VoucherController voucherController;
+    private final AmountVoucherController amountVoucherController;
 
-    public CommandLineApplication(VoucherController voucherController) {
-        this.voucherController = voucherController;
+    public CommandLineApplication(AmountVoucherController amountVoucherController) {
+        this.amountVoucherController = amountVoucherController;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class CommandLineApplication implements Console, OutPut {
 
     @Override
     public String printList() {
-        List<VoucherPrintDto> voucherPrintDtos = voucherController.listVoucher();
+        List<VoucherPrintDto> voucherPrintDtos = amountVoucherController.listVoucher();
 
         StringBuilder sb = new StringBuilder();
 

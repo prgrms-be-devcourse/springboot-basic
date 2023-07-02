@@ -4,6 +4,6 @@ import org.prgms.voucher.voucher.AmountVoucher;
 
 import java.util.UUID;
 
-public interface VoucherFactory {
+public interface AmountVoucherFactory {
     AmountVoucher createVoucher(UUID id, int amount);
 }
