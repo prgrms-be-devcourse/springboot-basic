@@ -60,6 +60,19 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("성공 - customer 단건 조회 - 존재하지 않는 customer")
+    void findById_ButEmpty() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer");
+
+        //when
+        Optional<Customer> optionalCustomer = customerJdbcRepository.findById(customer.getCustomerId());
+
+        //then
+        assertThat(optionalCustomer).isEmpty();
+    }
+
+    @Test
     @DisplayName("성공 - customer 목록 조회")
     void findAll() {
         //given
