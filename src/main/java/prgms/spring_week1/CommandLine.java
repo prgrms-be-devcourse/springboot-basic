@@ -36,7 +36,7 @@ public class CommandLine implements Runnable {
         boolean IS_RUNNING = true;
         while (IS_RUNNING) {
             output.printMenuList();
-            String selectOption = input.inputTextOption();
+            String selectOption = input.input();
             switch (findMenuName(selectOption)) {
                 case EXIT -> IS_RUNNING = false;
                 case CREATE -> selectVoucherType();
@@ -49,10 +49,10 @@ public class CommandLine implements Runnable {
 
     private void insertFixedAmountVoucher() {
         output.printInsertFixedVoucherMessage();
-        long discountAmount = input.insertDiscountAmountVoucher();
+        long discountAmount = Long.parseLong(input.input());
         while (discountAmount <= 0) {
             output.printInsertFixedVoucherMessage();
-            discountAmount = input.insertDiscountAmountVoucher();
+            discountAmount = Long.parseLong(input.input());
         }
         Voucher newVoucher = voucherService.insertFixedAmountVoucher(discountAmount);
         output.printInsertVoucherInfo(newVoucher);
@@ -60,10 +60,10 @@ public class CommandLine implements Runnable {
 
     private void insertPercentDiscountVoucher() {
         output.printInsertPercentVoucherMessage();
-        int discountPercent = input.insertDiscountPercentVoucher();
+        int discountPercent = Integer.parseInt(input.input());
         while (discountPercent < 0 || discountPercent > 100) {
             output.printInsertPercentVoucherMessage();
-            discountPercent = input.insertDiscountPercentVoucher();
+            discountPercent = Integer.parseInt(input.input());
         }
         Voucher newVoucher = voucherService.insertPercentDiscountVoucher(discountPercent);
         output.printInsertVoucherInfo(newVoucher);
@@ -81,7 +81,7 @@ public class CommandLine implements Runnable {
     private void selectVoucherType() {
         output.printTypeSelectMessage();
         try {
-            String select = input.inputVoucherType();
+            String select = input.input();
 
             switch (VoucherType.makeVoucherType(select)) {
                 case FIXED -> insertFixedAmountVoucher();
