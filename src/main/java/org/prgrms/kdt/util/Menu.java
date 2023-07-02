@@ -3,6 +3,7 @@ package org.prgrms.kdt.util;
 import org.prgrms.kdt.exception.InvalidInputException;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum Menu {
     EXIT("exit"),
@@ -10,15 +11,15 @@ public enum Menu {
     LIST("list"),
     BLACK_LIST("blacklist");
 
-    private final String menuString;
+    private final String descripton;
 
-    Menu(String menuString) {
-        this.menuString = menuString;
+    Menu(String descripton) {
+        this.descripton = descripton;
     }
 
     public static Menu getMenu(String str) {
         return Arrays.stream(Menu.values())
-                .filter((e) -> e.menuString.equals(str))
+                .filter((e) -> Objects.equals(e.descripton, str))
                 .findFirst()
                 .orElseThrow(InvalidInputException::new);
     }

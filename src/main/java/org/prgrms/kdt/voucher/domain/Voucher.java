@@ -3,7 +3,7 @@ package org.prgrms.kdt.voucher.domain;
 import java.util.UUID;
 
 public abstract class Voucher {
-    protected UUID voucherId;
+    protected final UUID voucherId;
     protected final double amount = 20;
 
     public Voucher(UUID voucherId) {
