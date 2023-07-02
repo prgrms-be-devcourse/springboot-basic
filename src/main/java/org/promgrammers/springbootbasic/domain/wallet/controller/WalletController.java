@@ -36,7 +36,6 @@ public class WalletController {
             case FIND_ALL -> {
                 WalletListResponse wallets = findAll();
                 console.print(wallets.walletListOutPut());
-
             }
             case FIND_ONE -> findByType();
             case DELETE -> deleteType();
@@ -44,12 +43,8 @@ public class WalletController {
     }
 
     private WalletResponse create() {
-        console.print("지갑을 가질 고객ID를 입력해주세요.");
-        String customerId = console.input();
-
-        console.print("지갑에 적용할 바우처ID를 입력해주세요.");
-        String voucherId = console.input();
-
+        String customerId = console.askForCustomerId();
+        String voucherId = console.askForVoucherId();
         CreateWalletRequest walletRequest = new CreateWalletRequest(UUID.fromString(voucherId), UUID.fromString(customerId));
 
         return walletService.create(walletRequest);
@@ -60,8 +55,7 @@ public class WalletController {
     }
 
     private WalletResponse findById() {
-        console.print("조회할 지갑 ID를 입력하세요");
-        String requestId = console.input();
+        String requestId = console.askForVoucherId();
         UUID walletId = UUID.fromString(requestId);
 
         WalletResponse wallet = walletService.findById(walletId);
@@ -71,8 +65,7 @@ public class WalletController {
     }
 
     private WalletListResponse findAllWalletByCustomerId() {
-        console.print("조회할 고객 ID를 입력하세요");
-        String requestId = console.input();
+        String requestId = console.askForCustomerId();
         UUID customerId = UUID.fromString(requestId);
 
         WalletListResponse walletByVoucherId = walletService.findAllWalletByCustomerId(customerId);
@@ -82,8 +75,7 @@ public class WalletController {
     }
 
     private WalletListResponse findAllWalletByVoucherId() {
-        console.print("조회할 바우처 ID를 입력하세요");
-        String requestId = console.input();
+        String requestId = console.askForVoucherId();
         UUID voucherId = UUID.fromString(requestId);
 
         WalletListResponse walletsByVoucherId = walletService.findAllWalletByVoucherId(voucherId);
@@ -98,8 +90,7 @@ public class WalletController {
     }
 
     private void deleteById() {
-        console.print("삭제할 지갑 ID를 입력하세요");
-        String requestId = console.input();
+        String requestId = console.askForVoucherId();
         UUID walletId = UUID.fromString(requestId);
 
         walletService.deleteById(walletId);

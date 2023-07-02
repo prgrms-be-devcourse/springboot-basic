@@ -75,15 +75,14 @@ public class CustomerController {
     }
 
     private CustomerResponse create() {
-        console.print("고객 이름을 적어주세요.");
+        console.print("고객 이름을 입력해 주세요.");
         String inputUsername = console.input();
         CreateCustomerRequest customerRequest = new CreateCustomerRequest(inputUsername);
         return customerService.createCustomer(customerRequest);
     }
 
     private CustomerResponse findCustomerById() {
-        console.print("조회할 고객 ID를 입력하세요");
-        String requestId = console.input();
+        String requestId = console.askForCustomerId();
         UUID voucherId = UUID.fromString(requestId);
 
         CustomerResponse customer = customerService.findCustomerById(voucherId);
@@ -107,8 +106,7 @@ public class CustomerController {
     }
 
     private CustomerResponse update() {
-        console.print("업데이트 할 고객 ID를 입력하세요");
-        String requestId = console.input();
+        String requestId = console.askForCustomerId();
         UUID customerId = UUID.fromString(requestId);
 
         console.print("수정 할 이름을 적어주세요.");

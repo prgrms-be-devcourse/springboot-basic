@@ -61,8 +61,7 @@ public class VoucherController {
     }
 
     private VoucherResponse findById() {
-        console.print("조회할 바우처 ID를 입력하세요");
-        String requestId = console.input();
+        String requestId = console.askForVoucherId();
         UUID voucherId = UUID.fromString(requestId);
 
         return voucherService.findById(voucherId);
@@ -73,8 +72,7 @@ public class VoucherController {
     }
 
     private VoucherResponse update() {
-        console.print("수정할 바우처 ID를 입력하세요");
-        String requestId = console.input();
+        String requestId = console.askForVoucherId();
         UUID voucherId = UUID.fromString(requestId);
 
         String inputVoucherType = console.askForVoucherType();

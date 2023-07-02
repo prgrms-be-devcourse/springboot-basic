@@ -127,4 +127,14 @@ public class Console {
         output.print(WALLET_DELETE_GUIDE_MESSAGES);
         return input();
     }
+
+    public String askForVoucherId() {
+        output.print("바우처 ID를 입력해 주세요.");
+        return input();
+    }
+
+    public String askForCustomerId() {
+        output.print("고객ID를 입력해 주세요.");
+        return input();
+    }
 }
