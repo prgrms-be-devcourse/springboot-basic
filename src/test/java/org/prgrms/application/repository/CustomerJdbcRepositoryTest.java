@@ -2,6 +2,7 @@ package org.prgrms.application.repository;
 
 import org.junit.jupiter.api.*;
 import org.prgrms.application.domain.customer.Customer;
+import org.prgrms.application.domain.voucher.Voucher;
 import org.prgrms.application.repository.customer.CustomerJdbcRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,4 +143,14 @@ class CustomerJdbcRepositoryTest {
         assertThat(retrievedCustomer.isEmpty(), is(false));
         assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
     }
+
+    @Test
+    @Order(7)
+    @DisplayName("고객을 삭제할 수 있다.")
+    public void testDelete() {
+        customerJdbcRepository.deleteAll();
+        List<Customer> customers = customerJdbcRepository.findAll();
+        assertThat(customers.isEmpty(), is(true));
+    }
+
 }

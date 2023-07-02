@@ -116,6 +116,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.getJdbcTemplate().update("DELETE FROM customers", Collections.emptyMap());
+        jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
     }
 }

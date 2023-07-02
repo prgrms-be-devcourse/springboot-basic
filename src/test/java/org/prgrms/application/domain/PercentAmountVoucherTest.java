@@ -5,20 +5,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.prgrms.application.domain.voucher.PercentAmountVoucher;
 
-import java.util.UUID;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 
 class PercentAmountVoucherTest {
+    Random random = new Random();
 
     @DisplayName("퍼센트 범위 실패 테스트")
     @ParameterizedTest
     @ValueSource(doubles = {100, -1})
     void percentDiscountFailTest(double percent) {
-        UUID id = UUID.randomUUID();
+        long randomId = Math.abs(random.nextLong());
 
-        assertThatThrownBy(() -> new PercentAmountVoucher(id, percent))
+        assertThatThrownBy(() -> new PercentAmountVoucher(randomId, PERCENT, percent))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("잘못된 입력 범위입니다.");
     }
@@ -27,8 +29,8 @@ class PercentAmountVoucherTest {
     @ParameterizedTest
     @ValueSource(doubles = {50})
     void percentDiscountSuccessTest(double percent) {
-        UUID id = UUID.randomUUID();
-        PercentAmountVoucher voucher = new PercentAmountVoucher(id, percent);
+        long randomId = Math.abs(random.nextLong());
+        PercentAmountVoucher voucher = new PercentAmountVoucher(randomId, PERCENT, percent);
         double stockPrice = 10000;
         double result = voucher.discount(stockPrice);
 

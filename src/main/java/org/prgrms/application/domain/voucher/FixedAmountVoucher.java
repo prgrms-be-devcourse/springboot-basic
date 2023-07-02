@@ -4,14 +4,24 @@ public class FixedAmountVoucher extends Voucher {
 
     private double fixedAmount;
 
-    public FixedAmountVoucher(Long voucherId, double amount) {
-        if (amount <= 0) throw new IllegalArgumentException("금액은 양수여야 합니다.");
+    public FixedAmountVoucher(Long voucherId,VoucherType voucherType, double amount) {
+        validatePositive(amount);
         this.voucherId = voucherId;
+        this.voucherType = voucherType;
         this.fixedAmount = amount;
     }
 
+    private static void validatePositive(double amount) {
+        if (amount <= 0) throw new IllegalArgumentException("금액은 양수여야 합니다.");
+    }
+
     public double getFixedAmount(){
+
         return fixedAmount;
+    }
+
+    public void changeFixedAmount(double fixedAmount){
+        validatePositive(fixedAmount);
     }
 
     @Override
@@ -27,7 +37,8 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public double discount(double beforeDiscount) {
         double discountedAmount = beforeDiscount - fixedAmount;
-        return (discountedAmount < 0) ? 0 : discountedAmount;
+        validatePositive(discountedAmount);
+        return discountedAmount;
     }
 
 }
