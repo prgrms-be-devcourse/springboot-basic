@@ -71,7 +71,19 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void update(Customer customer) {
+        CustomerDto customerDto = customer.toDto();
 
+        String sql = "update customer set name = :name where customer_id = :customerId";
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("name", customerDto.getName())
+                .addValue("customerId", customerDto.getCustomerId());
+
+        int updated = template.update(sql, param);
+        if(updated != 1) {
+            DataAccessException exception = new IncorrectResultSizeDataAccessException(1, updated);
+            LOG.error(exception.getMessage(), exception);
+            throw exception;
+        }
     }
 
     @Override

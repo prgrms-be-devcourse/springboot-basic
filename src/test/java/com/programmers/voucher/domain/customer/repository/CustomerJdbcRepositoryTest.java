@@ -92,7 +92,33 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("성공: customer 업데이트")
     void update() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+        customerJdbcRepository.save(customer);
+
+        customer.changeName("updatedName");
+
+        //when
+        customerJdbcRepository.update(customer);
+
+        //then
+        Customer findCustomer = customerJdbcRepository.findById(customer.getCustomerId()).get();
+        assertThat(findCustomer).usingRecursiveComparison().isEqualTo(customer);
+    }
+
+    @Test
+    @DisplayName("예외: customer 업데이트 - 존재하지 않는 customer")
+    void update_ButNoSuchElement_Then_Exception() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+        customer.changeName("updatedName");
+
+        //when
+        //then
+        assertThatThrownBy(() -> customerJdbcRepository.update(customer))
+                .isInstanceOf(IncorrectResultSizeDataAccessException.class);
     }
 
     @Test
