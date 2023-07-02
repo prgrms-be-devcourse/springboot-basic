@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import com.opencsv.CSVReader;
 
 import co.programmers.voucher_management.customer.entity.Customer;
-import co.programmers.voucher_management.exception.FileManagementException;
 
 @Repository
 public class CustomerFileRepository implements CustomerRepository {
@@ -42,7 +41,7 @@ public class CustomerFileRepository implements CustomerRepository {
 			}
 			return customers;
 		} catch (IOException e) {
-			throw new FileManagementException("File Reader Failed");
+			throw new RuntimeException("File Reader Failed");
 		}
 	}
 

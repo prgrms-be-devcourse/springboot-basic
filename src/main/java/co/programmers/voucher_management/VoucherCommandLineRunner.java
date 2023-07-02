@@ -9,7 +9,8 @@ import org.springframework.stereotype.Controller;
 
 import co.programmers.voucher_management.common.Response;
 import co.programmers.voucher_management.customer.service.CustomerInquiryService;
-import co.programmers.voucher_management.exception.InvalidUserInputException;
+import co.programmers.voucher_management.exception.InvalidVoucherAmountException;
+import co.programmers.voucher_management.exception.NoSuchTypeException;
 import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
@@ -72,8 +73,8 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 		try {
 			VoucherRequestDTO voucherRequestDTO = request();
 			return voucherCreationService.run(voucherRequestDTO);
-		} catch (InvalidUserInputException invalidUserInputException) {
-			return new Response<>(Response.State.FAILED, invalidUserInputException.getMessage());
+		} catch (InvalidVoucherAmountException|NoSuchTypeException exception) {
+			return new Response<>(Response.State.FAILED, exception.getMessage());
 		}
 	}
 
