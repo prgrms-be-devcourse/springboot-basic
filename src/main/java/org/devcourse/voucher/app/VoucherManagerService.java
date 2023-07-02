@@ -15,10 +15,6 @@ public class VoucherManagerService implements VoucherService {
 
     @Override
     public Voucher save(Voucher voucher) {
-        if (voucher == null) {
-            throw new RuntimeException("저장하고자 하는 바우처가 빈 값일 수 없습니다");
-        }
-
         return voucherRepository.save(voucher);
     }
 
