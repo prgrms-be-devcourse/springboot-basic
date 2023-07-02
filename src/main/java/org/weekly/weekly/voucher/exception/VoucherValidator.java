@@ -25,6 +25,7 @@ public class VoucherValidator {
     public static void validateAmount(DiscountType discountType, long amount) {
         if (DiscountType.FIXED.equals(discountType)) {
             notRange(amount, input -> input < RANGE_START);
+            return;
         }
 
         notRange(amount, input -> input < RANGE_START || input > RANGE_END);

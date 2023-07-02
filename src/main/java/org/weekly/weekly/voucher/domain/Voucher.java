@@ -19,7 +19,7 @@ public class Voucher {
 
     private Discount discount;
 
-    public Voucher(UUID voucherId, long amount, LocalDate registrationDate, LocalDate expirationDate, Discount discount) {
+    private Voucher(UUID voucherId, long amount, LocalDate registrationDate, LocalDate expirationDate, Discount discount) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.registrationDate = registrationDate;

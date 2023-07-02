@@ -21,11 +21,7 @@ public class VoucherService {
     }
 
     public CreateResponse insertVoucher(VoucherCreationRequest voucherCreationRequest) {
-        UUID uuid = UUID.randomUUID();
-        validateUUID(uuid);
-
-
-        Voucher voucher = voucherDto.parseToVoucher();
+        Voucher voucher = voucherCreationRequest.toVoucher();
         this.voucherRepository.insert(voucher);
         return new CreateResponse(voucher);
     }
@@ -35,10 +31,5 @@ public class VoucherService {
         return new ListResponse(vouchers);
     }
 
-    private void validateUUID(UUID uuid) {
-        Optional<Voucher> voucherOptional = this.voucherRepository.findById(uuid);
-        if (voucherOptional.isPresent()) {
-            throw new RuntimeException(ExceptionMsg.VOUCHER_EXIST.getMsg());
-        }
-    }
+
 }

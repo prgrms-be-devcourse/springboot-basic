@@ -19,13 +19,11 @@ public class InputValidator {
     }
     
     public static void notNumber(String[] userInputs) {
-        if (Arrays.stream(userInputs)
-                .anyMatch(input -> isDigit(input.trim()))) {
+        try {
+            Arrays.stream(userInputs)
+                    .peek(Long::parseLong);
+        } catch (NumberFormatException exception) {
             throw new InputException(ExceptionMsg.NOT_INPUT_FORMAT);
         }
-    }
-
-    private static boolean isDigit(String userInput) {
-        return userInput.chars().anyMatch(value -> !Character.isDigit(value));
     }
 }

@@ -22,5 +22,4 @@ public class VoucherCreationRequest {
         LocalDate now = LocalDate.now();
         return Voucher.of(id, amount, now, voucherInfoRequest.getExpiration(), discountType);
     }
-
 }

@@ -21,12 +21,12 @@ public class VoucherController {
 
     public Response createVoucher(VoucherCreationRequest voucherCreationRequest) {
         this.voucherService.insertVoucher(voucherCreationRequest);
-        this.commandLineApplication.printResult(response);
+        return null;
     }
 
     public Response getVouchers() {
         Response response = this.voucherService.getVouchers();
         logger.info("{}{}",PrintMsg.FIND_ALL_VOUCHER_SUCCESS.getMessage());
-        this.commandLineApplication.printResult(response);
+        return null;
     }
 }
