@@ -1,6 +1,7 @@
 package com.wonu606.vouchermanager.controller;
 
 import com.wonu606.vouchermanager.domain.Voucher;
+import com.wonu606.vouchermanager.domain.VoucherDto;
 import com.wonu606.vouchermanager.io.ConsoleIO;
 import com.wonu606.vouchermanager.service.VoucherService;
 import java.util.List;
@@ -43,14 +44,19 @@ public class VoucherController {
                 return;
 
             case CREATE:
-                String type = consoleIO.selectVoucherType();
-                double discount = consoleIO.readDouble("discount");
-                service.createVoucher(type, UUID.randomUUID(), discount);
+                VoucherDto voucherDto = createVoucherDto();
+                service.createVoucher(voucherDto);
                 return;
 
             default:
                 throw new IllegalArgumentException("수행할 수 없는 메뉴입니다.");
         }
+    }
+
+    private VoucherDto createVoucherDto() {
+        String type = consoleIO.selectVoucherType();
+        double discountValue = consoleIO.readDouble("discount");
+        return new VoucherDto(type, UUID.randomUUID(), discountValue);
     }
 
     private void terminal() {
