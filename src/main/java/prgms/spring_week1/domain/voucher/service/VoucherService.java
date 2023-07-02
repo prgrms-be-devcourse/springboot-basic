@@ -16,8 +16,7 @@ public class VoucherService {
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
-
-
+    
     public Voucher insertFixedAmountVoucher(Long discountAmount) {
         return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, discountAmount));
     }
