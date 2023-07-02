@@ -1,95 +1,44 @@
 classDiagram
+
+    %% Controller
     class SpringbootBasicApplication
-    class Platform
+    class PlatformController
+    SpringbootBasicApplication --> PlatformController
 
-    SpringbootBasicApplication --> Platform
+    %% IO
+    class ConsoleManager
+    class InputConsole
+    class OutputConsole
+    ConsoleManager --> InputConsole
+    ConsoleManager --> OutputConsole
+    PlatformController --> ConsoleManager
 
-    class CommandLineTemplate
-    class CreateVoucherTemplate
-    class ListMenuTemplate
-
-    Platform --> CommandLineTemplate
-    CommandLineTemplate --> CreateVoucherTemplate
-    CommandLineTemplate --> ListMenuTemplate
-    ListMenuTemplate --> CustomerService
-    CustomerService --> CustomerRepository
-
-    class InvalidDataException
-    class YamlProperties {
-        version
-        voucerRecordPath
-        blackCustomerPath
-        description
-    }
-    YamlProperties --> FileVoucherRepository
-    YamlProperties --> CustomerRepository
-
-
-    class Menu {
-        <<enumeration>>
-        EXIT
-        CREATE
-        LIST
-    }
-    Menu --> CommandLineTemplate
-    class ListMenu {
-        <<enumeration>>
-        VOUCHER_LIST
-        BLACK_CUSTOMER_LIST
-    }
-    ListMenu --> CommandLineTemplate
-    ListMenu --> ListMenuTemplate
-    class VoucherType {
-        <<enumeration>>
-        FIXED_AMOUNT
-        PERCENT_DISCOUNT
-    }
-    VoucherType --> CommandLineTemplate
-    VoucherType --> CreateVoucherTemplate
-
+    %% Service
     class VoucherService {
         createVoucher()
-        getAllVoucher()
+        getVouchers()
     }
-    CreateVoucherTemplate -- VoucherDto
-    VoucherDto --> VoucherService
-    ListMenuTemplate --> VoucherService
-    VoucherService --> VoucherFactory
+    class CustomerService {
+        getBlackCustomers()
+    }
+    PlatformController --> VoucherService : Voucher
+    PlatformController --> CustomerService : Customer
 
+    %% Repository
     class VoucherRepository {
+        <<interface>>
         insert()
         findAll()
-        setVoucherMap()
     }
     VoucherService --> VoucherRepository
-    class MemoryVoucherRepository {voucherMap}
-    class FileVoucherRepository { getFile() }
+    class MemoryVoucherRepository
+    class FileVoucherRepository
+    FileVoucherRepository --> CsvReader
+    FileVoucherRepository --> CsvWriter
     VoucherRepository <.. MemoryVoucherRepository
     VoucherRepository <.. FileVoucherRepository
 
-    class VoucherFactory {
-        create()
-    }
-    VoucherFactory <.. FixedVoucherFactory
-    VoucherFactory <.. PercentVoucherFactory
-    class FixedVoucherFactory
-    class PercentVoucherFactory
-    class Voucher {
-        <<interface>>
-        discountedPrice(long)
-        getVoucherId()
-        toString()
-    }
-    class FixedAmountVoucher {
-        voucherId
-        voucherType
-        discountAmount
-    }
-    class PercentDiscountVoucher {
-        voucherId
-        voucherType
-        discountPercent
-    }
-    Voucher <.. FixedAmountVoucher
-    Voucher <.. PercentDiscountVoucher
-    VoucherFactory --> Voucher
+    class CustomerRepository
+    CustomerRepository --> CsvReader
+    CustomerRepository --> CsvWriter
+    CustomerService --> CustomerRepository

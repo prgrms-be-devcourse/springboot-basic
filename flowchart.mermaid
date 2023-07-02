@@ -4,14 +4,7 @@ flowchart TD
     menuBranch -- LIST --> listBranch{List Menu}
     listBranch -- VOUCHER_LIST --> showVoucher[Show Vouchers]
     listBranch -- BLACK_CUSTOMER_LIST --> showBlack[Show Black Customers]
-    showVoucher --> menu
-    showBlack --> menu
-    createBranch -- FIXED_AMOUNT --> createFix[Create Fixed Amount Voucher]
-    createBranch -- PERCENT_DISCOUNT --> createPercent[Create Percent Discount Voucher]
-    createFix -- dev property --> mem[Store Voucher in Memory]
-    createPercent -- dev property --> mem
-    createFix -- default property --> file[Store Voucher in File]
-    createPercent -- default property --> file
+    createBranch --> CreateVoucher[Create Voucher]
+    CreateVoucher -- dev property --> mem[Store Voucher in Memory]
+    CreateVoucher -- default property --> file[Store Voucher in File]
     menuBranch -- EXIT --> endnode[End]
-    mem --> menu
-    file --> menu
