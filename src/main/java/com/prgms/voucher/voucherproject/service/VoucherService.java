@@ -45,14 +45,12 @@ public class VoucherService {
     }
 
     public void list() {
-        List<Voucher> voucherArrayList = voucherRepository.findAll();
+        List<Voucher> voucherList = voucherRepository.findAll();
 
-        if (voucherArrayList.isEmpty()) {
+        if (voucherList.isEmpty()) {
             console.printNoVoucher();
         } else {
-            voucherArrayList.forEach(voucher -> {
-                console.printMsg(voucher.toString());
-            });
+            voucherList.forEach(voucher -> console.printMsg(voucher.toString()));
         }
     }
 
