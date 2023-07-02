@@ -1,7 +1,6 @@
 package com.programmers.voucher.domain.voucher.service;
 
 import com.programmers.voucher.domain.voucher.domain.Voucher;
-import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +30,7 @@ class VoucherServiceTest {
     VoucherService voucherService;
 
     @Test
-    @DisplayName("FixedAmountVoucher 생성 - 성공")
+    @DisplayName("성공: FixedAmountVoucher 생성")
     void createFixedAmountVoucher() {
         //given
         VoucherType voucherType = VoucherType.FIXED_AMOUNT;
@@ -45,7 +44,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("PercentDiscountVoucher 생성 - 성공")
+    @DisplayName("성공: PercentDiscountVoucher 생성")
     void createPercentDiscountVoucher() {
         //given
         VoucherType voucherType = VoucherType.PERCENT;
@@ -59,7 +58,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("Voucher 목록 조회 - 성공")
+    @DisplayName("성공: Voucher 목록 조회")
     void findVouchers() {
         //given
         Voucher fixedVoucher = createFixedVoucher(UUID.randomUUID(), 10);

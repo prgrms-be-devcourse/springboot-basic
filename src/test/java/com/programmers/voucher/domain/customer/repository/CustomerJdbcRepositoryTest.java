@@ -32,7 +32,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - customer 단건 저장")
+    @DisplayName("성공: customer 단건 저장")
     void save() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer");
@@ -46,7 +46,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - customer 단건 조회")
+    @DisplayName("성공: customer 단건 조회")
     void findById() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer");
@@ -62,7 +62,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - customer 단건 조회 - 존재하지 않는 customer")
+    @DisplayName("성공: customer 단건 조회 - 존재하지 않는 customer")
     void findById_ButEmpty() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer");
@@ -75,7 +75,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - customer 목록 조회")
+    @DisplayName("성공: customer 목록 조회")
     void findAll() {
         //given
         Customer customerA = new Customer(UUID.randomUUID(), "customerA");
@@ -96,7 +96,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - customer 전체 삭제")
+    @DisplayName("성공: customer 전체 삭제")
     void deleteAll() {
         //given
         Customer customerA = new Customer(UUID.randomUUID(), "customerA");
@@ -113,7 +113,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - customer 단건 삭제")
+    @DisplayName("성공: customer 단건 삭제")
     void deleteById() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer");
@@ -128,7 +128,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("예외 - customer 단건 삭제 - 존재하지 않는 customer")
+    @DisplayName("예외: customer 단건 삭제 - 존재하지 않는 customer")
     void deleteById_ButNoSuchElement_Then_Exception() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer");

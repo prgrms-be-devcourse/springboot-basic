@@ -22,7 +22,7 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("Voucher 저장 - 성공")
+    @DisplayName("성공: Voucher 던건 저장")
     void save() {
         //given
         UUID voucherId = UUID.randomUUID();
@@ -38,7 +38,7 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - voucher 단건 조회")
+    @DisplayName("성공: voucher 단건 조회")
     void findById() {
         //given
         FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
@@ -54,7 +54,7 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - voucher 단건 조회 - 존재하지 않은 voucher")
+    @DisplayName("성공: voucher 단건 조회 - 존재하지 않은 voucher")
     void findById_ButEmpty() {
         //given
         FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
@@ -67,7 +67,7 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("Voucher 목록 조회 - 성공")
+    @DisplayName("성공: Voucher 목록 조회")
     void findAll() {
         //given
         Voucher fixedVoucherA = createFixedVoucher(UUID.randomUUID(), 10);
@@ -83,7 +83,7 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - voucher 전체 삭제")
+    @DisplayName("성공: voucher 전체 삭제")
     void deleteAll() {
         //given
         Voucher fixedVoucherA = createFixedVoucher(UUID.randomUUID(), 10);

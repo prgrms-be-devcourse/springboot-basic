@@ -26,7 +26,7 @@ class ConsoleMenuTest {
     private Console console;
 
     @Test
-    @DisplayName("create 명령 입력 - 성공")
+    @DisplayName("성공: create 명령 입력")
     public void commandTypeCreate() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CREATE);
@@ -40,7 +40,7 @@ class ConsoleMenuTest {
     }
 
     @Test
-    @DisplayName("list 명령 입력 - 성공")
+    @DisplayName("성공: list 명령 입력")
     void commandTypeList() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.LIST);

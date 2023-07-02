@@ -32,7 +32,7 @@ class VoucherJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - voucher 단건 저장")
+    @DisplayName("성공: voucher 단건 저장")
     void save() {
         //given
         FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
@@ -48,7 +48,7 @@ class VoucherJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - voucher 목록 조회")
+    @DisplayName("성공: voucher 목록 조회")
     void findAll() {
         //given
         FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
@@ -65,7 +65,7 @@ class VoucherJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - voucher 단건 조회")
+    @DisplayName("성공: voucher 단건 조회")
     void findById() {
         //given
         FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
@@ -81,7 +81,7 @@ class VoucherJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - voucher 단건 조회 - 존재하지 않는 voucher")
+    @DisplayName("성공: voucher 단건 조회 - 존재하지 않는 voucher")
     void findById_ButEmpty() {
         //given
         FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
@@ -94,7 +94,7 @@ class VoucherJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공 - voucher 전체 삭제")
+    @DisplayName("성공: voucher 전체 삭제")
     void deleteAll() {
         //given
         FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
