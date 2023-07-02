@@ -22,7 +22,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public Currency discount(Currency beforeDiscount) {
-        Currency discountedValue = beforeDiscount.multiply((double) discountRate / 100);
+        Currency discountedValue = beforeDiscount.multiply(Currency.of((double) discountRate / 100));
         return beforeDiscount.minus(discountedValue);
     }
 
