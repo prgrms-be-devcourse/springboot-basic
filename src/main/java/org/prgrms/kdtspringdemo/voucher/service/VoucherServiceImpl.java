@@ -53,6 +53,6 @@ public class VoucherServiceImpl implements VoucherService {
 
         return voucherList.stream()
                 .map(VoucherDto::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 }

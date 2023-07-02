@@ -20,11 +20,11 @@ public class VoucherConsole {
     private static final String PERCENT_AMOUNT_VOUCHER_MESSAGE = "퍼센트 할인 금액을 입력하세요.\n";
     private static final String SUCCESS_CREATED_FIXED_VOUCHER = """
             type : %s
-            discount : %s 원
+            discount amount : %s 원
             """;
     private static final String SUCCESS_CREATED_PERCENT_VOUCHER = """
             type : %s
-            discount : %s 퍼센트
+            discount amount : %s 퍼센트
             """;
 
     private final Input input;
@@ -67,7 +67,7 @@ public class VoucherConsole {
         return amount;
     }
 
-    private long inputAmountEachVoucher(final String message) {
+    private long inputAmountEachVoucher(String message) {
         output.write(message);
         String inputAmount = input.read();
         validateAmountIsNumeric(inputAmount);

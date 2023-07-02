@@ -5,8 +5,8 @@ import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
-    private static final long MIN_DISCOUNT = 0;
-    private static final String OUT_OF_RANGE_DISCOUNT = "할인 범위가 아닙니다.";
+    private static final long MIN_AMOUNT = 0;
+    private static final String OUT_OF_RANGE_AMOUNT = "할인 범위가 아닙니다.";
 
     private final UUID voucherId;
     private final VoucherType voucherType;
@@ -15,7 +15,7 @@ public class FixedAmountVoucher implements Voucher {
     public FixedAmountVoucher(UUID voucherId, VoucherType voucherType, long amount) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
-        this.amount = validateDiscount(amount);
+        this.amount = validateAmount(amount);
     }
 
     @Override
@@ -39,11 +39,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long validateDiscount(long discount) {
-        if (discount <= MIN_DISCOUNT) {
-            throw new IllegalArgumentException(OUT_OF_RANGE_DISCOUNT);
+    public long validateAmount(long amount) {
+        if (amount <= MIN_AMOUNT) {
+            throw new IllegalArgumentException(OUT_OF_RANGE_AMOUNT);
         }
 
-        return discount;
+        return amount;
     }
 }

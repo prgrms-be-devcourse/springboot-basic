@@ -13,5 +13,5 @@ public interface Voucher {
 
     long executeDiscount(long originPrice);
 
-    long validateDiscount(long discount);
+    long validateAmount(long amount);
 }
