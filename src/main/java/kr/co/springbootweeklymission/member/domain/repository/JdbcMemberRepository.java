@@ -81,7 +81,7 @@ public class JdbcMemberRepository implements MemberRepository {
         jdbcTemplate.update(sql, member.getMemberId().toString());
     }
 
-    private RowMapper<Member> memberRowMapper() {
+    public static RowMapper<Member> memberRowMapper() {
         return (rs, rowNum) -> Member.builder()
                 .memberId(UUID.fromString(rs.getString("member_id")))
                 .memberStatus(MemberStatus.valueOf(rs.getString("member_status")))

@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.vouchermember.domain.model;
+package kr.co.springbootweeklymission.vouchermember.api.dto.request;
 
 import lombok.*;
 

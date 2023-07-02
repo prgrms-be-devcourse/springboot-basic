@@ -2,6 +2,7 @@ package kr.co.springbootweeklymission.voucher.api.dto.response;
 
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
+import kr.co.springbootweeklymission.vouchermember.domain.entity.VoucherMember;
 import lombok.*;
 
 import java.util.UUID;
@@ -22,6 +23,14 @@ public class VoucherResDTO {
                     .voucherId(voucher.getVoucherId())
                     .amount(voucher.getAmount())
                     .voucherPolicy(voucher.getVoucherPolicy())
+                    .build();
+        }
+
+        public static VoucherResDTO.READ toVoucherReadDto(VoucherMember voucherMember) {
+            return VoucherResDTO.READ.builder()
+                    .voucherId(voucherMember.getVoucher().getVoucherId())
+                    .amount(voucherMember.getVoucher().getAmount())
+                    .voucherPolicy(voucherMember.getVoucher().getVoucherPolicy())
                     .build();
         }
     }

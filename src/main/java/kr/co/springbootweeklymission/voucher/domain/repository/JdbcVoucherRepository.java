@@ -81,7 +81,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(sql, voucher.getVoucherId().toString());
     }
 
-    private RowMapper<Voucher> voucherRowMapper() {
+    public static RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> Voucher.builder()
                 .voucherId(UUID.fromString(rs.getString("voucher_id")))
                 .amount(rs.getInt("voucher_amount"))
