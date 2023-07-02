@@ -44,10 +44,10 @@ class CurrencyTest {
         Currency money = Currency.of(1000);
 
         // When
-        long actual = money.minus(100);
+        Currency actual = money.minus(Currency.of(100));
 
         // Then
-        assertThat(actual).isEqualTo(900);
+        assertThat(actual).isEqualTo(Currency.of(900));
     }
 
     @DisplayName("특정 값보다 currency의 값이 적으면 true를 반환한다.")
@@ -57,7 +57,7 @@ class CurrencyTest {
         Currency money = Currency.of(1000);
 
         // When
-        boolean actual = money.isLessThan(1001);
+        boolean actual = money.isLessThan(Currency.of(1001));
 
         // Then
         assertThat(actual).isTrue();
@@ -71,7 +71,7 @@ class CurrencyTest {
         Currency money = Currency.of(1000);
 
         // When
-        boolean actual = money.isLessThan(value);
+        boolean actual = money.isLessThan(Currency.of(value));
 
         // Then
         assertThat(actual).isFalse();
