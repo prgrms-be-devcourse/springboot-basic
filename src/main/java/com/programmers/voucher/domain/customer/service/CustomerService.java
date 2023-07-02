@@ -60,4 +60,12 @@ public class CustomerService {
     public List<Customer> findCustomers() {
         return customerRepository.findAll();
     }
+
+    public void delete(UUID customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
+
+        customerRepository.deleteById(customerId);
+        LOG.info(CustomerMessages.DELETED_CUSTOMER, customer);
+    }
 }

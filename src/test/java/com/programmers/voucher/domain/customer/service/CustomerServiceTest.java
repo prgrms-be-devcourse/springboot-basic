@@ -102,4 +102,31 @@ class CustomerServiceTest {
         assertThat(findCustomers).usingRecursiveFieldByFieldElementComparator()
                 .contains(customerA, customerB);
     }
+
+    @Test
+    @DisplayName("성공: Customer 단건 삭제")
+    void delete() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+
+        given(customerRepository.findById(any())).willReturn(Optional.of(customer));
+
+        //when
+        customerService.delete(customer.getCustomerId());
+
+        //then
+        then(customerRepository).should().deleteById(any());
+    }
+
+    @Test
+    @DisplayName("예외: Customer 단건 삭제 - 존재하지 않는 customer")
+    void delete_ButNoSuchElement_Then_Exception() {
+        //given
+        given(customerRepository.findById(any())).willReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> customerService.delete(UUID.randomUUID()))
+                .isInstanceOf(NoSuchElementException.class);
+    }
 }
