@@ -46,13 +46,13 @@ class PercentDiscountVoucherTest {
     @Test
     void discount() {
         //given
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testVoucher", 33L);
-        long originalAmount = 222L;
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testVoucher", 30L);
+        long originalAmount = 100L;
 
         //when
         long result = percentDiscountVoucher.discount(originalAmount);
 
         //then
-        Assertions.assertThat(result).isEqualTo(148L);
+        Assertions.assertThat(result).isEqualTo(70L);
     }
 }
