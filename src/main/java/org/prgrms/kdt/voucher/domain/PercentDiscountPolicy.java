@@ -12,7 +12,7 @@ public class PercentDiscountPolicy extends DiscountPolicy {
     }
 
     private void validate(double amount) {
-        if (MAX_AMOUNT < amount  || amount < MIN_AMOUNT) throw new InvalidDiscountException("올바르지 않은 할인 퍼센트입니다.");
+        if (MAX_AMOUNT < amount || amount < MIN_AMOUNT) throw new InvalidDiscountException("올바르지 않은 할인 퍼센트입니다.");
     }
 
     @Override

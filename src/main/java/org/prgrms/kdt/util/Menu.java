@@ -24,7 +24,7 @@ public enum Menu {
                 .orElseThrow(() -> new InvalidInputException("잘못된 입력입니다."));
     }
 
-    public boolean isNotExit(){
+    public boolean isNotExit() {
         return this != EXIT;
     }
 }

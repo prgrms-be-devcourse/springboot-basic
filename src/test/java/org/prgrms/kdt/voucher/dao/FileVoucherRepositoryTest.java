@@ -24,6 +24,7 @@ import static org.mockito.Mockito.mock;
 class FileVoucherRepositoryTest {
     FileVoucherRepository fileVoucherRepository;
     VoucherLoader mockVoucherLoader;
+
     @BeforeEach
     void setup() {
         mockVoucherLoader = mock(VoucherLoader.class);

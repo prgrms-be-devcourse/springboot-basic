@@ -24,7 +24,7 @@ public class Console {
         return br.readLine();
     }
 
-    public String getDiscountAmount() throws IOException{
+    public String getDiscountAmount() throws IOException {
         System.out.print("할인 금액을 선택하세요:");
         return br.readLine();
     }
