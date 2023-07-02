@@ -18,17 +18,7 @@ public class Output {
     }
 
     public void printAllVoucher(List<Voucher> voucherList) {
-        if (voucherList.isEmpty()) {
-            outputMessage(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
-            return;
-        }
 
-        for (Voucher voucher : voucherList) {
-            switch (voucher.getVoucherType()) {
-                case FIXED -> printDiscountFixedVoucherInfo(voucher);
-                case PERCENT -> printDiscountAmountVoucherInfo(voucher);
-            }
-        }
     }
 
     public void printBlackConsumerList(List<BlackConsumer> blackConsumerList) {

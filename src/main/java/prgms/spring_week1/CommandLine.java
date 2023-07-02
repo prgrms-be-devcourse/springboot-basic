@@ -15,6 +15,8 @@ import prgms.spring_week1.io.Output;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
 
+import java.util.List;
+
 @Component
 public class CommandLine implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(CommandLine.class);
@@ -41,7 +43,7 @@ public class CommandLine implements Runnable {
             switch (findMenuName(selectOption)) {
                 case EXIT -> IS_RUNNING = false;
                 case CREATE -> selectVoucherType();
-                case LIST -> printAllVoucher();
+                case LIST -> printAllVoucher(voucherRepository.findAll());
                 case BLACK -> output.printBlackConsumerList(customerService.blackConsumerList());
                 default -> output.outputMessage(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
             }
@@ -93,7 +95,17 @@ public class CommandLine implements Runnable {
         }
     }
 
-    private void printAllVoucher() {
-        output.printAllVoucher(voucherRepository.findAll());
+    private void printAllVoucher(List<Voucher> voucherList) {
+        if (voucherList.isEmpty()) {
+            output.outputMessage(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
+            return;
+        }
+
+        for (Voucher voucher : voucherList) {
+            switch (voucher.getVoucherType()) {
+                case FIXED -> output.printDiscountFixedVoucherInfo(voucher);
+                case PERCENT -> output.printDiscountAmountVoucherInfo(voucher);
+            }
+        }
     }
 }
