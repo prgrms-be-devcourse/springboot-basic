@@ -10,7 +10,7 @@ import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.promgrammers.springbootbasic.domain.wallet.model.Wallet;
-import org.promgrammers.springbootbasic.exception.repository.NonExistentDomainException;
+import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -213,7 +213,7 @@ class JdbcWalletRepositoryTest {
         UUID nonExistingId = UUID.randomUUID();
 
         //when -> then
-        assertThrows(NonExistentDomainException.class, () -> walletRepository.deleteById(nonExistingId));
+        assertThrows(EntityNotFoundException.class, () -> walletRepository.deleteById(nonExistingId));
     }
 
 }

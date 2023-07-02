@@ -18,7 +18,7 @@ import org.promgrammers.springbootbasic.domain.wallet.dto.response.WalletRespons
 import org.promgrammers.springbootbasic.domain.wallet.model.Wallet;
 import org.promgrammers.springbootbasic.domain.wallet.repository.impl.JdbcWalletRepository;
 import org.promgrammers.springbootbasic.exception.BusinessException;
-import org.promgrammers.springbootbasic.exception.repository.NonExistentDomainException;
+import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -242,6 +242,6 @@ class WalletServiceTest {
     void testDeleteWalletById_WalletNotExists() {
 
         // when & then
-        assertThrows(NonExistentDomainException.class, () -> walletService.deleteById(UUID.randomUUID()));
+        assertThrows(EntityNotFoundException.class, () -> walletService.deleteById(UUID.randomUUID()));
     }
 }

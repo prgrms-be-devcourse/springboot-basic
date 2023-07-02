@@ -1,7 +1,7 @@
 package org.promgrammers.springbootbasic.domain.voucher.repository;
 
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
-import org.promgrammers.springbootbasic.exception.repository.NonExistentDomainException;
+import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,7 @@ public interface VoucherRepository {
 
     default Voucher getVoucherById(UUID voucherId) {
         return findById(voucherId)
-                .orElseThrow(() -> new NonExistentDomainException("존재하지 않는 바우처입니다."));
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 바우처입니다."));
     }
 
     Voucher insert(Voucher voucher);

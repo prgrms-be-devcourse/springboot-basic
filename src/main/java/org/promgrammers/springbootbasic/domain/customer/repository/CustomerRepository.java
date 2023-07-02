@@ -1,7 +1,7 @@
 package org.promgrammers.springbootbasic.domain.customer.repository;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
-import org.promgrammers.springbootbasic.exception.repository.NonExistentDomainException;
+import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ public interface CustomerRepository {
 
     default Customer getCustomerById(UUID customerId) {
         return findById(customerId)
-                .orElseThrow(() -> new NonExistentDomainException("존재하지 않는 고객입니다."));
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 고객입니다."));
     }
 
     Optional<Customer> findByUsername(String username);

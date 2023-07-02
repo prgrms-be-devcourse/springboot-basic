@@ -6,7 +6,7 @@ import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.promgrammers.springbootbasic.domain.wallet.model.Wallet;
 import org.promgrammers.springbootbasic.domain.wallet.repository.WalletRepository;
-import org.promgrammers.springbootbasic.exception.repository.NonExistentDomainException;
+import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -115,7 +115,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
         int deleteCount = template.update(DELETE_BY_ID, params);
         if (deleteCount == 0) {
-            throw new NonExistentDomainException("해당 아이디가 존재하지 않습니다. => " + id);
+            throw new EntityNotFoundException("해당 아이디가 존재하지 않습니다. => " + id);
         }
 
         template.update(DELETE_BY_ID, params);
