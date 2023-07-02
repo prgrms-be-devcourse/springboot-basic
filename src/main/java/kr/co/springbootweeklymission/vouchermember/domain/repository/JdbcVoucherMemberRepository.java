@@ -45,6 +45,15 @@ public class JdbcVoucherMemberRepository implements VoucherMemberRepository {
     }
 
     @Override
+    public List<VoucherMember> findVouchersMembersByVoucherId(UUID voucherId) {
+        String sql = "" +
+                "select * " +
+                "from tbl_vouchers_members " +
+                "where voucher_id = ?";
+        return jdbcTemplate.query(sql, voucherMemberRowMapper(), voucherId.toString());
+    }
+
+    @Override
     public void deleteByVoucherIdAndMemberId(UUID voucherId,
                                              UUID memberId) {
         String sql = "" +

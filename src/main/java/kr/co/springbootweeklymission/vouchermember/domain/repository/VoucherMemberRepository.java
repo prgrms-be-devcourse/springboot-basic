@@ -10,5 +10,7 @@ public interface VoucherMemberRepository {
 
     List<VoucherMember> findVouchersMembersByMemberId(UUID memberId);
 
+    List<VoucherMember> findVouchersMembersByVoucherId(UUID voucherId);
+
     void deleteByVoucherIdAndMemberId(UUID voucherId, UUID memberId);
 }

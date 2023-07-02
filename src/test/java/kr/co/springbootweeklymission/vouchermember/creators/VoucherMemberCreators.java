@@ -1,5 +1,6 @@
 package kr.co.springbootweeklymission.vouchermember.creators;
 
+import kr.co.springbootweeklymission.member.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.voucher.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
@@ -17,6 +18,14 @@ public class VoucherMemberCreators {
                 .voucherMemberId(UUID.randomUUID())
                 .voucher(voucher)
                 .member(member)
+                .build();
+    }
+
+    public static VoucherMember createVoucherMember(Voucher voucher) {
+        return VoucherMember.builder()
+                .voucherMemberId(UUID.randomUUID())
+                .voucher(voucher)
+                .member(MemberCreators.createWhiteMember())
                 .build();
     }
 

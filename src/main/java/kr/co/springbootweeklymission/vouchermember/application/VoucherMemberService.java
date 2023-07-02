@@ -2,6 +2,7 @@ package kr.co.springbootweeklymission.vouchermember.application;
 
 import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.member.api.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
 import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
@@ -39,6 +40,13 @@ public class VoucherMemberService {
         final List<VoucherMember> voucherMembers = voucherMemberRepository.findVouchersMembersByMemberId(memberId);
         return voucherMembers.stream()
                 .map(VoucherResDTO.READ::toVoucherReadDto)
+                .toList();
+    }
+
+    public List<MemberResDTO.READ> getMembersByVoucherId(UUID voucherId) {
+        final List<VoucherMember> voucherMembers = voucherMemberRepository.findVouchersMembersByVoucherId(voucherId);
+        return voucherMembers.stream()
+                .map(MemberResDTO.READ::toMemberReadDto)
                 .toList();
     }
 

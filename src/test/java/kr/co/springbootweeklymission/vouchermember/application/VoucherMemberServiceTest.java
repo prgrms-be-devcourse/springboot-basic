@@ -3,6 +3,8 @@ package kr.co.springbootweeklymission.vouchermember.application;
 import kr.co.springbootweeklymission.member.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
+import kr.co.springbootweeklymission.voucher.creators.VoucherCreators;
+import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.vouchermember.creators.VoucherMemberCreators;
 import kr.co.springbootweeklymission.vouchermember.domain.entity.VoucherMember;
 import kr.co.springbootweeklymission.vouchermember.domain.repository.VoucherMemberRepository;
@@ -37,6 +39,22 @@ public class VoucherMemberServiceTest {
 
         //then
         List<VoucherResDTO.READ> actual = voucherMemberService.getVouchersByMemberId(member.getMemberId());
+
+        //then
+        assertThat(actual).hasSize(2);
+    }
+
+    @Test
+    void getMembersByVoucherId_특정_바우처를_가진_회원들을_조회_SUCCESS() {
+        //given
+        Voucher voucher = VoucherCreators.createFixedDiscount();
+        List<VoucherMember> voucherMembers = new ArrayList<>();
+        voucherMembers.add(VoucherMemberCreators.createVoucherMember(voucher));
+        voucherMembers.add(VoucherMemberCreators.createVoucherMember(voucher));
+        given(voucherMemberRepository.findVouchersMembersByMemberId(any())).willReturn(voucherMembers);
+
+        //then
+        List<VoucherResDTO.READ> actual = voucherMemberService.getVouchersByMemberId(voucher.getVoucherId());
 
         //then
         assertThat(actual).hasSize(2);
