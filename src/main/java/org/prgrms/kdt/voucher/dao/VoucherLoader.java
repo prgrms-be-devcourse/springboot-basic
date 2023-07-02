@@ -1,8 +1,7 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.dao;
 
-import org.prgrms.kdt.exception.DatabaseException;
+import org.prgrms.kdt.exception.FileAccessException;
 import org.prgrms.kdt.util.Converter;
-import org.prgrms.kdt.util.ErrorMessage;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -33,7 +32,7 @@ public class VoucherLoader {
             }
             return vouchers;
         } catch (IOException e) {
-            throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);
+            throw new FileAccessException("파일에 접근하다 문제가 생겼습니다.", e);
         }
     }
 
@@ -43,7 +42,7 @@ public class VoucherLoader {
                 writer.append(Converter.voucherToString(entry.getValue()) + "\n");
             }
         } catch (IOException e) {
-            throw new DatabaseException(ErrorMessage.FILE_ACCESS_ERROR, e);
+            throw new FileAccessException("파일에 접근하다 문제가 생겼습니다.", e);
         }
     }
 }

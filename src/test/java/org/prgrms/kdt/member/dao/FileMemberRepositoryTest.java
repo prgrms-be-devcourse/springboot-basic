@@ -1,9 +1,8 @@
-package org.prgrms.kdt.member.repository;
+package org.prgrms.kdt.member.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.prgrms.kdt.member.MemberLoader;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 

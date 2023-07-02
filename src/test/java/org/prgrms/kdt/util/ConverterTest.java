@@ -3,8 +3,8 @@ package org.prgrms.kdt.util;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -16,14 +16,14 @@ class ConverterTest {
     @Test
     void voucherToString() {
         //given
-        UUID uuid = UUID.randomUUID();
-        Voucher voucher = new PercentDiscountVoucher(uuid);
+        Voucher voucher = new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(30.0));
+        UUID uuid = voucher.getVoucherId();
 
         //when
         String voucherString = Converter.voucherToString(voucher);
 
         //then
-        String expectString = MessageFormat.format("{0},{1},{2}", uuid, voucher.getVoucherType(), voucher.getAmount());
+        String expectString = MessageFormat.format("{0},{1},{2}", uuid, voucher.getVoucherType(), voucher.getDiscountPolicy().getAmount());
         assertThat(voucherString, is(expectString));
     }
 
@@ -44,7 +44,7 @@ class ConverterTest {
     @Test
     void stringToVoucher() {
         //given
-        String voucherString = "e6801502-7989-4b9a-ac83-9bf9dc38e0b0,PercentDiscountVoucher,20";
+        String voucherString = "e6801502-7989-4b9a-ac83-9bf9dc38e0b0,PERCENT,20";
 
         //when
         Voucher voucher = Converter.stringToVoucher(voucherString);

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.repository;
+package org.prgrms.kdt.voucher.dao;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;

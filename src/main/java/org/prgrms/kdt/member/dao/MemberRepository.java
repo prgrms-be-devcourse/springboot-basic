@@ -1,4 +1,4 @@
-package org.prgrms.kdt.member.repository;
+package org.prgrms.kdt.member.dao;
 
 import org.prgrms.kdt.member.domain.Member;
 

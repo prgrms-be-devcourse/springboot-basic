@@ -1,7 +1,7 @@
 package org.prgrms.kdt.member.service;
 
 import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.member.repository.MemberRepository;
+import org.prgrms.kdt.member.dao.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

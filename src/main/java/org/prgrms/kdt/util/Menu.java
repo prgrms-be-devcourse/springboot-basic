@@ -21,7 +21,7 @@ public enum Menu {
         return Arrays.stream(Menu.values())
                 .filter((e) -> Objects.equals(e.descripton, str))
                 .findFirst()
-                .orElseThrow(InvalidInputException::new);
+                .orElseThrow(() -> new InvalidInputException("잘못된 입력입니다."));
     }
 
     public boolean isNotExit(){

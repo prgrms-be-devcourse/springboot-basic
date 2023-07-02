@@ -1,13 +1,11 @@
-package org.prgrms.kdt.voucher.repository;
+package org.prgrms.kdt.voucher.dao;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.prgrms.kdt.exception.DatabaseException;
-import org.prgrms.kdt.voucher.VoucherLoader;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.exception.FileAccessException;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +29,8 @@ class FileVoucherRepositoryTest {
     @Test
     void findById_존재하는_바우처_찾기() {
         //given
-        Voucher savedVoucher1 = new FixedAmountVoucher(UUID.randomUUID());
-        Voucher savedVoucher2 = new FixedAmountVoucher(UUID.randomUUID());
+        Voucher savedVoucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher savedVoucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(20.0));
         fileVoucherRepository.insert(savedVoucher1);
         fileVoucherRepository.insert(savedVoucher2);
         UUID existVoucherId = savedVoucher1.getVoucherId();
@@ -47,7 +45,7 @@ class FileVoucherRepositoryTest {
     @Test
     void findById_존재하지_않는_바우처_찾기() {
         //given
-        Voucher savedVoucher = new FixedAmountVoucher(UUID.randomUUID());
+        Voucher savedVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
         fileVoucherRepository.insert(savedVoucher);
         UUID notExistVoucherId = UUID.randomUUID();
 
@@ -55,15 +53,15 @@ class FileVoucherRepositoryTest {
         Optional<Voucher> foundVoucher = fileVoucherRepository.findById(notExistVoucherId);
 
         //then
-        assertThrows(DatabaseException.class, () -> {
-            foundVoucher.orElseThrow(DatabaseException::new);
+        assertThrows(FileAccessException.class, () -> {
+            foundVoucher.orElseThrow(FileAccessException::new);
         });
     }
 
     @Test
     void insert() {
         //given
-        Voucher insertVoucher = new FixedAmountVoucher(UUID.randomUUID());
+        Voucher insertVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
 
         //when
         fileVoucherRepository.insert(insertVoucher);
@@ -76,8 +74,8 @@ class FileVoucherRepositoryTest {
     @Test
     void findAll() {
         //given
-        Voucher savedVoucher1 = new FixedAmountVoucher(UUID.randomUUID());
-        Voucher savedVoucher2 = new FixedAmountVoucher(UUID.randomUUID());
+        Voucher savedVoucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher savedVoucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
         fileVoucherRepository.insert(savedVoucher1);
         fileVoucherRepository.insert(savedVoucher2);
 
