@@ -15,7 +15,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public double disCount(int beforeAmount) {
+    public double discount(int beforeAmount) {
         double result = beforeAmount - discountAmount;
         if (isNegativeAmount(result)) {
             return 0;
