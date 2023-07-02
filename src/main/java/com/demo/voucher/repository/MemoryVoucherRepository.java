@@ -3,6 +3,7 @@ package com.demo.voucher.repository;
 import com.demo.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,13 +19,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Map<UUID, Voucher> findAll() {
-        return storage;
+    public List<Voucher> findAll() {
+        return List.copyOf(storage.values());
     }
 
     @Override
     public Voucher insert(Voucher voucher) {
-        return storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override

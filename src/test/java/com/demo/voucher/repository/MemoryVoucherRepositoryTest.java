@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 class MemoryVoucherRepositoryTest {
@@ -16,10 +16,15 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("새로 생성한 바우처가 Voucher Repository로부터 findById를 통해 잘 탐색 되는지 확인하는 테스트")
     void findById() {
-        UUID uuid = UUID.randomUUID();
-        FixedAmountVoucher voucher = new FixedAmountVoucher(uuid, 2000);
+        // given
+        FixedAmountVoucher voucher = new FixedAmountVoucher(2000);
         repository.insert(voucher);
 
+        // when
+        Voucher foundVoucher = repository.findAll().get(0);
+        UUID uuid = foundVoucher.getVoucherId();
+
+        // then
         Assertions.assertThat(repository.findById(uuid)).isPresent();
     }
 
@@ -27,35 +32,40 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("Voucher Repository에서 findAll를 통해 전체 바우처를 모두 잘 가져오는지 확인하는 테스트")
     void findAll() {
         // given
-        UUID uuid1 = UUID.randomUUID();
-        UUID uuid2 = UUID.randomUUID();
-
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(uuid1, 1000);
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(uuid2, 20);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1000);
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(20);
 
         repository.insert(fixedAmountVoucher);
         repository.insert(percentDiscountVoucher);
 
         // when
-        Map<UUID, Voucher> vouchers = repository.findAll();
+        List<Voucher> vouchers = repository.findAll();
 
         // then
         Assertions.assertThat(vouchers)
                 .hasSize(2)
-                .contains(Map.entry(uuid1, fixedAmountVoucher))
-                .contains(Map.entry(uuid2, percentDiscountVoucher));
+                .contains(fixedAmountVoucher)
+                .contains(percentDiscountVoucher);
+    }
+
+    @Test
+    @DisplayName("Voucher Repository에 바우처가 없는 경우")
+    void findAll_when_no_voucher() {
+        List<Voucher> vouchers = repository.findAll();
+
+        Assertions.assertThat(vouchers)
+                .isEmpty();
     }
 
     @Test
     @DisplayName("Voucher Repository에 바우처가 정상적으로 추가되는지 확인하는 테스트")
     void insert() {
-        UUID uuid = UUID.randomUUID();
-        FixedAmountVoucher voucher = new FixedAmountVoucher(uuid, 2000);
+        FixedAmountVoucher voucher = new FixedAmountVoucher(2000);
 
         repository.insert(voucher);
 
         Assertions.assertThat(repository.findAll())
                 .hasSize(1)
-                .contains(Map.entry(uuid, voucher));
+                .contains(voucher);
     }
 }
