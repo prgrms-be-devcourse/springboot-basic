@@ -32,7 +32,7 @@ class VoucherServiceTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(uuid, "voucherName1", 10L);
         List<Voucher> vouchers = List.of(fixedAmountVoucher);
 
-        doNothing().when(memoryVoucherRepository).save(fixedAmountVoucher);
+        when(memoryVoucherRepository.save(fixedAmountVoucher)).thenReturn(fixedAmountVoucher);
         when(memoryVoucherRepository.findAll()).thenReturn(vouchers);
 
         VoucherService voucherService = new VoucherService(memoryVoucherRepository);

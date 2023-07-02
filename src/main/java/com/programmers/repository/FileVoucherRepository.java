@@ -26,7 +26,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile(), true)); //path?
             writer.write(voucher.toString());
@@ -35,6 +35,8 @@ public class FileVoucherRepository implements VoucherRepository {
             writer.flush();
         } catch (IOException ignored) {
         }
+
+        return voucher;
     }
 
     @Override
