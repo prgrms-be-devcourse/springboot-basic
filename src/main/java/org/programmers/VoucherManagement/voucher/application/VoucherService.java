@@ -17,16 +17,12 @@ import java.util.stream.Collectors;
 public class VoucherService {
 
     private final VoucherRepository repository;
+    private final VoucherFactory voucherFactory;
 
     public GetVoucherResponse saveVoucher(CreateVoucherRequest createVoucherRequest) {
-        DiscountType discountType = createVoucherRequest.getDiscountType();
 
-        Voucher voucher = switch (discountType) {
-            case FIXED ->
-                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
-            case PERCENT ->
-                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
-        };
+        Voucher voucher = voucherFactory.createVoucher(createVoucherRequest);
+
         voucher = repository.save(voucher);
         return GetVoucherResponse.toDto(voucher);
     }
