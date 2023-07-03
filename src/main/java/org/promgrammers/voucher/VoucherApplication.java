@@ -20,6 +20,6 @@ public class VoucherApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        controller.run();
+        controller.userPostController();
     }
 }

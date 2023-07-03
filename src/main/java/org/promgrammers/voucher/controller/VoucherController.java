@@ -18,7 +18,7 @@ public class VoucherController {
 
     private boolean isRunning = true;
 
-    public void run() {
+    public void userPostController() {
         while (isRunning) {
             try {
                 console.display();
