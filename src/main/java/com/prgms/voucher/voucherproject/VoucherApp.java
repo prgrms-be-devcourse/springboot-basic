@@ -3,15 +3,15 @@ package com.prgms.voucher.voucherproject;
 import com.prgms.voucher.voucherproject.domain.MenuType;
 import com.prgms.voucher.voucherproject.domain.VoucherType;
 import com.prgms.voucher.voucherproject.io.Console;
-import com.prgms.voucher.voucherproject.repository.MemoryVoucherRepository;
 import com.prgms.voucher.voucherproject.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 
 import java.util.InputMismatchException;
 
 
-public class VoucherApp implements Runnable {
+public class VoucherApp implements CommandLineRunner {
 
     /* Field */
     private boolean EXIT = false;
@@ -25,13 +25,8 @@ public class VoucherApp implements Runnable {
         this.voucherService = voucherService;
     }
 
-    public static void main(String[] args) {
-        new VoucherApp(new VoucherService(new MemoryVoucherRepository())).run();
-    }
-
     @Override
-    public void run() {
-
+    public void run(String... args) throws Exception {
         String menuName;
 
         while (!EXIT) {
