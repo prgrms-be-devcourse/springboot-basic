@@ -1,7 +1,7 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.dto.GetMemberListRes;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
+import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
 
 public interface Output {
     void printType();
@@ -10,9 +10,9 @@ public interface Output {
 
     void printExitMessage();
 
-    void printVoucherList(GetVoucherListRes getVoucherListRes);
+    void printVoucherList(GetVoucherListResponse getVoucherListResponse);
 
-    void printMemberList(GetMemberListRes memberList);
+    void printMemberList(GetMemberListResponse memberList);
 
     void printInputAmountMessage();
 }

@@ -1,9 +1,8 @@
 package org.programmers.VoucherManagement.voucher.api;
 
 import org.programmers.VoucherManagement.voucher.application.VoucherService;
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherReq;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherRes;
+import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,11 +16,11 @@ public class VoucherController {
      * 1. voucher 등록
      * 2. voucher 조회
      */
-    public GetVoucherRes createVoucher(CreateVoucherReq createVoucherReq){
-        return voucherService.saveVoucher(createVoucherReq);
+    public void createVoucher(CreateVoucherRequest createVoucherRequest){
+        voucherService.saveVoucher(createVoucherRequest);
     }
 
-    public GetVoucherListRes getVoucherList(){ // class List<GetVoucherRes>
+    public GetVoucherListResponse getVoucherList(){ // class List<GetVoucherResponse>
         return voucherService.getVoucherList();
     }
 }

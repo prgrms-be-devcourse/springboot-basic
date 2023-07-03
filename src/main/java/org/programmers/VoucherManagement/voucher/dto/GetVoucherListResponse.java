@@ -3,14 +3,14 @@ package org.programmers.VoucherManagement.voucher.dto;
 import java.util.Collections;
 import java.util.List;
 
-public class GetVoucherListRes {
-    private final List<GetVoucherRes> getVoucherListRes;
+public class GetVoucherListResponse {
+    private final List<GetVoucherResponse> getVoucherListRes;
 
-    public GetVoucherListRes(List<GetVoucherRes> getVoucherListRes) {
+    public GetVoucherListResponse(List<GetVoucherResponse> getVoucherListRes) {
         this.getVoucherListRes = getVoucherListRes;
     }
 
-    public List<GetVoucherRes> getGetVoucherListRes() {
+    public List<GetVoucherResponse> getGetVoucherListRes() {
         return Collections.unmodifiableList(getVoucherListRes);
     }
 }

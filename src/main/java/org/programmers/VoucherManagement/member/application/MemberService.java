@@ -2,8 +2,8 @@ package org.programmers.VoucherManagement.member.application;
 
 import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.member.dao.MemberRepository;
-import org.programmers.VoucherManagement.member.dto.GetMemberListRes;
-import org.programmers.VoucherManagement.member.dto.GetMemberRes;
+import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
+import org.programmers.VoucherManagement.member.dto.GetMemberResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository repository;
 
-    public GetMemberListRes getBlackMemberList() {
-        List<GetMemberRes> getMemberList = repository.findAllByMemberStatus()
+    public GetMemberListResponse getBlackMemberList() {
+        List<GetMemberResponse> getMemberList = repository.findAllByMemberStatus()
                 .stream()
-                .map(GetMemberRes::toDto)
+                .map(GetMemberResponse::toDto)
                 .collect(Collectors.toList());
 
-        return new GetMemberListRes(getMemberList);
+        return new GetMemberListResponse(getMemberList);
     }
 }

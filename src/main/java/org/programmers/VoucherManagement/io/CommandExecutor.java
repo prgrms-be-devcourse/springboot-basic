@@ -1,11 +1,11 @@
 package org.programmers.VoucherManagement.io;
 
 import org.programmers.VoucherManagement.member.api.MemberController;
-import org.programmers.VoucherManagement.member.dto.GetMemberListRes;
+import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
 import org.programmers.VoucherManagement.voucher.api.VoucherController;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherReq;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
+import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,25 +24,25 @@ public class CommandExecutor {
         switch (commandType) {
             case CREATE -> {
                 console.printDiscountType();
-                CreateVoucherReq request = makeCreateVoucherRequest();
+                CreateVoucherRequest request = makeCreateVoucherRequest();
                 voucherController.createVoucher(request);
             }
             case LIST -> {
-                GetVoucherListRes voucherList = voucherController.getVoucherList();
+                GetVoucherListResponse voucherList = voucherController.getVoucherList();
                 console.printVoucherList(voucherList);
             }
             case EXIT -> console.printExitMessage();
             case BLACKLIST -> {
-                GetMemberListRes blackMemberList = memberController.getBlackMemberList();
+                GetMemberListResponse blackMemberList = memberController.getBlackMemberList();
                 console.printMemberList(blackMemberList);
             }
         }
     }
 
-    private CreateVoucherReq makeCreateVoucherRequest() {
+    private CreateVoucherRequest makeCreateVoucherRequest() {
         DiscountType discountType = console.readDiscountType();
         int discountValue = console.readDiscountValue(discountType);
 
-        return new CreateVoucherReq(discountType, discountValue);
+        return new CreateVoucherRequest(discountType, discountValue);
     }
 }

@@ -2,12 +2,12 @@ package org.programmers.VoucherManagement.voucher.dto;
 
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 
-public class CreateVoucherReq {
+public class CreateVoucherRequest {
 
     private final DiscountType discountType;
     private final int discountValue;
 
-    public CreateVoucherReq(DiscountType discountType, int discountValue) {
+    public CreateVoucherRequest(DiscountType discountType, int discountValue) {
         this.discountType = discountType;
         this.discountValue = discountValue;
     }

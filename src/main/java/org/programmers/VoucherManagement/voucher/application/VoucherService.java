@@ -3,9 +3,9 @@ package org.programmers.VoucherManagement.voucher.application;
 import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.voucher.domain.*;
 import org.programmers.VoucherManagement.voucher.dao.VoucherRepository;
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherReq;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherRes;
+import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,25 +18,25 @@ public class VoucherService {
 
     private final VoucherRepository repository;
 
-    public GetVoucherRes saveVoucher(CreateVoucherReq createVoucherReq) {
-        DiscountType discountType = createVoucherReq.getDiscountType();
+    public GetVoucherResponse saveVoucher(CreateVoucherRequest createVoucherRequest) {
+        DiscountType discountType = createVoucherRequest.getDiscountType();
 
         Voucher voucher = switch (discountType) {
             case FIXED ->
-                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherReq.getDiscountValue()));
+                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
             case PERCENT ->
-                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherReq.getDiscountValue()));
+                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
         };
         voucher = repository.save(voucher);
-        return GetVoucherRes.toDto(voucher);
+        return GetVoucherResponse.toDto(voucher);
     }
 
-    public GetVoucherListRes getVoucherList() {
-        List<GetVoucherRes> getVoucherResList = repository.findAll()
+    public GetVoucherListResponse getVoucherList() {
+        List<GetVoucherResponse> getVoucherResponseList = repository.findAll()
                 .stream()
-                .map(GetVoucherRes::toDto)
+                .map(GetVoucherResponse::toDto)
                 .collect(Collectors.toList());
-        return new GetVoucherListRes(getVoucherResList);
+        return new GetVoucherListResponse(getVoucherResponseList);
     }
 
 }

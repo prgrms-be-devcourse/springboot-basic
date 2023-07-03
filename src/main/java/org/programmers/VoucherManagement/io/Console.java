@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.dto.GetMemberListRes;
+import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListRes;
+import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.springframework.stereotype.Component;
 
@@ -32,8 +32,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printVoucherList(GetVoucherListRes getVoucherListRes) {
-        getVoucherListRes
+    public void printVoucherList(GetVoucherListResponse getVoucherListResponse) {
+        getVoucherListResponse
                 .getGetVoucherListRes()
                 .stream()
                 .forEach(response -> {
@@ -46,7 +46,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printMemberList(GetMemberListRes memberList) {
+    public void printMemberList(GetMemberListResponse memberList) {
         System.out.println(ConsoleMessage.START_VIEW_BLACKLIST_MESSAGE);
         memberList
                 .getGetMemberListRes()

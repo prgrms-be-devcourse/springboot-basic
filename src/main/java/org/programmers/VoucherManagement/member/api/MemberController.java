@@ -1,7 +1,7 @@
 package org.programmers.VoucherManagement.member.api;
 
 import org.programmers.VoucherManagement.member.application.MemberService;
-import org.programmers.VoucherManagement.member.dto.GetMemberListRes;
+import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +12,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public GetMemberListRes getBlackMemberList() {
+    public GetMemberListResponse getBlackMemberList() {
         return memberService.getBlackMemberList();
     }
 }

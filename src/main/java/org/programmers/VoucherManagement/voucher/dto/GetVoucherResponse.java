@@ -5,12 +5,12 @@ import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
 import java.util.UUID;
 
-public class GetVoucherRes {
+public class GetVoucherResponse {
     private final UUID voucherId;
     private final DiscountType discountType;
     private final int discountValue;
 
-    public GetVoucherRes(UUID voucherId, DiscountType discountType, int discountValue) {
+    public GetVoucherResponse(UUID voucherId, DiscountType discountType, int discountValue) {
         this.voucherId = voucherId;
         this.discountType = discountType;
         this.discountValue = discountValue;
@@ -28,8 +28,8 @@ public class GetVoucherRes {
         return discountValue;
     }
 
-    public static GetVoucherRes toDto(Voucher voucher) {
-        return new GetVoucherRes(voucher.getVoucherId()
+    public static GetVoucherResponse toDto(Voucher voucher) {
+        return new GetVoucherResponse(voucher.getVoucherId()
                 , voucher.getDiscountType()
                 , voucher.getDiscountValue().getValue());
     }
