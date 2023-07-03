@@ -6,12 +6,10 @@ import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.domain.VoucherType;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class VoucherMapper {
 
-    public Voucher mapFrom(CreateVoucherRequest request) {
+    public Voucher toEntity(CreateVoucherRequest request) {
         String symbol = request.typeSymbol();
 
         if (VoucherType.isFixType(symbol)) {
@@ -21,13 +19,7 @@ public class VoucherMapper {
         return Voucher.percent(request.discount(), request.expiredAt());
     }
 
-    public List<GetVoucherResponse> toResponseList(List<Voucher> vouchers) {
-        return vouchers.stream()
-                .map(this::toResponse)
-                .toList();
-    }
-
-    private GetVoucherResponse toResponse(Voucher voucher) {
+    public GetVoucherResponse toResponse(Voucher voucher) {
         return new GetVoucherResponse(voucher.getId(),
                 voucher.getType(),
                 voucher.getDiscount(),

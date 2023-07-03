@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.devcourse.voucher.domain.VoucherType.FIXED;
@@ -39,7 +37,7 @@ class VoucherMapperTest {
         CreateVoucherRequest request = new CreateVoucherRequest(symbol, discount, expiredAt);
 
         // when
-        Voucher voucher = voucherMapper.mapFrom(request);
+        Voucher voucher = voucherMapper.toEntity(request);
 
         // then
         assertThat(voucher.getDiscountPolicy()).isInstanceOf(clazz);
@@ -48,22 +46,20 @@ class VoucherMapperTest {
     }
 
     @Test
-    @DisplayName("DTO 리스트로 변환될 때 크기와 내용물에 변화가 없어야 한다.")
+    @DisplayName("DTO로 변환될 때 내용물에 변화가 없어야 한다.")
     void toResponseListTest() {
         // given
-        List<Voucher> vouchers = IntStream.range(0, 5)
-                .mapToObj(discount -> Voucher.percent(discount, expiredAt))
-                .toList();
+        int discount = 1000;
+        Voucher voucher = Voucher.percent(discount, expiredAt);
 
         // when
-        List<GetVoucherResponse> responseList = voucherMapper.toResponseList(vouchers);
+        GetVoucherResponse response = voucherMapper.toResponse(voucher);
 
         // then
-        assertThat(responseList).isNotEmpty().hasSize(5);
-        responseList.forEach(response -> {
-            assertThat(response.type()).isEqualTo(PERCENT);
-            assertThat(response.expiredAt()).isEqualTo(expiredAt);
-        });
+        assertThat(response).isNotNull();
+        assertThat(response.type()).isEqualTo(PERCENT);
+        assertThat(response.expiredAt()).isEqualTo(expiredAt);
+        assertThat(response.status()).isEqualTo("ISSUED");
     }
 
     static Stream<Arguments> symbolAndPolicySource() {

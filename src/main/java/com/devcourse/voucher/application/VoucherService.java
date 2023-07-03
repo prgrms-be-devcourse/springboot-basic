@@ -22,12 +22,15 @@ public class VoucherService {
 
     public void create(CreateVoucherRequest request) {
         voucherValidator.validateRequest(request);
-        Voucher voucher = voucherMapper.mapFrom(request);
+        Voucher voucher = voucherMapper.toEntity(request);
         voucherRepository.save(voucher);
     }
 
     public List<GetVoucherResponse> findAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
-        return voucherMapper.toResponseList(vouchers);
+
+        return vouchers.stream()
+                .map(voucherMapper::toResponse)
+                .toList();
     }
 }
