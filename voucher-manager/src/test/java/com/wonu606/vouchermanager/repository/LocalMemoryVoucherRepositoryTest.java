@@ -25,7 +25,6 @@ public class LocalMemoryVoucherRepositoryTest {
     public void setUp() {
         repository = new LocalMemoryVoucherRepository();
 
-        // given
         UUID uuid = UUID.randomUUID();
         PercentageDiscountValue discountValue = new PercentageDiscountValue(20);
         voucher = new PercentageVoucher(uuid, discountValue);
@@ -43,20 +42,20 @@ public class LocalMemoryVoucherRepositoryTest {
         @DisplayName("유효한 바우처이면_저장된바우처가 반환된다.")
         @Test
         public void ValidVoucher_ReturnsSavedVoucher() {
-            // when
+            // When
             Voucher savedVoucher = repository.save(voucher);
 
-            // then
+            // Then
             assertThat(savedVoucher).isEqualTo(voucher);
         }
 
         @DisplayName("중복된 UUID 바우처라면_예외가발생한다.")
         @Test
         public void DuplicateUUIDVoucher_ThrowsException() {
-            // given
+            // Given
             repository.save(voucher);
 
-            // then
+            // When & Then
             assertThatThrownBy(() -> repository.save(voucher))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("이미 존재하는 바우처의 uuid입니다. [uuid]: " + voucher.getUuid());
@@ -70,13 +69,13 @@ public class LocalMemoryVoucherRepositoryTest {
         @DisplayName("유효한 UUID이면_바우처가 반환된다.")
         @Test
         public void ValidUUID_ReturnsVoucher() {
-            // given
+            // Given
             repository.save(voucher);
 
-            // when
+            // When
             Optional<Voucher> foundVoucher = repository.findById(voucher.getUuid());
 
-            // then
+            // Then
             assertThat(foundVoucher).isPresent();
             assertThat(foundVoucher.get()).isEqualTo(voucher);
         }
@@ -84,13 +83,13 @@ public class LocalMemoryVoucherRepositoryTest {
         @DisplayName("존재하지않는 UUID라면_빈 Optional이 반환된다.")
         @Test
         public void NonexistentUUID_ReturnsEmptyOptional() {
-            // given
+            // Given
             UUID uuid = UUID.randomUUID();
 
-            // when
+            // When
             Optional<Voucher> foundVoucher = repository.findById(uuid);
 
-            // then
+            // Then
             assertThat(foundVoucher).isEmpty();
         }
     }
@@ -102,7 +101,7 @@ public class LocalMemoryVoucherRepositoryTest {
         @DisplayName("모든 바우처를 가져온다.")
         @Test
         public void ReturnsAllVouchers() {
-            // given
+            // Given
             UUID uuid2 = UUID.randomUUID();
             PercentageDiscountValue discountValue2 = new PercentageDiscountValue(30);
             Voucher voucher2 = new PercentageVoucher(uuid2, discountValue2);
@@ -110,10 +109,10 @@ public class LocalMemoryVoucherRepositoryTest {
             repository.save(voucher);
             repository.save(voucher2);
 
-            // when
+            // When
             List<Voucher> allVouchers = repository.findAll();
 
-            // then
+            // Then
             assertThat(allVouchers.size()).isEqualTo(2);
             assertThat(allVouchers).containsExactlyInAnyOrder(voucher, voucher2);
         }
@@ -126,23 +125,23 @@ public class LocalMemoryVoucherRepositoryTest {
         @DisplayName("UUID가 존재한다면_UUID에 해당하는 바우처를 제거한다.")
         @Test
         public void ExistingUUID_RemovesVoucher() {
-            // given
+            // Given
             repository.save(voucher);
 
-            // when
+            // When
             repository.deleteById(voucher.getUuid());
 
-            // then
+            // Then
             assertThat(repository.findById(voucher.getUuid())).isEmpty();
         }
 
         @DisplayName("UUID가 존재하지 않는다면_아무 일도 일어나지 않는다.")
         @Test
         public void NonExistingUUID_ThrowsException() {
-            // given
+            // Given
             UUID nonExistingUUID = UUID.randomUUID();
 
-            // when & then
+            // When & Then
             repository.deleteById(nonExistingUUID);
         }
     }

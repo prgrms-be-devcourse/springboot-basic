@@ -10,22 +10,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("Price 테스트")
 public class PriceTest {
 
-    @DisplayName("생성할 때 양수이면 생성된다.")
+    @DisplayName("생성할 때_양수이면_생성된다.")
     @ParameterizedTest
     @ValueSource(doubles = {0.0, 100.0, 200.0, 300.0, 1000000.0})
     public void Constructor_PositiveValue_CreatesPriceObject(double value) {
-        // given & when
+        // Given & When
         Price price = new Price(value);
 
-        // then
+        // Then
         assertThat(price.getValue()).isEqualTo(value);
     }
 
-    @DisplayName("생성할 때 음수이면 생성된다.")
+    @DisplayName("생성할 때_음수이면_예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(doubles = {-100.0, -200.0, -300.0})
     public void Constructor_NegativeValue_ThrowsIllegalArgumentException() {
-        // given & when & then
+        // Given & When & Then
         Assertions.assertThatThrownBy(() -> new Price(-100))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("가격은 양수여야 합니다.");

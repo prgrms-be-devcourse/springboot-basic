@@ -34,17 +34,17 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("VoucherDto가 주어지고_createVoucher하면_바우처를 생성한다.")
     public void GivenVoucherDto_WhenCreateVoucher_ThenReturnExpectedVoucher() {
-        // given
+        // Given
         VoucherDto dto = mock(VoucherDto.class);
         Voucher expectedVoucher = mock(Voucher.class);
 
         given(factory.create(dto)).willReturn(expectedVoucher);
         given(repository.save(expectedVoucher)).willReturn(expectedVoucher);
 
-        // when
+        // When
         Voucher actualVoucher = voucherService.createVoucher(dto);
 
-        // then
+        // Then
         then(factory).should(times(1)).create(dto);
         then(repository).should(times(1)).save(expectedVoucher);
         assertEquals(expectedVoucher, actualVoucher);
@@ -53,14 +53,14 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("Voucher들을 저장한 뒤_getVoucherList하면_바우처들을 반환한다.")
     public void GivenSavedVouchers_WhenGetVoucherList_ThenReturnsExpectedVouchers() {
-        // given
+        // Given
         List<Voucher> expectedVouchers = Arrays.asList(mock(Voucher.class), mock(Voucher.class));
         given(repository.findAll()).willReturn(expectedVouchers);
 
-        // when
+        // When
         List<Voucher> actualVouchers = voucherService.getVoucherList();
 
-        // then
+        // Then
         then(repository).should(times(1)).findAll();
         assertEquals(expectedVouchers, actualVouchers);
     }
