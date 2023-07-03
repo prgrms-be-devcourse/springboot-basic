@@ -44,7 +44,7 @@ public enum Command {
                     }
 
                     private void validateAmount(String amount) {
-                        if (Patterns.NUMBER_PATTERN.matcher(amount).matches()) {
+                        if (!Patterns.NUMBER_PATTERN.matcher(amount).matches()) {
                             String errorMessage = String.format("숫자를 입력해 주세요. 입력값: %s", amount);
                             throw new IllegalArgumentException(errorMessage);
                         }
