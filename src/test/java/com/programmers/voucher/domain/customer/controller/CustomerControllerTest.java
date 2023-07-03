@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain.customer.controller;
 
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
+import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.customer.service.CustomerService;
 import com.programmers.voucher.global.io.Console;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +44,21 @@ class CustomerControllerTest {
         customerController.createCustomer();
 
         //then
+        then(console).should().print(anyString());
+    }
+
+    @Test
+    @DisplayName("성공: Customer 업데이트 요청")
+    void updateCustomer() {
+        //given
+        CustomerUpdateRequest request = new CustomerUpdateRequest(UUID.randomUUID(), "updatedName");
+        given(console.inputCustomerUpdateInfo()).willReturn(request);
+
+        //when
+        customerController.updateCustomer();
+
+        //then
+        then(customerService).should().updateCustomer(any(), any());
         then(console).should().print(anyString());
     }
 

@@ -1,6 +1,7 @@
 package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
+import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
@@ -113,6 +114,11 @@ public class TextIoInput implements ConsoleInput {
 
     @Override
     public CustomerCreateRequest inputCustomerCreateInfo() {
+        return null;
+    }
+
+    @Override
+    public CustomerUpdateRequest inputCustomerUpdateInfo() {
         return null;
     }
 }

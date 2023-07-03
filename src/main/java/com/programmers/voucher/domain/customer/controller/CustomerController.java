@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.customer.controller;
 
 import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
+import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.customer.service.CustomerService;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.util.ConsoleMessages;
@@ -33,5 +34,13 @@ public class CustomerController {
 
         String consoleMessage = String.format(ConsoleMessages.CREATED_NEW_CUSTOMER, customerId);
         console.print(consoleMessage);
+    }
+
+    public void updateCustomer() {
+        CustomerUpdateRequest request = console.inputCustomerUpdateInfo();
+
+        customerService.updateCustomer(request.getCustomerId(), request.getName());
+
+        console.print(ConsoleMessages.UPDATED_CUSTOMER);
     }
 }
