@@ -21,11 +21,11 @@ class MemoryVoucherRepositoryTest {
 
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
-    @DisplayName("바우처 저장 성공 테스트")
+    @DisplayName("옳바른 바우처 타입과 할인양 입력 시, save()를 실행하면 테스트가 성공한다.")
     @ParameterizedTest
     @CsvSource(value = {"fixed, 100", "percent, 10"})
     void save(String voucherType, long discountAmount) {
-        //give
+        //given
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
         Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
 
@@ -37,20 +37,20 @@ class MemoryVoucherRepositoryTest {
         Assertions.assertThat(voucher).isEqualTo(savedVoucher);
     }
 
-    @DisplayName("바우처 목록 조회 성공 테스트")
+    @DisplayName("바우처 생성 및 저장 시, finalAll() 실행하면 바우처가 조회된다.")
     @Test
     void findAll() {
         final int expectedCount = 2;
-        // Given
+        //given
         VoucherCreationRequest voucherCreationRequest1 = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
         VoucherCreationRequest voucherCreationRequest2 = RequestFactory.createVoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
         ArrayList<VoucherCreationRequest> voucherCreationRequests = new ArrayList<>(List.of(voucherCreationRequest1, voucherCreationRequest2));
         createAndSaveVoucher(voucherCreationRequests);
 
-        // When
+        //when
         List<Voucher> voucherList = voucherRepository.findAll();
 
-        // Then
+        //then
         Assertions.assertThat(voucherList).hasSize(expectedCount);
     }
 

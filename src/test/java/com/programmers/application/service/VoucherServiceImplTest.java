@@ -27,13 +27,13 @@ class VoucherServiceImplTest {
     private VoucherRepository voucherRepository = new MemoryVoucherRepository();
     private VoucherService voucherService = new VoucherServiceImpl(voucherRepository);
 
-    @DisplayName("다양한 바우처 생성 성공 테스트")
+    @DisplayName("옳바른 바우처 타입과 할인양 입력 시, createVoucher()를 실행하면 테스트가 성공한다.")
     @ParameterizedTest
     @CsvSource(value = {
             "FIXED, 100",
             "PERCENT, 10"})
     void createVoucher(String voucherType, long discountAmount) {
-        //give
+        //given
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
 
         //when
@@ -44,42 +44,51 @@ class VoucherServiceImplTest {
 
     }
 
-    @DisplayName("잘못된 바우처 타입 입력시 예외 발생 테스트")
+    @DisplayName("잘못된 바우처 타입 입력 시, createVoucher()를 실행하면 예외가 발생한다.")
     @ParameterizedTest
     @CsvSource(value = {
             "wrongType, 100",
             "weirdType, 10"})
     void inputIncorrectVoucherType(String voucherType, long discountAmount) {
+        //given
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
+
+        //when, then
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("바우처 타입을 입력하지 않을시 예외 발생 테스트")
+    @DisplayName("바우처 타입을 입력하지 않을 시, createVoucherCreationRequest()를 실행하면 예외가 발생한다.")
     @ParameterizedTest
     @NullAndEmptySource
     void inputNullVoucherType(String voucherType) {
+        //nothing given
+
+        //when, then
         Assertions.assertThatThrownBy(() -> RequestFactory.createVoucherCreationRequest(voucherType, PERCENT_DISCOUNT_AMOUNT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
 
-    @DisplayName("바우처 할인양이 0일 경우 예외 발생 테스트")
+    @DisplayName("바우처 할인양이 0일 경우 createVoucherCreationRequest()를 실행하면 예외가 발생한다.")
     @ParameterizedTest
     @EnumSource(VoucherType.class)
     void input0VoucherDiscountAmount(VoucherType voucherType) {
+        //given
         final long discountAmount = 0;
-        String requestVoucherType = voucherType.name();
+        String requestVoucherType = voucherType.name().toLowerCase();
+
+        //when, then
         Assertions.assertThatThrownBy(() -> RequestFactory.createVoucherCreationRequest(requestVoucherType , discountAmount))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
 
-    @DisplayName("바우처 목록 조회 성공 테스트")
+    @DisplayName("바우처 생성 및 저장 시, findVoucherList() 실행하면 바우처가 조회된다.")
     @Test
     void findVoucherList() {
         final int expectedCount = 2;
-        //give
+        //given
         VoucherCreationRequest voucherCreationRequest1 = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
         VoucherCreationRequest voucherCreationRequest2 = RequestFactory.createVoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
         ArrayList<VoucherCreationRequest> voucherCreationRequests = new ArrayList<>(List.of(voucherCreationRequest1, voucherCreationRequest2));
