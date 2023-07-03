@@ -1,4 +1,4 @@
-package com.programmers.springbasic.domain.voucher.model;
+package com.programmers.springbasic.domain.voucher.view;
 
 import lombok.Getter;
 

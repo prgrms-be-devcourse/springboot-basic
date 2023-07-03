@@ -3,7 +3,7 @@ package com.programmers.springbasic.domain.voucher.view;
 import lombok.Getter;
 
 @Getter
-public enum VoucherCreateMessage {
+public enum VoucherCommandMessage {
     VOUCHER_OPTION_MESSAGE("input FIXED or PERCENT"),
     FIXED_AMOUNT_INPUT_MESSAGE("input fixed amount"),
     FIXED_AMOUNT_VOUCHER_CREATE_MESSAGE("Fixed Amount Voucher Created!!"),
@@ -12,7 +12,7 @@ public enum VoucherCreateMessage {
 
     String message;
 
-    VoucherCreateMessage(String message) {
+    VoucherCommandMessage(String message) {
         this.message = message;
     }
 }
