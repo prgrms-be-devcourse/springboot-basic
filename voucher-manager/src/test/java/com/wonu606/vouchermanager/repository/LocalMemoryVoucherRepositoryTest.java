@@ -1,109 +1,149 @@
 package com.wonu606.vouchermanager.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.wonu606.vouchermanager.domain.discountvalue.PercentageDiscountValue;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class LocalMemoryVoucherRepositoryTest {
+@DisplayName("LocalMemoryVoucherRepository 테스트")
+public class LocalMemoryVoucherRepositoryTest {
 
-    VoucherRepository voucherRepository;
+    private LocalMemoryVoucherRepository repository;
+    private Voucher voucher;
 
     @BeforeEach
-    void setup() {
-        voucherRepository = new LocalMemoryVoucherRepository();
-    }
+    public void setUp() {
+        repository = new LocalMemoryVoucherRepository();
 
-    @Test
-    void save시_저장되어야_한다() {
-        // given
-        UUID generatedUuid = UUID.randomUUID();
-        Voucher generatedVoucher = new PercentageVoucher(generatedUuid, 10.0d);
-
-        // when
-        voucherRepository.save(generatedVoucher);
-
-        // then
-        assertEquals(1, voucherRepository.findAll().size());
-        assertTrue(voucherRepository.findById(generatedUuid).isPresent());
-    }
-
-    @Test
-    void 저장한_객체는_uuid_그대로_저장된다() {
-        // given
-        UUID generatedUuid = UUID.randomUUID();
-        Voucher generatedVoucher = new FixedAmountVoucher(generatedUuid, 5000);
-
-        // when
-        voucherRepository.save(generatedVoucher);
-
-        Optional<Voucher> savedVoucher = voucherRepository.findById(generatedUuid);
-
-        // then
-        assertTrue(savedVoucher.isPresent());
-        assertEquals(generatedVoucher.getUuid(), savedVoucher.get().getUuid());
-    }
-
-    @Test
-    void 여러_바우처_저장시_모두_저장되어야_한다() {
-        // given
-        Voucher voucher1 = new PercentageVoucher(UUID.randomUUID(), 10.0d);
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 5000);
-
-        // when
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
-
-        // then
-        assertEquals(2, voucherRepository.findAll().size());
-    }
-
-    @Test
-    void 존재하는_uuid를_삭제할_경우_삭제되어야_한다() {
         // given
         UUID uuid = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(uuid, 5000);
-
-        // when
-        voucherRepository.save(voucher);
-        voucherRepository.deleteById(uuid);
-
-        // then
-        assertEquals(Optional.empty(), voucherRepository.findById(uuid));
+        PercentageDiscountValue discountValue = new PercentageDiscountValue(20);
+        voucher = new PercentageVoucher(uuid, discountValue);
     }
 
-    @Test
-    void 존재하지_않는_uuid_삭제시_저장소의_변화가_없어야_한다() {
-        // given
-        Voucher generatedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 5000);
-
-        // when
-        int sizeBeforeDeletion = voucherRepository.findAll().size();
-        voucherRepository.deleteById(UUID.randomUUID());
-        int sizeAfterDeletion = voucherRepository.findAll().size();
-
-        // then
-        assertEquals(sizeBeforeDeletion, sizeAfterDeletion);
+    @AfterEach
+    public void tearDown() {
+        repository.deleteAll();
     }
 
-    @Test
-    void deleteAll시_저장소가_비어져야_한다() {
-        // given
-        Voucher voucher1 = new PercentageVoucher(UUID.randomUUID(), 10.0d);
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 5000);
+    @DisplayName("Save 메소드")
+    @Nested
+    public class SaveMethod {
 
-        // when
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
-        voucherRepository.deleteAll();
+        @DisplayName("유효한 바우처이면_저장된바우처가 반환된다.")
+        @Test
+        public void ValidVoucher_ReturnsSavedVoucher() {
+            // when
+            Voucher savedVoucher = repository.save(voucher);
 
-        // then
-        assertEquals(0, voucherRepository.findAll().size());
+            // then
+            assertThat(savedVoucher).isEqualTo(voucher);
+        }
+
+        @DisplayName("중복된 UUID 바우처라면_예외가발생한다.")
+        @Test
+        public void DuplicateUUIDVoucher_ThrowsException() {
+            // given
+            repository.save(voucher);
+
+            // then
+            assertThatThrownBy(() -> repository.save(voucher))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("이미 존재하는 바우처의 uuid입니다. [uuid]: " + voucher.getUuid());
+        }
+    }
+
+    @DisplayName("findById 메소드")
+    @Nested
+    public class FindByIdMethod {
+
+        @DisplayName("유효한 UUID이면_바우처가 반환된다.")
+        @Test
+        public void ValidUUID_ReturnsVoucher() {
+            // given
+            repository.save(voucher);
+
+            // when
+            Optional<Voucher> foundVoucher = repository.findById(voucher.getUuid());
+
+            // then
+            assertThat(foundVoucher).isPresent();
+            assertThat(foundVoucher.get()).isEqualTo(voucher);
+        }
+
+        @DisplayName("존재하지않는 UUID라면_빈 Optional이 반환된다.")
+        @Test
+        public void NonexistentUUID_ReturnsEmptyOptional() {
+            // given
+            UUID uuid = UUID.randomUUID();
+
+            // when
+            Optional<Voucher> foundVoucher = repository.findById(uuid);
+
+            // then
+            assertThat(foundVoucher).isEmpty();
+        }
+    }
+
+    @DisplayName("findAll 메소드")
+    @Nested
+    public class FindAllMethod {
+
+        @DisplayName("모든 바우처를 가져온다.")
+        @Test
+        public void ReturnsAllVouchers() {
+            // given
+            UUID uuid2 = UUID.randomUUID();
+            PercentageDiscountValue discountValue2 = new PercentageDiscountValue(30);
+            Voucher voucher2 = new PercentageVoucher(uuid2, discountValue2);
+
+            repository.save(voucher);
+            repository.save(voucher2);
+
+            // when
+            List<Voucher> allVouchers = repository.findAll();
+
+            // then
+            assertThat(allVouchers.size()).isEqualTo(2);
+            assertThat(allVouchers).containsExactlyInAnyOrder(voucher, voucher2);
+        }
+    }
+
+    @DisplayName("deleteById 메소드")
+    @Nested
+    public class DeleteByIdMethod {
+
+        @DisplayName("UUID가 존재한다면_UUID에 해당하는 바우처를 제거한다.")
+        @Test
+        public void ExistingUUID_RemovesVoucher() {
+            // given
+            repository.save(voucher);
+
+            // when
+            repository.deleteById(voucher.getUuid());
+
+            // then
+            assertThat(repository.findById(voucher.getUuid())).isEmpty();
+        }
+
+        @DisplayName("UUID가 존재하지 않는다면_아무 일도 일어나지 않는다.")
+        @Test
+        public void NonExistingUUID_ThrowsException() {
+            // given
+            UUID nonExistingUUID = UUID.randomUUID();
+
+            // when & then
+            repository.deleteById(nonExistingUUID);
+        }
     }
 }
