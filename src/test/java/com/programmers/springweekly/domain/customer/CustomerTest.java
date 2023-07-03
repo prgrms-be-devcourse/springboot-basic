@@ -1,11 +1,10 @@
 package com.programmers.springweekly.domain.customer;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 
 public class CustomerTest {
@@ -14,8 +13,8 @@ public class CustomerTest {
     @DisplayName("고객을 생성한다.")
     void createCustomer() {
         // given && when
-        Customer customer = new Customer(UUID.randomUUID(), CustomerType.BLACKLIST);
-        
+        Customer customer = new Customer(UUID.randomUUID(), "changhyeonh", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+
         // then
         assertThat(customer).isInstanceOf(Customer.class);
     }

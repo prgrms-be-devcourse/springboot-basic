@@ -2,8 +2,7 @@ package com.programmers.springweekly.controller;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.service.CustomerService;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -13,7 +12,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    public Map<UUID, Customer> getBlackList() {
+    public List<Customer> getBlackList() {
         return customerService.getBlackList();
     }
 }

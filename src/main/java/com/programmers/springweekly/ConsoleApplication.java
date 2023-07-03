@@ -7,14 +7,14 @@ import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.view.Console;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -43,8 +43,7 @@ public class ConsoleApplication implements CommandLineRunner {
                         running = false;
                     }
                     case BLACKLIST -> getBlackList();
-                    default ->
-                            throw new IllegalArgumentException("Input :" + selectMenu + "The type you are looking for is not found.");
+                    default -> throw new IllegalArgumentException("Input :" + selectMenu + "The type you are looking for is not found.");
                 }
 
             } catch (IllegalArgumentException e) {
@@ -78,13 +77,13 @@ public class ConsoleApplication implements CommandLineRunner {
     }
 
     private void getBlackList() {
-        Map<UUID, Customer> customerMap = customerController.getBlackList();
+        List<Customer> customerBlacklist = customerController.getBlackList();
 
-        if (customerMap.isEmpty()) {
+        if (customerBlacklist.isEmpty()) {
             console.outputErrorMessage("There are no saved blacklists.");
             return;
         }
 
-        console.outputGetCustomerBlackList(customerMap);
+        console.outputGetCustomerBlackList(customerBlacklist);
     }
 }

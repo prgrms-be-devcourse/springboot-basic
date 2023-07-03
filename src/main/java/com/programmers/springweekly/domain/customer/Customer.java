@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 public class Customer {
 
     private final UUID customerId;
+    private final String customerName;
+    private final String customerEmail;
     private final CustomerType customerType;
-    
+
 }

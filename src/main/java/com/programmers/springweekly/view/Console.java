@@ -2,6 +2,7 @@ package com.programmers.springweekly.view;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.voucher.Voucher;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
@@ -62,11 +63,13 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void outputGetCustomerBlackList(Map<UUID, Customer> customerMap) {
-        for (Map.Entry<UUID, Customer> customerEntry : customerMap.entrySet()) {
+    public void outputGetCustomerBlackList(List<Customer> customerList) {
+        for (Customer customer : customerList) {
             System.out.println("=========================================================");
-            System.out.println("customerId : " + customerEntry.getValue().getCustomerId());
-            System.out.println("customerType : " + customerEntry.getValue().getCustomerType());
+            System.out.println("customerId : " + customer.getCustomerId());
+            System.out.println("customerName : " + customer.getCustomerName());
+            System.out.println("customerEmail : " + customer.getCustomerEmail());
+            System.out.println("customerType : " + customer.getCustomerType());
             System.out.println("=========================================================\n");
         }
     }
