@@ -1,7 +1,7 @@
 package com.programmers.springbasic.domain.voucher.repository;
 
 import com.programmers.springbasic.domain.voucher.entity.Voucher;
-import com.programmers.springbasic.domain.voucher.model.VoucherOption;
+import com.programmers.springbasic.domain.voucher.view.VoucherOption;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +16,11 @@ public class VoucherMemoryRepository implements VoucherRepository {
     @Override
     public void save(Voucher voucher) {
         vouchers.put(voucher.getCode(), voucher);
+    }
+
+    @Override
+    public Optional<Voucher> findByCode(UUID voucherCode) {
+        return Optional.empty();
     }
 
     @Override
@@ -46,5 +51,25 @@ public class VoucherMemoryRepository implements VoucherRepository {
                 return Collections.emptyList();
             }
         }
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomerId(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+
+    }
+
+    @Override
+    public void delete(UUID voucherCode) {
+
+    }
+
+    @Override
+    public List<UUID> findAllCustomerIdByVoucherType(String voucherType) {
+        return null;
     }
 }
