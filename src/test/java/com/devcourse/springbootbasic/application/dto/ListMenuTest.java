@@ -13,7 +13,7 @@ class ListMenuTest {
     @ParameterizedTest
     @DisplayName("올바른 출력 메뉴 선택하면 성공")
     @ValueSource(strings = {"1", "2"})
-    void 출력메뉴테스트(String input) {
+    void testListMenu(String input) {
         var result = ListMenu.getListMenu(input);
         assertDoesNotThrow(() -> result);
     }
@@ -21,7 +21,7 @@ class ListMenuTest {
     @ParameterizedTest
     @DisplayName("부적절한 출력 메뉴 선택하면 실패")
     @ValueSource(strings = {"0", "3", "12", "-1"})
-    void 출력메뉴예외테스트(String input) {
+    void testListMenuException(String input) {
         assertThrows(InvalidDataException.class, () -> ListMenu.getListMenu(input));
     }
 }

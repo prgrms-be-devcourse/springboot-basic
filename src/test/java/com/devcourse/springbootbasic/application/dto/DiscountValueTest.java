@@ -31,14 +31,14 @@ class DiscountValueTest {
     @ParameterizedTest
     @DisplayName("할인값이 음수면 실패")
     @MethodSource("provideNegetiveDiscountValues")
-    void 할인값음수예외테스트(VoucherType voucherType, String input) {
+    void testNegitiveDiscountValue(VoucherType voucherType, String input) {
         assertThrows(InvalidDataException.class, () -> new DiscountValue(voucherType, input));
     }
 
     @ParameterizedTest
     @DisplayName("할인율이 100% 넘으면 실패")
     @MethodSource("provideUpper100DiscountValues")
-    void 할인률100이상예외테스트(VoucherType voucherType, String input) {
+    void testGreaterThan100Percent(VoucherType voucherType, String input) {
         assertThrows(InvalidDataException.class, () -> new DiscountValue(voucherType, input));
     }
 

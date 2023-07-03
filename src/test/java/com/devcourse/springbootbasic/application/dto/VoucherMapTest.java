@@ -1,11 +1,6 @@
 package com.devcourse.springbootbasic.application.dto;
 
-import com.devcourse.springbootbasic.application.domain.voucher.FixedAmountVoucher;
-import com.devcourse.springbootbasic.application.domain.voucher.PercentDiscountVoucher;
 import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
-import com.devcourse.springbootbasic.application.dto.DiscountValue;
-import com.devcourse.springbootbasic.application.dto.VoucherMap;
-import com.devcourse.springbootbasic.application.dto.VoucherType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,38 +21,11 @@ class VoucherMapTest {
 
     VoucherMap voucherMap;
 
-    @BeforeEach
-    void init() {
-        voucherMap = new VoucherMap(new HashMap<>());
-    }
-
-    @ParameterizedTest
-    @DisplayName("정상적인 값(UUID, Voucher) 넣으면 성공")
-    @MethodSource("provideValids")
-    void 정상요소추가테스트(Voucher voucher) {
-        voucherMap.addVoucher(voucher);
-        assertThat(voucherMap.getAllVouchers(), not(empty()));
-    }
-
-    @ParameterizedTest
-    @DisplayName("비정상적인 값 넣으면 실리")
-    @MethodSource("provideInvalids")
-    void 비정상요소추가테스트(Object input) {
-        assertThrows(Exception.class, () -> voucherMap.addVoucher((Voucher) input));
-    }
-
-    @Test
-    @DisplayName("리스트 형태로 반환")
-    void 리스트형태반환테스트() {
-        var list = voucherMap.getAllVouchers();
-        assertThat(list, notNullValue());
-    }
-
     static Stream<Arguments> provideValids() {
         return Stream.of(
-                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"))),
-                Arguments.of(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"))),
-                Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14")))
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"))),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"))),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14")))
         );
     }
 
@@ -67,6 +35,33 @@ class VoucherMapTest {
                 Arguments.of(123),
                 Arguments.of(List.of(12, 3))
         );
+    }
+
+    @BeforeEach
+    void init() {
+        voucherMap = new VoucherMap(new HashMap<>());
+    }
+
+    @ParameterizedTest
+    @DisplayName("정상적인 값(UUID, Voucher) 넣으면 성공")
+    @MethodSource("provideValids")
+    void testAdd(Voucher voucher) {
+        voucherMap.addVoucher(voucher);
+        assertThat(voucherMap.getAllVouchers(), not(empty()));
+    }
+
+    @ParameterizedTest
+    @DisplayName("비정상적인 값 넣으면 실리")
+    @MethodSource("provideInvalids")
+    void testAddException(Object input) {
+        assertThrows(Exception.class, () -> voucherMap.addVoucher((Voucher) input));
+    }
+
+    @Test
+    @DisplayName("리스트 형태로 반환")
+    void testGetAll() {
+        var list = voucherMap.getAllVouchers();
+        assertThat(list, notNullValue());
     }
 
 }

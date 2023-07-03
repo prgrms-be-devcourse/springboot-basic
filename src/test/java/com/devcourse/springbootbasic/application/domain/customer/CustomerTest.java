@@ -8,18 +8,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.text.MessageFormat;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CustomerTest {
-
-    @ParameterizedTest
-    @DisplayName("도메인 출력 테스트")
-    @MethodSource("provideCustomers")
-    void toStringTest(int index, String name, Customer customer) {
-        var expected = MessageFormat.format("Customer(id: {0}, name : {1})", index, name);
-        var result = customer.toString();
-        assertEquals(expected, result);
-    }
 
     static Stream<Arguments> provideCustomers() {
         return Stream.of(
@@ -28,6 +19,15 @@ class CustomerTest {
                 Arguments.of(2, "포도", new Customer(2, "포도")),
                 Arguments.of(3, "배", new Customer(3, "배"))
         );
+    }
+
+    @ParameterizedTest
+    @DisplayName("도메인 출력 테스트")
+    @MethodSource("provideCustomers")
+    void toStringTest(int index, String name, Customer customer) {
+        var expected = MessageFormat.format("Customer(id: {0}, name : {1})", index, name);
+        var result = customer.toString();
+        assertEquals(expected, result);
     }
 
 }
