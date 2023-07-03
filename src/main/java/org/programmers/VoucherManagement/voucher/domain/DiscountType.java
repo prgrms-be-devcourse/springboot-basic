@@ -20,7 +20,6 @@ public enum DiscountType {
     private final String type;
     private final String symbol;
 
-    private static final Logger logger = LoggerFactory.getLogger(DiscountType.class);
     private static final Map<String, DiscountType> DISCOUNT_TYPE_MAP = Collections
             .unmodifiableMap(Arrays.stream(values()).collect(Collectors.toMap(DiscountType::getType, Function.identity())));
 

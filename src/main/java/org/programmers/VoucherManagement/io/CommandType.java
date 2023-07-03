@@ -18,7 +18,6 @@ public enum CommandType {
     LIST("list"),
     BLACKLIST("blacklist");
 
-    private final Logger logger = LoggerFactory.getLogger(CommandType.class);
     private static final Map<String, CommandType> COMMAND_TYPE_MAP =
             Collections.unmodifiableMap(Arrays
                     .stream(values())
