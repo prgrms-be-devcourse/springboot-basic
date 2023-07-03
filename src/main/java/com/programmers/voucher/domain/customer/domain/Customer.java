@@ -8,6 +8,7 @@ public class Customer {
     private final UUID customerId;
     private final String email;
     private String name;
+    private boolean banned = false;
 
     public Customer(UUID customerId, String email, String name) {
         this.customerId = customerId;
@@ -16,11 +17,19 @@ public class Customer {
     }
 
     public CustomerDto toDto() {
-        return new CustomerDto(customerId, email, name);
+        return new CustomerDto(customerId, email, name, banned);
     }
 
     public void changeName(String name) {
         this.name = name;
+    }
+
+    public void ban() {
+        this.banned = true;
+    }
+
+    public void unban() {
+        this.banned = false;
     }
 
     public String fullInfoString() {

@@ -9,5 +9,6 @@ drop table if exists customer;
 create table customer (
     customer_id uuid primary key,
     email varchar(50) not null,
-    name varchar(20) not null
+    name varchar(20) not null,
+    banned boolean not null
 )

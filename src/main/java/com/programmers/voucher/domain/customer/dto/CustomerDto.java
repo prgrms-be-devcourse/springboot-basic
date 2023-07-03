@@ -6,11 +6,13 @@ public class CustomerDto {
     private final UUID customerId;
     private final String email;
     private final String name;
+    private final boolean banned;
 
-    public CustomerDto(UUID customerId, String email, String name) {
+    public CustomerDto(UUID customerId, String email, String name, boolean banned) {
         this.customerId = customerId;
         this.email = email;
         this.name = name;
+        this.banned = banned;
     }
 
     public UUID getCustomerId() {
@@ -23,5 +25,9 @@ public class CustomerDto {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isBanned() {
+        return banned;
     }
 }

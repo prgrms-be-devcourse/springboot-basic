@@ -34,11 +34,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public void save(Customer customer) {
         CustomerDto customerDto = customer.toDto();
 
-        String sql = "insert into customer(customer_id, email, name) values(:customerId, :email, :name)";
+        String sql = "insert into customer(customer_id, email, name, banned)" +
+                " values(:customerId, :email, :name, :banned)";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerDto.getCustomerId())
                 .addValue("email", customerDto.getEmail())
-                .addValue("name", customerDto.getName());
+                .addValue("name", customerDto.getName())
+                .addValue("banned", customerDto.isBanned());
 
         int saved = template.update(sql, param);
         if (saved != 1) {
@@ -87,10 +89,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public void update(Customer customer) {
         CustomerDto customerDto = customer.toDto();
 
-        String sql = "update customer set name = :name where customer_id = :customerId";
+        String sql = "update customer set name = :name, banned = :banned where customer_id = :customerId";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("name", customerDto.getName())
-                .addValue("customerId", customerDto.getCustomerId());
+                .addValue("customerId", customerDto.getCustomerId())
+                .addValue("banned", customerDto.isBanned());
 
         int updated = template.update(sql, param);
         if (updated != 1) {
