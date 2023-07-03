@@ -18,4 +18,8 @@ public abstract class DiscountPolicy {
     public abstract int discount(int targetAmount);
 
     protected abstract boolean invalid(int providedAmount);
+
+    public int getAmount() {
+        return providedAmount;
+    }
 }

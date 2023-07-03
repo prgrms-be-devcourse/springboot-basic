@@ -20,7 +20,16 @@ public class Voucher {
         }
     }
 
+    public long getId() {
+        return id;
+    }
+
     public int retrieveBalance(int receivedAmount) {
         return policy.discount(receivedAmount);
     }
+
+    public Voucher newInstanceWithId(long id) {
+        return new Voucher(id, this.type, this.policy.getAmount());
+    }
+
 }
