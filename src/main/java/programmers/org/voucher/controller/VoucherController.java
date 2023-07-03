@@ -12,9 +12,6 @@ import programmers.org.voucher.io.VoucherConsole;
 import programmers.org.voucher.service.VoucherService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-
-import static programmers.org.voucher.exception.ErrorMessage.*;
 
 @Component
 public class VoucherController implements CommandLineRunner {
@@ -37,8 +34,7 @@ public class VoucherController implements CommandLineRunner {
             voucherConsole.printManual();
             String inputCommand = voucherConsole.inputCommand();
 
-            Command command = Command.find(inputCommand)
-                    .orElseThrow(() -> new NoSuchElementException(COMMAND_ERROR_MESSAGE.getMessage()));
+            Command command = Command.find(inputCommand);
 
             switch (command) {
                 case CREATE:
@@ -56,8 +52,7 @@ public class VoucherController implements CommandLineRunner {
     private void createVoucher() {
         String voucherType = voucherConsole.inputVoucherType();
 
-        VoucherType findVoucherType = VoucherType.find(voucherType)
-                .orElseThrow(() -> new NoSuchElementException(VOUCHER_ERROR_MESSAGE.getMessage()));
+        VoucherType findVoucherType = VoucherType.find(voucherType);
 
         int voucherInfo = voucherConsole.inputVoucherInfo();
         voucherService.create(voucherInfo, findVoucherType);
