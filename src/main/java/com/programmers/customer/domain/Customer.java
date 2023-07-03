@@ -3,6 +3,7 @@ package com.programmers.customer.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+//4차 PR
 public class Customer {
 
     private static final String CUSTOMER_NULL_MESSAGE = "[ERROR] 유효하지 않은 Customer Id 입니다. (null)";
