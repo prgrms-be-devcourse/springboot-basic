@@ -1,9 +1,9 @@
 package kr.co.programmers.springbootbasic.io;
 
-import kr.co.programmers.springbootbasic.dto.CustomerResponseDto;
-import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.customer.dto.response.CustomerResponseDto;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
-import kr.co.programmers.springbootbasic.voucher.VoucherType;
+import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
+import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

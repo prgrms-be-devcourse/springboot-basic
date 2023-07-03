@@ -1,6 +1,6 @@
 package kr.co.programmers.springbootbasic.io;
 
-import kr.co.programmers.springbootbasic.exception.NoValidCommandException;
+import kr.co.programmers.springbootbasic.voucher.exception.NoValidCommandException;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,10 +2,12 @@ package kr.co.programmers.springbootbasic.util;
 
 import kr.co.programmers.springbootbasic.customer.Customer;
 import kr.co.programmers.springbootbasic.customer.CustomerStatus;
-import kr.co.programmers.springbootbasic.dto.CustomerResponseDto;
-import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
-import kr.co.programmers.springbootbasic.voucher.Voucher;
-import kr.co.programmers.springbootbasic.voucher.VoucherType;
+import kr.co.programmers.springbootbasic.customer.domain.Customer;
+import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
+import kr.co.programmers.springbootbasic.customer.dto.response.CustomerResponseDto;
+import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
+import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

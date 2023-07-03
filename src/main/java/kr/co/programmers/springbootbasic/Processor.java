@@ -1,14 +1,14 @@
 package kr.co.programmers.springbootbasic;
 
-import kr.co.programmers.springbootbasic.dto.CustomerResponseDto;
-import kr.co.programmers.springbootbasic.dto.VoucherRequestDto;
-import kr.co.programmers.springbootbasic.dto.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.customer.dto.response.CustomerResponseDto;
+import kr.co.programmers.springbootbasic.customer.service.CustomerService;
 import kr.co.programmers.springbootbasic.io.Input;
 import kr.co.programmers.springbootbasic.io.MenuCommand;
 import kr.co.programmers.springbootbasic.io.Output;
-import kr.co.programmers.springbootbasic.customer.CustomerService;
-import kr.co.programmers.springbootbasic.voucher.VoucherService;
-import kr.co.programmers.springbootbasic.voucher.VoucherType;
+import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
+import kr.co.programmers.springbootbasic.voucher.dto.request.VoucherRequestDto;
+import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
