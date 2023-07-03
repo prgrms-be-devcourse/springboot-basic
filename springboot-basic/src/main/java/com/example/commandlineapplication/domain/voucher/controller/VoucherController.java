@@ -1,5 +1,6 @@
 package com.example.commandlineapplication.domain.voucher.controller;
 
+import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import com.example.commandlineapplication.domain.voucher.service.VoucherService;
 import com.example.commandlineapplication.global.io.Command;
 import com.example.commandlineapplication.global.io.Console;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherController implements Runnable {
 
-  private static final Logger LOG = LoggerFactory.getLogger(VoucherController.class);
+  private final Logger LOG = LoggerFactory.getLogger(VoucherController.class);
   private final Console console;
   private final VoucherService voucherService;
 
@@ -27,10 +28,13 @@ public class VoucherController implements Runnable {
 
         switch (command) {
           case CREATE:
-            voucherService.createVoucher();
+            VoucherType inputVoucherType = console.selectVoucherTypeOption();
+            Integer inputDiscount = console.selectDiscount();
+
+            voucherService.createVoucher(inputVoucherType, inputDiscount);
             continue;
           case LIST:
-            voucherService.history();
+            console.printHistory();
             continue;
           case EXIT:
             isRunning = false;

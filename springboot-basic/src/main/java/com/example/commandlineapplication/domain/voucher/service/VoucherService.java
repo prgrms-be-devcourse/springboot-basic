@@ -4,7 +4,6 @@ import com.example.commandlineapplication.domain.voucher.dto.VoucherCreateReques
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import com.example.commandlineapplication.domain.voucher.repository.MemoryVoucherRepository;
-import com.example.commandlineapplication.global.io.Console;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,14 +15,9 @@ public class VoucherService {
 
   private final static Logger LOG = LoggerFactory.getLogger(VoucherService.class);
   private final MemoryVoucherRepository memoryVoucherRepository;
-  private final Console console;
   private final VoucherFactory voucherFactory;
 
-  public void createVoucher() {
-    VoucherType inputVoucherType = console.selectVoucherTypeOption();
-
-    Integer inputDiscount = console.selectDiscount();
-
+  public void createVoucher(VoucherType inputVoucherType, Integer inputDiscount) {
     VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputVoucherType,
         inputDiscount);
 
@@ -35,9 +29,5 @@ public class VoucherService {
   public Voucher save(Voucher voucher) {
     LOG.info("Voucher가 저장되었습니다.");
     return memoryVoucherRepository.insert(voucher);
-  }
-
-  public void history() {
-    console.printHistory();
   }
 }
