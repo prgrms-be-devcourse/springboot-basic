@@ -1,6 +1,5 @@
 package com.prgms.VoucherApp.domain.customer.model;
 
-import com.prgms.VoucherApp.domain.customer.Customer;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
 import com.prgms.VoucherApp.domain.customer.storage.BlackListStorage;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ public class BlackListReader {
     public List<CustomerDto> readBlackLists() {
         return blackListStorage.findAll()
                 .stream()
-                .map(Customer::convertCustomerDto)
+                .map(CustomerDto::new)
                 .toList();
     }
 }

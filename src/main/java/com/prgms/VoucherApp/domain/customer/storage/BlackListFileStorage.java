@@ -34,8 +34,8 @@ public class BlackListFileStorage implements BlackListStorage {
             String line = "";
             while ((line = bufferedReader.readLine()) != null) {
                 CustomerDto customerDto = createBlackListDto(line);
-                Customer customer = Customer.createCustomer(customerDto);
-                blackListMap.put(customerDto.getCustomerId(), customer);
+                Customer customer = customerDto.createCustomer();
+                blackListMap.put(customer.getCustomerId(), customer);
             }
         } catch (IOException e) {
             log.error("init blackListMap() method Exception, message : {}", e.getMessage());
