@@ -34,10 +34,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public void save(Customer customer) {
         CustomerDto customerDto = customer.toDto();
 
-        String sql = "insert into customer(customer_id, name) values(:customerId, :name)";
+        String sql = "insert into customer(customer_id, email, name, banned)" +
+                " values(:customerId, :email, :name, :banned)";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerDto.getCustomerId())
-                .addValue("name", customerDto.getName());
+                .addValue("email", customerDto.getEmail())
+                .addValue("name", customerDto.getName())
+                .addValue("banned", customerDto.isBanned());
 
         int saved = template.update(sql, param);
         if (saved != 1) {
@@ -63,14 +66,47 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByEmail(String email) {
+        String sql = "select * from customer where email = :email";
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("email", email);
+
+        try {
+            Customer customer = template.queryForObject(sql, param, customerRowMapper());
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException ex) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public List<Customer> findAll() {
         String sql = "select * from customer";
         return template.query(sql, Map.of(), customerRowMapper());
     }
 
     @Override
-    public void update(Customer customer) {
+    public List<Customer> findAllByBanned() {
+        String sql = "select * from customer where banned = true";
+        return template.query(sql, customerRowMapper());
+    }
 
+    @Override
+    public void update(Customer customer) {
+        CustomerDto customerDto = customer.toDto();
+
+        String sql = "update customer set name = :name, banned = :banned where customer_id = :customerId";
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("name", customerDto.getName())
+                .addValue("customerId", customerDto.getCustomerId())
+                .addValue("banned", customerDto.isBanned());
+
+        int updated = template.update(sql, param);
+        if (updated != 1) {
+            DataAccessException exception = new IncorrectResultSizeDataAccessException(1, updated);
+            LOG.error(exception.getMessage(), exception);
+            throw exception;
+        }
     }
 
     @Override
@@ -95,9 +131,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private RowMapper<Customer> customerRowMapper() {
         return (rs, rowNum) -> {
             UUID customerId = UUID.fromString(rs.getString("customer_id"));
+            String email = rs.getString("email");
             String name = rs.getString("name");
+            boolean banned = rs.getBoolean("banned");
 
-            return new Customer(customerId, name);
+            Customer customer = new Customer(customerId, email, name);
+            customer.update(name, banned);
+
+            return customer;
         };
     }
 }

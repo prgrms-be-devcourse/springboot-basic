@@ -14,6 +14,10 @@ public final class ConsoleMessages {
     public static final String AMOUNT = "[amount]";
     public static final String PERCENT = "[percent]";
 
+    public static final String CREATED_NEW_CUSTOMER = "Created new Customer. CustomerId: {}";
+    public static final String UPDATED_CUSTOMER = "Updated customer info.";
+    public static final String DELETED_CUSTOMER = "Deleted customer.";
+
     public static final String EXIT_CONSOLE = "Bye Bye.";
 
     private ConsoleMessages() {

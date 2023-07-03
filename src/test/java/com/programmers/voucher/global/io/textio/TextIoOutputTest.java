@@ -17,7 +17,6 @@ import java.util.UUID;
 
 import static com.programmers.voucher.global.util.ConsoleMessages.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class TextIoOutputTest {
     private MockTextTerminal mockTextTerminal;
@@ -78,8 +77,8 @@ class TextIoOutputTest {
     @DisplayName("성공: 회원 목록 출력")
     void printCustomers() {
         //given
-        Customer customerA = new Customer(UUID.randomUUID(), "customerA");
-        Customer customerB = new Customer(UUID.randomUUID(), "customerB");
+        Customer customerA = new Customer(UUID.randomUUID(), "customerA@gmail.com", "customerA");
+        Customer customerB = new Customer(UUID.randomUUID(), "customerB@gmail.com", "customerB");
         List<Customer> givenCustomers = List.of(customerA, customerB);
 
         //when

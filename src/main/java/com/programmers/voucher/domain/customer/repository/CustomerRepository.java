@@ -11,7 +11,11 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
+    Optional<Customer> findByEmail(String email);
+
     List<Customer> findAll();
+
+    List<Customer> findAllByBanned();
 
     void update(Customer customer);
 
