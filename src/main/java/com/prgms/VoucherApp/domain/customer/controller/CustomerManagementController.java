@@ -8,12 +8,12 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class CustomerManagementApp {
+public class CustomerManagementController {
 
     private final BlackListReader blackListReader;
     private final Output output;
 
-    public CustomerManagementApp(BlackListReader blackListReader, Output output) {
+    public CustomerManagementController(BlackListReader blackListReader, Output output) {
         this.blackListReader = blackListReader;
         this.output = output;
     }

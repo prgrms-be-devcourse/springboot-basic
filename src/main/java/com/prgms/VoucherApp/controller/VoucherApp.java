@@ -1,7 +1,7 @@
 package com.prgms.VoucherApp.controller;
 
-import com.prgms.VoucherApp.domain.customer.controller.CustomerManagementApp;
-import com.prgms.VoucherApp.domain.voucher.controller.VoucherManagementApp;
+import com.prgms.VoucherApp.domain.customer.controller.CustomerManagementController;
+import com.prgms.VoucherApp.domain.voucher.controller.VoucherManagementController;
 import com.prgms.VoucherApp.view.Command;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.Output;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class VoucherApp implements Runnable {
 
-    private final VoucherManagementApp voucherManagementApp;
-    private final CustomerManagementApp customerManagementApp;
+    private final VoucherManagementController voucherManagementController;
+    private final CustomerManagementController customerManagementController;
     private final Output output;
     private final Input input;
 
-    public VoucherApp(VoucherManagementApp voucherManagementApp, CustomerManagementApp customerManagementApp, Input input, Output output) {
-        this.voucherManagementApp = voucherManagementApp;
-        this.customerManagementApp = customerManagementApp;
+    public VoucherApp(VoucherManagementController voucherManagementController, CustomerManagementController customerManagementController, Input input, Output output) {
+        this.voucherManagementController = voucherManagementController;
+        this.customerManagementController = customerManagementController;
         this.input = input;
         this.output = output;
     }
@@ -36,15 +36,15 @@ public class VoucherApp implements Runnable {
                 }
 
                 case CREATE -> {
-                    voucherManagementApp.createVoucher();
+                    voucherManagementController.createVoucher();
                 }
 
                 case LIST -> {
-                    voucherManagementApp.readVouchers();
+                    voucherManagementController.readVouchers();
                 }
 
                 case BLACKLIST -> {
-                    customerManagementApp.readBlackList();
+                    customerManagementController.readBlackList();
                 }
             }
         }

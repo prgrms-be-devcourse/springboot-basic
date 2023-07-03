@@ -12,14 +12,14 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class VoucherManagementApp {
+public class VoucherManagementController {
 
     private final VoucherCreator voucherCreator;
     private final VoucherReader voucherReader;
     private final Input input;
     private final Output output;
 
-    public VoucherManagementApp(VoucherCreator voucherCreator, VoucherReader voucherReader, Input input, Output output) {
+    public VoucherManagementController(VoucherCreator voucherCreator, VoucherReader voucherReader, Input input, Output output) {
         this.voucherCreator = voucherCreator;
         this.voucherReader = voucherReader;
         this.input = input;
