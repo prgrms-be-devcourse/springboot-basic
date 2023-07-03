@@ -16,16 +16,16 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void createVoucher(VoucherType voucherType, int amount) {
-        voucherService.createVoucher(voucherType, amount);
+    public void create(VoucherType voucherType, int amount) {
+        voucherService.save(voucherType, amount);
     }
-    
-    public List<VoucherDto> readVoucherList() {
+
+    public List<VoucherDto> readList() {
         return voucherService.readVoucherList();
     }
 
     public VoucherDto readVoucher(UUID id) {
-        return voucherService.readVoucher(id);
+        return voucherService.readAll(id);
     }
 }
 

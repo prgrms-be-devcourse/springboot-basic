@@ -36,11 +36,11 @@ public class VoucherApplication implements CommandLineRunner {
                 case CREATE -> {
                     VoucherType voucherType = voucherView.readVoucherOption();
                     Integer amount = voucherView.readVoucherAmount(voucherType);
-                    voucherController.createVoucher(voucherType, amount);
+                    voucherController.create(voucherType, amount);
                     voucherView.printVoucherCreateMessage(voucherType, amount);
                 }
                 case LIST -> {
-                    List<VoucherDto> voucherDtoList = voucherController.readVoucherList();
+                    List<VoucherDto> voucherDtoList = voucherController.readList();
                     voucherView.printVoucherList(voucherDtoList);
                 }
                 case EXIT -> shouldContinue = false;
