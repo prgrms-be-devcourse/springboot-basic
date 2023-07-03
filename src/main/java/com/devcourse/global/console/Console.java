@@ -1,6 +1,8 @@
-package com.devcourse.console;
+package com.devcourse.global.console;
 
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
+import com.devcourse.voucher.presentation.Command;
+import com.devcourse.voucher.presentation.dto.ApplicationRequest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -52,30 +54,37 @@ public class Console implements Reader<String>, Writer {
         write(GREETING);
     }
 
-    public String readCommand() {
+    public ApplicationRequest readRequest() {
+        String readCommand = readCommand();
+        Command command = Command.from(readCommand);
+
+        if (command.isCreation()) {
+            CreateVoucherRequest request = readCreationRequest();
+            return ApplicationRequest.creation(request);
+        }
+
+        return ApplicationRequest.noPayload(command);
+    }
+
+    private String readCommand() {
         write(GET_COMMAND_GUIDE);
         return read();
     }
 
-    public CreateVoucherRequest readCreationRequest() {
-        String information = readInformations();
-        return createVoucherRequest(information);
-    }
-
-    private String readInformations() {
+    private CreateVoucherRequest readCreationRequest() {
         StringBuilder stringBuilder = new StringBuilder();
 
         readInformation(stringBuilder, VOUCHER_TYPE_GUIDE);
         readInformation(stringBuilder, DISCOUNT_INT_GUIDE);
         readInformation(stringBuilder, EXPIRATION_DATE_GUIDE);
 
-        return stringBuilder.toString();
+        return createVoucherRequest(stringBuilder.toString());
     }
-
 
     private void readInformation(StringBuilder stringBuilder, String message) {
         write(message);
-        stringBuilder.append(read()).append(",");
+        String input = read();
+        stringBuilder.append(input).append(",");
     }
 
     private CreateVoucherRequest createVoucherRequest(String information) {

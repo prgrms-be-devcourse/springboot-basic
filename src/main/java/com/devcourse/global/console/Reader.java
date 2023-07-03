@@ -1,4 +1,4 @@
-package com.devcourse.console;
+package com.devcourse.global.console;
 
 public interface Reader<T> {
     T read();

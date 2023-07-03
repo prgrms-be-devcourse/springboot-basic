@@ -1,6 +1,6 @@
 package com.devcourse.voucher.domain;
 
-import com.devcourse.voucher.domain.repository.MemoryVoucherRepository;
+import com.devcourse.global.configuration.AppConfig;
 import com.devcourse.voucher.domain.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringJUnitConfig(MemoryVoucherRepository.class)
+@SpringJUnitConfig(AppConfig.class)
 class VoucherRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;
