@@ -6,6 +6,7 @@ import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
+import com.programmers.application.util.Patterns;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,7 +44,7 @@ public enum Command {
                     }
 
                     private void validateAmount(String amount) {
-                        if (!amount.matches("[0-9]+")) {
+                        if (Patterns.NUMBER_PATTERN.matcher(amount).matches()) {
                             String errorMessage = String.format("숫자를 입력해 주세요. 입력값: %s", amount);
                             throw new IllegalArgumentException(errorMessage);
                         }
