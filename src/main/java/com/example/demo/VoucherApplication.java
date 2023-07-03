@@ -31,21 +31,25 @@ public class VoucherApplication implements CommandLineRunner {
 
         boolean shouldContinue = true;
         while (shouldContinue) {
-            CommandType commandType = voucherView.readCommandOption();
+            try {
+                CommandType commandType = voucherView.readCommandOption();
 
-            switch (commandType) {
-                case CREATE -> {
-                    VoucherType voucherType = voucherView.readVoucherOption();
-                    Integer amount = voucherView.readVoucherAmount(voucherType);
-                    VoucherDto voucherDto = voucherController.create(voucherType, amount);
-                    voucherView.printCreateMessage(voucherDto);
+                switch (commandType) {
+                    case CREATE -> {
+                        VoucherType voucherType = voucherView.readVoucherOption();
+                        Integer amount = voucherView.readVoucherAmount(voucherType);
+                        VoucherDto voucherDto = voucherController.create(voucherType, amount);
+                        voucherView.printCreateMessage(voucherDto);
+                    }
+                    case LIST -> {
+                        List<VoucherDto> voucherDtoList = voucherController.readList();
+                        voucherView.printVoucherList(voucherDtoList);
+                    }
+                    case EXIT -> shouldContinue = false;
+                    default -> throw new IllegalArgumentException("올바르지 않은 커맨드입니다.");
                 }
-                case LIST -> {
-                    List<VoucherDto> voucherDtoList = voucherController.readList();
-                    voucherView.printVoucherList(voucherDtoList);
-                }
-                case EXIT -> shouldContinue = false;
-                default -> throw new IllegalArgumentException("올바르지 않은 커맨드입니다.");
+            } catch (Exception e) {
+                logger.info(e.getMessage());
             }
         }
     }
