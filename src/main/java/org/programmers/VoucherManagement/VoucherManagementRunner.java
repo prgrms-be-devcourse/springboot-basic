@@ -29,7 +29,7 @@ public class VoucherManagementRunner implements CommandLineRunner {
                 console.printType();
                 commandType = console.readType();
 
-                if (commandType.isExit()){
+                if (commandType == CommandType.EXIT){
                     isRunning = false;
                 }
                 commandExecutor.execute(commandType);

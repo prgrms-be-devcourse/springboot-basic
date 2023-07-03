@@ -34,5 +34,4 @@ public class GetVoucherResponse {
                 , voucher.getDiscountValue().getValue());
     }
 
-
 }

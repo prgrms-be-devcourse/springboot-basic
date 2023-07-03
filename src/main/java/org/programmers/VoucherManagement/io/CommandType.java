@@ -31,22 +31,6 @@ public enum CommandType {
         return type;
     }
 
-    public boolean isExit() {
-
-        return this.equals(CommandType.EXIT);
-    }
-
-    public boolean isCreate() {
-        return this.equals(CommandType.CREATE);
-    }
-
-    public boolean isList() {
-        return this.equals(CommandType.LIST);
-    }
-
-    public boolean isBlackList() {
-        return this.equals(CommandType.BLACKLIST);
-    }
 
     public static CommandType from(String type) {
         try {

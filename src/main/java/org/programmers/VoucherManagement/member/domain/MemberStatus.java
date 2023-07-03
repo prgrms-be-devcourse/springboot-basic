@@ -8,13 +8,6 @@ public enum MemberStatus {
     BLACK,
     WHITE;
 
-    public boolean isBlack() {
-        return this.equals(BLACK);
-    }
-
-    public boolean isWhite() {
-        return this.equals(WHITE);
-    }
 
     public static MemberStatus from(String status) {
         try {

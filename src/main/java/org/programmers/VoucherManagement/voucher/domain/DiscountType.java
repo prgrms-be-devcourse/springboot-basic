@@ -1,8 +1,6 @@
 package org.programmers.VoucherManagement.voucher.domain;
 
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,24 +14,17 @@ public enum DiscountType {
     PERCENT("percent", "%"),
     FIXED("fixed", "₩");
 
-
     private final String type;
     private final String symbol;
 
     private static final Map<String, DiscountType> DISCOUNT_TYPE_MAP = Collections
-            .unmodifiableMap(Arrays.stream(values()).collect(Collectors.toMap(DiscountType::getType, Function.identity())));
+            .unmodifiableMap(Arrays
+                    .stream(values())
+                    .collect(Collectors.toMap(DiscountType::getType, Function.identity())));
 
     DiscountType(String type, String symbol) {
         this.type = type;
         this.symbol = symbol;
-    }
-
-    public boolean isPercent() {
-        return this.equals(PERCENT);
-    }
-
-    public boolean isFixed() {
-        return this.equals(FIXED);
     }
 
     public String getType() {

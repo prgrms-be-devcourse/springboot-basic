@@ -91,7 +91,7 @@ public class Console implements Input, Output {
         int value = readValue();
 
         try {
-            if (discountType.isPercent() && !isValidPercentDiscountValue(value)) {
+            if (discountType == DiscountType.PERCENT && !isValidPercentDiscountValue(value)) {
                 throw new VoucherException(NOT_INCLUDE_1_TO_100);
             }
         } catch (VoucherException e) {
