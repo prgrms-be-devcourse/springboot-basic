@@ -1,10 +1,13 @@
 package kr.co.springbootweeklymission.wallet.domain.repository;
 
+import kr.co.springbootweeklymission.infrastructure.error.exception.DuplicatedException;
+import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.repository.JdbcMemberRepository;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.repository.JdbcVoucherRepository;
 import kr.co.springbootweeklymission.wallet.domain.entity.Wallet;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -28,12 +31,16 @@ public class JdbcWalletRepository implements WalletRepository {
         String sql = "" +
                 "insert into tbl_wallets (wallet_id, voucher_id, member_id) " +
                 "values (?, ?, ?)";
-        jdbcTemplate.update(
-                sql,
-                wallet.getWalletId().toString(),
-                wallet.getVoucher().getVoucherId().toString(),
-                wallet.getMember().getMemberId().toString()
-        );
+        try {
+            jdbcTemplate.update(
+                    sql,
+                    wallet.getWalletId().toString(),
+                    wallet.getVoucher().getVoucherId().toString(),
+                    wallet.getMember().getMemberId().toString()
+            );
+        } catch (DuplicateKeyException e) {
+            throw new DuplicatedException(ResponseStatus.FAIL_DUPLICATED_KEY);
+        }
         return wallet;
     }
 

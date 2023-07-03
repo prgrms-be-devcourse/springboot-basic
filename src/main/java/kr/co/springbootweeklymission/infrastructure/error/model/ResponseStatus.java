@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ResponseStatus {
     //fail command
+    FAIL_DUPLICATED_KEY("해당 쿠폰은 이미 할당된 쿠폰입니다."),
     FAIL_NOT_FOUND_COMMAND("해당 명령어를 찾을 수 없습니다."),
     FAIL_NOT_SUPPORTED_UPDATE("파일 및 메모리 저장소에서 수정 기능은 지원하지 않습니다."),
     FAIL_NOT_SUPPORTED_DELETE("파일 및 메모리 저장소에서 삭제 기능은 지원하지 않습니다."),
