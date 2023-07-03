@@ -5,7 +5,7 @@ import org.promgrammers.voucher.domain.FixedAmountVoucher;
 import org.promgrammers.voucher.domain.PercentDiscountVoucher;
 import org.promgrammers.voucher.domain.Voucher;
 import org.promgrammers.voucher.domain.VoucherType;
-import org.promgrammers.voucher.domain.dto.VoucherRequestDto;
+import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
@@ -20,11 +20,11 @@ public class VoucherFactory {
     private final long MIN_PERCENTAGE = 0L;
     private final long MAX_PERCENTAGE = 100L;
 
-    public Voucher createVoucher(VoucherRequestDto voucherRequestDto) {
+    public Voucher createVoucher(VoucherCreateRequestDto voucherCreateRequestDto) {
 
 
-        VoucherType voucherType = voucherRequestDto.getVoucherType();
-        long amount = voucherRequestDto.getAmount();
+        VoucherType voucherType = voucherCreateRequestDto.getVoucherType();
+        long amount = voucherCreateRequestDto.getAmount();
 
         switch (voucherType) {
             case FixedAmount:

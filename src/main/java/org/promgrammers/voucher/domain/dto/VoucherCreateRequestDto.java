@@ -5,10 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.promgrammers.voucher.domain.VoucherType;
 
 
-
 @RequiredArgsConstructor
 @Getter
-public class VoucherRequestDto {
+public class VoucherCreateRequestDto {
 
 
     private final VoucherType voucherType;

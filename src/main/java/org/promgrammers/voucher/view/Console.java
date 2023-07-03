@@ -2,7 +2,7 @@ package org.promgrammers.voucher.view;
 
 import lombok.RequiredArgsConstructor;
 import org.promgrammers.voucher.domain.VoucherType;
-import org.promgrammers.voucher.domain.dto.VoucherRequestDto;
+import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
 
 import java.util.Scanner;
 
@@ -32,12 +32,12 @@ public class Console {
         return Long.parseLong(input());
     }
 
-    public VoucherRequestDto createVoucherDto() {
+    public VoucherCreateRequestDto createVoucherDto() {
         String type = askType();
         VoucherType voucherType = VoucherType.fromType(type);
         long amount = askDiscount();
 
-        return new VoucherRequestDto(voucherType, amount);
+        return new VoucherCreateRequestDto(voucherType, amount);
     }
 
     public void display() {

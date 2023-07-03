@@ -2,7 +2,7 @@ package org.promgrammers.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.promgrammers.voucher.domain.dto.VoucherListResponseDto;
-import org.promgrammers.voucher.domain.dto.VoucherRequestDto;
+import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
 import org.promgrammers.voucher.domain.dto.VoucherResponseDto;
 import org.promgrammers.voucher.service.VoucherService;
 import org.promgrammers.voucher.view.Console;
@@ -46,7 +46,7 @@ public class VoucherController {
     }
 
     private void createVoucher() {
-        VoucherRequestDto voucherDto = console.createVoucherDto();
+        VoucherCreateRequestDto voucherDto = console.createVoucherDto();
         VoucherResponseDto createdVoucher = voucherService.createVoucher(voucherDto);
         console.print("Voucher 생성. : " + createdVoucher.toString());
     }
