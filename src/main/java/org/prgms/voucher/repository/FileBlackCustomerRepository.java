@@ -22,16 +22,13 @@ public class FileBlackCustomerRepository implements BlackCustomerRepository {
 
         List<BlackCustomerResponseDto> customers = new ArrayList<>();
 
-        try {
-            FileReader fileReader = new FileReader(filePath);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line;
+        try (FileReader fileReader = new FileReader(filePath);
+             BufferedReader bufferedReader = new BufferedReader(fileReader);) {
 
+            String line;
             while ((line = bufferedReader.readLine()) != null) {
                 customers.add(parseCSV(line));
             }
-
-            bufferedReader.close();
 
         } catch (Exception e) {
             log.error(e.getMessage());

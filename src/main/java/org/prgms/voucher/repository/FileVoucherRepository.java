@@ -32,16 +32,13 @@ public class FileVoucherRepository implements VoucherRepository {
 
         List<VoucherResponseDto> vouchers = new ArrayList<>();
 
-        try {
-            FileReader fileReader = new FileReader(filePath);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line;
+        try (FileReader fileReader = new FileReader(filePath);
+             BufferedReader bufferedReader = new BufferedReader(fileReader);) {
 
+            String line;
             while ((line = bufferedReader.readLine()) != null) {
                 vouchers.add(objectMapper.readValue(line, VoucherResponseDto.class));
             }
-
-            bufferedReader.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
