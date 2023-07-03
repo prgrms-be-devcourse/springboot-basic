@@ -3,6 +3,7 @@ package org.promgrammers.springbootbasic.domain.voucher.repository.impl;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import org.promgrammers.springbootbasic.exception.repository.DuplicateIDException;
+import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -50,5 +51,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         this.storage.clear();
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        if (!storage.containsKey(voucherId)) {
+            throw new EntityNotFoundException("삭제할 Voucher가 존재하지 않습니다. Voucher ID: " + voucherId);
+        }
+        storage.remove(voucherId);
     }
 }

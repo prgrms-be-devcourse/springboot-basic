@@ -23,9 +23,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -175,5 +177,33 @@ class VoucherServiceTest {
 
         //then
         assertThat(voucherRepository.findAll().size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("단건 삭제 성공 - 바우처ID가 존재하는 경우")
+    void deleteVoucherByIdSuccessTest() throws Exception {
+
+        //given
+        UUID voucherId = UUID.randomUUID();
+        long discount = 20;
+        PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, discount);
+        voucherRepository.insert(voucher);
+
+        //when
+        assertDoesNotThrow(() -> voucherService.deleteById(voucherId));
+        Optional<Voucher> deletedVoucher = voucherRepository.findById(voucherId);
+
+        //then
+        assertThat(deletedVoucher.isPresent()).isEqualTo(false);
+    }
+
+    @Test
+    @DisplayName("단건 삭제 실패 - 바우처ID가 존재하지 않는 경우")
+    void deleteVoucherByIdFailTest() throws Exception {
+
+        //given
+        UUID customerId = UUID.randomUUID();
+
+        assertThrows(BusinessException.class, () -> voucherService.deleteById(customerId));
     }
 }

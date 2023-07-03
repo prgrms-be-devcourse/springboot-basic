@@ -182,4 +182,22 @@ class JdbcVoucherRepositoryTest {
         assertThat(voucherList.size()).isEqualTo(0);
         assertThat(voucherList.isEmpty()).isEqualTo(true);
     }
+
+    @Test
+    @DisplayName("단건 삭제 성공 - 바우처ID로 삭제")
+    void deleteByIdSuccessTest() throws Exception {
+
+        //given
+        UUID voucherId = UUID.randomUUID();
+        long amount = 10;
+        Voucher voucher = new FixedAmountVoucher(voucherId, amount);
+        Voucher savedVoucher = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.insert(voucher));
+
+        //when
+        assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.deleteById(savedVoucher.getVoucherId()));
+
+        //then
+        Optional<Voucher> deletedVoucher = jdbcTemplateVoucherRepository.findById(savedVoucher.getVoucherId());
+        assertThat(deletedVoucher.isPresent()).isEqualTo(false);
+    }
 }

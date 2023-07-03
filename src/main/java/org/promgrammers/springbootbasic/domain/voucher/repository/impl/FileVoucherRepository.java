@@ -105,4 +105,21 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new FileWriteException("Failed to delete all vouchers.");
         }
     }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        try {
+            List<String> lines = Files.lines(filePath)
+                    .filter(line -> {
+                        UUID id = UUID.fromString(line.split(",")[0]);
+                        return !id.equals(voucherId);
+                    })
+                    .collect(Collectors.toList());
+
+            Files.write(filePath, lines, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            logger.error("Voucher 삭제 실패", e.getMessage());
+            throw new FileWriteException("Voucher 삭제에 실패했습니다.");
+        }
+    }
 }

@@ -34,6 +34,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String FIND_ALL = "SELECT * FROM vouchers";
     private static final String UPDATE = "UPDATE vouchers SET amount = :amount, voucher_type = :voucherType WHERE voucher_id = :voucherId";
     private static final String DELETE_ALL = "DELETE FROM vouchers";
+    private static final String DELETE_BY_ID = "DELETE FROM vouchers WHERE voucher_id = :voucherId";
 
     public JdbcVoucherRepository(DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
@@ -89,6 +90,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         template.update(DELETE_ALL, Collections.emptyMap());
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        Map<String, Object> param = Map.of("voucherId", voucherId);
+        template.update(DELETE_BY_ID, param);
     }
 
     private final RowMapper<Voucher> voucherRowMapper = ((rs, rowNum) -> {

@@ -81,4 +81,11 @@ public class VoucherService {
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
+
+    @Transactional
+    public void deleteById(UUID voucherId) {
+        voucherRepository.findById(voucherId).orElseThrow(() -> new BusinessException(NOT_FOUND_VOUCHER));
+
+        voucherRepository.deleteById(voucherId);
+    }
 }
