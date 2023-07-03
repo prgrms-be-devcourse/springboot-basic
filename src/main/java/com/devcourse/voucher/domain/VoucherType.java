@@ -1,25 +1,21 @@
 package com.devcourse.voucher.domain;
 
-import java.util.Arrays;
-
 public enum VoucherType {
     FIXED,
-    PERCENT;
+    PERCENT,
+    ;
 
-    private static final String NOT_SUPPORT_TYPE = "[Error] Your Input Is Not Support Type : ";
+    private static final String NOT_SUPPORT_TYPE = "[Error] Your Input Is Not Support. Type : ";
 
     public static VoucherType from(String input) {
-        return Arrays.stream(VoucherType.values())
-                .filter(type -> isType(type.name(), input))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(NOT_SUPPORT_TYPE + input));
+        try {
+            return Enum.valueOf(VoucherType.class, input.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(NOT_SUPPORT_TYPE + input);
+        }
     }
 
     public boolean isPercent() {
         return this == PERCENT;
-    }
-
-    private static boolean isType(String type, String input) {
-        return type.equals(input.toUpperCase());
     }
 }
