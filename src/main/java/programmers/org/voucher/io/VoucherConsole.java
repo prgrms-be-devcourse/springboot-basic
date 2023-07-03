@@ -3,14 +3,11 @@ package programmers.org.voucher.io;
 import programmers.org.voucher.domain.Voucher;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class VoucherConsole {
 
-    private final Input input;
-
-    public VoucherConsole(Input input) {
-        this.input = input;
-    }
+    private final Scanner scanner = new Scanner(System.in);
 
     public void printManual() {
         System.out.println("=== Voucher Program ===\n" +
@@ -28,17 +25,17 @@ public class VoucherConsole {
     }
 
     public String inputCommand() {
-        return input.read();
+        return scanner.next();
     }
 
     public String inputVoucherType() {
         System.out.println("바우처 타입 선택(fixed or percent): ");
-        return input.read();
+        return scanner.next();
     }
 
     public int inputVoucherInfo() {
         System.out.println("바우처 정보 입력: ");
-        return input.readInt();
+        return scanner.nextInt();
     }
 
     private void printVoucher(Voucher voucher) {
