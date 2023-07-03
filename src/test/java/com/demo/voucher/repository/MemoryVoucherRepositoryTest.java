@@ -3,12 +3,14 @@ package com.demo.voucher.repository;
 import com.demo.voucher.domain.FixedAmountVoucher;
 import com.demo.voucher.domain.PercentDiscountVoucher;
 import com.demo.voucher.domain.Voucher;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.UUID;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 class MemoryVoucherRepositoryTest {
     private final VoucherRepository repository = new MemoryVoucherRepository();
@@ -25,7 +27,7 @@ class MemoryVoucherRepositoryTest {
         UUID uuid = foundVoucher.getVoucherId();
 
         // then
-        Assertions.assertThat(repository.findById(uuid)).isPresent();
+        assertThat(repository.findById(uuid).get(), equalTo(foundVoucher));
     }
 
     @Test
@@ -42,10 +44,8 @@ class MemoryVoucherRepositoryTest {
         List<Voucher> vouchers = repository.findAll();
 
         // then
-        Assertions.assertThat(vouchers)
-                .hasSize(2)
-                .contains(fixedAmountVoucher)
-                .contains(percentDiscountVoucher);
+        assertThat(vouchers, hasSize(2));
+        assertThat(vouchers, containsInAnyOrder(fixedAmountVoucher, percentDiscountVoucher));
     }
 
     @Test
@@ -53,8 +53,7 @@ class MemoryVoucherRepositoryTest {
     void findAll_when_no_voucher() {
         List<Voucher> vouchers = repository.findAll();
 
-        Assertions.assertThat(vouchers)
-                .isEmpty();
+        assertThat(vouchers, empty());
     }
 
     @Test
@@ -64,8 +63,7 @@ class MemoryVoucherRepositoryTest {
 
         repository.insert(voucher);
 
-        Assertions.assertThat(repository.findAll())
-                .hasSize(1)
-                .contains(voucher);
+        assertThat(repository.findAll(), hasSize(1));
+        assertThat(repository.findAll(), contains(voucher));
     }
 }
