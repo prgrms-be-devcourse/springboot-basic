@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.voucher.api;
+package org.programmers.VoucherManagement.voucher.presentation;
 
 import org.programmers.VoucherManagement.voucher.application.VoucherService;
 import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;

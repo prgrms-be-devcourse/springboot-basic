@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.api.MemberController;
+import org.programmers.VoucherManagement.member.presentation.MemberController;
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.voucher.api.VoucherController;
+import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;

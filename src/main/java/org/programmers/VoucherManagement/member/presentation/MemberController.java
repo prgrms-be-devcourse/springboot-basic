@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.member.api;
+package org.programmers.VoucherManagement.member.presentation;
 
 import org.programmers.VoucherManagement.member.application.MemberService;
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;

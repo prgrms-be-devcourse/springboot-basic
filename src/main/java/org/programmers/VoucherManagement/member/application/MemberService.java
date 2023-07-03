@@ -1,7 +1,7 @@
 package org.programmers.VoucherManagement.member.application;
 
 import lombok.RequiredArgsConstructor;
-import org.programmers.VoucherManagement.member.dao.MemberRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
 import org.programmers.VoucherManagement.member.dto.GetMemberResponse;
 import org.springframework.stereotype.Component;

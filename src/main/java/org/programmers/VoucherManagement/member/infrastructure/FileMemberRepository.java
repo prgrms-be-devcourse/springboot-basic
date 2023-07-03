@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.member.dao;
+package org.programmers.VoucherManagement.member.infrastructure;
 
 import org.programmers.VoucherManagement.io.Console;
 import org.programmers.VoucherManagement.member.domain.Member;
@@ -12,8 +12,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.programmers.VoucherManagement.global.exception.FileExceptionMessage.CAN_NOT_READ_LINE;
-import static org.programmers.VoucherManagement.global.exception.FileExceptionMessage.NOT_EXIST_FILE;
+import static org.programmers.VoucherManagement.global.exception.file.FileExceptionMessage.CAN_NOT_READ_LINE;
+import static org.programmers.VoucherManagement.global.exception.file.FileExceptionMessage.NOT_EXIST_FILE;
 
 @Component
 public class FileMemberRepository implements MemberRepository {

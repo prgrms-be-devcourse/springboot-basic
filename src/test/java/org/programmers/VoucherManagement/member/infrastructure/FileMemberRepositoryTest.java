@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.member.dao;
+package org.programmers.VoucherManagement.member.infrastructure;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.voucher.dao;
+package org.programmers.VoucherManagement.voucher.infrastructure;
 
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;

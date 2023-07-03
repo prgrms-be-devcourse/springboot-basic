@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.voucher.dao;
+package org.programmers.VoucherManagement.voucher.infrastructure;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
