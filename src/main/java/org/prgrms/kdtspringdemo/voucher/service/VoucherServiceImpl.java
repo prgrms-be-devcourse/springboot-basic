@@ -37,14 +37,7 @@ public class VoucherServiceImpl implements VoucherService {
         }
 
         Voucher savedVoucher = voucherRepository.save(voucher);
-        return convertToVoucherDto(savedVoucher);
-    }
-
-    private VoucherDto convertToVoucherDto(Voucher voucher) {
-        return new VoucherDto(
-                voucher.getVoucherType(),
-                voucher.getAmount()
-        );
+        return VoucherDto.toDto(savedVoucher.getVoucherType(), savedVoucher.getAmount());
     }
 
     @Override
@@ -52,7 +45,7 @@ public class VoucherServiceImpl implements VoucherService {
         List<Voucher> voucherList = voucherRepository.findAll();
 
         return voucherList.stream()
-                .map(VoucherDto::new)
+                .map(v -> new VoucherDto(v.getVoucherType(), v.getAmount()))
                 .collect(Collectors.toUnmodifiableList());
     }
 }
