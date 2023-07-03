@@ -53,4 +53,9 @@ public class JDBCVoucherWalletService implements VoucherWalletService {
     public void removeVoucherFromWallet(UUID customerId, UUID voucherId) {
         voucherWalletRepository.removeVoucherFromWallet(customerId, voucherId);
     }
+
+    @Override
+    public Set<UUID> findCustomerIdsByVoucherId(UUID voucherId) {
+        return voucherWalletRepository.findCustomerIdsByVoucherId(voucherId);
+    }
 }

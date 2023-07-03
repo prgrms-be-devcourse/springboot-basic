@@ -8,4 +8,6 @@ public interface VoucherWalletRepository {
     void removeVoucherFromWallet(UUID customerId, UUID voucherId);
     Set<UUID> findVoucherIdsByCustomerId(UUID customerId);
     void deleteByCustomerId(UUID customerId);
+    Set<UUID> findCustomerIdsByVoucherId(UUID voucherId);
+
 }

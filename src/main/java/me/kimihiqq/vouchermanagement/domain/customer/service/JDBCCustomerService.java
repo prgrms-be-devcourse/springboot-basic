@@ -10,9 +10,7 @@ import me.kimihiqq.vouchermanagement.domain.voucherwallet.service.VoucherWalletS
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Profile("db")
 @Slf4j
@@ -62,5 +60,15 @@ public class JDBCCustomerService implements CustomerService {
     @Override
     public void updateCustomerStatus(Customer customer) {
         customerRepository.update(customer);
+    }
+
+    @Override
+    public List<Customer> findCustomersWithVoucher(UUID voucherId) {
+        Set<UUID> customerIds = voucherWalletService.findCustomerIdsByVoucherId(voucherId);
+        List<Customer> customers = new ArrayList<>();
+        for(UUID id: customerIds){
+            findCustomerById(id).ifPresent(customers::add);
+        }
+        return customers;
     }
 }

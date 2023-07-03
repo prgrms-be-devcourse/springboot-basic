@@ -18,4 +18,6 @@ public interface CustomerService {
 
     void updateCustomerStatus(Customer customer);
 
+    List<Customer> findCustomersWithVoucher(UUID voucherId);
+
 }
