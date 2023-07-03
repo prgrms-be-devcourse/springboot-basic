@@ -22,6 +22,7 @@ public class VoucherServiceTest {
         voucherRepository = new MemoryVoucherRepository();
         voucherService = new VoucherService(voucherRepository);
     }
+
     @Test
     @DisplayName("바우처정보를 이용해 저장 후 반환 - 성공")
     void 바우처정보를_저장후반환_성공(){
