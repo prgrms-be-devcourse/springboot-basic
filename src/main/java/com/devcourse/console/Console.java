@@ -1,9 +1,17 @@
 package com.devcourse.console;
 
+import com.devcourse.voucher.application.dto.CreateVoucherRequest;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Console implements Reader<String>, Writer {
     private static final Scanner scanner = new Scanner(System.in);
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String GREETING = """
             === Voucher Program ===
            Type <EXIT> to exit the program.
@@ -22,6 +30,8 @@ public class Console implements Reader<String>, Writer {
     private static final String EXPIRATION_DATE_GUIDE = """
             \n:: Support Format(yyyy-MM-dd) ::
             Type type of Voucher :\s""";
+    private static final String NOT_SUPPORT_DATE_FORMAT = "[Error] Your Input is incorrect Date Format : ";
+    private static final String NOT_A_NUMBER = "[Error] Your Input is not a Number : ";
 
     @Override
     public String read() {
@@ -32,9 +42,10 @@ public class Console implements Reader<String>, Writer {
     public <T> void write(T input) {
         if (isIterable(input)) {
             writeIterable(input);
-        } else {
-            System.out.print(input);
+            return;
         }
+
+        System.out.print(input);
     }
 
     public void greeting() {
@@ -46,7 +57,12 @@ public class Console implements Reader<String>, Writer {
         return read();
     }
 
-    public String readVoucherInformation() {
+    public CreateVoucherRequest readCreationRequest() {
+        String information = readInformations();
+        return createVoucherRequest(information);
+    }
+
+    private String readInformations() {
         StringBuilder stringBuilder = new StringBuilder();
 
         readInformation(stringBuilder, VOUCHER_TYPE_GUIDE);
@@ -56,9 +72,37 @@ public class Console implements Reader<String>, Writer {
         return stringBuilder.toString();
     }
 
+
     private void readInformation(StringBuilder stringBuilder, String message) {
         write(message);
         stringBuilder.append(read()).append(",");
+    }
+
+    private CreateVoucherRequest createVoucherRequest(String information) {
+        StringTokenizer tokenizer = new StringTokenizer(information, ",");
+
+        String type = tokenizer.nextToken();
+        int discount = parseDiscount(tokenizer.nextToken());
+        LocalDateTime expiredAt = parseExpiration(tokenizer.nextToken());
+
+        return CreateVoucherRequest.of(type, discount, expiredAt);
+    }
+
+    private LocalDateTime parseExpiration(String expiredAt) {
+        try {
+            LocalDate localDate = LocalDate.parse(expiredAt, TIME_FORMAT);
+            return LocalDateTime.of(localDate, LocalTime.MIDNIGHT);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(NOT_SUPPORT_DATE_FORMAT + expiredAt);
+        }
+    }
+
+    private Integer parseDiscount(String discount) {
+        try {
+            return Integer.parseInt(discount);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(NOT_A_NUMBER + discount);
+        }
     }
 
     private <T> void writeIterable(T iterable) {
