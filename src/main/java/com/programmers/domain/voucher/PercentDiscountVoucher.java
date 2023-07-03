@@ -1,4 +1,4 @@
-package com.programmers.domain;
+package com.programmers.domain.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,5 +1,6 @@
 package com.programmers.domain;
 
+import com.programmers.domain.voucher.PercentDiscountVoucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,12 +1,11 @@
 package com.programmers.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-import com.programmers.domain.FixedAmountVoucher;
-import com.programmers.domain.Voucher;
-import com.programmers.repository.MemoryVoucherRepository;
+import com.programmers.domain.voucher.FixedAmountVoucher;
+import com.programmers.domain.voucher.Voucher;
+import com.programmers.repository.voucher.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

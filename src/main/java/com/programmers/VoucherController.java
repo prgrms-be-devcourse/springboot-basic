@@ -1,6 +1,8 @@
 package com.programmers;
 
 import com.programmers.domain.*;
+import com.programmers.domain.voucher.Voucher;
+import com.programmers.domain.voucher.VoucherType;
 import com.programmers.io.Console;
 import com.programmers.service.BlacklistService;
 import com.programmers.service.VoucherService;

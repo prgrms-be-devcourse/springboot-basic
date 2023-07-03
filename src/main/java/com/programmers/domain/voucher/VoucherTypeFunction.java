@@ -1,4 +1,4 @@
-package com.programmers.domain;
+package com.programmers.domain.voucher;
 
 @FunctionalInterface
 public interface VoucherTypeFunction<T, U, V, R> {

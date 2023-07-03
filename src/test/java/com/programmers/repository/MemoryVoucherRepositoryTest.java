@@ -1,7 +1,8 @@
 package com.programmers.repository;
 
-import com.programmers.domain.FixedAmountVoucher;
-import com.programmers.domain.Voucher;
+import com.programmers.domain.voucher.FixedAmountVoucher;
+import com.programmers.domain.voucher.Voucher;
+import com.programmers.repository.voucher.MemoryVoucherRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

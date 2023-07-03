@@ -1,4 +1,4 @@
-package com.programmers.domain;
+package com.programmers.domain.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 public enum VoucherType {
-    FixedAmountVoucher("1", "fixedamountvoucher", com.programmers.domain.FixedAmountVoucher::new),
-    PercentDiscountVoucher("2", "percentdiscountvoucher", com.programmers.domain.PercentDiscountVoucher::new);
+    FixedAmountVoucher("1", "fixedamountvoucher", com.programmers.domain.voucher.FixedAmountVoucher::new),
+    PercentDiscountVoucher("2", "percentdiscountvoucher", com.programmers.domain.voucher.PercentDiscountVoucher::new);
 
     private static final Logger log = LoggerFactory.getLogger(VoucherType.class);
 

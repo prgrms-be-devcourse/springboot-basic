@@ -1,7 +1,7 @@
-package com.programmers.repository;
+package com.programmers.repository.voucher;
 
-import com.programmers.domain.Voucher;
-import com.programmers.domain.VoucherType;
+import com.programmers.domain.voucher.Voucher;
+import com.programmers.domain.voucher.VoucherType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

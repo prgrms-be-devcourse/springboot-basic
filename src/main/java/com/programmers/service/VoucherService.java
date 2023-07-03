@@ -1,7 +1,7 @@
 package com.programmers.service;
 
-import com.programmers.domain.Voucher;
-import com.programmers.repository.VoucherRepository;
+import com.programmers.domain.voucher.Voucher;
+import com.programmers.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
