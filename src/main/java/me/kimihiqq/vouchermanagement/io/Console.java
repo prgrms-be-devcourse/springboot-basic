@@ -26,6 +26,17 @@ public class Console implements Input, Output {
         }
     }
 
+    @Override
+    public String readLineWithPrompt(String prompt){
+        printLine(prompt);
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            log.error("Error reading input", e);
+            throw new RuntimeException("Error reading input", e);
+        }
+    }
+
     public long readDiscount(String prompt) {
         printLine(prompt);
         while (true) {
