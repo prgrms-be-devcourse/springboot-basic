@@ -18,13 +18,10 @@ public class ConsoleApp {
 
     public void run() {
         while (true) {
-            Menu menu;
-            String input;
-
             console.printMenu();
-            input = console.inputMenuSelection();
+            String input = console.inputMenuSelection();
 
-            menu = Menu.convertInputToMenu(input);
+            Menu menu = Menu.convertInputToMenu(input);
             executor.execute(menu);
         }
     }

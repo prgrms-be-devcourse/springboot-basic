@@ -22,12 +22,9 @@ public class CreateMenuController implements MenuController {
 
     @Override
     public void execute() {
-        VoucherPolicy voucherPolicy;
-        String input;
-
         console.printSelectVoucherPolicy();
-        input = console.inputVoucherPolicySelection();
-        voucherPolicy = VoucherPolicy.convertStringInputToPolicy(input);
+        String input = console.inputVoucherPolicySelection();
+        VoucherPolicy voucherPolicy = VoucherPolicy.convertStringInputToPolicy(input);
 
         long discountNumber = selectPolicy(voucherPolicy);
 

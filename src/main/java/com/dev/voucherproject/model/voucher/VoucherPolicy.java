@@ -1,8 +1,8 @@
 package com.dev.voucherproject.model.voucher;
 
 
+import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.List;
 
 public enum VoucherPolicy {
     FIXED_AMOUNT_VOUCHER("fix"),
@@ -22,12 +22,10 @@ public enum VoucherPolicy {
         return Arrays.stream(VoucherPolicy.values())
                 .filter(voucherPolicy -> voucherPolicy.isExistPolicy(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("입력에 해당하는 바우처 정책을 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("{0} 입력에 해당하는 바우처 정책을 찾을 수 없습니다.", input)));
     }
 
-    public static List<String> getPolicyNames() {
-        return Arrays.stream(VoucherPolicy.values())
-                .map(voucherPolicy -> voucherPolicy.policyName)
-                .toList();
+    public String getPolicyName() {
+        return policyName;
     }
 }

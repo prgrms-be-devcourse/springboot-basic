@@ -1,6 +1,7 @@
 package com.dev.voucherproject.model.menu;
 
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public enum Menu {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.isExistMenu(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("입력에 해당하는 메뉴 정책을 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("{0} 입력에 해당하는 메뉴를 찾을 수 없습니다.", input)));
     }
 
     private boolean isExistMenu(final String input) {
@@ -26,11 +27,5 @@ public enum Menu {
 
     public String getMenuName() {
         return menuName;
-    }
-
-    public static List<String> getMenuNames() {
-        return Arrays.stream(Menu.values())
-                .map(menu -> menu.menuName)
-                .toList();
     }
 }
