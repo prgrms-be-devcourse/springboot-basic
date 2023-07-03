@@ -7,15 +7,13 @@ import java.util.List;
 public class VoucherConsole {
 
     private final Input input;
-    private final Output output;
 
-    public VoucherConsole(Input input, Output output) {
+    public VoucherConsole(Input input) {
         this.input = input;
-        this.output = output;
     }
 
     public void printManual() {
-        output.print("=== Voucher Program ===\n" +
+        System.out.println("=== Voucher Program ===\n" +
                 "Type exit to exit the program.\n" +
                 "Type create to create a new voucher.\n" +
                 "Type list to list all vouchers.");
@@ -26,7 +24,7 @@ public class VoucherConsole {
     }
 
     public void printError(String error) {
-        output.print(error);
+        System.out.println(error);
     }
 
     public String inputCommand() {
@@ -34,17 +32,17 @@ public class VoucherConsole {
     }
 
     public String inputVoucherType() {
-        output.print("바우처 타입 선택(fixed or percent): ");
+        System.out.println("바우처 타입 선택(fixed or percent): ");
         return input.read();
     }
 
     public int inputVoucherInfo() {
-        output.print("바우처 정보 입력: ");
+        System.out.println("바우처 정보 입력: ");
         return input.readInt();
     }
 
     private void printVoucher(Voucher voucher) {
-        output.print("VoucherID : " + voucher.getVoucherId()
+        System.out.println("VoucherID : " + voucher.getVoucherId()
                 + " Type : " + voucher.getVoucherType()
                 + " DiscountAmount : " + voucher.getDiscountAmount());
     }
