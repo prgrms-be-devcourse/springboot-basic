@@ -3,7 +3,9 @@ package com.wonu606.vouchermanager.io;
 import java.util.List;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleInput {
 
     private final TextIO textIO = TextIoFactory.getTextIO();

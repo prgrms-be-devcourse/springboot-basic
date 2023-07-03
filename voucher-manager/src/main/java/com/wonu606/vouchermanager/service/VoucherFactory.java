@@ -6,7 +6,9 @@ import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class VoucherFactory {
 
     public Voucher create(VoucherDto voucherDto) {

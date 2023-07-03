@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class VoucherManagerCommandLineRunner implements CommandLineRunner {
 
-    private final VoucherConsoleInterface controller;
+    private final VoucherConsoleInterface consoleInterface;
 
     @Override
     public void run(String... args) {
-        controller.run();
+        consoleInterface.run();
     }
 }
