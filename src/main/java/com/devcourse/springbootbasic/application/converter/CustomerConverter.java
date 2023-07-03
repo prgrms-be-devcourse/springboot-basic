@@ -6,6 +6,8 @@ import java.util.List;
 
 public class CustomerConverter {
 
+    private CustomerConverter() {}
+
     public static List<String> convertToStringList(List<Customer> list) {
         return list.stream()
                 .map(Customer::toString)
