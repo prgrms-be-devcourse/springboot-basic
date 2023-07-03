@@ -95,7 +95,7 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
 
         console.printSelectVoucherListType();
         voucherListType = VoucherType.getVoucherType(console.getVoucherTypeInput());
-        Optional<Map<UUID, Voucher>> voucherList = voucherService.getVoucherList();
+        Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
         console.printVoucherList(voucherList, voucherListType);
     }
 

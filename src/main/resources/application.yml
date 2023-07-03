@@ -1,9 +1,14 @@
 spring:
+  profiles:
+    active: mysql
+
+---
+
+spring:
   datasource:
     url: "jdbc:mysql://localhost/order_mgmt"
     username: root
     password: 1234
-
-logging:
-  level:
-    root: info
+  config:
+    activate:
+      on-profile: mysql

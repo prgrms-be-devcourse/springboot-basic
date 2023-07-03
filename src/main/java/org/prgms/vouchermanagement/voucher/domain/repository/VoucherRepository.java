@@ -10,5 +10,5 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId);
     void saveVoucher(UUID voucherId, Voucher voucher);
-    Optional<Map<UUID, Voucher>> getVoucherList();
+    Map<UUID, Voucher> getVoucherList();
 }

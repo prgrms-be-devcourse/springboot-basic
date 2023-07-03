@@ -67,7 +67,7 @@ public class Console {
         System.out.print("Type 1 or 2: ");
     }
 
-    public void printVoucherList(Optional<Map<UUID, Voucher>> voucherList, VoucherType listVoucherType) {
+    public void printVoucherList(Map<UUID, Voucher> voucherList, VoucherType listVoucherType) {
         if (voucherList.isEmpty()) {
             System.out.println("조회할 Voucher가 없습니다!!!");
             return;
@@ -75,14 +75,14 @@ public class Console {
 
         if (listVoucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
             System.out.println("=== Fixed Amount Voucher List ===");
-            voucherList.get().forEach((k, v) -> {
+            voucherList.forEach((k, v) -> {
                     if (v instanceof FixedAmountVoucher)
                         System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
                 }
             );
         } else if (listVoucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             System.out.println("=== Percent Discount Voucher List ===");
-            voucherList.get().forEach((k, v) -> {
+            voucherList.forEach((k, v) -> {
                     if (v instanceof PercentDiscountVoucher)
                         System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
                 }
