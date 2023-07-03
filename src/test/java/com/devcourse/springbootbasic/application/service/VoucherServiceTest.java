@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ActiveProfiles("dev")
@@ -50,7 +51,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 생성 테스트")
     @MethodSource("provideVouchers")
     void testCreateVoucher(Voucher voucher) {
-        when(voucherRepository.insert(voucher)).thenReturn(voucher);
+        given(voucherRepository.insert(voucher)).willReturn(voucher);
         var result = voucherService.createVoucher(voucher);
         assertThat(result, notNullValue());
         assertThat(result, instanceOf(Voucher.class));
@@ -60,7 +61,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처 리스트 반환 테스트")
     void testGetVouchers() {
-        when(voucherRepository.findAll()).thenReturn(vouchers);
+        given(voucherRepository.findAll()).willReturn(vouchers);
         var result = voucherService.getVouchers();
         assertThat(result, notNullValue());
         assertThat(result, not(empty()));

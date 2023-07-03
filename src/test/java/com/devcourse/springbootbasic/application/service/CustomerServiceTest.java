@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,7 +19,7 @@ class CustomerServiceTest {
     @DisplayName("블랙고객 리스트 반환 시 성공")
     void testGetAllBlackCustomers() {
         var customerRepositoryMock = mock(CustomerRepository.class);
-        when(customerRepositoryMock.findAll()).thenReturn(
+        given(customerRepositoryMock.findAll()).willReturn(
                 List.of(
                         new Customer(0, "사과"),
                         new Customer(1, "딸기"),
