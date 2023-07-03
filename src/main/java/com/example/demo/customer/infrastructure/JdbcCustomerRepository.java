@@ -4,15 +4,21 @@ import com.example.demo.customer.domain.Customer;
 import com.example.demo.customer.domain.repostiory.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.MapPropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.example.demo.common.utils.UUIDParser.toBytes;
+import static com.example.demo.common.utils.UUIDParser.toUUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -76,16 +82,4 @@ public class JdbcCustomerRepository implements CustomerRepository {
         jdbcTemplate.update(sql);
     }
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-    static byte[] toBytes(UUID uuid) {
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-        bb.putLong(uuid.getMostSignificantBits());
-        bb.putLong(uuid.getLeastSignificantBits());
-        return bb.array();
-    }
 }

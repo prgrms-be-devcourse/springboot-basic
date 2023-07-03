@@ -1,5 +1,7 @@
 package com.example.demo.voucher.domain;
 
+import com.example.demo.voucher.application.VoucherType;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -29,5 +31,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long getValue() {
         return amount;
+    }
+
+    @Override
+    public VoucherType getType() {
+        return VoucherType.FIXED_AMOUNT_VOUCHER;
     }
 }
