@@ -30,15 +30,15 @@ public class OutputView {
 
     public void printVoucherAmountInfoMessage(VoucherType voucherType) {
         switch (voucherType) {
-            case FIXED_AMOUNT_VOUCHER -> System.out.print(FIXED_VOUCHER_AMOUNT_MESSAGE);
-            case PERCENT_DISCOUNT_VOUCHER -> System.out.print(PERCENT_VOUCHER_AMOUNT_MESSAGE);
+            case FIX -> System.out.print(FIXED_VOUCHER_AMOUNT_MESSAGE);
+            case PERCENT -> System.out.print(PERCENT_VOUCHER_AMOUNT_MESSAGE);
         }
     }
 
     public void printVoucherCreateMessage(VoucherType voucherType, Integer amount) {
         switch (voucherType) {
-            case FIXED_AMOUNT_VOUCHER -> System.out.println(String.format(FIXED_VOUCHER_CREATE_MESSAGE, amount));
-            case PERCENT_DISCOUNT_VOUCHER -> System.out.println(String.format(PERCENT_VOUCHER_CREATE_MESSAGE, amount));
+            case FIX -> System.out.println(String.format(FIXED_VOUCHER_CREATE_MESSAGE, amount));
+            case PERCENT -> System.out.println(String.format(PERCENT_VOUCHER_CREATE_MESSAGE, amount));
         }
     }
 

@@ -21,8 +21,8 @@ public class InputView {
     public Integer readVoucherAmount(VoucherType voucherType) {
         String input = sc.nextLine();
         switch (voucherType) {
-            case FIXED_AMOUNT_VOUCHER -> voucherAmountValidator.validateFixedAmount(input);
-            case PERCENT_DISCOUNT_VOUCHER -> voucherAmountValidator.validatePercentAmount(input);
+            case FIX -> voucherAmountValidator.validateFixedAmount(input);
+            case PERCENT -> voucherAmountValidator.validatePercentAmount(input);
         }
         return Integer.parseInt(input);
     }
