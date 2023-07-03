@@ -47,8 +47,6 @@ public class OutputView {
             System.out.println(VOUCHER_LIST_EMPTY_MESSAGE);
             return;
         }
-        list.forEach((voucherDto -> {
-            System.out.println(voucherDto.toString());
-        }));
+        list.forEach(voucherDto -> System.out.println(voucherDto.toString()));
     }
 }
