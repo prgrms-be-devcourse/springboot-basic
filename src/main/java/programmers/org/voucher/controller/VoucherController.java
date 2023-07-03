@@ -36,9 +36,9 @@ public class VoucherController implements CommandLineRunner {
     }
 
     public void run() {
-        boolean isExit = false;
+        boolean isRunning = true;
 
-        while (!isExit) {
+        while (isRunning) {
             voucherConsole.printManual();
             String inputCommand = voucherConsole.inputCommand();
 
@@ -53,7 +53,7 @@ public class VoucherController implements CommandLineRunner {
                     printVoucherList();
                     break;
                 case EXIT:
-                    isExit = true;
+                    isRunning = false;
             }
         }
     }
