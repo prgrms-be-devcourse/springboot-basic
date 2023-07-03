@@ -3,6 +3,10 @@ package kr.co.programmers.springbootbasic.wallet.repository.impl;
 import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 import kr.co.programmers.springbootbasic.customer.domain.impl.JdbcCustomer;
+import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
+import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
+import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
+import kr.co.programmers.springbootbasic.voucher.domain.impl.PercentAmountVoucher;
 import kr.co.programmers.springbootbasic.wallet.domain.Wallet;
 import kr.co.programmers.springbootbasic.wallet.repository.WalletRepository;
 import org.springframework.context.annotation.Profile;
@@ -26,17 +30,19 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public void saveVoucherInCustomerWallet(UUID walletId, UUID voucherId) {
+    public void saveVoucherInCustomerWallet(UUID voucherId, UUID walletId) {
         jdbcTemplate.update("INSERT INTO wallet (id, voucher_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))",
                 walletId.toString().getBytes(),
                 voucherId.toString().getBytes());
     }
 
     @Override
-    public List<Wallet> findAllVouchersById(UUID walletId) {
-        return jdbcTemplate.query("SELECT * FROM voucher WHERE wallet_id = UUID_TO_BIN(?)",
-                walletRowMapper(),
+    public Wallet findAllVouchersById(UUID walletId) {
+        List<Voucher> vouchers = jdbcTemplate.query("SELECT * FROM voucher AS v JOIN wallet AS w ON v.wallet_id = w.id WHERE v.wallet_id = UUID_TO_BIN(?)",
+                voucherRowMapper(),
                 walletId.toString().getBytes());
+
+        return new Wallet(walletId, vouchers);
     }
 
     @Override
@@ -65,12 +71,17 @@ public class JdbcWalletRepository implements WalletRepository {
                 voucherId.toString().getBytes());
     }
 
-    private RowMapper<Wallet> walletRowMapper() {
+    private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
-            var walletId = toUUID(rs.getBytes("id"));
-            var voucherId = toUUID(rs.getBytes("voucher_id"));
+            var voucherId = toUUID(rs.getBytes("id"));
+            var type = VoucherType.resolveTypeId(rs.getInt("type_id"));
+            var amount = rs.getLong("amount");
+            var createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
-            return new Wallet(walletId, voucherId);
+            return switch (type) {
+                case FIXED_AMOUNT -> new FixedAmountVoucher(voucherId, amount, createdAt);
+                case PERCENT_AMOUNT -> new PercentAmountVoucher(voucherId, amount, createdAt);
+            };
         };
     }
 

@@ -5,8 +5,8 @@ import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 
 import java.util.UUID;
 
-public class CsvCustomer extends Customer {
-    public CsvCustomer(UUID id, String name, CustomerStatus status) {
+public class BlackCustomer extends Customer {
+    public BlackCustomer(UUID id, String name, CustomerStatus status) {
         super(id, name, status);
     }
 }

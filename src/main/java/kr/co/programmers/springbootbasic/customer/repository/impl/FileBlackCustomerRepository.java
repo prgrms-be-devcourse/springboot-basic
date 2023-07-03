@@ -2,8 +2,8 @@ package kr.co.programmers.springbootbasic.customer.repository.impl;
 
 import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
-import kr.co.programmers.springbootbasic.customer.domain.impl.CsvCustomer;
-import kr.co.programmers.springbootbasic.customer.repository.CustomerRepository;
+import kr.co.programmers.springbootbasic.customer.domain.impl.BlackCustomer;
+import kr.co.programmers.springbootbasic.customer.repository.BlackCustomerRepository;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.exception.FileConvertFailException;
 import kr.co.programmers.springbootbasic.voucher.exception.FileRepositoryInitException;
@@ -22,16 +22,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public class CsvCustomerRepository implements CustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(CsvCustomerRepository.class);
+public class FileBlackCustomerRepository implements BlackCustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(FileBlackCustomerRepository.class);
     private static final String USER_BLACK_LIST_PATH = "src/main/resources/customer_blacklist.csv";
     private static final int CUSTOMER_ID_INDEX = 0;
     private static final int CUSTOMER_NAME_INDEX = 1;
     private static final int CUSTOMER_STATUS_INDEX = 2;
 
-    public CsvCustomerRepository() throws RuntimeException {
+    public FileBlackCustomerRepository() throws RuntimeException {
         logger.info("CsvCustomerRepository를 초기화합니다.");
         createBlackListFileAfterExistCheck();
     }
@@ -77,10 +78,10 @@ public class CsvCustomerRepository implements CustomerRepository {
         List<Customer> blackList = new ArrayList<>();
         while ((line = bufferedReader.readLine()) != null) {
             String[] customerProperties = line.split(",");
-            long id = ApplicationUtils.parseStringToLong(customerProperties[CUSTOMER_ID_INDEX]);
+            UUID id = ApplicationUtils.toUUID(customerProperties[CUSTOMER_ID_INDEX].toString().getBytes());
             String name = customerProperties[CUSTOMER_NAME_INDEX];
             CustomerStatus status = CustomerStatus.valueOf(customerProperties[CUSTOMER_STATUS_INDEX]);
-            blackList.add(new CsvCustomer(id, name, status));
+            blackList.add(new BlackCustomer(id, name, status));
         }
 
         return blackList;

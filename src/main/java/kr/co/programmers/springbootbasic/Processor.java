@@ -1,13 +1,13 @@
 package kr.co.programmers.springbootbasic;
 
-import kr.co.programmers.springbootbasic.customer.dto.response.CustomerResponseDto;
+import kr.co.programmers.springbootbasic.customer.dto.CustomerDto;
 import kr.co.programmers.springbootbasic.customer.service.CustomerService;
 import kr.co.programmers.springbootbasic.io.Input;
 import kr.co.programmers.springbootbasic.io.MenuCommand;
 import kr.co.programmers.springbootbasic.io.Output;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
-import kr.co.programmers.springbootbasic.voucher.dto.request.VoucherRequestDto;
-import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.voucher.dto.VoucherCreationRequestDto;
+import kr.co.programmers.springbootbasic.voucher.dto.VoucherDto;
 import kr.co.programmers.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,19 +68,19 @@ public class Processor implements ApplicationRunner {
 
         outputConsole.printAmountEnterMessage(type);
         long amount = inputConsole.readAmount();
-        VoucherRequestDto voucherRequestDto = new VoucherRequestDto(type, amount);
-        VoucherResponseDto voucherResponseDto = voucherService.createVoucher(voucherRequestDto);
+        VoucherCreationRequestDto voucherCreationRequestDto = new VoucherCreationRequestDto(type, amount);
+        VoucherDto voucherDto = voucherService.createVoucher(voucherCreationRequestDto);
 
-        outputConsole.printVoucherMessage(voucherResponseDto);
+        outputConsole.printVoucherMessage(voucherDto);
     }
 
     private void listAllVoucher() throws RuntimeException {
-        List<VoucherResponseDto> voucherResponseDtos = voucherService.listAllVoucher();
-        outputConsole.printVoucherListMessage(voucherResponseDtos);
+        List<VoucherDto> voucherDtos = voucherService.listAllVoucher();
+        outputConsole.printVoucherListMessage(voucherDtos);
     }
 
     private void listAllBlackCustomer() {
-        List<CustomerResponseDto> customerResponseDtos = customerService.listAllBlackCustomer();
+        List<CustomerDto> customerResponseDtos = customerService.listAllBlackCustomer();
         outputConsole.printCustomerListMessage(customerResponseDtos);
     }
 }

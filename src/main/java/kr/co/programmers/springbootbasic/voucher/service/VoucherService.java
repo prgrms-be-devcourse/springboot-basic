@@ -1,7 +1,7 @@
 package kr.co.programmers.springbootbasic.voucher.service;
 
-import kr.co.programmers.springbootbasic.voucher.dto.request.VoucherRequestDto;
-import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.voucher.dto.VoucherCreationRequestDto;
+import kr.co.programmers.springbootbasic.voucher.dto.VoucherDto;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
@@ -24,7 +24,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherResponseDto createVoucher(VoucherRequestDto requestDto) throws RuntimeException {
+    public VoucherDto createVoucher(VoucherCreationRequestDto requestDto) throws RuntimeException {
         logger.info("바우처를 생성합니다...");
         UUID voucherId = UUID.randomUUID();
         VoucherType type = requestDto.getType();
@@ -40,7 +40,7 @@ public class VoucherService {
         return ApplicationUtils.convertToVoucherResponseDto(savedVoucher);
     }
 
-    public List<VoucherResponseDto> listAllVoucher() throws RuntimeException {
+    public List<VoucherDto> listAllVoucher() throws RuntimeException {
         logger.info("생성된 바우처를 조회합니다...");
         List<Voucher> vouchers = voucherRepository.listAll();
 

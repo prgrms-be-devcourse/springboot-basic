@@ -3,7 +3,13 @@ package kr.co.programmers.springbootbasic.customer.repository;
 import kr.co.programmers.springbootbasic.customer.domain.Customer;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface CustomerRepository {
-    List<Customer> listAllBlackCustomer();
+    Customer save(Customer customer);
+    Optional<Customer> findById(UUID customerId);
+    List<Customer> findAll();
+    Customer update(Customer customer);
+    void deleteById(UUID customerId);
 }

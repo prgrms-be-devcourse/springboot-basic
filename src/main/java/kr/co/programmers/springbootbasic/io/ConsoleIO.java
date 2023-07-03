@@ -1,9 +1,9 @@
 package kr.co.programmers.springbootbasic.io;
 
-import kr.co.programmers.springbootbasic.customer.dto.response.CustomerResponseDto;
+import kr.co.programmers.springbootbasic.customer.dto.CustomerDto;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
-import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.voucher.dto.VoucherDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -65,13 +65,13 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
-    public void printVoucherMessage(VoucherResponseDto dto) {
+    public void printVoucherMessage(VoucherDto dto) {
         String message = ApplicationUtils.formatVoucherResponseDto(dto);
         System.out.print(message);
     }
 
     @Override
-    public void printVoucherListMessage(List<VoucherResponseDto> list) {
+    public void printVoucherListMessage(List<VoucherDto> list) {
         String message = list.stream()
                 .map(ApplicationUtils::formatVoucherResponseDto)
                 .collect(Collectors.joining());
@@ -83,7 +83,7 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
-    public void printCustomerListMessage(List<CustomerResponseDto> list) {
+    public void printCustomerListMessage(List<CustomerDto> list) {
         String message = list.stream()
                 .map(ApplicationUtils::formatCustomerResponseDto)
                 .collect(Collectors.joining());

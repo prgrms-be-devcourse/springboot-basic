@@ -1,21 +1,24 @@
 package kr.co.programmers.springbootbasic.wallet.domain;
 
+import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
+
+import java.util.List;
 import java.util.UUID;
 
 public class Wallet {
     private final UUID id;
-    private final UUID voucher_id;
+    private final List<Voucher> vouchers;
 
-    public Wallet(UUID id, UUID voucher_id) {
+    public Wallet(UUID id, List<Voucher> vouchers) {
         this.id = id;
-        this.voucher_id = voucher_id;
+        this.vouchers = vouchers;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public UUID getVoucher_id() {
-        return voucher_id;
+    public List<Voucher> getVouchers() {
+        return vouchers;
     }
 }

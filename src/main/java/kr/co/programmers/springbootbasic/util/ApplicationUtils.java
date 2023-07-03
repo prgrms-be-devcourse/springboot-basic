@@ -2,13 +2,14 @@ package kr.co.programmers.springbootbasic.util;
 
 import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
-import kr.co.programmers.springbootbasic.customer.dto.response.CustomerResponseDto;
+import kr.co.programmers.springbootbasic.customer.dto.CustomerDto;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
-import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
+import kr.co.programmers.springbootbasic.voucher.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -62,24 +63,25 @@ public class ApplicationUtils {
         }
     }
 
-    public static VoucherResponseDto convertToVoucherResponseDto(Voucher voucher) {
+    public static VoucherDto convertToVoucherResponseDto(Voucher voucher) {
         VoucherType type = voucher.getType();
         UUID voucherId = voucher.getId();
         long amount = voucher.getAmount();
         LocalDateTime createdAt = voucher.getCreatedAt();
 
-        return new VoucherResponseDto(type, voucherId, amount, createdAt);
+        return new VoucherDto(type, voucherId, amount, createdAt);
     }
 
-    public static CustomerResponseDto convertToCustomerResponseDto(Customer customer) {
+    public static CustomerDto convertToCustomerResponseDto(Customer customer) {
         UUID id = customer.getId();
         String name = customer.getName();
         CustomerStatus status = customer.getStatus();
+        UUID walletId = customer.getWalletId();
 
-        return new CustomerResponseDto(id, name, status);
+        return new CustomerDto(id, name, status, walletId);
     }
 
-    public static String formatVoucherResponseDto(VoucherResponseDto dto) {
+    public static String formatVoucherResponseDto(VoucherDto dto) {
         if (dto.getType() == VoucherType.FIXED_AMOUNT) {
             return MessageFormat.format(FIXED_VOUCHER_FORMAT,
                     dto.getType(),
@@ -95,11 +97,21 @@ public class ApplicationUtils {
                 dto.getCreatedAt());
     }
 
-    public static String formatCustomerResponseDto(CustomerResponseDto dto) {
+    public static String formatCustomerResponseDto(CustomerDto dto) {
         return MessageFormat.format(CSV_USER_FORMAT,
                 dto.getId(),
                 dto.getName(),
                 dto.getStatus()
         );
+    }
+
+    public static UUID createUUID() {
+        return UUID.randomUUID();
+    }
+
+    public static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
