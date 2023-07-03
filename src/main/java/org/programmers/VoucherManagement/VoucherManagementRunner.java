@@ -34,10 +34,7 @@ public class VoucherManagementRunner implements CommandLineRunner {
                 }
                 commandExecutor.execute(commandType);
 
-            }catch (VoucherException e){
-                logger.info(e.getMessage());
-            }
-            catch(IllegalArgumentException e){
+            }catch (VoucherException | IllegalArgumentException e){
                 logger.info(e.getMessage());
             }
         }

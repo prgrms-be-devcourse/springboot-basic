@@ -22,7 +22,7 @@ public class MemberConverter {
 
     public static List<Member> toMembers(List<String> lines) {
         return lines.stream()
-                .map(s -> MemberConverter.toMember(s))
+                .map(MemberConverter::toMember)
                 .collect(Collectors.toList());
     }
 }
