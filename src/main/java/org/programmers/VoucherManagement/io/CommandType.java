@@ -33,13 +33,9 @@ public enum CommandType {
 
 
     public static CommandType from(String type) {
-        try {
-            if (COMMAND_TYPE_MAP.containsKey(type)) {
-                return COMMAND_TYPE_MAP.get(type);
-            }
+        if (!COMMAND_TYPE_MAP.containsKey(type)) {
             throw new VoucherException(NOT_EXIST_COMMAND);
-        } catch (VoucherException e) {
-            throw new VoucherException(NOT_EXIST_COMMAND, e);
         }
+        return COMMAND_TYPE_MAP.get(type);
     }
 }
