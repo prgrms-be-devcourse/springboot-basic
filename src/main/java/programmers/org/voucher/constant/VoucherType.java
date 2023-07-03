@@ -4,18 +4,12 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum VoucherType {
-    FIXED("fixed"),
-    PERCENT("percent");
-
-    private final String type;
-
-    VoucherType(String type) {
-        this.type = type;
-    }
+    FIXED,
+    PERCENT;
 
     public static Optional<VoucherType> find(String type) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.type.equals(type))
+                .filter(voucherType -> voucherType.name().equals(type))
                 .findAny();
     }
 }
