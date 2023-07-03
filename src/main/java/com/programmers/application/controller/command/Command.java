@@ -63,7 +63,7 @@ public enum Command {
                 VoucherExecution voucherExecution = () -> {
                     List<VoucherInfoResponse> voucherList = voucherService.findVoucherList();
                     for (VoucherInfoResponse voucherInfoResponse : voucherList) {
-                        io.write(voucherInfoResponse.toString());
+                        io.write(String.valueOf(voucherInfoResponse));
                     }
                 };
                 voucherExecution.execute();
