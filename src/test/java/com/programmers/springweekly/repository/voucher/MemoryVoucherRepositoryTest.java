@@ -30,7 +30,8 @@ public class MemoryVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // then
-        assertThat(voucherRepository.getList().get(voucher.getVoucherId())).isEqualTo(voucher);
+        assertThat(voucherRepository.getList().get(voucher.getVoucherId()))
+                .isEqualTo(voucher);
     }
 
     @Test
@@ -43,7 +44,8 @@ public class MemoryVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // then
-        assertThat(voucherRepository.getList().get(voucher.getVoucherId())).isEqualTo(voucher);
+        assertThat(voucherRepository.getList().get(voucher.getVoucherId()))
+                .isEqualTo(voucher);
     }
 
     @Test

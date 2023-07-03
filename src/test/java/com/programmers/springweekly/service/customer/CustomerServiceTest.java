@@ -1,5 +1,6 @@
 package com.programmers.springweekly.service.customer;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -10,7 +11,6 @@ import com.programmers.springweekly.repository.customer.CustomerRepository;
 import com.programmers.springweekly.service.CustomerService;
 import java.util.Map;
 import java.util.UUID;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,7 +49,7 @@ public class CustomerServiceTest {
         Map<UUID, Customer> actualCustomer = customerService.getBlackList();
 
         // then
-        Assertions.assertThat(actualCustomer).isEqualTo(expectBlacklist);
+        assertThat(actualCustomer).isEqualTo(expectBlacklist);
         verify(customerRepository, times(1)).getBlackList();
     }
 }

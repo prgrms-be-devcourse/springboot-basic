@@ -1,6 +1,7 @@
 package com.programmers.springweekly.service.voucher;
 
 import static java.util.Map.entry;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,7 +13,6 @@ import com.programmers.springweekly.repository.voucher.VoucherRepository;
 import com.programmers.springweekly.service.VoucherService;
 import java.util.Map;
 import java.util.UUID;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +46,7 @@ public class VoucherServiceTest {
         Map<UUID, Voucher> voucherAll = voucherService.findVoucherAll();
 
         // then
-        Assertions.assertThat(voucherAll)
+        assertThat(voucherAll)
                 .hasSize(2)
                 .contains(entry(voucher1.getVoucherId(), voucher1), entry(voucher2.getVoucherId(), voucher2));
 
