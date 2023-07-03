@@ -1,65 +1,67 @@
 package com.wonu606.vouchermanager.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
-import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
-import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.repository.LocalMemoryVoucherRepository;
+import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.repository.VoucherRepository;
-import java.util.UUID;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class VoucherServiceTest {
+@DisplayName("VoucherService 테스트")
+public class VoucherServiceTest {
 
-    @Test
-    void 타입이름이_fixed면_FixedAmountVoucher_생성해야_한다() {
-        // given
-        VoucherRepository repository = new LocalMemoryVoucherRepository();
-        VoucherService service = new VoucherService(repository);
+    private VoucherFactory factory;
 
-        String typeName = "fixed";
-        UUID uuid = UUID.randomUUID();
-        double discount = 5000;
+    private VoucherRepository repository;
 
-        // when
-        Voucher voucher = service.createVoucher(typeName, uuid, discount);
+    private VoucherService voucherService;
 
-        // then
-        assertEquals(FixedAmountVoucher.class, voucher.getClass());
+    @BeforeEach
+    public void setup() {
+        this.factory = mock(VoucherFactory.class);
+        this.repository = mock(VoucherRepository.class);
+        this.voucherService = new VoucherService(factory, repository);
     }
 
     @Test
-    void 타입이름이_percent면_PercentageVoucher_생성해야_한다() {
+    @DisplayName("VoucherDto가 주어지고_createVoucher하면_바우처를 생성한다.")
+    public void GivenVoucherDto_WhenCreateVoucher_ThenReturnExpectedVoucher() {
         // given
-        VoucherRepository repository = new LocalMemoryVoucherRepository();
-        VoucherService service = new VoucherService(repository);
+        VoucherDto dto = mock(VoucherDto.class);
+        Voucher expectedVoucher = mock(Voucher.class);
 
-        String typeName = "percent";
-        UUID uuid = UUID.randomUUID();
-        double discount = 50;
+        given(factory.create(dto)).willReturn(expectedVoucher);
+        given(repository.save(expectedVoucher)).willReturn(expectedVoucher);
 
         // when
-        Voucher voucher = service.createVoucher(typeName, uuid, discount);
+        Voucher actualVoucher = voucherService.createVoucher(dto);
 
         // then
-        assertEquals(PercentageVoucher.class, voucher.getClass());
+        then(factory).should(times(1)).create(dto);
+        then(repository).should(times(1)).save(expectedVoucher);
+        assertEquals(expectedVoucher, actualVoucher);
     }
 
     @Test
-    void createVoucher시_객체가_저장되어야_한다() {
+    @DisplayName("Voucher들을 저장한 뒤_getVoucherList하면_바우처들을 반환한다.")
+    public void GivenSavedVouchers_WhenGetVoucherList_ThenReturnsExpectedVouchers() {
         // given
-        VoucherRepository repository = new LocalMemoryVoucherRepository();
-        VoucherService service = new VoucherService(repository);
-
-        String typeName = "percent";
-        UUID uuid = UUID.randomUUID();
-        double discount = 50;
+        List<Voucher> expectedVouchers = Arrays.asList(mock(Voucher.class), mock(Voucher.class));
+        given(repository.findAll()).willReturn(expectedVouchers);
 
         // when
-        Voucher voucher = service.createVoucher(typeName, uuid, discount);
+        List<Voucher> actualVouchers = voucherService.getVoucherList();
 
         // then
-        assertEquals(1, service.getVoucherList().size());
+        then(repository).should(times(1)).findAll();
+        assertEquals(expectedVouchers, actualVouchers);
     }
 }
