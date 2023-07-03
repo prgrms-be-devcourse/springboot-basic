@@ -36,7 +36,7 @@ public enum Command {
                     }
 
                     private static void validateType(String type) {
-                        if (Objects.isNull(type) || type.isBlank() || type.isEmpty()) {
+                        if (Objects.isNull(type) || type.isBlank()) {
                             String errorMessage = String.format("옳바른 타입을 입력해 주세요. 입력값: %s", type);
                             throw new IllegalArgumentException(errorMessage);
                         }
