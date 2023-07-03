@@ -44,4 +44,23 @@ class FixedAmountVoucherTest {
 
         Assertions.assertEquals(expectedDiscountedPrice, discountedPrice);
     }
+
+    @Test
+    @DisplayName("정액할인 : 할인 금액이 가격보다 큰 경우")
+    void testMaxCalculateDiscount() {
+        //given
+        long amount = 200;
+        long price = 100;
+        UUID id = UUID.randomUUID();
+
+        FixedAmountVoucher voucher = new FixedAmountVoucher(amount, id);
+
+        //when
+        long discountedPrice = voucher.calculateDiscount(price);
+
+        //then
+        long expectedDiscountedPrice = 0; // 할인된 가격이 0 미만인 경우 0
+
+        Assertions.assertEquals(expectedDiscountedPrice, discountedPrice);
+    }
 }
