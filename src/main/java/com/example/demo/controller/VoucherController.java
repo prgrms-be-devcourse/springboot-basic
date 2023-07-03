@@ -16,8 +16,8 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void create(VoucherType voucherType, int amount) {
-        voucherService.save(voucherType, amount);
+    public VoucherDto create(VoucherType voucherType, int amount) {
+        return voucherService.save(voucherType, amount);
     }
 
     public List<VoucherDto> readList() {

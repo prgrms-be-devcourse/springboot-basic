@@ -17,11 +17,23 @@ public class VoucherDto {
         this.voucherType = voucherType;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public double getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
     @Override
     public String toString() {
         return switch (voucherType) {
-            case FIX -> String.format("    Fixed Voucher, Discount Amount: %.0f 할인권이 생성되었습니다.", discountAmount);
-            case PERCENT -> String.format("    Percent Voucher, Discount percent Amount: %.0f 할인권이 생성되었습니다.", discountAmount);
+            case FIX -> String.format("    Fixed Voucher, Discount Amount: %.0f (바우처 ID : %s)", discountAmount, id.toString());
+            case PERCENT -> String.format("    Percent Voucher, Discount percent Amount: %.0f (바우처 ID : %s)", discountAmount, id.toString());
             default -> throw new IllegalArgumentException("잘 못된 바우처 타입입니다.");
         };
     }

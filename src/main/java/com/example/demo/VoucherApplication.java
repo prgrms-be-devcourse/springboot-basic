@@ -7,21 +7,22 @@ import com.example.demo.util.CommandType;
 import com.example.demo.util.VoucherType;
 import com.example.demo.view.VoucherView;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherApplication implements CommandLineRunner {
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
     private final VoucherController voucherController;
     private final VoucherView voucherView;
-
 
     public VoucherApplication(VoucherController voucherController, VoucherView voucherView) {
         this.voucherController = voucherController;
         this.voucherView = voucherView;
     }
-
 
     //흐름 제어
     @Override
@@ -36,8 +37,8 @@ public class VoucherApplication implements CommandLineRunner {
                 case CREATE -> {
                     VoucherType voucherType = voucherView.readVoucherOption();
                     Integer amount = voucherView.readVoucherAmount(voucherType);
-                    voucherController.create(voucherType, amount);
-                    voucherView.printVoucherCreateMessage(voucherType, amount);
+                    VoucherDto voucherDto = voucherController.create(voucherType, amount);
+                    voucherView.printCreateMessage(voucherDto);
                 }
                 case LIST -> {
                     List<VoucherDto> voucherDtoList = voucherController.readList();

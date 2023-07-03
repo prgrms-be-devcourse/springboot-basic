@@ -19,13 +19,14 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void save(VoucherType voucherType, int amount) {
+    public VoucherDto save(VoucherType voucherType, int amount) {
         Voucher voucher = switch (voucherType) {
             case FIX -> new FixedAmountVoucher(amount);
             case PERCENT -> new PercentDiscountVoucher(amount);
         };
 
         voucherRepository.save(voucher);
+        return VoucherDto.from(voucher);
     }
 
     public VoucherDto readAll(UUID id) {

@@ -36,8 +36,8 @@ public class VoucherView {
         return inputView.readVoucherAmount(voucherType);
     }
 
-    public void printVoucherCreateMessage(VoucherType voucherType, Integer amount) {
-        outputView.printVoucherCreateMessage(voucherType, amount);
+    public void printCreateMessage(VoucherDto voucherDto) {
+        outputView.printCreateMessage(voucherDto);
     }
 
     public void printVoucherList(List<VoucherDto> list) {
