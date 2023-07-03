@@ -32,10 +32,6 @@ public class VoucherController implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        run();
-    }
-
-    public void run() {
         boolean isRunning = true;
 
         while (isRunning) {
