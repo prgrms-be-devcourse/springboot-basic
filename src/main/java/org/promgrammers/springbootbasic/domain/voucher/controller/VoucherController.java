@@ -4,6 +4,7 @@ import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucher
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherResponse;
+import org.promgrammers.springbootbasic.domain.voucher.model.DeleteVoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.service.VoucherService;
 import org.promgrammers.springbootbasic.view.Console;
@@ -45,7 +46,7 @@ public class VoucherController {
                 console.print(updatedVoucher.voucherOutput());
             }
             case DELETE -> {
-                deleteAll();
+                deleteByType();
                 console.print("삭제가 완료되었습니다.");
             }
         }
@@ -83,6 +84,24 @@ public class VoucherController {
         UpdateVoucherRequest updateVoucherRequest = new UpdateVoucherRequest(voucherId, voucherType, discountAmount);
 
         return voucherService.update(updateVoucherRequest);
+    }
+
+    private void deleteByType() {
+        String inputType = console.askForVoucherDeleteType();
+        DeleteVoucherType deleteType = DeleteVoucherType.from(inputType);
+
+        switch (deleteType) {
+            case ID -> deleteVoucherById();
+
+            case ALL -> deleteAll();
+        }
+    }
+
+    private void deleteVoucherById() {
+        String requestId = console.askForVoucherId();
+        UUID voucherId = UUID.fromString(requestId);
+
+        voucherService.deleteById(voucherId);
     }
 
     private void deleteAll() {

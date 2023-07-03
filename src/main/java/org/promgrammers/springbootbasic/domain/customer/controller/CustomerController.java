@@ -5,6 +5,7 @@ import org.promgrammers.springbootbasic.domain.customer.dto.request.UpdateCustom
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomerResponse;
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersResponse;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
+import org.promgrammers.springbootbasic.domain.customer.model.DeleteCustomerType;
 import org.promgrammers.springbootbasic.domain.customer.model.FindCustomerType;
 import org.promgrammers.springbootbasic.domain.customer.service.BlackCustomerService;
 import org.promgrammers.springbootbasic.domain.customer.service.CustomerService;
@@ -48,10 +49,40 @@ public class CustomerController {
                 console.print(updatedCustomer.customerOutput());
             }
             case DELETE -> {
-                deleteAll();
-                console.print("삭제되었습니다.");
+                deleteType();
+                console.print("삭제 되었습니다.");
             }
         }
+    }
+
+    private void deleteType() {
+        String inputType = console.askForCustomerDeleteType();
+        DeleteCustomerType deleteType = DeleteCustomerType.from(inputType);
+
+        switch (deleteType) {
+            case ID -> deleteCustomerById();
+            case ALL -> deleteAll();
+        }
+    }
+
+    private CustomerResponse create() {
+        console.print("고객 이름을 입력해 주세요.");
+        String inputUsername = console.input();
+        CreateCustomerRequest customerRequest = new CreateCustomerRequest(inputUsername);
+        return customerService.createCustomer(customerRequest);
+    }
+
+    private CustomerResponse update() {
+        String requestId = console.askForCustomerId();
+        UUID customerId = UUID.fromString(requestId);
+
+        console.print("수정 할 이름을 적어주세요.");
+        String requestUsername = console.input();
+
+        CustomerType customerType = CustomerType.WHITE;
+
+        UpdateCustomerRequest updateCustomerRequest = new UpdateCustomerRequest(customerId, requestUsername, customerType);
+        return customerService.updateCustomer(updateCustomerRequest);
     }
 
     private void findByType() {
@@ -65,20 +96,6 @@ public class CustomerController {
 
             case BLACKLIST -> findBlackListCustomer();
         }
-    }
-
-    private CustomersResponse findBlackListCustomer() {
-        CustomersResponse blackList = blackCustomerService.findAllByCustomerType(CustomerType.BLACK);
-        console.print(blackList.blackTypeOutput());
-
-        return blackList;
-    }
-
-    private CustomerResponse create() {
-        console.print("고객 이름을 입력해 주세요.");
-        String inputUsername = console.input();
-        CreateCustomerRequest customerRequest = new CreateCustomerRequest(inputUsername);
-        return customerService.createCustomer(customerRequest);
     }
 
     private CustomerResponse findCustomerById() {
@@ -101,25 +118,26 @@ public class CustomerController {
         return customer;
     }
 
+    private CustomersResponse findBlackListCustomer() {
+        CustomersResponse blackList = blackCustomerService.findAllByCustomerType(CustomerType.BLACK);
+        console.print(blackList.blackTypeOutput());
+
+        return blackList;
+    }
+
     private CustomersResponse findAll() {
         return customerService.findAllCustomers();
     }
 
-    private CustomerResponse update() {
-        String requestId = console.askForCustomerId();
-        UUID customerId = UUID.fromString(requestId);
-
-        console.print("수정 할 이름을 적어주세요.");
-        String requestUsername = console.input();
-
-        CustomerType customerType = CustomerType.WHITE;
-
-        UpdateCustomerRequest updateCustomerRequest = new UpdateCustomerRequest(customerId, requestUsername, customerType);
-        return customerService.updateCustomer(updateCustomerRequest);
-    }
-
     public void deleteAll() {
         customerService.deleteAllCustomers();
+        console.print("모든 고객이 삭제 되었습니다.");
     }
 
+    private void deleteCustomerById() {
+        String requestId = console.askForCustomerId();
+        UUID voucherId = UUID.fromString(requestId);
+
+        customerService.deleteById(voucherId);
+    }
 }
