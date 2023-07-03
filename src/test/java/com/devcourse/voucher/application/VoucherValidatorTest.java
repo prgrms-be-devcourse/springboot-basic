@@ -31,26 +31,12 @@ class VoucherValidatorTest {
     class creationValidationTest {
         private final LocalDateTime expiredAt = LocalDateTime.now().plusMonths(1);
 
-        @ParameterizedTest
-        @DisplayName("없는 바우처 타입을 받으면 예외가 발생한다.")
-        @ValueSource(strings = {"hejow", "john", "drake", "camo"})
-        void validateVoucherTypeTest(String inputSymbol) {
-            // given
-            int discount = 50;
-            CreateVoucherRequest request = new CreateVoucherRequest(inputSymbol, discount, expiredAt);
-
-            // when, then
-            assertThatThrownBy(() -> voucherValidator.validateRequest(request))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
         @Test
         @DisplayName("0보다 작은 할인량을 받으면 예외가 발생한다..")
         void validateDiscountAmountTest() {
             // given
-            String voucherSymbol = FIXED.getSymbol();
             int discountAmount = -1;
-            CreateVoucherRequest request = new CreateVoucherRequest(voucherSymbol, discountAmount, expiredAt);
+            CreateVoucherRequest request = new CreateVoucherRequest(FIXED, discountAmount, expiredAt);
 
             // when, then
             assertThatThrownBy(() -> voucherValidator.validateRequest(request))
@@ -62,8 +48,7 @@ class VoucherValidatorTest {
         @ValueSource(ints = {-1, 101})
         void validateDiscountRateTest(int discountRate) {
             // given
-            String voucherSymbol = PERCENT.getSymbol();
-            CreateVoucherRequest request = new CreateVoucherRequest(voucherSymbol, discountRate, expiredAt);
+            CreateVoucherRequest request = new CreateVoucherRequest(PERCENT, discountRate, expiredAt);
 
             // when, then
             assertThatThrownBy(() -> voucherValidator.validateRequest(request))
@@ -74,9 +59,8 @@ class VoucherValidatorTest {
         @DisplayName("현재보다 과거인 만료일을 받으면 예외가 발생한다.")
         void validateExpirationTest() {
             // given
-            String voucherSymbol = FIXED.getSymbol();
             int discountAmount = 1_500;
-            CreateVoucherRequest request = new CreateVoucherRequest(voucherSymbol, discountAmount, invalidExpiration);
+            CreateVoucherRequest request = new CreateVoucherRequest(FIXED, discountAmount, invalidExpiration);
 
             // when, then
             assertThatThrownBy(() -> voucherValidator.validateRequest(request))

@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 public class VoucherMapper {
 
     public Voucher toEntity(CreateVoucherRequest request) {
-        String symbol = request.typeSymbol();
+        VoucherType voucherType = request.type();
 
-        if (VoucherType.isFixType(symbol)) {
-            return Voucher.fixed(request.discount(), request.expiredAt());
+        if (voucherType.isPercent()) {
+            return Voucher.percent(request.discount(), request.expiredAt());
         }
 
-        return Voucher.percent(request.discount(), request.expiredAt());
+        return Voucher.fixed(request.discount(), request.expiredAt());
     }
 
     public GetVoucherResponse toResponse(Voucher voucher) {
