@@ -25,23 +25,29 @@ public class ConsoleApplication implements CommandLineRunner {
         console.consoleMenu();
 
         while (true) {
-            String command = console.inputCommand();
-            Command inputCommand = Command.checkInputCommand(command);
+            try {
+                String command = console.inputCommand();
+                Command inputCommand = Command.of(command);
 
-            switch (inputCommand) {
-                case CREATE -> createVoucher();
-                case LIST -> getVoucherList();
-                case EXIT -> {
-                    console.printMessage("프로그램을 종료합니다.");
-                    return;
+                switch (inputCommand) {
+                    case CREATE -> createVoucher();
+                    case LIST -> getVoucherList();
+                    case EXIT -> {
+                        console.printMessage("프로그램을 종료합니다.");
+                        return;
+                    }
                 }
+            } catch (IllegalArgumentException e) {
+                log.error("명령어가 잘못 입력되었습니다. ", e);
+            } catch (Exception e) {
+                log.error("프로그램에서 오류가 발생하였습니다.", e);
             }
         }
     }
 
     private void createVoucher() {
         String voucherTypeInput = console.inputVoucherType();
-        VoucherType voucherType = VoucherType.checkVoucherType(voucherTypeInput);
+        VoucherType voucherType = VoucherType.of(voucherTypeInput);
 
         long voucherDiscount = console.inputVoucherDiscount();
 
