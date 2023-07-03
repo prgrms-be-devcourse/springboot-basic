@@ -32,12 +32,16 @@ public class VoucherController {
     }
 
     private void execute(Option option) {
-        if (option == Option.CREATE) {
-            createVoucher();
-        } else if (option == Option.LIST) {
-            listVouchers();
-        } else if (option == Option.EXIT) {
-            exitProgram();
+        switch (option) {
+            case CREATE:
+                createVoucher();
+                break;
+            case LIST:
+                listVouchers();
+                break;
+            case EXIT:
+                exitProgram();
+                break;
         }
     }
 
