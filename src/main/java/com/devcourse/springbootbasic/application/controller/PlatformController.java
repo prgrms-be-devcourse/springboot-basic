@@ -1,5 +1,7 @@
 package com.devcourse.springbootbasic.application.controller;
 
+import com.devcourse.springbootbasic.application.converter.CustomerConverter;
+import com.devcourse.springbootbasic.application.converter.VoucherConverter;
 import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
 import com.devcourse.springbootbasic.application.dto.ListMenu;
 import com.devcourse.springbootbasic.application.dto.Menu;
@@ -7,8 +9,6 @@ import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.io.ConsoleManager;
 import com.devcourse.springbootbasic.application.service.CustomerService;
 import com.devcourse.springbootbasic.application.service.VoucherService;
-import com.devcourse.springbootbasic.application.converter.CustomerConverter;
-import com.devcourse.springbootbasic.application.converter.VoucherConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,6 @@ import java.util.UUID;
 public class PlatformController implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(PlatformController.class);
-    private boolean isRunning;
 
     private final ConsoleManager consoleManager;
     private final VoucherService voucherService;
@@ -29,15 +28,16 @@ public class PlatformController implements Runnable {
         this.consoleManager = consoleManager;
         this.voucherService = voucherService;
         this.customerService = customerService;
-        this.isRunning = true;
     }
 
     @Override
     public void run() {
-        while (isRunning) {
+        while (true) {
             try {
                 Menu menu = consoleManager.consoleMenu();
-                branchByMenu(menu);
+                if (branchByMenu(menu)) {
+                    break;
+                }
             } catch (InvalidDataException exception) {
                 logger.error(exception.getMessage(), exception.getCause());
                 consoleManager.consoleError(exception);
@@ -45,11 +45,11 @@ public class PlatformController implements Runnable {
         }
     }
 
-    private void branchByMenu(Menu menu) {
+    private boolean branchByMenu(Menu menu) {
         switch (menu) {
             case EXIT -> {
-                isRunning = false;
                 consoleManager.consoleClosePlatform();
+                return true;
             }
             case CREATE -> {
                 Voucher voucher = VoucherConverter.convertDtoToVoucher(
@@ -62,6 +62,7 @@ public class PlatformController implements Runnable {
                 branchByListMenu(listMenu);
             }
         }
+        return false;
     }
 
     private void branchByListMenu(ListMenu listMenu) {

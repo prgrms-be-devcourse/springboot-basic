@@ -1,7 +1,7 @@
 package com.devcourse.springbootbasic.application.repository.voucher;
 
-import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
 import com.devcourse.springbootbasic.application.converter.VoucherConverter;
+import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
 import com.devcourse.springbootbasic.application.io.CsvReader;
 import com.devcourse.springbootbasic.application.io.CsvWriter;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +14,10 @@ import java.util.List;
 @Profile({"default"})
 public class FileVoucherRepository implements VoucherRepository {
 
-    @Value("${settings.voucherRecordPath}")
-    private String filepath;
     private final CsvReader csvReader;
     private final CsvWriter csvWriter;
+    @Value("${settings.voucherRecordPath}")
+    private String filepath;
 
     public FileVoucherRepository(CsvReader csvReader, CsvWriter csvWriter) {
         this.csvReader = csvReader;

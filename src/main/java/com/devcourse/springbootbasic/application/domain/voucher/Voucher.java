@@ -1,7 +1,7 @@
 package com.devcourse.springbootbasic.application.domain.voucher;
 
-import com.devcourse.springbootbasic.application.dto.VoucherType;
 import com.devcourse.springbootbasic.application.dto.DiscountValue;
+import com.devcourse.springbootbasic.application.dto.VoucherType;
 
 import java.util.UUID;
 

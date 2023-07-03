@@ -3,9 +3,9 @@ package com.devcourse.springbootbasic.application.converter;
 import com.devcourse.springbootbasic.application.domain.voucher.FixedAmountVoucher;
 import com.devcourse.springbootbasic.application.domain.voucher.PercentDiscountVoucher;
 import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
+import com.devcourse.springbootbasic.application.dto.DiscountValue;
 import com.devcourse.springbootbasic.application.dto.VoucherDto;
 import com.devcourse.springbootbasic.application.dto.VoucherType;
-import com.devcourse.springbootbasic.application.dto.DiscountValue;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -22,7 +22,8 @@ public class VoucherConverter {
     public static Voucher convertDtoToVoucher(VoucherDto voucherDto, UUID uuid) {
         return switch (voucherDto.voucherType()) {
             case FIXED_AMOUNT -> new FixedAmountVoucher(uuid, voucherDto.voucherType(), voucherDto.discountValue());
-            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(uuid, voucherDto.voucherType(), voucherDto.discountValue());
+            case PERCENT_DISCOUNT ->
+                    new PercentDiscountVoucher(uuid, voucherDto.voucherType(), voucherDto.discountValue());
         };
     }
 
@@ -34,8 +35,10 @@ public class VoucherConverter {
         String[] voucherInfoArray = voucherInfo.split(",");
         VoucherType voucherType = VoucherType.getVoucherType(voucherInfoArray[1]);
         return switch (voucherType) {
-            case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.fromString(voucherInfoArray[0]), voucherType, new DiscountValue(voucherType, voucherInfoArray[2]));
-            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(UUID.fromString(voucherInfoArray[0]), voucherType, new DiscountValue(voucherType, voucherInfoArray[2]));
+            case FIXED_AMOUNT ->
+                    new FixedAmountVoucher(UUID.fromString(voucherInfoArray[0]), voucherType, new DiscountValue(voucherType, voucherInfoArray[2]));
+            case PERCENT_DISCOUNT ->
+                    new PercentDiscountVoucher(UUID.fromString(voucherInfoArray[0]), voucherType, new DiscountValue(voucherType, voucherInfoArray[2]));
         };
     }
 

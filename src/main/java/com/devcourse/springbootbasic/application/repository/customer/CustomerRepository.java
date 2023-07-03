@@ -11,10 +11,9 @@ import java.util.List;
 @Repository
 public class CustomerRepository {
 
+    private final CsvReader csvReader;
     @Value("${settings.blackCustomerPath}")
     private String filepath;
-
-    private final CsvReader csvReader;
 
     public CustomerRepository(CsvReader csvReader) {
         this.csvReader = csvReader;
