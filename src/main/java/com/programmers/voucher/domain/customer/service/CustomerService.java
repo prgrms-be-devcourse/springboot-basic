@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,10 +24,12 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> findBlacklistCustomers() {
         return customerRepository.findAllByBanned();
     }
 
+    @Transactional
     public UUID createCustomer(String email, String name) {
         boolean emailDuplication = customerRepository.findByEmail(email)
                 .isPresent();
@@ -42,6 +45,7 @@ public class CustomerService {
         return customer.getCustomerId();
     }
 
+    @Transactional
     public void updateCustomer(UUID customerId, String name) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
@@ -54,10 +58,12 @@ public class CustomerService {
         LOG.info(CustomerMessages.UPDATED_CUSTOMER_INFO, oldCustomerInfo, newCustomerInfo);
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> findCustomers() {
         return customerRepository.findAll();
     }
 
+    @Transactional
     public void deleteCustomer(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
