@@ -1,7 +1,8 @@
-package kr.co.programmers.springbootbasic.customer.domain.impl;
+package kr.co.programmers.springbootbasic.customer.repository.impl;
 
 import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
+import kr.co.programmers.springbootbasic.customer.domain.impl.CsvCustomer;
 import kr.co.programmers.springbootbasic.customer.repository.CustomerRepository;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.exception.FileConvertFailException;

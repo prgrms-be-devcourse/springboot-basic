@@ -8,20 +8,20 @@ public abstract class Customer {
     private final UUID id;
     private final String name;
     private final CustomerStatus status;
-    private final Wallet wallet;
+    private final UUID walletId;
 
     public Customer(UUID id, String name, CustomerStatus status) {
         this.id = id;
         this.name = name;
         this.status = status;
-        this.wallet = null;
+        this.walletId = null;
     }
 
-    public Customer(UUID id, String name, CustomerStatus status, Wallet wallet) {
+    public Customer(UUID id, String name, CustomerStatus status, UUID walletId) {
         this.id = id;
         this.name = name;
         this.status = status;
-        this.wallet = wallet;
+        this.walletId = walletId;
     }
 
     public UUID getId() {
@@ -36,7 +36,7 @@ public abstract class Customer {
         return status;
     }
 
-    public Wallet getWallet() {
-        return wallet;
+    public UUID getWalletId() {
+        return walletId;
     }
 }
