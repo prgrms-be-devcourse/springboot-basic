@@ -3,11 +3,9 @@ package com.devcourse.voucher.application;
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.domain.VoucherType;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Component
 public class VoucherValidator {
     private static final String NEGATIVE_DISCOUNT = "[Error] Discount Value MUST Be Positive. Input : ";
     private static final String OUT_RANGED_DISCOUNT = "[Error] Discount Rate MUST Be Smaller Than 100. Input : ";
@@ -17,17 +15,19 @@ public class VoucherValidator {
     private static final int MAX_DISCOUNT_RATE = 100;
     private static final int MIN_DISCOUNT = 0;
 
-    public void validateRequest(CreateVoucherRequest request) {
+    private VoucherValidator() {}
+
+    public static void validateRequest(CreateVoucherRequest request) {
         validateDiscount(request);
         validateExpiration(request.expiredAt(), INVALID_EXPIRATION);
     }
 
-    public void validateUsable(Voucher voucher) {
+    public static void validateUsable(Voucher voucher) {
         validateUsed(voucher);
         validateExpiration(voucher.getExpireAt(), EXPIRED_VOUCHER);
     }
 
-    private void validateDiscount(CreateVoucherRequest request) {
+    private static void validateDiscount(CreateVoucherRequest request) {
         VoucherType voucherType = request.type();
         int discount = request.discount();
 
@@ -40,7 +40,7 @@ public class VoucherValidator {
         }
     }
 
-    private void validateExpiration(LocalDateTime expiredAt, String message) {
+    private static void validateExpiration(LocalDateTime expiredAt, String message) {
         LocalDateTime now = LocalDateTime.now();
 
         if (expiredAt.isBefore(now)) {
@@ -48,17 +48,17 @@ public class VoucherValidator {
         }
     }
 
-    private void validateUsed(Voucher voucher) {
+    private static void validateUsed(Voucher voucher) {
         if (voucher.isUsed()) {
             throw new IllegalStateException(USED_VOUCHER);
         }
     }
 
-    private boolean isNegative(int discountAmount) {
+    private static boolean isNegative(int discountAmount) {
         return discountAmount <= MIN_DISCOUNT;
     }
 
-    private boolean isRateOutRange(int discountRate) {
+    private static boolean isRateOutRange(int discountRate) {
         return MAX_DISCOUNT_RATE < discountRate;
     }
 }

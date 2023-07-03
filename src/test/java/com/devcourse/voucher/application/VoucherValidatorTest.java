@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,11 +17,7 @@ import static com.devcourse.voucher.domain.VoucherType.FIXED;
 import static com.devcourse.voucher.domain.VoucherType.PERCENT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringJUnitConfig(VoucherValidator.class)
 class VoucherValidatorTest {
-    @Autowired
-    private VoucherValidator voucherValidator;
-
     private final LocalDateTime invalidExpiration = LocalDateTime.of(2022, 1, 1, 0, 0);
 
     @Nested
@@ -39,7 +33,7 @@ class VoucherValidatorTest {
             CreateVoucherRequest request = new CreateVoucherRequest(FIXED, discountAmount, expiredAt);
 
             // when, then
-            assertThatThrownBy(() -> voucherValidator.validateRequest(request))
+            assertThatThrownBy(() -> VoucherValidator.validateRequest(request))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -51,7 +45,7 @@ class VoucherValidatorTest {
             CreateVoucherRequest request = new CreateVoucherRequest(PERCENT, discountRate, expiredAt);
 
             // when, then
-            assertThatThrownBy(() -> voucherValidator.validateRequest(request))
+            assertThatThrownBy(() -> VoucherValidator.validateRequest(request))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -63,7 +57,7 @@ class VoucherValidatorTest {
             CreateVoucherRequest request = new CreateVoucherRequest(FIXED, discountAmount, invalidExpiration);
 
             // when, then
-            assertThatThrownBy(() -> voucherValidator.validateRequest(request))
+            assertThatThrownBy(() -> VoucherValidator.validateRequest(request))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -80,7 +74,7 @@ class VoucherValidatorTest {
             Voucher voucher = Voucher.percent(discount, invalidExpiration);
 
             // when, then
-            assertThatThrownBy(() -> voucherValidator.validateUsable(voucher))
+            assertThatThrownBy(() -> VoucherValidator.validateUsable(voucher))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -95,7 +89,7 @@ class VoucherValidatorTest {
             voucher.apply(1000L);
 
             // when, then
-            assertThatThrownBy(() -> voucherValidator.validateUsable(voucher))
+            assertThatThrownBy(() -> VoucherValidator.validateUsable(voucher))
                     .isInstanceOf(IllegalStateException.class);
         }
     }

@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
@@ -23,10 +21,7 @@ import static com.devcourse.voucher.domain.VoucherType.PERCENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@SpringJUnitConfig(VoucherMapper.class)
 class VoucherMapperTest {
-    @Autowired
-    private VoucherMapper voucherMapper;
     private final LocalDateTime expiredAt = LocalDateTime.now().plusMonths(1);
 
     @ParameterizedTest
@@ -38,7 +33,7 @@ class VoucherMapperTest {
         CreateVoucherRequest request = new CreateVoucherRequest(type, discount, expiredAt);
 
         // when
-        Voucher voucher = voucherMapper.toEntity(request);
+        Voucher voucher = VoucherMapper.toEntity(request);
 
         // then
         assertThat(voucher.getDiscountPolicy()).isInstanceOf(clazz);
@@ -54,7 +49,7 @@ class VoucherMapperTest {
         Voucher voucher = Voucher.percent(discount, expiredAt);
 
         // when
-        GetVoucherResponse response = voucherMapper.toResponse(voucher);
+        GetVoucherResponse response = VoucherMapper.toResponse(voucher);
 
         // then
         assertThat(response).isNotNull();

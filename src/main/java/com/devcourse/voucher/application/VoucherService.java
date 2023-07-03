@@ -11,18 +11,14 @@ import java.util.List;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final VoucherValidator voucherValidator;
-    private final VoucherMapper voucherMapper;
 
-    public VoucherService(VoucherRepository voucherRepository, VoucherValidator voucherValidator, VoucherMapper voucherMapper) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.voucherValidator = voucherValidator;
-        this.voucherMapper = voucherMapper;
     }
 
     public void create(CreateVoucherRequest request) {
-        voucherValidator.validateRequest(request);
-        Voucher voucher = voucherMapper.toEntity(request);
+        VoucherValidator.validateRequest(request);
+        Voucher voucher = VoucherMapper.toEntity(request);
         voucherRepository.save(voucher);
     }
 
@@ -30,7 +26,7 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAll();
 
         return vouchers.stream()
-                .map(voucherMapper::toResponse)
+                .map(VoucherMapper::toResponse)
                 .toList();
     }
 }
