@@ -15,7 +15,7 @@ public class Price {
 
     private void validateValue(double value) {
         if (isNotPositive(value)) {
-            throw new IllegalArgumentException("할인할 금액은 양수여야 합니다.");
+            throw new IllegalArgumentException("가격은 양수여야 합니다.");
         }
     }
 
