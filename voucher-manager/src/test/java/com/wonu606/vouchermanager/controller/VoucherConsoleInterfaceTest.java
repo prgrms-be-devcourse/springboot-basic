@@ -9,6 +9,7 @@ import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.io.ConsoleIO;
+import com.wonu606.vouchermanager.util.UUIDGenerator;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
