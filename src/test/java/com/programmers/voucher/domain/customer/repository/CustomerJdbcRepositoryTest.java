@@ -119,6 +119,25 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("성공: customer 블랙리스트 목록 조회")
+    void findAllByBanned() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+        Customer banned = new Customer(UUID.randomUUID(), "banned@gmail.com", "banned");
+        banned.ban();
+
+        customerJdbcRepository.save(customer);
+        customerJdbcRepository.save(banned);
+
+        //when
+        List<Customer> findBannedCustomers = customerJdbcRepository.findAllByBanned();
+
+        //then
+        assertThat(findBannedCustomers).usingRecursiveFieldByFieldElementComparator()
+                .containsExactly(banned);
+    }
+
+    @Test
     @DisplayName("성공: customer 업데이트")
     void update() {
         //given

@@ -86,6 +86,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findAllByBanned() {
+        String sql = "select * from customer where banned = true";
+        return template.query(sql, customerRowMapper());
+    }
+
+    @Override
     public void update(Customer customer) {
         CustomerDto customerDto = customer.toDto();
 
@@ -127,8 +133,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
             UUID customerId = UUID.fromString(rs.getString("customer_id"));
             String email = rs.getString("email");
             String name = rs.getString("name");
+            boolean banned = rs.getBoolean("banned");
 
-            return new Customer(customerId, email, name);
+            Customer customer = new Customer(customerId, email, name);
+            if (banned) {
+                customer.ban();
+            }
+
+            return customer;
         };
     }
 }

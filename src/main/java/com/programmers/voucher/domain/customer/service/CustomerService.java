@@ -1,7 +1,6 @@
 package com.programmers.voucher.domain.customer.service;
 
 import com.programmers.voucher.domain.customer.domain.Customer;
-import com.programmers.voucher.domain.customer.repository.BlacklistRepository;
 import com.programmers.voucher.domain.customer.repository.CustomerRepository;
 import com.programmers.voucher.domain.customer.util.CustomerMessages;
 import com.programmers.voucher.global.util.DataErrorMessages;
@@ -18,16 +17,14 @@ import java.util.UUID;
 public class CustomerService {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
-    private final BlacklistRepository blacklistRepository;
     private final CustomerRepository customerRepository;
 
-    public CustomerService(BlacklistRepository blacklistRepository, CustomerRepository customerRepository) {
-        this.blacklistRepository = blacklistRepository;
+    public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     public List<Customer> findBlacklistCustomers() {
-        return blacklistRepository.findAll();
+        return customerRepository.findAllByBanned();
     }
 
     public UUID createCustomer(String email, String name) {

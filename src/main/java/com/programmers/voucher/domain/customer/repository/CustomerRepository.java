@@ -15,6 +15,8 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
+    List<Customer> findAllByBanned();
+
     void update(Customer customer);
 
     void deleteAll();
