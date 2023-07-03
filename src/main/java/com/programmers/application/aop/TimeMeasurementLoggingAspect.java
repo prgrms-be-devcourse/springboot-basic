@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class TimeMeasurementLoggingAspect {
-    private static final Logger LOG = LoggerFactory.getLogger(TimeMeasurementLoggingAspect.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimeMeasurementLoggingAspect.class);
 
     @Around("execution(public * com.programmers.application.service..*.*(..))")
     public Object measureTime(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -20,8 +20,8 @@ public class TimeMeasurementLoggingAspect {
         long executionTime = endTime - startTime;
 
         String methodName = joinPoint.getSignature().getName();
-        LOG.info("method name: {}", methodName);
-        LOG.info("method execution time: {}", executionTime);
+        LOGGER.info("method name: {}", methodName);
+        LOGGER.info("method execution time: {}", executionTime);
         return result;
     }
 }
