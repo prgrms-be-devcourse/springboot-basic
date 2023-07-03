@@ -22,15 +22,15 @@ public class VoucherManagementRunner implements CommandLineRunner {
     @Override
     public void run(String... args){
         CommandType commandType;
-        boolean isEnd = false;
+        boolean isRunning = true;
 
-        while (!isEnd) {
+        while (isRunning) {
             try{
                 console.printType();
                 commandType = console.readType();
 
                 if (commandType.isExit()){
-                    isEnd = true;
+                    isRunning = false;
                 }
                 commandExecutor.execute(commandType);
 
