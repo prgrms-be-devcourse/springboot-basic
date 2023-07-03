@@ -4,7 +4,7 @@ import me.kimihiqq.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.dto.VoucherDto;
-import me.kimihiqq.vouchermanagement.domain.voucher.service.VoucherServiceImpl;
+import me.kimihiqq.vouchermanagement.domain.voucher.service.FileVoucherService;
 import me.kimihiqq.vouchermanagement.domain.voucher.repository.VoucherRepository;
 import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class VoucherServiceImplTest {
+class FileVoucherServiceImplTest {
 
     @Mock
     private VoucherRepository voucherRepository;
 
     @InjectMocks
-    private VoucherServiceImpl voucherService;
+    private FileVoucherService voucherService;
 
     @BeforeEach
     public void setUp() {
