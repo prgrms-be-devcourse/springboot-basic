@@ -1,25 +1,13 @@
 package me.kimihiqq.vouchermanagement.domain.customer.dto;
 
-public class CustomerDto {
-    private String customerId;
-    private String name;
-    private String status;
+import me.kimihiqq.vouchermanagement.domain.customer.Customer;
+import me.kimihiqq.vouchermanagement.option.CustomerStatus;
 
-    public CustomerDto(String customerId, String name, String status) {
-        this.customerId = customerId;
-        this.name = name;
-        this.status = status;
-    }
+import java.util.UUID;
 
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getStatus() {
-        return status;
+public record CustomerDto (String name, String email, CustomerStatus customerStatus) {
+    public Customer toCustomer() {
+        UUID id = UUID.randomUUID();
+        return new Customer(id, this.name(), this.email(), this.customerStatus());
     }
 }

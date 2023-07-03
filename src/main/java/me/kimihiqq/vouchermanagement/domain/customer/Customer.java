@@ -1,19 +1,26 @@
 package me.kimihiqq.vouchermanagement.domain.customer;
 
+import me.kimihiqq.vouchermanagement.domain.voucherwallet.VoucherWallet;
 import me.kimihiqq.vouchermanagement.option.CustomerStatus;
 
-public class Customer {
-    private String id;
-    private String name;
-    private CustomerStatus status;
+import java.util.UUID;
 
-    public Customer(String id, String name, CustomerStatus status) {
+public class Customer {
+    private UUID id;
+    private String name;
+    private String email;
+    private VoucherWallet voucherWallet;
+    private CustomerStatus customerStatus;
+
+    public Customer(UUID id, String name, String email, CustomerStatus customerStatus) {
         this.id = id;
         this.name = name;
-        this.status = status;
+        this.email = email;
+        this.voucherWallet = new VoucherWallet(id);
+        this.customerStatus = customerStatus;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -21,7 +28,19 @@ public class Customer {
         return name;
     }
 
-    public CustomerStatus getStatus() {
-        return status;
+    public String getEmail() {
+        return email;
+    }
+
+    public VoucherWallet getVoucherWallet() {
+        return voucherWallet;
+    }
+
+    public CustomerStatus getCustomerStatus() {
+        return customerStatus;
+    }
+
+    public void updateCustomerStatus(CustomerStatus customerStatus) {
+        this.customerStatus = customerStatus;
     }
 }
