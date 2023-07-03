@@ -29,12 +29,8 @@ public class VoucherService {
     }
 
     public VoucherDto readAll(UUID id) {
-        Voucher voucher = voucherRepository.findById(id)
-                .orElseThrow(() -> {
-                    return new RuntimeException("id에 해당하는 바우처가 없습니다.");
-                });
-
-        return VoucherDto.from(voucher);
+        return VoucherDto.from(voucherRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("id에 해당하는 바우처가 없습니다.")));
     }
 
     public List<VoucherDto> readVoucherList() {
