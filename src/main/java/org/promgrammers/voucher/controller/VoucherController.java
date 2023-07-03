@@ -16,9 +16,9 @@ public class VoucherController {
     private final VoucherService voucherService;
     private final Console console;
 
-    private boolean isRunning = true;
+    private  boolean isRunning = true;
 
-    public void userPostController() {
+    public synchronized void userPostController() {
         while (isRunning) {
             try {
                 console.display();
