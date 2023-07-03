@@ -70,6 +70,9 @@ class VoucherManagerServiceTest {
         List<Voucher> findVouchers = service.findAll();
 
         assertThat(findVouchers.size()).isEqualTo(4);
+        for (int i = 0; i < vouchers.size(); i++) {
+            assertThat(vouchers.get(i).getId()).isEqualTo(findVouchers.get(i).getId());
+        }
         verify(voucherRepository, times(1)).findAll();
     }
 }
