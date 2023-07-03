@@ -1,6 +1,7 @@
 package com.prgms.VoucherApp.domain.voucher.storage;
 
 import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"default", "test"})
+@Profile("default")
 public class VoucherMemoryStorage implements VoucherStorage {
 
     private Map<UUID, Voucher> voucherLinkedMap = new ConcurrentHashMap<>();
@@ -33,5 +34,20 @@ public class VoucherMemoryStorage implements VoucherStorage {
     @Override
     public void save(Voucher voucher) {
         voucherLinkedMap.put(voucher.getVoucherId(), voucher);
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new RuntimeException("사용하지 않는 명령어 입니다.");
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        throw new RuntimeException("사용하지 않는 명령어 입니다.");
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType type) {
+        throw new RuntimeException("사용하지 않는 명령어 입니다.");
     }
 }

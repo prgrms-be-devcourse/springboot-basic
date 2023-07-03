@@ -3,6 +3,7 @@ package com.prgms.VoucherApp.domain.voucher.storage;
 import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
 import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,5 +96,20 @@ public class VoucherFileStorage implements VoucherStorage {
 
         log.warn("entered VoucherType {} is invalid", voucherDto.getVoucherType());
         throw new IllegalArgumentException(voucherDto.getVoucherType() + " is invalid voucher type");
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new RuntimeException("사용하지 않는 명령어 입니다.");
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        throw new RuntimeException("사용하지 않는 명령어 입니다.");
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType type) {
+        throw new RuntimeException("사용하지 않는 명령어 입니다.");
     }
 }
