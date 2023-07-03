@@ -16,7 +16,7 @@ public class AmountVoucherService {
     }
 
     public AmountVoucher createAmountVoucher(AmountVoucherCreateDto amountVoucherCreateDto) {
-        AmountVoucherFactory amountVoucherFactory = amountVoucherCreateDto.getOptionType().getVoucherFactory();
+        AmountVoucherFactory amountVoucherFactory = amountVoucherCreateDto.getVoucherFactory();
         AmountVoucher amountVoucher = amountVoucherFactory.createVoucher(UUID.randomUUID(), amountVoucherCreateDto.getAmount());
 
         return amountVoucherRepository.save(amountVoucher);

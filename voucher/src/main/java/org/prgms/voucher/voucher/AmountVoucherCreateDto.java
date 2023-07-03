@@ -1,5 +1,7 @@
 package org.prgms.voucher.voucher;
 
+import org.prgms.voucher.voucher.factory.AmountVoucherFactory;
+
 public class AmountVoucherCreateDto {
 
     private final AmountVoucherOptionType amountVoucherOptionType;
@@ -14,7 +16,7 @@ public class AmountVoucherCreateDto {
         return amount;
     }
 
-    public AmountVoucherOptionType getOptionType() {
-        return amountVoucherOptionType;
+    public AmountVoucherFactory getVoucherFactory() {
+        return amountVoucherOptionType.getVoucherFactory();
     }
 }
