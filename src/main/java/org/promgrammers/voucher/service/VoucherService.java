@@ -25,6 +25,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
         // 로그 메시지: Voucher 생성 로그
         log.info("Voucher 생성 - ID: {}, Amount: {}, VoucherType: {}", voucher.getId(), voucher.getAmount(), voucher.getVoucherType());
+        log.info(voucher.toString());
         return new VoucherResponseDto(voucher.getId(), voucher.getAmount(), voucher.getVoucherType());
     }
 

@@ -2,6 +2,7 @@ package org.promgrammers.voucher.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.UUID;
 
@@ -15,4 +16,13 @@ public abstract class Voucher {
     public abstract VoucherType getVoucherType();
 
     public abstract long calculateDiscount(long price);
+
+    @Override
+    public String toString() {
+        return "Voucher{" +
+                ", id=" + id +
+                "amount=" + amount +
+                ", voucherType=" + getVoucherType() +
+                '}';
+    }
 }
