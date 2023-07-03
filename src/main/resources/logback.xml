@@ -23,11 +23,19 @@
     </appender>
 
 
-    <logger name="com.dev.voucherproject.model.storage.voucher.io.VoucherFileWriter" level="warn">
+    <logger name="com.dev.voucherproject.model.storage.io.VoucherFileWriter" level="warn">
         <appender-ref ref="ROLLING_FILE" />
     </logger>
 
-    <logger name="com.dev.voucherproject.model.storage.voucher.io.VoucherFileReader" level="warn">
+    <logger name="com.dev.voucherproject.model.storage.io.CsvFileReader" level="warn">
+        <appender-ref ref="ROLLING_FILE" />
+    </logger>
+
+    <logger name="com.dev.voucherproject.model.storage.voucher.CsvFileVoucherStorage" level="warn">
+        <appender-ref ref="ROLLING_FILE" />
+    </logger>
+
+    <logger name="com.dev.voucherproject.model.storage.blacklist.CsvFileBlacklistStorage" level="warn">
         <appender-ref ref="ROLLING_FILE" />
     </logger>
 

@@ -17,7 +17,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public long discount(long beforeDiscount) {
-        if (beforeDiscount - amount < 0) {
+        if (amount > beforeDiscount) {
             return 0;
         }
 
@@ -30,7 +30,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String toString() {
-        return "FIXED_AMOUNT_VOUCHER,%d,%s".formatted(amount, voucherId);
+    public VoucherDto conversionDto() {
+        return VoucherDto.fromEntity(VoucherPolicy.FIXED_AMOUNT_VOUCHER, this);
     }
 }

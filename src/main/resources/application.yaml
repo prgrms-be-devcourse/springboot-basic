@@ -1,3 +1,7 @@
 voucher:
   path: "storage"
   filename: "voucher.csv"
+
+blacklist:
+  path: "storage"
+  filename: "customer_blacklist.csv"

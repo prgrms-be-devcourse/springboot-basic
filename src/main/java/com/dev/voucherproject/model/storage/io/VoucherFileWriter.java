@@ -1,7 +1,9 @@
-package com.dev.voucherproject.model.storage.voucher.io;
+package com.dev.voucherproject.model.storage.io;
 
 
 import com.dev.voucherproject.model.voucher.Voucher;
+import com.dev.voucherproject.model.voucher.VoucherDto;
+import com.dev.voucherproject.model.voucher.VoucherPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
+import java.text.MessageFormat;
 
 @Component
 public class VoucherFileWriter {
@@ -23,7 +26,9 @@ public class VoucherFileWriter {
 
     public Voucher write(Voucher voucher) {
         createDirectory();
-        csvFileWrite(voucher);
+
+        VoucherDto dto = voucher.conversionDto();
+        csvFileWrite(dto);
 
         return voucher;
     }
@@ -36,16 +41,24 @@ public class VoucherFileWriter {
         }
     }
 
-    private void csvFileWrite(Voucher voucher) {
+    private void csvFileWrite(VoucherDto dto) {
         File file = new File(path, filename);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(voucher.toString());
+            writer.write(voucherWriteFormatting(dto));
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            logger.warn("{} 파일을 찾을 수 없습니다.", path);
-            throw new FileSystemNotFoundException("파일을 찾을 수 없습니다.");
+            logger.warn("{} 파일을 찾을 수 없습니다.", filename);
+            throw new FileSystemNotFoundException(MessageFormat.format("{0} 파일을 찾을 수 없습니다.", filename));
         }
+    }
+
+    private String voucherWriteFormatting(VoucherDto dto) {
+        if (dto.getVoucherPolicy() == VoucherPolicy.FIXED_AMOUNT_VOUCHER) {
+            return "FIXED_AMOUNT_VOUCHER,%d,%s".formatted(dto.getDiscountNumber(), dto.getVoucherId());
+        }
+
+        return "PERCENT_DISCOUNT_VOUCHER,%d,%s".formatted(dto.getDiscountNumber(), dto.getVoucherId());
     }
 }

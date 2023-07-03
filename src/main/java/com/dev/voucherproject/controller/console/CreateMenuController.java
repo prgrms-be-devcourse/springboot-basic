@@ -31,11 +31,13 @@ public class CreateMenuController implements MenuController {
 
         long discountNumber = selectPolicy(voucherPolicy);
 
-        Voucher voucher = voucherStorage.insert(Voucher.of(voucherPolicy, discountNumber, UUID.randomUUID()));
-        logger.info("바우처 생성 :: {}", voucher.toString());
+        voucherStorage.insert(Voucher.of(voucherPolicy, discountNumber, UUID.randomUUID()));
+        logger.info("바우처 생성 :: [{}, {}]", voucherPolicy.name(), discountNumber);
+
+        console.newLine();
     }
 
-    private long selectPolicy(VoucherPolicy voucherPolicy) {
+    private long selectPolicy(final VoucherPolicy voucherPolicy) {
         long discountNumber;
 
         if (voucherPolicy == VoucherPolicy.FIXED_AMOUNT_VOUCHER) {

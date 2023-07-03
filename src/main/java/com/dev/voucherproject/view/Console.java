@@ -1,5 +1,6 @@
 package com.dev.voucherproject.view;
 
+import com.dev.voucherproject.model.customer.CustomerDto;
 import com.dev.voucherproject.model.voucher.VoucherDto;
 import com.dev.voucherproject.model.voucher.VoucherPolicy;
 import com.dev.voucherproject.model.menu.Menu;
@@ -8,7 +9,6 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -26,15 +26,23 @@ public class Console {
     public void printMenu() {
         textTerminal.println("=== Voucher Program ===");
         textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(props -> props.setPromptBold(true), t -> t.print("exit"));
+        textTerminal.executeWithPropertiesConfigurator(props ->
+                props.setPromptBold(true), t -> t.print(Menu.EXIT.getMenuName()));
         textTerminal.println(" to exit the program.");
 
         textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(props -> props.setPromptBold(true), t -> t.print("create"));
+        textTerminal.executeWithPropertiesConfigurator(props ->
+                props.setPromptBold(true), t -> t.print(Menu.CREATE.getMenuName()));
         textTerminal.println(" to create a new voucher.");
 
         textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(props -> props.setPromptBold(true), t -> t.print("list"));
+        textTerminal.executeWithPropertiesConfigurator(props ->
+                props.setPromptBold(true), t -> t.print(Menu.LIST.getMenuName()));
+        textTerminal.println(" to list all vouchers.");
+
+        textTerminal.print("Type ");
+        textTerminal.executeWithPropertiesConfigurator(props ->
+                props.setPromptBold(true), t -> t.print(Menu.BLACKLIST.getMenuName()));
         textTerminal.println(" to list all vouchers.");
     }
 
@@ -53,14 +61,21 @@ public class Console {
         textTerminal.println("Enter a percentage between 0 and 100.");
     }
 
-
     public void printAllVouchers(List<VoucherDto> dtos) {
         dtos.forEach(this::printVoucher);
         textTerminal.println();
     }
 
     public void printVoucher(VoucherDto dto) {
-        textTerminal.printf("[%s, %d] %s\n", dto.getVoucherPolicy().name(), dto.getDiscountNumber(), dto.getUuid().toString());
+        textTerminal.println("[%s, %d] %s".formatted(dto.getVoucherPolicy().name(), dto.getDiscountNumber(), dto.getVoucherId().toString()));
+    }
+
+    public void printAllCustomers(List<CustomerDto> dtos) {
+        dtos.forEach(this::printCustomer);
+        textTerminal.println();
+    }
+    public void printCustomer(CustomerDto dto) {
+        textTerminal.println("[id, name] %s, %s".formatted(dto.getCustomerId(), dto.getName()));
     }
 
     public long inputAmount() {
@@ -81,14 +96,18 @@ public class Console {
     public String inputMenuSelection() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues(Arrays.stream(Menu.values()).map(Menu::getMenuName).toList())
+                .withInlinePossibleValues(Menu.getMenuNames())
                 .read(">>");
     }
 
     public String inputVoucherPolicySelection() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues(Arrays.stream(VoucherPolicy.values()).map(VoucherPolicy::getPolicyName).toList())
+                .withInlinePossibleValues(VoucherPolicy.getPolicyNames())
                 .read(">>");
+    }
+
+    public void newLine() {
+        textTerminal.println();
     }
 }
