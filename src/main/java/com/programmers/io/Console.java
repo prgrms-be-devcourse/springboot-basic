@@ -15,7 +15,7 @@ public class Console implements Input, Output {
             "Type 'list' or '3' to list all vouchers.\n" +
             "Type 'black' or '4' to check the blacklist.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
-            "Select voucher. (Type voucher name or number.)\n" +
+            "Type voucher name or number to create.\n" +
             "1. Fixed Amount Voucher\n" +
             "2. Percent Discount Voucher";
     private static final String DISCOUNT_VALUE_MESSAGE = "\n=== Type discount amount or rate ===";
