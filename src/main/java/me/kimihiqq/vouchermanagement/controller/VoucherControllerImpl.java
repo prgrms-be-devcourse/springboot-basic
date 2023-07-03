@@ -14,6 +14,7 @@ import me.kimihiqq.vouchermanagement.io.Console;
 import me.kimihiqq.vouchermanagement.option.*;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -70,6 +71,14 @@ public class VoucherControllerImpl implements VoucherController {
                     case LIST_VOUCHERS:
                         voucherService.listVouchers().forEach(voucher ->
                                 console.printLine(voucher.getVoucherId() + ": " + voucher.getType() + " - " + voucher.getDiscount())
+                        );
+                        break;
+                    case LIST_CUSTOMERS_WITH_VOUCHER:
+                        UUID voucherId = UUID.fromString(console.readLineWithPrompt("Enter voucher ID: "));
+                        List<Customer> customers = customerService.findCustomersWithVoucher(voucherId);
+
+                        customers.forEach(customer ->
+                                console.printLine(customer.getId() + ": " + customer.getName() + " - " + customer.getEmail())
                         );
                         break;
                 }

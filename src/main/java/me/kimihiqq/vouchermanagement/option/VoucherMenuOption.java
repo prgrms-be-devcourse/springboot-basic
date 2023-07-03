@@ -3,7 +3,8 @@ package me.kimihiqq.vouchermanagement.option;
 public enum VoucherMenuOption implements ConsoleOption {
     RETURN_MAIN_MENU(0, "Return to main menu"),
     CREATE_VOUCHER(1, "Create a new voucher"),
-    LIST_VOUCHERS(2, "List all vouchers");
+    LIST_VOUCHERS(2, "List all vouchers"),
+    LIST_CUSTOMERS_WITH_VOUCHER(3, "List customers with specific voucher");
 
     private final int key;
     private final String description;

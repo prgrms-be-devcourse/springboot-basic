@@ -12,4 +12,5 @@ public interface VoucherWalletService {
     void deleteVoucherWalletByCustomerId(UUID customerId);
     void addVoucherToWallet(UUID customerId, UUID voucherId);
     void removeVoucherFromWallet(UUID customerId, UUID voucherId);
+    Set<UUID> findCustomerIdsByVoucherId(UUID voucherId);
 }
