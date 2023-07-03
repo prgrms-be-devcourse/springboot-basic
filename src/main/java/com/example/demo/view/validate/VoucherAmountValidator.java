@@ -2,7 +2,7 @@ package com.example.demo.view.validate;
 
 import java.util.regex.Pattern;
 
-public class VoucherAmountValidator {
+public final class VoucherAmountValidator {
 
     private static final String ERROR_MESSAGE_NOT_INTEGER_VALUE = "[ERROR] 1이상의 숫자를 입력해주세요.";
     private static final String ERROR_MESSAGE_NOT_PERCENT_VALUE = "[ERROR] 1이상 ~ 100 이하의 숫자를 입력해주세요.";
@@ -11,22 +11,25 @@ public class VoucherAmountValidator {
     private static final Pattern IS_PERCENT_REGEX = Pattern.compile("^([1-9]|[1-9][0-9]|100)$");
 
 
-    public void validateFixedAmount(String input) {
-        isPositiveNumber(input);
+    private VoucherAmountValidator() {
     }
 
-    public void validatePercentAmount(String input) {
-        isPositiveNumber(input);
-        isPercentageNumber(input);
+    public static void validateFixedAmount(String input) {
+        validatePositiveNumber(input);
     }
 
-    private void isPositiveNumber(String input) {
+    public static void validatePercentAmount(String input) {
+        validatePositiveNumber(input);
+        validatePercentageNumber(input);
+    }
+
+    private static void validatePositiveNumber(String input) {
         if (!IS_NUMERIC_REGEX.matcher(input).matches()) {
             throw new IllegalArgumentException(ERROR_MESSAGE_NOT_INTEGER_VALUE);
         }
     }
 
-    private void isPercentageNumber(String input) {
+    private static void validatePercentageNumber(String input) {
         if (!IS_PERCENT_REGEX.matcher(input).matches()) {
             throw new IllegalArgumentException(ERROR_MESSAGE_NOT_PERCENT_VALUE);
         }

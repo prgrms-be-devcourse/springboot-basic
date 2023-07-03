@@ -7,8 +7,7 @@ import java.util.Scanner;
 
 public class InputView {
 
-    Scanner sc = new Scanner(System.in);
-    VoucherAmountValidator voucherAmountValidator = new VoucherAmountValidator();
+    public static Scanner sc = new Scanner(System.in);
 
     public CommandType readCommandOption() {
         return CommandType.find(sc.nextLine());
@@ -21,8 +20,8 @@ public class InputView {
     public Integer readVoucherAmount(VoucherType voucherType) {
         String input = sc.nextLine();
         switch (voucherType) {
-            case FIX -> voucherAmountValidator.validateFixedAmount(input);
-            case PERCENT -> voucherAmountValidator.validatePercentAmount(input);
+            case FIX -> VoucherAmountValidator.validateFixedAmount(input);
+            case PERCENT -> VoucherAmountValidator.validatePercentAmount(input);
         }
         return Integer.parseInt(input);
     }
