@@ -29,16 +29,14 @@ public class OutputView {
     }
 
     public void printVoucherAmountInfoMessage(VoucherType voucherType) {
-        switch (voucherType) {
-            case FIX -> System.out.print(FIXED_VOUCHER_AMOUNT_MESSAGE);
-            case PERCENT -> System.out.print(PERCENT_VOUCHER_AMOUNT_MESSAGE);
-        }
+        System.out.print(voucherType.getVoucherAmountInfoMessage());
     }
 
     public void printCreateMessage(VoucherDto voucherDto) {
         switch (voucherDto.getVoucherType()) {
             case FIX -> System.out.println(String.format(FIXED_VOUCHER_CREATE_MESSAGE, voucherDto.getDiscountAmount(), voucherDto.getId().toString()));
             case PERCENT -> System.out.println(String.format(PERCENT_VOUCHER_CREATE_MESSAGE, voucherDto.getDiscountAmount(), voucherDto.getId().toString()));
+            default -> throw new IllegalArgumentException("올바르지 않은 바우처 타입입니다. fix혹은 percent로 입력해주세요.");
         }
     }
 
