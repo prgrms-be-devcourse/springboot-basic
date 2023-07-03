@@ -16,10 +16,10 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public void createVoucher(VoucherDto.Request request) {
+    public Voucher createVoucher(VoucherDto.Request request) {
         Voucher voucher = VoucherFactory.createVoucher(request.discountType(), request.discountAmount());
-        voucherRepository.save(voucher);
         log.info("Create Voucher! DiscountType: {}, DiscountAmount: {}", voucher.getClass().getSimpleName(), request.discountAmount());
+        return voucherRepository.save(voucher);
     }
 
     public VoucherDto.Response getVouchers() {

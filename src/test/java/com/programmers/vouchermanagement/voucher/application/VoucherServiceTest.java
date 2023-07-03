@@ -1,9 +1,6 @@
 package com.programmers.vouchermanagement.voucher.application;
 
-import com.programmers.vouchermanagement.voucher.domain.FixedAmountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.PercentDiscountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
+import com.programmers.vouchermanagement.voucher.domain.*;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,6 +25,26 @@ class VoucherServiceTest {
 
     @Mock
     private VoucherRepository voucherRepository;
+
+    @Test
+    @DisplayName("바우처를 생성한다.")
+    void createVoucher() {
+        // given
+        VoucherDto.Request request = new VoucherDto.Request(DiscountType.FIX, 5000);
+        Voucher voucher = VoucherFactory.createVoucher(request.discountType(), request.discountAmount());
+
+        given(voucherRepository.save(any(Voucher.class)))
+                .willReturn(voucher);
+
+        // when
+        Voucher result = voucherService.createVoucher(request);
+
+        // then
+        assertThat(result).isNotNull();
+
+        // verify
+        verify(voucherRepository, times(1)).save(any(Voucher.class));
+    }
 
     @Test
     @DisplayName("바우처를 모두 조회한다.")
