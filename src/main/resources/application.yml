@@ -1,3 +1,12 @@
 spring:
   profiles:
-    active: prod
+    active: db
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_management
+    username: root
+    password: 1011
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
