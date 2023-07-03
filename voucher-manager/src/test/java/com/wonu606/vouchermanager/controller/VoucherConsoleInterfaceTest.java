@@ -1,77 +1,86 @@
 package com.wonu606.vouchermanager.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import com.wonu606.vouchermanager.domain.discountvalue.FixedAmountValue;
+import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.wonu606.vouchermanager.domain.voucher.Voucher;
+import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.io.ConsoleIO;
-import com.wonu606.vouchermanager.repository.LocalMemoryVoucherRepository;
-import com.wonu606.vouchermanager.service.VoucherService;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class VoucherConsoleInterfaceTest {
+@DisplayName("VoucherConsoleInterface 테스트")
+public class VoucherConsoleInterfaceTest {
 
-    @Test
-    void exit를_입력하면_프로그램_terminal을_호출해야_한다() {
-        // given
-        VoucherService serviceMock = mock(VoucherService.class);
+    private ConsoleIO consoleIOMock;
+    private VoucherController controllerMock;
+    private UUIDGenerator uuidGeneratorMock;
+    private VoucherConsoleInterface consoleInterface;
 
-        ConsoleIO consoleIOMock = mock(ConsoleIO.class);
-        when(consoleIOMock.selectMenu()).thenReturn("exit");
-
-        VoucherConsoleInterface voucherConsoleInterface = new VoucherConsoleInterface(serviceMock, consoleIOMock);
-
-        // when
-        voucherConsoleInterface.run();
-
-        // then
-        verify(consoleIOMock, times(1)).selectMenu();
-        verify(consoleIOMock).terminal();
+    @BeforeEach
+    public void setUp() {
+        consoleIOMock = mock(ConsoleIO.class);
+        controllerMock = mock(VoucherController.class);
+        uuidGeneratorMock = mock(UUIDGenerator.class);
+        consoleInterface = new VoucherConsoleInterface(consoleIOMock, controllerMock,
+                uuidGeneratorMock);
     }
 
+    @DisplayName("exit가 입력으로 주어지고_run을 하면_프로그램이 종료된다.")
     @Test
-    void list를_입력하면_바우처리스트를_출력해야_한다() {
-        // given
-        VoucherService serviceMock = mock(VoucherService.class);
+    public void GivenExitMenuSelected_WhenRun_ThenTerminatesProgram() {
+        // Given
+        given(consoleIOMock.selectMenu()).willReturn(VoucherMenu.EXIT);
 
-        ConsoleIO consoleIOMock = mock(ConsoleIO.class);
-        when(consoleIOMock.selectMenu()).thenReturn("list").thenReturn("exit");
+        // When
+        consoleInterface.run();
 
-        VoucherConsoleInterface voucherConsoleInterface = new VoucherConsoleInterface(serviceMock, consoleIOMock);
-
-        // when
-        voucherConsoleInterface.run();
-
-        // then
-        verify(consoleIOMock, times(2)).selectMenu();
-        verify(consoleIOMock, times(1)).displayVoucherList(new ArrayList<>());
-        verify(consoleIOMock).terminal();
+        // Then
+        then(consoleIOMock).should().terminal();
     }
 
+    @DisplayName("list가 입력으로 주어지고_run을 하면_Voucher들을 출력한다.")
     @Test
-    void create를_입력하면_바우처를_생성하고_저장할_수_있다() {
-        // given
-        ConsoleIO consoleIOMock = mock(ConsoleIO.class);
-        when(consoleIOMock.selectMenu()).thenReturn("create").thenReturn("exit");
-        when(consoleIOMock.selectVoucherType()).thenReturn("fixed");
-        when(consoleIOMock.readDouble("discount")).thenReturn(5000d);
+    public void GivenListMenuSelected_WhenRun_ThenDisplayVoucherList() {
+        // Given
+        List<Voucher> voucherList = Arrays.asList(mock(Voucher.class), mock(Voucher.class));
+        given(consoleIOMock.selectMenu()).willReturn(VoucherMenu.LIST, VoucherMenu.EXIT);
+        given(controllerMock.getVoucherList()).willReturn(voucherList);
 
-        VoucherService service = new VoucherService(new LocalMemoryVoucherRepository());
-        int prevSize = service.getVoucherList().size();
+        // When
+        consoleInterface.run();
 
-        VoucherConsoleInterface voucherConsoleInterface = new VoucherConsoleInterface(service, consoleIOMock);
+        // Then
+        then(consoleIOMock).should().displayVoucherList(voucherList);
+    }
 
-        // when
-        voucherConsoleInterface.run();
+    @DisplayName("create가 입력으로 주어지고_run을 하면_Voucher를 생성하여 저장한다.")
+    @Test
+    public void GivenCreateMenuSelected_WhenRun_ThenCreateVoucher() {
+        // Given
+        UUID expectedUuid = UUID.randomUUID();
+        VoucherDto voucherDto = new VoucherDto("FIXED", expectedUuid, 10.0);
+        Voucher expectedVoucher = new FixedAmountVoucher(expectedUuid, new FixedAmountValue(10.0));
 
-        // then
-        verify(consoleIOMock, times(2)).selectMenu();
-        verify(consoleIOMock, never()).displayMessage("존재하지 않는 바우처 타입입니다.");
-        verify(consoleIOMock, times(1)).terminal();
-        assertEquals(prevSize + 1, service.getVoucherList().size());
+        given(consoleIOMock.selectMenu()).willReturn(VoucherMenu.CREATE, VoucherMenu.EXIT);
+        given(consoleIOMock.selectVoucherType()).willReturn("FIXED");
+        given(consoleIOMock.readDouble("discount")).willReturn(10.0);
+
+        given(uuidGeneratorMock.generateUUID()).willReturn(expectedUuid);
+
+        given(controllerMock.createVoucher(voucherDto)).willReturn(expectedVoucher);
+
+        // When
+        consoleInterface.run();
+
+        // Then
+        then(controllerMock).should().createVoucher(voucherDto);
     }
 }

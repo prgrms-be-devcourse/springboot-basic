@@ -14,6 +14,7 @@ public class VoucherConsoleInterface {
 
     private final ConsoleIO consoleIO;
     private final VoucherController controller;
+    private final UUIDGenerator uuidGenerator;
 
     public void run() {
         VoucherMenu menu = VoucherMenu.START;
@@ -55,7 +56,7 @@ public class VoucherConsoleInterface {
     private VoucherDto createVoucherDto() {
         String type = consoleIO.selectVoucherType();
         double discountValue = consoleIO.readDouble("discount");
-        return new VoucherDto(type, UUID.randomUUID(), discountValue);
+        return new VoucherDto(type, uuidGenerator.generateUUID(), discountValue);
     }
 
     private void terminal() {
