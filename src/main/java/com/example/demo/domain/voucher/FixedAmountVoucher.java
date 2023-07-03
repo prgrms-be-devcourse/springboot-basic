@@ -1,7 +1,5 @@
 package com.example.demo.domain.voucher;
 
-import com.example.demo.dto.VoucherDto;
-import com.example.demo.util.VoucherType;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -24,13 +22,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherDto convertToVoucherDto() {
-        return new VoucherDto(UUID.fromString(this.id.toString()), discountAmount, VoucherType.FIXED_AMOUNT_VOUCHER);
-    }
-
-    @Override
     public UUID getId() {
         return this.id;
     }
 
+    @Override
+    public double getDiscountAmount() {
+        return discountAmount;
+    }
 }
