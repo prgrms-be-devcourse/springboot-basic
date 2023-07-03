@@ -52,8 +52,12 @@
 - [X] 가능한 많은 단위 테스트 코드를 작성하기, 엣지 케이스 고려하기
 
 - [X] customers 테이블 정의 및 추가하기
-- [X] Customer Repository 를 추가하고 JdbcTemplate 를 사용하기 #CustomerJdbcStorage
+- [X] Customer Repository 를 추가하고 JdbcTemplate 를 사용하기 `#CustomerJdbcStorage`
 
-- [ ] Voucher 정보를 DB로 관리하기
-- [ ] vouchers 테이블을 정의하기
-- [ ] voucher Repository 만들기, JdbcTemplate 사용해서 구현 #VoucherJdbcStorage
+- [X] Voucher 정보를 DB로 관리하기
+- [X] vouchers 테이블을 정의하기
+- [X] voucher Repository 만들기, JdbcTemplate 사용해서 구현 `#VoucherJdbcStorage`
+
+- [ ] 관리 프로그램에서 각 명령어를 실행 할 수 있도록 하기
+    - [ ] Customer 용 Command
+    - [ ] Voucher 용 Command
