@@ -35,7 +35,7 @@ public enum Command {
     //voucher_member
     CREATE_VOUCHER_MEMBER("고객에게 바우처를 할당", 12),
     READ_VOUCHERS_BY_MEMBER("고객의 모든 바우처 조회", 13),
-    READ_MEMBERS_BY_VOUCHER("해당 바우처를 가진 모든 고객 조회", 14),
+    READ_MEMBER_BY_VOUCHER("해당 바우처를 가진 특정 고객 조회", 14),
     DELETE_VOUCHER_MEMBER("고객이 가진 바우처 삭제", 15);
 
     private final String command;
@@ -98,8 +98,8 @@ public enum Command {
         return this.number == Command.READ_VOUCHERS_BY_MEMBER.getNumber();
     }
 
-    public boolean isReadMembersByVoucher() {
-        return this.number == Command.READ_MEMBERS_BY_VOUCHER.getNumber();
+    public boolean isReadMemberByVoucher() {
+        return this.number == Command.READ_MEMBER_BY_VOUCHER.getNumber();
     }
 
     public boolean isDeleteVoucherMember() {

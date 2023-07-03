@@ -1,4 +1,4 @@
-drop table if exists tbl_vouchers_members;
+drop table if exists tbl_wallets;
 drop table if exists tbl_vouchers;
 drop table if exists tbl_members;
 
@@ -19,11 +19,11 @@ create table tbl_vouchers
     primary key (voucher_id)
 );
 
-create table tbl_vouchers_members
+create table tbl_wallets
 (
-    voucher_member_id varchar(50) not null unique,
-    voucher_id        varchar(50) not null,
-    member_id         varchar(50) not null,
+    wallet_id  varchar(50) not null unique,
+    voucher_id varchar(50) unique ,
+    member_id  varchar(50) not null,
 
     foreign key (voucher_id)
         references tbl_vouchers (voucher_id)

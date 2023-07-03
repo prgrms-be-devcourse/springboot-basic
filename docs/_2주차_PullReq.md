@@ -21,7 +21,7 @@
 ![img_6.png](img_6.png)
 
 #### 테이블 설계
-![img_7.png](img_7.png)
+![img_8.png](img_8.png)
 
 ## ✅ PR 포인트 & 궁금한 점
 

@@ -26,6 +26,9 @@ public enum ResponseStatus {
     FAIL_NOT_FOUND_VOUCHER_POLICY("해당 할인 정책을 찾을 수 없습니다."),
     FAIL_IO_NOT_FOUND_VOUCHER("I/O 문제로 바우처가 저장되지 않았습니다."),
     FAIL_IO_NOT_SAVE_VOUCHER("I/O 문제로 바우처가 조회되지 않았습니다."),
+
+    //fail Wallet
+    FAIL_NOT_FOUND_WALLET("해당 지갑을 찾을 수 없습니다."),
     ;
 
     private String message;

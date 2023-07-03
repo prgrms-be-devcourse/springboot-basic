@@ -82,12 +82,6 @@ public class OutputView {
         }
     }
 
-    public static void outputMembers(List<MemberResDTO.READ> reads) {
-        for (MemberResDTO.READ read : reads) {
-            outputMember(read);
-        }
-    }
-
     public static void outputCreateVoucherMember() {
         log.info("================= 바우처 고객 할당 페이지 =================");
     }

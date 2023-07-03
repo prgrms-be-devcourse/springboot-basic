@@ -1,69 +1,78 @@
-package kr.co.springbootweeklymission.vouchermember.domain.repository;
+package kr.co.springbootweeklymission.wallet.domain.repository;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.repository.JdbcMemberRepository;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.repository.JdbcVoucherRepository;
-import kr.co.springbootweeklymission.vouchermember.domain.entity.VoucherMember;
+import kr.co.springbootweeklymission.wallet.domain.entity.Wallet;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class JdbcVoucherMemberRepository implements VoucherMemberRepository {
+public class JdbcWalletRepository implements WalletRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcVoucherMemberRepository(DataSource dataSource) {
+    public JdbcWalletRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public VoucherMember save(VoucherMember voucherMember) {
+    public Wallet save(Wallet wallet) {
         String sql = "" +
-                "insert into tbl_vouchers_members (voucher_member_id, voucher_id, member_id) " +
+                "insert into tbl_wallets (wallet_id, voucher_id, member_id) " +
                 "values (?, ?, ?)";
         jdbcTemplate.update(
                 sql,
-                voucherMember.getVoucherMemberId().toString(),
-                voucherMember.getVoucher().getVoucherId().toString(),
-                voucherMember.getMember().getMemberId().toString()
+                wallet.getWalletId().toString(),
+                wallet.getVoucher().getVoucherId().toString(),
+                wallet.getMember().getMemberId().toString()
         );
-        return voucherMember;
+        return wallet;
     }
 
     @Override
-    public List<VoucherMember> findVouchersMembersByMemberId(UUID memberId) {
+    public List<Wallet> findAllByMemberId(UUID memberId) {
         String sql = "" +
                 "select * " +
-                "from tbl_vouchers_members " +
+                "from tbl_wallets " +
                 "where member_id = ?";
-        return jdbcTemplate.query(sql, voucherMemberRowMapper(), memberId.toString());
+        return jdbcTemplate.query(sql, walletRowMapper(), memberId.toString());
     }
 
     @Override
-    public List<VoucherMember> findVouchersMembersByVoucherId(UUID voucherId) {
+    public Optional<Wallet> findByVoucherId(UUID voucherId) {
         String sql = "" +
                 "select * " +
-                "from tbl_vouchers_members " +
+                "from tbl_wallets " +
                 "where voucher_id = ?";
-        return jdbcTemplate.query(sql, voucherMemberRowMapper(), voucherId.toString());
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(
+                    sql,
+                    walletRowMapper(),
+                    voucherId.toString()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public void deleteByVoucherIdAndMemberId(UUID voucherId,
                                              UUID memberId) {
         String sql = "" +
-                "delete from tbl_vouchers_members " +
+                "delete from tbl_wallets " +
                 "where voucher_id = ? " +
                 "and member_id = ?";
         jdbcTemplate.update(sql, voucherId.toString(), memberId.toString());
     }
 
-    private RowMapper<VoucherMember> voucherMemberRowMapper() {
+    private RowMapper<Wallet> walletRowMapper() {
         return (rs, rowNum) -> {
             String voucherSql = "" +
                     "select * " +
@@ -85,8 +94,8 @@ public class JdbcVoucherMemberRepository implements VoucherMemberRepository {
                     rs.getString("member_id")
             );
 
-            return VoucherMember.builder()
-                    .voucherMemberId(UUID.fromString(rs.getString("voucher_member_id")))
+            return Wallet.builder()
+                    .walletId(UUID.fromString(rs.getString("wallet_id")))
                     .voucher(voucher)
                     .member(member)
                     .build();

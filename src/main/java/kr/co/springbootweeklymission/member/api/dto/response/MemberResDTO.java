@@ -2,7 +2,7 @@ package kr.co.springbootweeklymission.member.api.dto.response;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
-import kr.co.springbootweeklymission.vouchermember.domain.entity.VoucherMember;
+import kr.co.springbootweeklymission.wallet.domain.entity.Wallet;
 import lombok.*;
 
 import java.util.UUID;
@@ -24,10 +24,10 @@ public class MemberResDTO {
                     .build();
         }
 
-        public static MemberResDTO.READ toMemberReadDto(VoucherMember voucherMember) {
+        public static MemberResDTO.READ toMemberReadDto(Wallet wallet) {
             return READ.builder()
-                    .memberId(voucherMember.getMember().getMemberId())
-                    .memberStatus(voucherMember.getMember().getMemberStatus())
+                    .memberId(wallet.getMember().getMemberId())
+                    .memberStatus(wallet.getMember().getMemberStatus())
                     .build();
         }
     }

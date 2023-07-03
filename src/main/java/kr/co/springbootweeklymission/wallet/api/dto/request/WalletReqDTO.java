@@ -1,10 +1,10 @@
-package kr.co.springbootweeklymission.vouchermember.api.dto.request;
+package kr.co.springbootweeklymission.wallet.api.dto.request;
 
 import lombok.*;
 
 import java.util.UUID;
 
-public class VoucherMemberReqDTO {
+public class WalletReqDTO {
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

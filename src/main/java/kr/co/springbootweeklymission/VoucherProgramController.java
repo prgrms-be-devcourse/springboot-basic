@@ -7,8 +7,8 @@ import kr.co.springbootweeklymission.view.InputView;
 import kr.co.springbootweeklymission.view.OutputView;
 import kr.co.springbootweeklymission.voucher.api.VoucherController;
 import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
-import kr.co.springbootweeklymission.vouchermember.api.VoucherMemberController;
-import kr.co.springbootweeklymission.vouchermember.api.dto.request.VoucherMemberReqDTO;
+import kr.co.springbootweeklymission.wallet.api.WalletController;
+import kr.co.springbootweeklymission.wallet.api.dto.request.WalletReqDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class VoucherProgramController implements CommandLineRunner {
     private final MemberController memberController;
     private final VoucherController voucherController;
-    private final VoucherMemberController voucherMemberController;
+    private final WalletController walletController;
 
     private static boolean IS_RUNNING = true;
 
@@ -112,31 +112,31 @@ public class VoucherProgramController implements CommandLineRunner {
 
             if (command.isCreateVoucherMember()) {
                 OutputView.outputCreateVoucherMember();
-                final VoucherMemberReqDTO.CREATE create = VoucherMemberReqDTO.CREATE.builder()
+                final WalletReqDTO.CREATE create = WalletReqDTO.CREATE.builder()
                         .voucherId(UUID.fromString(InputView.inputVoucherId()))
                         .memberId(UUID.fromString(InputView.inputMemberId()))
                         .build();
-                voucherMemberController.createVoucherMember(create);
+                walletController.createVoucherMember(create);
                 continue;
             }
 
             if (command.isReadVouchersByMember()) {
-                OutputView.outputVouchers(voucherMemberController.getVouchersByMemberId(UUID.fromString(InputView.inputMemberId())));
+                OutputView.outputVouchers(walletController.getVouchersByMemberId(UUID.fromString(InputView.inputMemberId())));
                 continue;
             }
 
-            if (command.isReadMembersByVoucher()) {
-                OutputView.outputMembers(voucherMemberController.getMembersByVoucherId(UUID.fromString(InputView.inputVoucherId())));
+            if (command.isReadMemberByVoucher()) {
+                OutputView.outputMember(walletController.getMemberByVoucherId(UUID.fromString(InputView.inputVoucherId())));
                 continue;
             }
 
             if (command.isDeleteVoucherMember()) {
                 OutputView.outputDeleteVoucherMember();
-                final VoucherMemberReqDTO.DELETE delete = VoucherMemberReqDTO.DELETE.builder()
+                final WalletReqDTO.DELETE delete = WalletReqDTO.DELETE.builder()
                         .voucherId(UUID.fromString(InputView.inputVoucherId()))
                         .memberId(UUID.fromString(InputView.inputMemberId()))
                         .build();
-                voucherMemberController.deleteVoucherMemberByVoucherIdAndMemberId(delete);
+                walletController.deleteVoucherMemberByVoucherIdAndMemberId(delete);
                 continue;
             }
 
