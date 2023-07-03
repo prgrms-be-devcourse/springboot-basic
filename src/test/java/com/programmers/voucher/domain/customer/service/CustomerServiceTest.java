@@ -65,7 +65,7 @@ class CustomerServiceTest {
         given(customerRepository.findById(any())).willReturn(Optional.of(customer));
 
         //when
-        customerService.updateCustomer(customer.getCustomerId(), "updatedName");
+        customerService.updateCustomer(customer.getCustomerId(), "updatedName", false);
 
         //then
         then(customerRepository).should().findById(any());
@@ -81,7 +81,7 @@ class CustomerServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> customerService.updateCustomer(customer.getCustomerId(), "updatedName"))
+        assertThatThrownBy(() -> customerService.updateCustomer(customer.getCustomerId(), "updatedName", false))
                 .isInstanceOf(NoSuchElementException.class);
     }
 

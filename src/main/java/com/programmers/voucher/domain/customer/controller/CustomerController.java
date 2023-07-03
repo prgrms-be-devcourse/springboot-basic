@@ -39,7 +39,7 @@ public class CustomerController {
     public void updateCustomer() {
         CustomerUpdateRequest request = console.inputCustomerUpdateInfo();
 
-        customerService.updateCustomer(request.getCustomerId(), request.getName());
+        customerService.updateCustomer(request.getCustomerId(), request.getName(), false);
 
         console.print(ConsoleMessages.UPDATED_CUSTOMER);
     }

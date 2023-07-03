@@ -136,9 +136,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             boolean banned = rs.getBoolean("banned");
 
             Customer customer = new Customer(customerId, email, name);
-            if (banned) {
-                customer.ban();
-            }
+            customer.update(name, banned);
 
             return customer;
         };

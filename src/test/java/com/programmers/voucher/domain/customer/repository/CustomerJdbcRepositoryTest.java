@@ -124,7 +124,7 @@ class CustomerJdbcRepositoryTest {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
         Customer banned = new Customer(UUID.randomUUID(), "banned@gmail.com", "banned");
-        banned.ban();
+        banned.update("banned", true);
 
         customerJdbcRepository.save(customer);
         customerJdbcRepository.save(banned);
@@ -144,7 +144,7 @@ class CustomerJdbcRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
         customerJdbcRepository.save(customer);
 
-        customer.changeName("updatedName");
+        customer.update("updatedName", false);
 
         //when
         customerJdbcRepository.update(customer);
@@ -159,7 +159,7 @@ class CustomerJdbcRepositoryTest {
     void update_ButNoSuchElement_Then_Exception() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
-        customer.changeName("updatedName");
+        customer.update("updatedName", false);
 
         //when
         //then

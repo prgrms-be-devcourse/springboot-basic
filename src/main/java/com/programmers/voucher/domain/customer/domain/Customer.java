@@ -20,16 +20,9 @@ public class Customer {
         return new CustomerDto(customerId, email, name, banned);
     }
 
-    public void changeName(String name) {
+    public void update(String name, boolean banned) {
         this.name = name;
-    }
-
-    public void ban() {
-        this.banned = true;
-    }
-
-    public void unban() {
-        this.banned = false;
+        this.banned = banned;
     }
 
     public String fullInfoString() {

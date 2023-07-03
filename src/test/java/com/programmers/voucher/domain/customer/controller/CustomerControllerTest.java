@@ -13,8 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -58,7 +57,7 @@ class CustomerControllerTest {
         customerController.updateCustomer();
 
         //then
-        then(customerService).should().updateCustomer(any(), any());
+        then(customerService).should().updateCustomer(any(), any(), anyBoolean());
         then(console).should().print(anyString());
     }
 

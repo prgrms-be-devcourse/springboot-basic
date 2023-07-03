@@ -33,7 +33,7 @@ public class CustomerService {
     public UUID createCustomer(String email, String name) {
         boolean emailDuplication = customerRepository.findByEmail(email)
                 .isPresent();
-        if(emailDuplication) {
+        if (emailDuplication) {
             String errorMessage = String.format(DataErrorMessages.DUPLICATE_EMAIL, email);
             throw new DuplicateKeyException(errorMessage);
         }
@@ -46,12 +46,13 @@ public class CustomerService {
     }
 
     @Transactional
-    public void updateCustomer(UUID customerId, String name) {
+    public void updateCustomer(UUID customerId, String name, boolean banned) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
         String oldCustomerInfo = customer.toString();
 
-        customer.changeName(name);
+        customer.update(name, banned);
+
         customerRepository.update(customer);
         String newCustomerInfo = customer.toString();
 
