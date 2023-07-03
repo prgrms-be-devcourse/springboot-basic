@@ -11,6 +11,14 @@ spring:
   config:
     activate:
       on-profile: local
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
 
 ---
 
