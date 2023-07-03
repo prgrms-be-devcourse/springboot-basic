@@ -23,7 +23,10 @@ class FixedAmountVoucherTest {
     void discount(long discountAmount, long originalPrice, long expectedPrice) {
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(VOUCHER_TYPE, discountAmount);
         Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
-        assertThat(voucher.discount(originalPrice)).isEqualTo(expectedPrice);
+
+        long discountPrice = voucher.discount(originalPrice);
+
+        assertThat(discountPrice).isEqualTo(expectedPrice);
     }
 
     @DisplayName("실제 금액보다 할인양이 클 경우 0원 반환 테스트")
