@@ -13,13 +13,10 @@ public enum VoucherType {
     }
 
     public static VoucherType getVoucherType(int type) {
-        switch (type) {
-            case 1:
-                return FIXED_AMOUNT_VOUCHER_TYPE;
-            case 2:
-                return PERCENT_DISCOUNT_VOUCHER_TYPE;
-            default:
-                throw new IllegalStateException(ExceptionMessageConstant.VOUCHER_TYPE_INPUT_EXCEPTION);
-        }
+        return switch (type) {
+            case 1 -> FIXED_AMOUNT_VOUCHER_TYPE;
+            case 2 -> PERCENT_DISCOUNT_VOUCHER_TYPE;
+            default -> throw new IllegalStateException(ExceptionMessageConstant.VOUCHER_TYPE_INPUT_EXCEPTION);
+        };
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class CustomerNamedJdbcRepository implements CustomerRepository{
+public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -108,11 +107,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository{
             logger.error("Got empty result");
             return Optional.empty();
         }
-    }
-
-    @Override
-    public void deleteAll() {
-
     }
 
     public UUID toUUID(byte[] bytes) {

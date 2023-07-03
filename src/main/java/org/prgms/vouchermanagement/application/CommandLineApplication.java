@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.InputMismatchException;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -49,19 +48,11 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
 
                 CommandMenu currentCommand = CommandMenu.getCommandMenu(console.getCommand());
                 switch (currentCommand) {
-                    case EXIT:
-                        return;
-                    case CREATE_NEW_VOUCHER:
-                        selectNewVoucher();
-                        break;
-                    case SHOW_VOUCHER_LIST:
-                        showVoucherList();
-                        break;
-                    case SHOW_BLACK_LIST:
-                        showBlackList();
-                        break;
-                    default:
-                        throw new IllegalArgumentException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
+                    case EXIT -> { return; }
+                    case CREATE_NEW_VOUCHER -> selectNewVoucher();
+                    case SHOW_VOUCHER_LIST -> showVoucherList();
+                    case SHOW_BLACK_LIST -> showBlackList();
+                    default -> throw new IllegalArgumentException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
                 }
             } catch (RuntimeException | IOException e) {
                 if (e instanceof NoSuchFileException){

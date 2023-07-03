@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public class VoucherNamedJdbcRepository implements VoucherRepository{
+public class VoucherNamedJdbcRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
@@ -20,6 +20,6 @@ public class VoucherNamedJdbcRepository implements VoucherRepository{
 
     @Override
     public Map<UUID, Voucher> getVoucherList() {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 }

@@ -16,17 +16,12 @@ public enum CommandMenu {
     }
 
     public static CommandMenu getCommandMenu(String input) {
-        switch (input.toLowerCase()) {
-            case "exit":
-                return EXIT;
-            case "create":
-                return CREATE_NEW_VOUCHER;
-            case "list":
-                return SHOW_VOUCHER_LIST;
-            case "black":
-                return SHOW_BLACK_LIST;
-            default:
-                throw new IllegalArgumentException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
-        }
+        return switch (input.toLowerCase()) {
+            case "exit" -> EXIT;
+            case "create" -> CREATE_NEW_VOUCHER;
+            case "list" -> SHOW_VOUCHER_LIST;
+            case "black" -> SHOW_BLACK_LIST;
+            default -> throw new IllegalArgumentException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
+        };
     }
 }

@@ -28,6 +28,6 @@ public class MemoryVoucherRepository implements VoucherRepository{
         if (!voucherStorage.isEmpty()) {
             return Collections.unmodifiableMap(voucherStorage);
         }
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 }
