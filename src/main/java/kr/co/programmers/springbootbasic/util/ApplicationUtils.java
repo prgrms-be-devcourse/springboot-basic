@@ -1,17 +1,16 @@
 package kr.co.programmers.springbootbasic.util;
 
-import kr.co.programmers.springbootbasic.customer.Customer;
-import kr.co.programmers.springbootbasic.customer.CustomerStatus;
 import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 import kr.co.programmers.springbootbasic.customer.dto.response.CustomerResponseDto;
-import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
+import kr.co.programmers.springbootbasic.voucher.dto.response.VoucherResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ApplicationUtils {
@@ -23,12 +22,14 @@ public class ApplicationUtils {
             종류 : {0}
             아이디 : {1}
             할인 가격 : {2}원
-                        
+            생성시기 : {3}
+                 
             """;
     private static final String PERCENT_VOUCHER_FORMAT = """
             종류 : {0}
             아이디 : {1}
             할인 가격 : {2}%
+            생성시기 : {3}
                         
             """;
     private static final String CSV_USER_FORMAT = """
@@ -65,12 +66,13 @@ public class ApplicationUtils {
         VoucherType type = voucher.getType();
         UUID voucherId = voucher.getId();
         long amount = voucher.getAmount();
+        LocalDateTime createdAt = voucher.getCreatedAt();
 
-        return new VoucherResponseDto(type, voucherId, amount);
+        return new VoucherResponseDto(type, voucherId, amount, createdAt);
     }
 
     public static CustomerResponseDto convertToCustomerResponseDto(Customer customer) {
-        long id = customer.getId();
+        UUID id = customer.getId();
         String name = customer.getName();
         CustomerStatus status = customer.getStatus();
 
@@ -82,13 +84,15 @@ public class ApplicationUtils {
             return MessageFormat.format(FIXED_VOUCHER_FORMAT,
                     dto.getType(),
                     dto.getVoucherId(),
-                    dto.getAmount());
+                    dto.getAmount(),
+                    dto.getCreatedAt());
         }
 
         return MessageFormat.format(PERCENT_VOUCHER_FORMAT,
                 dto.getType(),
                 dto.getVoucherId(),
-                dto.getAmount());
+                dto.getAmount(),
+                dto.getCreatedAt());
     }
 
     public static String formatCustomerResponseDto(CustomerResponseDto dto) {
