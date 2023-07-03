@@ -1,8 +1,10 @@
 package com.wonu606.vouchermanager.domain.discountvalue;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public abstract class DiscountValue {
 
     protected double value;

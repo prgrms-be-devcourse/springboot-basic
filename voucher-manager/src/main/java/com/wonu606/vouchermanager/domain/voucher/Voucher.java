@@ -4,8 +4,10 @@ import com.wonu606.vouchermanager.domain.discountvalue.DiscountValue;
 import com.wonu606.vouchermanager.domain.price.Price;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public abstract class Voucher {
 
     protected final UUID uuid;

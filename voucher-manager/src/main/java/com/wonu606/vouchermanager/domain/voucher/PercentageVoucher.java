@@ -5,7 +5,6 @@ import com.wonu606.vouchermanager.domain.price.Price;
 import java.util.UUID;
 import lombok.ToString;
 
-@ToString
 public class PercentageVoucher extends Voucher {
 
     public PercentageVoucher(UUID uuid, PercentageDiscountValue percentageDiscountValue) {

@@ -5,7 +5,6 @@ import com.wonu606.vouchermanager.domain.price.Price;
 import java.util.UUID;
 import lombok.ToString;
 
-@ToString
 public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID uuid, FixedAmountValue fixedAmountValue) {
