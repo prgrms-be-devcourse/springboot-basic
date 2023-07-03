@@ -6,18 +6,11 @@ import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 import java.util.UUID;
 
 @Slf4j
-public class PercentDiscountVoucher implements Voucher {
-
-    private final UUID voucherId;
-    private final VoucherTypeOption type;
-    private final long discount;
-
+public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long discountRate) {
+        super(voucherId, VoucherTypeOption.PERCENT, discountRate);
         validateDiscountRate(discountRate);
-        this.voucherId = voucherId;
-        this.type = VoucherTypeOption.PERCENT;
-        this.discount = discountRate;
     }
 
     private void validateDiscountRate(long discountRate) {
@@ -27,24 +20,9 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
-    public String getType() {
-        return type.name();
-    }
-
-    @Override
-    public long getDiscount() {
-        return discount;
-    }
-
-    @Override
     public long discount(long beforeDiscount) {
-        long discountedPrice = beforeDiscount * discount / 100;
-        log.info("Discount applied: {}% - Before discount: {}, Discounted price: {}", discount, beforeDiscount, discountedPrice);
+        long discountedPrice = beforeDiscount * getDiscount() / 100;
+        log.info("Discount applied: {}% - Before discount: {}, Discounted price: {}", getDiscount(), beforeDiscount, discountedPrice);
         return discountedPrice;
     }
 }
