@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain.customer.controller;
 
+import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.customer.service.CustomerService;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -73,6 +75,23 @@ class CustomerControllerTest {
         //then
         then(customerService).should().deleteCustomer(any());
         then(console).should().print(anyString());
+    }
+
+    @Test
+    @DisplayName("성공: Customer 목록 조회 요청")
+    void findCustomers() {
+        //given
+        Customer customerA = new Customer(UUID.randomUUID(), "customerA@gmail.com", "customerA");
+        Customer customerB = new Customer(UUID.randomUUID(), "customerB@gmail.com", "customerB");
+        List<Customer> customers = List.of(customerA, customerB);
+
+        given(customerService.findCustomers()).willReturn(customers);
+
+        //when
+        customerController.findCustomers();
+
+        //then
+        then(console).should().printCustomers(anyList());
     }
 
 }

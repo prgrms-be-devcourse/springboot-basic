@@ -27,6 +27,12 @@ public class CustomerController {
         console.printCustomers(customers);
     }
 
+    public void findCustomers() {
+        List<Customer> customers = customerService.findCustomers();
+
+        console.printCustomers(customers);
+    }
+
     public void createCustomer() {
         CustomerCreateRequest request = console.inputCustomerCreateInfo();
 
