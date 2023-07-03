@@ -1,11 +1,11 @@
 package org.prgrms.kdtspringdemo.view.console;
 
-import org.prgrms.kdtspringdemo.view.console.input.Input;
-import org.prgrms.kdtspringdemo.view.console.output.Output;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Scanner;
 
 public class VoucherConsole {
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
@@ -30,30 +30,24 @@ public class VoucherConsole {
             discount amount : %s 퍼센트
             """;
 
-    private final Input input;
-    private final Output output;
-
-    public VoucherConsole(Input input, Output output) {
-        this.input = input;
-        this.output = output;
-    }
+    private final Scanner scanner = new Scanner(System.in);
 
     public void printInitMessage() {
-        output.write(INIT_MESSAGE);
+        System.out.print(INIT_MESSAGE);
     }
 
     public String inputCommand() {
-        return input.read();
+        return scanner.nextLine();
     }
 
     public void printSystemShutdown() {
-        output.write(SYSTEM_SHUTDOWN_MESSAGE);
+        System.out.print(SYSTEM_SHUTDOWN_MESSAGE);
     }
 
     public String chooseVoucherType() {
-        output.write(CHOICE_VOUCHER_TYPE_MESSAGE);
+        System.out.print(CHOICE_VOUCHER_TYPE_MESSAGE);
 
-        return input.read();
+        return scanner.nextLine();
     }
 
     public Long inputAmountByVoucher(VoucherType voucherType) {
@@ -71,8 +65,8 @@ public class VoucherConsole {
     }
 
     private long inputAmountEachVoucher(String message) {
-        output.write(message);
-        String inputAmount = input.read();
+        System.out.print(message);
+        String inputAmount = scanner.nextLine();
         validateAmountIsNumeric(inputAmount);
 
         return Long.parseLong(inputAmount);
@@ -89,15 +83,15 @@ public class VoucherConsole {
 
     public void printCreatedVoucher(VoucherDto voucher) {
         if (voucher.getVoucherType() == VoucherType.FIXED) {
-            output.writeFormat(SUCCESS_CREATED_FIXED_VOUCHER, voucher.getVoucherType().name(), voucher.getAmount());
+            System.out.printf(SUCCESS_CREATED_FIXED_VOUCHER, voucher.getVoucherType().name(), voucher.getAmount());
         }
 
         if (voucher.getVoucherType() == VoucherType.PERCENT) {
-            output.writeFormat(SUCCESS_CREATED_PERCENT_VOUCHER, voucher.getVoucherType().name(), voucher.getAmount());
+            System.out.printf(SUCCESS_CREATED_PERCENT_VOUCHER, voucher.getVoucherType().name(), voucher.getAmount());
         }
     }
 
     public void printInvalidCommandSelected() {
-        output.write(INVALID_COMMAND_MESSAGE);
+        System.out.print(INVALID_COMMAND_MESSAGE);
     }
 }
