@@ -11,4 +11,6 @@ public final class ExceptionMessageConstant {
 
     public static final String EMPTY_CUSTOMER_INSERT_EXCEPTION = "[ERROR] 고객정보가 저장되지 않았습니다.";
     public static final String BLANK_CUSTOMER_NAME_EXCEPTION = "[ERROR] 이름을 입력해주세요.";
+    
+    public static final String VOUCHER_NOT_INSERTED_EXCEPTION = "[ERROR] 바우처가 저장되지 않았습니다.";
 }

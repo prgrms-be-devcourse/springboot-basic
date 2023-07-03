@@ -53,7 +53,7 @@ class CustomerNamedJdbcRepositoryTest {
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test_customer")
+                    .url("jdbc:mysql://localhost:3308/test_customer")
                     .username("test")
                     .password("1234")
                     .type(HikariDataSource.class)
@@ -81,13 +81,13 @@ class CustomerNamedJdbcRepositoryTest {
     void setUp() {
         MysqldConfig mysqldConfig = aMysqldConfig(v5_7_latest)
                 .withCharset(UTF8)
-                .withPort(2215)
+                .withPort(3308)
                 .withUser("test", "1234")
                 .withTimeZone("Asia/Seoul")
                 .build();
 
         embeddedMysql = anEmbeddedMysql(mysqldConfig)
-                .addSchema("test_customer", classPathScript("schema.sql"))
+                .addSchema("test_customer", classPathScript("CustomerSchema.sql"))
                 .start();
 
         newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
@@ -101,7 +101,7 @@ class CustomerNamedJdbcRepositoryTest {
 
     @Test
     @Order(1)
-    @DisplayName("ConnectionPool 확인")
+    @DisplayName("Customer ConnectionPool 확인")
     void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName()).isEqualTo("com.zaxxer.hikari.HikariDataSource");
     }

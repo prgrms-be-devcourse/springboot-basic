@@ -63,6 +63,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         int updated = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 toParamMap(customer));
         if (updated != 1) {
+            logger.error("Customer update error");
             throw new CustomerException("Customer update error");
         }
         return customer;

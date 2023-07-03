@@ -9,6 +9,6 @@ import java.util.UUID;
 public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId);
-    void saveVoucher(UUID voucherId, Voucher voucher);
+    Voucher saveVoucher(Voucher voucher);
     Map<UUID, Voucher> getVoucherList();
 }
