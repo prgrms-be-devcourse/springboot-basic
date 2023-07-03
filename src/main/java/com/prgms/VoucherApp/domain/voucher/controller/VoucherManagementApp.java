@@ -1,6 +1,7 @@
 package com.prgms.VoucherApp.domain.voucher.controller;
 
 import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherCreator;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class VoucherManagementApp {
+public class VoucherManagementApp implements Runnable {
 
     private final VoucherCreator voucherCreator;
     private final VoucherReader voucherReader;
@@ -26,16 +27,36 @@ public class VoucherManagementApp {
         this.output = output;
     }
 
-    public void createVoucher() {
+    @Override
+    public void run() {
+        boolean isRunning = true;
+        while (isRunning) {
+            output.printVoucherCommand();
+            VoucherCommand command = VoucherCommand.findByVoucherCommandNumber(input.inputVoucherCommand());
+
+            if (command.isCreate()) {
+                createVoucher();
+                continue;
+            }
+
+            if (command.isFindAll()) {
+                readVouchers();
+                continue;
+            }
+
+            if (command.isExit()) {
+                isRunning = false;
+            }
+
+            output.printNotImplementMsg();
+        }
+    }
+
+    private void createVoucher() {
         VoucherType voucherType = getVoucherType();
         long amount = getDiscountAmount(voucherType);
         Voucher voucher = voucherCreator.createVoucher(voucherType, amount);
         output.printCreatedMsg(voucher);
-    }
-
-    public void readVouchers() {
-        List<VoucherDto> vouchers = voucherReader.readVoucherList();
-        output.printVoucherList(vouchers);
     }
 
     private VoucherType getVoucherType() {
@@ -47,5 +68,10 @@ public class VoucherManagementApp {
     private long getDiscountAmount(VoucherType voucherType) {
         output.printDisplayDiscountCondition(voucherType);
         return input.inputDiscountAmount(voucherType);
+    }
+
+    private void readVouchers() {
+        List<VoucherDto> vouchers = voucherReader.readVoucherList();
+        output.printVoucherList(vouchers);
     }
 }

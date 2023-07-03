@@ -2,8 +2,8 @@ package com.prgms.VoucherApp.controller;
 
 import com.prgms.VoucherApp.domain.customer.controller.CustomerManagementApp;
 import com.prgms.VoucherApp.domain.voucher.controller.VoucherManagementApp;
-import com.prgms.VoucherApp.view.Command;
 import com.prgms.VoucherApp.view.Input;
+import com.prgms.VoucherApp.view.ManagementType;
 import com.prgms.VoucherApp.view.Output;
 import org.springframework.stereotype.Controller;
 
@@ -27,25 +27,22 @@ public class VoucherApp implements Runnable {
     public void run() {
         boolean isPower = true;
         while (isPower) {
-            output.printDisplayMenu();
-            String inputCommand = input.inputCommand();
-            Command command = Command.findByCommand(inputCommand);
-            switch (command) {
-                case EXIT -> {
-                    isPower = false;
-                }
+            output.printManagementMenu();
+            int inputCommand = input.inputManagementCommand();
+            ManagementType type = ManagementType.findByType(inputCommand);
 
-                case CREATE -> {
-                    voucherManagementApp.createVoucher();
-                }
+            if (type.isVoucher()) {
+                voucherManagementApp.run();
+                continue;
+            }
 
-                case LIST -> {
-                    voucherManagementApp.readVouchers();
-                }
+            if (type.isCustomer()) {
+                customerManagementApp.run();
+                continue;
+            }
 
-                case BLACKLIST -> {
-                    customerManagementApp.readBlackList();
-                }
+            if (type.isExit()) {
+                isPower = false;
             }
         }
     }

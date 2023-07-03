@@ -1,9 +1,12 @@
 package com.prgms.VoucherApp.view.console;
 
+import com.prgms.VoucherApp.domain.customer.CustomerCommand;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
+import com.prgms.VoucherApp.view.ManagementType;
 import com.prgms.VoucherApp.view.Output;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -25,46 +28,55 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printDisplayMenu() {
-        printProgram();
-        printExitMenuCommand();
-        printCreateMenuCommand();
-        printListMenuCommand();
-        printBlackListMenuCommand();
+    public void printManagementMenu() {
+        textTerminal.println("=== Program ===");
+
+        for (ManagementType managementType : ManagementType.values()) {
+            textTerminal.print("Type ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(managementType.getTypeNumber() + " "));
+            textTerminal.print("execute ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(managementType.getTypeName() + " Management "));
+            textTerminal.print("Program");
+            textTerminal.println();
+        }
     }
 
+    @Override
+    public void printCustomerCommand() {
+        textTerminal.println("=== Customer management Program ===");
 
-    private void printProgram() {
-        textTerminal.println("=== Voucher Program ===");
+        for (CustomerCommand customerCommand : CustomerCommand.values()) {
+            textTerminal.print("Type ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(customerCommand.getCustomerCommandNumber() + " "));
+            textTerminal.print("execute ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(customerCommand.getCustomerCommandName() + " Command"));
+            textTerminal.println();
+        }
     }
 
-    private void printExitMenuCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-            terminalProperties.setPromptColor(Color.red);
-        }, text -> text.print("exit "));
-        textTerminal.print("to ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptColor(Color.red);
-        }, text -> text.print("exit "));
-        textTerminal.println("the program.");
-    }
+    @Override
+    public void printVoucherCommand() {
+        textTerminal.println("=== Voucher management Program ===");
 
-    private void printCreateMenuCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-        }, text -> text.print("create "));
-        textTerminal.println("to create a new voucher.");
-    }
-
-    private void printListMenuCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-        }, text -> text.print("list "));
-        textTerminal.println("to list all vouchers.");
+        for (VoucherCommand voucherCommand : VoucherCommand.values()) {
+            textTerminal.print("Type ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(voucherCommand.getVoucherCommandNumber() + " "));
+            textTerminal.print("execute ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(voucherCommand.getVoucherCommandName() + " Command"));
+            textTerminal.println();
+        }
     }
 
     private void printBlackListMenuCommand() {
@@ -140,5 +152,23 @@ public class ConsoleOutputView implements Output {
         }
 
         blackLists.forEach((blackList -> textTerminal.println(blackList.getCustomerInfo())));
+    }
+
+    private void printExitCommand() {
+        textTerminal.print("Type ");
+        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+            terminalProperties.setPromptBold(true);
+            terminalProperties.setPromptColor(Color.red);
+        }, text -> text.print("exit "));
+        textTerminal.print("to ");
+        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+            terminalProperties.setPromptColor(Color.red);
+        }, text -> text.print("exit "));
+        textTerminal.println("the program.");
+    }
+
+    @Override
+    public void printNotImplementMsg() {
+        textTerminal.println("아직 미 완성된 기능입니다.");
     }
 }

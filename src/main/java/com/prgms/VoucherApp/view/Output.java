@@ -8,7 +8,11 @@ import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
 import java.util.List;
 
 public interface Output {
-    void printDisplayMenu();
+    void printManagementMenu();
+
+    void printCustomerCommand();
+
+    void printVoucherCommand();
 
     void printDisplayVoucherPolicy();
 
@@ -19,4 +23,6 @@ public interface Output {
     void printVoucherList(List<VoucherDto> voucher);
 
     void printBlackLists(List<CustomerDto> blackLists);
+
+    void printNotImplementMsg();
 }

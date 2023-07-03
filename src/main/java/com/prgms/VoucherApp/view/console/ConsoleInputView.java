@@ -1,8 +1,10 @@
 package com.prgms.VoucherApp.view.console;
 
+import com.prgms.VoucherApp.domain.customer.CustomerCommand;
+import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.view.Command;
 import com.prgms.VoucherApp.view.Input;
+import com.prgms.VoucherApp.view.ManagementType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.slf4j.Logger;
@@ -23,13 +25,43 @@ public class ConsoleInputView implements Input {
     }
 
     @Override
-    public String inputCommand() {
-        return textIO.newStringInputReader()
+    public Integer inputManagementCommand() {
+        return textIO.newIntInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues(Command.getAllCommands())
+                .withInlinePossibleValues(ManagementType.getAllType())
                 .withValueChecker((val, itemName) -> {
-                    if (!Command.containsCommand(val)) {
+                    if (!ManagementType.containsManagementType(val)) {
                         log.warn("inputCommand [{}] is invalid value", val);
+                        return List.of("Please input a valid value.");
+                    }
+                    return null;
+                })
+                .read("명령어를 입력해주세요 >>");
+    }
+
+    @Override
+    public Integer inputCustomerCommand() {
+        return textIO.newIntInputReader()
+                .withInputTrimming(true)
+                .withInlinePossibleValues(CustomerCommand.getAllCustomerCommand())
+                .withValueChecker((val, itemName) -> {
+                    if (!CustomerCommand.containsCustomerCommand(val)) {
+                        log.warn("inputCustomerCommand [{}] is invalid value", val);
+                        return List.of("Please input a valid value.");
+                    }
+                    return null;
+                })
+                .read("명령어를 입력해주세요 >>");
+    }
+
+    @Override
+    public Integer inputVoucherCommand() {
+        return textIO.newIntInputReader()
+                .withInputTrimming(true)
+                .withInlinePossibleValues(VoucherCommand.getAllVoucherCommand())
+                .withValueChecker((val, itemName) -> {
+                    if (!VoucherCommand.containsVoucherCommand(val)) {
+                        log.warn("inputVoucherCommand [{}] is invalid value", val);
                         return List.of("Please input a valid value.");
                     }
                     return null;
