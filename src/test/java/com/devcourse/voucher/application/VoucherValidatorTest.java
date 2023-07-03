@@ -81,7 +81,7 @@ class VoucherValidatorTest {
 
             // when, then
             assertThatThrownBy(() -> voucherValidator.validateUsable(voucher))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test

@@ -11,7 +11,7 @@ public enum Command {
 
     public static Command from(String input) {
         return Arrays.stream(Command.values())
-                .filter(command -> isSameCommand(command.name(), input))
+                .filter(command -> isCommand(command.name(), input))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(NOT_SUPPORT_COMMAND + input));
     }
@@ -20,7 +20,7 @@ public enum Command {
         return this == CREATE;
     }
 
-    private static boolean isSameCommand(String command, String input) {
-        return command.equals(input.toLowerCase());
+    private static boolean isCommand(String command, String input) {
+        return command.equals(input.toUpperCase());
     }
 }

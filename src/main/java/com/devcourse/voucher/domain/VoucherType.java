@@ -10,7 +10,7 @@ public enum VoucherType {
 
     public static VoucherType from(String input) {
         return Arrays.stream(VoucherType.values())
-                .filter(type -> isSameType(type.name(), input))
+                .filter(type -> isType(type.name(), input))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(NOT_SUPPORT_TYPE + input));
     }
@@ -19,7 +19,7 @@ public enum VoucherType {
         return this == PERCENT;
     }
 
-    private static boolean isSameType(String type, String input) {
-        return type.equals(input.toLowerCase());
+    private static boolean isType(String type, String input) {
+        return type.equals(input.toUpperCase());
     }
 }
