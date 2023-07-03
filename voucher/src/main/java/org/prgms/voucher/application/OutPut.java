@@ -1,5 +1,8 @@
 package org.prgms.voucher.application;
 
-public interface OutPut {
-    String printList();
+import org.springframework.stereotype.Component;
+
+@Component
+public class Output implements ConsoleOutput, CommonOutput {
+
 }

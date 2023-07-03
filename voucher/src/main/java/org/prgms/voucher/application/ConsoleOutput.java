@@ -1,7 +1,5 @@
 package org.prgms.voucher.application;
 
-public interface Console {
+public interface ConsoleOutput {
     void printSupportedCommands();
-
-    void exitProgram();
 }
