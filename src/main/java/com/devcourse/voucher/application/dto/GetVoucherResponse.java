@@ -1,6 +1,5 @@
 package com.devcourse.voucher.application.dto;
 
-import com.devcourse.voucher.domain.VoucherStatus;
 import com.devcourse.voucher.domain.VoucherType;
 
 import java.math.BigDecimal;
@@ -12,5 +11,5 @@ public record GetVoucherResponse(
         VoucherType type,
         BigDecimal discount,
         LocalDateTime expiredAt,
-        VoucherStatus status) {
+        String status) {
 }
