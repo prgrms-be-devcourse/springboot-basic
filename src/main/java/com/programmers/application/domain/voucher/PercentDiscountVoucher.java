@@ -38,7 +38,8 @@ public class PercentDiscountVoucher extends Voucher{
 
     private static void validateDiscountAmount(long discountAmount) {
         if (discountAmount > MAX_DISCOUNT_AMOUNT || discountAmount < MIN_DISCOUNT_AMOUNT) {
-            throw new IllegalArgumentException(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);
+            String errorMessage = String.format("%d ~ %d 범위의 바우처 할인양을 입력해주세요. 입력값: %d", MIN_DISCOUNT_AMOUNT, MAX_DISCOUNT_AMOUNT, discountAmount);
+            throw new IllegalArgumentException(errorMessage);
         }
     }
 }

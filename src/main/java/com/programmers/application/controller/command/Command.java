@@ -37,13 +37,15 @@ public enum Command {
 
                     private static void validateType(String type) {
                         if (Objects.isNull(type) || type.isBlank() || type.isEmpty()) {
-                            throw new IllegalArgumentException("옳바른 타입을 입력해 주세요. 입력값: " + type);
+                            String errorMessage = String.format("옳바른 타입을 입력해 주세요. 입력값: %s", type);
+                            throw new IllegalArgumentException(errorMessage);
                         }
                     }
 
                     private void validateAmount(String amount) {
                         if (!amount.matches("[0-9]+")) {
-                            throw new IllegalArgumentException("숫자를 입력해 주세요. 입력값: " + amount);
+                            String errorMessage = String.format("숫자를 입력해 주세요. 입력값: %s", amount);
+                            throw new IllegalArgumentException(errorMessage);
                         }
                     }
 
