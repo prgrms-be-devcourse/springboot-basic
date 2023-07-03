@@ -7,11 +7,11 @@ import org.devcourse.voucher.controller.console.dto.VoucherSaveRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VoucherConsoleController {
+public class VoucherController {
 
     private final VoucherService voucherService;
 
-    public VoucherConsoleController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 

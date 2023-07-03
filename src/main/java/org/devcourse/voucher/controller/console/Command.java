@@ -5,7 +5,7 @@ public enum Command {
     LIST,
     EXIT;
 
-    public static Command find(String commandName) {
-        return valueOf(commandName.toUpperCase());
+    public static Command find(String name) {
+        return valueOf(name.toUpperCase());
     }
 }
