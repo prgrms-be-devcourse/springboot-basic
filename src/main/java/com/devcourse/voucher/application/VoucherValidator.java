@@ -31,9 +31,9 @@ public class VoucherValidator {
         }
     }
 
-    public void isUsable(Voucher voucher) {
-        isExpired(voucher);
-        isUsed(voucher);
+    public void validateUsable(Voucher voucher) {
+        validateExpiration(voucher);
+        validateUsed(voucher);
     }
 
     private void validateVoucherType(String symbol) {
@@ -62,7 +62,7 @@ public class VoucherValidator {
         }
     }
 
-    private void isExpired(Voucher voucher) {
+    private void validateExpiration(Voucher voucher) {
         LocalDateTime now = LocalDateTime.now();
 
         if (now.isAfter(voucher.getExpireAt())) {
@@ -70,7 +70,7 @@ public class VoucherValidator {
         }
     }
 
-    private void isUsed(Voucher voucher) {
+    private void validateUsed(Voucher voucher) {
         if (voucher.isUsed()) {
             throw new IllegalStateException(USED_VOUCHER);
         }

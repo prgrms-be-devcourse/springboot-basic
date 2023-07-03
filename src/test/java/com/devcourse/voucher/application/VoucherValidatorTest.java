@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.devcourse.voucher.domain.VoucherStatus.USED;
 import static com.devcourse.voucher.domain.VoucherType.FIXED;
 import static com.devcourse.voucher.domain.VoucherType.PERCENT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -97,7 +96,7 @@ class VoucherValidatorTest {
             Voucher voucher = Voucher.percent(discount, invalidExpiration);
 
             // when, then
-            assertThatThrownBy(() -> voucherValidator.isUsable(voucher))
+            assertThatThrownBy(() -> voucherValidator.validateUsable(voucher))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -108,10 +107,11 @@ class VoucherValidatorTest {
             LocalDateTime expiredAt = LocalDateTime.now();
             DiscountPolicy fixedAmountPolicy = new FixedAmountPolicy(discount);
 
-            Voucher voucher = new Voucher(UUID.randomUUID(), fixedAmountPolicy, expiredAt, USED);
+            Voucher voucher = new Voucher(UUID.randomUUID(), fixedAmountPolicy, expiredAt);
+            voucher.apply(1000L);
 
             // when, then
-            assertThatThrownBy(() -> voucherValidator.isUsable(voucher))
+            assertThatThrownBy(() -> voucherValidator.validateUsable(voucher))
                     .isInstanceOf(IllegalStateException.class);
         }
     }
