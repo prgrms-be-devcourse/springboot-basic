@@ -62,4 +62,18 @@ class CustomerControllerTest {
         then(console).should().print(anyString());
     }
 
+    @Test
+    @DisplayName("성공: Customer 삭제 요청")
+    void deleteCustomer() {
+        //given
+        given(console.inputUUID()).willReturn(UUID.randomUUID());
+
+        //when
+        customerController.deleteCustomer();
+
+        //then
+        then(customerService).should().deleteCustomer(any());
+        then(console).should().print(anyString());
+    }
+
 }

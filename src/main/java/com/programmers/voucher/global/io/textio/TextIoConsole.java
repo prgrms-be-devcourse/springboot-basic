@@ -10,6 +10,7 @@ import com.programmers.voucher.global.io.ConsoleCommandType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class TextIoConsole implements Console {
@@ -39,6 +40,11 @@ public class TextIoConsole implements Console {
     @Override
     public CustomerUpdateRequest inputCustomerUpdateInfo() {
         return textIoInput.inputCustomerUpdateInfo();
+    }
+
+    @Override
+    public UUID inputUUID() {
+        return textIoInput.inputUUID();
     }
 
     @Override

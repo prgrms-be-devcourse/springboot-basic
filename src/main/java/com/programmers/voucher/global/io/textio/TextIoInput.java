@@ -13,10 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.*;
 import static com.programmers.voucher.domain.voucher.util.VoucherErrorMessages.*;
@@ -119,6 +116,11 @@ public class TextIoInput implements ConsoleInput {
 
     @Override
     public CustomerUpdateRequest inputCustomerUpdateInfo() {
+        return null;
+    }
+
+    @Override
+    public UUID inputUUID() {
         return null;
     }
 }

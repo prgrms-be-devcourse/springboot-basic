@@ -43,4 +43,12 @@ public class CustomerController {
 
         console.print(ConsoleMessages.UPDATED_CUSTOMER);
     }
+
+    public void deleteCustomer() {
+        UUID customerId = console.inputUUID();
+
+        customerService.deleteCustomer(customerId);
+
+        console.print(ConsoleMessages.DELETED_CUSTOMER);
+    }
 }
