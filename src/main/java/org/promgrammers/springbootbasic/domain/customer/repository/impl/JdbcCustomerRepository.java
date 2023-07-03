@@ -33,6 +33,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String FIND_ALL = "SELECT * FROM customers";
     private static final String UPDATE = "UPDATE customers SET username = :username, customer_type = :customerType WHERE customer_id = :customerId";
     private static final String DELETE_ALL = "DELETE FROM customers";
+    private static final String DELETE_BY_ID = "DELETE FROM customers WHERE customer_id = :customerId";
 
     public JdbcCustomerRepository(DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
@@ -101,6 +102,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         template.update(DELETE_ALL, Collections.emptyMap());
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        Map<String, Object> param = Map.of("customerId", customerId);
+        template.update(DELETE_BY_ID, param);
     }
 
     private final RowMapper<Customer> customerRowMapper = ((rs, rowNum) -> {

@@ -206,4 +206,22 @@ class JdbcCustomerRepositoryTest {
         assertThat(customerList.size()).isEqualTo(0);
         assertThat(customerList.isEmpty()).isEqualTo(true);
     }
+
+    @Test
+    @DisplayName("단건 삭제 성공 - 고객ID로 삭제")
+    void deleteByIdSuccessTest() throws Exception {
+
+        //given
+        UUID customerId = UUID.randomUUID();
+        String username = "A";
+        Customer customer = new Customer(customerId, username);
+        Customer savedCustomer = assertDoesNotThrow(() -> customerRepository.save(customer));
+
+        //when
+        assertDoesNotThrow(() -> customerRepository.deleteById(savedCustomer.getCustomerId()));
+
+        //then
+        Optional<Customer> deletedCustomer = customerRepository.findById(savedCustomer.getCustomerId());
+        assertThat(deletedCustomer.isPresent()).isEqualTo(false);
+    }
 }

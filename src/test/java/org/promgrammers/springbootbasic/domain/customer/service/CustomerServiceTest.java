@@ -20,9 +20,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -196,5 +198,33 @@ class CustomerServiceTest {
 
         //then
         assertThat(customerRepository.findAll().size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("단건 삭제 성공 - 고객ID가 존재하는 경우")
+    void deleteCustomerByIdSuccessTest() throws Exception {
+
+        //given
+        UUID customerId = UUID.randomUUID();
+        String username = "A";
+        Customer customer = new Customer(customerId, username);
+        customerRepository.save(customer);
+
+        //when
+        assertDoesNotThrow(() -> customerService.deleteById(customerId));
+        Optional<Customer> deletedCustomer = customerRepository.findById(customerId);
+
+        //then
+        assertThat(deletedCustomer.isPresent()).isEqualTo(false);
+    }
+
+    @Test
+    @DisplayName("단건 삭제 실패 - 고객ID가 존재하지 않는 경우")
+    void deleteCustomerByIdFailTest() throws Exception {
+
+        //given
+        UUID customerId = UUID.randomUUID();
+
+        assertThrows(BusinessException.class, () -> customerService.deleteById(customerId));
     }
 }

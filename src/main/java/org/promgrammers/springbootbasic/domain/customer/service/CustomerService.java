@@ -81,6 +81,13 @@ public class CustomerService {
         return customerResponse;
     }
 
+    @Transactional
+    public void deleteById(UUID customerId) {
+        customerRepository.findById(customerId).orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
+
+        customerRepository.deleteById(customerId);
+    }
+
     private void duplicateUsernameCheck(String username) {
         if (customerRepository.findByUsername(username).isPresent()) {
             throw new BusinessException(DUPLICATED_USERNAME);

@@ -25,4 +25,6 @@ public interface CustomerRepository {
     Customer update(Customer customer);
 
     void deleteAll();
+
+    void deleteById(UUID customerId);
 }
