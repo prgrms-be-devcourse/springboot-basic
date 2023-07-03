@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
 
 @Component
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -21,6 +22,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return map.values()
                 .stream()
-                .toList();
+                .collect(Collectors.toList());
     }
 }

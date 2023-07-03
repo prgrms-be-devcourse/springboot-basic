@@ -3,27 +3,27 @@ package org.programmers.VoucherManagement.voucher.domain;
 import java.util.UUID;
 
 public abstract class Voucher {
-    private UUID voucherId;
-    private DiscountType discountType;
-    private DiscountValue discountValue;
+    protected UUID voucherId;
+    protected DiscountValue discountValue;
+    protected DiscountType discountType;
 
     public Voucher(UUID voucherId, DiscountType discountType, DiscountValue discountValue) {
         this.voucherId = voucherId;
-        this.discountType = discountType;
         this.discountValue = discountValue;
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
+        this.discountType = discountType;
     }
 
     public DiscountType getDiscountType() {
         return discountType;
     }
 
-    public DiscountValue getDiscountValue() {
+    public UUID getVoucherId(){
+        return voucherId;
+    };
+
+    public DiscountValue getDiscountValue(){
         return discountValue;
-    }
+    };
 
     abstract long calculateDiscountPrice(long beforeDiscountPrice);
 }
