@@ -1,5 +1,6 @@
 package com.example.demo.view.validate;
 
+import com.example.demo.util.VoucherType;
 import java.util.regex.Pattern;
 
 public final class VoucherAmountValidator {
@@ -14,15 +15,6 @@ public final class VoucherAmountValidator {
     private VoucherAmountValidator() {
     }
 
-    public static void validateFixedAmount(String input) {
-        validatePositiveNumber(input);
-    }
-
-    public static void validatePercentAmount(String input) {
-        validatePositiveNumber(input);
-        validatePercentageNumber(input);
-    }
-
     private static void validatePositiveNumber(String input) {
         if (!IS_NUMERIC_REGEX.matcher(input).matches()) {
             throw new IllegalArgumentException(ERROR_MESSAGE_NOT_INTEGER_VALUE);
@@ -32,6 +24,16 @@ public final class VoucherAmountValidator {
     private static void validatePercentageNumber(String input) {
         if (!IS_PERCENT_REGEX.matcher(input).matches()) {
             throw new IllegalArgumentException(ERROR_MESSAGE_NOT_PERCENT_VALUE);
+        }
+    }
+
+    public static void validateAmount(VoucherType voucherType, String input) {
+        switch (voucherType) {
+            case FIX -> VoucherAmountValidator.validatePositiveNumber(input);
+            case PERCENT -> {
+                VoucherAmountValidator.validatePositiveNumber(input);
+                VoucherAmountValidator.validatePercentageNumber(input);
+            }
         }
     }
 }
