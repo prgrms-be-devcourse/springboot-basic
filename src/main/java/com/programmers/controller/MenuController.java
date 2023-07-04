@@ -1,9 +1,6 @@
 package com.programmers.controller;
 
 import com.programmers.domain.*;
-import com.programmers.domain.voucher.Voucher;
-import com.programmers.domain.voucher.VoucherType;
-import com.programmers.domain.voucher.dto.VoucherCreateRequestDto;
 import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import com.programmers.io.Console;
 import com.programmers.service.BlacklistService;
@@ -13,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-
-import static com.programmers.util.ValueFormatter.*;
 
 @Controller
 public class MenuController {
@@ -27,12 +22,14 @@ public class MenuController {
     private final Console console;
     private final VoucherService voucherService;
     private final BlacklistService blacklistService;
+    private final VoucherController voucherController;
     private final CustomerController customerController;
 
-    public MenuController(Console console, VoucherService voucherService, BlacklistService blacklistService, CustomerController customerController) {
+    public MenuController(Console console, VoucherService voucherService, BlacklistService blacklistService, VoucherController voucherController, CustomerController customerController) {
         this.console = console;
         this.voucherService = voucherService;
         this.blacklistService = blacklistService;
+        this.voucherController = voucherController;
         this.customerController = customerController;
     }
 
@@ -63,7 +60,7 @@ public class MenuController {
         checkCreateMenuSelection(command);
 
         switch (command) {
-            case CREATE_VOUCHER_NUMBER -> createVoucher();
+            case CREATE_VOUCHER_NUMBER -> voucherController.createVoucher();
             case CREATE_CUSTOMER_NUMBER -> customerController.createCustomer();
         }
     }
@@ -72,28 +69,6 @@ public class MenuController {
         if (!input.equals(CREATE_VOUCHER_NUMBER) && !input.equals(CREATE_CUSTOMER_NUMBER)) {
             throw new IllegalArgumentException();
         }
-    }
-
-    public Voucher createVoucher() {
-        Voucher voucher = makeVoucher();
-        voucherService.save(new VoucherCreateRequestDto(voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType()));
-        console.printVoucherCreated();
-        log.info("The voucher has been created.");
-
-        return voucher;
-    }
-
-    public Voucher makeVoucher() {
-        console.printVoucherType();
-        String voucherTypeInput = reformatVoucherType(console.readInput());
-
-        console.printDiscountValueInput();
-        Long discountValue = changeDiscountValueToNumber(console.readInput());
-
-        console.printVoucherNameInput();
-        String voucherName = console.readInput();
-
-        return VoucherType.createVoucher(voucherTypeInput, voucherName, discountValue);
     }
 
     public void getVoucherList() {
