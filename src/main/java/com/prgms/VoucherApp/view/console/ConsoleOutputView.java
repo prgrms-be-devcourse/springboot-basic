@@ -137,6 +137,11 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
+    public void printVoucher(VoucherResDto voucher) {
+        textTerminal.println(voucher.getVoucherInfo());
+    }
+
+    @Override
     public void printBlackLists(CustomersResDto blacklists) {
         if (blacklists.isEmpty()) {
             log.error("The user tried to view the blacklist, but currently, the list is empty");

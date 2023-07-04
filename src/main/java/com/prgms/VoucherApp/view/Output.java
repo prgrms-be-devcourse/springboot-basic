@@ -27,6 +27,8 @@ public interface Output {
 
     void printVoucherList(List<VoucherResDto> voucher);
 
+    void printVoucher(VoucherResDto voucher);
+
     void printBlackLists(CustomersResDto blacklists);
 
     void printFindEmpty();

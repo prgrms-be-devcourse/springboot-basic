@@ -10,6 +10,7 @@ import com.prgms.VoucherApp.view.Output;
 import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Controller
 public class VoucherManagementController implements Runnable {
@@ -46,6 +47,12 @@ public class VoucherManagementController implements Runnable {
                 VouchersResDto findVouchers = voucherDao.findAll();
                 output.printVoucherList(findVouchers.getVouchers());
                 continue;
+            }
+
+            if (command.isFindOne()) {
+                UUID inputUUID = UUID.fromString(input.inputUUID());
+                voucherDao.findOne(inputUUID)
+                    .ifPresentOrElse(output::printVoucher, output::printFindEmpty);
             }
 
             if (command.isExit()) {
