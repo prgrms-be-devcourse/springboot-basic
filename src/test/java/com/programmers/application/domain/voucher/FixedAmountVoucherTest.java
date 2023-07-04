@@ -1,7 +1,5 @@
-package com.programmers.application.domain;
+package com.programmers.application.domain.voucher;
 
-import com.programmers.application.domain.voucher.Voucher;
-import com.programmers.application.domain.voucher.VoucherFactory;
 import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import org.junit.jupiter.api.DisplayName;
