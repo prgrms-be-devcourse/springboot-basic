@@ -20,18 +20,19 @@ public class VoucherController {
   }
 
   public void run() {
-    while (true) {
+    boolean isRunning = true;
+
+    while (isRunning) {
       try {
         console.printMenu();
-        MenuType menuType = MenuType.valueOfType(console.readMenu());
+
+        String enterMenu = console.readMenu();
+        MenuType menuType = MenuType.valueOfType(enterMenu);
 
         switch (menuType) {
-          case EXIT -> {
-            return;
-          }
+          case EXIT -> isRunning = false;
           case LIST -> list();
           case CREATE -> create();
-          default -> console.printMenuError();
         }
       } catch (RuntimeException e) {
         console.printErrorMessage(e);
