@@ -26,7 +26,7 @@ public class VoucherCreationService {
 		discountStrategy = DiscountTypeGenerator.of(discountTypeName, amount);
 		Voucher voucher = new Voucher(discountStrategy);
 		logger.info("Voucher created :discount type {}, amount {}", discountTypeName, amount);
-		voucherRepository.save(voucher);
+		voucherRepository.create(voucher);
 		return Response.builder()
 				.state(Response.State.SUCCESS)
 				.build();
