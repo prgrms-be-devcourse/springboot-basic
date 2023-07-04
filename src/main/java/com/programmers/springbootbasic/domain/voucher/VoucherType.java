@@ -20,4 +20,9 @@ public enum VoucherType {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE + type));
     }
+
+    public String getVoucherType() {
+        return voucherType;
+    }
+    
 }
