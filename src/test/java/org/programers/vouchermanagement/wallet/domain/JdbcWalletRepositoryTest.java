@@ -1,7 +1,7 @@
 package org.programers.vouchermanagement.wallet.domain;
 
 import org.junit.jupiter.api.*;
-import org.programers.vouchermanagement.global.exception.NoSuchDomainException;
+import org.programers.vouchermanagement.global.exception.NoSuchEntityException;
 import org.programers.vouchermanagement.member.domain.Member;
 import org.programers.vouchermanagement.member.domain.MemberRepository;
 import org.programers.vouchermanagement.member.domain.MemberStatus;
@@ -98,7 +98,7 @@ class JdbcWalletRepositoryTest {
 
         // then
         assertThatThrownBy(() -> walletRepository.getById(wallet.getId()))
-                .isInstanceOf(NoSuchDomainException.class)
+                .isInstanceOf(NoSuchEntityException.class)
                 .hasMessage("존재하지 않는 지갑입니다.");
     }
 }
