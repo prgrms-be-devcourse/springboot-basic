@@ -36,9 +36,8 @@ public class VoucherService {
             return uuid;
         }
 
-        RuntimeException re = new RuntimeException("unexpected voucher type");
-        logger.error("unexpected error occurred: ", re);
-        throw re;
+        logger.error("unexpected error occurred: unexpected voucher type");
+        throw new RuntimeException("unexpected voucher type");
     }
 
     public Map<UUID, Voucher> findAll() {
