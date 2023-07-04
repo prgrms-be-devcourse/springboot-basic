@@ -11,7 +11,7 @@ public enum Command {
 
     private final String command;
     private static final Map<String, Command> COMMAND_MAP = Collections.unmodifiableMap(Arrays.stream(values())
-            .collect(Collectors.toMap(Command::getCommand, Function.identity())));
+        .collect(Collectors.toMap(Command::getCommand, Function.identity())));
 
     Command(String command) {
         this.command = command;
@@ -27,9 +27,5 @@ public enum Command {
 
     public static boolean containsCommand(String command) {
         return COMMAND_MAP.containsKey(command);
-    }
-
-    public static String[] getAllCommands() {
-        return COMMAND_MAP.keySet().toArray(String[]::new);
     }
 }

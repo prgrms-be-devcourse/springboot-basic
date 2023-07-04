@@ -2,7 +2,6 @@ package com.prgms.VoucherApp.domain.voucher;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -31,9 +30,7 @@ public enum VoucherType {
         return VOUCHER_POLICY_MAP.containsKey(voucherTypeName);
     }
 
-    public static List<String> getAllVoucherType() {
-        return VOUCHER_POLICY_MAP.keySet()
-            .stream()
-            .toList();
+    public boolean isFixedVoucher() {
+        return this == FIXED_VOUCHER;
     }
 }
