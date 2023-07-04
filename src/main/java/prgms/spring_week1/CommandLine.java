@@ -24,7 +24,8 @@ public class CommandLine implements Runnable {
     private final Output output;
     private final VoucherRepository voucherRepository;
     private final VoucherService voucherService;
-    private final CustomerService customerService;;
+    private final CustomerService customerService;
+    ;
 
     public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
@@ -50,32 +51,6 @@ public class CommandLine implements Runnable {
         }
     }
 
-    private void insertFixedAmountValue(){
-        output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
-        insertFixedAmountVoucher(Long.parseLong(input.input()));
-    }
-
-    private void insertFixedAmountVoucher(long discountAmount) {
-        while (discountAmount <= 0) {
-            insertFixedAmountValue();
-        }
-        voucherService.insertFixedAmountVoucher(discountAmount);
-        output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
-    }
-
-    private void insertPercentDiscountValue(){
-        output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
-        insertPercentDiscountVoucher(Integer.parseInt(input.input()));
-    }
-
-    private void insertPercentDiscountVoucher(int discountPercent) {
-        while (discountPercent < 0 || discountPercent > 100) {
-            insertPercentDiscountValue();
-        }
-        voucherService.insertPercentDiscountVoucher(discountPercent);
-        output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
-    }
-
     private Menu findMenuName(String inputText) {
         try {
             Menu selectMenu = Menu.findMenuType(inputText);
@@ -97,6 +72,32 @@ public class CommandLine implements Runnable {
         } catch (NoSuchVoucherTypeException e) {
             output.outputMessage(ConsoleOutputMessage.INVALID_VOUCHER_TYPE_MESSAGE);
         }
+    }
+
+    private void insertFixedAmountValue() {
+        output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
+        insertFixedAmountVoucher(Long.parseLong(input.input()));
+    }
+
+    private void insertFixedAmountVoucher(long discountAmount) {
+        while (discountAmount <= 0) {
+            insertFixedAmountValue();
+        }
+        voucherService.insertFixedAmountVoucher(discountAmount);
+        output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+    }
+
+    private void insertPercentDiscountValue() {
+        output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
+        insertPercentDiscountVoucher(Integer.parseInt(input.input()));
+    }
+
+    private void insertPercentDiscountVoucher(int discountPercent) {
+        while (discountPercent < 0 || discountPercent > 100) {
+            insertPercentDiscountValue();
+        }
+        voucherService.insertPercentDiscountVoucher(discountPercent);
+        output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
     private void printAllVoucher(List<Voucher> voucherList) {
