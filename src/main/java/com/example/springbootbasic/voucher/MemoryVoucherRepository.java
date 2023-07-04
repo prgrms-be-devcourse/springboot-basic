@@ -9,15 +9,15 @@ import java.util.List;
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private static final List<Voucher> storage = new ArrayList<>();
+    private static final List<Voucher> voucherMemoryStorage = new ArrayList<>();
 
     @Override
     public void save(Voucher voucher) {
-        storage.add(voucher);
+        voucherMemoryStorage.add(voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
-        return Collections.unmodifiableList(storage);
+        return Collections.unmodifiableList(voucherMemoryStorage);
     }
 }
