@@ -3,6 +3,9 @@ package com.prgmrs.voucher.view;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.setting.BlacklistProperties;
+import com.prgmrs.voucher.setting.VoucherProperties;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -10,8 +13,17 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component
 public class ConsoleViewIO {
+    private final BlacklistProperties blacklistProperties;
+    private final VoucherProperties voucherProperties;
+
     private final Scanner sc = new Scanner(System.in);
+
+    public ConsoleViewIO(BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
+        this.blacklistProperties = blacklistProperties;
+        this.voucherProperties = voucherProperties;
+    }
 
     public void write(String message) {
         System.out.println(message);
@@ -21,12 +33,12 @@ public class ConsoleViewIO {
         return sc.nextLine();
     }
 
-    public void showCommand(boolean isBlacklistAllow) {
+    public void showCommand() {
         write("=== Voucher Program ===");
         write("Type exit to exit the program.");
         write("Type create to create a new voucher.");
         write("Type list to list all vouchers.");
-        if (isBlacklistAllow) {
+        if (blacklistProperties.isBlacklistAllow()) {
             write("Type blacklist to list blacklist.");
         }
     }
@@ -36,10 +48,10 @@ public class ConsoleViewIO {
         write("Type percent to create a voucher with percent discount.");
     }
 
-    public void showSpecificCreationMessage(ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum, long maximumFixedAmount) {
+    public void showSpecificCreationMessage(ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum) {
         if (ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER == consoleViewVoucherCreationEnum) {
             write("=== Creating Voucher with fixed amount ===");
-            write(MessageFormat.format("Type amount to create a voucher with fixed amount. maximum value is {0}", maximumFixedAmount));
+            write(MessageFormat.format("Type amount to create a voucher with fixed amount. maximum value is {0}", voucherProperties.getMaximumFixedAmount()));
             return;
         }
 
@@ -84,13 +96,13 @@ public class ConsoleViewIO {
 
     }
 
-    public void showBlacklist(Map<UUID, String> blacklist, boolean blacklistShowId) {
+    public void showBlacklist(Map<UUID, String> blacklist) {
         if (blacklist.isEmpty()) {
             write("list is empty.");
             return;
         }
 
-        if (blacklistShowId) {
+        if (blacklistProperties.isBlacklistShowId()) {
             write("=========== blacklisted users ===========");
             write("uuid                                 name");
             blacklist.entrySet().stream().forEach(entry -> {

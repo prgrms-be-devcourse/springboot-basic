@@ -2,10 +2,8 @@ package com.prgmrs.voucher.view;
 
 import com.prgmrs.voucher.controller.BlacklistController;
 import com.prgmrs.voucher.controller.VoucherController;
-import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.setting.BlacklistProperties;
-import com.prgmrs.voucher.setting.VoucherProperties;
 import com.prgmrs.voucher.util.InputHandler;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -17,81 +15,86 @@ import java.util.UUID;
 public class ConsoleView implements CommandLineRunner {
     private final VoucherController voucherController;
     private final BlacklistController blackListController;
-    private final ConsoleViewIO consoleViewIO = new ConsoleViewIO();
-    private final InputHandler inputHandler = new InputHandler();
+    private final ConsoleViewIO consoleViewIO;
+    private final InputHandler inputHandler;
     private final BlacklistProperties blacklistProperties;
-    private final VoucherProperties voucherProperties;
 
-    public ConsoleView(VoucherController voucherController, BlacklistController blackListController,
-                       BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
+    public ConsoleView(VoucherController voucherController, BlacklistController blackListController, ConsoleViewIO consoleViewIO, InputHandler inputHandler, BlacklistProperties blacklistProperties) {
         this.voucherController = voucherController;
         this.blackListController = blackListController;
+        this.consoleViewIO = consoleViewIO;
+        this.inputHandler = inputHandler;
         this.blacklistProperties = blacklistProperties;
-        this.voucherProperties = voucherProperties;
     }
 
     @Override
     public void run(String... args) {
         boolean continueRunning = true;
         while (continueRunning) {
-            consoleViewIO.showCommand(blacklistProperties.isBlacklistAllow());
+            consoleViewIO.showCommand();
             ConsoleViewOptionEnum consoleViewOptionEnum =
                     ConsoleViewOptionEnum.findByCommand(consoleViewIO.read());
-            switch (consoleViewOptionEnum) {
-                case EXIT_THE_LOOP -> continueRunning = false;
-                case CREATE_THE_VOUCHER -> selectVoucher();
-                case SHOW_THE_LIST -> {
-                    Map<UUID, Voucher> voucherHistory = voucherController.findAll();
-                    consoleViewIO.showList(voucherHistory);
-                }
-                case SHOW_BLACKLIST -> {
-                    if (!blacklistProperties.isBlacklistAllow())
-                        break;
-                    Map<UUID, String> blacklist = blackListController.findAll();
-                    consoleViewIO.showBlacklist(blacklist, blacklistProperties.isBlacklistShowId());
-                }
-                case UNEXPECTED_INPUT -> consoleViewIO.write("Incorrect command typed.");
-            }
+            continueRunning = selectMenu(consoleViewOptionEnum);
         }
     }
 
-    private void selectVoucher() {
+    private boolean selectMenu(ConsoleViewOptionEnum consoleViewOptionEnum) {
+        boolean continueRunning = true;
+        switch (consoleViewOptionEnum) {
+            case EXIT_THE_LOOP -> continueRunning = false;
+            case CREATE_THE_VOUCHER -> voucherSelectionPhase();
+            case SHOW_THE_LIST -> {
+                Map<UUID, Voucher> voucherHistory = voucherController.findAll();
+                consoleViewIO.showList(voucherHistory);
+            }
+            case SHOW_BLACKLIST -> {
+                if (!blacklistProperties.isBlacklistAllow())
+                    break;
+                Map<UUID, String> blacklist = blackListController.findAll();
+                consoleViewIO.showBlacklist(blacklist);
+            }
+            case UNEXPECTED_INPUT -> consoleViewIO.write("Incorrect command typed.");
+        }
+        return continueRunning;
+    }
+
+    private void voucherSelectionPhase() {
         boolean continueRunning = true;
         while (continueRunning) {
             consoleViewIO.showVoucherCreationMessage();
             ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum =
                     ConsoleViewVoucherCreationEnum.findByCommand(consoleViewIO.read());
-            switch (consoleViewVoucherCreationEnum) {
-                case CREATE_FIXED_AMOUNT_VOUCHER -> {
-                    try {
-                        voucherCreation(ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER);
-                    } catch (WrongRangeFormatException we) {
-                        consoleViewIO.write("incorrect format or out of range value.");
-                        break;
-                    }
-                    continueRunning = false;
-                }
-                case CREATE_PERCENT_DISCOUNT_VOUCHER -> {
-                    try {
-                        voucherCreation(ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER);
-                    } catch (WrongRangeFormatException we) {
-                        consoleViewIO.write("incorrect format or out of range value.");
-                        break;
-                    }
-                    continueRunning = false;
-                }
-                case UNEXPECTED_INPUT -> consoleViewIO.write("incorrect command typed.");
-            }
+            continueRunning = selectVoucher(consoleViewVoucherCreationEnum);
         }
     }
 
-    private void voucherCreation(ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum) throws WrongRangeFormatException {
-        consoleViewIO.showSpecificCreationMessage(consoleViewVoucherCreationEnum, voucherProperties.getMaximumFixedAmount());
+    private boolean selectVoucher(ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum) {
+        boolean continueRunning = true;
+        switch (consoleViewVoucherCreationEnum) {
+            case CREATE_FIXED_AMOUNT_VOUCHER -> {
+                boolean isOperationSuccessful = voucherCreationPhase(ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER);
+                if (isOperationSuccessful) continueRunning = false;
+            }
+            case CREATE_PERCENT_DISCOUNT_VOUCHER -> {
+                boolean isOperationSuccessful = voucherCreationPhase(ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER);
+                if (isOperationSuccessful) continueRunning = false;
+            }
+            case UNEXPECTED_INPUT -> consoleViewIO.write("incorrect command typed.");
+        }
+        return continueRunning;
+    }
+
+    private boolean voucherCreationPhase(ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum) {
+        boolean isOperationSuccessful = false;
+        consoleViewIO.showSpecificCreationMessage(consoleViewVoucherCreationEnum);
         String token = consoleViewIO.read();
         long value = inputHandler.stringToLongConverter(token);
-        inputHandler.isAmountValid(consoleViewVoucherCreationEnum, voucherProperties.getMaximumFixedAmount(), value);
-        UUID uuid = voucherController.createVoucher(value, consoleViewVoucherCreationEnum);
-        Voucher voucher = voucherController.findVoucherById(uuid);
-        consoleViewIO.showVoucherResult(voucher);
+        if (inputHandler.isAmountValid(consoleViewVoucherCreationEnum, value)) {
+            UUID uuid = voucherController.createVoucher(value, consoleViewVoucherCreationEnum);
+            Voucher voucher = voucherController.findVoucherById(uuid);
+            consoleViewIO.showVoucherResult(voucher);
+            isOperationSuccessful = true;
+        }
+        return isOperationSuccessful;
     }
 }
