@@ -20,11 +20,11 @@ public class VoucherDto {
         return amount;
     }
 
-    public VoucherDto toDto(Voucher voucher) {
-        return new VoucherDto(voucherId, amount);
+    public static VoucherDto fromVoucher(Voucher voucher) {
+        return new VoucherDto(voucher.getVoucherId(), voucher.getAmount());
     }
 
-    public Voucher fromDto(VoucherDto voucherDto) {
+    public Voucher toVoucher() {
         return new Voucher(voucherId, amount);
     }
 }
