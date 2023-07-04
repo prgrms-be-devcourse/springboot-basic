@@ -1,11 +1,13 @@
 package com.example.demo.voucher.domain;
 
+import com.example.demo.voucher.application.VoucherType;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
-    private final String name = "FixedAmountVoucher";
+    private final String name = VoucherType.FIXED_AMOUNT_VOUCHER.name();
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -19,11 +21,6 @@ public class FixedAmountVoucher implements Voucher {
 
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
-    }
-
-    @Override
-    public String toString() {
-        return "FixedAmountVoucher: " + amount;
     }
 
     @Override

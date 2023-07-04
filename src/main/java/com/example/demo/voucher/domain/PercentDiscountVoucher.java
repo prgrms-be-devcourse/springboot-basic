@@ -1,15 +1,17 @@
 package com.example.demo.voucher.domain;
 
 
+import com.example.demo.voucher.application.VoucherType;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
-    private final String name = "PercentDiscountVoucher";
+    private final String name = VoucherType.PERCENT_DISCOUNT_VOUCHER.name();
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        isValid(percent);
+        validateValue(percent);
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -24,14 +26,10 @@ public class PercentDiscountVoucher implements Voucher {
         return beforeDiscount * (percent / 100);
     }
 
-    @Override
-    public String toString() {
-        return "PercentDiscountVoucher: " + percent;
-    }
-
-    private void isValid(long percent) {
-        if (percent >= 100 || percent <= 0)
+    private void validateValue(long percent) {
+        if (percent >= 100 || percent <= 0) {
             throw new IllegalArgumentException("1~99 사이의 숫자만 입력 가능합니다.");
+        }
     }
 
     @Override
