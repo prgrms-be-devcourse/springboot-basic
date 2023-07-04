@@ -18,5 +18,10 @@ public class Voucher {
     public double getAmount() {
         return amount;
     }
+
+    @Override
+    public String toString() {
+        return "Voucher ID: " + voucherId + "\nAmount: " + amount;
+    }
 }
 

@@ -12,13 +12,7 @@ public class Output {
         System.out.println("Type **list** to list all vouchers.");
     }
 
-    public void printVoucherInfo(Voucher voucher) {
-        System.out.println("Voucher ID: " + voucher.getVoucherId());
-        System.out.println("Amount: " + voucher.getAmount());
-        System.out.println("----------------------------");
-    }
-
     public void printVoucherInfoList(List<Voucher> vouchers) {
-        vouchers.forEach(this::printVoucherInfo);
+        vouchers.forEach(System.out::println);
     }
 }
