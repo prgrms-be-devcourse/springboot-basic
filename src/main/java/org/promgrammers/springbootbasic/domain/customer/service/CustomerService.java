@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.promgrammers.springbootbasic.exception.ErrorCode.DUPLICATED_USERNAME;
+import static org.promgrammers.springbootbasic.exception.ErrorCode.INVALID_USERNAME_MESSAGE;
 import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_CUSTOMER;
 
 @Service
@@ -22,13 +23,17 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    private static final String USERNAME_REGEX = "^[a-zA-Z0-9가-힣]+$";
+
+
     public CustomerService(JdbcCustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     @Transactional
     public CustomerResponse createCustomer(CreateCustomerRequest customerRequest) {
-        duplicateUsernameCheck(customerRequest.username());
+        validateUsername(customerRequest.username());
+
         Customer customer = new Customer(UUID.randomUUID(), customerRequest.username());
         customerRepository.save(customer);
         return new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType());
@@ -72,7 +77,8 @@ public class CustomerService {
         Customer customer = customerRepository.findById(updateCustomerRequest.customerId())
                 .orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
 
-        duplicateUsernameCheck(updateCustomerRequest.username());
+        validateUsername(updateCustomerRequest.username());
+
         customer.updateUsername(updateCustomerRequest.username());
         customer.updateCustomerType(updateCustomerRequest.customerType());
         customerRepository.update(customer);
@@ -88,9 +94,16 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
     }
 
-    private void duplicateUsernameCheck(String username) {
+    private void validateUsername(String username) {
+        String regex = USERNAME_REGEX;
+
+        if (!username.matches(regex)) {
+            throw new BusinessException(INVALID_USERNAME_MESSAGE);
+        }
+
         if (customerRepository.findByUsername(username).isPresent()) {
             throw new BusinessException(DUPLICATED_USERNAME);
         }
     }
+
 }
