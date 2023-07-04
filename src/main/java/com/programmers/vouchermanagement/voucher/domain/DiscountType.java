@@ -13,7 +13,7 @@ public enum DiscountType {
     PERCENT("percent", (amount, discountType) -> new Voucher(new PercentDiscountPolicy(amount), discountType));
 
     private final String name;
-    private final BiFunction<Integer, DiscountType, Voucher> function;
+    private final BiFunction<Integer, DiscountType, Voucher> voucherCreationFunction;
     private static final Map<String, DiscountType> DISCOUNT_TYPE_MAP;
 
     static {
@@ -21,9 +21,9 @@ public enum DiscountType {
                         .collect(Collectors.toMap(DiscountType::getName, Function.identity())));
     }
 
-    DiscountType(String name, BiFunction<Integer, DiscountType, Voucher> function) {
+    DiscountType(String name, BiFunction<Integer, DiscountType, Voucher> voucherCreationFunction) {
         this.name = name;
-        this.function = function;
+        this.voucherCreationFunction = voucherCreationFunction;
     }
 
     public String getName() {
@@ -38,6 +38,6 @@ public enum DiscountType {
     }
 
     public Voucher createVoucher(int amount) {
-        return function.apply(amount, this);
+        return voucherCreationFunction.apply(amount, this);
     }
 }
