@@ -5,17 +5,17 @@ import com.prgms.VoucherApp.domain.customer.CustomerStatus;
 
 import java.util.UUID;
 
-public class CustomerDto {
+public class CustomerResDto {
 
     private UUID customerId;
     private CustomerStatus customerStatus;
 
-    public CustomerDto(String customerId, CustomerStatus customerStatus) {
+    public CustomerResDto(String customerId, CustomerStatus customerStatus) {
         this.customerId = UUID.fromString(customerId);
         this.customerStatus = customerStatus;
     }
 
-    public CustomerDto(Customer customer) {
+    public CustomerResDto(Customer customer) {
         this.customerId = customer.getCustomerId();
         this.customerStatus = customer.getCustomerStatus();
     }
