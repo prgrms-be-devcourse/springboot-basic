@@ -17,13 +17,16 @@ class BlackListReaderTest {
     private BlackListReader blackListReader;
 
     @Test
-    @DisplayName("readBlackList")
+    @DisplayName("블랙리스트를 조회 할 수 있다.")
     void readBlackListTest() {
-        List<CustomerStatus> list = blackListReader.readBlackLists()
-                .stream()
-                .map(CustomerDto::getCustomerStatus)
-                .toList();
+        //given
 
-        Assertions.assertThat(list).allMatch(CustomerStatus::isBlackList);
+        //when
+        List<CustomerDto> findBlackList = blackListReader.readBlackLists();
+
+        //then
+        Assertions.assertThat(findBlackList)
+                .extracting(CustomerDto::getCustomerStatus)
+                .allMatch(CustomerStatus::isBlackList);
     }
 }
