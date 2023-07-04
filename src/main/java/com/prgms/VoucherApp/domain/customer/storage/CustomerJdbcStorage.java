@@ -2,6 +2,7 @@ package com.prgms.VoucherApp.domain.customer.storage;
 
 import com.prgms.VoucherApp.domain.customer.Customer;
 import com.prgms.VoucherApp.domain.customer.CustomerStatus;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -30,8 +31,8 @@ public class CustomerJdbcStorage implements CustomerStorage {
     public void save(Customer customer) {
         String sql = "INSERT INTO customer VALUES (:id, :status)";
         SqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("id", customer.getCustomerId().toString())
-                .addValue("status", customer.getCustomerStatus().getStatus());
+            .addValue("id", customer.getCustomerId().toString())
+            .addValue("status", customer.getCustomerStatus().getStatusName());
         namedParameterJdbcTemplate.update(sql, paramMap);
     }
 
@@ -47,7 +48,7 @@ public class CustomerJdbcStorage implements CustomerStorage {
     public Optional<Customer> findById(UUID id) {
         String sql = "SELECT * FROM customer WHERE id = :id";
         SqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("id", id.toString());
+            .addValue("id", id.toString());
         try {
             Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramMap, customerRowMapper());
             return Optional.of(customer);
@@ -61,17 +62,17 @@ public class CustomerJdbcStorage implements CustomerStorage {
     public List<Customer> findByCustomerStatus(CustomerStatus customerStatus) {
         String sql = "SELECT * FROM customer WHERE status = :status";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("status", customerStatus.getStatus());
+            .addValue("status", customerStatus.getStatusName());
         List<Customer> customers = namedParameterJdbcTemplate.query(sql, paramMap, customerRowMapper());
         return customers;
     }
 
     @Override
-    public void updateStatus(UUID customerId, CustomerStatus status) {
+    public void updateStatus(CustomerUpdateReqDto reqDto) {
         String sql = "UPDATE customer SET status = :status WHERE id = :id";
         SqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("status", status.getStatus())
-                .addValue("id", customerId.toString());
+            .addValue("status", reqDto.getStatus().getStatusName())
+            .addValue("id", reqDto.getId().toString());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
     }
@@ -80,7 +81,7 @@ public class CustomerJdbcStorage implements CustomerStorage {
     public void deleteById(UUID id) {
         String sql = "DELETE FROM customer WHERE id = :id";
         SqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("id", id.toString());
+            .addValue("id", id.toString());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
     }

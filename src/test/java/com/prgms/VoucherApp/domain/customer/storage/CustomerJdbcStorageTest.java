@@ -2,6 +2,7 @@ package com.prgms.VoucherApp.domain.customer.storage;
 
 import com.prgms.VoucherApp.domain.customer.Customer;
 import com.prgms.VoucherApp.domain.customer.CustomerStatus;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -60,13 +61,12 @@ class CustomerJdbcStorageTest {
     @DisplayName("한 명의 고객을 아이디로 조회한다.")
     void findOneCustomer() {
         // given
-        UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId, CustomerStatus.NORMAL);
+        Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
         customerStorage.save(customer);
 
-        Optional<Customer> findCustomer = customerStorage.findById(customerId);
+        Optional<Customer> findCustomer = customerStorage.findById(customer.getCustomerId());
 
         // then
         MatcherAssert.assertThat(findCustomer.isEmpty(), is(false));
@@ -77,13 +77,11 @@ class CustomerJdbcStorageTest {
     @DisplayName("아이디로 조회를 실패")
     void findOneCustomerFail() {
         // given
-        UUID customerId = UUID.randomUUID();
-        UUID errorId = UUID.randomUUID();
-        Customer customer = new Customer(customerId, CustomerStatus.NORMAL);
+        Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
         customerStorage.save(customer);
-        Optional<Customer> findCustomer = customerStorage.findById(errorId);
+        Optional<Customer> findCustomer = customerStorage.findById(UUID.randomUUID());
 
         // then
         MatcherAssert.assertThat(findCustomer.isEmpty(), is(true));
@@ -131,13 +129,13 @@ class CustomerJdbcStorageTest {
     @DisplayName("고객의 상태를 블랙 리스트로 변경한다.")
     void updateCustomerStatus() {
         // given
-        UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId, CustomerStatus.NORMAL);
+        Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
         customerStorage.save(customer);
 
         // when
-        customerStorage.updateStatus(customerId, CustomerStatus.BLACKLIST);
-        Optional<Customer> findCustomer = customerStorage.findById(customerId);
+        CustomerUpdateReqDto updateReqDto = new CustomerUpdateReqDto(customer.getCustomerId(), CustomerStatus.BLACKLIST);
+        customerStorage.updateStatus(updateReqDto);
+        Optional<Customer> findCustomer = customerStorage.findById(customer.getCustomerId());
 
         // then
         MatcherAssert.assertThat(findCustomer.get().getCustomerStatus(), is(CustomerStatus.BLACKLIST));
@@ -147,15 +145,14 @@ class CustomerJdbcStorageTest {
     @DisplayName("고객을 삭제한다.")
     void deleteCustomer() {
         // given
-        UUID customerId = UUID.randomUUID();
-        Customer customerA = new Customer(customerId, CustomerStatus.NORMAL);
+        Customer customerA = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
         Customer customerB = new Customer(UUID.randomUUID(), CustomerStatus.BLACKLIST);
 
         // when
         customerStorage.save(customerA);
         customerStorage.save(customerB);
 
-        customerStorage.deleteById(customerId);
+        customerStorage.deleteById(customerA.getCustomerId());
         List<Customer> findCustomers = customerStorage.findAll();
 
         // then

@@ -2,6 +2,7 @@ package com.prgms.VoucherApp.domain.customer.storage;
 
 import com.prgms.VoucherApp.domain.customer.Customer;
 import com.prgms.VoucherApp.domain.customer.CustomerStatus;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,7 @@ public interface CustomerStorage {
 
     Optional<Customer> findById(UUID id);
 
-    void updateStatus(UUID customerId, CustomerStatus status);
+    void updateStatus(CustomerUpdateReqDto updateReqDto);
 
     void deleteById(UUID id);
 
