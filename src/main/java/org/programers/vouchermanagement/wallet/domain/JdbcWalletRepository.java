@@ -4,6 +4,7 @@ import org.programers.vouchermanagement.member.domain.JdbcMemberRepository;
 import org.programers.vouchermanagement.member.domain.Member;
 import org.programers.vouchermanagement.voucher.domain.JdbcVoucherRepository;
 import org.programers.vouchermanagement.voucher.domain.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
