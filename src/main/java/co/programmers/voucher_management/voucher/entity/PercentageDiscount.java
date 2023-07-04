@@ -3,6 +3,8 @@ package co.programmers.voucher_management.voucher.entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import co.programmers.voucher_management.exception.InvalidVoucherAmountException;
+
 public class PercentageDiscount implements DiscountStrategy {
 	private static final int MAX_AMOUNT = 100;
 	private static final String DISCOUNT_TYPE_NAME = "percent";
