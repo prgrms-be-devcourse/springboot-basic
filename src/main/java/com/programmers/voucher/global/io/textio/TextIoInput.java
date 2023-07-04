@@ -94,7 +94,6 @@ public class TextIoInput implements ConsoleInput {
         return messages;
     }
 
-
     private long inputPercentDiscount() {
         return textIO.newLongInputReader()
                 .withValueChecker((val, itemName) -> percentDiscountValidateErrorMessages(val))
@@ -113,17 +112,31 @@ public class TextIoInput implements ConsoleInput {
 
     @Override
     public CustomerCreateRequest inputCustomerCreateInfo() {
-        return null;
+        String email = textIO.newStringInputReader()
+                .read(ENTER_EMAIL);
+
+        String name = textIO.newStringInputReader()
+                .read(ENTER_NAME);
+
+        return new CustomerCreateRequest(email, name);
     }
 
     @Override
     public CustomerUpdateRequest inputCustomerUpdateInfo() {
-        return null;
+        UUID customerId = inputUUID();
+
+        String newName = textIO.newStringInputReader()
+                .read(ENTER_NEW_NAME);
+
+        return new CustomerUpdateRequest(customerId, newName);
     }
 
     @Override
     public UUID inputUUID() {
-        return null;
+        String uuid = textIO.newStringInputReader()
+                .read(ENTER_ID);
+
+        return UUID.fromString(uuid);
     }
 
     @Override

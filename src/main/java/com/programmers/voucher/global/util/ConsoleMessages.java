@@ -24,6 +24,11 @@ public final class ConsoleMessages {
     public static final String AMOUNT = "[amount]";
     public static final String PERCENT = "[percent]";
 
+    public static final String ENTER_EMAIL = "Enter a [email]";
+    public static final String ENTER_NAME = "Enter a [name]";
+    public static final String ENTER_NEW_NAME = "Enter a new [name]";
+    public static final String ENTER_ID = "Enter a [ID]";
+
     public static final String CREATED_NEW_CUSTOMER = "Created new Customer. CustomerId: {}";
     public static final String UPDATED_CUSTOMER = "Updated customer info.";
     public static final String DELETED_CUSTOMER = "Deleted customer.";

@@ -1,5 +1,7 @@
 package com.programmers.voucher.global.io.textio;
 
+import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
+import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import org.beryx.textio.TextIO;
@@ -11,9 +13,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
+import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class TextIoInputTest {
     private MockTextTerminal mockTextTerminal;
@@ -147,5 +149,55 @@ class TextIoInputTest {
         //then
         assertThat(result.getVoucherType()).isEqualTo(VoucherType.PERCENT);
         assertThat(result.getAmount()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("성공: 회원 생성 정보 입력 실행")
+    void inputCustomerCreateInfo() {
+        //given
+        List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add("customer@gmail.com");
+        inputs.add("customer");
+
+        //when
+        CustomerCreateRequest result = textIoInput.inputCustomerCreateInfo();
+
+        //then
+        assertThat(result.getEmail()).isEqualTo("customer@gmail.com");
+        assertThat(result.getName()).isEqualTo("customer");
+    }
+
+    @Test
+    @DisplayName("성공: 회원 업데이트 정보 입력 실행")
+    void inputCustomerUpdateInfo() {
+        //given
+        UUID customerId = UUID.randomUUID();
+
+        List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add(customerId.toString());
+        inputs.add("customer");
+
+        //when
+        CustomerUpdateRequest result = textIoInput.inputCustomerUpdateInfo();
+
+        //then
+        assertThat(result.getCustomerId()).isEqualTo(customerId);
+        assertThat(result.getName()).isEqualTo("customer");
+    }
+
+    @Test
+    @DisplayName("성공: 아이디 입력 실행")
+    void inputUUID() {
+        //given
+        UUID uuid = UUID.randomUUID();
+
+        List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add(uuid.toString());
+
+        //when
+        UUID result = textIoInput.inputUUID();
+
+        //then
+        assertThat(result).isEqualTo(uuid);
     }
 }

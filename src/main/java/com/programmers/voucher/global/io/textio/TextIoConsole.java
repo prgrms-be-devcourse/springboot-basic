@@ -66,12 +66,12 @@ public class TextIoConsole implements Console {
 
     @Override
     public void printCustomerCommandSet() {
-
+        textIoOutput.printCustomerCommandSet();
     }
 
     @Override
     public void printVoucherCommandSet() {
-
+        textIoOutput.printVoucherCommandSet();
     }
 
     @Override
