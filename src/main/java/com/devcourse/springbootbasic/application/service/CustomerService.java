@@ -16,6 +16,6 @@ public class CustomerService {
     }
 
     public List<Customer> getBlackCustomers() {
-        return customerRepository.findAll();
+        return customerRepository.findAllBlackCustomers();
     }
 }

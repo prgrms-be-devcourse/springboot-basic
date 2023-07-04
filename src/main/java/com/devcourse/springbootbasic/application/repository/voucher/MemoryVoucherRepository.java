@@ -23,7 +23,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> findAllVouchers() {
         return voucherMap.getAllVouchers();
     }
 

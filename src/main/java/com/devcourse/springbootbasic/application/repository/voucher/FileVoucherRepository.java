@@ -14,10 +14,11 @@ import java.util.List;
 @Profile({"default"})
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final CsvReader csvReader;
-    private final CsvWriter csvWriter;
     @Value("${settings.voucherRecordPath}")
     private String filepath;
+
+    private final CsvReader csvReader;
+    private final CsvWriter csvWriter;
 
     public FileVoucherRepository(CsvReader csvReader, CsvWriter csvWriter) {
         this.csvReader = csvReader;
@@ -30,7 +31,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> findAllVouchers() {
         return csvReader.readFile(filepath)
                 .stream()
                 .map(VoucherConverter::convertCsvToVoucher)

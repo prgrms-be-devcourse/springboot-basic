@@ -20,6 +20,6 @@ public class VoucherService {
     }
 
     public List<Voucher> getVouchers() {
-        return voucherRepository.findAll();
+        return voucherRepository.findAllVouchers();
     }
 }
