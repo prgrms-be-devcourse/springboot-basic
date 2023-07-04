@@ -1,8 +1,7 @@
 package com.programmers.vouchermanagement.voucher.infrastructure;
 
 import com.programmers.vouchermanagement.voucher.domain.*;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -12,6 +11,11 @@ class MemoryVoucherRepositoryTest {
 
     MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
 
+    @AfterEach
+    void afterEach() {
+        memoryVoucherRepository.clearStorage();
+    }
+
     @Test
     @DisplayName("바우처를 저장한다.")
     void save() {
@@ -20,10 +24,11 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher = discountType.createVoucher(100);
 
         // when
-        Voucher result = memoryVoucherRepository.save(voucher);
+        memoryVoucherRepository.save(voucher);
 
         // then
-        assertThat(result.getId()).isEqualTo(voucher.getId());
+        Voucher result = memoryVoucherRepository.findById(voucher.getId()).get();
+        assertThat(result).isEqualTo(voucher);
     }
 
     @Test

@@ -4,10 +4,7 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -22,7 +19,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.ofNullable(storage.get(id));
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    public void clearStorage() {
+        storage.clear();
     }
 }
