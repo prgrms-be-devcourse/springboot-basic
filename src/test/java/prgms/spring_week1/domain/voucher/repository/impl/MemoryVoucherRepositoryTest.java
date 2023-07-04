@@ -1,6 +1,5 @@
 package prgms.spring_week1.domain.voucher.repository.impl;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prgms.spring_week1.domain.voucher.model.Voucher;
@@ -10,7 +9,6 @@ import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,10 +17,10 @@ class MemoryVoucherRepositoryTest {
     private VoucherRepository voucherRepository;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         voucherRepository = new MemoryVoucherRepository();
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED,10000));
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT,30));
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, 10000));
+        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT, 30));
     }
 
     @Test
@@ -32,16 +30,16 @@ class MemoryVoucherRepositoryTest {
         //when
         int voucherListSize = voucherList.size();
         //then
-        assertEquals(2,voucherListSize);
+        assertEquals(2, voucherListSize);
     }
 
     @Test
     void findAll() {
         //given
-        Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED,10000);
+        Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, 10000);
         //when
         voucherRepository.insert(newVoucher);
         //then
-        assertEquals(3,voucherRepository.findAll().size());
+        assertEquals(3, voucherRepository.findAll().size());
     }
 }
