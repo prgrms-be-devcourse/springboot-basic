@@ -2,11 +2,10 @@ package com.programmers.voucher;
 
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.console.Printer;
-import com.programmers.voucher.domain.CommandType;
-import com.programmers.voucher.domain.voucher.VoucherEnum;
-import com.programmers.voucher.domain.voucher.VoucherFactory;
-import com.programmers.voucher.stream.blacklist.BlackListStream;
-import com.programmers.voucher.stream.voucher.VoucherStream;
+import com.programmers.voucher.domain.enums.CommandType;
+import com.programmers.voucher.operator.BlackListOperator;
+import com.programmers.voucher.operator.CustomerOperator;
+import com.programmers.voucher.operator.VoucherOperator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -17,21 +16,22 @@ import java.io.IOException;
 @Component
 public class CommandLineApplication implements CommandLineRunner {
     private final Console console;
-    private final VoucherStream voucherStream;
-    private final VoucherFactory voucherFactory;
-    private final BlackListStream blackListStream;
+    private final VoucherOperator voucherOperator;
+    private final CustomerOperator customerOperator;
+    private final BlackListOperator blackListOperator;
     private final Printer printer;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream, Printer printer) {
+    public CommandLineApplication(Console console, VoucherOperator voucherOperator, CustomerOperator customerOperator, BlackListOperator blackListOperator, Printer printer) {
         this.console = console;
-        this.voucherStream = voucherStream;
-        this.voucherFactory = voucherFactory;
-        this.blackListStream = blackListStream;
+        this.voucherOperator = voucherOperator;
+        this.customerOperator = customerOperator;
+        this.blackListOperator = blackListOperator;
         this.printer = printer;
     }
+
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         while (true) {
             CommandType commandType;
             try {
@@ -58,57 +58,11 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private void doLogic(CommandType commandType) throws IOException {
         switch (commandType) {
-            case CREATE -> {
-                create();
-            }
-            case LIST -> {
-                showList();
-            }
-            case BLACKLIST -> {
-                showBlackList();
-            }
+            case VOUCHER -> voucherOperator.voucherOperation();
+            case CUSTOMER -> customerOperator.customerOperation();
+            case BLACKLIST -> blackListOperator.showBlackList();
         }
     }
 
-    private void create() {
-        try {
-            Integer inputVersion = console.getVoucherVersion();
-            VoucherEnum voucherEnum = decideVoucherType(inputVersion);
-            createFixedAmountVoucher(voucherEnum);
-            createPercentDiscountVoucher(voucherEnum);
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
-    }
-
-    private void createFixedAmountVoucher(VoucherEnum voucherEnum) {
-        Integer inputNumber;
-        if (voucherEnum == VoucherEnum.FIXED) {
-            inputNumber = console.getAmount();
-            voucherFactory.createVoucher(voucherEnum, inputNumber);
-        }
-    }
-
-    private void createPercentDiscountVoucher(VoucherEnum voucherEnum) {
-        Integer inputNumber;
-        if (voucherEnum == VoucherEnum.PERCENT) {
-            inputNumber = console.getRate();
-            voucherFactory.createVoucher(voucherEnum, inputNumber);
-        }
-    }
-
-    private VoucherEnum decideVoucherType(Integer inputVersion) {
-        return VoucherEnum.decideVoucherType(inputVersion).orElseThrow(
-                () -> new IllegalArgumentException("지원하지 않는 버전입니다. 버전을 다시 확인 해주세요.")
-        );
-    }
-
-    private void showList() {
-        printer.printListOfVoucher(voucherStream.findAll());
-    }
-
-    private void showBlackList() throws IOException {
-        printer.printBlackList(blackListStream.findAll());
-    }
 
 }

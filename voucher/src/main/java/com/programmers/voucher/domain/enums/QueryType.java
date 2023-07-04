@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain;
+package com.programmers.voucher.domain.enums;
 
 public enum QueryType {
     SELECT_ALL("SELECT * FROM customers"),

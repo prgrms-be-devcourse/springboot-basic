@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain.voucher;
 
+import com.programmers.voucher.domain.enums.VoucherEnum;
 import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.springframework.stereotype.Component;
 

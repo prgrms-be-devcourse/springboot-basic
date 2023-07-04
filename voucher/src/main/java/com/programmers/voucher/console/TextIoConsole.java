@@ -4,6 +4,8 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 public class TextIoConsole implements Console {
     private TextIO textIO = TextIoFactory.getTextIO();
@@ -12,11 +14,25 @@ public class TextIoConsole implements Console {
     public String getCondition() {
         System.out.println();
         String stringType = textIO.newStringInputReader()
-                .read("=== Voucher Program === \n" +
+                .read("=== WELCOME TO APPLICATION === \n" +
+                        "Type voucher to manage the voucher \n" +
+                        "Type customer to manage the customer \n" +
+                        "Type black to see blacklist_customer\n" +
                         "Type exit to exit the program \n" +
-                        "Type create to create a new voucher. \n" +
-                        "Type list to list all vouchers. \n" +
-                        "Type black to see blacklist_customer.\n" +
+                        "[enter type] : ");
+        return stringType;
+    }
+    @Override
+    public String getVoucherOperation() {
+        System.out.println();
+        String stringType = textIO.newStringInputReader()
+                .read("=== Voucher Program === \n" +
+                        "Type create to create the voucher\n" +
+                        "Type findById to find the exact one voucher\n" +
+                        "Type findAll to find all vouchers\n" +
+                        "Type update to update your voucher\n" +
+                        "Type deleteAll to delete all vouchers\n" +
+                        "Type deleteById to delete exact one voucher\n" +
                         "[enter type] : ");
         return stringType;
     }
@@ -26,9 +42,9 @@ public class TextIoConsole implements Console {
         System.out.println();
         Integer voucherVersion = textIO.newIntInputReader()
                 .read("Choose version of Voucher\n" +
-                                "Fixed AmountVoucher     : 1\n" +
-                                "PercentDiscountVoucher  : 2\n" +
-                                "[enter number of version]");
+                        "Fixed AmountVoucher     : 1\n" +
+                        "PercentDiscountVoucher  : 2\n" +
+                        "[enter number of version]");
         return voucherVersion;
     }
 
@@ -51,4 +67,51 @@ public class TextIoConsole implements Console {
                         "[rate of discount] : ");
         return rate;
     }
+
+    @Override
+    public String getVoucherId() {
+        System.out.println();
+        String voucherId = textIO.newStringInputReader()
+                .read("Type voucherId\n" +
+                        "[voucher type] : ");
+        return voucherId;
+    }
+
+    @Override
+    public String getCustomerOperation() {
+        System.out.println();
+        String stringType = textIO.newStringInputReader()
+                .read("=== Customer Program === \n" +
+                        "Type create to create the Customer\n" +
+                        "Type findById to find the exact one customer\n" +
+                        "Type findAll to find all customers\n" +
+                        "Type update to update customer\n" +
+                        "Type deleteAll" +
+                        "Type deleteById to delete exact one customer" +
+                        "[enter type] : ");
+        return stringType;
+    }
+    @Override
+    public Map<String, String> getCustomerInformation() {
+        System.out.println();
+        String name = textIO.newStringInputReader()
+                .read("Enter the information of Customer\n" +
+                        "[customer name] : ");
+        String email = textIO.newStringInputReader()
+                .read("[customer email] : ");
+        return Map.of("name", name, "email", email);
+    }
+    @Override
+    public String getCustomerId() {
+        System.out.println();
+        return textIO.newStringInputReader().read("Enter the Id of Customer\n" +
+                        "[customer Id] : ");
+    }
+    @Override
+    public String getCustomerName() {
+        System.out.println();
+        return textIO.newStringInputReader().read("Enter the Name of Customer\n" +
+                "[customer name] : ");
+    }
+
 }

@@ -1,21 +1,21 @@
 package com.programmers.voucher.stream.customer;
 
-import com.programmers.voucher.domain.Customer;
+import com.programmers.voucher.domain.customer.Customer;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CustomerStream {
-    List<Customer> findAll() throws SQLException;
+    List<Customer> findAll();
 
-    Optional<Customer> findById(UUID customerId) throws SQLException;
+    Optional<Customer> findById(String customerId);
 
-    UUID save(Customer customer) throws SQLException;
+    String save(Customer customer);
 
-    UUID update(UUID customerId, String name) throws SQLException;
+    String update(String customerId, String name);
 
-    void deleteById(UUID customerId) throws SQLException;
+    void deleteById(String customerId);
+
+    void deleteAll();
 
 }

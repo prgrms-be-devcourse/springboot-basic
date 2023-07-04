@@ -60,6 +60,11 @@ public class JdbcVoucherStream implements VoucherStream{
         return voucherMap;
     }
 
+    public void deleteById(String voucherId) {
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId"
+                , Map.of("voucherId", voucherId));
+    }
+
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM vouchers", Map.of());
     }
@@ -81,7 +86,7 @@ public class JdbcVoucherStream implements VoucherStream{
 
     private void updatePercentDiscountVoucher(Voucher voucher, SqlParameterSource param) {
         if (voucher instanceof PercentDiscountVoucher) {
-            jdbcTemplate.update("UPDATE vouchers SET amount = :amount WHERE voucher_id = :voucherId",
+            jdbcTemplate.update("UPDATE vouchers SET rate = :rate WHERE voucher_id = :voucherId",
                     param);
         }
     }

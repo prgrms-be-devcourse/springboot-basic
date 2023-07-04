@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain.voucher;
 
+import com.programmers.voucher.domain.enums.VoucherEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
