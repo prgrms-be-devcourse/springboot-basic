@@ -9,7 +9,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
-public class VoucherConverter {
+public final class VoucherConverter {
 
     private VoucherConverter() {}
 

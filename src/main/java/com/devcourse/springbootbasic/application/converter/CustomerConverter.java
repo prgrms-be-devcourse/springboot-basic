@@ -4,7 +4,7 @@ import com.devcourse.springbootbasic.application.domain.customer.Customer;
 
 import java.util.List;
 
-public class CustomerConverter {
+public final class CustomerConverter {
 
     private CustomerConverter() {}
 
