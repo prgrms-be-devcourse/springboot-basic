@@ -9,10 +9,10 @@ import java.util.Map;
 
 @Component
 public class MenuControllerExecutor {
-    private final Map<String, MenuController> map;
+    private final Map<String, MenuController> menuControllerMap;
 
-    public MenuControllerExecutor(Map<String, MenuController> map) {
-        this.map = map;
+    public MenuControllerExecutor(Map<String, MenuController> menuControllerMap) {
+        this.menuControllerMap = menuControllerMap;
     }
 
     public void execute(final Menu menu) {
@@ -21,7 +21,7 @@ public class MenuControllerExecutor {
     }
 
     private MenuController findMenuController(Menu menu) {
-        return map.get(getMenuControllerName(menu));
+        return menuControllerMap.get(getMenuControllerName(menu));
     }
 
     private String getMenuControllerName(Menu menu) {

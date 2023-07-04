@@ -9,6 +9,8 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -66,6 +68,8 @@ public class Console {
         textTerminal.println();
     }
 
+
+
     public void printVoucher(VoucherDto dto) {
         textTerminal.println("[%s, %d] %s".formatted(dto.getVoucherPolicy().name(), dto.getDiscountNumber(), dto.getVoucherId().toString()));
     }
@@ -96,14 +100,18 @@ public class Console {
     public String inputMenuSelection() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues(Menu.getMenuNames())
+                .withInlinePossibleValues(Arrays.stream(Menu.values())
+                        .map(Menu::getMenuName)
+                        .toList())
                 .read(">>");
     }
 
     public String inputVoucherPolicySelection() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues(VoucherPolicy.getPolicyNames())
+                .withInlinePossibleValues(Arrays.stream(VoucherPolicy.values())
+                        .map(VoucherPolicy::getPolicyName)
+                        .toList())
                 .read(">>");
     }
 

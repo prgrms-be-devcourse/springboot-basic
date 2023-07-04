@@ -19,13 +19,15 @@ import java.util.UUID;
 @Repository
 @Profile("default")
 public class CsvFileVoucherStorage implements VoucherStorage {
-    private static final Logger logger = LoggerFactory.getLogger(CsvFileVoucherStorage.class);
 
     @Value("${voucher.path}")
     private String path;
+
     @Value("${voucher.filename}")
     private String filename;
+
     private final CsvFileReader csvFileReader;
+
     private final VoucherFileWriter voucherFileWriter;
 
     public CsvFileVoucherStorage(CsvFileReader csvFileReader, VoucherFileWriter voucherFileWriter) {
@@ -34,17 +36,22 @@ public class CsvFileVoucherStorage implements VoucherStorage {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        Voucher findVoucher = findAll().stream()
-                .filter(voucher -> voucher.getVoucherId().equals(voucherId))
-                .findFirst().orElseGet(() -> null);
-
-        return Optional.ofNullable(findVoucher);
+    public void insert(Voucher voucher) {
+        voucherFileWriter.write(voucher);
     }
 
     @Override
-    public void insert(Voucher voucher) {
-        voucherFileWriter.write(voucher);
+    public Optional<Voucher> findById(UUID voucherId) {
+        Optional<String> lineByWord = csvFileReader.findLineByWord(voucherId.toString(), path, filename);
+
+        if (lineByWord.isPresent()) {
+            String line = lineByWord.get();
+            Voucher findVoucher = csvFileParse(line);
+
+            return Optional.of(findVoucher);
+        }
+
+        return Optional.empty();
     }
 
     @Override
@@ -61,8 +68,7 @@ public class CsvFileVoucherStorage implements VoucherStorage {
         try {
             return Voucher.of(VoucherPolicy.valueOf(data[0]), Long.parseLong(data[1]), UUID.fromString(data[2]));
         } catch (IllegalArgumentException e) {
-            logger.warn("{} 파일은 잘못된 형식으로 작성되어 있습니다.", filename);
-            throw new IllegalArgumentException(MessageFormat.format("{} 파일은 잘못된 형식으로 작성되어 있습니다.", filename));
+            throw new IllegalArgumentException(MessageFormat.format("{0} 파일은 잘못된 형식으로 작성되어 있습니다.", filename));
         }
     }
 }
