@@ -37,10 +37,10 @@ public class CliVoucherApplication {
                 }
                 case CREATE -> {
                     Voucher voucher = input.inputVoucherInfo();
-                    voucherService.commandCreate(voucher);
+                    voucherService.createVoucher(voucher);
                 }
                 case LIST -> {
-                    var voucherList = voucherService.commandList();
+                    var voucherList = voucherService.getAllVouchers();
                     output.printAllVouchers(voucherList);
                 }
                 default -> {

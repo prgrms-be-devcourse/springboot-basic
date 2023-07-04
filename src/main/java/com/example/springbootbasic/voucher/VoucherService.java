@@ -12,11 +12,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void commandCreate(Voucher voucher) {
+    public void createVoucher(Voucher voucher) {
         voucherRepository.save(voucher);
     }
 
-    public List<Voucher> commandList() {
+    public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }
 }
