@@ -1,12 +1,12 @@
 package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.database.FileBlacklistDatabase;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.UUID;
 
-@Repository
+@Component
 public class BlacklistRepository {
     private static final String FILE_PATH = "csv/blacklist.csv";
     private final FileBlacklistDatabase fileBlacklistDatabase;

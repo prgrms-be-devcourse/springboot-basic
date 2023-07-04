@@ -2,17 +2,17 @@ package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.database.VoucherDatabase;
 import com.prgmrs.voucher.model.Voucher;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.UUID;
 
-@Repository
-public class VoucherRepositoryImpl implements VoucherRepository {
+@Component
+public class FileVoucherRepository implements VoucherRepository {
     private static final String FILE_PATH = "csv/vouchers.csv";
     private final VoucherDatabase voucherDatabase;
 
-    public VoucherRepositoryImpl(VoucherDatabase voucherDatabase) {
+    public FileVoucherRepository(VoucherDatabase voucherDatabase) {
         this.voucherDatabase = voucherDatabase;
     }
 
