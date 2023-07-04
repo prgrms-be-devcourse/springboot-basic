@@ -8,7 +8,7 @@ public enum VoucherType {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Input: " + type + ", The type you are looking for is not found.");
+            throw new IllegalArgumentException("Input: " + type + ", 찾으시는 바우처 타입이 없습니다.");
         }
     }
 }

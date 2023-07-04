@@ -39,8 +39,8 @@ class JdbcTemplateCustomerRepositoryTest {
     @DisplayName("고객을 업데이트 한다.")
     void update() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "changhyeon1", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
-        CustomerUpdateDto customerUpdateDto = new CustomerUpdateDto(customer.getCustomerId(), "changhyeon2", "chagnhyeon.h2@kakao.com", CustomerType.BLACKLIST);
+        Customer customer = new Customer(UUID.randomUUID(), "changhyeon", "chagnhyeon.h@kakao.com", CustomerType.NORMAL);
+        CustomerUpdateDto customerUpdateDto = new CustomerUpdateDto(customer.getCustomerId(), "hong", "hong@kakao.com", CustomerType.BLACKLIST);
         Customer customerExpect = new Customer(customer.getCustomerId(), customerUpdateDto.getCustomerName(), customerUpdateDto.getCustomerEmail(), customerUpdateDto.getCustomerType());
 
         // when
@@ -56,7 +56,7 @@ class JdbcTemplateCustomerRepositoryTest {
     @DisplayName("특정 고객을 조회한다.")
     void findById() {
         // given
-        Customer customerExpect = new Customer(UUID.randomUUID(), "changhyeon1", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
+        Customer customerExpect = new Customer(UUID.randomUUID(), "changhyeon", "changhyeon@kakao.com", CustomerType.NORMAL);
 
         // when
         jdbcTemplateCustomerRepository.save(customerExpect);
@@ -71,8 +71,8 @@ class JdbcTemplateCustomerRepositoryTest {
     @DisplayName("모든 고객을 조회한다.")
     void findAll() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon1", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
-        Customer customer2 = new Customer(UUID.randomUUID(), "changhyeon2", "chagnhyeon.h2@kakao.com", CustomerType.BLACKLIST);
+        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon", "chagnhyeon.h@kakao.com", CustomerType.NORMAL);
+        Customer customer2 = new Customer(UUID.randomUUID(), "hong", "hong@kakao.com", CustomerType.BLACKLIST);
 
         List<Customer> customerListExpect = List.of(
                 customer1,
@@ -95,9 +95,9 @@ class JdbcTemplateCustomerRepositoryTest {
     @DisplayName("고객중 타입이 블랙리스트인 고객을 조회한다.")
     void getBlackList() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon1", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
-        Customer customer2 = new Customer(UUID.randomUUID(), "changhyeon2", "chagnhyeon.h2@kakao.com", CustomerType.BLACKLIST);
-        Customer customer3 = new Customer(UUID.randomUUID(), "changhyeon3", "chagnhyeon.h3@kakao.com", CustomerType.BLACKLIST);
+        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
+        Customer customer2 = new Customer(UUID.randomUUID(), "hong", "hong@kakao.com", CustomerType.BLACKLIST);
+        Customer customer3 = new Customer(UUID.randomUUID(), "song", "song@kakao.com", CustomerType.BLACKLIST);
 
         List<Customer> customerListExpect = List.of(
                 customer2,
@@ -121,9 +121,9 @@ class JdbcTemplateCustomerRepositoryTest {
     @DisplayName("고객을 찾아 저장소에서 삭제한다.")
     void deleteById() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon1", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
-        Customer customer2 = new Customer(UUID.randomUUID(), "changhyeon2", "chagnhyeon.h2@kakao.com", CustomerType.BLACKLIST);
-        Customer customer3 = new Customer(UUID.randomUUID(), "changhyeon3", "chagnhyeon.h3@kakao.com", CustomerType.BLACKLIST);
+        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
+        Customer customer2 = new Customer(UUID.randomUUID(), "hong", "hong@kakao.com", CustomerType.BLACKLIST);
+        Customer customer3 = new Customer(UUID.randomUUID(), "song", "song@kakao.com", CustomerType.BLACKLIST);
 
         // when
         jdbcTemplateCustomerRepository.save(customer1);
@@ -138,9 +138,9 @@ class JdbcTemplateCustomerRepositoryTest {
     @DisplayName("저장소에서 모든 고객을 삭제한다")
     void deleteAll() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon1", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
-        Customer customer2 = new Customer(UUID.randomUUID(), "changhyeon2", "chagnhyeon.h2@kakao.com", CustomerType.BLACKLIST);
-        Customer customer3 = new Customer(UUID.randomUUID(), "changhyeon3", "chagnhyeon.h3@kakao.com", CustomerType.BLACKLIST);
+        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
+        Customer customer2 = new Customer(UUID.randomUUID(), "hong", "hong@kakao.com", CustomerType.BLACKLIST);
+        Customer customer3 = new Customer(UUID.randomUUID(), "song", "song@kakao.com", CustomerType.BLACKLIST);
 
         // when
         jdbcTemplateCustomerRepository.save(customer1);

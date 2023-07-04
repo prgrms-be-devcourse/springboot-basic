@@ -17,7 +17,7 @@ public class VoucherFactory {
                 Validator.percentValidate(discount);
                 return new PercentDiscountVoucher(Long.parseLong(discount));
             }
-            default -> throw new IllegalArgumentException("Input: " + voucherType + "There is no voucher menu.");
+            default -> throw new IllegalArgumentException("Input: " + voucherType + "바우처 타입이 없습니다.");
         }
     }
 
@@ -32,7 +32,7 @@ public class VoucherFactory {
                 Validator.percentValidate(discount);
                 return new PercentDiscountVoucher(uuid, Long.parseLong(discount));
             }
-            default -> throw new IllegalArgumentException("Input: " + voucherType + "There is no voucher menu.");
+            default -> throw new IllegalArgumentException("Input: " + voucherType + "바우처 타입이 없습니다.");
         }
     }
 }

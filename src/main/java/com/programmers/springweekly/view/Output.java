@@ -2,6 +2,7 @@ package com.programmers.springweekly.view;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.voucher.Voucher;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,7 +19,20 @@ public interface Output {
 
     void outputGetVoucherAll(Map<UUID, Voucher> voucherMap);
 
-    void outputGetCustomerBlackList(List<Customer> customerList);
+    void outputGetCustomerList(List<Customer> customerList);
 
     void outputErrorMessage(String errorText);
+
+    void outputUUIDGuide();
+
+    void outputCustomerUpdateGuide();
+
+    void outputCustomerCreateGuide();
+
+    void outputCompleteGuide();
+
+    void outputCustomerMenuGuide();
+
+    void outputVoucherMenu();
+
 }

@@ -66,7 +66,7 @@ public class VoucherTest {
     void fixedDiscountNumberException(String input) {
         assertThatThrownBy(() -> VoucherFactory.createVoucher(VoucherType.FIXED, input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Is not a number");
+                .hasMessage("Input : " + input + ", 입력하신 것은 숫자가 아닙니다.");
     }
 
     @ParameterizedTest
@@ -75,7 +75,7 @@ public class VoucherTest {
     void percentDiscountNumberException(String input) {
         assertThatThrownBy(() -> VoucherFactory.createVoucher(VoucherType.PERCENT, input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Is not a number");
+                .hasMessage("Input : " + input + ", 입력하신 것은 숫자가 아닙니다.");
     }
 
     @ParameterizedTest
@@ -84,6 +84,6 @@ public class VoucherTest {
     void percentDiscountNumberRangeException(String input) {
         assertThatThrownBy(() -> VoucherFactory.createVoucher(VoucherType.PERCENT, input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("A number that is out of range");
+                .hasMessage("Input : " + input + ", 입력하신 숫자는 범위를 벗어납니다.");
     }
 }

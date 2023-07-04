@@ -1,12 +1,11 @@
 package com.programmers.springweekly.dto;
 
 import com.programmers.springweekly.domain.customer.CustomerType;
+import com.programmers.springweekly.util.Validator;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Getter
 public class CustomerUpdateDto {
 
@@ -14,4 +13,14 @@ public class CustomerUpdateDto {
     private final String customerName;
     private final String customerEmail;
     private final CustomerType customerType;
+
+    public CustomerUpdateDto(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {
+        Validator.nameValidate(customerName);
+        Validator.emailValidate(customerEmail);
+        
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.customerType = customerType;
+    }
 }

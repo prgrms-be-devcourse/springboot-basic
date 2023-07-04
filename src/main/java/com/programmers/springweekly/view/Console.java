@@ -1,26 +1,23 @@
 package com.programmers.springweekly.view;
 
 import com.programmers.springweekly.domain.customer.Customer;
+import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.domain.voucher.Voucher;
+import com.programmers.springweekly.dto.CustomerCreateDto;
+import com.programmers.springweekly.dto.CustomerUpdateDto;
+import com.programmers.springweekly.util.Validator;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
-import org.springframework.stereotype.Component;
 
 @Component
 public class Console implements Input, Output {
 
     private static final Scanner SCANNER = new Scanner(System.in);
-
-    private static final String PROGRAM_TITLE = "=== Voucher Program ===";
-    private static final String PROGRAM_EXIT_GUIDE = "Type exit to exit the program.";
-    private static final String PROGRAM_CREATE_GUIDE = "Type create to create a new voucher.";
-    private static final String PROGRAM_LIST_GUIDE = "Type list to list all vouchers.";
-    private static final String PROGRAM_BLACKLIST_GUIDE = "Type blacklist to blacklist all customer blacklist";
-    private static final String VOUCHER_SELECT_GUIDE = "Select fixed or percent.";
-    private static final String VOUCHER_DISCOUNT_GUIDE = "If fixed, enter freely, and if percentage, enter a number between 1 and 100.";
-    private static final String GAME_END_EXIT_MESSAGE = "Program has ended.";
+    private static final String NEW_LINE = "=========================================================";
 
     @Override
     public String inputMessage() {
@@ -28,54 +25,109 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public CustomerCreateDto inputCustomerCreate() {
+        String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
+        return new CustomerCreateDto(customerInfo[0], customerInfo[1], CustomerType.findCustomerType(customerInfo[2]));
+    }
+
+    @Override
+    public CustomerUpdateDto inputCustomerUpdate(UUID customerId) {
+        String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
+        return new CustomerUpdateDto(customerId, customerInfo[0], customerInfo[1], CustomerType.findCustomerType(customerInfo[2]));
+    }
+
+    @Override
+    public UUID inputUUID() {
+        return UUID.fromString(SCANNER.nextLine());
+    }
+
+    @Override
     public void outputProgramGuide() {
-        System.out.println(PROGRAM_TITLE);
-        System.out.println(PROGRAM_EXIT_GUIDE);
-        System.out.println(PROGRAM_CREATE_GUIDE);
-        System.out.println(PROGRAM_LIST_GUIDE);
-        System.out.println(PROGRAM_BLACKLIST_GUIDE);
+        System.out.println("====== 바우처 프로그램 ======");
+        System.out.println("customer : 고객 관련된 작업");
+        System.out.println("voucher : 바우처 관련된 작업");
+        System.out.println("exit : 프로그램 종료");
     }
 
     @Override
     public void outputSelectCreateVoucherGuide() {
-        System.out.println(VOUCHER_SELECT_GUIDE);
+        System.out.println("퍼센트 할인은 percent, 고정 할인은 fix를 입력해주세요.");
     }
 
     @Override
     public void outputDiscountGuide() {
-        System.out.println(VOUCHER_DISCOUNT_GUIDE);
+        System.out.println("고정 할인은 자유롭게, 퍼센트는 1부터 100까지 사이의 숫자만 입력해주세요.");
     }
 
     @Override
     public void outputExitMessage() {
-        System.out.println(GAME_END_EXIT_MESSAGE);
+        System.out.println("프로그램이 종료되었습니다.");
     }
 
     @Override
     public void outputGetVoucherAll(Map<UUID, Voucher> voucherMap) {
         for (Map.Entry<UUID, Voucher> voucherEntry : voucherMap.entrySet()) {
-            System.out.println("=========================================================");
-            System.out.println("voucherId : " + voucherEntry.getValue().getVoucherId());
-            System.out.println("discountAmount : " + voucherEntry.getValue().getVoucherAmount());
-            System.out.println("voucherType : " + voucherEntry.getValue().getVoucherType());
-            System.out.println("=========================================================\n");
+            System.out.println(NEW_LINE);
+            System.out.println("바우처 ID : " + voucherEntry.getValue().getVoucherId());
+            System.out.println("할인 양 : " + voucherEntry.getValue().getVoucherAmount());
+            System.out.println("바우처 타입 : " + voucherEntry.getValue().getVoucherType());
+            System.out.println(NEW_LINE + "\n");
         }
     }
 
     @Override
-    public void outputGetCustomerBlackList(List<Customer> customerList) {
+    public void outputGetCustomerList(List<Customer> customerList) {
         for (Customer customer : customerList) {
-            System.out.println("=========================================================");
-            System.out.println("customerId : " + customer.getCustomerId());
-            System.out.println("customerName : " + customer.getCustomerName());
-            System.out.println("customerEmail : " + customer.getCustomerEmail());
-            System.out.println("customerType : " + customer.getCustomerType());
-            System.out.println("=========================================================\n");
+            System.out.println(NEW_LINE);
+            System.out.println("고객 ID : " + customer.getCustomerId());
+            System.out.println("고객 이름 : " + customer.getCustomerName());
+            System.out.println("고객 이메일 : " + customer.getCustomerEmail());
+            System.out.println("고객 타입 : " + customer.getCustomerType());
+            System.out.println(NEW_LINE + "\n");
         }
     }
 
     @Override
     public void outputErrorMessage(String errorText) {
         System.out.println(errorText);
+    }
+
+    @Override
+    public void outputUUIDGuide() {
+        System.out.println("고객 UUID를 입력해주세요.");
+    }
+
+    @Override
+    public void outputCustomerUpdateGuide() {
+        System.out.println("고객을 업데이트 하기 위해서 아래 순서대로 입력하시되 ,(쉼표)를 기준으로 영어로 입력해주세요.");
+        System.out.println("예시) 고객 이름,고객 이메일,고객 타입(normal, blacklist)");
+    }
+
+    @Override
+    public void outputCompleteGuide() {
+        System.out.println("작업이 처리되었습니다.");
+    }
+
+    @Override
+    public void outputCustomerCreateGuide() {
+        System.out.println("고객을 생성 하기 위해서 아래 순서대로 입력하시되 ,(쉼표)를 기준으로 영어로 입력해주세요.");
+        System.out.println("예시) 고객 이름,고객 이메일,고객 타입(normal, blacklist)");
+    }
+
+    @Override
+    public void outputCustomerMenuGuide() {
+        System.out.println("=========== 고객 프로그램 ===========");
+        System.out.println("create : 고객을 생성합니다.");
+        System.out.println("update : 고객을 업데이트합니다.");
+        System.out.println("delete : 고객을 삭제합니다.");
+        System.out.println("select : 고객을 모두 조회합니다.");
+        System.out.println("blacklist : 블랙리스트 고객을 모두 조회합니다.");
+    }
+
+    @Override
+    public void outputVoucherMenu() {
+        System.out.println("=========== 바우처 프로그램 ===========");
+        System.out.println("create : 바우처를 생성합니다.");
+        System.out.println("select : 바우처를 모두 조회합니다.");
     }
 }
