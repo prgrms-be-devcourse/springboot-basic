@@ -9,6 +9,7 @@ public enum ConsoleViewOptionEnum {
 
 
     private final String value;
+
     ConsoleViewOptionEnum(String value) {
         this.value = value;
     }

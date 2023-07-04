@@ -63,7 +63,7 @@ public class ConsoleView {
                 case CREATE_FIXED_AMOUNT_VOUCHER -> {
                     try {
                         voucherCreation(ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER);
-                    } catch(WrongRangeFormatException we) {
+                    } catch (WrongRangeFormatException we) {
                         consoleViewIO.write("incorrect format or out of range value.");
                         break;
                     }
@@ -72,7 +72,7 @@ public class ConsoleView {
                 case CREATE_PERCENT_DISCOUNT_VOUCHER -> {
                     try {
                         voucherCreation(ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER);
-                    } catch(WrongRangeFormatException we) {
+                    } catch (WrongRangeFormatException we) {
                         consoleViewIO.write("incorrect format or out of range value.");
                         break;
                     }
@@ -84,12 +84,12 @@ public class ConsoleView {
     }
 
     private void voucherCreation(ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum) throws WrongRangeFormatException {
-            consoleViewIO.showSpecificCreationMessage(consoleViewVoucherCreationEnum, voucherProperties.getMaximumFixedAmount());
-            String token = consoleViewIO.read();
-            long value = inputHandler.stringToLongConverter(token);
-            inputHandler.isAmountValid(consoleViewVoucherCreationEnum, voucherProperties.getMaximumFixedAmount(), value);
-            UUID uuid = voucherController.createVoucher(value, consoleViewVoucherCreationEnum);
-            Voucher voucher = voucherController.findVoucherById(uuid);
-            consoleViewIO.showVoucherResult(voucher);
+        consoleViewIO.showSpecificCreationMessage(consoleViewVoucherCreationEnum, voucherProperties.getMaximumFixedAmount());
+        String token = consoleViewIO.read();
+        long value = inputHandler.stringToLongConverter(token);
+        inputHandler.isAmountValid(consoleViewVoucherCreationEnum, voucherProperties.getMaximumFixedAmount(), value);
+        UUID uuid = voucherController.createVoucher(value, consoleViewVoucherCreationEnum);
+        Voucher voucher = voucherController.findVoucherById(uuid);
+        consoleViewIO.showVoucherResult(voucher);
     }
 }

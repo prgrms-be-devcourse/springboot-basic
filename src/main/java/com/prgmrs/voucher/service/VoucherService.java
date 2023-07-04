@@ -24,13 +24,13 @@ public class VoucherService {
     public UUID createVoucher(long value, ConsoleViewVoucherCreationEnum type) {
         Voucher voucher;
         UUID uuid = UUID.randomUUID();
-        if(ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER == type) {
+        if (ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER == type) {
             voucher = new FixedAmountVoucher(uuid, value);
             voucherRepository.save(voucher);
             return uuid;
         }
 
-        if(ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER == type) {
+        if (ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER == type) {
             voucher = new PercentDiscountVoucher(uuid, value);
             voucherRepository.save(voucher);
             return uuid;

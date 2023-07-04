@@ -25,7 +25,6 @@ public class FileBlacklistDatabase {
             return storage;
         }
 
-
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             String[] nextLine;
             reader.readNext();  // Skip header
@@ -33,7 +32,7 @@ public class FileBlacklistDatabase {
                 UUID uuid = UUID.fromString(nextLine[0]);
                 String name = nextLine[1];
                 storage.put(uuid, name);
-                }
+            }
         } catch (Exception e) {
             logger.error("unexpected error occurred : ", e);
             throw new FileNotReadException("File was not read successfully.");

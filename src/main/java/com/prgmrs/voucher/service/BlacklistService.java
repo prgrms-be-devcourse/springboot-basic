@@ -13,6 +13,7 @@ public class BlacklistService {
     public BlacklistService(BlacklistRepository blacklistRepository) {
         this.blacklistRepository = blacklistRepository;
     }
+
     public Map<UUID, String> findAll() {
         return blacklistRepository.findAll();
     }

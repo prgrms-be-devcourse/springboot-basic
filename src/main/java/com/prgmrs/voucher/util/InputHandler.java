@@ -19,13 +19,13 @@ public class InputHandler {
     }
 
     public void isAmountValid(ConsoleViewVoucherCreationEnum type, long maximumFixedAmount, long value) throws WrongRangeFormatException {
-        if(type == ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER
-            && (0 > value || value > maximumFixedAmount) ) {
+        if (type == ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER
+                && (0 > value || value > maximumFixedAmount)) {
             throw new WrongRangeFormatException("typed amount is invalid.");
         }
 
-        if(type == ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER
-            && (0 > value || value > 100)) {
+        if (type == ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER
+                && (0 > value || value > 100)) {
             throw new WrongRangeFormatException("typed percent is invalid.");
         }
     }

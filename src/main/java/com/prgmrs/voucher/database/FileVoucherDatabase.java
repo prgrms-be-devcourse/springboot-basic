@@ -41,7 +41,7 @@ public class FileVoucherDatabase implements VoucherDatabase {
                 String code = nextLine[1];
                 String value = nextLine[2];
 
-                if("fixed".equals(code)) {
+                if ("fixed".equals(code)) {
                     Voucher voucher = new FixedAmountVoucher(uuid, Long.parseLong(value));
                     storage.put(uuid, voucher);
                 }
@@ -62,18 +62,18 @@ public class FileVoucherDatabase implements VoucherDatabase {
     public void store(UUID voucherId, Voucher voucher, String filePath) {
         boolean append = Files.exists(Paths.get(filePath));
         try (CSVWriter writer = new CSVWriter(new FileWriter(filePath, append))) {
-            if(!append) {
-                String[] header = { "UUID", "Voucher Type", "Voucher Value" };
+            if (!append) {
+                String[] header = {"UUID", "Voucher Type", "Voucher Value"};
                 writer.writeNext(header);
             }
 
-            if(voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
-                 writer.writeNext(new String[]{ voucherId.toString(), "fixed", Long.toString(fixedAmountVoucher.getAmount())});
-                 return;
+            if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
+                writer.writeNext(new String[]{voucherId.toString(), "fixed", Long.toString(fixedAmountVoucher.getAmount())});
+                return;
             }
 
-            if(voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
-                 writer.writeNext(new String[]{ voucherId.toString(), "percent", Long.toString(percentDiscountVoucher.getPercent())});
+            if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
+                writer.writeNext(new String[]{voucherId.toString(), "percent", Long.toString(percentDiscountVoucher.getPercent())});
             }
         } catch (Exception e) {
             logger.error("unexpected error occurred : ", e);

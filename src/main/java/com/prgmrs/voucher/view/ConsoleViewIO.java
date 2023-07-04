@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConsoleViewIO {
     private final Scanner sc = new Scanner(System.in);
+
     public void write(String message) {
         System.out.println(message);
     }
@@ -25,18 +26,18 @@ public class ConsoleViewIO {
         write("Type exit to exit the program.");
         write("Type create to create a new voucher.");
         write("Type list to list all vouchers.");
-        if(isBlacklistAllow) {
+        if (isBlacklistAllow) {
             write("Type blacklist to list blacklist.");
         }
     }
 
     public void showVoucherCreationMessage() {
-            write("Type fixed to create a voucher with fixed amount.");
-            write("Type percent to create a voucher with percent discount.");
+        write("Type fixed to create a voucher with fixed amount.");
+        write("Type percent to create a voucher with percent discount.");
     }
 
     public void showSpecificCreationMessage(ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum, long maximumFixedAmount) {
-        if(ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER == consoleViewVoucherCreationEnum) {
+        if (ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER == consoleViewVoucherCreationEnum) {
             write("=== Creating Voucher with fixed amount ===");
             write(MessageFormat.format("Type amount to create a voucher with fixed amount. maximum value is {0}", maximumFixedAmount));
             return;
@@ -89,7 +90,7 @@ public class ConsoleViewIO {
             return;
         }
 
-        if(blacklistShowId) {
+        if (blacklistShowId) {
             write("=========== blacklisted users ===========");
             write("uuid                                 name");
             blacklist.entrySet().stream().forEach(entry -> {
@@ -100,7 +101,7 @@ public class ConsoleViewIO {
             return;
         }
 
-        AtomicInteger order= new AtomicInteger(1);
+        AtomicInteger order = new AtomicInteger(1);
         write("=========== blacklisted users ===========");
         write("order name");
         blacklist.entrySet().stream().forEach(entry -> {

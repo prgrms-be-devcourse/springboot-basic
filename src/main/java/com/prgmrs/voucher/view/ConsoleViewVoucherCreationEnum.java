@@ -6,6 +6,7 @@ public enum ConsoleViewVoucherCreationEnum {
     UNEXPECTED_INPUT;
 
     private final String value;
+
     ConsoleViewVoucherCreationEnum(String value) {
         this.value = value;
     }

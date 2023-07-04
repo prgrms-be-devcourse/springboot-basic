@@ -21,6 +21,7 @@ public class PercentDiscountVoucher implements Voucher {
     public long getPercent() {
         return percent;
     }
+
     @Override
     public long discount(long beforeDiscount) {
         if (percent < 1 || percent > 100) {
