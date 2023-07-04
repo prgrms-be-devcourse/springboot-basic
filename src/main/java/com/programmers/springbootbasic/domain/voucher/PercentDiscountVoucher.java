@@ -1,6 +1,5 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
@@ -14,12 +13,12 @@ public class PercentDiscountVoucher extends Voucher {
     private final int percent;
 
 
-    public PercentDiscountVoucher(UUID voucherId, String name, LocalDateTime createdDate, LocalDateTime expirationDate, int percent) {
-        this(voucherId, name, ZERO, createdDate, expirationDate, percent);
+    public PercentDiscountVoucher(UUID voucherId, String name, VoucherDate voucherDate, int percent) {
+        this(voucherId, name, ZERO, voucherDate, percent);
     }
 
-    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int percent) {
-        super(voucherId, name, minimumPriceCondition, createdDate, expirationDate);
+    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int percent) {
+        super(voucherId, name, minimumPriceCondition, voucherDate);
         if (isInvalidRange(percent)) {
             throw new IllegalArgumentException(INVALID_PERCENT + String.format("%d%%", percent));
         }

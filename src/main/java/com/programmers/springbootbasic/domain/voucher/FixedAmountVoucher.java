@@ -1,6 +1,5 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
@@ -13,12 +12,12 @@ public class FixedAmountVoucher extends Voucher {
 
     private final int amount;
 
-    public FixedAmountVoucher(UUID voucherId, String name, LocalDateTime createdDate, LocalDateTime expirationDate, int amount) {
-        this(voucherId, name, ZERO, createdDate, expirationDate, amount);
+    public FixedAmountVoucher(UUID voucherId, String name, VoucherDate voucherDate, int amount) {
+        this(voucherId, name, ZERO, voucherDate, amount);
     }
 
-    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int amount) {
-        super(voucherId, name, minimumPriceCondition, createdDate, expirationDate);
+    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int amount) {
+        super(voucherId, name, minimumPriceCondition, voucherDate);
         if (isInvalidAmount(amount)) {
             throw new IllegalArgumentException(INVALID_AMOUNT + String.format("%d원", amount));
         }
