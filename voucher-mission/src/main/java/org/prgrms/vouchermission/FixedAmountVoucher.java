@@ -11,6 +11,12 @@ public class FixedAmountVoucher implements Voucher {
     private static final VoucherFactory voucherType = VoucherFactory.AMOUNT;
 
     public FixedAmountVoucher(long voucherId, long amount, LocalDate createdDate, LocalDate expirationDate) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("할인액은 0 또는 음수일 수 없습니다.");
+        }
+        if (createdDate.isAfter(expirationDate)) {
+            throw new IllegalArgumentException("만료일은 발급일보다 빠를 수 없습니다.");
+        }
         this.voucherId = voucherId;
         this.amount = amount;
         this.createdDate = createdDate;

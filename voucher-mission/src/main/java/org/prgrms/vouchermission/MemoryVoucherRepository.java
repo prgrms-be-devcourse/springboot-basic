@@ -23,11 +23,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        Stream<Voucher> stream = storage.values().stream();
-
-        return storage.values()
-                .stream().collect(Collectors.toList());
-        return storage.values()
-                .stream().toList();
+        return storage.values().stream().toList();
     }
 }

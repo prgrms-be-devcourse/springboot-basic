@@ -11,6 +11,12 @@ public class PercentDiscountVoucher implements Voucher {
     private static final VoucherFactory voucherType = VoucherFactory.PERCENT;
 
     public PercentDiscountVoucher(long voucherId, long percent, LocalDate createdDate, LocalDate expirationDate) {
+        if (percent <= 0) {
+            throw new IllegalArgumentException("할인율은 0 또는 음수일 수 없습니다.");
+        }
+        if (createdDate.isAfter(expirationDate)) {
+            throw new IllegalArgumentException("만료일은 발급일보다 빠를 수 없습니다.");
+        }
         this.voucherId = voucherId;
         this.percent = percent;
         this.createdDate = createdDate;
