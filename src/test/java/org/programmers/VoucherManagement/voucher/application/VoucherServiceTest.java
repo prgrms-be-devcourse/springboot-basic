@@ -16,11 +16,13 @@ import java.util.UUID;
 public class VoucherServiceTest {
     VoucherService voucherService;
     VoucherRepository voucherRepository;
+    VoucherFactory voucherFactory;
 
     @BeforeEach
     void init(){
         voucherRepository = new MemoryVoucherRepository();
-        voucherService = new VoucherService(voucherRepository);
+        voucherFactory = new VoucherFactory();
+        voucherService = new VoucherService(voucherRepository,voucherFactory);
     }
 
     @Test
