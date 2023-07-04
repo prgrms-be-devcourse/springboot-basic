@@ -19,7 +19,6 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.deleteAll();
     }
 
-
     @ParameterizedTest
     @EnumSource(VoucherType.class)
     void Voucher생성_save_성공(VoucherType voucherType) {
@@ -28,7 +27,6 @@ class MemoryVoucherRepositoryTest {
         String name = "회원가입 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = createdDate.plusMonths(3);
-
 
         // when
         Voucher voucher = switch (voucherType) {
