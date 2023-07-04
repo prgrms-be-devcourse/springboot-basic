@@ -23,7 +23,7 @@ public class VouchersResponse implements Response {
 
 
         StringBuilder resultBuilder = new StringBuilder();
-        result.forEach(voucherResponse-> resultBuilder.append(voucherResponse.getResult()));
+        result.forEach(voucherResponse-> resultBuilder.append(voucherResponse.getResult()).append('\n'));
         return resultBuilder.toString();
     }
 }

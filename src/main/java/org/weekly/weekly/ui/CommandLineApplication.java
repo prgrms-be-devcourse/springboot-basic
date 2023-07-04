@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.exception.InputValidator;
 import org.weekly.weekly.ui.reader.CommandReader;
 import org.weekly.weekly.ui.writer.CommandWriter;
+import org.weekly.weekly.ui.writer.SystemWriter;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.dto.Response;

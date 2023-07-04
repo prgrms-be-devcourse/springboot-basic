@@ -1,0 +1,21 @@
+spring.config.activate.on-profile: default
+command:
+  write: system
+  read: scanner
+
+---
+
+spring.config.activate.on-profile: dev
+command:
+  write: system
+  read: console
+
+---
+
+spring.config.activate.on-profile: local
+command:
+  write: system
+  read: buffer
+
+---
+

@@ -1,18 +1,18 @@
 package org.weekly.weekly.ui.reader;
 
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.exception.InputValidator;
 
 import java.util.Scanner;
 
 @Component
-@Primary
+@ConditionalOnProperty(value="command.read", havingValue = "scanner")
 public class ScannerWrap implements CommandReader{
     private final Scanner scanner;
 
     public ScannerWrap() {
-        this.scanner = new Scanner(System.in);
+        System.out.println("scanner");this.scanner = new Scanner(System.in);
     }
 
     @Override

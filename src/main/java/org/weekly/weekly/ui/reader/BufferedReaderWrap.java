@@ -1,5 +1,6 @@
 package org.weekly.weekly.ui.reader;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.exception.InputException;
 import org.weekly.weekly.util.ExceptionMsg;
@@ -9,11 +10,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Component
+@ConditionalOnProperty(value="command.read", havingValue = "buffer")
 public class BufferedReaderWrap implements CommandReader {
     private final BufferedReader bufferedReader;
 
     public BufferedReaderWrap() {
-        this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("buffer");this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
