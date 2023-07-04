@@ -11,11 +11,15 @@ public class MenuTypeTest {
     @Test
     @DisplayName("입력값에 따라 CommandType을 반환하는 테스트 - 성공")
     void 입력값에따라_Command를_반환_성공(){
+        //given
         String blackListInput = "blacklist";
         String createInput = "create";
 
+        //when
         MenuType blackListTypeExpect = MenuType.from(blackListInput);
         MenuType createTypeExpect = MenuType.from(createInput);
+
+        //then
         assertThat(blackListTypeExpect).isEqualTo(MenuType.BLACKLIST);
         assertThat(createTypeExpect).isEqualTo(MenuType.CREATE);
     }
