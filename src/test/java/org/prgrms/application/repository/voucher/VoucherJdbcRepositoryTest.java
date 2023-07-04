@@ -96,7 +96,7 @@ class VoucherJdbcRepositoryTest {
     public void testInsert() {
         try {
             voucherJdbcRepository.insert(newPercentVoucher);
-            voucherJdbcRepository.insert(newFixedVoucher);
+            voucherJdbcRepository.insert(newFixedVoucher); //수정
         } catch (BadSqlGrammarException e) {
             logger.error("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
         }

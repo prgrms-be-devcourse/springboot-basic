@@ -21,8 +21,7 @@ class PercentAmountVoucherTest {
         long randomId = Math.abs(random.nextLong());
 
         assertThatThrownBy(() -> new PercentAmountVoucher(randomId, PERCENT, percent))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("잘못된 입력 범위입니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("퍼센트 범위 성공 테스트")
@@ -30,6 +29,7 @@ class PercentAmountVoucherTest {
     @ValueSource(doubles = {50})
     void percentDiscountSuccessTest(double percent) {
         long randomId = Math.abs(random.nextLong());
+
         PercentAmountVoucher voucher = new PercentAmountVoucher(randomId, PERCENT, percent);
         double stockPrice = 10000;
         double result = voucher.discount(stockPrice);

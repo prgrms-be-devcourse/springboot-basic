@@ -66,8 +66,7 @@ class CustomerJdbcRepositoryTest {
         @Bean
         public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
             return new TransactionTemplate(platformTransactionManager);
-        }
-    }
+        }}
 
     @Autowired
     CustomerJdbcRepository customerJdbcRepository;
@@ -78,8 +77,7 @@ class CustomerJdbcRepositoryTest {
     Customer newCustomer;
 
     @BeforeAll
-    void setup() {
-        newCustomer = new Customer(1L, "test-user", "test-user@gmail.com", LocalDateTime.now());
+    void setup() {newCustomer = new Customer(1L, "test-user", "test-user@gmail.com", LocalDateTime.now());
         //    customerJdbcRepository.deleteAll();
     }
 
@@ -87,11 +85,8 @@ class CustomerJdbcRepositoryTest {
     @Order(1)
     @DisplayName("고객을 추가할 수 있다.")
     public void testInsert() {
-        try {
-            customerJdbcRepository.insert(newCustomer);
-        } catch (BadSqlGrammarException e) {
-            logger.error("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
-        }
+        customerJdbcRepository.insert(newCustomer); //테스트에 대한 책임! 수정
+
         Optional<Customer> retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty(), is(false));
         assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
@@ -112,8 +107,8 @@ class CustomerJdbcRepositoryTest {
         Optional<Customer> customer = customerJdbcRepository.findByName(newCustomer.getName());
         assertThat(customer.isEmpty(), is(false));
 
-//        Optional<Customer> unknown = customerJdbcRepository.findByName("unknown-user");
-//        assertThat(unknown.isEmpty(), is(true));
+        Optional<Customer> unknown = customerJdbcRepository.findByName("unknown-user");
+        assertThat(unknown.isEmpty(), is(true));
     }
 
     @Test
@@ -123,8 +118,8 @@ class CustomerJdbcRepositoryTest {
         Optional<Customer> customer = customerJdbcRepository.findByEmail(newCustomer.getEmail());
         assertThat(customer.isEmpty(), is(false));
 
-//      Optional<Customer> customer = customerJdbcRepository.findByEmail("unknown-user@gmail.com");
-//        assertThat(unknown.isEmpty(), is(true));
+        Optional<Customer> unknown = customerJdbcRepository.findByEmail("unknown-user@gmail.com");
+        assertThat(unknown.isEmpty(), is(true));
     }
 
     @Test
@@ -151,5 +146,12 @@ class CustomerJdbcRepositoryTest {
         List<Customer> customers = customerJdbcRepository.findAll();
         assertThat(customers.isEmpty(), is(true));
     }
+
+
+//
+//        try {
+//    } catch (BadSqlGrammarException e) {
+//        logger.error("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
+//    }
 
 }

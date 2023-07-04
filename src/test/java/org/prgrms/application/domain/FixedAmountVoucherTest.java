@@ -22,9 +22,8 @@ class FixedAmountVoucherTest {
         long randomId = Math.abs(random.nextLong());
         FixedAmountVoucher voucher = new FixedAmountVoucher(randomId, FIXED, discountAmount);
         double stockPrice = 100;
-        double result = voucher.discount(stockPrice);
 
-        assertThat(result).isEqualTo(0);
+        assertThatThrownBy(()->voucher.discount(stockPrice)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
@@ -34,7 +33,7 @@ class FixedAmountVoucherTest {
         long randomId = Math.abs(random.nextLong());
 
         assertThatThrownBy(() -> new FixedAmountVoucher(randomId, FIXED, discountAmount))
-                .isInstanceOf(IllegalArgumentException.class).hasMessage("금액은 양수여야 합니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
