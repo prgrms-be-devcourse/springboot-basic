@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -22,7 +23,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
+        Stream<Voucher> stream = storage.values().stream();
+
         return storage.values()
                 .stream().collect(Collectors.toList());
+        return storage.values()
+                .stream().toList();
     }
 }
