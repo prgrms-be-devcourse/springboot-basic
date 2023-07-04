@@ -25,7 +25,7 @@ public class Console implements Input, Output {
     private static final String VOUCHER_LIST_TITLE_MESSAGE = "\n=== Voucher List ===";
     private static final String BLACKLIST_MESSAGE = "\n=== Blacklist ===";
     private static final String CREATE_MESSAGE = "\n=== Create ===\n" +
-            "Type a menu item or number to create.\n" +
+            "Type '1' or '2' to create item.\n" +
             "1. voucher\n" +
             "2. customer";
     private static final String CUSTOMER_NAME_MESSAGE = "\n=== Type customer name ===";
