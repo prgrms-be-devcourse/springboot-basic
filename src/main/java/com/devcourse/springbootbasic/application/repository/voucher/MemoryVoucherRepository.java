@@ -1,7 +1,7 @@
 package com.devcourse.springbootbasic.application.repository.voucher;
 
 import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
-import com.devcourse.springbootbasic.application.dto.VoucherMap;
+import com.devcourse.springbootbasic.application.vo.VoucherMap;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

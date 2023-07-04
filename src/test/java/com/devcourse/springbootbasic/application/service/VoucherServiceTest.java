@@ -1,8 +1,8 @@
 package com.devcourse.springbootbasic.application.service;
 
 import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
-import com.devcourse.springbootbasic.application.dto.DiscountValue;
-import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.model.DiscountValue;
+import com.devcourse.springbootbasic.application.model.VoucherType;
 import com.devcourse.springbootbasic.application.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 @ActiveProfiles("dev")
 class VoucherServiceTest {

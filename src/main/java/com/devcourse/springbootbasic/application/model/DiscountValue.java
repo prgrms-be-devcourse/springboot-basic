@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.dto;
+package com.devcourse.springbootbasic.application.model;
 
 import com.devcourse.springbootbasic.application.constant.ErrorMessage;
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;

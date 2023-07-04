@@ -1,9 +1,9 @@
 package com.devcourse.springbootbasic.application.converter;
 
 import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
-import com.devcourse.springbootbasic.application.dto.DiscountValue;
-import com.devcourse.springbootbasic.application.dto.VoucherDto;
-import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.model.DiscountValue;
+import com.devcourse.springbootbasic.application.model.VoucherDto;
+import com.devcourse.springbootbasic.application.model.VoucherType;
 
 import java.text.MessageFormat;
 import java.util.List;

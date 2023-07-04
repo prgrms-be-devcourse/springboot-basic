@@ -1,7 +1,7 @@
 package com.devcourse.springbootbasic.application.domain.voucher;
 
-import com.devcourse.springbootbasic.application.dto.DiscountValue;
-import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.model.DiscountValue;
+import com.devcourse.springbootbasic.application.model.VoucherType;
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

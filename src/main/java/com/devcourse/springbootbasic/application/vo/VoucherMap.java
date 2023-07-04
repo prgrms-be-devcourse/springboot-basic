@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.dto;
+package com.devcourse.springbootbasic.application.vo;
 
 import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
 

@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.dto;
+package com.devcourse.springbootbasic.application.model;
 
 import com.devcourse.springbootbasic.application.constant.ErrorMessage;
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
@@ -20,11 +20,9 @@ public enum ListMenu {
 
     public static ListMenu getListMenu(String input) {
         return Arrays.stream(ListMenu.values())
-                .filter(list -> Objects.equals(list.listMenuOrdinal, input))
+                .filter(listMenu -> Objects.equals(listMenu.listMenuOrdinal, input))
                 .findAny()
-                .orElseThrow(() -> {
-                    return new InvalidDataException(ErrorMessage.INVALID_LIST_MENU.getMessageText());
-                });
+                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_LIST_MENU.getMessageText()));
     }
 
     public String getListMenuOrdinal() {

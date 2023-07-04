@@ -1,6 +1,7 @@
-package com.devcourse.springbootbasic.application.dto;
+package com.devcourse.springbootbasic.application.model;
 
 import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
+import com.devcourse.springbootbasic.application.vo.VoucherMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

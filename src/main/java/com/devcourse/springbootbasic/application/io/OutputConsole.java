@@ -1,9 +1,9 @@
 package com.devcourse.springbootbasic.application.io;
 
 import com.devcourse.springbootbasic.application.constant.OutputMessage;
-import com.devcourse.springbootbasic.application.dto.ListMenu;
-import com.devcourse.springbootbasic.application.dto.Menu;
-import com.devcourse.springbootbasic.application.dto.VoucherType;
+import com.devcourse.springbootbasic.application.model.ListMenu;
+import com.devcourse.springbootbasic.application.model.Menu;
+import com.devcourse.springbootbasic.application.model.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;

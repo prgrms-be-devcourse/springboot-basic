@@ -1,6 +1,6 @@
 package com.devcourse.springbootbasic.application.io;
 
-import com.devcourse.springbootbasic.application.dto.*;
+import com.devcourse.springbootbasic.application.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
