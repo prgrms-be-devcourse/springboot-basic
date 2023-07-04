@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public class VoucherRepositoryImpl implements VoucherRepository {
-    private static final String FILEPATH = "src/main/csv/vouchers.csv";
+    private static final String FILEPATH = "csv/vouchers.csv";
     private final VoucherDatabase voucherDatabase;
 
     public VoucherRepositoryImpl(VoucherDatabase voucherDatabase) {

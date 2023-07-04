@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Repository
 public class BlacklistRepository {
-    private static final String FILEPATH = "src/main/csv/blacklist.csv";
+    private static final String FILEPATH = "csv/blacklist.csv";
     private final FileBlacklistDatabase fileBlacklistDatabase;
 
     public BlacklistRepository(FileBlacklistDatabase fileBlacklistDatabase) {
