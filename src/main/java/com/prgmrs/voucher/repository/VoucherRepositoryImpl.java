@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public class VoucherRepositoryImpl implements VoucherRepository {
-    private static final String FILEPATH = "csv/vouchers.csv";
+    private static final String FILE_PATH = "csv/vouchers.csv";
     private final VoucherDatabase voucherDatabase;
 
     public VoucherRepositoryImpl(VoucherDatabase voucherDatabase) {
@@ -18,17 +18,17 @@ public class VoucherRepositoryImpl implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        voucherDatabase.store(voucher.getVoucherId(), voucher, FILEPATH);
+        voucherDatabase.store(voucher.getVoucherId(), voucher, FILE_PATH);
     }
 
     @Override
     public Map<UUID, Voucher> findAll() {
-        return voucherDatabase.load(FILEPATH);
+        return voucherDatabase.load(FILE_PATH);
     }
 
     @Override
     public Voucher findVoucherById(UUID uuid) {
-        Map<UUID, Voucher> storage = voucherDatabase.load(FILEPATH);
+        Map<UUID, Voucher> storage = voucherDatabase.load(FILE_PATH);
         return storage.get(uuid);
     }
 }

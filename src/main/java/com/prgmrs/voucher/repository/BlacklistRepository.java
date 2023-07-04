@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Repository
 public class BlacklistRepository {
-    private static final String FILEPATH = "csv/blacklist.csv";
+    private static final String FILE_PATH = "csv/blacklist.csv";
     private final FileBlacklistDatabase fileBlacklistDatabase;
 
     public BlacklistRepository(FileBlacklistDatabase fileBlacklistDatabase) {
@@ -16,6 +16,6 @@ public class BlacklistRepository {
     }
 
     public Map<UUID, String> findAll() {
-        return fileBlacklistDatabase.load(FILEPATH);
+        return fileBlacklistDatabase.load(FILE_PATH);
     }
 }
