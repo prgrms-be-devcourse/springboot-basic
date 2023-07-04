@@ -15,8 +15,6 @@ public class Customer {
   private LocalDateTime lastLoginAt;
 
   private Customer(UUID customerId, String email, String name) {
-    CustomerValidator.checkId(customerId);
-    CustomerValidator.checkEmail(email);
     this.customerId = customerId;
     this.email = email;
     this.createdAt = LocalDateTime.now();
@@ -24,8 +22,10 @@ public class Customer {
     this.lastLoginAt = lastLoginAt;
   }
 
-  public static Customer of(String email, String name) {
-    return new Customer(UUID.randomUUID(), email, name);
+  public static Customer of(UUID customerId, String email, String name) {
+    CustomerValidator.checkId(customerId);
+    CustomerValidator.checkEmail(email);
+    return new Customer(customerId, email, name);
   }
 
   public void login() {
