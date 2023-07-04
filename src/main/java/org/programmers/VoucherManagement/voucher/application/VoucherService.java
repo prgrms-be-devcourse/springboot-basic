@@ -27,11 +27,7 @@ public class VoucherService {
     }
 
     public GetVoucherListResponse getVoucherList() {
-        List<GetVoucherResponse> getVoucherResponseList = repository.findAll()
-                .stream()
-                .map(GetVoucherResponse::toDto)
-                .collect(Collectors.toList());
-        return new GetVoucherListResponse(getVoucherResponseList);
+        return new GetVoucherListResponse(repository.findAll());
     }
 
 }
