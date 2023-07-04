@@ -6,6 +6,7 @@ import org.programers.vouchermanagement.voucher.dto.request.VoucherCreationReque
 import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.programers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Profile({"test", "default"})
 @Transactional(readOnly = true)
 @Service
 public class VoucherService {
