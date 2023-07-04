@@ -9,6 +9,7 @@ import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     void insert() {
         //given
-        Map<VoucherType,Long> voucherList = voucherRepository.findAll();
+        List<Voucher> voucherList = voucherRepository.findAll();
         //when
         int voucherListSize = voucherList.size();
         //then
