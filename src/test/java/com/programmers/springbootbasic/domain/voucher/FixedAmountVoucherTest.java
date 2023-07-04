@@ -17,7 +17,7 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         int amount = 5_000;
 
         // when
@@ -33,7 +33,7 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int amount = 5_000;
 
@@ -50,7 +50,7 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int amount = 1_000_000_000;
 
@@ -65,7 +65,7 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int amount = -1;
 

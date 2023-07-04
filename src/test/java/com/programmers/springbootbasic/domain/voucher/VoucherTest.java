@@ -16,7 +16,7 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
 
         int amount = 10_000;
 
@@ -33,7 +33,7 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int amount = 10_000;
 
@@ -50,7 +50,7 @@ class VoucherTest {
         UUID voucherId = null;
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         int amount = 10_000;
 
         // when && then
@@ -64,7 +64,7 @@ class VoucherTest {
         UUID voucherId = null;
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int amount = 10_000;
 
@@ -79,7 +79,7 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         int amount = 10_000;
 
         // when && then
@@ -93,7 +93,7 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int amount = 10_000;
 
@@ -108,7 +108,7 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().minusMonths(3);
+        LocalDateTime expirationDate = createdDate.minusMonths(3);
         int amount = 10_000;
 
         // when && then
@@ -122,7 +122,7 @@ class VoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().minusMonths(3);
+        LocalDateTime expirationDate = createdDate.minusMonths(3);
         Long minimumPrice = 3_000L;
         int amount = 10_000;
 

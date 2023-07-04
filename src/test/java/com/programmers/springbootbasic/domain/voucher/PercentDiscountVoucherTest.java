@@ -17,7 +17,7 @@ class PercentDiscountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         int percent = 30;
 
         // when
@@ -33,7 +33,7 @@ class PercentDiscountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int percent = 30;
 
@@ -50,7 +50,7 @@ class PercentDiscountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         int percent = 300;
 
         // when && then
@@ -64,7 +64,7 @@ class PercentDiscountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int percent = 300;
 
