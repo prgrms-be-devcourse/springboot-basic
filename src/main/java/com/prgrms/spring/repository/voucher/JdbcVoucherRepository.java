@@ -3,6 +3,8 @@ package com.prgrms.spring.repository.voucher;
 import com.prgrms.spring.domain.voucher.FixedAmountVoucher;
 import com.prgrms.spring.domain.voucher.PercentDiscountVoucher;
 import com.prgrms.spring.domain.voucher.Voucher;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -17,15 +19,12 @@ import java.util.*;
 
 @Repository
 @Primary
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherName = resultSet.getString("voucher_name");
