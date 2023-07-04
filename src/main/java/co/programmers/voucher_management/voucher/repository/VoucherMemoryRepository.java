@@ -2,11 +2,11 @@ package co.programmers.voucher_management.voucher.repository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -14,38 +14,35 @@ import org.springframework.stereotype.Repository;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 
 @Repository
-@Profile("local")
+@Profile({"local", "test"})
 public class VoucherMemoryRepository implements VoucherRepository {
-	private final Map<String, Voucher> repository = new ConcurrentHashMap<>();
-	private final int VOUCHER_ID_RANDOMNESS = 1000;
-
-	private VoucherMemoryRepository() {
-	}
+	private final Map<Integer, Voucher> repository = new ConcurrentHashMap<>();
+	private static final int VOUCHER_ID_RANDOMNESS = 1000;
+	private static final Random random = new Random();
 
 	@Override
-	public void save(Voucher voucher) {
+	public Voucher create(Voucher voucher) {
 		repository.put(assignId(), voucher);
+		return voucher;
 	}
 
 	public List<Voucher> findAll() {
-		List<Voucher> vouchers = new ArrayList<>();
-		for (Map.Entry<String, Voucher> voucher : repository.entrySet()) {
-			vouchers.add(voucher.getValue());
-		}
-		return vouchers;
+		return repository.values()
+				.stream()
+				.filter(v -> v.getStatus() == 'Y')
+				.collect(Collectors.toList());
 	}
 
 	@Override
-	public int getVoucherCount() {
-		return repository.size();
+	public void deleteOf(int id) {
+		repository.get(id)
+				.delete();
 	}
 
-	private String assignId() {
-		Random random = new Random();
+	private int assignId() {
 		random.setSeed(System.currentTimeMillis());
-		String id = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYMMdd"))
-				+ random.nextInt(VOUCHER_ID_RANDOMNESS);
-		return id;
+		return Integer.parseInt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"))
+				+ random.nextInt(VOUCHER_ID_RANDOMNESS));
 	}
 
 }

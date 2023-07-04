@@ -24,20 +24,20 @@ import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 
 @Repository
-@Profile("dev")
+@Profile({"file", "test"})
 public class VoucherFileRepository implements VoucherRepository {
 	private final String filePath;
 	private final Path path;
 	private int voucherCount;
 
-	private VoucherFileRepository(@Value(value = "${file.voucher.path}") String filePath) {
+	VoucherFileRepository(@Value(value = "${file.voucher.path}") String filePath) {
 		this.filePath = filePath;
 		path = Paths.get(filePath);
 		voucherCount = getVoucherCount();
 	}
 
 	@Override
-	public void save(Voucher voucher) {
+	public Voucher create(Voucher voucher) {
 		String id = assignId();
 		String amount = String.valueOf(voucher.getDiscountStrategy().getAmount());
 		String discountType = voucher.getDiscountStrategy().getType();
@@ -48,12 +48,13 @@ public class VoucherFileRepository implements VoucherRepository {
 		} catch (IOException ioException) {
 			throw new RuntimeException("File Writer Failed");
 		}
+		return voucher;
 	}
 
 	private String assignId() {
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis());
-		String id = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYMMdd")) + random.nextInt(1000);
+		String id = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd")) + random.nextInt(1000);
 		return id;
 	}
 
@@ -73,15 +74,33 @@ public class VoucherFileRepository implements VoucherRepository {
 		}
 	}
 
+	@Override
+	public void deleteOf(int id) {
+		List<Voucher> vouchers = findAll();
+		vouchers.stream()
+				.filter(voucher -> voucher.getId() == id)
+				.forEach(Voucher::delete);
+
+		try (CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath, false))) {
+		} catch (IOException ioException) {
+			throw new RuntimeException("File Writer Failed");
+		}
+		for (Voucher voucher : vouchers) {
+			create(voucher);
+		}
+	}
+
 	private Voucher mapToVoucher(String[] oneLine) {
-		String id = oneLine[VoucherProperty.ID.index];
+		int id = Integer.parseInt(oneLine[VoucherProperty.ID.index]);
 		int amount = Integer.parseInt(oneLine[VoucherProperty.AMOUNT.index]);
 		String discountType = oneLine[VoucherProperty.DISCOUNT_TYPE.index];
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, amount);
-		return Voucher.builder().id(id).discountStrategy(discountStrategy).build();
+		return Voucher.builder()
+				.id(id)
+				.discountStrategy(discountStrategy)
+				.build();
 	}
 
-	@Override
 	public int getVoucherCount() {
 		try (Reader reader = Files.newBufferedReader(path); CSVReader csvReader = new CSVReader(reader)) {
 			List<String[]> vouchers = csvReader.readAll();

@@ -6,9 +6,9 @@ import co.programmers.voucher_management.voucher.entity.Voucher;
 
 public interface VoucherRepository {
 
-	void save(Voucher voucher);
+	Voucher create(Voucher voucher);
 
 	List<Voucher> findAll();
 
-	int getVoucherCount();
+	void deleteOf(int id);
 }
