@@ -5,26 +5,28 @@ import com.devcourse.springbootbasic.application.repository.customer.CustomerRep
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class CustomerServiceTest {
 
     @Test
-    @DisplayName("블랙고객 리스트 반환 시 성공")
-    void testGetAllBlackCustomers() {
+    @DisplayName("블랙고객 리스트 반환 시 성공한다.")
+    void GetBlackCustomers_VoidParam_ReturnVoucherList() {
         var customerRepositoryMock = mock(CustomerRepository.class);
-        given(customerRepositoryMock.findAll()).willReturn(
+        given(customerRepositoryMock.findAllBlackCustomers()).willReturn(
                 List.of(
-                        new Customer(0, "사과"),
-                        new Customer(1, "딸기"),
-                        new Customer(2, "포도"),
-                        new Customer(3, "배")
+                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com", LocalDateTime.parse("2023-07-04 12:55:16.649", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))),
+                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.668", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.682", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23 12:42:12.121", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))
                 )
         );
         var sut = new CustomerService(customerRepositoryMock);

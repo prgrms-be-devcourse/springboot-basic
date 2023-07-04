@@ -6,6 +6,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,18 +17,25 @@ class CustomerTest {
 
     static Stream<Arguments> provideCustomers() {
         return Stream.of(
-                Arguments.of(0, "사과", new Customer(0, "사과")),
-                Arguments.of(1, "딸기", new Customer(1, "딸기")),
-                Arguments.of(2, "포도", new Customer(2, "포도")),
-                Arguments.of(3, "배", new Customer(3, "배"))
+                Arguments.of(
+                        UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.649", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
+                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.649", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))),
+                Arguments.of(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.668", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
+                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.668", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))),
+                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.682", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
+                    new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.682", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))),
+                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23 12:42:12.121", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23 12:42:12.121", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))))
         );
     }
 
     @ParameterizedTest
-    @DisplayName("도메인 출력 테스트")
+    @DisplayName("고객 정보가 출력되면 성공한다.")
     @MethodSource("provideCustomers")
-    void toStringTest(int index, String name, Customer customer) {
-        var expected = MessageFormat.format("Customer(id: {0}, name : {1})", index, name);
+    void ToString_Customer_ReturnCustomerString(UUID customerId, String name, String email, LocalDateTime createdAt, Customer customer) {
+        var expected = MessageFormat.format(
+                "Customer(id: {0}, name: {1}, email: {2}, createAt: {3})"
+                , customerId, name, email, createdAt);
         var result = customer.toString();
         assertEquals(expected, result);
     }
