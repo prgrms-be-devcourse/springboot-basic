@@ -2,8 +2,10 @@ classDiagram
 
     %% Controller
     class SpringbootBasicApplication
+    class ConsoleApplication
     class PlatformController
-    SpringbootBasicApplication --> PlatformController
+    SpringbootBasicApplication --> ConsoleApplication
+    ConsoleApplication --> PlatformController
 
     %% IO
     class ConsoleManager
