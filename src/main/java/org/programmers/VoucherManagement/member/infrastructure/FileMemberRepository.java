@@ -12,9 +12,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.programmers.VoucherManagement.global.exception.file.FileExceptionMessage.CAN_NOT_READ_LINE;
-import static org.programmers.VoucherManagement.global.exception.file.FileExceptionMessage.NOT_EXIST_FILE;
-
 @Component
 public class FileMemberRepository implements MemberRepository {
     private final File file;
@@ -36,11 +33,11 @@ public class FileMemberRepository implements MemberRepository {
 
             return MemberConverter.toMembers(lines);
         } catch (FileNotFoundException e) {
-            logger.info(NOT_EXIST_FILE.getMessage());
-            throw new RuntimeException(NOT_EXIST_FILE.getMessage(), e);
+            logger.info(e.getMessage());
+            throw new RuntimeException("해당하는 파일을 찾을 수 없습니다.", e);
         } catch (IOException e) {
-            logger.info(CAN_NOT_READ_LINE.getMessage());
-            throw new RuntimeException(CAN_NOT_READ_LINE.getMessage(), e);
+            logger.info(e.getMessage());
+            throw new RuntimeException("파일을 읽을 수 없습니다.", e);
         }
     }
 }
