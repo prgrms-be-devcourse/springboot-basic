@@ -9,7 +9,8 @@ public enum CustomerCommandType implements CommandType {
     UPDATE("update"),
     DELETE("delete"),
     BLACKLIST("blacklist"),
-    HELP("help");
+    HELP("help"),
+    EXIT("exit");
 
     private final String type;
 

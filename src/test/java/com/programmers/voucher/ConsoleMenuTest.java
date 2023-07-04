@@ -33,146 +33,155 @@ class ConsoleMenuTest {
 
 
     @Test
-    @DisplayName("성공: voucher 명령 입력 - create 명령 입력")
+    @DisplayName("성공: voucher 명령 입력 - create 명령 입력 - exit 명령 입력")
     public void voucherCommandTypeCreate() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
-        given(console.inputVoucherCommandType()).willReturn(VoucherCommandType.CREATE);
+        given(console.inputVoucherCommandType())
+                .willReturn(VoucherCommandType.CREATE, VoucherCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputVoucherCommandType();
+        then(console).should(times(2)).inputVoucherCommandType();
         then(voucherController).should().createVoucher();
     }
 
     @Test
-    @DisplayName("성공: voucher 명령 입력 - list 명령 입력")
+    @DisplayName("성공: voucher 명령 입력 - list 명령 입력 - exit 명령 입력")
     void voucherCommandTypeList() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
-        given(console.inputVoucherCommandType()).willReturn(VoucherCommandType.LIST);
+        given(console.inputVoucherCommandType())
+                .willReturn(VoucherCommandType.LIST, VoucherCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputVoucherCommandType();
+        then(console).should(times(2)).inputVoucherCommandType();
         then(voucherController).should().findVouchers();
     }
 
     @Test
-    @DisplayName("성공: voucher 명령 입력 - help 명령 입력")
+    @DisplayName("성공: voucher 명령 입력 - help 명령 입력 - exit 명령 입력")
     void voucherCommandTypeHelp() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
-        given(console.inputVoucherCommandType()).willReturn(VoucherCommandType.HELP);
+        given(console.inputVoucherCommandType())
+                .willReturn(VoucherCommandType.HELP, VoucherCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputVoucherCommandType();
+        then(console).should(times(2)).inputVoucherCommandType();
         then(console).should(times(2)).printVoucherCommandSet();
     }
 
     @Test
-    @DisplayName("성공: customer 명령 입력 - blacklist 명령 입력")
+    @DisplayName("성공: customer 명령 입력 - blacklist 명령 입력 - exit 명령 입력")
     void customerCommandTypeBlacklist() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
-        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.BLACKLIST);
+        given(console.inputCustomerCommandType())
+                .willReturn(CustomerCommandType.BLACKLIST, CustomerCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputCustomerCommandType();
+        then(console).should(times(2)).inputCustomerCommandType();
         then(customerController).should().findBlacklistCustomers();
     }
 
     @Test
-    @DisplayName("성공: customer 명령 입력 - create 명령 입력")
+    @DisplayName("성공: customer 명령 입력 - create 명령 입력 - exit 명령 입력")
     void customerCommandTypeCreate() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
-        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.CREATE);
+        given(console.inputCustomerCommandType())
+                .willReturn(CustomerCommandType.CREATE, CustomerCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputCustomerCommandType();
+        then(console).should(times(2)).inputCustomerCommandType();
         then(customerController).should().createCustomer();
     }
 
     @Test
-    @DisplayName("성공: customer 명령 입력 - list 명령 입력")
+    @DisplayName("성공: customer 명령 입력 - list 명령 입력 - exit 명령 입력")
     void customerCommandTypeList() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
-        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.LIST);
+        given(console.inputCustomerCommandType())
+                .willReturn(CustomerCommandType.LIST, CustomerCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputCustomerCommandType();
+        then(console).should(times(2)).inputCustomerCommandType();
         then(customerController).should().findCustomers();
     }
 
     @Test
-    @DisplayName("성공: customer 명령 입력 - update 명령 입력")
+    @DisplayName("성공: customer 명령 입력 - update 명령 입력 - exit 명령 입력")
     void customerCommandTypeUpdate() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
-        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.UPDATE);
+        given(console.inputCustomerCommandType())
+                .willReturn(CustomerCommandType.UPDATE, CustomerCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputCustomerCommandType();
+        then(console).should(times(2)).inputCustomerCommandType();
         then(customerController).should().updateCustomer();
     }
 
     @Test
-    @DisplayName("성공: customer 명령 입력 - delete 명령 입력")
+    @DisplayName("성공: customer 명령 입력 - delete 명령 입력 - exit 명령 입력")
     void customerCommandTypeDelete() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
-        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.DELETE);
+        given(console.inputCustomerCommandType())
+                .willReturn(CustomerCommandType.DELETE, CustomerCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputCustomerCommandType();
+        then(console).should(times(2)).inputCustomerCommandType();
         then(customerController).should().deleteCustomer();
     }
 
     @Test
-    @DisplayName("성공: customer 명령 입력 - delete 명령 입력")
+    @DisplayName("성공: customer 명령 입력 - help 명령 입력 - exit 명령 입력")
     void customerCommandTypeHelp() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
-        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.HELP);
+        given(console.inputCustomerCommandType())
+                .willReturn(CustomerCommandType.HELP, CustomerCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().inputCustomerCommandType();
+        then(console).should(times(2)).inputCustomerCommandType();
         then(console).should(times(2)).printCustomerCommandSet();
     }
 
@@ -187,7 +196,7 @@ class ConsoleMenuTest {
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should().printCommandSet();
+        then(console).should(times(2)).printCommandSet();
     }
 
     @Test

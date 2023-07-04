@@ -17,8 +17,6 @@ public class ConsoleRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        console.printCommandSet();
-
         boolean keepRunningClient = true;
         while (keepRunningClient) {
             keepRunningClient = runAndProcessClient();

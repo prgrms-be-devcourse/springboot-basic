@@ -11,7 +11,8 @@ import static com.programmers.voucher.global.util.ConsoleErrorMessages.INVALID_V
 public enum VoucherCommandType implements CommandType {
     CREATE("create"),
     LIST("list"),
-    HELP("help");
+    HELP("help"),
+    EXIT("exit");
 
     private static final Logger LOG = LoggerFactory.getLogger(VoucherCommandType.class);
 

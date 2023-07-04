@@ -21,16 +21,15 @@ public class ConsoleMenu {
     }
 
     public boolean runClient() {
-        ConsoleCommandType commandType = console.inputInitialCommand();
+        console.printCommandSet();
 
+        ConsoleCommandType commandType = console.inputInitialCommand();
         switch (commandType) {
             case CUSTOMER -> {
-                console.printCustomerCommandSet();
-                customerMapping();
+                runningCustomerService();
             }
             case VOUCHER -> {
-                console.printVoucherCommandSet();
-                voucherMapping();
+                runningVoucherService();
             }
             case HELP -> {
                 console.printCommandSet();
@@ -45,23 +44,16 @@ public class ConsoleMenu {
         return true;
     }
 
-    private void voucherMapping() {
-        VoucherCommandType voucherCommandType = console.inputVoucherCommandType();
+    private void runningCustomerService() {
+        console.printCustomerCommandSet();
 
-        switch (voucherCommandType) {
-            case CREATE -> {
-                voucherController.createVoucher();
-            }
-            case LIST -> {
-                voucherController.findVouchers();
-            }
-            case HELP -> {
-                console.printVoucherCommandSet();
-            }
+        boolean run = true;
+        while(run) {
+            run = customerMapping();
         }
     }
 
-    private void customerMapping() {
+    private boolean customerMapping() {
         CustomerCommandType customerCommandType = console.inputCustomerCommandType();
 
         switch (customerCommandType) {
@@ -83,6 +75,39 @@ public class ConsoleMenu {
             case HELP -> {
                 console.printCustomerCommandSet();
             }
+            case EXIT -> {
+                return false;
+            }
         }
+        return true;
+    }
+
+    private void runningVoucherService() {
+        console.printVoucherCommandSet();
+
+        boolean run = true;
+        while(run) {
+            run = voucherMapping();
+        }
+    }
+
+    private boolean voucherMapping() {
+        VoucherCommandType voucherCommandType = console.inputVoucherCommandType();
+
+        switch (voucherCommandType) {
+            case CREATE -> {
+                voucherController.createVoucher();
+            }
+            case LIST -> {
+                voucherController.findVouchers();
+            }
+            case HELP -> {
+                console.printVoucherCommandSet();
+            }
+            case EXIT -> {
+                return false;
+            }
+        }
+        return true;
     }
 }

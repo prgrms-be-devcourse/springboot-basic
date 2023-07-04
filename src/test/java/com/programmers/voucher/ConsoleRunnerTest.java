@@ -37,7 +37,6 @@ class ConsoleRunnerTest {
         consoleRunner.run();
 
         //then
-        then(console).should().printCommandSet();
         then(consoleMenu).should(times(2)).runClient();
         then(console).should().print("Error message");
     }
@@ -52,7 +51,6 @@ class ConsoleRunnerTest {
         consoleRunner.run();
 
         //then
-        then(console).should().printCommandSet();
         then(consoleMenu).should().runClient();
         then(console).should().print("Error message");
     }

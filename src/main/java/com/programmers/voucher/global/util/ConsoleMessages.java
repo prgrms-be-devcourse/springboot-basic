@@ -8,6 +8,7 @@ public final class ConsoleMessages {
     public static final String HELP_BEHAVIOR = "to list command set.";
     public static final String CUSTOMER_BEHAVIOR = "to execute customer service.";
     public static final String VOUCHER_BEHAVIOR = "to execute voucher service.";
+    public static final String EXIT_SERVICE_BEHAVIOR = "to move top menu.";
 
     public static final String CUSTOMER_SERVICE = "==== Customer Service ====";
     public static final String CUSTOMER_CREATE_BEHAVIOR = "to create new customer.";
