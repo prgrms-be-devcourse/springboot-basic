@@ -12,14 +12,12 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.*;
 
-@Repository
-@Profile(value = "csv")
 public class CsvVoucherStream implements VoucherStream {
     @Value("${filepath.voucher}")
     private String sampleCsvFilePath;
     @Value("${name.voucher.fixed-amount-voucher}")
     private String fixedAmountVoucher;
-    @Value("${name.voucher.percent-discount-voucher")
+    @Value("${name.voucher.percent-discount-voucher}")
     private String percentDiscountVoucher;
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 

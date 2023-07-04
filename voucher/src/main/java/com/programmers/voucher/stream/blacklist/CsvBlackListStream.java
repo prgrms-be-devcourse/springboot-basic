@@ -17,7 +17,7 @@ import java.util.List;
 public class CsvBlackListStream implements BlackListStream {
     ResourceLoader resourceLoader = new DefaultResourceLoader();
     @Value("${filepath.blacklist}")
-    private String SAMPLE_CSV_FILE_PATH;
+    private String SAMPLE_CSV_FILE_PATH = "classpath:/customer_blacklist.csv";
     BufferedReader br;
 
     @Override

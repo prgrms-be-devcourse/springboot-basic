@@ -4,16 +4,12 @@ import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
 import com.programmers.voucher.stream.voucher.JdbcVoucherStream;
-import org.junit.jupiter.api.BeforeEach;
+import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.Map;
@@ -21,39 +17,14 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringJUnitConfig
+@SpringBootTest
+@Transactional
 class JdbcVoucherStreamTest {
-
-    @Configuration
-    static class Config {
-        @Bean
-        DataSource dataSource() {
-            return new EmbeddedDatabaseBuilder()
-                    .setType(EmbeddedDatabaseType.H2)
-                    .addScript("classpath:schema.sql")
-                    .build();
-        }
-
-        @Bean
-        JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-        @Bean
-        JdbcVoucherStream jdbcVoucherStream(DataSource dataSource) {
-            return new JdbcVoucherStream(dataSource);
-        }
-    }
 
     @Autowired
     DataSource dataSource;
     @Autowired
-    JdbcVoucherStream voucherStream;
-
-    @BeforeEach
-    void initialization() {
-        voucherStream = new JdbcVoucherStream(dataSource);
-        voucherStream.deleteAll();
-    }
+    VoucherStream voucherStream;
 
     @Test
     @DisplayName("바우처를 저장하면 db에 저장되어야 함.")
@@ -96,7 +67,7 @@ class JdbcVoucherStreamTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 10000);
         voucherStream.save(fixedAmountVoucher);
         // when
-        Voucher findVoucher = voucherStream.findById(voucherId);
+        Voucher findVoucher = ((JdbcVoucherStream)voucherStream).findById(voucherId);
         // then
         assertThat(findVoucher.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
     }
@@ -110,7 +81,7 @@ class JdbcVoucherStreamTest {
         voucherStream.save(fixedAmountVoucher);
         // when
         fixedAmountVoucher.setAmount(20000);
-        voucherStream.update(fixedAmountVoucher);
+        ((JdbcVoucherStream)voucherStream).update(fixedAmountVoucher);
         // then
         Map<String, Voucher> voucherMap = voucherStream.findAll();
         Voucher findVoucher = voucherMap.get(fixedAmountVoucher.getVoucherId());
@@ -128,7 +99,7 @@ class JdbcVoucherStreamTest {
         voucherStream.save(fixedAmountVoucher);
         assertThat(voucherStream.findAll().size()).isEqualTo(1);
         // when
-        voucherStream.deleteAll();
+        ((JdbcVoucherStream)voucherStream).deleteAll();
 
         // then
         assertThat(voucherStream.findAll().size()).isEqualTo(0);
