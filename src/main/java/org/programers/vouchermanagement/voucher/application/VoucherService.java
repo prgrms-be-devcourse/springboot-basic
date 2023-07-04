@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Profile({"test", "default"})
 @Transactional(readOnly = true)
 @Service
 public class VoucherService {

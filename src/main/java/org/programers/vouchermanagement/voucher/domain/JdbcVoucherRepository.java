@@ -11,8 +11,6 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-@Profile({"test", "default"})
 @Primary
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {

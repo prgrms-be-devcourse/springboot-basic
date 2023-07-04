@@ -9,6 +9,7 @@ import org.programers.vouchermanagement.wallet.domain.WalletRepository;
 import org.programers.vouchermanagement.wallet.dto.request.WalletCreationRequest;
 import org.programers.vouchermanagement.wallet.dto.response.WalletResponse;
 import org.programers.vouchermanagement.wallet.dto.response.WalletsResponse;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
