@@ -1,12 +1,14 @@
 package com.prgrms.spring.repository.voucher;
 
 import com.prgrms.spring.domain.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -23,7 +25,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Map<UUID, Voucher> findAll() {
-        return new ConcurrentHashMap<>(storage);
+    public List<Voucher> findAll() {
+//        return new ConcurrentHashMap<>(storage);
+        return null;
     }
 }

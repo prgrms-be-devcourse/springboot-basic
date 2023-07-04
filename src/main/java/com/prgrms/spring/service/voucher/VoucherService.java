@@ -7,6 +7,7 @@ import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.repository.voucher.VoucherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -16,6 +17,7 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
+    @Transactional
     public Voucher createVoucher(VoucherType type, Long discount) {
         Voucher voucher = null;
         if (type == VoucherType.FIXED_AMOUNT) {
@@ -27,8 +29,8 @@ public class VoucherService {
         return voucher;
     }
 
+    @Transactional
     public Collection<Voucher> getAllVoucher() {
-        Map<UUID, Voucher> vouchers = voucherRepository.findAll();
-        return vouchers.values();
+        return voucherRepository.findAll();
     }
 }
