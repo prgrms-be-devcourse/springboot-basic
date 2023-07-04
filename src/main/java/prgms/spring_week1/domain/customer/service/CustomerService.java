@@ -14,7 +14,7 @@ public class CustomerService {
         this.blackListRepository = blackListRepository;
     }
 
-    public List<BlackConsumer> blackConsumerList() {
+    public List<BlackConsumer> getBlackConsumerList() {
         return blackListRepository.getBlackConsumerList();
     }
 }
