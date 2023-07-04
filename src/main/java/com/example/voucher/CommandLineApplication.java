@@ -84,12 +84,12 @@ public class CommandLineApplication implements CommandLineRunner {
 
     public Voucher processVoucherType(VoucherType voucherType) {
         Voucher voucher = switch (voucherType) {
-            case FixedAmountDiscount -> {
+            case FIXED_AMOUNT_DISCOUNT -> {
                 Console.printDiscountAmount();
                 long discountAmount = Console.readDiscount();
                 yield voucherService.createVoucher(voucherType, discountAmount);
             }
-            case PercentDiscount -> {
+            case PERCNET_DISCOUNT -> {
                 Console.printDiscountPercent();
                 long discountPercent = Console.readDiscount();
                 yield voucherService.createVoucher(voucherType, discountPercent);

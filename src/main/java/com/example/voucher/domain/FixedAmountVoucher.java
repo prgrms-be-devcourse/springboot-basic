@@ -7,7 +7,7 @@ import com.example.voucher.utils.validator.VoucherValidator;
 
 public class FixedAmountVoucher implements Voucher {
 
-    VoucherType voucherType = VoucherType.FixedAmountDiscount;
+    VoucherType voucherType = VoucherType.FIXED_AMOUNT_DISCOUNT;
 
     private final UUID voucherId;
     private final long amount;

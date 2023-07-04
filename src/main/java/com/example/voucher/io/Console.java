@@ -35,10 +35,10 @@ public class Console {
         VoucherType voucherType = voucherDTO.voucherType();
 
         switch (voucherType) {
-            case FixedAmountDiscount -> System.out.println(
+            case FIXED_AMOUNT_DISCOUNT -> System.out.println(
                 String.format(ConstantStrings.FORMAT_PRINT_FIXED_AMOUNT_VOUCHER_INFO, voucherDTO.voucherType(),
                     voucherDTO.value()));
-            case PercentDiscount -> System.out.println(
+            case PERCNET_DISCOUNT -> System.out.println(
                 String.format(ConstantStrings.FORMAT_PRINT_PERCENT_VOUCHER_INFO, voucherDTO.voucherType(),
                     voucherDTO.value()));
         }

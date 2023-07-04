@@ -5,8 +5,8 @@ import java.util.NoSuchElementException;
 
 public enum VoucherType {
 
-    FixedAmountDiscount(1),
-    PercentDiscount(2);
+    FIXED_AMOUNT_DISCOUNT(1),
+    PERCNET_DISCOUNT(2);
 
     private final Integer inputNum;
 
@@ -19,6 +19,7 @@ public enum VoucherType {
     }
 
     public static VoucherType getVouchersType(Integer readVoucherType) {
+        VoucherType.valueOf()
         return Arrays.stream(VoucherType.values())
             .filter(e -> readVoucherType == e.getInputNum())
             .findAny()
