@@ -43,6 +43,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query(sql, voucherRowMapper());
     }
 
+    @Override
     public Optional<Voucher> findById(UUID id) {
         String sql = "select * from vouchers where id = ?";
 
@@ -50,11 +51,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
             Voucher voucher = jdbcTemplate.queryForObject(sql, voucherRowMapper(), id.toString());
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
-            //return Optional.empty();
             throw new IllegalArgumentException("바우처가 존재하지 않습니다.");
         }
     }
 
+    @Override
     public Voucher update(Voucher voucher) {
         String sql = "update vouchers set name = ?, value = ? where id = ?";
 
@@ -66,12 +67,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Override
     public void deleteById(UUID id) {
         String sql = "delete from vouchers where id = ?";
 
         jdbcTemplate.update(sql, id.toString());
     }
 
+    @Override
     public void deleteAll() {
         String sql = "delete from vouchers";
 

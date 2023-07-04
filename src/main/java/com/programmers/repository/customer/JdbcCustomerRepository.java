@@ -50,7 +50,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
             Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), id.toString());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-//            return Optional.empty();
             throw new IllegalArgumentException("회원이 존재하지 않습니다.");
         }
     }
