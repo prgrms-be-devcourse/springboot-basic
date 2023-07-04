@@ -32,7 +32,7 @@ public class MemberService {
     }
 
     public List<MemberResDTO.READ> getMembersByBlack() {
-        final List<Member> members = memberRepository.findMembersByBlack();
+        final List<Member> members = memberRepository.findAllByBlack();
 
         return members.stream()
                 .map(MemberResDTO.READ::toMemberReadDto)
