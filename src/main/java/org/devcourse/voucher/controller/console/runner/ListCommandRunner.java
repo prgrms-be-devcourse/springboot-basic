@@ -26,7 +26,7 @@ public class ListCommandRunner implements CommandRunner {
     private Response postProcessResponse(List<VoucherInfoResponse> responses) {
         StringBuilder result = new StringBuilder();
         for (VoucherInfoResponse response : responses) {
-            int id = response.id();
+            long id = response.id();
             String type = response.voucherType();
             int amount = response.amount();
 

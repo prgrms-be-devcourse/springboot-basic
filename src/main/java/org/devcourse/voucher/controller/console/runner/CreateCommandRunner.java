@@ -35,7 +35,7 @@ public class CreateCommandRunner implements CommandRunner {
     }
 
     private Response postProcessResponse(VoucherInfoResponse response) {
-        int id = response.id();
+        long id = response.id();
         String type = response.voucherType();
         int amount = response.amount();
 
