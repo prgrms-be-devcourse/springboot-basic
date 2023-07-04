@@ -65,6 +65,22 @@ class ConsoleMenuTest {
     }
 
     @Test
+    @DisplayName("성공: voucher 명령 입력 - help 명령 입력")
+    void voucherCommandTypeHelp() {
+        //given
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
+        given(console.inputVoucherCommandType()).willReturn(VoucherCommandType.HELP);
+
+        //when
+        consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(console).should().inputVoucherCommandType();
+        then(console).should(times(2)).printVoucherCommandSet();
+    }
+
+    @Test
     @DisplayName("성공: customer 명령 입력 - blacklist 명령 입력")
     void customerCommandTypeBlacklist() {
         //given
@@ -142,6 +158,22 @@ class ConsoleMenuTest {
         then(console).should().inputInitialCommand();
         then(console).should().inputCustomerCommandType();
         then(customerController).should().deleteCustomer();
+    }
+
+    @Test
+    @DisplayName("성공: customer 명령 입력 - delete 명령 입력")
+    void customerCommandTypeHelp() {
+        //given
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
+        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.HELP);
+
+        //when
+        consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(console).should().inputCustomerCommandType();
+        then(console).should(times(2)).printCustomerCommandSet();
     }
 
     @Test

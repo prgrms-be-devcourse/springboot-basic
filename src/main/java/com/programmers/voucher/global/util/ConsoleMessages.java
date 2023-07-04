@@ -9,9 +9,16 @@ public final class ConsoleMessages {
     public static final String CUSTOMER_BEHAVIOR = "to execute customer service.";
     public static final String VOUCHER_BEHAVIOR = "to execute voucher service.";
 
+    public static final String CUSTOMER_SERVICE = "==== Customer Service ====";
+    public static final String CUSTOMER_CREATE_BEHAVIOR = "to create new customer.";
+    public static final String CUSTOMER_LIST_BEHAVIOR = "to list customers.";
+    public static final String CUSTOMER_UPDATE_BEHAVIOR = "to update customer.";
+    public static final String CUSTOMER_DELETE_BEHAVIOR = "to delete customer.";
+    public static final String CUSTOMER_BLACKLIST_BEHAVIOR = "to list blacklist.";
+
+    public static final String VOUCHER_SERVICE = "==== Voucher Service ====";
     public static final String VOUCHER_CREATE_BEHAVIOR = "to create a new voucher.";
     public static final String VOUCHER_LIST_BEHAVIOR = "to list all vouchers.";
-    public static final String BLACKLIST_BEHAVIOR = "to list blacklist.";
 
     public static final String VOUCHER_TYPES = "[fixed | percent]";
     public static final String AMOUNT = "[amount]";

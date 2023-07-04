@@ -25,9 +25,11 @@ public class ConsoleMenu {
 
         switch (commandType) {
             case CUSTOMER -> {
+                console.printCustomerCommandSet();
                 customerMapping();
             }
             case VOUCHER -> {
+                console.printVoucherCommandSet();
                 voucherMapping();
             }
             case HELP -> {
@@ -43,7 +45,7 @@ public class ConsoleMenu {
         return true;
     }
 
-    public void voucherMapping() {
+    private void voucherMapping() {
         VoucherCommandType voucherCommandType = console.inputVoucherCommandType();
 
         switch (voucherCommandType) {
@@ -53,10 +55,13 @@ public class ConsoleMenu {
             case LIST -> {
                 voucherController.findVouchers();
             }
+            case HELP -> {
+                console.printVoucherCommandSet();
+            }
         }
     }
 
-    public void customerMapping() {
+    private void customerMapping() {
         CustomerCommandType customerCommandType = console.inputCustomerCommandType();
 
         switch (customerCommandType) {
@@ -74,6 +79,9 @@ public class ConsoleMenu {
             }
             case BLACKLIST -> {
                 customerController.findBlacklistCustomers();
+            }
+            case HELP -> {
+                console.printCustomerCommandSet();
             }
         }
     }

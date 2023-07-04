@@ -5,6 +5,8 @@ import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.global.io.ConsoleOutput;
 import com.programmers.voucher.global.io.command.CommandType;
 import com.programmers.voucher.global.io.command.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.CustomerCommandType;
+import com.programmers.voucher.global.io.command.VoucherCommandType;
 import com.programmers.voucher.global.util.ConsoleMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
@@ -35,10 +37,23 @@ public class TextIoOutput implements ConsoleOutput {
 
     @Override
     public void printCustomerCommandSet() {
+        TextTerminal<?> textTerminal = textIO.getTextTerminal();
+
+        textTerminal.println(CUSTOMER_SERVICE);
+        printCommand(CustomerCommandType.CREATE, CUSTOMER_CREATE_BEHAVIOR);
+        printCommand(CustomerCommandType.LIST, CUSTOMER_LIST_BEHAVIOR);
+        printCommand(CustomerCommandType.UPDATE, CUSTOMER_UPDATE_BEHAVIOR);
+        printCommand(CustomerCommandType.DELETE, CUSTOMER_DELETE_BEHAVIOR);
+        printCommand(CustomerCommandType.BLACKLIST, CUSTOMER_BLACKLIST_BEHAVIOR);
     }
 
     @Override
     public void printVoucherCommandSet() {
+        TextTerminal<?> textTerminal = textIO.getTextTerminal();
+
+        textTerminal.println(VOUCHER_SERVICE);
+        printCommand(VoucherCommandType.CREATE, VOUCHER_CREATE_BEHAVIOR);
+        printCommand(VoucherCommandType.LIST, VOUCHER_LIST_BEHAVIOR);
     }
 
     private void printCommand(CommandType commandType, String behavior) {
