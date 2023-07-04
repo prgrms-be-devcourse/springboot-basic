@@ -5,11 +5,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PercentDiscountVoucherTest {
+class PercentVoucherPolicyTest {
 
 
     @ParameterizedTest
@@ -17,10 +16,10 @@ class PercentDiscountVoucherTest {
     @DisplayName("비율 값 할인")
     void percentDiscount(BigDecimal percent, BigDecimal result) {
         // given
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent, VoucherType.PERCENT_VOUCHER);
+        PercentVoucherPolicy percentVoucherPolicy = new PercentVoucherPolicy(percent);
 
         // when
-        BigDecimal actualDiscount = percentDiscountVoucher.discount(BigDecimal.valueOf(10000L));
+        BigDecimal actualDiscount = percentVoucherPolicy.discount(BigDecimal.valueOf(10000L));
 
         // then
         assertThat(actualDiscount).isEqualTo(result);

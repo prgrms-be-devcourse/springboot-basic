@@ -24,8 +24,8 @@ class VoucherReaderTest {
     @DisplayName("voucher 목록 출력")
     void findVoucherListTest() {
         // given
-        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000), VoucherType.FIXED_VOUCHER);
-        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT_VOUCHER);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), new FixedVoucherPolicy(BigDecimal.valueOf(2500)), VoucherType.FIXED_VOUCHER);
+        Voucher percentVoucher = new Voucher(UUID.randomUUID(), new PercentVoucherPolicy(BigDecimal.valueOf(50)), VoucherType.PERCENT_VOUCHER);
         voucherStorage.save(fixedVoucher);
         voucherStorage.save(percentVoucher);
 
@@ -40,7 +40,7 @@ class VoucherReaderTest {
     @DisplayName("VoucherId를 사용하여 1개만 출력")
     void findByVoucherIdTest() {
         // given
-        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000), VoucherType.FIXED_VOUCHER);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), new FixedVoucherPolicy(BigDecimal.valueOf(2500)), VoucherType.FIXED_VOUCHER);
 
         // when
         voucherStorage.save(fixedVoucher);
@@ -58,6 +58,6 @@ class VoucherReaderTest {
 
         // when, then
         Assertions.assertThatThrownBy(() -> voucherReader.readOne(uuid))
-                .hasMessageContaining("Voucher Id + " + uuid + " does not exist");
+            .hasMessageContaining("Voucher Id + " + uuid + " does not exist");
     }
 }

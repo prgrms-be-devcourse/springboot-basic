@@ -1,19 +1,14 @@
 package com.prgms.VoucherApp.domain.voucher;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedVoucherPolicy implements VoucherPolicy {
 
     private static final Long DISCOUNT_AMOUNT_MIN_VALUE = 0L;
-    private final UUID voucherId;
     private final BigDecimal fixedAmount;
-    private final VoucherType voucherType;
 
-    public FixedAmountVoucher(UUID voucherId, BigDecimal fixedAmount, VoucherType voucherType) {
-        this.voucherId = voucherId;
+    public FixedVoucherPolicy(BigDecimal fixedAmount) {
         this.fixedAmount = fixedAmount;
-        this.voucherType = voucherType;
     }
 
     @Override
@@ -27,21 +22,11 @@ public class FixedAmountVoucher implements Voucher {
 
     private boolean isResultNegative(BigDecimal beforeAmount) {
         return beforeAmount.subtract(fixedAmount)
-                .compareTo(BigDecimal.ZERO) < DISCOUNT_AMOUNT_MIN_VALUE;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return this.voucherId;
+            .compareTo(BigDecimal.ZERO) < DISCOUNT_AMOUNT_MIN_VALUE;
     }
 
     @Override
     public BigDecimal getDiscountAmount() {
-        return this.fixedAmount;
-    }
-
-    @Override
-    public VoucherType getVoucherType() {
-        return voucherType;
+        return fixedAmount;
     }
 }

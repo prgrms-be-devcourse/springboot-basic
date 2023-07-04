@@ -9,37 +9,37 @@ import java.util.UUID;
 public class VoucherDto {
 
     private final UUID voucherId;
-    private final BigDecimal discountAmount;
     private final VoucherType voucherType;
+    private final BigDecimal discountAmount;
 
-    public VoucherDto(String voucherId, String discountAmount, String voucherTypeName) {
-        this.voucherId = UUID.fromString(voucherId);
-        this.discountAmount = BigDecimal.valueOf(Double.parseDouble(discountAmount));
-        this.voucherType = VoucherType.findByVoucherTypeName(voucherTypeName);
+    public VoucherDto(UUID voucherId, VoucherType voucherType, BigDecimal discountAmount) {
+        this.voucherId = voucherId;
+        this.voucherType = voucherType;
+        this.discountAmount = discountAmount;
     }
 
     public VoucherDto(Voucher voucher) {
         this.voucherId = voucher.getVoucherId();
-        this.discountAmount = voucher.getDiscountAmount();
         this.voucherType = voucher.getVoucherType();
+        this.discountAmount = voucher.getVoucherPolicy().getDiscountAmount();
     }
 
     public UUID getVoucherId() {
-        return this.voucherId;
+        return voucherId;
     }
 
     public BigDecimal getDiscountAmount() {
-        return this.discountAmount;
+        return discountAmount;
     }
 
     public VoucherType getVoucherType() {
-        return this.voucherType;
+        return voucherType;
     }
 
     public String getVoucherInfo() {
-        String voucherInfo = switch (this.voucherType) {
-            case FIXED_VOUCHER -> "Fixed Voucher, Discount Amount: " + this.discountAmount;
-            case PERCENT_VOUCHER -> "Percent Voucher, Discount percent Amount: " + this.discountAmount;
+        String voucherInfo = switch (voucherType) {
+            case FIXED_VOUCHER -> "Fixed Voucher, Discount Amount: " + discountAmount;
+            case PERCENT_VOUCHER -> "Percent Voucher, Discount percent Amount: " + discountAmount;
         };
 
         return voucherInfo;
