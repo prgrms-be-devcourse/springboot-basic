@@ -31,7 +31,7 @@ public class ConsoleRunner implements CommandLineRunner {
         } catch (IllegalArgumentException ex) {
             console.print(ex.getMessage());
 
-        }  catch (RuntimeException ex) {
+        } catch (RuntimeException ex) {
             console.print(ex.getMessage());
 
             keepRunningClient = false;

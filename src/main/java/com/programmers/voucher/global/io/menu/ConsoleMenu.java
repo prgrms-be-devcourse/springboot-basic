@@ -48,7 +48,7 @@ public class ConsoleMenu {
         console.printCustomerCommandSet();
 
         boolean run = true;
-        while(run) {
+        while (run) {
             run = customerMapping();
         }
     }
@@ -86,7 +86,7 @@ public class ConsoleMenu {
         console.printVoucherCommandSet();
 
         boolean run = true;
-        while(run) {
+        while (run) {
             run = voucherMapping();
         }
     }

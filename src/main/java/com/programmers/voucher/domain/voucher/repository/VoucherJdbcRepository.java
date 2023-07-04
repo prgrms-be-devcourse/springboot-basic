@@ -45,7 +45,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         int saved = template.update(sql, param);
 
-        if(saved != 1) {
+        if (saved != 1) {
             DataAccessException exception
                     = new IncorrectResultSizeDataAccessException(INCORRECT_UPDATED_RESULT_SIZE, 1, saved);
             LOG.error(exception.getMessage(), exception);

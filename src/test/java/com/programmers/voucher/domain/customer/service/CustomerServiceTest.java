@@ -43,14 +43,14 @@ class CustomerServiceTest {
         then(customerRepository).should().findByEmail(any());
         then(customerRepository).should().save(any());
     }
-    
+
     @Test
     @DisplayName("예외: Customer 단건 저장 - 중복된 이메일")
     void save_ButDuplicateEmail_Then_Exception() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
         given(customerRepository.findByEmail(any())).willReturn(Optional.of(customer));
-        
+
         //when
         //then
         assertThatThrownBy(() -> customerService.createCustomer("customer@gmailc.om", "customer"))

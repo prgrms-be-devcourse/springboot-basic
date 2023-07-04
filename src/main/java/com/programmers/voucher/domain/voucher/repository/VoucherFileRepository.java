@@ -81,7 +81,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        try(
+        try (
                 BufferedWriter bw = new BufferedWriter(new FileWriter(file))
         ) {
             bw.write("");
