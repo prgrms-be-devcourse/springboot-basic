@@ -1,24 +1,25 @@
 package com.programmers.springweekly.service.voucher;
 
-import static java.util.Map.entry;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.repository.voucher.VoucherRepository;
 import com.programmers.springweekly.service.VoucherService;
-import java.util.Map;
-import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Map;
+import java.util.UUID;
+
+import static java.util.Map.entry;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class VoucherServiceTest {
@@ -50,7 +51,7 @@ public class VoucherServiceTest {
                 .hasSize(2)
                 .contains(entry(voucher1.getVoucherId(), voucher1), entry(voucher2.getVoucherId(), voucher2));
 
-        verify(voucherRepository, times(1)).getList();
+        then(voucherRepository).should(times(1)).getList();
     }
 
     /*
