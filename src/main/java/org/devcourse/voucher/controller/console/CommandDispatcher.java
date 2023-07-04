@@ -1,5 +1,7 @@
 package org.devcourse.voucher.controller.console;
 
+import org.devcourse.voucher.controller.console.dto.Response;
+import org.devcourse.voucher.controller.console.dto.Status;
 import org.devcourse.voucher.controller.console.runner.CommandRunner;
 import org.devcourse.voucher.view.Input;
 import org.devcourse.voucher.view.Output;
@@ -12,33 +14,30 @@ public class CommandDispatcher implements CommandLineRunner {
 
     private final Input input;
     private final Output output;
-    private final List<CommandRunner> runners;
+    private final Map<Command, CommandRunner> runners;
 
-    public CommandDispatcher(Input input, Output output, List<CommandRunner> runners) {
+    public CommandDispatcher(Input input, Output output, Map<Command, CommandRunner> runners) {
         this.input = input;
         this.output = output;
         this.runners = runners;
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        String commandName = input.getUserInput();
-        Command findCommand = Command.find(commandName);
+    public void run(String... args) {
+        Status status = Status.RUNNING;
+        while (status != Status.FINISH) {
+            String commandName = input.getUserInput();
+            Command findCommand = Command.find(commandName);
 
             Response response = executeCommand(findCommand);
             status = response.status();
             String message = response.message();
 
-        output.printMessage(message);
+            output.printMessage(message);
+        }
     }
 
-    private String executeCommand(Command findCommand) {
-        for (CommandRunner runner : runners) {
-            if (runner.isSupport(findCommand)) {
-                return runner.run();
-            }
-        }
-
-        throw new RuntimeException("명령어를 실행 가능한 러너가 없습니다");
+    private Response executeCommand(Command findCommand) {
+        return runners.get(findCommand).run();
     }
 }
