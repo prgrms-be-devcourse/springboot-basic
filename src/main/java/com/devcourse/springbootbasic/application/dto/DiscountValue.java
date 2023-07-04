@@ -3,6 +3,8 @@ package com.devcourse.springbootbasic.application.dto;
 import com.devcourse.springbootbasic.application.constant.ErrorMessage;
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 
+import java.util.Objects;
+
 public class DiscountValue {
 
     private final double discountValue;
@@ -20,7 +22,7 @@ public class DiscountValue {
     }
 
     private void validatePercent(VoucherType voucherType) {
-        if (voucherType.equals(VoucherType.PERCENT_DISCOUNT) && discountValue > 100) {
+        if (Objects.equals(voucherType, VoucherType.PERCENT_DISCOUNT) && discountValue > 100) {
             throw new InvalidDataException(ErrorMessage.INVALID_DISCOUNT_VALUE.getMessageText());
         }
     }

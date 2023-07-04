@@ -20,7 +20,7 @@ public enum VoucherType {
 
     public static VoucherType getVoucherType(String voucherTypeString) {
         return Arrays.stream(VoucherType.values())
-                .filter(vt -> vt.typeOrdinal.equals(voucherTypeString) || Objects.equals(vt.typeString, voucherTypeString) || vt.name().equals(voucherTypeString))
+                .filter(voucherType -> Objects.equals(voucherType.typeOrdinal, voucherTypeString) || Objects.equals(voucherType.typeString, voucherTypeString) || voucherType.name().equals(voucherTypeString))
                 .findAny()
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_VOUCHER_TYPE.getMessageText()));
     }

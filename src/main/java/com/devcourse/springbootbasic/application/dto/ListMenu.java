@@ -4,6 +4,7 @@ import com.devcourse.springbootbasic.application.constant.ErrorMessage;
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum ListMenu {
     VOUCHER_LIST("1", "Created Vouchers List"),
@@ -19,7 +20,7 @@ public enum ListMenu {
 
     public static ListMenu getListMenu(String input) {
         return Arrays.stream(ListMenu.values())
-                .filter(l -> l.listMenuOrdinal.equals(input))
+                .filter(list -> Objects.equals(list.listMenuOrdinal, input))
                 .findAny()
                 .orElseThrow(() -> {
                     return new InvalidDataException(ErrorMessage.INVALID_LIST_MENU.getMessageText());

@@ -4,6 +4,7 @@ import com.devcourse.springbootbasic.application.constant.ErrorMessage;
 import com.devcourse.springbootbasic.application.exception.InvalidDataException;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum Menu {
     EXIT("0", "exit", "to exit the program."),
@@ -22,7 +23,7 @@ public enum Menu {
 
     public static Menu getMenu(String menuString) {
         return Arrays.stream(Menu.values())
-                .filter(m -> m.menuCommand.equals(menuString) || m.menuOrdinal.equals(menuString))
+                .filter(menu -> Objects.equals(menu.menuCommand, menuString) || Objects.equals(menu.menuOrdinal, menuString))
                 .findAny()
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_MENU.getMessageText()));
     }
