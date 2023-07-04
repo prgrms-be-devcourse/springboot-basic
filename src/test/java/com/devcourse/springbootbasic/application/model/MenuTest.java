@@ -11,16 +11,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class MenuTest {
 
     @ParameterizedTest
-    @DisplayName("올바른 메뉴 입력하면 성공")
+    @DisplayName("올바른 메뉴 입력하면 성공한다.")
     @ValueSource(strings = {"1", "2", "0", "exit", "list", "create"})
-    void menuTest(String input) {
+    void getMenu_ParamMenuString_ReturnMenu(String input) {
         assertDoesNotThrow(() -> Menu.getMenu(input));
     }
 
     @ParameterizedTest
-    @DisplayName("부적절한 메뉴 입력하면 실패")
+    @DisplayName("부적절한 메뉴 입력하면 실패한다.")
     @ValueSource(strings = {"13", "14", "가나다", "absd", "a", "ㄱ", "?"})
-    void menuExceptionTest(String input) {
+    void getMenu_ParamWrongMenuString_Exception(String input) {
         assertThrows(InvalidDataException.class, () -> Menu.getMenu(input));
     }
 

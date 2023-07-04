@@ -22,13 +22,6 @@ class MemoryVoucherRepositoryTest {
 
     MemoryVoucherRepository voucherRepository;
 
-    static Stream<Arguments> provideVouchers() {
-        return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"))),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2")))
-        );
-    }
-
     @BeforeAll
     void init() {
         voucherRepository = new MemoryVoucherRepository();
@@ -36,9 +29,9 @@ class MemoryVoucherRepositoryTest {
 
     @Order(1)
     @ParameterizedTest
-    @DisplayName("바우처 생성 시 바우처맵에 추가되면 성공")
+    @DisplayName("바우처 생성 시 바우처맵에 추가되면 성공한다.")
     @MethodSource("provideVouchers")
-    void insert(Voucher voucher) {
+    void insert_ParamVoucher_InsertAndReturnVoucher(Voucher voucher) {
         var result = voucherRepository.insert(voucher);
         assertThat(result, notNullValue());
         assertThat(result, instanceOf(Voucher.class));
@@ -46,11 +39,18 @@ class MemoryVoucherRepositoryTest {
 
     @Order(2)
     @Test
-    @DisplayName("바우처 리스트 반환 시 성공")
-    void findAll() {
-        var result = voucherRepository.findAll();
+    @DisplayName("바우처 리스트 반환 시 성공한다.")
+    void findAllVouchers_ParamVoucher_ReturnVoucherList() {
+        var result = voucherRepository.findAllVouchers();
         assertThat(result, notNullValue());
         assertThat(result.size(), is(greaterThan(0)));
+    }
+
+    static Stream<Arguments> provideVouchers() {
+        return Stream.of(
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"))),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2")))
+        );
     }
 
 }

@@ -31,6 +31,7 @@ class VoucherServiceTest {
             new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "1240")),
             new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"))
     );
+
     @Mock
     VoucherRepository voucherRepository;
     VoucherService voucherService;
@@ -47,9 +48,9 @@ class VoucherServiceTest {
     }
 
     @ParameterizedTest
-    @DisplayName("바우처 생성 테스트")
+    @DisplayName("새로운 바우처가 추가되면 성공한다.")
     @MethodSource("provideVouchers")
-    void testCreateVoucher(Voucher voucher) {
+    void CreateVoucher_VoucherParam_InsertAndReturnVoucher(Voucher voucher) {
         given(voucherRepository.insert(voucher)).willReturn(voucher);
         var result = voucherService.createVoucher(voucher);
         assertThat(result, notNullValue());
@@ -58,9 +59,9 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("바우처 리스트 반환 테스트")
-    void testGetVouchers() {
-        given(voucherRepository.findAll()).willReturn(vouchers);
+    @DisplayName("생성된 바우처가 리스트 형태로 반환되면 성공한다.")
+    void GetVouchers_VoucherMap_ReturnVouchers() {
+        given(voucherRepository.findAllVouchers()).willReturn(vouchers);
         var result = voucherService.getVouchers();
         assertThat(result, notNullValue());
         assertThat(result, not(empty()));

@@ -22,6 +22,33 @@ class VoucherMapTest {
 
     VoucherMap voucherMap;
 
+    @BeforeEach
+    void init() {
+        voucherMap = new VoucherMap(new HashMap<>());
+    }
+
+    @ParameterizedTest
+    @DisplayName("정상적인 값(UUID, Voucher) 넣으면 바우처 생성 성공한다.")
+    @MethodSource("provideValids")
+    void addVoucher_ParamVoucher_InsertAndReturnVoucher(Voucher voucher) {
+        voucherMap.addVoucher(voucher);
+        assertThat(voucherMap.getAllVouchers(), not(empty()));
+    }
+
+    @ParameterizedTest
+    @DisplayName("비정상적인 값 넣으면 바우처 생성 실패한다.")
+    @MethodSource("provideInvalids")
+    void addVoucher_ParamWrongVoucher_Exception(Object input) {
+        assertThrows(Exception.class, () -> voucherMap.addVoucher((Voucher) input));
+    }
+
+    @Test
+    @DisplayName("생성된 모든 바우처를 리스트 형태로 반환한다.")
+    void getAllVouchers_VoucherMap_ReturnVoucherList() {
+        var list = voucherMap.getAllVouchers();
+        assertThat(list, notNullValue());
+    }
+
     static Stream<Arguments> provideValids() {
         return Stream.of(
                 Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"))),
@@ -36,33 +63,6 @@ class VoucherMapTest {
                 Arguments.of(123),
                 Arguments.of(List.of(12, 3))
         );
-    }
-
-    @BeforeEach
-    void init() {
-        voucherMap = new VoucherMap(new HashMap<>());
-    }
-
-    @ParameterizedTest
-    @DisplayName("정상적인 값(UUID, Voucher) 넣으면 성공")
-    @MethodSource("provideValids")
-    void testAdd(Voucher voucher) {
-        voucherMap.addVoucher(voucher);
-        assertThat(voucherMap.getAllVouchers(), not(empty()));
-    }
-
-    @ParameterizedTest
-    @DisplayName("비정상적인 값 넣으면 실리")
-    @MethodSource("provideInvalids")
-    void testAddException(Object input) {
-        assertThrows(Exception.class, () -> voucherMap.addVoucher((Voucher) input));
-    }
-
-    @Test
-    @DisplayName("리스트 형태로 반환")
-    void testGetAll() {
-        var list = voucherMap.getAllVouchers();
-        assertThat(list, notNullValue());
     }
 
 }
