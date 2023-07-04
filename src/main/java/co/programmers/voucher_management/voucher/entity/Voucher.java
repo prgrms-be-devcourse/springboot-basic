@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class Voucher {
-	private int id;
+	private long id;
 	private final DiscountStrategy discountStrategy;
 	private char status;
 

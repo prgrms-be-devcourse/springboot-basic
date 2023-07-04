@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class VoucherResponseDTO {
-	private String id;
+	private long id;
 	private String discountType;
 	private Integer discountAmount;
 
