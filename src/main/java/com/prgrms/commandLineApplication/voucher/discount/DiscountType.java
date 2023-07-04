@@ -1,6 +1,5 @@
 package com.prgrms.commandLineApplication.voucher.discount;
 
-import com.prgrms.commandLineApplication.io.MenuType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +7,7 @@ public enum DiscountType {
   FIXED,
   PERCENT;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(MenuType.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DiscountType.class);
 
   private static final String VOUCHER_TYPE_ERROR = "Invalid Voucher Type";
 
