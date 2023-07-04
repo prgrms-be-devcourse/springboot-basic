@@ -1,24 +1,36 @@
 package co.programmers.voucher_management.voucher.entity;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class Voucher {
-	private String id;
+	private int id;
 	private final DiscountStrategy discountStrategy;
+	private char status;
+
 	public Voucher(DiscountStrategy discountStrategy) {
 		this.discountStrategy = discountStrategy;
 	}
+
 	@Builder
-	public Voucher(String id, DiscountStrategy discountStrategy) {
+	public Voucher(int id, DiscountStrategy discountStrategy) {
 		this.id = id;
 		this.discountStrategy = discountStrategy;
+		status = STATUS.NORMAL.symbol;
 	}
 
-	public String getId() {
-		return id;
+	public void delete() {
+		this.status = STATUS.DELETED.symbol;
 	}
 
-	public DiscountStrategy getDiscountStrategy() {
-		return discountStrategy;
+	public enum STATUS {
+		NORMAL('Y'),
+		DELETED('N');
+		char symbol;
+
+		STATUS(char symbol) {
+			this.symbol = symbol;
+		}
 	}
 }
