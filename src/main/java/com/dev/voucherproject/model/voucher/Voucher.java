@@ -9,6 +9,8 @@ public interface Voucher {
 
     long getDiscountNumber();
 
+    VoucherDto conversionDto();
+
     static Voucher of(VoucherPolicy voucherPolicy, long discountNumber, UUID uuid) {
         if (voucherPolicy == VoucherPolicy.FIXED_AMOUNT_VOUCHER) {
             return new FixedAmountVoucher(uuid, discountNumber);

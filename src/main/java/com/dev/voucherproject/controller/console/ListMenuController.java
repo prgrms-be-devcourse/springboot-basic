@@ -22,7 +22,7 @@ public class ListMenuController implements MenuController {
         List<Voucher> vouchers = voucherStorage.findAll();
 
         List<VoucherDto> dtos = vouchers.stream()
-                .map(VoucherDto::fromVoucher)
+                .map(Voucher::conversionDto)
                 .toList();
 
         console.printAllVouchers(dtos);

@@ -1,55 +1,27 @@
 package com.dev.voucherproject.model.menu;
 
-import com.dev.voucherproject.config.console.MenuControllerProvider;
-import com.dev.voucherproject.controller.console.MenuController;
-import jakarta.annotation.PostConstruct;
-import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.List;
 
 public enum Menu {
-    EXIT("exit"), CREATE("create"), LIST("list");
+    EXIT("exit"), CREATE("create"), LIST("list"), BLACKLIST("blacklist");
 
     private final String menuName;
-    private MenuController controller;
 
     Menu(String menuName) {
         this.menuName = menuName;
     }
 
-    @Component
-    public static class MenuControllerInit {
-        private final MenuControllerProvider provider;
-
-        public MenuControllerInit(MenuControllerProvider provider) {
-            this.provider = provider;
-        }
-
-        @PostConstruct
-        public void init() {
-            Arrays.stream(Menu.values())
-                    .forEach(menu -> {
-                        menu.controller = provider.provide(menu.getMenuControllerName());
-            });
-        }
-    }
-
-    private String getMenuControllerName() {
-        return this.menuName + "MenuController";
-    }
-
-    public void execute() {
-        controller.execute();
-    }
-
-    public static Menu convertInputToMenu(String input) {
+    public static Menu convertInputToMenu(final String input) {
         return Arrays.stream(Menu.values())
-                .filter(m -> m.isExistMenu(input))
+                .filter(menu -> menu.isExistMenu(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("입력 형식이 올바르지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("{0} 입력에 해당하는 메뉴를 찾을 수 없습니다.", input)));
     }
 
-    private boolean isExistMenu(String input) {
+    private boolean isExistMenu(final String input) {
         return this.menuName.equals(input);
     }
 

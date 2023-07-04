@@ -22,20 +22,19 @@ public class CreateMenuController implements MenuController {
 
     @Override
     public void execute() {
-        VoucherPolicy voucherPolicy;
-        String input;
-
         console.printSelectVoucherPolicy();
-        input = console.inputVoucherPolicySelection();
-        voucherPolicy = VoucherPolicy.convertStringInputToPolicy(input);
+        String input = console.inputVoucherPolicySelection();
+        VoucherPolicy voucherPolicy = VoucherPolicy.convertStringInputToPolicy(input);
 
         long discountNumber = selectPolicy(voucherPolicy);
 
-        Voucher voucher = voucherStorage.insert(Voucher.of(voucherPolicy, discountNumber, UUID.randomUUID()));
-        logger.info("바우처 생성 :: {}", voucher.toString());
+        voucherStorage.insert(Voucher.of(voucherPolicy, discountNumber, UUID.randomUUID()));
+        logger.info("바우처 생성 :: [{}, {}]", voucherPolicy.name(), discountNumber);
+
+        console.newLine();
     }
 
-    private long selectPolicy(VoucherPolicy voucherPolicy) {
+    private long selectPolicy(final VoucherPolicy voucherPolicy) {
         long discountNumber;
 
         if (voucherPolicy == VoucherPolicy.FIXED_AMOUNT_VOUCHER) {

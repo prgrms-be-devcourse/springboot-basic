@@ -6,25 +6,23 @@ import com.dev.voucherproject.view.Console;
 import org.springframework.stereotype.Controller;
 
 
-
 @Controller
-public class ConsoleController {
+public class ConsoleApp {
     private final Console console;
+    private final MenuControllerExecutor executor;
 
-    public ConsoleController(Console console) {
+    public ConsoleApp(Console console, MenuControllerExecutor executor) {
         this.console = console;
+        this.executor = executor;
     }
 
     public void run() {
         while (true) {
-            Menu menu;
-            String input;
-
             console.printMenu();
-            input = console.inputMenuSelection();
+            String input = console.inputMenuSelection();
 
-            menu = Menu.convertInputToMenu(input);
-            menu.execute();
+            Menu menu = Menu.convertInputToMenu(input);
+            executor.execute(menu);
         }
     }
 }

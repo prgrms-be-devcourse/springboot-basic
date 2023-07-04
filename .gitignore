@@ -171,3 +171,5 @@ gradle-app.setting
 *.idea
 
 .DS_Store
+
+*.csv
