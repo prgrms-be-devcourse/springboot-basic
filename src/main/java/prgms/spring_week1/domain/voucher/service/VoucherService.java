@@ -20,8 +20,8 @@ public class VoucherService {
         voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, discountAmount));
     }
 
-    public void insertPercentDiscountVoucher(int fixedAmount) {
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT, fixedAmount));
+    public void insertPercentDiscountVoucher(int discountPercent) {
+        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT, discountPercent));
     }
 
 }
