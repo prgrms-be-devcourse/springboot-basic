@@ -24,13 +24,13 @@ public class Output {
         blackConsumerList.forEach(bl -> System.out.println(bl.getName() + " " + bl.getAge()));
     }
 
-    public void printDiscountFixedVoucherInfo(Voucher fixedAmountVoucher) {
+    public void printDiscountFixedVoucherInfo(long fixedAmount) {
         System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
-                "할인 가격 :" + fixedAmountVoucher.getDiscount() + "원");
+                "할인 가격 :" + fixedAmount + "원");
     }
 
-    public void printDiscountAmountVoucherInfo(Voucher percentDiscountVoucher) {
+    public void printDiscountAmountVoucherInfo(long percentDiscount) {
         System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
-                "할인률 :" + percentDiscountVoucher.getDiscount() + " 퍼센트");
+                "할인률 :" + percentDiscount + " 퍼센트");
     }
 }

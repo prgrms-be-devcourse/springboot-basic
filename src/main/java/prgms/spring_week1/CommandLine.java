@@ -14,6 +14,10 @@ import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
 
 import java.util.List;
+import java.util.Map;
+
+import static prgms.spring_week1.domain.voucher.model.type.VoucherType.FIXED;
+import static prgms.spring_week1.domain.voucher.model.type.VoucherType.PERCENT;
 
 @Component
 public class CommandLine implements Runnable {
@@ -96,16 +100,16 @@ public class CommandLine implements Runnable {
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
-    private void printAllVoucher(List<Voucher> voucherList) {
+    private void printAllVoucher(Map<VoucherType,Long> voucherList) {
         if (voucherList.isEmpty()) {
             output.outputMessage(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
             return;
         }
 
-        for (Voucher voucher : voucherList) {
-            switch (voucher.getVoucherType()) {
-                case FIXED -> output.printDiscountFixedVoucherInfo(voucher);
-                case PERCENT -> output.printDiscountAmountVoucherInfo(voucher);
+        for (Map.Entry<VoucherType,Long> voucher : voucherList.entrySet()) {
+            switch (voucher.getKey()) {
+                case FIXED -> output.printDiscountFixedVoucherInfo(voucher.getValue());
+                case PERCENT -> output.printDiscountAmountVoucherInfo(voucher.getValue());
             }
         }
     }

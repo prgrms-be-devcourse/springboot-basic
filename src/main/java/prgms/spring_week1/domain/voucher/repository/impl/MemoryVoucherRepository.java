@@ -2,12 +2,14 @@ package prgms.spring_week1.domain.voucher.repository.impl;
 
 import org.springframework.stereotype.Repository;
 import prgms.spring_week1.domain.voucher.model.Voucher;
+import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -15,10 +17,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherList = new ConcurrentHashMap<>();
 
     @Override
-    public List<Voucher> findAll() {
+    public Map<VoucherType,Long> findAll() {
         return voucherList.values()
                 .stream()
-                .toList();
+                .collect(Collectors.toMap(
+                v -> v.getVoucherType(),
+                v-> v.getDiscount()
+        ));
     }
 
     @Override
