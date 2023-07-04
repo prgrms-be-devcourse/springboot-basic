@@ -4,7 +4,7 @@ import com.prgmrs.voucher.controller.BlacklistController;
 import com.prgmrs.voucher.controller.VoucherController;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.setting.BlacklistProperties;
-import com.prgmrs.voucher.util.InputHandler;
+import com.prgmrs.voucher.model.VoucherValidator;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,14 +16,14 @@ public class ConsoleView implements CommandLineRunner {
     private final VoucherController voucherController;
     private final BlacklistController blackListController;
     private final ConsoleViewIO consoleViewIO;
-    private final InputHandler inputHandler;
+    private final VoucherValidator voucherValidator;
     private final BlacklistProperties blacklistProperties;
 
-    public ConsoleView(VoucherController voucherController, BlacklistController blackListController, ConsoleViewIO consoleViewIO, InputHandler inputHandler, BlacklistProperties blacklistProperties) {
+    public ConsoleView(VoucherController voucherController, BlacklistController blackListController, ConsoleViewIO consoleViewIO, VoucherValidator voucherValidator, BlacklistProperties blacklistProperties) {
         this.voucherController = voucherController;
         this.blackListController = blackListController;
         this.consoleViewIO = consoleViewIO;
-        this.inputHandler = inputHandler;
+        this.voucherValidator = voucherValidator;
         this.blacklistProperties = blacklistProperties;
     }
 
@@ -88,8 +88,8 @@ public class ConsoleView implements CommandLineRunner {
         boolean isOperationSuccessful = false;
         consoleViewIO.showSpecificCreationMessage(consoleViewVoucherCreationEnum);
         String token = consoleViewIO.read();
-        long value = inputHandler.stringToLongConverter(token);
-        if (inputHandler.isAmountValid(consoleViewVoucherCreationEnum, value)) {
+        long value = voucherValidator.stringToLongConverter(token);
+        if (voucherValidator.isAmountValid(consoleViewVoucherCreationEnum, value)) {
             UUID uuid = voucherController.createVoucher(value, consoleViewVoucherCreationEnum);
             Voucher voucher = voucherController.findVoucherById(uuid);
             consoleViewIO.showVoucherResult(voucher);

@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.util;
+package com.prgmrs.voucher.model;
 
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.setting.VoucherProperties;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Pattern;
 
 @Component
-public class InputHandler {
+public class VoucherValidator {
     private final VoucherProperties voucherProperties;
 
-    public InputHandler(VoucherProperties voucherProperties) {
+    public VoucherValidator(VoucherProperties voucherProperties) {
         this.voucherProperties = voucherProperties;
     }
 
@@ -36,7 +36,7 @@ public class InputHandler {
         }
 
         if (type == ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER
-                && (0 > value || value > 100)) {
+                && (0 >= value || value > 100)) {
             isValid = false;
         }
 
