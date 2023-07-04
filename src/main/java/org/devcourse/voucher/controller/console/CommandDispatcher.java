@@ -25,7 +25,9 @@ public class CommandDispatcher implements CommandLineRunner {
         String commandName = input.getUserInput();
         Command findCommand = Command.find(commandName);
 
-        String message = executeCommand(findCommand);
+            Response response = executeCommand(findCommand);
+            status = response.status();
+            String message = response.message();
 
         output.printMessage(message);
     }
