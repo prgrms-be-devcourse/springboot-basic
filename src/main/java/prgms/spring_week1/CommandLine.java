@@ -19,13 +19,11 @@ import java.util.List;
 
 @Component
 public class CommandLine implements Runnable {
-    private static final Logger log = LoggerFactory.getLogger(CommandLine.class);
     private final Input input;
     private final Output output;
     private final VoucherRepository voucherRepository;
     private final VoucherService voucherService;
     private final CustomerService customerService;
-    ;
 
     public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
