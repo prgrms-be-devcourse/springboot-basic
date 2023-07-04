@@ -8,7 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
 import co.programmers.voucher_management.common.Response;
-import co.programmers.voucher_management.customer.service.CustomerInquiryService;
+import co.programmers.voucher_management.customer.service.CustomerService;
 import co.programmers.voucher_management.exception.InvalidVoucherAmountException;
 import co.programmers.voucher_management.exception.NoSuchTypeException;
 import co.programmers.voucher_management.view.InputView;
@@ -22,17 +22,17 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
 	private final VoucherCreationService voucherCreationService;
 	private final VoucherInquiryService voucherInquiryService;
-	private final CustomerInquiryService customerInquiryService;
+	private final CustomerService customerService;
 
 	private final OutputView outputView;
 	private final InputView<String> inputView;
 
 	public VoucherCommandLineRunner(VoucherCreationService voucherCreationService,
 			VoucherInquiryService voucherInquiryService,
-			CustomerInquiryService customerInquiryService, OutputView outputView, InputView<String> inputView) {
+			CustomerService customerService, OutputView outputView, InputView<String> inputView) {
 		this.voucherCreationService = voucherCreationService;
 		this.voucherInquiryService = voucherInquiryService;
-		this.customerInquiryService = customerInquiryService;
+		this.customerService = customerService;
 		this.outputView = outputView;
 		this.inputView = inputView;
 	}
@@ -59,7 +59,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 					break;
 				case "blacklist":
 				case "b":
-					response = customerInquiryService.inquireBlackList();
+					response = customerService.inquireBlackList();
 					break;
 				default:
 					response = new Response<>(Response.State.FAILED, "* Invalid input for menu *");
