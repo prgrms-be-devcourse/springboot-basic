@@ -3,6 +3,7 @@ package com.programmers.controller;
 import com.programmers.domain.voucher.Voucher;
 import com.programmers.domain.voucher.VoucherType;
 import com.programmers.domain.voucher.dto.VoucherCreateRequestDto;
+import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import com.programmers.io.Console;
 import com.programmers.service.VoucherService;
 import org.slf4j.Logger;
@@ -45,5 +46,12 @@ public class VoucherController {
         String voucherName = console.readInput();
 
         return VoucherType.createVoucher(voucherTypeInput, voucherName, discountValue);
+    }
+
+    public void getVoucherList() {
+        console.printVoucherListTitle();
+        VouchersResponseDto vouchersResponseDto = voucherService.findAll();
+        console.printVouchers(vouchersResponseDto);
+        log.info("The voucher list has been printed.");
     }
 }

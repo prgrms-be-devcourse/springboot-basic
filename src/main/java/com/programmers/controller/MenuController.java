@@ -1,7 +1,6 @@
 package com.programmers.controller;
 
 import com.programmers.domain.*;
-import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import com.programmers.io.Console;
 import com.programmers.service.BlacklistService;
 import com.programmers.service.VoucherService;
@@ -9,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
 
 @Controller
 public class MenuController {
@@ -20,15 +18,11 @@ public class MenuController {
     private static final String MENU_CUSTOMER_NUMBER = "2";
 
     private final Console console;
-    private final VoucherService voucherService;
-    private final BlacklistService blacklistService;
     private final VoucherController voucherController;
     private final CustomerController customerController;
 
-    public MenuController(Console console, VoucherService voucherService, BlacklistService blacklistService, VoucherController voucherController, CustomerController customerController) {
+    public MenuController(Console console, VoucherController voucherController, CustomerController customerController) {
         this.console = console;
-        this.voucherService = voucherService;
-        this.blacklistService = blacklistService;
         this.voucherController = voucherController;
         this.customerController = customerController;
     }
@@ -49,7 +43,6 @@ public class MenuController {
                 }
                 case CREATE -> create();
                 case LIST -> list();
-                case BLACKLIST -> getBlacklist();
             }
         }
     }
@@ -77,24 +70,8 @@ public class MenuController {
         checkMenuSelection(command);
 
         switch (command) {
-            case MENU_VOUCHER_NUMBER -> getVoucherList();
+            case MENU_VOUCHER_NUMBER -> voucherController.getVoucherList();
             case MENU_CUSTOMER_NUMBER -> customerController.getCustomerList();
         }
-    }
-
-    public void getVoucherList() {
-        console.printVoucherListTitle();
-        VouchersResponseDto vouchersResponseDto = voucherService.findAll();
-        console.printVouchers(vouchersResponseDto);
-        log.info("The voucher list has been printed.");
-    }
-
-    public List<String> getBlacklist() {
-        console.printBlacklistTitle();
-        List<String> blacklist = blacklistService.findAll();
-        console.printBlacklist(blacklist);
-        log.info("The blacklist has been printed.");
-
-        return blacklist;
     }
 }
