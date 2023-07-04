@@ -1,6 +1,6 @@
 package org.programers.vouchermanagement.voucher.application;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.programers.vouchermanagement.global.exception.NoSuchEntityException;
 import org.programers.vouchermanagement.voucher.domain.FixedAmountPolicy;
 import org.programers.vouchermanagement.voucher.domain.PercentDiscountPolicy;
@@ -12,11 +12,13 @@ import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
+@Transactional(readOnly = true)
 @SpringBootTest
 class WithRepositoryVoucherServiceTest {
 
@@ -26,6 +28,7 @@ class WithRepositoryVoucherServiceTest {
     @Autowired
     private VoucherService voucherService;
 
+    @Order(1)
     @Test
     void 바우처를_저장한다() {
         // given & when
