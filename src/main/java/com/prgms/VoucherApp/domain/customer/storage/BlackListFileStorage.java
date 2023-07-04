@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BlackListFileStorage implements BlackListStorage {
 
     private static final Logger log = LoggerFactory.getLogger(BlackListFileStorage.class);
-    private final Map<UUID, Customer> blackListMap = new ConcurrentHashMap<>();
+    private final Map<UUID, Customer> blacklistCache = new ConcurrentHashMap<>();
 
     @Value("${customer.file.path}")
     private String filePath;
@@ -35,7 +35,7 @@ public class BlackListFileStorage implements BlackListStorage {
             while ((line = bufferedReader.readLine()) != null) {
                 CustomerDto customerDto = createBlackListDto(line);
                 Customer blacklist = customerDto.createCustomer();
-                blackListMap.put(blacklist.getCustomerId(), blacklist);
+                blacklistCache.put(blacklist.getCustomerId(), blacklist);
             }
         } catch (IOException e) {
             log.error("init blackListMap() method Exception, message : {}", e.getMessage());
@@ -50,8 +50,8 @@ public class BlackListFileStorage implements BlackListStorage {
 
     @Override
     public List<Customer> findAll() {
-        return blackListMap.values()
-                .stream()
-                .toList();
+        return blacklistCache.values()
+            .stream()
+            .toList();
     }
 }

@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VoucherFileStorage implements VoucherStorage {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherFileStorage.class);
-    private final Map<UUID, Voucher> voucherLinkedMap = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> voucherCache = new ConcurrentHashMap<>();
 
     @Value("${voucher.file.path}")
     private String filePath;
@@ -41,7 +41,7 @@ public class VoucherFileStorage implements VoucherStorage {
             while ((line = bufferedReader.readLine()) != null) {
                 VoucherDto voucherDto = createVoucherDto(line);
                 Voucher voucher = createVoucher(voucherDto);
-                voucherLinkedMap.put(voucher.getVoucherId(), voucher);
+                voucherCache.put(voucher.getVoucherId(), voucher);
             }
         } catch (IOException e) {
             log.error("initVoucherMap() method Exception, message : {}", e.getMessage());
@@ -59,7 +59,7 @@ public class VoucherFileStorage implements VoucherStorage {
             bufferedWriter.write(voucher.getVoucherType().getVoucherTypeName());
             bufferedWriter.newLine();
             bufferedWriter.flush();
-            voucherLinkedMap.put(voucher.getVoucherId(), voucher);
+            voucherCache.put(voucher.getVoucherId(), voucher);
         } catch (IOException e) {
             log.error("{} Failed to write the content to the file. errorMessage : {}", getClass().getEnclosingMethod().getName(), e.getMessage());
         }
@@ -67,15 +67,15 @@ public class VoucherFileStorage implements VoucherStorage {
 
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
-        Voucher voucher = voucherLinkedMap.get(voucherId);
+        Voucher voucher = voucherCache.get(voucherId);
         return Optional.ofNullable(voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
         return voucherLinkedMap.values()
-                .stream()
-                .toList();
+            .stream()
+            .toList();
     }
 
     private VoucherDto createVoucherDto(String line) {
