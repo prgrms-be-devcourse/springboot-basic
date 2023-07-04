@@ -1,0 +1,6 @@
+black-list-file-path: ./customer_blacklist.csv
+---
+spring.config.activate.on-profile: dev
+voucher-list-file-path: ./vouchers.txt
+---
+spring.config.activate.on-profile: local

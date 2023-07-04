@@ -1,0 +1,130 @@
+19:25:50.256 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 99125 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+19:25:50.256 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+19:25:50.257 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+19:25:50.494 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.42 seconds (JVM running for 0.83)
+19:25:55.593 [main] INFO  o.p.v.controller.VoucherController - option input: EXIT
+19:33:28.907 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 4385 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+19:33:28.908 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+19:33:28.908 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+19:33:29.294 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.61 seconds (JVM running for 0.948)
+19:33:34.600 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+19:33:40.050 [main] INFO  o.p.v.controller.VoucherController - voucher type input: FIXED_AMOUNT
+19:33:41.269 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 1000
+19:33:41.271 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: org.prgms.voucher.voucher.FixedAmountVoucher@6f667ad1
+19:33:46.092 [main] INFO  o.p.v.controller.VoucherController - option input: EXIT
+19:34:40.955 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 5181 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+19:34:40.955 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+19:34:40.956 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+19:34:41.209 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.401 seconds (JVM running for 0.648)
+19:34:43.856 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+19:34:43.884 [main] ERROR o.p.v.r.FileVoucherRepository - Cannot construct instance of `org.prgms.voucher.voucher.Voucher` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
+ at [Source: (String)"{"amount":1000,"id":"02e5fbbb-00d0-4953-a813-74d6af4f136e","voucherPolicy":"FIXED_AMOUNT","min_FIXED_AMOUNT":0}"; line: 1, column: 1]
+19:42:55.638 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 10643 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+19:42:55.639 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+19:42:55.639 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+19:42:55.889 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.434 seconds (JVM running for 0.992)
+19:43:01.200 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+19:43:01.233 [main] ERROR o.p.v.r.FileVoucherRepository - Cannot construct instance of `org.prgms.voucher.voucher.Voucher` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
+ at [Source: (String)"{"amount":1000,"id":"02e5fbbb-00d0-4953-a813-74d6af4f136e","voucherPolicy":"FIXED_AMOUNT"}"; line: 1, column: 1]
+23:20:18.831 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 94301 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:20:18.832 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:20:18.832 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:20:19.225 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.672 seconds (JVM running for 1.384)
+23:20:22.554 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:20:33.443 [main] INFO  o.p.v.controller.VoucherController - voucher type input: FIXED_AMOUNT
+23:20:34.888 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 1000
+23:20:34.891 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: org.prgms.voucher.voucher.FixedAmountVoucher@353efdbf
+23:20:35.913 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:20:35.923 [main] ERROR o.p.v.r.FileVoucherRepository - Cannot construct instance of `org.prgms.voucher.voucher.Voucher` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
+ at [Source: (String)"{"amount":1000,"id":"02e5fbbb-00d0-4953-a813-74d6af4f136e","voucherPolicy":"FIXED_AMOUNT"}"; line: 1, column: 1]
+23:29:15.727 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 149 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:29:15.728 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:29:15.728 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:29:16.381 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.908 seconds (JVM running for 1.512)
+23:29:23.533 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:29:26.919 [main] INFO  o.p.v.controller.VoucherController - voucher type input: FIXED_AMOUNT
+23:29:28.326 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 1000
+23:29:28.328 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: org.prgms.voucher.voucher.FixedAmountVoucher@3eed0f5
+23:29:29.311 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:29:29.317 [main] ERROR o.p.v.r.FileVoucherRepository - No content to map due to end-of-input
+ at [Source: (String)""; line: 1, column: 0]
+23:36:07.817 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 4706 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:36:07.818 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:36:07.818 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:36:08.447 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.89 seconds (JVM running for 1.55)
+23:36:14.440 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:36:19.277 [main] INFO  o.p.v.controller.VoucherController - voucher type input: FIXED_AMOUNT
+23:36:22.808 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 1000
+23:36:22.811 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: org.prgms.voucher.voucher.FixedAmountVoucher@660591fb
+23:36:23.859 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:36:23.873 [main] ERROR o.p.v.r.FileVoucherRepository - Cannot construct instance of `org.prgms.voucher.voucher.Voucher` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
+ at [Source: (String)"{"amount":1000,"id":"1a188177-815d-440c-9560-13f19c94c9d6","voucherPolicy":"FIXED_AMOUNT"}"; line: 1, column: 1]
+23:37:39.351 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 5756 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:37:39.353 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:37:39.354 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:37:39.912 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.754 seconds (JVM running for 1.006)
+23:37:44.457 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:37:48.002 [main] INFO  o.p.v.controller.VoucherController - voucher type input: FIXED_AMOUNT
+23:37:49.808 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 1000
+23:37:49.810 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: org.prgms.voucher.voucher.FixedAmountVoucher@af78c87
+23:37:52.210 [main] INFO  o.p.v.controller.VoucherController - option input: EXIT
+23:39:14.321 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 6787 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:39:14.322 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:39:14.322 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:39:14.557 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.358 seconds (JVM running for 0.739)
+23:39:17.757 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:39:24.869 [main] INFO  o.p.v.controller.VoucherController - voucher type input: FIXED_AMOUNT
+23:39:26.133 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 1000
+23:39:26.135 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: org.prgms.voucher.voucher.FixedAmountVoucher@1965539b
+23:39:27.485 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:39:27.500 [main] ERROR o.p.v.r.FileVoucherRepository - Cannot construct instance of `org.prgms.voucher.dto.VoucherResponseDto` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
+ at [Source: (String)"{"amount":1000,"id":"1a188177-815d-440c-9560-13f19c94c9d6","voucherPolicy":"FIXED_AMOUNT"}"; line: 1, column: 2]
+23:46:32.197 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 11434 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:46:32.198 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:46:32.198 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:46:32.838 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 1.008 seconds (JVM running for 1.605)
+23:46:36.996 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:46:37.028 [main] ERROR o.p.v.r.FileVoucherRepository - Cannot construct instance of `org.prgms.voucher.dto.VoucherResponseDto` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
+ at [Source: (String)"{"amount":1000,"id":"1a188177-815d-440c-9560-13f19c94c9d6","voucherPolicy":"FIXED_AMOUNT"}"; line: 1, column: 2]
+23:47:10.489 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 11875 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:47:10.489 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:47:10.490 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:47:10.715 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.364 seconds (JVM running for 0.598)
+23:47:14.902 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:49:41.174 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 13508 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:49:41.178 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:49:41.178 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:49:42.153 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 1.264 seconds (JVM running for 1.76)
+23:49:45.199 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:51:06.780 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 14434 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:51:06.781 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:51:06.781 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "local"
+23:51:06.965 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.314 seconds (JVM running for 0.569)
+23:51:10.000 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:51:14.378 [main] INFO  o.p.v.controller.VoucherController - voucher type input: FIXED_AMOUNT
+23:51:16.679 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 100
+23:51:16.682 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: org.prgms.voucher.voucher.FixedAmountVoucher@599f571f
+23:53:03.851 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:53:11.171 [main] INFO  o.p.v.controller.VoucherController - voucher type input: PERCENT_DISCOUNT
+23:53:13.161 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 20
+23:53:13.165 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: PercentDiscountVoucher(voucherPolicy=PERCENT_DISCOUNT, amount=20, id=de81ac90-5de6-45bc-88ac-d3a797992262)
+23:53:14.220 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:53:19.170 [main] INFO  o.p.v.controller.VoucherController - option input: EXIT
+23:53:50.474 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 16183 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:53:50.475 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:53:50.476 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "local"
+23:53:50.676 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.331 seconds (JVM running for 0.715)
+23:54:09.835 [main] INFO  org.prgms.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.6 on minjungkimui-MacBookAir.local with PID 16421 (/Users/minjungkim/Downloads/voucher/build/classes/java/main started by minjungkim in /Users/minjungkim/Downloads/voucher)
+23:54:09.836 [main] DEBUG org.prgms.voucher.VoucherApplication - Running with Spring Boot v2.7.12, Spring v5.3.27
+23:54:09.837 [main] INFO  org.prgms.voucher.VoucherApplication - The following 1 profile is active: "dev"
+23:54:10.076 [main] INFO  org.prgms.voucher.VoucherApplication - Started VoucherApplication in 0.378 seconds (JVM running for 0.67)
+23:54:16.422 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:54:23.730 [main] INFO  o.p.v.controller.VoucherController - voucher type input: FIXED_AMOUNT
+23:54:33.300 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 100000
+23:54:33.306 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: org.prgms.voucher.voucher.FixedAmountVoucher@8c46918
+23:54:36.854 [main] INFO  o.p.v.controller.VoucherController - option input: CREATE
+23:54:48.936 [main] INFO  o.p.v.controller.VoucherController - voucher type input: PERCENT_DISCOUNT
+23:54:50.662 [main] DEBUG o.p.v.controller.VoucherController - voucher amount input: 20
+23:54:50.665 [main] DEBUG o.p.voucher.service.VoucherService - 바우처 생성: PercentDiscountVoucher(voucherPolicy=PERCENT_DISCOUNT, amount=20, id=d6f2ab52-6558-470b-82fd-abeca08ce84f)
+23:54:52.230 [main] INFO  o.p.v.controller.VoucherController - option input: LIST
+23:55:10.639 [main] INFO  o.p.v.controller.VoucherController - option input: EXIT
