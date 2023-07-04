@@ -6,18 +6,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED("Fixed"),
-    PERCENT("Percent");
-
-    private final String voucherType;
-
-    VoucherType(String voucherType) {
-        this.voucherType = voucherType;
-    }
-
-    public String getVoucherType() {
-        return voucherType;
-    }
+    FIXED,
+    PERCENT;
 
     public static VoucherType makeVoucherType(String inputSelectText) {
         VoucherType matchedVoucherType = getMatchVoucherTypeFilter(Stream.of(VoucherType.values()), inputSelectText)
@@ -27,7 +17,7 @@ public enum VoucherType {
     }
 
     private static Optional<VoucherType> getMatchVoucherTypeFilter(Stream<VoucherType> voucherType, String inputSelectText) {
-        return voucherType.filter(v -> v.getVoucherType().equalsIgnoreCase(inputSelectText))
+        return voucherType.filter(v -> v.name().equalsIgnoreCase(inputSelectText))
                 .findFirst();
     }
 
