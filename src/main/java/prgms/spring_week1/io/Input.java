@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 @Component
 public class Input {
-    Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public String input() {
         return sc.nextLine();
