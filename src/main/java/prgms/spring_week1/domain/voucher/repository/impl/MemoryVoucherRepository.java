@@ -17,13 +17,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherList = new ConcurrentHashMap<>();
 
     @Override
-    public Map<VoucherType,Long> findAll() {
+    public List<Voucher> findAll() {
         return voucherList.values()
                 .stream()
-                .collect(Collectors.toMap(
-                v -> v.getVoucherType(),
-                v-> v.getDiscount()
-        ));
+                .toList();
     }
 
     @Override

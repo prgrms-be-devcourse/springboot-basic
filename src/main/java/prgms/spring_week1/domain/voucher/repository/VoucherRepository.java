@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface VoucherRepository {
-    Map<VoucherType,Long> findAll();
+    List<Voucher> findAll();
 
     void insert(Voucher voucher);
 }

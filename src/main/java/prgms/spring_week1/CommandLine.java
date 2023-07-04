@@ -100,16 +100,16 @@ public class CommandLine implements Runnable {
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
-    private void printAllVoucher(Map<VoucherType,Long> voucherList) {
+    private void printAllVoucher(List<Voucher> voucherList) {
         if (voucherList.isEmpty()) {
             output.outputMessage(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
             return;
         }
 
-        for (Map.Entry<VoucherType,Long> voucher : voucherList.entrySet()) {
-            switch (voucher.getKey()) {
-                case FIXED -> output.printDiscountFixedVoucherInfo(voucher.getValue());
-                case PERCENT -> output.printDiscountAmountVoucherInfo(voucher.getValue());
+        for (Voucher voucher : voucherList) {
+            switch (voucher.getVoucherType()) {
+                case FIXED -> output.printDiscountFixedVoucherInfo(voucher.getDiscount());
+                case PERCENT -> output.printDiscountAmountVoucherInfo(voucher.getDiscount());
             }
         }
     }
