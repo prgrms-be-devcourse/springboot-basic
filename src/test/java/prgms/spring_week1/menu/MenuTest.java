@@ -19,7 +19,7 @@ class MenuTest {
     @ParameterizedTest
     @ValueSource(strings = {"EXI", "crrea", "EXwww"})
     @DisplayName("존재하지 않는 메뉴를 입력했을 때 예외를 던지는 지 확인")
-    void MenuType_fail(String inputText) {
+    void findMenuType_fail(String inputText) {
         Throwable exception = assertThrows(NoSuchOptionValueException.class, () -> Menu.findMenuType(inputText));
         assertEquals("해당 메뉴 타입이 존재하지 않습니다.", exception.getMessage());
     }
