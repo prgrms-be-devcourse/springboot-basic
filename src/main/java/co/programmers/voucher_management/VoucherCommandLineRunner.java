@@ -73,7 +73,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 		try {
 			VoucherRequestDTO voucherRequestDTO = request();
 			return voucherCreationService.run(voucherRequestDTO);
-		} catch (InvalidVoucherAmountException|NoSuchTypeException exception) {
+		} catch (InvalidVoucherAmountException | NoSuchTypeException exception) {
 			return new Response<>(Response.State.FAILED, exception.getMessage());
 		}
 	}
