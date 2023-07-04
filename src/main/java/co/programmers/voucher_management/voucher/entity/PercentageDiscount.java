@@ -17,7 +17,7 @@ public class PercentageDiscount implements DiscountStrategy {
 	private static void validate(Integer amount) throws IllegalArgumentException {
 		if (amount <= 0 || amount >= MAX_AMOUNT) {
 			logger.debug("User Input - amount : {}, Amount must be between 0 and {}", amount, MAX_AMOUNT);
-			throw new IllegalArgumentException("Amount must be between 0 and 100");
+			throw new InvalidVoucherAmountException("Amount must be between 0 and 100");
 		}
 	}
 
