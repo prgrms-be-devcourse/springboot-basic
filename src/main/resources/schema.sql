@@ -12,7 +12,6 @@ CREATE TABLE vouchers
 (
     voucher_id      BIGINT PRIMARY KEY,
     voucher_type    varchar(20) NOT NULL,
-    fixed_amount    double  DEFAULT NULL,
-    percent_amount  double  DEFAULT NULL
+    discount_amount double  DEFAULT NULL
 );
 

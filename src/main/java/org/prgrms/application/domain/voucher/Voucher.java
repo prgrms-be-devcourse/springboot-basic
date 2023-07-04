@@ -5,6 +5,7 @@ public abstract class Voucher {
 
     protected Long voucherId;
     protected VoucherType voucherType;
+    protected double discountAmount;
 
     public abstract Long getVoucherId();
 

@@ -2,16 +2,14 @@ package org.prgrms.application.domain.voucher;
 
 public class PercentAmountVoucher extends Voucher {
 
-    private double percentAmount;
-
     private static final double ZERO_DISCOUNT = 0;
     private static final double HUNDRED_DISCOUNT = 100;
 
-    public PercentAmountVoucher(Long voucherId, VoucherType voucherType, double percentAmount) {
-        validatePercent(percentAmount);
+    public PercentAmountVoucher(Long voucherId, VoucherType voucherType, double discountAmount) {
+        validatePercent(discountAmount);
         this.voucherId = voucherId;
         this.voucherType = voucherType;
-        this.percentAmount = percentAmount;
+        this.discountAmount = discountAmount;
     }
 
     private void validatePercent(double percentAmount) {
@@ -21,7 +19,7 @@ public class PercentAmountVoucher extends Voucher {
     }
 
     public double getPercentAmount() {
-        return percentAmount;
+        return discountAmount;
     }
 
     public void changePercentAmount(double percentAmount) {
@@ -40,6 +38,6 @@ public class PercentAmountVoucher extends Voucher {
 
     @Override
     public double discount(double beforeDiscount) {
-        return beforeDiscount * (percentAmount / 100);
+        return beforeDiscount * (discountAmount / 100);
     }
 }

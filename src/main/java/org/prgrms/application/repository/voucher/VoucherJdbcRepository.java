@@ -1,9 +1,6 @@
 package org.prgrms.application.repository.voucher;
 
-import org.prgrms.application.domain.voucher.FixedAmountVoucher;
-import org.prgrms.application.domain.voucher.PercentAmountVoucher;
-import org.prgrms.application.domain.voucher.Voucher;
-import org.prgrms.application.domain.voucher.VoucherType;
+import org.prgrms.application.domain.voucher.*;
 import org.prgrms.application.repository.customer.CustomerJdbcRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static org.prgrms.application.domain.voucher.VoucherType.FIXED;
-import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
@@ -28,76 +23,52 @@ public class VoucherJdbcRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+    // db로부터 정보를 가져옴
+    private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, i) -> {
         Long voucherId = resultSet.getLong("voucher_id");
-        String voucherType = resultSet.getString("voucher_type");
-
-        Voucher voucher;
-
-        switch (voucherType) {
-            case "FIXED":
-                Double fixedAmount = resultSet.getDouble("fixed_amount");
-                voucher = new FixedAmountVoucher(voucherId, FIXED, fixedAmount);
-                break;
-            case "PERCENT":
-                Double percentAmount = resultSet.getDouble("percent_amount");
-                voucher = new PercentAmountVoucher(voucherId, PERCENT, percentAmount);
-                break;
-            default:
-                throw new IllegalArgumentException("알 수 없는 voucher타입입니다." + voucherType);
-        }
-        return voucher;
+        String voucherType= resultSet.getString("voucher_type");
+        Double discountAmount = resultSet.getDouble("discount_amount");
+        VoucherEntity voucherEntity = new VoucherEntity(voucherId, voucherType, discountAmount);
+        return voucherEntity;
     };
 
     // 맵의 키를 파라미터로 변경
-    private Map<String, Object> toParamMap(Voucher voucher) {
+    private Map<String, Object> toParamMap(VoucherEntity voucherEntity) {
         return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId());
-
-            switch (voucher.getVoucherType()) {
-                case FIXED:
-                    FixedAmountVoucher fixedAmountVoucher = (FixedAmountVoucher) voucher;
-                    put("voucherType", FIXED.toString());
-                    put("fixedAmount", fixedAmountVoucher.getFixedAmount());
-                    put("percentAmount", null);
-                    break;
-                case PERCENT:
-                    PercentAmountVoucher percentAmountVoucher = (PercentAmountVoucher) voucher;
-                    put("voucherType", PERCENT.toString());
-                    put("fixedAmount", null);
-                    put("percentAmount", percentAmountVoucher.getPercentAmount());
-            }
+            put("voucherId", voucherEntity.getVoucherId());
+            put("voucherId", voucherEntity.getVoucherType());
+            put("discountAmountVoucher", voucherEntity.getDiscountAmount());
         }};
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public VoucherEntity insert(VoucherEntity voucherEntity) {
         int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, fixed_amount, percent_amount) " +
                         "VALUES (:voucherId, :voucherType, :fixedAmount, :percentAmount)",
-                toParamMap(voucher));
+                toParamMap(voucherEntity));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
         }
-        return voucher;
+        return voucherEntity;
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
+    public VoucherEntity update(VoucherEntity voucherEntity) {
         int update = jdbcTemplate.update("UPDATE vouchers SET fixed_amount = :fixedAmount, percent_amount = :percentAmount WHERE voucher_id = :voucherId",
-                toParamMap(voucher));
+                toParamMap(voucherEntity));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
         }
-        return voucher;
+        return voucherEntity;
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<VoucherEntity> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
     }
 
     @Override
-    public Optional<Voucher> findById(Long voucherId) {
+    public Optional<VoucherEntity> findById(Long voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = :voucherId",
                     Collections.singletonMap("voucherId", voucherId),
@@ -109,9 +80,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<List<Voucher>> findByType(VoucherType voucherType) {
+    public Optional<List<VoucherEntity>> findByType(VoucherType voucherType) {
         try {
-            List<Voucher> vouchers = jdbcTemplate.query("select * from vouchers WHERE voucher_type = :voucherType",
+            List<VoucherEntity> vouchers = jdbcTemplate.query("select * from vouchers WHERE voucher_type = :voucherType",
                     Collections.singletonMap("voucherType", voucherType.name()),
                     voucherRowMapper);
             return Optional.ofNullable(vouchers);

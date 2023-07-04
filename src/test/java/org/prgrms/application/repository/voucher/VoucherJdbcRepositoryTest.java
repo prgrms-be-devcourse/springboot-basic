@@ -36,7 +36,6 @@ import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(BadSqlExceptionHandler.class)
 class VoucherJdbcRepositoryTest {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepositoryTest.class);
 
     @Configuration
     @ComponentScan(
@@ -72,8 +71,7 @@ class VoucherJdbcRepositoryTest {
         @Bean
         public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
             return new TransactionTemplate(platformTransactionManager);
-        }
-    }
+        }}
 
     @Autowired
     VoucherJdbcRepository voucherJdbcRepository;
@@ -95,12 +93,9 @@ class VoucherJdbcRepositoryTest {
     @Order(1)
     @DisplayName("바우처를 추가할 수 있다.")
     public void testInsert() {
-        try {
-            voucherJdbcRepository.insert(newPercentVoucher);
-            voucherJdbcRepository.insert(newFixedVoucher); //수정
-        } catch (BadSqlGrammarException e) {
-            logger.error("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
-        }
+        voucherJdbcRepository.insert(newPercentVoucher);
+        voucherJdbcRepository.insert(newFixedVoucher);
+
         Optional<Voucher> retrievedFixedVoucher = voucherJdbcRepository.findById(newFixedVoucher.getVoucherId());
         assertThat(retrievedFixedVoucher.isEmpty(), is(false));
         assertThat(retrievedFixedVoucher.get(), samePropertyValuesAs(newFixedVoucher));

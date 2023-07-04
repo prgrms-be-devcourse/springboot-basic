@@ -1,6 +1,6 @@
 package org.prgrms.application.repository.voucher;
 
-import org.prgrms.application.domain.voucher.Voucher;
+import org.prgrms.application.domain.voucher.VoucherEntity;
 import org.prgrms.application.domain.voucher.VoucherType;
 
 import java.util.List;
@@ -8,15 +8,15 @@ import java.util.Optional;
 
 public interface VoucherRepository {
 
-    Voucher insert(Voucher voucher);
+    VoucherEntity insert(VoucherEntity voucherEntity);
 
-    Voucher update(Voucher voucher);
+    VoucherEntity update(VoucherEntity voucherEntity);
 
-    List<Voucher> findAll();
+    List<VoucherEntity> findAll();
 
-    Optional<Voucher> findById(Long voucherId);
+    Optional<VoucherEntity> findById(Long voucherId);
 
-    Optional<List<Voucher>> findByType(VoucherType voucherType);
+    Optional<List<VoucherEntity>> findByType(VoucherType voucherType);
 
     void deleteAll();
 }

@@ -87,7 +87,7 @@ class CustomerJdbcRepositoryTest {
     @Order(1)
     @DisplayName("고객을 추가할 수 있다.")
     public void testInsert() {
-        customerJdbcRepository.insert(newCustomer); //테스트에 대한 책임! 수정
+        customerJdbcRepository.insert(newCustomer);
 
         Optional<Customer> retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty(), is(false));
