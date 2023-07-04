@@ -33,12 +33,12 @@ public class CommandLine implements Runnable {
 
     @Override
     public void run() {
-        boolean IS_RUNNING = true;
-        while (IS_RUNNING) {
+        boolean isRunning = true;
+        while (isRunning) {
             output.outputMessage(ConsoleOutputMessage.MENU_LIST_MESSAGE);
             String selectOption = input.input();
             switch (findMenuName(selectOption)) {
-                case EXIT -> IS_RUNNING = false;
+                case EXIT -> isRunning = false;
                 case CREATE -> selectVoucherType();
                 case LIST -> printAllVoucher(voucherRepository.findAll());
                 case BLACK -> output.printBlackConsumerList(customerService.blackConsumerList());
