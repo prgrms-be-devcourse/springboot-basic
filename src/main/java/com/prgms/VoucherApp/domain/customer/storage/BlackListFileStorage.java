@@ -39,6 +39,7 @@ public class BlackListFileStorage implements BlackListStorage {
             }
         } catch (IOException e) {
             log.error("init blackListMap() method Exception, message : {}", e.getMessage());
+            throw new RuntimeException("파일을 불러오던 중 IO 초기화 문제가 발생하였습니다.");
         }
     }
 
