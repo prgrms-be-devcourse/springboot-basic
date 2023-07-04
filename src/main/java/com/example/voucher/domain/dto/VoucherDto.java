@@ -4,8 +4,8 @@ import com.example.voucher.domain.Voucher;
 import java.util.UUID;
 
 public class VoucherDto {
-    private final UUID voucherId;
-    private final double amount;
+    private UUID voucherId;
+    private double amount;
 
     public VoucherDto(UUID voucherId, double amount) {
         this.voucherId = voucherId;
@@ -18,5 +18,13 @@ public class VoucherDto {
 
     public double getAmount() {
         return amount;
+    }
+
+    public VoucherDto toDto(Voucher voucher) {
+        return new VoucherDto(voucherId, amount);
+    }
+
+    public Voucher fromDto(VoucherDto voucherDto) {
+        return new Voucher(voucherId, amount);
     }
 }
