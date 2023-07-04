@@ -1,7 +1,9 @@
 package org.prgrms.application.repository.customer;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.prgrms.application.domain.customer.Customer;
+import org.prgrms.application.repository.exception.BadSqlExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,8 @@ import static org.hamcrest.Matchers.*;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(BadSqlExceptionHandler.class)
 class CustomerJdbcRepositoryTest {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepositoryTest.class);
 
     @Configuration
     @ComponentScan(
@@ -146,12 +148,5 @@ class CustomerJdbcRepositoryTest {
         List<Customer> customers = customerJdbcRepository.findAll();
         assertThat(customers.isEmpty(), is(true));
     }
-
-
-//
-//        try {
-//    } catch (BadSqlGrammarException e) {
-//        logger.error("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
-//    }
 
 }

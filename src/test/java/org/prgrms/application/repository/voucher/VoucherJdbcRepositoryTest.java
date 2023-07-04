@@ -1,8 +1,8 @@
 package org.prgrms.application.repository.voucher;
 
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import org.junit.jupiter.api.*;
-import org.prgrms.application.domain.customer.Customer;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.prgrms.application.repository.exception.BadSqlExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.prgrms.application.domain.voucher.FixedAmountVoucher;
@@ -34,6 +34,7 @@ import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(BadSqlExceptionHandler.class)
 class VoucherJdbcRepositoryTest {
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepositoryTest.class);
 
