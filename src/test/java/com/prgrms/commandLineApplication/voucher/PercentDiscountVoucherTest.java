@@ -2,10 +2,12 @@ package com.prgrms.commandLineApplication.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.prgrms.commandLineApplication.voucher.discount.PercentDiscount;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.UUID;
 
@@ -16,15 +18,15 @@ class PercentDiscountVoucherTest {
   @DisplayName("범위 내의 할인값을 입력했을 경우 Percent Discount 계산 성공")
   void percentDiscountVoucher_계산_성공(String voucherType, int discountAmount, int expected, int price) {
     Voucher createdPercentVoucher = VoucherFactory.createVoucher(voucherType, discountAmount);
-    int result = createdPercentVoucher.discount(price);
+    int result = createdPercentVoucher.supplyDiscount(price);
     assertThat(result).isEqualTo(expected);
   }
 
   @ParameterizedTest
-  @CsvSource(value = {"percent|-1", "percent|-220", "percent|-4"}, delimiter = '|')
+  @ValueSource(ints = {-1, -100, 200})
   @DisplayName("범위를 벗어난 할인값을 입력했을 경우 예외 발생 성공")
-  void percentDiscountVoucher_할인값_예외_발생(String voucherType, int discountAmount) {
-    Assertions.assertThatThrownBy(() -> PercentDiscountVoucher.of(UUID.randomUUID(), voucherType, discountAmount))
+  void percentDiscountVoucher_할인값_예외_발생(int discountAmount) {
+    Assertions.assertThatThrownBy(() -> new Voucher(UUID.randomUUID(), PercentDiscount.of(discountAmount)))
             .isInstanceOf(IllegalArgumentException.class);
   }
 
