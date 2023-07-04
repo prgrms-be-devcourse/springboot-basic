@@ -17,7 +17,7 @@ class PercentDiscountVoucherTest {
   @CsvSource(value = {"percent|20|80000|100000", "percent|30|70000|100000", "percent|50|50000|100000"}, delimiter = '|')
   @DisplayName("범위 내의 할인값을 입력했을 경우 Percent Discount 계산 성공")
   void percentDiscountVoucher_계산_성공(String voucherType, int discountAmount, int expected, int price) {
-    Voucher createdPercentVoucher = VoucherFactory.createVoucher(voucherType, discountAmount);
+    Voucher createdPercentVoucher = VoucherFactory.of(voucherType, discountAmount);
     int result = createdPercentVoucher.supplyDiscount(price);
     assertThat(result).isEqualTo(expected);
   }
