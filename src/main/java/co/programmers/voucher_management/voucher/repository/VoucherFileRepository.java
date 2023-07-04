@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -75,7 +76,16 @@ public class VoucherFileRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void deleteOf(int id) {
+	public Optional<Voucher> findById(long id) {
+		return Optional.empty();
+	}
+	@Override
+	public Voucher update(Voucher voucher) {
+		return null;
+	}
+
+	@Override
+	public void deleteById(long id) {
 		List<Voucher> vouchers = findAll();
 		vouchers.stream()
 				.filter(voucher -> voucher.getId() == id)
@@ -89,6 +99,7 @@ public class VoucherFileRepository implements VoucherRepository {
 			create(voucher);
 		}
 	}
+
 
 	private Voucher mapToVoucher(String[] oneLine) {
 		int id = Integer.parseInt(oneLine[VoucherProperty.ID.index]);

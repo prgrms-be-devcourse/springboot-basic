@@ -1,9 +1,11 @@
 package co.programmers.voucher_management.voucher.repository;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -11,12 +13,15 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import co.programmers.voucher_management.exception.NoSuchVoucherException;
+import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
 import co.programmers.voucher_management.voucher.entity.Voucher;
+import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 
 @Repository
 @Profile({"local", "test"})
 public class VoucherMemoryRepository implements VoucherRepository {
-	private final Map<Integer, Voucher> repository = new ConcurrentHashMap<>();
+	private final Map<Long, Voucher> repository = new ConcurrentHashMap<>();
 	private static final int VOUCHER_ID_RANDOMNESS = 1000;
 	private static final Random random = new Random();
 
@@ -34,14 +39,31 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void deleteOf(int id) {
+	public Optional<Voucher> findById(long id) {
+		return Optional.ofNullable(repository.get(id));
+	}
+
+	@Override
+	public void deleteById(long id) {
 		repository.get(id)
 				.delete();
 	}
 
-	private int assignId() {
+	@Override
+	public Voucher update(Voucher voucher) {
+		long id = voucher.getId();
+		String discountType = voucher.getDiscountStrategy().getType();
+		Integer discountAmount = voucher.getDiscountStrategy().getAmount();
+		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
+		repository.get(id).changeDiscountType(discountStrategy);
+		return findById(id).orElseThrow(
+				() -> new NoSuchVoucherException(MessageFormat.format("No such voucher of id {}", id))
+		);
+	}
+
+	private Long assignId() {
 		random.setSeed(System.currentTimeMillis());
-		return Integer.parseInt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"))
+		return Long.parseLong(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"))
 				+ random.nextInt(VOUCHER_ID_RANDOMNESS));
 	}
 

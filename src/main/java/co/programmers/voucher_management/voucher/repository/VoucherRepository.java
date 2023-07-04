@@ -1,6 +1,7 @@
 package co.programmers.voucher_management.voucher.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import co.programmers.voucher_management.voucher.entity.Voucher;
 
@@ -10,5 +11,10 @@ public interface VoucherRepository {
 
 	List<Voucher> findAll();
 
-	void deleteOf(int id);
+	Optional<Voucher> findById(long id);
+
+	void deleteById(long id);
+
+	Voucher update(Voucher voucher);
+
 }

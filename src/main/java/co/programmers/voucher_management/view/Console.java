@@ -13,10 +13,12 @@ import co.programmers.voucher_management.common.Response;
 public class Console implements InputView, OutputView {
 	private static final String STARTER_MESSAGE =
 			"=== Voucher Program ===\n"
-					+ "Type exit or 'x' to exit  the program.\n"
+					+ "Type exit or 'x' to exit the program.\n"
 					+ "Type create or 'c' to create a new voucher.\n"
 					+ "Type list or 'l' to list all vouchers.\n"
-					+ "Type blacklist or 'b' to list customer blackLists";
+					+ "Type blacklist or 'b' to list customer blackLists.\n"
+					+ "Type update or 'u' to modify a voucher.\n"
+					+ "Type delete or 'd' to delete a voucher.\n";
 	private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	@Override

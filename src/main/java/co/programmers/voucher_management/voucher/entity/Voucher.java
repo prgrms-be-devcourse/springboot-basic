@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class Voucher {
 	private long id;
-	private final DiscountStrategy discountStrategy;
+	private DiscountStrategy discountStrategy;
 	private char status;
 
 	public Voucher(DiscountStrategy discountStrategy) {
@@ -22,6 +22,10 @@ public class Voucher {
 
 	public void delete() {
 		this.status = STATUS.DELETED.symbol;
+	}
+
+	public void changeDiscountType(DiscountStrategy discountStrategy) {
+		this.discountStrategy = discountStrategy;
 	}
 
 	public enum STATUS {
