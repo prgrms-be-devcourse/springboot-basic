@@ -12,18 +12,19 @@ import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-@Repository
 @Slf4j
-public class FileCustomerRepository implements CustomerRepository {
+@Repository
+@Profile("dev")
+public class FileCustomerRepository {
 
     private final List<Customer> customerList = new ArrayList<>();
 
     @Value("${file.customer.path}")
     private String filePath;
 
-    @Override
     public List<Customer> getBlackList() {
         return Collections.unmodifiableList(customerList);
     }

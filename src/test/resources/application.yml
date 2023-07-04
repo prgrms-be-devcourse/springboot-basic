@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/Documents/spring/jdbc
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+file:
+  voucher:
+    path: ./file/voucher_list.csv

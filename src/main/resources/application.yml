@@ -31,11 +31,3 @@ file:
     path: ./file/voucher_list.csv
 
 ---
-
-spring:
-  config:
-    activate:
-      on-profile: test
-file:
-  voucher:
-    path: ./file/voucher_list.csv
