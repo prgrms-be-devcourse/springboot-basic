@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class VoucherApplicationTests {
 
-    //test
+    //커밋 스쿼시
     @Test
     void contextLoads() {
     }
