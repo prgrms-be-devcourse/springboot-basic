@@ -1,33 +1,32 @@
 package org.prgms.voucher.voucher;
 
+import org.prgms.voucher.util.MessageUtils;
+
 import java.time.LocalDate;
 
-public class VoucherPrintDto {
-    String optionType;
-    int afterDiscountValue;
-    LocalDate publishDate;
-    LocalDate expirationDate;
+import static org.prgms.voucher.voucher.VoucherPrintType.*;
 
-    public VoucherPrintDto(String optionType, int afterDiscountValue, LocalDate publishDate, LocalDate expirationDate) {
-        this.optionType = optionType;
+public class VoucherPrintDto {
+    private final String voucherType;
+    private final int afterDiscountValue;
+    private final LocalDate publishDate;
+    private final LocalDate expirationDate;
+
+    public VoucherPrintDto(String voucherType, int afterDiscountValue, LocalDate publishDate, LocalDate expirationDate) {
+        this.voucherType = voucherType;
         this.afterDiscountValue = afterDiscountValue;
         this.publishDate = publishDate;
         this.expirationDate = expirationDate;
     }
 
-    public String getOptionType() {
-        return optionType;
+    public String getVoucherPrint() {
+        return formatVoucherOutput(VOUCHER_TYPE, voucherType)
+                + formatVoucherOutput(AFTER_DISCOUNT_VALUE, String.valueOf(afterDiscountValue))
+                + formatVoucherOutput(PUBLISH_DATE, String.valueOf(publishDate))
+                + formatVoucherOutput(EXPIRATION_DATE, String.valueOf(expirationDate));
     }
 
-    public int getAfterDiscountValue() {
-        return afterDiscountValue;
-    }
-
-    public LocalDate getPublishDate() {
-        return publishDate;
-    }
-
-    public LocalDate getExpirationDate() {
-        return expirationDate;
+    private String formatVoucherOutput(VoucherPrintType voucherPrintType, String value) {
+        return MessageUtils.getMessage(voucherPrintType.getType()) + ":" + value + "\n";
     }
 }
