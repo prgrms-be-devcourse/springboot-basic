@@ -1,6 +1,7 @@
 package org.devcourse.voucher.domain.voucher;
 
 import org.devcourse.voucher.domain.voucher.policy.DiscountPolicy;
+import org.devcourse.voucher.domain.voucher.vo.VoucherVO;
 
 public class Voucher {
     private final long id;
@@ -32,4 +33,7 @@ public class Voucher {
         return new Voucher(id, this.type, this.policy.getAmount());
     }
 
+    public VoucherVO values() {
+        return new VoucherVO(id, type.name(), policy.getAmount());
+    }
 }
