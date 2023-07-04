@@ -21,7 +21,7 @@ public class Output {
             outputMessage(ConsoleOutputMessage.EMPTY_BLACK_LIST_MESSAGE);
             return;
         }
-        blackConsumerList.forEach(bl -> System.out.println(bl.getName() + " " + bl.getAge()));
+        blackConsumerList.forEach(bl -> System.out.println(bl.name() + " " + bl.age()));
     }
 
     public void printDiscountFixedVoucherInfo(long fixedAmount) {
