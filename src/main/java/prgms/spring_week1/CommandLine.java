@@ -1,7 +1,5 @@
 package prgms.spring_week1;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
@@ -63,7 +61,7 @@ public class CommandLine implements Runnable {
         try {
             String select = input.input();
 
-            switch (VoucherType.makeVoucherType(select)) {
+            switch (VoucherType.findVoucherType(select)) {
                 case FIXED -> insertFixedAmountValue();
                 case PERCENT -> insertPercentDiscountValue();
             }
