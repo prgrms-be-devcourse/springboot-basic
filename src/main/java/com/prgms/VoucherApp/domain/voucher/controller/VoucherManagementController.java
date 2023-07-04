@@ -1,28 +1,25 @@
 package com.prgms.VoucherApp.domain.voucher.controller;
 
-import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
-import com.prgms.VoucherApp.domain.voucher.model.VoucherCreator;
-import com.prgms.VoucherApp.domain.voucher.model.VoucherReader;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateReqDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VouchersResDto;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherDao;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.Output;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Controller
 public class VoucherManagementController implements Runnable {
 
-    private final VoucherCreator voucherCreator;
-    private final VoucherReader voucherReader;
+    private final VoucherDao voucherDao;
     private final Input input;
     private final Output output;
 
-    public VoucherManagementController(VoucherCreator voucherCreator, VoucherReader voucherReader, Input input, Output output) {
-        this.voucherCreator = voucherCreator;
-        this.voucherReader = voucherReader;
+    public VoucherManagementController(VoucherDao voucherDao, Input input, Output output) {
+        this.voucherDao = voucherDao;
         this.input = input;
         this.output = output;
     }
@@ -35,12 +32,19 @@ public class VoucherManagementController implements Runnable {
             VoucherCommand command = VoucherCommand.findByVoucherCommandNumber(input.inputVoucherCommand());
 
             if (command.isCreate()) {
-                createVoucher();
+                output.printDisplayVoucherPolicy();
+                String inputVoucherType = input.inputVoucherType();
+                VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
+                output.printDisplayDiscountCondition(voucherType);
+                Long amount = input.inputDiscountAmount(voucherType);
+                VoucherCreateReqDto voucherCreateReqDto = new VoucherCreateReqDto(voucherType, BigDecimal.valueOf(amount));
+                voucherDao.save(voucherCreateReqDto);
                 continue;
             }
 
             if (command.isFindAll()) {
-                readVouchers();
+                VouchersResDto findVouchers = voucherDao.findAll();
+                output.printVoucherList(findVouchers.getVouchers());
                 continue;
             }
 
@@ -50,28 +54,5 @@ public class VoucherManagementController implements Runnable {
 
             output.printNotImplementMsg();
         }
-    }
-
-    private void createVoucher() {
-        VoucherType voucherType = getVoucherType();
-        long amount = getDiscountAmount(voucherType);
-        Voucher voucher = voucherCreator.createVoucher(voucherType, amount);
-        output.printCreatedMsg(voucher);
-    }
-
-    private VoucherType getVoucherType() {
-        output.printDisplayVoucherPolicy();
-        String inputVoucherTypeName = input.inputVoucherType();
-        return VoucherType.findByVoucherTypeName(inputVoucherTypeName);
-    }
-
-    private long getDiscountAmount(VoucherType voucherType) {
-        output.printDisplayDiscountCondition(voucherType);
-        return input.inputDiscountAmount(voucherType);
-    }
-
-    private void readVouchers() {
-        List<VoucherResDto> vouchers = voucherReader.readVoucherList();
-        output.printVoucherList(vouchers);
     }
 }
