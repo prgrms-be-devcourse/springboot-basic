@@ -11,7 +11,6 @@ import java.util.List;
 
 @Component
 public class Output {
-    private static final Logger log = LoggerFactory.getLogger(Output.class);
 
     public void outputMessage(String outputMessage){
         System.out.println(outputMessage);

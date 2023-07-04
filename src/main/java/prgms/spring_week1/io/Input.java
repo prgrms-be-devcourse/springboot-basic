@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 @Component
 public class Input {
-    private static final Logger log = LoggerFactory.getLogger(Input.class);
     Scanner sc = new Scanner(System.in);
 
     public String input() {
