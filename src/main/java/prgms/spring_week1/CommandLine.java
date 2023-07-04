@@ -14,10 +14,6 @@ import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
 
 import java.util.List;
-import java.util.Map;
-
-import static prgms.spring_week1.domain.voucher.model.type.VoucherType.FIXED;
-import static prgms.spring_week1.domain.voucher.model.type.VoucherType.PERCENT;
 
 @Component
 public class CommandLine implements Runnable {

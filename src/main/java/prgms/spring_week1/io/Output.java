@@ -1,10 +1,7 @@
 package prgms.spring_week1.io;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
-import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
 import java.util.List;
@@ -12,7 +9,7 @@ import java.util.List;
 @Component
 public class Output {
 
-    public void outputMessage(String outputMessage){
+    public void outputMessage(String outputMessage) {
         System.out.println(outputMessage);
     }
 
