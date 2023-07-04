@@ -19,6 +19,7 @@ class MenuTest {
     @ParameterizedTest
     @ValueSource(strings = {"EXI", "crrea", "EXwww"})
     void MenuType_fail(String inputText) {
-        assertThrows(NoSuchOptionValueException.class, () -> Menu.findMenuType(inputText));
+        Throwable exception = assertThrows(NoSuchOptionValueException.class, () -> Menu.findMenuType(inputText));
+        assertEquals("해당 메뉴 타입이 존재하지 않습니다.",exception.getMessage());
     }
 }
