@@ -4,7 +4,7 @@ import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
-import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.ConsoleCommandType;
 import com.programmers.voucher.global.util.ConsoleMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.mock.MockTextTerminal;
@@ -44,15 +44,14 @@ class TextIoOutputTest {
         String expected =
                 ConsoleMessages.VOUCHER_PROGRAM + "\n"
                 + commandMessage(ConsoleCommandType.EXIT, EXIT_BEHAVIOR) + "\n"
-                + commandMessage(ConsoleCommandType.CREATE ,CREATE_BEHAVIOR) + "\n"
-                + commandMessage(ConsoleCommandType.LIST, LIST_BEHAVIOR) + "\n"
                 + commandMessage(ConsoleCommandType.HELP, HELP_BEHAVIOR) + "\n"
-                + commandMessage(ConsoleCommandType.BLACKLIST, BLACKLIST_BEHAVIOR);
+                + commandMessage(ConsoleCommandType.CUSTOMER, CUSTOMER_BEHAVIOR) + "\n"
+                + commandMessage(ConsoleCommandType.VOUCHER, VOUCHER_BEHAVIOR);
         assertThat(output).isEqualTo(expected);
     }
 
     private String commandMessage(ConsoleCommandType commandType, String behavior) {
-        return ConsoleMessages.INPUT + " " + commandType.getInput() + " " + behavior;
+        return ConsoleMessages.INPUT + " " + commandType.getType() + " " + behavior;
     }
 
     @Test

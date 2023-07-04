@@ -2,10 +2,12 @@ package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
+import com.programmers.voucher.global.io.command.CustomerCommandType;
+import com.programmers.voucher.global.io.command.VoucherCommandType;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
-import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.ConsoleCommandType;
 import com.programmers.voucher.global.io.ConsoleInput;
 import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.beryx.textio.TextIO;
@@ -122,5 +124,21 @@ public class TextIoInput implements ConsoleInput {
     @Override
     public UUID inputUUID() {
         return null;
+    }
+
+    @Override
+    public VoucherCommandType inputVoucherCommandType() {
+        String command = textIO.newStringInputReader()
+                .read();
+
+        return VoucherCommandType.getValue(command);
+    }
+
+    @Override
+    public CustomerCommandType inputCustomerCommandType() {
+        String command = textIO.newStringInputReader()
+                .read();
+
+        return CustomerCommandType.getValue(command);
     }
 }

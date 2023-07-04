@@ -8,6 +8,10 @@ import java.util.List;
 public interface ConsoleOutput {
     void printCommandSet();
 
+    void printCustomerCommandSet();
+
+    void printVoucherCommandSet();
+
     void printVouchers(List<Voucher> vouchers);
 
     void printCustomers(List<Customer> customers);

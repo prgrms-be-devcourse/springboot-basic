@@ -3,7 +3,10 @@ package com.programmers.voucher;
 import com.programmers.voucher.domain.customer.controller.CustomerController;
 import com.programmers.voucher.domain.voucher.controller.VoucherController;
 import com.programmers.voucher.global.io.Console;
-import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.ConsoleCommandType;
+import com.programmers.voucher.global.io.menu.ConsoleMenu;
+import com.programmers.voucher.global.io.command.CustomerCommandType;
+import com.programmers.voucher.global.io.command.VoucherCommandType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,54 +23,125 @@ class ConsoleMenuTest {
     private ConsoleMenu consoleMenu;
 
     @Mock
-    private VoucherController voucherController;
+    private Console console;
 
     @Mock
     private CustomerController customerController;
 
     @Mock
-    private Console console;
+    private VoucherController voucherController;
+
 
     @Test
-    @DisplayName("성공: create 명령 입력")
-    public void commandTypeCreate() {
+    @DisplayName("성공: voucher 명령 입력 - create 명령 입력")
+    public void voucherCommandTypeCreate() {
         //given
-        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CREATE);
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
+        given(console.inputVoucherCommandType()).willReturn(VoucherCommandType.CREATE);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
+        then(console).should().inputVoucherCommandType();
         then(voucherController).should().createVoucher();
     }
 
     @Test
-    @DisplayName("성공: list 명령 입력")
-    void commandTypeList() {
+    @DisplayName("성공: voucher 명령 입력 - list 명령 입력")
+    void voucherCommandTypeList() {
         //given
-        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.LIST);
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
+        given(console.inputVoucherCommandType()).willReturn(VoucherCommandType.LIST);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
+        then(console).should().inputVoucherCommandType();
         then(voucherController).should().findVouchers();
     }
 
     @Test
-    @DisplayName("성공: blacklist 명령 입력")
-    void commandTypeBlacklist() {
+    @DisplayName("성공: customer 명령 입력 - blacklist 명령 입력")
+    void customerCommandTypeBlacklist() {
         //given
-        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.BLACKLIST);
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
+        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.BLACKLIST);
 
         //when
         consoleMenu.runClient();
 
         //then
         then(console).should().inputInitialCommand();
+        then(console).should().inputCustomerCommandType();
         then(customerController).should().findBlacklistCustomers();
+    }
+
+    @Test
+    @DisplayName("성공: customer 명령 입력 - create 명령 입력")
+    void customerCommandTypeCreate() {
+        //given
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
+        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.CREATE);
+
+        //when
+        consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(console).should().inputCustomerCommandType();
+        then(customerController).should().createCustomer();
+    }
+
+    @Test
+    @DisplayName("성공: customer 명령 입력 - list 명령 입력")
+    void customerCommandTypeList() {
+        //given
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
+        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.LIST);
+
+        //when
+        consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(console).should().inputCustomerCommandType();
+        then(customerController).should().findCustomers();
+    }
+
+    @Test
+    @DisplayName("성공: customer 명령 입력 - update 명령 입력")
+    void customerCommandTypeUpdate() {
+        //given
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
+        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.UPDATE);
+
+        //when
+        consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(console).should().inputCustomerCommandType();
+        then(customerController).should().updateCustomer();
+    }
+
+    @Test
+    @DisplayName("성공: customer 명령 입력 - delete 명령 입력")
+    void customerCommandTypeDelete() {
+        //given
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CUSTOMER);
+        given(console.inputCustomerCommandType()).willReturn(CustomerCommandType.DELETE);
+
+        //when
+        consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(console).should().inputCustomerCommandType();
+        then(customerController).should().deleteCustomer();
     }
 
     @Test
@@ -96,46 +170,5 @@ class ConsoleMenuTest {
         //then
         then(console).should().inputInitialCommand();
         then(console).should().exit();
-    }
-
-    @Test
-    @DisplayName("성공: IllegalArgumentException 발생 - 예외 처리 후 재 입력")
-    void run_ButThrownIllegalArgumentException_Then_KeepRunning() {
-        //given
-        doThrow(new IllegalArgumentException("Error message"))
-                .when(voucherController).createVoucher();
-
-        given(console.inputInitialCommand())
-                .willReturn(ConsoleCommandType.CREATE, ConsoleCommandType.EXIT);
-
-        //when
-        consoleMenu.run();
-
-        //then
-        then(console).should().print("Error message");
-
-        then(console).should(times(2)).inputInitialCommand();
-        then(voucherController).should().createVoucher();
-        then(console).should().exit();
-    }
-
-    @Test
-    @DisplayName("성공: 예측하지 못한 예외 발생 - 예외 처리 후 종료")
-    void run_ButThrownTheOtherExceptions_Then_ExitConsole() {
-        //given
-        doThrow(new RuntimeException("Error message"))
-                .when(voucherController).createVoucher();
-
-        given(console.inputInitialCommand())
-                .willReturn(ConsoleCommandType.CREATE, ConsoleCommandType.EXIT);
-
-        //when
-        consoleMenu.run();
-
-        //then
-        then(console).should().print("Error message");
-
-        then(console).should().inputInitialCommand();
-        then(voucherController).should().createVoucher();
     }
 }

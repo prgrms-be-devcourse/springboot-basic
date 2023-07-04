@@ -1,4 +1,4 @@
-package com.programmers.voucher.global.io;
+package com.programmers.voucher.global.io.command;
 
 import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
@@ -9,24 +9,23 @@ import java.util.Objects;
 
 import static com.programmers.voucher.global.util.ConsoleErrorMessages.INVALID_CONSOLE_COMMAND;
 
-public enum ConsoleCommandType {
-    CREATE("create"),
-    LIST("list"),
+public enum ConsoleCommandType implements CommandType {
     HELP("help"),
-    BLACKLIST("blacklist"),
-    EXIT("exit");
+    EXIT("exit"),
+    CUSTOMER("customer"),
+    VOUCHER("voucher");
 
     private static final Logger LOG = LoggerFactory.getLogger(ConsoleCommandType.class);
 
-    private final String input;
+    private final String type;
 
-    ConsoleCommandType(String input) {
-        this.input = input;
+    ConsoleCommandType(String type) {
+        this.type = type;
     }
 
     public static ConsoleCommandType getValue(String input) {
         return Arrays.stream(values())
-                .filter(i -> Objects.equals(i.input, input))
+                .filter(i -> Objects.equals(i.type, input))
                 .findAny()
                 .orElseThrow(() -> {
                     String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_CONSOLE_COMMAND, input);
@@ -36,7 +35,8 @@ public enum ConsoleCommandType {
                 });
     }
 
-    public String getInput() {
-        return input;
+    @Override
+    public String getType() {
+        return type;
     }
 }

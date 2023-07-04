@@ -31,7 +31,7 @@ class TextIoInputTest {
 
     @ParameterizedTest
     @CsvSource({
-            "exit", "help", "create", "list", "blacklist"
+            "exit", "help", "customer", "voucher"
     })
     @DisplayName("성공: 콘솔 명령어 입력 실행")
     void inputInitialCommand(String input) {
