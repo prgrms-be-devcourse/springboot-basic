@@ -10,10 +10,24 @@ public class User {
     private final String name;
     private final LocalDateTime createdAt;
 
-    public User(UUID id, String name, LocalDateTime createdAt) {
+    private User(UUID id, String name, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
+    }
+
+    public static User of(UUID id, String name, LocalDateTime createdAt) {
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(name);
+        return new User(id, name, createdAt);
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
