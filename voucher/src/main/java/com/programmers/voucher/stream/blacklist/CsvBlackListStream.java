@@ -17,12 +17,10 @@ import java.util.List;
 public class CsvBlackListStream implements BlackListStream {
     ResourceLoader resourceLoader = new DefaultResourceLoader();
     @Value("${filepath.blacklist}")
-    private String SAMPLE_CSV_FILE_PATH = "classpath:/customer_blacklist.csv";
-    BufferedReader br;
+    private String SAMPLE_CSV_FILE_PATH;
 
     @Override
     public List<String> findAll() throws IOException {
-        String line = "";
         String path = resourceLoader.getResource(SAMPLE_CSV_FILE_PATH).getURI().getPath();
         File file = new File(path);
         List<String> blackList = new ArrayList<>();
@@ -42,13 +40,4 @@ public class CsvBlackListStream implements BlackListStream {
         }
     }
 
-    private void closeBufferedReader() {
-        try {
-            if (br != null) {
-                br.close();
-            }
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
-    }
 }
