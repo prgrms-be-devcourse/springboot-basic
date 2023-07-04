@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(classes = {FileVoucherRepository.class})
 public class FileVoucherRepositoryTest {
 
     @Autowired
