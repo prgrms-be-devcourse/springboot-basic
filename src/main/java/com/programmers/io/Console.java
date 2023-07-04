@@ -1,5 +1,7 @@
 package com.programmers.io;
 
+import com.programmers.domain.customer.Customer;
+import com.programmers.domain.customer.dto.CustomersResponseDto;
 import com.programmers.domain.voucher.Voucher;
 import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,7 @@ public class Console implements Input, Output {
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
             "Type 'exit' or '1' to exit the program.\n" +
             "Type 'create' or '2' to create a new voucher or a new customer.\n" +
-            "Type 'list' or '3' to list all vouchers.\n" +
+            "Type 'list' or '3' to list all vouchers or all customers.\n" +
             "Type 'black' or '4' to check the blacklist.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
             "Type voucher name or number to create.\n" +
@@ -30,6 +32,16 @@ public class Console implements Input, Output {
             "2. customer";
     private static final String CUSTOMER_NAME_MESSAGE = "\n=== Type customer name ===";
     private static final String CUSTOMER_CREATED_MESSAGE = "--- Customer Created !! ---\n";
+    private static final String LIST_MESSAGE = "\n=== List ===\n" +
+            "Type '1' or '2' to list items.\n" +
+            "1. voucher\n" +
+            "2. customer";
+    private static final String CUSTOMER_LIST_MESSAGE = "\n=== Customer List ===\n" +
+            "Type '1' or '2' to choose Customer Type.\n" +
+            "1. Normal Customer\n" +
+            "2. Blacklist";
+
+    private static final String NORMAL_CUSTOMER_LIST_TITLE_MESSAGE = "\n=== Normal Customer List ===";
 
     @Override
     public void printMenu() {
@@ -91,5 +103,23 @@ public class Console implements Input, Output {
 
     public void printCustomerCreated() {
         System.out.println(CUSTOMER_CREATED_MESSAGE);
+    }
+
+    public void printListMessage() {
+        System.out.println(LIST_MESSAGE);
+    }
+
+    public void printCustomerListMessage() {
+        System.out.println(CUSTOMER_LIST_MESSAGE);
+    }
+
+    public void printNormalCustomerListTitle() {
+        System.out.println(NORMAL_CUSTOMER_LIST_TITLE_MESSAGE);
+    }
+
+    public void printCustomers(CustomersResponseDto customersResponseDto) {
+        List<Customer> customers = customersResponseDto.customers();
+        customers.forEach(System.out::println);
+        System.out.println();
     }
 }

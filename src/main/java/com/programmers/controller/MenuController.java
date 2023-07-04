@@ -16,8 +16,8 @@ public class MenuController {
 
     private static final Logger log = LoggerFactory.getLogger(MenuController.class);
 
-    private static final String CREATE_VOUCHER_NUMBER = "1";
-    private static final String CREATE_CUSTOMER_NUMBER = "2";
+    private static final String MENU_VOUCHER_NUMBER = "1";
+    private static final String MENU_CUSTOMER_NUMBER = "2";
 
     private final Console console;
     private final VoucherService voucherService;
@@ -48,7 +48,7 @@ public class MenuController {
                     log.info("The program has been terminated.");
                 }
                 case CREATE -> create();
-                case LIST -> getVoucherList();
+                case LIST -> list();
                 case BLACKLIST -> getBlacklist();
             }
         }
@@ -57,17 +57,28 @@ public class MenuController {
     public void create() {
         console.printCreateMessage();
         String command = console.readInput();
-        checkCreateMenuSelection(command);
+        checkMenuSelection(command);
 
         switch (command) {
-            case CREATE_VOUCHER_NUMBER -> voucherController.createVoucher();
-            case CREATE_CUSTOMER_NUMBER -> customerController.createCustomer();
+            case MENU_VOUCHER_NUMBER -> voucherController.createVoucher();
+            case MENU_CUSTOMER_NUMBER -> customerController.createCustomer();
         }
     }
 
-    private void checkCreateMenuSelection(String input) {
-        if (!input.equals(CREATE_VOUCHER_NUMBER) && !input.equals(CREATE_CUSTOMER_NUMBER)) {
+    private void checkMenuSelection(String input) {
+        if (!input.equals(MENU_VOUCHER_NUMBER) && !input.equals(MENU_CUSTOMER_NUMBER)) {
             throw new IllegalArgumentException();
+        }
+    }
+
+    public void list() {
+        console.printListMessage();
+        String command = console.readInput();
+        checkMenuSelection(command);
+
+        switch (command) {
+            case MENU_VOUCHER_NUMBER -> getVoucherList();
+            case MENU_CUSTOMER_NUMBER -> customerController.getCustomerList();
         }
     }
 

@@ -24,7 +24,7 @@ class ConsoleTest {
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
             "Type 'exit' or '1' to exit the program.\n" +
             "Type 'create' or '2' to create a new voucher or a new customer.\n" +
-            "Type 'list' or '3' to list all vouchers.\n" +
+            "Type 'list' or '3' to list all vouchers or all customers.\n" +
             "Type 'black' or '4' to check the blacklist.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
             "Type voucher name or number to create.\n" +
