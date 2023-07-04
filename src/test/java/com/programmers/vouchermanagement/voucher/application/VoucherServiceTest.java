@@ -1,7 +1,6 @@
 package com.programmers.vouchermanagement.voucher.application;
 
 import com.programmers.vouchermanagement.voucher.domain.*;
-import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,9 +29,9 @@ class VoucherServiceTest {
     @DisplayName("바우처를 생성한다.")
     void createVoucher() {
         // given
-        VoucherDto.Request request = new VoucherDto.Request(DiscountType.FIX, 5000);
+        VoucherDto request = new VoucherDto(DiscountType.FIX, 5000);
         DiscountType discountType = request.discountType();
-        int amount = request.discountAmount();
+        int amount = request.amount();
         Voucher voucher = discountType.createVoucher(amount);
 
         given(voucherRepository.save(any(Voucher.class)))
@@ -52,17 +51,17 @@ class VoucherServiceTest {
     @DisplayName("바우처를 모두 조회한다.")
     void getVouchers() {
         // given
-        Voucher voucher1 = new Voucher(new FixedAmountDiscountPolicy(5000));
-        Voucher voucher2 = new Voucher(new PercentDiscountPolicy(10));
+        Voucher voucher1 = new Voucher(new FixedAmountDiscountPolicy(5000), DiscountType.FIX);
+        Voucher voucher2 = new Voucher(new PercentDiscountPolicy(10), DiscountType.PERCENT);
 
         given(voucherRepository.findAll())
                 .willReturn(List.of(voucher1, voucher2));
 
         // when
-        VoucherDto.Response result = voucherService.getVouchers();
+        List<VoucherDto> result = voucherService.getVouchers();
 
         // then
-        assertThat(result.voucherName()).hasSize(2);
+        assertThat(result).hasSize(2);
 
         // verify
         verify(voucherRepository, times(1)).findAll();

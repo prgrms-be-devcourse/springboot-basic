@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.voucher.domain;
 
 import java.math.BigDecimal;
 
-public class PercentDiscountPolicy extends DiscountPolicy {
+public class PercentDiscountPolicy implements DiscountPolicy {
 
     public static final int MIN_PERCENT = 1;
     public static final int MAX_PERCENT = 100;
@@ -18,6 +18,11 @@ public class PercentDiscountPolicy extends DiscountPolicy {
         if (MIN_PERCENT > amount || amount > MAX_PERCENT) {
             throw new IllegalArgumentException("The discount percentage must be between 1 and 100%.");
         }
+    }
+
+    @Override
+    public int getAmount() {
+        return amount;
     }
 
     @Override

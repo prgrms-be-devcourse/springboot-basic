@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-public class FixedAmountDiscountPolicy extends DiscountPolicy {
+public class FixedAmountDiscountPolicy implements DiscountPolicy {
 
     public static final int MIN_AMOUNT = 1;
 
@@ -15,6 +15,11 @@ public class FixedAmountDiscountPolicy extends DiscountPolicy {
         if (amount < MIN_AMOUNT) {
             throw new IllegalArgumentException("The minimum discount amount is 1.");
         }
+    }
+
+    @Override
+    public int getAmount() {
+        return amount;
     }
 
     @Override

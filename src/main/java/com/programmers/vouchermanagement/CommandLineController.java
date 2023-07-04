@@ -3,12 +3,14 @@ package com.programmers.vouchermanagement;
 import com.programmers.vouchermanagement.view.Command;
 import com.programmers.vouchermanagement.view.Console;
 import com.programmers.vouchermanagement.voucher.domain.DiscountType;
-import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
+import com.programmers.vouchermanagement.voucher.application.VoucherDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -38,11 +40,11 @@ public class CommandLineController implements CommandLineRunner {
             case CREATE -> {
                 DiscountType discountType = DiscountType.from(Console.selectDiscountType());
                 int discountAmount = Console.inputDiscountAmount();
-                VoucherDto.Request request = new VoucherDto.Request(discountType, discountAmount);
+                VoucherDto request = new VoucherDto(discountType, discountAmount);
                 voucherController.createVoucher(request);
             }
             case LIST-> {
-                VoucherDto.Response vouchers = voucherController.getVouchers();
+                List<VoucherDto> vouchers = voucherController.getVouchers();
                 Console.outputVouchers(vouchers);
             }
             case EXIT -> {

@@ -6,10 +6,12 @@ public class Voucher {
 
     private final UUID id;
     private final DiscountPolicy discountPolicy;
+    private final DiscountType discountType;
 
-    public Voucher(DiscountPolicy discountPolicy) {
+    public Voucher(DiscountPolicy discountPolicy, DiscountType discountType) {
         this.id = UUID.randomUUID();
         this.discountPolicy = discountPolicy;
+        this.discountType = discountType;
     }
 
     public UUID getId() {
@@ -18,6 +20,10 @@ public class Voucher {
 
     public DiscountPolicy getDiscountPolicy() {
         return discountPolicy;
+    }
+
+    public DiscountType getDiscountType() {
+        return discountType;
     }
 
     public int discount(int originalPrice) {

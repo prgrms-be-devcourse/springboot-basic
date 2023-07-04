@@ -1,6 +1,8 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-public abstract class DiscountPolicy {
+public interface DiscountPolicy {
 
-    abstract int discount(int originalPrice);
+    int getAmount();
+
+    int discount(int originalPrice);
 }
