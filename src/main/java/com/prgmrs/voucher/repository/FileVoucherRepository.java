@@ -18,7 +18,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        voucherDatabase.store(voucher.getVoucherId(), voucher, FILE_PATH);
+        voucherDatabase.store(voucher, FILE_PATH);
     }
 
     @Override

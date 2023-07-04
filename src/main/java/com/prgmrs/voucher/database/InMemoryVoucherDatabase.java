@@ -19,7 +19,7 @@ public class InMemoryVoucherDatabase implements VoucherDatabase {
     }
 
     @Override
-    public void store(UUID voucherId, Voucher voucher, String filePath) {
-        storage.put(voucherId, voucher);
+    public void store(Voucher voucher, String filePath) {
+        storage.put(voucher.getVoucherId(), voucher);
     }
 }

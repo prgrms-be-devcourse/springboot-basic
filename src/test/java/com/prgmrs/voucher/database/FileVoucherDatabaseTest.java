@@ -45,7 +45,7 @@ class FileVoucherDatabaseTest {
 
         FileVoucherDatabase database = new FileVoucherDatabase();
 
-        assertDoesNotThrow(() -> database.store(randomVoucherId, voucher, FILEPATH));
+        assertDoesNotThrow(() -> database.store(voucher, FILEPATH));
     }
 
     @Test
@@ -57,7 +57,7 @@ class FileVoucherDatabaseTest {
         Voucher voucher = new FixedAmountVoucher(randomVoucherId, amount);
 
         FileVoucherDatabase database = new FileVoucherDatabase();
-        assertThrows(FileNotReadException.class, () -> database.store(randomVoucherId, voucher, FILEPATH));
+        assertThrows(FileNotReadException.class, () -> database.store(voucher, FILEPATH));
     }
 
 }

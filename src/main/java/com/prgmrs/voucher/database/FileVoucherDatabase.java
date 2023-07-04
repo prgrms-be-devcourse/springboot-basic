@@ -59,7 +59,7 @@ public class FileVoucherDatabase implements VoucherDatabase {
     }
 
     @Override
-    public void store(UUID voucherId, Voucher voucher, String filePath) {
+    public void store(Voucher voucher, String filePath) {
         boolean append = Files.exists(Paths.get(filePath));
         try (CSVWriter writer = new CSVWriter(new FileWriter(filePath, append))) {
             if (!append) {
@@ -68,12 +68,12 @@ public class FileVoucherDatabase implements VoucherDatabase {
             }
 
             if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
-                writer.writeNext(new String[]{voucherId.toString(), "fixed", Long.toString(fixedAmountVoucher.getAmount())});
+                writer.writeNext(new String[]{voucher.getVoucherId().toString(), "fixed", Long.toString(fixedAmountVoucher.getAmount())});
                 return;
             }
 
             if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
-                writer.writeNext(new String[]{voucherId.toString(), "percent", Long.toString(percentDiscountVoucher.getPercent())});
+                writer.writeNext(new String[]{voucher.getVoucherId().toString(), "percent", Long.toString(percentDiscountVoucher.getPercent())});
             }
         } catch (Exception e) {
             logger.error("unexpected error occurred : ", e);
