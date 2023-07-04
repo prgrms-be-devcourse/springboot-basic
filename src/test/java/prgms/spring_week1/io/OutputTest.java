@@ -1,6 +1,7 @@
 package prgms.spring_week1.io;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
@@ -32,6 +33,7 @@ class OutputTest {
     }
 
     @Test
+    @DisplayName("바우처를 조회 했을 때 제대로 출력되는 지 확인")
     void printVoucherInfo() {
         output.printDiscountFixedVoucherInfo(10000);
         output.printDiscountAmountVoucherInfo(10);
@@ -41,6 +43,7 @@ class OutputTest {
     }
 
     @Test
+    @DisplayName("블랙리스트를 조회 했을 때 제대로 출력되는 지 확인")
     void printBlackConsumerList() {
         List<BlackConsumer> blackConsumerList = new ArrayList<>();
         blackConsumerList.add(new BlackConsumer("오세한", "20"));

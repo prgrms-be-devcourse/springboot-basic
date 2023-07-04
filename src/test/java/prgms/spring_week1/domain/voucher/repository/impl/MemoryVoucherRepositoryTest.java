@@ -1,6 +1,7 @@
 package prgms.spring_week1.domain.voucher.repository.impl;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
@@ -24,7 +25,8 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    void insert() {
+    @DisplayName("바우처 리스트를 조회 했을 때 올바른 사이즈 값이 나오는 지 확인")
+    void findAll() {
         //given
         List<Voucher> voucherList = voucherRepository.findAll();
         //when
@@ -34,7 +36,8 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    void findAll() {
+    @DisplayName("바우처 추가가 제대로 동작하는 지 확인")
+    void insert() {
         //given
         Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, 10000);
         //when
