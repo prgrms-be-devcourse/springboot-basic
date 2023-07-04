@@ -4,15 +4,13 @@ import java.util.InputMismatchException;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED(1, "fixed"),
-    PERCENT(2, "percent");
+    FIXED(1),
+    PERCENT(2);
 
     private int voucherNum;
-    private String voucherType;
 
-    VoucherType(int voucherNum, String voucherType) {
+    VoucherType(int voucherNum) {
         this.voucherNum = voucherNum;
-        this.voucherType = voucherType;
     }
 
     public static VoucherType getSelectedVoucherType(int selectedNum) {
@@ -22,7 +20,4 @@ public enum VoucherType {
                 .orElseThrow(() -> new InputMismatchException("존재하지 않는 바우처 타입입니다."));
     }
 
-    public String getVoucherType() {
-        return voucherType;
-    }
 }
