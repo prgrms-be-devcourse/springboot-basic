@@ -30,6 +30,9 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discountAmount(long originalAmount) {
+        if (this.amount > originalAmount) {
+            throw new IllegalArgumentException("바우처 할인 대상의 금액은 바우처의 할인액보다 커야합니다.");
+        }
         return originalAmount - amount;
     }
 
