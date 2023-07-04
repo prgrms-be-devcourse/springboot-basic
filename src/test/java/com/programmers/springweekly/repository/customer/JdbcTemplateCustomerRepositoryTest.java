@@ -1,18 +1,19 @@
 package com.programmers.springweekly.repository.customer;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.dto.CustomerUpdateDto;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -39,14 +40,16 @@ class JdbcTemplateCustomerRepositoryTest {
     void update() {
         // given
         Customer customer = new Customer(UUID.randomUUID(), "changhyeon1", "chagnhyeon.h1@kakao.com", CustomerType.NORMAL);
-        CustomerUpdateDto customerUpdateDto = new CustomerUpdateDto("changhyeon2", "chagnhyeon.h2@kakao.com", CustomerType.BLACKLIST);
+        CustomerUpdateDto customerUpdateDto = new CustomerUpdateDto(customer.getCustomerId(), "changhyeon2", "chagnhyeon.h2@kakao.com", CustomerType.BLACKLIST);
         Customer customerExpect = new Customer(customer.getCustomerId(), customerUpdateDto.getCustomerName(), customerUpdateDto.getCustomerEmail(), customerUpdateDto.getCustomerType());
 
         // when
-        Customer customerActual = jdbcTemplateCustomerRepository.update(customer.getCustomerId(), customerUpdateDto);
+        jdbcTemplateCustomerRepository.save(customer);
+        jdbcTemplateCustomerRepository.update(customerExpect);
+        Optional<Customer> customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
 
         // then
-        assertThat(customerActual).usingRecursiveComparison().isEqualTo(customerExpect);
+        assertThat(customerActual.get()).usingRecursiveComparison().isEqualTo(customerExpect);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
-import com.programmers.springweekly.dto.CustomerUpdateDto;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,7 +10,7 @@ public interface CustomerRepository {
 
     Customer save(Customer customer);
 
-    Customer update(UUID customerId, CustomerUpdateDto customerUpdateDto);
+    void update(Customer customer);
 
     Optional<Customer> findById(UUID customerId);
 

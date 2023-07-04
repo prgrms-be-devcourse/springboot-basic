@@ -2,7 +2,6 @@ package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
-import com.programmers.springweekly.dto.CustomerUpdateDto;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -41,23 +40,16 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer update(UUID customerId, CustomerUpdateDto customerUpdateDto) {
+    public void update(Customer customer) {
         String sql = "update customers set customer_name = :customerName, customer_email = :customerEmail, customer_type = :customerType where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("customerName", customerUpdateDto.getCustomerName())
-                .addValue("customerEmail", customerUpdateDto.getCustomerEmail())
-                .addValue("customerType", customerUpdateDto.getCustomerType().toString())
-                .addValue("customerId", customerId.toString());
+                .addValue("customerName", customer.getCustomerName())
+                .addValue("customerEmail", customer.getCustomerEmail())
+                .addValue("customerType", customer.getCustomerType().toString())
+                .addValue("customerId", customer.getCustomerId().toString());
 
         template.update(sql, param);
-
-        return new Customer(
-                customerId,
-                customerUpdateDto.getCustomerName(),
-                customerUpdateDto.getCustomerEmail(),
-                customerUpdateDto.getCustomerType()
-        );
     }
 
     @Override
