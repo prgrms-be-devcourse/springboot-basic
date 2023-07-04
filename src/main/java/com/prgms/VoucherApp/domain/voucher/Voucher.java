@@ -3,12 +3,30 @@ package com.prgms.VoucherApp.domain.voucher;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public interface Voucher {
-    BigDecimal discount(BigDecimal beforeAmount);
+public abstract class Voucher {
+    private final UUID voucherId;
 
-    UUID getVoucherId();
+    protected BigDecimal amount;
 
-    BigDecimal getDiscountAmount();
+    protected VoucherType voucherType;
 
-    VoucherType getVoucherType();
+    public Voucher(UUID voucherId, BigDecimal amount, VoucherType voucherType) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        this.voucherType = voucherType;
+    }
+
+    abstract BigDecimal discount(BigDecimal beforeAmount);
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
 }

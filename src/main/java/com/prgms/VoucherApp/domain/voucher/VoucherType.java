@@ -13,7 +13,7 @@ public enum VoucherType {
 
     private final String voucherTypeName;
     private static final Map<String, VoucherType> VOUCHER_POLICY_MAP = Collections.unmodifiableMap(Arrays.stream(values())
-            .collect(Collectors.toMap(VoucherType::getVoucherTypeName, Function.identity())));
+        .collect(Collectors.toMap(VoucherType::getVoucherTypeName, Function.identity())));
 
     VoucherType(String voucherTypeName) {
         this.voucherTypeName = voucherTypeName;
@@ -33,7 +33,7 @@ public enum VoucherType {
 
     public static List<String> getAllVoucherType() {
         return VOUCHER_POLICY_MAP.keySet()
-                .stream()
-                .toList();
+            .stream()
+            .toList();
     }
 }

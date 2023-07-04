@@ -12,15 +12,15 @@ public class VoucherDto {
     private final BigDecimal discountAmount;
     private final VoucherType voucherType;
 
-    public VoucherDto(String voucherId, String discountAmount, String voucherTypeName) {
-        this.voucherId = UUID.fromString(voucherId);
-        this.discountAmount = BigDecimal.valueOf(Double.parseDouble(discountAmount));
-        this.voucherType = VoucherType.findByVoucherTypeName(voucherTypeName);
+    public VoucherDto(UUID voucherId, BigDecimal discountAmount, VoucherType voucherType) {
+        this.voucherId = voucherId;
+        this.discountAmount = discountAmount;
+        this.voucherType = voucherType;
     }
 
     public VoucherDto(Voucher voucher) {
         this.voucherId = voucher.getVoucherId();
-        this.discountAmount = voucher.getDiscountAmount();
+        this.discountAmount = voucher.getAmount();
         this.voucherType = voucher.getVoucherType();
     }
 
