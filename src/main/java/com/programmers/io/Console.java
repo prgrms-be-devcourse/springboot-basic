@@ -1,6 +1,7 @@
 package com.programmers.io;
 
 import com.programmers.domain.voucher.Voucher;
+import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -58,9 +59,9 @@ public class Console implements Input, Output {
         System.out.println(VOUCHER_LIST_TITLE_MESSAGE);
     }
 
-    public void printVouchers(List<Voucher> vouchers) {
+    public void printVouchers(VouchersResponseDto vouchersResponseDto) {
+        List<Voucher> vouchers = vouchersResponseDto.vouchers();
         vouchers.forEach(System.out::println);
-
         System.out.println();
     }
 

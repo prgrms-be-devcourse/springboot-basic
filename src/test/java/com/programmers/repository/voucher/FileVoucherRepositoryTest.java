@@ -1,4 +1,4 @@
-package com.programmers.repository;
+package com.programmers.repository.voucher;
 
 import com.programmers.domain.voucher.FixedAmountVoucher;
 import com.programmers.domain.voucher.Voucher;

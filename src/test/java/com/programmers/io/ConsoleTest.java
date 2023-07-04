@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.programmers.domain.voucher.FixedAmountVoucher;
 import com.programmers.domain.voucher.Voucher;
+import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -136,9 +137,10 @@ class ConsoleTest {
         FixedAmountVoucher f1 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName1", 11L);
         FixedAmountVoucher f2 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName2", 12L);
         List<Voucher> vouchers = Arrays.asList(f1, f2);
+        VouchersResponseDto vouchersResponseDto = new VouchersResponseDto(vouchers);
 
         //when
-        console.printVouchers(vouchers);
+        console.printVouchers(vouchersResponseDto);
 
         //then
         assertThat(outputStream.toString()).contains("voucherName1");

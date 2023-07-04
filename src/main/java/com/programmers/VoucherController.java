@@ -3,6 +3,8 @@ package com.programmers;
 import com.programmers.domain.*;
 import com.programmers.domain.voucher.Voucher;
 import com.programmers.domain.voucher.VoucherType;
+import com.programmers.domain.voucher.dto.VoucherCreateRequestDto;
+import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import com.programmers.io.Console;
 import com.programmers.service.BlacklistService;
 import com.programmers.service.VoucherService;
@@ -52,7 +54,7 @@ public class VoucherController {
 
     public Voucher createVoucher() {
         Voucher voucher = makeVoucher();
-        voucherService.save(voucher);
+        voucherService.save(new VoucherCreateRequestDto(voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType()));
         console.printVoucherCreated();
         log.info("The voucher has been created.");
 
@@ -69,16 +71,14 @@ public class VoucherController {
         console.printVoucherNameInput();
         String voucherName = console.readInput();
 
-        return VoucherType.constructVoucher(voucherTypeInput, voucherName, discountValue);
+        return VoucherType.createVoucher(voucherTypeInput, voucherName, discountValue);
     }
 
-    public List<Voucher> getVoucherList() {
+    public void getVoucherList() {
         console.printVoucherListTitle();
-        List<Voucher> vouchers = voucherService.findAll();
-        console.printVouchers(vouchers);
+        VouchersResponseDto vouchersResponseDto = voucherService.findAll();
+        console.printVouchers(vouchersResponseDto);
         log.info("The voucher list has been printed.");
-
-        return vouchers;
     }
 
     private List<String> getBlacklist() {

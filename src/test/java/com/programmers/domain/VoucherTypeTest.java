@@ -71,7 +71,7 @@ class VoucherTypeTest {
         Long discountValue = 10L;
 
         //when
-        Voucher result = VoucherType.constructVoucher(voucherTypeInput, uuid, voucherName, discountValue);
+        Voucher result = VoucherType.createVoucher(voucherTypeInput, uuid, voucherName, discountValue);
 
         //then
         Assertions.assertThat(result.getVoucherId()).isEqualTo(uuid);

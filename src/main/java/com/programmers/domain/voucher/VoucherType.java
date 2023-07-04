@@ -42,13 +42,13 @@ public enum VoucherType {
         }
     }
 
-    public static Voucher constructVoucher(String voucherTypeInput, String voucherName, Long discountValue) {
-        VoucherType voucherType = findVoucherType(voucherTypeInput);
+    public static Voucher createVoucher(String voucherTypeInput, String voucherName, Long discountValue) {
+        VoucherType voucherType = findVoucherType(voucherTypeInput.toLowerCase());
         return voucherType.makeVoucher(voucherName, discountValue);
     }
 
-    public static Voucher constructVoucher(String voucherTypeInput, UUID uuid, String voucherName, Long discountValue) {
-        VoucherType voucherType = findVoucherType(voucherTypeInput);
+    public static Voucher createVoucher(String voucherTypeInput, UUID uuid, String voucherName, Long discountValue) {
+        VoucherType voucherType = findVoucherType(voucherTypeInput.toLowerCase());
         return voucherType.makeVoucher(uuid, voucherName, discountValue);
     }
 

@@ -10,10 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("dev")
@@ -56,6 +53,26 @@ public class FileVoucherRepository implements VoucherRepository {
         return Collections.unmodifiableList(voucherList);
     }
 
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
     public Voucher extractVoucher(String line) {
         line = line.replace(" ", "");
         String[] voucherInfo = line.split("\\[|\\]|=|,");
@@ -65,6 +82,6 @@ public class FileVoucherRepository implements VoucherRepository {
         long discountValue = Long.parseLong(voucherInfo[6]);
         String name = voucherInfo[8];
 
-        return VoucherType.constructVoucher(type, id, name, discountValue);
+        return VoucherType.createVoucher(type, id, name, discountValue);
     }
 }

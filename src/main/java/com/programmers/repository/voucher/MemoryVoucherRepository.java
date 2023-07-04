@@ -27,4 +27,24 @@ public class MemoryVoucherRepository implements VoucherRepository {
         List<Voucher> vouchers = new ArrayList<>(storage.values());
         return Collections.unmodifiableList(vouchers);
     }
+
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }

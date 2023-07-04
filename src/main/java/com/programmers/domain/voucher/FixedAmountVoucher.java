@@ -12,6 +12,7 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final String voucherName;
     private final long amount;
+    private final VoucherType voucherType;
 
     public FixedAmountVoucher(UUID voucherId, String voucherName, long amount) {
         checkVoucherInput(voucherName, amount);
@@ -19,6 +20,7 @@ public class FixedAmountVoucher implements Voucher {
         this.voucherId = voucherId;
         this.voucherName = voucherName;
         this.amount = amount;
+        this.voucherType = VoucherType.FixedAmountVoucher;
     }
 
     private void checkVoucherInput(String voucherName, long amount) {
@@ -32,6 +34,21 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public String getVoucherName() {
+        return voucherName;
+    }
+
+    @Override
+    public long getVoucherValue() {
+        return amount;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     @Override
