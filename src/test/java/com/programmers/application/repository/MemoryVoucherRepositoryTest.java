@@ -4,6 +4,8 @@ import com.programmers.application.domain.voucher.Voucher;
 import com.programmers.application.domain.voucher.VoucherFactory;
 import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
+import com.programmers.application.repository.voucher.MemoryVoucherRepository;
+import com.programmers.application.repository.voucher.VoucherRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
