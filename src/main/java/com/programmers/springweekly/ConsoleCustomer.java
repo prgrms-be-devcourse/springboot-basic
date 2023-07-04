@@ -48,6 +48,7 @@ public class ConsoleCustomer {
     private void deleteCustomer() {
         console.outputUUIDGuide();
         UUID customerId = console.inputUUID();
+
         customerController.deleteById(customerId);
         console.outputCompleteGuide();
     }
@@ -55,14 +56,17 @@ public class ConsoleCustomer {
     private void updateCustomer() {
         console.outputUUIDGuide();
         UUID customerId = console.inputUUID();
+
         console.outputCustomerUpdateGuide();
         CustomerUpdateDto customerUpdateDto = console.inputCustomerUpdate(customerId);
+
         customerController.update(customerUpdateDto);
         console.outputCompleteGuide();
     }
 
     private void createCustomer() {
         console.outputCustomerCreateGuide();
+
         customerController.save(console.inputCustomerCreate());
         console.outputCompleteGuide();
     }
