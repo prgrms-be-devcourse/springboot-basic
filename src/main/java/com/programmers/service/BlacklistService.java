@@ -1,6 +1,6 @@
 package com.programmers.service;
 
-import com.programmers.repository.BlacklistRepository;
+import com.programmers.repository.customer.BlacklistRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

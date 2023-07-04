@@ -1,6 +1,6 @@
-package com.programmers.repository.voucher;
+package com.programmers.repository.customer;
 
-import com.programmers.repository.BlacklistRepository;
+import com.programmers.repository.customer.BlacklistRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

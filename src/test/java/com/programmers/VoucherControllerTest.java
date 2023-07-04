@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.programmers.domain.voucher.FixedAmountVoucher;
 import com.programmers.domain.voucher.Voucher;
 import com.programmers.io.Console;
-import com.programmers.repository.BlacklistRepository;
+import com.programmers.repository.customer.BlacklistRepository;
 import com.programmers.repository.voucher.VoucherRepository;
 import com.programmers.service.BlacklistService;
 import com.programmers.service.VoucherService;
