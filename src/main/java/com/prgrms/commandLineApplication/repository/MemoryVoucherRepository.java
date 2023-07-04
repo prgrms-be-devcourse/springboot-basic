@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-  private static final String ERROR_MESSAGE = "존재X 바우처";
+  private static final String NO_EXIST_VOUCHER = "It doesn't exist";
   private static final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
 
   @Override
@@ -27,7 +27,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
   @Override
   public Voucher findById(UUID id) {
     return Optional.ofNullable(voucherStorage.get(id))
-            .orElseThrow(() -> new IllegalArgumentException(ERROR_MESSAGE));
+            .orElseThrow(() -> new IllegalArgumentException(NO_EXIST_VOUCHER));
   }
 
 }
