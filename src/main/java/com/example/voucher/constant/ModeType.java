@@ -10,6 +10,7 @@ public enum ModeType {
     List;
 
     public static ModeType getTypeMode(String typeName) {
+
         return Arrays.stream(ModeType.values())
             .filter(e -> typeName.equals(e.name().toLowerCase()))
             .findAny()

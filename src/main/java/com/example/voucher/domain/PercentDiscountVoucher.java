@@ -7,12 +7,12 @@ import com.example.voucher.utils.validator.VoucherValidator;
 
 public class PercentDiscountVoucher implements Voucher {
 
-    private final UUID voucherId;
-    private final long percent;
-
     private static final int PERCENT_DIVISOR = 100;
 
     VoucherType voucherType = VoucherType.PercentDiscount;
+
+    private final UUID voucherId;
+    private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         VoucherValidator.validatePercent(percent);

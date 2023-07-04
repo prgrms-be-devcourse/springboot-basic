@@ -22,8 +22,8 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    final private VoucherService voucherService;
     private boolean isOn = true;
+    private final VoucherService voucherService;
 
     public CommandLineApplication(VoucherService voucherService) {
         this.voucherService = voucherService;

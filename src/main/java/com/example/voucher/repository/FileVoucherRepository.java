@@ -11,9 +11,10 @@ import com.example.voucher.utils.lineAggregator.LineAggregator;
 
 public class FileVoucherRepository implements VoucherRepository {
 
+    LineAggregator lineAggregator;
+
     private String filePath;
     private Resource resource;
-    LineAggregator lineAggregator;
 
     public FileVoucherRepository(LineAggregator lineAggregator) {
         this.filePath = "classpath:data/voucherList.txt";
