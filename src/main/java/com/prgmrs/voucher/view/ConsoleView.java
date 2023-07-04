@@ -7,13 +7,14 @@ import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.setting.BlacklistProperties;
 import com.prgmrs.voucher.setting.VoucherProperties;
 import com.prgmrs.voucher.util.InputHandler;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class ConsoleView {
+public class ConsoleView implements CommandLineRunner {
     private final VoucherController voucherController;
     private final BlacklistController blackListController;
     private final ConsoleViewIO consoleViewIO = new ConsoleViewIO();
@@ -29,7 +30,8 @@ public class ConsoleView {
         this.voucherProperties = voucherProperties;
     }
 
-    public void run() {
+    @Override
+    public void run(String... args) {
         boolean continueRunning = true;
         while (continueRunning) {
             consoleViewIO.showCommand(blacklistProperties.isBlacklistAllow());
