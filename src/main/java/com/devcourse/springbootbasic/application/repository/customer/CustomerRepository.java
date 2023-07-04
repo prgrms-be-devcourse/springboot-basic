@@ -20,7 +20,6 @@ public class CustomerRepository {
     }
 
     public List<Customer> findAll() {
-        System.out.println(filepath);
         return csvReader.readFile(filepath)
                 .stream()
                 .map(CustomerConverter::convertCsvToCustomer)
