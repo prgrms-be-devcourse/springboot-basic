@@ -52,7 +52,7 @@ public class VoucherService {
         if (voucherList.isEmpty()) {
             console.printNoVoucher();
         } else {
-            voucherList.forEach(voucher -> console.printMsg(String.valueOf(voucher), true));
+            voucherList.forEach(console::printVoucherInfo);
         }
     }
 

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final static long MIN_AMOUNT = 0;
+
     private final UUID voucherId;
     private final long amount;
 
@@ -20,14 +21,12 @@ public class FixedAmountVoucher implements Voucher {
         return voucherId;
     }
 
+    public long getAmount() {
+        return amount;
+    }
+
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
-
-    @Override
-    public String toString() {
-        return "| UUID:" + getId() + "  | VoucherType: FixedVoucher | amount:" + amount + " |";
-    }
-
 
 }

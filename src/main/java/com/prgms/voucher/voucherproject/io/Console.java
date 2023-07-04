@@ -1,6 +1,10 @@
 package com.prgms.voucher.voucherproject.io;
 
 
+import com.prgms.voucher.voucherproject.domain.FixedAmountVoucher;
+import com.prgms.voucher.voucherproject.domain.PercentDiscountVoucher;
+import com.prgms.voucher.voucherproject.domain.Voucher;
+
 import java.util.Scanner;
 
 public class Console implements Input, Output{
@@ -26,6 +30,16 @@ public class Console implements Input, Output{
         }
         else{
             System.out.print(msg);
+        }
+    }
+
+    @Override
+    public void printVoucherInfo(Voucher voucher) {
+        if(voucher instanceof PercentDiscountVoucher) {
+            System.out.println( "| UUID:" + voucher.getId() + "  | VoucherType: PercentVoucher | percent:" + ((PercentDiscountVoucher) voucher).getPercent()+ " |");
+        }
+        if(voucher instanceof FixedAmountVoucher) {
+            System.out.println( "| UUID:" + voucher.getId() + "  | VoucherType: FixedVoucher | amount:" + ((FixedAmountVoucher) voucher).getAmount()+ " |");
         }
     }
 
