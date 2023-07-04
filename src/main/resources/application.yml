@@ -24,10 +24,3 @@ file:
 
 ---
 
-spring:
-  config:
-    activate:
-      on-profile: test
-file:
-  voucher:
-    path: ./file/voucher_list.csv
