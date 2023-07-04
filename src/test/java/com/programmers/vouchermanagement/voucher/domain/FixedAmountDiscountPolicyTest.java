@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.*;
 
-class FixedAmountVoucherTest {
+class FixedAmountDiscountPolicyTest {
 
     @Nested
     @DisplayName("할인 금액을 검증한다.")
@@ -19,7 +19,7 @@ class FixedAmountVoucherTest {
         @DisplayName("최소 할인 금액 이상인 경우 예외가 발생하지 않는다.")
         void isMoreThanMinAmount(int amount) {
             // when & then
-            assertThatCode(() -> new FixedAmountVoucher(amount))
+            assertThatCode(() -> new FixedAmountDiscountPolicy(amount))
                     .doesNotThrowAnyException();
         }
 
@@ -28,9 +28,7 @@ class FixedAmountVoucherTest {
         @DisplayName("최소 할인 금액 미만인 경우 예외가 발생한다.")
         void lessThanMinAmount(int amount) {
             // when & then
-            assertThatThrownBy(() -> {
-                new FixedAmountVoucher(amount);
-            })
+            assertThatThrownBy(() -> new FixedAmountDiscountPolicy(amount))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("The minimum discount amount is 1.");
         }
@@ -41,10 +39,10 @@ class FixedAmountVoucherTest {
     @DisplayName("정액 할인을 적용한다.")
     void discount(int originalPrice, int expected) {
         // given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(10000);
+        DiscountPolicy discountPolicy = new FixedAmountDiscountPolicy(10000);
 
         // when
-        int result = fixedAmountVoucher.discount(originalPrice);
+        int result = discountPolicy.discount(originalPrice);
 
         // then
         assertThat(result).isEqualTo(expected);

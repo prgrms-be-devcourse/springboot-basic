@@ -31,7 +31,9 @@ class VoucherServiceTest {
     void createVoucher() {
         // given
         VoucherDto.Request request = new VoucherDto.Request(DiscountType.FIX, 5000);
-        Voucher voucher = VoucherFactory.createVoucher(request.discountType(), request.discountAmount());
+        DiscountType discountType = request.discountType();
+        int amount = request.discountAmount();
+        Voucher voucher = discountType.createVoucher(amount);
 
         given(voucherRepository.save(any(Voucher.class)))
                 .willReturn(voucher);
@@ -50,8 +52,8 @@ class VoucherServiceTest {
     @DisplayName("바우처를 모두 조회한다.")
     void getVouchers() {
         // given
-        Voucher voucher1 = new FixedAmountVoucher(5000);
-        Voucher voucher2 = new PercentDiscountVoucher(10);
+        Voucher voucher1 = new Voucher(new FixedAmountDiscountPolicy(5000));
+        Voucher voucher2 = new Voucher(new PercentDiscountPolicy(10));
 
         given(voucherRepository.findAll())
                 .willReturn(List.of(voucher1, voucher2));

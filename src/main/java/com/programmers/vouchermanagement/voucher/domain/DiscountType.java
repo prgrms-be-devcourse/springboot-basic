@@ -8,10 +8,11 @@ import java.util.stream.Stream;
 
 public enum DiscountType {
 
-    FIX("fix"),
-    PERCENT("percent");
+    FIX("fix", (amount) -> new Voucher(new FixedAmountDiscountPolicy(amount))),
+    PERCENT("percent", (amount) -> new Voucher(new PercentDiscountPolicy(amount)));
 
     private final String name;
+    private final Function<Integer, Voucher> function;
     private static final Map<String, DiscountType> DISCOUNT_TYPE_MAP;
 
     static {
@@ -19,8 +20,9 @@ public enum DiscountType {
                         .collect(Collectors.toMap(DiscountType::getName, Function.identity())));
     }
 
-    DiscountType(String name) {
+    DiscountType(String name, Function<Integer, Voucher> function) {
         this.name = name;
+        this.function = function;
     }
 
     public String getName() {
@@ -32,5 +34,9 @@ public enum DiscountType {
             return DISCOUNT_TYPE_MAP.get(name);
         }
         throw new IllegalArgumentException("This discount type does not exist.");
+    }
+
+    public Voucher createVoucher(int amount) {
+        return function.apply(amount);
     }
 }

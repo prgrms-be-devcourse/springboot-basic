@@ -2,9 +2,25 @@ package com.programmers.vouchermanagement.voucher.domain;
 
 import java.util.UUID;
 
-public interface Voucher {
+public class Voucher {
 
-    UUID getId();
+    private final UUID id;
+    private final DiscountPolicy discountPolicy;
 
-    int discount(int originalPrice);
+    public Voucher(DiscountPolicy discountPolicy) {
+        this.id = UUID.randomUUID();
+        this.discountPolicy = discountPolicy;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public DiscountPolicy getDiscountPolicy() {
+        return discountPolicy;
+    }
+
+    public int discount(int originalPrice) {
+        return discountPolicy.discount(originalPrice);
+    }
 }

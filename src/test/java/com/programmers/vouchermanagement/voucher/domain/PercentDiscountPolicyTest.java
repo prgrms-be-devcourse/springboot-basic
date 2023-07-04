@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.*;
 
-class PercentDiscountVoucherTest {
+class PercentDiscountPolicyTest {
 
     @Nested
     @DisplayName("할인률을 검증한다.")
@@ -19,7 +19,7 @@ class PercentDiscountVoucherTest {
         @DisplayName("할인률이 1에서 100 사이인 경우 예외가 발생하지 않는다.")
         void isBetween1And100(int amount) {
             // when & then
-            assertThatCode(() -> new PercentDiscountVoucher(amount))
+            assertThatCode(() -> new PercentDiscountPolicy(amount))
                     .doesNotThrowAnyException();
         }
 
@@ -28,9 +28,7 @@ class PercentDiscountVoucherTest {
         @DisplayName("할인률이 1에서 100 사이가 아닌 경우 예외가 발생한다.")
         void isNotBetween1And100(int amount) {
             // when & then
-            assertThatThrownBy(() -> {
-                new PercentDiscountVoucher(amount);
-            })
+            assertThatThrownBy(() -> new PercentDiscountPolicy(amount))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("The discount percentage must be between 1 and 100%.");
         }
@@ -41,10 +39,10 @@ class PercentDiscountVoucherTest {
     @DisplayName("정률 할인을 적용한다.")
     void discount(int amount, int expected) {
         // given
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(amount);
+        DiscountPolicy discountPolicy = new PercentDiscountPolicy(amount);
 
         // when
-        int result = percentDiscountVoucher.discount(10000);
+        int result = discountPolicy.discount(10000);
 
         // then
         assertThat(result).isEqualTo(expected);

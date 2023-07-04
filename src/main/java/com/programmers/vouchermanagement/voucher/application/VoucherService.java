@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.application;
 
+import com.programmers.vouchermanagement.voucher.domain.DiscountType;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
@@ -17,7 +18,9 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     public Voucher createVoucher(VoucherDto.Request request) {
-        Voucher voucher = VoucherFactory.createVoucher(request.discountType(), request.discountAmount());
+        DiscountType discountType = request.discountType();
+        int amount = request.discountAmount();
+        Voucher voucher = discountType.createVoucher(amount);
         log.info("Create Voucher! DiscountType: {}, DiscountAmount: {}", voucher.getClass().getSimpleName(), request.discountAmount());
         return voucherRepository.save(voucher);
     }

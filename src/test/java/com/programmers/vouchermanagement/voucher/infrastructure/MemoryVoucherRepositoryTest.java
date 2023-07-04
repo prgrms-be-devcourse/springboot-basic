@@ -1,8 +1,6 @@
 package com.programmers.vouchermanagement.voucher.infrastructure;
 
-import com.programmers.vouchermanagement.voucher.domain.FixedAmountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.PercentDiscountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +16,8 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처를 저장한다.")
     void save() {
         // given
-        FixedAmountVoucher voucher = new FixedAmountVoucher(100);
+        DiscountType discountType = DiscountType.FIX;
+        Voucher voucher = discountType.createVoucher(100);
 
         // when
         Voucher result = memoryVoucherRepository.save(voucher);
@@ -31,8 +30,10 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처를 모두 조회한다.")
     void findAll() {
         // given
-        FixedAmountVoucher voucher1 = new FixedAmountVoucher(100);
-        PercentDiscountVoucher voucher2 = new PercentDiscountVoucher(30);
+        DiscountPolicy discountPolicy1 = new FixedAmountDiscountPolicy(5000);
+        DiscountPolicy discountPolicy2 = new PercentDiscountPolicy(10);
+        Voucher voucher1 = new Voucher(discountPolicy1);
+        Voucher voucher2 = new Voucher(discountPolicy2);
 
         memoryVoucherRepository.save(voucher1);
         memoryVoucherRepository.save(voucher2);
