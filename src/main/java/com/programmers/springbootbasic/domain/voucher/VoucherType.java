@@ -16,7 +16,7 @@ public enum VoucherType {
 
     public static VoucherType from(String type) {
         return Arrays.stream(values())
-                .filter(o -> type.equals(o.voucherType))
+                .filter(enumeration -> type.equals(enumeration.voucherType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE + type));
     }
@@ -24,5 +24,5 @@ public enum VoucherType {
     public String getVoucherType() {
         return voucherType;
     }
-    
+
 }
