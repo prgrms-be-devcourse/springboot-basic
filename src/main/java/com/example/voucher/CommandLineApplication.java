@@ -51,9 +51,9 @@ public class CommandLineApplication implements CommandLineRunner {
 
     public void processMode(ModeType mode) {
         switch (mode) {
-            case Exit -> isOn = false;
-            case Create -> createVoucher();
-            case List -> getVouchers();
+            case EXIT -> isOn = false;
+            case CREATE -> createVoucher();
+            case LIST -> getVouchers();
         }
     }
 

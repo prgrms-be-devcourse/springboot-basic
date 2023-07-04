@@ -5,17 +5,16 @@ import java.util.NoSuchElementException;
 
 public enum ModeType {
 
-    Exit,
-    Create,
-    List;
+    EXIT,
+    CREATE,
+    LIST;
 
     public static ModeType getTypeMode(String typeName) {
-
-        return Arrays.stream(ModeType.values())
-            .filter(e -> typeName.equals(e.name().toLowerCase()))
-            .findAny()
-            .orElseThrow(
-                () -> new NoSuchElementException(ConstantStrings.MESSAGE_PRINT_RETRY_VOUCHER_TYPE_SELECTION_PROMPT));
+        try {
+            return ModeType.valueOf(typeName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new NoSuchElementException(ConstantStrings.MESSAGE_PRINT_RETRY_VOUCHER_TYPE_SELECTION_PROMPT);
+        }
     }
 
 }
