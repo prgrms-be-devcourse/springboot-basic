@@ -1,6 +1,6 @@
 package org.programers.vouchermanagement.member.domain;
 
-import org.programers.vouchermanagement.global.exception.NoSuchDomainException;
+import org.programers.vouchermanagement.global.exception.NoSuchEntityException;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public interface MemberRepository {
 
     default Member getById(UUID id) {
         return findById(id)
-                .orElseThrow(() -> new NoSuchDomainException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new NoSuchEntityException("존재하지 않는 회원입니다."));
     }
 
     List<Member> findAll();

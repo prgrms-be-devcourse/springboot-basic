@@ -1,7 +1,7 @@
 package org.programers.vouchermanagement.voucher.domain;
 
 import org.junit.jupiter.api.*;
-import org.programers.vouchermanagement.global.exception.NoSuchDomainException;
+import org.programers.vouchermanagement.global.exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -81,7 +81,7 @@ class JdbcVoucherRepositoryTest {
         assertThatThrownBy(() -> {
             voucherRepository.getById(voucher.getId());
         })
-                .isInstanceOf(NoSuchDomainException.class)
+                .isInstanceOf(NoSuchEntityException.class)
                 .hasMessage("존재하지 않는 바우처입니다.");
     }
 }
