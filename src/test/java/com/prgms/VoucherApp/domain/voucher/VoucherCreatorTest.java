@@ -28,8 +28,8 @@ class VoucherCreatorTest {
         Optional<Voucher> findFixedVoucher = voucherStorage.findByVoucherId(fixedVoucher.getVoucherId());
         Optional<Voucher> findPercentVoucher = voucherStorage.findByVoucherId(percentVoucher.getVoucherId());
 
-        Assertions.assertThat(findFixedVoucher.get()).isEqualTo(fixedVoucher);
-        Assertions.assertThat(findPercentVoucher.get()).isEqualTo(percentVoucher);
+        Assertions.assertThat(findFixedVoucher.get()).usingRecursiveComparison().isEqualTo(fixedVoucher);
+        Assertions.assertThat(findPercentVoucher.get()).usingRecursiveComparison().isEqualTo(percentVoucher);
     }
 
     @Test
@@ -38,6 +38,7 @@ class VoucherCreatorTest {
         Voucher fixedVoucher = voucherCreator.createVoucher(VoucherType.FIXED_VOUCHER, 1000L);
         Voucher percentVoucher = voucherCreator.createVoucher(VoucherType.PERCENT_VOUCHER, 50L);
 
-        Assertions.assertThat(voucherStorage.findAll()).contains(fixedVoucher, percentVoucher);
+        Assertions.assertThat(voucherStorage.findAll())
+            .usingRecursiveFieldByFieldElementComparator().contains(fixedVoucher, percentVoucher);
     }
 }

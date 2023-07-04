@@ -16,6 +16,7 @@ class VoucherReaderTest {
 
     @Autowired
     VoucherReader voucherReader;
+
     @Autowired
     VoucherStorage voucherStorage;
 
@@ -28,7 +29,7 @@ class VoucherReaderTest {
         voucherStorage.save(fixedVoucher);
         voucherStorage.save(percentVoucher);
 
-        Assertions.assertThat(voucherStorage.findAll()).contains(fixedVoucher, percentVoucher);
+        Assertions.assertThat(voucherStorage.findAll()).usingRecursiveFieldByFieldElementComparator().contains(fixedVoucher, percentVoucher);
     }
 
     @Test
@@ -39,7 +40,7 @@ class VoucherReaderTest {
 
         voucherStorage.save(fixedVoucher);
 
-        Assertions.assertThat(voucherReader.readOne(uuid)).isEqualTo(fixedVoucher);
+        Assertions.assertThat(voucherReader.readOne(uuid)).usingRecursiveComparison().isEqualTo(fixedVoucher);
     }
 
     @Test
@@ -47,6 +48,6 @@ class VoucherReaderTest {
     void findByVoucherIdExceptionTest() {
         UUID uuid = UUID.randomUUID();
         Assertions.assertThatThrownBy(() -> voucherReader.readOne(uuid))
-                .hasMessageContaining("Voucher Id + " + uuid + " does not exist");
+            .hasMessageContaining("Voucher Id + " + uuid + " does not exist");
     }
 }
