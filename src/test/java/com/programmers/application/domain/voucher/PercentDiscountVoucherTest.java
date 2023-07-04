@@ -44,6 +44,6 @@ class PercentDiscountVoucherTest {
         //when, then
         Assertions.assertThatThrownBy(() -> VoucherFactory.createVoucher(voucherCreationRequest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(MIN_DISCOUNT_AMOUNT + " ~ " + MAX_DISCOUNT_AMOUNT + " 범위의 바우처 할인양을 입력해주세요. " + "입력값: " + discountAmount);
+                .hasMessage(String.format("%d ~ %d 범위의 바우처 할인양을 입력해주세요. 입력값: %d", MIN_DISCOUNT_AMOUNT, MAX_DISCOUNT_AMOUNT, discountAmount));
     }
 }
