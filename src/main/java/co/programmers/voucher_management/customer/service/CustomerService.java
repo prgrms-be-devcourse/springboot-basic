@@ -1,7 +1,5 @@
 package co.programmers.voucher_management.customer.service;
 
-import static co.programmers.voucher_management.customer.dto.CustomerResponseDTO.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,10 +11,10 @@ import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.customer.repository.CustomerRepository;
 
 @Service
-public class CustomerInquiryService {
+public class CustomerService {
 	private final CustomerRepository customerRepository;
 
-	public CustomerInquiryService(CustomerRepository customerRepository) {
+	public CustomerService(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
 
