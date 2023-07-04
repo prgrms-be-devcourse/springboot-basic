@@ -6,7 +6,7 @@ import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
 import com.prgms.VoucherApp.view.ManagementType;
 import com.prgms.VoucherApp.view.Output;
 import org.beryx.textio.TextIO;
@@ -121,19 +121,19 @@ public class ConsoleOutputView implements Output {
 
     @Override
     public void printCreatedMsg(Voucher voucher) {
-        VoucherDto voucherDto = new VoucherDto(voucher);
-        log.info("The discount coupon {} was created successfully.", voucherDto.getVoucherInfo());
-        textTerminal.println(voucherDto.getVoucherInfo() + " Voucher was created");
+        VoucherResDto voucherResDto = new VoucherResDto(voucher);
+        log.info("The discount coupon {} was created successfully.", voucherResDto.getVoucherInfo());
+        textTerminal.println(voucherResDto.getVoucherInfo() + " Voucher was created");
     }
 
     @Override
-    public void printVoucherList(List<VoucherDto> voucherDtos) {
-        if (voucherDtos.isEmpty()) {
+    public void printVoucherList(List<VoucherResDto> findVouchers) {
+        if (findVouchers.isEmpty()) {
             log.error("The user tried to view the list, but currently, the list is empty");
             textTerminal.println("There are no available discount vouchers stored.");
             return;
         }
-        voucherDtos.forEach((voucher -> textTerminal.println(voucher.getVoucherInfo())));
+        findVouchers.forEach((voucher -> textTerminal.println(voucher.getVoucherInfo())));
     }
 
     @Override

@@ -6,19 +6,19 @@ import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class VoucherDto {
+public class VoucherResDto {
 
     private final UUID voucherId;
     private final BigDecimal discountAmount;
     private final VoucherType voucherType;
 
-    public VoucherDto(String voucherId, String discountAmount, String voucherTypeName) {
+    public VoucherResDto(String voucherId, String discountAmount, String voucherTypeName) {
         this.voucherId = UUID.fromString(voucherId);
         this.discountAmount = BigDecimal.valueOf(Double.parseDouble(discountAmount));
         this.voucherType = VoucherType.findByVoucherTypeName(voucherTypeName);
     }
 
-    public VoucherDto(Voucher voucher) {
+    public VoucherResDto(Voucher voucher) {
         this.voucherId = voucher.getVoucherId();
         this.discountAmount = voucher.getDiscountAmount();
         this.voucherType = voucher.getVoucherType();

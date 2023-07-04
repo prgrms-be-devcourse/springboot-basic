@@ -4,7 +4,7 @@ import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
 import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,8 +40,8 @@ public class VoucherFileStorage implements VoucherStorage {
             BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath));
             String line = "";
             while ((line = bufferedReader.readLine()) != null) {
-                VoucherDto voucherDto = createVoucherDto(line);
-                Voucher voucher = createVoucher(voucherDto);
+                VoucherResDto voucherResDto = createVoucherDto(line);
+                Voucher voucher = createVoucher(voucherResDto);
                 voucherLinkedMap.put(voucher.getVoucherId(), voucher);
             }
         } catch (IOException e) {
@@ -74,28 +74,28 @@ public class VoucherFileStorage implements VoucherStorage {
     @Override
     public List<Voucher> findAll() {
         return voucherLinkedMap.values()
-                .stream()
-                .toList();
+            .stream()
+            .toList();
     }
 
-    private VoucherDto createVoucherDto(String line) {
+    private VoucherResDto createVoucherDto(String line) {
         String[] csvLine = line.split(",");
         String voucherId = csvLine[0];
         String discountAmount = csvLine[1];
         String voucherType = csvLine[2];
-        return new VoucherDto(voucherId, discountAmount, voucherType);
+        return new VoucherResDto(voucherId, discountAmount, voucherType);
     }
 
-    private Voucher createVoucher(VoucherDto voucherDto) {
-        switch (voucherDto.getVoucherType()) {
+    private Voucher createVoucher(VoucherResDto voucherResDto) {
+        switch (voucherResDto.getVoucherType()) {
             case FIXED_VOUCHER:
-                return new FixedAmountVoucher(voucherDto.getVoucherId(), voucherDto.getDiscountAmount(), voucherDto.getVoucherType());
+                return new FixedAmountVoucher(voucherResDto.getVoucherId(), voucherResDto.getDiscountAmount(), voucherResDto.getVoucherType());
             case PERCENT_VOUCHER:
-                return new PercentDiscountVoucher(voucherDto.getVoucherId(), voucherDto.getDiscountAmount(), voucherDto.getVoucherType());
+                return new PercentDiscountVoucher(voucherResDto.getVoucherId(), voucherResDto.getDiscountAmount(), voucherResDto.getVoucherType());
         }
 
-        log.warn("entered VoucherType {} is invalid", voucherDto.getVoucherType());
-        throw new IllegalArgumentException(voucherDto.getVoucherType() + " is invalid voucher type");
+        log.warn("entered VoucherType {} is invalid", voucherResDto.getVoucherType());
+        throw new IllegalArgumentException(voucherResDto.getVoucherType() + " is invalid voucher type");
     }
 
     @Override

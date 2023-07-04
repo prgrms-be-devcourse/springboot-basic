@@ -4,7 +4,7 @@ import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface Output {
 
     void printCreatedMsg(Voucher voucher);
 
-    void printVoucherList(List<VoucherDto> voucher);
+    void printVoucherList(List<VoucherResDto> voucher);
 
     void printBlackLists(CustomersResDto blacklists);
 

@@ -1,7 +1,7 @@
 package com.prgms.VoucherApp.domain.voucher.model;
 
 import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
 import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +22,18 @@ public class VoucherReader {
 
     public Voucher readOne(UUID voucherId) {
         return voucherStorage.findByVoucherId(voucherId)
-                .orElseThrow(() -> {
-                    log.warn("Voucher Id {} does not exist", voucherId);
-                    return new NoSuchElementException("Voucher Id + " + voucherId + " does not exist");
-                });
+            .orElseThrow(() -> {
+                log.warn("Voucher Id {} does not exist", voucherId);
+                return new NoSuchElementException("Voucher Id + " + voucherId + " does not exist");
+            });
     }
 
-    public List<VoucherDto> readVoucherList() {
+    public List<VoucherResDto> readVoucherList() {
         List<Voucher> vouchers = voucherStorage.findAll();
 
-        List<VoucherDto> voucherDtos = vouchers.stream()
-                .map(VoucherDto::new)
-                .toList();
-        return voucherDtos;
+        List<VoucherResDto> voucherResDtos = vouchers.stream()
+            .map(VoucherResDto::new)
+            .toList();
+        return voucherResDtos;
     }
 }
