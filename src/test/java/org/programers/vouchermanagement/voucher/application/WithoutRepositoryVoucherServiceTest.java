@@ -19,7 +19,7 @@ import static org.mockito.BDDMockito.willDoNothing;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class WithNotRepositoryVoucherServiceTest {
+class WithoutRepositoryVoucherServiceTest {
 
     @MockBean
     private VoucherService mockVoucherService;
