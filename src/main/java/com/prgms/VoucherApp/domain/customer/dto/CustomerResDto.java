@@ -21,11 +21,11 @@ public class CustomerResDto {
     }
 
     public UUID getCustomerId() {
-        return this.customerId;
+        return customerId;
     }
 
     public CustomerStatus getCustomerStatus() {
-        return this.customerStatus;
+        return customerStatus;
     }
 
     public String getCustomerInfo() {

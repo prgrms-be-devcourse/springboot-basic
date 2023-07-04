@@ -1,6 +1,7 @@
 package com.prgms.VoucherApp.view;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
@@ -18,11 +19,19 @@ public interface Output {
 
     void printDisplayDiscountCondition(VoucherType policy);
 
+    void printCustomers(CustomersResDto customers);
+
+    void printCustomer(CustomerResDto customer);
+
     void printCreatedMsg(Voucher voucher);
 
     void printVoucherList(List<VoucherDto> voucher);
 
-    void printBlackLists(List<CustomerDto> blackLists);
+    void printBlackLists(CustomersResDto blacklists);
+
+    void printFindEmpty();
+
+    void printErrorMsg(String msg);
 
     void printNotImplementMsg();
 }

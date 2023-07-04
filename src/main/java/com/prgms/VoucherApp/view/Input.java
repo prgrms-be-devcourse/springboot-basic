@@ -7,6 +7,10 @@ public interface Input {
 
     Integer inputCustomerCommand();
 
+    String inputCustomerStatus();
+
+    String inputUUID();
+
     Integer inputVoucherCommand();
 
     String inputVoucherType();

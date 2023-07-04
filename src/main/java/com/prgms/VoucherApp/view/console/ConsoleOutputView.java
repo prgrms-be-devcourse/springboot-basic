@@ -1,7 +1,8 @@
 package com.prgms.VoucherApp.view.console;
 
 import com.prgms.VoucherApp.domain.customer.CustomerCommand;
-import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
@@ -79,14 +80,6 @@ public class ConsoleOutputView implements Output {
         }
     }
 
-    private void printBlackListMenuCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-        }, text -> text.print("blacklist "));
-        textTerminal.println("to list all blacklist.");
-    }
-
     @Override
     public void printDisplayVoucherPolicy() {
         textTerminal.println("=== Voucher Create ===");
@@ -144,27 +137,41 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printBlackLists(List<CustomerDto> blackLists) {
-        if (blackLists.isEmpty()) {
-            log.error("The user tried to view the list, but currently, the list is empty");
+    public void printBlackLists(CustomersResDto blacklists) {
+        if (blacklists.isEmpty()) {
+            log.error("The user tried to view the blacklist, but currently, the list is empty");
             textTerminal.println("There are no blacklisted entries currently registered.");
             return;
         }
 
-        blackLists.forEach((blackList -> textTerminal.println(blackList.getCustomerInfo())));
+        blacklists.getCustomers()
+            .forEach((blackList -> textTerminal.println(blackList.getCustomerInfo())));
     }
 
-    private void printExitCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-            terminalProperties.setPromptColor(Color.red);
-        }, text -> text.print("exit "));
-        textTerminal.print("to ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptColor(Color.red);
-        }, text -> text.print("exit "));
-        textTerminal.println("the program.");
+    @Override
+    public void printCustomers(CustomersResDto customers) {
+        if (customers.isEmpty()) {
+            textTerminal.println("There are no blacklisted entries currently registered.");
+            return;
+        }
+
+        customers.getCustomers()
+            .forEach((customer) -> textTerminal.println(customer.getCustomerInfo()));
+    }
+
+    @Override
+    public void printCustomer(CustomerResDto customer) {
+        textTerminal.println(customer.getCustomerInfo());
+    }
+
+    @Override
+    public void printFindEmpty() {
+        textTerminal.println("존재하지 않는 ID가 입력되었습니다.");
+    }
+
+    @Override
+    public void printErrorMsg(String msg) {
+        textTerminal.println(msg);
     }
 
     @Override

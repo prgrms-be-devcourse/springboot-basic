@@ -2,6 +2,7 @@ package com.prgms.VoucherApp.domain.customer;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -9,21 +10,31 @@ import java.util.stream.Collectors;
 public enum CustomerStatus {
     NORMAL("normal"), BLACKLIST("blacklist");
 
-    private final String status;
+    private final String statusName;
     private static final Map<String, CustomerStatus> CUSTOMER_STATUS_MAP =
-            Collections.unmodifiableMap(Arrays.stream(values())
-                    .collect(Collectors.toMap(CustomerStatus::getStatus, Function.identity())));
+        Collections.unmodifiableMap(Arrays.stream(values())
+            .collect(Collectors.toMap(CustomerStatus::getStatusName, Function.identity())));
 
-    CustomerStatus(String status) {
-        this.status = status;
+    CustomerStatus(String statusName) {
+        this.statusName = statusName;
     }
 
-    public String getStatus() {
-        return this.status;
+    public String getStatusName() {
+        return statusName;
     }
 
     public static CustomerStatus findByStatus(String status) {
         return CUSTOMER_STATUS_MAP.get(status);
+    }
+
+    public static List<String> getAllCustomerStatus() {
+        return CUSTOMER_STATUS_MAP.keySet()
+            .stream()
+            .toList();
+    }
+
+    public static boolean containsCustomerStatus(String customerStatus) {
+        return CUSTOMER_STATUS_MAP.containsKey(customerStatus);
     }
 
     public boolean isBlackList() {
