@@ -67,9 +67,23 @@ class CustomerServiceTest {
 
     @Test
     @DisplayName("고객 생성 실패 - 이미 존재하는 사용자명")
-    void createCustomerFailTest() {
+    void createCustomerFailTest_DuplicatedUsername() {
         // given
         String existingUsername = "A";
+        customerRepository.save(new Customer(UUID.randomUUID(), existingUsername));
+
+        // when -> then
+        assertThrows(BusinessException.class, () -> {
+            CreateCustomerRequest createCustomerRequest = new CreateCustomerRequest(existingUsername);
+            customerService.createCustomer(createCustomerRequest);
+        });
+    }
+
+    @Test
+    @DisplayName("고객 생성 실패 - 잘못된 사용자명")
+    void createCustomerFailTest_InvalidUsername() {
+        // given
+        String existingUsername = "!@#$";
         customerRepository.save(new Customer(UUID.randomUUID(), existingUsername));
 
         // when -> then
