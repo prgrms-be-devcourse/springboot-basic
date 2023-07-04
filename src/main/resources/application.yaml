@@ -2,7 +2,12 @@ spring.config.activate.on-profile: default
 command:
   write: system
   read: scanner
-
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher
+    username: "qwe"
+    password: "qwe123"
 ---
 
 spring.config.activate.on-profile: dev
@@ -19,3 +24,14 @@ command:
 
 ---
 
+spring.config.activate.on-profile: test
+command:
+  write: system
+  read: scanner
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:voucher
+    username: test
+    password:

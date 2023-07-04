@@ -5,15 +5,15 @@ import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.response.VoucherCreationResponse;
 import org.weekly.weekly.voucher.dto.response.VouchersResponse;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
-import org.weekly.weekly.voucher.repository.VoucherRepository;
+import org.weekly.weekly.voucher.repository.MemoryVoucherRepository;
 
 import java.util.List;
 
 @Service
 public class VoucherService {
-    private final VoucherRepository voucherRepository;
+    private final MemoryVoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(MemoryVoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

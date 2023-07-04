@@ -9,7 +9,7 @@ import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
 import org.weekly.weekly.voucher.dto.request.VoucherInfoRequest;
-import org.weekly.weekly.voucher.repository.VoucherRepository;
+import org.weekly.weekly.voucher.repository.MemoryVoucherRepository;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -17,11 +17,11 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.*;
 
 public class VoucherTest {
-    private VoucherRepository voucherRepository;
+    private MemoryVoucherRepository voucherRepository;
 
     @BeforeEach
     void setVoucherRepository() {
-        voucherRepository = new VoucherRepository();
+        voucherRepository = new MemoryVoucherRepository();
     }
 
     @ParameterizedTest
