@@ -14,19 +14,19 @@ import com.example.voucher.domain.Voucher;
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-	private final Map<UUID, Voucher> inMemoryDataBase = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> inMemoryDataBase = new ConcurrentHashMap<>();
 
-	@Override
-	public UUID save(Voucher voucher) {
-		UUID voucherId = voucher.getVoucherId();
-		inMemoryDataBase.put(voucherId, voucher);
+    @Override
+    public UUID save(Voucher voucher) {
+        UUID voucherId = voucher.getVoucherId();
+        inMemoryDataBase.put(voucherId, voucher);
 
-		return inMemoryDataBase.get(voucherId).getVoucherId();
-	}
+        return inMemoryDataBase.get(voucherId).getVoucherId();
+    }
 
-	@Override
-	public List<Voucher> findAll() {
-		return Collections.unmodifiableList(new ArrayList<>(inMemoryDataBase.values()));
-	}
+    @Override
+    public List<Voucher> findAll() {
+        return Collections.unmodifiableList(new ArrayList<>(inMemoryDataBase.values()));
+    }
 
 }

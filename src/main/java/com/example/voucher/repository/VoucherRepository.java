@@ -7,8 +7,8 @@ import com.example.voucher.domain.Voucher;
 
 public interface VoucherRepository {
 
-	UUID save(Voucher voucher);
+    UUID save(Voucher voucher);
 
-	List<Voucher> findAll();
+    List<Voucher> findAll();
 
 }

@@ -17,96 +17,94 @@ import com.example.voucher.io.Console;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.service.VoucherService;
 
-
-
 @Controller
 public class CommandLineApplication implements CommandLineRunner {
 
-	private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-	final private VoucherService voucherService;
-	private boolean isOn = true;
+    final private VoucherService voucherService;
+    private boolean isOn = true;
 
-	public CommandLineApplication(VoucherService voucherService) {
-		this.voucherService = voucherService;
-	}
+    public CommandLineApplication(VoucherService voucherService) {
+        this.voucherService = voucherService;
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
-		run();
-	}
+    @Override
+    public void run(String... args) throws Exception {
+        run();
+    }
 
-	public void run() {
-		while (isOn) {
-			Console.printModeType();
-			String readModeType = Console.readModeType();
+    public void run() {
+        while (isOn) {
+            Console.printModeType();
+            String readModeType = Console.readModeType();
 
-			try {
-				ModeType modeType = ModeType.getTypeMode(readModeType);
-				processMode(modeType);
-			} catch (NoSuchElementException e) {
-				logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
-				Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_MODE_SELECTION_PROMPT);
-			}
-		}
-	}
+            try {
+                ModeType modeType = ModeType.getTypeMode(readModeType);
+                processMode(modeType);
+            } catch (NoSuchElementException e) {
+                logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
+                Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_MODE_SELECTION_PROMPT);
+            }
+        }
+    }
 
-	public void processMode(ModeType mode) {
-		switch (mode) {
-			case Exit -> isOn = false;
-			case Create -> createVoucher();
-			case List -> getVouchers();
-		}
-	}
+    public void processMode(ModeType mode) {
+        switch (mode) {
+            case Exit -> isOn = false;
+            case Create -> createVoucher();
+            case List -> getVouchers();
+        }
+    }
 
-	public void createVoucher() {
-		try {
-			createVoucherDetail();
-		} catch (IllegalArgumentException e) {
-			logger.error(ConstantStrings.PREFIX_ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE + e.getMessage());
-			Console.printError(e.getMessage());
-		} catch (InputMismatchException e) {
-			logger.error(ConstantStrings.PREFIX_INPUT_MISMATCH_EXCEPTION_MESSAGE + e.getMessage());
-			Console.printError(e.getMessage());
-		} catch (NoSuchElementException e) {
-			logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
-			Console.printError(e.getMessage());
-		} catch (Exception e) {
-			logger.error(ConstantStrings.PREFIX_EXCEPTION_MESSAGE + e.getMessage());
-			Console.printError(e.getMessage());
-		}
-	}
+    public void createVoucher() {
+        try {
+            createVoucherDetail();
+        } catch (IllegalArgumentException e) {
+            logger.error(ConstantStrings.PREFIX_ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE + e.getMessage());
+            Console.printError(e.getMessage());
+        } catch (InputMismatchException e) {
+            logger.error(ConstantStrings.PREFIX_INPUT_MISMATCH_EXCEPTION_MESSAGE + e.getMessage());
+            Console.printError(e.getMessage());
+        } catch (NoSuchElementException e) {
+            logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
+            Console.printError(e.getMessage());
+        } catch (Exception e) {
+            logger.error(ConstantStrings.PREFIX_EXCEPTION_MESSAGE + e.getMessage());
+            Console.printError(e.getMessage());
+        }
+    }
 
-	public void createVoucherDetail() {
-		Console.printVoucherType();
-		Integer inputVoucherType = Console.readVoucherType();
-		VoucherType voucherType = VoucherType.getVouchersType(inputVoucherType);
-		processVoucherType(voucherType);
-	}
+    public void createVoucherDetail() {
+        Console.printVoucherType();
+        Integer inputVoucherType = Console.readVoucherType();
+        VoucherType voucherType = VoucherType.getVouchersType(inputVoucherType);
+        processVoucherType(voucherType);
+    }
 
-	public Voucher processVoucherType(VoucherType voucherType) {
-		Voucher voucher = switch (voucherType) {
-			case FixedAmountDiscount -> {
-				Console.printDiscountAmount();
-				long discountAmount = Console.readDiscount();
-				yield voucherService.createVoucher(voucherType, discountAmount);
-			}
-			case PercentDiscount -> {
-				Console.printDiscountPercent();
-				long discountPercent = Console.readDiscount();
-				yield voucherService.createVoucher(voucherType, discountPercent);
-			}
-		};
+    public Voucher processVoucherType(VoucherType voucherType) {
+        Voucher voucher = switch (voucherType) {
+            case FixedAmountDiscount -> {
+                Console.printDiscountAmount();
+                long discountAmount = Console.readDiscount();
+                yield voucherService.createVoucher(voucherType, discountAmount);
+            }
+            case PercentDiscount -> {
+                Console.printDiscountPercent();
+                long discountPercent = Console.readDiscount();
+                yield voucherService.createVoucher(voucherType, discountPercent);
+            }
+        };
 
-		return voucher;
-	}
+        return voucher;
+    }
 
-	public void getVouchers() {
-		List<Voucher> vouchers = voucherService.getVouchers();
+    public void getVouchers() {
+        List<Voucher> vouchers = voucherService.getVouchers();
 
-		vouchers.stream()
-			.map(o -> new VoucherDTO(o.getValue(), o.getVoucherType()))
-			.forEach(Console::printVoucherInfo);
-	}
+        vouchers.stream()
+            .map(o -> new VoucherDTO(o.getValue(), o.getVoucherType()))
+            .forEach(Console::printVoucherInfo);
+    }
 
 }

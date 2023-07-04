@@ -6,12 +6,12 @@ import com.example.voucher.constant.VoucherType;
 
 public interface Voucher {
 
-	UUID getVoucherId();
+    UUID getVoucherId();
 
-	Long getValue();
+    Long getValue();
 
-	VoucherType getVoucherType();
+    VoucherType getVoucherType();
 
-	long discount(long beforeAmount);
+    long discount(long beforeAmount);
 
 }
