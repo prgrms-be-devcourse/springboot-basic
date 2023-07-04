@@ -122,6 +122,11 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
+    public void printErrorMsg(String exception) {
+        textTerminal.println(exception);
+    }
+
+    @Override
     public void printVoucherList(List<VoucherDto> voucherDtos) {
         if (voucherDtos.isEmpty()) {
             log.error("The user tried to view the list, but currently, the list is empty");

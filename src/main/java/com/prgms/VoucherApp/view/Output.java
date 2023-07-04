@@ -12,6 +12,8 @@ public interface Output {
 
     void printDisplayVoucherPolicy();
 
+    void printErrorMsg(String exception);
+
     void printDisplayDiscountCondition(VoucherType policy);
 
     void printCreatedMsg(Voucher voucher);

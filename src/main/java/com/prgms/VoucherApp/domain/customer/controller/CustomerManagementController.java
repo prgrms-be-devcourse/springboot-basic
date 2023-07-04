@@ -20,7 +20,11 @@ public class CustomerManagementController {
 
 
     public void readBlackList() {
-        List<CustomerDto> customerDtos = blackListReader.readBlackLists();
-        output.printBlackLists(customerDtos);
+        try {
+            List<CustomerDto> customerDtos = blackListReader.readBlackLists();
+            output.printBlackLists(customerDtos);
+        } catch (RuntimeException e) {
+            output.printErrorMsg(e.getMessage());
+        }
     }
 }

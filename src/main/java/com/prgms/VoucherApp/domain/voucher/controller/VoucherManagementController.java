@@ -29,13 +29,23 @@ public class VoucherManagementController {
     public void createVoucher() {
         VoucherType voucherType = getVoucherType();
         long amount = getDiscountAmount(voucherType);
-        Voucher voucher = voucherCreator.createVoucher(voucherType, amount);
-        output.printCreatedMsg(voucher);
+
+        try {
+            Voucher voucher = voucherCreator.createVoucher(voucherType, amount);
+            output.printCreatedMsg(voucher);
+        } catch (RuntimeException e) {
+            output.printErrorMsg(e.getMessage());
+        }
+
     }
 
     public void readVouchers() {
-        List<VoucherDto> vouchers = voucherReader.readVoucherList();
-        output.printVoucherList(vouchers);
+        try {
+            List<VoucherDto> vouchers = voucherReader.readVoucherList();
+            output.printVoucherList(vouchers);
+        } catch (RuntimeException e) {
+            output.printErrorMsg(e.getMessage());
+        }
     }
 
     private VoucherType getVoucherType() {
