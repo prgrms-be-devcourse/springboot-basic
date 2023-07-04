@@ -9,7 +9,7 @@ class VoucherTypeTest {
     @Test
     void 정률할인_from_성공() {
         // given
-        String type = "정률 할인";
+        String type = VoucherType.PERCENT.getVoucherType();
 
         // when
         VoucherType voucherType = VoucherType.from(type);
@@ -21,7 +21,7 @@ class VoucherTypeTest {
     @Test
     void 정액할인_from_성공() {
         // given
-        String type = "정액 할인";
+        String type = VoucherType.FIX.getVoucherType();
 
         // when
         VoucherType voucherType = VoucherType.from(type);
