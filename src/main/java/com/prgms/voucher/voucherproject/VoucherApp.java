@@ -12,12 +12,8 @@ import java.util.InputMismatchException;
 
 
 public class VoucherApp implements CommandLineRunner {
-
-    /* Field */
-    private boolean EXIT = false;
-
-    /* Final */
     private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
+
     private final Console console = new Console();
     private final VoucherService voucherService;
 
@@ -28,15 +24,16 @@ public class VoucherApp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String menuName;
+        boolean exit = false;
 
-        while (!EXIT) {
+        while (!exit) {
             console.printMenu();
             menuName = console.inputCommand().toLowerCase();
 
             try {
                 switch (MenuType.getSelectedMenuType(menuName)) {
                     case EXIT -> {
-                        EXIT = true;
+                        exit = true;
                         console.printMsg("프로그램을 종료합니다.");
                     }
                     case CREATE -> {
