@@ -10,6 +10,9 @@ spring:
   sql:
     init:
       mode: always
+
 file:
   voucher:
     path: ./file/voucher_list.csv
+  customer:
+    path: ./file/customer_blacklist.csv

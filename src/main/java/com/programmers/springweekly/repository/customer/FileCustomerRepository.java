@@ -3,6 +3,9 @@ package com.programmers.springweekly.repository.customer;
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,14 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
 @Slf4j
-@Repository
-@Profile("dev")
 public class FileCustomerRepository {
 
     private final List<Customer> customerList = new ArrayList<>();

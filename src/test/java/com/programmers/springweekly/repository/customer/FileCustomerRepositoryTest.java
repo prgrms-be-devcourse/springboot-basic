@@ -14,11 +14,11 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(classes = {FileCustomerRepository.class})
 class FileCustomerRepositoryTest {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private FileCustomerRepository customerRepository;
 
     @Test
     @DisplayName("블랙 리스트 명단을 정상적으로 가져온다.")

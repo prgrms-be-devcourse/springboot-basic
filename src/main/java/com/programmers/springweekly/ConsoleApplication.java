@@ -20,7 +20,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile("{!test,!dev}")
+@Profile("!test")
 public class ConsoleApplication implements CommandLineRunner {
 
     private final CustomerController customerController;
