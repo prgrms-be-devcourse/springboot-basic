@@ -40,7 +40,7 @@ public class CommandLine implements Runnable {
             switch (findMenuName(selectOption)) {
                 case EXIT -> isRunning = false;
                 case CREATE -> selectVoucherType();
-                case LIST -> printAllVoucher(voucherRepository.findAll());
+                case LIST -> printAllVoucher(voucherService.findAll());
                 case BLACK -> output.printBlackConsumerList(customerService.getBlackConsumerList());
                 default -> output.outputMessage(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
             }
