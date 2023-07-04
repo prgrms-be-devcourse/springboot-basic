@@ -14,6 +14,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.prgms.vouchermanagement.voucher.domain.entity.FixedAmountVoucher;
 import org.prgms.vouchermanagement.voucher.domain.entity.PercentDiscountVoucher;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,6 +40,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherNamedJdbcRepositoryTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherNamedJdbcRepositoryTest.class);
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgms.vouchermanagement.voucher"})
@@ -107,4 +112,16 @@ class VoucherNamedJdbcRepositoryTest {
         assertThat(savedVoucher.get()).usingRecursiveComparison().isEqualTo(fixedAmountVoucher);
     }
 
+    @Test
+    @Order(3)
+    @DisplayName("Voucher get voucherList 기능 test")
+    void testGetVoucherList() {
+        voucherNamedJdbcRepository.saveVoucher(percentDiscountVoucher);
+
+        Map<UUID, Voucher> voucherList = voucherNamedJdbcRepository.getVoucherList();
+        assertThat(voucherList).isNotEmpty();
+        assertThat(voucherList).size().isEqualTo(2);
+
+        voucherList.forEach((v1, v2) -> logger.info("UUID -> {}, Amount -> {}", v1, v2.returnDiscount()));
+    }
 }

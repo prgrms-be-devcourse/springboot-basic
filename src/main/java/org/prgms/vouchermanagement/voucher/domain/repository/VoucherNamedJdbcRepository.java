@@ -16,11 +16,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Qualifier("jdbc")
@@ -33,7 +30,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("discountAmount", voucher.returnDiscount());
-            put("voucherType", 1); // temp
+            put("voucherType", 1); // TODO - temp 이므로 VoucherType 별로 다르게 적용하도록 바꿔야함
         }};
     }
 
@@ -77,7 +74,10 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
 
     @Override
     public Map<UUID, Voucher> getVoucherList() {
-        return Collections.emptyMap();
+        List<Voucher> vouchers = jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
+        return vouchers.stream().collect(
+          Collectors.toMap(Voucher::getVoucherId, voucher -> voucher)
+        );
     }
 
     public UUID toUUID(byte[] bytes) {
