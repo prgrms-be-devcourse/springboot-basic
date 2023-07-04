@@ -12,13 +12,6 @@ public class Console implements Input, Output {
 
   private static final Scanner scanner = new Scanner(System.in);
 
-  public static final String FIXED = "FIXED";
-  public static final String PERCENT = "PERCENT";
-  public static final String UUID = "UUID";
-  public static final String VOUCHER = "VOUCHER";
-  public static final String UNIT_PERCENT = "%";
-  public static final String UNIT_WON = "₩";
-
   public static final String ENTER_CREATE_TYPE = "Enter the type you want to create";
   public static final String ENTER_CREATE_VALUE = "Enter the value you want to create";
   public static final String SELECT_MENU_ERROR = "Select from the menu in the view";
@@ -51,8 +44,7 @@ public class Console implements Input, Output {
 
   @Override
   public void requestVoucherType() {
-    System.out.println(String.format("-%s | -%s", FIXED, PERCENT));
-    System.out.println(ENTER_CREATE_TYPE);
+    System.out.println(("FIXED" + " | " + "PERCENT\n" + ENTER_CREATE_TYPE));
   }
 
   @Override
@@ -73,14 +65,14 @@ public class Console implements Input, Output {
   @Override
   public void printAllVoucher(List<Voucher> vouchers) {
     for (Voucher voucher : vouchers) {
-      DiscountType discountType = voucher.getDiscount().getDiscountType();
-      System.out.println(String.format("- %s : %s", UUID, voucher.getVoucherId()));
-      System.out.println(String.format("- %s %s : %s%s", discountType, VOUCHER, voucher.supplyDiscountAmount(), printUnit(discountType)));
+      DiscountType discountType = voucher.supplyDiscountType();
+      System.out.println(String.format("- UUID : %s", voucher.getVoucherId()));
+      System.out.println(String.format("- %s VOUCHER : %s%s", discountType, voucher.supplyDiscountAmount(), printUnit(discountType)));
     }
   }
 
   private String printUnit(DiscountType discountType) {
-    return FIXED.equals(discountType.name()) ? UNIT_WON : UNIT_PERCENT;
+    return "FIXED".equals(discountType.name()) ? "₩" : "%";
   }
 
   @Override
