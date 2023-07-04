@@ -68,11 +68,22 @@ public class InFileVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        throw new RuntimeException("지원하지 않는 메서드입니다.");
+        deleteById(voucher.getId());
+        save(voucher);
     }
 
     @Override
     public void deleteById(UUID id) {
-        throw new RuntimeException("지원하지 않는 메서드입니다.");
+        List<Voucher> vouchers = findAll().stream()
+                .filter(voucher -> voucher.getId() != id)
+                .toList();
+
+        try {
+            Files.delete(file);
+            Files.createFile(file);
+            vouchers.forEach(this::save);
+        } catch (IOException e) {
+            throw new RuntimeException("IO 문제로 바우처가 삭제되지 않았습니다.");
+        }
     }
 }

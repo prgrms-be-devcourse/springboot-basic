@@ -35,11 +35,12 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        throw new RuntimeException("지원하지 않는 메서드입니다.");
+        deleteById(voucher.getId());
+        save(voucher);
     }
 
     @Override
     public void deleteById(UUID id) {
-        throw new RuntimeException("지원하지 않는 메서드입니다.");
+        VOUCHER_REPOSITORY.remove(id);
     }
 }
