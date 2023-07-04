@@ -1,5 +1,7 @@
 package co.programmers.voucher_management.voucher.entity;
 
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,9 +19,11 @@ public class PercentageDiscount implements DiscountStrategy {
 	}
 
 	private static void validate(Integer amount) throws IllegalArgumentException {
-		if (amount <= 0 || amount >= MAX_AMOUNT) {
+		if (amount <= 0 || amount > MAX_AMOUNT) {
 			logger.debug("User Input - amount : {}, Amount must be between 0 and {}", amount, MAX_AMOUNT);
-			throw new InvalidVoucherAmountException("Amount must be between 0 and 100");
+			throw new InvalidVoucherAmountException
+					(MessageFormat.format("Amount must be greater than 0 and less than or equal to {}", MAX_AMOUNT));
+
 		}
 	}
 
@@ -29,7 +33,7 @@ public class PercentageDiscount implements DiscountStrategy {
 
 	@Override
 	public int discount(int originalPrice) {
-		return originalPrice * (1 - amount / 100);
+		return (int)(originalPrice * (1 - (double)amount / 100));
 	}
 
 	public String getType() {
