@@ -12,8 +12,6 @@ public class FixedAmountDiscountPolicy implements DiscountPolicy {
     @Override
     public double applyDiscount(Voucher voucher) {
         double originalPrice = voucher.getAmount();
-        double discountedPrice = originalPrice - fixedAmount;
-        voucher.setAmount(discountedPrice);
-        return fixedAmount;
+        return originalPrice - fixedAmount;
     }
 }
