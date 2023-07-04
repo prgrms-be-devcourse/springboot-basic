@@ -95,9 +95,8 @@ public class CustomerService {
     }
 
     private void validateUsername(String username) {
-        String regex = USERNAME_REGEX;
 
-        if (!username.matches(regex)) {
+        if (!username.matches(USERNAME_REGEX)) {
             throw new BusinessException(INVALID_USERNAME_MESSAGE);
         }
 
