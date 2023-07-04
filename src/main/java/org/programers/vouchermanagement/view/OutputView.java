@@ -83,8 +83,8 @@ public class OutputView {
 
     public static void outputWallets(WalletsResponse response) {
         for (WalletResponse wallet : response.getWallets()) {
-            System.out.println(String.format("id : %s | voucherId : %s | memberId :  %s",
-                    wallet.getId(), wallet.getVoucher().getId(), wallet.getMember().getId()));
+            System.out.printf("id : %s | voucherId : %s | memberId :  %s%n",
+                    wallet.getId(), wallet.getVoucher().getId(), wallet.getMember().getId());
         }
     }
 }
