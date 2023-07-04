@@ -1,0 +1,5 @@
+settings:
+  version: "v1.1"
+  voucherRecordPath: "storage/vouchers/voucher_record.csv"
+  blackCustomerPath: "storage/customers/customer_blacklist.csv"
+  description: "어려워잌ㅋ"
