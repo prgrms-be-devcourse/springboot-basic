@@ -1,4 +1,4 @@
-package com.programmers;
+package com.programmers.controller;
 
 import com.programmers.domain.*;
 import com.programmers.domain.voucher.Voucher;
@@ -17,18 +17,23 @@ import java.util.List;
 import static com.programmers.util.ValueFormatter.*;
 
 @Controller
-public class VoucherController {
+public class MenuController {
 
-    private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
+    private static final Logger log = LoggerFactory.getLogger(MenuController.class);
+
+    private static final String CREATE_VOUCHER_NUMBER = "1";
+    private static final String CREATE_CUSTOMER_NUMBER = "2";
 
     private final Console console;
     private final VoucherService voucherService;
     private final BlacklistService blacklistService;
+    private final CustomerController customerController;
 
-    public VoucherController(Console console, VoucherService voucherService, BlacklistService blacklistService) {
+    public MenuController(Console console, VoucherService voucherService, BlacklistService blacklistService, CustomerController customerController) {
         this.console = console;
         this.voucherService = voucherService;
         this.blacklistService = blacklistService;
+        this.customerController = customerController;
     }
 
     public void run() {
@@ -45,10 +50,27 @@ public class VoucherController {
                     activated = false;
                     log.info("The program has been terminated.");
                 }
-                case CREATE -> createVoucher();
+                case CREATE -> create();
                 case LIST -> getVoucherList();
                 case BLACKLIST -> getBlacklist();
             }
+        }
+    }
+
+    public void create() {
+        console.printCreateMessage();
+        String command = console.readInput();
+        checkCreateMenuSelection(command);
+
+        switch (command) {
+            case CREATE_VOUCHER_NUMBER -> createVoucher();
+            case CREATE_CUSTOMER_NUMBER -> customerController.createCustomer();
+        }
+    }
+
+    private void checkCreateMenuSelection(String input) {
+        if (!input.equals(CREATE_VOUCHER_NUMBER) && !input.equals(CREATE_CUSTOMER_NUMBER)) {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -81,7 +103,7 @@ public class VoucherController {
         log.info("The voucher list has been printed.");
     }
 
-    private List<String> getBlacklist() {
+    public List<String> getBlacklist() {
         console.printBlacklistTitle();
         List<String> blacklist = blacklistService.findAll();
         console.printBlacklist(blacklist);

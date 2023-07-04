@@ -8,16 +8,16 @@ public class Customer {
     private final String customerName;
     private final CustomerType customerType;
 
-    public Customer(UUID customerId, String customerName, CustomerType customerType) {
+    public Customer(UUID customerId, String customerName) {
         this.customerId = customerId;
         this.customerName = customerName;
-        this.customerType = customerType;
+        this.customerType = CustomerType.NORMAL;
     }
 
-    public Customer(String customerName, CustomerType customerType) {
+    public Customer(String customerName) {
         this.customerId = UUID.randomUUID();
         this.customerName = customerName;
-        this.customerType = customerType;
+        this.customerType = CustomerType.NORMAL;
     }
 
     public UUID getCustomerId() {

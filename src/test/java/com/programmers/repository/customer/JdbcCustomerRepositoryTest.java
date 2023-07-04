@@ -30,7 +30,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     void save() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "testCustomer", CustomerType.NORMAL);
+        Customer customer = new Customer(UUID.randomUUID(), "testCustomer");
 
         //when
         Customer result = jdbcCustomerRepository.save(customer);
@@ -44,8 +44,8 @@ class JdbcCustomerRepositoryTest {
     @Test
     void findAll() {
         //given
-        Customer customer1 = new Customer("cus1", CustomerType.NORMAL);
-        Customer customer2 = new Customer("cus2", CustomerType.NORMAL);
+        Customer customer1 = new Customer("cus1");
+        Customer customer2 = new Customer("cus2");
 
         jdbcCustomerRepository.save(customer1);
         jdbcCustomerRepository.save(customer2);
@@ -62,7 +62,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     void findById() {
         //given
-        Customer customer = new Customer( "customerName", CustomerType.NORMAL);
+        Customer customer = new Customer("customerName");
         jdbcCustomerRepository.save(customer);
 
         //when
@@ -77,7 +77,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     void findByIdException() {
         //given
-        Customer customer = new Customer( "customerName", CustomerType.NORMAL);
+        Customer customer = new Customer( "customerName");
 
         //when
         //then
@@ -91,16 +91,15 @@ class JdbcCustomerRepositoryTest {
     void update() {
         //given
         UUID id = UUID.randomUUID();
-        Customer customer = new Customer(id, "before", CustomerType.NORMAL);
+        Customer customer = new Customer(id, "before");
         jdbcCustomerRepository.save(customer);
 
         //when
-        Customer result = jdbcCustomerRepository.update(new Customer(id, "after", CustomerType.BLACK));
+        Customer result = jdbcCustomerRepository.update(new Customer(id, "after"));
 
         //then
         assertThat(result.getCustomerId(), is(id));
         assertThat(result.getCustomerName(), is("after"));
-        assertThat(result.getCustomerType(), is(CustomerType.BLACK));
     }
 
     @Transactional
@@ -108,7 +107,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     void deleteById() {
         //given
-        Customer customer = new Customer( "customerName", CustomerType.NORMAL);
+        Customer customer = new Customer( "customerName");
         jdbcCustomerRepository.save(customer);
 
         //when
@@ -124,8 +123,8 @@ class JdbcCustomerRepositoryTest {
     @Test
     void deleteAll() {
         //given
-        Customer customer1 = new Customer("cus1", CustomerType.NORMAL);
-        Customer customer2 = new Customer("cus2", CustomerType.NORMAL);
+        Customer customer1 = new Customer("cus1");
+        Customer customer2 = new Customer("cus2");
 
         jdbcCustomerRepository.save(customer1);
         jdbcCustomerRepository.save(customer2);

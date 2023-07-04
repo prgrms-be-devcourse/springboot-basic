@@ -1,7 +1,6 @@
 package com.programmers.repository.customer;
 
 import com.programmers.domain.customer.Customer;
-import com.programmers.domain.customer.CustomerType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -82,7 +81,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private RowMapper<Customer> customerRowMapper() {
         return (rs, rowNum) ->
                 new Customer(UUID.fromString(rs.getString("id")),
-                        rs.getString("name"),
-                        CustomerType.findCustomerType(rs.getString("type")));
+                        rs.getString("name"));
     }
 }

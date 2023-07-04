@@ -25,7 +25,7 @@ public class CustomerService {
     @Transactional
     public CustomerResponseDto save(CustomerCreateRequestDto customerDto) {
 
-        Customer customer = customerRepository.save(new Customer(customerDto.name(), customerDto.type()));
+        Customer customer = customerRepository.save(new Customer(customerDto.name()));
 
         return new CustomerResponseDto(customer.getCustomerId(), customer.getCustomerName(), customer.getCustomerType());
     }
@@ -45,7 +45,7 @@ public class CustomerService {
 
     @Transactional
     public CustomerResponseDto update(CustomerUpdateRequestDto customerUpdateRequestDto) {
-        Customer customer = customerRepository.update(new Customer(customerUpdateRequestDto.id(), customerUpdateRequestDto.name(), customerUpdateRequestDto.type()));
+        Customer customer = customerRepository.update(new Customer(customerUpdateRequestDto.id(), customerUpdateRequestDto.name()));
 
         return new CustomerResponseDto(customer.getCustomerId(), customer.getCustomerName(), customer.getCustomerType());
     }

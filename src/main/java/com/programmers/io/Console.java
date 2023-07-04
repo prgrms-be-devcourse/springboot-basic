@@ -12,7 +12,7 @@ public class Console implements Input, Output {
 
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
             "Type 'exit' or '1' to exit the program.\n" +
-            "Type 'create' or '2' to create a new voucher.\n" +
+            "Type 'create' or '2' to create a new voucher or a new customer.\n" +
             "Type 'list' or '3' to list all vouchers.\n" +
             "Type 'black' or '4' to check the blacklist.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
@@ -24,6 +24,12 @@ public class Console implements Input, Output {
     private static final String VOUCHER_CREATED_MESSAGE = "--- Voucher Created !! ---\n";
     private static final String VOUCHER_LIST_TITLE_MESSAGE = "\n=== Voucher List ===";
     private static final String BLACKLIST_MESSAGE = "\n=== Blacklist ===";
+    private static final String CREATE_MESSAGE = "\n=== Create ===\n" +
+            "Type a menu item or number to create.\n" +
+            "1. voucher\n" +
+            "2. customer";
+    private static final String CUSTOMER_NAME_MESSAGE = "\n=== Type customer name ===";
+    private static final String CUSTOMER_CREATED_MESSAGE = "--- Customer Created !! ---\n";
 
     @Override
     public void printMenu() {
@@ -73,5 +79,17 @@ public class Console implements Input, Output {
         blacklist.forEach(System.out::println);
 
         System.out.println();
+    }
+
+    public void printCreateMessage() {
+        System.out.println(CREATE_MESSAGE);
+    }
+
+    public void printCustomerNameInput() {
+        System.out.println(CUSTOMER_NAME_MESSAGE);
+    }
+
+    public void printCustomerCreated() {
+        System.out.println(CUSTOMER_CREATED_MESSAGE);
     }
 }
