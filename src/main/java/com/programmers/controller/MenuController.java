@@ -2,8 +2,6 @@ package com.programmers.controller;
 
 import com.programmers.domain.*;
 import com.programmers.io.Console;
-import com.programmers.service.BlacklistService;
-import com.programmers.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -43,6 +41,7 @@ public class MenuController {
                 }
                 case CREATE -> create();
                 case LIST -> list();
+                case UPDATE -> update();
             }
         }
     }
@@ -72,6 +71,17 @@ public class MenuController {
         switch (command) {
             case MENU_VOUCHER_NUMBER -> voucherController.getVoucherList();
             case MENU_CUSTOMER_NUMBER -> customerController.getCustomerList();
+        }
+    }
+
+    public void update() {
+        console.printUpdateMessage();
+        String command = console.readInput();
+        checkMenuSelection(command);
+
+        switch (command) {
+            case MENU_VOUCHER_NUMBER -> voucherController.updateVoucher();
+            //case MENU_CUSTOMER_NUMBER -> customerController.getCustomerList();
         }
     }
 }

@@ -15,7 +15,8 @@ public class Console implements Input, Output {
     private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
             "Type 'exit' or '1' to exit the program.\n" +
             "Type 'create' or '2' to create a new voucher or a new customer.\n" +
-            "Type 'list' or '3' to list all vouchers or all customers.";
+            "Type 'list' or '3' to list all vouchers or all customers.\n" +
+            "Type 'update' or '4' to update a voucher or a customer.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
             "Type voucher name or number to create.\n" +
             "1. Fixed Amount Voucher\n" +
@@ -39,8 +40,15 @@ public class Console implements Input, Output {
             "Type '1' or '2' to choose Customer Type.\n" +
             "1. Normal Customer\n" +
             "2. Blacklist";
-
     private static final String NORMAL_CUSTOMER_LIST_TITLE_MESSAGE = "\n=== Normal Customer List ===";
+    private static final String UPDATE_MESSAGE = "\n=== Update ===\n" +
+            "Type '1' or '2' to update item.\n" +
+            "1. voucher\n" +
+            "2. customer";
+    private static final String UPDATE_VOUCHER_ID_MESSAGE = "=== Type voucher id to update ===";
+    private static final String UPDATE_NEW_VOUCHER_NAME_MESSAGE = "\n=== Type new voucher name ===";
+    private static final String UPDATE_NEW_VOUCHER_VALUE_MESSAGE = "\n=== Type new voucher value ===";
+    private static final String UPDATE_VOUCHER_COMPLETE_MESSAGE = "--- The voucher updated successfully !! ---\n";
 
     @Override
     public void printMenu() {
@@ -120,5 +128,25 @@ public class Console implements Input, Output {
         List<Customer> customers = customersResponseDto.customers();
         customers.forEach(System.out::println);
         System.out.println();
+    }
+
+    public void printUpdateMessage() {
+        System.out.println(UPDATE_MESSAGE);
+    }
+
+    public void printUpdateVoucherIdMessage() {
+        System.out.println(UPDATE_VOUCHER_ID_MESSAGE);
+    }
+
+    public void printUpdateNewVoucherValueMessage() {
+        System.out.println(UPDATE_NEW_VOUCHER_VALUE_MESSAGE);
+    }
+
+    public void printUpdateNewVoucherNameMessage() {
+        System.out.println(UPDATE_NEW_VOUCHER_NAME_MESSAGE);
+    }
+
+    public void printUpdateVoucherCompleteMessage() {
+        System.out.println(UPDATE_VOUCHER_COMPLETE_MESSAGE);
     }
 }

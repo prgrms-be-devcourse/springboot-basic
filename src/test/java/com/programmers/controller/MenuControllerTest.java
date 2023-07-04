@@ -35,7 +35,8 @@
 //    private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
 //            "Type 'exit' or '1' to exit the program.\n" +
 //            "Type 'create' or '2' to create a new voucher or a new customer.\n" +
-//            "Type 'list' or '3' to list all vouchers or all customers.";
+//"Type 'list' or '3' to list all vouchers or all customers.\n" +
+//        "Type 'update' or '4' to update a voucher or a customer.";
 //    private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
 //            "Type voucher name or number to create.\n" +
 //            "1. Fixed Amount Voucher\n" +

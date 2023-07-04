@@ -3,12 +3,16 @@ package com.programmers.controller;
 import com.programmers.domain.voucher.Voucher;
 import com.programmers.domain.voucher.VoucherType;
 import com.programmers.domain.voucher.dto.VoucherCreateRequestDto;
+import com.programmers.domain.voucher.dto.VoucherResponseDto;
+import com.programmers.domain.voucher.dto.VoucherUpdateRequestDto;
 import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import com.programmers.io.Console;
 import com.programmers.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
 
 import static com.programmers.util.ValueFormatter.changeDiscountValueToNumber;
 import static com.programmers.util.ValueFormatter.reformatVoucherType;
@@ -53,5 +57,34 @@ public class VoucherController {
         VouchersResponseDto vouchersResponseDto = voucherService.findAll();
         console.printVouchers(vouchersResponseDto);
         log.info("The voucher list has been printed.");
+    }
+
+    public void updateVoucher() {
+        getVoucherList();
+
+        Voucher originalVoucher = getVoucherToUpdate();
+        VoucherUpdateRequestDto voucherUpdateRequestDto = makeVoucherRequestDtoToUpdate(originalVoucher);
+
+        voucherService.update(voucherUpdateRequestDto);
+        console.printUpdateVoucherCompleteMessage();
+    }
+
+    public Voucher getVoucherToUpdate() {
+        console.printUpdateVoucherIdMessage();
+        UUID updateVoucherId = UUID.fromString(console.readInput());
+
+        VoucherResponseDto voucherResponseDto = voucherService.findById(updateVoucherId);
+
+        return VoucherType.createVoucher(voucherResponseDto.type().toString(), voucherResponseDto.id(), voucherResponseDto.name(), voucherResponseDto.value());
+    }
+
+    private VoucherUpdateRequestDto makeVoucherRequestDtoToUpdate(Voucher voucher) {
+        console.printUpdateNewVoucherValueMessage();
+        Long updateVoucherValue = changeDiscountValueToNumber(console.readInput());
+
+        console.printUpdateNewVoucherNameMessage();
+        String updateVoucherName = console.readInput();
+
+        return new VoucherUpdateRequestDto(voucher.getVoucherId(), updateVoucherName, updateVoucherValue, voucher.getVoucherType());
     }
 }
