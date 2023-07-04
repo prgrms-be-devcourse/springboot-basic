@@ -15,16 +15,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher create(String type, long value, LocalDate createdDate, LocalDate expirationDate) {
-
-        try {
-            VoucherFactory voucherFactory = VoucherFactory.valueOf(type);
-            Voucher voucher = voucherFactory.createVoucher(value, createdDate, expirationDate);
-            return voucherRepository.insert(voucher);
-
-        } catch (IllegalStateException e) {
-            throw new IllegalArgumentException();
-        }
+    public Voucher save(Voucher voucher) {
+        return voucherRepository.insert(voucher);
     }
 
     public List<Voucher> findAll() {

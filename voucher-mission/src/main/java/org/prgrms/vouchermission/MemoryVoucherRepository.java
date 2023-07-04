@@ -4,17 +4,20 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private final Map<Long, Voucher> storage = new ConcurrentHashMap<>();
+    public static final AtomicLong voucherIdFactory = new AtomicLong(1);
 
     @Override
     public Voucher insert(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
-        return voucher;
+        Voucher completeVoucher = voucher.injectVoucherId(voucherIdFactory.getAndIncrement());
+        storage.put(completeVoucher.getVoucherId(), completeVoucher);
+        return completeVoucher;
     }
 
     @Override
