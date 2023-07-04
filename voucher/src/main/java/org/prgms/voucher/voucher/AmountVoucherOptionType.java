@@ -4,6 +4,8 @@ import org.prgms.voucher.voucher.factory.FixedAmountVoucherFactory;
 import org.prgms.voucher.voucher.factory.PercentAmountVoucherFactory;
 import org.prgms.voucher.voucher.factory.AmountVoucherFactory;
 
+import java.util.UUID;
+
 public enum AmountVoucherOptionType {
     FIXED_AMOUNT(
             "fixed amount",
@@ -42,7 +44,7 @@ public enum AmountVoucherOptionType {
         return choiceNumber;
     }
 
-    public AmountVoucherFactory getVoucherFactory() {
-        return amountVoucherFactory;
+    public AmountVoucher createAmountVoucher(int amount) {
+        return amountVoucherFactory.createVoucher(UUID.randomUUID(), amount);
     }
 }

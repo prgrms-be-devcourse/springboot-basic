@@ -15,7 +15,7 @@ public class AmountVoucherController {
     }
 
     public AmountVoucher createAmountVoucher(AmountVoucherCreateDto amountVoucherCreateDto) {
-        return amountVoucherService.createAmountVoucher(amountVoucherCreateDto);
+        return amountVoucherService.createAmountVoucher(amountVoucherCreateDto.getCreateAmountVoucher());
     }
 
     public List<VoucherPrintDto> listVoucher() {
