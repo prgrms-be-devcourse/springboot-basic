@@ -1,6 +1,9 @@
 package prgms.spring_week1.io.message;
 
-public class ConsoleOutputMessage {
+public final class ConsoleOutputMessage {
+    private ConsoleOutputMessage() {
+    }
+
     public static final String MENU_LIST_MESSAGE =
             """
                     === Voucher Program ===
