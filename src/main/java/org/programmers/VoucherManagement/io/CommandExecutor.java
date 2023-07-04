@@ -20,8 +20,8 @@ public class CommandExecutor {
         this.console = console;
     }
 
-    public void execute(CommandType commandType) {
-        switch (commandType) {
+    public void execute(MenuType menuType) {
+        switch (menuType) {
             case CREATE -> {
                 console.printDiscountType();
                 CreateVoucherRequest request = makeCreateVoucherRequest();

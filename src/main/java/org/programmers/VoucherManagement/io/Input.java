@@ -3,7 +3,7 @@ package org.programmers.VoucherManagement.io;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 
 public interface Input {
-    CommandType readType();
+    MenuType readType();
 
     DiscountType readDiscountType();
 

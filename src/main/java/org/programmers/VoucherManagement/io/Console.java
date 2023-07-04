@@ -60,9 +60,9 @@ public class Console implements Input, Output {
 
 
     @Override
-    public CommandType readType() {
+    public MenuType readType() {
         String type = SCANNER.nextLine();
-        return CommandType.from(type.toLowerCase());
+        return MenuType.from(type.toLowerCase());
     }
 
     @Override

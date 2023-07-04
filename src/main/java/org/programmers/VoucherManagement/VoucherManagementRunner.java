@@ -2,9 +2,8 @@ package org.programmers.VoucherManagement;
 
 import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.io.CommandExecutor;
-import org.programmers.VoucherManagement.io.CommandType;
+import org.programmers.VoucherManagement.io.MenuType;
 import org.programmers.VoucherManagement.io.Console;
-import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,18 +20,18 @@ public class VoucherManagementRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args){
-        CommandType commandType;
+        MenuType menuType;
         boolean isRunning = true;
 
         while (isRunning) {
             try{
                 console.printType();
-                commandType = console.readType();
+                menuType = console.readType();
 
-                if (commandType == CommandType.EXIT){
+                if (menuType == MenuType.EXIT){
                     isRunning = false;
                 }
-                commandExecutor.execute(commandType);
+                commandExecutor.execute(menuType);
 
             }catch (VoucherException | IllegalArgumentException e){
                 logger.info(e.getMessage());

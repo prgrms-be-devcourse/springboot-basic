@@ -10,20 +10,20 @@ import java.util.stream.Collectors;
 
 import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_COMMAND;
 
-public enum CommandType {
+public enum MenuType {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
     BLACKLIST("blacklist");
 
-    private static final Map<String, CommandType> COMMAND_TYPE_MAP =
+    private static final Map<String, MenuType> COMMAND_TYPE_MAP =
             Collections.unmodifiableMap(Arrays
                     .stream(values())
-                    .collect(Collectors.toMap(CommandType::getType, Function.identity())));
+                    .collect(Collectors.toMap(MenuType::getType, Function.identity())));
 
     private final String type;
 
-    CommandType(String type) {
+    MenuType(String type) {
         this.type = type;
     }
 
@@ -32,7 +32,7 @@ public enum CommandType {
     }
 
 
-    public static CommandType from(String type) {
+    public static MenuType from(String type) {
         if (!COMMAND_TYPE_MAP.containsKey(type)) {
             throw new VoucherException(NOT_EXIST_COMMAND);
         }
