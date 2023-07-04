@@ -1,5 +1,6 @@
 package kr.co.springbootweeklymission.wallet.domain.repository;
 
+import kr.co.springbootweeklymission.infrastructure.error.exception.DuplicatedException;
 import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.member.creators.MemberCreators;
@@ -18,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -47,7 +49,7 @@ public class JdbcWalletRepositoryTest {
     }
 
     @Test
-    @Order(1)
+    @Order(0)
     void save_특정_고객에게_바우처_할당_SUCCESS() {
         //given
         Wallet wallet = WalletCreators.createWallet(voucher1, member);
@@ -57,6 +59,18 @@ public class JdbcWalletRepositoryTest {
 
         //then
         assertThat(actual.getWalletId()).isEqualTo(wallet.getWalletId());
+    }
+
+    @Test
+    @Order(1)
+    void save_이미_할당된_바우처를_특정_고객에게_할당_DuplicatedException() {
+        //given
+        Wallet wallet = WalletCreators.createWallet(voucher1, member);
+
+        //when & then
+        assertThatThrownBy(() -> walletRepository.save(wallet))
+                .isInstanceOf(DuplicatedException.class)
+                .hasMessage(ResponseStatus.FAIL_DUPLICATED_KEY.getMessage());
     }
 
     @Test
