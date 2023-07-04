@@ -24,20 +24,23 @@ dependencies {
 
 	// configurationProperties
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	// mysql connector
+	implementation 'mysql:mysql-connector-java:8.0.28'
+
+	// jdbc
+	implementation "org.springframework.boot:spring-boot-starter-jdbc"
+
+	// wix embedded mysql database -> for test
+	testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
 	enabled = false
 }
 
-sourceSets {
-	main {
-		java {
-			exclude("**/main/resources/voucher_record.csv")
-		}
-	}
-}
+sourceSets.main.java.exclude("**/main/resources/voucher_record.csv")
