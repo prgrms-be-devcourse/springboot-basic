@@ -11,8 +11,8 @@ import static org.assertj.core.api.Assertions.*;
 class FixedAmountDiscountPolicyTest {
 
     @Nested
-    @DisplayName("할인 금액을 검증한다.")
-    class validationAmount {
+    @DisplayName("정액 할인 정책을 생성한다.")
+    class createFixedAmountDiscountPolicy {
 
         @ParameterizedTest
         @ValueSource(ints = {1, 10})
