@@ -1,7 +1,7 @@
 package com.prgms.VoucherApp.domain.voucher.model;
 
-import com.prgms.VoucherApp.domain.voucher.FixedVoucherPolicy;
-import com.prgms.VoucherApp.domain.voucher.PercentVoucherPolicy;
+import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
+import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
@@ -21,13 +21,9 @@ public class VoucherCreator {
 
     public Voucher createVoucher(VoucherType voucherType, long amount) {
         Voucher voucher = switch (voucherType) {
-            case FIXED_VOUCHER -> new Voucher(UUID.randomUUID(),
-                new FixedVoucherPolicy(BigDecimal.valueOf(amount)),
-                voucherType);
-
-            case PERCENT_VOUCHER -> new Voucher(UUID.randomUUID(),
-                new PercentVoucherPolicy(BigDecimal.valueOf(amount)),
-                voucherType);
+            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(amount), voucherType);
+            case PERCENT_VOUCHER ->
+                    new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(amount), voucherType);
         };
         voucherStorage.save(voucher);
         return voucher;
