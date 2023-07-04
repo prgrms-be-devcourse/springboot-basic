@@ -9,24 +9,6 @@ public class Console implements Input, Output{
 
     private static final Scanner sc = new Scanner(System.in);
 
-    /** Output **/
-    @Override
-    public void printMenu() {
-        System.out.println("""
-                === Voucher Program ===
-                Type **exit** to exit the program.
-                Type **create** to create a new voucher.
-                Type **list** to list all vouchers.""");
-    }
-
-    @Override
-    public void printKindOfVoucher() {
-        System.out.print("""
-                1 -- 고정 할인 Voucher 생성
-                2 -- 퍼센트 할인 Voucher 생성
-                입력: """);
-    }
-
     @Override
     public void printErrorMsg() {
         System.out.println("잘못된 명령어입니다.");
@@ -38,11 +20,15 @@ public class Console implements Input, Output{
     }
 
     @Override
-    public void printMsg(String msg) {
-        System.out.println(msg);
+    public void printMsg(String msg, boolean lnCheck) {
+        if(lnCheck){
+            System.out.println(msg);
+        }
+        else{
+            System.out.print(msg);
+        }
     }
 
-    /** Input **/
     @Override
     public String inputCommand() {
         return sc.nextLine();

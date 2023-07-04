@@ -5,6 +5,7 @@ import com.prgms.voucher.voucherproject.domain.PercentDiscountVoucher;
 import com.prgms.voucher.voucherproject.domain.Voucher;
 import com.prgms.voucher.voucherproject.domain.VoucherType;
 import com.prgms.voucher.voucherproject.io.Console;
+import com.prgms.voucher.voucherproject.io.Constant;
 import com.prgms.voucher.voucherproject.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +18,11 @@ import java.util.UUID;
 @Service
 public class VoucherService {
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
+
     private final VoucherRepository voucherRepository;
     private final Console console = new Console();
-    private final String CREATE_FIXED_MSG = "고정 할인 금액을 입력하세요. (1이상)";
-    private final String CREATE_PERCENT_MSG = "퍼센트 할인 금액을 입력하세요. (1~99)";
+
+
     private long discount;
     private long percent;
 
@@ -29,7 +31,7 @@ public class VoucherService {
     }
 
     private void createFixedVoucher() {
-        console.printMsg(CREATE_FIXED_MSG);
+        console.printMsg(Constant.CREATE_FIXED_MSG, true);
         discount = console.inputDiscountAmount();
         console.bufferDeleted();
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
@@ -37,7 +39,7 @@ public class VoucherService {
     }
 
     private void createPercentVoucher() {
-        console.printMsg(CREATE_PERCENT_MSG);
+        console.printMsg(Constant.CREATE_PERCENT_MSG, true);
         percent = console.inputDiscountAmount();
         console.bufferDeleted();
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
@@ -50,7 +52,7 @@ public class VoucherService {
         if (voucherList.isEmpty()) {
             console.printNoVoucher();
         } else {
-            voucherList.forEach(voucher -> console.printMsg(voucher.toString()));
+            voucherList.forEach(voucher -> console.printMsg(String.valueOf(voucher), true));
         }
     }
 

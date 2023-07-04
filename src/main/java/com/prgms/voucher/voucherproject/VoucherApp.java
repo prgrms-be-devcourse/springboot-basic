@@ -3,6 +3,7 @@ package com.prgms.voucher.voucherproject;
 import com.prgms.voucher.voucherproject.domain.MenuType;
 import com.prgms.voucher.voucherproject.domain.VoucherType;
 import com.prgms.voucher.voucherproject.io.Console;
+import com.prgms.voucher.voucherproject.io.Constant;
 import com.prgms.voucher.voucherproject.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,17 +28,17 @@ public class VoucherApp implements CommandLineRunner {
         boolean exit = false;
 
         while (!exit) {
-            console.printMenu();
+            console.printMsg(Constant.CONSOLE_MENU, true);
             menuName = console.inputCommand().toLowerCase();
 
             try {
                 switch (MenuType.getSelectedMenuType(menuName)) {
                     case EXIT -> {
                         exit = true;
-                        console.printMsg("프로그램을 종료합니다.");
+                        console.printMsg("프로그램을 종료합니다.", true);
                     }
                     case CREATE -> {
-                        console.printKindOfVoucher();
+                        console.printMsg(Constant.CONSOLE_VOUCHER_MENU, false);
                         int selectedNum = console.inputSelectedVoucherType();
                         console.bufferDeleted();
                         try {
