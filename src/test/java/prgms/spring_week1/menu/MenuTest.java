@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MenuTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"EXIT", "exit", "creaTE"})
+    @ValueSource(strings = {"EXIT", "exit", "creaTE","List","Black"})
     void findMenuType(String inputText) {
         assertDoesNotThrow(() -> Menu.findMenuType(inputText));
     }
