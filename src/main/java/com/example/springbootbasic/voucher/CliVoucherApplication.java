@@ -6,6 +6,7 @@ import com.example.springbootbasic.io.Input;
 import com.example.springbootbasic.io.Output;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Controller
@@ -21,6 +22,7 @@ public class CliVoucherApplication {
         this.voucherService = voucherService;
     }
 
+    @PostConstruct
     public void run() {
         while (true) {
             output.printCommandList();
