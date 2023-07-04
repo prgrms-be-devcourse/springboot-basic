@@ -1,16 +1,23 @@
 package com.prgrms.commandLineApplication.voucher.discount;
 
+import com.prgrms.commandLineApplication.io.MenuType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public enum DiscountType {
   FIXED,
   PERCENT;
 
-  private static final String ERROR_MESSAGE = "Invalid Voucher Type";
+  private static final Logger LOGGER = LoggerFactory.getLogger(MenuType.class);
+
+  private static final String VOUCHER_TYPE_ERROR = "Invalid Voucher Type";
 
   public static DiscountType valueOfType(String type) {
     try {
       return DiscountType.valueOf(type.toUpperCase());
     } catch (Exception e) {
-      throw new IllegalArgumentException(ERROR_MESSAGE);
+      LOGGER.error("Menu Error Message => {}", VOUCHER_TYPE_ERROR);
+      throw new IllegalArgumentException(VOUCHER_TYPE_ERROR);
     }
   }
 
