@@ -57,4 +57,13 @@ class MemoryVoucherServiceTest {
 		boolean isEmpty = !vouchers.iterator().hasNext();
 		assertTrue(isEmpty, "데이터가 없어야 합니다.");
 	}
+
+	@Test
+	void func1(){
+
+		List<Voucher> vouchers = voucherRepository.findAll();
+		if(vouchers==null)
+			System.out.println("true");
+
+	}
 }
