@@ -14,17 +14,17 @@ import java.util.List;
 
 @Repository
 public class CsvRepository implements BlackListRepository {
-    private final String CsvFilePath;
+    private final String csvFilePath;
 
     public CsvRepository(@Value("${file.blackList}") String csvFilePath) {
-        CsvFilePath = csvFilePath;
+        this.csvFilePath = csvFilePath;
     }
 
     @Override
     public List<BlackConsumer> getBlackConsumerList() {
         List<BlackConsumer> blackConsumerList = new ArrayList<>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(new File(CsvFilePath)));
+            BufferedReader br = new BufferedReader(new FileReader(new File(csvFilePath)));
             String line = "";
             while ((line = br.readLine()) != null) {
                 String[] consumer = line.split(",");
