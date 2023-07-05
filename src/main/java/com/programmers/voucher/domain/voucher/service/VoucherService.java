@@ -31,8 +31,7 @@ public class VoucherService {
 
         voucherRepository.save(voucher);
 
-        String logMessage = VoucherMessages.addVoucher(CREATED_NEW_VOUCHER, voucher.toString());
-        LOG.info(logMessage);
+        LOG.info(CREATED_NEW_VOUCHER, voucher.toString());
         return voucherId;
     }
 
