@@ -3,6 +3,7 @@ package com.programmers.voucher.global.io.command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -28,7 +29,7 @@ public enum VoucherCommandType implements CommandType {
                 .filter(t -> Objects.equals(t.type, type))
                 .findAny()
                 .orElseThrow(() -> {
-                    String errorMessage = String.format(INVALID_VOUCHER_CONSOLE_COMMAND, type);
+                    String errorMessage = MessageFormat.format(INVALID_VOUCHER_CONSOLE_COMMAND, type);
 
                     LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);
