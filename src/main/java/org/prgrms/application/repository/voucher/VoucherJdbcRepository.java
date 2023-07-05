@@ -1,6 +1,7 @@
 package org.prgrms.application.repository.voucher;
 
 import org.prgrms.application.domain.voucher.*;
+import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.customer.CustomerJdbcRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

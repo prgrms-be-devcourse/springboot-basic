@@ -19,7 +19,7 @@ public class VoucherController {
     }
 
     public List<Voucher> getStorage() {
-        return voucherService.getVoucherList();
+        return voucherService.getVouchers();
     }
 
     public void createVoucher(VoucherType voucherType, double discountAmount) {

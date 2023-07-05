@@ -2,6 +2,7 @@ package org.prgrms.application.repository.voucher;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.exception.BadSqlExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,28 +80,27 @@ class VoucherJdbcRepositoryTest {
     @Autowired
     DataSource dataSource;
 
-    FixedAmountVoucher newFixedVoucher;
-
-    PercentAmountVoucher newPercentVoucher;
+    VoucherEntity newFixedVoucher;
+    VoucherEntity newPercentVoucher;
 
     @BeforeAll
     void setup() {
-        newFixedVoucher = new FixedAmountVoucher(1L, FIXED, 10000);
-        newPercentVoucher = new PercentAmountVoucher(2L, PERCENT, 50);
+        VoucherEntity newFixedVoucher = new VoucherEntity(1L, "FIXED", 10000);
+        VoucherEntity newPercentVoucher = new VoucherEntity(2L, "PERCENT", 50);
     }
 
     @Test
     @Order(1)
     @DisplayName("바우처를 추가할 수 있다.")
     public void testInsert() {
-        voucherJdbcRepository.insert(newPercentVoucher);
         voucherJdbcRepository.insert(newFixedVoucher);
+        voucherJdbcRepository.insert(newPercentVoucher);
 
-        Optional<Voucher> retrievedFixedVoucher = voucherJdbcRepository.findById(newFixedVoucher.getVoucherId());
+        Optional<VoucherEntity> retrievedFixedVoucher = voucherJdbcRepository.findById(newFixedVoucher.getVoucherId());
         assertThat(retrievedFixedVoucher.isEmpty(), is(false));
         assertThat(retrievedFixedVoucher.get(), samePropertyValuesAs(newFixedVoucher));
 
-        Optional<Voucher> retrievedPercentVoucher = voucherJdbcRepository.findById(newPercentVoucher.getVoucherId());
+        Optional<VoucherEntity> retrievedPercentVoucher = voucherJdbcRepository.findById(newPercentVoucher.getVoucherId());
         assertThat(retrievedPercentVoucher.isEmpty(), is(false));
         assertThat(retrievedPercentVoucher.get(), samePropertyValuesAs(newPercentVoucher));
 
@@ -110,7 +110,7 @@ class VoucherJdbcRepositoryTest {
     @Order(2)
     @DisplayName("전체 바우처를 조회할 수 있다.")
     public void testFindAll() {
-        List<Voucher> vouchers = voucherJdbcRepository.findAll();
+        List<VoucherEntity> vouchers = voucherJdbcRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
     }
 
@@ -118,10 +118,10 @@ class VoucherJdbcRepositoryTest {
     @Order(3)
     @DisplayName("바우처 아이디로 조회할 수 있다.")
     public void testFindByName() {
-        Optional<Voucher> fixedVoucher = voucherJdbcRepository.findById(newFixedVoucher.getVoucherId());
+        Optional<VoucherEntity> fixedVoucher = voucherJdbcRepository.findById(newFixedVoucher.getVoucherId());
         assertThat(fixedVoucher.isEmpty(), is(false));
 
-        Optional<Voucher> percentVoucher = voucherJdbcRepository.findById(newPercentVoucher.getVoucherId());
+        Optional<VoucherEntity> percentVoucher = voucherJdbcRepository.findById(newPercentVoucher.getVoucherId());
         assertThat(percentVoucher.isEmpty(), is(false));
     }
 
@@ -143,22 +143,22 @@ class VoucherJdbcRepositoryTest {
         newFixedVoucher.changeFixedAmount(10000);
         voucherJdbcRepository.update(newFixedVoucher);
 
-        List<Voucher> vouchers = voucherJdbcRepository.findAll();
+        List<VoucherEntity> vouchers = voucherJdbcRepository.findAll();
         assertThat(vouchers, hasSize(2));
         assertThat(vouchers, hasItem(samePropertyValuesAs(newFixedVoucher)));
 
-        Optional<Voucher> retrievedVoucher = voucherJdbcRepository.findById(newFixedVoucher.getVoucherId());
+        Optional<VoucherEntity> retrievedVoucher = voucherJdbcRepository.findById(newFixedVoucher.getVoucherId());
         assertThat(retrievedVoucher.isEmpty(), is(false));
         assertThat(retrievedVoucher.get(), samePropertyValuesAs(newFixedVoucher));
 
         newPercentVoucher.changePercentAmount(20);
         voucherJdbcRepository.update(newPercentVoucher);
 
-        List<Voucher> vouchers2 = voucherJdbcRepository.findAll();
+        List<VoucherEntity> vouchers2 = voucherJdbcRepository.findAll();
         assertThat(vouchers2, hasSize(2));
         assertThat(vouchers2, hasItem(samePropertyValuesAs(newPercentVoucher)));
 
-        Optional<Voucher> retrievedVoucher2 = voucherJdbcRepository.findById(newPercentVoucher.getVoucherId());
+        Optional<VoucherEntity> retrievedVoucher2 = voucherJdbcRepository.findById(newPercentVoucher.getVoucherId());
         assertThat(retrievedVoucher2.isEmpty(), is(false));
         assertThat(retrievedVoucher2.get(), samePropertyValuesAs(newPercentVoucher));
     }
@@ -168,7 +168,7 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("바우처를 삭제할 수 있다.")
     public void testDelete() {
         voucherJdbcRepository.deleteAll();
-        List<Voucher> vouchers = voucherJdbcRepository.findAll();
+        List<VoucherEntity> vouchers = voucherJdbcRepository.findAll();
         assertThat(vouchers.isEmpty(), is(true));
     }
 

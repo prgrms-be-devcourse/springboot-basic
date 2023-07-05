@@ -1,7 +1,6 @@
 package org.prgrms.application.repository.voucher;
 
-import org.prgrms.application.domain.voucher.Voucher;
-import org.prgrms.application.domain.voucher.VoucherEntity;
+import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.domain.voucher.VoucherType;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface VoucherRepository {
 
     VoucherEntity update(VoucherEntity voucherEntity);
 
-    List<Voucher> findAll();
+    List<VoucherEntity> findAll();
 
     Optional<VoucherEntity> findById(Long voucherId);
 
