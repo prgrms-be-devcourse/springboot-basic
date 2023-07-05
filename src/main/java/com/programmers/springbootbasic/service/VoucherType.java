@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.domain.voucher;
+package com.programmers.springbootbasic.service;
 
 import java.util.Arrays;
 

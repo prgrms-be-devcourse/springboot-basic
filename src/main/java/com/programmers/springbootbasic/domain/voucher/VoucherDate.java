@@ -15,6 +15,10 @@ public class VoucherDate {
         this.expirationDate = expirationDate;
     }
 
+    public static VoucherDate of(LocalDateTime createdDate, LocalDateTime expirationDate) {
+        return new VoucherDate(createdDate, expirationDate);
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }

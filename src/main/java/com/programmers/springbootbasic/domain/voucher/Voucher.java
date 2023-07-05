@@ -26,6 +26,14 @@ public abstract class Voucher {
         this.voucherDate = voucherDate;
     }
 
+    public static Voucher createFixedAmount(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int amount) {
+        return new FixedAmountVoucher(voucherId, name, minimumPriceCondition, voucherDate, amount);
+    }
+
+    public static Voucher createPercentDiscount(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int percent) {
+        return new PercentDiscountVoucher(voucherId, name, minimumPriceCondition, voucherDate, percent);
+    }
+
     public String getName() {
         return name;
     }
