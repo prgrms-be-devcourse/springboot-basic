@@ -1,10 +1,21 @@
 package com.example.demo.util;
 
 public enum CommandType {
-    EXIT,
-    CREATE,
-    LIST;
+    EXIT("exit"),
+    CREATE("create"),
+    LIST("list");
 
+    private final String commandType;
+
+    CommandType(String commandType) {
+        this.commandType = commandType;
+    }
+
+    @Override
+    public String toString() {
+        return commandType;
+    }
+    
     public static CommandType from(String input) {
         try {
             return valueOf(input.toUpperCase());

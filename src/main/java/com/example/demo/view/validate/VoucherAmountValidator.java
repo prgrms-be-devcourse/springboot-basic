@@ -34,6 +34,7 @@ public final class VoucherAmountValidator {
                 VoucherAmountValidator.validatePositiveNumber(input);
                 VoucherAmountValidator.validatePercentageNumber(input);
             }
+            default -> throw new IllegalArgumentException(String.format("입력하신 %s는 유효한 바우처 타입이 아닙니다.", voucherType.toString()));
         }
     }
 }
