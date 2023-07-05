@@ -5,3 +5,10 @@ voucher:
 blacklist:
   path: "storage"
   filename: "customer_blacklist.csv"
+
+spring.datasource:
+  hikari.maximum-pool-size: 4
+  url: jdbc:mysql://localhost:3306/voucher_mgmt?serverTimezone=Asia/Seoul
+  username: "root"
+  password: "0000"
+  driver-class-name: com.mysql.cj.jdbc.Driver
