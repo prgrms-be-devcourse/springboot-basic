@@ -6,9 +6,17 @@ public interface Output {
 
     void printVoucherType();
 
-    void printDiscountValueInput();
+    void printCreateMessage();
 
-    void printVoucherNameInput();
+    void printListMessage();
 
-    void printVoucherListTitle();
+    void printCustomerListMessage();
+
+    void printUpdateMessage();
+
+    void printDeleteMessage();
+
+    void printDeleteTypeVoucherSelectionMessage();
+
+    void printDeleteTypeCustomerSelectionMessage();
 }

@@ -10,13 +10,15 @@ import java.util.Scanner;
 @Component
 public class Console implements Input, Output {
 
-    private static final String MENU_MESSAGE = "=== Voucher Program ===\n" +
+    private static final String MENU_MESSAGE =
+            "=== Voucher Program ===\n" +
             "Type 'exit' or '1' to exit the program.\n" +
             "Type 'create' or '2' to create a new voucher or a new customer.\n" +
             "Type 'list' or '3' to list all vouchers or all customers.\n" +
             "Type 'update' or '4' to update a voucher or a customer.\n" +
             "Type 'delete' or '5' to delete a voucher or a customer.";
-    private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
+    private static final String VOUCHER_TYPE_MESSAGE =
+            "\n=== Voucher Type ===\n" +
             "Type voucher name or number to create.\n" +
             "1. Fixed Amount Voucher\n" +
             "2. Percent Discount Voucher";
@@ -26,23 +28,27 @@ public class Console implements Input, Output {
     private static final String VOUCHER_LIST_TITLE_MESSAGE = "\n=== Voucher List ===";
     private static final String VOUCHER_LIST_EMPTY_MESSAGE = "\n(There is no voucher.)\n";
     private static final String BLACKLIST_MESSAGE = "\n=== Blacklist ===";
-    private static final String CREATE_MESSAGE = "\n=== Create ===\n" +
+    private static final String CREATE_MESSAGE =
+            "\n=== Create ===\n" +
             "Type '1' or '2' to create item.\n" +
             "1. voucher\n" +
             "2. customer";
     private static final String CUSTOMER_NAME_MESSAGE = "\n=== Type customer name ===";
     private static final String CUSTOMER_CREATED_MESSAGE = "--- Customer Created !! ---\n";
-    private static final String LIST_MESSAGE = "\n=== List ===\n" +
+    private static final String LIST_MESSAGE =
+            "\n=== List ===\n" +
             "Type '1' or '2' to list items.\n" +
             "1. voucher\n" +
             "2. customer";
-    private static final String CUSTOMER_LIST_MESSAGE = "\n=== Customer List ===\n" +
+    private static final String CUSTOMER_LIST_MESSAGE =
+            "\n=== Customer List ===\n" +
             "Type '1' or '2' to choose Customer Type.\n" +
-            "1. Normal Customer\n" +
-            "2. Blacklist";
+            "1. normal customer\n" +
+            "2. blacklist";
     private static final String NORMAL_CUSTOMER_LIST_TITLE_MESSAGE = "\n=== Normal Customer List ===";
     private static final String NORMAL_CUSTOMER_LIST_EMPTY_MESSAGE = "\n(There is no normal customer.)\n";
-    private static final String UPDATE_MESSAGE = "\n=== Update ===\n" +
+    private static final String UPDATE_MESSAGE =
+            "\n=== Update ===\n" +
             "Type '1' or '2' to update item.\n" +
             "1. voucher\n" +
             "2. normal customer";
@@ -55,12 +61,14 @@ public class Console implements Input, Output {
     private static final String UPDATE_NEW_CUSTOMER_NAME_MESSAGE = "\n=== Type new customer name ===";
     private static final String UPDATE_CUSTOMER_COMPLETE_MESSAGE = "--- The customer updated successfully !! ---\n";
 
-    private static final String DELETE_MESSAGE = "\n=== Delete ===\n" +
+    private static final String DELETE_MESSAGE =
+            "\n=== Delete ===\n" +
             "Type '1' or '2' to delete item.\n" +
             "1. voucher\n" +
             "2. normal customer";
     private static final String DELETE_VOUCHER_ID_MESSAGE = "\n=== Type voucher id to delete ===";
-    private static final String DELETE_TYPE_VOUCHER_SELECTION_MESSAGE = "=== Delete ===\n" +
+    private static final String DELETE_TYPE_VOUCHER_SELECTION_MESSAGE =
+            "=== Delete ===\n" +
             "Type '1' or '2' to delete type.\n" +
             "1. Delete one voucher.\n" +
             "2. Delete all vouchers.";
@@ -68,13 +76,13 @@ public class Console implements Input, Output {
     private static final String DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE = "--- All vouchers deleted successfully !! ---\n";
 
     private static final String DELETE_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to delete ===";
-    private static final String DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE = "\n=== Delete ===\n" +
+    private static final String DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE =
+            "\n=== Delete ===\n" +
             "Type '1' or '2' to delete type.\n" +
             "1. Delete one customer.\n" +
             "2. Delete all customers.";
     private static final String DELETE_CUSTOMER_COMPLETE_MESSAGE = "--- The customer deleted successfully !! ---\n";
     private static final String DELETE_ALL_CUSTOMERS_COMPLETE_MESSAGE = "--- All customers deleted successfully !! ---\n";
-
 
     @Override
     public void printMenu() {
@@ -91,12 +99,10 @@ public class Console implements Input, Output {
         System.out.println(VOUCHER_TYPE_MESSAGE);
     }
 
-    @Override
     public void printDiscountValueInput() {
         System.out.println(DISCOUNT_VALUE_MESSAGE);
     }
 
-    @Override
     public void printVoucherNameInput() {
         System.out.println(VOUCHER_NAME_MESSAGE);
     }
@@ -105,7 +111,6 @@ public class Console implements Input, Output {
         System.out.println(VOUCHER_CREATED_MESSAGE);
     }
 
-    @Override
     public void printVoucherListTitle() {
         System.out.println(VOUCHER_LIST_TITLE_MESSAGE);
     }
@@ -125,10 +130,10 @@ public class Console implements Input, Output {
 
     public void printBlacklist(List<String> blacklist) {
         blacklist.forEach(System.out::println);
-
         System.out.println();
     }
 
+    @Override
     public void printCreateMessage() {
         System.out.println(CREATE_MESSAGE);
     }
@@ -141,10 +146,12 @@ public class Console implements Input, Output {
         System.out.println(CUSTOMER_CREATED_MESSAGE);
     }
 
+    @Override
     public void printListMessage() {
         System.out.println(LIST_MESSAGE);
     }
 
+    @Override
     public void printCustomerListMessage() {
         System.out.println(CUSTOMER_LIST_MESSAGE);
     }
@@ -162,6 +169,7 @@ public class Console implements Input, Output {
         System.out.println();
     }
 
+    @Override
     public void printUpdateMessage() {
         System.out.println(UPDATE_MESSAGE);
     }
@@ -194,6 +202,7 @@ public class Console implements Input, Output {
         System.out.println(UPDATE_CUSTOMER_COMPLETE_MESSAGE);
     }
 
+    @Override
     public void printDeleteMessage() {
         System.out.println(DELETE_MESSAGE);
     }
@@ -202,6 +211,7 @@ public class Console implements Input, Output {
         System.out.println(DELETE_VOUCHER_ID_MESSAGE);
     }
 
+    @Override
     public void printDeleteTypeVoucherSelectionMessage() {
         System.out.println(DELETE_TYPE_VOUCHER_SELECTION_MESSAGE);
     }
@@ -218,6 +228,7 @@ public class Console implements Input, Output {
         System.out.println(DELETE_CUSTOMER_ID_MESSAGE);
     }
 
+    @Override
     public void printDeleteTypeCustomerSelectionMessage() {
         System.out.println(DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE);
     }
