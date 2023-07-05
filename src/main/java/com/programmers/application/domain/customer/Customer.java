@@ -8,10 +8,11 @@ import java.util.UUID;
 
 public class Customer {
     private final UUID customerId;
-    private String name;
     private final String email;
-    private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
+
+    private String name;
+    private LocalDateTime lastLoginAt;
 
     private Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
