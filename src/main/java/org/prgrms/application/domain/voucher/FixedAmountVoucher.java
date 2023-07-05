@@ -15,7 +15,6 @@ public class FixedAmountVoucher extends Voucher {
 
     public double getFixedAmount() {
         return discountAmount;
-;
     }
 
     public void changeFixedAmount(double fixedAmount) {

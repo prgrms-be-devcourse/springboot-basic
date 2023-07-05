@@ -8,7 +8,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import java.util.*;
 
 
@@ -36,7 +35,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private Map<String, Object> toParamMap(VoucherEntity voucherEntity) {
         return new HashMap<>() {{
             put("voucherId", voucherEntity.getVoucherId());
-            put("voucherId", voucherEntity.getVoucherType());
+            put("voucherType", voucherEntity.getVoucherType());
             put("discountAmountVoucher", voucherEntity.getDiscountAmount());
         }};
     }

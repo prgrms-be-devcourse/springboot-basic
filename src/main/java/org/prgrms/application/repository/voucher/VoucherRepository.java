@@ -1,5 +1,6 @@
 package org.prgrms.application.repository.voucher;
 
+import org.prgrms.application.domain.voucher.Voucher;
 import org.prgrms.application.domain.voucher.VoucherEntity;
 import org.prgrms.application.domain.voucher.VoucherType;
 
@@ -12,7 +13,7 @@ public interface VoucherRepository {
 
     VoucherEntity update(VoucherEntity voucherEntity);
 
-    List<VoucherEntity> findAll();
+    List<Voucher> findAll();
 
     Optional<VoucherEntity> findById(Long voucherId);
 
