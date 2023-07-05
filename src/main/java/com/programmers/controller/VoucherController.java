@@ -92,7 +92,7 @@ public class VoucherController {
     }
 
     public void deleteVoucher() {
-        console.printDeleteTypeSelectionMessage();
+        console.printDeleteTypeVoucherSelectionMessage();
         String command = console.readInput();
         checkDeleteTypeSelection(command);
 

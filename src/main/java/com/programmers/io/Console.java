@@ -60,13 +60,21 @@ public class Console implements Input, Output {
             "1. voucher\n" +
             "2. normal customer";
     private static final String DELETE_VOUCHER_ID_MESSAGE = "=== Type voucher id to delete ===";
-    private static final String DELETE_TYPE_SELECTION_MESSAGE = "\n=== Delete ===\n" +
+    private static final String DELETE_TYPE_VOUCHER_SELECTION_MESSAGE = "\n=== Delete ===\n" +
             "Type '1' or '2' to delete type.\n" +
             "1. Delete one voucher.\n" +
             "2. Delete all vouchers.";
-
     private static final String DELETE_VOUCHER_COMPLETE_MESSAGE = "--- The voucher deleted successfully !! ---\n";
     private static final String DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE = "--- All vouchers deleted successfully !! ---\n";
+
+    private static final String DELETE_CUSTOMER_ID_MESSAGE = "=== Type customer id to delete ===";
+    private static final String DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE = "\n=== Delete ===\n" +
+            "Type '1' or '2' to delete type.\n" +
+            "1. Delete one customer.\n" +
+            "2. Delete all customers.";
+    private static final String DELETE_CUSTOMER_COMPLETE_MESSAGE = "--- The customer deleted successfully !! ---\n";
+    private static final String DELETE_ALL_CUSTOMERS_COMPLETE_MESSAGE = "--- All customerss deleted successfully !! ---\n";
+
 
     @Override
     public void printMenu() {
@@ -188,8 +196,8 @@ public class Console implements Input, Output {
         System.out.println(DELETE_VOUCHER_ID_MESSAGE);
     }
 
-    public void printDeleteTypeSelectionMessage() {
-        System.out.println(DELETE_TYPE_SELECTION_MESSAGE);
+    public void printDeleteTypeVoucherSelectionMessage() {
+        System.out.println(DELETE_TYPE_VOUCHER_SELECTION_MESSAGE);
     }
 
     public void printDeleteVoucherCompleteMessage() {
@@ -198,5 +206,21 @@ public class Console implements Input, Output {
 
     public void printDeleteAllVouchersCompleteMessage() {
         System.out.println(DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE);
+    }
+
+    public void printDeleteCustomerIdMessage() {
+        System.out.println(DELETE_CUSTOMER_ID_MESSAGE);
+    }
+
+    public void printDeleteTypeCustomerSelectionMessage() {
+        System.out.println(DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE);
+    }
+
+    public void printDeleteCustomerCompleteMessage() {
+        System.out.println(DELETE_CUSTOMER_COMPLETE_MESSAGE);
+    }
+
+    public void printDeleteAllCustomersCompleteMessage() {
+        System.out.println(DELETE_ALL_CUSTOMERS_COMPLETE_MESSAGE);
     }
 }

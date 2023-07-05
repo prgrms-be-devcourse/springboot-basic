@@ -22,6 +22,8 @@ public class CustomerController {
 
     private static final String NORMAL_CUSTOMER_TYPE_NUMBER = "1";
     private static final String BLACKLIST_TYPE_NUMBER = "2";
+    private static final String DELETE_ONE_CUSTOMER_NUMBER = "1";
+    private static final String DELETE_ALL_CUSTOMERS_NUMBER = "2";
 
     private final Console console;
     private final CustomerService customerService;
@@ -109,5 +111,39 @@ public class CustomerController {
         String updateCustomerName = console.readInput();
 
         return new CustomerUpdateRequestDto(customer.getCustomerId(), updateCustomerName);
+    }
+
+    public void deleteCustomer() {
+        console.printDeleteTypeCustomerSelectionMessage();
+        String command = console.readInput();
+        checkDeleteTypeSelection(command);
+
+        switch (command) {
+            case DELETE_ONE_CUSTOMER_NUMBER -> deleteOneCustomer();
+            case DELETE_ALL_CUSTOMERS_NUMBER -> deleteAllCustomers();
+        }
+    }
+
+    private void checkDeleteTypeSelection(String input) {
+        if (!input.equals(DELETE_ONE_CUSTOMER_NUMBER) && !input.equals(DELETE_ALL_CUSTOMERS_NUMBER)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void deleteOneCustomer() {
+        getNormalCustomerList();
+
+        console.printDeleteCustomerIdMessage();
+        UUID deleteCustomerId = UUID.fromString(console.readInput());
+
+        customerService.deleteById(deleteCustomerId);
+        console.printDeleteCustomerCompleteMessage();
+    }
+
+    public void deleteAllCustomers() {
+        getNormalCustomerList();
+
+        customerService.deleteAll();
+        console.printDeleteAllCustomersCompleteMessage();
     }
 }

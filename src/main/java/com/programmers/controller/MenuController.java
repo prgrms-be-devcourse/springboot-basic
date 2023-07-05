@@ -93,7 +93,7 @@ public class MenuController {
 
         switch (command) {
             case MENU_VOUCHER_NUMBER -> voucherController.deleteVoucher();
-        //    case MENU_CUSTOMER_NUMBER -> customerController.deleteCustomer();
+            case MENU_CUSTOMER_NUMBER -> customerController.deleteCustomer();
         }
     }
 }
