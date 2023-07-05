@@ -5,23 +5,16 @@ import java.util.UUID;
 
 public class Customer {
 
-    private static final String CUSTOMER_NULL_MESSAGE = "[ERROR] 유효하지 않은 Customer Id 입니다. (null)";
-
     private final UUID customerId;
     private final String name;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
     public Customer(UUID customerId, String name, LocalDateTime createdAt) {
-        validateCustomerId(customerId);
-        this.customerId = customerId;
-        this.name = name;
-        this.createdAt = createdAt;
-        this.modifiedAt = null;
+        this(customerId, name, createdAt, null);
     }
 
     public Customer(UUID customerId, String name, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        validateCustomerId(customerId);
         this.customerId = customerId;
         this.name = name;
         this.createdAt = createdAt;
@@ -44,7 +37,7 @@ public class Customer {
         return modifiedAt;
     }
 
-    private void validateCustomerId(UUID customerId) {
-        if (customerId == null) throw new IllegalArgumentException(CUSTOMER_NULL_MESSAGE);
-    }
+//    private void validateCustomerId(UUID customerId) {
+//        if (customerId == null) throw new IllegalArgumentException(CUSTOMER_NULL_MESSAGE);
+//    }
 }

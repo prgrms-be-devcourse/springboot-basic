@@ -50,6 +50,6 @@ class VoucherServiceTest {
         Voucher expected = voucherService.create(requestDto);
         Voucher actual = voucherService.findVoucher(id);
 
-        var list = voucherService.findVouchers().stream().count();
+        assertThat(expected).isEqualTo(actual);
     }
 }
