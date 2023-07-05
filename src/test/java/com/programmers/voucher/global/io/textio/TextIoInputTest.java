@@ -168,6 +168,40 @@ class TextIoInputTest {
     }
 
     @Test
+    @DisplayName("성공: 회원 생성 정보 입력 실행 - 잘못된 이메일 형식 - 재입력")
+    void inputCustomerCreateInfo_ButInvalidEmail() {
+        //given
+        List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add("customer@gmail");
+        inputs.add("customer@gmail.com");
+        inputs.add("customer");
+
+        //when
+        CustomerCreateRequest result = textIoInput.inputCustomerCreateInfo();
+
+        //then
+        assertThat(result.getEmail()).isEqualTo("customer@gmail.com");
+        assertThat(result.getName()).isEqualTo("customer");
+    }
+
+    @Test
+    @DisplayName("성공: 회원 생성 정보 입력 실행 - 잘못된 이름 형식 - 재입력")
+    void inputCustomerCreateInfo_ButInvalidName() {
+        //given
+        List<String> inputs = mockTextTerminal.getInputs();
+        inputs.add("customer@gmail.com");
+        inputs.add("customer@");
+        inputs.add("customer");
+
+        //when
+        CustomerCreateRequest result = textIoInput.inputCustomerCreateInfo();
+
+        //then
+        assertThat(result.getEmail()).isEqualTo("customer@gmail.com");
+        assertThat(result.getName()).isEqualTo("customer");
+    }
+
+    @Test
     @DisplayName("성공: 회원 업데이트 정보 입력 실행")
     void inputCustomerUpdateInfo() {
         //given

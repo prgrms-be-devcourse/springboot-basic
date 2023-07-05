@@ -135,7 +135,7 @@ public class TextIoInput implements ConsoleInput {
 
     private List<String> regexValidate(String val, String emailRegex, String invalidEmailRange) {
         List<String> messages = new ArrayList<>();
-        if(val.matches(emailRegex)) {
+        if (!val.matches(emailRegex)) {
             messages.add(invalidEmailRange);
         }
         return messages;
