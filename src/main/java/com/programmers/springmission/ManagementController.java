@@ -6,15 +6,13 @@ import com.programmers.springmission.view.OptionType;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.presentation.VoucherController;
 import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
+@Slf4j
+@Component
 public class ManagementController implements CommandLineRunner {
-
-    private static final Logger logger = LoggerFactory.getLogger(ManagementController.class);
 
     private final Console console;
     private final VoucherController voucherController;
@@ -39,11 +37,9 @@ public class ManagementController implements CommandLineRunner {
                     case CREATE -> createVoucher();
                     case LIST -> loadVoucherList();
                 }
-            } catch (InvalidInputException voucherException) {
-                console.output(voucherException.getMessage());
-                logger.info(voucherException.getMessage());
-            } catch (NumberFormatException numberFormatException) {
-                logger.info(numberFormatException.getMessage());
+            } catch (InvalidInputException | NumberFormatException invalidInputException) {
+                console.output(invalidInputException.getMessage());
+                log.info(invalidInputException.getMessage());
             }
         }
     }
