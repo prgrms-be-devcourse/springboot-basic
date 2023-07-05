@@ -1,7 +1,5 @@
 package com.programmers.customer.controller;
 
-import com.programmers.customer.domain.Customer;
-import com.programmers.customer.domain.CustomerMapper;
 import com.programmers.customer.dto.CustomerRequestDto;
 import com.programmers.customer.dto.CustomerResponseDto;
 import com.programmers.customer.service.CustomerService;
@@ -17,13 +15,10 @@ public class CustomerController {
     }
 
     public CustomerResponseDto create(CustomerRequestDto requestDto) {
-        Customer customer = customerService.create(requestDto);
-        return CustomerMapper.convertDomainToResponseDto(customer);
+        return customerService.create(requestDto);
     }
 
     public List<CustomerResponseDto> findAll() {
-        return customerService.findCustomers().stream()
-                .map(CustomerMapper::convertDomainToResponseDto)
-                .toList();
+        return customerService.findCustomers().stream().toList();
     }
 }

@@ -1,18 +1,18 @@
 package com.programmers.customer.service;
 
-import com.programmers.customer.domain.Customer;
 import com.programmers.customer.dto.CustomerRequestDto;
+import com.programmers.customer.dto.CustomerResponseDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CustomerService {
 
-    Customer create(CustomerRequestDto requestDto);
+    CustomerResponseDto create(CustomerRequestDto requestDto);
 
-    List<Customer> findCustomers();
+    List<CustomerResponseDto> findCustomers();
 
-    Customer findCustomerById(UUID customerID);
+    CustomerResponseDto findCustomerById(UUID customerID);
 
     void deleteCustomerById(UUID customerID);
 }
