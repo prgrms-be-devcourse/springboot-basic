@@ -1,6 +1,6 @@
 package com.programmers.voucher.global.io.textio;
 
-import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
@@ -80,7 +80,7 @@ public class TextIoConsole implements Console {
     }
 
     @Override
-    public void printCustomers(List<Customer> customers) {
+    public void printCustomers(List<CustomerDto> customers) {
         textIoOutput.printCustomers(customers);
     }
 

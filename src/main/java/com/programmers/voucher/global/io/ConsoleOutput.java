@@ -1,6 +1,6 @@
 package com.programmers.voucher.global.io;
 
-import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface ConsoleOutput {
 
     void printVouchers(List<Voucher> vouchers);
 
-    void printCustomers(List<Customer> customers);
+    void printCustomers(List<CustomerDto> customers);
 
     void print(String result);
 

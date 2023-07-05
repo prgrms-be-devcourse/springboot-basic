@@ -1,6 +1,6 @@
 package com.programmers.voucher.global.io.textio;
 
-import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -119,18 +120,28 @@ class TextIoOutputTest {
     @DisplayName("성공: 회원 목록 출력")
     void printCustomers() {
         //given
-        Customer customerA = new Customer(UUID.randomUUID(), "customerA@gmail.com", "customerA");
-        Customer customerB = new Customer(UUID.randomUUID(), "customerB@gmail.com", "customerB");
-        List<Customer> givenCustomers = List.of(customerA, customerB);
+        CustomerDto customer =
+                new CustomerDto(UUID.randomUUID(), "customer@gmail.com", "customer", false);
+        CustomerDto bannedCustomer =
+                new CustomerDto(UUID.randomUUID(), "banned@gmail.com", "banned", true);
+        List<CustomerDto> givenCustomers = List.of(customer, bannedCustomer);
 
         //when
         textIoOutput.printCustomers(givenCustomers);
 
         //then
-        String expectedOutput = customerA.fullInfoString() + "\n" + customerB.fullInfoString();
+        String expectedOutput = customerInfo(customer) + "\n" + customerInfo(bannedCustomer);
         String output = mockTextTerminal.getOutput();
 
         assertThat(output).isEqualTo(expectedOutput);
+    }
+
+    private String customerInfo(CustomerDto customerDto) {
+        String banned = customerDto.isBanned() ? "BAN" : "---";
+
+        return MessageFormat.format(
+                "[{0}] CustomerId: {1}, Email: {2}, Name: {3}",
+                banned, customerDto.getCustomerId(), customerDto.getEmail(), customerDto.getName());
     }
 
     @Test

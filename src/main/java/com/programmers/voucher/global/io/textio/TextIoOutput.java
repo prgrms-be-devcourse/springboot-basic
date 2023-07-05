@@ -1,6 +1,6 @@
 package com.programmers.voucher.global.io.textio;
 
-import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.global.io.ConsoleOutput;
 import com.programmers.voucher.global.io.command.CommandType;
@@ -12,6 +12,7 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import static com.programmers.voucher.global.util.ConsoleMessages.*;
@@ -79,9 +80,18 @@ public class TextIoOutput implements ConsoleOutput {
     }
 
     @Override
-    public void printCustomers(List<Customer> customers) {
+    public void printCustomers(List<CustomerDto> customers) {
         customers.forEach(customer ->
-                print(customer.fullInfoString()));
+                print(customerInfo(customer)));
+    }
+
+
+    private String customerInfo(CustomerDto customerDto) {
+        String banned = customerDto.isBanned() ? "BAN" : "---";
+
+        return MessageFormat.format(
+                "[{0}] CustomerId: {1}, Email: {2}, Name: {3}",
+                banned, customerDto.getCustomerId(), customerDto.getEmail(), customerDto.getName());
     }
 
     @Override

@@ -25,10 +25,6 @@ public class Customer {
         this.banned = banned;
     }
 
-    public String fullInfoString() {
-        return "customerId: " + customerId + ", name: " + name;
-    }
-
     public UUID getCustomerId() {
         return customerId;
     }
