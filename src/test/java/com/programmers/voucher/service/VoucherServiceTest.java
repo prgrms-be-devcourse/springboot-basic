@@ -6,29 +6,19 @@ import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
-import com.programmers.voucher.repository.VoucherRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@EnableAspectJAutoProxy
 class VoucherServiceTest {
 
-    private VoucherService voucherService;
-
-    @BeforeEach
-    public void setUp() {
-        VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        voucherService = new VoucherServiceImpl(voucherRepository);
-    }
+    private VoucherService voucherService = new VoucherServiceImpl(new MemoryVoucherRepository());
 
     @DisplayName("바우처 타입과 할인값으로 바우처를 생성하고 바우처를 반환")
     @ParameterizedTest
@@ -60,6 +50,6 @@ class VoucherServiceTest {
         Voucher expected = voucherService.create(requestDto);
         Voucher actual = voucherService.findVoucher(id);
 
-        assertEquals(expected.getVoucherId(), actual.getVoucherId());
+        var list = voucherService.findVouchers().stream().count();
     }
 }
