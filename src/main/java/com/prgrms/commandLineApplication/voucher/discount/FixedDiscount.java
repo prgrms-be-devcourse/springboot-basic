@@ -26,7 +26,7 @@ public class FixedDiscount extends Discount {
 
   @Override
   public int executeDiscount(int price) {
-    return (price - discountAmount) >= 0 ? (price - discountAmount) : 0;
+    return Math.max(price - discountAmount, 0);
   }
 
 }
