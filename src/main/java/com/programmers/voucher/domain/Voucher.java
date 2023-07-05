@@ -19,7 +19,7 @@ public class Voucher {
         this.voucherId = voucherId;
         this.discount = discount;
         this.createdAt = createdAt;
-        this.expiredAt = applyExpiration();
+        this.expiredAt = createdAt.plusDays(VOUCHER_EXPIRATION_POLICY);
     }
 
     public Voucher(UUID voucherId, Discount discount, LocalDateTime createdAt, LocalDateTime expiration) {
@@ -52,10 +52,6 @@ public class Voucher {
 
     private void validateVoucherId(UUID voucherId) {
         if (voucherId == null) throw new IllegalArgumentException(VOUCHER_NULL_MESSAGE);
-    }
-
-    private LocalDateTime applyExpiration() {
-        return createdAt.plusDays(VOUCHER_EXPIRATION_POLICY);
     }
 
     private void checkVoucherExpiration(LocalDateTime usedAt) {
