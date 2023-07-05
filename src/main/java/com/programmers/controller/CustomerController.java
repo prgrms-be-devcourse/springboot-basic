@@ -81,7 +81,7 @@ public class CustomerController {
             return customers;
         }
 
-        console.printCustomers(customersResponseDto);
+        console.printCustomers(customers);
         log.info("The normal customer list has been printed.");
         return customers;
     }

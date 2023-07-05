@@ -1,9 +1,7 @@
 package com.programmers.io;
 
 import com.programmers.domain.customer.Customer;
-import com.programmers.domain.customer.dto.CustomersResponseDto;
 import com.programmers.domain.voucher.Voucher;
-import com.programmers.domain.voucher.dto.VouchersResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -61,21 +59,21 @@ public class Console implements Input, Output {
             "Type '1' or '2' to delete item.\n" +
             "1. voucher\n" +
             "2. normal customer";
-    private static final String DELETE_VOUCHER_ID_MESSAGE = "=== Type voucher id to delete ===";
-    private static final String DELETE_TYPE_VOUCHER_SELECTION_MESSAGE = "\n=== Delete ===\n" +
+    private static final String DELETE_VOUCHER_ID_MESSAGE = "\n=== Type voucher id to delete ===";
+    private static final String DELETE_TYPE_VOUCHER_SELECTION_MESSAGE = "=== Delete ===\n" +
             "Type '1' or '2' to delete type.\n" +
             "1. Delete one voucher.\n" +
             "2. Delete all vouchers.";
     private static final String DELETE_VOUCHER_COMPLETE_MESSAGE = "--- The voucher deleted successfully !! ---\n";
     private static final String DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE = "--- All vouchers deleted successfully !! ---\n";
 
-    private static final String DELETE_CUSTOMER_ID_MESSAGE = "=== Type customer id to delete ===";
+    private static final String DELETE_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to delete ===";
     private static final String DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE = "\n=== Delete ===\n" +
             "Type '1' or '2' to delete type.\n" +
             "1. Delete one customer.\n" +
             "2. Delete all customers.";
     private static final String DELETE_CUSTOMER_COMPLETE_MESSAGE = "--- The customer deleted successfully !! ---\n";
-    private static final String DELETE_ALL_CUSTOMERS_COMPLETE_MESSAGE = "--- All customerss deleted successfully !! ---\n";
+    private static final String DELETE_ALL_CUSTOMERS_COMPLETE_MESSAGE = "--- All customers deleted successfully !! ---\n";
 
 
     @Override
@@ -159,9 +157,7 @@ public class Console implements Input, Output {
         System.out.println(NORMAL_CUSTOMER_LIST_EMPTY_MESSAGE);
     }
 
-
-    public void printCustomers(CustomersResponseDto customersResponseDto) {
-        List<Customer> customers = customersResponseDto.customers();
+    public void printCustomers(List<Customer> customers) {
         customers.forEach(System.out::println);
         System.out.println();
     }
