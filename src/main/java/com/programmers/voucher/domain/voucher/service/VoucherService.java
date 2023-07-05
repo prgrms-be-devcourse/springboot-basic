@@ -3,13 +3,14 @@ package com.programmers.voucher.domain.voucher.service;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
+import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
 import com.programmers.voucher.domain.voucher.util.VoucherMessages;
-import com.programmers.voucher.global.util.DataErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -45,7 +46,10 @@ public class VoucherService {
     @Transactional
     public void deleteVoucher(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
+                .orElseThrow(() -> {
+                    String errorMessage = MessageFormat.format(VoucherErrorMessages.NO_SUCH_VOUCHER, voucherId);
+                    return new NoSuchElementException(errorMessage);
+                });
 
         voucherRepository.deleteById(voucherId);
         LOG.info(VoucherMessages.DELETE_VOUCHER, voucher);

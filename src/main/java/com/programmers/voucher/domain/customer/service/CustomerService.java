@@ -4,7 +4,6 @@ import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.customer.repository.CustomerRepository;
 import com.programmers.voucher.domain.customer.util.CustomerErrorMessages;
 import com.programmers.voucher.domain.customer.util.CustomerMessages;
-import com.programmers.voucher.global.util.DataErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -50,7 +49,10 @@ public class CustomerService {
     @Transactional
     public void updateCustomer(UUID customerId, String name, boolean banned) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
+                .orElseThrow(() -> {
+                    String errorMessage = MessageFormat.format(CustomerErrorMessages.NO_SUCH_CUSTOMER, customerId);
+                    return new NoSuchElementException(errorMessage);
+                });
         String oldCustomerInfo = customer.toString();
 
         customer.update(name, banned);
@@ -69,7 +71,10 @@ public class CustomerService {
     @Transactional
     public void deleteCustomer(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
+                .orElseThrow(() -> {
+                    String errorMessage = MessageFormat.format(CustomerErrorMessages.NO_SUCH_CUSTOMER, customerId);
+                    return new NoSuchElementException(errorMessage);
+                });
 
         customerRepository.deleteById(customerId);
         LOG.info(CustomerMessages.DELETED_CUSTOMER, customer);
