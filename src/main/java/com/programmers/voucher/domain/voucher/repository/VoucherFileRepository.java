@@ -4,7 +4,6 @@ import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.global.exception.DataAccessException;
-import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +13,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.*;
 
 import static com.programmers.voucher.global.util.CommonErrorMessages.CANNOT_ACCESS_FILE;
@@ -31,7 +31,8 @@ public class VoucherFileRepository implements VoucherRepository {
         try {
             this.file = resource.getFile();
         } catch (IOException e) {
-            String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, filePath);
+            String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, filePath);
+
             LOG.error(errorMessage, e);
             throw new DataAccessException(errorMessage, e);
         }
@@ -46,7 +47,8 @@ public class VoucherFileRepository implements VoucherRepository {
             bw.write(voucherInfo);
             bw.newLine();
         } catch (IOException e) {
-            String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, file.getPath());
+            String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
+
             LOG.error(errorMessage, e);
             throw new DataAccessException(errorMessage, e);
         }
@@ -64,7 +66,8 @@ public class VoucherFileRepository implements VoucherRepository {
                 vouchers.add(voucher);
             }
         } catch (IOException e) {
-            String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, file.getPath());
+            String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
+
             LOG.error(errorMessage, e);
             throw new DataAccessException(errorMessage, e);
         }
@@ -86,7 +89,8 @@ public class VoucherFileRepository implements VoucherRepository {
         ) {
             bw.write("");
         } catch (IOException e) {
-            String errorMessage = CommonErrorMessages.addFilePath(CANNOT_ACCESS_FILE, file.getPath());
+            String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
+
             LOG.error(errorMessage, e);
             throw new DataAccessException(errorMessage, e);
         }
