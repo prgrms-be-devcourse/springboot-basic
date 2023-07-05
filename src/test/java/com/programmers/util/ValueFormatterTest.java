@@ -1,6 +1,7 @@
 package com.programmers.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -16,13 +17,13 @@ class ValueFormatterTest {
             "Percent Discount Voucher : percentdiscountvoucher"
     }, delimiter = ':')
     @ParameterizedTest
-    void reformatVoucherName(String input, String expected) {
+    void reformatVoucherType(String input, String expected) {
         //given
         //when
         String result = ValueFormatter.reformatVoucherType(input);
 
         //then
-        assertThat(result).isEqualTo(expected);
+        assertThat(result, is(expected));
     }
 
     @DisplayName("주어진 입력을 Long 타입으로 바꾸어 리턴한다")
@@ -33,7 +34,7 @@ class ValueFormatterTest {
         Long result = ValueFormatter.changeDiscountValueToNumber("123");
 
         //then
-        Assertions.assertThat(result).isEqualTo(123L);
+        assertThat(result, is(123L));
     }
 
     @DisplayName("주어진 입력이 숫자가 아니면 예외처리한다")
