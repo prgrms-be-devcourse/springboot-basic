@@ -3,7 +3,6 @@ package com.wonu606.vouchermanager.controller;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.io.ConsoleIO;
-import com.wonu606.vouchermanager.util.UUIDGenerator;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,6 @@ public class VoucherConsoleInterface {
 
     private final ConsoleIO consoleIO;
     private final VoucherController controller;
-    private final UUIDGenerator uuidGenerator;
 
     public void run() {
         VoucherMenu menu = VoucherMenu.START;
@@ -56,7 +54,7 @@ public class VoucherConsoleInterface {
     private VoucherDto createVoucherDto() {
         String type = consoleIO.selectVoucherType();
         double discountValue = consoleIO.readDouble("discount");
-        return new VoucherDto(type, uuidGenerator.generateUUID(), discountValue);
+        return new VoucherDto(type, discountValue);
     }
 
     private void terminal() {

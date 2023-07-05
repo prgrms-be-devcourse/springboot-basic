@@ -3,7 +3,6 @@ package com.wonu606.vouchermanager.domain.voucher;
 import com.wonu606.vouchermanager.domain.discountvalue.PercentageDiscountValue;
 import com.wonu606.vouchermanager.domain.price.Price;
 import java.util.UUID;
-import lombok.ToString;
 
 public class PercentageVoucher extends Voucher {
 

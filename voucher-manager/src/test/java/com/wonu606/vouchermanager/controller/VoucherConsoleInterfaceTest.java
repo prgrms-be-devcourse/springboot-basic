@@ -1,5 +1,7 @@
 package com.wonu606.vouchermanager.controller;
 
+import static org.assertj.core.api.Assertions.as;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
@@ -9,29 +11,34 @@ import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.io.ConsoleIO;
-import com.wonu606.vouchermanager.util.UUIDGenerator;
+import com.wonu606.vouchermanager.repository.VoucherRepository;
+import com.wonu606.vouchermanager.service.VoucherService;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 @DisplayName("VoucherConsoleInterface 테스트")
 public class VoucherConsoleInterfaceTest {
 
-    private ConsoleIO consoleIOMock;
-    private VoucherController controllerMock;
-    private UUIDGenerator uuidGeneratorMock;
     private VoucherConsoleInterface consoleInterface;
+
+    private VoucherController controllerMock;
+
+    private ConsoleIO consoleIOMock;
+
+
+
 
     @BeforeEach
     public void setUp() {
-        consoleIOMock = mock(ConsoleIO.class);
         controllerMock = mock(VoucherController.class);
-        uuidGeneratorMock = mock(UUIDGenerator.class);
-        consoleInterface = new VoucherConsoleInterface(consoleIOMock, controllerMock,
-                uuidGeneratorMock);
+        consoleIOMock = mock(ConsoleIO.class);
+        consoleInterface = new VoucherConsoleInterface(consoleIOMock, controllerMock);
     }
 
     @DisplayName("exit가 입력으로 주어지고_run을 하면_프로그램이 종료된다.")
@@ -66,22 +73,24 @@ public class VoucherConsoleInterfaceTest {
     @Test
     public void GivenCreateMenuSelected_WhenRun_ThenCreateVoucher() {
         // Given
-        UUID expectedUuid = UUID.randomUUID();
-        VoucherDto voucherDto = new VoucherDto("FIXED", expectedUuid, 10.0);
-        Voucher expectedVoucher = new FixedAmountVoucher(expectedUuid, new FixedAmountValue(10.0));
+        VoucherDto expectedDto = new VoucherDto("FIXED", 10.0);
 
         given(consoleIOMock.selectMenu()).willReturn(VoucherMenu.CREATE, VoucherMenu.EXIT);
         given(consoleIOMock.selectVoucherType()).willReturn("FIXED");
         given(consoleIOMock.readDouble("discount")).willReturn(10.0);
 
-        given(uuidGeneratorMock.generateUUID()).willReturn(expectedUuid);
-
-        given(controllerMock.createVoucher(voucherDto)).willReturn(expectedVoucher);
+        given(controllerMock.createVoucher(expectedDto)).willReturn(mock(Voucher.class));
 
         // When
         consoleInterface.run();
 
         // Then
-        then(controllerMock).should().createVoucher(voucherDto);
+        ArgumentCaptor<VoucherDto> argument = ArgumentCaptor.forClass(VoucherDto.class);
+        then(controllerMock).should().createVoucher(argument.capture());
+//         then(controllerMock).should().createVoucher(expectedDto); // error
+
+        VoucherDto actualDto = argument.getValue();
+        assertThat(actualDto.getType()).isEqualTo(expectedDto.getType());
+        assertThat(actualDto.getDiscountValue()).isEqualTo(expectedDto.getDiscountValue());
     }
 }
