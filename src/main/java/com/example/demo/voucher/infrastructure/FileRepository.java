@@ -49,4 +49,9 @@ public class FileRepository implements VoucherRepository {
             throw new RuntimeException("File writing failed", e);
         }
     }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }

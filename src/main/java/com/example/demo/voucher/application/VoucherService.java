@@ -22,12 +22,18 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public void createVoucher(VoucherType voucherType, long value) {
+    public void createVoucher(String voucherType, long value) {
         UUID voucherId = UUID.randomUUID();
-        voucherRepository.insert(voucherType.createVoucher(voucherId, value));
+        VoucherType type = VoucherType.valueOf(voucherType);
+        voucherRepository.insert(type.createVoucher(voucherId, value));
     }
 
     public List<Voucher> listVouchers() {
         return voucherRepository.findAll();
     }
+
+    public void deleteAll() {
+        voucherRepository.deleteAll();
+    }
+
 }

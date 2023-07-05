@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Voucher List</title>
+</head>
+<body>
+<h1>Voucher List</h1>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+    <tr th:each="voucher : ${vouchers}">
+        <td th:text="${voucher.getVoucherId()}"></td>
+        <td th:text="${voucher.getName()}"></td>
+        <td>
+            <a th:href="@{'/vouchers/' + ${voucher.getVoucherId()}}">View</a>
+        </td>
+    </tr>
+</table>
+
+<button id="deleteAll">Delete All Vouchers</button>
+
+<script>
+    $(document).ready(function() {
+        $("#deleteAll").click(function() {
+            $.ajax({
+                url: '/vouchers',
+                type: 'DELETE',
+                success: function(result) {
+                    // Optional: Handle the response from the server here
+                    // e.g., reload the page to reflect the changes
+                    alert("Success");
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Optional: Handle the error here
+                    console.error("Error deleting all vouchers:", error);
+                }
+            });
+        });
+    });
+</script>
+
+<a href="/vouchers">Refresh List</a>
+
+</body>
+</html>

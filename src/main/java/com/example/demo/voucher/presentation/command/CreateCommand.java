@@ -7,11 +7,13 @@ import com.example.demo.voucher.application.VoucherType;
 import com.example.demo.common.command.Command;
 import com.example.demo.voucher.presentation.message.VoucherTypeMessage;
 import com.example.demo.voucher.presentation.message.VoucherTypeMessageMapper;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 @Component("create")
+@Profile("dev")
 public class CreateCommand implements Command {
 
     private final Output output;
@@ -36,7 +38,7 @@ public class CreateCommand implements Command {
                     VoucherTypeMessage message = VoucherTypeMessageMapper.getInstance().getMessage(voucherType);
                     output.printLine(message.getMessage());
                     long value = Long.parseLong(input.readLine());
-                    voucherService.createVoucher(voucherType, value);
+                    voucherService.createVoucher(voucherType.name(), value);
                 },
                 () -> new IllegalArgumentException("Invalid Voucher Type")
         );

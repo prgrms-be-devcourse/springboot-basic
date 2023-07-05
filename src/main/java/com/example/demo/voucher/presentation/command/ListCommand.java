@@ -3,8 +3,10 @@ package com.example.demo.voucher.presentation.command;
 import com.example.demo.common.io.Output;
 import com.example.demo.voucher.application.VoucherService;
 import com.example.demo.common.command.Command;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 @Component("list")
+@Profile("dev")
 public class ListCommand implements Command {
 
     private final Output output;
