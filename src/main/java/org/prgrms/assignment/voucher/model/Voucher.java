@@ -30,9 +30,7 @@ public class Voucher {
         return benefit;
     }
 
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
+    public VoucherType getVoucherType() { return voucherType; }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
