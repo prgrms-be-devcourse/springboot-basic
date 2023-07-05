@@ -5,5 +5,5 @@ import org.prgms.voucher.voucher.AmountVoucher;
 import java.util.UUID;
 
 public interface AmountVoucherFactory {
-    AmountVoucher createVoucher(UUID id, int amount);
+    AmountVoucher createVoucher(int amount);
 }

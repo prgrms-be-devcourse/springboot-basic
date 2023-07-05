@@ -1,10 +1,8 @@
 package org.prgms.voucher.voucher;
 
-import java.util.UUID;
-
 public class FixedAmountVoucher extends AmountVoucher {
-    public FixedAmountVoucher(UUID id, int discountAmount) {
-        super(id, discountAmount);
+    public FixedAmountVoucher(int discountAmount) {
+        super(discountAmount);
         super.amountVoucherOptionType = AmountVoucherOptionType.FIXED_AMOUNT;
     }
 

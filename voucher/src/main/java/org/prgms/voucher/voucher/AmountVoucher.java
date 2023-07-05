@@ -10,10 +10,10 @@ public abstract class AmountVoucher {
     private final LocalDate expirationDate;
     AmountVoucherOptionType amountVoucherOptionType;
 
-    protected AmountVoucher(UUID id, int discountAmount) {
+    protected AmountVoucher(int discountAmount) {
         validateDiscountAmount(discountAmount);
 
-        this.id = id;
+        this.id = UUID.randomUUID();
         this.discountAmount = discountAmount;
         this.publishDate = LocalDate.now();
         this.expirationDate = publishDate.plusMonths(6);

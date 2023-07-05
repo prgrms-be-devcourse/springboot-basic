@@ -1,10 +1,8 @@
 package org.prgms.voucher.voucher;
 
-import java.util.UUID;
-
 public class PercentAmountVoucher extends AmountVoucher {
-    public PercentAmountVoucher(UUID id, int discountAmount) {
-        super(id, discountAmount);
+    public PercentAmountVoucher(int discountAmount) {
+        super(discountAmount);
         super.amountVoucherOptionType = AmountVoucherOptionType.PERCENT_AMOUNT;
     }
 
