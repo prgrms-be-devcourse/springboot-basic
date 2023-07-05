@@ -6,7 +6,9 @@ import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.global.io.Console;
-import com.programmers.voucher.global.io.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.CustomerCommandType;
+import com.programmers.voucher.global.io.command.VoucherCommandType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -48,8 +50,28 @@ public class TextIoConsole implements Console {
     }
 
     @Override
+    public VoucherCommandType inputVoucherCommandType() {
+        return textIoInput.inputVoucherCommandType();
+    }
+
+    @Override
+    public CustomerCommandType inputCustomerCommandType() {
+        return textIoInput.inputCustomerCommandType();
+    }
+
+    @Override
     public void printCommandSet() {
         textIoOutput.printCommandSet();
+    }
+
+    @Override
+    public void printCustomerCommandSet() {
+        textIoOutput.printCustomerCommandSet();
+    }
+
+    @Override
+    public void printVoucherCommandSet() {
+        textIoOutput.printVoucherCommandSet();
     }
 
     @Override

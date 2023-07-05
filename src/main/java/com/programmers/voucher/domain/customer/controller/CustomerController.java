@@ -8,6 +8,7 @@ import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.util.ConsoleMessages;
 import org.springframework.stereotype.Controller;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +20,9 @@ public class CustomerController {
     public CustomerController(Console console, CustomerService customerService) {
         this.console = console;
         this.customerService = customerService;
+    }
+
+    public void mapping() {
     }
 
     public void findBlacklistCustomers() {
@@ -38,7 +42,7 @@ public class CustomerController {
 
         UUID customerId = customerService.createCustomer(request.getEmail(), request.getName());
 
-        String consoleMessage = String.format(ConsoleMessages.CREATED_NEW_CUSTOMER, customerId);
+        String consoleMessage = MessageFormat.format(ConsoleMessages.CREATED_NEW_CUSTOMER, customerId);
         console.print(consoleMessage);
     }
 
