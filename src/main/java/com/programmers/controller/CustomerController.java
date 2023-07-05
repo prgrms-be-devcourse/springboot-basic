@@ -71,11 +71,19 @@ public class CustomerController {
         }
     }
 
-    public void getNormalCustomerList() {
+    public List<Customer> getNormalCustomerList() {
         console.printNormalCustomerListTitle();
         CustomersResponseDto customersResponseDto = customerService.findAll();
+
+        List<Customer> customers = customersResponseDto.customers();
+        if (customers.isEmpty()) {
+            console.printNormalCustomerListEmptyMessage();
+            return customers;
+        }
+
         console.printCustomers(customersResponseDto);
         log.info("The normal customer list has been printed.");
+        return customers;
     }
 
     public List<String> getBlacklist() {
@@ -88,7 +96,9 @@ public class CustomerController {
     }
 
     public void updateCustomer() {
-        getNormalCustomerList();
+        if (getNormalCustomerList().isEmpty()) {
+            return;
+        }
 
         Customer originalCustomer = getCustomerToUpdate();
         CustomerUpdateRequestDto customerUpdateRequestDto = makeCustomerRequestDtoToUpdate(originalCustomer);
@@ -114,6 +124,10 @@ public class CustomerController {
     }
 
     public void deleteCustomer() {
+        if (getNormalCustomerList().isEmpty()) {
+            return;
+        }
+
         console.printDeleteTypeCustomerSelectionMessage();
         String command = console.readInput();
         checkDeleteTypeSelection(command);
@@ -131,8 +145,6 @@ public class CustomerController {
     }
 
     public void deleteOneCustomer() {
-        getNormalCustomerList();
-
         console.printDeleteCustomerIdMessage();
         UUID deleteCustomerId = UUID.fromString(console.readInput());
 
@@ -141,8 +153,6 @@ public class CustomerController {
     }
 
     public void deleteAllCustomers() {
-        getNormalCustomerList();
-
         customerService.deleteAll();
         console.printDeleteAllCustomersCompleteMessage();
     }

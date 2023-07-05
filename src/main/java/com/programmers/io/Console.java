@@ -43,6 +43,7 @@ public class Console implements Input, Output {
             "1. Normal Customer\n" +
             "2. Blacklist";
     private static final String NORMAL_CUSTOMER_LIST_TITLE_MESSAGE = "\n=== Normal Customer List ===";
+    private static final String NORMAL_CUSTOMER_LIST_EMPTY_MESSAGE = "\n(There is no normal customer.)\n";
     private static final String UPDATE_MESSAGE = "\n=== Update ===\n" +
             "Type '1' or '2' to update item.\n" +
             "1. voucher\n" +
@@ -153,6 +154,11 @@ public class Console implements Input, Output {
     public void printNormalCustomerListTitle() {
         System.out.println(NORMAL_CUSTOMER_LIST_TITLE_MESSAGE);
     }
+
+    public void printNormalCustomerListEmptyMessage() {
+        System.out.println(NORMAL_CUSTOMER_LIST_EMPTY_MESSAGE);
+    }
+
 
     public void printCustomers(CustomersResponseDto customersResponseDto) {
         List<Customer> customers = customersResponseDto.customers();
