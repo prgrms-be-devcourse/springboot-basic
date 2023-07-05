@@ -16,7 +16,7 @@ public interface VoucherRepository {
 
     Optional<VoucherEntity> findById(Long voucherId);
 
-    Optional<List<VoucherEntity>> findByType(VoucherType voucherType);
+    List<VoucherEntity> findByType(VoucherType voucherType);
 
     void deleteAll();
 }
