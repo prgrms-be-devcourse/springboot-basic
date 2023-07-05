@@ -39,12 +39,4 @@ public enum Command {
     public String toString() {
         return number + ". " + text;
     }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public String getText() {
-        return text;
-    }
 }
