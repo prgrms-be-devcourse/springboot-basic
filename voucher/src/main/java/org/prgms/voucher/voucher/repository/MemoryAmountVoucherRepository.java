@@ -17,9 +17,6 @@ public class MemoryAmountVoucherRepository implements AmountVoucherRepository {
 
     @Override
     public List<AmountVoucher> findAll() {
-        List<AmountVoucher> vouchers = new ArrayList<>(memoryStorage.values());
-        vouchers.sort(Comparator.comparing(AmountVoucher::getExpirationDate).reversed());
-
-        return vouchers;
+        return new ArrayList<>(memoryStorage.values());
     }
 }
