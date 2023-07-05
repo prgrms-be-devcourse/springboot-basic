@@ -17,10 +17,10 @@ public class InputView {
         return VoucherType.find(sc.nextLine());
     }
 
-    public Integer readVoucherAmount(VoucherType voucherType) {
+    public int readVoucherAmount(VoucherType voucherType) {
         String input = sc.nextLine();
         VoucherAmountValidator.validateAmount(voucherType, input);
-        
+
         return Integer.parseInt(input);
     }
 }

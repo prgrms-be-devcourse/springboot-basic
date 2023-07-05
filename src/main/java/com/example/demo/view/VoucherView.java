@@ -31,7 +31,7 @@ public class VoucherView {
         return inputView.readVoucherOption();
     }
 
-    public Integer readVoucherAmount(VoucherType voucherType) {
+    public int readVoucherAmount(VoucherType voucherType) {
         outputView.printVoucherAmountInfoMessage(voucherType);
         return inputView.readVoucherAmount(voucherType);
     }
