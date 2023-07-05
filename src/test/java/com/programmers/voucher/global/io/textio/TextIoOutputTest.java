@@ -4,7 +4,10 @@ import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.global.io.command.CommandType;
 import com.programmers.voucher.global.io.command.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.CustomerCommandType;
+import com.programmers.voucher.global.io.command.VoucherCommandType;
 import com.programmers.voucher.global.util.ConsoleMessages;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.mock.MockTextTerminal;
@@ -33,7 +36,7 @@ class TextIoOutputTest {
     }
 
     @Test
-    @DisplayName("성공: 명령어 목록 출력")
+    @DisplayName("성공: 탑 메뉴 명령어 목록 출력")
     void printCommandSet() {
         //given
         //when
@@ -50,7 +53,27 @@ class TextIoOutputTest {
         assertThat(output).isEqualTo(expected);
     }
 
-    private String commandMessage(ConsoleCommandType commandType, String behavior) {
+
+    @Test
+    @DisplayName("성공: voucher 메뉴 명령어 목록 출력")
+    void printVoucherCommandSet() {
+        //given
+        //when
+        textIoOutput.printVoucherCommandSet();
+
+        //then
+        String output = mockTextTerminal.getOutput();
+        String expected =
+                VOUCHER_SERVICE + "\n"
+                + commandMessage(VoucherCommandType.CREATE, VOUCHER_CREATE_BEHAVIOR) + "\n"
+                + commandMessage(VoucherCommandType.LIST, VOUCHER_LIST_BEHAVIOR) + "\n"
+                + commandMessage(VoucherCommandType.DELETE, VOUCHER_DELETE_BEHAVIOR) + "\n"
+                + commandMessage(VoucherCommandType.HELP, HELP_BEHAVIOR) + "\n"
+                + commandMessage(VoucherCommandType.EXIT, EXIT_SERVICE_BEHAVIOR);
+        assertThat(output).isEqualTo(expected);
+    }
+
+    private String commandMessage(CommandType commandType, String behavior) {
         return ConsoleMessages.INPUT + " " + commandType.getType() + " " + behavior;
     }
 

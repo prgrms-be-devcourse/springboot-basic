@@ -56,6 +56,7 @@ public class TextIoOutput implements ConsoleOutput {
         textTerminal.println(VOUCHER_SERVICE);
         printCommand(VoucherCommandType.CREATE, VOUCHER_CREATE_BEHAVIOR);
         printCommand(VoucherCommandType.LIST, VOUCHER_LIST_BEHAVIOR);
+        printCommand(VoucherCommandType.DELETE, VOUCHER_DELETE_BEHAVIOR);
         printCommand(CustomerCommandType.HELP, HELP_BEHAVIOR);
         printCommand(CustomerCommandType.EXIT, EXIT_SERVICE_BEHAVIOR);
     }

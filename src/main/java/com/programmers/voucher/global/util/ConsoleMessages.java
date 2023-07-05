@@ -20,6 +20,7 @@ public final class ConsoleMessages {
     public static final String VOUCHER_SERVICE = "==== Voucher Service ====";
     public static final String VOUCHER_CREATE_BEHAVIOR = "to create a new voucher.";
     public static final String VOUCHER_LIST_BEHAVIOR = "to list all vouchers.";
+    public static final String VOUCHER_DELETE_BEHAVIOR = "to delete a vouchers.";
 
     public static final String VOUCHER_TYPES = "[fixed | percent]";
     public static final String AMOUNT = "[amount]";
