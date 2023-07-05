@@ -25,6 +25,7 @@ public class VoucherController {
 
     public void createVoucher() {
         VoucherCreateRequest request = console.inputVoucherCreateInfo();
+
         UUID voucherId = voucherService.createVoucher(request.getVoucherType(), request.getAmount());
 
         String consoleMessage = VoucherMessages.addVoucherId(CREATED_NEW_VOUCHER, voucherId.toString());
