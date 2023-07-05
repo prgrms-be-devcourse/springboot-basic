@@ -1,8 +1,7 @@
-package com.programmers.application.controller.command.execution;
+package com.programmers.application.controller.voucher.command.execution;
 
 import java.io.IOException;
 
-@FunctionalInterface
 public interface VoucherExecution {
     void execute() throws IOException;
 }
