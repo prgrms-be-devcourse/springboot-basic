@@ -62,6 +62,10 @@ public class CsvFileVoucherStorage implements VoucherStorage {
                 .toList();
     }
 
+    public void deleteAll() {
+        voucherFileWriter.clear();
+    }
+
     private Voucher csvFileParse(final String line) {
         String[] data = line.split(",");
 

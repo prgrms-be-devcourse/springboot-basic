@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 
 @Component
@@ -38,6 +40,16 @@ public class VoucherFileWriter {
     public void write(Voucher voucher) {
         VoucherDto dto = VoucherDto.fromEntity(voucher);
         csvFileWrite(dto);
+    }
+
+    public void clear() {
+        File file = new File(path, filename);
+
+        try (BufferedWriter writer = Files.newBufferedWriter(file.toPath(),
+            StandardOpenOption.TRUNCATE_EXISTING)) {
+        } catch (IOException e) {
+            throw new FileSystemNotFoundException(MessageFormat.format("{0} 파일을 찾을 수 없습니다.", filename));
+        }
     }
 
     private void csvFileWrite(VoucherDto dto) {
