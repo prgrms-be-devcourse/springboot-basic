@@ -3,11 +3,14 @@ package com.programmers.console;
 import com.programmers.console.util.Command;
 import com.programmers.console.util.VoucherStringSerializer;
 import com.programmers.console.view.Console;
+import com.programmers.global.aop.LoggingAspect;
 import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @Component
 public class CommandLineApplication {
 
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
     private static final String WRONG_INPUT_MESSAGE_FOR_VALUE = "[ERROR] 숫자를 입력해 주세요.";
     private static final String EMPTY_SPACE = "";
 
@@ -37,6 +41,7 @@ public class CommandLineApplication {
                 execute(inputCommand);
             } catch (RuntimeException e) {
                 console.println(e.getMessage());
+                logger.error("Log Message -> {}", e.getMessage());
             }
         }
     }
@@ -68,6 +73,7 @@ public class CommandLineApplication {
                 return VoucherType.of(console.inputVoucherType());
             } catch (IllegalArgumentException e) {
                 console.println(e.getMessage());
+                logger.error("Log Message -> {}", e.getMessage());
             }
         }
     }
@@ -78,6 +84,7 @@ public class CommandLineApplication {
                 return Long.parseLong(console.inputDiscountValue());
             } catch (NumberFormatException e) {
                 console.println(WRONG_INPUT_MESSAGE_FOR_VALUE);
+                logger.error("Log Message -> {}", e.getMessage());
             }
         }
     }

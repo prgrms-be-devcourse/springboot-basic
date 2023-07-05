@@ -21,15 +21,8 @@
         </encoder>
     </appender>
 
-    <logger name="com.programmers" level="" additivity="false">
-        <appender-ref ref="ROLLING_FILE" />
-    </logger>
-
-    <logger name="com.programmers" level="info">
-        <appender-ref ref="STDOUT" />
-    </logger>
-
-    <root level="info">
+    <root level="error">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING_FILE"/>
     </root>
 </configuration>
