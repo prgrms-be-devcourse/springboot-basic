@@ -7,13 +7,23 @@ public abstract class Voucher {
 
     private final long id;
     private final VoucherPeriod voucherPeriod;
+    private final VoucherType voucherType;
 
-    protected Voucher(long id, LocalDateTime createdAt, LocalDateTime expireAt) {
+    protected Voucher(long id, LocalDateTime createdAt, LocalDateTime expireAt, VoucherType voucherType) {
         this.id = id;
+        this.voucherType = voucherType;
         this.voucherPeriod = new VoucherPeriod(createdAt, expireAt);
     }
 
     public abstract Currency discount(Currency beforeDiscountPrice);
+
+    public long getId() {
+        return id;
+    }
+
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
 
     @Override
     public boolean equals(Object o) {

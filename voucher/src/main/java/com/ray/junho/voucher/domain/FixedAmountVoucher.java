@@ -3,12 +3,14 @@ package com.ray.junho.voucher.domain;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.ray.junho.voucher.domain.VoucherType.FIXED_AMOUNT;
+
 public class FixedAmountVoucher extends Voucher {
 
     private final int discountValue;
 
     public FixedAmountVoucher(long id, LocalDateTime createdAt, LocalDateTime expireAt, int discountValue) {
-        super(id, createdAt, expireAt);
+        super(id, createdAt, expireAt, FIXED_AMOUNT);
 
         validateDiscountValue(discountValue);
         this.discountValue = discountValue;

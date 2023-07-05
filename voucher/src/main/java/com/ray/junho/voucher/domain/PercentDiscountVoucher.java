@@ -3,12 +3,14 @@ package com.ray.junho.voucher.domain;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.ray.junho.voucher.domain.VoucherType.PERCENT_AMOUNT;
+
 public class PercentDiscountVoucher extends Voucher {
 
     private final int discountRate;
 
     public PercentDiscountVoucher(long id, LocalDateTime createdAt, LocalDateTime expireAt, int discountRate)  {
-        super(id, createdAt, expireAt);
+        super(id, createdAt, expireAt, PERCENT_AMOUNT);
 
         validatePercentage(discountRate);
         this.discountRate = discountRate;
