@@ -1,10 +1,10 @@
 package com.programmers.voucher.domain.voucher.domain;
 
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
-import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.PERCENT_DISCOUNT_MAX;
@@ -24,7 +24,8 @@ public class PercentDiscountVoucher extends Voucher {
 
     private void validatePercent(long percent) {
         if (percent <= PERCENT_DISCOUNT_MIN || percent >= PERCENT_DISCOUNT_MAX) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_PERCENT_DISCOUNT, percent);
+            String errorMessage = MessageFormat.format(INVALID_PERCENT_DISCOUNT, percent);
+
             LOG.warn(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }

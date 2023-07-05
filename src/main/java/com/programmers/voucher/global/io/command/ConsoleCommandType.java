@@ -1,9 +1,9 @@
 package com.programmers.voucher.global.io.command;
 
-import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -23,12 +23,12 @@ public enum ConsoleCommandType implements CommandType {
         this.type = type;
     }
 
-    public static ConsoleCommandType getValue(String input) {
+    public static ConsoleCommandType getValue(String type) {
         return Arrays.stream(values())
-                .filter(i -> Objects.equals(i.type, input))
+                .filter(i -> Objects.equals(i.type, type))
                 .findAny()
                 .orElseThrow(() -> {
-                    String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_CONSOLE_COMMAND, input);
+                    String errorMessage = MessageFormat.format(INVALID_CONSOLE_COMMAND, type);
 
                     LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);

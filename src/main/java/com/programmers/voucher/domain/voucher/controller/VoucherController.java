@@ -3,10 +3,10 @@ package com.programmers.voucher.domain.voucher.controller;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
-import com.programmers.voucher.domain.voucher.util.VoucherMessages;
 import com.programmers.voucher.global.io.Console;
 import org.springframework.stereotype.Controller;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +28,7 @@ public class VoucherController {
 
         UUID voucherId = voucherService.createVoucher(request.getVoucherType(), request.getAmount());
 
-        String consoleMessage = VoucherMessages.addVoucherId(CREATED_NEW_VOUCHER, voucherId.toString());
+        String consoleMessage = MessageFormat.format(CREATED_NEW_VOUCHER, voucherId.toString());
         console.print(consoleMessage);
     }
 

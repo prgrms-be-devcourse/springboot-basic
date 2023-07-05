@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.customer.service;
 
 import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.customer.repository.CustomerRepository;
+import com.programmers.voucher.domain.customer.util.CustomerErrorMessages;
 import com.programmers.voucher.domain.customer.util.CustomerMessages;
 import com.programmers.voucher.global.util.DataErrorMessages;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -34,7 +36,7 @@ public class CustomerService {
         boolean emailDuplication = customerRepository.findByEmail(email)
                 .isPresent();
         if (emailDuplication) {
-            String errorMessage = String.format(DataErrorMessages.DUPLICATE_EMAIL, email);
+            String errorMessage = MessageFormat.format(CustomerErrorMessages.DUPLICATE_EMAIL, email);
             throw new DuplicateKeyException(errorMessage);
         }
 
