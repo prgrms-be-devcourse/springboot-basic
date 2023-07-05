@@ -4,6 +4,7 @@ public class PercentAmountVoucher extends Voucher {
 
     private static final double ZERO_DISCOUNT = 0;
     private static final double HUNDRED_DISCOUNT = 100;
+    private VoucherType voucherType;
 
     public PercentAmountVoucher(Long voucherId, VoucherType voucherType, double discountAmount) {
         validatePercent(discountAmount);
@@ -34,6 +35,11 @@ public class PercentAmountVoucher extends Voucher {
     @Override
     public VoucherType getVoucherType() {
         return voucherType;
+    }
+
+    @Override
+    public double getDiscountAmount() {
+        return 0;
     }
 
     @Override

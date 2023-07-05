@@ -2,6 +2,9 @@ package org.prgrms.application.domain.voucher;
 
 public class FixedAmountVoucher extends Voucher {
 
+    private static final int MIN_DISCOUNT_VALUE = 0;
+    private VoucherType voucherType;
+
     public FixedAmountVoucher(Long voucherId, VoucherType voucherType, double discountAmount) {
         validatePositive(discountAmount);
         this.voucherId = voucherId;
@@ -9,16 +12,13 @@ public class FixedAmountVoucher extends Voucher {
         this.discountAmount = discountAmount;
     }
 
-    private static void validatePositive(double amount) {
-        if (amount <= 0) throw new IllegalArgumentException("금액은 양수여야 합니다.");
-    }
-
     public double getFixedAmount() {
         return discountAmount;
     }
 
-    public void changeFixedAmount(double fixedAmount) {
-        validatePositive(fixedAmount);
+    public void changeFixedAmount(double discountAmount) { //수정
+        validatePositive(discountAmount);
+        this.discountAmount = discountAmount;
     }
 
     @Override
@@ -32,10 +32,19 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
+    public double getDiscountAmount() {
+        return 0;
+    }
+
+    @Override
     public double discount(double beforeDiscount) {
+        validatePositive(beforeDiscount - discountAmount);
         double discountedAmount = beforeDiscount - discountAmount;
-        validatePositive(discountedAmount);
         return discountedAmount;
+    }
+
+    private void validatePositive(double amount) {
+        if (amount <= MIN_DISCOUNT_VALUE) throw new IllegalArgumentException("금액은 양수여야 합니다.");
     }
 
 }
