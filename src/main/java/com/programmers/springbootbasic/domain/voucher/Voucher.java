@@ -68,10 +68,10 @@ public abstract class Voucher {
             throw new IllegalStateException(USED_VOUCHER);
         }
         if (minimumPriceCondition > priceBeforeDiscount) {
-            throw new IllegalArgumentException(NOT_ENOUGH_MINIMUM_PRICE_CONDITION + minimumPriceCondition + CURRENT_PAYMENT_AMOUNT + priceBeforeDiscount);
+            throw new IllegalStateException(NOT_ENOUGH_MINIMUM_PRICE_CONDITION + minimumPriceCondition + CURRENT_PAYMENT_AMOUNT + priceBeforeDiscount);
         }
         if (voucherDate.isExpiration(at)) {
-            throw new IllegalArgumentException(EXPIRED_VOUCHER + voucherDate.getExpirationDate());
+            throw new IllegalStateException(EXPIRED_VOUCHER + voucherDate.getExpirationDate());
         }
     }
 
