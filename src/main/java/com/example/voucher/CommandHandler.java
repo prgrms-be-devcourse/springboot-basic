@@ -14,14 +14,15 @@ public class CommandHandler {
 
     public void handleCommand() {
         String command = input.readInput();
-        String[] parts = command.split(" ");
-        String action = parts[0];
+        CommandEnum commandEnum = CommandEnum.fromString(command);
 
-        if (action.equalsIgnoreCase("create")) {
-            handleCreateCommand(parts);
-        }
-        if (action.equalsIgnoreCase("list")) {
-            handleListCommand();
+        switch (commandEnum) {
+            case CREATE:
+                handleCreateCommand();
+                break;
+            case LIST:
+                handleListCommand();
+                break;
         }
     }
 
