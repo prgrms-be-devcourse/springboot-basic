@@ -1,7 +1,7 @@
 package com.programmers.console;
 
 import com.programmers.console.util.Command;
-import com.programmers.console.util.ResponseConverter;
+import com.programmers.console.util.VoucherStringSerializer;
 import com.programmers.console.view.Console;
 import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Discount;
@@ -91,7 +91,7 @@ public class CommandLineApplication {
     }
 
     private void printVoucher(VoucherResponseDto responseDto) {
-        console.println(ResponseConverter.convertVoucherResponseToString(responseDto));
+        console.println(VoucherStringSerializer.convertVoucherResponseToString(responseDto));
         console.println(EMPTY_SPACE);
     }
 

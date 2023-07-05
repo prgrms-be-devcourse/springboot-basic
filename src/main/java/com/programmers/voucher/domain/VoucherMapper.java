@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 
 public class VoucherMapper {
 
+    private VoucherMapper() {
+    }
+
     public static Voucher convertRequestDtoToDomain(VoucherRequestDto requestDto) {
         return new Voucher(requestDto.voucherId(), requestDto.discount(), LocalDateTime.now());
     }

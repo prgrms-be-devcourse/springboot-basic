@@ -6,7 +6,10 @@ import com.programmers.voucher.dto.VoucherResponseDto;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
-public class ResponseConverter {
+public class VoucherStringSerializer {
+
+    private VoucherStringSerializer() {
+    }
 
     private static final String WRONG_DISCOUNT_TYPE_MESSAGE = "[ERROR] 올바르지 않은 Voucher Type 입니다.";
     private static final String PERCENT = "%";
