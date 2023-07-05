@@ -1,17 +1,17 @@
 package com.ray.junho.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class PercentDiscountVoucher implements Voucher {
-
-    private final long id;
+public class PercentDiscountVoucher extends Voucher {
 
     private final int discountRate;
 
-    public PercentDiscountVoucher(long id, int discountRate) {
-        this.id = id;
-        this.discountRate = discountRate;
+    public PercentDiscountVoucher(long id, LocalDateTime createdAt, LocalDateTime expireAt, int discountRate)  {
+        super(id, createdAt, expireAt);
+
         validatePercentage(discountRate);
+        this.discountRate = discountRate;
     }
 
     private void validatePercentage(int discountRate) {
@@ -22,8 +22,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public Currency discount(Currency beforeDiscount) {
-        long discountedValue = beforeDiscount.multiply((double) discountRate / 100);
-        return Currency.of(beforeDiscount.minus(discountedValue));
+        Currency discountedValue = beforeDiscount.multiply(Currency.of((double) discountRate / 100));
+        return beforeDiscount.minus(discountedValue);
     }
 
     @Override
@@ -31,19 +31,11 @@ public class PercentDiscountVoucher implements Voucher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PercentDiscountVoucher that = (PercentDiscountVoucher) o;
-        return id == that.id && discountRate == that.discountRate;
+        return discountRate == that.discountRate;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, discountRate);
-    }
-
-    @Override
-    public String toString() {
-        return "PercentDiscountVoucher{" +
-                "id=" + id +
-                ", discountRate=" + discountRate +
-                '}';
+        return Objects.hash(discountRate);
     }
 }

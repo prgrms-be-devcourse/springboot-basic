@@ -1,17 +1,17 @@
 package com.ray.junho.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class FixedAmountVoucher implements Voucher {
-
-    private final long id;
+public class FixedAmountVoucher extends Voucher {
 
     private final int discountValue;
 
-    public FixedAmountVoucher(long id, int discountValue) {
-        this.id = id;
-        this.discountValue = discountValue;
+    public FixedAmountVoucher(long id, LocalDateTime createdAt, LocalDateTime expireAt, int discountValue) {
+        super(id, createdAt, expireAt);
+
         validateDiscountValue(discountValue);
+        this.discountValue = discountValue;
     }
 
     private void validateDiscountValue(int discountValue) {
@@ -23,11 +23,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public Currency discount(Currency beforeDiscount) {
         validateFixedAmount(beforeDiscount);
-        return Currency.of(beforeDiscount.minus(discountValue));
+        return beforeDiscount.minus(Currency.of(discountValue));
     }
 
     private void validateFixedAmount(Currency beforeDiscount) {
-        if (beforeDiscount.isLessThan(discountValue)) {
+        if (beforeDiscount.isLessThan(Currency.of(discountValue))) {
             throw new IllegalArgumentException("기존 금액 보다 바우처의 할인율이 더 큽니다");
         }
     }
@@ -37,19 +37,11 @@ public class FixedAmountVoucher implements Voucher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FixedAmountVoucher that = (FixedAmountVoucher) o;
-        return id == that.id && discountValue == that.discountValue;
+        return discountValue == that.discountValue;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, discountValue);
-    }
-
-    @Override
-    public String toString() {
-        return "FixedAmountVoucher{" +
-                "id=" + id +
-                ", discountValue=" + discountValue +
-                '}';
+        return Objects.hash(discountValue);
     }
 }
