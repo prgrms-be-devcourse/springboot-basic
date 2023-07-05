@@ -14,6 +14,9 @@
         <file>logs/access.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>500MB</totalSizeCap>
         </rollingPolicy>
 
         <encoder>
@@ -21,7 +24,7 @@
         </encoder>
     </appender>
 
-    <root level="error">
+    <root level="">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ROLLING_FILE"/>
     </root>

@@ -3,7 +3,6 @@ package com.programmers.console;
 import com.programmers.console.util.Command;
 import com.programmers.console.util.VoucherStringSerializer;
 import com.programmers.console.view.Console;
-import com.programmers.global.aop.LoggingAspect;
 import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.VoucherType;
