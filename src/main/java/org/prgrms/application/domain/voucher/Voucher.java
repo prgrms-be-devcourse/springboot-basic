@@ -2,7 +2,7 @@ package org.prgrms.application.domain.voucher;
 
 
 public abstract class Voucher {
-
+    protected static int MIN_DISCOUNT_VALUE = 0;
     protected Long voucherId;
     protected double discountAmount;
 

@@ -17,6 +17,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private static final int HAS_UPDATE = 1;
+    private static final String CUSTOMER_ID = "customerId";
+    private static final String NAME = "customerId";
+    private static final String EMAIL = "customerId";
+    private static final String CREATED_AT = "customerId";
+    private static final String LAST_LOGIN_AT = "customerId";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -37,11 +42,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
     // 맵의 키를 파라미터로 변경
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
-            put("customerId", customer.getCustomerId());
-            put("name", customer.getName());
-            put("email", customer.getEmail());
-            put("cratedAt", Timestamp.valueOf(customer.getCreatedAt()));
-            put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+            put(CUSTOMER_ID, customer.getCustomerId());
+            put(NAME, customer.getName());
+            put(EMAIL, customer.getEmail());
+            put(CREATED_AT, Timestamp.valueOf(customer.getCreatedAt()));
+            put(LAST_LOGIN_AT, customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
         }};
     }
 
@@ -57,7 +62,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        var update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = :customerId",
+        int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = :customerId",
                 toParamMap(customer)
         );
         if (update != HAS_UPDATE) {
@@ -84,7 +89,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findById(Long customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE customer_id = :customerId",
-                    Collections.singletonMap("customerId", customerId),
+                    Collections.singletonMap(CUSTOMER_ID, customerId),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
@@ -97,7 +102,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findByName(String name) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE name = :name",
-                    Collections.singletonMap("name", name),
+                    Collections.singletonMap(NAME, name),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
@@ -109,7 +114,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findByEmail(String email) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE email = :email",
-                    Collections.singletonMap("email", email),
+                    Collections.singletonMap(EMAIL, email),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);

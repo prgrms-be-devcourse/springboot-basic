@@ -2,8 +2,7 @@ package org.prgrms.application.domain.voucher;
 
 public class PercentAmountVoucher extends Voucher {
 
-    private static final double ZERO_DISCOUNT = 0;
-    private static final double HUNDRED_DISCOUNT = 100;
+    private static final double MAX_DISCOUNT_VALUE = 100;
     private VoucherType voucherType;
 
     public PercentAmountVoucher(Long voucherId, VoucherType voucherType, double discountAmount) {
@@ -14,7 +13,7 @@ public class PercentAmountVoucher extends Voucher {
     }
 
     private void validatePercent(double percentAmount) {
-        if (percentAmount <= ZERO_DISCOUNT || percentAmount >= HUNDRED_DISCOUNT) {
+        if (percentAmount <= MIN_DISCOUNT_VALUE || percentAmount >= MAX_DISCOUNT_VALUE) {
             throw new IllegalArgumentException("잘못된 입력 범위입니다.");
         }
     }
@@ -39,7 +38,7 @@ public class PercentAmountVoucher extends Voucher {
 
     @Override
     public double getDiscountAmount() {
-        return 0;
+        return discountAmount;
     }
 
     @Override

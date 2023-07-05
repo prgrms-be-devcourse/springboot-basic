@@ -2,7 +2,6 @@ package org.prgrms.application.domain.voucher;
 
 public class FixedAmountVoucher extends Voucher {
 
-    private static final int MIN_DISCOUNT_VALUE = 0;
     private VoucherType voucherType;
 
     public FixedAmountVoucher(Long voucherId, VoucherType voucherType, double discountAmount) {
