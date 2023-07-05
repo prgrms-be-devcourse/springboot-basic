@@ -1,0 +1,3 @@
+file:
+  blacklist: member_blacklist.csv
+  voucher: voucher.csv
