@@ -1,5 +1,6 @@
 package org.prgms.vouchermanagement.application;
 
+import org.prgms.vouchermanagement.customer.service.CustomerService;
 import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.global.io.Console;
 import org.prgms.vouchermanagement.voucher.service.VoucherService;
@@ -9,10 +10,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.InputMismatchException;
 
@@ -23,11 +22,13 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
 
     private final Console console;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
     private ApplicationContext applicationContext;
 
-    public CommandLineApplication(Console console, VoucherService voucherService) {
+    public CommandLineApplication(Console console, VoucherService voucherService, CustomerService customerService) {
         this.console = console;
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @Override
@@ -38,7 +39,6 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
     @Override
     public void run(String... args) {
         while (true) {
-
             console.printCommandMenu();
             try {
                 CommandMenu currentCommand = CommandMenu.getCommandMenu(console.getCommand());
@@ -46,7 +46,7 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
                     case EXIT -> { return; }
                     case CREATE_NEW_VOUCHER -> voucherService.createNewVoucher();
                     case SHOW_VOUCHER_LIST -> voucherService.showVoucherList();
-                    case SHOW_BLACK_LIST -> showBlackList();
+                    case SHOW_BLACK_LIST -> customerService.showBlackList(applicationContext);
                     default -> throw new IllegalArgumentException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
                 }
             } catch (NoSuchFileException e) {
@@ -59,15 +59,6 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
                 logger.info("RuntimeException Error");
                 System.out.println(e.getMessage());
             }
-        }
-    }
-
-    private void showBlackList() throws NoSuchFileException {
-        Resource resource = applicationContext.getResource("customer_blacklist.csv");
-        try {
-            console.printCustomerBlackList(resource.getFile().toPath().toString());
-        } catch (IOException e){
-            throw new NoSuchFileException(ExceptionMessageConstant.NO_BLACK_LIST_FILE_EXCEPTION);
         }
     }
 }

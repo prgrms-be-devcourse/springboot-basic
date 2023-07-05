@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -48,7 +47,6 @@ class CustomerNamedJdbcRepositoryTest {
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgms.vouchermanagement.customer"})
     static class Config {
         @Bean
         public DataSource dataSource() {

@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.prgms.vouchermanagement.voucher.domain.entity.FixedAmountVoucher;
-import org.prgms.vouchermanagement.voucher.domain.entity.PercentDiscountVoucher;
+import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
+import org.prgms.vouchermanagement.voucher.domain.entity.VoucherImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +69,8 @@ class VoucherNamedJdbcRepositoryTest {
     VoucherNamedJdbcRepository voucherNamedJdbcRepository;
 
     EmbeddedMysql embeddedMysql;
-    FixedAmountVoucher fixedAmountVoucher;
-    PercentDiscountVoucher percentDiscountVoucher;
+    VoucherImpl fixedAmountVoucher;
+    VoucherImpl percentDiscountVoucher;
 
     @BeforeAll
     void setUp() {
@@ -85,8 +85,8 @@ class VoucherNamedJdbcRepositoryTest {
                 .addSchema("test_voucher", classPathScript("VoucherSchema.sql"))
                 .start();
 
-        percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 60);
-        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        percentDiscountVoucher = new VoucherImpl(UUID.randomUUID(), 60, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
+        fixedAmountVoucher = new VoucherImpl(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
     }
 
     @AfterAll

@@ -54,7 +54,7 @@ class VoucherInputValidatorTest {
     }
 
     @Test
-    @DisplayName("FixedAmountVoucher Amount 입력 Exception")
+    @DisplayName("Fixed Amount Voucher Amount 입력 Exception")
     void checkFixedAmount_Exception_Test() {
         //given
         String input1 = "";
@@ -77,7 +77,7 @@ class VoucherInputValidatorTest {
     }
 
     @Test
-    @DisplayName("FixedAmountVoucher Amount 입력 Test")
+    @DisplayName("Fixed Amount Voucher Amount 입력 Test")
     void checkFixedAmount_Test() {
         //given
         String input1 = "1000";
@@ -98,7 +98,7 @@ class VoucherInputValidatorTest {
     }
 
     @Test
-    @DisplayName("PercentDiscountVoucher Percent 입력 Exception")
+    @DisplayName("Percent Discount Voucher Percent 입력 Exception")
     void checkPercent_Exception_Test() {
         //given
         String input1 = "";
@@ -126,7 +126,7 @@ class VoucherInputValidatorTest {
     }
 
     @Test
-    @DisplayName("PercentDiscountVoucher Percent 입력 Test")
+    @DisplayName("Percent Discount Voucher Percent 입력 Test")
     void checkPercent_Test() {
         //given
         String input1 = "1";

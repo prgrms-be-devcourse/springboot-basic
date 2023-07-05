@@ -1,10 +1,9 @@
 package org.prgms.vouchermanagement.voucher.service;
 
 import org.prgms.vouchermanagement.global.io.Console;
-import org.prgms.vouchermanagement.voucher.domain.entity.FixedAmountVoucher;
-import org.prgms.vouchermanagement.voucher.domain.entity.PercentDiscountVoucher;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
+import org.prgms.vouchermanagement.voucher.domain.entity.VoucherImpl;
 import org.prgms.vouchermanagement.voucher.domain.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,11 +26,11 @@ public class VoucherService {
         long amountOrPercent = setDiscountAmount(typeToCreate);
 
         if (typeToCreate == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
-            FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amountOrPercent);
+            VoucherImpl voucher = new VoucherImpl(UUID.randomUUID(), amountOrPercent, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
             voucherRepository.saveVoucher(voucher);
         }
         if (typeToCreate == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
-            PercentDiscountVoucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), amountOrPercent);
+            VoucherImpl voucher = new VoucherImpl(UUID.randomUUID(), amountOrPercent, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
             voucherRepository.saveVoucher(voucher);
         }
         console.printSavedFinished();

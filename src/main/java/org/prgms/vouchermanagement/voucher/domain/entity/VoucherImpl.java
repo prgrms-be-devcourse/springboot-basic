@@ -4,15 +4,16 @@ import org.prgms.vouchermanagement.voucher.VoucherType;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class VoucherImpl implements Voucher{
+
     private final UUID voucherId;
-    private final long amount;
+    private final long percent;
     private final VoucherType voucherType;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public VoucherImpl(UUID voucherId, long percent, VoucherType voucherType) {
         this.voucherId = voucherId;
-        this.amount = amount;
-        this.voucherType = VoucherType.FIXED_AMOUNT_VOUCHER_TYPE;
+        this.percent = percent;
+        this.voucherType = voucherType;
     }
 
     @Override
@@ -22,7 +23,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long returnDiscount() {
-        return amount;
+        return percent;
     }
 
     @Override
