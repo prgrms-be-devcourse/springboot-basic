@@ -31,10 +31,12 @@ public class CustomerManagementController implements Runnable {
         boolean isRunning = true;
         while (isRunning) {
             output.printCustomerCommand();
-            CustomerCommand customerCommand = CustomerCommand.findByCustomerTypeNumber(input.inputCustomerCommand());
+            Integer inputCustomerNumber = input.inputCustomerCommand();
+            CustomerCommand customerCommand = CustomerCommand.findByCustomerTypeNumber(inputCustomerNumber);
 
             if (customerCommand.isCreate()) {
-                CustomerStatus inputStatus = CustomerStatus.findByStatus(input.inputCustomerStatus());
+                String inputCustomerStatus = input.inputCustomerStatus();
+                CustomerStatus inputStatus = CustomerStatus.findByStatus(inputCustomerStatus);
                 CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(inputStatus);
                 customerDao.save(customerCreateReqDto);
                 continue;
@@ -47,16 +49,17 @@ public class CustomerManagementController implements Runnable {
             }
 
             if (customerCommand.isFindOne()) {
-                UUID inputUUID = UUID.fromString(input.inputUUID());
-                customerDao.findOne(inputUUID)
+                String inputUUID = input.inputUUID();
+                UUID customerId = UUID.fromString(inputUUID);
+                customerDao.findOne(customerId)
                     .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
-
                 continue;
             }
 
             if (customerCommand.isFindByStatus()) {
-                CustomerStatus inputStatus = CustomerStatus.findByStatus(input.inputCustomerStatus());
-                CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(inputStatus);
+                String inputCustomerStatus = input.inputCustomerStatus();
+                CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
+                CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(customerStatus);
                 CustomersResDto findCustomers = customerDao.findByStatus(customerCreateReqDto);
                 output.printCustomers(findCustomers);
                 continue;
@@ -69,17 +72,19 @@ public class CustomerManagementController implements Runnable {
             }
 
             if (customerCommand.isUpdate()) {
-                UUID inputUUID = UUID.fromString(input.inputUUID());
-                CustomerStatus inputStatus = CustomerStatus.findByStatus(input.inputCustomerStatus());
-                CustomerUpdateReqDto customerUpdateReqDto = new CustomerUpdateReqDto(inputUUID, inputStatus);
+                String inputUUID = input.inputUUID();
+                UUID customerId = UUID.fromString(inputUUID);
+                String inputCustomerStatus = input.inputCustomerStatus();
+                CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
+                CustomerUpdateReqDto customerUpdateReqDto = new CustomerUpdateReqDto(customerId, customerStatus);
                 customerDao.update(customerUpdateReqDto);
-
                 continue;
             }
 
             if (customerCommand.isDelete()) {
-                UUID inputUUID = UUID.fromString(input.inputUUID());
-                customerDao.deleteById(inputUUID);
+                String inputUUID = input.inputUUID();
+                UUID customerId = UUID.fromString(inputUUID);
+                customerDao.deleteById(customerId);
                 continue;
             }
 
