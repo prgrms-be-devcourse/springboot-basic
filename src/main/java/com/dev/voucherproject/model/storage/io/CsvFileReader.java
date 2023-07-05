@@ -29,21 +29,30 @@ public class CsvFileReader {
         try {
             File file = resource.getFile();
 
-            try (BufferedReader reader =  new BufferedReader(new FileReader(file))) {
-                String line;
+            Optional<String> line = getLine(word, file);
 
-                while ((line = reader.readLine()) != null) {
-                    String[] data = line.split(",");
-
-                    if (data[1].equals(word)) {
-                        return Optional.of(line);
-                    }
-                }
+            if (line.isPresent()) {
+                return line;
             }
         } catch (IOException e) {
             throw new FileSystemNotFoundException(MessageFormat.format("{0} 파일을 읽을 수 없습니다.", filename));
         }
 
+        return Optional.empty();
+    }
+
+    private static Optional<String> getLine(String word, File file) throws IOException {
+        try (BufferedReader reader =  new BufferedReader(new FileReader(file))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                if (data[1].equals(word)) {
+                    return Optional.of(line);
+                }
+            }
+        }
         return Optional.empty();
     }
 
