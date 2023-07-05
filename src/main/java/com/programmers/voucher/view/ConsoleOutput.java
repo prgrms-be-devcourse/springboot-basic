@@ -28,7 +28,7 @@ public class ConsoleOutput implements Output {
         Arrays.stream(VoucherType.values())
                 .forEach(voucher -> {
                     textTerminal.print("Type ");
-                    textTerminal.print(ConsoleStyle.bold(voucher.getName()));
+                    textTerminal.print(voucher.getName());
                     textTerminal.println(" to " + voucher.getText());
                 });
     }
