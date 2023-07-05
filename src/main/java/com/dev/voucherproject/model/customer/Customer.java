@@ -33,7 +33,6 @@ public class Customer {
         return new Customer(this.customerId, this.name, email, this.createdAt);
     }
 
-
     public UUID getCustomerId() {
         return customerId;
     }

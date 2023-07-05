@@ -3,7 +3,6 @@ package com.dev.voucherproject.model.menu;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.List;
 
 public enum Menu {
     EXIT("exit"), CREATE("create"), LIST("list"), BLACKLIST("blacklist");
