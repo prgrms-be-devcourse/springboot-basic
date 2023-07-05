@@ -9,6 +9,8 @@ import com.programmers.domain.voucher.dto.VoucherCreateRequestDto;
 import com.programmers.domain.voucher.dto.VoucherResponseDto;
 import com.programmers.domain.voucher.dto.VoucherUpdateRequestDto;
 import com.programmers.domain.voucher.dto.VouchersResponseDto;
+import com.programmers.exception.EmptyException;
+import com.programmers.exception.InvalidInputException;
 import com.programmers.io.Console;
 import com.programmers.service.VoucherService;
 import org.slf4j.Logger;
@@ -118,8 +120,12 @@ public class VoucherController {
     }
 
     private void checkDeleteTypeSelection(String input) {
+        if (input.isEmpty()) {
+            throw new EmptyException("[ERROR] Delete Type 번호가 입력되지 않았습니다.");
+        }
+
         if (!input.equals(DELETE_ONE_VOUCHER_NUMBER) && !input.equals(DELETE_ALL_VOUCHERS_NUMBER)) {
-            throw new IllegalArgumentException();
+            throw new InvalidInputException("[ERROR] 입력하신 Delete Type 번호가 유효하지 않습니다.");
         }
     }
 

@@ -1,6 +1,8 @@
 package com.programmers.controller;
 
 import com.programmers.domain.*;
+import com.programmers.exception.EmptyException;
+import com.programmers.exception.InvalidInputException;
 import com.programmers.io.Console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,8 +61,12 @@ public class MenuController {
     }
 
     private void checkMenuSelection(String input) {
+        if (input.isEmpty()) {
+            throw new EmptyException("[ERROR] 메뉴 번호가 입력되지 않았습니다.");
+        }
+
         if (!input.equals(MENU_VOUCHER_NUMBER) && !input.equals(MENU_CUSTOMER_NUMBER)) {
-            throw new IllegalArgumentException();
+            throw new InvalidInputException("[ERROR] 입력하신 메뉴 번호가 유호하지 않습니다.");
         }
     }
 

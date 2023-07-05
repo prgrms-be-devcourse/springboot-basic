@@ -2,6 +2,7 @@ package com.programmers.repository.voucher;
 
 import com.programmers.domain.voucher.Voucher;
 import com.programmers.domain.voucher.VoucherType;
+import com.programmers.exception.NotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,7 +52,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             Voucher voucher = jdbcTemplate.queryForObject(sql, voucherRowMapper(), id.toString());
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
-            throw new IllegalArgumentException("바우처가 존재하지 않습니다.");
+            throw new NotFoundException("[ERROR] 바우처가 존재하지 않습니다.");
         }
     }
 

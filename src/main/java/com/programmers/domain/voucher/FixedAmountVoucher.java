@@ -1,5 +1,7 @@
 package com.programmers.domain.voucher;
 
+import com.programmers.exception.EmptyException;
+import com.programmers.exception.InvalidInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +26,14 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     private void checkVoucherInput(String voucherName, long amount) {
-        if (voucherName.isEmpty() || amount < 0) {
-            log.error("Empty Input or the invalid voucher input found. voucher type = {}", FixedAmountVoucher.class.getName());
+        if (voucherName.isEmpty()) {
+            log.error("The voucher name input not found. voucher type = {}", FixedAmountVoucher.class.getName());
+            throw new EmptyException("[ERROR] Voucher 이름이 입력되지 않았습니다.");
+        }
 
-            throw new IllegalArgumentException();
+        if (amount < 0) {
+            log.error("The invalid voucher input found. voucher type = {}", FixedAmountVoucher.class.getName());
+            throw new InvalidInputException("[ERROR] amount 값이 유효하지 않습니다.");
         }
     }
 

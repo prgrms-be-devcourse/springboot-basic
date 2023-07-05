@@ -1,6 +1,7 @@
 package com.programmers.repository.customer;
 
 import com.programmers.domain.customer.Customer;
+import com.programmers.exception.NotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -49,7 +50,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), id.toString());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            throw new IllegalArgumentException("회원이 존재하지 않습니다.");
+            throw new NotFoundException("[ERROR] 회원이 존재하지 않습니다.");
         }
     }
 
