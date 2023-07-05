@@ -37,8 +37,7 @@ class VoucherRepositoryTest {
     @AfterEach
     void tearDown() {
         voucherRepository.findAll().forEach(voucher ->
-                voucherRepository.findById(voucher.getVoucherId())
-                        .ifPresent(value -> voucherRepository.deleteById(value.getVoucherId()))
+                voucherRepository.deleteById(voucher.getVoucherId())
         );
     }
 
