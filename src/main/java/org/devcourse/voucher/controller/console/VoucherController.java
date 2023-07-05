@@ -6,7 +6,6 @@ import org.devcourse.voucher.controller.console.dto.VoucherSaveRequest;
 import org.devcourse.voucher.domain.voucher.Voucher;
 import org.devcourse.voucher.domain.voucher.vo.VoucherVO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VoucherController {
@@ -29,13 +28,9 @@ public class VoucherController {
     public List<VoucherInfoResponse> listVoucher() {
         List<Voucher> vouchers = voucherService.findAll();
 
-        List<VoucherInfoResponse> response = new ArrayList<>();
-        for (Voucher voucher : vouchers) {
-            VoucherVO value = voucher.values();
-
-            response.add(new VoucherInfoResponse(value));
-        }
-
-        return response;
+        return vouchers.stream()
+                .map(Voucher::values)
+                .map(VoucherInfoResponse::new)
+                .toList();
     }
 }
