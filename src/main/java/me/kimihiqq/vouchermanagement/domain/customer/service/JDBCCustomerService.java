@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Profile("db")
+@Profile({"db", "test"})
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -39,23 +39,23 @@ public class JDBCCustomerService implements CustomerService {
         return customerRepository.findById(customerId);
     }
 
-    @Override
-    public void deleteCustomerById(UUID customerId) {
-        customerRepository.deleteById(customerId);
-    }
-
-    @Override
-    public void addVoucherToCustomer(UUID customerId, UUID voucherId) {
-        voucherWalletService.addVoucherToWallet(customerId, voucherId);
-        log.info("addVoucherToCustomer method executed for customer with ID: " + customerId);
-    }
-
-
-    @Override
-    public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
-        voucherWalletService.removeVoucherFromWallet(customerId, voucherId);
-        log.info("removeVoucherFromCustomer method executed for customer with ID: " + customerId);
-    }
+//    @Override
+//    public void deleteCustomerById(UUID customerId) {
+//        customerRepository.deleteById(customerId);
+//    }
+//
+//    @Override
+//    public void addVoucherToCustomer(UUID customerId, UUID voucherId) {
+//        voucherWalletService.addVoucherToWallet(customerId, voucherId);
+//        log.info("addVoucherToCustomer method executed for customer with ID: " + customerId);
+//    }
+//
+//
+//    @Override
+//    public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
+//        voucherWalletService.removeVoucherFromWallet(customerId, voucherId);
+//        log.info("removeVoucherFromCustomer method executed for customer with ID: " + customerId);
+//    }
 
     @Override
     public void updateCustomerStatus(Customer customer) {

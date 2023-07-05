@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
-@Profile("db")
+@Profile({"db", "test"})
 @Repository
 public class JDBCVoucherRepository implements VoucherRepository {
     private final JdbcTemplate jdbcTemplate;

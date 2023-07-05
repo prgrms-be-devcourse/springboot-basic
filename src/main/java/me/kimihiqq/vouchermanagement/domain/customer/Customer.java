@@ -32,9 +32,6 @@ public class Customer {
         return email;
     }
 
-    public VoucherWallet getVoucherWallet() {
-        return voucherWallet;
-    }
 
     public CustomerStatus getCustomerStatus() {
         return customerStatus;
@@ -43,4 +40,9 @@ public class Customer {
     public void updateCustomerStatus(CustomerStatus customerStatus) {
         this.customerStatus = customerStatus;
     }
+
+//    public VoucherWallet getVoucherWallet() {
+//        return voucherWallet;
+//    }
+
 }

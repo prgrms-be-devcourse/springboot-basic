@@ -12,9 +12,9 @@ public interface CustomerService {
     Customer createCustomer(CustomerDto customerDto);
     List<Customer> listCustomers();
     Optional<Customer> findCustomerById(UUID customerId);
-    void deleteCustomerById(UUID customerId);
-    void addVoucherToCustomer(UUID customerId, UUID voucherId);
-    void removeVoucherFromCustomer(UUID customerId, UUID voucherId);
+//    void deleteCustomerById(UUID customerId);
+//    void addVoucherToCustomer(UUID customerId, UUID voucherId);
+//    void removeVoucherFromCustomer(UUID customerId, UUID voucherId);
 
     void updateCustomerStatus(Customer customer);
 
