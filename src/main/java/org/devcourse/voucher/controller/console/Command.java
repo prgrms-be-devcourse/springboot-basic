@@ -3,9 +3,14 @@ package org.devcourse.voucher.controller.console;
 public enum Command {
     CREATE,
     LIST,
-    EXIT;
+    EXIT,
+    RETRY;
 
     public static Command find(String name) {
-        return valueOf(name.toUpperCase());
+        try {
+            return valueOf(name.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return RETRY;
+        }
     }
 }
