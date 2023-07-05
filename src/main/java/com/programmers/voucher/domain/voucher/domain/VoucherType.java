@@ -3,10 +3,10 @@ package com.programmers.voucher.domain.voucher.domain;
 import com.programmers.voucher.domain.voucher.pattern.factory.FixedAmountVoucherFactory;
 import com.programmers.voucher.domain.voucher.pattern.factory.PercentDiscountVoucherFactory;
 import com.programmers.voucher.domain.voucher.pattern.factory.VoucherFactory;
-import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
@@ -35,7 +35,7 @@ public enum VoucherType {
                 .filter(t -> Objects.equals(t.type, voucherType))
                 .findAny()
                 .orElseThrow(() -> {
-                    String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_VOUCHER_TYPE, voucherType);
+                    String errorMessage = MessageFormat.format(INVALID_VOUCHER_TYPE, voucherType);
 
                     LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);

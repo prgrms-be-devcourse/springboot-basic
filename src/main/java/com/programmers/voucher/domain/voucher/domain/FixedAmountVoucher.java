@@ -1,10 +1,10 @@
 package com.programmers.voucher.domain.voucher.domain;
 
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
-import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.FIXED_AMOUNT_MIN;
@@ -23,7 +23,8 @@ public class FixedAmountVoucher extends Voucher {
 
     private void validateAmount(long amount) {
         if (amount <= FIXED_AMOUNT_MIN) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_FIXED_AMOUNT, amount);
+            String errorMessage = MessageFormat.format(INVALID_FIXED_AMOUNT, amount);
+
             LOG.warn(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }

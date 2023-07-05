@@ -2,19 +2,19 @@ package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
-import com.programmers.voucher.global.io.command.CustomerCommandType;
-import com.programmers.voucher.global.io.command.VoucherCommandType;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
-import com.programmers.voucher.global.io.command.ConsoleCommandType;
 import com.programmers.voucher.global.io.ConsoleInput;
-import com.programmers.voucher.global.util.CommonErrorMessages;
+import com.programmers.voucher.global.io.command.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.CustomerCommandType;
+import com.programmers.voucher.global.io.command.VoucherCommandType;
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.*;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.*;
@@ -71,7 +71,8 @@ public class TextIoInput implements ConsoleInput {
 
         List<String> messages = new ArrayList<>();
         if (invalidVoucherType) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_VOUCHER_TYPE, val);
+            String errorMessage = MessageFormat.format(INVALID_VOUCHER_TYPE, val);
+
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
@@ -87,7 +88,8 @@ public class TextIoInput implements ConsoleInput {
     private List<String> fixedAmountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
         if (val <= FIXED_AMOUNT_MIN) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_FIXED_AMOUNT, val);
+            String errorMessage = MessageFormat.format(INVALID_FIXED_AMOUNT, val);
+
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
@@ -103,7 +105,8 @@ public class TextIoInput implements ConsoleInput {
     private List<String> percentDiscountValidateErrorMessages(Long val) {
         List<String> messages = new ArrayList<>();
         if (val <= PERCENT_DISCOUNT_MIN || val >= PERCENT_DISCOUNT_MAX) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_PERCENT_DISCOUNT, val);
+            String errorMessage = MessageFormat.format(INVALID_PERCENT_DISCOUNT, val);
+
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }

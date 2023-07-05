@@ -5,8 +5,4 @@ public final class CommonErrorMessages {
 
     private CommonErrorMessages() {
     }
-
-    public static String addCurrentInput(String message, Object input) {
-        return message + " Current input: " + input;
-    }
 }
