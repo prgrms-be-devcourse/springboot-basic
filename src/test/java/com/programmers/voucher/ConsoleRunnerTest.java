@@ -8,6 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DuplicateKeyException;
+
+import java.util.NoSuchElementException;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -31,6 +34,38 @@ class ConsoleRunnerTest {
         //given
         given(consoleMenu.runClient())
                 .willThrow(new IllegalArgumentException("Error message"))
+                .willReturn(false);
+
+        //when
+        consoleRunner.run();
+
+        //then
+        then(consoleMenu).should(times(2)).runClient();
+        then(console).should().print("Error message");
+    }
+
+    @Test
+    @DisplayName("성공: NoSuchElementException 발생 - 예외 처리 후 재 입력")
+    void run_ButThrownNoSuchElementException_Then_KeepRunning() {
+        //given
+        given(consoleMenu.runClient())
+                .willThrow(new NoSuchElementException("Error message"))
+                .willReturn(false);
+
+        //when
+        consoleRunner.run();
+
+        //then
+        then(consoleMenu).should(times(2)).runClient();
+        then(console).should().print("Error message");
+    }
+
+    @Test
+    @DisplayName("성공: DuplicateKeyException 발생 - 예외 처리 후 재 입력")
+    void run_ButThrownDuplicateKeyException_Then_KeepRunning() {
+        //given
+        given(consoleMenu.runClient())
+                .willThrow(new DuplicateKeyException("Error message"))
                 .willReturn(false);
 
         //when
