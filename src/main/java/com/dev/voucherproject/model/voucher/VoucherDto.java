@@ -13,8 +13,8 @@ public class VoucherDto {
         this.discountNumber = discountNumber;
     }
     
-    public static VoucherDto fromEntity(VoucherPolicy voucherPolicy, Voucher voucher) {
-        return new VoucherDto(voucherPolicy, voucher.getVoucherId(), voucher.getDiscountNumber());
+    public static VoucherDto fromEntity(Voucher voucher) {
+        return new VoucherDto(voucher.getVoucherPolicy(), voucher.getVoucherId(), voucher.getDiscountFigure());
     }
 
     public VoucherPolicy getVoucherPolicy() {

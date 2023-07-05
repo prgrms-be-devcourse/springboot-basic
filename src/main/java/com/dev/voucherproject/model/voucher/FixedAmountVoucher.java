@@ -2,18 +2,19 @@ package com.dev.voucherproject.model.voucher;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
+public class FixedAmountVoucher extends Voucher {
     private final long amount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        this.voucherId = voucherId;
+    public FixedAmountVoucher(UUID voucherId, VoucherPolicy voucherPolicy, long amount) {
+        super(voucherId, voucherPolicy);
+        validate(amount);
         this.amount = amount;
     }
 
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    private void validate(long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("고정 할인 정책 바우처의 금액은 음수가 될 수 없습니다.");
+        }
     }
 
     public long discount(long beforeDiscount) {
@@ -25,12 +26,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long getDiscountNumber() {
+    public long getDiscountFigure() {
         return this.amount;
-    }
-
-    @Override
-    public VoucherDto conversionDto() {
-        return VoucherDto.fromEntity(VoucherPolicy.FIXED_AMOUNT_VOUCHER, this);
     }
 }

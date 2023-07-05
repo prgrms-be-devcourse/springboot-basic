@@ -2,18 +2,12 @@ package com.dev.voucherproject.model.voucher;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
+public class PercentDiscountVoucher extends Voucher {
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        this.voucherId = voucherId;
+    public PercentDiscountVoucher(UUID voucherId, VoucherPolicy voucherPolicy, long percent) {
+        super(voucherId, voucherPolicy);
         this.percent = percent;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
     }
 
     @Override
@@ -22,12 +16,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long getDiscountNumber() {
+    public long getDiscountFigure() {
         return this.percent;
-    }
-
-    @Override
-    public VoucherDto conversionDto() {
-        return VoucherDto.fromEntity(VoucherPolicy.PERCENT_DISCOUNT_VOUCHER, this);
     }
 }

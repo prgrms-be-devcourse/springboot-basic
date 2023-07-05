@@ -36,7 +36,7 @@ public class VoucherFileWriter {
     }
 
     public void write(Voucher voucher) {
-        VoucherDto dto = voucher.conversionDto();
+        VoucherDto dto = VoucherDto.fromEntity(voucher);
         csvFileWrite(dto);
     }
 

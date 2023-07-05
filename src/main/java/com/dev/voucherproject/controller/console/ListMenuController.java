@@ -22,8 +22,8 @@ public class ListMenuController implements MenuController {
         List<Voucher> vouchers = voucherStorage.findAll();
 
         List<VoucherDto> dtos = vouchers.stream()
-                .map(Voucher::conversionDto)
-                .toList();
+                .map(VoucherDto::fromEntity)
+                    .toList();
 
         console.printAllVouchers(dtos);
     }
