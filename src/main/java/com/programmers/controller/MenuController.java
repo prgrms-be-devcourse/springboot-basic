@@ -29,7 +29,7 @@ public class MenuController {
 
     public void run() {
         boolean activated = true;
-        log.info("The voucher program is activated.");
+        log.info("The program is activated.");
 
         while (activated) {
             console.printMenu();

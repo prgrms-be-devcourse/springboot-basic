@@ -111,6 +111,7 @@ public class CustomerController {
 
         customerService.update(customerUpdateRequestDto);
         console.printUpdateCustomerCompleteMessage();
+        log.info("The customer has been updated.");
     }
 
     public Customer getCustomerToUpdate() {
@@ -160,10 +161,13 @@ public class CustomerController {
 
         customerService.deleteById(deleteCustomerId);
         console.printDeleteCustomerCompleteMessage();
+        log.info("The customer has been deleted.");
+
     }
 
     public void deleteAllCustomers() {
         customerService.deleteAll();
         console.printDeleteAllCustomersCompleteMessage();
+        log.info("All customers have been deleted.");
     }
 }

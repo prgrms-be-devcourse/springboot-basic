@@ -84,6 +84,7 @@ public class VoucherController {
 
         voucherService.update(voucherUpdateRequestDto);
         console.printUpdateVoucherCompleteMessage();
+        log.info("The voucher has been updated.");
     }
 
     public Voucher getVoucherToUpdate() {
@@ -136,10 +137,12 @@ public class VoucherController {
 
         voucherService.deleteById(deleteVoucherId);
         console.printDeleteVoucherCompleteMessage();
+        log.info("The voucher has been deleted.");
     }
 
     public void deleteAllVouchers() {
         voucherService.deleteAll();
         console.printDeleteAllVouchersCompleteMessage();
+        log.info("All vouchers have been deleted.");
     }
 }
