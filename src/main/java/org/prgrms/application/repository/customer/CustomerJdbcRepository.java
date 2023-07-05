@@ -17,11 +17,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private static final int HAS_UPDATE = 1;
-    private static final String CUSTOMER_ID = "customerId";
-    private static final String NAME = "customerId";
-    private static final String EMAIL = "customerId";
-    private static final String CREATED_AT = "customerId";
-    private static final String LAST_LOGIN_AT = "customerId";
+    private static final String CUSTOMER_ID = "customer_id";
+    private static final String NAME = "name";
+    private static final String EMAIL = "email";
+    private static final String CREATED_AT = "created_at";
+    private static final String LAST_LOGIN_AT = "last_login_at";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -42,17 +42,17 @@ public class CustomerJdbcRepository implements CustomerRepository {
     // 맵의 키를 파라미터로 변경
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
-            put(CUSTOMER_ID, customer.getCustomerId());
-            put(NAME, customer.getName());
-            put(EMAIL, customer.getEmail());
-            put(CREATED_AT, Timestamp.valueOf(customer.getCreatedAt()));
-            put(LAST_LOGIN_AT, customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+            put("customerId", customer.getCustomerId());
+            put("name", customer.getName());
+            put("email", customer.getEmail());
+            put("cratedAt", Timestamp.valueOf(customer.getCreatedAt()));
+            put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
         }};
     }
 
     @Override
     public Customer insert(Customer customer) {
-        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customerId, :name, :email, :cratedAt)",
+        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at, last_login_at) VALUES (:customerId, :name, :email, :cratedAt, :lastLoginAt)",
                 toParamMap(customer));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
@@ -89,7 +89,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findById(Long customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE customer_id = :customerId",
-                    Collections.singletonMap(CUSTOMER_ID, customerId),
+                    Collections.singletonMap("customerId", customerId),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);

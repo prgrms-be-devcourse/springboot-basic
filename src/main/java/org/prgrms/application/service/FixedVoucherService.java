@@ -12,7 +12,7 @@ import static java.lang.Math.abs;
 @Service
 public class FixedVoucherService extends VoucherService{
 
-    protected FixedVoucherService(VoucherRepository voucherRepository) {
+    public FixedVoucherService(VoucherRepository voucherRepository) {
         super(voucherRepository);
     }
 

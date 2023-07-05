@@ -16,6 +16,7 @@ public class VoucherTypeFactory {
         this.percentVoucherService = percentVoucherService;
     }
 
+
     public VoucherService getType(VoucherType voucherType){
         final VoucherService voucherService;
 

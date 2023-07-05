@@ -1,11 +1,12 @@
 package org.prgrms.application.repository.voucher;
 
 import org.prgrms.application.entity.VoucherEntity;
-import org.prgrms.application.domain.voucher.VoucherType;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface VoucherRepository {
 
     VoucherEntity insert(VoucherEntity voucherEntity);
@@ -16,7 +17,7 @@ public interface VoucherRepository {
 
     Optional<VoucherEntity> findById(Long voucherId);
 
-    List<VoucherEntity> findByType(VoucherType voucherType);
+    List<VoucherEntity> findByType(String voucherType);
 
     void deleteAll();
 }

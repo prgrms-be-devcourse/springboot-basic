@@ -4,13 +4,10 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.prgrms.application.domain.customer.Customer;
 import org.prgrms.application.repository.exception.BadSqlExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -29,7 +26,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(BadSqlExceptionHandler.class)
 class CustomerJdbcRepositoryTest {
@@ -79,12 +75,13 @@ class CustomerJdbcRepositoryTest {
     Customer newCustomer;
 
     @BeforeAll
-    void setup() {newCustomer = new Customer(1L, "test-user", "test-user@gmail.com", LocalDateTime.now());
+    void setup() {
+        newCustomer = new Customer(1L, "test-user", "test-user@gmail.com",
+                LocalDateTime.now(),LocalDateTime.now());
         //    customerJdbcRepository.deleteAll();
     }
 
     @Test
-    @Order(1)
     @DisplayName("고객을 추가할 수 있다.")
     public void testInsert() {
         customerJdbcRepository.insert(newCustomer);
@@ -95,7 +92,6 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("전체 고객을 조회할 수 있다.")
     public void testFindAll() {
         List<Customer> customers = customerJdbcRepository.findAll();
@@ -103,10 +99,9 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(3)
     @DisplayName("이름으로 고객을 조회할 수 있다.")
     public void testFindByName() {
-        Optional<Customer> customer = customerJdbcRepository.findByName(newCustomer.getName());
+        Optional<Customer> customer = customerJdbcRepository.findByName("kim");
         assertThat(customer.isEmpty(), is(false));
 
         Optional<Customer> unknown = customerJdbcRepository.findByName("unknown-user");
@@ -114,10 +109,9 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(4)
     @DisplayName("이메일로 고객을 조회할 수 있다.")
     public void testFindByEmail() {
-        Optional<Customer> customer = customerJdbcRepository.findByEmail(newCustomer.getEmail());
+        Optional<Customer> customer = customerJdbcRepository.findByEmail("kim@gmail.com");
         assertThat(customer.isEmpty(), is(false));
 
         Optional<Customer> unknown = customerJdbcRepository.findByEmail("unknown-user@gmail.com");
@@ -125,24 +119,24 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(6)
     @DisplayName("고객을 수정할 수 있다.")
     public void testUpdate() {
-        newCustomer.changeName("updated-user");
-        customerJdbcRepository.update(newCustomer);
+        Optional<Customer> customer = customerJdbcRepository.findById(10L);
+        Customer notNullCustomer = customer.orElse(null);
+        notNullCustomer.changeName("updated-user");
+        customerJdbcRepository.update(notNullCustomer);
 
         List<Customer> customers = customerJdbcRepository.findAll();
         assertThat(customers, hasSize(1));
-        assertThat(customers, everyItem(samePropertyValuesAs(newCustomer)));
+        assertThat(customers, everyItem(samePropertyValuesAs(notNullCustomer)));
 
-        Optional<Customer> retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
+        Optional<Customer> retrievedCustomer = customerJdbcRepository.findById(notNullCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty(), is(false));
-        assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
+        assertThat(retrievedCustomer.get(), samePropertyValuesAs(notNullCustomer));
     }
 
     @Test
-    @Order(7)
-    @DisplayName("고객을 삭제할 수 있다.")
+    @DisplayName("고객을 전체 삭제할 수 있다.")
     public void testDelete() {
         customerJdbcRepository.deleteAll();
         List<Customer> customers = customerJdbcRepository.findAll();

@@ -1,6 +1,5 @@
 package org.prgrms.application.repository.voucher;
 
-import org.prgrms.application.domain.voucher.*;
 import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.customer.CustomerJdbcRepository;
 import org.slf4j.Logger;
@@ -17,9 +16,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private static final int HAS_UPDATE = 1;
-    private static final String VOUCHER_ID = "voucher_id";
-    private static final String VOUCHER_TYPE = "voucher_type";
-    private static final String DISCOUNT_AMOUNT = "dicount_amount";
+    private static final String VOUCHER_ID = "voucherId";
+    private static final String VOUCHER_TYPE = "voucherType";
+    private static final String DISCOUNT_AMOUNT = "discountAmount";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -28,9 +27,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     // db로부터 정보를 가져옴
     private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, i) -> {
-        Long voucherId = resultSet.getLong(VOUCHER_ID);
-        String voucherType= resultSet.getString(VOUCHER_TYPE);
-        Double discountAmount = resultSet.getDouble(DISCOUNT_AMOUNT);
+        Long voucherId = resultSet.getLong("voucher_id");
+        String voucherType= resultSet.getString("voucher_type");
+        Double discountAmount = resultSet.getDouble("discount_amount");
         VoucherEntity voucherEntity = new VoucherEntity(voucherId, voucherType, discountAmount);
         return voucherEntity;
     };
@@ -46,8 +45,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public VoucherEntity insert(VoucherEntity voucherEntity) {
-        int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, fixed_amount, percent_amount) " +
-                        "VALUES (:voucherId, :voucherType, :fixedAmount, :percentAmount)",
+        int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount_amount) " +
+                        "VALUES (:voucherId, :voucherType, :discountAmount)",
                 toParamMap(voucherEntity));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
@@ -57,7 +56,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public VoucherEntity update(VoucherEntity voucherEntity) {
-        int update = jdbcTemplate.update("UPDATE vouchers SET fixed_amount = :fixedAmount, percent_amount = :percentAmount WHERE voucher_id = :voucherId",
+        int update = jdbcTemplate.update("UPDATE vouchers SET discount_amount = :discountAmount WHERE voucher_id = :voucherId",
                 toParamMap(voucherEntity));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");
@@ -82,10 +81,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
     }
 
+
     @Override
-    public List<VoucherEntity> findByType(VoucherType voucherType) {
+    public List<VoucherEntity> findByType(String voucherType) {
         List<VoucherEntity> vouchers = jdbcTemplate.query("select * from vouchers WHERE voucher_type = :voucherType",
-                Collections.singletonMap(VOUCHER_TYPE, voucherType.name()),
+                Collections.singletonMap(VOUCHER_TYPE, voucherType),
                 voucherRowMapper);
         return vouchers;
 

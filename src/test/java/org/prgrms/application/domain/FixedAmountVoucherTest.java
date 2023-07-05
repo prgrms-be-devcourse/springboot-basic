@@ -4,44 +4,40 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.prgrms.application.domain.voucher.FixedAmountVoucher;
-
-import java.util.Random;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.prgrms.application.domain.voucher.VoucherType.FIXED;
 
 class FixedAmountVoucherTest {
 
-    Random random = new Random();
+    Long id = 1L;
 
     @ParameterizedTest
-    @DisplayName("고정 금액 할인 바우처 실패 테스트")
+    @DisplayName("고정 금액 할인 금액이 상품 금액보다 높으면 실패한다.")
     @ValueSource(doubles = {10000})
     void fixedAmountVoucherFailTest(double discountAmount) {
-        long randomId = Math.abs(random.nextLong());
-        FixedAmountVoucher voucher = new FixedAmountVoucher(randomId, FIXED, discountAmount);
+
+        FixedAmountVoucher voucher = new FixedAmountVoucher(id, FIXED, discountAmount);
         double stockPrice = 100;
 
         assertThatThrownBy(()->voucher.discount(stockPrice)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
-    @DisplayName("고정 금액 할인 음수 예외 테스트")
+    @DisplayName("고정 금액 할인이 음수이면 예외가 발생한다.")
     @ValueSource(doubles = {-10000})
     void fixedAmountVoucherNegativeFailTest(double discountAmount) {
-        long randomId = Math.abs(random.nextLong());
 
-        assertThatThrownBy(() -> new FixedAmountVoucher(randomId, FIXED, discountAmount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(id, FIXED, discountAmount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
-    @DisplayName("고정 금액 할인 바우처 성공 테스트")
+    @DisplayName("고정 금액 할인 바우처가 정상이면 할인에 성공한다.")
     @ValueSource(doubles = {10000})
     void fixedAmountVoucherSuccessTest(double discountAmount) {
-        long randomId = Math.abs(random.nextLong());
-        FixedAmountVoucher voucher = new FixedAmountVoucher(randomId, FIXED, discountAmount);
+
+        FixedAmountVoucher voucher = new FixedAmountVoucher(id, FIXED, discountAmount);
         double stockPrice = 20000;
         double result = voucher.discount(stockPrice);
 

@@ -8,10 +8,17 @@ CREATE TABLE customers
     CONSTRAINT unq_user_email UNIQUE (email)
 );
 
+INSERT INTO customers (customer_id, name, email) VALUES (10, 'kim','kim@gmail.com');
+
 CREATE TABLE vouchers
 (
     voucher_id      BIGINT PRIMARY KEY,
     voucher_type    varchar(20) NOT NULL,
     discount_amount double  DEFAULT NULL
 );
+--
+INSERT INTO vouchers (voucher_id, voucher_type, discount_amount) VALUES (100, 'FIXED', 10000);
+INSERT INTO vouchers (voucher_id, voucher_type, discount_amount) VALUES (1000, 'PERCENT', 50);
+
+
 

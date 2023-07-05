@@ -11,7 +11,7 @@ import static java.lang.Math.abs;
 @Service
 public class PercentVoucherService extends VoucherService{
 
-    protected PercentVoucherService(VoucherRepository voucherRepository) {
+    public PercentVoucherService(VoucherRepository voucherRepository) {
         super(voucherRepository);
     }
 

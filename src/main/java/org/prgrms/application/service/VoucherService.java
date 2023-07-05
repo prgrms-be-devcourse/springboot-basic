@@ -13,7 +13,7 @@ public abstract class VoucherService {
 
     protected VoucherRepository voucherRepository;
 
-    protected VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

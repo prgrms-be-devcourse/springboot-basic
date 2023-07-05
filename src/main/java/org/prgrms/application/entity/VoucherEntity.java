@@ -22,4 +22,8 @@ public class VoucherEntity {
     public double getDiscountAmount() {
         return discountAmount;
     }
+
+    public void changeDiscountAmount(double discountAmount){
+        this.discountAmount = discountAmount;
+    }
 }
