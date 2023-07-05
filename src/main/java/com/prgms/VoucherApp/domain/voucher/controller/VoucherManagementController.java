@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain.voucher.controller;
 
+
 import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateReqDto;

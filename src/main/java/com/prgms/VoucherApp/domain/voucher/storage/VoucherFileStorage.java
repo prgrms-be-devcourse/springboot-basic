@@ -1,101 +1,88 @@
 package com.prgms.VoucherApp.domain.voucher.storage;
 
-import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
+import com.prgms.VoucherApp.util.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("dev")
 public class VoucherFileStorage implements VoucherStorage {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherFileStorage.class);
-    private final Map<UUID, Voucher> voucherLinkedMap = new ConcurrentHashMap<>();
 
     @Value("${voucher.file.path}")
     private String filePath;
 
-    @PostConstruct
-    public void initVoucherMap() {
-        try {
-            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath));
-            String line = "";
-            while ((line = bufferedReader.readLine()) != null) {
-                VoucherResDto voucherResDto = createVoucherDto(line);
-                Voucher voucher = createVoucher(voucherResDto);
-                voucherLinkedMap.put(voucher.getVoucherId(), voucher);
-            }
-        } catch (IOException e) {
-            log.error("initVoucherMap() method Exception, message : {}", e.getMessage());
-        }
-    }
-
     @Override
     public void save(Voucher voucher) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
-            bufferedWriter.write(voucher.getVoucherId().toString());
-            bufferedWriter.write(",");
-            bufferedWriter.write(voucher.getDiscountAmount().toString());
-            bufferedWriter.write(",");
-            bufferedWriter.write(voucher.getVoucherType().getVoucherTypeName());
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-            voucherLinkedMap.put(voucher.getVoucherId(), voucher);
+        try {
+            Files.writeString(
+                Paths.get(filePath),
+                String.format("%s%n", Converter.toString(voucher)),
+                StandardOpenOption.APPEND);
         } catch (IOException e) {
-            log.error("{} Failed to write the content to the file. errorMessage : {}", getClass().getEnclosingMethod().getName(), e.getMessage());
+            throw new RuntimeException("IO 문제로 바우처가 저장되지 않았습니다.", e);
         }
     }
 
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
-        Voucher voucher = voucherLinkedMap.get(voucherId);
-        return Optional.ofNullable(voucher);
+        try {
+            List<String> voucherFileContents = Files.readAllLines(Paths.get(filePath));
+            voucherFileContents.forEach((voucher) -> {
+                System.out.println("읽어 들인 voucher : " + voucher);
+            });
+            for (String record : voucherFileContents) {
+                Voucher voucher = Converter.convertToVoucher(record);
+                if (voucher.getVoucherId().equals(voucherId)) {
+                    return Optional.of(voucher);
+                }
+            }
+            return Optional.empty();
+        } catch (IOException e) {
+            throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.", e);
+        }
     }
 
     @Override
     public List<Voucher> findAll() {
-        return voucherLinkedMap.values()
-            .stream()
-            .toList();
-    }
-
-    private VoucherResDto createVoucherDto(String line) {
-        String[] csvLine = line.split(",");
-        String voucherId = csvLine[0];
-        String discountAmount = csvLine[1];
-        String voucherType = csvLine[2];
-        return new VoucherResDto(voucherId, discountAmount, voucherType);
-    }
-
-    private Voucher createVoucher(VoucherResDto voucherResDto) {
-        switch (voucherResDto.getVoucherType()) {
-            case FIXED_VOUCHER:
-                return new FixedAmountVoucher(voucherResDto.getVoucherId(), voucherResDto.getDiscountAmount(), voucherResDto.getVoucherType());
-            case PERCENT_VOUCHER:
-                return new PercentDiscountVoucher(voucherResDto.getVoucherId(), voucherResDto.getDiscountAmount(), voucherResDto.getVoucherType());
+        try {
+            List<Voucher> findVouchers = Files.readAllLines(Paths.get(filePath))
+                .stream()
+                .map(Converter::convertToVoucher)
+                .collect(Collectors.toList());
+            return findVouchers;
+        } catch (IOException e) {
+            throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.", e);
         }
+    }
 
-        log.warn("entered VoucherType {} is invalid", voucherResDto.getVoucherType());
-        throw new IllegalArgumentException(voucherResDto.getVoucherType() + " is invalid voucher type");
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType type) {
+        try {
+            List<Voucher> findVouchers = Files.readAllLines(Paths.get(filePath))
+                .stream()
+                .map(Converter::convertToVoucher)
+                .toList();
+
+            return findVouchers;
+        } catch (IOException e) {
+            throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.", e);
+        }
     }
 
     @Override
@@ -105,11 +92,6 @@ public class VoucherFileStorage implements VoucherStorage {
 
     @Override
     public void deleteById(UUID id) {
-        throw new RuntimeException("사용하지 않는 명령어 입니다.");
-    }
-
-    @Override
-    public List<Voucher> findByVoucherType(VoucherType type) {
         throw new RuntimeException("사용하지 않는 명령어 입니다.");
     }
 }

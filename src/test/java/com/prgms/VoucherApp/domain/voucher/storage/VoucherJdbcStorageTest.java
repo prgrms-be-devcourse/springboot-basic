@@ -49,7 +49,7 @@ class VoucherJdbcStorageTest {
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(voucher);
+            .containsExactly(voucher);
     }
 
     @Test
@@ -66,7 +66,7 @@ class VoucherJdbcStorageTest {
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(voucherA, voucherB);
+            .containsExactly(voucherA, voucherB);
     }
 
     @Test
@@ -163,7 +163,7 @@ class VoucherJdbcStorageTest {
         Optional<Voucher> updatedVoucher = voucherStorage.findByVoucherId(voucher.getVoucherId());
 
         // then
-        Assertions.assertThat(updatedVoucher.get().getDiscountAmount()).isEqualTo(BigDecimal.valueOf(5500));
+        Assertions.assertThat(updatedVoucher.get().getAmount()).isEqualTo(BigDecimal.valueOf(5500));
     }
 
     @Test

@@ -34,9 +34,9 @@ public class VoucherJdbcStorage implements VoucherStorage {
     public void save(Voucher voucher) {
         String sql = "INSERT INTO voucher VALUES (:id, :amount, :type)";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("id", voucher.getVoucherId().toString())
-                .addValue("amount", voucher.getDiscountAmount())
-                .addValue("type", voucher.getVoucherType().getVoucherTypeName());
+            .addValue("id", voucher.getVoucherId().toString())
+            .addValue("amount", voucher.getAmount())
+            .addValue("type", voucher.getVoucherType().getVoucherTypeName());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
     }
@@ -52,7 +52,7 @@ public class VoucherJdbcStorage implements VoucherStorage {
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
         String sql = "SELECT * FROM voucher where id = :id";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("id", voucherId);
+            .addValue("id", voucherId);
         try {
             Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, paramMap, voucherRowMapper());
             return Optional.of(voucher);
@@ -66,7 +66,7 @@ public class VoucherJdbcStorage implements VoucherStorage {
     public List<Voucher> findByVoucherType(VoucherType type) {
         String sql = "SELECT * FROM voucher where type = :type";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("type", type.getVoucherTypeName());
+            .addValue("type", type.getVoucherTypeName());
 
         List<Voucher> vouchers = namedParameterJdbcTemplate.query(sql, paramMap, voucherRowMapper());
         return vouchers;
@@ -76,9 +76,9 @@ public class VoucherJdbcStorage implements VoucherStorage {
     public void update(Voucher voucher) {
         String sql = "UPDATE voucher SET amount = :amount, type = :type WHERE id = :id";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("amount", voucher.getDiscountAmount())
-                .addValue("type", voucher.getVoucherType().getVoucherTypeName())
-                .addValue("id", voucher.getVoucherId().toString());
+            .addValue("amount", voucher.getAmount())
+            .addValue("type", voucher.getVoucherType().getVoucherTypeName())
+            .addValue("id", voucher.getVoucherId().toString());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
     }
@@ -87,7 +87,7 @@ public class VoucherJdbcStorage implements VoucherStorage {
     public void deleteById(UUID voucherId) {
         String sql = "DELETE FROM voucher WHERE id = :id";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("id", voucherId.toString());
+            .addValue("id", voucherId.toString());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
     }

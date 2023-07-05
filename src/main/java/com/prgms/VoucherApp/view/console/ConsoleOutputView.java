@@ -3,7 +3,6 @@ package com.prgms.VoucherApp.view.console;
 import com.prgms.VoucherApp.domain.customer.CustomerCommand;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
-import com.prgms.VoucherApp.domain.voucher.Voucher;
 import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
 import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
@@ -120,10 +119,8 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printCreatedMsg(Voucher voucher) {
-        VoucherResDto voucherResDto = new VoucherResDto(voucher);
-        log.info("The discount coupon {} was created successfully.", voucherResDto.getVoucherInfo());
-        textTerminal.println(voucherResDto.getVoucherInfo() + " Voucher was created");
+    public void printErrorMsg(String msg) {
+        textTerminal.println(msg);
     }
 
     @Override
@@ -172,11 +169,6 @@ public class ConsoleOutputView implements Output {
     @Override
     public void printFindEmpty() {
         textTerminal.println("존재하지 않는 ID가 입력되었습니다.");
-    }
-
-    @Override
-    public void printErrorMsg(String msg) {
-        textTerminal.println(msg);
     }
 
     @Override

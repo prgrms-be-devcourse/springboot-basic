@@ -104,7 +104,7 @@ public class ConsoleInputView implements Input {
     public String inputVoucherType() {
         return textIO.newStringInputReader()
             .withInputTrimming(true)
-            .withInlinePossibleValues(VoucherType.getAllVoucherType())
+            .withInlinePossibleValues("fix", "percent")
             .withValueChecker((val, itemName) -> {
                 if (!VoucherType.containsVoucherType(val)) {
                     log.warn("inputVoucherPolicy [{}] is invalid value", val);

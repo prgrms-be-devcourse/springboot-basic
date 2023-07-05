@@ -38,8 +38,6 @@ public class VoucherDao {
                 new PercentDiscountVoucher(UUID.randomUUID(), requestDto.getAmount(), requestDto.getVoucherType());
         };
         voucherStorage.save(voucher);
-        logger.debug("저장된 할인권의 정보 : id : [{}], amount : [{}], type : [{}]",
-            voucher.getVoucherId(), voucher.getDiscountAmount(), voucher.getVoucherType());
     }
 
     public Optional<VoucherResDto> findOne(UUID id) {
@@ -71,9 +69,9 @@ public class VoucherDao {
     public void update(VoucherUpdateReqDto voucherUpdateReqDto) {
         Voucher voucher = switch (voucherUpdateReqDto.getVoucherType()) {
             case FIXED_VOUCHER ->
-                new FixedAmountVoucher(UUID.randomUUID(), voucherUpdateReqDto.getAmount(), voucherUpdateReqDto.getVoucherType());
+                new FixedAmountVoucher(voucherUpdateReqDto.getId(), voucherUpdateReqDto.getAmount(), voucherUpdateReqDto.getVoucherType());
             case PERCENT_VOUCHER ->
-                new PercentDiscountVoucher(UUID.randomUUID(), voucherUpdateReqDto.getAmount(), voucherUpdateReqDto.getVoucherType());
+                new PercentDiscountVoucher(voucherUpdateReqDto.getId(), voucherUpdateReqDto.getAmount(), voucherUpdateReqDto.getVoucherType());
         };
 
         voucherStorage.update(voucher);

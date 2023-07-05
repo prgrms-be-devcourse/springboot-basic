@@ -30,7 +30,6 @@ public class VoucherApp implements Runnable {
             output.printManagementMenu();
             int inputCommand = input.inputManagementCommand();
             ManagementType type = ManagementType.findByType(inputCommand);
-
             if (type.isVoucher()) {
                 voucherManagementController.run();
                 continue;
