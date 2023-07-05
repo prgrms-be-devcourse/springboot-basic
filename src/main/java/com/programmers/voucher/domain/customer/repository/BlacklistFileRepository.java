@@ -35,7 +35,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, filePath);
 
             LOG.error(errorMessage, e);
-            throw new DataAccessException(errorMessage, e);
+            throw new FileAccessException(errorMessage, e);
         }
     }
 
@@ -54,7 +54,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
 
             LOG.error(errorMessage, e);
-            throw new DataAccessException(errorMessage, e);
+            throw new FileAccessException(errorMessage, e);
         }
         return customers;
     }

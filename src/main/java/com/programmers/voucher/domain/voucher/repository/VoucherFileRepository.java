@@ -3,13 +3,14 @@ package com.programmers.voucher.domain.voucher.repository;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
-import com.programmers.voucher.global.exception.DataAccessException;
+import com.programmers.voucher.global.exception.FileAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -34,7 +35,7 @@ public class VoucherFileRepository implements VoucherRepository {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, filePath);
 
             LOG.error(errorMessage, e);
-            throw new DataAccessException(errorMessage, e);
+            throw new FileAccessException(errorMessage, e);
         }
     }
 
@@ -50,7 +51,7 @@ public class VoucherFileRepository implements VoucherRepository {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
 
             LOG.error(errorMessage, e);
-            throw new DataAccessException(errorMessage, e);
+            throw new FileAccessException(errorMessage, e);
         }
     }
 
@@ -69,7 +70,7 @@ public class VoucherFileRepository implements VoucherRepository {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
 
             LOG.error(errorMessage, e);
-            throw new DataAccessException(errorMessage, e);
+            throw new FileAccessException(errorMessage, e);
         }
 
         return vouchers;
@@ -92,12 +93,38 @@ public class VoucherFileRepository implements VoucherRepository {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
 
             LOG.error(errorMessage, e);
-            throw new DataAccessException(errorMessage, e);
+            throw new FileAccessException(errorMessage, e);
         }
     }
 
     @Override
     public void deleteById(UUID voucherId) {
+        List<Voucher> vouchers = findAll();
+        boolean removed = vouchers.removeIf(v -> Objects.equals(v.getVoucherId(), voucherId));
+        if(removed) {
+            IncorrectResultSizeDataAccessException ex = new IncorrectResultSizeDataAccessException(1, 0);
+            LOG.error(ex.getMessage());
+            throw ex;
+        }
+
+        saveAll(vouchers);
+    }
+
+    private void saveAll(List<Voucher> vouchers) {
+        try (
+                BufferedWriter bw = new BufferedWriter(new FileWriter(file))
+        ) {
+            for (Voucher voucher : vouchers) {
+                String voucherInfo = voucherToCsv(voucher);
+                bw.write(voucherInfo);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
+
+            LOG.error(errorMessage, e);
+            throw new FileAccessException(errorMessage, e);
+        }
     }
 
     private String voucherToCsv(Voucher voucher) {
