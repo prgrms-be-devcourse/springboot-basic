@@ -1,7 +1,7 @@
 package org.programers.vouchermanagement.voucher.domain;
 
 import org.programers.vouchermanagement.voucher.exception.WrongVoucherPolicyException;
-
+import org.springframework.context.annotation.Profile;
 public class FixedAmountPolicy implements VoucherPolicy {
 
     private final int amount;

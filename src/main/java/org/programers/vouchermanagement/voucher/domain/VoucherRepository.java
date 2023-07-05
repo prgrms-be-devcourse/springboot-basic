@@ -1,6 +1,6 @@
 package org.programers.vouchermanagement.voucher.domain;
 
-import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
+import org.programers.vouchermanagement.global.exception.NoSuchEntityException;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +13,13 @@ public interface VoucherRepository {
     Optional<Voucher> findById(UUID id);
 
     default Voucher getById(UUID id) {
-        return findById(id).orElseThrow(NoSuchVoucherException::new);
+        return findById(id)
+                .orElseThrow(() -> new NoSuchEntityException("존재하지 않는 바우처입니다."));
     }
 
     List<Voucher> findAll();
+
+    void update(Voucher voucher);
+
+    void deleteById(UUID id);
 }

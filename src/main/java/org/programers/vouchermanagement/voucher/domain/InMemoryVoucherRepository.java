@@ -32,4 +32,15 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return VOUCHER_REPOSITORY.values().stream().toList();
     }
+
+    @Override
+    public void update(Voucher voucher) {
+        deleteById(voucher.getId());
+        save(voucher);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        VOUCHER_REPOSITORY.remove(id);
+    }
 }

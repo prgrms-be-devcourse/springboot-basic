@@ -1,6 +1,5 @@
 package org.programers.vouchermanagement.voucher.domain;
 
-import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 import org.programers.vouchermanagement.util.Converter;
 import org.springframework.stereotype.Repository;
 
@@ -64,6 +63,27 @@ public class InFileVoucherRepository implements VoucherRepository {
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.");
+        }
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        deleteById(voucher.getId());
+        save(voucher);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        List<Voucher> vouchers = findAll().stream()
+                .filter(voucher -> voucher.getId() != id)
+                .toList();
+
+        try {
+            Files.delete(file);
+            Files.createFile(file);
+            vouchers.forEach(this::save);
+        } catch (IOException e) {
+            throw new RuntimeException("IO 문제로 바우처가 삭제되지 않았습니다.");
         }
     }
 }

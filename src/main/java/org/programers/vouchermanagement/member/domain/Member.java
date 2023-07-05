@@ -8,8 +8,8 @@ public class Member {
 
     private MemberStatus status;
 
-    public Member() {
-        this(UUID.randomUUID(), MemberStatus.NORMAL);
+    public Member(MemberStatus status) {
+        this(UUID.randomUUID(), status);
     }
 
     public Member(UUID id, MemberStatus status) {

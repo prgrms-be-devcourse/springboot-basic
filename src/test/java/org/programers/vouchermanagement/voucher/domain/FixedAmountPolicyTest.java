@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FixedAmountPolicyTest {
-
     @Test
     void 할인금액이_0보다_작으면_예외가_발생한다() {
         // given && when && then

@@ -3,7 +3,10 @@ package org.programers.vouchermanagement.view;
 import java.util.Arrays;
 
 public enum Command {
-    BLACKLIST(1), CREATE_VOUCHER(2), LIST_VOUCHER(3), EXIT(4);
+    CREATE(1),
+    READ(2),
+    UPDATE(3),
+    DELETE(4);
 
     private final int number;
 
@@ -18,20 +21,20 @@ public enum Command {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 명령어 번호입니다. : " + number));
     }
 
-    public boolean isBlacklist() {
-        return this.equals(Command.BLACKLIST);
+    public boolean isCreate() {
+        return this == CREATE;
     }
 
-    public boolean isCreateVoucher() {
-        return this.equals(Command.CREATE_VOUCHER);
+    public boolean isRead() {
+        return this == READ;
     }
 
-    public boolean isListVoucher() {
-        return this.equals(Command.LIST_VOUCHER);
+    public boolean isUpdate() {
+        return this == UPDATE;
     }
 
-    public boolean isExit() {
-        return this.equals(Command.EXIT);
+    public boolean isDelete() {
+        return this == DELETE;
     }
 
     public int getNumber() {

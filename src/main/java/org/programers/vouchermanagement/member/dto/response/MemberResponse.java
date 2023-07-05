@@ -1,19 +1,20 @@
-package org.programers.vouchermanagement.member.dto;
+package org.programers.vouchermanagement.member.dto.response;
 
 import org.programers.vouchermanagement.member.domain.Member;
+import org.programers.vouchermanagement.member.domain.MemberStatus;
 
 import java.util.UUID;
 
 public class MemberResponse {
 
     private final UUID id;
-    private final String status;
+    private final MemberStatus status;
 
     public MemberResponse(Member member) {
-        this(member.getId(), member.getStatus().name());
+        this(member.getId(), member.getStatus());
     }
 
-    public MemberResponse(UUID id, String status) {
+    public MemberResponse(UUID id, MemberStatus status) {
         this.id = id;
         this.status = status;
     }
@@ -22,7 +23,7 @@ public class MemberResponse {
         return id;
     }
 
-    public String getStatus() {
+    public MemberStatus getStatus() {
         return status;
     }
 }
