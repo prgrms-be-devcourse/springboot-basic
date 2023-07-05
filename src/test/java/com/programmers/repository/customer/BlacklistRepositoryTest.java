@@ -1,7 +1,8 @@
 package com.programmers.repository.customer;
 
-import com.programmers.repository.customer.BlacklistRepository;
-import org.assertj.core.api.Assertions;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +23,6 @@ class BlacklistRepositoryTest {
         List<String> result = blacklistRepository.findAll();
 
         //then
-        Assertions.assertThat(result).contains(expected);
+        assertThat(result, hasItems(expected));
     }
 }
