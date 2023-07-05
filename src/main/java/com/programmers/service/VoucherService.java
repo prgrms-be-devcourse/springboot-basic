@@ -25,7 +25,8 @@ public class VoucherService {
 
     @Transactional
     public VoucherResponseDto save(VoucherCreateRequestDto voucherDto) {
-        Voucher voucher = voucherRepository.save(VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.name(), voucherDto.amount()));
+        Voucher requestVoucher = VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.name(), voucherDto.amount());
+        Voucher voucher = voucherRepository.save(requestVoucher);
 
         return new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
     }
@@ -37,14 +38,15 @@ public class VoucherService {
     }
 
     public VoucherResponseDto findById(UUID id) {
-        Optional<Voucher> voucher = voucherRepository.findById(id);
+        Voucher voucher = voucherRepository.findById(id).get();
 
-        return new VoucherResponseDto(voucher.get().getVoucherId(), voucher.get().getVoucherName(), voucher.get().getVoucherValue(), voucher.get().getVoucherType());
+        return new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
     }
 
     @Transactional
     public VoucherResponseDto update(VoucherUpdateRequestDto voucherDto) {
-        Voucher voucher = voucherRepository.update(VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.id(), voucherDto.name(), voucherDto.amount()));
+        Voucher requestVoucher = VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.id(), voucherDto.name(), voucherDto.amount());
+        Voucher voucher = voucherRepository.update(requestVoucher);
 
         return new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
     }

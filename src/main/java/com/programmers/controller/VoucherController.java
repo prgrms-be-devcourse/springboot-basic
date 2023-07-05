@@ -38,7 +38,8 @@ public class VoucherController {
 
     public Voucher createVoucher() {
         Voucher voucher = makeVoucher();
-        voucherService.save(new VoucherCreateRequestDto(voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType()));
+        VoucherCreateRequestDto voucherCreateRequestDto = new VoucherCreateRequestDto(voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
+        voucherService.save(voucherCreateRequestDto);
         console.printVoucherCreated();
         log.info("The voucher has been created.");
 
