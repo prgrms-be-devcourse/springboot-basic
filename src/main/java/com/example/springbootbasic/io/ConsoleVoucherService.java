@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 @Component
-public class Console implements Input, Output {
+public class ConsoleVoucherService implements Input, Output {
     Scanner scanner = new Scanner(System.in);
 
     public static void print(String text) {

@@ -1,7 +1,7 @@
 package com.example.springbootbasic.voucher;
 
 import com.example.springbootbasic.io.Command;
-import com.example.springbootbasic.io.Console;
+import com.example.springbootbasic.io.ConsoleVoucherService;
 import com.example.springbootbasic.io.Input;
 import com.example.springbootbasic.io.Output;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ public class CliVoucherApplication {
 
             switch (command) {
                 case EXIT -> {
-                    Console.print("Terminate Program...");
+                    ConsoleVoucherService.print("Terminate Program...");
                     return;
                 }
                 case CREATE -> {
@@ -46,7 +46,7 @@ public class CliVoucherApplication {
                     output.printAllVouchers(voucherList);
                 }
                 default -> {
-                    Console.print("Invalid command, type again!\n");
+                    ConsoleVoucherService.print("Invalid command, type again!\n");
                 }
             }
         }
