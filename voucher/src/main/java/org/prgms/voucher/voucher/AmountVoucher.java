@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public abstract class AmountVoucher {
     private final UUID id;
-    final int discountAmount;
+    protected final int discountAmount;
     private final LocalDate publishDate;
     private final LocalDate expirationDate;
     private final AmountVoucherOptionType amountVoucherOptionType;
