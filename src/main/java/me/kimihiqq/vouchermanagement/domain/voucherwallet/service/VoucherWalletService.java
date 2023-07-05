@@ -7,10 +7,13 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface VoucherWalletService {
-    VoucherWallet createVoucherWalletForCustomer(UUID customerId);
     Set<Voucher> findVouchersByCustomerId(UUID customerId);
-    void deleteVoucherWalletByCustomerId(UUID customerId);
     void addVoucherToWallet(UUID customerId, UUID voucherId);
     void removeVoucherFromWallet(UUID customerId, UUID voucherId);
     Set<UUID> findCustomerIdsByVoucherId(UUID voucherId);
+
+//    void deleteVoucherWalletByCustomerId(UUID customerId);
+//    VoucherWallet createVoucherWalletForCustomer(UUID customerId);
+
+
 }
