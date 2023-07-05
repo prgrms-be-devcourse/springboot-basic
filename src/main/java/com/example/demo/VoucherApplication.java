@@ -39,6 +39,7 @@ public class VoucherApplication implements CommandLineRunner {
                         VoucherType voucherType = voucherView.readVoucherOption();
                         Integer amount = voucherView.readVoucherAmount(voucherType);
                         VoucherDto voucherDto = voucherController.create(voucherType, amount);
+
                         voucherView.printCreateMessage(voucherDto);
                     }
                     case LIST -> {

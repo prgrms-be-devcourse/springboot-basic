@@ -29,8 +29,7 @@ public class VoucherDto {
         return voucherType;
     }
 
-    @Override
-    public String toString() {
+    public String formatAsString() {
         return switch (voucherType) {
             case FIX -> String.format("    Fixed Voucher, Discount Amount: %.0f (바우처 ID : %s)", discountAmount, id.toString());
             case PERCENT -> String.format("    Percent Voucher, Discount percent Amount: %.0f (바우처 ID : %s)", discountAmount, id.toString());

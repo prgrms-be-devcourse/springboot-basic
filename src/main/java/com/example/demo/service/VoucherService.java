@@ -24,7 +24,6 @@ public class VoucherService {
             case FIX -> new FixedAmountVoucher(amount);
             case PERCENT -> new PercentDiscountVoucher(amount);
         };
-
         voucherRepository.save(voucher);
         return VoucherDto.from(voucher);
     }
