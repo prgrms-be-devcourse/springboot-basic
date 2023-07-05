@@ -46,9 +46,9 @@ public class VoucherApplication implements CommandLineRunner {
                         voucherView.printVoucherList(voucherDtoList);
                     }
                     case EXIT -> shouldContinue = false;
-                    default -> throw new IllegalArgumentException("올바르지 않은 커맨드입니다.");
+                    default -> throw new IllegalArgumentException(String.format("입력하신 %s은 올바르지 않은 커맨드입니다.", commandType.toString()));
                 }
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 logger.info(e.getMessage());
             }
         }

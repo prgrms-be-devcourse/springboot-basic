@@ -5,7 +5,7 @@ public enum CommandType {
     CREATE,
     LIST;
 
-    public static CommandType find(String input) {
+    public static CommandType from(String input) {
         try {
             return valueOf(input.toUpperCase());
         } catch (IllegalArgumentException e) {

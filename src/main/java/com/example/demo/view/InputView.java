@@ -10,7 +10,7 @@ public class InputView {
     public static Scanner sc = new Scanner(System.in);
 
     public CommandType readCommandOption() {
-        return CommandType.find(sc.nextLine());
+        return CommandType.from(sc.nextLine());
     }
 
     public VoucherType readVoucherOption() {
