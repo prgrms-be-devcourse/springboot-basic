@@ -2,6 +2,7 @@ package com.programmers.voucher.view;
 
 import com.programmers.voucher.view.dto.Command;
 import com.programmers.voucher.view.dto.DiscountAmount;
+import com.programmers.voucher.view.dto.VoucherCommand;
 import com.programmers.voucher.view.dto.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -13,20 +14,17 @@ public class ConsoleInput implements Input {
 
     @Override
     public Command readCommand() {
-        int input = textIO.newIntInputReader()
-                .withInputTrimming(true)
-                .read(">>");
+        return Command.findByNumber(readIntInput());
+    }
 
-        return Command.findByNumber(input);
+    @Override
+    public VoucherCommand readVoucherCommand() {
+        return VoucherCommand.findByNumber(readIntInput());
     }
 
     @Override
     public VoucherType readVoucherType() {
-        String input = textIO.newStringInputReader()
-                .withInputTrimming(true)
-                .read(">>");
-
-        return VoucherType.findByName(input);
+        return VoucherType.findByNumber(readIntInput());
     }
 
     @Override
@@ -36,5 +34,11 @@ public class ConsoleInput implements Input {
                 .read("discount amount >>");
 
         return new DiscountAmount(voucherType, input);
+    }
+
+    private int readIntInput() {
+        return textIO.newIntInputReader()
+                .withInputTrimming(true)
+                .read(">>");
     }
 }

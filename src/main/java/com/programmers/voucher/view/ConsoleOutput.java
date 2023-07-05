@@ -1,7 +1,9 @@
 package com.programmers.voucher.view;
 
+import com.programmers.voucher.controller.voucher.dto.VoucherCreateResponse;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.view.dto.Command;
+import com.programmers.voucher.view.dto.VoucherCommand;
 import com.programmers.voucher.view.dto.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -17,26 +19,30 @@ public class ConsoleOutput implements Output {
 
     @Override
     public void displayCommands() {
-        textTerminal.println("=== Voucher Program ===");
+        displayMenu("=== Voucher Program ===", Command.values());
+    }
 
-        Arrays.stream(Command.values())
-                .forEach(command -> textTerminal.println(String.valueOf(command)));
+    @Override
+    public void displayVoucherCommands() {
+        displayMenu("=== 바우처 관리 메뉴 ===", VoucherCommand.values());
     }
 
     @Override
     public void displayVoucherType() {
-        Arrays.stream(VoucherType.values())
-                .forEach(voucher -> {
-                    textTerminal.print("Type ");
-                    textTerminal.print(voucher.getName());
-                    textTerminal.println(" to " + voucher.getText());
-                });
+        displayMenu("=== 바우처 타입 ===", VoucherType.values());
+    }
+
+    private <T extends Enum<T>> void displayMenu(String title, T[] commands) {
+        textTerminal.println(title);
+        Arrays.stream(commands)
+                .map(String::valueOf)
+                .forEach(textTerminal::println);
     }
 
     @Override
-    public void displayCreatedVoucher(Voucher voucher) {
+    public void displayCreatedVoucher(VoucherCreateResponse voucher) {
         textTerminal.print("New voucher created: ");
-        displayVoucher(voucher);
+        textTerminal.println(voucher.toString());
     }
 
     @Override

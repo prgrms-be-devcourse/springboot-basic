@@ -1,6 +1,6 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.controller.VoucherController;
+import com.programmers.voucher.controller.voucher.VoucherController;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.dto.Command;
