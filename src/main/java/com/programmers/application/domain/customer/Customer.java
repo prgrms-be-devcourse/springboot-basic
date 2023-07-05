@@ -17,7 +17,6 @@ public class Customer {
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         validateCustomerId(customerId);
         validateEmail(email);
-
         this.customerId = customerId;
         this.name = name;
         this.email = email;
