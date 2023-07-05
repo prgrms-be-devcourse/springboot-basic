@@ -84,12 +84,12 @@ public class TextIoOutput implements ConsoleOutput {
         switch (voucherDto.getVoucherType()) {
             case FIXED_AMOUNT -> {
                 return MessageFormat.format(
-                        "VoucherId: {0}, Amount: {1}$",
+                        FIXED_VOUCHER_INFO,
                         voucherDto.getVoucherId(), voucherDto.getAmount());
             }
             case PERCENT -> {
                 return MessageFormat.format(
-                        "VoucherId: {0}, Percent: {1}%",
+                        PERCENT_VOUCHER_INFO,
                         voucherDto.getVoucherId(), voucherDto.getAmount());
             }
         }
@@ -108,7 +108,7 @@ public class TextIoOutput implements ConsoleOutput {
         String banned = customerDto.isBanned() ? "BAN" : "---";
 
         return MessageFormat.format(
-                "[{0}] CustomerId: {1}, Email: {2}, Name: {3}",
+                CUSTOMER_INFO,
                 banned, customerDto.getCustomerId(), customerDto.getEmail(), customerDto.getName());
     }
 

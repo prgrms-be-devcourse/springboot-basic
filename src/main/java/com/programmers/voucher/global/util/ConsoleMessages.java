@@ -41,6 +41,10 @@ public final class ConsoleMessages {
     public static final String UPDATED_CUSTOMER = "Updated customer info.";
     public static final String DELETED_CUSTOMER = "Deleted customer.";
 
+    public static final String CUSTOMER_INFO = "[{0}] CustomerId: {1}, Email: {2}, Name: {3}";
+    public static final String FIXED_VOUCHER_INFO = "VoucherId: {0}, Amount: {1}$";
+    public static final String PERCENT_VOUCHER_INFO = "VoucherId: {0}, Amount: {1}$";
+
     public static final String EXIT_CONSOLE = "Bye Bye.";
 
     private ConsoleMessages() {
