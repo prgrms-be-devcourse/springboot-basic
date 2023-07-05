@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherMessages.CREATED_NEW_VOUCHER;
+import static com.programmers.voucher.domain.voucher.util.VoucherMessages.DELETE_VOUCHER;
 
 @Controller
 public class VoucherController {
@@ -34,5 +35,13 @@ public class VoucherController {
         List<Voucher> vouchers = voucherService.findVouchers();
 
         console.printVouchers(vouchers);
+    }
+
+    public void deleteVoucher() {
+        UUID voucherId = console.inputUUID();
+
+        voucherService.deleteVoucher(voucherId);
+
+        console.print(DELETE_VOUCHER);
     }
 }

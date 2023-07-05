@@ -34,6 +34,8 @@ public final class ConsoleMessages {
     public static final String UPDATED_CUSTOMER = "Updated customer info.";
     public static final String DELETED_CUSTOMER = "Deleted customer.";
 
+    public static final String DELETED_VOUCHER = "Deleted Voucher.";
+
     public static final String EXIT_CONSOLE = "Bye Bye.";
 
     private ConsoleMessages() {
