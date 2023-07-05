@@ -1,7 +1,8 @@
 package com.programmers.domain.voucher;
 
-import com.programmers.domain.voucher.Voucher;
-import com.programmers.domain.voucher.VoucherType;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class VoucherTypeTest {
         VoucherType result = VoucherType.findVoucherType(input);
 
         //then
-        Assertions.assertThat(result).isEqualTo(VoucherType.FixedAmountVoucher);
+        assertThat(result, is(VoucherType.FixedAmountVoucher));
     }
 
     @DisplayName("입력된 이름에 맞는 바우처를 찾는다")
@@ -36,7 +37,7 @@ class VoucherTypeTest {
         VoucherType result = VoucherType.findVoucherType(input);
 
         //then
-        Assertions.assertThat(result).isEqualTo(VoucherType.PercentDiscountVoucher);
+        assertThat(result, is(VoucherType.PercentDiscountVoucher));
     }
 
     @DisplayName("입력된 값이 비었을 경우 예외처리한다")
@@ -74,6 +75,6 @@ class VoucherTypeTest {
         Voucher result = VoucherType.createVoucher(voucherTypeInput, uuid, voucherName, discountValue);
 
         //then
-        Assertions.assertThat(result.getVoucherId()).isEqualTo(uuid);
+        assertThat(result.getVoucherId(), is(uuid));
     }
 }

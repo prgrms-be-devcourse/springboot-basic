@@ -1,6 +1,9 @@
 package com.programmers.domain.voucher;
 
-import com.programmers.domain.voucher.FixedAmountVoucher;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +20,7 @@ class FixedAmountVoucherTest {
         FixedAmountVoucher result = new FixedAmountVoucher(UUID.randomUUID(), "name", 1L);
 
         //then
-        Assertions.assertThat(result).isInstanceOf(FixedAmountVoucher.class);
+        assertThat(result, instanceOf(FixedAmountVoucher.class));
     }
 
     @DisplayName("FixedAmountVoucher 생성자에 이름이 입력되지 않은 경우 예외처리한다")
@@ -51,6 +54,6 @@ class FixedAmountVoucherTest {
         long result = fixedAmountVoucher.discount(originalAmount);
 
         //then
-        Assertions.assertThat(result).isEqualTo(80L);
+        assertThat(result, is(80L));
     }
 }

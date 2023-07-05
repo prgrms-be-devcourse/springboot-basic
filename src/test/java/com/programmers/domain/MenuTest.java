@@ -1,5 +1,8 @@
 package com.programmers.domain;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +22,7 @@ class MenuTest {
         Menu result = Menu.findMenu(input);
 
         //then
-        Assertions.assertThat(result).isEqualTo(Menu.CREATE);
+        assertThat(result, is(Menu.CREATE));
     }
 
     @DisplayName("입력에 맞는 메뉴를 숫자로 찾는다")
@@ -32,7 +35,7 @@ class MenuTest {
         Menu result = Menu.findMenu(input);
 
         //then
-        Assertions.assertThat(result).isEqualTo(Menu.LIST);
+        assertThat(result, is(Menu.LIST));
     }
 
     @DisplayName("메뉴가 입력되지 않으면 예외처리한다")

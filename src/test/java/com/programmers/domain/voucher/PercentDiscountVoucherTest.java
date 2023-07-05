@@ -1,6 +1,9 @@
 package com.programmers.domain.voucher;
 
-import com.programmers.domain.voucher.PercentDiscountVoucher;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +22,7 @@ class PercentDiscountVoucherTest {
         PercentDiscountVoucher result = new PercentDiscountVoucher(UUID.randomUUID(), "name", 1L);
 
         //then
-        Assertions.assertThat(result).isInstanceOf(PercentDiscountVoucher.class);
+        assertThat(result, instanceOf(PercentDiscountVoucher.class));
     }
 
     @DisplayName("PercentDiscountVoucher 생성자에 이름이 입력되지 않은 경우 예외처리한다")
@@ -54,6 +57,6 @@ class PercentDiscountVoucherTest {
         long result = percentDiscountVoucher.discount(originalAmount);
 
         //then
-        Assertions.assertThat(result).isEqualTo(70L);
+        assertThat(result, is(70L));
     }
 }
