@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.service.VoucherType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -35,7 +36,7 @@ class MemoryVoucherRepositoryTest {
             }
         };
         Voucher saved = voucherRepository.save(voucher);
-        System.out.println(voucherRepository.hashCode());
+
         // then
         assertThat(saved).isNotNull();
     }
@@ -54,7 +55,7 @@ class MemoryVoucherRepositoryTest {
 
         // when
         List<Voucher> all = voucherRepository.findAll();
-        System.out.println(voucherRepository.hashCode());
+
         // then
         assertThat(all).isNotNull();
     }
