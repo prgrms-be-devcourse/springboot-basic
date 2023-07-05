@@ -7,14 +7,8 @@ public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID voucherId, VoucherPolicy voucherPolicy, long amount) {
         super(voucherId, voucherPolicy);
-        validate(amount);
+        amountValidate(amount);
         this.amount = amount;
-    }
-
-    private void validate(long amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("고정 할인 정책 바우처의 금액은 음수가 될 수 없습니다.");
-        }
     }
 
     public long discount(long beforeDiscount) {
@@ -28,5 +22,11 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public long getDiscountFigure() {
         return this.amount;
+    }
+
+    private void amountValidate(long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("고정 할인 정책 바우처의 금액은 음수가 될 수 없습니다.");
+        }
     }
 }
