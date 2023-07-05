@@ -3,6 +3,7 @@ package org.prgms.voucher.voucher;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AmountVoucherController {
@@ -20,15 +21,13 @@ public class AmountVoucherController {
     public String listVoucher() {
         List<AmountVoucher> amountVouchers = amountVoucherService.listAmountVoucher();
 
-        StringBuilder sb = new StringBuilder();
-        amountVouchers.stream()
+        return amountVouchers.stream()
                 .map(voucher -> new VoucherPrintDto(
                         voucher.getOptionTypeName(),
                         voucher.discount(INITIAL_MONEY),
                         voucher.getPublishDate(),
                         voucher.getExpirationDate()))
-                .forEach(voucherPrintDto -> sb.append("\n").append(voucherPrintDto.getVoucherPrint()));
-
-        return sb.toString();
+                .map(VoucherPrintDto::getVoucherPrint)
+                .collect(Collectors.joining("\n"));
     }
 }
