@@ -67,6 +67,23 @@ class ConsoleMenuTest {
     }
 
     @Test
+    @DisplayName("성공: voucher 명령 입력 - delete 명령 입력 - exit 명령 입력")
+    void voucherCommandTypeDelete() {
+        //given
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
+        given(console.inputVoucherCommandType())
+                .willReturn(VoucherCommandType.DELETE, VoucherCommandType.EXIT);
+
+        //when
+        consoleMenu.runClient();
+
+        //then
+        then(console).should().inputInitialCommand();
+        then(console).should(times(2)).inputVoucherCommandType();
+        then(voucherController).should().deleteVoucher();
+    }
+
+    @Test
     @DisplayName("성공: voucher 명령 입력 - help 명령 입력 - exit 명령 입력")
     void voucherCommandTypeHelp() {
         //given

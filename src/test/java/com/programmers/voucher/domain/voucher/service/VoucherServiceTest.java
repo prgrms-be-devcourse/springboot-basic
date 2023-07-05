@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.programmers.voucher.testutil.VoucherTestUtil.createFixedVoucher;
@@ -111,5 +113,33 @@ class VoucherServiceTest {
 
         //then
         assertThat(result).contains(fixedVoucher, percentVoucher);
+    }
+
+    @Test
+    @DisplayName("성공: voucher 단건 삭제")
+    void deleteVoucher() {
+        //given
+        Voucher fixedVoucher = createFixedVoucher(UUID.randomUUID(), 10);
+
+        given(voucherRepository.findById(any())).willReturn(Optional.of(fixedVoucher));
+
+        //when
+        voucherService.deleteVoucher(fixedVoucher.getVoucherId());
+
+        //then
+        then(voucherRepository).should().deleteById(any());
+    }
+
+    @Test
+    @DisplayName("예외: voucher 단건 삭제 - 존재하지 않는 voucher")
+    void deleteVoucher_ButNoSuchElement() {
+        //given
+        given(voucherRepository.findById(any())).willReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> voucherService.deleteVoucher(UUID.randomUUID()))
+                .isInstanceOf(NoSuchElementException.class);
+
     }
 }

@@ -101,6 +101,9 @@ public class ConsoleMenu {
             case LIST -> {
                 voucherController.findVouchers();
             }
+            case DELETE -> {
+                voucherController.deleteVoucher();
+            }
             case HELP -> {
                 console.printVoucherCommandSet();
             }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @JdbcTest
 class VoucherJdbcRepositoryTest {
@@ -108,5 +110,32 @@ class VoucherJdbcRepositoryTest {
         //then
         List<Voucher> findVouchers = voucherJdbcRepository.findAll();
         assertThat(findVouchers).isEmpty();
+    }
+
+    @Test
+    @DisplayName("성공: voucher 단건 삭제")
+    void deleteById() {
+        //given
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        voucherJdbcRepository.save(fixedVoucher);
+
+        //when
+        voucherJdbcRepository.deleteById(fixedVoucher.getVoucherId());
+
+        //then
+        Optional<Voucher> optionalVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
+        assertThat(optionalVoucher).isEmpty();
+    }
+
+    @Test
+    @DisplayName("예외: voucher 단건 삭제 - 존재하지 않는 voucher")
+    void deleteById_ButNoSuchElement_Then_Exception() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+
+        //when
+        //then
+        assertThatThrownBy(() -> voucherJdbcRepository.deleteById(voucherId))
+                .isInstanceOf(IncorrectResultSizeDataAccessException.class);
     }
 }

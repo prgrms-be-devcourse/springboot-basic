@@ -20,6 +20,7 @@ public final class ConsoleMessages {
     public static final String VOUCHER_SERVICE = "==== Voucher Service ====";
     public static final String VOUCHER_CREATE_BEHAVIOR = "to create a new voucher.";
     public static final String VOUCHER_LIST_BEHAVIOR = "to list all vouchers.";
+    public static final String VOUCHER_DELETE_BEHAVIOR = "to delete a vouchers.";
 
     public static final String VOUCHER_TYPES = "[fixed | percent]";
     public static final String AMOUNT = "[amount]";
@@ -29,6 +30,9 @@ public final class ConsoleMessages {
     public static final String ENTER_NAME = "Enter a [name]";
     public static final String ENTER_NEW_NAME = "Enter a new [name]";
     public static final String ENTER_ID = "Enter a [ID]";
+
+    public static final String CREATED_NEW_VOUCHER = "Created new voucher. VoucherId: {0}";
+    public static final String DELETED_VOUCHER = "Deleted Voucher.";
 
     public static final String CREATED_NEW_CUSTOMER = "Created new Customer. CustomerId: {0}";
     public static final String UPDATED_CUSTOMER = "Updated customer info.";

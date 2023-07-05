@@ -79,6 +79,19 @@ public class VoucherJdbcRepository implements VoucherRepository {
         template.update(sql, Map.of());
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+        String sql = "delete from voucher where voucher_id = :voucherId";
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("voucherId", voucherId.toString());
+        int deleted = template.update(sql, param);
+        if (deleted != 1) {
+            DataAccessException exception = new IncorrectResultSizeDataAccessException(1, deleted);
+            LOG.error(exception.getMessage(), exception);
+            throw exception;
+        }
+    }
+
     private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
             UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
