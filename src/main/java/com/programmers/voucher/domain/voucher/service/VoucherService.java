@@ -8,6 +8,7 @@ import com.programmers.voucher.global.util.DataErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,6 +26,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    @Transactional
     public UUID createVoucher(VoucherType voucherType, long amount) {
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = voucherType.createVoucher(voucherId, amount);
@@ -35,10 +37,12 @@ public class VoucherService {
         return voucherId;
     }
 
+    @Transactional(readOnly = true)
     public List<Voucher> findVouchers() {
         return voucherRepository.findAll();
     }
 
+    @Transactional
     public void deleteVoucher(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
