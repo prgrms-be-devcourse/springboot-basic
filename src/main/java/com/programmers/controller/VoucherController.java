@@ -1,5 +1,8 @@
 package com.programmers.controller;
 
+import static com.programmers.util.ValueFormatter.changeDiscountValueToNumber;
+import static com.programmers.util.ValueFormatter.reformatVoucherType;
+
 import com.programmers.domain.voucher.Voucher;
 import com.programmers.domain.voucher.VoucherType;
 import com.programmers.domain.voucher.dto.VoucherCreateRequestDto;
@@ -12,10 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.UUID;
-
-import static com.programmers.util.ValueFormatter.changeDiscountValueToNumber;
-import static com.programmers.util.ValueFormatter.reformatVoucherType;
 
 @Controller
 public class VoucherController {
@@ -55,15 +56,25 @@ public class VoucherController {
         return VoucherType.createVoucher(voucherTypeInput, voucherName, discountValue);
     }
 
-    public void getVoucherList() {
+    public List<Voucher> getVoucherList() {
         console.printVoucherListTitle();
         VouchersResponseDto vouchersResponseDto = voucherService.findAll();
-        console.printVouchers(vouchersResponseDto);
+
+        List<Voucher> vouchers = vouchersResponseDto.vouchers();
+        if (vouchers.isEmpty()) {
+            console.printVoucherListEmptyMessage();
+            return vouchers;
+        }
+
+        console.printVouchers(vouchers);
         log.info("The voucher list has been printed.");
+        return vouchers;
     }
 
     public void updateVoucher() {
-        getVoucherList();
+        if (getVoucherList().isEmpty()) {
+            return;
+        }
 
         Voucher originalVoucher = getVoucherToUpdate();
         VoucherUpdateRequestDto voucherUpdateRequestDto = makeVoucherRequestDtoToUpdate(originalVoucher);
@@ -92,6 +103,10 @@ public class VoucherController {
     }
 
     public void deleteVoucher() {
+        if (getVoucherList().isEmpty()) {
+            return;
+        }
+
         console.printDeleteTypeVoucherSelectionMessage();
         String command = console.readInput();
         checkDeleteTypeSelection(command);
@@ -109,8 +124,6 @@ public class VoucherController {
     }
 
     public void deleteOneVoucher() {
-        getVoucherList();
-
         console.printDeleteVoucherIdMessage();
         UUID deleteVoucherId = UUID.fromString(console.readInput());
 
@@ -119,8 +132,6 @@ public class VoucherController {
     }
 
     public void deleteAllVouchers() {
-        getVoucherList();
-
         voucherService.deleteAll();
         console.printDeleteAllVouchersCompleteMessage();
     }

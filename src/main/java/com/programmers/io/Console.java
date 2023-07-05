@@ -26,6 +26,7 @@ public class Console implements Input, Output {
     private static final String VOUCHER_NAME_MESSAGE = "\n=== Type voucher name ===";
     private static final String VOUCHER_CREATED_MESSAGE = "--- Voucher Created !! ---\n";
     private static final String VOUCHER_LIST_TITLE_MESSAGE = "\n=== Voucher List ===";
+    private static final String VOUCHER_LIST_EMPTY_MESSAGE = "\n(There is no voucher.)\n";
     private static final String BLACKLIST_MESSAGE = "\n=== Blacklist ===";
     private static final String CREATE_MESSAGE = "\n=== Create ===\n" +
             "Type '1' or '2' to create item.\n" +
@@ -110,8 +111,11 @@ public class Console implements Input, Output {
         System.out.println(VOUCHER_LIST_TITLE_MESSAGE);
     }
 
-    public void printVouchers(VouchersResponseDto vouchersResponseDto) {
-        List<Voucher> vouchers = vouchersResponseDto.vouchers();
+    public void printVoucherListEmptyMessage() {
+        System.out.println(VOUCHER_LIST_EMPTY_MESSAGE);
+    }
+
+    public void printVouchers(List<Voucher> vouchers) {
         vouchers.forEach(System.out::println);
         System.out.println();
     }

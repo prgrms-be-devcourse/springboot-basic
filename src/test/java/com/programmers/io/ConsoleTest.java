@@ -137,10 +137,9 @@ class ConsoleTest {
         FixedAmountVoucher f1 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName1", 11L);
         FixedAmountVoucher f2 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName2", 12L);
         List<Voucher> vouchers = Arrays.asList(f1, f2);
-        VouchersResponseDto vouchersResponseDto = new VouchersResponseDto(vouchers);
 
         //when
-        console.printVouchers(vouchersResponseDto);
+        console.printVouchers(vouchers);
 
         //then
         assertThat(outputStream.toString()).contains("voucherName1");
