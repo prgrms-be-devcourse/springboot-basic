@@ -29,6 +29,9 @@ public final class ConsoleMessages {
     public static final String ENTER_EMAIL = "Enter an [email]";
     public static final String ENTER_NAME = "Enter a [name]";
     public static final String ENTER_NEW_NAME = "Enter a new [name]";
+    public static final String BAN = "ban";
+    public static final String UNBAN = "unban";
+    public static final String CHOOSE_BAN = "Ban the member? Choose [ban] or [unban]";
     public static final String ENTER_ID = "Enter an [ID]";
 
     public static final String CREATED_NEW_VOUCHER = "Created new voucher. VoucherId: {0}";

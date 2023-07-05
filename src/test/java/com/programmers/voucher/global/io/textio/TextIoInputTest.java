@@ -176,6 +176,7 @@ class TextIoInputTest {
         List<String> inputs = mockTextTerminal.getInputs();
         inputs.add(customerId.toString());
         inputs.add("customer");
+        inputs.add("unban");
 
         //when
         CustomerUpdateRequest result = textIoInput.inputCustomerUpdateInfo();
@@ -183,6 +184,7 @@ class TextIoInputTest {
         //then
         assertThat(result.getCustomerId()).isEqualTo(customerId);
         assertThat(result.getName()).isEqualTo("customer");
+        assertThat(result.isBanned()).isFalse();
     }
 
     @Test

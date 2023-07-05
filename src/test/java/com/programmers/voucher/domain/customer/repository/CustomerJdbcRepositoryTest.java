@@ -138,13 +138,30 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공: customer 업데이트")
-    void update() {
+    @DisplayName("성공: customer 업데이트 - name")
+    void update_name() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
         customerJdbcRepository.save(customer);
 
         customer.update("updatedName", false);
+
+        //when
+        customerJdbcRepository.update(customer);
+
+        //then
+        Customer findCustomer = customerJdbcRepository.findById(customer.getCustomerId()).get();
+        assertThat(findCustomer).usingRecursiveComparison().isEqualTo(customer);
+    }
+
+    @Test
+    @DisplayName("성공: customer 업데이트 - banned")
+    void update_banned() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+        customerJdbcRepository.save(customer);
+
+        customer.update("customer", true);
 
         //when
         customerJdbcRepository.update(customer);

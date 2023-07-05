@@ -131,7 +131,12 @@ public class TextIoInput implements ConsoleInput {
         String newName = textIO.newStringInputReader()
                 .read(ENTER_NEW_NAME);
 
-        return new CustomerUpdateRequest(customerId, newName);
+        boolean banned = textIO.newBooleanInputReader()
+                .withTrueInput(BAN)
+                .withFalseInput(UNBAN)
+                .read(CHOOSE_BAN);
+
+        return new CustomerUpdateRequest(customerId, newName, banned);
     }
 
     @Override

@@ -52,7 +52,7 @@ class CustomerControllerTest {
     @DisplayName("성공: Customer 업데이트 요청")
     void updateCustomer() {
         //given
-        CustomerUpdateRequest request = new CustomerUpdateRequest(UUID.randomUUID(), "updatedName");
+        CustomerUpdateRequest request = new CustomerUpdateRequest(UUID.randomUUID(), "updatedName", false);
         given(console.inputCustomerUpdateInfo()).willReturn(request);
 
         //when
