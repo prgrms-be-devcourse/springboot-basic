@@ -34,7 +34,7 @@ public class VoucherController implements Runnable {
 
             switch (command) {
                 case EXIT -> running.set(false);
-                case CREATE -> {
+                case VOUCHER -> {
                     output.displayVoucherType();
                     VoucherType voucherType = input.readVoucherType();
                     DiscountAmount discountAmount = input.readDiscountAmount(voucherType);
@@ -42,7 +42,7 @@ public class VoucherController implements Runnable {
                     Voucher voucher = createVoucher(voucherType, discountAmount);
                     output.displayCreatedVoucher(voucher);
                 }
-                case LIST -> getVoucherList().forEach(output::displayVoucher);
+                case CUSTOMER -> getVoucherList().forEach(output::displayVoucher);
             }
         }
     }

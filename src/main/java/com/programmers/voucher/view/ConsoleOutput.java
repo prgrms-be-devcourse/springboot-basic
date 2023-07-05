@@ -20,11 +20,7 @@ public class ConsoleOutput implements Output {
         textTerminal.println("=== Voucher Program ===");
 
         Arrays.stream(Command.values())
-                .forEach(command -> {
-                    textTerminal.print("Type ");
-                    textTerminal.print(ConsoleStyle.bold(command.getName()));
-                    textTerminal.println(" to " + command.getText());
-                });
+                .forEach(command -> textTerminal.println(String.valueOf(command)));
     }
 
     @Override

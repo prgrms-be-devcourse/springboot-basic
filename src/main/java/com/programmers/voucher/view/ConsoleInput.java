@@ -13,11 +13,11 @@ public class ConsoleInput implements Input {
 
     @Override
     public Command readCommand() {
-        String input = textIO.newStringInputReader()
+        int input = textIO.newIntInputReader()
                 .withInputTrimming(true)
                 .read(">>");
 
-        return Command.findByName(input);
+        return Command.findByNumber(input);
     }
 
     @Override
