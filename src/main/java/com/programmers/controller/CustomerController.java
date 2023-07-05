@@ -3,6 +3,7 @@ package com.programmers.controller;
 import com.programmers.domain.customer.Customer;
 import com.programmers.domain.customer.dto.CustomerCreateRequestDto;
 import com.programmers.domain.customer.dto.CustomerResponseDto;
+import com.programmers.domain.customer.dto.CustomerUpdateRequestDto;
 import com.programmers.domain.customer.dto.CustomersResponseDto;
 import com.programmers.io.Console;
 import com.programmers.service.BlacklistService;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class CustomerController {
@@ -81,5 +83,31 @@ public class CustomerController {
         log.info("The blacklist has been printed.");
 
         return blacklist;
+    }
+
+    public void updateCustomer() {
+        getNormalCustomerList();
+
+        Customer originalCustomer = getCustomerToUpdate();
+        CustomerUpdateRequestDto customerUpdateRequestDto = makeCustomerRequestDtoToUpdate(originalCustomer);
+
+        customerService.update(customerUpdateRequestDto);
+        console.printUpdateCustomerCompleteMessage();
+    }
+
+    public Customer getCustomerToUpdate() {
+        console.printUpdateCustomerIdMessage();
+        UUID updateCustomerId = UUID.fromString(console.readInput());
+
+        CustomerResponseDto customerResponseDto = customerService.findById(updateCustomerId);
+
+        return new Customer(customerResponseDto.id(), customerResponseDto.name());
+    }
+
+    private CustomerUpdateRequestDto makeCustomerRequestDtoToUpdate(Customer customer) {
+        console.printUpdateNewCustomerNameMessage();
+        String updateCustomerName = console.readInput();
+
+        return new CustomerUpdateRequestDto(customer.getCustomerId(), updateCustomerName);
     }
 }

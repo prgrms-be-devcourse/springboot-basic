@@ -44,11 +44,15 @@ public class Console implements Input, Output {
     private static final String UPDATE_MESSAGE = "\n=== Update ===\n" +
             "Type '1' or '2' to update item.\n" +
             "1. voucher\n" +
-            "2. customer";
+            "2. normal customer";
     private static final String UPDATE_VOUCHER_ID_MESSAGE = "=== Type voucher id to update ===";
     private static final String UPDATE_NEW_VOUCHER_NAME_MESSAGE = "\n=== Type new voucher name ===";
     private static final String UPDATE_NEW_VOUCHER_VALUE_MESSAGE = "\n=== Type new voucher value ===";
     private static final String UPDATE_VOUCHER_COMPLETE_MESSAGE = "--- The voucher updated successfully !! ---\n";
+
+    private static final String UPDATE_CUSTOMER_ID_MESSAGE = "=== Type customer id to update ===";
+    private static final String UPDATE_NEW_CUSTOMER_NAME_MESSAGE = "\n=== Type new customer name ===";
+    private static final String UPDATE_CUSTOMER_COMPLETE_MESSAGE = "--- The customer updated successfully !! ---\n";
 
     @Override
     public void printMenu() {
@@ -148,5 +152,17 @@ public class Console implements Input, Output {
 
     public void printUpdateVoucherCompleteMessage() {
         System.out.println(UPDATE_VOUCHER_COMPLETE_MESSAGE);
+    }
+
+    public void printUpdateCustomerIdMessage() {
+        System.out.println(UPDATE_CUSTOMER_ID_MESSAGE);
+    }
+
+    public void printUpdateNewCustomerNameMessage() {
+        System.out.println(UPDATE_NEW_CUSTOMER_NAME_MESSAGE);
+    }
+
+    public void printUpdateCustomerCompleteMessage() {
+        System.out.println(UPDATE_CUSTOMER_COMPLETE_MESSAGE);
     }
 }

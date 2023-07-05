@@ -81,7 +81,7 @@ public class MenuController {
 
         switch (command) {
             case MENU_VOUCHER_NUMBER -> voucherController.updateVoucher();
-            //case MENU_CUSTOMER_NUMBER -> customerController.getCustomerList();
+            case MENU_CUSTOMER_NUMBER -> customerController.updateCustomer();
         }
     }
 }
