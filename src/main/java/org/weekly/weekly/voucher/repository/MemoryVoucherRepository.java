@@ -17,9 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemoryVoucherRepository implements VoucherRepository{
     private final Map<UUID, Voucher> storages = new ConcurrentHashMap<>();
 
-    public void insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         validateUUID(voucher.getVoucherId());
         storages.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     public Optional<Voucher> findById(UUID voucherId) {
