@@ -14,7 +14,7 @@ public class InputView {
     }
 
     public VoucherType readVoucherOption() {
-        return VoucherType.find(sc.nextLine());
+        return VoucherType.from(sc.nextLine());
     }
 
     public int readVoucherAmount(VoucherType voucherType) {

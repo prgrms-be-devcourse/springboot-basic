@@ -10,7 +10,7 @@ public enum VoucherType {
         this.voucherAmountInfoMessage = voucherAmountInfoMessage;
     }
 
-    public static VoucherType find(String input) {
+    public static VoucherType from(String input) {
         try {
             return valueOf(input.toUpperCase());
         } catch (IllegalArgumentException e) {
