@@ -44,7 +44,7 @@ class VoucherNamedJdbcRepositoryTest {
     private static final Logger logger = LoggerFactory.getLogger(VoucherNamedJdbcRepositoryTest.class);
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgms.vouchermanagement.voucher"})
+    @ComponentScan(basePackages = {"org.prgms.vouchermanagement.voucher", "org.prgms.vouchermanagement.global"})
     static class Config {
         @Bean
         public DataSource dataSource() {
