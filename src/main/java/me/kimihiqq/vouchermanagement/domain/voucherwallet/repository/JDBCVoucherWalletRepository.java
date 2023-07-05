@@ -45,8 +45,10 @@ public class JDBCVoucherWalletRepository implements VoucherWalletRepository {
 
     @Override
     public void deleteByCustomerId(UUID customerId) {
-
+        String sql = "DELETE FROM VoucherWallet WHERE customerId = ?";
+        jdbcTemplate.update(sql, customerId.toString());
     }
+
     @Override
     public Set<UUID> findCustomerIdsByVoucherId(UUID voucherId) {
         String sql = "SELECT customerId FROM VoucherWallet WHERE voucherId = ?";

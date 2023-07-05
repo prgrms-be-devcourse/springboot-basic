@@ -30,8 +30,8 @@ class CustomerRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        customerDto1 = new CustomerDto("Test User1", "user1@test.com", CustomerStatus.WHITE);
-        customerDto2 = new CustomerDto("Test User2", "user2@test.com", CustomerStatus.WHITE);
+        customerDto1 = new CustomerDto("Customer1", "customer1@test.com", CustomerStatus.WHITE);
+        customerDto2 = new CustomerDto("Customer2", "customer2@test.com", CustomerStatus.WHITE);
     }
 
     @AfterEach
