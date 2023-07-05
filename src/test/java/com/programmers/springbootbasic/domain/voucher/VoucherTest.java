@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherTest {
     @Test
@@ -125,7 +124,7 @@ class VoucherTest {
     @Test
     void 잘못된유효기간최소금액포함_바우처생성_예외발생() {
         // given
-        UUID voucherId = UUID.randomUUID();1
+        UUID voucherId = UUID.randomUUID();
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = createdDate.minusMonths(3);
