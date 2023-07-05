@@ -15,10 +15,10 @@ import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
 @Component
 public class CommandLineApplication {
     private final CommandReader commandReader;
-    private final CommandWriter commandWriter;
+    private final SystemWriter commandWriter;
 
     @Autowired
-    public CommandLineApplication(CommandReader commandReader, CommandWriter commandWriter) {
+    public CommandLineApplication(CommandReader commandReader, SystemWriter commandWriter) {
         this.commandReader = commandReader;
         this.commandWriter = commandWriter;
     }

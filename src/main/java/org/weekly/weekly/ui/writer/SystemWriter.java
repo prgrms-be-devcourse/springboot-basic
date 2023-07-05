@@ -8,11 +8,12 @@ import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.util.PrintMessage;
 import org.weekly.weekly.util.VoucherMenu;
 
+import java.io.Closeable;
 import java.util.Arrays;
 
 @Component
-@ConditionalOnProperty(value="command.read", havingValue = "system")
-public class SystemWriter implements CommandWriter {
+@ConditionalOnProperty(value="command.write", havingValue = "system")
+public class SystemWriter {
     private final Logger logger = LoggerFactory.getLogger(SystemWriter.class);
     private void println(String msg) {
         System.out.println(msg);

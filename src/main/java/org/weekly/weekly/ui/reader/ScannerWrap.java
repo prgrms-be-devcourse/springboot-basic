@@ -12,7 +12,7 @@ public class ScannerWrap implements CommandReader{
     private final Scanner scanner;
 
     public ScannerWrap() {
-        System.out.println("scanner");this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
     }
 
     @Override

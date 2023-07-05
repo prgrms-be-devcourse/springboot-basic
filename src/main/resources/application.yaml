@@ -2,12 +2,18 @@ spring.config.activate.on-profile: default
 command:
   write: system
   read: scanner
+
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/voucher
-    username: "qwe"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher_mgmt?createDatabaseIfNotExist=true
+    username: "root"
     password: "qwe123"
+
+  sql:
+    init:
+      mode: always
+
 ---
 
 spring.config.activate.on-profile: dev
@@ -35,3 +41,7 @@ spring:
     url: jdbc:h2:mem:voucher
     username: test
     password:
+
+  sql:
+    init:
+      mode: embedded
