@@ -1,10 +1,13 @@
 package com.programmers.console.util;
 
 import com.programmers.voucher.domain.Discount;
+import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.dto.VoucherResponseDto;
 
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class VoucherStringSerializer {
 
@@ -15,10 +18,18 @@ public class VoucherStringSerializer {
     private static final String PERCENT = "%";
     private static final String WON = "₩";
 
+    private static DiscountType discountType;
+    private static UUID voucherId;
+    private static Discount discount;
+    private static LocalDateTime createdAt;
+
     public static String convertVoucherResponseToString(VoucherResponseDto responseDto) {
+        discountType = responseDto.discount().getVoucherType();
+        voucherId = responseDto.voucherId();
+        discount = responseDto.discount();
+        createdAt = responseDto.createdAt();
         return MessageFormat.format(ConsoleMessage.PRINT_VOUCHER_MESSAGE_FORM.getMessage(),
-                responseDto.discount().getVoucherType(), responseDto.voucherId(),
-                discountValueFormat(responseDto.discount()), responseDto.createdDate());
+                discountType, voucherId, discountValueFormat(discount), createdAt);
     }
 
     private static String discountValueFormat(Discount discount) {
