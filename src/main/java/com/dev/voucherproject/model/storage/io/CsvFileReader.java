@@ -48,7 +48,7 @@ public class CsvFileReader {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
 
-                if (data[1].equals(word)) {
+                if (data[2].equals(word)) {
                     return Optional.of(line);
                 }
             }
