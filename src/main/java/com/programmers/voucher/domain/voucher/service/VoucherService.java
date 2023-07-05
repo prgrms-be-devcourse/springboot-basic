@@ -48,6 +48,7 @@ public class VoucherService {
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(VoucherErrorMessages.NO_SUCH_VOUCHER, voucherId);
+                    LOG.warn(errorMessage);
                     return new NoSuchElementException(errorMessage);
                 });
 

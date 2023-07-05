@@ -36,6 +36,7 @@ public class CustomerService {
                 .isPresent();
         if (emailDuplication) {
             String errorMessage = MessageFormat.format(CustomerErrorMessages.DUPLICATE_EMAIL, email);
+            LOG.warn(errorMessage);
             throw new DuplicateKeyException(errorMessage);
         }
 
@@ -51,6 +52,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(CustomerErrorMessages.NO_SUCH_CUSTOMER, customerId);
+                    LOG.warn(errorMessage);
                     return new NoSuchElementException(errorMessage);
                 });
         String oldCustomerInfo = customer.toString();
@@ -73,6 +75,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(CustomerErrorMessages.NO_SUCH_CUSTOMER, customerId);
+                    LOG.warn(errorMessage);
                     return new NoSuchElementException(errorMessage);
                 });
 
