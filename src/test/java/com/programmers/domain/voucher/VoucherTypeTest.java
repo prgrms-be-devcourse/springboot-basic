@@ -1,4 +1,4 @@
-package com.programmers.domain;
+package com.programmers.domain.voucher;
 
 import com.programmers.domain.voucher.Voucher;
 import com.programmers.domain.voucher.VoucherType;

@@ -1,4 +1,4 @@
-package com.programmers.domain;
+package com.programmers.domain.voucher;
 
 import com.programmers.domain.voucher.PercentDiscountVoucher;
 import org.assertj.core.api.Assertions;

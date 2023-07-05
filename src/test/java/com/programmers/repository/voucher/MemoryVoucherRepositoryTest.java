@@ -1,9 +1,11 @@
 package com.programmers.repository.voucher;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import com.programmers.domain.voucher.FixedAmountVoucher;
 import com.programmers.domain.voucher.Voucher;
-import com.programmers.repository.voucher.MemoryVoucherRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +28,7 @@ class MemoryVoucherRepositoryTest {
         Voucher result = memoryVoucherRepository.findAll().stream().findFirst().get();
 
         //then
-        Assertions.assertThat(result).isEqualTo(fixedAmountVoucher);
+        assertThat(result, is(fixedAmountVoucher));
     }
 
     @DisplayName("저장된 바우처를 조회한다")
@@ -39,11 +41,10 @@ class MemoryVoucherRepositoryTest {
         memoryVoucherRepository.save(f2);
 
         //when
-        List<Voucher> expected = Arrays.asList(f1, f2);
         List<Voucher> result = memoryVoucherRepository.findAll();
 
         //then
-        Assertions.assertThat(result).contains(f1);
-        Assertions.assertThat(result).contains(f2);
+        assertThat(result, hasItem(f1));
+        assertThat(result, hasItem(f2));
     }
 }
