@@ -25,35 +25,43 @@ public class CommandLineController {
     @PostConstruct
     public void run() {
         while (true) {
-            console.printStartMessage();
-            switch (Command.find(console.read())) {
+            String command = console.readCommand();
+            switch (Command.find(command)) {
                 case EXIT -> {
                     console.printExitMessage();
                     return;
                 }
-                case LIST -> {
-                    List<Voucher> vouchers = voucherService.findAll();
-
-                    vouchers.stream()
-                            .map(this::createVoucherResponseMessage)
-                            .forEach(console::print);
-                }
-                case CREATE -> {
-                    int voucherTypeOrder = console.readVoucherTypeToCreate();
-                    VoucherType voucherType = VoucherType.findVoucherType(voucherTypeOrder);
-                    int discountAmount = console.readVoucherDiscountAmount(voucherTypeOrder);
-                    int voucherAmount = console.readVoucherAmountToCreate();
-
-                    VoucherRequest voucherRequest = new VoucherRequest(voucherType, discountAmount, voucherAmount);
-                    voucherService.create(voucherRequest);
-                    console.printCSuccessfullyCreatedMessage();
-                }
+                case LIST -> findVouchersAndPrint();
+                case CREATE -> getVoucherInfoAndCreate();
             }
         }
+    }
+
+    private void findVouchersAndPrint() {
+        List<Voucher> vouchers = voucherService.findAll();
+
+        vouchers.stream()
+                .map(this::createVoucherResponseMessage)
+                .forEach(console::print);
     }
 
     private String createVoucherResponseMessage(Voucher voucher) {
         return new VoucherResponse(voucher.getId(), voucher.getVoucherType(), 1000)
                 .generateMessage();
+    }
+
+    private void getVoucherInfoAndCreate() {
+        VoucherRequest voucherRequest = createVoucherRequest();
+        voucherService.create(voucherRequest);
+        console.printCSuccessfullyCreatedMessage();
+    }
+
+    private VoucherRequest createVoucherRequest() {
+        int voucherTypeOrder = console.readVoucherTypeToCreate();
+        int discountAmount = console.readVoucherDiscountAmount(voucherTypeOrder);
+        int voucherAmount = console.readVoucherAmountToCreate();
+
+        VoucherType voucherType = VoucherType.findVoucherType(voucherTypeOrder);
+        return new VoucherRequest(voucherType, discountAmount, voucherAmount);
     }
 }
