@@ -93,7 +93,8 @@ public class CommandLineApplication {
     }
 
     private void displayVoucherList() {
-        printVouchers(voucherController.findAll());
+        List<VoucherResponseDto> vouchers = voucherController.findAll();
+        printVouchers(vouchers);
     }
 
     private void printVoucher(VoucherResponseDto responseDto) {
