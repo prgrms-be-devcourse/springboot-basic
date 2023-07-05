@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.global.util.DataErrorMessages.INCORRECT_UPDATED_RESULT_SIZE;
-
 @Repository
 @Profile("db")
 public class VoucherJdbcRepository implements VoucherRepository {
@@ -46,10 +44,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
         int saved = template.update(sql, param);
 
         if (saved != 1) {
-            DataAccessException exception
-                    = new IncorrectResultSizeDataAccessException(INCORRECT_UPDATED_RESULT_SIZE, 1, saved);
-            LOG.error(exception.getMessage(), exception);
-            throw exception;
+            DataAccessException ex = new IncorrectResultSizeDataAccessException(1, saved);
+            LOG.error(ex.getMessage(), ex);
+            throw ex;
         }
     }
 

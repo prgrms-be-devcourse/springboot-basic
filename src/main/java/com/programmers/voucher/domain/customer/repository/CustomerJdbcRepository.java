@@ -18,8 +18,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.global.util.DataErrorMessages.INCORRECT_UPDATED_RESULT_SIZE;
-
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerJdbcRepository.class);
@@ -44,10 +42,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
         int saved = template.update(sql, param);
         if (saved != 1) {
-            DataAccessException exception
-                    = new IncorrectResultSizeDataAccessException(INCORRECT_UPDATED_RESULT_SIZE, 1, saved);
-            LOG.error(exception.getMessage(), exception);
-            throw exception;
+            DataAccessException ex = new IncorrectResultSizeDataAccessException(1, saved);
+            LOG.error(ex.getMessage(), ex);
+            throw ex;
         }
     }
 
