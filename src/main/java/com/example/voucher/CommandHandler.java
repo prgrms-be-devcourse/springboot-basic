@@ -30,7 +30,7 @@ public class CommandHandler {
         // List 커맨드 구현
     }
 
-    private void handleCreateCommand(String[] parts) {
+    private void handleCreateCommand() {
         // Handle 커맨드 구현
     }
 }
