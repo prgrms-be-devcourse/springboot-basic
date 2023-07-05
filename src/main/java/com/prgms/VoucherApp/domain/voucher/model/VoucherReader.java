@@ -1,8 +1,8 @@
-package com.prgms.VoucherApp.model;
+package com.prgms.VoucherApp.domain.voucher.model;
 
-import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.dto.VoucherDto;
-import com.prgms.VoucherApp.storage.VoucherStorage;
+import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,9 @@ public class VoucherReader {
 
     public List<VoucherDto> readVoucherList() {
         List<Voucher> vouchers = voucherStorage.findAll();
+
         List<VoucherDto> voucherDtos = vouchers.stream()
-                .map(Voucher::convertVoucherDto)
+                .map(VoucherDto::new)
                 .toList();
         return voucherDtos;
     }

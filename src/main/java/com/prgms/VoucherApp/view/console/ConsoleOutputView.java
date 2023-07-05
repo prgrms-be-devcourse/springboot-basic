@@ -1,8 +1,9 @@
 package com.prgms.VoucherApp.view.console;
 
-import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.domain.VoucherType;
-import com.prgms.VoucherApp.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
+import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.VoucherType;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
 import com.prgms.VoucherApp.view.Output;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -29,14 +30,15 @@ public class ConsoleOutputView implements Output {
         printExitMenuCommand();
         printCreateMenuCommand();
         printListMenuCommand();
+        printBlackListMenuCommand();
     }
 
 
-    public void printProgram() {
+    private void printProgram() {
         textTerminal.println("=== Voucher Program ===");
     }
 
-    public void printExitMenuCommand() {
+    private void printExitMenuCommand() {
         textTerminal.print("Type ");
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
@@ -49,7 +51,7 @@ public class ConsoleOutputView implements Output {
         textTerminal.println("the program.");
     }
 
-    public void printCreateMenuCommand() {
+    private void printCreateMenuCommand() {
         textTerminal.print("Type ");
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
@@ -57,12 +59,20 @@ public class ConsoleOutputView implements Output {
         textTerminal.println("to create a new voucher.");
     }
 
-    public void printListMenuCommand() {
+    private void printListMenuCommand() {
         textTerminal.print("Type ");
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
         }, text -> text.print("list "));
         textTerminal.println("to list all vouchers.");
+    }
+
+    private void printBlackListMenuCommand() {
+        textTerminal.print("Type ");
+        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+            terminalProperties.setPromptBold(true);
+        }, text -> text.print("blacklist "));
+        textTerminal.println("to list all blacklist.");
     }
 
     @Override
@@ -75,11 +85,11 @@ public class ConsoleOutputView implements Output {
             }, text -> {
                 switch (voucherType) {
                     case FIXED_VOUCHER -> {
-                        text.print(voucherType.getVoucherPolicy());
+                        text.print(voucherType.getVoucherTypeName());
                         text.println(" to create " + "a Fixed Amount Voucher.");
                     }
                     case PERCENT_VOUCHER -> {
-                        text.print(voucherType.getVoucherPolicy());
+                        text.print(voucherType.getVoucherTypeName());
                         text.println(" to create " + "a Percent Voucher.");
                     }
                 }
@@ -95,10 +105,10 @@ public class ConsoleOutputView implements Output {
         }, text -> {
             switch (voucherType) {
                 case FIXED_VOUCHER -> {
-                    text.println("0 이상으로 입력해주세요.");
+                    text.println("Please enter a value greater than or equal to 0.");
                 }
                 case PERCENT_VOUCHER -> {
-                    text.println("0 이상 100 이하로 입력해주세요.");
+                    text.println("Please enter a value between 0 and 100");
                 }
             }
         });
@@ -106,18 +116,34 @@ public class ConsoleOutputView implements Output {
 
     @Override
     public void printCreatedMsg(Voucher voucher) {
-        VoucherDto voucherDto = voucher.convertVoucherDto();
+        VoucherDto voucherDto = new VoucherDto(voucher);
         log.info("The discount coupon {} was created successfully.", voucherDto.getVoucherInfo());
-        textTerminal.println(voucherDto.getVoucherInfo() + " 할인권이 생성되었습니다.");
+        textTerminal.println(voucherDto.getVoucherInfo() + " Voucher was created");
+    }
+
+    @Override
+    public void printErrorMsg(String exception) {
+        textTerminal.println(exception);
     }
 
     @Override
     public void printVoucherList(List<VoucherDto> voucherDtos) {
         if (voucherDtos.isEmpty()) {
             log.error("The user tried to view the list, but currently, the list is empty");
-            textTerminal.println("저장되어있는 할인권이 없습니다.");
+            textTerminal.println("There are no available discount vouchers stored.");
             return;
         }
         voucherDtos.forEach((voucher -> textTerminal.println(voucher.getVoucherInfo())));
+    }
+
+    @Override
+    public void printBlackLists(List<CustomerDto> blackLists) {
+        if (blackLists.isEmpty()) {
+            log.error("The user tried to view the list, but currently, the list is empty");
+            textTerminal.println("There are no blacklisted entries currently registered.");
+            return;
+        }
+
+        blackLists.forEach((blackList -> textTerminal.println(blackList.getCustomerInfo())));
     }
 }

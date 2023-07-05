@@ -1,11 +1,11 @@
 package com.prgms.VoucherApp.view;
 
-import com.prgms.VoucherApp.domain.VoucherType;
+import com.prgms.VoucherApp.domain.voucher.VoucherType;
 
 public interface Input {
     String inputCommand();
 
-    String inputVoucherPolicy();
+    String inputVoucherType();
 
-    Long inputDiscountAmount(VoucherType policy);
+    Long inputDiscountAmount(VoucherType voucherType);
 }

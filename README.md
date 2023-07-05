@@ -35,3 +35,11 @@
 - [X] 실행가능한 jar 파일을 생성한다.
 - [X] profile을 사용하여, dev 프로필에서 파일로 관리되도록 해본다.
 - [X] 정확한 계산 결과를 위하여 BigDecimal을 사용한다.
+
+### 3차 PR 기능 요구사항
+
+- [X] 고객 블랙 리스트 명단을 csv로 작성한다.
+- [X] 고객 블랙 리스트를 조회할 수 있도록 한다. `CustomerFileStorage#findAll();`
+    - [X] Voucher, Customer 관련 기능 분리, `VoucherApp#VoucherManagementApp`, `VoucherApp#CustomerManagementApp`
+    - [X] 고객 블랙 리스트 조회 서비스를 이용하도록, blacklist command 추가
+    - [X] Customer Domain 추가

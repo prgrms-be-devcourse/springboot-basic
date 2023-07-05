@@ -1,2 +1,3 @@
-file:
-  path: ./storage/voucherFile.csv
+voucher:
+  file:
+    path: ./storage/voucherFile.csv

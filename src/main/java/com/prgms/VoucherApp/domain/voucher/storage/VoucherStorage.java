@@ -1,6 +1,6 @@
-package com.prgms.VoucherApp.storage;
+package com.prgms.VoucherApp.domain.voucher.storage;
 
-import com.prgms.VoucherApp.domain.Voucher;
+import com.prgms.VoucherApp.domain.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

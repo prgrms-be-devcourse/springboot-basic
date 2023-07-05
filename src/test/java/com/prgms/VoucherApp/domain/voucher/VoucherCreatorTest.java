@@ -1,13 +1,14 @@
-package com.prgms.VoucherApp.domain;
+package com.prgms.VoucherApp.domain.voucher;
 
-import com.prgms.VoucherApp.model.VoucherCreator;
-import com.prgms.VoucherApp.storage.VoucherStorage;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherCreator;
+import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -22,12 +23,15 @@ class VoucherCreatorTest {
     @Test
     @DisplayName("할인권 개별 저장 테스트")
     void saveVoucher() {
+        // given
         Voucher fixedVoucher = voucherCreator.createVoucher(VoucherType.FIXED_VOUCHER, 1000L);
         Voucher percentVoucher = voucherCreator.createVoucher(VoucherType.PERCENT_VOUCHER, 50L);
 
-        Optional<Voucher> findFixedVoucher = voucherStorage.findByVoucherId(fixedVoucher.getUUID());
-        Optional<Voucher> findPercentVoucher = voucherStorage.findByVoucherId(percentVoucher.getUUID());
+        // when
+        Optional<Voucher> findFixedVoucher = voucherStorage.findByVoucherId(fixedVoucher.getVoucherId());
+        Optional<Voucher> findPercentVoucher = voucherStorage.findByVoucherId(percentVoucher.getVoucherId());
 
+        // then
         Assertions.assertThat(findFixedVoucher.get()).isEqualTo(fixedVoucher);
         Assertions.assertThat(findPercentVoucher.get()).isEqualTo(percentVoucher);
     }
@@ -35,9 +39,14 @@ class VoucherCreatorTest {
     @Test
     @DisplayName("할인권 목록 저장 테스트")
     void saveVouchers() {
+        // given
         Voucher fixedVoucher = voucherCreator.createVoucher(VoucherType.FIXED_VOUCHER, 1000L);
         Voucher percentVoucher = voucherCreator.createVoucher(VoucherType.PERCENT_VOUCHER, 50L);
 
-        Assertions.assertThat(voucherStorage.findAll()).contains(fixedVoucher, percentVoucher);
+        // when
+        List<Voucher> findVouchers = voucherStorage.findAll();
+
+        // then
+        Assertions.assertThat(findVouchers).contains(fixedVoucher, percentVoucher);
     }
 }
