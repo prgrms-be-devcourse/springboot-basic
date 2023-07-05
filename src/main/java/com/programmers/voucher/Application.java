@@ -1,14 +1,13 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.controller.VoucherController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VoucherApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(VoucherApplication.class, args)
-                .getBean(VoucherController.class)
+        SpringApplication.run(Application.class, args)
+                .getBean(ApplicationController.class)
                 .run();
     }
 }
