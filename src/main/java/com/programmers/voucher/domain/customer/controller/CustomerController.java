@@ -22,9 +22,6 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public void mapping() {
-    }
-
     public void findBlacklistCustomers() {
         List<Customer> customers = customerService.findBlacklistCustomers();
 
