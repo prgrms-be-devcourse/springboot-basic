@@ -55,7 +55,7 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> result = jdbcVoucherRepository.findAll();
 
         //then
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.size(), is(2));
     }
 
     @Transactional
