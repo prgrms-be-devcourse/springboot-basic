@@ -27,7 +27,7 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @ValueSource(ints = {-100, -1, 0})
     void when_DiscountedValueIsEqualToOrLessThanZero_ThrowException(int discountValue) {
-        assertThatThrownBy(() -> new FixedAmountVoucher(id,createdAt,expireAt, discountValue))
+        assertThatThrownBy(() -> new FixedAmountVoucher(id, createdAt, expireAt, discountValue))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -36,14 +36,14 @@ class FixedAmountVoucherTest {
     @ValueSource(ints = {1, 2, 100})
     void when_DiscountedValueIsGreaterThanZero_DoesNotThrowException(int discountValue) {
         assertThatNoException()
-                .isThrownBy(() -> new FixedAmountVoucher(id,createdAt,expireAt, discountValue));
+                .isThrownBy(() -> new FixedAmountVoucher(id, createdAt, expireAt, discountValue));
     }
 
     @DisplayName("고정 금액으로 할인했을 경우 올바른 Currency 객체가 반환된다.")
     @Test
     void when_DiscountUsingFixedAmountVoucher_Expects_ReturnDiscountedCurrency() {
         // Given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id,createdAt,expireAt, 900);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id, createdAt, expireAt, 900);
 
         // When
         Currency result = fixedAmountVoucher.discount(Currency.of(1000));
@@ -56,7 +56,7 @@ class FixedAmountVoucherTest {
     @Test
     void when_DiscountedValueIsGreaterThanCurrentCurrency_Expects_ThrowException() {
         // Given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id,createdAt,expireAt, 1100);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id, createdAt, expireAt, 1100);
 
         // When, Then
         assertThatThrownBy(() -> fixedAmountVoucher.discount(Currency.of(1000)))
@@ -68,7 +68,7 @@ class FixedAmountVoucherTest {
     @ValueSource(ints = {1, 10, 99, 100})
     void when_DiscountedValueIsEqualToOrLessThanCurrentCurrency_Expects_DoesNotThrowException(int value) {
         // Given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id,createdAt,expireAt, value);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id, createdAt, expireAt, value);
 
         // When, Then
         assertThatNoException()
@@ -79,8 +79,8 @@ class FixedAmountVoucherTest {
     @Test
     void when_AllPropertiesAreSame_Expects_SameObject() {
         // Given, When
-        FixedAmountVoucher fixedAmountVoucher1 = new FixedAmountVoucher(id,createdAt,expireAt, 100);
-        FixedAmountVoucher fixedAmountVoucher2 = new FixedAmountVoucher(id,createdAt,expireAt, 100);
+        FixedAmountVoucher fixedAmountVoucher1 = new FixedAmountVoucher(id, createdAt, expireAt, 100);
+        FixedAmountVoucher fixedAmountVoucher2 = new FixedAmountVoucher(id, createdAt, expireAt, 100);
 
         // Then
         assertThat(fixedAmountVoucher1).isEqualTo(fixedAmountVoucher2);

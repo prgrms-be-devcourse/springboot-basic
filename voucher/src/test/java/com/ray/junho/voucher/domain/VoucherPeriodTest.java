@@ -14,7 +14,7 @@ class VoucherPeriodTest {
     @Test
     void when_CreatedTimeIsAfterExpirationTime_Expects_ThrowException() {
         // Given
-        LocalDateTime createdAt =LocalDateTime.of(2023, 8, 5, 0, 0);
+        LocalDateTime createdAt = LocalDateTime.of(2023, 8, 5, 0, 0);
         LocalDateTime expireAt = LocalDateTime.of(2023, 7, 5, 0, 0);
 
         // When, Then
@@ -26,7 +26,7 @@ class VoucherPeriodTest {
     @Test
     void when_CreatedTimeAndExpirationTimeIsSame_Expects_ThrowException() {
         // Given
-        LocalDateTime createdAt =LocalDateTime.of(2023, 7, 5, 0, 0);
+        LocalDateTime createdAt = LocalDateTime.of(2023, 7, 5, 0, 0);
         LocalDateTime expireAt = LocalDateTime.of(2023, 7, 5, 0, 0);
 
         // When, Then
