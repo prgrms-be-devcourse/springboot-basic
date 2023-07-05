@@ -8,7 +8,6 @@ import programmers.org.voucher.domain.Voucher;
 import programmers.org.voucher.repository.VoucherRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -22,12 +21,12 @@ public class VoucherService {
     public void create(int discount, VoucherType voucherType) {
         switch (voucherType) {
             case FIXED: {
-                Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
+                Voucher voucher = new FixedAmountVoucher(discount);
                 saveVoucher(voucher);
                 break;
             }
             case PERCENT: {
-                Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
+                Voucher voucher = new PercentDiscountVoucher(discount);
                 saveVoucher(voucher);
                 break;
             }

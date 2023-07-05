@@ -11,9 +11,9 @@ public class FixedAmountVoucher implements Voucher {
 
     private final int discountAmount;
 
-    public FixedAmountVoucher(UUID voucherId, int discountAmount) {
+    public FixedAmountVoucher(int discountAmount) {
         validate(discountAmount);
-        this.voucherId = voucherId;
+        this.voucherId = UUID.randomUUID();
         this.discountAmount = discountAmount;
     }
 

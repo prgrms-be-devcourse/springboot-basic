@@ -12,9 +12,9 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final int discountRate;
 
-    public PercentDiscountVoucher(UUID voucherId, int discountRate) {
+    public PercentDiscountVoucher(int discountRate) {
         validate(discountRate);
-        this.voucherId = voucherId;
+        this.voucherId = UUID.randomUUID();
         this.discountRate = discountRate;
     }
 
