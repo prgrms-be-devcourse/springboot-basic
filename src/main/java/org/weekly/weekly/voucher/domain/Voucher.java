@@ -68,4 +68,8 @@ public class Voucher {
     public long getAmount() {
         return amount;
     }
+
+    public DiscountType getDiscountType() {
+        return discount.discountType();
+    }
 }
