@@ -4,11 +4,13 @@ import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import com.programmers.voucher.domain.voucher.util.VoucherMessages;
+import com.programmers.voucher.global.util.DataErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherMessages.CREATED_NEW_VOUCHER;
@@ -36,6 +38,14 @@ public class VoucherService {
 
     public List<Voucher> findVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public void deleteVoucher(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException(DataErrorMessages.NO_SUCH_ELEMENT));
+
+        voucherRepository.deleteById(voucherId);
+        LOG.info(VoucherMessages.DELETE_VOUCHER, voucher);
     }
 
 }

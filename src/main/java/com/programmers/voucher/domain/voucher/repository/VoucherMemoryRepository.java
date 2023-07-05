@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.voucher.repository;
 
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -36,5 +37,13 @@ public class VoucherMemoryRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         store.clear();
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        Voucher remove = store.remove(voucherId);
+        if(remove == null) {
+            throw new IncorrectResultSizeDataAccessException(1, 0);
+        }
     }
 }

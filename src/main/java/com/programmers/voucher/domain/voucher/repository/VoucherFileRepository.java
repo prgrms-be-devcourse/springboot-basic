@@ -92,6 +92,10 @@ public class VoucherFileRepository implements VoucherRepository {
         }
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+    }
+
     private String voucherToCsv(Voucher voucher) {
         VoucherDto voucherDto = voucher.toDto();
         return voucherDto.getVoucherId()
