@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-    private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -20,11 +20,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return List.copyOf(storage.values());
-    }
-
-    @Override
-    public void deleteAll() {
-        storage.clear();
     }
 
 }
