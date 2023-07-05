@@ -16,7 +16,8 @@ public class Console implements Input, Output {
             "Type 'exit' or '1' to exit the program.\n" +
             "Type 'create' or '2' to create a new voucher or a new customer.\n" +
             "Type 'list' or '3' to list all vouchers or all customers.\n" +
-            "Type 'update' or '4' to update a voucher or a customer.";
+            "Type 'update' or '4' to update a voucher or a customer.\n" +
+            "Type 'delete' or '5' to delete a voucher or a customer.";
     private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
             "Type voucher name or number to create.\n" +
             "1. Fixed Amount Voucher\n" +
@@ -53,6 +54,19 @@ public class Console implements Input, Output {
     private static final String UPDATE_CUSTOMER_ID_MESSAGE = "=== Type customer id to update ===";
     private static final String UPDATE_NEW_CUSTOMER_NAME_MESSAGE = "\n=== Type new customer name ===";
     private static final String UPDATE_CUSTOMER_COMPLETE_MESSAGE = "--- The customer updated successfully !! ---\n";
+
+    private static final String DELETE_MESSAGE = "\n=== Delete ===\n" +
+            "Type '1' or '2' to delete item.\n" +
+            "1. voucher\n" +
+            "2. normal customer";
+    private static final String DELETE_VOUCHER_ID_MESSAGE = "=== Type voucher id to delete ===";
+    private static final String DELETE_TYPE_SELECTION_MESSAGE = "\n=== Delete ===\n" +
+            "Type '1' or '2' to delete type.\n" +
+            "1. Delete one voucher.\n" +
+            "2. Delete all vouchers.";
+
+    private static final String DELETE_VOUCHER_COMPLETE_MESSAGE = "--- The voucher deleted successfully !! ---\n";
+    private static final String DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE = "--- All vouchers deleted successfully !! ---\n";
 
     @Override
     public void printMenu() {
@@ -164,5 +178,25 @@ public class Console implements Input, Output {
 
     public void printUpdateCustomerCompleteMessage() {
         System.out.println(UPDATE_CUSTOMER_COMPLETE_MESSAGE);
+    }
+
+    public void printDeleteMessage() {
+        System.out.println(DELETE_MESSAGE);
+    }
+
+    public void printDeleteVoucherIdMessage() {
+        System.out.println(DELETE_VOUCHER_ID_MESSAGE);
+    }
+
+    public void printDeleteTypeSelectionMessage() {
+        System.out.println(DELETE_TYPE_SELECTION_MESSAGE);
+    }
+
+    public void printDeleteVoucherCompleteMessage() {
+        System.out.println(DELETE_VOUCHER_COMPLETE_MESSAGE);
+    }
+
+    public void printDeleteAllVouchersCompleteMessage() {
+        System.out.println(DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE);
     }
 }

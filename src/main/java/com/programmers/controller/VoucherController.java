@@ -22,6 +22,9 @@ public class VoucherController {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
 
+    private static final String DELETE_ONE_VOUCHER_NUMBER = "1";
+    private static final String DELETE_ALL_VOUCHERS_NUMBER = "2";
+
     private final Console console;
     private final VoucherService voucherService;
 
@@ -86,5 +89,39 @@ public class VoucherController {
         String updateVoucherName = console.readInput();
 
         return new VoucherUpdateRequestDto(voucher.getVoucherId(), updateVoucherName, updateVoucherValue, voucher.getVoucherType());
+    }
+
+    public void deleteVoucher() {
+        console.printDeleteTypeSelectionMessage();
+        String command = console.readInput();
+        checkDeleteTypeSelection(command);
+
+        switch (command) {
+            case DELETE_ONE_VOUCHER_NUMBER -> deleteOneVoucher();
+            case DELETE_ALL_VOUCHERS_NUMBER -> deleteAllVouchers();
+        }
+    }
+
+    private void checkDeleteTypeSelection(String input) {
+        if (!input.equals(DELETE_ONE_VOUCHER_NUMBER) && !input.equals(DELETE_ALL_VOUCHERS_NUMBER)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void deleteOneVoucher() {
+        getVoucherList();
+
+        console.printDeleteVoucherIdMessage();
+        UUID deleteVoucherId = UUID.fromString(console.readInput());
+
+        voucherService.deleteById(deleteVoucherId);
+        console.printDeleteVoucherCompleteMessage();
+    }
+
+    public void deleteAllVouchers() {
+        getVoucherList();
+
+        voucherService.deleteAll();
+        console.printDeleteAllVouchersCompleteMessage();
     }
 }

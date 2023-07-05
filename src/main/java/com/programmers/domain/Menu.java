@@ -10,7 +10,8 @@ public enum Menu {
     EXIT("exit", "1"),
     CREATE("create", "2"),
     LIST("list", "3"),
-    UPDATE("update", "4");
+    UPDATE("update", "4"),
+    DELETE("delete", "5");
 
     private static final Logger log = LoggerFactory.getLogger(Menu.class);
 

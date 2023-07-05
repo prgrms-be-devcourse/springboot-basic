@@ -42,6 +42,7 @@ public class MenuController {
                 case CREATE -> create();
                 case LIST -> list();
                 case UPDATE -> update();
+                case DELETE -> delete();
             }
         }
     }
@@ -82,6 +83,17 @@ public class MenuController {
         switch (command) {
             case MENU_VOUCHER_NUMBER -> voucherController.updateVoucher();
             case MENU_CUSTOMER_NUMBER -> customerController.updateCustomer();
+        }
+    }
+
+    public void delete() {
+        console.printDeleteMessage();
+        String command = console.readInput();
+        checkMenuSelection(command);
+
+        switch (command) {
+            case MENU_VOUCHER_NUMBER -> voucherController.deleteVoucher();
+        //    case MENU_CUSTOMER_NUMBER -> customerController.deleteCustomer();
         }
     }
 }
