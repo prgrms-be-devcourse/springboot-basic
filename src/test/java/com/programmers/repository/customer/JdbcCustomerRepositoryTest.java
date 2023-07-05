@@ -6,25 +6,64 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.programmers.domain.customer.Customer;
+import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@SpringBootTest
-@ActiveProfiles("test")
+@SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
 
+    @Configuration
+    @ComponentScan(
+            basePackages = {"com.programmers.repository"}
+    )
+    static class Config {
+        @Bean
+        public DataSource dataSource() {
+            HikariDataSource dataSource = DataSourceBuilder.create()
+                    .url("jdbc:mysql://localhost/voucher_test_db")
+                    .username("admin")
+                    .password("admin1234")
+                    .type(HikariDataSource.class)
+                    .build();
+            dataSource.setMaximumPoolSize(1000);
+            dataSource.setMinimumIdle(100);
+            return dataSource;
+        }
+
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
+        }
+    }
+
     @Autowired
+    private DataSource dataSource;
+
     private JdbcCustomerRepository jdbcCustomerRepository;
 
-    @Transactional
+    @BeforeEach
+    void setUp() {
+        jdbcCustomerRepository = new JdbcCustomerRepository(dataSource);
+    }
+
+    @AfterEach
+    void after() {
+        jdbcCustomerRepository.deleteAll();
+    }
+
     @DisplayName("회원을 저장한다")
     @Test
     void save() {
@@ -38,7 +77,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.getCustomerId(), is(customer.getCustomerId()));
     }
 
-    @Transactional
     @DisplayName("저장된 회원들을 모두 조회한다")
     @Test
     void findAll() {
@@ -56,7 +94,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.size(), is(2));
     }
 
-    @Transactional
     @DisplayName("회원을 id로 조회한다")
     @Test
     void findById() {
@@ -71,7 +108,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.get().getCustomerId(), is(customer.getCustomerId()));
     }
 
-    @Transactional
     @DisplayName("회원을 id로 조회했을 때 존재하지 않으면 예외처리한다")
     @Test
     void findByIdException() {
@@ -84,7 +120,6 @@ class JdbcCustomerRepositoryTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Transactional
     @DisplayName("회원을 수정한다")
     @Test
     void update() {
@@ -101,7 +136,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.getCustomerName(), is("after"));
     }
 
-    @Transactional
     @DisplayName("id로 회원을 삭제한다")
     @Test
     void deleteById() {
@@ -117,7 +151,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result).isEmpty();
     }
 
-    @Transactional
     @DisplayName("저장된 모든 회원들을 삭제한다")
     @Test
     void deleteAll() {

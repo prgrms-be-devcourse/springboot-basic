@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile({"jdbc", "test"})
+@Profile("jdbc")
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
