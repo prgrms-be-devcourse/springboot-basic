@@ -7,7 +7,6 @@ import org.devcourse.voucher.view.Input;
 import org.devcourse.voucher.view.Output;
 import org.springframework.boot.CommandLineRunner;
 
-import java.util.List;
 import java.util.Map;
 
 public class CommandDispatcher implements CommandLineRunner {
@@ -25,7 +24,7 @@ public class CommandDispatcher implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Status status = Status.RUNNING;
-        while (status != Status.FINISH) {
+        while (status.isRunning()) {
             String commandName = input.getUserInput();
             Command findCommand = Command.find(commandName);
 
