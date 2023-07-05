@@ -31,7 +31,7 @@ public class VoucherService {
     }
 
     private void createFixedVoucher() {
-        console.printMsg(Constant.CREATE_FIXEDVOUCHERA_MSG, true);
+        console.printMsg(Constant.CREATE_FIXEDVOUCHER_MSG, true);
         discount = console.inputDiscountAmount();
         console.bufferDeleted();
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);

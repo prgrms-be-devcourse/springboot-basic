@@ -13,7 +13,7 @@ public final class Constant {
                 2 -- 퍼센트 할인 Voucher 생성
                 입력: """;
 
-    public static final String CREATE_FIXEDVOUCHERA_MSG = "고정 할인 금액을 입력하세요. (1이상)";
+    public static final String CREATE_FIXEDVOUCHER_MSG = "고정 할인 금액을 입력하세요. (1이상)";
 
     public static final String CREATE_PERCENTVOUCHER_MSG = "퍼센트 할인 금액을 입력하세요. (1~99)";
 
