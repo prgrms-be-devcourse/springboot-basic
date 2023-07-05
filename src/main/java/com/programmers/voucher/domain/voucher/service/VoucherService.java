@@ -1,0 +1,41 @@
+package com.programmers.voucher.domain.voucher.service;
+
+import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
+import com.programmers.voucher.domain.voucher.util.VoucherMessages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
+
+import static com.programmers.voucher.domain.voucher.util.VoucherMessages.CREATED_NEW_VOUCHER;
+
+@Service
+public class VoucherService {
+    private static final Logger LOG = LoggerFactory.getLogger(VoucherService.class);
+
+    private final VoucherRepository voucherRepository;
+
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
+
+    public UUID createVoucher(VoucherType voucherType, long amount) {
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = voucherType.createVoucher(voucherId, amount);
+
+        voucherRepository.save(voucher);
+
+        String logMessage = VoucherMessages.addVoucher(CREATED_NEW_VOUCHER, voucher.toString());
+        LOG.info(logMessage);
+        return voucherId;
+    }
+
+    public List<Voucher> findVouchers() {
+        return voucherRepository.findAll();
+    }
+
+}
