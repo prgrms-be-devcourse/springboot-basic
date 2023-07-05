@@ -14,18 +14,15 @@ public class Customer {
     private String name;
     private LocalDateTime lastLoginAt;
 
-    private Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+        validateCustomerId(customerId);
+        validateEmail(email);
+
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
-    }
-
-    public static Customer of(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-        validateCustomerId(customerId);
-        validateEmail(email);
-        return new Customer(customerId, name, email, lastLoginAt, createdAt);
     }
 
     private static void validateEmail(String email) {

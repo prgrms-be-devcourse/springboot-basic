@@ -30,7 +30,7 @@ class CustomerTest {
         LocalDateTime createdAt = LocalDateTime.now();
 
         //when
-        Customer customer = Customer.of(customerId, name, email, lastLoginAt, createdAt);
+        Customer customer = new Customer(customerId, name, email, lastLoginAt, createdAt);
 
         //then
         assertThat(customer).isNotNull();
@@ -47,7 +47,7 @@ class CustomerTest {
         LocalDateTime createdAt = LocalDateTime.of(2023, 1, 10, 1, 12);
 
         //when, then
-        Assertions.assertThatThrownBy(() -> Customer.of(customerId, name, email, lastLoginAt, createdAt))
+        Assertions.assertThatThrownBy(() -> new Customer(customerId, name, email, lastLoginAt, createdAt))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("고객 아이디가 비어있습니다.");
     }
@@ -63,7 +63,7 @@ class CustomerTest {
         LocalDateTime createdAt = LocalDateTime.now();
 
         //when, then
-        assertThatThrownBy(() -> Customer.of(customerId, name, email, lastLoginAt, createdAt))
+        assertThatThrownBy(() -> new Customer(customerId, name, email, lastLoginAt, createdAt))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(String.format("옳바른 이메일 형식을 입력해주세요. 입력값: %s", email));
     }
@@ -77,7 +77,7 @@ class CustomerTest {
         String email = "mgtmh991013@naver.com";
         LocalDateTime lastLoginAt = LocalDateTime.of(2023, 1, 10, 1, 12);
         LocalDateTime createdAt = LocalDateTime.of(2023, 1, 10, 1, 12);
-        Customer customer = Customer.of(customerId, name, email, lastLoginAt, createdAt);
+        Customer customer = new Customer(customerId, name, email, lastLoginAt, createdAt);
 
         //when
         customer.login();
@@ -99,7 +99,7 @@ class CustomerTest {
         String email = "mgtmh991013@naver.com";
         LocalDateTime lastLoginAt = LocalDateTime.of(2023, 1, 10, 1, 12);
         LocalDateTime createdAt = LocalDateTime.of(2023, 1, 10, 1, 12);
-        Customer customer = Customer.of(customerId, name, email, lastLoginAt, createdAt);
+        Customer customer = new Customer(customerId, name, email, lastLoginAt, createdAt);
 
         //when
         customer.changeName(changeName);
@@ -118,7 +118,7 @@ class CustomerTest {
         String email = "mgtmh991013@naver.com";
         LocalDateTime lastLoginAt = LocalDateTime.of(2023, 1, 10, 1, 12);
         LocalDateTime createdAt = LocalDateTime.of(2023, 1, 10, 1, 12);
-        Customer customer = Customer.of(customerId, name, email, lastLoginAt, createdAt);
+        Customer customer = new Customer(customerId, name, email, lastLoginAt, createdAt);
 
         //when, then
         Assertions.assertThatThrownBy(() -> customer.changeName(changeName))
