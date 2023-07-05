@@ -1,9 +1,10 @@
 package com.programmers.repository.voucher;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import com.programmers.domain.voucher.FixedAmountVoucher;
 import com.programmers.domain.voucher.Voucher;
-import com.programmers.repository.voucher.FileVoucherRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ class FileVoucherRepositoryTest {
         List<Voucher> result = fileVoucherRepository.findAll();
 
         //then
-        Assertions.assertThat(result.get(0).getVoucherId()).isEqualTo(expected.getVoucherId());
+        assertThat(result.get(0).getVoucherId(), is(expected.getVoucherId()));
     }
 
     @DisplayName("바우처 정보를 추출한다")
@@ -39,6 +40,6 @@ class FileVoucherRepositoryTest {
         Voucher result = fileVoucherRepository.extractVoucher(line);
 
         //then
-        Assertions.assertThat(result.getVoucherId()).isEqualTo(expected.getVoucherId());
+        assertThat(result.getVoucherId(), is(expected.getVoucherId()));
     }
 }
