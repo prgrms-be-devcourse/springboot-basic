@@ -213,7 +213,7 @@ class ConsoleMenuTest {
 
         //then
         then(console).should().inputInitialCommand();
-        then(console).should(times(2)).printCommandSet();
+        then(console).should().printCommandSet();
     }
 
     @Test

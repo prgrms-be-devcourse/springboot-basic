@@ -32,7 +32,7 @@ public class ConsoleMenu {
                 runningVoucherService();
             }
             case HELP -> {
-                console.printCommandSet();
+                return true;
             }
             case EXIT -> {
                 console.exit();
