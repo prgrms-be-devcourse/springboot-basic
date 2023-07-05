@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.customer.service;
 
 import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.customer.repository.CustomerRepository;
+import com.programmers.voucher.domain.customer.util.CustomerErrorMessages;
 import com.programmers.voucher.domain.customer.util.CustomerMessages;
 import com.programmers.voucher.global.util.DataErrorMessages;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class CustomerService {
         boolean emailDuplication = customerRepository.findByEmail(email)
                 .isPresent();
         if (emailDuplication) {
-            String errorMessage = MessageFormat.format(DataErrorMessages.DUPLICATE_EMAIL, email);
+            String errorMessage = MessageFormat.format(CustomerErrorMessages.DUPLICATE_EMAIL, email);
             throw new DuplicateKeyException(errorMessage);
         }
 
