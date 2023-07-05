@@ -18,14 +18,6 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public Customer(Long customerId, String name, String email, LocalDateTime createdAt) {
-        validateName(name);
-        this.name = name;
-        this.customerId = customerId;
-        this.email = email;
-        this.createdAt = createdAt;
-    }
-
     public void changeName(String name) {
         validateName(name);
         this.name = name;
