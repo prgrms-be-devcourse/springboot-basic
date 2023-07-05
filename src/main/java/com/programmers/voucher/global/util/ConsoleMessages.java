@@ -22,14 +22,14 @@ public final class ConsoleMessages {
     public static final String VOUCHER_LIST_BEHAVIOR = "to list all vouchers.";
     public static final String VOUCHER_DELETE_BEHAVIOR = "to delete a vouchers.";
 
-    public static final String VOUCHER_TYPES = "[fixed | percent]";
-    public static final String AMOUNT = "[amount]";
-    public static final String PERCENT = "[percent]";
+    public static final String VOUCHER_TYPES = "Choose a type. [fixed] or [percent]";
+    public static final String AMOUNT = "Enter an [amount]";
+    public static final String PERCENT = "Enter a [percent]";
 
-    public static final String ENTER_EMAIL = "Enter a [email]";
+    public static final String ENTER_EMAIL = "Enter an [email]";
     public static final String ENTER_NAME = "Enter a [name]";
     public static final String ENTER_NEW_NAME = "Enter a new [name]";
-    public static final String ENTER_ID = "Enter a [ID]";
+    public static final String ENTER_ID = "Enter an [ID]";
 
     public static final String CREATED_NEW_VOUCHER = "Created new voucher. VoucherId: {0}";
     public static final String DELETED_VOUCHER = "Deleted Voucher.";
