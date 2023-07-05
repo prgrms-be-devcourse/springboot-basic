@@ -2,8 +2,7 @@ package org.prgms.voucher.voucher;
 
 public class FixedAmountVoucher extends AmountVoucher {
     public FixedAmountVoucher(int discountAmount) {
-        super(discountAmount);
-        super.amountVoucherOptionType = AmountVoucherOptionType.FIXED_AMOUNT;
+        super(discountAmount, AmountVoucherOptionType.FIXED_AMOUNT);
     }
 
     @Override
