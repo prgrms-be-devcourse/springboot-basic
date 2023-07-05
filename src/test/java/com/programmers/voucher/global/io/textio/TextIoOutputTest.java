@@ -53,6 +53,26 @@ class TextIoOutputTest {
         assertThat(output).isEqualTo(expected);
     }
 
+    @Test
+    @DisplayName("성공: customer 메뉴 명령어 목록 출력")
+    void printCustomerCommandSet() {
+        //given
+        //when
+        textIoOutput.printCustomerCommandSet();
+
+        //then
+        String output = mockTextTerminal.getOutput();
+        String expected =
+                CUSTOMER_SERVICE + "\n"
+                + commandMessage(CustomerCommandType.CREATE, CUSTOMER_CREATE_BEHAVIOR) + "\n"
+                + commandMessage(CustomerCommandType.LIST, CUSTOMER_LIST_BEHAVIOR) + "\n"
+                + commandMessage(CustomerCommandType.UPDATE, CUSTOMER_UPDATE_BEHAVIOR) + "\n"
+                + commandMessage(CustomerCommandType.DELETE, CUSTOMER_DELETE_BEHAVIOR) + "\n"
+                + commandMessage(CustomerCommandType.BLACKLIST, CUSTOMER_BLACKLIST_BEHAVIOR) + "\n"
+                + commandMessage(CustomerCommandType.HELP, HELP_BEHAVIOR) + "\n"
+                + commandMessage(CustomerCommandType.EXIT, EXIT_SERVICE_BEHAVIOR);
+        assertThat(output).isEqualTo(expected);
+    }
 
     @Test
     @DisplayName("성공: voucher 메뉴 명령어 목록 출력")
