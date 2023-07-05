@@ -30,7 +30,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("discountAmount", voucher.returnDiscount());
-            put("voucherType", 1); // TODO - temp 이므로 VoucherType 별로 다르게 적용하도록 바꿔야함
+            put("voucherType", voucher.getVoucherType() == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE ? 1 : 2);
         }};
     }
 

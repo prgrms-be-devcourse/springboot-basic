@@ -23,7 +23,6 @@ public class VoucherService {
         if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
             FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amountOrPercent);
             voucherRepository.saveVoucher(voucher);
-
         }
 
         if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
