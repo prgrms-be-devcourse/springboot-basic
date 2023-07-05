@@ -13,8 +13,12 @@ public class AmountVoucherService {
         this.amountVoucherRepository = amountVoucherRepository;
     }
 
-    public AmountVoucher createAmountVoucher(AmountVoucher amountVoucher) {
-        return amountVoucherRepository.save(amountVoucher);
+    public AmountVoucher createAmountVoucher(AmountVoucherCreateVo amountVoucherCreateVo) {
+        return amountVoucherRepository.save(
+                amountVoucherCreateVo
+                        .getAmountVoucherOptionType()
+                        .createAmountVoucher(amountVoucherCreateVo.getAmount())
+        );
     }
 
     public List<AmountVoucher> listAmountVoucher() {

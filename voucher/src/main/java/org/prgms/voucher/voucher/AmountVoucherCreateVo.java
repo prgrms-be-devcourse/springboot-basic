@@ -1,10 +1,10 @@
 package org.prgms.voucher.voucher;
 
-public class AmountVoucherCreateDto {
+public class AmountVoucherCreateVo {
     private final AmountVoucherOptionType amountVoucherOptionType;
     private final int amount;
 
-    public AmountVoucherCreateDto(AmountVoucherOptionType amountVoucherOptionType, int amount) {
+    public AmountVoucherCreateVo(AmountVoucherOptionType amountVoucherOptionType, int amount) {
         this.amountVoucherOptionType = amountVoucherOptionType;
         this.amount = amount;
     }
