@@ -3,8 +3,10 @@ package com.prgms.VoucherApp.domain.voucher.model;
 import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
 import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateReqDto;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateReqDto;
 import com.prgms.VoucherApp.domain.voucher.dto.VouchersResDto;
 import com.prgms.VoucherApp.domain.voucher.storage.VoucherStorage;
 import org.slf4j.Logger;
@@ -53,5 +55,32 @@ public class VoucherDao {
             .toList();
 
         return new VouchersResDto(convertVoucherResDto);
+    }
+
+    public VouchersResDto findByVoucherType(VoucherType voucherType) {
+        List<Voucher> findVouchers = voucherStorage.findByVoucherType(voucherType);
+
+        List<VoucherResDto> convertVoucherResDto = findVouchers.stream()
+            .map(VoucherResDto::new)
+            .toList();
+
+        return new VouchersResDto(convertVoucherResDto);
+    }
+
+    @Transactional
+    public void update(VoucherUpdateReqDto voucherUpdateReqDto) {
+        Voucher voucher = switch (voucherUpdateReqDto.getVoucherType()) {
+            case FIXED_VOUCHER ->
+                new FixedAmountVoucher(UUID.randomUUID(), voucherUpdateReqDto.getAmount(), voucherUpdateReqDto.getVoucherType());
+            case PERCENT_VOUCHER ->
+                new PercentDiscountVoucher(UUID.randomUUID(), voucherUpdateReqDto.getAmount(), voucherUpdateReqDto.getVoucherType());
+        };
+
+        voucherStorage.update(voucher);
+    }
+
+    @Transactional
+    public void deleteById(UUID id) {
+        voucherStorage.deleteById(id);
     }
 }
