@@ -26,8 +26,7 @@ public class VoucherResponse {
         return voucherType;
     }
 
-    @Override
-    public String toString() {
+    public String generateMessage() {
         return "VoucherResponse{" +
                 "id=" + id +
                 ", voucherType=" + voucherType +
