@@ -1,20 +1,34 @@
 package com.devcourse.springbootbasic.application.repository.customer;
 
+import com.devcourse.springbootbasic.application.converter.CustomerConverter;
 import com.devcourse.springbootbasic.application.domain.customer.Customer;
+import com.devcourse.springbootbasic.application.io.CsvReader;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-public interface CustomerRepository {
-    List<Customer> findAllBlackCustomers();
-    Customer insert(Customer customer);
-    Customer update(Customer customer);
-    List<Customer> findAllCustomers();
-    Optional<Customer> findById(UUID customerId);
-    Optional<Customer> findByName(String name);
-    Optional<Customer> findByEmail(String email);
-    void deleteAll();
-    int count();
-    void setFilePath(String filePath);
+@Repository
+public class CustomerRepository {
+
+    @Value("${settings.blackCustomerPath}")
+    private String filepath;
+
+    private final CsvReader csvReader;
+
+    public CustomerRepository(CsvReader csvReader) {
+        this.csvReader = csvReader;
+    }
+
+    public List<Customer> findAllBlackCustomers() {
+        return csvReader.readFile(filepath)
+                .stream()
+                .map(CustomerConverter::convertCsvToCustomer)
+                .toList();
+    }
+
+    public void setFilePath(String filePath) {
+        this.filepath = filePath;
+    }
+
 }

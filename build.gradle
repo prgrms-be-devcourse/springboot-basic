@@ -20,7 +20,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// textIO
-	compileOnly('org.beryx:text-io:3.4.1')
+	implementation 'org.beryx:text-io:3.4.1'
 
 	// configurationProperties
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
@@ -28,14 +28,14 @@ dependencies {
 	// mysql connector
 	implementation 'mysql:mysql-connector-java:8.0.28'
 
-	// jdbc
-	implementation "org.springframework.boot:spring-boot-starter-jdbc"
-
 	// wix embedded mysql database -> for test
 	testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
+
+	// jdbc
+	implementation "org.springframework.boot:spring-boot-starter-jdbc"
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
 }
 
