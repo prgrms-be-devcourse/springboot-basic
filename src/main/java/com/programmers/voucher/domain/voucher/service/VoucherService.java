@@ -47,5 +47,4 @@ public class VoucherService {
         voucherRepository.deleteById(voucherId);
         LOG.info(VoucherMessages.DELETE_VOUCHER, voucher);
     }
-
 }
