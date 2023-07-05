@@ -23,9 +23,9 @@ public class LoggerAspect {
         Object proceed = joinPoint.proceed();
         long finishTime = System.currentTimeMillis();
 
-        double timeMs = (finishTime - startTime) / 1000.0;
+        double invokeTime = (finishTime - startTime) / 1000.0;
 
-        logger.info("invoke method : {} - {} - timeMs : {} Ms", className, methodName, timeMs);
+        logger.info("invoke method : {} - {} - / timeTaken : {} s", className, methodName, invokeTime);
         return proceed;
     }
 }
