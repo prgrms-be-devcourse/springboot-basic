@@ -42,7 +42,7 @@ class PercentDiscountVoucherTest {
         //given
         //when
         //then
-        Assertions.assertThatThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), "", input))
+        Assertions.assertThatThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), "voucherName", input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

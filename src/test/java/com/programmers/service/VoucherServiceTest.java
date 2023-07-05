@@ -41,8 +41,8 @@ class VoucherServiceTest {
     @Test
     public void save() {
         //given
-        VoucherCreateRequestDto voucherCreateRequestDto = new VoucherCreateRequestDto("Test Voucher", 100L, VoucherType.FixedAmountVoucher);
-        FixedAmountVoucher savedVoucher = new FixedAmountVoucher(UUID.randomUUID(), "Test Voucher", 100L);
+        VoucherCreateRequestDto voucherCreateRequestDto = new VoucherCreateRequestDto("TestVoucher", 100L, VoucherType.FixedAmountVoucher);
+        FixedAmountVoucher savedVoucher = new FixedAmountVoucher(UUID.randomUUID(), "TestVoucher", 100L);
 
         when(voucherRepository.save(any(FixedAmountVoucher.class))).thenReturn(savedVoucher);
 
@@ -81,7 +81,7 @@ class VoucherServiceTest {
     public void findById() {
         //given
         UUID id = UUID.randomUUID();
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id, "Test Voucher", 10L);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id, "TestVoucher", 10L);
 
         when(voucherRepository.findById(id)).thenReturn(Optional.of(fixedAmountVoucher));
 

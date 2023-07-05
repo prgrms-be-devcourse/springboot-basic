@@ -39,7 +39,7 @@ class FixedAmountVoucherTest {
         //given
         //when
         //then
-        Assertions.assertThatThrownBy(() -> new FixedAmountVoucher(UUID.randomUUID(), "", -1L))
+        Assertions.assertThatThrownBy(() -> new FixedAmountVoucher(UUID.randomUUID(), "voucherName", -1L))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
