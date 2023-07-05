@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain.voucher.controller;
 
 import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.global.io.Console;
@@ -34,8 +35,11 @@ public class VoucherController {
 
     public void findVouchers() {
         List<Voucher> vouchers = voucherService.findVouchers();
+        List<VoucherDto> voucherDtos = vouchers.stream()
+                .map(Voucher::toDto)
+                .toList();
 
-        console.printVouchers(vouchers);
+        console.printVouchers(voucherDtos);
     }
 
     public void deleteVoucher() {

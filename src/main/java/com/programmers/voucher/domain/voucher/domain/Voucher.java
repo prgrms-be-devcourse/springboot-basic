@@ -18,6 +18,4 @@ public abstract class Voucher {
     }
 
     public abstract long totalAmount(long beforeAmount);
-
-    public abstract String fullInfoString();
 }

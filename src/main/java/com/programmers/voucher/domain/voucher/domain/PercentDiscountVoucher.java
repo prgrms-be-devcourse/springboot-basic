@@ -47,11 +47,6 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public String fullInfoString() {
-        return "VoucherID: " + voucherId + ", discount: " + percent + "%";
-    }
-
-    @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
                 "voucherId=" + voucherId +

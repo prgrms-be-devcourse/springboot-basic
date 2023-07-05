@@ -41,11 +41,6 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public String fullInfoString() {
-        return "VoucherID: " + voucherId + ", discount: " + amount + "$";
-    }
-
-    @Override
     public String toString() {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +

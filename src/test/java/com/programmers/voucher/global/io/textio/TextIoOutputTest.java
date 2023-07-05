@@ -1,9 +1,9 @@
 package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.customer.dto.CustomerDto;
-import com.programmers.voucher.domain.voucher.domain.FixedAmountVoucher;
-import com.programmers.voucher.domain.voucher.domain.PercentDiscountVoucher;
-import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.domain.voucher.dto.VoucherDto;
+import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
 import com.programmers.voucher.global.io.command.CommandType;
 import com.programmers.voucher.global.io.command.ConsoleCommandType;
 import com.programmers.voucher.global.io.command.CustomerCommandType;
@@ -102,18 +102,35 @@ class TextIoOutputTest {
     @DisplayName("성공: 바우처 목록 출력")
     void printVouchers() {
         //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
-        PercentDiscountVoucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
-        List<Voucher> givenVouchers = List.of(fixedVoucher, percentVoucher);
+        VoucherDto fixedVoucher = new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 10);
+        VoucherDto percentVoucher = new VoucherDto(UUID.randomUUID(), VoucherType.PERCENT, 10);
+        List<VoucherDto> givenVouchers = List.of(fixedVoucher, percentVoucher);
 
         //when
         textIoOutput.printVouchers(givenVouchers);
 
         //then
-        String expectedOutput = fixedVoucher.fullInfoString() + "\n" + percentVoucher.fullInfoString();
+        String expectedOutput = voucherInfo(fixedVoucher) + "\n" + voucherInfo(percentVoucher);
         String output = mockTextTerminal.getOutput();
 
         assertThat(output).isEqualTo(expectedOutput);
+    }
+
+    private String voucherInfo(VoucherDto voucherDto) {
+        switch (voucherDto.getVoucherType()) {
+            case FIXED_AMOUNT -> {
+                return MessageFormat.format(
+                        "VoucherId: {0}, Amount: {1}$",
+                        voucherDto.getVoucherId(), voucherDto.getAmount());
+            }
+            case PERCENT -> {
+                return MessageFormat.format(
+                        "VoucherId: {0}, Percent: {1}%",
+                        voucherDto.getVoucherId(), voucherDto.getAmount());
+            }
+        }
+
+        throw new IllegalStateException(VoucherErrorMessages.UNHANDLED_VOUCHER_TYPE);
     }
 
     @Test

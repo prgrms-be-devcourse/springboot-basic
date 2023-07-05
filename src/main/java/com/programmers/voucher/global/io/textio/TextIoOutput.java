@@ -1,7 +1,8 @@
 package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.customer.dto.CustomerDto;
-import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.dto.VoucherDto;
+import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
 import com.programmers.voucher.global.io.ConsoleOutput;
 import com.programmers.voucher.global.io.command.CommandType;
 import com.programmers.voucher.global.io.command.ConsoleCommandType;
@@ -74,9 +75,26 @@ public class TextIoOutput implements ConsoleOutput {
     }
 
     @Override
-    public void printVouchers(List<Voucher> vouchers) {
+    public void printVouchers(List<VoucherDto> vouchers) {
         vouchers.forEach(voucher ->
-                print(voucher.fullInfoString()));
+                print(voucherInfo(voucher)));
+    }
+
+    private String voucherInfo(VoucherDto voucherDto) {
+        switch (voucherDto.getVoucherType()) {
+            case FIXED_AMOUNT -> {
+                return MessageFormat.format(
+                        "VoucherId: {0}, Amount: {1}$",
+                        voucherDto.getVoucherId(), voucherDto.getAmount());
+            }
+            case PERCENT -> {
+                return MessageFormat.format(
+                        "VoucherId: {0}, Percent: {1}%",
+                        voucherDto.getVoucherId(), voucherDto.getAmount());
+            }
+        }
+
+        throw new IllegalStateException(VoucherErrorMessages.UNHANDLED_VOUCHER_TYPE);
     }
 
     @Override
