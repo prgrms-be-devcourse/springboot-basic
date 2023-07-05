@@ -25,7 +25,7 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public String inputVoucherType() {
+    public String inputDiscountType() {
         println(ConsoleMessage.CREATE_VOUCHER_TYPE_MESSAGE.getMessage());
         print(ARROW);
         return userInput();

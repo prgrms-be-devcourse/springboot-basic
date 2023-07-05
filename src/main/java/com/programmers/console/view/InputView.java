@@ -6,7 +6,7 @@ public interface InputView {
 
     String inputMenu();
 
-    String inputVoucherType();
+    String inputDiscountType();
 
     String inputDiscountValue();
 }

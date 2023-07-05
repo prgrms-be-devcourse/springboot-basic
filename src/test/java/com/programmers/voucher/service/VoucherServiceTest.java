@@ -3,7 +3,7 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.FixedDiscount;
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.VoucherType;
+import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ class VoucherServiceTest {
             , "1, 30"
     })
     void createVoucherTest(String command, long value) {
-        Discount discount = Discount.of(VoucherType.of(command), value);
+        Discount discount = Discount.of(DiscountType.of(command), value);
         UUID id = UUID.randomUUID();
         VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
 

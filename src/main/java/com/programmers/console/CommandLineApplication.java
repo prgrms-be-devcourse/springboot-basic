@@ -5,7 +5,7 @@ import com.programmers.console.util.VoucherStringSerializer;
 import com.programmers.console.view.Console;
 import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Discount;
-import com.programmers.voucher.domain.VoucherType;
+import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import org.slf4j.Logger;
@@ -60,16 +60,16 @@ public class CommandLineApplication {
     }
 
     private VoucherRequestDto createRequestDtoByUserInput() {
-        VoucherType voucherType = inputVoucherInfo();
-        long discountInfo = inputDiscountInfo();
-        Discount discount = Discount.of(voucherType, discountInfo);
+        DiscountType discountType = inputDiscountTypeInfo();
+        long discountInfo = inputDiscountValueInfo();
+        Discount discount = Discount.of(discountType, discountInfo);
         return new VoucherRequestDto(UUID.randomUUID(), discount);
     }
 
-    private VoucherType inputVoucherInfo() {
+    private DiscountType inputDiscountTypeInfo() {
         while (true) {
             try {
-                return VoucherType.of(console.inputVoucherType());
+                return DiscountType.of(console.inputDiscountType());
             } catch (IllegalArgumentException e) {
                 console.println(e.getMessage());
                 logger.error("Log Message -> {}", e.getMessage());
@@ -77,7 +77,7 @@ public class CommandLineApplication {
         }
     }
 
-    private long inputDiscountInfo() {
+    private long inputDiscountValueInfo() {
         while (true) {
             try {
                 return Long.parseLong(console.inputDiscountValue());
