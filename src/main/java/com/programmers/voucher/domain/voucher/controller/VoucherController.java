@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.UUID;
 
-import static com.programmers.voucher.domain.voucher.util.VoucherMessages.CREATED_NEW_VOUCHER;
-import static com.programmers.voucher.domain.voucher.util.VoucherMessages.DELETE_VOUCHER;
+import static com.programmers.voucher.global.util.ConsoleMessages.CREATED_NEW_VOUCHER;
+import static com.programmers.voucher.global.util.ConsoleMessages.DELETED_VOUCHER;
 
 @Controller
 public class VoucherController {
@@ -43,6 +43,6 @@ public class VoucherController {
 
         voucherService.deleteVoucher(voucherId);
 
-        console.print(DELETE_VOUCHER);
+        console.print(DELETED_VOUCHER);
     }
 }

@@ -30,11 +30,12 @@ public final class ConsoleMessages {
     public static final String ENTER_NEW_NAME = "Enter a new [name]";
     public static final String ENTER_ID = "Enter a [ID]";
 
+    public static final String CREATED_NEW_VOUCHER = "Created new voucher. VoucherId: {0}";
+    public static final String DELETED_VOUCHER = "Deleted Voucher.";
+
     public static final String CREATED_NEW_CUSTOMER = "Created new Customer. CustomerId: {0}";
     public static final String UPDATED_CUSTOMER = "Updated customer info.";
     public static final String DELETED_CUSTOMER = "Deleted customer.";
-
-    public static final String DELETED_VOUCHER = "Deleted Voucher.";
 
     public static final String EXIT_CONSOLE = "Bye Bye.";
 
