@@ -43,8 +43,9 @@ class VoucherTest {
         LocalDateTime createdAt = LocalDateTime.now();
 
         Voucher createdVoucher = new Voucher(voucherId, discount, createdAt);
+        LocalDateTime expiredAt = createdAt.plusDays(7);
 
-        assertThat(createdAt.plusDays(7)).isEqualTo(createdVoucher.getExpiredAt());
+        assertThat(expiredAt).isEqualTo(createdVoucher.getExpiredAt());
     }
 
     @DisplayName("만료일이 지난 바우처는 사용이 불가능 하다")
