@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("default")
+@Profile("csv")
 public class CsvFileVoucherStorage implements VoucherStorage {
 
     @Value("${voucher.path}")
@@ -66,7 +66,7 @@ public class CsvFileVoucherStorage implements VoucherStorage {
         String[] data = line.split(",");
 
         try {
-            return Voucher.of(VoucherPolicy.valueOf(data[0]), Long.parseLong(data[1]), UUID.fromString(data[2]));
+            return Voucher.of(UUID.fromString(data[2]), VoucherPolicy.valueOf(data[0]), Long.parseLong(data[1]));
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(MessageFormat.format("{0} 파일은 잘못된 형식으로 작성되어 있습니다.", filename));
         }
