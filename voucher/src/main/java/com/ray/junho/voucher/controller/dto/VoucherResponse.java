@@ -1,6 +1,7 @@
 package com.ray.junho.voucher.controller.dto;
 
 import com.ray.junho.voucher.domain.VoucherType;
+import org.apache.logging.log4j.message.Message;
 
 public class VoucherResponse {
 
@@ -27,10 +28,6 @@ public class VoucherResponse {
     }
 
     public String generateMessage() {
-        return "VoucherResponse{" +
-                "id=" + id +
-                ", voucherType=" + voucherType +
-                ", discountValue=" + discountValue +
-                '}';
+        return String.format("Voucher 번호: %d, 타입: %s, 할인 값: %d", id, voucherType, discountValue);
     }
 }
