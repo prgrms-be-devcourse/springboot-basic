@@ -26,7 +26,12 @@ public class CustomerServiceTest {
     @Test
     void save() {
         // given
-        CustomerCreateDto customerCreateDto = new CustomerCreateDto("changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+        CustomerCreateDto customerCreateDto = CustomerCreateDto.builder()
+                .customerName("changhyeon")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
+
         customerService.save(customerCreateDto);
 
         // when
@@ -39,11 +44,21 @@ public class CustomerServiceTest {
     @Test
     void update() {
         // given
-        CustomerCreateDto customerCreateDto = new CustomerCreateDto("changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+        CustomerCreateDto customerCreateDto = CustomerCreateDto.builder()
+                .customerName("changhyeon")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
+
         customerService.save(customerCreateDto);
         List<Customer> customerList = customerService.findAll();
         Customer beforeCustomer = customerList.get(0);
-        CustomerUpdateDto customerUpdateDto = new CustomerUpdateDto(beforeCustomer.getCustomerId(), "changhyeonh", "changhyeon.h1@kakao.com", CustomerType.BLACKLIST);
+        CustomerUpdateDto customerUpdateDto = CustomerUpdateDto.builder()
+                .customerId(beforeCustomer.getCustomerId())
+                .customerName("changhyeonh")
+                .customerEmail("changhyeon.h1@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
 
         // when
         customerService.update(customerUpdateDto);
@@ -57,9 +72,23 @@ public class CustomerServiceTest {
     @Test
     void finaAll() {
         // given
-        CustomerCreateDto customerCreateDto1 = new CustomerCreateDto("changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
-        CustomerCreateDto customerCreateDto2 = new CustomerCreateDto("dong", "dong@kakao.com", CustomerType.BLACKLIST);
-        CustomerCreateDto customerCreateDto3 = new CustomerCreateDto("yang", "yang@kakao.com", CustomerType.BLACKLIST);
+        CustomerCreateDto customerCreateDto1 = CustomerCreateDto.builder()
+                .customerName("changhyeon")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
+
+        CustomerCreateDto customerCreateDto2 = CustomerCreateDto.builder()
+                .customerName("dong")
+                .customerEmail("dong.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
+
+        CustomerCreateDto customerCreateDto3 = CustomerCreateDto.builder()
+                .customerName("yang")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
 
         customerService.save(customerCreateDto1);
         customerService.save(customerCreateDto2);
@@ -75,9 +104,23 @@ public class CustomerServiceTest {
     @Test
     void getBlackList() {
         // given
-        CustomerCreateDto customerCreateDto1 = new CustomerCreateDto("changhyeon", "changhyeon.h@kakao.com", CustomerType.NORMAL);
-        CustomerCreateDto customerCreateDto2 = new CustomerCreateDto("dong", "dong@kakao.com", CustomerType.BLACKLIST);
-        CustomerCreateDto customerCreateDto3 = new CustomerCreateDto("yang", "yang@kakao.com", CustomerType.BLACKLIST);
+        CustomerCreateDto customerCreateDto1 = CustomerCreateDto.builder()
+                .customerName("changhyeon")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.NORMAL)
+                .build();
+
+        CustomerCreateDto customerCreateDto2 = CustomerCreateDto.builder()
+                .customerName("dong")
+                .customerEmail("dong.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
+
+        CustomerCreateDto customerCreateDto3 = CustomerCreateDto.builder()
+                .customerName("yang")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
 
         customerService.save(customerCreateDto1);
         customerService.save(customerCreateDto2);
@@ -93,8 +136,12 @@ public class CustomerServiceTest {
     @Test
     void deleteById() {
         // given
-        CustomerCreateDto customerCreateDto = new CustomerCreateDto("changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
-        customerService.save(customerCreateDto);
+        CustomerCreateDto customerCreateDto = CustomerCreateDto.builder()
+                .customerName("changhyeon")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
+
         List<Customer> customerListBefore = customerService.findAll();
 
         // when
@@ -108,9 +155,23 @@ public class CustomerServiceTest {
     @Test
     void deleteAll() {
         // given
-        CustomerCreateDto customerCreateDto1 = new CustomerCreateDto("changhyeon", "changhyeon.h@kakao.com", CustomerType.NORMAL);
-        CustomerCreateDto customerCreateDto2 = new CustomerCreateDto("dong", "dong@kakao.com", CustomerType.BLACKLIST);
-        CustomerCreateDto customerCreateDto3 = new CustomerCreateDto("yang", "yang@kakao.com", CustomerType.BLACKLIST);
+        CustomerCreateDto customerCreateDto1 = CustomerCreateDto.builder()
+                .customerName("changhyeon")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.NORMAL)
+                .build();
+
+        CustomerCreateDto customerCreateDto2 = CustomerCreateDto.builder()
+                .customerName("dong")
+                .customerEmail("dong.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
+
+        CustomerCreateDto customerCreateDto3 = CustomerCreateDto.builder()
+                .customerName("yang")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
 
         customerService.save(customerCreateDto1);
         customerService.save(customerCreateDto2);

@@ -103,12 +103,12 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     private RowMapper<Customer> customerRowMapper() {
         return ((resultSet, rowMap) ->
-                new Customer(
-                        UUID.fromString(resultSet.getString("customer_id")),
-                        resultSet.getString("customer_name"),
-                        resultSet.getString("customer_email"),
-                        CustomerType.valueOf(resultSet.getString("customer_type"))
-                )
+                Customer.builder()
+                        .customerId(UUID.fromString(resultSet.getString("customer_id")))
+                        .customerName(resultSet.getString("customer_name"))
+                        .customerEmail(resultSet.getString("customer_email"))
+                        .customerType(CustomerType.valueOf(resultSet.getString("customer_type")))
+                        .build()
         );
     }
 }

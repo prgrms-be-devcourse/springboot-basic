@@ -30,7 +30,11 @@ public class Console implements Input, Output {
         Validator.nameValidate(customerInfo[0]);
         Validator.emailValidate(customerInfo[1]);
 
-        return new CustomerCreateDto(customerInfo[0], customerInfo[1], CustomerType.from(customerInfo[2]));
+        return CustomerCreateDto.builder()
+                .customerName(customerInfo[0])
+                .customerEmail(customerInfo[1])
+                .customerType(CustomerType.from(customerInfo[2]))
+                .build();
     }
 
     @Override
@@ -39,7 +43,12 @@ public class Console implements Input, Output {
         Validator.nameValidate(customerInfo[0]);
         Validator.emailValidate(customerInfo[1]);
 
-        return new CustomerUpdateDto(customerId, customerInfo[0], customerInfo[1], CustomerType.from(customerInfo[2]));
+        return CustomerUpdateDto.builder()
+                .customerId(customerId)
+                .customerName(customerInfo[0])
+                .customerEmail(customerInfo[1])
+                .customerType(CustomerType.from(customerInfo[2]))
+                .build();
     }
 
     @Override

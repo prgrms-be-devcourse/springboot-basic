@@ -29,9 +29,24 @@ class FileCustomerRepositoryTest {
         UUID customer3UUID = UUID.fromString("202e65fe-bdd2-4f0b-db43-307d5c24ad4a");
 
         List<Customer> expectBlacklist = List.of(
-                new Customer(customer1UUID, "changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST),
-                new Customer(customer2UUID, "changhyeon1", "changhyeon.h@kakao.com", CustomerType.BLACKLIST),
-                new Customer(customer3UUID, "changhyeon2", "changhyeon.h@kakao.com", CustomerType.BLACKLIST)
+                Customer.builder()
+                        .customerId(customer1UUID)
+                        .customerName("changhyeon")
+                        .customerEmail("changhyeon.h@kakao.com")
+                        .customerType(CustomerType.BLACKLIST)
+                        .build(),
+                Customer.builder()
+                        .customerId(customer2UUID)
+                        .customerName("changhyeon1")
+                        .customerEmail("changhyeon.h@kakao.com")
+                        .customerType(CustomerType.BLACKLIST)
+                        .build(),
+                Customer.builder()
+                        .customerId(customer3UUID)
+                        .customerName("changhyeon2")
+                        .customerEmail("changhyeon.h@kakao.com")
+                        .customerType(CustomerType.BLACKLIST)
+                        .build()
         );
 
         // when

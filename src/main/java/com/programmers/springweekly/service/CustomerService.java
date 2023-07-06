@@ -18,24 +18,25 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public void save(CustomerCreateDto customerCreateDto) {
-        Customer customer = new Customer(
-                UUID.randomUUID(),
-                customerCreateDto.getCustomerName(),
-                customerCreateDto.getCustomerEmail(),
-                customerCreateDto.getCustomerType()
-        );
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .customerName(customerCreateDto.getCustomerName())
+                .customerEmail(customerCreateDto.getCustomerEmail())
+                .customerType(customerCreateDto.getCustomerType())
+                .build();
 
         customerRepository.save(customer);
     }
 
     public void update(CustomerUpdateDto customerUpdateDto) {
         customerRepository.update(
-                new Customer(
-                        customerUpdateDto.getCustomerId(),
-                        customerUpdateDto.getCustomerName(),
-                        customerUpdateDto.getCustomerEmail(),
-                        customerUpdateDto.getCustomerType()
-                ));
+                Customer.builder()
+                        .customerId(customerUpdateDto.getCustomerId())
+                        .customerName(customerUpdateDto.getCustomerName())
+                        .customerEmail(customerUpdateDto.getCustomerEmail())
+                        .customerType(customerUpdateDto.getCustomerType())
+                        .build()
+        );
     }
 
     public Optional<Customer> findById(UUID customerId) {

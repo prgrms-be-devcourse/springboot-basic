@@ -30,7 +30,12 @@ public class FileCustomerRepository {
         CustomerType type = CustomerType.from(customerType);
 
         if (CustomerType.isBlacklistedCustomer(type)) {
-            Customer customer = new Customer(UUID.fromString(uuid), name, email, CustomerType.BLACKLIST);
+            Customer customer = Customer.builder()
+                    .customerId(UUID.fromString(uuid))
+                    .customerName(name)
+                    .customerEmail(email)
+                    .customerType(CustomerType.BLACKLIST)
+                    .build();
 
             customerList.add(customer);
         }
