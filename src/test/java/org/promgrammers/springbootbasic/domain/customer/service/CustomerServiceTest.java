@@ -1,10 +1,7 @@
 package org.promgrammers.springbootbasic.domain.customer.service;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.customer.dto.request.CreateCustomerRequest;
 import org.promgrammers.springbootbasic.domain.customer.dto.request.UpdateCustomerRequest;
@@ -17,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("jdbc")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
 class CustomerServiceTest {
 
     @MockBean
@@ -40,16 +38,6 @@ class CustomerServiceTest {
     private JdbcCustomerRepository customerRepository;
     @Autowired
     private CustomerService customerService;
-
-    @BeforeAll
-    void beforeAll() {
-        customerService = new CustomerService(customerRepository);
-    }
-
-    @BeforeEach
-    void init() {
-        customerRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("저장 성공- 고객 저장 테스트")

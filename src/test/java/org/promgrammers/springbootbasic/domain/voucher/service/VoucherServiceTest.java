@@ -1,10 +1,7 @@
 package org.promgrammers.springbootbasic.domain.voucher.service;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucherRequest;
@@ -20,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,9 +30,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("jdbc")
 @SpringBootTest
+@Transactional
 class VoucherServiceTest {
 
     @MockBean
@@ -43,16 +41,6 @@ class VoucherServiceTest {
     private JdbcVoucherRepository voucherRepository;
     @Autowired
     private VoucherService voucherService;
-
-    @BeforeAll
-    void beforeAll() {
-        voucherService = new VoucherService(voucherRepository);
-    }
-
-    @BeforeEach
-    void beforeEach() {
-        voucherRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("생성 성공 - FixedVoucher")
@@ -153,7 +141,7 @@ class VoucherServiceTest {
         long discount = 20;
         PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, discount);
         voucherRepository.insert(voucher);
-        UpdateVoucherRequest updateRequest = new UpdateVoucherRequest(voucherId, voucher.getVoucherType(), 10);
+        UpdateVoucherRequest updateRequest = new UpdateVoucherRequest(voucherId, 10);
 
         //when
         VoucherResponse updateVoucher = voucherService.update(updateRequest);

@@ -1,11 +1,9 @@
 package org.promgrammers.springbootbasic.domain.wallet.service;
 
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
@@ -23,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ActiveProfiles("jdbc")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
 class WalletServiceTest {
 
     @MockBean
@@ -54,16 +53,8 @@ class WalletServiceTest {
 
     private Customer customer;
 
-    @BeforeAll
-    void setUp() {
-        walletService = new WalletService(walletRepository, voucherRepository, customerRepository);
-    }
-
     @BeforeEach
     void init() {
-        customerRepository.deleteAll();
-        voucherRepository.deleteAll();
-        walletRepository.deleteAll();
         voucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
         customer = new Customer(UUID.randomUUID(), "HONG");
         voucherRepository.insert(voucher);
