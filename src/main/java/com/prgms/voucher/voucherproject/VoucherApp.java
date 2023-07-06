@@ -8,10 +8,12 @@ import com.prgms.voucher.voucherproject.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
 
 
+@Component
 public class VoucherApp implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
 
