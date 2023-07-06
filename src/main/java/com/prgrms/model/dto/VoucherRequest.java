@@ -1,27 +1,23 @@
 package com.prgrms.model.dto;
 
-import com.prgrms.model.voucher.Discount;
+import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.VoucherType;
-import lombok.*;
 
-@Getter
-@Builder
-@AllArgsConstructor
 public class VoucherRequest {
-    private final String exceptionMessage = "기본생성자는 만들 수 없습니다.";
 
-    private VoucherType voucherType;
-    private Discount discount;
+    private final VoucherType voucherType;
+    private final Discount discount;
 
-    public VoucherRequest() {
-        throw new IllegalArgumentException(exceptionMessage);
+    public VoucherRequest(VoucherType voucherType, Discount discount) {
+        this.voucherType = voucherType;
+        this.discount = discount;
     }
 
-    public static VoucherRequest of(VoucherType voucherType, Discount discount) {
-        return VoucherRequest.builder()
-                .voucherType(voucherType)
-                .discount(discount)
-                .build();
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
+    public Discount getDiscount() {
+        return discount;
+    }
 }
