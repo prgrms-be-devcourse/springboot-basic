@@ -57,7 +57,6 @@ public class VoucherJdbcStorage implements VoucherStorage {
             Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, paramMap, voucherRowMapper());
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
-            logger.info("{}로 조회된 결과가 존재하지 않습니다. ", voucherId, e);
             return Optional.empty();
         }
     }
@@ -98,7 +97,7 @@ public class VoucherJdbcStorage implements VoucherStorage {
             BigDecimal amount = resultSet.getBigDecimal("amount");
             String type = resultSet.getString("type");
             VoucherType voucherType = VoucherType.findByVoucherTypeName(type);
-            if (type.equals("fix")) {
+            if (voucherType.isFixedVoucher()) {
                 return new FixedAmountVoucher(UUID.fromString(id), amount, voucherType);
             }
 
