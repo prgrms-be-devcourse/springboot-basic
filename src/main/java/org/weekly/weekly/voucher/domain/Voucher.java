@@ -19,7 +19,8 @@ public class Voucher {
 
     private Discount discount;
 
-    private Voucher(UUID voucherId, long amount, LocalDate registrationDate, LocalDate expirationDate, Discount discount) {
+
+    public Voucher(UUID voucherId, long amount, LocalDate registrationDate, LocalDate expirationDate, Discount discount) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.registrationDate = registrationDate;
@@ -29,12 +30,7 @@ public class Voucher {
 
     public static Voucher of(UUID id, long amount, LocalDate now, long expiration, DiscountType discountType) {
         validation(now, expiration, discountType, amount);
-
-        try {
-            return new Voucher(id, amount, now, now.plusMonths(expiration), discountType.getNewInstance());
-        } catch (Exception exception) {
-            throw new VoucherException(ExceptionMsg.NOT_FOUND);
-        }
+        return new Voucher(id, amount, now, now.plusMonths(expiration), discountType.getNewInstance());
     }
 
     private static void validation(LocalDate registrationDate, long expiration, DiscountType discountType, long amount) {
@@ -49,7 +45,7 @@ public class Voucher {
             return afterAmount;
         }
 
-        this.amount -= afterAmount;
+        this.amount += afterAmount;
         return 0L;
     }
 

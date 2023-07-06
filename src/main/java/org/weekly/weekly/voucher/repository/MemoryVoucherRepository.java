@@ -3,6 +3,7 @@ package org.weekly.weekly.voucher.repository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.exception.VoucherException;
 
@@ -32,6 +33,25 @@ public class MemoryVoucherRepository implements VoucherRepository{
                 .toList();
     }
 
+    @Override
+    public List<Voucher> findByDiscountType(DiscountType discountType) {
+        return null;
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
 
     private void validateUUID(UUID uuid) {
         Optional<Voucher> voucherOptional = findById(uuid);
