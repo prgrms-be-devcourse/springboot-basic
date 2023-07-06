@@ -10,26 +10,19 @@ public class Customer {
   private final UUID customerId;
   private final String email;
   private final LocalDateTime createdAt;
-
   private String name;
-  private LocalDateTime lastLoginAt;
 
   private Customer(UUID customerId, String email, String name) {
     this.customerId = customerId;
     this.email = email;
     this.createdAt = LocalDateTime.now();
     this.name = name;
-    this.lastLoginAt = lastLoginAt;
   }
 
   public static Customer of(UUID customerId, String email, String name) {
     CustomerValidator.checkId(customerId);
     CustomerValidator.checkEmail(email);
     return new Customer(customerId, email, name);
-  }
-
-  public void login() {
-    this.lastLoginAt = LocalDateTime.now();
   }
 
 }
