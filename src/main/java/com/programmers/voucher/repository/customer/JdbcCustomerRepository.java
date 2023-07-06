@@ -4,7 +4,6 @@ import com.programmers.voucher.entity.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,6 +23,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String FIND_BY_NICKNAME_SQL = "SELECT * FROM customer WHERE nickname = ?";
     private static final String UPDATE_SQL = "UPDATE customer SET nickname = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM customer WHERE id = ?";
+    private static final String DELETE_ALL_SQL = "DELETE FROM customer";
     private static final RowMapper<Customer> customerRowMapper = (rs, rowNum) -> new Customer(
             UUID.fromString(rs.getString("id")),
             rs.getString("nickname"));
@@ -36,13 +36,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        try {
-            jdbcTemplate.update(INSERT_SQL, customer.getId().toString(), customer.getNickname());
-            return customer;
-        } catch (DataAccessException exception) {
-            logger.error("error => {}", exception.getMessage());
-            throw new RuntimeException("Failed to insert customer");
-        }
+        jdbcTemplate.update(INSERT_SQL, customer.getId().toString(), customer.getNickname());
+        return customer;
     }
 
     @Override
@@ -73,5 +68,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void delete(UUID customerId) {
         jdbcTemplate.update(DELETE_SQL, customerId.toString());
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update(DELETE_ALL_SQL);
     }
 }

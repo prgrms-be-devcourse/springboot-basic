@@ -94,6 +94,6 @@ class JdbcVoucherRepositoryTest {
 
         // then
         List<Voucher> result = voucherRepository.findAll();
-        assertThat(result).hasSize(0);
+        assertThat(result).isEmpty();
     }
 }
