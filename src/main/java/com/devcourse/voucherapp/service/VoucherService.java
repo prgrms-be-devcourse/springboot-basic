@@ -3,8 +3,10 @@ package com.devcourse.voucherapp.service;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.dto.VoucherUpdateRequestDto;
 import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
+import com.devcourse.voucherapp.exception.NotFoundVoucherException;
 import com.devcourse.voucherapp.repository.VoucherRepository;
 import java.util.List;
 import java.util.UUID;
@@ -29,5 +31,20 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAllVouchers();
 
         return new VouchersResponseDto(vouchers);
+    }
+
+    public VoucherResponseDto findVoucherById(String id) {
+        Voucher voucher = voucherRepository.findVoucherById(id)
+                .orElseThrow(() -> new NotFoundVoucherException(id));
+
+        return new VoucherResponseDto(voucher);
+    }
+
+    public VoucherResponseDto update(VoucherUpdateRequestDto request) {
+        VoucherType voucherType = request.getType();
+        Voucher updatedVoucher = voucherType.makeVoucher(request.getId(), request.getDiscountAmount());
+        Voucher voucher = voucherRepository.update(updatedVoucher);
+
+        return new VoucherResponseDto(voucher);
     }
 }

@@ -3,13 +3,15 @@ package com.devcourse.voucherapp.repository;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -25,13 +27,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         String sql = "insert into voucher(id, type, discount_amount) values (:id, :typeNumber, :discountAmount)";
-
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("id", voucher.getId().toString())
-                .addValue("typeNumber", voucher.getType().getNumber())
-                .addValue("discountAmount", voucher.getDiscountAmount());
-
-        template.update(sql, parameterSource);
+        template.update(sql, getParameterSource(voucher));
 
         return voucher;
     }
@@ -40,15 +36,46 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAllVouchers() {
         String sql = "select id, type, discount_amount from voucher";
 
-        RowMapper<Voucher> voucherRowMapper = ((resultSet, rowNum) -> {
+        return template.query(sql, getVoucherRowMapper());
+    }
+
+    @Override
+    public Optional<Voucher> findVoucherById(String id) {
+        String sql = "select id, type, discount_amount from voucher where id = :id";
+
+        try {
+            Map<String, Object> param = Map.of("id", id);
+            Voucher voucher = template.queryForObject(sql, param, getVoucherRowMapper());
+
+            return Optional.of(voucher);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        String sql = "update voucher set type = :typeNumber, discount_amount = :discountAmount where id = :id";
+        template.update(sql, getParameterSource(voucher));
+
+        return voucher;
+    }
+
+    private MapSqlParameterSource getParameterSource(Voucher voucher) {
+        return new MapSqlParameterSource()
+                .addValue("id", voucher.getId().toString())
+                .addValue("typeNumber", voucher.getType().getNumber())
+                .addValue("discountAmount", voucher.getDiscountAmount());
+    }
+
+    private RowMapper<Voucher> getVoucherRowMapper() {
+        return (resultSet, rowNum) -> {
             String id = resultSet.getString("id");
             String typeNumber = resultSet.getString("type");
             int discountAmount = resultSet.getInt("discount_amount");
 
             return VoucherType.of(typeNumber)
                     .makeVoucher(UUID.fromString(id), String.valueOf(discountAmount));
-        });
-
-        return template.query(sql, voucherRowMapper);
+        };
     }
 }

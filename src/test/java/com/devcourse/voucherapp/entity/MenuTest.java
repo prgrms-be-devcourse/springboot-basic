@@ -14,10 +14,12 @@ class MenuTest {
     void selectExistedMenuTest() {
         Menu createMenu = Menu.of("1");
         Menu listMenu = Menu.of("2");
-        Menu quitMenu = Menu.of("3");
+        Menu updateMenu = Menu.of("3");
+        Menu quitMenu = Menu.of("4");
 
         assertEquals(Menu.CREATE, createMenu);
         assertEquals(Menu.LIST, listMenu);
+        assertEquals(Menu.UPDATE, updateMenu);
         assertEquals(Menu.QUIT, quitMenu);
     }
 

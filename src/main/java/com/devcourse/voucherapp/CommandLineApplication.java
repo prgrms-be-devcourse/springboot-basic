@@ -5,10 +5,9 @@ import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.dto.VoucherUpdateRequestDto;
 import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
-import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.view.ViewManager;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -42,6 +41,7 @@ public class CommandLineApplication implements CommandLineRunner {
         switch (selectedMenu) {
             case CREATE -> createVoucher();
             case LIST -> listAllVouchers();
+            case UPDATE -> updateVoucher();
             case QUIT -> quitApplication();
         }
     }
@@ -62,6 +62,19 @@ public class CommandLineApplication implements CommandLineRunner {
     private void listAllVouchers() {
         VouchersResponseDto response = voucherController.findAllVouchers();
         viewManager.showAllVouchers(response);
+    }
+
+    private void updateVoucher() {
+        listAllVouchers();
+
+        String id = viewManager.readVoucherIdToUpdate();
+        VoucherResponseDto findResponse = voucherController.findVoucherById(id);
+
+        String discountAmount = viewManager.readVoucherDiscountAmountToUpdate(findResponse);
+        VoucherUpdateRequestDto request = new VoucherUpdateRequestDto(findResponse.getId(), findResponse.getType(), discountAmount);
+        VoucherResponseDto response = voucherController.update(request);
+
+        viewManager.showVoucherUpdateSuccessMessage(response);
     }
 
     private void quitApplication() {

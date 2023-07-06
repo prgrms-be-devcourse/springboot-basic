@@ -13,7 +13,8 @@ import lombok.Getter;
 public enum Menu {
     CREATE("1", "새 할인권 생성"),
     LIST("2", "할인권 조회"),
-    QUIT("3", "프로그램 종료");
+    UPDATE("3", "할인권 수정"),
+    QUIT("4", "프로그램 종료");
 
     private static final Map<String, Menu> MENUS = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(Menu::getNumber, Function.identity())));

@@ -17,6 +17,9 @@ public class ViewManager {
     private static final String VOUCHER_TYPE_SELECTION_MESSAGE = "\n할인 방식을 선택하세요.";
     private static final String VOUCHER_CREATION_SUCCESS_MESSAGE = "\n할인권 생성이 완료되었습니다.";
     private static final String ALL_VOUCHERS_LIST_MESSAGE = "\n현재까지 생성된 할인권 목록입니다.";
+    private static final String UPDATE_VOUCHER_ID_INPUT_MESSAGE = "\n수정할 할인권의 ID를 입력하세요.";
+    private static final String UPDATE_VOUCHER_INFORMATION_MESSAGE = "\n선택하신 할인권의 정보를 수정합니다.";
+    private static final String VOUCHER_UPDATE_SUCCESS_MESSAGE = "\n할인권 수정이 완료되었습니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -48,6 +51,21 @@ public class ViewManager {
         return inputView.inputWithTrimming();
     }
 
+    public String readVoucherIdToUpdate() {
+        outputView.printWithLineBreak(UPDATE_VOUCHER_ID_INPUT_MESSAGE);
+        outputView.printWithoutLineBreak(INPUT_MESSAGE);
+
+        return inputView.inputWithTrimming();
+    }
+
+    public String readVoucherDiscountAmountToUpdate(VoucherResponseDto findResponse) {
+        outputView.printWithLineBreak(UPDATE_VOUCHER_INFORMATION_MESSAGE);
+        outputView.printWithLineBreak(findResponse);
+        VoucherType voucherType = findResponse.getType();
+
+        return readDiscountAmount(voucherType.getMessage());
+    }
+
     public void showExceptionMessage(String message) {
         outputView.printWithLineBreak(message);
     }
@@ -66,5 +84,10 @@ public class ViewManager {
         for (VoucherResponseDto voucher : response.getVouchers()) {
             outputView.printWithLineBreak(voucher);
         }
+    }
+
+    public void showVoucherUpdateSuccessMessage(VoucherResponseDto response) {
+        outputView.printWithLineBreak(VOUCHER_UPDATE_SUCCESS_MESSAGE);
+        outputView.printWithLineBreak(response);
     }
 }

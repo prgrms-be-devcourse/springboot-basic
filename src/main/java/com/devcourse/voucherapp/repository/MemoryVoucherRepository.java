@@ -4,6 +4,7 @@ import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAllVouchers() {
         return List.copyOf(storage.values());
+    }
+
+    @Override
+    public Optional<Voucher> findVoucherById(String id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
     }
 }
