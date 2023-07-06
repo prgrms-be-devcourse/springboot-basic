@@ -2,10 +2,10 @@ package com.programmers.voucher.operator;
 
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.console.Printer;
-import com.programmers.voucher.domain.enums.VoucherEnum;
 import com.programmers.voucher.domain.enums.VoucherOperation;
-import com.programmers.voucher.domain.voucher.*;
-import com.programmers.voucher.stream.voucher.JdbcVoucherStream;
+import com.programmers.voucher.domain.enums.VoucherType;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherFactory;
 import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.springframework.stereotype.Component;
 
@@ -41,36 +41,32 @@ public class VoucherOperator {
 
     private void createVoucher() {
         Integer inputVersion = console.getVoucherVersion();
-        VoucherEnum voucherEnum = decideVoucherType(inputVersion);
-        createFixedAmountVoucher(voucherEnum);
-        createPercentDiscountVoucher(voucherEnum);
+        VoucherType voucherType = decideVoucherType(inputVersion);
+        createFixedAmountVoucher(voucherType);
+        createPercentDiscountVoucher(voucherType);
     }
 
-    private VoucherEnum decideVoucherType(Integer inputVersion) {
-        return VoucherEnum.decideVoucherType(inputVersion).orElseThrow(
+    private VoucherType decideVoucherType(Integer inputVersion) {
+        return VoucherType.decideVoucherType(inputVersion).orElseThrow(
                 () -> new IllegalArgumentException("지원하지 않는 버전입니다. 버전을 다시 확인 해주세요.")
         );
     }
 
-    private void createFixedAmountVoucher(VoucherEnum voucherEnum) {
-        Integer inputNumber;
-        if (voucherEnum == VoucherEnum.FIXED) {
-            inputNumber = console.getAmount();
-            voucherFactory.createVoucher(voucherEnum, inputNumber);
+    private void createFixedAmountVoucher(VoucherType voucherType) {
+        if (voucherType == VoucherType.FIXED) {
+            voucherFactory.createVoucher(voucherType, console.getAmount());
         }
     }
 
-    private void createPercentDiscountVoucher(VoucherEnum voucherEnum) {
-        Integer inputNumber;
-        if (voucherEnum == VoucherEnum.PERCENT) {
-            inputNumber = console.getRate();
-            voucherFactory.createVoucher(voucherEnum, inputNumber);
+    private void createPercentDiscountVoucher(VoucherType voucherType) {
+        if (voucherType == VoucherType.PERCENT) {
+            voucherFactory.createVoucher(voucherType, console.getRate());
         }
     }
 
     private void getVoucher() {
         String voucherId = console.getVoucherId();
-        printer.printVoucher(((JdbcVoucherStream) voucherStream).findById(voucherId));
+        printer.printVoucher(voucherStream.findById(voucherId));
     }
 
     private void getVoucherList() {
@@ -79,34 +75,18 @@ public class VoucherOperator {
 
     private void updateVoucher() {
         String voucherId = console.getVoucherId();
-        Voucher voucher = ((JdbcVoucherStream) voucherStream).findById(voucherId);
-        updateFixedAmountVoucher(voucher);
-        updatePercentDiscountVoucher(voucher);
-        ((JdbcVoucherStream) voucherStream).update(voucher);
-    }
-
-    private void updateFixedAmountVoucher(Voucher voucher) {
-        Integer updateAmount;
-        if (voucher instanceof FixedAmountVoucher) {
-            updateAmount = console.getAmount();
-            ((FixedAmountVoucher) voucher).setAmount(updateAmount);
-        }
-    }
-
-    private void updatePercentDiscountVoucher(Voucher voucher) {
-        Integer updateAmount;
-        if (voucher instanceof PercentDiscountVoucher) {
-            updateAmount = console.getRate();
-            ((PercentDiscountVoucher) voucher).setRate(updateAmount);
-        }
+        Voucher voucher = voucherStream.findById(voucherId);
+        Integer updateAmount = console.getAmountOrRate();
+        voucher.update(updateAmount);
+        voucherStream.update(voucher);
     }
 
     private void deleteAllVoucher() {
-        ((JdbcVoucherStream) voucherStream).deleteAll();
+        voucherStream.deleteAll();
     }
 
     private void deleteVoucher() {
         String voucherId = console.getVoucherId();
-        ((JdbcVoucherStream) voucherStream).deleteById(voucherId);
+        voucherStream.deleteById(voucherId);
     }
 }

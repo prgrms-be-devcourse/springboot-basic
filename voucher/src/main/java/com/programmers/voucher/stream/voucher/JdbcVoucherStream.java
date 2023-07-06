@@ -3,6 +3,7 @@ package com.programmers.voucher.stream.voucher;
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -12,9 +13,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class JdbcVoucherStream implements VoucherStream{
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    @Value("${name.voucher.fixed-amount-voucher}")
+    private String fixedAmountVoucher;
+    @Value("${name.voucher.percent-discount-voucher}")
+    private String percentDiscountVoucher;
 
     public JdbcVoucherStream(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -42,6 +48,7 @@ public class JdbcVoucherStream implements VoucherStream{
         }
     }
 
+    @Override
     public Voucher findById(String voucherId) {
         return jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucherId",
                 Map.of("voucherId", voucherId),
@@ -56,15 +63,18 @@ public class JdbcVoucherStream implements VoucherStream{
         return voucherMap;
     }
 
+    @Override
     public void deleteById(String voucherId) {
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId"
                 , Map.of("voucherId", voucherId));
     }
 
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM vouchers", Map.of());
     }
 
+    @Override
     public Voucher update(Voucher voucher) {
         SqlParameterSource param = new BeanPropertySqlParameterSource(voucher);
         updateFixedAmountVoucher(voucher, param);
@@ -87,18 +97,20 @@ public class JdbcVoucherStream implements VoucherStream{
         }
     }
 
-    private static Voucher voucherRowMapper(ResultSet resultSet) throws SQLException {
+    private  Voucher voucherRowMapper(ResultSet resultSet) throws SQLException {
         String voucherId = resultSet.getString("voucher_id");
+        String voucherType = resultSet.getString("type");
         Integer amount = resultSet.getInt("amount");
         Integer rate = resultSet.getInt("rate");
 
-        if (amount != 0) {
+        if (Objects.equals(fixedAmountVoucher, voucherType)) {
             return new FixedAmountVoucher(voucherId, amount);
         }
-        if (rate != 0) {
+
+        if (Objects.equals(percentDiscountVoucher, voucherType) ){
             return new PercentDiscountVoucher(voucherId, rate);
         }
-        return null;
+        throw new IllegalStateException("만족하지 않는 데이터가 있습니다.");
     }
 
 }

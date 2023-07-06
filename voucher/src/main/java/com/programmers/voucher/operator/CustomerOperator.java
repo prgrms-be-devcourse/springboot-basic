@@ -26,20 +26,17 @@ public class CustomerOperator {
     public void customerOperation() {
         String operationInput = console.getCustomerOperation();
         CustomerOperation customerOperation = CustomerOperation.convertStringToCustomerOperation(operationInput).orElseThrow(
-                () -> new IllegalArgumentException("지원하지 않는 버전입니다. 버전을 다시 확인 해 주세요.")
+            () -> new IllegalArgumentException("지원하지 않는 버전입니다. 버전을 다시 확인 해 주세요.")
         );
-        doLogic(customerOperation);
-    }
-
-    private void doLogic(CustomerOperation customerOperation) {
         switch (customerOperation) {
             case CREATE -> createCustomer();
-            case FINDALL -> getCustomerList();
-            case FINDBYID -> getCustomer();
+            case FINDALL -> printCustomerList();
+            case FINDBYID -> printCustomer();
             case UPDATE -> updateCustomer();
             case DELETEBYID -> deleteCustomer();
             case DELETEALL -> deleteAllCustomer();
         }
+
     }
 
     private void createCustomer() {
@@ -48,14 +45,14 @@ public class CustomerOperator {
         customerStream.save(customer);
     }
 
-    private void getCustomerList() {
+    private void printCustomerList() {
         printer.printListOfCustomer(customerStream.findAll());
     }
 
-    private void getCustomer() {
+    private void printCustomer() {
         String customerId = console.getCustomerId();
         Customer customer = customerStream.findById(customerId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 Customer Id 입니다.")
+            () -> new IllegalArgumentException("존재하지 않는 Customer Id 입니다.")
         );
         printer.printCustomer(customer);
     }

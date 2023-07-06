@@ -13,6 +13,8 @@ public interface Console {
 
     Integer getRate();
 
+    Integer getAmountOrRate();
+
     String getVoucherId();
 
     String getCustomerOperation();

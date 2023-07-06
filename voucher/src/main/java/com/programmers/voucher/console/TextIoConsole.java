@@ -22,6 +22,7 @@ public class TextIoConsole implements Console {
                         "[enter type] : ");
         return stringType;
     }
+
     @Override
     public String getVoucherOperation() {
         System.out.println();
@@ -46,6 +47,17 @@ public class TextIoConsole implements Console {
                         "PercentDiscountVoucher  : 2\n" +
                         "[enter number of version]");
         return voucherVersion;
+    }
+
+    @Override
+    public Integer getAmountOrRate() {
+        System.out.println();
+        Integer amount = textIO.newIntInputReader()
+                .read("Enter the amount or rate of discount\n" +
+                        "<<caution>> rate of discount means percentage versus original price\n" +
+                        "ex) 70 => discount price = original price * (70 / 100)\n" +
+                        "[amount or rate of discount] : ");
+        return amount;
     }
 
     @Override
@@ -91,6 +103,7 @@ public class TextIoConsole implements Console {
                         "[enter type] : ");
         return stringType;
     }
+
     @Override
     public Map<String, String> getCustomerInformation() {
         System.out.println();
@@ -101,12 +114,14 @@ public class TextIoConsole implements Console {
                 .read("[customer email] : ");
         return Map.of("name", name, "email", email);
     }
+
     @Override
     public String getCustomerId() {
         System.out.println();
         return textIO.newStringInputReader().read("Enter the Id of Customer\n" +
-                        "[customer Id] : ");
+                "[customer Id] : ");
     }
+
     @Override
     public String getCustomerName() {
         System.out.println();

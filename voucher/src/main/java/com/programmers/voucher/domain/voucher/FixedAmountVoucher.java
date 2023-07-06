@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 public class FixedAmountVoucher implements Voucher {
     private String voucherId;
     private long amount;
+
     public FixedAmountVoucher() {
     }
 
@@ -35,4 +36,17 @@ public class FixedAmountVoucher implements Voucher {
         }
         return discountedPrice;
     }
+
+    @Override
+    public void update(long updateAmount) {
+        validateUpdateAmount(updateAmount);
+        this.amount = updateAmount;
+    }
+
+    private void validateUpdateAmount(long updateAmount) {
+        if (updateAmount <= 0) {
+            throw new IllegalArgumentException("할인금액은 0보다 작거나 같을 수 없습니다.");
+        }
+    }
+
 }

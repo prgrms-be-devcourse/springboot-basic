@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -38,7 +39,8 @@ class JdbcVoucherStreamTest {
         voucherStream.save(fixedAmountVoucher);
         voucherStream.save(percentDiscountVoucher);
         // then
-        assertThat(voucherStream.findAll().size()).isEqualTo(2);
+        var resultSize = voucherStream.findAll().size();
+        assertThat(resultSize).isEqualTo(2);
     }
 
     @Test
@@ -52,11 +54,15 @@ class JdbcVoucherStreamTest {
         // when
         Map<String, Voucher> voucherMap = voucherStream.findAll();
         // then
-        assertAll(
-                () -> assertThat(voucherMap.keySet()).contains(voucherId),
-                () -> assertThat(voucherMap.get(voucherId).getVoucherId()).isSameAs(fixedAmountVoucher.getVoucherId()),
-                () -> assertThat(voucherMap.get(voucherId)).isInstanceOf(FixedAmountVoucher.class)
-        );
+        Set<String> keySet = voucherMap.keySet();
+        assertThat(keySet).contains(voucherId);
+
+        Voucher findVoucher = voucherMap.get(voucherId);
+        String actualId = findVoucher.getVoucherId();
+
+        assertThat(actualId).isSameAs("skdodoll");
+        assertThat(findVoucher).isInstanceOf(FixedAmountVoucher.class);
+
     }
 
     @Test
@@ -66,10 +72,13 @@ class JdbcVoucherStreamTest {
         String voucherId = "skdodoll";
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 10000);
         voucherStream.save(fixedAmountVoucher);
+
         // when
-        Voucher findVoucher = ((JdbcVoucherStream)voucherStream).findById(voucherId);
+        Voucher findVoucher = ((JdbcVoucherStream) voucherStream).findById(voucherId);
+
         // then
-        assertThat(findVoucher.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
+        var actualId = findVoucher.getVoucherId();
+        assertThat(actualId).isEqualTo("skdodoll");
     }
 
     @Test
@@ -81,12 +90,13 @@ class JdbcVoucherStreamTest {
         voucherStream.save(fixedAmountVoucher);
         // when
         fixedAmountVoucher.setAmount(20000);
-        ((JdbcVoucherStream)voucherStream).update(fixedAmountVoucher);
+        ((JdbcVoucherStream) voucherStream).update(fixedAmountVoucher);
         // then
         Map<String, Voucher> voucherMap = voucherStream.findAll();
         Voucher findVoucher = voucherMap.get(fixedAmountVoucher.getVoucherId());
+        var actualAmount = ((FixedAmountVoucher) findVoucher).getAmount();
 
-        assertThat(((FixedAmountVoucher) findVoucher).getAmount()).isEqualTo(20000);
+        assertThat(actualAmount).isEqualTo(20000);
 
     }
 
@@ -99,9 +109,10 @@ class JdbcVoucherStreamTest {
         voucherStream.save(fixedAmountVoucher);
         assertThat(voucherStream.findAll().size()).isEqualTo(1);
         // when
-        ((JdbcVoucherStream)voucherStream).deleteAll();
+        ((JdbcVoucherStream) voucherStream).deleteAll();
 
         // then
-        assertThat(voucherStream.findAll().size()).isEqualTo(0);
+        int resultSize = voucherStream.findAll().size();
+        assertThat(resultSize).isEqualTo(0);
     }
 }

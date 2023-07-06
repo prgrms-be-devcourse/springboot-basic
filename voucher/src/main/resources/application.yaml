@@ -16,8 +16,8 @@ logging:
 
 name:
   voucher:
-    fixed-amount-voucher: "FixedAmountVoucher"
-    percent-discount-voucher: "PercentDiscountVoucher"
+    fixed-amount-voucher: FixedAmountVoucher
+    percent-discount-voucher: PercentDiscountVoucher
 
 filepath:
   blacklist: "classpath:/customer_blacklist.csv"

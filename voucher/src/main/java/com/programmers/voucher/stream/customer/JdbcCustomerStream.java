@@ -1,7 +1,8 @@
 package com.programmers.voucher.stream.customer;
 
 import com.programmers.voucher.domain.customer.Customer;
-import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -32,13 +33,16 @@ public class JdbcCustomerStream implements CustomerStream {
 
     @Override
     public Optional<Customer> findById(String customerId) {
+        validateCustomerId(customerId);
         try {
             Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = :customerId",
                     Map.of("customerId", customerId),
                     (rs, rowNum) -> customerRowMapper(rs, rowNum)
             );
             return Optional.of(customer);
-        } catch (Exception e) {
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        } catch (IncorrectResultSizeDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -54,6 +58,7 @@ public class JdbcCustomerStream implements CustomerStream {
 
     @Override
     public String update(String customerId, String name) {
+        validateCustomerId(customerId);
         jdbcTemplate.update("UPDATE customers SET name = :name WHERE customer_id = :customerId",
                 Map.of("name", name, "customerId", customerId));
         return customerId;
@@ -61,13 +66,21 @@ public class JdbcCustomerStream implements CustomerStream {
 
     @Override
     public void deleteById(String customerId) {
+        validateCustomerId(customerId);
         jdbcTemplate.update("DELETE FROM customers WHERE customer_id = :customerId",
                 Map.of("customerId", customerId));
     }
+
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers",
                 Map.of());
+    }
+
+    private static void validateCustomerId(String customerId) {
+        if (customerId == null || customerId.isEmpty() || customerId.isBlank()) {
+            throw new IllegalStateException("customerId를 입력해주세요");
+        }
     }
 
     private Customer customerRowMapper(ResultSet rs, int rowNum) throws SQLException {
