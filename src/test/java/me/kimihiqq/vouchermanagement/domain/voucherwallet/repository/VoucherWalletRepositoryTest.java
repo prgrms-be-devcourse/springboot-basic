@@ -8,6 +8,7 @@ import me.kimihiqq.vouchermanagement.domain.voucher.repository.VoucherRepository
 import me.kimihiqq.vouchermanagement.option.CustomerStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,53 +57,68 @@ class VoucherWalletRepositoryTest {
     }
 
     @Test
+    @DisplayName("지갑에 상품권을 추가할 수 있다")
     void addVoucherToWallet() {
+        // when
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);
 
+        // then
         Set<UUID> vouchers = voucherWalletRepository.findVoucherIdsByCustomerId(customerUUID1);
-
         assertThat(vouchers, hasItem(voucherUUID1));
     }
 
-
     @Test
+    @DisplayName("지갑에서 상품권을 제거할 수 있다")
     void removeVoucherFromWallet() {
+        // given
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);
+        // when
         voucherWalletRepository.removeVoucherFromWallet(customerUUID1, voucherUUID1);
 
+        // then
         Set<UUID> vouchers = voucherWalletRepository.findVoucherIdsByCustomerId(customerUUID1);
-
         assertThat(vouchers, not(hasItem(voucherUUID1)));
     }
 
     @Test
+    @DisplayName("고객 ID로 상품권 ID를 찾을 수 있다")
     void findVoucherIdsByCustomerId() {
+        // given
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID2);
 
+        // when
         Set<UUID> vouchers = voucherWalletRepository.findVoucherIdsByCustomerId(customerUUID1);
 
+        // then
         assertThat(vouchers, hasItems(voucherUUID1, voucherUUID2));
     }
 
     @Test
+    @DisplayName("상품권 ID로 고객 ID를 찾을 수 있다")
     void findCustomerIdsByVoucherId() {
+        // given
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);
 
+        // when
         Set<UUID> customers = voucherWalletRepository.findCustomerIdsByVoucherId(voucherUUID1);
 
+        // then
         assertThat(customers, hasItem(customerUUID1));
     }
 
     @Test
+    @DisplayName("고객 ID를 기반으로 지갑의 내용을 삭제할 수 있다")
     void deleteByCustomerId() {
+        // given
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID2);
 
+        // when
         voucherWalletRepository.deleteByCustomerId(customerUUID1);
 
+        // then
         Set<UUID> vouchers = voucherWalletRepository.findVoucherIdsByCustomerId(customerUUID1);
-
         assertThat(vouchers, empty());
     }
 }
