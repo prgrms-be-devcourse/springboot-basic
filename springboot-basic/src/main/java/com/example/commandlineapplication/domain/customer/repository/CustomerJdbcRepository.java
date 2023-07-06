@@ -1,6 +1,5 @@
 package com.example.commandlineapplication.domain.customer.repository;
 
-import com.example.commandlineapplication.domain.customer.dto.mapper.CustomerMapper;
 import com.example.commandlineapplication.domain.customer.dto.request.CustomerCreateRequest;
 import com.example.commandlineapplication.domain.customer.dto.request.CustomerUpdateRequest;
 import com.example.commandlineapplication.domain.customer.model.Customer;
@@ -22,11 +21,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
   private final Logger LOG = LoggerFactory.getLogger(CustomerJdbcRepository.class);
   private final NamedParameterJdbcTemplate template;
-  private final CustomerMapper customerMapper;
 
-  public CustomerJdbcRepository(DataSource dataSource, CustomerMapper customerMapper) {
+  public CustomerJdbcRepository(DataSource dataSource) {
     this.template = new NamedParameterJdbcTemplate(dataSource);
-    this.customerMapper = customerMapper;
   }
 
   private RowMapper<Customer> rowMapper() {

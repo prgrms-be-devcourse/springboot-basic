@@ -2,7 +2,7 @@ package com.example.commandlineapplication.global.io;
 
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
-import com.example.commandlineapplication.domain.voucher.repository.MemoryVoucherRepository;
+import com.example.commandlineapplication.domain.voucher.repository.VoucherMemoryRepository;
 import java.util.List;
 import java.util.Scanner;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class Console implements Input, Output {
 
-  private final MemoryVoucherRepository memoryVoucherRepository;
+  private final VoucherMemoryRepository voucherMemoryRepository;
   private static final Scanner scanner = new Scanner(System.in);
 
   @Override
@@ -45,7 +45,7 @@ public class Console implements Input, Output {
 
   @Override
   public void printHistory() {
-    List<Voucher> historyList = memoryVoucherRepository.findAll();
+    List<Voucher> historyList = voucherMemoryRepository.findAll();
     for (Voucher voucher : historyList) {
       System.out.println(voucher.getVoucherType() + " " + voucher.getVoucherId().toString());
     }

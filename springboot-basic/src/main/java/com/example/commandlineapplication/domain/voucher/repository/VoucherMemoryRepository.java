@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository {
+public class VoucherMemoryRepository implements VoucherRepository {
 
   private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
@@ -18,7 +18,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
   public Optional<Voucher> findById(UUID voucherId) {
     return Optional.ofNullable(storage.get(voucherId));
   }
-  
+
   @Override
   public Voucher insert(Voucher voucher) {
     storage.put(voucher.getVoucherId(), voucher);
@@ -30,5 +30,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
     return storage.values()
         .stream()
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public void deleteById(UUID voucherId) {
+    Voucher foundVoucher = findById(voucherId).orElseThrow(IllegalArgumentException::new);
+    storage.remove(foundVoucher.getVoucherId());
+  }
+
+  @Override
+  public void deleteAll() {
+    storage.clear();
   }
 }
