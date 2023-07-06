@@ -22,7 +22,7 @@ public class ConsoleVoucher {
 
     public void run() {
         console.outputVoucherMenu();
-        VoucherMenu voucherMenu = VoucherMenu.findVoucherMenu(console.inputMessage());
+        VoucherMenu voucherMenu = VoucherMenu.from(console.inputMessage());
 
         switch (voucherMenu) {
             case CREATE -> createVoucher();
@@ -33,7 +33,7 @@ public class ConsoleVoucher {
 
     private void createVoucher() {
         console.outputSelectCreateVoucherGuide();
-        VoucherType voucherType = VoucherType.findVoucherMenu(console.inputMessage());
+        VoucherType voucherType = VoucherType.from(console.inputMessage());
 
         console.outputDiscountGuide();
         String inputNumber = console.inputMessage();

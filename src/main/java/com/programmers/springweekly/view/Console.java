@@ -27,13 +27,13 @@ public class Console implements Input, Output {
     @Override
     public CustomerCreateDto inputCustomerCreate() {
         String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
-        return new CustomerCreateDto(customerInfo[0], customerInfo[1], CustomerType.findCustomerType(customerInfo[2]));
+        return new CustomerCreateDto(customerInfo[0], customerInfo[1], CustomerType.from(customerInfo[2]));
     }
 
     @Override
     public CustomerUpdateDto inputCustomerUpdate(UUID customerId) {
         String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
-        return new CustomerUpdateDto(customerId, customerInfo[0], customerInfo[1], CustomerType.findCustomerType(customerInfo[2]));
+        return new CustomerUpdateDto(customerId, customerInfo[0], customerInfo[1], CustomerType.from(customerInfo[2]));
     }
 
     @Override

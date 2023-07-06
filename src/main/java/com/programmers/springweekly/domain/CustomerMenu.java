@@ -7,7 +7,7 @@ public enum CustomerMenu {
     SELECT,
     BLACKLIST;
 
-    public static CustomerMenu findCustomerMenu(String type) {
+    public static CustomerMenu from(String type) {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {

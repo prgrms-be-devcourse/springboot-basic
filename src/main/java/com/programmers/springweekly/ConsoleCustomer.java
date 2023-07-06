@@ -22,7 +22,7 @@ public class ConsoleCustomer {
 
     public void run() {
         console.outputCustomerMenuGuide();
-        CustomerMenu customerMenu = CustomerMenu.findCustomerMenu(console.inputMessage());
+        CustomerMenu customerMenu = CustomerMenu.from(console.inputMessage());
 
         switch (customerMenu) {
             case CREATE -> createCustomer();

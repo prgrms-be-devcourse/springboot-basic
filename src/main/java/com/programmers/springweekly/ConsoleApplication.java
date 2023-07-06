@@ -25,7 +25,7 @@ public class ConsoleApplication implements CommandLineRunner {
         while (running) {
             console.outputProgramGuide();
             try {
-                ProgramMenu selectMenu = ProgramMenu.findProgramMenu(console.inputMessage());
+                ProgramMenu selectMenu = ProgramMenu.from(console.inputMessage());
 
                 switch (selectMenu) {
                     case CUSTOMER -> consoleCustomer.run();

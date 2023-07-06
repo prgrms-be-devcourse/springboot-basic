@@ -5,7 +5,7 @@ public enum ProgramMenu {
     CUSTOMER,
     VOUCHER;
 
-    public static ProgramMenu findProgramMenu(String type) {
+    public static ProgramMenu from(String type) {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {

@@ -27,7 +27,7 @@ public class FileCustomerRepository {
     }
 
     private void saveIfBlacklistedCustomer(String uuid, String name, String email, String customerType) {
-        CustomerType type = CustomerType.findCustomerType(customerType);
+        CustomerType type = CustomerType.from(customerType);
 
         if (CustomerType.isBlacklistedCustomer(type)) {
             Customer customer = new Customer(UUID.fromString(uuid), name, email, CustomerType.BLACKLIST);

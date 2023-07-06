@@ -4,7 +4,7 @@ public enum VoucherMenu {
     CREATE,
     SELECT;
 
-    public static VoucherMenu findVoucherMenu(String type) {
+    public static VoucherMenu from(String type) {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {

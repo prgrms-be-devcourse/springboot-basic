@@ -4,7 +4,7 @@ public enum CustomerType {
     NORMAL,
     BLACKLIST;
 
-    public static CustomerType findCustomerType(String type) {
+    public static CustomerType from(String type) {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {

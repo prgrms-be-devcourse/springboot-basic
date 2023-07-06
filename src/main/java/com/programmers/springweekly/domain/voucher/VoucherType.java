@@ -4,7 +4,7 @@ public enum VoucherType {
     FIXED,
     PERCENT;
 
-    public static VoucherType findVoucherMenu(String type) {
+    public static VoucherType from(String type) {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
