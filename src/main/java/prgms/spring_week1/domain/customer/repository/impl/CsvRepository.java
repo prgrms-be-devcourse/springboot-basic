@@ -1,7 +1,7 @@
 package prgms.spring_week1.domain.customer.repository.impl;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
 
@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
-public class CsvRepository implements BlackListRepository {
+@Component
+public final class CsvRepository implements BlackListRepository {
     private final String csvFilePath;
 
     public CsvRepository(@Value("${file.blackList}") String csvFilePath) {
