@@ -75,18 +75,17 @@ class CustomerTest {
         UUID customerId = UUID.randomUUID();
         String name = "aCustomer";
         String email = "mgtmh991013@naver.com";
-        LocalDateTime lastLoginAt = LocalDateTime.of(2023, 1, 10, 1, 12);
+        LocalDateTime prevLastLoginAt = LocalDateTime.now();
         LocalDateTime createdAt = LocalDateTime.of(2023, 1, 10, 1, 12);
-        Customer customer = new Customer(customerId, name, email, lastLoginAt, createdAt);
+        Customer customer = new Customer(customerId, name, email, prevLastLoginAt, createdAt);
 
         //when
         customer.login();
 
         //then
         assertThat(customer.getLastLoginAt())
-                .isNotEqualTo(lastLoginAt)
-                .isAfter(LocalDateTime.now().minusSeconds(1))
-                .isBefore(LocalDateTime.now().plusSeconds(1));
+                .isNotEqualTo(prevLastLoginAt)
+                .isAfter(prevLastLoginAt);
     }
 
     @DisplayName("Customer가 주어졌을 때, changeName()을 실행하면, name 값이 변경된다.")
