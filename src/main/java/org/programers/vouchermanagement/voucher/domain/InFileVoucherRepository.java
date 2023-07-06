@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,6 +51,23 @@ public class InFileVoucherRepository implements VoucherRepository {
                 }
             }
             return Optional.empty();
+        } catch (IOException e) {
+            throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.");
+        }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        List<Voucher> result = new ArrayList<>();
+        try {
+            List<String> lines = Files.readAllLines(file);
+            for (String line : lines) {
+                Voucher voucher = Converter.toVoucher(line);
+                if (voucher.getType() == type) {
+                    result.add(voucher);
+                }
+            }
+            return result;
         } catch (IOException e) {
             throw new RuntimeException("IO 문제로 바우처가 조회되지 않았습니다.");
         }
