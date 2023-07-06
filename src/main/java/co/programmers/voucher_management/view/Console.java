@@ -13,12 +13,16 @@ import co.programmers.voucher_management.common.Response;
 public class Console implements InputView, OutputView {
 	private static final String STARTER_MESSAGE =
 			"=== Voucher Program ===\n"
-					+ "Type exit or 'x' to exit the program.\n"
-					+ "Type create or 'c' to create a new voucher.\n"
-					+ "Type list or 'l' to list all vouchers.\n"
-					+ "Type blacklist or 'b' to list customer blackLists.\n"
-					+ "Type update or 'u' to modify a voucher.\n"
-					+ "Type delete or 'd' to delete a voucher.\n";
+					+ "Type '1' or 'x' to exit the program.\n"
+					+ "Type '2' to create a new voucher.\n"
+					+ "Type '3' to list all vouchers.\n"
+					+ "Type '4' to modify a voucher.\n"
+					+ "Type '5' to delete a voucher.\n"
+					+ "Type '6' to list customer blacklists.\n"
+					+ "Type '7' to assign a voucher to the customer.\n"
+					+ "Type '8' to list vouchers of certain customer.\n"
+					+ "Type '9' to delete a voucher of a certain customer.\n"
+					+ "Type '10' to find a customer of certain voucher.\n";
 	private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	@Override
@@ -52,15 +56,19 @@ public class Console implements InputView, OutputView {
 	}
 
 	@Override
-	public void print(Response contents) {
-		if (contents.getState() == Response.State.FAILED) {
-			System.out.println(contents.getResponseData());
+	public void print(Response response) {
+		if (response.getState() == Response.State.FAILED) {
+			System.out.println(response.getResponseData());
 			return;
 		}
-		if (contents.getResponseData() == null) {
+		if (response.getResponseData() == null) {
 			return;
 		}
-		Object responseData = contents.getResponseData();
+		Object responseData = response.getResponseData();
+		if (!(responseData instanceof List)) {
+			System.out.println(responseData);
+			return;
+		}
 		for (var content : (List)responseData) {
 			System.out.println(content.toString());
 		}
