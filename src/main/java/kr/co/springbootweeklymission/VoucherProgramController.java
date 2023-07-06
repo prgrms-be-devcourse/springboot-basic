@@ -5,6 +5,7 @@ import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDT
 import kr.co.springbootweeklymission.view.Command;
 import kr.co.springbootweeklymission.view.InputView;
 import kr.co.springbootweeklymission.view.OutputView;
+import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import kr.co.springbootweeklymission.voucher.presentation.VoucherController;
 import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.wallet.presentation.WalletController;
@@ -87,7 +88,7 @@ public class VoucherProgramController implements CommandLineRunner {
                 OutputView.outputVoucherPolicy();
                 UUID voucherId = UUID.fromString(InputView.inputVoucherId());
                 final VoucherReqDTO.UPDATE update = VoucherReqDTO.UPDATE.builder()
-                        .voucherPolicy(InputView.inputVoucherPolicy())
+                        .voucherPolicy(VoucherPolicy.valueOf(InputView.inputVoucherPolicy()))
                         .amount(InputView.inputAmount())
                         .build();
                 voucherController.updateVoucherById(voucherId, update);

@@ -18,9 +18,9 @@ public class InputView {
         return Command.from(Integer.parseInt(SCANNER.nextLine()));
     }
 
-    public static VoucherPolicy inputVoucherPolicy() {
+    public static String inputVoucherPolicy() {
         log.info("할인 정책의 번호를 입력해주세요.");
-        return VoucherPolicy.from(Integer.parseInt(SCANNER.nextLine()));
+        return VoucherPolicy.from(Integer.parseInt(SCANNER.nextLine())).toString();
     }
 
     public static int inputAmount() {

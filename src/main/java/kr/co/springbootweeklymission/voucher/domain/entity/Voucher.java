@@ -29,7 +29,7 @@ public class Voucher {
         return Voucher.builder()
                 .voucherId(UUID.randomUUID())
                 .amount(create.getAmount())
-                .voucherPolicy(create.getVoucherPolicy())
+                .voucherPolicy(VoucherPolicy.valueOf(create.getVoucherPolicy()))
                 .build();
     }
 
