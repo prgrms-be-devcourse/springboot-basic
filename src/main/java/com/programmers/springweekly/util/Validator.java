@@ -16,19 +16,19 @@ public final class Validator {
     private static final int PERCENT_MIN = 0;
 
     public static void fixedAmountValidate(String fixedAmount) {
-        numberValidate(fixedAmount);
+        validateNumber(fixedAmount);
     }
 
     public static void percentValidate(String percent) {
-        numberValidate(percent);
-        rangeValidate(percent);
+        validateNumber(percent);
+        validateRange(percent);
     }
 
     public static String[] inputParse(String input) {
         return input.split(",");
     }
 
-    public static void nameValidate(String input) {
+    public static void validateName(String input) {
         Matcher match = englishPattern.matcher(input);
 
         if (!match.matches()) {
@@ -36,7 +36,7 @@ public final class Validator {
         }
     }
 
-    public static void emailValidate(String input) {
+    public static void validateEmail(String input) {
         Matcher match = emailPattern.matcher(input);
 
         if (!match.matches()) {
@@ -44,7 +44,7 @@ public final class Validator {
         }
     }
 
-    private static void numberValidate(String input) {
+    private static void validateNumber(String input) {
         Matcher match = numberPattern.matcher(input);
 
         if (!match.matches()) {
@@ -52,7 +52,7 @@ public final class Validator {
         }
     }
 
-    private static void rangeValidate(String inputPercent) {
+    private static void validateRange(String inputPercent) {
         int percent = Integer.parseInt(inputPercent);
 
         if (percent > PERCENT_MAX || percent < PERCENT_MIN) {

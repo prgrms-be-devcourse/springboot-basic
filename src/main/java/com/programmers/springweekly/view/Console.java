@@ -27,8 +27,8 @@ public class Console implements Input, Output {
     @Override
     public CustomerCreateRequest inputCustomerCreate() {
         String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
-        Validator.nameValidate(customerInfo[0]);
-        Validator.emailValidate(customerInfo[1]);
+        Validator.validateName(customerInfo[0]);
+        Validator.validateEmail(customerInfo[1]);
 
         return CustomerCreateRequest.builder()
                 .customerName(customerInfo[0])
@@ -40,8 +40,8 @@ public class Console implements Input, Output {
     @Override
     public CustomerUpdateRequest inputCustomerUpdate(UUID customerId) {
         String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
-        Validator.nameValidate(customerInfo[0]);
-        Validator.emailValidate(customerInfo[1]);
+        Validator.validateName(customerInfo[0]);
+        Validator.validateEmail(customerInfo[1]);
 
         return CustomerUpdateRequest.builder()
                 .customerId(customerId)
