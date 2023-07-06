@@ -1,34 +1,45 @@
 package com.prgrms.model.voucher;
 
 import com.prgrms.model.order.OrderItem;
+import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.discount.FixedDiscount;
+import com.prgrms.model.voucher.discount.PercentDiscount;
+import com.prgrms.model.voucher.discount.Price;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FixedAmountVoucherTest {
-    OrderItem orderItem;
+    private OrderItem orderItem;
 
-    @Test
-    @DisplayName("할인된 가격이 양수가 나오는 상황을 테스트합니다.")
-    public void getPricePositiveResult() {
+    @BeforeEach
+    public void setUp() {
         orderItem = new OrderItem(UUID.randomUUID(), 1000, 1);
-        UUID voucherId = UUID.randomUUID();
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-
-
-        assertEquals(980, createdVoucher.getRealPrice(orderItem));
+    }
+    @Test
+    @DisplayName("할인된 금액이 제대로 나오는지 확인한다.")
+    public void discountPrice_DiscountedPrice_Equal() {
+        //given
+        Voucher createdVoucher = new FixedAmountVoucher(UUID.randomUUID(), new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        //when
+        Price discountedPrice = createdVoucher.discountPrice(orderItem);
+        //then
+        assertThat(discountedPrice.getValue()).isEqualTo(980);
     }
 
     @Test
-    @DisplayName("할인된 가격이 음수가 나오는 상황을 테스트합니다. 추후에 구현되어야 할 부분입니다.")
-    public void getPriceNegativeResult() {
-        orderItem = new OrderItem(UUID.randomUUID(), 10, 1);
-        UUID voucherId = UUID.randomUUID();
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-
-        assertEquals(-10, createdVoucher.getRealPrice(orderItem));
+    @DisplayName("할인금액이 원가보다 커 할인된 금액이 음수가 나오는 경우 예외를 던지는지 확인한다.")
+    public void discountPrice_NegativeDiscountedPrice_ThrowsException() {
+        //given
+        Voucher createdVoucher = new FixedAmountVoucher(UUID.randomUUID(), new FixedDiscount(2000), VoucherType.FIXED_AMOUNT_VOUCHER);
+        //when_then
+        assertThatThrownBy(() ->createdVoucher.discountPrice(orderItem))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
