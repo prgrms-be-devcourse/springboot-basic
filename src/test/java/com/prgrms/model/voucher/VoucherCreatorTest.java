@@ -1,48 +1,51 @@
 package com.prgrms.model.voucher;
 
+import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.discount.FixedDiscount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherCreatorTest {
-    private static final Discount DISCOUNT = new Discount(20);
+    private static final Discount FIX_DISCOUNT = new FixedDiscount(20);
+    private static final Discount PER_DISCOUNT = new FixedDiscount(20);
 
     @Test
     @DisplayName("고정된 금액의 바우처")
-    public void testCreateVoucherFixedAmountVoucher() {
+    public void createVoucher_FixedAmountVoucher_Equal() {
+        //given
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
+        Discount discount = FIX_DISCOUNT;
         VoucherCreator voucherCreator = new VoucherCreator();
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherCreator.getVoucherID(),discount,voucherType);
 
-        Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherType);
+        //when
+        Voucher result = voucherCreator.createVoucher(discount, voucherType);
 
-        assertNotNull(result);
-        assertTrue(result instanceof FixedAmountVoucher);
-        assertEquals(DISCOUNT, result.getVoucherDiscount());
-        assertEquals(voucherType, result.getVoucherPolicy());
+        //then
+        assertThat(result).isNotNull()
+                .usingRecursiveComparison()
+                .isEqualTo(fixedAmountVoucher);
+
     }
 
     @Test
     @DisplayName("할인율에 따른 바우처")
-    public void testCreateVoucher_PercentDiscountVoucher_ReturnsPercentDiscountVoucher() {
+    public void createVoucher_PercentDiscountVoucher_Equal() {
+        //given
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
+        Discount discount = PER_DISCOUNT;
         VoucherCreator voucherCreator = new VoucherCreator();
+        PercentDiscountVoucher percentDiscountVoucher= new PercentDiscountVoucher(voucherCreator.getVoucherID(),discount,voucherType);
 
-        Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherType);
+        //when
+        Voucher result = voucherCreator.createVoucher(discount, voucherType);
 
-        assertNotNull(result);
-        assertTrue(result instanceof PercentDiscountVoucher);
-        assertEquals(DISCOUNT, result.getVoucherDiscount());
-        assertEquals(voucherType, result.getVoucherPolicy());
-    }
-
-    @Test
-    @DisplayName("잘못된 바우처 정책에 대해서 예외를 던지는지 테스트")
-    public void testCreateVoucher_InvalidVoucherPolicy_ThrowsException() {
-        String invalidVoucherPolicy = "라면";
-        VoucherCreator voucherCreator = new VoucherCreator();
-
-        assertThrows(IllegalArgumentException.class, () ->
-                voucherCreator.createVoucher(DISCOUNT, VoucherType.valueOf(invalidVoucherPolicy)));
+        //then
+        assertThat(result).isNotNull()
+                .usingRecursiveComparison()
+                .isEqualTo(percentDiscountVoucher);
     }
 }
