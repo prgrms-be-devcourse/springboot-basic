@@ -119,7 +119,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public void delete(UUID customerId) {
-        namedParameterJdbcTemplate.update("DELETE from customers where customer_id = :customerId", Collections.singletonMap("customerId", customerId));
+        namedParameterJdbcTemplate.update("DELETE from customers where customer_id = UUID_TO_BIN(:customerId)", Collections.singletonMap("customerId", customerId.toString().getBytes()));
     }
 
     static UUID toUUID(byte[] bytes) {
