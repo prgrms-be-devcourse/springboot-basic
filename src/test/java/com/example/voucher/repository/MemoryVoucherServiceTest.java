@@ -25,7 +25,7 @@ class MemoryVoucherServiceTest {
 	@DisplayName("Voucher가 있을 때 save메서드가 성공하면 Voucher의 UUID를 반환한다")
 	@Test
 	void save() {
-		Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L);
+		Voucher voucher = new FixedAmountVoucher(100L);
 		UUID expected = voucher.getVoucherId();
 
 		UUID actual = voucherRepository.save(voucher);
@@ -37,7 +37,7 @@ class MemoryVoucherServiceTest {
 	@Test
 	void findAll() {
 		List<Voucher> vouchers = LongStream.range(1, 11)
-			.mapToObj(v -> new FixedAmountVoucher(UUID.randomUUID(), v))
+			.mapToObj(v -> new FixedAmountVoucher(v))
 			.collect(Collectors.toList());
 		int expectedSize = vouchers.size();
 
