@@ -6,7 +6,7 @@ public class Customer {
 
   private final UUID customerId;
   private String name;
-  private final String email;
+  private String email;
 
   public Customer(UUID customerId, String name, String email) {
     this.customerId = customerId;
