@@ -25,16 +25,12 @@ public class VoucherResponse {
         return sb.toString();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        VoucherResponse that = (VoucherResponse) o;
-        return voucherType == that.voucherType && Objects.equals(discount, that.discount);
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(voucherType, discount);
+    public Discount getDiscount() {
+        return discount;
     }
+
 }
