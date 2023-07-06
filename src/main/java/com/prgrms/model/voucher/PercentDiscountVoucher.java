@@ -1,5 +1,7 @@
 package com.prgrms.model.voucher;
 
+import com.prgrms.model.voucher.discount.Discount;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
@@ -11,6 +13,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public double sale(long price) {
-        return price * (getVoucherDiscount().getDiscount() / PERCENT);
+        return price * (getVoucherDiscount().getValue() / PERCENT);
     }
 }
