@@ -28,6 +28,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return new ArrayList<>(storage.values());
     }
 
+    @Override
+    public void update(Voucher voucher) {
+        deleteById(voucher.getId());
+        save(voucher);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        storage.remove(id);
+    }
+
     public void clearStorage() {
         storage.clear();
     }

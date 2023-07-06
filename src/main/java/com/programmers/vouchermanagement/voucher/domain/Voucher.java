@@ -5,10 +5,15 @@ import java.util.UUID;
 public class Voucher {
 
     private final UUID id;
-    private final DiscountPolicy discountPolicy;
+    private DiscountPolicy discountPolicy;
 
     public Voucher(DiscountPolicy discountPolicy) {
         this.id = UUID.randomUUID();
+        this.discountPolicy = discountPolicy;
+    }
+
+    public Voucher(UUID id, DiscountPolicy discountPolicy) {
+        this.id = id;
         this.discountPolicy = discountPolicy;
     }
 
@@ -22,5 +27,9 @@ public class Voucher {
 
     public int discount(int originalPrice) {
         return discountPolicy.discount(originalPrice);
+    }
+
+    public void changeDiscountPolicy(DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
     }
 }
