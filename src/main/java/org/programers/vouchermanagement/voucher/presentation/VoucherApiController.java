@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.programers.vouchermanagement.voucher.application.VoucherService;
 import org.programers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
+import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,12 @@ public class VoucherApiController {
     @GetMapping("/{id}")
     public ResponseEntity<VoucherResponse> findById(@PathVariable UUID id) {
         VoucherResponse response = voucherService.findById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<VouchersResponse> findAll() {
+        VouchersResponse response = voucherService.findAll();
         return ResponseEntity.ok(response);
     }
 }
