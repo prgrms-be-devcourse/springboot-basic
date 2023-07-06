@@ -3,17 +3,17 @@ package com.programmers.voucher.domain.enums;
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum VoucherEnum {
+public enum VoucherType {
     FIXED(1), PERCENT(2);
 
     private final int number;
 
-    VoucherEnum(int number) {
+    VoucherType(int number) {
         this.number = number;
     }
 
-    public static Optional<VoucherEnum> decideVoucherType(int number) {
-        return Arrays.stream(VoucherEnum.values())
+    public static Optional<VoucherType> decideVoucherType(int number) {
+        return Arrays.stream(VoucherType.values())
                 .filter(v -> v.number == number)
                 .findAny();
     }

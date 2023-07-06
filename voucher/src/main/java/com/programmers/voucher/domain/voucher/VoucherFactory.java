@@ -1,6 +1,6 @@
 package com.programmers.voucher.domain.voucher;
 
-import com.programmers.voucher.domain.enums.VoucherEnum;
+import com.programmers.voucher.domain.enums.VoucherType;
 import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +15,8 @@ public class VoucherFactory {
         this.voucherStream = voucherStream;
     }
 
-    public Voucher createVoucher(VoucherEnum voucherEnum, Integer inputNumber) {
-        Voucher voucher = (VoucherEnum.FIXED == voucherEnum) ? createFixedVoucher(inputNumber) : createPercentVoucher(inputNumber);;
+    public Voucher createVoucher(VoucherType voucherType, Integer inputNumber) {
+        Voucher voucher = (VoucherType.FIXED == voucherType) ? createFixedVoucher(inputNumber) : createPercentVoucher(inputNumber);;
         voucherStream.save(voucher);
         return voucher;
     }

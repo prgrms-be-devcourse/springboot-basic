@@ -2,7 +2,7 @@ package com.programmers.voucher.operator;
 
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.console.Printer;
-import com.programmers.voucher.domain.enums.VoucherEnum;
+import com.programmers.voucher.domain.enums.VoucherType;
 import com.programmers.voucher.domain.enums.VoucherOperation;
 import com.programmers.voucher.domain.voucher.*;
 import com.programmers.voucher.stream.voucher.JdbcVoucherStream;
@@ -41,30 +41,30 @@ public class VoucherOperator {
 
     private void createVoucher() {
         Integer inputVersion = console.getVoucherVersion();
-        VoucherEnum voucherEnum = decideVoucherType(inputVersion);
-        createFixedAmountVoucher(voucherEnum);
-        createPercentDiscountVoucher(voucherEnum);
+        VoucherType voucherType = decideVoucherType(inputVersion);
+        createFixedAmountVoucher(voucherType);
+        createPercentDiscountVoucher(voucherType);
     }
 
-    private VoucherEnum decideVoucherType(Integer inputVersion) {
-        return VoucherEnum.decideVoucherType(inputVersion).orElseThrow(
+    private VoucherType decideVoucherType(Integer inputVersion) {
+        return VoucherType.decideVoucherType(inputVersion).orElseThrow(
                 () -> new IllegalArgumentException("지원하지 않는 버전입니다. 버전을 다시 확인 해주세요.")
         );
     }
 
-    private void createFixedAmountVoucher(VoucherEnum voucherEnum) {
+    private void createFixedAmountVoucher(VoucherType voucherType) {
         Integer inputNumber;
-        if (voucherEnum == VoucherEnum.FIXED) {
+        if (voucherType == VoucherType.FIXED) {
             inputNumber = console.getAmount();
-            voucherFactory.createVoucher(voucherEnum, inputNumber);
+            voucherFactory.createVoucher(voucherType, inputNumber);
         }
     }
 
-    private void createPercentDiscountVoucher(VoucherEnum voucherEnum) {
+    private void createPercentDiscountVoucher(VoucherType voucherType) {
         Integer inputNumber;
-        if (voucherEnum == VoucherEnum.PERCENT) {
+        if (voucherType == VoucherType.PERCENT) {
             inputNumber = console.getRate();
-            voucherFactory.createVoucher(voucherEnum, inputNumber);
+            voucherFactory.createVoucher(voucherType, inputNumber);
         }
     }
 
