@@ -2,7 +2,6 @@ package org.promgrammers.springbootbasic.domain.voucher.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
@@ -15,7 +14,6 @@ import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVouch
 import org.promgrammers.springbootbasic.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,13 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ActiveProfiles("jdbc")
+@ActiveProfiles("test")
 @SpringBootTest
 @Transactional
 class VoucherServiceTest {
 
-    @MockBean
-    CommandLineController controller;
     @Autowired
     private JdbcVoucherRepository voucherRepository;
     @Autowired

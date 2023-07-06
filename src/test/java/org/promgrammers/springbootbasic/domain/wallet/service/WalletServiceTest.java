@@ -4,7 +4,6 @@ package org.promgrammers.springbootbasic.domain.wallet.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
@@ -13,13 +12,11 @@ import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVouch
 import org.promgrammers.springbootbasic.domain.wallet.dto.request.CreateWalletRequest;
 import org.promgrammers.springbootbasic.domain.wallet.dto.response.WalletListResponse;
 import org.promgrammers.springbootbasic.domain.wallet.dto.response.WalletResponse;
-import org.promgrammers.springbootbasic.domain.wallet.model.Wallet;
 import org.promgrammers.springbootbasic.domain.wallet.repository.impl.JdbcWalletRepository;
 import org.promgrammers.springbootbasic.exception.BusinessException;
 import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-@ActiveProfiles("jdbc")
+@ActiveProfiles("test")
 @Transactional
 class WalletServiceTest {
 
-    @MockBean
-    private CommandLineController controller;
     @Autowired
     private WalletService walletService;
     @Autowired
@@ -47,14 +42,12 @@ class WalletServiceTest {
     @Autowired
     JdbcVoucherRepository voucherRepository;
 
-    private Wallet wallet;
-
     private Voucher voucher;
 
     private Customer customer;
 
     @BeforeEach
-    void init() {
+    void setUp() {
         voucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
         customer = new Customer(UUID.randomUUID(), "HONG");
         voucherRepository.insert(voucher);

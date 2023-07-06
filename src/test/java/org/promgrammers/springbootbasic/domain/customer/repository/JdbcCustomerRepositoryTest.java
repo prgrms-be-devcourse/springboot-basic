@@ -1,14 +1,12 @@
 package org.promgrammers.springbootbasic.domain.customer.repository;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -26,16 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application.yaml")
-@ActiveProfiles("jdbc")
+@ActiveProfiles("test")
 class JdbcCustomerRepositoryTest {
-
-    @MockBean
-    private CommandLineController controller;
 
     @Autowired
     JdbcCustomerRepository customerRepository;
 
-    @BeforeEach
+    @AfterEach
     void init() {
         customerRepository.deleteAll();
     }

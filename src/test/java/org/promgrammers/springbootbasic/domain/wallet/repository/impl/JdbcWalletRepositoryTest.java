@@ -1,9 +1,9 @@
 package org.promgrammers.springbootbasic.domain.wallet.repository.impl;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
@@ -13,7 +13,6 @@ import org.promgrammers.springbootbasic.domain.wallet.model.Wallet;
 import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
@@ -28,11 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application.yaml")
-@ActiveProfiles("jdbc")
+@ActiveProfiles("test")
 class JdbcWalletRepositoryTest {
-
-    @MockBean
-    private CommandLineController controller;
 
     @Autowired
     JdbcCustomerRepository customerRepository;
@@ -48,14 +44,18 @@ class JdbcWalletRepositoryTest {
     private Customer customer;
 
     @BeforeEach
-    void init() {
-        customerRepository.deleteAll();
-        voucherRepository.deleteAll();
-        walletRepository.deleteAll();
+    void setUp() {
         voucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
         customer = new Customer(UUID.randomUUID(), "HONG");
         voucherRepository.insert(voucher);
         customerRepository.save(customer);
+    }
+
+    @AfterEach
+    void init() {
+        customerRepository.deleteAll();
+        voucherRepository.deleteAll();
+        walletRepository.deleteAll();
     }
 
 

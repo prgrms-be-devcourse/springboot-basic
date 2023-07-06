@@ -1,16 +1,14 @@
 package org.promgrammers.springbootbasic.domain.voucher.repository;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -26,16 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application.yaml")
-@ActiveProfiles("jdbc")
+@ActiveProfiles("test")
 class JdbcVoucherRepositoryTest {
-
-    @MockBean
-    private CommandLineController controller;
 
     @Autowired
     JdbcVoucherRepository jdbcTemplateVoucherRepository;
 
-    @BeforeEach
+    @AfterEach
     void init() {
         jdbcTemplateVoucherRepository.deleteAll();
     }

@@ -2,7 +2,6 @@ package org.promgrammers.springbootbasic.domain.customer.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.promgrammers.springbootbasic.controller.CommandLineController;
 import org.promgrammers.springbootbasic.domain.customer.dto.request.CreateCustomerRequest;
 import org.promgrammers.springbootbasic.domain.customer.dto.request.UpdateCustomerRequest;
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomerResponse;
@@ -12,7 +11,6 @@ import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCust
 import org.promgrammers.springbootbasic.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@ActiveProfiles("jdbc")
+@ActiveProfiles("test")
 @Transactional
 class CustomerServiceTest {
 
-    @MockBean
-    private CommandLineController controller;
     @Autowired
     private JdbcCustomerRepository customerRepository;
     @Autowired
@@ -41,6 +37,7 @@ class CustomerServiceTest {
 
     @Test
     @DisplayName("저장 성공- 고객 저장 테스트")
+    @Transactional
     void save() throws Exception {
 
         //given
