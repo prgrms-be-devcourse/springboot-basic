@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.promgrammers.springbootbasic.exception.ErrorCode.DUPLICATED_USERNAME;
-import static org.promgrammers.springbootbasic.exception.ErrorCode.INVALID_USERNAME_MESSAGE;
 import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_CUSTOMER;
 
 @Service
@@ -23,16 +22,13 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    private static final String USERNAME_REGEX = "^[a-zA-Z0-9가-힣]+$";
-
-
     public CustomerService(JdbcCustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     @Transactional
     public CustomerResponse createCustomer(CreateCustomerRequest customerRequest) {
-        validateUsername(customerRequest.username());
+        duplicatedUsername(customerRequest.username());
 
         Customer customer = new Customer(UUID.randomUUID(), customerRequest.username());
         customerRepository.save(customer);
@@ -77,7 +73,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(updateCustomerRequest.customerId())
                 .orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
 
-        validateUsername(updateCustomerRequest.username());
+        duplicatedUsername(updateCustomerRequest.username());
 
         customer.updateUsername(updateCustomerRequest.username());
         customer.updateCustomerType(updateCustomerRequest.customerType());
@@ -94,11 +90,7 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
     }
 
-    private void validateUsername(String username) {
-
-        if (!username.matches(USERNAME_REGEX)) {
-            throw new BusinessException(INVALID_USERNAME_MESSAGE);
-        }
+    private void duplicatedUsername(String username) {
 
         if (customerRepository.findByUsername(username).isPresent()) {
             throw new BusinessException(DUPLICATED_USERNAME);

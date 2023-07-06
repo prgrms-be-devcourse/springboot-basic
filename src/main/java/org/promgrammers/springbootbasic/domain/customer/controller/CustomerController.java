@@ -9,11 +9,14 @@ import org.promgrammers.springbootbasic.domain.customer.model.DeleteCustomerType
 import org.promgrammers.springbootbasic.domain.customer.model.FindCustomerType;
 import org.promgrammers.springbootbasic.domain.customer.service.BlackCustomerService;
 import org.promgrammers.springbootbasic.domain.customer.service.CustomerService;
+import org.promgrammers.springbootbasic.exception.DataValidationException;
 import org.promgrammers.springbootbasic.view.Console;
 import org.promgrammers.springbootbasic.view.CrudMenu;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
+
+import static org.promgrammers.springbootbasic.exception.ErrorCode.INVALID_USERNAME_MESSAGE;
 
 @Controller
 public class CustomerController {
@@ -21,6 +24,8 @@ public class CustomerController {
     private final Console console;
     private final CustomerService customerService;
     private final BlackCustomerService blackCustomerService;
+
+    private static final String USERNAME_REGEX = "^[a-zA-Z0-9가-힣]+$";
 
     public CustomerController(CustomerService customerService, Console console, BlackCustomerService blackCustomerService) {
         this.customerService = customerService;
@@ -68,6 +73,8 @@ public class CustomerController {
     private CustomerResponse create() {
         console.print("고객 이름을 입력해 주세요.");
         String inputUsername = console.input();
+        validateUsername(inputUsername);
+
         CreateCustomerRequest customerRequest = new CreateCustomerRequest(inputUsername);
         return customerService.createCustomer(customerRequest);
     }
@@ -78,6 +85,7 @@ public class CustomerController {
 
         console.print("수정 할 이름을 적어주세요.");
         String requestUsername = console.input();
+        validateUsername(requestUsername);
 
         CustomerType customerType = CustomerType.WHITE;
 
@@ -139,5 +147,12 @@ public class CustomerController {
         UUID voucherId = UUID.fromString(requestId);
 
         customerService.deleteById(voucherId);
+    }
+
+    private void validateUsername(String username) {
+
+        if (!username.matches(USERNAME_REGEX)) {
+            throw new DataValidationException(INVALID_USERNAME_MESSAGE);
+        }
     }
 }
