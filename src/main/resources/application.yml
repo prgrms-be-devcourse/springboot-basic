@@ -7,3 +7,11 @@ spring:
     username: root
     password: 1011
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+voucher:
+  file:
+    path: vouchers.txt
+
+customer:
+  file:
+    path: src/main/resources/customer_list.csv

@@ -57,7 +57,7 @@ class VoucherWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("지갑에 상품권을 추가할 수 있다")
+    @DisplayName("지갑에 바우처을 추가할 수 있다")
     void addVoucherToWallet() {
         // when
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);
@@ -68,7 +68,7 @@ class VoucherWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("지갑에서 상품권을 제거할 수 있다")
+    @DisplayName("지갑에서 바우처을 제거할 수 있다")
     void removeVoucherFromWallet() {
         // given
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);
@@ -81,7 +81,7 @@ class VoucherWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객 ID로 상품권 ID를 찾을 수 있다")
+    @DisplayName("고객 ID로 바우처 ID를 찾을 수 있다")
     void findVoucherIdsByCustomerId() {
         // given
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);
@@ -95,7 +95,7 @@ class VoucherWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("상품권 ID로 고객 ID를 찾을 수 있다")
+    @DisplayName("바우처 ID로 고객 ID를 찾을 수 있다")
     void findCustomerIdsByVoucherId() {
         // given
         voucherWalletRepository.addVoucherToWallet(customerUUID1, voucherUUID1);

@@ -43,7 +43,7 @@ class VoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("상품권 정보를 저장할 수 있다")
+    @DisplayName("바우처 정보를 저장할 수 있다")
     void saveVoucher() {
         // given
         voucherRepository.save(fixedVoucher);
@@ -55,7 +55,7 @@ class VoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("상품권 ID로 상품권을 찾을 수 있다")
+    @DisplayName("상품권 ID로 바우처을 찾을 수 있다")
     void findVoucherById() {
         // given
         voucherRepository.save(fixedVoucher);
@@ -67,7 +67,7 @@ class VoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("모든 상품권을 찾을 수 있다")
+    @DisplayName("모든 바우처을 찾을 수 있다")
     void findAllVouchers() {
         // given
         voucherRepository.save(fixedVoucher);
@@ -82,7 +82,7 @@ class VoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 상품권을 찾으려고 시도하면 결과가 없다")
+    @DisplayName("존재하지 않는 바우처을 찾으려고 시도하면 결과가 없다")
     void voucherNotFound() {
         // when
         Optional<Voucher> retrievedVoucher = voucherRepository.findById(UUID.randomUUID());
