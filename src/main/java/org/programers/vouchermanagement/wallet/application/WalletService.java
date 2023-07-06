@@ -36,7 +36,8 @@ public class WalletService {
         Voucher voucher = voucherRepository.getById(request.getVoucherId());
         Member member = memberRepository.getById(request.getMemberId());
 
-        Wallet wallet = walletRepository.save(new Wallet(voucher, member));
+        Wallet savingWallet = new Wallet(voucher, member);
+        Wallet wallet = walletRepository.save(savingWallet);
         return new WalletResponse(wallet);
     }
 
@@ -47,17 +48,26 @@ public class WalletService {
 
     public WalletsResponse findByVoucherId(UUID voucherId) {
         List<Wallet> wallets = walletRepository.findAllByVoucherId(voucherId);
-        return new WalletsResponse(wallets.stream().map(WalletResponse::new).collect(Collectors.toList()));
+        List<WalletResponse> responses = wallets.stream()
+                .map(WalletResponse::new)
+                .collect(Collectors.toList());
+        return new WalletsResponse(responses);
     }
 
     public WalletsResponse findByMemberId(UUID memberId) {
         List<Wallet> wallets = walletRepository.findAllByMemberId(memberId);
-        return new WalletsResponse(wallets.stream().map(WalletResponse::new).collect(Collectors.toList()));
+        List<WalletResponse> responses = wallets.stream()
+                .map(WalletResponse::new)
+                .collect(Collectors.toList());
+        return new WalletsResponse(responses);
     }
 
     public WalletsResponse findAll() {
         List<Wallet> wallets = walletRepository.findAll();
-        return new WalletsResponse(wallets.stream().map(WalletResponse::new).collect(Collectors.toList()));
+        List<WalletResponse> responses = wallets.stream()
+                .map(WalletResponse::new)
+                .collect(Collectors.toList());
+        return new WalletsResponse(responses);
     }
 
     @Transactional

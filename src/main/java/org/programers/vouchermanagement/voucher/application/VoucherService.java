@@ -27,7 +27,8 @@ public class VoucherService {
     @Transactional
     public VoucherResponse save(VoucherCreationRequest request) {
         VoucherType type = request.getType();
-        Voucher voucher = voucherRepository.save(type.createVoucher(UUID.randomUUID(), request.getValue()));
+        Voucher savingVoucher = type.createVoucher(UUID.randomUUID(), request.getValue());
+        Voucher voucher = voucherRepository.save(savingVoucher);
         return new VoucherResponse(voucher);
     }
 
@@ -37,18 +38,25 @@ public class VoucherService {
     }
 
     public VouchersResponse findByType(VoucherType type) {
-        List<Voucher> result = voucherRepository.findByType(type);
-        return new VouchersResponse(result.stream().map(VoucherResponse::new).collect(Collectors.toList()));
+        List<Voucher> vouchers = voucherRepository.findByType(type);
+        List<VoucherResponse> responses = vouchers.stream()
+                .map(VoucherResponse::new)
+                .collect(Collectors.toList());
+        return new VouchersResponse(responses);
     }
 
     public VouchersResponse findAll() {
-        List<Voucher> result = voucherRepository.findAll();
-        return new VouchersResponse(result.stream().map(VoucherResponse::new).collect(Collectors.toList()));
+        List<Voucher> vouchers = voucherRepository.findAll();
+        List<VoucherResponse> responses = vouchers.stream()
+                .map(VoucherResponse::new)
+                .collect(Collectors.toList());
+        return new VouchersResponse(responses);
     }
 
     @Transactional
     public void update(VoucherUpdateRequest request) {
-        voucherRepository.update(new Voucher(request.getId(), request.getPolicy(), request.getType()));
+        Voucher voucher = new Voucher(request.getId(), request.getPolicy(), request.getType());
+        voucherRepository.update(voucher);
     }
 
     @Transactional
