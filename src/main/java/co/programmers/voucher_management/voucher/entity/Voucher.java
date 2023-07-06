@@ -52,7 +52,7 @@ public class Voucher {
 	}
 
 	public void assignCustomer(long customerId) {
-		if (customerId > 0) {
+		if (this.customerId > 0) {
 			throw new VoucherReassignmentException("Already assigned voucher");
 		}
 		this.customerId = customerId;
