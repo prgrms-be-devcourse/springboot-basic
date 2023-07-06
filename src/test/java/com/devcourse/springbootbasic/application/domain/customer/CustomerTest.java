@@ -18,14 +18,14 @@ class CustomerTest {
     static Stream<Arguments> provideCustomers() {
         return Stream.of(
                 Arguments.of(
-                        UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.649", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
-                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.649", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))),
-                Arguments.of(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.668", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
-                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.668", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))),
-                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.682", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
-                    new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.682", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))),
-                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23 12:42:12.121", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23 12:42:12.121", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))))
+                        UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com",LocalDateTime.parse("2023-07-04T12:55:16.649111", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn")),
+                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com",LocalDateTime.parse("2023-07-04T12:55:16.649111", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn")))),
+                Arguments.of(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04T12:55:16.668111", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn")),
+                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04T12:55:16.668111", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn")))),
+                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04T12:55:16.682111", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn")),
+                    new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04T12:55:16.682111", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn")))),
+                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23T12:42:12.121111", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn")),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23T12:42:12.121111", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn"))))
         );
     }
 

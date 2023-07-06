@@ -23,10 +23,10 @@ class CustomerServiceTest {
         var customerRepositoryMock = mock(CustomerRepository.class);
         given(customerRepositoryMock.findAllBlackCustomers()).willReturn(
                 List.of(
-                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com", LocalDateTime.parse("2023-07-04 12:55:16.649", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))),
-                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.668", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04 12:55:16.682", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23 12:42:12.121", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))
+                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com", LocalDateTime.parse("2023-07-04'T'12:55:16.649232", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.nnnnnn"))),
+                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04'T'12:55:16.668232", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.nnnnnn"))),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04'T'12:55:16.682232", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.nnnnnn"))),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23'T'12:42:12.121232", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.nnnnnn")))
                 )
         );
         var sut = new CustomerService(customerRepositoryMock);

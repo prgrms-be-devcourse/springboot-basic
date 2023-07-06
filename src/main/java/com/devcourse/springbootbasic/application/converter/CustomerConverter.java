@@ -23,7 +23,7 @@ public final class CustomerConverter {
                 UUID.fromString(customerInfoArray[0]),
                 customerInfoArray[1],
                 customerInfoArray[2],
-                LocalDateTime.parse(customerInfoArray[3], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
+                LocalDateTime.parse(customerInfoArray[3], DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn"))
         );
     }
 
