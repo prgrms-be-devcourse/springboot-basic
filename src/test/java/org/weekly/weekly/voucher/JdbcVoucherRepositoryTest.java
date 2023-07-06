@@ -35,13 +35,6 @@ class JdbcVoucherRepositoryTest {
 
     @DynamicPropertySource
     public static void overrideContainerProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
-        System.out.println(mySQLContainer.getJdbcUrl());
-        System.out.println(mySQLContainer.getHost());
-        System.out.println(mySQLContainer.getUsername());
-        System.out.println(mySQLContainer.getPassword());
-        System.out.println(mySQLContainer.getDriverClassName());
-        System.out.println(mySQLContainer.getContainerName());
-        System.out.println(mySQLContainer.getDatabaseName());
         dynamicPropertyRegistry.add("spring.datasource.url",mySQLContainer::getJdbcUrl);
         dynamicPropertyRegistry.add("spring.datasource.username",mySQLContainer::getUsername);
         dynamicPropertyRegistry.add("spring.datasource.password",mySQLContainer::getPassword);

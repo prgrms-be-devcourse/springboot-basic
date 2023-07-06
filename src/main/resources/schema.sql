@@ -1,11 +1,8 @@
-
-
 DROP TABLE IF EXISTS customers;
 CREATE TABLE customers (
                            customer_id BINARY(16) PRIMARY KEY,
                            name varchar(20) NOT NULL,
                            email varchar(50) NOT NULL,
-                           last_login_at datetime(6)  DEFAULT NULL,
                            create_at datetime(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
                            CONSTRAINT unq_user_email UNIQUE (email)
 );
@@ -24,7 +21,10 @@ CREATE TABLE vouchers (
                           amount bigint NOT NULL,
                           discount enum('FIXED', 'PERCENT') NOT NULL,
                           registration_date datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-                          expiration_date datetime(6) NOT NULL
+                          expiration_date datetime(6) NOT NULL,
+
+                          customer_id BINARY(16) not null,
+                          FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
 
 INSERT INTO vouchers(voucher_id, amount, discount, expiration_date)
