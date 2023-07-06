@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import com.example.voucher.domain.Voucher;
 
-@Repository
+@Component
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> inMemoryDataBase = new ConcurrentHashMap<>();
