@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum Menu {
-    EXIT("exit"), CREATE("create"), LIST("list"), BLACKLIST("blacklist");
+    EXIT("exit"), Voucher("voucher"), BLACKLIST("blacklist");
 
     private final String menuName;
 
