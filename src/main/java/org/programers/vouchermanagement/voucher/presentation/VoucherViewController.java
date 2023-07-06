@@ -7,6 +7,8 @@ import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,7 +28,12 @@ public class VoucherViewController {
     }
 
     @PostMapping
-    public String save(@ModelAttribute VoucherCreationRequest request, RedirectAttributes redirectAttributes) {
+    public String save(@Validated @ModelAttribute("voucher") VoucherCreationRequest request,
+                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "vouchers/saveVoucher";
+        }
+
         VoucherResponse response = voucherService.save(request);
         redirectAttributes.addAttribute("id", response.getId());
         return "redirect:/view/vouchers/{id}";
