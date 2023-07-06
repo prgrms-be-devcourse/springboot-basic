@@ -28,7 +28,7 @@ public class BlackCustomerService {
             throw new BusinessException(NOT_FOUND_CUSTOMER);
         }
         List<CustomerResponse> customerResponses = customers.stream()
-                .map(customer -> new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType()))
+                .map(CustomerResponse::new)
                 .toList();
 
         return new CustomersResponse(customerResponses);

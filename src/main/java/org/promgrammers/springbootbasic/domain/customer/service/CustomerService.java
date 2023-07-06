@@ -37,14 +37,18 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public CustomerResponse findCustomerById(UUID customerId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
-        return new CustomerResponse(customerId, customer.getUsername(), customer.getCustomerType());
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
+
+        return new CustomerResponse(customer);
     }
 
     @Transactional(readOnly = true)
     public CustomerResponse findCustomerByUsername(String username) {
-        Customer customer = customerRepository.findByUsername(username).orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
-        return new CustomerResponse(customer.getCustomerId(), username, customer.getCustomerType());
+        Customer customer = customerRepository.findByUsername(username)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
+
+        return new CustomerResponse(customer);
     }
 
     @Transactional(readOnly = true)
@@ -57,7 +61,7 @@ public class CustomerService {
 
         List<CustomerResponse> customerResponseList = customerRepository.findAll()
                 .stream()
-                .map(customer -> new CustomerResponse(customer.getCustomerId(), customer.getUsername(), customer.getCustomerType()))
+                .map(CustomerResponse::new)
                 .toList();
 
         return new CustomersResponse(customerResponseList);
@@ -79,13 +83,14 @@ public class CustomerService {
         customer.updateCustomerType(updateCustomerRequest.customerType());
         customerRepository.update(customer);
 
-        CustomerResponse customerResponse = new CustomerResponse(updateCustomerRequest.customerId(), updateCustomerRequest.username(), updateCustomerRequest.customerType());
+        CustomerResponse customerResponse = new CustomerResponse(customer);
         return customerResponse;
     }
 
     @Transactional
     public void deleteById(UUID customerId) {
-        customerRepository.findById(customerId).orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
+        customerRepository.findById(customerId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER));
 
         customerRepository.deleteById(customerId);
     }

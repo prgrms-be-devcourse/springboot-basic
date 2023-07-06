@@ -57,7 +57,9 @@ public class WalletService {
 
     @Transactional(readOnly = true)
     public WalletResponse findById(UUID walletId) {
-        Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new BusinessException(NOT_FOUNT_WALLET));
+        Wallet wallet = walletRepository.findById(walletId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUNT_WALLET));
+
         return new WalletResponse(wallet);
     }
 
@@ -68,7 +70,7 @@ public class WalletService {
         validateList(walletList);
 
         List<WalletResponse> walletResponseList = walletList.stream()
-                .map(wallet -> new WalletResponse(wallet))
+                .map(WalletResponse::new)
                 .toList();
 
         return new WalletListResponse(walletResponseList);

@@ -31,14 +31,15 @@ public class VoucherService {
     public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = VoucherFactory.createVoucher(createVoucherRequest);
         voucherRepository.insert(voucher);
-        return new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+        return new VoucherResponse(voucher);
     }
 
     @Transactional(readOnly = true)
     public VoucherResponse findById(UUID voucherId) {
-        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> new BusinessException(NOT_FOUND_VOUCHER));
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_VOUCHER));
 
-        return new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+        return new VoucherResponse(voucher);
     }
 
     @Transactional(readOnly = true)
@@ -51,8 +52,9 @@ public class VoucherService {
 
         List<VoucherResponse> voucherResponseList = voucherRepository.findAll()
                 .stream()
-                .map(voucher -> new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()))
+                .map(VoucherResponse::new)
                 .toList();
+
         return new VoucherListResponse(voucherResponseList);
     }
 
@@ -64,7 +66,7 @@ public class VoucherService {
         voucher.updateAmount(updateVoucherRequest.discountAmount());
         voucherRepository.update(voucher);
 
-        return new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+        return new VoucherResponse(voucher);
     }
 
     @Transactional
@@ -74,7 +76,8 @@ public class VoucherService {
 
     @Transactional
     public void deleteById(UUID voucherId) {
-        voucherRepository.findById(voucherId).orElseThrow(() -> new BusinessException(NOT_FOUND_VOUCHER));
+        voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_VOUCHER));
 
         voucherRepository.deleteById(voucherId);
     }
