@@ -23,4 +23,8 @@ public enum CommandType {
                     throw new IllegalArgumentException(CANT_FIND_COMMAND_TYPE);
                 });
     }
+
+    public static boolean isNotExit(CommandType commandType) {
+        return commandType != CommandType.EXIT;
+    }
 }
