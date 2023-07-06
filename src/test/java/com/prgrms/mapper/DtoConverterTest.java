@@ -41,5 +41,18 @@ class DtoConverterTest {
 
         //then
         assertThat(result).contains(voucherResponse1,voucherResponse2);
+
+        assertThat(result)
+                .usingElementComparator(DtoConverterTest::compare)
+                .contains(voucherResponse1, voucherResponse2);
+    }
+
+    private static int compare(VoucherResponse a, VoucherResponse b) {
+        int typeComparison = a.getVoucherType().compareTo(b.getVoucherType());
+        if (typeComparison != 0) {
+            return typeComparison;
+        } else {
+            return Double.compare(a.getDiscount().getValue(), b.getDiscount().getValue());
+        }
     }
 }
