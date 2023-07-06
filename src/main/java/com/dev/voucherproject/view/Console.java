@@ -64,10 +64,11 @@ public class Console {
         textTerminal.println("Type 1 to create a new voucher.");
         textTerminal.println("Type 2 to list all vouchers.");
         textTerminal.println("Type 3 to find specific voucher.");
-        textTerminal.println("Type 4 to delete all vouchers.");
-        textTerminal.println("Type 5 to delete specific vouchers.");
-        textTerminal.println("Type 6 to update specific vouchers.");
-        textTerminal.println("Type 7 to main menu.");
+        textTerminal.println("Type 4 to list specific policy vouchers.");
+        textTerminal.println("Type 5 to delete all vouchers.");
+        textTerminal.println("Type 6 to delete specific vouchers.");
+        textTerminal.println("Type 7 to update specific vouchers.");
+        textTerminal.println("Type 8 to main menu.");
     }
 
 

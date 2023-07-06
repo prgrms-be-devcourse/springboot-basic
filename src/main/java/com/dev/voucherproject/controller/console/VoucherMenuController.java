@@ -43,9 +43,7 @@ public class VoucherMenuController implements MenuController {
                 }
                 case LIST -> {
                     List<Voucher> vouchers = voucherStorage.findAll();
-                    List<VoucherDto> dtos = vouchers.stream()
-                        .map(VoucherDto::fromEntity)
-                        .toList();
+                    List<VoucherDto> dtos = getVoucherDtos(vouchers);
 
                     console.printAllVouchers(dtos);
                 }
@@ -59,6 +57,15 @@ public class VoucherMenuController implements MenuController {
 
                         console.printVoucher(VoucherDto.fromEntity(voucher));
                     }
+                }
+                case FIND_BY_POLICY -> {
+                    String policyInput = console.inputVoucherPolicySelection();
+
+                    VoucherPolicy voucherPolicy = VoucherPolicy.convertStringInputToPolicy(policyInput);
+                    List<Voucher> vouchers = voucherDao.findAllByPolicy(voucherPolicy);
+                    List<VoucherDto> dtos = getVoucherDtos(vouchers);
+
+                    console.printAllVouchers(dtos);
                 }
                 case DELETE_ALL -> {
                     voucherDao.deleteAll();
@@ -81,6 +88,13 @@ public class VoucherMenuController implements MenuController {
             }
             console.newLine();
         }
+    }
+
+    private static List<VoucherDto> getVoucherDtos(List<Voucher> vouchers) {
+        List<VoucherDto> dtos = vouchers.stream()
+            .map(VoucherDto::fromEntity)
+            .toList();
+        return dtos;
     }
 
     private VoucherVo getVoucherVo() {

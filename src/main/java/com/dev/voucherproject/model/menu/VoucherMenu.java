@@ -4,8 +4,8 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum VoucherMenu {
-    CREATE("1"), LIST("2"), FIND_BY_ID("3"),
-    DELETE_ALL("4"), DELETE_BY_ID("5"), UPDATE("6"), MAIN("7");
+    CREATE("1"), LIST("2"), FIND_BY_ID("3"), FIND_BY_POLICY("4"),
+    DELETE_ALL("5"), DELETE_BY_ID("6"), UPDATE("7"), MAIN("8");
 
     private final String voucherMenuName;
 
