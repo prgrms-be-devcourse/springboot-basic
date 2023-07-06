@@ -19,13 +19,13 @@ public class MemberViewController {
 
     private final MemberService memberService;
 
-    @GetMapping("/add")
+    @GetMapping
     public String save(Model model) {
         model.addAttribute("member", new MemberResponse());
-        return "members/addMember";
+        return "members/saveMember";
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public String save(@ModelAttribute MemberCreationRequest request, RedirectAttributes redirectAttributes) {
         MemberResponse response = memberService.save(request);
         redirectAttributes.addAttribute("id", response.getId());
