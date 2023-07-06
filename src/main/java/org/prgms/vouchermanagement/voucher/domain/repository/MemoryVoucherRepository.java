@@ -2,6 +2,7 @@ package org.prgms.vouchermanagement.voucher.domain.repository;
 
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
@@ -11,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Qualifier("memory")
+@Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository{
     private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
 

@@ -8,6 +8,7 @@ import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-@Qualifier("jdbc")
+@Profile("jdbc")
 public class VoucherNamedJdbcRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherNamedJdbcRepository.class);

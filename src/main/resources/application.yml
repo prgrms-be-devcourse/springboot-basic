@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: mysql
+    active: jdbc
 
 ---
 spring:
@@ -8,6 +8,3 @@ spring:
     url: "jdbc:mysql://localhost/order_mgmt"
     username: root
     password: 1234
-  config:
-    activate:
-      on-profile: mysql

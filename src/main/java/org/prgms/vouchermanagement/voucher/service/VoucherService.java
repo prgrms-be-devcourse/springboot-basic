@@ -16,7 +16,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final Console console;
 
-    public VoucherService(@Qualifier("jdbc") VoucherRepository voucherRepository, Console console) {
+    public VoucherService(VoucherRepository voucherRepository, Console console) {
         this.voucherRepository = voucherRepository;
         this.console = console;
     }
