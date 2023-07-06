@@ -1,5 +1,6 @@
 package org.programers.vouchermanagement.wallet.presentation;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.programers.vouchermanagement.member.application.MemberService;
 import org.programers.vouchermanagement.member.dto.response.MembersResponse;
@@ -12,6 +13,8 @@ import org.programers.vouchermanagement.wallet.dto.response.WalletViewResponse;
 import org.programers.vouchermanagement.wallet.dto.response.WalletsResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,16 +31,19 @@ public class WalletViewController {
 
     @GetMapping
     public String save(Model model) {
-        VouchersResponse vouchers = voucherService.findAll();
-        MembersResponse members = memberService.findAll();
-        model.addAttribute("vouchers", vouchers);
-        model.addAttribute("members", members);
+        initModelForSaveWalletPage(model);
         model.addAttribute("wallet", new WalletViewResponse());
         return "wallets/saveWallet";
     }
 
     @PostMapping
-    public String save(@ModelAttribute WalletCreationRequest request, RedirectAttributes redirectAttributes) {
+    public String save(@Validated @ModelAttribute("wallet") WalletCreationRequest request,
+                       BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            initModelForSaveWalletPage(model);
+            return "wallets/saveWallet";
+        }
+
         WalletResponse response = walletService.save(request);
         redirectAttributes.addAttribute("id", response.getId());
         return "redirect:/view/wallets/{id}";
@@ -61,5 +67,12 @@ public class WalletViewController {
     public String deleteById(@PathVariable UUID id) {
         walletService.deleteById(id);
         return "redirect:/view/wallets/all";
+    }
+
+    private void initModelForSaveWalletPage(Model model) {
+        VouchersResponse vouchers = voucherService.findAll();
+        MembersResponse members = memberService.findAll();
+        model.addAttribute("vouchers", vouchers);
+        model.addAttribute("members", members);
     }
 }

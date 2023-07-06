@@ -7,6 +7,8 @@ import org.programers.vouchermanagement.member.dto.response.MemberResponse;
 import org.programers.vouchermanagement.member.dto.response.MembersResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,8 +28,13 @@ public class MemberViewController {
     }
 
     @PostMapping
-    public String save(@ModelAttribute MemberCreationRequest request, RedirectAttributes redirectAttributes) {
-        MemberResponse response = memberService.save(request);
+    public String save(@Validated @ModelAttribute("member") MemberCreationRequest member,
+                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "members/saveMember";
+        }
+
+        MemberResponse response = memberService.save(member);
         redirectAttributes.addAttribute("id", response.getId());
         return "redirect:/view/members/{id}";
     }
