@@ -63,7 +63,7 @@ public class CommendLineRunner implements CommandLineRunner {
     }
 
     private void createVoucher() throws IOException {
-        VoucherType voucherType = VoucherType.getType(console.getVoucherTypes());
+        VoucherType voucherType = VoucherType.getTypeByNum(console.getVoucherTypes());
         double discountAmount = Double.parseDouble(console.getDiscountAmount());
         voucherController.create(new CreateRequest(voucherType, discountAmount));
     }

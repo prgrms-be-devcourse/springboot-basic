@@ -37,7 +37,7 @@ public class Console {
     }
 
     public void printAllBoucher(List<Voucher> vouchers) {
-        vouchers.forEach(e -> System.out.println(MessageFormat.format("{0},{1}", e.getVoucherType(), e.getDiscountPolicy().getAmount())));
+        vouchers.forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}",e.getVoucherId() ,e.getVoucherType(), e.getDiscountPolicy().getAmount())));
         System.out.println();
     }
 

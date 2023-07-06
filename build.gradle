@@ -8,7 +8,7 @@ group = 'org.prgrms.kdt'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 }
 
 repositories {
@@ -20,6 +20,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     //모키토 의존성 추가
     testImplementation 'org.mockito:mockito-core:4.8.0'
+    //JdbcTemplate 의존성 추가
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    //DB설정
+    runtimeOnly 'mysql:mysql-connector-java:8.0.32'
 }
 
 tasks.named('test') {
