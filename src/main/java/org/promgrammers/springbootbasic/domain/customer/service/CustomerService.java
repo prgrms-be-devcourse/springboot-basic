@@ -97,9 +97,8 @@ public class CustomerService {
 
     private void duplicatedUsername(String username) {
 
-        if (customerRepository.findByUsername(username).isPresent()) {
+        customerRepository.findByUsername(username).ifPresent(customer -> {
             throw new BusinessException(DUPLICATED_USERNAME);
-        }
+        });
     }
-
 }
