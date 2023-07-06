@@ -119,6 +119,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
         jdbcTemplate.update("DELETE from customers");
     }
 
+    @Override
+    public void delete(UUID customerId) {
+
+    }
+
     static UUID toUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());

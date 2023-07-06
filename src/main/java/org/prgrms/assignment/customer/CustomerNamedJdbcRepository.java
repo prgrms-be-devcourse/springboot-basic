@@ -2,10 +2,12 @@ package org.prgrms.assignment.customer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
+@Primary
 public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
@@ -112,6 +115,11 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         namedParameterJdbcTemplate.update("DELETE from customers", Collections.emptyMap());
+    }
+
+    @Override
+    public void delete(UUID customerId) {
+        namedParameterJdbcTemplate.update("DELETE from customers where customer_id = :customerId", Collections.singletonMap("customerId", customerId));
     }
 
     static UUID toUUID(byte[] bytes) {
