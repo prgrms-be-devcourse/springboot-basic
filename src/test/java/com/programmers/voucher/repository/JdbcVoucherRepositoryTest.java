@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.repository.JdbcVoucherRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ class JdbcVoucherRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.programmers.repository"}
+            basePackages = {"com.programmers.voucher.repository"}
     )
     static class Config {
         @Bean

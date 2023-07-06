@@ -6,7 +6,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.programmers.customer.domain.Customer;
-import com.programmers.customer.repository.JdbcCustomerRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ class JdbcCustomerRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.programmers.repository"}
+            basePackages = {"com.programmers.customer.repository"}
     )
     static class Config {
         @Bean
