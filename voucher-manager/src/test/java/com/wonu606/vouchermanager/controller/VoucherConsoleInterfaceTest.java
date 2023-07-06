@@ -1,22 +1,15 @@
 package com.wonu606.vouchermanager.controller;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 
-import com.wonu606.vouchermanager.domain.discountvalue.FixedAmountValue;
-import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.io.ConsoleIO;
-import com.wonu606.vouchermanager.repository.VoucherRepository;
-import com.wonu606.vouchermanager.service.VoucherService;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,8 +23,6 @@ public class VoucherConsoleInterfaceTest {
     private VoucherController controllerMock;
 
     private ConsoleIO consoleIOMock;
-
-
 
 
     @BeforeEach
