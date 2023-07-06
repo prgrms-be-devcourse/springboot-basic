@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 import co.programmers.voucher_management.exception.NameFormatException;
+import co.programmers.voucher_management.exception.PhoneNumberFormatException;
 import co.programmers.voucher_management.exception.RatingTypeException;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Getter;
 @Getter
 public class Customer {
 	private static Pattern NAME_FORMAT = Pattern.compile("^([가-힣]{2,30}|[a-zA-Z]{2,50})$");
-	private static Pattern PHONE_NUM_FORMAT = Pattern.compile("^01([0|1|6|7|8|9])-\\\\d{3,4}-\\\\d{4}$");
+	private static Pattern PHONE_NUM_FORMAT = Pattern.compile("^01([0|1|6|7|8|9])-\\d{3,4}-\\d{4}$");
 	long id;
 	String name;
 	String rating;
@@ -50,7 +51,7 @@ public class Customer {
 	private void validatePhoneNumber(String phoneNumber) {
 		if (!PHONE_NUM_FORMAT.matcher(phoneNumber)
 				.matches()) {
-			throw new NameFormatException();
+			throw new PhoneNumberFormatException();
 		}
 	}
 
@@ -64,5 +65,18 @@ public class Customer {
 			this.meaning = meaning;
 
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Customer{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", rating='" + rating + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", status=" + status +
+				", createdAt=" + createdAt +
+				", updatedAt=" + updatedAt +
+				'}';
 	}
 }
