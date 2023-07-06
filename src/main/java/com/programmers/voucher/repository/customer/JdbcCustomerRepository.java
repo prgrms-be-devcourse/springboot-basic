@@ -59,7 +59,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByNickname(String nickname) {
-        return jdbcTemplate.query(FIND_BY_ID_SQL, customerRowMapper, nickname)
+        return jdbcTemplate.query(FIND_BY_NICKNAME_SQL, customerRowMapper, nickname)
                 .stream()
                 .findFirst();
     }

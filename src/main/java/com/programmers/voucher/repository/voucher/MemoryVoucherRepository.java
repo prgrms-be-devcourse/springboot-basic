@@ -33,13 +33,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        storage.put(voucher.getId(), voucher);
+        return voucher;
     }
 
     @Override
-    public void delete(UUID voucherId) {}
+    public void delete(UUID voucherId) {
+        storage.remove(voucherId);
+    }
 
-    public void clear() {
+    @Override
+    public void deleteAll() {
         storage.clear();
     }
 }
