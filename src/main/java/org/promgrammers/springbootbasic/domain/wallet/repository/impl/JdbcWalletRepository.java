@@ -1,8 +1,10 @@
 package org.promgrammers.springbootbasic.domain.wallet.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
+import org.promgrammers.springbootbasic.domain.customer.repository.CustomerRepository;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.promgrammers.springbootbasic.domain.wallet.model.Wallet;
 import org.promgrammers.springbootbasic.domain.wallet.repository.WalletRepository;
@@ -29,8 +31,8 @@ import java.util.UUID;
 @Profile("jdbc")
 public class JdbcWalletRepository implements WalletRepository {
 
-    private final JdbcCustomerRepository customerRepository;
-    private final JdbcVoucherRepository voucherRepository;
+    private final CustomerRepository customerRepository;
+    private final VoucherRepository voucherRepository;
     private final NamedParameterJdbcTemplate template;
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
