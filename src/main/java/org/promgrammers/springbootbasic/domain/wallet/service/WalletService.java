@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUNT_WALLET;
+import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_WALLET;
 
 @Service
 public class WalletService {
@@ -58,7 +58,7 @@ public class WalletService {
     @Transactional(readOnly = true)
     public WalletResponse findById(UUID walletId) {
         Wallet wallet = walletRepository.findById(walletId)
-                .orElseThrow(() -> new BusinessException(NOT_FOUNT_WALLET));
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_WALLET));
 
         return new WalletResponse(wallet);
     }
@@ -101,7 +101,7 @@ public class WalletService {
 
     private static void validateList(List<Wallet> list) {
         if (list == null || list.isEmpty()) {
-            throw new BusinessException(NOT_FOUNT_WALLET);
+            throw new BusinessException(NOT_FOUND_WALLET);
         }
     }
 }
