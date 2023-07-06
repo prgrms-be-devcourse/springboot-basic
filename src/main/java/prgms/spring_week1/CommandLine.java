@@ -1,5 +1,6 @@
 package prgms.spring_week1;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
@@ -16,7 +17,7 @@ import prgms.spring_week1.menu.Menu;
 import java.util.List;
 
 @Component
-public class CommandLine implements Runnable {
+public class CommandLine implements CommandLineRunner {
     private final Input input = new Input();
     private final Output output = new Output();
     private final VoucherService voucherService;
@@ -28,7 +29,7 @@ public class CommandLine implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run(String... args) throws Exception {
         boolean isRunning = true;
         while (isRunning) {
             output.outputMessage(ConsoleOutputMessage.MENU_LIST_MESSAGE);
