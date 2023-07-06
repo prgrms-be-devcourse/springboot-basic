@@ -17,6 +17,7 @@ public enum ResponseStatus {
     SUCCESS_NO_CONTENT("요청이 성공적으로 처리되었지만, 응답 데이터가 없습니다.", HttpStatus.NO_CONTENT),
 
     //fail command
+    FAIL_INVALID_PARAMETER("파라미터 값이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
     FAIL_DUPLICATED_KEY("해당 쿠폰은 이미 할당된 쿠폰입니다.", HttpStatus.BAD_REQUEST),
     FAIL_NOT_FOUND_COMMAND("해당 명령어를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     FAIL_NOT_SUPPORTED_UPDATE("파일 및 메모리 저장소에서 수정 기능은 지원하지 않습니다.", HttpStatus.BAD_REQUEST),

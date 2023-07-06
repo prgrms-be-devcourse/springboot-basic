@@ -38,7 +38,6 @@ public class ResponseFormat<T> {
     }
 
     public static <T> ResponseFormat<T> fail(ResponseStatus responseStatus) {
-
         return ResponseFormat.<T>builder()
                 .isSuccessful(FAIL)
                 .data(Optional.empty())
@@ -49,7 +48,6 @@ public class ResponseFormat<T> {
 
     public static <T> ResponseFormat<T> failWithData(ResponseStatus responseStatus,
                                                      T data) {
-
         return ResponseFormat.<T>builder()
                 .isSuccessful(FAIL)
                 .data(Optional.ofNullable(data))
