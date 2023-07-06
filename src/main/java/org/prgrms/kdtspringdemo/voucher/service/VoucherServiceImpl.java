@@ -8,7 +8,6 @@ import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,10 +25,10 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher voucher;
         switch (voucherDto.getVoucherType()) {
             case FIXED -> {
-                voucher = new FixedAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
+                voucher = new FixedAmountVoucher(voucherDto.getAmount());
             }
             case PERCENT -> {
-                voucher = new PercentAmountVoucher(UUID.randomUUID(), voucherDto.getVoucherType(), voucherDto.getAmount());
+                voucher = new PercentAmountVoucher(voucherDto.getAmount());
             }
             default -> {
                 throw new IllegalArgumentException(INVALID_VOUCHER_TYPE);

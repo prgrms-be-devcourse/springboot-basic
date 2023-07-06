@@ -3,12 +3,10 @@ package org.prgrms.kdtspringdemo.voucher.ropository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 
 import java.util.List;
-import java.util.UUID;
 
 public class VoucherRepositoryTest {
     VoucherRepository voucherRepository;
@@ -24,7 +22,7 @@ public class VoucherRepositoryTest {
         long discount = 1000;
 
         //when
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, discount);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(discount);
         Voucher savedVoucher = voucherRepository.save(fixedAmountVoucher);
         Voucher findFixed = voucherRepository.findById(fixedAmountVoucher.getVoucherId()).get();
 
@@ -37,8 +35,8 @@ public class VoucherRepositoryTest {
         //given
         long amount1 = 1000;
         long amount2 = 2000;
-        FixedAmountVoucher fixedAmountVoucher1 = new FixedAmountVoucher(new UUID(10, 10), VoucherType.FIXED, amount1);
-        FixedAmountVoucher fixedAmountVoucher2 = new FixedAmountVoucher(new UUID(10, 10), VoucherType.FIXED, amount2);
+        FixedAmountVoucher fixedAmountVoucher1 = new FixedAmountVoucher(amount1);
+        FixedAmountVoucher fixedAmountVoucher2 = new FixedAmountVoucher(amount2);
 
         //when
         voucherRepository.save(fixedAmountVoucher1);
