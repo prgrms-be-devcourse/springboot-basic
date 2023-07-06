@@ -9,5 +9,4 @@ public class VoucherMissionApplication {
     public static void main(String[] args) {
         SpringApplication.run(VoucherMissionApplication.class, args);
     }
-
 }
