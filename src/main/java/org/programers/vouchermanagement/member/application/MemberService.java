@@ -29,7 +29,8 @@ public class MemberService {
 
     @Transactional
     public MemberResponse save(MemberCreationRequest request) {
-        Member member = memberRepository.save(new Member(request.getStatus()));
+        Member savingMember = new Member(request.getStatus());
+        Member member = memberRepository.save(savingMember);
         return new MemberResponse(member);
     }
 
@@ -40,17 +41,24 @@ public class MemberService {
 
     public MembersResponse findAll() {
         List<Member> members = memberRepository.findAll();
-        return new MembersResponse(members.stream().map(MemberResponse::new).collect(Collectors.toList()));
+        List<MemberResponse> responses = members.stream()
+                .map(MemberResponse::new)
+                .collect(Collectors.toList());
+        return new MembersResponse(responses);
     }
 
     public MembersResponse findAllInBlacklist(MemberStatus status) {
         List<Member> members = blacklistRepository.findAllByStatus(status);
-        return new MembersResponse(members.stream().map(MemberResponse::new).collect(Collectors.toList()));
+        List<MemberResponse> responses = members.stream()
+                .map(MemberResponse::new)
+                .collect(Collectors.toList());
+        return new MembersResponse(responses);
     }
 
     @Transactional
     public void update(MemberUpdateRequest request) {
-        memberRepository.update(new Member(request.getId(), request.getStatus()));
+        Member member = new Member(request.getId(), request.getStatus());
+        memberRepository.update(member);
     }
 
     @Transactional
