@@ -13,6 +13,7 @@ public enum ExceptionMsg {
     VOUCHER_EXIST("이미 존재하는 바우처입니다."),
     NOT_FOUND("해당 종류의 할인정보를 찾을 수 없습니다."),
     NOT_SAME_PARAM_SIZE("입력 파라미터 개수가 맞지 않습니다."),
+    NOT_EMAIL_FORMAT("이메일형식이 아닙니다."),
     SQL_ERROR("값을 가져오기 실패");
 
     private String msg;
