@@ -8,15 +8,15 @@ import org.programers.vouchermanagement.voucher.presentation.VoucherConsoleContr
 import org.programers.vouchermanagement.wallet.presentation.WalletConsoleController;
 import org.springframework.boot.CommandLineRunner;
 
-public class VoucherManagementController implements CommandLineRunner {
+public class VoucherManagementConsoleController implements CommandLineRunner {
 
     private final MemberConsoleController memberConsoleController;
     private final VoucherConsoleController voucherConsoleController;
     private final WalletConsoleController walletConsoleController;
 
-    public VoucherManagementController(MemberConsoleController memberConsoleController,
-                                       VoucherConsoleController voucherConsoleController,
-                                       WalletConsoleController walletConsoleController) {
+    public VoucherManagementConsoleController(MemberConsoleController memberConsoleController,
+                                              VoucherConsoleController voucherConsoleController,
+                                              WalletConsoleController walletConsoleController) {
         this.memberConsoleController = memberConsoleController;
         this.voucherConsoleController = voucherConsoleController;
         this.walletConsoleController = walletConsoleController;
