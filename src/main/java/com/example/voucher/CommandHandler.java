@@ -1,7 +1,11 @@
 package com.example.voucher;
 
+import com.example.voucher.domain.Voucher;
+import com.example.voucher.domain.dto.VoucherDto;
 import com.example.voucher.ui.Input;
 import com.example.voucher.ui.Output;
+import java.util.List;
+import java.util.UUID;
 
 public class CommandHandler {
     private Input input;
@@ -12,25 +16,19 @@ public class CommandHandler {
         this.output = output;
     }
 
-    public void handleCommand() {
+    public CommandEnum handleCommand() {
         String command = input.readInput();
-        CommandEnum commandEnum = CommandEnum.fromString(command);
-
-        switch (commandEnum) {
-            case CREATE:
-                handleCreateCommand();
-                break;
-            case LIST:
-                handleListCommand();
-                break;
-        }
+        return CommandEnum.fromString(command);
     }
 
-    private void handleListCommand() {
-        // List 커맨드 구현
+    public void handleListCommand(List<Voucher> vouchers) {
+        output.printVoucherInfoList(vouchers);
     }
 
-    private void handleCreateCommand() {
-        // Handle 커맨드 구현
+    public VoucherDto handleCreateCommand() {
+        output.requestVoucherAmount();
+        double amount = input.readVoucherInput();
+
+        return new VoucherDto(UUID.randomUUID(), amount);
     }
 }

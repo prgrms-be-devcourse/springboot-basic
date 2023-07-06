@@ -12,6 +12,10 @@ public class Output {
         System.out.println("Type **list** to list all vouchers.");
     }
 
+    public void requestVoucherAmount() {
+        System.out.print("Enter voucher amount: ");
+    }
+
     public void printVoucherInfoList(List<Voucher> vouchers) {
         vouchers.forEach(System.out::println);
     }

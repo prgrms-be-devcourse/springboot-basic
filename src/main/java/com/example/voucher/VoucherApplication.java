@@ -1,8 +1,11 @@
 package com.example.voucher;
 
+import com.example.voucher.config.VoucherConfig;
+import com.example.voucher.domain.dto.VoucherDto;
+import com.example.voucher.repository.VoucherRepository;
+import com.example.voucher.ui.Output;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.example.voucher.ui.Output;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +23,22 @@ public class VoucherApplication implements CommandLineRunner {
         try {
             Output.printProgramInfo();
         } catch (Exception e) {
-            logger.error("예외 발생: ", e);
+            logger.error(e.getMessage());
+        }
+
+        VoucherConfig voucherConfig = new VoucherConfig();
+        CommandHandler commandHandler = voucherConfig.commandHandler();
+        VoucherRepository voucherRepository = voucherConfig.voucherRepository();
+
+        CommandEnum commandEnum = commandHandler.handleCommand();
+        switch (commandEnum) {
+            case CREATE:
+                VoucherDto voucherDto = commandHandler.handleCreateCommand();
+                voucherRepository.insert(voucherDto.toVoucher());
+                break;
+            case LIST:
+                commandHandler.handleListCommand(voucherRepository.findAll());
+                break;
         }
     }
 }
