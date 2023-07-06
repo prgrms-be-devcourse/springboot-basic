@@ -41,7 +41,7 @@ public class VoucherController {
     }
 
     @PostMapping("/new")
-    public String createVoucherForm(CreateVoucherForm voucherForm) {
+    public String createVoucher(CreateVoucherForm voucherForm) {
         voucherService.createVoucher(voucherForm.voucherType(), voucherForm.value());
         return "redirect:/vouchers";
     }
