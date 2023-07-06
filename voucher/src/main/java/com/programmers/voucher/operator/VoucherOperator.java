@@ -53,18 +53,14 @@ public class VoucherOperator {
     }
 
     private void createFixedAmountVoucher(VoucherType voucherType) {
-        Integer inputNumber;
         if (voucherType == VoucherType.FIXED) {
-            inputNumber = console.getAmount();
-            voucherFactory.createVoucher(voucherType, inputNumber);
+            voucherFactory.createVoucher(voucherType, console.getAmount());
         }
     }
 
     private void createPercentDiscountVoucher(VoucherType voucherType) {
-        Integer inputNumber;
         if (voucherType == VoucherType.PERCENT) {
-            inputNumber = console.getRate();
-            voucherFactory.createVoucher(voucherType, inputNumber);
+            voucherFactory.createVoucher(voucherType, console.getRate());
         }
     }
 
