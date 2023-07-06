@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.common.response.ResponseStatus;
 import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
 import kr.co.springbootweeklymission.voucher.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;

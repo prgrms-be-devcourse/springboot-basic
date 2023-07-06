@@ -1,9 +1,9 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.FileIOException;
-import kr.co.springbootweeklymission.infrastructure.error.exception.NotSupportedException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.infrastructure.util.FileConverter;
+import kr.co.springbootweeklymission.common.error.exception.FileIOException;
+import kr.co.springbootweeklymission.common.error.exception.NotSupportedException;
+import kr.co.springbootweeklymission.common.response.ResponseStatus;
+import kr.co.springbootweeklymission.common.util.FileConverter;
 import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import org.springframework.context.annotation.Profile;

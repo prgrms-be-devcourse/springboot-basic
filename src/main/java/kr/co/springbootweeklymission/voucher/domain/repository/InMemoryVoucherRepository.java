@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.NotSupportedException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.common.error.exception.NotSupportedException;
+import kr.co.springbootweeklymission.common.response.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

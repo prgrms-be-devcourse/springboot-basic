@@ -1,6 +1,6 @@
-package kr.co.springbootweeklymission.infrastructure.error.exception;
+package kr.co.springbootweeklymission.common.error.exception;
 
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.common.response.ResponseStatus;
 
 public class NotSupportedException extends RuntimeException {
     public NotSupportedException(ResponseStatus responseStatus) {

@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.infrastructure.error.model;
+package kr.co.springbootweeklymission.common.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

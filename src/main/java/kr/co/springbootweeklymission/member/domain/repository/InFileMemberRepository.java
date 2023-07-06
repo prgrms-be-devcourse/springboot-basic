@@ -1,9 +1,9 @@
 package kr.co.springbootweeklymission.member.domain.repository;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.FileIOException;
-import kr.co.springbootweeklymission.infrastructure.error.exception.NotSupportedException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.infrastructure.util.FileConverter;
+import kr.co.springbootweeklymission.common.error.exception.FileIOException;
+import kr.co.springbootweeklymission.common.error.exception.NotSupportedException;
+import kr.co.springbootweeklymission.common.response.ResponseStatus;
+import kr.co.springbootweeklymission.common.util.FileConverter;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

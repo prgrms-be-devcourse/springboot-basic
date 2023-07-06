@@ -26,6 +26,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    //Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     //Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -35,6 +38,9 @@ dependencies {
 
     //JDBC
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    //Thymeleaf
+    'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     //MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
