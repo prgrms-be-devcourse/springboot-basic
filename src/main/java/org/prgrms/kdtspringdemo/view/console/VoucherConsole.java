@@ -40,21 +40,14 @@ public class VoucherConsole {
     }
 
     public Long inputAmountByVoucher(VoucherType voucherType) {
-        long amount = 0L;
-        switch (voucherType) {
-            case FIXED -> {
-                amount = inputAmountEachVoucher(FIXED_AMOUNT_VOUCHER_MESSAGE);
-            }
-            case PERCENT -> {
-                amount = inputAmountEachVoucher(PERCENT_AMOUNT_VOUCHER_MESSAGE);
-            }
+        if (VoucherType.isFixed(voucherType)) {
+            printMessage(FIXED_AMOUNT_VOUCHER_MESSAGE);
         }
 
-        return amount;
-    }
+        if (VoucherType.isPercent(voucherType)) {
+            printMessage(PERCENT_AMOUNT_VOUCHER_MESSAGE);
+        }
 
-    private long inputAmountEachVoucher(String message) {
-        printMessage(message);
         String inputAmount = scanner.nextLine();
         validateAmountIsNumeric(inputAmount);
 
