@@ -30,7 +30,7 @@ public class ConsoleInputView implements Input {
     public Integer inputManagementCommand() {
         return textIO.newIntInputReader()
             .withInputTrimming(true)
-            .withInlinePossibleValues(ManagementType.getAllType())
+            .withInlinePossibleValues(1, 2, 3)
             .withValueChecker((val, itemName) -> {
                 if (!ManagementType.containsManagementType(val)) {
                     log.warn("inputCommand [{}] is invalid value", val);
@@ -45,7 +45,7 @@ public class ConsoleInputView implements Input {
     public Integer inputCustomerCommand() {
         return textIO.newIntInputReader()
             .withInputTrimming(true)
-            .withInlinePossibleValues(CustomerCommand.getAllCustomerCommand())
+            .withInlinePossibleValues(1, 2, 3, 4, 5, 6, 7, 8)
             .withValueChecker((val, itemName) -> {
                 if (!CustomerCommand.containsCustomerCommand(val)) {
                     log.warn("inputCustomerCommand [{}] is invalid value", val);
@@ -60,7 +60,7 @@ public class ConsoleInputView implements Input {
     public String inputCustomerStatus() {
         return textIO.newStringInputReader()
             .withInputTrimming(true)
-            .withInlinePossibleValues(CustomerStatus.getAllCustomerStatus())
+            .withInlinePossibleValues("normal, blacklist")
             .withValueChecker((val, itemName) -> {
                 if (!CustomerStatus.containsCustomerStatus(val)) {
                     log.warn("inputCustomerStatus [{}] is invalid value", val);
@@ -89,7 +89,7 @@ public class ConsoleInputView implements Input {
     public Integer inputVoucherCommand() {
         return textIO.newIntInputReader()
             .withInputTrimming(true)
-            .withInlinePossibleValues(VoucherCommand.getAllVoucherCommand())
+            .withInlinePossibleValues(1, 2, 3, 4, 5, 6, 7)
             .withValueChecker((val, itemName) -> {
                 if (!VoucherCommand.containsVoucherCommand(val)) {
                     log.warn("inputVoucherCommand [{}] is invalid value", val);
