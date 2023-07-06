@@ -16,12 +16,12 @@ public final class Validator {
     private static final int PERCENT_MIN = 0;
 
     public static void fixedAmountValidate(String fixedAmount) {
-        isNumber(fixedAmount);
+        numberValidate(fixedAmount);
     }
 
     public static void percentValidate(String percent) {
-        isNumber(percent);
-        isValidRange(percent);
+        numberValidate(percent);
+        rangeValidate(percent);
     }
 
     public static String[] inputParse(String input) {
@@ -29,22 +29,6 @@ public final class Validator {
     }
 
     public static void nameValidate(String input) {
-        isEnglish(input);
-    }
-
-    public static void emailValidate(String input) {
-        isEmail(input);
-    }
-
-    private static void isNumber(String input) {
-        Matcher match = numberPattern.matcher(input);
-
-        if (!match.matches()) {
-            throw new IllegalArgumentException("Input : " + input + ", 입력하신 것은 숫자가 아닙니다.");
-        }
-    }
-
-    private static void isEnglish(String input) {
         Matcher match = englishPattern.matcher(input);
 
         if (!match.matches()) {
@@ -52,7 +36,7 @@ public final class Validator {
         }
     }
 
-    private static void isEmail(String input) {
+    public static void emailValidate(String input) {
         Matcher match = emailPattern.matcher(input);
 
         if (!match.matches()) {
@@ -60,7 +44,15 @@ public final class Validator {
         }
     }
 
-    private static void isValidRange(String inputPercent) {
+    private static void numberValidate(String input) {
+        Matcher match = numberPattern.matcher(input);
+
+        if (!match.matches()) {
+            throw new IllegalArgumentException("Input : " + input + ", 입력하신 것은 숫자가 아닙니다.");
+        }
+    }
+
+    private static void rangeValidate(String inputPercent) {
         int percent = Integer.parseInt(inputPercent);
 
         if (percent > PERCENT_MAX || percent < PERCENT_MIN) {
