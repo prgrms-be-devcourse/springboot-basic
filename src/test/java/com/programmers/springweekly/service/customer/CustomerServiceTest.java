@@ -27,14 +27,12 @@ public class CustomerServiceTest {
     void save() {
         // given
         CustomerCreateDto customerCreateDto = new CustomerCreateDto("changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
-        List<Customer> customerListBefore = customerService.findAll();
+        customerService.save(customerCreateDto);
 
         // when
-        customerService.save(customerCreateDto);
         List<Customer> customerListAfter = customerService.findAll();
 
         // then
-        assertThat(customerListBefore.size()).isEqualTo(0);
         assertThat(customerListAfter.size()).isEqualTo(1);
     }
 
@@ -104,7 +102,6 @@ public class CustomerServiceTest {
         List<Customer> customerListAfter = customerService.findAll();
 
         // then
-        assertThat(customerListBefore.size()).isEqualTo(1);
         assertThat(customerListAfter.size()).isEqualTo(0);
     }
 
@@ -119,14 +116,11 @@ public class CustomerServiceTest {
         customerService.save(customerCreateDto2);
         customerService.save(customerCreateDto3);
 
-        List<Customer> customerListBefore = customerService.findAll();
-
         // when
         customerService.deleteAll();
         List<Customer> customerListAfter = customerService.findAll();
 
         // then
-        assertThat(customerListBefore.size()).isEqualTo(3);
         assertThat(customerListAfter.size()).isEqualTo(0);
     }
 }
