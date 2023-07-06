@@ -20,7 +20,7 @@ import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 
 @Repository
-@Profile({"local", "test"})
+@Profile("local")
 public class VoucherMemoryRepository implements VoucherRepository {
 	private static final int VOUCHER_ID_RANDOMNESS = 1000;
 	private static final Random random = new Random();

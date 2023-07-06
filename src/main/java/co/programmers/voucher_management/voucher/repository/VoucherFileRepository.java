@@ -26,7 +26,7 @@ import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 
 @Repository
-@Profile({"file", "test"})
+@Profile("file")
 public class VoucherFileRepository implements VoucherRepository {
 	private final String filePath;
 	private final Path path;
@@ -93,7 +93,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findByCustomerId(long customerId) {
-		return null;
+		return List.of();
 	}
 
 	@Override
