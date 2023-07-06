@@ -1,8 +1,10 @@
-package com.wonu606.vouchermanager.controller;
+package com.wonu606.vouchermanager.consoleInterface;
 
+import com.wonu606.vouchermanager.controller.VoucherController;
+import com.wonu606.vouchermanager.io.VoucherConsoleIO;
+import com.wonu606.vouchermanager.menu.VoucherMenu;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
-import com.wonu606.vouchermanager.io.ConsoleIO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,17 +13,17 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class VoucherConsoleInterface {
 
-    private final ConsoleIO consoleIO;
+    private final VoucherConsoleIO voucherConsoleIO;
     private final VoucherController controller;
 
     public void run() {
         VoucherMenu menu = VoucherMenu.START;
         while (isNotExitMenu(menu)) {
             try {
-                menu = consoleIO.selectMenu();
+                menu = voucherConsoleIO.selectMenu();
                 executeMenuAction(menu);
             } catch (IllegalArgumentException exception) {
-                consoleIO.displayMessage(exception.getMessage());
+                voucherConsoleIO.displayMessage(exception.getMessage());
             }
         }
         terminal();
@@ -38,7 +40,7 @@ public class VoucherConsoleInterface {
 
             case LIST:
                 List<Voucher> voucherList = controller.getVoucherList();
-                consoleIO.displayVoucherList(voucherList);
+                voucherConsoleIO.displayVoucherList(voucherList);
                 return;
 
             case CREATE:
@@ -52,17 +54,17 @@ public class VoucherConsoleInterface {
     }
 
     private VoucherDto createVoucherDto() {
-        String type = consoleIO.selectVoucherType();
-        double discountValue = consoleIO.readDouble("discount");
+        String type = voucherConsoleIO.selectVoucherType();
+        double discountValue = voucherConsoleIO.readDouble("discount");
         return new VoucherDto(type, discountValue);
     }
 
     private void terminal() {
-        consoleIO.displayMessage("곧 프로그램을 종료합니다.");
+        voucherConsoleIO.displayMessage("곧 프로그램을 종료합니다.");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException ignored) {
         }
-        consoleIO.terminal();
+        voucherConsoleIO.terminal();
     }
 }

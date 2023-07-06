@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.domain.price;
+package com.wonu606.vouchermanager.domain.voucher.price;
 
 
 import lombok.Getter;

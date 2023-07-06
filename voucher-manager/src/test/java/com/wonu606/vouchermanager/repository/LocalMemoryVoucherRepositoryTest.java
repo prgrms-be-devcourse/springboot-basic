@@ -3,7 +3,7 @@ package com.wonu606.vouchermanager.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.wonu606.vouchermanager.domain.discountvalue.PercentageDiscountValue;
+import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.domain.discountvalue;
+package com.wonu606.vouchermanager.domain.voucher.discountvalue;
 
 public class PercentageDiscountValue extends DiscountValue {
 

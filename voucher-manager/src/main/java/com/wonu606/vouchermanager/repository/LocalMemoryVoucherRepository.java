@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LocalMemoryVoucherRepository implements VoucherRepository {
+public class LocalMemoryVoucherRepository implements Repository {
 
     private final Map<UUID, Voucher> voucherStore = new ConcurrentHashMap<>();
 

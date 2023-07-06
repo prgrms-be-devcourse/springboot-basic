@@ -2,7 +2,7 @@ package com.wonu606.vouchermanager.controller;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
-import com.wonu606.vouchermanager.service.VoucherService;
+import com.wonu606.vouchermanager.service.voucher.VoucherService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
-package com.wonu606.vouchermanager.service;
+package com.wonu606.vouchermanager.service.voucher;
 
-import com.wonu606.vouchermanager.domain.discountvalue.FixedAmountValue;
-import com.wonu606.vouchermanager.domain.discountvalue.PercentageDiscountValue;
+import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
+import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;

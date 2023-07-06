@@ -1,15 +1,15 @@
 package com.wonu606.vouchermanager.io;
 
-import com.wonu606.vouchermanager.controller.VoucherMenu;
+import com.wonu606.vouchermanager.menu.VoucherMenu;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.service.VoucherType;
+import com.wonu606.vouchermanager.service.voucher.VoucherType;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class ConsoleIO {
+public class VoucherConsoleIO {
 
     private final ConsoleInput input;
     private final ConsolePrinter printer;

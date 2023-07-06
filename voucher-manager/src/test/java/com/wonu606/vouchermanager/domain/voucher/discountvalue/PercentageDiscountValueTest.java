@@ -1,7 +1,8 @@
-package com.wonu606.vouchermanager.domain.discountvalue;
+package com.wonu606.vouchermanager.domain.voucher.discountvalue;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,8 +1,8 @@
-package com.wonu606.vouchermanager.service;
+package com.wonu606.vouchermanager.service.voucher;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
-import com.wonu606.vouchermanager.repository.VoucherRepository;
+import com.wonu606.vouchermanager.repository.Repository;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class VoucherService {
 
     private final VoucherFactory factory;
-    private final VoucherRepository repository;
+    private final Repository repository;
 
     public Voucher createVoucher(VoucherDto voucherDto) {
         Voucher voucher = factory.create(voucherDto);

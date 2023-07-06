@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.controller;
+package com.wonu606.vouchermanager.menu;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.service;
+package com.wonu606.vouchermanager.service.voucher;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -8,7 +8,9 @@ import static org.mockito.Mockito.times;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
-import com.wonu606.vouchermanager.repository.VoucherRepository;
+import com.wonu606.vouchermanager.repository.Repository;
+import com.wonu606.vouchermanager.service.voucher.VoucherFactory;
+import com.wonu606.vouchermanager.service.voucher.VoucherService;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,14 +22,14 @@ public class VoucherServiceTest {
 
     private VoucherFactory factory;
 
-    private VoucherRepository repository;
+    private Repository repository;
 
     private VoucherService voucherService;
 
     @BeforeEach
     public void setup() {
         this.factory = mock(VoucherFactory.class);
-        this.repository = mock(VoucherRepository.class);
+        this.repository = mock(Repository.class);
         this.voucherService = new VoucherService(factory, repository);
     }
 

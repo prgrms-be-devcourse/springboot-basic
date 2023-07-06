@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.service;
+package com.wonu606.vouchermanager.service.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -8,6 +8,7 @@ import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
+import com.wonu606.vouchermanager.service.voucher.VoucherFactory;
 import com.wonu606.vouchermanager.util.UUIDGenerator;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
