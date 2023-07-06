@@ -1,6 +1,7 @@
 package com.dev.voucherproject.view;
 
 import com.dev.voucherproject.model.customer.CustomerDto;
+import com.dev.voucherproject.model.menu.VoucherMenu;
 import com.dev.voucherproject.model.voucher.VoucherDto;
 import com.dev.voucherproject.model.voucher.VoucherPolicy;
 import com.dev.voucherproject.model.menu.Menu;
@@ -34,18 +35,13 @@ public class Console {
 
         textTerminal.print("Type ");
         textTerminal.executeWithPropertiesConfigurator(props ->
-                props.setPromptBold(true), t -> t.print(Menu.CREATE.getMenuName()));
-        textTerminal.println(" to create a new voucher.");
-
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(props ->
-                props.setPromptBold(true), t -> t.print(Menu.LIST.getMenuName()));
-        textTerminal.println(" to list all vouchers.");
+                props.setPromptBold(true), t -> t.print(Menu.Voucher.getMenuName()));
+        textTerminal.println(" to voucher view voucher services.");
 
         textTerminal.print("Type ");
         textTerminal.executeWithPropertiesConfigurator(props ->
                 props.setPromptBold(true), t -> t.print(Menu.BLACKLIST.getMenuName()));
-        textTerminal.println(" to list all vouchers.");
+        textTerminal.println(" to list all blacklist.");
     }
 
     public void printSelectVoucherPolicy() {
@@ -63,11 +59,22 @@ public class Console {
         textTerminal.println("Enter a percentage between 0 and 100.");
     }
 
+    public void printVoucherMenu() {
+        textTerminal.println();
+        textTerminal.println("Type 1 to create a new voucher.");
+        textTerminal.println("Type 2 to list all vouchers.");
+        textTerminal.println("Type 3 to find specific voucher.");
+        textTerminal.println("Type 4 to delete all vouchers.");
+        textTerminal.println("Type 5 to delete specific vouchers.");
+        textTerminal.println("Type 6 to update specific vouchers.");
+        textTerminal.println("Type 7 to main menu.");
+    }
+
+
     public void printAllVouchers(List<VoucherDto> dtos) {
         dtos.forEach(this::printVoucher);
         textTerminal.println();
     }
-
 
 
     public void printVoucher(VoucherDto dto) {
@@ -113,6 +120,20 @@ public class Console {
                         .map(VoucherPolicy::getPolicyName)
                         .toList())
                 .read(">>");
+    }
+    public String inputVoucherMenuSelection() {
+        return textIO.newStringInputReader()
+            .withInputTrimming(true)
+            .withInlinePossibleValues(Arrays.stream(VoucherMenu.values())
+                .map(VoucherMenu::getVoucherMenuName)
+                .toList())
+            .read(">>");
+    }
+
+    public String inputUuid() {
+        return textIO.newStringInputReader()
+            .withInputTrimming(true)
+            .read(">> UUID: ");
     }
 
     public void newLine() {
