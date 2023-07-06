@@ -1,17 +1,19 @@
 package org.programers.vouchermanagement.voucher.dto.response;
 
+import lombok.NoArgsConstructor;
 import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherPolicy;
 import org.programers.vouchermanagement.voucher.domain.VoucherType;
 
 import java.util.UUID;
 
+@NoArgsConstructor
 public class VoucherResponse {
 
-    private final UUID id;
-    private final VoucherType type;
+    private UUID id;
+    private VoucherType type;
 
-    private final int value;
+    private int value;
 
     public VoucherResponse(Voucher voucher) {
         this(voucher.getId(), voucher.getType(), voucher.getPolicy().getValue());
