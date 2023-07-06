@@ -42,7 +42,7 @@ public enum AmountVoucherOptionType {
         return choiceNumber;
     }
 
-    public AmountVoucher createAmountVoucher(int amount) {
-        return amountVoucherFactory.createVoucher(amount);
+    public AmountVoucher createAmountVoucher(int initialMoney, int amount) {
+        return amountVoucherFactory.createVoucher(initialMoney, amount);
     }
 }

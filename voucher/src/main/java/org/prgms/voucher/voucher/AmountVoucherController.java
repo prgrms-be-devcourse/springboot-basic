@@ -17,7 +17,9 @@ public class AmountVoucherController {
         return amountVoucherService.createAmountVoucher(
                 new AmountVoucherCreateVo(
                         amountVoucherCreateDto.getAmountVoucherOptionType(),
-                        amountVoucherCreateDto.getAmount())
+                        amountVoucherCreateDto.getInitialMoney(),
+                        amountVoucherCreateDto.getAmount()
+                )
         );
     }
 

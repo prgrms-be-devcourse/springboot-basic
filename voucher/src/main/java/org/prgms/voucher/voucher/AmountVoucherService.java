@@ -17,7 +17,7 @@ public class AmountVoucherService {
         return amountVoucherRepository.save(
                 amountVoucherCreateVo
                         .getAmountVoucherOptionType()
-                        .createAmountVoucher(amountVoucherCreateVo.getAmount())
+                        .createAmountVoucher(amountVoucherCreateVo.getInitialMoney(), amountVoucherCreateVo.getAmount())
         );
     }
 

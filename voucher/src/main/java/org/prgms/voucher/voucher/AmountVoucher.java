@@ -5,15 +5,17 @@ import java.util.UUID;
 
 public abstract class AmountVoucher {
     private final UUID id;
+    private final int initialMoney;
     protected final int discountAmount;
     private final LocalDate publishDate;
     private final LocalDate expirationDate;
     private final AmountVoucherOptionType amountVoucherOptionType;
 
-    protected AmountVoucher(int discountAmount, AmountVoucherOptionType amountVoucherOptionType) {
+    protected AmountVoucher(int initialMoney, int discountAmount, AmountVoucherOptionType amountVoucherOptionType) {
         validateDiscountAmount(discountAmount);
 
         this.id = UUID.randomUUID();
+        this.initialMoney = initialMoney;
         this.discountAmount = discountAmount;
         this.publishDate = LocalDate.now();
         this.expirationDate = publishDate.plusMonths(6);
@@ -36,6 +38,10 @@ public abstract class AmountVoucher {
 
     public LocalDate getExpirationDate() {
         return expirationDate;
+    }
+
+    public int getInitialMoney() {
+        return initialMoney;
     }
 
     private void validateDiscountAmount(int discountAmount) {

@@ -5,7 +5,7 @@ import org.prgms.voucher.voucher.PercentAmountVoucher;
 
 public class PercentAmountVoucherFactory implements AmountVoucherFactory {
     @Override
-    public AmountVoucher createVoucher(int amount) {
-        return new PercentAmountVoucher(amount);
+    public AmountVoucher createVoucher(int initialMoney, int amount) {
+        return new PercentAmountVoucher(initialMoney, amount);
     }
 }

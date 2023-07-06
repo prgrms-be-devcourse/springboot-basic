@@ -5,7 +5,6 @@ import org.prgms.voucher.util.MessageUtils;
 import static org.prgms.voucher.voucher.VoucherPrintType.*;
 
 public class VoucherPrintDto {
-    private static final int INITIAL_MONEY = 100_000;
     private final AmountVoucher amountVoucher;
 
     public VoucherPrintDto(AmountVoucher amountVoucher) {
@@ -14,7 +13,7 @@ public class VoucherPrintDto {
 
     public String getVoucherPrint() {
         return formatVoucherOutput(VOUCHER_TYPE, amountVoucher.getOptionTypeName())
-                + formatVoucherOutput(AFTER_DISCOUNT_VALUE, String.valueOf(amountVoucher.discount(INITIAL_MONEY)))
+                + formatVoucherOutput(AFTER_DISCOUNT_VALUE, String.valueOf(amountVoucher.discount(amountVoucher.getInitialMoney())))
                 + formatVoucherOutput(PUBLISH_DATE, String.valueOf(amountVoucher.getPublishDate()))
                 + formatVoucherOutput(EXPIRATION_DATE, String.valueOf(amountVoucher.getExpirationDate()));
     }
