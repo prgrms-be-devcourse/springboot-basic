@@ -1,12 +1,8 @@
 package com.programmers.voucher.domain.customer.entity;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.UUID;
 
 public class Customer {
-    private static final Logger logger = LoggerFactory.getLogger(Customer.class);
     private final UUID id;
     private String nickname;
 
