@@ -81,6 +81,6 @@ public class ConsoleVoucherService implements Input, Output {
     }
 
     private void printVoucherInfo(Voucher voucher) {
-        System.out.println(voucher.toString());
+        System.out.println(voucher.getVoucherInfo());
     }
 }
