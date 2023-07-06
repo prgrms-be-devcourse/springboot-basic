@@ -1,8 +1,12 @@
 package com.programmers.springmission.voucher.domain;
 
-public interface VoucherPolicy {
-    long getAmount();
+import com.programmers.springmission.voucher.domain.enums.VoucherType;
 
-    long discount(long beforeDiscount);
+public interface VoucherPolicy {
+    VoucherType getVoucherType();
+
+    long discount(long beforeDiscount, long amount);
+
+    void validateAmount(long amount);
 }
 

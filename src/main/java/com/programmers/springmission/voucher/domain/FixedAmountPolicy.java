@@ -2,24 +2,26 @@ package com.programmers.springmission.voucher.domain;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.voucher.domain.enums.VoucherType;
 
 public class FixedAmountPolicy implements VoucherPolicy {
 
     private static final long MIN_AMOUNT = 0;
 
-    private final long amount;
+    private final VoucherType voucherType;
 
-    public FixedAmountPolicy(long amount) {
-        validateAmount(amount);
-        this.amount = amount;
+    public FixedAmountPolicy(VoucherType voucherType) {
+        this.voucherType = voucherType;
     }
 
     @Override
-    public long getAmount() {
-        return amount;
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
-    public long discount(long beforeDiscount) {
+    @Override
+    public long discount(long beforeDiscount, long amount) {
+        validateAmount(amount);
         if (beforeDiscount - amount < MIN_AMOUNT) {
             return 0;
         }
@@ -27,7 +29,8 @@ public class FixedAmountPolicy implements VoucherPolicy {
         return beforeDiscount - amount;
     }
 
-    private void validateAmount(long amount) {
+    @Override
+    public void validateAmount(long amount) {
         if (amount <= MIN_AMOUNT) {
             throw new InvalidInputException(ErrorMessage.INVALID_DISCOUNT_AMOUNT);
         }

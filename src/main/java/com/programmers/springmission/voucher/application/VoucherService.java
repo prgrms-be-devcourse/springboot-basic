@@ -24,9 +24,9 @@ public class VoucherService {
         VoucherType voucherType = voucherCreateRequest.getVoucherType();
         Voucher voucher = switch (voucherType) {
             case FIXED_AMOUNT ->
-                    new Voucher(new FixedAmountPolicy(voucherCreateRequest.getAmount()), voucherType);
+                    new Voucher(new FixedAmountPolicy(voucherType), voucherCreateRequest.getAmount());
             case PERCENT_DISCOUNT ->
-                    new Voucher(new PercentDiscountPolicy(voucherCreateRequest.getAmount()), voucherType);
+                    new Voucher(new PercentDiscountPolicy(voucherType), voucherCreateRequest.getAmount());
         };
 
         voucherRepository.save(voucher);

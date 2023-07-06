@@ -15,8 +15,8 @@ public class VoucherResponse {
 
     public VoucherResponse(Voucher voucher) {
         this.voucherId = voucher.getVoucherId();
-        this.amount = voucher.getVoucherPolicy().getAmount();
-        this.voucherType = voucher.getVoucherType();
+        this.amount = voucher.getVoucherAmount();
+        this.voucherType = voucher.getVoucherPolicy().getVoucherType();
     }
 
     @Override
