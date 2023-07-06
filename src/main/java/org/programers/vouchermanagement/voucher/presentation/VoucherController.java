@@ -55,7 +55,7 @@ public class VoucherController {
         OutputView.outputCommentAboutPolicy();
         int value = InputView.inputValueOfPolicy();
 
-        VoucherCreationRequest request = new VoucherCreationRequest(type.createPolicy(value), type.getType());
+        VoucherCreationRequest request = new VoucherCreationRequest(type.getType(), value);
         voucherService.save(request);
     }
 

@@ -2,6 +2,7 @@ package org.programers.vouchermanagement.voucher.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.programers.vouchermanagement.voucher.application.VoucherService;
+import org.programers.vouchermanagement.voucher.domain.VoucherType;
 import org.programers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
@@ -30,6 +31,12 @@ public class VoucherApiController {
     }
 
     @GetMapping
+    public ResponseEntity<VouchersResponse> findByType(@RequestParam VoucherType type) {
+        VouchersResponse response = voucherService.findByType(type);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/all")
     public ResponseEntity<VouchersResponse> findAll() {
         VouchersResponse response = voucherService.findAll();
         return ResponseEntity.ok(response);

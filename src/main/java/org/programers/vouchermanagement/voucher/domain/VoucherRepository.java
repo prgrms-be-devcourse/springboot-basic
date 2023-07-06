@@ -17,6 +17,8 @@ public interface VoucherRepository {
                 .orElseThrow(() -> new NoSuchEntityException("존재하지 않는 바우처입니다."));
     }
 
+    List<Voucher> findByType(VoucherType type);
+
     List<Voucher> findAll();
 
     void update(Voucher voucher);

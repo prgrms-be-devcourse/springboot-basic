@@ -2,11 +2,11 @@ package org.programers.vouchermanagement.voucher.application;
 
 import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherRepository;
+import org.programers.vouchermanagement.voucher.domain.VoucherType;
 import org.programers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.programers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,13 +26,19 @@ public class VoucherService {
 
     @Transactional
     public VoucherResponse save(VoucherCreationRequest request) {
-        Voucher voucher = voucherRepository.save(new Voucher(request.getPolicy(), request.getType()));
+        VoucherType type = request.getType();
+        Voucher voucher = voucherRepository.save(type.createVoucher(UUID.randomUUID(), request.getValue()));
         return new VoucherResponse(voucher);
     }
 
     public VoucherResponse findById(UUID id) {
         Voucher voucher = voucherRepository.getById(id);
         return new VoucherResponse(voucher);
+    }
+
+    public VouchersResponse findByType(VoucherType type) {
+        List<Voucher> result = voucherRepository.findByType(type);
+        return new VouchersResponse(result.stream().map(VoucherResponse::new).collect(Collectors.toList()));
     }
 
     public VouchersResponse findAll() {
