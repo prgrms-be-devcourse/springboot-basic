@@ -21,6 +21,7 @@ public class CommandLineApplication implements CommandLineRunner {
     private static final String SYSTEM_SHUTDOWN_MESSAGE = "시스템을 종료합니다.\n";
     private static final String CHOICE_VOUCHER_TYPE_MESSAGE = "바우처 타입을 입력하세요.(ex : FIXED or PERCENT)\n";
     private static final String INVALID_COMMAND_MESSAGE = "잘못된 명령입니다.\n";
+
     private final VoucherConsole voucherConsole = new VoucherConsole();
     private final VoucherService voucherService;
 

@@ -45,7 +45,7 @@ public class PercentAmountVoucher implements Voucher {
     @Override
     public long validateAmount(long amount) {
         if (amount <= MIN_AMOUNT || amount > MAX_AMOUNT) {
-            logger.error("원인 : {} -> 에러 메시지 : {}", amount, OUT_OF_RANGE_AMOUNT);
+            logger.warn("원인 : {} -> 에러 메시지 : {}", amount, OUT_OF_RANGE_AMOUNT);
             throw new IllegalArgumentException(OUT_OF_RANGE_AMOUNT);
         }
 
