@@ -24,8 +24,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("할인된 금액이 제대로 나오는지 확인한다.")
     public void discountPrice_DiscountedPrice_Equal() {
         //given
-        Voucher createdVoucher = new PercentDiscountVoucher(UUID.randomUUID(), new PercentDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        OrderItem orderItem = new OrderItem(UUID.randomUUID(), 1000, 1);
+        Voucher createdVoucher = new PercentDiscountVoucher(UUID.randomUUID(), new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         //when
         Price discountedPrice = createdVoucher.discountPrice(orderItem);
         //then
