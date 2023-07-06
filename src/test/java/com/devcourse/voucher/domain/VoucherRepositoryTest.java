@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static com.devcourse.voucher.domain.Voucher.Type.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig(AppConfig.class)
@@ -32,7 +33,7 @@ class VoucherRepositoryTest {
         // given
         int discountAmount = 50;
 
-        Voucher voucher = Voucher.fixed(discountAmount, expiredAt);
+        Voucher voucher = Voucher.of(discountAmount, expiredAt, FIXED);
 
         // when
         Voucher saved = voucherRepository.save(voucher);
@@ -52,7 +53,7 @@ class VoucherRepositoryTest {
         int step = 10;
 
         IntStream.iterate(start, seed -> seed < end, seed -> seed + step)
-                .mapToObj(discount -> Voucher.percent(discount, expiredAt))
+                .mapToObj(discount -> Voucher.of(discount, expiredAt, PERCENT))
                 .forEach(voucherRepository::save);
 
         // when

@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static com.devcourse.voucher.domain.Voucher.Type.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class VoucherTest {
@@ -17,7 +18,7 @@ class VoucherTest {
     @CsvSource({"1000, 500, 500", "2500, 1000, 1500", "127, 1, 126"})
     void applyFixedAmountTest(int price, int discountAmount, BigDecimal result) {
         // given
-        Voucher voucher = Voucher.fixed(discountAmount, expiredAt);
+        Voucher voucher = Voucher.of(discountAmount, expiredAt, FIXED);
 
         // when
         BigDecimal appliedPrice = voucher.apply(price);
@@ -32,7 +33,7 @@ class VoucherTest {
     @CsvSource({"1000, 50, 500.0", "2500, 100, 0.0", "120, 10, 108.0"})
     void applyPercentDiscountTest(int price, int discountRate, BigDecimal result) {
         // given
-        Voucher voucher = Voucher.percent(discountRate, expiredAt);
+        Voucher voucher = Voucher.of(discountRate, expiredAt, PERCENT);
 
         // when
         BigDecimal appliedPrice = voucher.apply(price);

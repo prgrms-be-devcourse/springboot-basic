@@ -1,6 +1,7 @@
 package com.devcourse.global.console;
 
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
+import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.presentation.Command;
 import com.devcourse.voucher.presentation.dto.ApplicationRequest;
 
@@ -94,7 +95,7 @@ public class Console implements Reader<String>, Writer {
         int discount = parseDiscount(tokenizer.nextToken());
         LocalDateTime expiredAt = parseExpiration(tokenizer.nextToken());
 
-        return CreateVoucherRequest.of(type, discount, expiredAt);
+        return new CreateVoucherRequest(discount, expiredAt, Voucher.Type.from(type));
     }
 
     private LocalDateTime parseExpiration(String expiredAt) {

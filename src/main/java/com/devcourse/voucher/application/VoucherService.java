@@ -3,7 +3,6 @@ package com.devcourse.voucher.application;
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import com.devcourse.voucher.application.dto.GetVoucherResponse;
 import com.devcourse.voucher.domain.Voucher;
-import com.devcourse.voucher.domain.VoucherType;
 import com.devcourse.voucher.domain.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,7 @@ public class VoucherService {
 
     public void create(CreateVoucherRequest request) {
         validateRequest(request);
-        Voucher voucher = VoucherMapper.toEntity(request);
+        Voucher voucher = Voucher.of(request.discount(), request.expiredAt(), request.type());
         voucherRepository.save(voucher);
     }
 
@@ -36,13 +35,8 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAll();
 
         return vouchers.stream()
-                .map(VoucherMapper::toResponse)
+                .map(this::toResponse)
                 .toList();
-    }
-
-    public void validateRequest(CreateVoucherRequest request) {
-        validateDiscount(request);
-        validateExpiration(request.expiredAt(), INVALID_EXPIRATION);
     }
 
     public void validateUsable(Voucher voucher) {
@@ -50,15 +44,17 @@ public class VoucherService {
         validateExpiration(voucher.getExpireAt(), EXPIRED_VOUCHER);
     }
 
-    private void validateDiscount(CreateVoucherRequest request) {
-        VoucherType voucherType = request.type();
-        int discount = request.discount();
+    private void validateRequest(CreateVoucherRequest request) {
+        validateDiscount(request.type(), request.discount());
+        validateExpiration(request.expiredAt(), INVALID_EXPIRATION);
+    }
 
+    private void validateDiscount(Voucher.Type type, int discount) {
         if (isNegative(discount)) {
             throw new IllegalArgumentException(NEGATIVE_DISCOUNT + discount);
         }
 
-        if (voucherType.isPercent() && isRateOutRange(discount)) {
+        if (type.isPercent() && isRateOutRange(discount)) {
             throw new IllegalArgumentException(OUT_RANGED_DISCOUNT + discount);
         }
     }
@@ -83,5 +79,14 @@ public class VoucherService {
 
     private boolean isRateOutRange(int discountRate) {
         return MAX_DISCOUNT_RATE < discountRate;
+    }
+
+    private GetVoucherResponse toResponse(Voucher voucher) {
+        return new GetVoucherResponse(
+                voucher.getId(),
+                voucher.getType(),
+                voucher.getDiscount(),
+                voucher.getExpireAt(),
+                voucher.getStatus());
     }
 }

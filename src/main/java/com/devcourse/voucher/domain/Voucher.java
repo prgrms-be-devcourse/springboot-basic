@@ -4,36 +4,54 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.devcourse.voucher.domain.Voucher.Status.*;
+import static com.devcourse.voucher.domain.Voucher.Status.ISSUED;
+import static com.devcourse.voucher.domain.Voucher.Status.USED;
 
 public class Voucher {
     protected enum Status { USED, ISSUED }
+    public enum Type {
+        FIXED,
+        PERCENT,
+        ;
+
+        private static final String NOT_SUPPORT_TYPE = "[Error] Your Input Is Not Support. Type : ";
+
+        public static Type from(String input) {
+            try {
+                return Enum.valueOf(Voucher.Type.class, input.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException(NOT_SUPPORT_TYPE + input);
+            }
+        }
+
+        public boolean isPercent() {
+            return this == PERCENT;
+        }
+    }
 
     private final UUID id;
     private final DiscountPolicy discountPolicy;
+    private final int discount;
     private final LocalDateTime expireAt;
+    private final Type type;
     private Status status;
 
-    public Voucher(UUID id, DiscountPolicy discountPolicy, LocalDateTime expireAt) {
-        this.id = id;
-        this.discountPolicy = discountPolicy;
+    Voucher(int discount, LocalDateTime expireAt, Type type) {
+        this.id = UUID.randomUUID();
+        this.discountPolicy = createPolicy(type);
+        this.discount = discount;
         this.expireAt = expireAt;
+        this.type = type;
         this.status = ISSUED;
     }
 
-    public static Voucher fixed(int discountAmount, LocalDateTime expireAt) {
-        DiscountPolicy fixedAmountPolicy = new FixedAmountPolicy(discountAmount);
-        return new Voucher(UUID.randomUUID(), fixedAmountPolicy, expireAt);
-    }
-
-    public static Voucher percent(int discountRate, LocalDateTime expireAt) {
-        DiscountPolicy percentDiscountPolicy = new PercentDiscountPolicy(discountRate);
-        return new Voucher(UUID.randomUUID(), percentDiscountPolicy, expireAt);
+    public static Voucher of(int discount, LocalDateTime expireAt, Type type) {
+        return new Voucher(discount, expireAt, type);
     }
 
     public BigDecimal apply(long price) {
         this.status = USED;
-        return discountPolicy.discount(price);
+        return discountPolicy.discount(price, discount);
     }
 
     public boolean isUsed() {
@@ -44,12 +62,8 @@ public class Voucher {
         return id;
     }
 
-    public DiscountPolicy getDiscountPolicy() {
-        return discountPolicy;
-    }
-
-    public BigDecimal getDiscount() {
-        return discountPolicy.discountAmount();
+    public int getDiscount() {
+        return this.discount;
     }
 
     public LocalDateTime getExpireAt() {
@@ -60,7 +74,15 @@ public class Voucher {
         return status.name();
     }
 
-    public VoucherType getType() {
-        return discountPolicy.getType();
+    public Type getType() {
+        return type;
+    }
+
+    private DiscountPolicy createPolicy(Type type) {
+        if (type.isPercent()) {
+            return new PercentDiscountPolicy();
+        }
+
+        return new FixedAmountPolicy();
     }
 }
