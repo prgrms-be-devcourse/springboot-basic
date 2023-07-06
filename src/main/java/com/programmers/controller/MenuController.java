@@ -65,7 +65,7 @@ public class MenuController {
         }
 
         if (!input.equals(MENU_VOUCHER_NUMBER) && !input.equals(MENU_CUSTOMER_NUMBER)) {
-            throw new InvalidInputException("[ERROR] 입력하신 메뉴 번호가 유호하지 않습니다.");
+            throw new InvalidInputException("[ERROR] 입력하신 메뉴 번호가 유효하지 않습니다.");
         }
     }
 
