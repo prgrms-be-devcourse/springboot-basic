@@ -14,7 +14,7 @@ public enum VoucherType {
 
     public static VoucherType findVoucherType(String userVoucherType) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.name().equals(userVoucherType))
+                .filter(voucherType -> voucherType.name().equals(userVoucherType.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.error("원인 : {} -> 에러 메시지 : {}", userVoucherType, CANT_FIND_VOUCHER_TYPE);

@@ -16,7 +16,7 @@ public enum CommandType {
 
     public static CommandType findCommandType(String userCommand) {
         return Arrays.stream(CommandType.values())
-                .filter(commandType -> commandType.name().equals(userCommand))
+                .filter(commandType -> commandType.name().equals(userCommand.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.error("원인 : {} -> 에러 메시지 : {}", userCommand, CANT_FIND_COMMAND_TYPE);

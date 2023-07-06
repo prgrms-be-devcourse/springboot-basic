@@ -25,7 +25,7 @@ public class CommandLineApplication implements CommandLineRunner {
 
         while (CommandType.isNotExit(userCommand)) {
             voucherConsole.printInitMessage();
-            userCommand = CommandType.findCommandType(voucherConsole.inputCommand().toUpperCase());
+            userCommand = CommandType.findCommandType(voucherConsole.inputCommand());
             executeCommand(userCommand);
         }
     }
@@ -36,7 +36,7 @@ public class CommandLineApplication implements CommandLineRunner {
                 voucherConsole.printSystemShutdown();
             }
             case CREATE -> {
-                String userVoucherType = voucherConsole.chooseVoucherType().toUpperCase();
+                String userVoucherType = voucherConsole.chooseVoucherType();
                 VoucherDto voucher = createVoucher(userVoucherType);
                 voucherConsole.printCreatedVoucher(voucher);
             }
