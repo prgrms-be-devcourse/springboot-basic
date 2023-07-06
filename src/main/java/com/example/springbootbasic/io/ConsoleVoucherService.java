@@ -35,11 +35,11 @@ public class ConsoleVoucherService implements Input, Output {
             System.out.println("2. PercentDiscountVoucher");
             System.out.println("Select voucher type [1, 2]: ");
             try {
-                int select = scanner.nextInt();
+                int select = Integer.parseInt(scanner.nextLine());
                 return switch (select) {
                     case 1 -> {
                         System.out.println("Enter fixed amount: ");
-                        long fixedAmount = scanner.nextLong();
+                        long fixedAmount = Long.parseLong(scanner.nextLine());
                         if (fixedAmount < 0) {
                             throw new IllegalStateException("FixedAmount cannot be negative");
                         }
@@ -47,7 +47,7 @@ public class ConsoleVoucherService implements Input, Output {
                     }
                     case 2 -> {
                         System.out.println("Enter discount percent: ");
-                        int percent = scanner.nextInt();
+                        int percent = Integer.parseInt(scanner.nextLine());
                         if (percent < 0 || percent > 100) {
                             throw new IllegalStateException("Percent should be in range(0, 100)");
                         }
