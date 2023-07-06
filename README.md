@@ -58,6 +58,6 @@
 - [X] vouchers 테이블을 정의하기
 - [X] voucher Repository 만들기, JdbcTemplate 사용해서 구현 `#VoucherJdbcStorage`
 
-- [ ] 관리 프로그램에서 각 명령어를 실행 할 수 있도록 하기
-    - [ ] Customer 용 Command
-    - [ ] Voucher 용 Command
+- [X] 관리 프로그램에서 각 명령어를 실행 할 수 있도록 하기
+    - [X] Customer 용 Command
+    - [X] Voucher 용 Command

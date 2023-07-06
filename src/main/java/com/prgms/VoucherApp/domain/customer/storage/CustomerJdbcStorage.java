@@ -53,7 +53,6 @@ public class CustomerJdbcStorage implements CustomerStorage {
             Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramMap, customerRowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            logger.info("{}로 조회된 결과가 존재하지 않습니다. ", id, e);
             return Optional.empty();
         }
     }
