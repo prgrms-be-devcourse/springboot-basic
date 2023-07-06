@@ -1,4 +1,4 @@
-package com.example.voucher;
+package com.example.voucher.controller;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -14,18 +14,17 @@ import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.io.Console;
-import com.example.voucher.constant.ModeType;
 import com.example.voucher.service.VoucherService;
 
 @Controller
-public class CommandLineApplication implements CommandLineRunner {
+public class VoucherController implements CommandLineRunner {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     private boolean isOn = true;
     private final VoucherService voucherService;
 
-    private CommandLineApplication(VoucherService voucherService) {
+    private VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
