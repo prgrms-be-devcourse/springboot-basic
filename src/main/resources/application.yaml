@@ -1,3 +1,5 @@
 file:
-  blacklist: member_blacklist.csv
+  blacklist: customer_blacklist.csv
   voucher: voucher.csv
+
+database:
