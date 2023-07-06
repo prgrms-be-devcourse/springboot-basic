@@ -21,5 +21,5 @@ public interface CustomerRepository {
 
     void deleteByCustomerId(UUID customerId);
 
-    int count();
+    int countAllCustomers();
 }
