@@ -56,12 +56,12 @@ public class VoucherController implements Runnable {
     }
 
     private VoucherResponse getVoucher() {
-        UUID voucherId = input.readVoucherId();
+        UUID voucherId = input.readUUID();
         return voucherService.getVoucher(voucherId);
     }
 
     private VoucherResponse updateVoucher() {
-        UUID voucherId = input.readVoucherId();
+        UUID voucherId = input.readUUID();
         output.displayVoucherType();
         VoucherType voucherType = input.readVoucherType();
         int discountAmount = input.readDiscountAmount();
@@ -71,7 +71,7 @@ public class VoucherController implements Runnable {
     }
 
     private void deleteVoucher() {
-        UUID voucherId = input.readVoucherId();
+        UUID voucherId = input.readUUID();
         voucherService.deleteVoucher(voucherId);
     }
 }

@@ -1,13 +1,9 @@
 package com.programmers.voucher.entity.voucher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.UUID;
 
 public class Voucher {
-    private static final Logger logger = LoggerFactory.getLogger(Voucher.class);
-    private UUID id;
+    private final UUID id;
     private VoucherType type;
     private int amount;
 

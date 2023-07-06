@@ -1,8 +1,10 @@
 package com.programmers.voucher.view;
 
+import com.programmers.voucher.controller.customer.dto.CustomerResponse;
 import com.programmers.voucher.controller.voucher.dto.VoucherResponse;
 import com.programmers.voucher.entity.voucher.VoucherType;
 import com.programmers.voucher.view.dto.Command;
+import com.programmers.voucher.view.dto.CustomerCommand;
 import com.programmers.voucher.view.dto.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -27,6 +29,11 @@ public class ConsoleOutput implements Output {
     }
 
     @Override
+    public void displayCustomerCommands() {
+        displayMenu("=== Customer Menu ===", CustomerCommand.values());
+    }
+
+    @Override
     public void displayVoucherType() {
         displayMenu("=== Voucher Type ===", VoucherType.values());
     }
@@ -40,6 +47,11 @@ public class ConsoleOutput implements Output {
     @Override
     public void displayVoucher(VoucherResponse voucher) {
         textTerminal.println(voucher.toString());
+    }
+
+    @Override
+    public void displayCustomer(CustomerResponse customer) {
+        textTerminal.println(customer.toString());
     }
 
     private <T extends Enum<T>> void displayMenu(String title, T[] commands) {
