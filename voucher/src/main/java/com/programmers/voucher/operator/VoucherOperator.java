@@ -66,7 +66,7 @@ public class VoucherOperator {
 
     private void getVoucher() {
         String voucherId = console.getVoucherId();
-        printer.printVoucher(((JdbcVoucherStream) voucherStream).findById(voucherId));
+        printer.printVoucher(voucherStream.findById(voucherId));
     }
 
     private void getVoucherList() {
@@ -75,10 +75,10 @@ public class VoucherOperator {
 
     private void updateVoucher() {
         String voucherId = console.getVoucherId();
-        Voucher voucher = ((JdbcVoucherStream) voucherStream).findById(voucherId);
+        Voucher voucher = voucherStream.findById(voucherId);
         updateFixedAmountVoucher(voucher);
         updatePercentDiscountVoucher(voucher);
-        ((JdbcVoucherStream) voucherStream).update(voucher);
+        voucherStream.update(voucher);
     }
 
     private void updateFixedAmountVoucher(Voucher voucher) {
@@ -98,11 +98,11 @@ public class VoucherOperator {
     }
 
     private void deleteAllVoucher() {
-        ((JdbcVoucherStream) voucherStream).deleteAll();
+        voucherStream.deleteAll();
     }
 
     private void deleteVoucher() {
         String voucherId = console.getVoucherId();
-        ((JdbcVoucherStream) voucherStream).deleteById(voucherId);
+        voucherStream.deleteById(voucherId);
     }
 }

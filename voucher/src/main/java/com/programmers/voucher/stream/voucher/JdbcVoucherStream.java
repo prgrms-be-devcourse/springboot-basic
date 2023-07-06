@@ -48,6 +48,7 @@ public class JdbcVoucherStream implements VoucherStream{
         }
     }
 
+    @Override
     public Voucher findById(String voucherId) {
         return jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucherId",
                 Map.of("voucherId", voucherId),
@@ -62,15 +63,18 @@ public class JdbcVoucherStream implements VoucherStream{
         return voucherMap;
     }
 
+    @Override
     public void deleteById(String voucherId) {
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId"
                 , Map.of("voucherId", voucherId));
     }
 
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM vouchers", Map.of());
     }
 
+    @Override
     public Voucher update(Voucher voucher) {
         SqlParameterSource param = new BeanPropertySqlParameterSource(voucher);
         updateFixedAmountVoucher(voucher, param);
