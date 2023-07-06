@@ -1,10 +1,10 @@
 package com.prgrms.springbootbasic.service;
 
-import com.prgrms.springbootbasic.domain.FixedDiscountVoucher;
-import com.prgrms.springbootbasic.domain.PercentDiscountVoucher;
-import com.prgrms.springbootbasic.domain.Voucher;
+import com.prgrms.springbootbasic.domain.voucher.FixedDiscountVoucher;
+import com.prgrms.springbootbasic.domain.voucher.PercentDiscountVoucher;
+import com.prgrms.springbootbasic.domain.voucher.Voucher;
 import com.prgrms.springbootbasic.enums.VoucherType;
-import com.prgrms.springbootbasic.repository.VoucherRepository;
+import com.prgrms.springbootbasic.repository.voucher.VoucherRepository;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -19,11 +19,32 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType type, long discount) {
-        Voucher voucher = switch (type) {
-            case FIXED -> new FixedDiscountVoucher(discount);
-            case PERCENT -> new PercentDiscountVoucher(discount);
-        };
-        return voucherRepository.insert(voucher);
+        try {
+            isValidDiscount(type, discount);
+            Voucher voucher = switch (type) {
+                case FIXED -> new FixedDiscountVoucher(discount);
+                case PERCENT -> new PercentDiscountVoucher(discount);
+            };
+            return voucherRepository.insert(voucher);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+    }
+
+    public void isValidDiscount(VoucherType type, long discount) {
+        switch (type) {
+            case FIXED:
+                if (discount <= 0) {
+                    throw new IllegalArgumentException("고정 할인 바우처의 입력 금액은 0 이하를 입력할 수 없습니다.");
+                }
+                break;
+            case PERCENT:
+                if (discount < 1 || discount > 99) {
+                    throw new IllegalArgumentException("퍼센트 할인 바우처의 할인 퍼센트는 1 ~ 99까지의 숫자를 입력해야 합니다.  ");
+                }
+                break;
+        }
     }
 
     public Map<UUID, Voucher> fetchAllVouchers() {
