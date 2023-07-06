@@ -1,6 +1,6 @@
 package com.prgrms.springbootbasic.view;
 
-import com.prgrms.springbootbasic.domain.Voucher;
+import com.prgrms.springbootbasic.domain.voucher.Voucher;
 import java.util.Map;
 import java.util.UUID;
 
