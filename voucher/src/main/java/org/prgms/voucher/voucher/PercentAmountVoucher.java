@@ -1,12 +1,12 @@
 package org.prgms.voucher.voucher;
 
 public class PercentAmountVoucher extends AmountVoucher {
-    public PercentAmountVoucher(int initialMoney, int discountAmount) {
-        super(initialMoney, discountAmount, AmountVoucherOptionType.PERCENT_AMOUNT);
+    public PercentAmountVoucher(int originalPrice, int discountAmount) {
+        super(originalPrice, discountAmount, AmountVoucherOptionType.PERCENT_AMOUNT);
     }
 
     @Override
-    public int discount(int amountBeforeDiscount) {
-        return Math.max(amountBeforeDiscount - (amountBeforeDiscount * super.discountAmount / 100), 0);
+    public int discount(int originalPrice) {
+        return Math.max(originalPrice - (originalPrice * super.discountAmount / 100), 0);
     }
 }
