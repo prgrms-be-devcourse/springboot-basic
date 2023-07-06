@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import co.programmers.voucher_management.customer.entity.Customer;
 
 @Repository
-@Profile("db")
+@Profile({"local","db"})
 public class CustomerDBRepository implements CustomerRepository {
 	private static final String SELECT_BY_ID_QUERY = "SELECT id, name, phone_number, rating FROM customer WHERE id = :id AND STATUS = 'Y'";
 	private static final String SELECT_BY_RATING_QUERY = "SELECT id, name, phone_number, rating FROM customer WHERE rating = :rating AND STATUS = 'Y'";

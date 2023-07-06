@@ -67,14 +67,12 @@ public class VoucherService {
 	public Response assignVoucher(VoucherAssignDTO voucherAssignDTO) {
 		long voucherId = voucherAssignDTO.getVoucherId();
 		long customerId = voucherAssignDTO.getCustomerId();
-		Optional<Voucher> voucher = voucherRepository.findById(voucherId);
-		Optional<Customer> customer = customerRepository.findById(customerId);
-
-		if (voucher.isEmpty() || customer.isEmpty()) {
-			throw new NoSuchDataException("Invalid Input");
-		}
-		voucher.get().assignCustomer(customerId);
-		voucherRepository.assignCustomer(voucher.get(), customer.get());
+		Voucher voucher = voucherRepository.findById(voucherId)
+				.orElseThrow(()-> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", voucherId)));
+		Customer customer = customerRepository.findById(customerId)
+				.orElseThrow(()-> new NoSuchDataException(MessageFormat.format("No such customer of id {0}", customerId)));
+		voucher.assignCustomer(customerId);
+		voucherRepository.assignCustomer(voucher, customer);
 		return new Response(Response.State.SUCCESS, List.of());
 	}
 

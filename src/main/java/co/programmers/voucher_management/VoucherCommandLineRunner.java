@@ -28,7 +28,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 		do {
 			outputView.printGuideMessage();
 			menu = inputView.input();
-			MenuLauncher menuLauncher = menuLauncherFactory.Of(menu);
+			MenuLauncher menuLauncher = menuLauncherFactory.of(menu);
 			Response response = menuLauncher.run();
 			outputView.print(response);
 		} while (!(menu.equals("x") || menu.equals("1")));

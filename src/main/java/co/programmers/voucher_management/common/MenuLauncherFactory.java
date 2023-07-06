@@ -35,7 +35,7 @@ public class MenuLauncherFactory {
 		this.inputView = inputView;
 	}
 
-	public MenuLauncher Of(String menu) {
+	public MenuLauncher of(String menu) {
 		switch (menu) {
 			case "1":
 			case "x":
@@ -109,7 +109,7 @@ public class MenuLauncherFactory {
 		try {
 			VoucherAssignDTO voucherAssignDTO = requestVoucherAssignData();
 			return voucherService.assignVoucher(voucherAssignDTO);
-		} catch (NoSuchDataException | NumberFormatException | VoucherReassignmentException exception) {
+		} catch (RuntimeException exception) {
 			return new Response(Response.State.FAILED, exception.getMessage());
 		}
 	}
