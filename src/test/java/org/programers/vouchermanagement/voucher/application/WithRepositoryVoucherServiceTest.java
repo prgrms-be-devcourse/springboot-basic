@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class WithRepositoryVoucherServiceTest {
 
     private static final VoucherCreationRequest request = new VoucherCreationRequest(
-            new FixedAmountPolicy(100), VoucherType.FIXED_AMOUNT);
+            VoucherType.FIXED_AMOUNT, 100);
 
     @Autowired
     private VoucherService voucherService;
