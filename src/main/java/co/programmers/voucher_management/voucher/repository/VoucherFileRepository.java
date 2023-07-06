@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
@@ -55,8 +56,8 @@ public class VoucherFileRepository implements VoucherRepository {
 	private String assignId() {
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis());
-		String id = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd")) + random.nextInt(1000);
-		return id;
+		return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd")) + random.nextInt(1000);
+
 	}
 
 	@Override
@@ -79,8 +80,19 @@ public class VoucherFileRepository implements VoucherRepository {
 	public Optional<Voucher> findById(long id) {
 		return Optional.empty();
 	}
+
 	@Override
 	public Voucher update(Voucher voucher) {
+		return null;
+	}
+
+	@Override
+	public Voucher assignCustomer(Voucher voucher, Customer customer) {
+		return null;
+	}
+
+	@Override
+	public List<Voucher> findByCustomerId(long customerId) {
 		return null;
 	}
 
@@ -100,9 +112,8 @@ public class VoucherFileRepository implements VoucherRepository {
 		}
 	}
 
-
 	private Voucher mapToVoucher(String[] oneLine) {
-		int id = Integer.parseInt(oneLine[VoucherProperty.ID.index]);
+		long id = Long.parseLong(oneLine[VoucherProperty.ID.index]);
 		int amount = Integer.parseInt(oneLine[VoucherProperty.AMOUNT.index]);
 		String discountType = oneLine[VoucherProperty.DISCOUNT_TYPE.index];
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, amount);

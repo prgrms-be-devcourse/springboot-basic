@@ -9,23 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.context.annotation.Profile;
 
 import com.opencsv.CSVReader;
 
 import co.programmers.voucher_management.customer.entity.Customer;
 
-@Repository
-public class CustomerFileRepository implements CustomerRepository {
+@Profile("file")
+public class CustomerFileRepository {
 	private final Path path;
 
 	public CustomerFileRepository(@Value(value = "${file.blacklist.path}") String filePath) {
 		path = Paths.get(filePath);
 	}
 
-	@Override
-	public List<Customer> findByRating(Customer.Rating rating) {
-		if (rating == Customer.Rating.BLACKLIST) {
+	public List<Customer> findByRating(String rating) {
+		if (Customer.Rating.BLACKLIST.name().equals(rating)) {
 			return findBlackList();
 		}
 		return List.of();

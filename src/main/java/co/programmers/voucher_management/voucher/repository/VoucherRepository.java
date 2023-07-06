@@ -3,6 +3,7 @@ package co.programmers.voucher_management.voucher.repository;
 import java.util.List;
 import java.util.Optional;
 
+import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 
 public interface VoucherRepository {
@@ -17,4 +18,7 @@ public interface VoucherRepository {
 
 	Voucher update(Voucher voucher);
 
+	Voucher assignCustomer(Voucher voucher, Customer customer);
+
+	List<Voucher> findByCustomerId(long customerId);
 }

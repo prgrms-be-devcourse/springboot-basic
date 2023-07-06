@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import co.programmers.voucher_management.exception.NoSuchVoucherException;
+import co.programmers.voucher_management.customer.entity.Customer;
+import co.programmers.voucher_management.exception.NoSuchDataException;
 import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
@@ -21,9 +22,9 @@ import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 @Repository
 @Profile({"local", "test"})
 public class VoucherMemoryRepository implements VoucherRepository {
-	private final Map<Long, Voucher> repository = new ConcurrentHashMap<>();
 	private static final int VOUCHER_ID_RANDOMNESS = 1000;
 	private static final Random random = new Random();
+	private final Map<Long, Voucher> repository = new ConcurrentHashMap<>();
 
 	@Override
 	public Voucher create(Voucher voucher) {
@@ -57,8 +58,18 @@ public class VoucherMemoryRepository implements VoucherRepository {
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
 		repository.get(id).changeDiscountType(discountStrategy);
 		return findById(id).orElseThrow(
-				() -> new NoSuchVoucherException(MessageFormat.format("No such voucher of id {}", id))
+				() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id))
 		);
+	}
+
+	@Override
+	public Voucher assignCustomer(Voucher voucher, Customer customer) {
+		return null;
+	}
+
+	@Override
+	public List<Voucher> findByCustomerId(long customerId) {
+		return null;
 	}
 
 	private Long assignId() {
