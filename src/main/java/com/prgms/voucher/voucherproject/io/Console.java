@@ -49,11 +49,6 @@ public class Console implements Input, Output{
     }
 
     @Override
-    public int inputSelectedVoucherType() {
-        return sc.nextInt();
-    }
-
-    @Override
     public long inputDiscountAmount() {
         return sc.nextLong();
     }

@@ -26,37 +26,43 @@ public class VoucherApp implements CommandLineRunner {
     public void run(String... args) throws Exception {
         String menuName;
         boolean exit = false;
+        MenuType inputCommand = null;
+        VoucherType voucherType = null;
 
         while (!exit) {
             console.printMsg(Constant.CONSOLE_MENU, true);
             menuName = console.inputCommand().toLowerCase();
 
             try {
-                switch (MenuType.getSelectedMenuType(menuName)) {
-                    case EXIT -> {
-                        exit = true;
-                        console.printMsg("프로그램을 종료합니다.", true);
-                    }
-                    case CREATE -> {
-                        console.printMsg(Constant.CONSOLE_VOUCHER_MENU, false);
-                        int selectedNum = console.inputSelectedVoucherType();
-                        console.bufferDeleted();
-                        try {
-                            VoucherType voucherType = VoucherType.getSelectedVoucherType(selectedNum);
-                            voucherService.create(voucherType);
-                        } catch (InputMismatchException e) {
-                            logger.error("VoucherType InputMismatchException -> {}", selectedNum);
-                            System.out.println(e.getLocalizedMessage());
-                        }
-                    }
-                    case LIST -> voucherService.list();
-                }
+                inputCommand = MenuType.getSelectedMenuType(menuName);
             } catch (InputMismatchException e) {
                 logger.error("MenuType InputMismatchException -> {}", menuName);
                 console.printErrorMsg();
+                continue;
+            }
+
+            switch (inputCommand) {
+                case EXIT -> {
+                    exit = true;
+                    console.printMsg("프로그램을 종료합니다.", true);
+                }
+                case CREATE -> {
+                    console.printMsg(Constant.CONSOLE_VOUCHER_MENU, false);
+                    String selectedNum = console.inputCommand();
+
+                    try {
+                        voucherType = VoucherType.getSelectedVoucherType(selectedNum);
+                    } catch (Exception e) {
+                        logger.error("VoucherType InputMismatchException -> {}", selectedNum);
+                        System.out.println(e.getLocalizedMessage());
+                        continue;
+                    }
+
+                    voucherService.create(voucherType);
+                }
+                case LIST -> voucherService.list();
             }
 
         }
-
     }
 }
