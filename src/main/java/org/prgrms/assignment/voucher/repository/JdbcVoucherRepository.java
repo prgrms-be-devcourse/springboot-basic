@@ -32,6 +32,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String FIND_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_ALL_SQL = "DELETE * FROM vouchers";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
+    private static final String DELETE_BY_ID_SQL = "DELETE * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, resultCount) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherType voucherType = VoucherType.of(resultSet.getString("voucher_type"));
@@ -54,13 +56,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByID(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
-            Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-            voucherRowMapper));
-    }
-
-    @Override
     public Voucher insert(Voucher voucher) {
         int update = jdbcTemplate.update(INSERT_SQL,
             toMapSqlParams(voucher));
@@ -77,6 +72,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findByID(UUID voucherId) {
+        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
+            Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+            voucherRowMapper));
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         int update = jdbcTemplate.update(UPDATE_SQL,
             toMapSqlParams(voucher));
@@ -90,6 +92,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+        jdbcTemplate.update(DELETE_BY_ID_SQL,
+            Collections.singletonMap("voucher_id", voucherId.toString().getBytes()));
     }
 
     private static UUID toUUID(byte[] bytes) {

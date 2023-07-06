@@ -42,4 +42,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     }
 
+    @Override
+    public void delete(UUID voucherId) {
+
+    }
+
 }
