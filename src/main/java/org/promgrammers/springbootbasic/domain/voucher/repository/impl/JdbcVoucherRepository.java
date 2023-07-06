@@ -6,7 +6,7 @@ import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherReposit
 import org.promgrammers.springbootbasic.domain.voucher.service.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("jdbc")
+@Primary
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);

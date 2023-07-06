@@ -7,10 +7,13 @@ import org.promgrammers.springbootbasic.domain.wallet.controller.WalletControlle
 import org.promgrammers.springbootbasic.view.Console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommandLineController {
+@Profile("!test")
+public class CommandLineController implements CommandLineRunner {
 
     private final VoucherController voucherController;
     private final CustomerController customerController;
@@ -46,5 +49,10 @@ public class CommandLineController {
             case CUSTOMER -> customerController.execute();
             case WALLET -> walletController.execute();
         }
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        run();
     }
 }

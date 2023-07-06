@@ -11,7 +11,6 @@ import org.promgrammers.springbootbasic.domain.wallet.repository.WalletRepositor
 import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -28,7 +27,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("jdbc")
 public class JdbcWalletRepository implements WalletRepository {
 
     private final CustomerRepository customerRepository;
@@ -44,7 +42,6 @@ public class JdbcWalletRepository implements WalletRepository {
     private static final String FIND_ALL_BY_CUSTOMER_ID = "SELECT * FROM wallet WHERE customer_id = :customerId";
     private static final String DELETE_ALL = "DELETE FROM wallet";
     private static final String DELETE_BY_ID = "DELETE FROM wallet WHERE wallet_id = :walletId";
-
 
     public JdbcWalletRepository(JdbcCustomerRepository customerRepository, JdbcVoucherRepository voucherRepository, DataSource dataSource) {
         this.customerRepository = customerRepository;
