@@ -1,11 +1,15 @@
 package kr.co.programmers.springbootbasic.voucher.repository.impl;
 
-import kr.co.programmers.springbootbasic.voucher.exception.VoucherSaveFailException;
+import kr.co.programmers.springbootbasic.customer.domain.Customer;
+import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
+import kr.co.programmers.springbootbasic.customer.domain.impl.JdbcCustomer;
+import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
+import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.PercentAmountVoucher;
+import kr.co.programmers.springbootbasic.voucher.exception.JdbcVoucherRepositoryFailException;
 import kr.co.programmers.springbootbasic.voucher.repository.VoucherRepository;
-import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -15,7 +19,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,6 +28,10 @@ import java.util.UUID;
 @Profile({"deploy", "dev"})
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+    private static final String FIND_VOUCHER_BY_ID = "SELECT * FROM voucher WHERE id = UUID_TO_BIN(?)";
+    private static final String LIST_ALL = "SELECT * FROM voucher";
+    private static final String DELETE_BY_ID = "DELETE FROM voucher WHERE id = UUID_TO_BIN(?)";
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
@@ -32,42 +39,43 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher create(Voucher voucher) {
         jdbcTemplate.update("INSERT INTO voucher (id, type_id, amount) VALUES (UUID_TO_BIN(?), ?, ?)",
                 voucher.getId().toString().getBytes(),
                 voucher.getType().getTypeId(),
                 voucher.getAmount());
-        return findByVoucherId(voucher.getId())
-                .orElseThrow(() -> new VoucherSaveFailException("바우처를 저장하는데 실패했습니다."));
+        return findVoucherById(voucher.getId())
+                .orElseThrow(() -> new JdbcVoucherRepositoryFailException("바우처를 저장하는데 실패했습니다."));
     }
 
     @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+    public Optional<Voucher> findVoucherById(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE id = UUID_TO_BIN(?)",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_VOUCHER_BY_ID,
                     voucherRowMapper(),
                     voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.info("voucher id : {}가 존재하지 않습니다.", voucherId);
+
             return Optional.empty();
         }
     }
 
     @Override
     public List<Voucher> listAll() {
-        return jdbcTemplate.query("SELECT * FROM voucher",
+        return jdbcTemplate.query(LIST_ALL,
                 voucherRowMapper());
     }
 
     @Override
-    public void deleteByVoucherId(UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM voucher WHERE id = UUID_TO_BIN(?)",
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update(DELETE_BY_ID,
                 voucherId.toString().getBytes());
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
-            var voucherId = toUUID(rs.getBytes("id"));
+            var voucherId = ApplicationUtils.toUUID(rs.getBytes("id"));
             var type = VoucherType.resolveTypeId(rs.getInt("type_id"));
             var amount = rs.getLong("amount");
             var createdAt = rs.getTimestamp("created_at").toLocalDateTime();
@@ -77,10 +85,5 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 case PERCENT_AMOUNT -> new PercentAmountVoucher(voucherId, amount, createdAt);
             };
         };
-    }
-
-    private UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

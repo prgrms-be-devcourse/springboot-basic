@@ -35,7 +35,7 @@
     </appender>
 
     <!--    STDOUT LOGGERS  -->
-    <logger name="kr.co.programmers.springbootbasic.Processor" level="info">
+    <logger name="kr.co.programmers.springbootbasic.DispatcherController" level="info">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ROLLING_FILE" />
     </logger>
@@ -50,7 +50,7 @@
         <appender-ref ref="ROLLING_FILE" />
     </logger>
 
-    <logger name="kr.co.programmers.springbootbasic.io.MenuCommand" level="info">
+    <logger name="kr.co.programmers.springbootbasic.io.enums.EntireServiceCommand" level="info">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ROLLING_FILE" />
     </logger>
@@ -64,7 +64,7 @@
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
-    <logger name="kr.co.programmers.springbootbasic.io.MenuCommand" level="warn">
+    <logger name="kr.co.programmers.springbootbasic.io.enums.EntireServiceCommand" level="warn">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 </configuration>

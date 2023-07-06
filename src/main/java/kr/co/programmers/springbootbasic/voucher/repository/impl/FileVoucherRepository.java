@@ -1,34 +1,24 @@
 package kr.co.programmers.springbootbasic.voucher.repository.impl;
 
-import kr.co.programmers.springbootbasic.voucher.exception.FileConvertFailException;
-import kr.co.programmers.springbootbasic.voucher.exception.FileRepositoryInitException;
-import kr.co.programmers.springbootbasic.voucher.exception.FileSaveFailException;
-import kr.co.programmers.springbootbasic.voucher.repository.FileVoucherRepositoryProperties;
+import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
+import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.PercentAmountVoucher;
+import kr.co.programmers.springbootbasic.voucher.exception.FileVoucherRepositoryFailException;
+import kr.co.programmers.springbootbasic.voucher.repository.FileVoucherRepositoryProperties;
 import kr.co.programmers.springbootbasic.voucher.repository.VoucherRepository;
-import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
@@ -45,12 +35,12 @@ public class FileVoucherRepository implements VoucherRepository {
             initFileDirectory();
         } catch (IOException e) {
             logger.error("파일시스템에 오류가 발생했습니다.");
-            throw new FileRepositoryInitException("파일시스템에 오류가 발생했습니다.\n");
+            throw new FileVoucherRepositoryFailException("파일시스템에 오류가 발생했습니다.\n");
         }
     }
 
     @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) throws RuntimeException {
+    public Optional<Voucher> findVoucherById(UUID voucherId) throws RuntimeException {
         logger.info("바우처 하나를 조회합니다...");
         Path path = Paths.get(FileVoucherRepositoryProperties.SAVE_PATH + voucherId);
         if (Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
@@ -63,12 +53,12 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteByVoucherId(UUID voucherId) {
+    public void deleteById(UUID voucherId) {
         Path path = Paths.get(FileVoucherRepositoryProperties.SAVE_PATH + voucherId);
         try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
-            throw new RuntimeException("삭제할 바우처가 존재하지 않습니다.\n");
+            throw new FileVoucherRepositoryFailException("삭제할 바우처가 존재하지 않습니다.\n");
         }
     }
 
@@ -78,7 +68,7 @@ public class FileVoucherRepository implements VoucherRepository {
         Optional<String[]> fileList = Optional.ofNullable(directory.list());
 
         return fileList.map(files -> Arrays.stream(files)
-                        .map(fileName -> this.findByVoucherId(UUID.fromString(fileName)))
+                        .map(fileName -> this.findVoucherById(UUID.fromString(fileName)))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .toList())
@@ -86,7 +76,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher create(Voucher voucher) {
         VoucherType type = voucher.getType();
         UUID id = voucher.getId();
         long amount = voucher.getAmount();
@@ -94,7 +84,7 @@ public class FileVoucherRepository implements VoucherRepository {
         Path path = Paths.get(FileVoucherRepositoryProperties.SAVE_PATH + id);
         if (Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
             logger.warn("ID {}가 이미 존재하여 바우처 저장에 실패했습니다.", id);
-            throw new FileSaveFailException("기존의 바우처가 존재해서 파일로 저장하는데 실패했습니다.\n");
+            throw new FileVoucherRepositoryFailException("기존의 바우처가 존재해서 파일로 저장하는데 실패했습니다.\n");
         }
         writeVoucherOnFile(type, id, amount);
 
@@ -130,7 +120,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             logger.error("ID가 {}인 파일을 Voucher 객체로 만드는데 실패했습니다.", voucherId);
-            throw new FileConvertFailException("바우처 목록을 가져오는 도중 오류가 발생했습니다.");
+            throw new FileVoucherRepositoryFailException("바우처 목록을 가져오는 도중 오류가 발생했습니다.");
         }
 
         return voucherData;
@@ -156,7 +146,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             logger.warn("바우처를 파일로 저장하는데 실패했습니다.");
-            throw new FileSaveFailException("바우처를 파일로 저장하는데 실패했습니다.\n");
+            throw new FileVoucherRepositoryFailException("바우처를 파일로 저장하는데 실패했습니다.\n");
         }
         logger.info("바우처를 파일로 저장하는데 성공했습니다.");
     }

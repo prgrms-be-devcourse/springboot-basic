@@ -1,5 +1,6 @@
 package kr.co.programmers.springbootbasic.voucher.repository.impl;
 
+import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 import kr.co.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
@@ -22,13 +23,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+    public Optional<Voucher> findVoucherById(UUID voucherId) {
         logger.info("MemoryVoucherRepository에서 ID가 {}인 바우처를 조회합니다...", voucherId);
         return Optional.ofNullable(repository.get(voucherId));
     }
 
     @Override
-    public void deleteByVoucherId(UUID voucherId) {
+    public void deleteById(UUID voucherId) {
         repository.remove(voucherId);
     }
 
@@ -41,7 +42,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher create(Voucher voucher) {
         logger.info("MemoryVoucherRepository에 바우처를 저장합니다...");
         repository.put(voucher.getId(), voucher);
 

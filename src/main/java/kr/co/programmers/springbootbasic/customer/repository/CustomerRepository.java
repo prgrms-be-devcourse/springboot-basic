@@ -7,9 +7,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    Customer save(Customer customer);
+    Customer createCustomer(Customer customer);
     Optional<Customer> findById(UUID customerId);
     List<Customer> findAll();
     Customer update(Customer customer);
     void deleteById(UUID customerId);
+    Optional<Customer> findCustomerById(UUID voucherId);
 }

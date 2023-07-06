@@ -1,7 +1,5 @@
 package kr.co.programmers.springbootbasic.customer.domain;
 
-import kr.co.programmers.springbootbasic.wallet.domain.Wallet;
-
 import java.util.UUID;
 
 public abstract class Customer {

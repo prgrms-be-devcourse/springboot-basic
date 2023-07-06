@@ -2,11 +2,11 @@ package kr.co.programmers.springbootbasic.voucher.dto;
 
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 
-public class VoucherCreationRequestDto {
+public class VoucherCreateRequest {
     private final VoucherType type;
     private final long amount;
 
-    public VoucherCreationRequestDto(VoucherType type, long amount) {
+    public VoucherCreateRequest(VoucherType type, long amount) {
         this.type = type;
         this.amount = amount;
     }

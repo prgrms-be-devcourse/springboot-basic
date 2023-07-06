@@ -5,20 +5,20 @@ import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class VoucherDto {
+public class VoucherResponse {
     private final VoucherType type;
     private final UUID voucherId;
     private final long amount;
     private final LocalDateTime createdAt;
 
-    public VoucherDto(VoucherType type, UUID voucherId, long amount) {
+    public VoucherResponse(VoucherType type, UUID voucherId, long amount) {
         this.type = type;
         this.voucherId = voucherId;
         this.amount = amount;
         this.createdAt = null;
     }
 
-    public VoucherDto(VoucherType type, UUID voucherId, long amount, LocalDateTime createdAt) {
+    public VoucherResponse(VoucherType type, UUID voucherId, long amount, LocalDateTime createdAt) {
         this.type = type;
         this.voucherId = voucherId;
         this.amount = amount;

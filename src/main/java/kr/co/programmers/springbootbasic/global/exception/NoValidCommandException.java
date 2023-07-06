@@ -1,4 +1,4 @@
-package kr.co.programmers.springbootbasic.voucher.exception;
+package kr.co.programmers.springbootbasic.global.exception;
 
 public class NoValidCommandException extends RuntimeException {
     public NoValidCommandException(String s) {

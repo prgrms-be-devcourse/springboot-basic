@@ -16,6 +16,15 @@ import java.util.UUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
+    private static final String CREATE_CUSTOMER
+            = "INSERT INTO customer (id, name, status_id, wallet_id) VALUES (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?))";
+    private static final String FIND_BY_ID = "SELECT * FROM customer WHERE id = UUID_TO_BIN(?)";
+    private static final String FIND_ALL = "SELECT * FROM customer";
+    private static final String UPDATE_CUSTOMER
+            = "UPDATE customer SET name = ?, status_id = ? WHERE id = UUID_TO_BIN(?)";
+    private static final String DELETE_CUSTOMER = "DELETE FROM customer WHERE id = UUID_TO_BIN(?)";
+    private static final String FIND_CUSTOMER_BY_ID
+            = "SELECT * FROM wallet AS w JOIN customer AS c ON w.id = c.wallet_id WHERE w.voucher_id = UUID_TO_BIN(?)";
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
@@ -23,14 +32,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer save(Customer customer) {
+    public Customer createCustomer(Customer customer) {
         UUID customerId = customer.getId();
         String customerName = customer.getName();
         int statusId = customer.getStatus().getStatusId();
         UUID walletId = customer.getWalletId();
 
-        jdbcTemplate.update(
-                "INSERT INTO customer (id, name, status_id, wallet_id) VALUES (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?))",
+        jdbcTemplate.update(CREATE_CUSTOMER,
                 customerId,
                 customerName,
                 statusId,
@@ -39,11 +47,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customer;
     }
 
-
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer WHERE id = UUID_TO_BIN(?)",
+            Customer customer = jdbcTemplate.queryForObject(FIND_BY_ID,
                     custmerRowMapper,
                     customerId.toString().getBytes());
 
@@ -55,7 +62,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * FROM customer", custmerRowMapper);
+        return jdbcTemplate.query(FIND_ALL, custmerRowMapper);
     }
 
     @Override
@@ -64,7 +71,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         String customerName = customer.getName();
         int statusId = customer.getStatus().getStatusId();
 
-        jdbcTemplate.update("UPDATE customer SET name = ?, status_id = ? WHERE id = UUID_TO_BIN(?)",
+        jdbcTemplate.update(UPDATE_CUSTOMER,
                 customerName,
                 statusId,
                 customerId);
@@ -74,7 +81,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteById(UUID customerId) {
-        jdbcTemplate.update("DELETE FROM customer WHERE id = UUID_TO_BIN(?)", customerId);
+        jdbcTemplate.update(DELETE_CUSTOMER, customerId);
+    }
+
+    @Override
+    public Optional<Customer> findCustomerById(UUID voucherId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_CUSTOMER_BY_ID,
+                    customerJoinRowMapper(),
+                    voucherId.toString().getBytes()
+            ));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private final RowMapper<Customer> custmerRowMapper = ((rs, rowNum) -> {
@@ -85,4 +104,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         return new JdbcCustomer(customerId, customerName, status, walletId);
     });
+
+    private RowMapper<Customer> customerJoinRowMapper() {
+        return (rs, rowNum) -> {
+            var id = ApplicationUtils.toUUID(rs.getBytes("c.id"));
+            var name = rs.getString("name");
+            var statusId = CustomerStatus.resolveId(rs.getInt("status_id"));
+            var walletId = ApplicationUtils.toUUID(rs.getBytes("wallet_id"));
+
+            return new JdbcCustomer(id, name, statusId, walletId);
+        };
+    }
 }

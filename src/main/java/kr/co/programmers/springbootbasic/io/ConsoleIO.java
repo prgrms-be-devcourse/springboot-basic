@@ -1,13 +1,18 @@
 package kr.co.programmers.springbootbasic.io;
 
-import kr.co.programmers.springbootbasic.customer.dto.CustomerDto;
+import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
+import kr.co.programmers.springbootbasic.customer.dto.CustomerResponse;
+import kr.co.programmers.springbootbasic.io.enums.*;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
-import kr.co.programmers.springbootbasic.voucher.dto.VoucherDto;
+import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
+import kr.co.programmers.springbootbasic.wallet.dto.WalletResponse;
+import kr.co.programmers.springbootbasic.wallet.dto.WalletSaveDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -19,10 +24,10 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
-    public MenuCommand readMenuCommand() {
+    public EntireServiceCommand readEntireServiceCommand() {
         String input = scanner.nextLine();
 
-        return MenuCommand.resolve(input);
+        return EntireServiceCommand.resolve(input);
     }
 
     @Override
@@ -42,12 +47,63 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
+    public VoucherServiceCommand readVoucherCommand() {
+        int input = scanner.nextInt();
+        scanner.nextLine();
+
+        return VoucherServiceCommand.resolve(input);
+    }
+
+    @Override
+    public CustomerServiceCommand readCustomerServiceCommand() {
+        int input = scanner.nextInt();
+        scanner.nextLine();
+
+        return CustomerServiceCommand.resolve(input);
+    }
+
+    @Override
+    public String readCustomerName() {
+        return scanner.nextLine();
+    }
+
+    @Override
+    public CustomerFindCommand readCustomerFindCommand() {
+        int input = scanner.nextInt();
+        scanner.nextLine();
+
+        return CustomerFindCommand.resolve(input);
+    }
+
+    @Override
+    public UUID readUUID() {
+        String input = scanner.nextLine();
+
+        return ApplicationUtils.toUUID(input.getBytes());
+    }
+
+    @Override
+    public CustomerStatus readCustomerStatus() {
+        int input = scanner.nextInt();
+
+        return CustomerStatus.resolveId(input);
+    }
+
+    @Override
+    public WalletServiceCommand readWalletServiceCommand() {
+        int input = scanner.nextInt();
+        scanner.nextLine();
+
+        return WalletServiceCommand.resolve(input);
+    }
+
+    @Override
     public void printProgramMenu() {
         System.out.print(ConsoleMessage.VOUCHER_PROGRAM_MENU);
     }
 
     @Override
-    public void printCreationMenu() {
+    public void printVoucherCreateMenu() {
         System.out.print(ConsoleMessage.VOUCHER_CREATION_MENU);
     }
 
@@ -65,13 +121,18 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
-    public void printVoucherMessage(VoucherDto dto) {
+    public void printVoucherMessage(VoucherResponse dto) {
         String message = ApplicationUtils.formatVoucherResponseDto(dto);
         System.out.print(message);
     }
 
     @Override
-    public void printVoucherListMessage(List<VoucherDto> list) {
+    public void printCustomerMessage(CustomerResponse dto) {
+
+    }
+
+    @Override
+    public void printVoucherListMessage(List<VoucherResponse> list) {
         String message = list.stream()
                 .map(ApplicationUtils::formatVoucherResponseDto)
                 .collect(Collectors.joining());
@@ -83,7 +144,7 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
-    public void printCustomerListMessage(List<CustomerDto> list) {
+    public void printCustomerListMessage(List<CustomerResponse> list) {
         String message = list.stream()
                 .map(ApplicationUtils::formatCustomerResponseDto)
                 .collect(Collectors.joining());
@@ -97,5 +158,67 @@ public class ConsoleIO implements Input, Output {
     @Override
     public void printExit() {
         System.out.print(ConsoleMessage.EXIT_MESSAGE);
+    }
+
+    @Override
+    public void printCustomerFindMenu() {
+        System.out.print(ConsoleMessage.CUSTOMER_FIND_MENU);
+    }
+
+    @Override
+    public void printCustomerServiceMenu() {
+        System.out.print(ConsoleMessage.CUSTOMER_SERVICE_MENU);
+    }
+
+    @Override
+    public void printCustomerCreateMessage() {
+        System.out.print(ConsoleMessage.CUSTOMER_NAME_MESSAGE);
+    }
+
+    @Override
+    public void printWalletServiceMenu() {
+        System.out.print(ConsoleMessage.WALLET_SERVICE_MENU);
+    }
+
+    @Override
+    public void printNoResult() {
+        System.out.print(ConsoleMessage.NO_RESULT_MESSAGE);
+    }
+
+    @Override
+    public void printCustomerUuidTypeMessage() {
+        System.out.print(ConsoleMessage.CUSTOMER_UUID_MESSAGE);
+    }
+
+    @Override
+    public void printTypeCustomerStatus() {
+        System.out.print(ConsoleMessage.CUSTOMER_STATUS_MESSAGE);
+    }
+
+    @Override
+    public void printVoucherUuidTypeMessage() {
+        System.out.print(ConsoleMessage.VOUCHER_UUID_MESSAGE);
+    }
+
+    @Override
+    public void printWalletUuidTypeMessage() {
+        System.out.print(ConsoleMessage.WALLET_UUID_MESSAGE);
+    }
+
+    @Override
+    public void printWalletSaveMessage(WalletSaveDto responseDto) {
+        String message = ApplicationUtils.formatWalletSaveDto(responseDto);
+        System.out.print(message);
+    }
+
+    @Override
+    public void printWalletFindMessage(WalletResponse walletResponse) {
+        String message = ApplicationUtils.formatWalletFindResponse(walletResponse);
+        System.out.print(message);
+    }
+
+    @Override
+    public void printVoucherServiceMenu() {
+        System.out.print(ConsoleMessage.VOUCHER_SERVICE_MENU);
     }
 }
