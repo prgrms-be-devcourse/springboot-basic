@@ -14,31 +14,28 @@ public class ConsoleInput implements Input {
 
     @Override
     public Command readCommand() {
-        return Command.findByNumber(readIntInput());
+        return Command.findByNumber(readIntInput(">>"));
     }
 
     @Override
     public VoucherCommand readVoucherCommand() {
-        return VoucherCommand.findByNumber(readIntInput());
+        return VoucherCommand.findByNumber(readIntInput(">>"));
     }
 
     @Override
     public VoucherType readVoucherType() {
-        return VoucherType.findByNumber(readIntInput());
+        return VoucherType.findByNumber(readIntInput(">>"));
     }
 
     @Override
     public DiscountAmount readDiscountAmount(VoucherType voucherType) {
-        Long input = textIO.newLongInputReader()
-                .withInputTrimming(true)
-                .read("discount amount >>");
-
+        int input = readIntInput("discount amount >>");
         return new DiscountAmount(voucherType, input);
     }
 
-    private int readIntInput() {
+    private int readIntInput(String prompt) {
         return textIO.newIntInputReader()
                 .withInputTrimming(true)
-                .read(">>");
+                .read(prompt);
     }
 }

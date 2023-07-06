@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DiscountAmount {
-    private final Logger logger = LoggerFactory.getLogger(DiscountAmount.class);
-    private final long amount;
+    private static final Logger logger = LoggerFactory.getLogger(DiscountAmount.class);
+    private final int amount;
 
-    public DiscountAmount(VoucherType voucherType, long amount) {
+    public DiscountAmount(VoucherType voucherType, int amount) {
         this.amount = amount;
         validatePositive();
         validatePercent(voucherType);
@@ -28,7 +28,7 @@ public class DiscountAmount {
         }
     }
 
-    public long getAmount() {
+    public int getAmount() {
         return amount;
     }
 }

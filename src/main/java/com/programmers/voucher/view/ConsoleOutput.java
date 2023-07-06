@@ -1,7 +1,6 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.controller.voucher.dto.VoucherCreateResponse;
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.controller.voucher.dto.VoucherResponse;
 import com.programmers.voucher.view.dto.Command;
 import com.programmers.voucher.view.dto.VoucherCommand;
 import com.programmers.voucher.view.dto.VoucherType;
@@ -24,12 +23,23 @@ public class ConsoleOutput implements Output {
 
     @Override
     public void displayVoucherCommands() {
-        displayMenu("=== 바우처 관리 메뉴 ===", VoucherCommand.values());
+        displayMenu("=== Voucher Menu ===", VoucherCommand.values());
     }
 
     @Override
     public void displayVoucherType() {
-        displayMenu("=== 바우처 타입 ===", VoucherType.values());
+        displayMenu("=== Voucher Type ===", VoucherType.values());
+    }
+
+    @Override
+    public void displayCreatedVoucher(VoucherResponse voucher) {
+        textTerminal.print("New voucher created: ");
+        displayVoucher(voucher);
+    }
+
+    @Override
+    public void displayVoucher(VoucherResponse voucher) {
+        textTerminal.println(voucher.toString());
     }
 
     private <T extends Enum<T>> void displayMenu(String title, T[] commands) {
@@ -37,16 +47,5 @@ public class ConsoleOutput implements Output {
         Arrays.stream(commands)
                 .map(String::valueOf)
                 .forEach(textTerminal::println);
-    }
-
-    @Override
-    public void displayCreatedVoucher(VoucherCreateResponse voucher) {
-        textTerminal.print("New voucher created: ");
-        textTerminal.println(voucher.toString());
-    }
-
-    @Override
-    public void displayVoucher(Voucher voucher) {
-        textTerminal.println(voucher.toString());
     }
 }

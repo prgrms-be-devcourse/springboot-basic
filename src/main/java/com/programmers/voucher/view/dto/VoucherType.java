@@ -8,14 +8,16 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 public enum VoucherType {
-    FIXED_AMOUNT(1, "금액 할인"),
-    PERCENT_DISCOUNT(2, "퍼센트 할인");
+    FIXED_AMOUNT("FIXED", 1, "금액 할인"),
+    PERCENT_DISCOUNT("PERCENT", 2, "퍼센트 할인");
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherCommand.class);
+    private final String code;
     private final int number;
     private final String text;
 
-    VoucherType(int number, String text) {
+    VoucherType(String code, int number, String text) {
+        this.code = code;
         this.number = number;
         this.text = text;
     }
@@ -37,5 +39,9 @@ public enum VoucherType {
     @Override
     public String toString() {
         return number + ". " + text;
+    }
+
+    public String getCode() {
+        return code;
     }
 }

@@ -1,6 +1,6 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.repository.voucher;
 
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.entity.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

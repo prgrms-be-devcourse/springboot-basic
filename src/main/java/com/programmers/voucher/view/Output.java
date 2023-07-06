@@ -1,7 +1,6 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.controller.voucher.dto.VoucherCreateResponse;
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.controller.voucher.dto.VoucherResponse;
 
 public interface Output {
     void displayCommands();
@@ -10,7 +9,7 @@ public interface Output {
 
     void displayVoucherType();
 
-    void displayCreatedVoucher(VoucherCreateResponse voucher);
+    void displayCreatedVoucher(VoucherResponse voucher);
 
-    void displayVoucher(Voucher voucher);
+    void displayVoucher(VoucherResponse voucher);
 }

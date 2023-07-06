@@ -1,6 +1,6 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.repository.voucher;
 
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.entity.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getId(), voucher);
         return voucher;
     }
 
