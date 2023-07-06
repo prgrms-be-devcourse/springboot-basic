@@ -37,8 +37,8 @@ class VoucherServiceTest {
         // then
         List<Voucher> all = repository.findAll();
         assertThat(all.size()).isEqualTo(1);
-        assertThat(all.get(0).getVoucherPolicy().getAmount()).isEqualTo(10L);
-        assertThat(all.get(0).getVoucherType()).isEqualTo(VoucherType.FIXED_AMOUNT);
+        assertThat(all.get(0).getVoucherAmount()).isEqualTo(10L);
+        assertThat(all.get(0).getVoucherPolicy().getVoucherType()).isEqualTo(VoucherType.FIXED_AMOUNT);
     }
 
     @DisplayName("PercentDiscountVoucher create 성공 테스트")
@@ -54,8 +54,8 @@ class VoucherServiceTest {
         // then
         List<Voucher> all = repository.findAll();
         assertThat(all.size()).isEqualTo(1);
-        assertThat(all.get(0).getVoucherPolicy().getAmount()).isEqualTo(10L);
-        assertThat(all.get(0).getVoucherType()).isEqualTo(VoucherType.PERCENT_DISCOUNT);
+        assertThat(all.get(0).getVoucherAmount()).isEqualTo(10L);
+        assertThat(all.get(0).getVoucherPolicy().getVoucherType()).isEqualTo(VoucherType.PERCENT_DISCOUNT);
     }
 
     @DisplayName("findAllVoucher 바우처 전체 조회 성공 테스트")
