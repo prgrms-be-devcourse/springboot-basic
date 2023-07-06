@@ -7,7 +7,7 @@ import com.programmers.voucher.entity.voucher.VoucherType;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
-import com.programmers.voucher.view.dto.VoucherCommand;
+import com.programmers.voucher.view.command.VoucherCommand;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;

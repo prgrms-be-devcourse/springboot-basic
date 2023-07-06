@@ -4,7 +4,7 @@ import com.programmers.voucher.controller.customer.CustomerController;
 import com.programmers.voucher.controller.voucher.VoucherController;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
-import com.programmers.voucher.view.dto.Command;
+import com.programmers.voucher.view.command.Command;
 import org.springframework.stereotype.Controller;
 
 import java.util.concurrent.atomic.AtomicBoolean;

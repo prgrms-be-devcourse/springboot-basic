@@ -3,9 +3,9 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherResponse;
 import com.programmers.voucher.controller.voucher.dto.VoucherUpdateRequest;
+import com.programmers.voucher.entity.voucher.DiscountAmount;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
-import com.programmers.voucher.view.dto.DiscountAmount;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

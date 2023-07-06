@@ -1,9 +1,9 @@
 package com.programmers.voucher.view;
 
 import com.programmers.voucher.entity.voucher.VoucherType;
-import com.programmers.voucher.view.dto.Command;
-import com.programmers.voucher.view.dto.CustomerCommand;
-import com.programmers.voucher.view.dto.VoucherCommand;
+import com.programmers.voucher.view.command.Command;
+import com.programmers.voucher.view.command.CustomerCommand;
+import com.programmers.voucher.view.command.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;

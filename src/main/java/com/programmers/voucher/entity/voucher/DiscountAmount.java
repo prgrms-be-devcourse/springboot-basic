@@ -1,7 +1,6 @@
-package com.programmers.voucher.view.dto;
+package com.programmers.voucher.entity.voucher;
 
 import com.programmers.voucher.constant.ErrorMessage;
-import com.programmers.voucher.entity.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

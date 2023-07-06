@@ -2,7 +2,7 @@ package com.programmers.voucher.entity.voucher;
 
 import com.programmers.voucher.constant.ErrorMessage;
 import com.programmers.voucher.exception.InvalidCommandException;
-import com.programmers.voucher.view.dto.VoucherCommand;
+import com.programmers.voucher.view.command.VoucherCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

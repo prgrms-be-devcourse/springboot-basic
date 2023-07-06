@@ -6,7 +6,7 @@ import com.programmers.voucher.controller.customer.dto.CustomerUpdateRequest;
 import com.programmers.voucher.service.CustomerService;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
-import com.programmers.voucher.view.dto.CustomerCommand;
+import com.programmers.voucher.view.command.CustomerCommand;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
