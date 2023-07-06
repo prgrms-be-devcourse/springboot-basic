@@ -51,7 +51,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-                    Collections.singletonMap("customerId", voucherId.toString().getBytes()),
+                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper)
             );
         } catch (EmptyResultDataAccessException e) {
