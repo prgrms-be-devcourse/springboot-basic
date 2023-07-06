@@ -1,14 +1,16 @@
 package org.programers.vouchermanagement.member.dto.response;
 
+import lombok.NoArgsConstructor;
 import org.programers.vouchermanagement.member.domain.Member;
 import org.programers.vouchermanagement.member.domain.MemberStatus;
 
 import java.util.UUID;
 
+@NoArgsConstructor
 public class MemberResponse {
 
-    private final UUID id;
-    private final MemberStatus status;
+    private UUID id;
+    private MemberStatus status;
 
     public MemberResponse(Member member) {
         this(member.getId(), member.getStatus());
