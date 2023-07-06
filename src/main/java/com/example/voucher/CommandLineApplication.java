@@ -25,7 +25,7 @@ public class CommandLineApplication implements CommandLineRunner {
     private boolean isOn = true;
     private final VoucherService voucherService;
 
-    public CommandLineApplication(VoucherService voucherService) {
+    private CommandLineApplication(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
@@ -34,7 +34,7 @@ public class CommandLineApplication implements CommandLineRunner {
         run();
     }
 
-    public void run() {
+    private void run() {
         while (isOn) {
             Console.printModeType();
             String readModeType = Console.readModeType();
@@ -49,7 +49,7 @@ public class CommandLineApplication implements CommandLineRunner {
         }
     }
 
-    public void processMode(ModeType mode) {
+    private void processMode(ModeType mode) {
         switch (mode) {
             case EXIT -> isOn = false;
             case CREATE -> createVoucher();
@@ -57,7 +57,7 @@ public class CommandLineApplication implements CommandLineRunner {
         }
     }
 
-    public void createVoucher() {
+    private void createVoucher() {
         try {
             createVoucherDetail();
         } catch (IllegalArgumentException e) {
@@ -75,14 +75,14 @@ public class CommandLineApplication implements CommandLineRunner {
         }
     }
 
-    public void createVoucherDetail() {
+    private void createVoucherDetail() {
         Console.printVoucherType();
         Integer inputVoucherType = Console.readVoucherType();
         VoucherType voucherType = VoucherType.getVouchersType(inputVoucherType);
         processVoucherType(voucherType);
     }
 
-    public Voucher processVoucherType(VoucherType voucherType) {
+    private Voucher processVoucherType(VoucherType voucherType) {
         Voucher voucher = switch (voucherType) {
             case FIXED_AMOUNT_DISCOUNT -> {
                 Console.printDiscountAmount();
@@ -99,7 +99,7 @@ public class CommandLineApplication implements CommandLineRunner {
         return voucher;
     }
 
-    public void getVouchers() {
+    private void getVouchers() {
         List<Voucher> vouchers = voucherService.getVouchers();
 
         vouchers.stream()
