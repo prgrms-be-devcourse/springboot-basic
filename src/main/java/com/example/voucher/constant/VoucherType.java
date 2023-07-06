@@ -19,7 +19,6 @@ public enum VoucherType {
     }
 
     public static VoucherType getVouchersType(Integer readVoucherType) {
-        VoucherType.valueOf()
         return Arrays.stream(VoucherType.values())
             .filter(e -> readVoucherType == e.getInputNum())
             .findAny()
