@@ -225,6 +225,44 @@ class CustomerRepositoryTest {
         assertThat(customers.isEmpty(), is(true));
     }
 
+    @ParameterizedTest
+    @Order(12)
+    @DisplayName("이미 존재하는 고객을 아이디로 삭제 시 성공한다.")
+    @MethodSource("provideValidCustomers")
+    void deleteById_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
+        customerRepository.insert(customer);
+        var beforeCount = customerRepository.count();
+        System.out.println(customerRepository.findAll());
+        customerRepository.deleteById(customer);
+        var afterCount = customerRepository.count();
+        System.out.println(customerRepository.findAll());
+        assertThat(beforeCount, is(afterCount+1));
+    }
+
+    @ParameterizedTest
+    @Order(13)
+    @DisplayName("이미 존재하는 고객을 이름으로 삭제 시 성공한다.")
+    @MethodSource("provideValidCustomers")
+    void deleteByName_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
+        customerRepository.insert(customer);
+        var beforeCount = customerRepository.count();
+        customerRepository.deleteByName(customer);
+        var afterCount = customerRepository.count();
+        assertThat(beforeCount, is(afterCount+1));
+    }
+
+    @ParameterizedTest
+    @Order(14)
+    @DisplayName("이미 존재하는 고객을 이메일로 삭제 시 성공한다.")
+    @MethodSource("provideValidCustomers")
+    void deleteByEmail_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
+        customerRepository.insert(customer);
+        var beforeCount = customerRepository.count();
+        customerRepository.deleteByEmail(customer);
+        var afterCount = customerRepository.count();
+        assertThat(beforeCount, is(afterCount+1));
+    }
+
     static Stream<Arguments> provideValidCustomers() {
         return validCustomers.stream()
                 .map(Arguments::of);

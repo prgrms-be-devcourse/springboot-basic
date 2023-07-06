@@ -141,8 +141,45 @@ public class CustomerRepository {
         }
     }
 
+    public void deleteById(Customer customer) {
+        try {
+            jdbcTemplate.update(
+                    "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                    toParamMap(customer)
+            );
+        } catch (DataAccessException e) {
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), e.getCause());
+        }
+    }
+
+    public void deleteByName(Customer customer) {
+        try {
+            jdbcTemplate.update(
+                    "DELETE FROM customers WHERE name = :name",
+                    toParamMap(customer)
+            );
+        } catch (DataAccessException e) {
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), e.getCause());
+        }
+    }
+
+    public void deleteByEmail(Customer customer) {
+        try {
+            jdbcTemplate.update(
+                    "DELETE FROM customers WHERE email = :email",
+                    toParamMap(customer)
+            );
+        } catch (DataAccessException e) {
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), e.getCause());
+        }
+    }
+
     public int count() {
-        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM customers", Collections.emptyMap(), Integer.class);
+        return jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM customers",
+                Collections.emptyMap(),
+                Integer.class
+        );
     }
 
     public void setFilePath(String filePath) {
