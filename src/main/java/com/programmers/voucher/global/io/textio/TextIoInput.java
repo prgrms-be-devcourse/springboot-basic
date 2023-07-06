@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.*;
 
-import static com.programmers.voucher.domain.customer.util.CustomerErrorMessages.INVALID_EMAIL_RANGE;
-import static com.programmers.voucher.domain.customer.util.CustomerErrorMessages.INVALID_NAME_RANGE;
+import static com.programmers.voucher.domain.customer.util.CustomerErrorMessages.INVALID_EMAIL;
+import static com.programmers.voucher.domain.customer.util.CustomerErrorMessages.INVALID_NAME;
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.*;
 import static com.programmers.voucher.domain.voucher.util.VoucherErrorMessages.*;
 import static com.programmers.voucher.global.util.ConsoleMessages.*;
@@ -120,13 +120,13 @@ public class TextIoInput implements ConsoleInput {
     public CustomerCreateRequest inputCustomerCreateInfo() {
         String email = textIO.newStringInputReader()
                 .withValueChecker((val, itemName) -> {
-                    return regexValidate(val, CustomerFieldRegex.emailRegex, INVALID_EMAIL_RANGE);
+                    return regexValidate(val, CustomerFieldRegex.emailRegex, INVALID_EMAIL);
                 })
                 .read(ENTER_EMAIL);
 
         String name = textIO.newStringInputReader()
                 .withValueChecker(((val, itemName) -> {
-                    return regexValidate(val, CustomerFieldRegex.nameRegex, INVALID_NAME_RANGE);
+                    return regexValidate(val, CustomerFieldRegex.nameRegex, INVALID_NAME);
                 }))
                 .read(ENTER_NAME);
 
