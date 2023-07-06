@@ -14,7 +14,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public Price discountPrice(OrderItem orderItem) {
-        double originalPrice = orderItem.productPrice();
+        var originalPrice = orderItem.productPrice();
         return new Price(originalPrice - sale());
     }
 

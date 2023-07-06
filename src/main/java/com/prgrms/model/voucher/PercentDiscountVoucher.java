@@ -15,7 +15,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public Price discountPrice(OrderItem orderItem) {
-        double originalPrice = orderItem.productPrice();
+        var originalPrice = orderItem.productPrice();
         Price dicountedPrice = new Price(originalPrice - originalPrice * sale());
         return dicountedPrice;
     }
