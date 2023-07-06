@@ -15,11 +15,13 @@ class MenuTest {
         Menu createMenu = Menu.of("1");
         Menu listMenu = Menu.of("2");
         Menu updateMenu = Menu.of("3");
-        Menu quitMenu = Menu.of("4");
+        Menu deleteMenu = Menu.of("4");
+        Menu quitMenu = Menu.of("5");
 
         assertEquals(Menu.CREATE, createMenu);
         assertEquals(Menu.LIST, listMenu);
         assertEquals(Menu.UPDATE, updateMenu);
+        assertEquals(Menu.DELETE, deleteMenu);
         assertEquals(Menu.QUIT, quitMenu);
     }
 

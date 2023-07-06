@@ -44,8 +44,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String sql = "select id, type, discount_amount from voucher where id = :id";
 
         try {
-            Map<String, Object> param = Map.of("id", id);
-            Voucher voucher = template.queryForObject(sql, param, getVoucherRowMapper());
+            Voucher voucher = template.queryForObject(sql, getParameterMap(id), getVoucherRowMapper());
 
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
@@ -61,11 +60,22 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Override
+    public int delete(String id) {
+        String sql = "delete from voucher where id = :id";
+
+        return template.update(sql, getParameterMap(id));
+    }
+
     private MapSqlParameterSource getParameterSource(Voucher voucher) {
         return new MapSqlParameterSource()
                 .addValue("id", voucher.getId().toString())
                 .addValue("typeNumber", voucher.getType().getNumber())
                 .addValue("discountAmount", voucher.getDiscountAmount());
+    }
+
+    private Map<String, String> getParameterMap(String id) {
+        return Map.of("id", id);
     }
 
     private RowMapper<Voucher> getVoucherRowMapper() {

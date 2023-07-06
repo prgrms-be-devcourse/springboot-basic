@@ -36,4 +36,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher update(Voucher voucher) {
         return null;
     }
+
+    @Override
+    public int delete(String id) {
+        return 0;
+    }
 }

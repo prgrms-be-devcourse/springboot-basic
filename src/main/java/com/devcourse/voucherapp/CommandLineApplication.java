@@ -42,6 +42,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case CREATE -> createVoucher();
             case LIST -> listAllVouchers();
             case UPDATE -> updateVoucher();
+            case DELETE -> deleteVoucher();
             case QUIT -> quitApplication();
         }
     }
@@ -75,6 +76,15 @@ public class CommandLineApplication implements CommandLineRunner {
         VoucherResponseDto response = voucherController.update(request);
 
         viewManager.showVoucherUpdateSuccessMessage(response);
+    }
+
+    private void deleteVoucher() {
+        listAllVouchers();
+
+        String id = viewManager.readVoucherIdToDelete();
+        voucherController.delete(id);
+
+        viewManager.showVoucherDeleteSuccessMessage();
     }
 
     private void quitApplication() {

@@ -20,6 +20,8 @@ public class ViewManager {
     private static final String UPDATE_VOUCHER_ID_INPUT_MESSAGE = "\n수정할 할인권의 ID를 입력하세요.";
     private static final String UPDATE_VOUCHER_INFORMATION_MESSAGE = "\n선택하신 할인권의 정보를 수정합니다.";
     private static final String VOUCHER_UPDATE_SUCCESS_MESSAGE = "\n할인권 수정이 완료되었습니다.";
+    private static final String DELETE_VOUCHER_ID_INPUT_MESSAGE = "\n삭제할 할인권의 ID를 입력하세요.";
+    private static final String VOUCHER_DELETE_SUCCESS_MESSAGE = "\n할인권이 정상적으로 삭제되었습니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -29,9 +31,8 @@ public class ViewManager {
         for (Menu menu : Menu.values()) {
             outputView.printWithLineBreak(menu);
         }
-        outputView.printWithoutLineBreak(INPUT_MESSAGE);
 
-        return inputView.inputWithTrimming();
+        return readUserInput();
     }
 
     public String readVoucherTypeNumber() {
@@ -39,23 +40,20 @@ public class ViewManager {
         for (VoucherType voucherType : VoucherType.values()) {
             outputView.printWithLineBreak(voucherType);
         }
-        outputView.printWithoutLineBreak(INPUT_MESSAGE);
 
-        return inputView.inputWithTrimming();
+        return readUserInput();
     }
 
     public String readDiscountAmount(String message) {
         outputView.printWithLineBreak(message);
-        outputView.printWithoutLineBreak(INPUT_MESSAGE);
 
-        return inputView.inputWithTrimming();
+        return readUserInput();
     }
 
     public String readVoucherIdToUpdate() {
         outputView.printWithLineBreak(UPDATE_VOUCHER_ID_INPUT_MESSAGE);
-        outputView.printWithoutLineBreak(INPUT_MESSAGE);
 
-        return inputView.inputWithTrimming();
+        return readUserInput();
     }
 
     public String readVoucherDiscountAmountToUpdate(VoucherResponseDto findResponse) {
@@ -64,6 +62,12 @@ public class ViewManager {
         VoucherType voucherType = findResponse.getType();
 
         return readDiscountAmount(voucherType.getMessage());
+    }
+
+    public String readVoucherIdToDelete() {
+        outputView.printWithLineBreak(DELETE_VOUCHER_ID_INPUT_MESSAGE);
+
+        return readUserInput();
     }
 
     public void showExceptionMessage(String message) {
@@ -89,5 +93,15 @@ public class ViewManager {
     public void showVoucherUpdateSuccessMessage(VoucherResponseDto response) {
         outputView.printWithLineBreak(VOUCHER_UPDATE_SUCCESS_MESSAGE);
         outputView.printWithLineBreak(response);
+    }
+
+    public void showVoucherDeleteSuccessMessage() {
+        outputView.printWithLineBreak(VOUCHER_DELETE_SUCCESS_MESSAGE);
+    }
+
+    private String readUserInput() {
+        outputView.printWithoutLineBreak(INPUT_MESSAGE);
+
+        return inputView.inputWithTrimming();
     }
 }

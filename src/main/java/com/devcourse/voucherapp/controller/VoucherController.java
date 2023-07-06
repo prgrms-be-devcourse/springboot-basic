@@ -29,4 +29,8 @@ public class VoucherController {
     public VoucherResponseDto update(VoucherUpdateRequestDto request) {
         return voucherService.update(request);
     }
+
+    public void delete(String id) {
+        voucherService.delete(id);
+    }
 }

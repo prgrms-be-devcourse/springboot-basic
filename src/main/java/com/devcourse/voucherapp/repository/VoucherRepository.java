@@ -13,4 +13,6 @@ public interface VoucherRepository {
     Optional<Voucher> findVoucherById(String id);
 
     Voucher update(Voucher voucher);
+
+    int delete(String id);
 }
