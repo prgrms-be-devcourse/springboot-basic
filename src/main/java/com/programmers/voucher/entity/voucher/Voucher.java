@@ -26,6 +26,10 @@ public class Voucher {
         this.amount = amount;
     }
 
+    public long discount(long price) {
+        return type.discount(price, amount);
+    }
+
     public UUID getId() {
         return id;
     }
