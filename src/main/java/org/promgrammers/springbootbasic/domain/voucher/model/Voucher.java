@@ -23,14 +23,6 @@ public abstract class Voucher {
         this.amount = amount;
     }
 
-    public boolean isPercentVoucher() {
-        return getVoucherType() == VoucherType.PERCENT;
-    }
-
-    public boolean isFixedAmountVoucher() {
-        return getVoucherType() == VoucherType.FIXED;
-    }
-
     public void updateAmount(long newAmount) {
         validateAmount(newAmount);
         this.amount = newAmount;

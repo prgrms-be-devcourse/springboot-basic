@@ -76,12 +76,9 @@ public class VoucherController {
         String requestId = console.askForVoucherId();
         UUID voucherId = UUID.fromString(requestId);
 
-        String inputVoucherType = console.askForVoucherType();
-        VoucherType voucherType = VoucherType.from(inputVoucherType);
-
         long discountAmount = console.askForDiscountAmount();
 
-        UpdateVoucherRequest updateVoucherRequest = new UpdateVoucherRequest(voucherId, voucherType, discountAmount);
+        UpdateVoucherRequest updateVoucherRequest = new UpdateVoucherRequest(voucherId, discountAmount);
 
         return voucherService.update(updateVoucherRequest);
     }

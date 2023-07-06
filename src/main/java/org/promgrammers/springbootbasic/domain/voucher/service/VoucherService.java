@@ -4,8 +4,6 @@ import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucher
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherResponse;
-import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
-import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import org.promgrammers.springbootbasic.exception.BusinessException;
@@ -63,18 +61,10 @@ public class VoucherService {
         Voucher voucher = voucherRepository.findById(updateVoucherRequest.voucherId())
                 .orElseThrow(() -> new BusinessException(NOT_FOUND_VOUCHER));
 
-        if (voucher.isPercentVoucher()) {
-            PercentDiscountVoucher percentDiscountVoucher = (PercentDiscountVoucher) voucher;
-            percentDiscountVoucher.updateAmount(updateVoucherRequest.discountAmount());
-        }
-
-        if (voucher.isFixedAmountVoucher()) {
-            FixedAmountVoucher fixedAmountVoucher = (FixedAmountVoucher) voucher;
-            fixedAmountVoucher.updateAmount(updateVoucherRequest.discountAmount());
-        }
+        voucher.updateAmount(updateVoucherRequest.discountAmount());
         voucherRepository.update(voucher);
 
-        return new VoucherResponse(updateVoucherRequest.voucherId(), updateVoucherRequest.voucherType(), voucher.getAmount());
+        return new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
     @Transactional
