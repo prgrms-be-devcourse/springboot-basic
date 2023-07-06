@@ -1,6 +1,6 @@
 package com.example.commandlineapplication.domain.voucher.service;
 
-import com.example.commandlineapplication.domain.voucher.dto.VoucherCreateRequest;
+import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCreateRequest;
 import com.example.commandlineapplication.domain.voucher.model.FixedAmountVoucher;
 import com.example.commandlineapplication.domain.voucher.model.PercentDiscountVoucher;
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
