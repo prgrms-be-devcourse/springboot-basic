@@ -25,7 +25,7 @@ public class VoucherService {
     @Transactional
     public VoucherResponse createVoucher(VoucherCreateRequest request) {
         DiscountAmount discountAmount = new DiscountAmount(request.voucherType(), request.discountAmount());
-        Voucher voucher = Voucher.create(request.voucherType(), discountAmount.getAmount());
+        Voucher voucher = Voucher.create(request.voucherType(), discountAmount);
 
         return VoucherResponse.from(voucherRepository.insert(voucher));
     }
@@ -47,7 +47,7 @@ public class VoucherService {
         Voucher voucher = checkExisted(voucherRepository.findById(voucherId));
         DiscountAmount discountAmount = new DiscountAmount(request.voucherType(), request.discountAmount());
 
-        voucher.update(request.voucherType(), discountAmount.getAmount());
+        voucher.update(request.voucherType(), discountAmount);
 
         return VoucherResponse.from(voucherRepository.update(voucher));
     }

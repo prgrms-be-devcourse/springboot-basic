@@ -34,7 +34,7 @@ class VoucherServiceTest {
     void 바우처_생성_성공() {
         // given
         VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.FIXED, 100);
-        Voucher voucher = Voucher.create(VoucherType.FIXED, 100);
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, 100);
         given(voucherRepository.insert(any(Voucher.class))).willReturn(voucher);
 
         // when
@@ -48,8 +48,8 @@ class VoucherServiceTest {
     @DisplayName("모든 바우처 조회에 성공한다.")
     void 모든_바우처_조회_성공() {
         // given
-        Voucher voucher1 = Voucher.create(VoucherType.FIXED, 100);
-        Voucher voucher2 = Voucher.create(VoucherType.PERCENT, 20);
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, 100);
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, 20);
         List<Voucher> vouchers = List.of(voucher1, voucher2);
         given(voucherRepository.findAll()).willReturn(vouchers);
 
@@ -64,7 +64,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 조회에 성공한다.")
     void 바우처_조회_성공() {
         // given
-        Voucher voucher = Voucher.create(VoucherType.FIXED, 100);
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, 100);
         given(voucherRepository.findById(voucher.getId())).willReturn(Optional.of(voucher));
 
         // when
@@ -93,7 +93,7 @@ class VoucherServiceTest {
     void 바우처_수정_성공() {
         // given
         VoucherUpdateRequest request = new VoucherUpdateRequest(VoucherType.PERCENT, 20);
-        Voucher voucher = Voucher.create(VoucherType.FIXED, 100);
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, 100);
         given(voucherRepository.findById(voucher.getId())).willReturn(Optional.of(voucher));
 
         // when

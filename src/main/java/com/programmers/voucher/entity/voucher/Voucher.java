@@ -13,13 +13,13 @@ public class Voucher {
         this.amount = amount;
     }
 
-    public static Voucher create(VoucherType type, int amount) {
-        return new Voucher(UUID.randomUUID(), type, amount);
+    public static Voucher create(VoucherType type, DiscountAmount discountAmount) {
+        return new Voucher(UUID.randomUUID(), type, discountAmount.getAmount());
     }
 
-    public void update(VoucherType type, int amount) {
+    public void update(VoucherType type, DiscountAmount discountAmount) {
         this.type = type;
-        this.amount = amount;
+        this.amount = discountAmount.getAmount();
     }
 
     public long discount(long price) {
