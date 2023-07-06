@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.customer.service.CustomerService;
 import co.programmers.voucher_management.exception.DiscountTypeException;
-import co.programmers.voucher_management.exception.VoucherReassignmentException;
 import co.programmers.voucher_management.exception.EmptyAssignerException;
 import co.programmers.voucher_management.exception.InvalidVoucherAmountException;
 import co.programmers.voucher_management.exception.MenuTypeMismatchException;
@@ -26,6 +25,7 @@ public class MenuLauncherFactory {
 	private final CustomerService customerService;
 	private final OutputView outputView;
 	private final InputView<String> inputView;
+	private final String requestMessageFormat = "Input {0} >> ";
 
 	public MenuLauncherFactory(VoucherService voucherService, CustomerService customerService, OutputView outputView,
 			InputView<String> inputView) {
@@ -88,7 +88,6 @@ public class MenuLauncherFactory {
 	}
 
 	private Response inquiryByVoucherId() {
-		String requestMessageFormat = "Input {0} >> ";
 		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a voucher"));
 		long voucherId = Long.parseLong(inputView.input());
 		try {
@@ -99,7 +98,6 @@ public class MenuLauncherFactory {
 	}
 
 	private Response listVoucherOfCustomer() {
-		String requestMessageFormat = "Input {0} >> ";
 		outputView.print(MessageFormat.format(requestMessageFormat, "customer id"));
 		long customerId = Long.parseLong(inputView.input());
 		return voucherService.inquiryVoucherOf(customerId);
@@ -115,7 +113,6 @@ public class MenuLauncherFactory {
 	}
 
 	VoucherAssignDTO requestVoucherAssignData() {
-		String requestMessageFormat = "Input {0} >> ";
 
 		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a customer"));
 		long customerId = Long.parseLong(inputView.input());
@@ -127,8 +124,6 @@ public class MenuLauncherFactory {
 	}
 
 	private Response deleteVoucher() {
-		String requestMessageFormat = "Input voucher id >> ";
-
 		outputView.print(requestMessageFormat);
 		try {
 			Long id = Long.parseLong(inputView.input());
@@ -157,8 +152,6 @@ public class MenuLauncherFactory {
 	}
 
 	VoucherUpdateDTO requestVoucherUpdateData() {
-		String requestMessageFormat = "Input {0} >> ";
-
 		outputView.print(MessageFormat.format(requestMessageFormat, "id"));
 		long id = Long.parseLong(inputView.input());
 
@@ -177,8 +170,6 @@ public class MenuLauncherFactory {
 	}
 
 	VoucherRequestDTO requestVoucherCreationData() {
-		String requestMessageFormat = "Input {0} >> ";
-
 		outputView.print(MessageFormat.format(requestMessageFormat, "amount"));
 		int amount = Integer.parseInt(inputView.input());
 

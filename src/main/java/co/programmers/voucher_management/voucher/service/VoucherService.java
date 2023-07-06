@@ -2,7 +2,6 @@ package co.programmers.voucher_management.voucher.service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -68,9 +67,11 @@ public class VoucherService {
 		long voucherId = voucherAssignDTO.getVoucherId();
 		long customerId = voucherAssignDTO.getCustomerId();
 		Voucher voucher = voucherRepository.findById(voucherId)
-				.orElseThrow(()-> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", voucherId)));
+				.orElseThrow(
+						() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", voucherId)));
 		Customer customer = customerRepository.findById(customerId)
-				.orElseThrow(()-> new NoSuchDataException(MessageFormat.format("No such customer of id {0}", customerId)));
+				.orElseThrow(
+						() -> new NoSuchDataException(MessageFormat.format("No such customer of id {0}", customerId)));
 		voucher.assignCustomer(customerId);
 		voucherRepository.assignCustomer(voucher, customer);
 		return new Response(Response.State.SUCCESS, List.of());
