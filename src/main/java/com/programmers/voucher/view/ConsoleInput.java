@@ -2,7 +2,6 @@ package com.programmers.voucher.view;
 
 import com.programmers.voucher.entity.voucher.VoucherType;
 import com.programmers.voucher.view.dto.Command;
-import com.programmers.voucher.view.dto.DiscountAmount;
 import com.programmers.voucher.view.dto.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -30,9 +29,8 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public DiscountAmount readDiscountAmount() {
-        int input = readIntInput("discount amount >>");
-        return new DiscountAmount(input);
+    public int readDiscountAmount() {
+        return readIntInput("discount amount >>");
     }
 
     @Override

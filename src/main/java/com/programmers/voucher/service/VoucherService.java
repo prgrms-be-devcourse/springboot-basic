@@ -2,6 +2,7 @@ package com.programmers.voucher.service;
 
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherResponse;
+import com.programmers.voucher.controller.voucher.dto.VoucherUpdateRequest;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import com.programmers.voucher.view.dto.DiscountAmount;
@@ -23,8 +24,10 @@ public class VoucherService {
 
     @Transactional
     public VoucherResponse createVoucher(VoucherCreateRequest request) {
-        Voucher voucher = voucherRepository.insert(request.toEntity());
-        return VoucherResponse.from(voucher);
+        DiscountAmount discountAmount = new DiscountAmount(request.voucherType(), request.discountAmount());
+        Voucher voucher = Voucher.create(request.voucherType(), discountAmount.getAmount());
+
+        return VoucherResponse.from(voucherRepository.insert(voucher));
     }
 
     public List<VoucherResponse> getAllVouchers() {
@@ -40,9 +43,12 @@ public class VoucherService {
     }
 
     @Transactional
-    public VoucherResponse updateVoucher(UUID voucherId, DiscountAmount discountAmount) {
+    public VoucherResponse updateVoucher(UUID voucherId, VoucherUpdateRequest request) {
         Voucher voucher = checkExisted(voucherRepository.findById(voucherId));
-        voucher.update(discountAmount.getAmount());
+        DiscountAmount discountAmount = new DiscountAmount(request.voucherType(), request.discountAmount());
+
+        voucher.update(request.voucherType(), discountAmount.getAmount());
+
         return VoucherResponse.from(voucherRepository.update(voucher));
     }
 

@@ -22,7 +22,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String INSERT_SQL = "INSERT INTO voucher(id, type, amount) VALUES(?, ?, ?)";
     private static final String FIND_ALL_SQL = "SELECT * FROM voucher";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM voucher WHERE id = ?";
-    private static final String UPDATE_SQL = "UPDATE voucher SET amount = ? WHERE id = ?";
+    private static final String UPDATE_SQL = "UPDATE voucher SET type = ?, amount = ? WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -55,7 +55,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        jdbcTemplate.update(UPDATE_SQL, voucher.getAmount(), voucher.getId().toString());
+        jdbcTemplate.update(UPDATE_SQL, voucher.getType().name(), voucher.getAmount(), voucher.getId().toString());
         return voucher;
     }
 

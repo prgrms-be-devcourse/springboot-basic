@@ -2,11 +2,11 @@ package com.programmers.voucher.controller.voucher;
 
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherResponse;
+import com.programmers.voucher.controller.voucher.dto.VoucherUpdateRequest;
 import com.programmers.voucher.entity.voucher.VoucherType;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
-import com.programmers.voucher.view.dto.DiscountAmount;
 import com.programmers.voucher.view.dto.VoucherCommand;
 import org.springframework.stereotype.Controller;
 
@@ -38,14 +38,14 @@ public class VoucherController implements Runnable {
             }
             case READ_ALL -> getAllVouchers().forEach(output::displayVoucher);
             case READ -> output.displayVoucher(getVoucher());
-            case UPDATE -> getAllVouchers();
+            case UPDATE -> output.displayVoucher(updateVoucher());
             case DELETE -> getAllVouchers();
         }
     }
 
     private VoucherResponse createVoucher() {
         VoucherType voucherType = input.readVoucherType();
-        DiscountAmount discountAmount = input.readDiscountAmount(voucherType);
+        int discountAmount = input.readDiscountAmount();
         VoucherCreateRequest voucherCreateRequest = VoucherCreateRequest.of(voucherType, discountAmount);
 
         return voucherService.createVoucher(voucherCreateRequest);
@@ -58,5 +58,15 @@ public class VoucherController implements Runnable {
     private VoucherResponse getVoucher() {
         UUID voucherId = input.readVoucherId();
         return voucherService.getVoucher(voucherId);
+    }
+
+    private VoucherResponse updateVoucher() {
+        UUID voucherId = input.readVoucherId();
+        output.displayVoucherType();
+        VoucherType voucherType = input.readVoucherType();
+        int discountAmount = input.readDiscountAmount();
+        VoucherUpdateRequest voucherUpdateRequest = VoucherUpdateRequest.of(voucherType, discountAmount);
+
+        return voucherService.updateVoucher(voucherId, voucherUpdateRequest);
     }
 }

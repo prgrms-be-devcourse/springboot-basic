@@ -1,6 +1,5 @@
 package com.programmers.voucher.entity.voucher;
 
-import com.programmers.voucher.constant.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,18 +21,9 @@ public class Voucher {
         return new Voucher(UUID.randomUUID(), type, amount);
     }
 
-    public void update(int amount) {
-        if (type == VoucherType.PERCENT) {
-            validatePercent(amount);
-        }
+    public void update(VoucherType type, int amount) {
+        this.type = type;
         this.amount = amount;
-    }
-
-    private void validatePercent(int amount) {
-        if (amount > 100) {
-            logger.error("{} => {}", ErrorMessage.INVALID_DISCOUNT_PERCENT, amount);
-            throw new IllegalArgumentException(ErrorMessage.INVALID_DISCOUNT_PERCENT);
-        }
     }
 
     public UUID getId() {
