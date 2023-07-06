@@ -4,7 +4,7 @@ import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.List;
 import javax.sql.DataSource;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
+@Profile("local")
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate template;
