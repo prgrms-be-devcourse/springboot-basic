@@ -6,34 +6,41 @@ import com.devcourse.voucherapp.exception.DiscountAmountException;
 import java.util.UUID;
 import lombok.Getter;
 
+@Getter
 public class FixDiscountVoucher implements Voucher {
 
     private static final String FIX_DISCOUNT_PRICE_REGEX = "^[1-9][0-9]*$";
 
-    @Getter
     private final UUID voucherId;
+    private final String typeNumber;
+    private final int discountAmount;
 
-    private final int discountPrice;
-
-    public FixDiscountVoucher(String discountPrice) {
+    public FixDiscountVoucher(String typeNumber, String discountAmount) {
         this.voucherId = UUID.randomUUID();
-        this.discountPrice = getValidPrice(discountPrice);
+        this.typeNumber = typeNumber;
+        this.discountAmount = getValidPrice(discountAmount);
+    }
+
+    public FixDiscountVoucher(String voucherId, String typeNumber, int discountAmount) {
+        this.voucherId = UUID.fromString(voucherId);
+        this.typeNumber = typeNumber;
+        this.discountAmount = discountAmount;
     }
 
     @Override
     public String toString() {
-        return format("{0} | 고정 할인 | {1}원", voucherId, discountPrice);
+        return format("{0} | 고정 할인 | {1}원", voucherId, discountAmount);
     }
 
-    private int getValidPrice(String discountPrice) {
-        if (isNotValid(discountPrice)) {
-            throw new DiscountAmountException(discountPrice);
+    private int getValidPrice(String discountAmount) {
+        if (isNotValid(discountAmount)) {
+            throw new DiscountAmountException(discountAmount);
         }
 
-        return Integer.parseInt(discountPrice);
+        return Integer.parseInt(discountAmount);
     }
 
-    private boolean isNotValid(String discountPrice) {
-        return !discountPrice.matches(FIX_DISCOUNT_PRICE_REGEX);
+    private boolean isNotValid(String discountAmount) {
+        return !discountAmount.matches(FIX_DISCOUNT_PRICE_REGEX);
     }
 }
