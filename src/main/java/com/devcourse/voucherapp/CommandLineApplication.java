@@ -4,6 +4,8 @@ import com.devcourse.voucherapp.controller.VoucherController;
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.view.ViewManager;
 import java.util.List;
@@ -52,14 +54,14 @@ public class CommandLineApplication implements CommandLineRunner {
         String discountAmount = viewManager.readDiscountAmount(message);
 
         VoucherCreateRequestDto request = new VoucherCreateRequestDto(voucherType, discountAmount);
-        Voucher voucher = voucherController.create(request);
+        VoucherResponseDto response = voucherController.create(request);
 
-        viewManager.showVoucherCreationSuccessMessage(voucher);
+        viewManager.showVoucherCreationSuccessMessage(response);
     }
 
     private void listAllVouchers() {
-        List<Voucher> vouchers = voucherController.findAllVouchers();
-        viewManager.showAllVouchers(vouchers);
+        VouchersResponseDto response = voucherController.findAllVouchers();
+        viewManager.showAllVouchers(response);
     }
 
     private void quitApplication() {

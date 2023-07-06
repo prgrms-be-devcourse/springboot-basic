@@ -1,6 +1,8 @@
 package com.devcourse.voucherapp.controller;
 
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.service.VoucherService;
 import java.util.List;
@@ -13,11 +15,11 @@ public class VoucherController {
 
     private final VoucherService voucherService;
 
-    public Voucher create(VoucherCreateRequestDto request) {
+    public VoucherResponseDto create(VoucherCreateRequestDto request) {
         return voucherService.create(request);
     }
 
-    public List<Voucher> findAllVouchers() {
+    public VouchersResponseDto findAllVouchers() {
         return voucherService.findAllVouchers();
     }
 }

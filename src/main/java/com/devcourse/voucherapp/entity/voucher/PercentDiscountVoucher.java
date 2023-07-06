@@ -22,11 +22,6 @@ public class PercentDiscountVoucher implements Voucher {
         this.discountAmount = getValidRate(discountAmount);
     }
 
-    @Override
-    public String toString() {
-        return format("{0} | 비율 할인 | {1}%", id, discountAmount);
-    }
-
     private int getValidRate(String discountAmount) {
         if (isNotValid(discountAmount)) {
             throw new DiscountAmountException(discountAmount);

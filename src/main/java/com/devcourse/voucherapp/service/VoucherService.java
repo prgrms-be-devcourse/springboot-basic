@@ -2,6 +2,8 @@ package com.devcourse.voucherapp.service;
 
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.repository.VoucherRepository;
 import java.util.List;
@@ -15,14 +17,17 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public Voucher create(VoucherCreateRequestDto request) {
+    public VoucherResponseDto create(VoucherCreateRequestDto request) {
         VoucherType voucherType = request.getType();
-        Voucher voucher = voucherType.makeVoucher(UUID.randomUUID(), request.getDiscountAmount());
+        Voucher newVoucher = voucherType.makeVoucher(UUID.randomUUID(), request.getDiscountAmount());
+        Voucher voucher = voucherRepository.save(newVoucher);
 
-        return voucherRepository.save(voucher);
+        return new VoucherResponseDto(voucher);
     }
 
-    public List<Voucher> findAllVouchers() {
-        return voucherRepository.findAllVouchers();
+    public VouchersResponseDto findAllVouchers() {
+        List<Voucher> vouchers = voucherRepository.findAllVouchers();
+
+        return new VouchersResponseDto(vouchers);
     }
 }

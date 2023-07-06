@@ -2,8 +2,8 @@ package com.devcourse.voucherapp.view;
 
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
-import com.devcourse.voucherapp.entity.voucher.Voucher;
-import java.util.List;
+import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -56,14 +56,14 @@ public class ViewManager {
         outputView.printWithLineBreak(QUIT_MESSAGE);
     }
 
-    public void showVoucherCreationSuccessMessage(Voucher voucher) {
+    public void showVoucherCreationSuccessMessage(VoucherResponseDto response) {
         outputView.printWithLineBreak(VOUCHER_CREATION_SUCCESS_MESSAGE);
-        outputView.printWithLineBreak(voucher);
+        outputView.printWithLineBreak(response);
     }
 
-    public void showAllVouchers(List<Voucher> vouchers) {
+    public void showAllVouchers(VouchersResponseDto response) {
         outputView.printWithLineBreak(ALL_VOUCHERS_LIST_MESSAGE);
-        for (Voucher voucher : vouchers) {
+        for (VoucherResponseDto voucher : response.getVouchers()) {
             outputView.printWithLineBreak(voucher);
         }
     }

@@ -20,12 +20,14 @@ public enum VoucherType {
             "1",
             "고정 할인",
             "\n고정 할인 금액을 입력하세요. (1이상의 자연수, 단위: 원)",
+            "원",
             FixDiscountVoucher::new
     ),
     PERCENT(
             "2",
             "비율 할인",
             "\n비율 할인 퍼센트를 입력하세요. (1이상 100이하의 자연수, 단위: %)",
+            "%",
             PercentDiscountVoucher::new
     );
 
@@ -35,12 +37,15 @@ public enum VoucherType {
     private final String number;
     private final String name;
     private final String message;
+    private final String unit;
     private final TriFunction<UUID, VoucherType, String, Voucher> voucherGenerator;
 
-    VoucherType(String number, String name, String message, TriFunction<UUID, VoucherType, String, Voucher> voucherGenerator) {
+    VoucherType(String number, String name, String message, String unit,
+            TriFunction<UUID, VoucherType, String, Voucher> voucherGenerator) {
         this.number = number;
         this.name = name;
         this.message = message;
+        this.unit = unit;
         this.voucherGenerator = voucherGenerator;
     }
 

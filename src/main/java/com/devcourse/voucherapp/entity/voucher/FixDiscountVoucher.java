@@ -22,11 +22,6 @@ public class FixDiscountVoucher implements Voucher {
         this.discountAmount = getValidPrice(discountAmount);
     }
 
-    @Override
-    public String toString() {
-        return format("{0} | 고정 할인 | {1}원", id, discountAmount);
-    }
-
     private int getValidPrice(String discountAmount) {
         if (isNotValid(discountAmount)) {
             throw new DiscountAmountException(discountAmount);
