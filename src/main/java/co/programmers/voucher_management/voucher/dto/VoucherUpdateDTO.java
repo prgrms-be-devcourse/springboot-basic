@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class VoucherUpdateDTO {
-	private int id;
-	private String discountStrategy;
+	private long id;
+	private String discountType;
 	private Integer discountAmount;
 }
