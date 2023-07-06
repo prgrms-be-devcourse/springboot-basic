@@ -47,6 +47,7 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
                     case CREATE_NEW_VOUCHER -> voucherService.createNewVoucher();
                     case SHOW_VOUCHER_LIST -> voucherService.showVoucherList();
                     case SHOW_BLACK_LIST -> customerService.showBlackList(applicationContext);
+                    case SHOW_CUSTOMER_LIST -> customerService.showCustomerList();
                     default -> throw new IllegalArgumentException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
                 }
             } catch (NoSuchFileException e) {

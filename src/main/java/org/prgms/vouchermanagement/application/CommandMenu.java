@@ -12,7 +12,8 @@ public enum CommandMenu {
     EXIT("exit"),
     CREATE_NEW_VOUCHER("create"),
     SHOW_VOUCHER_LIST("list"),
-    SHOW_BLACK_LIST("black");
+    SHOW_BLACK_LIST("black"),
+    SHOW_CUSTOMER_LIST("customers");
 
     private final String command;
 

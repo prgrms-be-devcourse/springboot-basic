@@ -1,5 +1,6 @@
 package org.prgms.vouchermanagement.global.io;
 
+import org.prgms.vouchermanagement.customer.domain.entity.Customer;
 import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
@@ -34,6 +35,7 @@ public class Console {
         System.out.println("Type 'create' to create a new voucher.");
         System.out.println("Type 'list' to list all vouchers.");
         System.out.println("Type 'black' to list customer blacklist.");
+        System.out.println("Type 'customers' to list all customers.");
         System.out.print("Input: ");
     }
 
@@ -102,6 +104,19 @@ public class Console {
             System.out.println(eachRecord.toString());
         }
         br.close();
+    }
+
+    public void printCustomerList(List<Customer> customers) {
+        if (customers.isEmpty()) {
+            System.out.println("조회할 Customer가 없습니다.");
+            return;
+        }
+
+        System.out.println("=== Customer List ===");
+        customers.forEach(customer ->
+                System.out.println(MessageFormat.format("CustomerId: {0}, Name: {1}, Email: {2}",
+                        customer.getCustomerId(), customer.getName(), customer.getEmail()))
+        );
     }
 
     public String getCommand() {

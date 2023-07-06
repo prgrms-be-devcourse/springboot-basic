@@ -1,5 +1,6 @@
 package org.prgms.vouchermanagement.customer.service;
 
+import org.prgms.vouchermanagement.customer.domain.entity.Customer;
 import org.prgms.vouchermanagement.customer.domain.repository.CustomerRepository;
 import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.global.io.Console;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -28,5 +30,10 @@ public class CustomerService {
         } catch (IOException e){
             throw new NoSuchFileException(ExceptionMessageConstant.NO_BLACK_LIST_FILE_EXCEPTION);
         }
+    }
+
+    public void showCustomerList() {
+        List<Customer> customers = customerRepository.findAll();
+        console.printCustomerList(customers);
     }
 }
