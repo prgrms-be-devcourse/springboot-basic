@@ -3,7 +3,7 @@ package com.ray.junho.voucher.controller;
 import java.util.Arrays;
 
 public enum Command {
-    EXIT,CREATE, LIST;
+    EXIT, CREATE, LIST;
 
     public static Command find(String input) {
         String inputToUpperCase = input.toUpperCase();
