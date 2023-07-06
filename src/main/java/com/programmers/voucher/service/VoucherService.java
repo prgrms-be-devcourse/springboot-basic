@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,5 +30,11 @@ public class VoucherService {
                 .stream()
                 .map(VoucherResponse::from)
                 .toList();
+    }
+
+    public VoucherResponse getVoucher(UUID voucherId) {
+        return voucherRepository.findById(voucherId)
+                .map(VoucherResponse::from)
+                .orElseThrow(() -> new IllegalArgumentException("존재하는 바우처가 없습니다."));
     }
 }

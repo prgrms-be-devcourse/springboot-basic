@@ -11,6 +11,7 @@ import com.programmers.voucher.view.dto.VoucherCommand;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController implements Runnable {
@@ -36,7 +37,7 @@ public class VoucherController implements Runnable {
                 output.displayCreatedVoucher(voucher);
             }
             case READ_ALL -> getAllVouchers().forEach(output::displayVoucher);
-            case READ -> getAllVouchers();
+            case READ -> output.displayVoucher(getVoucher());
             case UPDATE -> getAllVouchers();
             case DELETE -> getAllVouchers();
         }
@@ -52,5 +53,10 @@ public class VoucherController implements Runnable {
 
     private List<VoucherResponse> getAllVouchers() {
         return voucherService.getAllVouchers();
+    }
+
+    private VoucherResponse getVoucher() {
+        UUID voucherId = input.readVoucherId();
+        return voucherService.getVoucher(voucherId);
     }
 }

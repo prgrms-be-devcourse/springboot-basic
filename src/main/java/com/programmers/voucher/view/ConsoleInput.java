@@ -8,6 +8,8 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class ConsoleInput implements Input {
     private static final TextIO textIO = TextIoFactory.getTextIO();
@@ -31,6 +33,14 @@ public class ConsoleInput implements Input {
     public DiscountAmount readDiscountAmount(VoucherType voucherType) {
         int input = readIntInput("discount amount >>");
         return new DiscountAmount(voucherType, input);
+    }
+
+    @Override
+    public UUID readVoucherId() {
+        String input = textIO.newStringInputReader()
+                .withInputTrimming(true)
+                .read("voucherId >>");
+        return UUID.fromString(input);
     }
 
     private int readIntInput(String prompt) {
