@@ -71,11 +71,11 @@ public class VoucherConsole {
     }
 
     public void printCreatedVoucher(VoucherDto voucher) {
-        if (voucher.getVoucherType() == VoucherType.FIXED) {
+        if (VoucherType.isFixed(voucher.getVoucherType())) {
             System.out.printf(SUCCESS_CREATED_FIXED_VOUCHER, voucher.getVoucherType().name(), voucher.getAmount());
         }
 
-        if (voucher.getVoucherType() == VoucherType.PERCENT) {
+        if (VoucherType.isPercent(voucher.getVoucherType())) {
             System.out.printf(SUCCESS_CREATED_PERCENT_VOUCHER, voucher.getVoucherType().name(), voucher.getAmount());
         }
     }

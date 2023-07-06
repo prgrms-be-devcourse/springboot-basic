@@ -21,4 +21,12 @@ public enum VoucherType {
                     throw new IllegalArgumentException(CANT_FIND_VOUCHER_TYPE);
                 });
     }
+
+    public static boolean isFixed(VoucherType voucherType) {
+        return voucherType == VoucherType.FIXED;
+    }
+
+    public static boolean isPercent(VoucherType voucherType) {
+        return voucherType == VoucherType.PERCENT;
+    }
 }
