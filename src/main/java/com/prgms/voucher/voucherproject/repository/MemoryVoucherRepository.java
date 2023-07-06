@@ -1,11 +1,11 @@
 package com.prgms.voucher.voucherproject.repository;
 
 import com.prgms.voucher.voucherproject.domain.Voucher;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-@Repository
+@Component
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new HashMap<>();
 
