@@ -3,6 +3,7 @@ package co.programmers.voucher_management.customer.entity;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
+import co.programmers.voucher_management.customer.repository.CustomerFileRepository;
 import co.programmers.voucher_management.exception.NameFormatException;
 import co.programmers.voucher_management.exception.PhoneNumberFormatException;
 import co.programmers.voucher_management.exception.RatingTypeException;
@@ -11,8 +12,8 @@ import lombok.Getter;
 
 @Getter
 public class Customer {
-	private static Pattern NAME_FORMAT = Pattern.compile("^([가-힣]{2,30}|[a-zA-Z]{2,50})$");
-	private static Pattern PHONE_NUM_FORMAT = Pattern.compile("^01([0|1|6|7|8|9])-\\d{3,4}-\\d{4}$");
+	private static final Pattern NAME_FORMAT = Pattern.compile("^([가-힣]{2,30}|[a-zA-Z]{2,50})$");
+	private static final Pattern PHONE_NUM_FORMAT = Pattern.compile("^01([0|1|6|7|8|9])-\\d{3,4}-\\d{4}$");
 	long id;
 	String name;
 	String rating;
@@ -31,6 +32,14 @@ public class Customer {
 		this.name = name;
 		this.rating = rating;
 		this.phoneNumber = phoneNumber;
+	}
+
+	public Customer(String[] line) {
+		long id = Long.parseLong(line[CustomerFileRepository.CustomerProperty.ID.ordinal()]);
+		String name = line[CustomerFileRepository.CustomerProperty.NAME.ordinal()];
+		String rating = line[CustomerFileRepository.CustomerProperty.RATING.ordinal()];
+		String phoneNumber = line[CustomerFileRepository.CustomerProperty.PHONE_NUMBER.ordinal()];
+		new Customer(id, name, rating, phoneNumber);
 	}
 
 	private void validateRating(String rating) {
