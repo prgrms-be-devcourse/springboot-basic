@@ -1,18 +1,18 @@
 package com.prgmrs.voucher.controller;
 
+import com.prgmrs.voucher.dto.VoucherListResponse;
 import com.prgmrs.voucher.dto.VoucherRequest;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.UUID;
 
 @Component
 public class VoucherController {
 
     private final VoucherService voucherService;
-    
+
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
@@ -21,7 +21,7 @@ public class VoucherController {
         return voucherService.createVoucher(voucherRequest);
     }
 
-    public Map<UUID, Voucher> findAll() {
+    public VoucherListResponse findAll() {
         return voucherService.findAll();
     }
 

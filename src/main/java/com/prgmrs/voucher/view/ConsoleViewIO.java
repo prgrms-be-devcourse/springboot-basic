@@ -1,6 +1,8 @@
 package com.prgmrs.voucher.view;
 
-import com.prgmrs.voucher.enums.ConsoleViewVoucherCreationEnum;
+import com.prgmrs.voucher.dto.BlacklistResponse;
+import com.prgmrs.voucher.dto.VoucherListResponse;
+import com.prgmrs.voucher.enums.VoucherType;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
@@ -49,14 +51,14 @@ public class ConsoleViewIO {
         write("Type percent to create a voucher with percent discount.");
     }
 
-    public void showSpecificCreationMessage(ConsoleViewVoucherCreationEnum consoleViewVoucherCreationEnum) {
-        if (ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER == consoleViewVoucherCreationEnum) {
+    public void showSpecificCreationMessage(VoucherType voucherType) {
+        if (VoucherType.FIXED_AMOUNT_VOUCHER == voucherType) {
             write("=== Creating Voucher with fixed amount ===");
             write(MessageFormat.format("Type amount to create a voucher with fixed amount. maximum value is {0}", voucherProperties.getMaximumFixedAmount()));
             return;
         }
 
-        if (ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER == consoleViewVoucherCreationEnum) {
+        if (VoucherType.PERCENT_DISCOUNT_VOUCHER == voucherType) {
             write("=== Creating Voucher with percent discount ===");
             write("Type percent to create a voucher with percent discount. (1 to 100 without percent sign)");
         }
@@ -75,7 +77,9 @@ public class ConsoleViewIO {
         }
     }
 
-    public void showList(Map<UUID, Voucher> voucherHistory) {
+    public void showList(VoucherListResponse voucherListResponse) {
+        Map<UUID, Voucher> voucherHistory = voucherListResponse.getVoucherList();
+
         if (voucherHistory.isEmpty()) {
             write("list is empty.");
             return;
@@ -97,7 +101,9 @@ public class ConsoleViewIO {
 
     }
 
-    public void showBlacklist(Map<UUID, String> blacklist) {
+    public void showBlacklist(BlacklistResponse blacklistResponse) {
+        Map<UUID, String> blacklist = blacklistResponse.getBlacklist();
+
         if (blacklist.isEmpty()) {
             write("list is empty.");
             return;

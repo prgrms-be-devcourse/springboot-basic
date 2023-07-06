@@ -1,10 +1,8 @@
 package com.prgmrs.voucher.service;
 
+import com.prgmrs.voucher.dto.BlacklistResponse;
 import com.prgmrs.voucher.repository.BlacklistRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class BlacklistService {
@@ -14,7 +12,7 @@ public class BlacklistService {
         this.blacklistRepository = blacklistRepository;
     }
 
-    public Map<UUID, String> findAll() {
-        return blacklistRepository.findAll();
+    public BlacklistResponse findAll() {
+        return new BlacklistResponse(blacklistRepository.findAll());
     }
 }

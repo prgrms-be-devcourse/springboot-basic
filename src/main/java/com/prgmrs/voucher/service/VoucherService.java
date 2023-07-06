@@ -1,7 +1,8 @@
 package com.prgmrs.voucher.service;
 
+import com.prgmrs.voucher.dto.VoucherListResponse;
 import com.prgmrs.voucher.dto.VoucherRequest;
-import com.prgmrs.voucher.enums.ConsoleViewVoucherCreationEnum;
+import com.prgmrs.voucher.enums.VoucherType;
 import com.prgmrs.voucher.exception.NoSuchVoucherTypeException;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
@@ -14,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -27,16 +27,16 @@ public class VoucherService {
     }
 
     public UUID createVoucher(VoucherRequest voucherRequest) {
-        ConsoleViewVoucherCreationEnum voucherType = voucherRequest.getConsoleViewVoucherCreationEnum();
+        VoucherType voucherType = voucherRequest.getVoucherType();
         DiscountValue discountValue = voucherRequest.getValue();
         UUID uuid = UUID.randomUUID();
         Voucher voucher;
         switch (voucherType) {
-            case CREATE_FIXED_AMOUNT_VOUCHER -> {
+            case FIXED_AMOUNT_VOUCHER -> {
                 Amount amount = new Amount(discountValue.getValue());
                 voucher = new FixedAmountVoucher(uuid, amount);
             }
-            case CREATE_PERCENT_DISCOUNT_VOUCHER ->  {
+            case PERCENT_DISCOUNT_VOUCHER -> {
                 Percent percent = new Percent(discountValue.getValue());
                 voucher = new PercentDiscountVoucher(uuid, percent);
             }
@@ -49,8 +49,8 @@ public class VoucherService {
         return uuid;
     }
 
-    public Map<UUID, Voucher> findAll() {
-        return voucherRepository.findAll();
+    public VoucherListResponse findAll() {
+        return new VoucherListResponse(voucherRepository.findAll());
     }
 
     public Voucher findVoucherById(UUID uuid) {
