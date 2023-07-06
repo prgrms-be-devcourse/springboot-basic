@@ -3,6 +3,7 @@ package com.devcourse.voucherapp;
 import com.devcourse.voucherapp.controller.VoucherController;
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.view.ViewManager;
 import java.util.List;
@@ -44,13 +45,15 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void createVoucher() {
-        String voucherTypeNumber = viewManager.readVoucherTypeNumber();
-        VoucherType voucherType = VoucherType.of(voucherTypeNumber);
+        String typeNumber = viewManager.readVoucherTypeNumber();
+        VoucherType voucherType = VoucherType.of(typeNumber);
 
         String message = voucherType.getMessage();
         String discountAmount = viewManager.readDiscountAmount(message);
 
-        Voucher voucher = voucherController.createVoucher(voucherType, discountAmount);
+        VoucherCreateRequestDto request = new VoucherCreateRequestDto(voucherType, discountAmount);
+        Voucher voucher = voucherController.create(request);
+
         viewManager.showVoucherCreationSuccessMessage(voucher);
     }
 

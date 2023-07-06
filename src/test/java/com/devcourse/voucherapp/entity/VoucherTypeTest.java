@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.devcourse.voucherapp.exception.DiscountAmountException;
 import com.devcourse.voucherapp.exception.VoucherTypeInputException;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,13 +34,13 @@ class VoucherTypeTest {
     @ParameterizedTest
     @ValueSource(strings = {"0", "-1", "10.1", "string", "", " ", "\n"})
     void invalidFixDiscountPriceTest(String discountPrice) {
-        assertThrows(DiscountAmountException.class, () -> VoucherType.FIX.makeVoucher(discountPrice));
+        assertThrows(DiscountAmountException.class, () -> VoucherType.FIX.makeVoucher(UUID.randomUUID(), discountPrice));
     }
 
     @DisplayName("비율 퍼센트 할인권 생성 시, 잘못된 퍼센트를 입력한 경우 VoucherInputException 예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = {"0", "-1", "10.1", "string", "101", "", " ", "\n"})
     void invalidPercentDiscountRateTest(String discountRate) {
-        assertThrows(DiscountAmountException.class, () -> VoucherType.PERCENT.makeVoucher(discountRate));
+        assertThrows(DiscountAmountException.class, () -> VoucherType.PERCENT.makeVoucher(UUID.randomUUID(), discountRate));
     }
 }
