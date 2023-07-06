@@ -1,5 +1,6 @@
 package prgms.spring_week1.domain.voucher.repository.impl;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
@@ -9,8 +10,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
-public class MemoryVoucherRepository implements VoucherRepository {
+@Component
+public final class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> voucherList = new ConcurrentHashMap<>();
 

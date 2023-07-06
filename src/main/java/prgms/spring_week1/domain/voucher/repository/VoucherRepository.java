@@ -1,9 +1,11 @@
 package prgms.spring_week1.domain.voucher.repository;
 
+import org.springframework.stereotype.Repository;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 
 import java.util.List;
 
+@Repository
 public interface VoucherRepository {
     List<Voucher> findAll();
 
