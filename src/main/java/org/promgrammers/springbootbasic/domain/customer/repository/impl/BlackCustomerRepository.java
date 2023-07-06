@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("jdbc")
@@ -39,13 +40,13 @@ public class BlackCustomerRepository {
     }
 
     public List<Customer> findAllByCustomerType(CustomerType customerType) {
-        List<Customer> customers = new ArrayList<>();
+        List<Customer> customers;
         List<Customer> allCustomers = findAll();
-        for (Customer customer : allCustomers) {
-            if (customer.getCustomerType() == customerType) {
-                customers.add(customer);
-            }
-        }
+
+        customers = allCustomers.stream()
+                .filter(customer -> customer.getCustomerType() == customerType)
+                .collect(Collectors.toList());
+
         return customers;
     }
 }
