@@ -1,6 +1,8 @@
 package com.prgrms.model.voucher;
 
+import com.prgrms.model.order.OrderItem;
 import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.discount.Price;
 
 import java.util.UUID;
 
@@ -12,7 +14,13 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public double sale(long price) {
-        return price * (getVoucherDiscount().getValue() / PERCENT);
+    public Price discountPrice(OrderItem orderItem) {
+        double originalPrice = orderItem.productPrice();
+        Price dicountedPrice = new Price(originalPrice - originalPrice * sale());
+        return dicountedPrice;
+    }
+
+    public double sale() {
+        return getVoucherDiscount().getValue() / PERCENT;
     }
 }

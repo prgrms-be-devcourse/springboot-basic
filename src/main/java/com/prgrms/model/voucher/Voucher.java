@@ -2,6 +2,7 @@ package com.prgrms.model.voucher;
 
 import com.prgrms.model.order.OrderItem;
 import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.discount.Price;
 
 import java.util.UUID;
 
@@ -28,10 +29,6 @@ public abstract class Voucher {
         return voucherType;
     }
 
-    public double getDiscountedPrice(OrderItem orderItem) {
-        return orderItem.productPrice() - sale(orderItem.productPrice());
-    }
-
-    abstract public double sale(long price);
+    abstract public Price discountPrice(OrderItem orderItem);
 
 }
