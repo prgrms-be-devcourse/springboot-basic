@@ -30,9 +30,9 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public DiscountAmount readDiscountAmount(VoucherType voucherType) {
+    public DiscountAmount readDiscountAmount() {
         int input = readIntInput("discount amount >>");
-        return new DiscountAmount(voucherType, input);
+        return new DiscountAmount(input);
     }
 
     @Override

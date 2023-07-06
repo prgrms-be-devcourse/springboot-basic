@@ -14,7 +14,7 @@ public interface Input {
 
     VoucherType readVoucherType();
 
-    DiscountAmount readDiscountAmount(VoucherType voucherType);
+    DiscountAmount readDiscountAmount();
 
     UUID readVoucherId();
 }

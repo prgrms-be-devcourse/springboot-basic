@@ -31,6 +31,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return Optional.ofNullable(storage.get(voucherId));
     }
 
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
     public void clear() {
         storage.clear();
     }
