@@ -1,19 +1,19 @@
 package com.wonu606.vouchermanager.io;
 
-import com.wonu606.vouchermanager.menu.VoucherMenu;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
+import com.wonu606.vouchermanager.menu.VoucherMenu;
 import com.wonu606.vouchermanager.service.voucher.VoucherType;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
-public class VoucherConsoleIO {
+public class VoucherConsoleIO extends AbstractConsoleIO {
 
-    private final ConsoleInput input;
-    private final ConsolePrinter printer;
+    public VoucherConsoleIO(ConsoleInput input, ConsolePrinter printer) {
+        super(input, printer);
+    }
 
+    @Override
     public VoucherMenu selectMenu() {
         displayMenu();
         String menuSelection = input.readString(VoucherMenu.getAllNames(), "Menu");
@@ -25,29 +25,12 @@ public class VoucherConsoleIO {
         return input.readString(VoucherType.getAllNames(), "Type");
     }
 
-    public String readString(String description) {
-        return input.readString(description);
-    }
-
-    public double readDouble(String description) {
-        return input.readDouble(description);
-    }
-
     public void displayVoucherList(List<Voucher> voucherList) {
         printer.displayMessage("=== 바우처 리스트 ===");
         voucherList.forEach(v -> printer.displayMessage(v.toString()));
     }
 
-    public void displayMessage(String message) {
-        printer.displayMessage(message);
-    }
-
-    public void terminal() {
-        input.terminate();
-        printer.terminate();
-    }
-
-    private void displayMenu() {
+    protected void displayMenu() {
         String lineFormat = "Type %s to %s the program.\n";
         VoucherMenu.getAllNames().forEach(n ->
                 printer.displayMessage(String.format(lineFormat, n, n)));
