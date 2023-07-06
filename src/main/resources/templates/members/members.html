@@ -14,8 +14,8 @@
     <div class="row">
         <div class="col">
             <button class="btn btn-primary float-end"
-                    th:onclick="|location.href='@{/view/members/add}'|"
-                    type="button">회원 등록</button>
+                    th:onclick="|location.href='@{/view/members}'|"
+                    type="button">등록</button>
         </div>
     </div>
 
@@ -25,13 +25,13 @@
         <table class="table">
             <thead>
             <tr>
-                <th>ID</th>
+                <th>회원 ID</th>
                 <th>회원 상태</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="member : ${members.getMembers()}">
-                <td><a th:href="@{/view/members/{memberId}(memberId=${member.id})}" th:text="${member.id}">회원 id</a></td>
+                <td><a th:href="@{/view/members/{memberId}(memberId=${member.id})}" th:text="${member.id}">회원 ID</a></td>
                 <td><a th:href="@{|/view/members/${member.id}|}" th:text="${member.status}">회원 상태</a></td>
             </tr>
             </tbody>
