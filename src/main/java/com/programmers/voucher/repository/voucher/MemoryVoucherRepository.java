@@ -36,6 +36,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return null;
     }
 
+    @Override
+    public void delete(UUID voucherId) {}
+
     public void clear() {
         storage.clear();
     }

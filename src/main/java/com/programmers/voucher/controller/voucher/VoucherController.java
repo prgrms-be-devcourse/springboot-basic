@@ -39,7 +39,7 @@ public class VoucherController implements Runnable {
             case READ_ALL -> getAllVouchers().forEach(output::displayVoucher);
             case READ -> output.displayVoucher(getVoucher());
             case UPDATE -> output.displayVoucher(updateVoucher());
-            case DELETE -> getAllVouchers();
+            case DELETE -> deleteVoucher();
         }
     }
 
@@ -68,5 +68,10 @@ public class VoucherController implements Runnable {
         VoucherUpdateRequest voucherUpdateRequest = VoucherUpdateRequest.of(voucherType, discountAmount);
 
         return voucherService.updateVoucher(voucherId, voucherUpdateRequest);
+    }
+
+    private void deleteVoucher() {
+        UUID voucherId = input.readVoucherId();
+        voucherService.deleteVoucher(voucherId);
     }
 }

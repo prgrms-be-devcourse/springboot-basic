@@ -52,6 +52,11 @@ public class VoucherService {
         return VoucherResponse.from(voucherRepository.update(voucher));
     }
 
+    @Transactional
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.delete(voucherId);
+    }
+
     private Voucher checkExisted(Optional<Voucher> voucher) {
         return voucher.orElseThrow(() -> new IllegalArgumentException("존재하는 바우처가 없습니다."));
     }
