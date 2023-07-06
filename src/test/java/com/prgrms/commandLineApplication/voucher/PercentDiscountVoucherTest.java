@@ -15,8 +15,8 @@ class PercentDiscountVoucherTest {
 
   @ParameterizedTest
   @CsvSource(value = {"percent|20|80000|100000", "percent|30|70000|100000", "percent|50|50000|100000"}, delimiter = '|')
-  @DisplayName("범위 내의 할인값을 입력했을 경우 Percent Discount 계산 성공")
-  void percentDiscountVoucher_계산_성공(String voucherType, int discountAmount, int expected, int price) {
+  @DisplayName("범위 내의 할인값을 입력했을 경우 Percent Discount 계산이 성공한다.")
+  void discountPercentAmount_Success(String voucherType, int discountAmount, int expected, int price) {
     Voucher createdPercentVoucher = VoucherFactory.of(voucherType, discountAmount);
     int result = createdPercentVoucher.supplyDiscount(price);
     assertThat(result).isEqualTo(expected);
@@ -24,8 +24,8 @@ class PercentDiscountVoucherTest {
 
   @ParameterizedTest
   @ValueSource(ints = {-1, -100, 200})
-  @DisplayName("범위를 벗어난 할인값을 입력했을 경우 예외 발생 성공")
-  void percentDiscountVoucher_할인값_예외_발생(int discountAmount) {
+  @DisplayName("범위를 벗어난 할인값을 입력했을 경우 예외가 발생한다.")
+  void percentAmountRange_ErrorSuccess(int discountAmount) {
     Assertions.assertThatThrownBy(() -> new Voucher(UUID.randomUUID(), PercentDiscount.of(discountAmount)))
             .isInstanceOf(IllegalArgumentException.class);
   }
