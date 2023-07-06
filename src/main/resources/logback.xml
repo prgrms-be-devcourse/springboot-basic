@@ -21,7 +21,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.example.demo" level="info">
+  <logger name="com.example.demo" level="debug">
     <appender-ref ref="ROLLING_FILE" />
     <appender-ref ref="STDOUT" />
   </logger>

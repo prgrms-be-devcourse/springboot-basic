@@ -49,7 +49,7 @@ public class VoucherApplication implements CommandLineRunner {
                     default -> throw new IllegalArgumentException(String.format("입력하신 %s은 올바르지 않은 커맨드입니다.", commandType.toString()));
                 }
             } catch (IllegalArgumentException e) {
-                logger.info(e.getMessage());
+                logger.error(e.getMessage());
             }
         }
     }
