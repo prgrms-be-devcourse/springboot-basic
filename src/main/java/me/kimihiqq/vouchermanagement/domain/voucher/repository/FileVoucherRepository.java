@@ -5,26 +5,37 @@ import me.kimihiqq.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Profile("prod")
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
-    private final String filePath = "vouchers.txt";
+
+    private final String filePath;
+
+    public FileVoucherRepository(@Value("${voucher.file.path}") String filePath) {
+        this.filePath = filePath;
+    }
 
     @Override
     public Voucher save(Voucher voucher) {
-        try (FileWriter fileWriter = new FileWriter(filePath, true);
-             BufferedWriter writer = new BufferedWriter(fileWriter)) {
-            writer.write(voucher.getVoucherId() + "," + voucher.getType() + "," + voucher.getDiscount());
-            writer.newLine();
+        String voucherData = voucher.getVoucherId() + "," + voucher.getType() + "," + voucher.getDiscount() + System.lineSeparator();
+        try {
+            Files.write(Paths.get(filePath), voucherData.getBytes(), StandardOpenOption.APPEND);
             log.info("Voucher saved: {}", voucher.getVoucherId());
         } catch (IOException e) {
             log.error("Error saving voucher: {}", voucher.getVoucherId(), e);
@@ -75,12 +86,11 @@ public class FileVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         List<Voucher> vouchers = findAll();
         vouchers.removeIf(voucher -> voucher.getVoucherId().equals(voucherId));
-        try (FileWriter fileWriter = new FileWriter(filePath);
-             BufferedWriter writer = new BufferedWriter(fileWriter)) {
-            for (Voucher voucher : vouchers) {
-                writer.write(voucher.getVoucherId() + "," + voucher.getType() + "," + voucher.getDiscount());
-                writer.newLine();
-            }
+        List<String> voucherDataList = vouchers.stream()
+                .map(voucher -> voucher.getVoucherId() + "," + voucher.getType() + "," + voucher.getDiscount())
+                .collect(Collectors.toList());
+        try {
+            Files.write(Paths.get(filePath), voucherDataList, StandardOpenOption.TRUNCATE_EXISTING);
             log.info("Voucher deleted: {}", voucherId);
         } catch (IOException e) {
             log.error("Error deleting voucher: {}", voucherId, e);

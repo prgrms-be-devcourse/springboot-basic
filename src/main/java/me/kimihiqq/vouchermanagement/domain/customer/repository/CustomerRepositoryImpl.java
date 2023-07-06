@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kimihiqq.vouchermanagement.domain.customer.Customer;
 import me.kimihiqq.vouchermanagement.option.CustomerStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -18,12 +19,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class CustomerRepositoryImpl implements CustomerRepository {
-    private static final String CUSTOMER_LIST_FILE = "src/main/resources/customer_list.csv";
-    private Map<String, Customer> customers = new HashMap<>();
+    private final Map<String, Customer> customers = new HashMap<>();
+
+    @Value("${customer.file.path}")
+    private String customerListFilePath;
 
     @PostConstruct
     public void init() {
-        try (BufferedReader br = new BufferedReader(new FileReader(CUSTOMER_LIST_FILE))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(customerListFilePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
