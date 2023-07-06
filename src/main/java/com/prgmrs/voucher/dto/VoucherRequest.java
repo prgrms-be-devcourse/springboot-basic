@@ -1,22 +1,21 @@
 package com.prgmrs.voucher.dto;
 
-import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.enums.VoucherType;
 
 public class VoucherRequest {
     private final VoucherType voucherType;
-    private final DiscountValue discountValue;
+    private final String token;
 
-    public VoucherRequest(VoucherType voucherType, DiscountValue discountValue) {
+    public VoucherRequest(VoucherType voucherType, String token) {
         this.voucherType = voucherType;
-        this.discountValue = discountValue;
+        this.token = token;
     }
 
     public VoucherType getVoucherType() {
         return voucherType;
     }
 
-    public DiscountValue getValue() {
-        return discountValue;
+    public String getToken() {
+        return token;
     }
 }

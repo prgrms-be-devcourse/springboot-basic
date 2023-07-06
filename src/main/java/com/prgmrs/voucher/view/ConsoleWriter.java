@@ -2,6 +2,7 @@ package com.prgmrs.voucher.view;
 
 import com.prgmrs.voucher.dto.BlacklistResponse;
 import com.prgmrs.voucher.dto.VoucherListResponse;
+import com.prgmrs.voucher.dto.VoucherResponse;
 import com.prgmrs.voucher.enums.VoucherType;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
@@ -12,28 +13,22 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class ConsoleViewIO {
+public class ConsoleWriter {
     private final BlacklistProperties blacklistProperties;
     private final VoucherProperties voucherProperties;
 
-    private final Scanner sc = new Scanner(System.in);
 
-    public ConsoleViewIO(BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
+    public ConsoleWriter(BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
         this.blacklistProperties = blacklistProperties;
         this.voucherProperties = voucherProperties;
     }
 
     public void write(String message) {
         System.out.println(message);
-    }
-
-    public String read() {
-        return sc.nextLine();
     }
 
     public void showCommand() {
@@ -64,7 +59,9 @@ public class ConsoleViewIO {
         }
     }
 
-    public void showVoucherResult(Voucher voucher) {
+    public void showVoucherResult(VoucherResponse voucherResponse) {
+        Voucher voucher = voucherResponse.getVoucher();
+
         write("=== Successfully created a new voucher ===");
         if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
             write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));

@@ -2,6 +2,8 @@ package com.prgmrs.voucher.controller;
 
 import com.prgmrs.voucher.dto.VoucherListResponse;
 import com.prgmrs.voucher.dto.VoucherRequest;
+import com.prgmrs.voucher.dto.VoucherResponse;
+import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public UUID createVoucher(VoucherRequest voucherRequest) {
+    public VoucherResponse createVoucher(VoucherRequest voucherRequest) throws WrongRangeFormatException {
         return voucherService.createVoucher(voucherRequest);
     }
 
