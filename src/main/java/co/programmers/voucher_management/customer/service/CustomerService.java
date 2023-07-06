@@ -18,8 +18,8 @@ public class CustomerService {
 		this.customerRepository = customerRepository;
 	}
 
-	public Response inquireBlackList() {
-		List<Customer> inquiredData = customerRepository.findByRating(Customer.Rating.BLACKLIST);
+	public Response inquireByRating(String rating) {
+		List<Customer> inquiredData = customerRepository.findByRating(rating);
 		List<CustomerResponseDTO> customerResponseDTOS = inquiredData.stream()
 				.map(CustomerResponseDTO::new)
 				.collect(Collectors.toList());
