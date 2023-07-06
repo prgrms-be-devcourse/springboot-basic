@@ -149,3 +149,4 @@ gradle-app.setting
 **/META-INF/**
 **/resources/voucher.csv
 **/resources/customer_blacklist.csv
+**/resources/application-db.yaml
