@@ -93,10 +93,9 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        String sql = "delete from customers where 1=:one";
+        String sql = "delete from customers";
 
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("one", 1);
+        SqlParameterSource param = new MapSqlParameterSource();
 
         template.update(sql, param);
     }
