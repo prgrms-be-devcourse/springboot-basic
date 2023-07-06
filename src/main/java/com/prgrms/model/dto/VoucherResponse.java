@@ -1,52 +1,40 @@
 package com.prgrms.model.dto;
 
-import com.prgrms.model.voucher.Discount;
+import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherType;
-
-import lombok.*;
 
 import java.util.Objects;
 
 
-@Getter
-@Builder
-@AllArgsConstructor
 public class VoucherResponse {
-    private final String exceptionMessage = "기본생성자는 만들 수 없습니다.";
-    private VoucherType voucherType;
-    private Discount discount;
+    private final VoucherType voucherType;
+    private final Discount discount;
 
-    public VoucherResponse() {
-        throw new IllegalArgumentException(exceptionMessage);
+    public VoucherResponse ( Voucher voucher) {
+        this.voucherType = voucher.getVoucherType();
+        this.discount = voucher.getVoucherDiscount();
     }
 
-    public double getDiscountedValue() {
-        return discount.getDiscount();
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.voucherType).append(" : ")
+                .append(this.discount.getValue());
+
+        return sb.toString();
     }
 
-    public static VoucherResponse of(Voucher voucher) {
-        return VoucherResponse.builder()
-                .voucherType(voucher.getVoucherPolicy())
-                .discount(voucher.getVoucherDiscount())
-                .build();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VoucherResponse that = (VoucherResponse) o;
+        return voucherType == that.voucherType && Objects.equals(discount, that.discount);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(voucherType, discount);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        VoucherResponse other = (VoucherResponse) obj;
-        return Objects.equals(voucherType, other.voucherType) &&
-                Objects.equals(discount, other.discount);
     }
 }
