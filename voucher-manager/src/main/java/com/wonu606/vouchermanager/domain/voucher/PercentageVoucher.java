@@ -11,7 +11,7 @@ public class PercentageVoucher extends Voucher {
     }
 
     @Override
-    public double calculateDiscountedPrice(Price originalPrice) {
-        return originalPrice.getValue() * (1 - discountValue.getValue() / 100);
+    public Price calculateDiscountedPrice(Price originalPrice) {
+        return new Price(originalPrice.getValue() * (1 - discountValue.getValue() / 100));
     }
 }

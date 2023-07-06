@@ -18,5 +18,5 @@ public abstract class Voucher {
         this.uuid = uuid;
     }
 
-    public abstract double calculateDiscountedPrice(Price originalPrice);
+    public abstract Price calculateDiscountedPrice(Price originalPrice);
 }

@@ -21,10 +21,10 @@ class FixedAmountVoucherTest {
         Price originalPrice = new Price(100);
 
         // When
-        double discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
+        Price discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
 
         // Then
-        assertThat(discountedPrice).isEqualTo(
+        assertThat(discountedPrice.getValue()).isEqualTo(
                 originalPrice.getValue() - fixedAmountValue.getValue());
     }
 
@@ -38,9 +38,9 @@ class FixedAmountVoucherTest {
         Price originalPrice = new Price(100);
 
         // When
-        double discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
+        Price discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
 
         // Then
-        assertThat(discountedPrice).isEqualTo(0);
+        assertThat(discountedPrice.getValue()).isEqualTo(0);
     }
 }

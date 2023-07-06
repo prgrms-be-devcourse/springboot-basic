@@ -21,10 +21,10 @@ public class PercentageVoucherTest {
         Price originalPrice = new Price(200);
 
         // When
-        double discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
+        Price discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
 
         // Then
-        assertThat(discountedPrice).isEqualTo(
+        assertThat(discountedPrice.getValue()).isEqualTo(
                 originalPrice.getValue() * (100 - percentageDiscountValue.getValue()) / 100);
     }
 
@@ -38,9 +38,9 @@ public class PercentageVoucherTest {
         Price originalPrice = new Price(200);
 
         // When
-        double discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
+        Price discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
 
         // Then
-        assertThat(discountedPrice).isEqualTo(0);
+        assertThat(discountedPrice.getValue()).isEqualTo(0);
     }
 }

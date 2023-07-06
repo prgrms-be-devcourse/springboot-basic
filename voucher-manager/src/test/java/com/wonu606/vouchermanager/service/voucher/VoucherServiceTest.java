@@ -9,8 +9,6 @@ import static org.mockito.Mockito.times;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.repository.Repository;
-import com.wonu606.vouchermanager.service.voucher.VoucherFactory;
-import com.wonu606.vouchermanager.service.voucher.VoucherService;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

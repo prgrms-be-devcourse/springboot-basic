@@ -3,9 +3,9 @@ package com.wonu606.vouchermanager.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
+import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

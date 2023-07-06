@@ -11,8 +11,8 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public double calculateDiscountedPrice(Price originalPrice) {
-        return Math.max(originalPrice.getValue() - discountValue.getValue(), 0);
+    public Price calculateDiscountedPrice(Price originalPrice) {
+        return new Price(Math.max(originalPrice.getValue() - discountValue.getValue(), 0));
     }
 
 
