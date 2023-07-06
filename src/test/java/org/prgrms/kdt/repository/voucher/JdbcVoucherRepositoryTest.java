@@ -4,6 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 
+import org.prgrms.kdt.entity.VoucherEntity;
 import org.prgrms.kdt.utils.VoucherType;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,13 +62,13 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     DataSource dataSource;
 
-    Voucher newVoucher;
+    VoucherEntity newVoucher;
 
     EmbeddedMysql embeddedMysql;
 
     @BeforeAll
     void setup() {
-        newVoucher = VoucherType.valueOf("FIXED_AMOUNT_VOUCHER").makeVoucher(1000);
+        newVoucher = VoucherEntity.toEntity(VoucherType.valueOf("FIXED_AMOUNT_VOUCHER").makeVoucher(1000));
         var mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(3306)

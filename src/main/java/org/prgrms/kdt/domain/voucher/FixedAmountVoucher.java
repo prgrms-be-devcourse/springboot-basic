@@ -11,12 +11,15 @@ public class FixedAmountVoucher implements Voucher, Serializable {
 
     private final UUID voucherId;
     private final long amount;
+    private boolean status = false;
+
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         validate(amount);
         this.voucherId = voucherId;
         this.amount = amount;
     }
+
 
     private static void validate(long amount) {
         if (amount < 0) throw new IllegalArgumentException("할인 금액은 양수여야 합니다.");
@@ -44,4 +47,10 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     public Long getDiscountAmount() {
         return amount;
     }
+
+    @Override
+    public boolean getStatus() {
+        return status;
+    }
+
 }

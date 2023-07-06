@@ -13,4 +13,6 @@ public interface Voucher {
     VoucherType getVoucherType();
 
     Long getDiscountAmount();
+
+    boolean getStatus();
 }

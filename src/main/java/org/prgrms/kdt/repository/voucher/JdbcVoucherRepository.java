@@ -1,7 +1,7 @@
 package org.prgrms.kdt.repository.voucher;
 
+import org.prgrms.kdt.entity.VoucherEntity;
 import org.prgrms.kdt.utils.VoucherType;
-import org.prgrms.kdt.domain.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -31,34 +31,35 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+    private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, i) -> {
         final UUID voucherId = convertUUID(resultSet.getBytes("voucher_id"));
         final String voucherType = resultSet.getString("voucher_type");
         Long amount = resultSet.getLong("discount_amount");
-
-        return VoucherType.of(voucherType).makeVoucher(amount);
+        boolean status = resultSet.getBoolean("status");
+        return VoucherEntity.toEntity(VoucherType.of(voucherType).makeVoucher(amount));
     };
 
     @Override
-    public Voucher insert(Voucher voucher) {
-        int insert = jdbcTemplate.update("INSERT INTO vouchers(voucher_id,voucher_type,discount_amount) VALUES (UUID_TO_BIN(?),?,?)",
-                voucher.getVoucherId().toString().getBytes(),
-                voucher.getVoucherType().name(),
-                voucher.getDiscountAmount());
+    public VoucherEntity insert(VoucherEntity voucherEntity) {
+        int insert = jdbcTemplate.update("INSERT INTO vouchers(voucher_id,voucher_type,discount_amount,status) VALUES (UUID_TO_BIN(?),?,?,?)",
+                voucherEntity.getVoucherId().toString().getBytes(),
+                voucherEntity.getVoucherType(),
+                voucherEntity.getAmount(),
+                voucherEntity.getStatus());
         if (insert != 1) {
             throw new RuntimeException("추가된 데이터 내역이 없습니다.");
         }
-        return voucher;
+        return voucherEntity;
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<VoucherEntity> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers",voucherRowMapper);
     }
 
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<VoucherEntity> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
                     voucherRowMapper,

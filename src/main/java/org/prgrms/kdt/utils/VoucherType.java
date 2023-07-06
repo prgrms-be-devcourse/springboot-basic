@@ -4,16 +4,17 @@ import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
 public enum VoucherType {
 
-    FIXED_AMOUNT_VOUCHER("FIXED_AMOUNT_VOUCHER", value->new FixedAmountVoucher(UUID.randomUUID(), value)),
-    PERCENT_DISCOUNT_VOUCHER("PERCENT_DISCOUNT_VOUCHER", value->new PercentDiscountVoucher(UUID.randomUUID(), value));
+    FIXED_AMOUNT_VOUCHER("FIXED_AMOUNT_VOUCHER", (value)->new FixedAmountVoucher(UUID.randomUUID(), value)),
+    PERCENT_DISCOUNT_VOUCHER("PERCENT_DISCOUNT_VOUCHER", (value)->new PercentDiscountVoucher(UUID.randomUUID(), value));
 
     private final String matchString;
-    private final Function<Long, Voucher> expression;
+    private final Function<Long,Voucher> expression;
 
     VoucherType(String matchString,Function<Long, Voucher> expression) {
         this.matchString = matchString;

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.controller;
+package org.prgrms.kdt.application;
 
 import org.prgrms.kdt.service.customer.CustomerService;
 import org.prgrms.kdt.utils.Option;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class MainController {
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+public class MainApplication {
+    private static final Logger logger = LoggerFactory.getLogger(MainApplication.class);
 
     private Console console;
     private VoucherService voucherService;
     private CustomerService customerService;
 
-    public MainController(Console console, VoucherService voucherService, CustomerService customerService) {
+    public MainApplication(Console console, VoucherService voucherService, CustomerService customerService) {
         this.console = console;
         this.voucherService = voucherService;
         this.customerService = customerService;
