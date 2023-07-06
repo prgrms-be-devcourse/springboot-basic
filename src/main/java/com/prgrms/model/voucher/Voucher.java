@@ -24,7 +24,7 @@ public abstract class Voucher {
         return discount;
     }
 
-    public VoucherType getVoucherPolicy() {
+    public VoucherType getVoucherType() {
         return voucherType;
     }
 
