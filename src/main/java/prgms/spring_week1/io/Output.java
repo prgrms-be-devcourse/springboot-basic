@@ -6,7 +6,6 @@ import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
 import java.util.List;
 
-@Component
 public class Output {
 
     public void outputMessage(String outputMessage) {

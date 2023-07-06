@@ -17,16 +17,12 @@ import java.util.List;
 
 @Component
 public class CommandLine implements Runnable {
-    private final Input input;
-    private final Output output;
-    private final VoucherRepository voucherRepository;
+    private final Input input = new Input();
+    private final Output output = new Output();
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService, CustomerService customerService) {
-        this.input = input;
-        this.output = output;
-        this.voucherRepository = voucherRepository;
+    public CommandLine(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
     }
