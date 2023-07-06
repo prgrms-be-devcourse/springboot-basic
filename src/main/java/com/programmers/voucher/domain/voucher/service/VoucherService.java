@@ -49,7 +49,6 @@ public class VoucherService {
     public VoucherResponse updateVoucher(UUID voucherId, VoucherUpdateRequest request) {
         Voucher voucher = checkExisted(voucherRepository.findById(voucherId));
         DiscountAmount discountAmount = new DiscountAmount(request.voucherType(), request.discountAmount());
-
         voucher.update(request.voucherType(), discountAmount);
 
         return VoucherResponse.from(voucherRepository.update(voucher));

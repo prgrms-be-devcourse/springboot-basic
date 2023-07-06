@@ -34,11 +34,20 @@ public class VoucherController implements Runnable {
             case CREATE -> {
                 output.displayVoucherType();
                 VoucherResponse voucher = createVoucher();
-                output.displayCreatedVoucher(voucher);
+                output.displayVoucher(voucher);
             }
-            case READ_ALL -> getAllVouchers().forEach(output::displayVoucher);
-            case READ -> output.displayVoucher(getVoucher());
-            case UPDATE -> output.displayVoucher(updateVoucher());
+            case READ_ALL -> {
+                List<VoucherResponse> vouchers = getAllVouchers();
+                vouchers.forEach(output::displayVoucher);
+            }
+            case READ -> {
+                VoucherResponse voucher = getVoucher();
+                output.displayVoucher(voucher);
+            }
+            case UPDATE -> {
+                VoucherResponse voucher = updateVoucher();
+                output.displayVoucher(voucher);
+            }
             case DELETE -> deleteVoucher();
         }
     }

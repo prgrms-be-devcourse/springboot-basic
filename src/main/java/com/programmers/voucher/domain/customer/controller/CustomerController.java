@@ -34,9 +34,18 @@ public class CustomerController implements Runnable {
                 CustomerResponse customer = createCustomer();
                 output.displayCustomer(customer);
             }
-            case READ_ALL -> getAllCustomers().forEach(output::displayCustomer);
-            case READ -> output.displayCustomer(getCustomer());
-            case UPDATE -> output.displayCustomer(updateCustomer());
+            case READ_ALL -> {
+                List<CustomerResponse> customers = getAllCustomers();
+                customers.forEach(output::displayCustomer);
+            }
+            case READ -> {
+                CustomerResponse customer = getCustomer();
+                output.displayCustomer(customer);
+            }
+            case UPDATE -> {
+                CustomerResponse customer = updateCustomer();
+                output.displayCustomer(customer);
+            }
             case DELETE -> deleteCustomer();
         }
     }

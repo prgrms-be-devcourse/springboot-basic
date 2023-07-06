@@ -12,8 +12,6 @@ public interface Output {
 
     void displayVoucherType();
 
-    void displayCreatedVoucher(VoucherResponse voucher);
-
     void displayVoucher(VoucherResponse voucher);
 
     void displayCustomer(CustomerResponse customer);
