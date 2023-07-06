@@ -1,8 +1,5 @@
 package com.prgms.springbootbasic.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +10,6 @@ public enum Menu {
     VOUCHER("voucher", "voucherCommand");
 
     private static final List<Menu> MENU_LIST = Arrays.stream(Menu.values()).toList();
-    private static final Logger logger = LoggerFactory.getLogger(Menu.class);
     private final String command;
     private final String commandBeanName;
 

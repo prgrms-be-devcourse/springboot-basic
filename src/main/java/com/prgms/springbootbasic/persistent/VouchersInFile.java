@@ -4,11 +4,8 @@ import com.prgms.springbootbasic.domain.Voucher;
 import com.prgms.springbootbasic.exception.CantReadFileException;
 import com.prgms.springbootbasic.exception.CantWriteFileException;
 import com.prgms.springbootbasic.util.ExceptionMessage;
-import com.prgms.springbootbasic.util.Application;
 import com.prgms.springbootbasic.util.FormatCSV;
 import com.prgms.springbootbasic.util.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -22,8 +19,7 @@ import java.util.UUID;
 @Repository
 public class VouchersInFile implements VouchersStorage {
 
-	private final Logger logger = LoggerFactory.getLogger(VouchersInFile.class);
-	@Value("${file.voucher}") private String FILE_PATH;
+	@Value("${file.voucher}") private String filePath;
 	private final FormatCSV formatCSV;
 
 	public VouchersInFile(FormatCSV formatCSV) {
@@ -32,11 +28,10 @@ public class VouchersInFile implements VouchersStorage {
 
 	@Override
 	public void save(Voucher voucher) {
-		File file = Application.file(FILE_PATH);
+		File file = new File(filePath);
 		try {
 			Files.write(file.toPath(), formatCSV.changeVoucherToCSV(voucher).getBytes(), StandardOpenOption.APPEND);
 		} catch (IOException e) {
-			logger.error("파일을 쓸 수 없습니다. file path : {}", file.toPath());
 			throw new CantWriteFileException(ExceptionMessage.CANT_WRITE_FILE);
 		}
 	}
@@ -44,13 +39,12 @@ public class VouchersInFile implements VouchersStorage {
 	@Override
 	public List<Voucher> findAll() {
 		try {
-			File file = Application.file(FILE_PATH);
+			File file = new File(filePath);
 			return Files.readAllLines(file.toPath())
 					.stream()
 					.map(s -> changeToVoucher(s.split(",")))
 					.toList();
 		} catch (IOException e) {
-			logger.error("파일을 읽을 수 없습니다. file path : {}", FILE_PATH);
 			throw new CantReadFileException(ExceptionMessage.CANT_READ_FILE);
 		}
 	}

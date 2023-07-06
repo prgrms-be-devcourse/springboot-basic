@@ -1,5 +1,5 @@
 file:
-  blacklist: customer_blacklist.csv
-  voucher: voucher.csv
+  blacklist: /Users/user/github/springboot-basic/src/main/resources/customer_blacklist.csv
+  voucher: /Users/user/github/springboot-basic/src/main/resources/voucher.csv
 
 database:

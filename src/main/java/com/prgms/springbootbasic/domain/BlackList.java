@@ -2,7 +2,6 @@ package com.prgms.springbootbasic.domain;
 
 import com.prgms.springbootbasic.exception.CantReadFileException;
 import com.prgms.springbootbasic.util.ExceptionMessage;
-import com.prgms.springbootbasic.util.Application;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +17,7 @@ public class BlackList {
     private String filePath;
 
     public List<Customer> findBlackList() {
-        File file = Application.file(filePath);
+        File file = new File(filePath);
         try {
             List<String> customerOfString = Files.readAllLines(file.toPath());
             return customerOfString.stream()
