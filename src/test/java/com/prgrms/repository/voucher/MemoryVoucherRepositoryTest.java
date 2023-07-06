@@ -2,12 +2,16 @@ package com.prgrms.repository.voucher;
 
 import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.*;
+import com.prgrms.model.voucher.discount.FixedDiscount;
+import com.prgrms.model.voucher.discount.PercentDiscount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryVoucherRepositoryTest {
@@ -20,57 +24,59 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void testFindById_ExistingVoucherId_ReturnsVoucher() {
-        UUID voucherId1 = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        UUID voucherId = voucher.getVoucherId();
-
+    public void FindById_ExistingVoucherId_ReturnsVoucher() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         voucherRepository.insert(voucher);
-
+        //when
         Optional<Voucher> result = voucherRepository.findById(voucherId);
-
-        assertTrue(result.isPresent());
-        assertEquals(voucher, result.get());
+        //then
+        assertThat(result.get()).isNotNull()
+                .usingRecursiveComparison()
+                .isEqualTo(voucher);
     }
 
     @Test
-    public void testFindById_NonExistingVoucherId_ReturnsEmptyOptional() {
+    public void FindById_NonExistingVoucherId_ReturnsEmptyOptional() {
+        //given
         UUID voucherId = UUID.randomUUID();
-
+        //when
         Optional<Voucher> result = voucherRepository.findById(voucherId);
-
-        assertFalse(result.isPresent());
+        //then
+        assertThat(result).isEmpty();
     }
 
     @Test
-    public void testInsert_InsertedVoucher() {
+    public void Insert_InsertedVoucher_Equal() {
+        //given
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-
+        Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        //when
         Voucher result = voucherRepository.insert(voucher);
-
-        assertNotNull(result);
-        assertEquals(voucher, result);
+        //then
+        assertThat(result).isNotNull()
+                        .isEqualTo(voucher);
     }
 
     @Test
-    public void testGetAllVoucherList_AllVouchers() {
+    public void GetAllVoucher_AllVouchers_Contains() {
+        //given
         UUID voucherId1 = UUID.randomUUID();
         UUID voucherId2 = UUID.randomUUID();
 
-        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         voucherRepository.insert(createdVoucher1);
         voucherRepository.insert(createdVoucher2);
 
-        VoucherRegistry result = voucherRepository.getAllVoucherList();
 
-        VoucherResponse voucherResponse1 = VoucherResponse.of(createdVoucher1);
-        VoucherResponse voucherResponse2 = VoucherResponse.of(createdVoucher2);
+        //when
+        VoucherRegistry result = voucherRepository.getAllVoucher();
 
-        assertNotNull(result);
-        assertEquals(2, result.convertVoucherResponse().size());
-        assertTrue(result.convertVoucherResponse().contains(voucherResponse1));
-        assertTrue(result.convertVoucherResponse().contains(voucherResponse2));
+        //then
+        assertThat(result.getVoucherRegistry())
+                .isNotNull()
+                .containsOnly(createdVoucher1,createdVoucher2);
     }
 }
