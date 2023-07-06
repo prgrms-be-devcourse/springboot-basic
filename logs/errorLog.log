@@ -7,7 +7,7 @@ java.lang.IllegalStateException: Failed to execute CommandLineRunner
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
 	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
 Caused by: java.lang.IllegalArgumentException: Invalid discountValue: 123
-	at com.prgmrs.voucher.enums.ConsoleViewOptionEnum.findByCommand(ConsoleServiceEnum.java:25)
+	at com.prgmrs.voucher.enums.ConsoleViewOption.findByCommand(ConsoleServiceEnum.java:25)
 	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleService.java:42)
 	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
@@ -21,7 +21,7 @@ java.lang.IllegalStateException: Failed to execute CommandLineRunner
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
 	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:20)
 Caused by: java.lang.IllegalArgumentException: Invalid discountValue: 123
-	at com.prgmrs.voucher.enums.ConsoleViewOptionEnum.findByCommand(ConsoleServiceEnum.java:25)
+	at com.prgmrs.voucher.enums.ConsoleViewOption.findByCommand(ConsoleServiceEnum.java:25)
 	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleService.java:42)
 	at com.prgmrs.voucher.VoucherApplication.run(VoucherApplication.java:25)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
@@ -555,12 +555,12 @@ APPLICATION FAILED TO START
 
 Description:
 
-Parameter 2 of constructor in com.prgmrs.voucher.view.ConsoleView required a bean of type 'com.prgmrs.voucher.view.ConsoleViewIO' that could not be found.
+Parameter 2 of constructor in com.prgmrs.voucher.view.ConsoleView required a bean of type 'com.prgmrs.voucher.view.ConsoleWriter' that could not be found.
 
 
 Action:
 
-Consider defining a bean of type 'com.prgmrs.voucher.view.ConsoleViewIO' in your configuration.
+Consider defining a bean of type 'com.prgmrs.voucher.view.ConsoleWriter' in your configuration.
 
 2023-07-05 01:48:44.460 [main] ERROR o.s.boot.SpringApplication - Application run failed
 java.lang.IllegalStateException: Failed to execute CommandLineRunner
@@ -1011,3 +1011,90 @@ java.io.FileNotFoundException: not\existing.csv (지정된 경로를 찾을 수 
 	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
 	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
 	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
+2023-07-06 21:54:38.116 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:23)
+Caused by: java.lang.IllegalArgumentException: Percent value must be positive integer.
+	at com.prgmrs.voucher.model.vo.Amount.<init>(Amount.java:8)
+	at com.prgmrs.voucher.service.VoucherService.createVoucher(VoucherService.java:36)
+	at com.prgmrs.voucher.controller.VoucherController.createVoucher(VoucherController.java:21)
+	at com.prgmrs.voucher.view.ConsoleView.voucherCreationPhase(ConsoleView.java:98)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:79)
+	at com.prgmrs.voucher.view.ConsoleView.voucherSelectionPhase(ConsoleView.java:71)
+	at com.prgmrs.voucher.view.ConsoleView.selectMenu(ConsoleView.java:49)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:41)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-07-06 22:17:54.366 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:23)
+Caused by: com.prgmrs.voucher.exception.NoSuchVoucherTypeException: no such voucher type
+	at com.prgmrs.voucher.enums.VoucherType.of(VoucherType.java:28)
+	at com.prgmrs.voucher.view.ConsoleView.voucherSelectionPhase(ConsoleView.java:73)
+	at com.prgmrs.voucher.view.ConsoleView.selectMenu(ConsoleView.java:53)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:42)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-07-06 22:42:23.605 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:23)
+Caused by: java.lang.IllegalArgumentException: Percent value must be positive integer.
+	at com.prgmrs.voucher.model.vo.Amount.<init>(Amount.java:8)
+	at com.prgmrs.voucher.service.VoucherService.createVoucher(VoucherService.java:36)
+	at com.prgmrs.voucher.controller.VoucherController.createVoucher(VoucherController.java:21)
+	at com.prgmrs.voucher.view.ConsoleView.voucherCreationPhase(ConsoleView.java:106)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:87)
+	at com.prgmrs.voucher.view.ConsoleView.voucherSelectionPhase(ConsoleView.java:75)
+	at com.prgmrs.voucher.view.ConsoleView.selectMenu(ConsoleView.java:54)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:43)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-07-06 22:42:40.207 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:23)
+Caused by: com.prgmrs.voucher.exception.WrongRangeFormatException: typed format is invalid.
+	at com.prgmrs.voucher.model.VoucherValidator.stringToLongConverter(VoucherValidator.java:28)
+	at com.prgmrs.voucher.view.ConsoleView.voucherCreationPhase(ConsoleView.java:103)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:88)
+	at com.prgmrs.voucher.view.ConsoleView.voucherSelectionPhase(ConsoleView.java:75)
+	at com.prgmrs.voucher.view.ConsoleView.selectMenu(ConsoleView.java:54)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:43)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
+2023-07-06 22:44:00.184 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:319)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.prgmrs.voucher.VoucherApplication.main(VoucherApplication.java:23)
+Caused by: com.prgmrs.voucher.exception.WrongRangeFormatException: typed format is invalid.
+	at com.prgmrs.voucher.model.VoucherValidator.stringToLongConverter(VoucherValidator.java:28)
+	at com.prgmrs.voucher.view.ConsoleView.voucherCreationPhase(ConsoleView.java:103)
+	at com.prgmrs.voucher.view.ConsoleView.selectVoucher(ConsoleView.java:87)
+	at com.prgmrs.voucher.view.ConsoleView.voucherSelectionPhase(ConsoleView.java:75)
+	at com.prgmrs.voucher.view.ConsoleView.selectMenu(ConsoleView.java:54)
+	at com.prgmrs.voucher.view.ConsoleView.run(ConsoleView.java:43)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 5 common frames omitted
