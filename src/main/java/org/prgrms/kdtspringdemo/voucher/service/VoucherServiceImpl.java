@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
@@ -12,8 +13,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
-    private static final String INVALID_VOUCHER_TYPE = "바우처 형식이 알맞지 않습니다.";
-
     private final VoucherRepository voucherRepository;
 
     public VoucherServiceImpl(VoucherRepository voucherRepository) {
@@ -22,20 +21,18 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherDto create(VoucherDto voucherDto) {
-        Voucher voucher;
-        switch (voucherDto.getVoucherType()) {
-            case FIXED -> {
-                voucher = new FixedAmountVoucher(voucherDto.getAmount());
-            }
-            case PERCENT -> {
-                voucher = new PercentAmountVoucher(voucherDto.getAmount());
-            }
-            default -> {
-                throw new IllegalArgumentException(INVALID_VOUCHER_TYPE);
-            }
+        VoucherType voucherType = VoucherType.findVoucherType(voucherDto.getVoucherType());
+        Voucher voucher = null;
+        if (VoucherType.isFixed(voucherType)) {
+            voucher = new FixedAmountVoucher(voucherDto.getAmount());
+        }
+
+        if (VoucherType.isPercent(voucherType)) {
+            voucher = new PercentAmountVoucher(voucherDto.getAmount());
         }
 
         Voucher savedVoucher = voucherRepository.save(voucher);
+
         return VoucherDto.toDto(savedVoucher.getVoucherType(), savedVoucher.getAmount());
     }
 
