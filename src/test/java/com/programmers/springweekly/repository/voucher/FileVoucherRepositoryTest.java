@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FileVoucherRepositoryTest {
 
     @Autowired
-    private VoucherRepository voucherRepository;
+    private FileVoucherRepository voucherRepository;
 
     @Test
     @DisplayName("파일 저장소에 고정 할인 바우처가 정상적으로 등록된다.")
@@ -30,7 +30,7 @@ public class FileVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // then
-        assertThat(voucherRepository.getList().get(voucher.getVoucherId()))
+        assertThat(voucherRepository.findAll().get(voucher.getVoucherId()))
                 .usingRecursiveComparison()
                 .isEqualTo(voucher);
     }
@@ -45,7 +45,7 @@ public class FileVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // then
-        assertThat(voucherRepository.getList().get(voucher.getVoucherId()))
+        assertThat(voucherRepository.findAll().get(voucher.getVoucherId()))
                 .usingRecursiveComparison()
                 .isEqualTo(voucher);
     }

@@ -7,7 +7,7 @@ import com.programmers.springweekly.repository.voucher.VoucherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,7 +21,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public Map<UUID, Voucher> findVoucherAll() {
-        return voucherRepository.getList();
+    public List<Voucher> findVoucherAll() {
+        return voucherRepository.findAll();
     }
 }

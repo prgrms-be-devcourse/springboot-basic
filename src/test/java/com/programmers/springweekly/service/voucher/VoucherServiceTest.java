@@ -12,10 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
-import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -37,22 +36,17 @@ public class VoucherServiceTest {
         Voucher voucher1 = VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.FIXED, "1000");
         Voucher voucher2 = VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.PERCENT, "10");
 
-        Map<UUID, Voucher> voucherMap = Map.of(
-                voucher1.getVoucherId(), voucher1,
-                voucher2.getVoucherId(), voucher2
-        );
+        List<Voucher> voucherList = List.of(voucher1, voucher2);
 
-        given(voucherRepository.getList()).willReturn(voucherMap);
+        given(voucherRepository.findAll()).willReturn(voucherList);
 
         // when
-        Map<UUID, Voucher> voucherAll = voucherService.findVoucherAll();
+        List<Voucher> voucherAll = voucherService.findVoucherAll();
 
         // then
-        assertThat(voucherAll)
-                .hasSize(2)
-                .contains(entry(voucher1.getVoucherId(), voucher1), entry(voucher2.getVoucherId(), voucher2));
+        assertThat(voucherAll).usingRecursiveFieldByFieldElementComparator().isEqualTo(voucherList);
 
-        then(voucherRepository).should(times(1)).getList();
+        then(voucherRepository).should(times(1)).findAll();
     }
 
     /*

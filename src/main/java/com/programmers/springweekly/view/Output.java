@@ -3,8 +3,7 @@ package com.programmers.springweekly.view;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 public interface Output {
 
@@ -16,7 +15,7 @@ public interface Output {
 
     void outputExitMessage();
 
-    void outputGetVoucherAll(Map<UUID, Voucher> voucherMap);
+    void outputGetVoucherAll(List<Voucher> voucherMap);
 
     void outputGetCustomerList(CustomerListResponse customerList);
 

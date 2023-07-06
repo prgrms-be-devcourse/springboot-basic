@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,28 +25,30 @@ public class MemoryVoucherRepositoryTest {
     @DisplayName("메모리 저장소에 고정 할인 바우처가 정상적으로 등록된다.")
     void saveFixedVoucherToMemoryRepository() {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new FixedAmountVoucher(voucherId, 1000);
 
         // when
         voucherRepository.save(voucher);
 
         // then
-        assertThat(voucherRepository.getList().get(voucher.getVoucherId()))
-                .isEqualTo(voucher);
+        assertThat(voucherRepository.findById(voucherId))
+                .usingRecursiveComparison().isEqualTo(voucher);
     }
 
     @Test
     @DisplayName("메모리 저장소에 퍼센트 할인 바우처가 정상적으로 등록된다.")
     void savePercentVoucherToMemoryRepository() {
         // given
-        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 100);
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new PercentDiscountVoucher(voucherId, 100);
 
         // when
         voucherRepository.save(voucher);
 
         // then
-        assertThat(voucherRepository.getList().get(voucher.getVoucherId()))
-                .isEqualTo(voucher);
+        assertThat(voucherRepository.findById(voucherId))
+                .usingRecursiveComparison().isEqualTo(voucher);
     }
 
     @Test
@@ -58,12 +60,7 @@ public class MemoryVoucherRepositoryTest {
         Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 50);
         Voucher voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 30);
 
-        Map<UUID, Voucher> vouchers = Map.of(
-                voucher1.getVoucherId(), voucher1,
-                voucher2.getVoucherId(), voucher2,
-                voucher3.getVoucherId(), voucher3,
-                voucher4.getVoucherId(), voucher4
-        );
+        List<Voucher> vouchers = List.of(voucher1, voucher2, voucher3, voucher4);
 
         // when
         voucherRepository.save(voucher1);
@@ -72,6 +69,6 @@ public class MemoryVoucherRepositoryTest {
         voucherRepository.save(voucher4);
 
         // then
-        assertThat(voucherRepository.getList()).isEqualTo(vouchers);
+        assertThat(voucherRepository.findAll()).contains(voucher1, voucher2, voucher3, voucher4);
     }
 }
