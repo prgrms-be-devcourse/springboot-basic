@@ -4,12 +4,12 @@ import com.example.springbootbasic.io.Command;
 import com.example.springbootbasic.io.ConsoleVoucherService;
 import com.example.springbootbasic.io.Input;
 import com.example.springbootbasic.io.Output;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Optional;
 
-@Controller
+@Component
 public class CliVoucherApplication {
 
     private final Input input;

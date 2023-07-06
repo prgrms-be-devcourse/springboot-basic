@@ -1,10 +1,10 @@
 package com.example.springbootbasic.voucher;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
+@Component
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 

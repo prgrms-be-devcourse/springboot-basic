@@ -1,12 +1,12 @@
 package com.example.springbootbasic.voucher;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Repository
+@Component
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final List<Voucher> voucherMemoryStorage = new ArrayList<>();
