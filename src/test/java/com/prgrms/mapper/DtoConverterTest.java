@@ -1,6 +1,7 @@
 package com.prgrms.mapper;
 
 import com.prgrms.model.dto.VoucherResponse;
+import com.prgrms.model.dto.mapper.DtoConverter;
 import com.prgrms.model.voucher.FixedAmountVoucher;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherRegistry;
@@ -26,7 +27,7 @@ class DtoConverterTest {
 
     @Test
     @DisplayName("voucher 리스트인 일급컬렉션을 VoucherResponse로 잘 바꾸는지 확인하다. ")
-    public void GivenVoucherRegistry_WhenConvert_ThenVoucherResponse() {
+    public void convertVoucherResponse_EqualVoucherResponse_Contains() {
         //given
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(),new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(),new FixedDiscount(30), VoucherType.FIXED_AMOUNT_VOUCHER);
