@@ -1,29 +1,25 @@
 package org.programers.vouchermanagement;
 
-import org.programers.vouchermanagement.member.presentation.MemberController;
+import org.programers.vouchermanagement.member.presentation.MemberConsoleController;
 import org.programers.vouchermanagement.view.DomainType;
 import org.programers.vouchermanagement.view.InputView;
 import org.programers.vouchermanagement.view.OutputView;
-import org.programers.vouchermanagement.voucher.presentation.VoucherController;
-import org.programers.vouchermanagement.wallet.presentation.WalletController;
+import org.programers.vouchermanagement.voucher.presentation.VoucherConsoleController;
+import org.programers.vouchermanagement.wallet.presentation.WalletConsoleController;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Controller;
 
-@Profile("!test")
-@Controller
 public class VoucherManagementController implements CommandLineRunner {
 
-    private final MemberController memberController;
-    private final VoucherController voucherController;
-    private final WalletController walletController;
+    private final MemberConsoleController memberConsoleController;
+    private final VoucherConsoleController voucherConsoleController;
+    private final WalletConsoleController walletConsoleController;
 
-    public VoucherManagementController(MemberController memberController,
-                                       VoucherController voucherController,
-                                       WalletController walletController) {
-        this.memberController = memberController;
-        this.voucherController = voucherController;
-        this.walletController = walletController;
+    public VoucherManagementController(MemberConsoleController memberConsoleController,
+                                       VoucherConsoleController voucherConsoleController,
+                                       WalletConsoleController walletConsoleController) {
+        this.memberConsoleController = memberConsoleController;
+        this.voucherConsoleController = voucherConsoleController;
+        this.walletConsoleController = walletConsoleController;
     }
 
     @Override
@@ -34,17 +30,17 @@ public class VoucherManagementController implements CommandLineRunner {
 
             DomainType type = InputView.inputDomainType();
             if (type.isVoucher()) {
-                voucherController.run();
+                voucherConsoleController.run();
                 continue;
             }
 
             if (type.isMember()) {
-                memberController.run();
+                memberConsoleController.run();
                 continue;
             }
 
             if (type.isWallet()) {
-                walletController.run();
+                walletConsoleController.run();
                 continue;
             }
 

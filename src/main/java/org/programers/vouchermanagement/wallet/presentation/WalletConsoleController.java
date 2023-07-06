@@ -12,11 +12,11 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 @Controller
-public class WalletController {
+public class WalletConsoleController {
 
     private final WalletService walletService;
 
-    public WalletController(WalletService walletService) {
+    public WalletConsoleController(WalletService walletService) {
         this.walletService = walletService;
     }
 
