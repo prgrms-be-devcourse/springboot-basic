@@ -26,6 +26,11 @@ public class PercentDiscountPolicy implements DiscountPolicy {
     }
 
     @Override
+    public DiscountType getType() {
+        return DiscountType.PERCENT;
+    }
+
+    @Override
     public int discount(int originalPrice) {
         int discountedAmount = calculateDiscountedAmount(originalPrice);
         return originalPrice - discountedAmount;

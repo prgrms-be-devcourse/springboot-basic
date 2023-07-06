@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 
 public enum DiscountType {
 
-    FIX("fix", (amount, discountType) -> new Voucher(new FixedAmountDiscountPolicy(amount), discountType)),
-    PERCENT("percent", (amount, discountType) -> new Voucher(new PercentDiscountPolicy(amount), discountType));
+    FIX("fix", (amount, discountType) -> new Voucher(new FixedAmountDiscountPolicy(amount))),
+    PERCENT("percent", (amount, discountType) -> new Voucher(new PercentDiscountPolicy(amount)));
 
     private final String name;
     private final BiFunction<Integer, DiscountType, Voucher> voucherCreationFunction;

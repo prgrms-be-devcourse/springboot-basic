@@ -35,8 +35,8 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처를 모두 조회한다.")
     void findAll() {
         // given
-        Voucher voucher1 = new Voucher(new FixedAmountDiscountPolicy(5000), DiscountType.FIX);
-        Voucher voucher2 = new Voucher(new PercentDiscountPolicy(10), DiscountType.PERCENT);
+        Voucher voucher1 = new Voucher(new FixedAmountDiscountPolicy(5000));
+        Voucher voucher2 = new Voucher(new PercentDiscountPolicy(10));
 
         memoryVoucherRepository.save(voucher1);
         memoryVoucherRepository.save(voucher2);

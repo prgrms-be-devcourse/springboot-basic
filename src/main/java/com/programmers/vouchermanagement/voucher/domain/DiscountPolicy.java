@@ -4,5 +4,7 @@ public interface DiscountPolicy {
 
     int getAmount();
 
+    DiscountType getType();
+
     int discount(int originalPrice);
 }

@@ -23,6 +23,11 @@ public class FixedAmountDiscountPolicy implements DiscountPolicy {
     }
 
     @Override
+    public DiscountType getType() {
+        return DiscountType.FIX;
+    }
+
+    @Override
     public int discount(int originalPrice) {
         if (amount > originalPrice) {
             return 0;
