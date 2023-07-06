@@ -4,15 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher_management.exception.NoSuchTypeException;
+import co.programmers.voucher_management.exception.DiscountTypeException;
 import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
 import co.programmers.voucher_management.voucher.entity.FixedDiscount;
 import co.programmers.voucher_management.voucher.entity.PercentageDiscount;
 
 @Service
 public class DiscountTypeGenerator {
-	static DiscountStrategy discountStrategy;
 	private static final Logger logger = LoggerFactory.getLogger(DiscountTypeGenerator.class);
+	static DiscountStrategy discountStrategy;
 
 	private DiscountTypeGenerator() {
 	}
@@ -27,7 +27,7 @@ public class DiscountTypeGenerator {
 				break;
 			default:
 				logger.debug("User Input - Discount Type : {}", type);
-				throw new NoSuchTypeException("Invalid type of discount");
+				throw new DiscountTypeException("Invalid type of discount");
 		}
 		return discountStrategy;
 	}

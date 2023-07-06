@@ -22,7 +22,7 @@ public class PercentageDiscount implements DiscountStrategy {
 		if (amount <= 0 || amount > MAX_AMOUNT) {
 			logger.debug("User Input - amount : {}, Amount must be between 0 and {}", amount, MAX_AMOUNT);
 			throw new InvalidVoucherAmountException
-					(MessageFormat.format("Amount must be greater than 0 and less than or equal to {}", MAX_AMOUNT));
+					(MessageFormat.format("Amount must be greater than 0 and less than or equal to {0}", MAX_AMOUNT));
 
 		}
 	}

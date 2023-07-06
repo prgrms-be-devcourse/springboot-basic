@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.customer.service.CustomerService;
 import co.programmers.voucher_management.exception.DiscountTypeException;
-import co.programmers.voucher_management.exception.DuplicatedAssignerException;
+import co.programmers.voucher_management.exception.VoucherReassignmentException;
 import co.programmers.voucher_management.exception.EmptyAssignerException;
 import co.programmers.voucher_management.exception.InvalidVoucherAmountException;
 import co.programmers.voucher_management.exception.MenuTypeMismatchException;
@@ -109,7 +109,7 @@ public class MenuLauncherFactory {
 		try {
 			VoucherAssignDTO voucherAssignDTO = requestVoucherAssignData();
 			return voucherService.assignVoucher(voucherAssignDTO);
-		} catch (NoSuchDataException | NumberFormatException | DuplicatedAssignerException exception) {
+		} catch (NoSuchDataException | NumberFormatException | VoucherReassignmentException exception) {
 			return new Response(Response.State.FAILED, exception.getMessage());
 		}
 	}
