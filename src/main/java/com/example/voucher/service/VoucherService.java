@@ -22,8 +22,8 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherType voucherType, long discount) {
         Voucher voucher = switch (voucherType) {
-            case FIXED_AMOUNT_DISCOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discount);
-            case PERCNET_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), discount);
+            case FIXED_AMOUNT_DISCOUNT -> new FixedAmountVoucher(discount);
+            case PERCNET_DISCOUNT -> new PercentDiscountVoucher(discount);
         };
 
         voucherRepository.save(voucher);

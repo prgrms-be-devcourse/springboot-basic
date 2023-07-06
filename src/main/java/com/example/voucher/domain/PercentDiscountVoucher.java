@@ -14,9 +14,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucher(long percent) {
         VoucherValidator.validatePercent(percent);
-        this.voucherId = voucherId;
+        this.voucherId = UUID.randomUUID();
         this.percent = percent;
     }
 
