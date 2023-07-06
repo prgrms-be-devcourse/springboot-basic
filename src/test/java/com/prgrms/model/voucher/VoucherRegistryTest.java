@@ -1,9 +1,11 @@
 package com.prgrms.model.voucher;
 
-import com.prgrms.model.dto.VoucherResponse;
+import com.prgrms.model.voucher.discount.FixedDiscount;
+import com.prgrms.model.voucher.discount.PercentDiscount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,32 +13,19 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherRegistryTest {
-    UUID voucherId1 = UUID.randomUUID();
-    UUID voucherId2 = UUID.randomUUID();
-
-    Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new Discount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-    Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new Discount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
 
     @Test
-    @DisplayName("빈 바우처를 호출하는 경우 예외를 던지는지 테스트")
-    void validVoucherList() {
+    @DisplayName("정책이 등록되어 있지 않다면 true를 반환한다.")
+    void isEmpty_True() {
+        //given
         List<Voucher> list = new ArrayList<>();
+        VoucherRegistry voucherRegistry = new VoucherRegistry(list);
 
-        assertThrows(IllegalArgumentException.class, () -> new VoucherRegistry(list));
+        //when
+        boolean result = voucherRegistry.isEmpty(list);
+
+        //then
+        assertThat(result).isEqualTo(true);
     }
 
-    @Test
-    @DisplayName("Voucher List를 VoucherResponse List로 잘 변환하는지 테스트")
-    void convertVoucherResponse() {
-
-        VoucherResponse voucherResponse1 = VoucherResponse.of(createdVoucher1);
-        VoucherResponse voucherResponse2 = VoucherResponse.of(createdVoucher2);
-
-        List<VoucherResponse> voucherResponseList = List.of(voucherResponse1, voucherResponse2);
-
-        List<Voucher> vouchers = List.of(createdVoucher1, createdVoucher2);
-        VoucherRegistry voucherRegistry = new VoucherRegistry(vouchers);
-
-        assertEquals(voucherResponseList, voucherRegistry.convertVoucherResponse());
-    }
 }
