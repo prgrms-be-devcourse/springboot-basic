@@ -6,6 +6,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -15,7 +17,7 @@ public class VoucherTest {
     @DisplayName("팩토리에서 고정 할인 클래스를 생성한다.")
     void createFixedDiscountOfFactory() {
         // given && when
-        Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, "1000");
+        Voucher voucher = VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.FIXED, "1000");
 
         // then
         assertThat(voucher).isInstanceOf(FixedAmountVoucher.class);
@@ -27,7 +29,7 @@ public class VoucherTest {
     @DisplayName("고정 할인을 진행한다.")
     void proceedFixedDiscount(long discountAmount, long inputPrice, long expectedDiscount) {
         // given
-        Voucher voucher = new FixedAmountVoucher(discountAmount);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
 
         // when
         long discountPrice = voucher.discount(inputPrice);
@@ -40,7 +42,7 @@ public class VoucherTest {
     @DisplayName("팩토리에서 퍼센트 할인 클래스를 생성한다.")
     void createPercentDiscountOfFactory() {
         // given && when
-        Voucher voucher = VoucherFactory.createVoucher(VoucherType.PERCENT, "100");
+        Voucher voucher = VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.PERCENT, "100");
 
         // then
         assertThat(voucher).isInstanceOf(PercentDiscountVoucher.class);
@@ -51,7 +53,7 @@ public class VoucherTest {
     @DisplayName("퍼센트 할인을 진행한다.")
     void proceedPercentDiscount(long discountAmount, long inputPrice, long expectedDiscount) {
         // given
-        Voucher voucher = new PercentDiscountVoucher(discountAmount);
+        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), discountAmount);
 
         // when
         long discountPrice = voucher.discount(inputPrice);
@@ -64,7 +66,7 @@ public class VoucherTest {
     @ValueSource(strings = {"abc", "!@#", "1입니다"})
     @DisplayName("고정 할인 바우처를 생성할 때 입력값이 숫자가 아니면 예외가 발생한다.")
     void fixedDiscountNumberException(String input) {
-        assertThatThrownBy(() -> VoucherFactory.createVoucher(VoucherType.FIXED, input))
+        assertThatThrownBy(() -> VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.FIXED, input))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Input : " + input + ", 입력하신 것은 숫자가 아닙니다.");
     }
@@ -73,7 +75,7 @@ public class VoucherTest {
     @ValueSource(strings = {"abc", "!@#", "1입니다"})
     @DisplayName("퍼센트 할인 바우처를 생성할 때 입력값이 숫자가 아니면 예외가 발생한다.")
     void percentDiscountNumberException(String input) {
-        assertThatThrownBy(() -> VoucherFactory.createVoucher(VoucherType.PERCENT, input))
+        assertThatThrownBy(() -> VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.PERCENT, input))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Input : " + input + ", 입력하신 것은 숫자가 아닙니다.");
     }
@@ -82,7 +84,7 @@ public class VoucherTest {
     @ValueSource(strings = {"101"})
     @DisplayName("퍼센트 할인 바우처를 생성할 때 입력값이 0에서 100사이가 아닌 경우 예외가 발생한다.")
     void percentDiscountNumberRangeException(String input) {
-        assertThatThrownBy(() -> VoucherFactory.createVoucher(VoucherType.PERCENT, input))
+        assertThatThrownBy(() -> VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.PERCENT, input))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Input : " + input + ", 입력하신 숫자는 범위를 벗어납니다.");
     }

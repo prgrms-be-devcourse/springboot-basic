@@ -34,8 +34,8 @@ public class VoucherServiceTest {
     @DisplayName("바우처를 모두 조회한다.")
     void getVoucherList() {
         // given
-        Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED, "1000");
-        Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT, "10");
+        Voucher voucher1 = VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.FIXED, "1000");
+        Voucher voucher2 = VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.PERCENT, "10");
 
         Map<UUID, Voucher> voucherMap = Map.of(
                 voucher1.getVoucherId(), voucher1,
