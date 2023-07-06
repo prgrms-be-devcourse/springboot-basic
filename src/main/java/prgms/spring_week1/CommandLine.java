@@ -1,5 +1,7 @@
 package prgms.spring_week1;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.service.CustomerService;
@@ -18,6 +20,9 @@ import java.util.List;
 
 @Component
 public class CommandLine implements CommandLineRunner {
+
+    private final Logger logger = LoggerFactory.getLogger(CommandLine.class);
+
     private final Input input = new Input();
     private final Output output = new Output();
     private final VoucherService voucherService;
@@ -49,6 +54,7 @@ public class CommandLine implements CommandLineRunner {
             Menu selectMenu = Menu.findMenuType(inputText);
             return selectMenu;
         } catch (NoSuchOptionValueException e) {
+            logger.error(e.getMessage());
             return Menu.INVALID;
         }
     }
@@ -60,6 +66,7 @@ public class CommandLine implements CommandLineRunner {
         try {
             select = input.input();
         } catch (NoSuchVoucherTypeException e) {
+            logger.error(e.getMessage());
             output.outputMessage(ConsoleOutputMessage.INVALID_VOUCHER_TYPE_MESSAGE);
         }
 
