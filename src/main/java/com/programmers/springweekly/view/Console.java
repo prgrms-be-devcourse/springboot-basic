@@ -9,7 +9,7 @@ import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.util.Validator;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -80,12 +80,12 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void outputGetVoucherAll(Map<UUID, Voucher> voucherMap) {
-        for (Map.Entry<UUID, Voucher> voucherEntry : voucherMap.entrySet()) {
+    public void outputGetVoucherAll(List<Voucher> voucherList) {
+        for (Voucher voucher : voucherList) {
             System.out.println(NEW_LINE);
-            System.out.println("바우처 ID : " + voucherEntry.getValue().getVoucherId());
-            System.out.println("할인 양 : " + voucherEntry.getValue().getVoucherAmount());
-            System.out.println("바우처 타입 : " + voucherEntry.getValue().getVoucherType());
+            System.out.println("바우처 ID : " + voucher.getVoucherId());
+            System.out.println("할인 양 : " + voucher.getVoucherAmount());
+            System.out.println("바우처 타입 : " + voucher.getVoucherType());
             System.out.println(NEW_LINE + "\n");
         }
     }

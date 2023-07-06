@@ -5,12 +5,11 @@ import com.programmers.springweekly.domain.voucher.VoucherFactory;
 import com.programmers.springweekly.dto.ReadVoucherDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -18,18 +17,15 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
-@Profile({"dev", "test"})
 @Slf4j
-public class FileVoucherRepository implements VoucherRepository {
+public class FileVoucherRepository {
 
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 
     @Value("${file.voucher.path}")
     private String filePath;
 
-    @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
 
             String voucherId = String.valueOf(voucher.getVoucherId());
@@ -43,14 +39,14 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.newLine();
 
             bufferedWriter.flush();
-
-        } catch (Exception e) {
+            return voucher;
+        } catch (IOException e) {
             log.error("error message: {}", e.getMessage());
+            throw new RuntimeException("IO 작업중 에러가 발생하였습니다.");
         }
     }
 
-    @Override
-    public Map<UUID, Voucher> getList() {
+    public Map<UUID, Voucher> findAll() {
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filePath))) {
             String line = "";
 
@@ -64,8 +60,9 @@ public class FileVoucherRepository implements VoucherRepository {
                 voucherMap.put(voucher.getVoucherId(), voucher);
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.error("error message: {}", e.getMessage());
+            throw new RuntimeException("IO 작업중 에러가 발생하였습니다.");
         }
 
         return Collections.unmodifiableMap(voucherMap);

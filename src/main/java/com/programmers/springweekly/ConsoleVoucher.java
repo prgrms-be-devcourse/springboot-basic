@@ -9,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -43,13 +42,13 @@ public class ConsoleVoucher {
     }
 
     private void getVoucherList() {
-        Map<UUID, Voucher> voucherMap = voucherController.getVoucherList();
+        List<Voucher> voucherList = voucherController.getVoucherList();
 
-        if (voucherMap.isEmpty()) {
+        if (voucherList.isEmpty()) {
             console.outputErrorMessage("저장된 바우처가 없습니다.");
             return;
         }
 
-        console.outputGetVoucherAll(voucherMap);
+        console.outputGetVoucherAll(voucherList);
     }
 }

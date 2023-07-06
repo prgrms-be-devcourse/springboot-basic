@@ -3,11 +3,11 @@ package com.programmers.springweekly.controller;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.service.VoucherService;
-import java.util.Map;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -20,7 +20,7 @@ public class VoucherController {
         voucherService.saveVoucher(voucherType, inputNumber);
     }
 
-    public Map<UUID, Voucher> getVoucherList() {
+    public List<Voucher> getVoucherList() {
         return voucherService.findVoucherAll();
     }
 }
