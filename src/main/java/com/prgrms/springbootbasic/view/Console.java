@@ -1,6 +1,6 @@
 package com.prgrms.springbootbasic.view;
 
-import com.prgrms.springbootbasic.domain.Voucher;
+import com.prgrms.springbootbasic.domain.voucher.Voucher;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
@@ -26,13 +26,14 @@ public class Console implements Input, Output {
 
     @Override
     public String inputVoucherType() {
-        System.out.print("생성할 voucher의 종류를 입력해주세요.(FixedDiscountVoucher, PercentDiscountVoucher) : ");
+        System.out.print("생성할 voucher의 종류를 입력해주세요.(fixed(고정 할인 바우처) , percent(퍼센트 할인 바우처) : ");
         return input.nextLine();
     }
 
     @Override
     public long inputVoucherDiscount() {
         System.out.println("생성할 voucher의 금액을 입력해주세요!");
+        System.out.print("Discount : ");
         return Long.parseLong(input.nextLine());
     }
 
@@ -49,7 +50,7 @@ public class Console implements Input, Output {
         }
         System.out.println("생성된 Voucher의 목록은 다음과 같습니다.");
         for (Voucher voucher : voucherMap.values()) {
-            System.out.println("Voucher Type: " + voucher.getVoucherType() + " + Discount" + voucher.getDiscount());
+            System.out.println("Voucher Type: " + voucher.getVoucherType() + ", 해당 Voucher의 Discount: " + voucher.getDiscount() + " 입니다.");
         }
     }
 }
