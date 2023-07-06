@@ -21,6 +21,14 @@ public class Voucher {
 	private LocalDateTime updatedAt;
 
 	@Builder
+	public Voucher(long id, DiscountStrategy discountStrategy, long customerId) {
+		this.id = id;
+		this.discountStrategy = discountStrategy;
+		this.customerId = customerId;
+		status = STATUS.NORMAL.symbol;
+	}
+
+	@Builder
 	public Voucher(long id, DiscountStrategy discountStrategy) {
 		this.id = id;
 		this.discountStrategy = discountStrategy;
