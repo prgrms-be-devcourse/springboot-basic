@@ -1,7 +1,5 @@
 package prgms.spring_week1.io;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Scanner;
 
 public class Input {

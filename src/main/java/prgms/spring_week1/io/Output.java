@@ -1,6 +1,5 @@
 package prgms.spring_week1.io;
 
-import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
