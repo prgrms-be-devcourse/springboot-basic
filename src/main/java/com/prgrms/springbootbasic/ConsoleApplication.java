@@ -1,7 +1,7 @@
 package com.prgrms.springbootbasic;
 
-import com.prgrms.springbootbasic.controller.VoucherController;
-import com.prgrms.springbootbasic.domain.Voucher;
+import com.prgrms.springbootbasic.controller.voucher.VoucherController;
+import com.prgrms.springbootbasic.domain.voucher.Voucher;
 import com.prgrms.springbootbasic.enums.Command;
 import com.prgrms.springbootbasic.enums.VoucherType;
 import com.prgrms.springbootbasic.view.Console;
@@ -38,9 +38,9 @@ public class ConsoleApplication implements CommandLineRunner {
                     }
                 }
             } catch (IllegalArgumentException e) {
-                log.error("명령어가 잘못 입력되었습니다. ", e);
+                log.error("명령어가 잘못 입력되었습니다. ", e.getMessage());
             } catch (Exception e) {
-                log.error("프로그램에서 오류가 발생하였습니다.", e);
+                log.error("프로그램에서 오류가 발생하였습니다.", e.getMessage());
             }
         }
     }
@@ -51,8 +51,12 @@ public class ConsoleApplication implements CommandLineRunner {
 
         long voucherDiscount = console.inputVoucherDiscount();
 
-        voucherController.createVoucher(voucherType, voucherDiscount);
-        console.printMessage("바우처가 생성되었습니다!");
+        try {
+            voucherController.createVoucher(voucherType, voucherDiscount);
+            console.printMessage("바우처가 생성되었습니다!");
+        } catch (IllegalArgumentException e) {
+            console.printMessage("생성할 바우처의 금액의 범위를 다시 한번 확인해주세요!");
+        }
     }
 
     private void getVoucherList() {
