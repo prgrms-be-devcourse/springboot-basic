@@ -14,9 +14,6 @@ public record CustomerResponse(
 
     @Override
     public String toString() {
-        return "CustomerResponse{" +
-                "customerId=" + customerId +
-                ", nickname='" + nickname + '\'' +
-                '}';
+        return String.format("[%s] nickname => %s", customerId, nickname);
     }
 }
