@@ -31,10 +31,10 @@ public class CommandLineApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        run();
+        start();
     }
 
-    private void run() {
+    private void start() {
         while (isOn) {
             Console.printModeType();
             String readModeType = Console.readModeType();
