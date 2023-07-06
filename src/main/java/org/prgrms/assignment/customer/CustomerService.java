@@ -11,7 +11,7 @@ public interface CustomerService {
 
     Customer createCustomer(UUID customerId, String name, String email);
 
-    Customer updateCustomer(UUID customerId, String name, String email, LocalDateTime createdAt);
+    Customer updateCustomer(UUID customerId, String name, String email);
 
     Customer findById(UUID customerId);
 

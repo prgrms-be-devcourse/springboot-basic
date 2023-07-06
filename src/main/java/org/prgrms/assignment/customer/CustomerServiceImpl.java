@@ -31,8 +31,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public Customer updateCustomer(UUID customerId, String name, String email, LocalDateTime createdAt) {
-        return customerRepository.update(of(customerId, name, email, createdAt));
+    public Customer updateCustomer(UUID customerId, String name, String email) {
+        return customerRepository.update(of(customerId, name, email));
     }
 
     @Override
@@ -65,16 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteAll();
     }
 
-
     private Customer of(UUID customerId, String name, String email) {
         return new Customer(customerId, name, email, LocalDateTime.now());
     }
-
-    private Customer of(UUID customerId, String name, String email, LocalDateTime createdAt) {
-        return new Customer(customerId, name, email, createdAt);
-    }
-
-
-
-
 }
