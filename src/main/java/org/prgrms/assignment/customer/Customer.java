@@ -29,6 +29,7 @@ public class Customer {
 
     public void changeName(String name) {
         validateName(name);
+        validateChange(name);
         this.name = name;
     }
 
@@ -38,7 +39,13 @@ public class Customer {
 
     private static void validateName(String name) {
         if(name.isBlank()) {
-            throw new RuntimeException("Name shoudl not be blank");
+            throw new RuntimeException("Name should not be blank");
+        }
+    }
+
+    public void validateChange(String name) {
+        if(name.equals(this.name)) {
+            throw new RuntimeException("Change name is equal as before!");
         }
     }
 
