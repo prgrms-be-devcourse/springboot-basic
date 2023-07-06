@@ -42,7 +42,9 @@ public class CommandLineApplication implements CommandLineRunner {
             }
             case LIST -> {
                 List<VoucherDto> vouchers = voucherService.getAllVoucher();
-                vouchers.forEach(voucherConsole::printCreatedVoucher);
+                for (VoucherDto voucherDto : vouchers) {
+                    voucherConsole.printCreatedVoucher(voucherDto);
+                }
             }
             default -> {
                 voucherConsole.printInvalidCommandSelected();
