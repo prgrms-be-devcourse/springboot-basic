@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
 import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
-import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.repository.impl.MemoryVoucherRepository;
 
@@ -14,7 +13,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
