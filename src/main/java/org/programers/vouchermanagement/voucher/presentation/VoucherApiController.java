@@ -34,4 +34,10 @@ public class VoucherApiController {
         VouchersResponse response = voucherService.findAll();
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+        voucherService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
