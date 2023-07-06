@@ -1,7 +1,7 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.controller.customer.CustomerController;
-import com.programmers.voucher.controller.voucher.VoucherController;
+import com.programmers.voucher.domain.customer.controller.CustomerController;
+import com.programmers.voucher.domain.voucher.controller.VoucherController;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.command.Command;

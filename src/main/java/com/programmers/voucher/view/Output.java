@@ -1,7 +1,7 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.controller.customer.dto.CustomerResponse;
-import com.programmers.voucher.controller.voucher.dto.VoucherResponse;
+import com.programmers.voucher.domain.customer.dto.CustomerResponse;
+import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
 
 public interface Output {
     void displayCommands();

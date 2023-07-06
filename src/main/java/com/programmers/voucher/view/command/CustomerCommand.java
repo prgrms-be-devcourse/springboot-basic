@@ -1,11 +1,12 @@
 package com.programmers.voucher.view.command;
 
-import com.programmers.voucher.constant.ErrorMessage;
 import com.programmers.voucher.exception.InvalidCommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+
+import static com.programmers.voucher.constant.ErrorMessage.INVALID_COMMAND;
 
 public enum CustomerCommand {
     CREATE(1, "고객 생성"),
@@ -28,8 +29,8 @@ public enum CustomerCommand {
                 .filter(command -> command.isEqualTo(number))
                 .findFirst()
                 .orElseThrow(() -> {
-                    logger.error("{} => {}", ErrorMessage.INVALID_COMMAND, number);
-                    return new InvalidCommandException(ErrorMessage.INVALID_COMMAND);
+                    logger.error("{} => {}", INVALID_COMMAND, number);
+                    return new InvalidCommandException(INVALID_COMMAND);
                 });
     }
 

@@ -1,37 +1,42 @@
-package com.programmers.voucher.view.command;
+package com.programmers.voucher.domain.voucher.entity;
 
 import com.programmers.voucher.exception.InvalidCommandException;
+import com.programmers.voucher.view.command.VoucherCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.function.BiFunction;
 
 import static com.programmers.voucher.constant.ErrorMessage.INVALID_COMMAND;
 
-public enum VoucherCommand {
-    CREATE(1, "바우처 생성"),
-    READ_ALL(2, "모든 바우처 조회"),
-    READ(3, "바우처 조회"),
-    UPDATE(4, "바우처 수정"),
-    DELETE(5, "바우처 삭제");
+public enum VoucherType {
+    FIXED(1, "금액 할인", (price, amount) -> Math.max(0L, price - amount)),
+    PERCENT(2, "퍼센트 할인", (price, percent) -> Math.max(0L, price * (percent / 100)));
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherCommand.class);
     private final int number;
     private final String text;
+    private final BiFunction<Long, Integer, Long> discount;
 
-    VoucherCommand(int number, String text) {
+    VoucherType(int number, String text, BiFunction<Long, Integer, Long> discount) {
         this.number = number;
         this.text = text;
+        this.discount = discount;
     }
 
-    public static VoucherCommand findByNumber(int number) {
-        return Arrays.stream(VoucherCommand.values())
-                .filter(command -> command.isEqualTo(number))
+    public static VoucherType findByNumber(int number) {
+        return Arrays.stream(VoucherType.values())
+                .filter(voucher -> voucher.isEqualTo(number))
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.error("{} => {}", INVALID_COMMAND, number);
                     return new InvalidCommandException(INVALID_COMMAND);
                 });
+    }
+
+    public long discount(long price, int amount) {
+        return discount.apply(price, amount);
     }
 
     private boolean isEqualTo(int number) {
