@@ -27,7 +27,7 @@ public class CommandLine implements CommandLineRunner {
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    public CommandLine(VoucherService voucherService, CustomerService customerService) {
+    private CommandLine(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
     }
