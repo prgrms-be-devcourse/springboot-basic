@@ -26,4 +26,9 @@ public class VoucherController {
         voucherService = voucherTypeFactory.getType(voucherType);
         voucherService.createVoucher(voucherType, discountAmount);
     }
+
+//    @RequestMapping(value = "/customers",method = RequestMethod.GET)
+//    public ModelAndView findVouchers() {
+//        return new ModelAndView("vouchers", Map.of("sesrverTime", LocalDateTime.now()));
+//    }
 }

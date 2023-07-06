@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherTypeFactory {
 
-    private final FixedVoucherService fixedVoucherService;
-    private final PercentVoucherService percentVoucherService;
+    private FixedVoucherService fixedVoucherService;
+    private PercentVoucherService percentVoucherService;
 
     public VoucherTypeFactory(FixedVoucherService fixedVoucherService, PercentVoucherService percentVoucherService) {
         this.fixedVoucherService = fixedVoucherService;

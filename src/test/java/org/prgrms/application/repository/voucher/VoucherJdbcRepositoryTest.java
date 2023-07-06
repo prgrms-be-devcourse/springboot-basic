@@ -4,16 +4,10 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.exception.BadSqlExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.prgrms.application.domain.voucher.FixedAmountVoucher;
-import org.prgrms.application.domain.voucher.PercentAmountVoucher;
-import org.prgrms.application.domain.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -29,8 +23,6 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.prgrms.application.domain.voucher.VoucherType.FIXED;
-import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 
 @SpringJUnitConfig
 
