@@ -2,10 +2,10 @@ package com.programmers.voucher.operator;
 
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.console.Printer;
-import com.programmers.voucher.domain.enums.VoucherType;
 import com.programmers.voucher.domain.enums.VoucherOperation;
-import com.programmers.voucher.domain.voucher.*;
-import com.programmers.voucher.stream.voucher.JdbcVoucherStream;
+import com.programmers.voucher.domain.enums.VoucherType;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherFactory;
 import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.springframework.stereotype.Component;
 
@@ -76,25 +76,9 @@ public class VoucherOperator {
     private void updateVoucher() {
         String voucherId = console.getVoucherId();
         Voucher voucher = voucherStream.findById(voucherId);
-        updateFixedAmountVoucher(voucher);
-        updatePercentDiscountVoucher(voucher);
+        Integer updateAmount = console.getAmountOrRate();
+        voucher.update(updateAmount);
         voucherStream.update(voucher);
-    }
-
-    private void updateFixedAmountVoucher(Voucher voucher) {
-        Integer updateAmount;
-        if (voucher instanceof FixedAmountVoucher) {
-            updateAmount = console.getAmount();
-            ((FixedAmountVoucher) voucher).setAmount(updateAmount);
-        }
-    }
-
-    private void updatePercentDiscountVoucher(Voucher voucher) {
-        Integer updateAmount;
-        if (voucher instanceof PercentDiscountVoucher) {
-            updateAmount = console.getRate();
-            ((PercentDiscountVoucher) voucher).setRate(updateAmount);
-        }
     }
 
     private void deleteAllVoucher() {

@@ -3,7 +3,7 @@ package com.programmers.voucher.domain.voucher;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher {
     private String voucherId;
     private long rate;
 
@@ -24,12 +24,6 @@ public class PercentDiscountVoucher implements Voucher{
         this.rate = rate;
     }
 
-    private void validateRate(long rate) {
-        if (rate < 0 || rate >= 100) {
-            throw new IllegalArgumentException("할인률은 0 초과 100미만 이어야합니다.");
-        }
-    }
-
     @Override
     public String getVoucherId() {
         return this.voucherId;
@@ -38,6 +32,18 @@ public class PercentDiscountVoucher implements Voucher{
     @Override
     public long discount(long originalPrice) {
         return originalPrice * (rate / 100);
+    }
+
+    @Override
+    public void update(long updateAmount) {
+        validateRate(updateAmount);
+        this.rate = updateAmount;
+    }
+
+    private void validateRate(long rate) {
+        if (rate < 0 || rate >= 100) {
+            throw new IllegalArgumentException("할인률은 0 초과 100미만 이어야합니다.");
+        }
     }
 
 }
