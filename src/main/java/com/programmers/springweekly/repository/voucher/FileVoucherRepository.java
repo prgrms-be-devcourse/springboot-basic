@@ -59,7 +59,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
                 ReadVoucherDto readVoucherDto = new ReadVoucherDto(readLine[0], readLine[1], readLine[2]);
 
-                Voucher voucher = VoucherFactory.createVoucherOfFile(readVoucherDto.getVoucherId(), readVoucherDto.getVoucherType(), readVoucherDto.getDiscountAmount());
+                Voucher voucher = VoucherFactory.createVoucher(readVoucherDto.getVoucherId(), readVoucherDto.getVoucherType(), readVoucherDto.getDiscountAmount());
 
                 voucherMap.put(voucher.getVoucherId(), voucher);
             }
