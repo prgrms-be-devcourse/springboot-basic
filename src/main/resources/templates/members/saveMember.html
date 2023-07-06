@@ -15,7 +15,7 @@
         <div>
             <label for="memberStatus">회원 상태</label>
             <input type="text" id="memberStatus" th:field="*{status}"
-                   th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
+                   th:errorclass="field-error" class="form-control" placeholder="회원 상태를 입력하세요">
             <div class="field-error" th:errors="*{status}">
                 회원 상태 오류
             </div>
