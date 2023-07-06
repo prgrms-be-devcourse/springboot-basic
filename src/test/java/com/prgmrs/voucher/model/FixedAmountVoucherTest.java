@@ -1,5 +1,7 @@
 package com.prgmrs.voucher.model;
 
+import com.prgmrs.voucher.model.vo.Amount;
+import com.prgmrs.voucher.model.vo.DiscountValue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,10 +13,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @DisplayName("고정 금액 바우처 테스트")
 class FixedAmountVoucherTest {
     @Test
-    @DisplayName("주어진 UUID와 바우처 UUID가 같은 경우")
+    @DisplayName("주어진 UUID와 생성된 바우처 UUID가 같다.")
     void getVoucherIdTest() {
         UUID voucherId = UUID.randomUUID();
-        long amount = 10000;
+        Amount amount = new Amount(10000);
         FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
 
         UUID returnedVoucherId = voucher.getVoucherId();
@@ -23,41 +25,40 @@ class FixedAmountVoucherTest {
     }
 
     @Test
-    @DisplayName("주어진 amount와 바우처 amount 같은 경우")
+    @DisplayName("주어진 amount와 바우처 amount가 같다.")
     void getAmountTest() {
         UUID voucherId = UUID.randomUUID();
-        long amount = 500;
+        Amount amount = new Amount(500);
         FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
 
-        long returnedAmount = voucher.getAmount();
+        long returnedAmount = voucher.getAmount().getValue();
 
-        assertThat(returnedAmount, is(amount));
+        assertThat(returnedAmount, is(amount.getValue()));
     }
 
     @Test
-    @DisplayName("할인된 값이 올바른 경우")
+    @DisplayName("정상적으로 할인이 되었다.")
     void discountTest() {
         UUID voucherId = UUID.randomUUID();
-        long amount = 1000;
-        long beforeDiscount = 5000;
+        Amount amount = new Amount(1000);
+        DiscountValue beforeDiscount = new DiscountValue(5000);
         FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
 
-        long amountAfterDiscount = voucher.discount(beforeDiscount
-        );
+        DiscountValue amountAfterDiscount = voucher.discount(beforeDiscount);
 
-        assertThat(amountAfterDiscount, is(beforeDiscount - amount));
+        assertThat(amountAfterDiscount.getValue(), is(beforeDiscount.getValue() - amount.getValue()));
     }
 
     @Test
-    @DisplayName("할인액이 할인전 값보다 작은 경우")
+    @DisplayName("할인액이 이미 현재 값보다 크다.")
     void discountAmountIsSmallerThanValueBeforeDiscount() {
         UUID voucherId = UUID.randomUUID();
-        long amount = 1000;
-        long valueBeforeDiscount = 500;
+        Amount amount = new Amount(1000);
+        DiscountValue discountValueBeforeDiscount = new DiscountValue(500);
         FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
 
-        long valueAfterDiscount = voucher.discount(valueBeforeDiscount);
+        DiscountValue discountValueAfterDiscount = voucher.discount(discountValueBeforeDiscount);
 
-        assertThat(valueAfterDiscount, is(0L));
+        assertThat(discountValueAfterDiscount.getValue(), is(0L));
     }
 }

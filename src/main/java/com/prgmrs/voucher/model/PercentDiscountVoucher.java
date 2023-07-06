@@ -1,13 +1,16 @@
 package com.prgmrs.voucher.model;
 
+import com.prgmrs.voucher.model.vo.DiscountValue;
+import com.prgmrs.voucher.model.vo.Percent;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long percent;
+    private final Percent percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent <= 0 || percent > 100) {
+    public PercentDiscountVoucher(UUID voucherId, Percent percent) {
+        if (percent.getValue() <= 0 || percent.getValue() > 100) {
             throw new IllegalArgumentException("percent must be between 1-100");
         }
         this.voucherId = voucherId;
@@ -19,12 +22,12 @@ public class PercentDiscountVoucher implements Voucher {
         return voucherId;
     }
 
-    public long getPercent() {
+    public Percent getPercent() {
         return percent;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return (beforeDiscount * percent) / 100;
+    public DiscountValue discount(DiscountValue beforeDiscount) {
+        return new DiscountValue((beforeDiscount.getValue() * percent.getValue()) / 100);
     }
 }

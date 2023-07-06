@@ -7,29 +7,27 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.anEmptyMap;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.hamcrest.Matchers.*;
 
 @DisplayName("블랙리스트 파일 테스트")
 class FileBlacklistDatabaseTest {
     @Test
-    @DisplayName("정상적 파일 로딩 테스트")
+    @DisplayName("정상적으로 블랙리스트 파일을 불러온다.")
     void FileLoadWithoutExceptionTest() {
-        final String FILEPATH = "src/main/csv/blacklist.csv";
+        final String FILE_PATH = "csv/blacklist.csv";
         FileBlacklistDatabase database = new FileBlacklistDatabase();
-        Map<UUID, String> result = database.load(FILEPATH);
+        Map<UUID, String> result = database.load(FILE_PATH);
 
-        assertNotNull(result);
+        assertThat(result, not(anEmptyMap()));
     }
 
     @Test
-    @DisplayName("미존재 파일 로드시 empty 맵 리턴 테스트")
+    @DisplayName("정상적으로 블랙리스트 파일을 불러오지 못한다.")
     void NotExistingFileEmptyReturnTest() {
-        final String FILEPATH = "src/main/not/existing.csv";
+        final String FILE_PATH = "not/existing.csv";
         FileBlacklistDatabase database = new FileBlacklistDatabase();
 
-        assertThat(database.load(FILEPATH), is(anEmptyMap()));
+        assertThat(database.load(FILE_PATH), is(anEmptyMap()));
     }
 
 

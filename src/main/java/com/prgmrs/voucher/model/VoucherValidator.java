@@ -1,8 +1,9 @@
 package com.prgmrs.voucher.model;
 
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
+import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.setting.VoucherProperties;
-import com.prgmrs.voucher.view.ConsoleViewVoucherCreationEnum;
+import com.prgmrs.voucher.enums.ConsoleViewVoucherCreationEnum;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
@@ -27,16 +28,16 @@ public class VoucherValidator {
         throw new WrongRangeFormatException("typed format is invalid.");
     }
 
-    public boolean isAmountValid(ConsoleViewVoucherCreationEnum type, long value) throws WrongRangeFormatException {
+    public boolean isAmountValid(ConsoleViewVoucherCreationEnum type, DiscountValue discountValue) throws WrongRangeFormatException {
         boolean isValid = true;
 
         if (type == ConsoleViewVoucherCreationEnum.CREATE_FIXED_AMOUNT_VOUCHER
-                && (0 > value || value > voucherProperties.getMaximumFixedAmount())) {
+                && (0 > discountValue.getValue() || discountValue.getValue() > voucherProperties.getMaximumFixedAmount())) {
             isValid = false;
         }
 
         if (type == ConsoleViewVoucherCreationEnum.CREATE_PERCENT_DISCOUNT_VOUCHER
-                && (0 >= value || value > 100)) {
+                && (0 >= discountValue.getValue() || discountValue.getValue() > 100)) {
             isValid = false;
         }
 

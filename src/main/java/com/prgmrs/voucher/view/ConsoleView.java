@@ -2,7 +2,11 @@ package com.prgmrs.voucher.view;
 
 import com.prgmrs.voucher.controller.BlacklistController;
 import com.prgmrs.voucher.controller.VoucherController;
+import com.prgmrs.voucher.dto.VoucherRequest;
+import com.prgmrs.voucher.enums.ConsoleViewOptionEnum;
+import com.prgmrs.voucher.enums.ConsoleViewVoucherCreationEnum;
 import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.setting.BlacklistProperties;
 import com.prgmrs.voucher.model.VoucherValidator;
 import org.springframework.boot.CommandLineRunner;
@@ -88,9 +92,10 @@ public class ConsoleView implements CommandLineRunner {
         boolean isOperationSuccessful = false;
         consoleViewIO.showSpecificCreationMessage(consoleViewVoucherCreationEnum);
         String token = consoleViewIO.read();
-        long value = voucherValidator.stringToLongConverter(token);
-        if (voucherValidator.isAmountValid(consoleViewVoucherCreationEnum, value)) {
-            UUID uuid = voucherController.createVoucher(value, consoleViewVoucherCreationEnum);
+        DiscountValue discountValue = new DiscountValue(voucherValidator.stringToLongConverter(token));
+        if (voucherValidator.isAmountValid(consoleViewVoucherCreationEnum, discountValue)) {
+            VoucherRequest voucherRequest = new VoucherRequest(consoleViewVoucherCreationEnum, discountValue);
+            UUID uuid = voucherController.createVoucher(voucherRequest);
             Voucher voucher = voucherController.findVoucherById(uuid);
             consoleViewIO.showVoucherResult(voucher);
             isOperationSuccessful = true;

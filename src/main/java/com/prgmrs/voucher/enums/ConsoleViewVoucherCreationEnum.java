@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.view;
+package com.prgmrs.voucher.enums;
 
 public enum ConsoleViewVoucherCreationEnum {
     CREATE_FIXED_AMOUNT_VOUCHER("fixed"),

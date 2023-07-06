@@ -1,9 +1,11 @@
 package com.prgmrs.voucher.model;
 
+import com.prgmrs.voucher.model.vo.DiscountValue;
+
 import java.util.UUID;
 
 public interface Voucher {
     UUID getVoucherId();
 
-    long discount(long beforeDiscount);
+    DiscountValue discount(DiscountValue beforeDiscount);
 }

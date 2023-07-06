@@ -1,5 +1,6 @@
 package com.prgmrs.voucher.view;
 
+import com.prgmrs.voucher.enums.ConsoleViewVoucherCreationEnum;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
@@ -65,12 +66,12 @@ public class ConsoleViewIO {
         write("=== Successfully created a new voucher ===");
         if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
             write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
-            write(MessageFormat.format("discount amount : {0}", fixedAmountVoucher.getAmount()));
+            write(MessageFormat.format("discount amount : {0}", fixedAmountVoucher.getAmount().getValue()));
             return;
         }
         if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
             write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
-            write(MessageFormat.format("discount percent : {0}%", percentDiscountVoucher.getPercent()));
+            write(MessageFormat.format("discount percent : {0}%", percentDiscountVoucher.getPercent().getValue()));
         }
     }
 
@@ -81,16 +82,16 @@ public class ConsoleViewIO {
         }
         write("============== List of created vouchers ==============");
         write("type    uuid                                 discount");
-        voucherHistory.entrySet().stream().forEach(entry -> {
+        voucherHistory.entrySet().forEach(entry -> {
             UUID uuid = entry.getKey();
             Voucher voucher = entry.getValue();
             if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
-                write(String.format("fixed   %s %s", uuid, fixedAmountVoucher.getAmount()));
+                write(String.format("fixed   %s %s", uuid, fixedAmountVoucher.getAmount().getValue()));
                 return;
             }
 
             if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
-                write(String.format("percent %s %s%%", uuid, percentDiscountVoucher.getPercent()));
+                write(String.format("percent %s %s%%", uuid, percentDiscountVoucher.getPercent().getValue()));
             }
         });
 
@@ -105,7 +106,7 @@ public class ConsoleViewIO {
         if (blacklistProperties.isBlacklistShowId()) {
             write("=========== blacklisted users ===========");
             write("uuid                                 name");
-            blacklist.entrySet().stream().forEach(entry -> {
+            blacklist.entrySet().forEach(entry -> {
                 UUID uuid = entry.getKey();
                 String name = entry.getValue();
                 write(String.format("%s %s", uuid, name));
@@ -116,7 +117,7 @@ public class ConsoleViewIO {
         AtomicInteger order = new AtomicInteger(1);
         write("=========== blacklisted users ===========");
         write("order name");
-        blacklist.entrySet().stream().forEach(entry -> {
+        blacklist.entrySet().forEach(entry -> {
             String name = entry.getValue();
             write(String.format("%d     %s", order.getAndIncrement(), name));
         });

@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.view;
+package com.prgmrs.voucher.enums;
 
 public enum ConsoleViewOptionEnum {
     SHOW_THE_LIST("list"),
