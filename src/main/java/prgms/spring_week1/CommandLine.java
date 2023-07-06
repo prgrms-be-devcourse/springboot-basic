@@ -55,15 +55,17 @@ public class CommandLine implements CommandLineRunner {
 
     private void selectVoucherType() {
         output.outputMessage(ConsoleOutputMessage.TYPE_SELECT_MESSAGE);
-        try {
-            String select = input.input();
+        String select = null;
 
-            switch (VoucherType.findVoucherType(select)) {
-                case FIXED -> insertFixedAmountValue();
-                case PERCENT -> insertPercentDiscountValue();
-            }
+        try {
+            select = input.input();
         } catch (NoSuchVoucherTypeException e) {
             output.outputMessage(ConsoleOutputMessage.INVALID_VOUCHER_TYPE_MESSAGE);
+        }
+
+        switch (VoucherType.findVoucherType(select)) {
+            case FIXED -> insertFixedAmountValue();
+            case PERCENT -> insertPercentDiscountValue();
         }
     }
 
