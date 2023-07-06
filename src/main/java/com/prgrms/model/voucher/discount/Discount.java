@@ -1,7 +1,8 @@
 package com.prgrms.model.voucher.discount;
 
+import com.prgrms.io.ErrorMessage;
+
 public abstract class Discount {
-    private final String negativeException = "할인에 대한 인자값은 양수여야 합니다.";
     private final double value;
 
     public Discount(double value) {
@@ -12,7 +13,7 @@ public abstract class Discount {
 
     private void validPositiveDiscount(boolean expression) {
         if (expression) {
-            throw new IllegalArgumentException(negativeException);
+            throw new IllegalArgumentException(ErrorMessage.Negative_ARGUMENT.getMessage());
         }
     }
 

@@ -1,7 +1,5 @@
 package com.prgrms.model.voucher.discount;
 
-import com.prgrms.model.voucher.discount.Discount;
-
 public class FixedDiscount extends Discount {
 
     private final int limit = 10_000;
