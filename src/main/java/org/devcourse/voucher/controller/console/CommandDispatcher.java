@@ -32,5 +32,4 @@ public class CommandDispatcher implements CommandLineRunner {
             output.printMessage(message);
         }
     }
-
 }
