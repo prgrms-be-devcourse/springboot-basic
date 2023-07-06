@@ -9,8 +9,8 @@ import java.util.Arrays;
 
 public enum VoucherCommand {
     CREATE(1, "바우처 생성"),
-    READ(2, "바우처 조회"),
-    READ_ALL(3, "모든 바우처 조회"),
+    READ_ALL(2, "모든 바우처 조회"),
+    READ(3, "바우처 조회"),
     UPDATE(4, "바우처 수정"),
     DELETE(5, "바우처 삭제");
 

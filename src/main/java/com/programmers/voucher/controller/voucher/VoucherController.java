@@ -2,13 +2,12 @@ package com.programmers.voucher.controller.voucher;
 
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherResponse;
-import com.programmers.voucher.entity.voucher.Voucher;
+import com.programmers.voucher.entity.voucher.VoucherType;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.dto.DiscountAmount;
 import com.programmers.voucher.view.dto.VoucherCommand;
-import com.programmers.voucher.view.dto.VoucherType;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -36,10 +35,10 @@ public class VoucherController implements Runnable {
                 VoucherResponse voucher = createVoucher();
                 output.displayCreatedVoucher(voucher);
             }
-            case READ -> getVoucherList();
-            case READ_ALL -> getVoucherList();
-            case UPDATE -> getVoucherList();
-            case DELETE -> getVoucherList();
+            case READ_ALL -> getAllVouchers().forEach(output::displayVoucher);
+            case READ -> getAllVouchers();
+            case UPDATE -> getAllVouchers();
+            case DELETE -> getAllVouchers();
         }
     }
 
@@ -51,7 +50,7 @@ public class VoucherController implements Runnable {
         return voucherService.createVoucher(voucherCreateRequest);
     }
 
-    private List<Voucher> getVoucherList() {
-        return voucherService.getVoucherList();
+    private List<VoucherResponse> getAllVouchers() {
+        return voucherService.getAllVouchers();
     }
 }

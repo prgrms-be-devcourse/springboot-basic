@@ -1,7 +1,7 @@
 package com.programmers.voucher.controller.voucher.dto;
 
 import com.programmers.voucher.entity.voucher.Voucher;
-import com.programmers.voucher.view.dto.VoucherType;
+import com.programmers.voucher.entity.voucher.VoucherType;
 
 import java.util.UUID;
 
@@ -17,8 +17,8 @@ public record VoucherResponse(
     @Override
     public String toString() {
         return switch (voucherType) {
-            case FIXED_AMOUNT -> String.format("[%s] %d discount voucher", voucherId, amount);
-            case PERCENT_DISCOUNT -> String.format("[%s] %d%% discount voucher", voucherId, amount);
+            case FIXED -> String.format("[%s] %d discount voucher", voucherId, amount);
+            case PERCENT -> String.format("[%s] %d%% discount voucher", voucherId, amount);
         };
     }
 }

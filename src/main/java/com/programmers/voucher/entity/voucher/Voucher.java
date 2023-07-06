@@ -1,7 +1,5 @@
 package com.programmers.voucher.entity.voucher;
 
-import com.programmers.voucher.view.dto.VoucherType;
-
 import java.util.UUID;
 
 public class Voucher {
@@ -9,7 +7,7 @@ public class Voucher {
     private VoucherType type;
     private int amount;
 
-    private Voucher(UUID id, VoucherType type, int amount) {
+    public Voucher(UUID id, VoucherType type, int amount) {
         this.id = id;
         this.type = type;
         this.amount = amount;

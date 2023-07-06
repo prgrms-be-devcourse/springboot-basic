@@ -24,7 +24,10 @@ public class VoucherService {
         return VoucherResponse.from(voucher);
     }
 
-    public List<Voucher> getVoucherList() {
-        return voucherRepository.findAll();
+    public List<VoucherResponse> getAllVouchers() {
+        return voucherRepository.findAll()
+                .stream()
+                .map(VoucherResponse::from)
+                .toList();
     }
 }

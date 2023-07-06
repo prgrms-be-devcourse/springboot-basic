@@ -1,23 +1,22 @@
-package com.programmers.voucher.view.dto;
+package com.programmers.voucher.entity.voucher;
 
 import com.programmers.voucher.constant.ErrorMessage;
 import com.programmers.voucher.exception.InvalidCommandException;
+import com.programmers.voucher.view.dto.VoucherCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
 public enum VoucherType {
-    FIXED_AMOUNT("FIXED", 1, "금액 할인"),
-    PERCENT_DISCOUNT("PERCENT", 2, "퍼센트 할인");
+    FIXED(1, "금액 할인"),
+    PERCENT(2, "퍼센트 할인");
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherCommand.class);
-    private final String code;
     private final int number;
     private final String text;
 
-    VoucherType(String code, int number, String text) {
-        this.code = code;
+    VoucherType(int number, String text) {
         this.number = number;
         this.text = text;
     }
@@ -39,9 +38,5 @@ public enum VoucherType {
     @Override
     public String toString() {
         return number + ". " + text;
-    }
-
-    public String getCode() {
-        return code;
     }
 }
