@@ -2,11 +2,11 @@ package kr.co.springbootweeklymission.voucher.application;
 
 import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.common.response.ResponseStatus;
-import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.voucher.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import kr.co.springbootweeklymission.voucher.domain.repository.VoucherRepository;
+import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

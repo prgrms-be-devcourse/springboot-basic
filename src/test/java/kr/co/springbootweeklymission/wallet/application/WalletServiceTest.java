@@ -1,11 +1,11 @@
 package kr.co.springbootweeklymission.wallet.application;
 
-import kr.co.springbootweeklymission.member.api.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.member.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
-import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
+import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.voucher.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
+import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.wallet.creators.WalletCreators;
 import kr.co.springbootweeklymission.wallet.domain.entity.Wallet;
 import kr.co.springbootweeklymission.wallet.domain.repository.WalletRepository;

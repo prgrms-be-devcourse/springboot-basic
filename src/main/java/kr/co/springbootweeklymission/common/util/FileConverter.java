@@ -2,9 +2,9 @@ package kr.co.springbootweeklymission.common.util;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
-import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
+import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

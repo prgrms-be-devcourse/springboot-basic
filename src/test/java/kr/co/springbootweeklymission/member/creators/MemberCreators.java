@@ -1,8 +1,8 @@
 package kr.co.springbootweeklymission.member.creators;
 
-import kr.co.springbootweeklymission.member.api.dto.request.MemberReqDTO;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
+import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDTO;
 
 import java.util.UUID;
 

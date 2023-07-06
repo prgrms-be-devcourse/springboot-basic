@@ -1,14 +1,14 @@
 package kr.co.springbootweeklymission;
 
-import kr.co.springbootweeklymission.member.api.MemberController;
-import kr.co.springbootweeklymission.member.api.dto.request.MemberReqDTO;
+import kr.co.springbootweeklymission.member.presentation.MemberController;
+import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDTO;
 import kr.co.springbootweeklymission.view.Command;
 import kr.co.springbootweeklymission.view.InputView;
 import kr.co.springbootweeklymission.view.OutputView;
-import kr.co.springbootweeklymission.voucher.api.VoucherController;
-import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
-import kr.co.springbootweeklymission.wallet.api.WalletController;
-import kr.co.springbootweeklymission.wallet.api.dto.request.WalletReqDTO;
+import kr.co.springbootweeklymission.voucher.presentation.VoucherController;
+import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.wallet.presentation.WalletController;
+import kr.co.springbootweeklymission.wallet.presentation.dto.request.WalletReqDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

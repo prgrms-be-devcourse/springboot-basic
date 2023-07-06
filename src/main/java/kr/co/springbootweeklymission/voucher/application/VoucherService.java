@@ -2,10 +2,10 @@ package kr.co.springbootweeklymission.voucher.application;
 
 import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.common.response.ResponseStatus;
-import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
-import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.repository.VoucherRepository;
+import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

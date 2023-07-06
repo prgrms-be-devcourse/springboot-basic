@@ -2,15 +2,15 @@ package kr.co.springbootweeklymission.wallet.application;
 
 import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.common.response.ResponseStatus;
-import kr.co.springbootweeklymission.member.api.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
-import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
+import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.repository.VoucherRepository;
-import kr.co.springbootweeklymission.wallet.api.dto.request.WalletReqDTO;
+import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.wallet.domain.entity.Wallet;
 import kr.co.springbootweeklymission.wallet.domain.repository.WalletRepository;
+import kr.co.springbootweeklymission.wallet.presentation.dto.request.WalletReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

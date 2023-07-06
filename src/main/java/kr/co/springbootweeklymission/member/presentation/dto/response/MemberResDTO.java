@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.member.api.dto.response;
+package kr.co.springbootweeklymission.member.presentation.dto.response;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;

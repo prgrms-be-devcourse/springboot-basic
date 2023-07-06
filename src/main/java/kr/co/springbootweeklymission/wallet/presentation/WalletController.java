@@ -1,9 +1,9 @@
-package kr.co.springbootweeklymission.wallet.api;
+package kr.co.springbootweeklymission.wallet.presentation;
 
-import kr.co.springbootweeklymission.member.api.dto.response.MemberResDTO;
-import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
-import kr.co.springbootweeklymission.wallet.api.dto.request.WalletReqDTO;
+import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
+import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.wallet.application.WalletService;
+import kr.co.springbootweeklymission.wallet.presentation.dto.request.WalletReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 

@@ -1,9 +1,9 @@
 package kr.co.springbootweeklymission.view;
 
-import kr.co.springbootweeklymission.member.api.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
-import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
+import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
+import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

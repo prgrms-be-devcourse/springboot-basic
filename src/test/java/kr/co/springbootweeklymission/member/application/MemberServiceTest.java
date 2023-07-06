@@ -2,11 +2,11 @@ package kr.co.springbootweeklymission.member.application;
 
 import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
 import kr.co.springbootweeklymission.common.response.ResponseStatus;
-import kr.co.springbootweeklymission.member.api.dto.request.MemberReqDTO;
 import kr.co.springbootweeklymission.member.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
 import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
+import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

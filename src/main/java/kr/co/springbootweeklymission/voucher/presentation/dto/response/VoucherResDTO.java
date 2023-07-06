@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.voucher.api.dto.response;
+package kr.co.springbootweeklymission.voucher.presentation.dto.response;
 
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;

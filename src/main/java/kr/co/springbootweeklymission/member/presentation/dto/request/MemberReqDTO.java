@@ -1,17 +1,15 @@
-package kr.co.springbootweeklymission.voucher.api.dto.request;
+package kr.co.springbootweeklymission.member.presentation.dto.request;
 
-import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
+import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
 import lombok.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class VoucherReqDTO {
+public class MemberReqDTO {
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CREATE {
-        private int amount;
-        private VoucherPolicy voucherPolicy;
+        private MemberStatus memberStatus;
     }
 
     @Getter
@@ -19,7 +17,6 @@ public class VoucherReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class UPDATE {
-        private int amount;
-        private VoucherPolicy voucherPolicy;
+        private MemberStatus memberStatus;
     }
 }

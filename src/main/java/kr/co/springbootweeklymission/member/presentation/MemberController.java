@@ -1,8 +1,8 @@
-package kr.co.springbootweeklymission.member.api;
+package kr.co.springbootweeklymission.member.presentation;
 
-import kr.co.springbootweeklymission.member.api.dto.request.MemberReqDTO;
-import kr.co.springbootweeklymission.member.api.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.member.application.MemberService;
+import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDTO;
+import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 

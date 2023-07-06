@@ -1,8 +1,8 @@
-package kr.co.springbootweeklymission.voucher.api;
+package kr.co.springbootweeklymission.voucher.presentation;
 
-import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
-import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.voucher.application.VoucherService;
+import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 

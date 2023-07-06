@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.member.api;
+package kr.co.springbootweeklymission.member.presentation;
 
 import kr.co.springbootweeklymission.member.application.MemberService;
 import lombok.RequiredArgsConstructor;

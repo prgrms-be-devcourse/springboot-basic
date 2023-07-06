@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.wallet.api.dto.request;
+package kr.co.springbootweeklymission.wallet.presentation.dto.request;
 
 import lombok.*;
 
