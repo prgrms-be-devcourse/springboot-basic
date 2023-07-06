@@ -27,7 +27,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
   @Override
   public Voucher findById(UUID id) {
     return Optional.ofNullable(voucherStorage.get(id))
-            .orElseThrow(() -> new IllegalArgumentException(NO_EXIST_VOUCHER));
+            .orElseThrow(() -> new IllegalArgumentException(NO_EXIST_VOUCHER + " -> " + id));
   }
 
 }
