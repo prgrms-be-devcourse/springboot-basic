@@ -6,8 +6,18 @@ import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
-    public FixedAmountVoucher(UUID voucherId, VoucherType voucherType, long discount) {
-        super(voucherId, voucherType, discount);
+    public FixedAmountVoucher(long discount) {
+        super(UUID.randomUUID(), VoucherType.FIXED, discount);
+    }
+
+    @Override
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 }
 

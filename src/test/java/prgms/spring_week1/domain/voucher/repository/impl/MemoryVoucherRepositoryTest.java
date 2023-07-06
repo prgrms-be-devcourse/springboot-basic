@@ -20,8 +20,8 @@ class MemoryVoucherRepositoryTest {
     @BeforeEach
     void setUp() {
         voucherRepository = new MemoryVoucherRepository();
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, 10000));
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT, 30));
+        voucherRepository.insert(new FixedAmountVoucher(10000));
+        voucherRepository.insert(new PercentDiscountVoucher(30));
     }
 
     @Test
@@ -39,7 +39,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 추가가 제대로 동작하는 지 확인")
     void insert() {
         //given
-        Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, 10000);
+        Voucher newVoucher = new FixedAmountVoucher(10000);
         //when
         voucherRepository.insert(newVoucher);
         //then

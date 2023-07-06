@@ -19,11 +19,11 @@ public class VoucherService {
     }
 
     public void insertFixedAmountVoucher(Long discountAmount) {
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, discountAmount));
+        voucherRepository.insert(new FixedAmountVoucher(discountAmount));
     }
 
     public void insertPercentDiscountVoucher(int discountPercent) {
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), VoucherType.PERCENT, discountPercent));
+        voucherRepository.insert(new PercentDiscountVoucher(discountPercent));
     }
 
     public List<Voucher> findAll() {

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
+import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.repository.impl.MemoryVoucherRepository;
@@ -34,8 +35,8 @@ class OutputTest {
     @DisplayName("바우처를 조회 했을 때 제대로 출력되는 지 확인")
     void printVoucherInfo() {
         //given
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.FIXED, 10000));
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), VoucherType.PERCENT, 10));
+        voucherRepository.insert(new FixedAmountVoucher(10000));
+        voucherRepository.insert(new PercentDiscountVoucher(10));
 
         //when
         output.printDiscountFixedVoucherInfo(10000);

@@ -6,7 +6,17 @@ import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
-    public PercentDiscountVoucher(UUID voucherId, VoucherType voucherType, long discount) {
-        super(voucherId, voucherType, discount);
+    public PercentDiscountVoucher(long discount) {
+        super(UUID.randomUUID(), VoucherType.PERCENT, discount);
+    }
+
+    @Override
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 }
