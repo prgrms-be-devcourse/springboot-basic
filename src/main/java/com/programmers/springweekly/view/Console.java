@@ -1,14 +1,14 @@
 package com.programmers.springweekly.view;
 
-import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.domain.voucher.Voucher;
-import com.programmers.springweekly.dto.CustomerCreateDto;
-import com.programmers.springweekly.dto.CustomerUpdateDto;
+import com.programmers.springweekly.dto.customer.request.CustomerCreateRequest;
+import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
+import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
+import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.util.Validator;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
@@ -25,12 +25,12 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public CustomerCreateDto inputCustomerCreate() {
+    public CustomerCreateRequest inputCustomerCreate() {
         String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
         Validator.nameValidate(customerInfo[0]);
         Validator.emailValidate(customerInfo[1]);
 
-        return CustomerCreateDto.builder()
+        return CustomerCreateRequest.builder()
                 .customerName(customerInfo[0])
                 .customerEmail(customerInfo[1])
                 .customerType(CustomerType.from(customerInfo[2]))
@@ -38,12 +38,12 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public CustomerUpdateDto inputCustomerUpdate(UUID customerId) {
+    public CustomerUpdateRequest inputCustomerUpdate(UUID customerId) {
         String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
         Validator.nameValidate(customerInfo[0]);
         Validator.emailValidate(customerInfo[1]);
 
-        return CustomerUpdateDto.builder()
+        return CustomerUpdateRequest.builder()
                 .customerId(customerId)
                 .customerName(customerInfo[0])
                 .customerEmail(customerInfo[1])
@@ -91,8 +91,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void outputGetCustomerList(List<Customer> customerList) {
-        for (Customer customer : customerList) {
+    public void outputGetCustomerList(CustomerListResponse customerList) {
+        for (CustomerResponse customer : customerList.getCustomerList()) {
             System.out.println(NEW_LINE);
             System.out.println("고객 ID : " + customer.getCustomerId());
             System.out.println("고객 이름 : " + customer.getCustomerName());

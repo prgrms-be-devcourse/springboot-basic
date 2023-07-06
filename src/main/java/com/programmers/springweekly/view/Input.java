@@ -1,7 +1,7 @@
 package com.programmers.springweekly.view;
 
-import com.programmers.springweekly.dto.CustomerCreateDto;
-import com.programmers.springweekly.dto.CustomerUpdateDto;
+import com.programmers.springweekly.dto.customer.request.CustomerCreateRequest;
+import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 
 import java.util.UUID;
 
@@ -9,9 +9,9 @@ public interface Input {
 
     String inputMessage();
 
-    CustomerCreateDto inputCustomerCreate();
+    CustomerCreateRequest inputCustomerCreate();
 
-    CustomerUpdateDto inputCustomerUpdate(UUID customerId);
+    CustomerUpdateRequest inputCustomerUpdate(UUID customerId);
 
     UUID inputUUID();
 }

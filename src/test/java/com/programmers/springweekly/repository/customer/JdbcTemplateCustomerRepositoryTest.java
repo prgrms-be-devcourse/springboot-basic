@@ -2,21 +2,22 @@ package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
-import com.programmers.springweekly.dto.CustomerUpdateDto;
+import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@Transactional
 class JdbcTemplateCustomerRepositoryTest {
 
     @Autowired
@@ -51,7 +52,7 @@ class JdbcTemplateCustomerRepositoryTest {
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        CustomerUpdateDto customerUpdateDto = CustomerUpdateDto.builder()
+        CustomerUpdateRequest customerUpdateRequest = CustomerUpdateRequest.builder()
                 .customerId(customer.getCustomerId())
                 .customerName("hong")
                 .customerEmail("hong@kakao.com")
@@ -60,18 +61,18 @@ class JdbcTemplateCustomerRepositoryTest {
 
         Customer customerExpect = Customer.builder()
                 .customerId(customer.getCustomerId())
-                .customerName(customerUpdateDto.getCustomerName())
-                .customerEmail(customerUpdateDto.getCustomerEmail())
-                .customerType(customerUpdateDto.getCustomerType())
+                .customerName(customerUpdateRequest.getCustomerName())
+                .customerEmail(customerUpdateRequest.getCustomerEmail())
+                .customerType(customerUpdateRequest.getCustomerType())
                 .build();
 
         // when
         jdbcTemplateCustomerRepository.save(customer);
         jdbcTemplateCustomerRepository.update(customerExpect);
-        Optional<Customer> customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
+        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
 
         // then
-        assertThat(customerActual.get()).usingRecursiveComparison().isEqualTo(customerExpect);
+        assertThat(customerActual).usingRecursiveComparison().isEqualTo(customerExpect);
     }
 
     @Test
@@ -88,10 +89,10 @@ class JdbcTemplateCustomerRepositoryTest {
         // when
         jdbcTemplateCustomerRepository.save(customerExpect);
 
-        Optional<Customer> customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
+        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
 
         // then
-        assertThat(customerActual.get()).usingRecursiveComparison().isEqualTo(customerExpect);
+        assertThat(customerActual).usingRecursiveComparison().isEqualTo(customerExpect);
     }
 
     @Test

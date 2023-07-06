@@ -2,14 +2,13 @@ package com.programmers.springweekly;
 
 import com.programmers.springweekly.controller.CustomerController;
 import com.programmers.springweekly.domain.CustomerMenu;
-import com.programmers.springweekly.domain.customer.Customer;
-import com.programmers.springweekly.dto.CustomerUpdateDto;
+import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
+import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.view.Console;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -35,9 +34,9 @@ public class ConsoleCustomer {
     }
 
     private void selectCustomer() {
-        List<Customer> customerList = customerController.findAll();
+        CustomerListResponse customerList = customerController.findAll();
 
-        if (customerList.isEmpty()) {
+        if (customerList.getCustomerList().isEmpty()) {
             console.outputErrorMessage("고객이 저장되어 있지 않습니다.");
             return;
         }
@@ -58,9 +57,9 @@ public class ConsoleCustomer {
         UUID customerId = console.inputUUID();
 
         console.outputCustomerUpdateGuide();
-        CustomerUpdateDto customerUpdateDto = console.inputCustomerUpdate(customerId);
+        CustomerUpdateRequest customerUpdateRequest = console.inputCustomerUpdate(customerId);
 
-        customerController.update(customerUpdateDto);
+        customerController.update(customerUpdateRequest);
         console.outputCompleteGuide();
     }
 
@@ -72,9 +71,9 @@ public class ConsoleCustomer {
     }
 
     private void getBlackList() {
-        List<Customer> customerBlacklist = customerController.getBlackList();
+        CustomerListResponse customerBlacklist = customerController.getBlackList();
 
-        if (customerBlacklist.isEmpty()) {
+        if (customerBlacklist.getCustomerList().isEmpty()) {
             console.outputErrorMessage("블랙 리스트인 고객이 없습니다.");
             return;
         }

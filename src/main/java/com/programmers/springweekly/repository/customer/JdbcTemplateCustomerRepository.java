@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Repository
@@ -53,7 +53,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId) {
+    public Customer findById(UUID customerId) {
         String sql = "select * from customers where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
@@ -61,7 +61,11 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
         Customer customer = template.queryForObject(sql, param, customerRowMapper());
 
-        return Optional.ofNullable(customer);
+        if (customer == null) {
+            throw new NoSuchElementException("찾는 회원이 없습니다.");
+        }
+
+        return customer;
     }
 
     @Override

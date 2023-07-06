@@ -1,14 +1,13 @@
 package com.programmers.springweekly.controller;
 
-import com.programmers.springweekly.domain.customer.Customer;
-import com.programmers.springweekly.dto.CustomerCreateDto;
-import com.programmers.springweekly.dto.CustomerUpdateDto;
+import com.programmers.springweekly.dto.customer.request.CustomerCreateRequest;
+import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
+import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
+import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -17,23 +16,23 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    public void save(CustomerCreateDto customerCreateDto) {
-        customerService.save(customerCreateDto);
+    public void save(CustomerCreateRequest customerCreateRequest) {
+        customerService.save(customerCreateRequest);
     }
 
-    public void update(CustomerUpdateDto customerUpdateDto) {
-        customerService.update(customerUpdateDto);
+    public void update(CustomerUpdateRequest customerUpdateRequest) {
+        customerService.update(customerUpdateRequest);
     }
 
-    public Optional<Customer> findById(UUID customerId) {
+    public CustomerResponse findById(UUID customerId) {
         return customerService.findById(customerId);
     }
 
-    public List<Customer> findAll() {
+    public CustomerListResponse findAll() {
         return customerService.findAll();
     }
 
-    public List<Customer> getBlackList() {
+    public CustomerListResponse getBlackList() {
         return customerService.getBlackList();
     }
 

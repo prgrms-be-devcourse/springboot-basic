@@ -1,17 +1,16 @@
 package com.programmers.springweekly.service.customer;
 
-import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
-import com.programmers.springweekly.dto.CustomerCreateDto;
-import com.programmers.springweekly.dto.CustomerUpdateDto;
+import com.programmers.springweekly.dto.customer.request.CustomerCreateRequest;
+import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
+import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
+import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,34 +25,34 @@ public class CustomerServiceTest {
     @Test
     void save() {
         // given
-        CustomerCreateDto customerCreateDto = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
                 .customerName("changhyeon")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        customerService.save(customerCreateDto);
+        customerService.save(customerCreateRequest);
 
         // when
-        List<Customer> customerListAfter = customerService.findAll();
+        CustomerListResponse customerListAfter = customerService.findAll();
 
         // then
-        assertThat(customerListAfter.size()).isEqualTo(1);
+        assertThat(customerListAfter.getCustomerList().size()).isEqualTo(1);
     }
 
     @Test
     void update() {
         // given
-        CustomerCreateDto customerCreateDto = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
                 .customerName("changhyeon")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        customerService.save(customerCreateDto);
-        List<Customer> customerList = customerService.findAll();
-        Customer beforeCustomer = customerList.get(0);
-        CustomerUpdateDto customerUpdateDto = CustomerUpdateDto.builder()
+        customerService.save(customerCreateRequest);
+        CustomerListResponse customerList = customerService.findAll();
+        CustomerResponse beforeCustomer = customerList.getCustomerList().get(0);
+        CustomerUpdateRequest customerUpdateRequest = CustomerUpdateRequest.builder()
                 .customerId(beforeCustomer.getCustomerId())
                 .customerName("changhyeonh")
                 .customerEmail("changhyeon.h1@kakao.com")
@@ -61,9 +60,9 @@ public class CustomerServiceTest {
                 .build();
 
         // when
-        customerService.update(customerUpdateDto);
+        customerService.update(customerUpdateRequest);
         customerList = customerService.findAll();
-        Customer afterCustomer = customerList.get(0);
+        CustomerResponse afterCustomer = customerList.getCustomerList().get(0);
 
         // then
         assertThat(beforeCustomer).usingRecursiveComparison().isNotEqualTo(afterCustomer);
@@ -72,116 +71,118 @@ public class CustomerServiceTest {
     @Test
     void finaAll() {
         // given
-        CustomerCreateDto customerCreateDto1 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()
                 .customerName("changhyeon")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        CustomerCreateDto customerCreateDto2 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest2 = CustomerCreateRequest.builder()
                 .customerName("dong")
                 .customerEmail("dong.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        CustomerCreateDto customerCreateDto3 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest3 = CustomerCreateRequest.builder()
                 .customerName("yang")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        customerService.save(customerCreateDto1);
-        customerService.save(customerCreateDto2);
-        customerService.save(customerCreateDto3);
+        customerService.save(customerCreateRequest1);
+        customerService.save(customerCreateRequest2);
+        customerService.save(customerCreateRequest3);
 
         // when
-        List<Customer> customerList = customerService.findAll();
+        CustomerListResponse customerList = customerService.findAll();
 
         // then
-        assertThat(customerList.size()).isEqualTo(3);
+        assertThat(customerList.getCustomerList().size()).isEqualTo(3);
     }
 
     @Test
     void getBlackList() {
         // given
-        CustomerCreateDto customerCreateDto1 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()
                 .customerName("changhyeon")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.NORMAL)
                 .build();
 
-        CustomerCreateDto customerCreateDto2 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest2 = CustomerCreateRequest.builder()
                 .customerName("dong")
                 .customerEmail("dong.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        CustomerCreateDto customerCreateDto3 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest3 = CustomerCreateRequest.builder()
                 .customerName("yang")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        customerService.save(customerCreateDto1);
-        customerService.save(customerCreateDto2);
-        customerService.save(customerCreateDto3);
+        customerService.save(customerCreateRequest1);
+        customerService.save(customerCreateRequest2);
+        customerService.save(customerCreateRequest3);
 
         // when
-        List<Customer> customerList = customerService.getBlackList();
+        CustomerListResponse customerList = customerService.getBlackList();
 
         // then
-        assertThat(customerList.size()).isEqualTo(2);
+        assertThat(customerList.getCustomerList().size()).isEqualTo(2);
     }
 
     @Test
     void deleteById() {
         // given
-        CustomerCreateDto customerCreateDto = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
                 .customerName("changhyeon")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
+        
+        customerService.save(customerCreateRequest);
 
-        List<Customer> customerListBefore = customerService.findAll();
+        CustomerListResponse customerListBefore = customerService.findAll();
 
         // when
-        customerService.deleteById(customerListBefore.get(0).getCustomerId());
-        List<Customer> customerListAfter = customerService.findAll();
+        customerService.deleteById(customerListBefore.getCustomerList().get(0).getCustomerId());
+        CustomerListResponse customerListAfter = customerService.findAll();
 
         // then
-        assertThat(customerListAfter.size()).isEqualTo(0);
+        assertThat(customerListAfter.getCustomerList().size()).isEqualTo(0);
     }
 
     @Test
     void deleteAll() {
         // given
-        CustomerCreateDto customerCreateDto1 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()
                 .customerName("changhyeon")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.NORMAL)
                 .build();
 
-        CustomerCreateDto customerCreateDto2 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest2 = CustomerCreateRequest.builder()
                 .customerName("dong")
                 .customerEmail("dong.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        CustomerCreateDto customerCreateDto3 = CustomerCreateDto.builder()
+        CustomerCreateRequest customerCreateRequest3 = CustomerCreateRequest.builder()
                 .customerName("yang")
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        customerService.save(customerCreateDto1);
-        customerService.save(customerCreateDto2);
-        customerService.save(customerCreateDto3);
+        customerService.save(customerCreateRequest1);
+        customerService.save(customerCreateRequest2);
+        customerService.save(customerCreateRequest3);
 
         // when
         customerService.deleteAll();
-        List<Customer> customerListAfter = customerService.findAll();
+        CustomerListResponse customerListAfter = customerService.findAll();
 
         // then
-        assertThat(customerListAfter.size()).isEqualTo(0);
+        assertThat(customerListAfter.getCustomerList().size()).isEqualTo(0);
     }
 }
