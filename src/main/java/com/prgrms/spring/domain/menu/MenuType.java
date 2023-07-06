@@ -11,8 +11,10 @@ import java.util.Arrays;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public enum MenuType {
     EXIT("exit", "exit the program"),
-    CREATE_VOUCHER("create", "create a new voucher"),
-    LIST_VOUCHER("list", "list all vouchers");
+    CREATE_VOUCHER("createVoucher", "create a new voucher"),
+    LIST_VOUCHER("listVoucher", "list all vouchers"),
+    CREATE_CUSTOMER("createCustomer", "create a new customer"),
+    LIST_CUSTOMER("listCustomer", "list all customers");
 
     private final String name;
     private final String explain;

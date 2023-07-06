@@ -1,5 +1,6 @@
 package com.prgrms.spring;
 
+import com.prgrms.spring.controller.CustomerController;
 import com.prgrms.spring.controller.voucher.VoucherController;
 import com.prgrms.spring.domain.menu.MenuType;
 import com.prgrms.spring.exception.Error;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppRunner implements CommandLineRunner {
     private final VoucherController voucherController;
+    private final CustomerController customerController;
 
     private final ConsoleView consoleView;
 
@@ -43,6 +45,12 @@ public class AppRunner implements CommandLineRunner {
                     break;
                 case LIST_VOUCHER:
                     voucherController.getAllVoucher();
+                    break;
+                case CREATE_CUSTOMER:
+                    customerController.createCustomer();
+                    break;
+                case LIST_CUSTOMER:
+                    customerController.getAllCustomers();
                     break;
             }
         }

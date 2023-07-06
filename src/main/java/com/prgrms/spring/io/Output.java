@@ -13,4 +13,8 @@ public interface Output {
     void showAllVouchers(List<String> vouchers);
     void showErrorMsg(Error error);
     void showSuccessMsg(Success success);
+
+    void showGetName();
+    void showGetEmail();
+    void showAllCustomers(List<String> customers);
 }

@@ -11,4 +11,8 @@ import lombok.NoArgsConstructor;
 public class CustomerCreateRequestDto {
     private String name;
     private String email;
+
+    public static CustomerCreateRequestDto of(String name, String email) {
+        return new CustomerCreateRequestDto(name, email);
+    }
 }

@@ -5,4 +5,6 @@ public interface Input {
     int getVoucherType();
     Long getVoucherDiscount();
 
+    String getCustomerName();
+    String getCustomerEmail();
 }

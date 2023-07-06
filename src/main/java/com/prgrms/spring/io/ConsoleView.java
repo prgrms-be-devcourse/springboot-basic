@@ -31,6 +31,16 @@ public class ConsoleView implements Input, Output {
     }
 
     @Override
+    public String getCustomerName() {
+        return scanner.nextLine();
+    }
+
+    @Override
+    public String getCustomerEmail() {
+        return scanner.nextLine();
+    }
+
+    @Override
     public void showMenu() {
         System.out.println("=== Voucher Program ===");
         for (MenuType mt : MenuType.values()) {
@@ -64,5 +74,20 @@ public class ConsoleView implements Input, Output {
     @Override
     public void showSuccessMsg(Success success) {
         System.out.println(success.getMessage());
+    }
+
+    @Override
+    public void showGetName() {
+        System.out.print("이름을 입력해주세요 : ");
+    }
+
+    @Override
+    public void showGetEmail() {
+        System.out.print("이메일을 입력해주세요 : ");
+    }
+
+    @Override
+    public void showAllCustomers(List<String> customers) {
+        customers.forEach(System.out::println);
     }
 }
