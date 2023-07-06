@@ -42,8 +42,9 @@ public class VoucherServiceTest {
                 voucher2.getVoucherId(), voucher2
         );
 
-        // when
         given(voucherRepository.getList()).willReturn(voucherMap);
+
+        // when
         Map<UUID, Voucher> voucherAll = voucherService.findVoucherAll();
 
         // then
