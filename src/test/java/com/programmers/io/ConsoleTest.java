@@ -2,8 +2,8 @@ package com.programmers.io;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.programmers.domain.voucher.FixedAmountVoucher;
-import com.programmers.domain.voucher.Voucher;
+import com.programmers.voucher.domain.FixedAmountVoucher;
+import com.programmers.voucher.domain.Voucher;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

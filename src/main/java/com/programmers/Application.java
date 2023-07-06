@@ -1,6 +1,6 @@
 package com.programmers;
 
-import com.programmers.controller.MenuController;
+import com.programmers.menu.controller.MenuController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

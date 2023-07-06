@@ -1,7 +1,7 @@
 package com.programmers.io;
 
-import com.programmers.domain.customer.Customer;
-import com.programmers.domain.voucher.Voucher;
+import com.programmers.customer.domain.Customer;
+import com.programmers.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
