@@ -18,7 +18,9 @@ public class PercentVoucherService extends VoucherService{
     @Override
     public void createVoucher(VoucherType voucherType, double discountAmount) {
         long randomId = abs(new Random().nextLong());
+        System.out.println(discountAmount);
         FixedAmountVoucher voucher = new FixedAmountVoucher(randomId, voucherType, discountAmount);
+        System.out.println(discountAmount);
         voucherRepository.insert(toEntity(voucher));
     }
 

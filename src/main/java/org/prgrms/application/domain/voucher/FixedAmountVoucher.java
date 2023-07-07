@@ -5,17 +5,16 @@ public class FixedAmountVoucher extends Voucher {
     private VoucherType voucherType;
 
     public FixedAmountVoucher(Long voucherId, VoucherType voucherType, double discountAmount) {
+        super(voucherId,discountAmount);
         validatePositive(discountAmount);
-        this.voucherId = voucherId;
         this.voucherType = voucherType;
-        this.discountAmount = discountAmount;
     }
 
     public double getFixedAmount() {
         return discountAmount;
     }
 
-    public void changeFixedAmount(double discountAmount) { //수정
+    public void changeFixedAmount(double discountAmount) {
         validatePositive(discountAmount);
         this.discountAmount = discountAmount;
     }
@@ -32,7 +31,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public double getDiscountAmount() {
-        return 0;
+        return discountAmount;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.prgrms.application.entity;
 
+
 public class VoucherEntity {
     private Long voucherId;
     private String voucherType;

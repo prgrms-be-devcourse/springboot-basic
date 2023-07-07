@@ -1,3 +1,5 @@
+DROP TABLE customers,vouchers;
+
 CREATE TABLE customers
 (
     customer_id BIGINT PRIMARY KEY,
@@ -18,4 +20,5 @@ CREATE TABLE vouchers
 );
 
 INSERT INTO vouchers (voucher_id, voucher_type, discount_amount) VALUES (100, 'FIXED', 10000);
-INSERT INTO vouchers (voucher_id, voucher_type, discount_amount) VALUES (1000, 'PERCENT', 50);
+INSERT INTO vouchers (voucher_id, voucher_type, discount_amount) VALUES (1000, 'PERCENT', 30);
+
