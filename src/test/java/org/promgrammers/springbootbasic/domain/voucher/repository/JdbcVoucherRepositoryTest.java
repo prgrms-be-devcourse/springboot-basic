@@ -3,6 +3,8 @@ package org.promgrammers.springbootbasic.domain.voucher.repository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.promgrammers.springbootbasic.domain.customer.model.Customer;
+import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
@@ -16,6 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -28,12 +31,89 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class JdbcVoucherRepositoryTest {
 
     @Autowired
-    JdbcVoucherRepository jdbcTemplateVoucherRepository;
+    JdbcVoucherRepository voucherRepository;
+
+    @Autowired
+    JdbcCustomerRepository customerRepository;
 
     @AfterEach
     void init() {
-        jdbcTemplateVoucherRepository.deleteAll();
+        voucherRepository.deleteAll();
+        customerRepository.deleteAll();
     }
+
+    @Test
+    @DisplayName("바우처 할당 성공")
+    void assignVoucherToCustomerSuccessTest() throws Exception {
+
+        // given
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "A"));
+        Voucher voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10));
+
+        //when
+        assertDoesNotThrow(() -> voucherRepository.assignVoucherToCustomer(customer.getCustomerId(), voucher.getVoucherId()));
+
+        //then
+        List<Voucher> customerVouchers = voucherRepository.findAllByCustomerId(customer.getCustomerId());
+        assertThat(customerVouchers.size()).isEqualTo(1);
+        assertThat(customerVouchers.get(0).getVoucherId()).isEqualTo(voucher.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("고객 바우처 조회 - 성공")
+    void getCustomerVouchersSuccessTest() {
+
+        // given
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "A"));
+        Voucher voucher1 = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10));
+        Voucher voucher2 = voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 20));
+
+        voucherRepository.assignVoucherToCustomer(customer.getCustomerId(), voucher1.getVoucherId());
+        voucherRepository.assignVoucherToCustomer(customer.getCustomerId(), voucher2.getVoucherId());
+
+        // when
+        List<Voucher> customerVouchers = voucherRepository.findAllByCustomerId(customer.getCustomerId());
+
+        // then
+        assertThat(customerVouchers.size()).isEqualTo(2);
+        assertThat(customerVouchers.stream().map(Voucher::getVoucherId).collect(Collectors.toList()))
+                .containsExactlyInAnyOrder(voucher1.getVoucherId(), voucher2.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("고객 바우처 조회 - 고객이 바우처를 보유하지 않을 때")
+    void getCustomerVouchersNoVouchersTest() {
+        // given
+        UUID customerId = UUID.randomUUID();
+
+        // when
+        List<Voucher> customerVouchers = voucherRepository.findAllByCustomerId(customerId);
+
+        // then
+        assertThat(customerVouchers.isEmpty()).isEqualTo(true);
+    }
+
+    @Test
+    @DisplayName("고객 바우처 제거 - 성공")
+    void removeCustomerVoucherSuccessTest() {
+
+        // given
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "A"));
+        Voucher voucher1 = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10));
+        Voucher voucher2 = voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 20));
+
+        voucherRepository.assignVoucherToCustomer(customer.getCustomerId(), voucher1.getVoucherId());
+        voucherRepository.assignVoucherToCustomer(customer.getCustomerId(), voucher2.getVoucherId());
+
+        // when
+        assertDoesNotThrow(() -> voucherRepository.removeVoucherFromCustomer(customer.getCustomerId(), voucher1.getVoucherId()));
+
+        // then
+        List<Voucher> customerVouchers = voucherRepository.findAllByCustomerId(customer.getCustomerId());
+        assertThat(customerVouchers.size()).isEqualTo(1);
+        assertThat(customerVouchers.get(0).getVoucherId()).isEqualTo(voucher2.getVoucherId());
+    }
+
 
     @Test
     @DisplayName("저장 성공 - 바우처 저장")
@@ -45,7 +125,7 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = new FixedAmountVoucher(voucherId, amount);
 
         //when
-        Voucher savedVoucher = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.insert(voucher));
+        Voucher savedVoucher = assertDoesNotThrow(() -> voucherRepository.insert(voucher));
 
         //then
         assertNotNull(savedVoucher);
@@ -64,10 +144,10 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = new FixedAmountVoucher(voucherId, amount);
 
         //when
-        assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.insert(voucher));
+        assertDoesNotThrow(() -> voucherRepository.insert(voucher));
 
         //then
-        assertThrows(DataAccessException.class, () -> jdbcTemplateVoucherRepository.insert(voucher));
+        assertThrows(DataAccessException.class, () -> voucherRepository.insert(voucher));
     }
 
     @Test
@@ -78,10 +158,10 @@ class JdbcVoucherRepositoryTest {
         UUID voucherId = UUID.randomUUID();
         long amount = 10;
         Voucher voucher = new FixedAmountVoucher(voucherId, amount);
-        Voucher savedVoucher = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.insert(voucher));
+        Voucher savedVoucher = assertDoesNotThrow(() -> voucherRepository.insert(voucher));
 
         //when
-        Optional<Voucher> repositoryById = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.findById(savedVoucher.getVoucherId()));
+        Optional<Voucher> repositoryById = assertDoesNotThrow(() -> voucherRepository.findById(savedVoucher.getVoucherId()));
         Voucher foundVoucher = repositoryById.get();
 
         //then
@@ -99,7 +179,7 @@ class JdbcVoucherRepositoryTest {
         UUID nonExistentVoucherId = UUID.randomUUID();
 
         // when
-        Optional<Voucher> repositoryById = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.findById(nonExistentVoucherId));
+        Optional<Voucher> repositoryById = assertDoesNotThrow(() -> voucherRepository.findById(nonExistentVoucherId));
 
         // then
         assertThat(repositoryById.isPresent()).isEqualTo(false);
@@ -115,15 +195,15 @@ class JdbcVoucherRepositoryTest {
             Voucher voucher;
             if (i % 2 == 0) {
                 voucher = new PercentDiscountVoucher(UUID.randomUUID(), i);
-                jdbcTemplateVoucherRepository.insert(voucher);
+                voucherRepository.insert(voucher);
             } else {
                 voucher = new FixedAmountVoucher(UUID.randomUUID(), i);
-                jdbcTemplateVoucherRepository.insert(voucher);
+                voucherRepository.insert(voucher);
             }
         }
 
         //when
-        List<Voucher> voucherList = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.findAll());
+        List<Voucher> voucherList = assertDoesNotThrow(() -> voucherRepository.findAll());
 
         //then
         assertThat(voucherList.isEmpty()).isEqualTo(false);
@@ -138,13 +218,13 @@ class JdbcVoucherRepositoryTest {
         UUID voucherId = UUID.randomUUID();
         long amount = 10;
         Voucher voucher = new FixedAmountVoucher(voucherId, amount);
-        Voucher savedVoucher = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.insert(voucher));
+        Voucher savedVoucher = assertDoesNotThrow(() -> voucherRepository.insert(voucher));
 
         //when
         long updateAmount = 20;
         FixedAmountVoucher updateVoucher = new FixedAmountVoucher(savedVoucher.getVoucherId(), updateAmount);
-        assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.update(updateVoucher));
-        Optional<Voucher> updatedVoucherById = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.findById(updateVoucher.getVoucherId()));
+        assertDoesNotThrow(() -> voucherRepository.update(updateVoucher));
+        Optional<Voucher> updatedVoucherById = assertDoesNotThrow(() -> voucherRepository.findById(updateVoucher.getVoucherId()));
 
         //then
         assertThat(updatedVoucherById.isPresent()).isEqualTo(true);
@@ -162,16 +242,16 @@ class JdbcVoucherRepositoryTest {
             Voucher voucher;
             if (i % 2 == 0) {
                 voucher = new PercentDiscountVoucher(UUID.randomUUID(), i);
-                jdbcTemplateVoucherRepository.insert(voucher);
+                voucherRepository.insert(voucher);
             } else {
                 voucher = new FixedAmountVoucher(UUID.randomUUID(), i);
-                jdbcTemplateVoucherRepository.insert(voucher);
+                voucherRepository.insert(voucher);
             }
         }
 
         //when
-        assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.deleteAll());
-        List<Voucher> voucherList = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.findAll());
+        assertDoesNotThrow(() -> voucherRepository.deleteAll());
+        List<Voucher> voucherList = assertDoesNotThrow(() -> voucherRepository.findAll());
 
         //then
         assertThat(voucherList.size()).isEqualTo(0);
@@ -186,13 +266,15 @@ class JdbcVoucherRepositoryTest {
         UUID voucherId = UUID.randomUUID();
         long amount = 10;
         Voucher voucher = new FixedAmountVoucher(voucherId, amount);
-        Voucher savedVoucher = assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.insert(voucher));
+        Voucher savedVoucher = assertDoesNotThrow(() -> voucherRepository.insert(voucher));
 
         //when
-        assertDoesNotThrow(() -> jdbcTemplateVoucherRepository.deleteById(savedVoucher.getVoucherId()));
+        assertDoesNotThrow(() -> voucherRepository.deleteById(savedVoucher.getVoucherId()));
 
         //then
-        Optional<Voucher> deletedVoucher = jdbcTemplateVoucherRepository.findById(savedVoucher.getVoucherId());
+        Optional<Voucher> deletedVoucher = voucherRepository.findById(savedVoucher.getVoucherId());
         assertThat(deletedVoucher.isPresent()).isEqualTo(false);
     }
+
+
 }
