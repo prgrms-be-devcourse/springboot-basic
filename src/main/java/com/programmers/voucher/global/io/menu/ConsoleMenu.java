@@ -1,20 +1,18 @@
 package com.programmers.voucher.global.io.menu;
 
-import com.programmers.voucher.domain.customer.controller.CustomerController;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.command.ConsoleCommandType;
-import com.programmers.voucher.global.io.command.CustomerCommandType;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConsoleMenu {
     private final Console console;
-    private final CustomerController customerController;
+    private final ConsoleCustomerMenu consoleCustomerMenu;
     private final ConsoleVoucherMenu consoleVoucherMenu;
 
-    public ConsoleMenu(Console console, CustomerController customerController, ConsoleVoucherMenu consoleVoucherMenu) {
+    public ConsoleMenu(Console console, ConsoleCustomerMenu consoleCustomerMenu, ConsoleVoucherMenu consoleVoucherMenu) {
         this.console = console;
-        this.customerController = customerController;
+        this.consoleCustomerMenu = consoleCustomerMenu;
         this.consoleVoucherMenu = consoleVoucherMenu;
     }
 
@@ -24,7 +22,7 @@ public class ConsoleMenu {
         ConsoleCommandType commandType = console.inputInitialCommand();
         switch (commandType) {
             case CUSTOMER -> {
-                runningCustomerService();
+                consoleCustomerMenu.runningCustomerService();
             }
             case VOUCHER -> {
                 consoleVoucherMenu.runningVoucherService();
@@ -39,44 +37,6 @@ public class ConsoleMenu {
             }
         }
 
-        return true;
-    }
-
-    private void runningCustomerService() {
-        console.printCustomerCommandSet();
-
-        boolean run = true;
-        while (run) {
-            run = customerMapping();
-        }
-    }
-
-    private boolean customerMapping() {
-        CustomerCommandType customerCommandType = console.inputCustomerCommandType();
-
-        switch (customerCommandType) {
-            case CREATE -> {
-                customerController.createCustomer();
-            }
-            case LIST -> {
-                customerController.findCustomers();
-            }
-            case UPDATE -> {
-                customerController.updateCustomer();
-            }
-            case DELETE -> {
-                customerController.deleteCustomer();
-            }
-            case BLACKLIST -> {
-                customerController.findBlacklistCustomers();
-            }
-            case HELP -> {
-                console.printCustomerCommandSet();
-            }
-            case EXIT -> {
-                return false;
-            }
-        }
         return true;
     }
 }
