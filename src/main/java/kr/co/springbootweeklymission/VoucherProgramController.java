@@ -11,16 +11,10 @@ import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReq
 import kr.co.springbootweeklymission.wallet.presentation.WalletController;
 import kr.co.springbootweeklymission.wallet.presentation.dto.request.WalletReqDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
-@Profile("!test")
-@Slf4j
-@Controller
 @RequiredArgsConstructor
 public class VoucherProgramController implements CommandLineRunner {
     private final MemberController memberController;
