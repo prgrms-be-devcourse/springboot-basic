@@ -69,7 +69,6 @@ public class Console implements Input, Output {
   public void printAllVoucher(List<Voucher> vouchers) {
     for (Voucher voucher : vouchers) {
       DiscountType discountType = voucher.supplyDiscountType();
-      LOGGER.info("VOUCHER_ID => {}, VOUCHER => {} {} ", voucher.getVoucherId(), discountType, voucher.supplyDiscountAmount());
       System.out.println(String.format("- VOUCHER_ID : %s", voucher.getVoucherId()));
       System.out.println(String.format("- %s VOUCHER : %s%s", discountType, voucher.supplyDiscountAmount(), printUnit(discountType)));
     }
@@ -80,8 +79,8 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public void printCreateSuccess() {
-    System.out.println(CREATE_SUCCESS);
+  public void printCreateSuccess(String voucherType, int discountAmount) {
+    LOGGER.info("{} : VOUCHER => {} {} ", CREATE_SUCCESS, voucherType.toUpperCase(), discountAmount);
   }
 
   @Override

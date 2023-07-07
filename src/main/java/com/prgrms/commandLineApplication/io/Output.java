@@ -16,7 +16,7 @@ public interface Output {
 
   void printAllVoucher(List<Voucher> vouchers);
 
-  void printCreateSuccess();
+  void printCreateSuccess(String voucherType, int discountAmount);
 
   void printErrorMessage(Exception e);
 
