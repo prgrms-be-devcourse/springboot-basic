@@ -1,5 +1,6 @@
 package com.example.demo.view.validate;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.example.demo.util.VoucherType;
@@ -38,6 +39,20 @@ class VoucherAmountValidatorTest {
         assertThatThrownBy(() -> VoucherAmountValidator.validateAmount(VoucherType.PERCENT, source))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ERROR_MESSAGE_NOT_PERCENT_VALUE);
+    }
+
+    @DisplayName("정액 할인 금액 validation 성공 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"1", "365", "13593"})
+    void 정액_할인액_검증_성공_테스트(String source) {
+        assertThatNoException().isThrownBy(() -> VoucherAmountValidator.validateAmount(VoucherType.FIX, source));
+    }
+
+    @DisplayName("정율 할인 금액 validation 성공 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"1", "100", "50"})
+    void 정율_할인액_검증_성공_테스트(String source) {
+        assertThatNoException().isThrownBy(() -> VoucherAmountValidator.validateAmount(VoucherType.PERCENT, source));
     }
 }
 
