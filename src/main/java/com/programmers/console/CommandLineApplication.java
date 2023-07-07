@@ -20,7 +20,7 @@ public class CommandLineApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
     private static final String WRONG_INPUT_MESSAGE_FOR_VALUE = "[ERROR] 숫자를 입력해 주세요.";
-    private static final String EMPTY_SPACE = "";
+    private static final String LINE_CHANGER = "\n";
 
     private final VoucherController voucherController;
     private final Console console;
@@ -98,13 +98,14 @@ public class CommandLineApplication {
     }
 
     private void printVoucher(VoucherResponseDto responseDto) {
-        console.println(VoucherStringSerializer.convertVoucherResponseToString(responseDto));
-        console.println(EMPTY_SPACE);
+        console.println(VoucherStringSerializer.convertVoucherResponseToString(responseDto) + LINE_CHANGER);
     }
 
     private void printVouchers(List<VoucherResponseDto> vouchers) {
+        StringBuilder result = new StringBuilder();
         for (VoucherResponseDto voucher : vouchers) {
-            printVoucher(voucher);
+            result.append(VoucherStringSerializer.convertVoucherResponseToString(voucher) + LINE_CHANGER + LINE_CHANGER);
         }
+        console.println(result);
     }
 }
