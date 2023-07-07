@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class CustomerController implements Runnable {
+public class CustomerController {
     private final Input input;
     private final Output output;
     private final CustomerService customerService;
@@ -24,7 +24,6 @@ public class CustomerController implements Runnable {
         this.customerService = customerService;
     }
 
-    @Override
     public void run() {
         output.displayCustomerCommands();
         CustomerCommand command = input.readCustomerCommand();

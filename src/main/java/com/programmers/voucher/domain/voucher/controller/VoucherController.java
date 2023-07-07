@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class VoucherController implements Runnable {
+public class VoucherController {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
@@ -25,7 +25,6 @@ public class VoucherController implements Runnable {
         this.voucherService = voucherService;
     }
 
-    @Override
     public void run() {
         output.displayVoucherCommands();
         VoucherCommand command = input.readVoucherCommand();
