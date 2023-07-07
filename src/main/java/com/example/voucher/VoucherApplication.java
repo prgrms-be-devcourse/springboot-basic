@@ -19,12 +19,8 @@ public class VoucherApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        try {
-            Output.printProgramInfo();
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+    public void run(String... args) {
+        Output.printProgramInfo();
 
         VoucherConfig voucherConfig = new VoucherConfig();
         CommandHandler commandHandler = voucherConfig.commandHandler();
