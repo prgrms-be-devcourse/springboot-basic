@@ -10,11 +10,11 @@ import com.programmers.springweekly.repository.voucher.VoucherRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
