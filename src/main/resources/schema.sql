@@ -13,3 +13,12 @@ create table vouchers
     voucher_discount_amount int not null,
     voucher_type varchar(20) not null
 )
+
+create table wallet
+(
+    customer_id varchar(36),
+    voucher_id varchar(36),
+    foreign key (customer_id) references customers(customer_id),
+    foreign key (voucher_id) references vouchers(voucher_id),
+    primary key (customer_id,voucher_id)
+)
