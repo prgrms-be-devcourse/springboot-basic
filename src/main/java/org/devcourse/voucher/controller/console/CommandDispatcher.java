@@ -26,10 +26,10 @@ public class CommandDispatcher implements CommandLineRunner {
             Command findCommand = Command.find(input);
 
             Response response = runners.executeCommand(findCommand);
-            status = response.status();
             String message = response.message();
-
             output.printMessage(message);
+
+            status = response.status();
         }
     }
 
