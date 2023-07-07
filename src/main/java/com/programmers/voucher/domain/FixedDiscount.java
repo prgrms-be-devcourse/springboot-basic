@@ -14,7 +14,7 @@ public class FixedDiscount extends Discount {
                     MIN_AMOUNT, MAX_AMOUNT);
 
     public FixedDiscount(long amount) {
-        super(VoucherType.FIXED);
+        super(DiscountType.FIXED);
         validateDiscountAmount(amount);
         this.amount = amount;
     }

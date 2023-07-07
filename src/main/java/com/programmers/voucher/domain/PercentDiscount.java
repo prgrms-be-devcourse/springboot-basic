@@ -13,7 +13,7 @@ public class PercentDiscount extends Discount {
                     MIN_PERCENT, MAX_PERCENT);
 
     public PercentDiscount(long percent) {
-        super(VoucherType.PERCENT);
+        super(DiscountType.PERCENT);
         validateDiscountAmount(percent);
         this.percent = percent;
     }

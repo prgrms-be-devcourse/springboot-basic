@@ -2,14 +2,14 @@ package com.programmers.voucher.domain;
 
 public abstract class Discount {
 
-    private final VoucherType voucherType;
+    private final DiscountType discountType;
 
-    protected Discount(VoucherType voucherType) {
-        this.voucherType = voucherType;
+    protected Discount(DiscountType discountType) {
+        this.discountType = discountType;
     }
 
-    public static Discount of(VoucherType voucherType, long value) {
-        return switch (voucherType) {
+    public static Discount of(DiscountType discountType, long value) {
+        return switch (discountType) {
             case FIXED -> new FixedDiscount(value);
             case PERCENT -> new PercentDiscount(value);
         };
@@ -19,7 +19,7 @@ public abstract class Discount {
 
     public abstract long getAmount();
 
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public DiscountType getVoucherType() {
+        return discountType;
     }
 }

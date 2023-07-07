@@ -12,25 +12,25 @@ public class Voucher {
     private final UUID voucherId;
     private final Discount discount;
     private final LocalDateTime createdAt;
-    private final LocalDateTime expiration;
+    private final LocalDateTime expiredAt;
 
     public Voucher(UUID voucherId, Discount discount, LocalDateTime createdAt) {
         validateVoucherId(voucherId);
         this.voucherId = voucherId;
         this.discount = discount;
         this.createdAt = createdAt;
-        this.expiration = applyExpiration();
+        this.expiredAt = createdAt.plusDays(VOUCHER_EXPIRATION_POLICY);
     }
 
     public Voucher(UUID voucherId, Discount discount, LocalDateTime createdAt, LocalDateTime expiration) {
         this.voucherId = voucherId;
         this.discount = discount;
         this.createdAt = createdAt;
-        this.expiration = expiration;
+        this.expiredAt = expiration;
     }
 
-    public long discount(long itemPrice) {
-        checkVoucherExpiration();
+    public long discountWith(long itemPrice, LocalDateTime usedAt) {
+        checkVoucherExpiration(usedAt);
         return discount.applyDiscount(itemPrice);
     }
 
@@ -46,19 +46,15 @@ public class Voucher {
         return createdAt;
     }
 
-    public LocalDateTime getExpiration() {
-        return expiration;
+    public LocalDateTime getExpiredAt() {
+        return expiredAt;
     }
 
     private void validateVoucherId(UUID voucherId) {
         if (voucherId == null) throw new IllegalArgumentException(VOUCHER_NULL_MESSAGE);
     }
 
-    private LocalDateTime applyExpiration() {
-        return createdAt.plusDays(VOUCHER_EXPIRATION_POLICY);
-    }
-
-    private void checkVoucherExpiration() {
-        if (LocalDateTime.now().isAfter(expiration)) throw new IllegalArgumentException(EXPIRED_VOUCHER_MESSAGE);
+    private void checkVoucherExpiration(LocalDateTime usedAt) {
+        if (usedAt.isAfter(expiredAt)) throw new IllegalArgumentException(EXPIRED_VOUCHER_MESSAGE);
     }
 }
