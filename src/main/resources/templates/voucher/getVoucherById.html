@@ -46,6 +46,13 @@
             <a class="btn btn-primary"
                th:href="${'/view/v1/vouchers/update-page/' + voucher.voucherId}">수정 하기</a>
         </div>
+        <form class="col-auto"
+              th:action="${'/view/v1/vouchers/delete-page/' + voucher.voucherId}"
+              method="post">
+            <button class="btn btn-danger"
+                    type="submit">삭제 하기
+            </button>
+        </form>
         <div class="col-auto">
             <a class="btn btn-secondary"
                th:href="${'/view/v1/vouchers'}">뒤로 가기</a>

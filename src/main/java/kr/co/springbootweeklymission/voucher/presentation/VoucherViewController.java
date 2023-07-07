@@ -36,13 +36,18 @@ public class VoucherViewController {
         return "redirect:/view/v1/vouchers";
     }
 
+
     @PostMapping("/update-page/{voucher_id}")
     public String updateVoucherById(@PathVariable(name = "voucher_id") UUID voucherId,
                                     @ModelAttribute @Validated VoucherReqDTO.UPDATE update) {
-        System.out.println(voucherId);
-        System.out.println(update.getAmount());
         voucherService.updateVoucherById(voucherId, update);
         return "redirect:/view/v1/vouchers/" + voucherId;
+    }
+
+    @PostMapping("/delete-page/{voucher_id}")
+    public String deleteVoucherById(@PathVariable(name = "voucher_id") UUID voucherId) {
+        voucherService.deleteVoucherById(voucherId);
+        return "redirect:/view/v1/vouchers";
     }
 
     @GetMapping
