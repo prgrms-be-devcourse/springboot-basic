@@ -48,4 +48,12 @@ public class VoucherApiController {
                 .status(ResponseStatus.SUCCESS_UPDATE_VOUCHER.getHttpStatus())
                 .body(ResponseStatus.SUCCESS_UPDATE_VOUCHER.getMessage());
     }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteVoucherById(@PathVariable(name = "voucher_id") UUID voucherId) {
+        voucherService.deleteVoucherById(voucherId);
+        return ResponseEntity
+                .status(ResponseStatus.SUCCESS_DELETE_VOUCHER.getHttpStatus())
+                .body(ResponseStatus.SUCCESS_DELETE_VOUCHER.getMessage());
+    }
 }
