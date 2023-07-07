@@ -17,11 +17,11 @@ src/main/java/com.devcourse.voucherapp/
   - VoucherController.java
 
 - entity/
-	- dto/
-		- VoucherCreateRequestDto.java
-		- VoucherUpdateRequestDto.java
-		- VoucherResponseDto.java
-		- VouchersResponseDto.java
+  - dto/
+    - VoucherCreateRequestDto.java
+    - VoucherUpdateRequestDto.java
+    - VoucherResponseDto.java
+    - VouchersResponseDto.java
   - voucher/
     - Voucher.java
     - FixDiscountVoucher.java
