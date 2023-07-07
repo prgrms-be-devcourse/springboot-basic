@@ -6,4 +6,6 @@ public interface Input {
     String getVoucherInput();
 
     Long getBenefit();
+
+    Long getDurationInput();
 }

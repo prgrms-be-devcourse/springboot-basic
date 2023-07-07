@@ -26,6 +26,13 @@ public class ConsoleInput implements Input {
         return benefit;
     }
 
+    @Override
+    public Long getDurationInput() {
+        Long durationDate = scanner.nextLong();
+        flush();
+        return durationDate;
+    }
+
     private void flush() {
         scanner.nextLine();
     }

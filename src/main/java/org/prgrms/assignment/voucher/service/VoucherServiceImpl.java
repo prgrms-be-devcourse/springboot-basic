@@ -8,7 +8,7 @@ import org.prgrms.assignment.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +38,9 @@ public class VoucherServiceImpl implements VoucherService{
                 stream().
                 map(voucherEntity -> new VoucherDTO(voucherEntity.voucherType(),
                     voucherEntity.benefit(),
-                    voucherEntity.createdAt()))
+                    voucherEntity.createdAt(),
+                    voucherEntity.expireDate())
+                    )
                 .toList();
     }
 
@@ -50,19 +52,20 @@ public class VoucherServiceImpl implements VoucherService{
 
     @Override
     @Transactional
-    public Voucher createVoucher(VoucherType voucherType, long benefit) {
-        Voucher voucher = voucherFactory.createVoucher(voucherType, UUID.randomUUID(), benefit);
+    public Voucher createVoucher(VoucherType voucherType, long benefit, long durationDate) {
+        Voucher voucher = voucherFactory.createVoucher(voucherType, UUID.randomUUID(), benefit, durationDate);
         voucherRepository.insert(of(voucher));
         return voucher;
     }
 
     private VoucherEntity of(Voucher voucher) {
         return new VoucherEntity(voucher.getVoucherId().toString().getBytes(), voucher.getVoucherType(), voucher.getCreatedAt(),
-            voucher.getBenefit());
+            voucher.getBenefit(), voucher.getExpireDate());
     }
 
     private Voucher of(VoucherEntity voucherEntity) {
+        int durationDate = (int) ChronoUnit.DAYS.between(voucherEntity.createdAt(), voucherEntity.expireDate());
         return voucherFactory.createVoucher(voucherEntity.voucherType(), UUID.nameUUIDFromBytes(voucherEntity.voucherId()),
-            voucherEntity.benefit());
+            voucherEntity.benefit(), durationDate);
     }
 }

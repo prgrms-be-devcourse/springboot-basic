@@ -13,28 +13,16 @@ import java.util.UUID;
 public class VoucherFactory {
 
 
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, Long benefit) {
+    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, Long benefit, long durationDate) {
+        LocalDateTime now = LocalDateTime.now();
         switch (voucherType) {
             case FIXED -> {
-                return new FixedAmountVoucher(voucherId, benefit, LocalDateTime.now());
+                return new FixedAmountVoucher(voucherId, benefit, now, now.plusDays(durationDate));
             }
             case PERCENT -> {
-                return new PercentDiscountVoucher(voucherId, benefit, LocalDateTime.now());
+                return new PercentDiscountVoucher(voucherId, benefit, now, now.plusDays(durationDate));
             }
         }
         throw new RuntimeException("Failed to create Voucher!");
-    }
-
-    // for Mapper
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, LocalDateTime createdAt, Long benefit) {
-        switch (voucherType) {
-            case FIXED -> {
-                return new FixedAmountVoucher(voucherId, benefit, createdAt);
-            }
-            case PERCENT -> {
-                return new PercentDiscountVoucher(voucherId, benefit, createdAt);
-            }
-        }
-        throw new RuntimeException("Failed to created Voucher!");
     }
 }

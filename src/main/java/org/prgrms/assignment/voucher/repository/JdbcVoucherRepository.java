@@ -32,7 +32,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, created_at, benefit) VALUES(UUID_TO_BIN(:voucherId), :voucherType, :createdAt, :benefit)";
+    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, created_at, benefit, expire_date) VALUES(UUID_TO_BIN(:voucherId), :voucherType, :createdAt, :benefit, :expireDate)";
     private static final String UPDATE_SQL = "UPDATE vouchers SET benefit = :benefit WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_ALL_SQL = "DELETE * FROM vouchers";
@@ -50,7 +50,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return new MapSqlParameterSource().addValue("voucherId", voucherEntity.voucherId())
             .addValue("voucherType", voucherEntity.voucherType().toString())
             .addValue("createdAt", Timestamp.valueOf(voucherEntity.createdAt()))
-            .addValue("benefit", voucherEntity.benefit());
+            .addValue("benefit", voucherEntity.benefit())
+            .addValue("expireDate", voucherEntity.expireDate());
     }
 
     @Override

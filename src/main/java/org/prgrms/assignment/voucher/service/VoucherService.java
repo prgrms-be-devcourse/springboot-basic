@@ -15,6 +15,6 @@ public interface VoucherService {
 
     void update(Voucher voucher);
 
-    Voucher createVoucher(VoucherType voucherType, long benefit);
+    Voucher createVoucher(VoucherType voucherType, long benefit, long durationDate);
 
 }

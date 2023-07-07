@@ -1,6 +1,7 @@
 package org.prgrms.assignment.voucher.view;
 
 import org.prgrms.assignment.voucher.dto.VoucherDTO;
+import org.prgrms.assignment.voucher.entity.VoucherEntity;
 import org.prgrms.assignment.voucher.model.Menu;
 import org.prgrms.assignment.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,15 @@ import java.util.List;
 public class ConsoleOutput implements Output {
 
     private static final String DEFAULT_PROGRAM_MESSAGE = "=== Voucher Program ===";
-    private static final String DEFAULT_VOUCHER_CATEGORIES = String.format("%-25s%-25s%-25s"
-            ,"VoucherType" ,"Benefit", "CreatedAt");
     private static final String EMPTY_MESSAGE = "This Repository is EMPTY!!";
-    public static final String SELECT_VOUCHER_MESSAGE = "TYPE YOUR VOUCHER";
+    private static final String space = "%-30s";
+    private static final String format;
+    private static final String DEFAULT_VOUCHER_CATEGORIES;
+
+    static {
+        format = space.repeat(4);
+        DEFAULT_VOUCHER_CATEGORIES = String.format(format, "VoucherType", "Benefit", "CreatedAt", "ExpireDate");
+    }
 
     @Override
     public void showMenu(Menu[] menuList) {
@@ -40,9 +46,10 @@ public class ConsoleOutput implements Output {
         System.out.println(DEFAULT_VOUCHER_CATEGORIES);
         StringBuilder stringBuilder = new StringBuilder();
         for(VoucherDTO voucherDTO : voucherDTOList) {
-            stringBuilder.append(String.format("%-25s", voucherDTO.getVoucherType().toString()))
-                .append(String.format("%-25s", voucherDTO.getBenefit()))
-                .append(String.format("%-25s", voucherDTO.getCreatedAt()))
+            stringBuilder.append(String.format(space, voucherDTO.voucherType().toString()))
+                .append(String.format(space, voucherDTO.benefit()))
+                .append(String.format(space, voucherDTO.createdAt()))
+                .append(String.format(space, voucherDTO.expireDate()))
                 .append('\n');
         }
         System.out.println(stringBuilder);
@@ -57,5 +64,4 @@ public class ConsoleOutput implements Output {
     public void printMessage(String message) {
         System.out.println(message);
     }
-
 }
