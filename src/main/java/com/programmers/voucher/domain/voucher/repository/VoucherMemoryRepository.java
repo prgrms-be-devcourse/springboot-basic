@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
+
 @Repository
 @Profile("default")
 public class VoucherMemoryRepository implements VoucherRepository {
@@ -43,7 +45,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         Voucher remove = store.remove(voucherId);
         if(remove == null) {
-            throw new IncorrectResultSizeDataAccessException(1, 0);
+            throw new IncorrectResultSizeDataAccessException(UPDATE_ONE, 0);
         }
     }
 }
