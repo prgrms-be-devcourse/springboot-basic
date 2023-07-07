@@ -3,7 +3,6 @@ package com.programmers.voucher.domain.voucher.service;
 import com.programmers.voucher.domain.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
 import com.programmers.voucher.domain.voucher.dto.VoucherUpdateRequest;
-import com.programmers.voucher.domain.voucher.entity.DiscountAmount;
 import com.programmers.voucher.domain.voucher.entity.Voucher;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import com.programmers.voucher.exception.NotFoundException;
@@ -27,10 +26,8 @@ public class VoucherService {
 
     @Transactional
     public VoucherResponse createVoucher(VoucherCreateRequest request) {
-        DiscountAmount discountAmount = new DiscountAmount(request.voucherType(), request.discountAmount());
-        Voucher voucher = Voucher.create(request.voucherType(), discountAmount);
-
-        return VoucherResponse.from(voucherRepository.insert(voucher));
+        Voucher voucher = voucherRepository.insert(request.toEntity());
+        return VoucherResponse.from(voucher);
     }
 
     public List<VoucherResponse> getAllVouchers() {
@@ -48,8 +45,7 @@ public class VoucherService {
     @Transactional
     public VoucherResponse updateVoucher(UUID voucherId, VoucherUpdateRequest request) {
         Voucher voucher = checkExisted(voucherRepository.findById(voucherId));
-        DiscountAmount discountAmount = new DiscountAmount(request.voucherType(), request.discountAmount());
-        voucher.update(request.voucherType(), discountAmount);
+        voucher.update(request.voucherType(), request.discountAmount());
 
         return VoucherResponse.from(voucherRepository.update(voucher));
     }
