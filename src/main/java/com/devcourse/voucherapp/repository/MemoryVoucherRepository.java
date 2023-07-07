@@ -1,6 +1,7 @@
 package com.devcourse.voucherapp.repository;
 
 import com.devcourse.voucherapp.entity.voucher.Voucher;
+import com.devcourse.voucherapp.exception.NotFoundVoucherException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,16 +30,29 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findVoucherById(String id) {
-        return Optional.empty();
+        UUID voucherId = convertToUuid(id);
+
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        return save(voucher);
     }
 
     @Override
     public int delete(String id) {
-        return 0;
+        UUID voucherId = convertToUuid(id);
+        Voucher deletedVoucher = storage.remove(voucherId);
+
+        return deletedVoucher == null ? 0 : 1;
+    }
+
+    private UUID convertToUuid(String id) {
+        try {
+            return UUID.fromString(id);
+        } catch (IllegalArgumentException e) {
+            throw new NotFoundVoucherException(id);
+        }
     }
 }
