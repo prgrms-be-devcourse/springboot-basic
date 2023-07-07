@@ -7,10 +7,8 @@ public class FixedAmountVoucher extends Voucher {
         validatePositive(discountAmount);
     }
 
-
-    public void changeFixedAmount(double discountAmount) {
-        validatePositive(discountAmount);
-        this.discountAmount = discountAmount;
+    private void validatePositive(double amount) {
+        if (amount <= MIN_DISCOUNT_VALUE) throw new IllegalArgumentException("금액은 양수여야 합니다.");
     }
 
     @Override
@@ -22,10 +20,6 @@ public class FixedAmountVoucher extends Voucher {
     public double discount(double beforeDiscount) {
         validatePositive(beforeDiscount - discountAmount);
         return beforeDiscount - discountAmount;
-    }
-
-    private void validatePositive(double amount) {
-        if (amount <= MIN_DISCOUNT_VALUE) throw new IllegalArgumentException("금액은 양수여야 합니다.");
     }
 
 }

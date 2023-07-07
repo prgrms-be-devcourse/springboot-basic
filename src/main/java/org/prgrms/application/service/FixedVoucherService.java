@@ -1,6 +1,7 @@
 package org.prgrms.application.service;
 
 import org.prgrms.application.domain.voucher.FixedAmountVoucher;
+import org.prgrms.application.domain.voucher.PercentAmountVoucher;
 import org.prgrms.application.domain.voucher.Voucher;
 import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.entity.VoucherEntity;
@@ -17,11 +18,17 @@ public class FixedVoucherService extends VoucherService{
     }
 
     @Override
-    public void createVoucher(VoucherType voucherType, double discountAmount) {
+    public void createVoucher(double discountAmount) {
         long randomId = abs(new Random().nextLong());
-        FixedAmountVoucher voucher = new FixedAmountVoucher(randomId, voucherType, discountAmount);
+        FixedAmountVoucher voucher = new FixedAmountVoucher(randomId, discountAmount);
         System.out.println(discountAmount);
         voucherRepository.insert(toEntity(voucher));
     }
+
+    private VoucherEntity toEntity(Voucher voucher){
+        return new VoucherEntity(voucher.getVoucherId(),VoucherType.FIXED.name(), voucher.getDiscountAmount());
+    }
+
+
 
 }

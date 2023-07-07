@@ -16,14 +16,6 @@ public class PercentAmountVoucher extends Voucher {
         }
     }
 
-    public double getPercentAmount() {
-        return discountAmount;
-    }
-
-    public void changePercentAmount(double percentAmount) {
-        validatePercent(percentAmount);
-    }
-
     @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT;

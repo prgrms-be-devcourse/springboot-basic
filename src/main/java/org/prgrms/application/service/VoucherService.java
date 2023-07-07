@@ -17,35 +17,24 @@ public abstract class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public abstract void createVoucher(VoucherType voucherType, double voucherDetail);
+    public abstract void createVoucher(double voucherDetail);
 
     public List<Voucher> getVouchers() {
         List<VoucherEntity> voucherEntities = voucherRepository.findAll();
-        for(VoucherEntity v : voucherEntities){
-            System.out.println(v.getVoucherId());
-            System.out.println(v.getVoucherType());
-            System.out.println(v.getDiscountAmount());
-        }
-
         return voucherEntities.stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     protected Voucher toDomain(VoucherEntity voucherEntity){
         switch (voucherEntity.getVoucherType()){
             case "FIXED":
-                return new FixedAmountVoucher(voucherEntity.getVoucherId(), VoucherType.valueOf(voucherEntity.getVoucherType()), voucherEntity.getDiscountAmount());
+                return new FixedAmountVoucher(voucherEntity.getVoucherId(), voucherEntity.getDiscountAmount());
 
             case "PERCENT":
-                System.out.println(voucherEntity.getDiscountAmount()); // 0인 값ㅇ ㅣ들어온다.
-                return new PercentAmountVoucher(voucherEntity.getVoucherId(), VoucherType.valueOf(voucherEntity.getVoucherType()), voucherEntity.getDiscountAmount());
+                return new PercentAmountVoucher(voucherEntity.getVoucherId(), voucherEntity.getDiscountAmount());
 
             default:
                 throw new IllegalArgumentException("알 수 없는 voucherType입니다.");
         }
-    }
-
-    protected VoucherEntity toEntity(Voucher voucher){
-        return new VoucherEntity(voucher.getVoucherId(),voucher.getVoucherType().toString(), voucher.getDiscountAmount());
     }
 
 }

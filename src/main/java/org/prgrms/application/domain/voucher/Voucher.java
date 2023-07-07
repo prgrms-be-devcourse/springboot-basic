@@ -19,6 +19,10 @@ public abstract class Voucher {
         return discountAmount;
     }
 
+    public void changeDiscountAmount(double discountAmount){
+        this.discountAmount = discountAmount;
+    }
+
     public abstract VoucherType getVoucherType();
 
     public abstract double discount(double beforeDiscount);
