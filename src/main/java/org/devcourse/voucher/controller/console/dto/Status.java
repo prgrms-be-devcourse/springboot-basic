@@ -5,6 +5,6 @@ public enum Status {
     FINISH;
 
     public boolean isRunning() {
-        return !this.equals(FINISH);
+        return this.equals(RUNNING);
     }
 }
