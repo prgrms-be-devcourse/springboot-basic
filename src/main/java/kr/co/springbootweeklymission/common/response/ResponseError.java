@@ -9,7 +9,8 @@ import java.util.List;
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public record ResponseError(String message,
+public record ResponseError(String exception,
+                            String message,
                             HttpStatus httpStatus,
                             @JsonInclude(JsonInclude.Include.NON_EMPTY)
                             List<ValidationException> validationExceptions) {
