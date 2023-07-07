@@ -2,6 +2,7 @@ package com.example.voucher.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,11 +23,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
         inMemoryDataBase.put(voucherId, voucher);
 
         return inMemoryDataBase.get(voucherId).getVoucherId();
+
     }
 
     @Override
     public List<Voucher> findAll() {
         return Collections.unmodifiableList(new ArrayList<>(inMemoryDataBase.values()));
+
     }
 
 }
