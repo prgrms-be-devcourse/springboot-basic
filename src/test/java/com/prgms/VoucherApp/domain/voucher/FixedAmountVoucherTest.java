@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain.voucher;
 
+import com.prgms.VoucherApp.domain.voucher.model.FixedAmountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

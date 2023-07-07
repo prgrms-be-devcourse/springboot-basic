@@ -1,11 +1,11 @@
 package com.prgms.VoucherApp.domain.customer.controller;
 
-import com.prgms.VoucherApp.domain.customer.CustomerCommand;
-import com.prgms.VoucherApp.domain.customer.CustomerStatus;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateReqDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
-import com.prgms.VoucherApp.domain.customer.model.CustomerDao;
+import com.prgms.VoucherApp.domain.customer.model.CustomerDaoHandler;
+import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
+import com.prgms.VoucherApp.view.CustomerCommand;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.Output;
 import org.springframework.stereotype.Controller;
@@ -15,12 +15,12 @@ import java.util.UUID;
 @Controller
 public class CustomerManagementController implements Runnable {
 
-    private final CustomerDao customerDao;
+    private final CustomerDaoHandler customerDaoHandler;
     private final Input input;
     private final Output output;
 
-    public CustomerManagementController(CustomerDao customerDao, Input input, Output output) {
-        this.customerDao = customerDao;
+    public CustomerManagementController(CustomerDaoHandler customerDaoHandler, Input input, Output output) {
+        this.customerDaoHandler = customerDaoHandler;
         this.input = input;
         this.output = output;
     }
@@ -37,12 +37,12 @@ public class CustomerManagementController implements Runnable {
                 String inputCustomerStatus = input.inputCustomerStatus();
                 CustomerStatus inputStatus = CustomerStatus.findByStatus(inputCustomerStatus);
                 CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(inputStatus);
-                customerDao.save(customerCreateReqDto);
+                customerDaoHandler.save(customerCreateReqDto);
                 continue;
             }
 
             if (customerCommand.isFindAll()) {
-                CustomersResDto findCustomers = customerDao.findAll();
+                CustomersResDto findCustomers = customerDaoHandler.findAll();
                 output.printCustomers(findCustomers);
                 continue;
             }
@@ -50,7 +50,7 @@ public class CustomerManagementController implements Runnable {
             if (customerCommand.isFindOne()) {
                 String inputUUID = input.inputUUID();
                 UUID customerId = UUID.fromString(inputUUID);
-                customerDao.findOne(customerId)
+                customerDaoHandler.findOne(customerId)
                     .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
                 continue;
             }
@@ -59,13 +59,13 @@ public class CustomerManagementController implements Runnable {
                 String inputCustomerStatus = input.inputCustomerStatus();
                 CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
                 CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(customerStatus);
-                CustomersResDto findCustomers = customerDao.findByStatus(customerCreateReqDto);
+                CustomersResDto findCustomers = customerDaoHandler.findByStatus(customerCreateReqDto);
                 output.printCustomers(findCustomers);
                 continue;
             }
 
             if (customerCommand.isFindBlackList()) {
-                CustomersResDto blackLists = customerDao.readBlackLists();
+                CustomersResDto blackLists = customerDaoHandler.readBlackLists();
                 output.printBlackLists(blackLists);
                 continue;
             }
@@ -76,14 +76,14 @@ public class CustomerManagementController implements Runnable {
                 String inputCustomerStatus = input.inputCustomerStatus();
                 CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
                 CustomerUpdateReqDto customerUpdateReqDto = new CustomerUpdateReqDto(customerId, customerStatus);
-                customerDao.update(customerUpdateReqDto);
+                customerDaoHandler.update(customerUpdateReqDto);
                 continue;
             }
 
             if (customerCommand.isDelete()) {
                 String inputUUID = input.inputUUID();
                 UUID customerId = UUID.fromString(inputUUID);
-                customerDao.deleteById(customerId);
+                customerDaoHandler.deleteById(customerId);
                 continue;
             }
 

@@ -1,7 +1,7 @@
 package com.prgms.VoucherApp.domain.voucher.dto;
 
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
+import com.prgms.VoucherApp.domain.voucher.model.Voucher;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.prgms.VoucherApp.domain.customer;
+package com.prgms.VoucherApp.view;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +24,7 @@ public enum CustomerCommand {
     }
 
     private static final Map<Integer, CustomerCommand> CUSTOMER_COMMAND_MAP = Collections.unmodifiableMap(Arrays.stream(values())
-            .collect(Collectors.toMap(CustomerCommand::getCustomerCommandNumber, Function.identity())));
+        .collect(Collectors.toMap(CustomerCommand::getCustomerCommandNumber, Function.identity())));
 
     public static CustomerCommand findByCustomerTypeNumber(int customerCommandNumber) {
         return CUSTOMER_COMMAND_MAP.get(customerCommandNumber);
@@ -36,8 +36,8 @@ public enum CustomerCommand {
 
     public static List<Integer> getAllCustomerCommand() {
         return CUSTOMER_COMMAND_MAP.keySet()
-                .stream()
-                .toList();
+            .stream()
+            .toList();
     }
 
     public String getCustomerCommandName() {

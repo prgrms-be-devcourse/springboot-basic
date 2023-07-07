@@ -1,12 +1,12 @@
 package com.prgms.VoucherApp.view.console;
 
-import com.prgms.VoucherApp.domain.customer.CustomerCommand;
-import com.prgms.VoucherApp.domain.customer.CustomerStatus;
-import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
+import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import com.prgms.VoucherApp.util.UUIDFormatChecker;
+import com.prgms.VoucherApp.view.CustomerCommand;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.ManagementType;
+import com.prgms.VoucherApp.view.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package com.prgms.VoucherApp.domain.voucher;
+package com.prgms.VoucherApp.domain.voucher.model;
 
 import java.math.BigDecimal;
 import java.util.UUID;

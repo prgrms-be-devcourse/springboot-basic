@@ -1,14 +1,14 @@
 package com.prgms.VoucherApp.domain.voucher.controller;
 
 
-import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateReqDto;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateReqDto;
 import com.prgms.VoucherApp.domain.voucher.dto.VouchersResDto;
-import com.prgms.VoucherApp.domain.voucher.model.VoucherDao;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherDaoHandler;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.Output;
+import com.prgms.VoucherApp.view.VoucherCommand;
 import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
@@ -17,12 +17,12 @@ import java.util.UUID;
 @Controller
 public class VoucherManagementController implements Runnable {
 
-    private final VoucherDao voucherDao;
+    private final VoucherDaoHandler voucherDaoHandler;
     private final Input input;
     private final Output output;
 
-    public VoucherManagementController(VoucherDao voucherDao, Input input, Output output) {
-        this.voucherDao = voucherDao;
+    public VoucherManagementController(VoucherDaoHandler voucherDaoHandler, Input input, Output output) {
+        this.voucherDaoHandler = voucherDaoHandler;
         this.input = input;
         this.output = output;
     }
@@ -42,12 +42,12 @@ public class VoucherManagementController implements Runnable {
                 output.printDisplayDiscountCondition(voucherType);
                 Long amount = input.inputDiscountAmount(voucherType);
                 VoucherCreateReqDto voucherCreateReqDto = new VoucherCreateReqDto(voucherType, BigDecimal.valueOf(amount));
-                voucherDao.save(voucherCreateReqDto);
+                voucherDaoHandler.save(voucherCreateReqDto);
                 continue;
             }
 
             if (command.isFindAll()) {
-                VouchersResDto findVouchers = voucherDao.findAll();
+                VouchersResDto findVouchers = voucherDaoHandler.findAll();
                 output.printVoucherList(findVouchers.getVouchers());
                 continue;
             }
@@ -55,7 +55,7 @@ public class VoucherManagementController implements Runnable {
             if (command.isFindOne()) {
                 String inputUUID = input.inputUUID();
                 UUID voucherId = UUID.fromString(inputUUID);
-                voucherDao.findOne(voucherId)
+                voucherDaoHandler.findOne(voucherId)
                     .ifPresentOrElse(output::printVoucher, output::printFindEmpty);
                 continue;
             }
@@ -63,7 +63,7 @@ public class VoucherManagementController implements Runnable {
             if (command.isFindByVoucherType()) {
                 String inputVoucherType = input.inputVoucherType();
                 VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
-                VouchersResDto findVouchers = voucherDao.findByVoucherType(voucherType);
+                VouchersResDto findVouchers = voucherDaoHandler.findByVoucherType(voucherType);
                 output.printVoucherList(findVouchers.getVouchers());
                 continue;
             }
@@ -76,14 +76,14 @@ public class VoucherManagementController implements Runnable {
                 Long inputAmount = input.inputDiscountAmount(voucherType);
                 BigDecimal amount = BigDecimal.valueOf(inputAmount);
                 VoucherUpdateReqDto voucherUpdateReqDto = new VoucherUpdateReqDto(voucherId, amount, voucherType);
-                voucherDao.update(voucherUpdateReqDto);
+                voucherDaoHandler.update(voucherUpdateReqDto);
                 continue;
             }
 
             if (command.isDelete()) {
                 String inputUUID = input.inputUUID();
                 UUID voucherId = UUID.fromString(inputUUID);
-                voucherDao.deleteById(voucherId);
+                voucherDaoHandler.deleteById(voucherId);
                 continue;
             }
 

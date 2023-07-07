@@ -1,8 +1,6 @@
 package com.prgms.VoucherApp.domain.voucher.storage;
 
-import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.voucher.Voucher;
+import com.prgms.VoucherApp.domain.voucher.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,13 +10,13 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class VoucherMemoryStorageTest {
+class VoucherMemoryDaoTest {
 
-    VoucherStorage storage;
+    VoucherDao storage;
 
     @BeforeEach
     void setUp() {
-        storage = new VoucherMemoryStorage();
+        storage = new VoucherMemoryDao();
     }
 
     @Test

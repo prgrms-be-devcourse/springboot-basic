@@ -1,4 +1,4 @@
-package com.prgms.VoucherApp.domain.voucher;
+package com.prgms.VoucherApp.view;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,7 +19,7 @@ public enum VoucherCommand {
     private final int voucherCommandNumber;
 
     private static final Map<Integer, VoucherCommand> VOUCHER_COMMAND_MAP = Collections.unmodifiableMap(Arrays.stream(values())
-            .collect(Collectors.toMap(VoucherCommand::getVoucherCommandNumber, Function.identity())));
+        .collect(Collectors.toMap(VoucherCommand::getVoucherCommandNumber, Function.identity())));
 
     VoucherCommand(int voucherCommandNumber) {
         this.voucherCommandNumber = voucherCommandNumber;
@@ -35,8 +35,8 @@ public enum VoucherCommand {
 
     public static List<Integer> getAllVoucherCommand() {
         return VOUCHER_COMMAND_MAP.keySet()
-                .stream()
-                .toList();
+            .stream()
+            .toList();
     }
 
     public String getVoucherCommandName() {

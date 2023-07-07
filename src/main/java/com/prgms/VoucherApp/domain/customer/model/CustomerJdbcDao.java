@@ -1,7 +1,5 @@
-package com.prgms.VoucherApp.domain.customer.storage;
+package com.prgms.VoucherApp.domain.customer.model;
 
-import com.prgms.VoucherApp.domain.customer.Customer;
-import com.prgms.VoucherApp.domain.customer.CustomerStatus;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +16,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class CustomerJdbcStorage implements CustomerStorage {
+public class CustomerJdbcDao implements CustomerDao {
 
-    private final static Logger logger = LoggerFactory.getLogger(CustomerJdbcStorage.class);
+    private final static Logger logger = LoggerFactory.getLogger(CustomerJdbcDao.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public CustomerJdbcStorage(DataSource dataSource) {
+    public CustomerJdbcDao(DataSource dataSource) {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

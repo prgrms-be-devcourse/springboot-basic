@@ -1,4 +1,4 @@
-package com.prgms.VoucherApp.domain.customer;
+package com.prgms.VoucherApp.domain.customer.model;
 
 import java.util.UUID;
 

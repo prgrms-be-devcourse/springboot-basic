@@ -1,7 +1,7 @@
 package com.prgms.VoucherApp.domain.customer.dto;
 
-import com.prgms.VoucherApp.domain.customer.Customer;
-import com.prgms.VoucherApp.domain.customer.CustomerStatus;
+import com.prgms.VoucherApp.domain.customer.model.Customer;
+import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 
 import java.util.UUID;
 

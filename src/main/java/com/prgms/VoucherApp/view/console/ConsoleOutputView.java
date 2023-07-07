@@ -1,13 +1,13 @@
 package com.prgms.VoucherApp.view.console;
 
-import com.prgms.VoucherApp.domain.customer.CustomerCommand;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
-import com.prgms.VoucherApp.domain.voucher.VoucherCommand;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
+import com.prgms.VoucherApp.view.CustomerCommand;
 import com.prgms.VoucherApp.view.ManagementType;
 import com.prgms.VoucherApp.view.Output;
+import com.prgms.VoucherApp.view.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;

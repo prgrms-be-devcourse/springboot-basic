@@ -1,7 +1,5 @@
-package com.prgms.VoucherApp.domain.voucher.storage;
+package com.prgms.VoucherApp.domain.voucher.model;
 
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("default")
-public class VoucherMemoryStorage implements VoucherStorage {
+public class VoucherMemoryDao implements VoucherDao {
 
     private Map<UUID, Voucher> voucherLinkedMap = new ConcurrentHashMap<>();
 
@@ -26,9 +24,9 @@ public class VoucherMemoryStorage implements VoucherStorage {
     @Override
     public List<Voucher> findAll() {
         return voucherLinkedMap
-                .values()
-                .stream()
-                .toList();
+            .values()
+            .stream()
+            .toList();
     }
 
     @Override

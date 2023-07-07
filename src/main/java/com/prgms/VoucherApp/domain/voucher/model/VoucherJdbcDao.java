@@ -1,9 +1,5 @@
-package com.prgms.VoucherApp.domain.voucher.storage;
+package com.prgms.VoucherApp.domain.voucher.model;
 
-import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -21,12 +17,12 @@ import java.util.UUID;
 
 @Repository
 @Primary
-public class VoucherJdbcStorage implements VoucherStorage {
+public class VoucherJdbcDao implements VoucherDao {
 
-    private static Logger logger = LoggerFactory.getLogger(VoucherJdbcStorage.class);
+    private static Logger logger = LoggerFactory.getLogger(VoucherJdbcDao.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public VoucherJdbcStorage(DataSource dataSource) {
+    public VoucherJdbcDao(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

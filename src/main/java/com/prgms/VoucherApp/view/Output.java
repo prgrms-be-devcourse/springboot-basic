@@ -2,8 +2,8 @@ package com.prgms.VoucherApp.view;
 
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 
 import java.util.List;
 

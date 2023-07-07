@@ -1,11 +1,11 @@
 package com.prgms.VoucherApp.util;
 
-import com.prgms.VoucherApp.domain.customer.Customer;
-import com.prgms.VoucherApp.domain.customer.CustomerStatus;
-import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
+import com.prgms.VoucherApp.domain.customer.model.Customer;
+import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
+import com.prgms.VoucherApp.domain.voucher.model.FixedAmountVoucher;
+import com.prgms.VoucherApp.domain.voucher.model.PercentDiscountVoucher;
+import com.prgms.VoucherApp.domain.voucher.model.Voucher;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 
 import java.math.BigDecimal;
 import java.util.UUID;

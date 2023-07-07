@@ -1,8 +1,9 @@
 package com.prgms.VoucherApp.domain.customer.storage;
 
-import com.prgms.VoucherApp.domain.customer.Customer;
-import com.prgms.VoucherApp.domain.customer.CustomerStatus;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
+import com.prgms.VoucherApp.domain.customer.model.Customer;
+import com.prgms.VoucherApp.domain.customer.model.CustomerDao;
+import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +20,10 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @Transactional
-class CustomerJdbcStorageTest {
+class CustomerJdbcDaoTest {
 
     @Autowired
-    CustomerStorage customerStorage;
+    CustomerDao customerDao;
 
     @Test
     @DisplayName("고객를 저장한다.")
@@ -31,8 +32,8 @@ class CustomerJdbcStorageTest {
         Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerStorage.save(customer);
-        Optional<Customer> findCustomer = customerStorage.findById(customer.getCustomerId());
+        customerDao.save(customer);
+        Optional<Customer> findCustomer = customerDao.findById(customer.getCustomerId());
 
         // then
         MatcherAssert.assertThat(findCustomer.isEmpty(), is(false));
@@ -47,10 +48,10 @@ class CustomerJdbcStorageTest {
         Customer customerB = new Customer(UUID.randomUUID(), CustomerStatus.BLACKLIST);
 
         // when
-        customerStorage.save(customerA);
-        customerStorage.save(customerB);
+        customerDao.save(customerA);
+        customerDao.save(customerB);
 
-        List<Customer> findCustomers = customerStorage.findAll();
+        List<Customer> findCustomers = customerDao.findAll();
 
         // then
         MatcherAssert.assertThat(findCustomers.isEmpty(), is(false));
@@ -64,9 +65,9 @@ class CustomerJdbcStorageTest {
         Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerStorage.save(customer);
+        customerDao.save(customer);
 
-        Optional<Customer> findCustomer = customerStorage.findById(customer.getCustomerId());
+        Optional<Customer> findCustomer = customerDao.findById(customer.getCustomerId());
 
         // then
         MatcherAssert.assertThat(findCustomer.isEmpty(), is(false));
@@ -80,8 +81,8 @@ class CustomerJdbcStorageTest {
         Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerStorage.save(customer);
-        Optional<Customer> findCustomer = customerStorage.findById(UUID.randomUUID());
+        customerDao.save(customer);
+        Optional<Customer> findCustomer = customerDao.findById(UUID.randomUUID());
 
         // then
         MatcherAssert.assertThat(findCustomer.isEmpty(), is(true));
@@ -96,12 +97,12 @@ class CustomerJdbcStorageTest {
         Customer customerC = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerStorage.save(customerA);
-        customerStorage.save(customerB);
-        customerStorage.save(customerC);
+        customerDao.save(customerA);
+        customerDao.save(customerB);
+        customerDao.save(customerC);
 
-        List<Customer> normalCustomers = customerStorage.findByCustomerStatus(CustomerStatus.NORMAL);
-        List<Customer> blacklistCustomers = customerStorage.findByCustomerStatus(CustomerStatus.BLACKLIST);
+        List<Customer> normalCustomers = customerDao.findByCustomerStatus(CustomerStatus.NORMAL);
+        List<Customer> blacklistCustomers = customerDao.findByCustomerStatus(CustomerStatus.BLACKLIST);
 
         // then
         MatcherAssert.assertThat(normalCustomers, Matchers.hasSize(2));
@@ -116,10 +117,10 @@ class CustomerJdbcStorageTest {
         Customer customerB = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerStorage.save(customerA);
-        customerStorage.save(customerB);
+        customerDao.save(customerA);
+        customerDao.save(customerB);
 
-        List<Customer> blacklistCustomers = customerStorage.findByCustomerStatus(CustomerStatus.BLACKLIST);
+        List<Customer> blacklistCustomers = customerDao.findByCustomerStatus(CustomerStatus.BLACKLIST);
 
         // then
         MatcherAssert.assertThat(blacklistCustomers, Matchers.hasSize(0));
@@ -130,12 +131,12 @@ class CustomerJdbcStorageTest {
     void updateCustomerStatus() {
         // given
         Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
-        customerStorage.save(customer);
+        customerDao.save(customer);
 
         // when
         CustomerUpdateReqDto updateReqDto = new CustomerUpdateReqDto(customer.getCustomerId(), CustomerStatus.BLACKLIST);
-        customerStorage.updateStatus(updateReqDto);
-        Optional<Customer> findCustomer = customerStorage.findById(customer.getCustomerId());
+        customerDao.updateStatus(updateReqDto);
+        Optional<Customer> findCustomer = customerDao.findById(customer.getCustomerId());
 
         // then
         MatcherAssert.assertThat(findCustomer.get().getCustomerStatus(), is(CustomerStatus.BLACKLIST));
@@ -149,11 +150,11 @@ class CustomerJdbcStorageTest {
         Customer customerB = new Customer(UUID.randomUUID(), CustomerStatus.BLACKLIST);
 
         // when
-        customerStorage.save(customerA);
-        customerStorage.save(customerB);
+        customerDao.save(customerA);
+        customerDao.save(customerB);
 
-        customerStorage.deleteById(customerA.getCustomerId());
-        List<Customer> findCustomers = customerStorage.findAll();
+        customerDao.deleteById(customerA.getCustomerId());
+        List<Customer> findCustomers = customerDao.findAll();
 
         // then
         MatcherAssert.assertThat(findCustomers, hasSize(1));
