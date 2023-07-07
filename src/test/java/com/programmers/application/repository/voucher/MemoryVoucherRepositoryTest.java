@@ -1,4 +1,4 @@
-package com.programmers.application.repository;
+package com.programmers.application.repository.voucher;
 
 import com.programmers.application.domain.voucher.Voucher;
 import com.programmers.application.domain.voucher.VoucherFactory;
