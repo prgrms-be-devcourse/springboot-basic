@@ -1,109 +1,58 @@
 package com.example.voucher.controller;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.NoSuchElementException;
+import static com.example.voucher.utils.ExceptionMessage.INVALID_ARGUMENT_CANT_CREATE;
+import static com.example.voucher.utils.ExceptionMessage.EXCEPTION_CANT_CREATE;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Controller;
 
-import com.example.voucher.constant.ConstantStrings;
+import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
-import com.example.voucher.constant.VoucherType;
-import com.example.voucher.io.Console;
 import com.example.voucher.service.VoucherService;
+import com.example.voucher.utils.ExceptionHandler;
+import com.example.voucher.utils.Validator;
 
 @Controller
-public class VoucherController implements CommandLineRunner {
+public class VoucherController {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
-
-    private boolean isOn = true;
     private final VoucherService voucherService;
 
     private VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        start();
-    }
+    public void createVoucher(VoucherCreateRequest request) {
 
-    private void start() {
-        while (isOn) {
-            Console.printModeType();
-            String readModeType = Console.readModeType();
-
-            try {
-                ModeType modeType = ModeType.getTypeMode(readModeType);
-                processMode(modeType);
-            } catch (NoSuchElementException e) {
-                logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
-                Console.printError(ConstantStrings.MESSAGE_PRINT_RETRY_MODE_SELECTION_PROMPT);
-            }
-        }
-    }
-
-    private void processMode(ModeType mode) {
-        switch (mode) {
-            case EXIT -> isOn = false;
-            case CREATE -> createVoucher();
-            case LIST -> getVouchers();
-        }
-    }
-
-    private void createVoucher() {
         try {
-            createVoucherDetail();
+            VoucherType voucherType = Validator.validateVoucherTypeMatch(request.voucherType());
+
+            switch (voucherType) {
+                case FIXED_AMOUNT_DISCOUNT -> voucherService.createFixedAmountDiscountVoucher(request.discountValue());
+                case PERCENT_DISCOUNT -> voucherService.createPercentDiscountVoucher(request.discountValue());
+            }
+
         } catch (IllegalArgumentException e) {
-            logger.error(ConstantStrings.PREFIX_ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE + e.getMessage());
-            Console.printError(e.getMessage());
-        } catch (InputMismatchException e) {
-            logger.error(ConstantStrings.PREFIX_INPUT_MISMATCH_EXCEPTION_MESSAGE + e.getMessage());
-            Console.printError(e.getMessage());
-        } catch (NoSuchElementException e) {
-            logger.error(ConstantStrings.PREFIX_NO_SUCH_ELEMENT_EXCEPTION_MESSAGE + e.getMessage());
-            Console.printError(e.getMessage());
+            ExceptionHandler.handleException(new IllegalArgumentException(INVALID_ARGUMENT_CANT_CREATE));
+
         } catch (Exception e) {
-            logger.error(ConstantStrings.PREFIX_EXCEPTION_MESSAGE + e.getMessage());
-            Console.printError(e.getMessage());
+            ExceptionHandler.handleException(new Exception(EXCEPTION_CANT_CREATE));
+
         }
+
     }
 
-    private void createVoucherDetail() {
-        Console.printVoucherType();
-        Integer inputVoucherType = Console.readVoucherType();
-        VoucherType voucherType = VoucherType.getVouchersType(inputVoucherType);
-        processVoucherType(voucherType);
-    }
-
-    private Voucher processVoucherType(VoucherType voucherType) {
-        Voucher voucher = switch (voucherType) {
-            case FIXED_AMOUNT_DISCOUNT -> {
-                Console.printDiscountAmount();
-                long discountAmount = Console.readDiscount();
-                yield voucherService.createVoucher(voucherType, discountAmount);
-            }
-            case PERCNET_DISCOUNT -> {
-                Console.printDiscountPercent();
-                long discountPercent = Console.readDiscount();
-                yield voucherService.createVoucher(voucherType, discountPercent);
-            }
-        };
-
-        return voucher;
-    }
-
-    private void getVouchers() {
+    public List<VoucherDTO> getVouchers() {
         List<Voucher> vouchers = voucherService.getVouchers();
 
-        vouchers.stream()
+        List<VoucherDTO> voucherDTOS = vouchers.stream()
             .map(o -> new VoucherDTO(o.getValue(), o.getVoucherType()))
-            .forEach(Console::printVoucherInfo);
+            .collect(Collectors.toList());
+
+        return voucherDTOS;
+
     }
 
 }
