@@ -100,7 +100,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         return ((resultSet, rowMap) ->
                 VoucherFactory.createVoucher(UUID.fromString(resultSet.getString("voucher_id")),
                         VoucherType.valueOf(resultSet.getString("voucher_type")),
-                        resultSet.getString("voucher_discount_amount")
+                        Long.parseLong(resultSet.getString("voucher_discount_amount"))
                 )
         );
     }

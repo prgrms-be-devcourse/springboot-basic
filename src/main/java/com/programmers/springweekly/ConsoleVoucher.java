@@ -2,30 +2,31 @@ package com.programmers.springweekly;
 
 import com.programmers.springweekly.controller.VoucherController;
 import com.programmers.springweekly.domain.VoucherMenu;
-import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherType;
+import com.programmers.springweekly.dto.voucher.request.VoucherCreateRequest;
+import com.programmers.springweekly.dto.voucher.request.VoucherUpdateRequest;
+import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.view.Console;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class ConsoleVoucher {
 
     private final VoucherController voucherController;
     private final Console console;
 
     public void run() {
-        console.outputVoucherMenu();
+        console.outputVoucherMenuGuide();
         VoucherMenu voucherMenu = VoucherMenu.from(console.inputMessage());
 
         switch (voucherMenu) {
             case CREATE -> createVoucher();
-            case SELECT -> getVoucherList();
+            case UPDATE -> updateVoucher();
+            case DELETE -> deleteVoucher();
+            case SELECT -> selectVoucher();
             default -> throw new IllegalArgumentException("Input :" + voucherMenu + "찾으시는 바우처 메뉴가 없습니다.");
         }
     }
@@ -35,20 +36,39 @@ public class ConsoleVoucher {
         VoucherType voucherType = VoucherType.from(console.inputMessage());
 
         console.outputDiscountGuide();
-        String inputNumber = console.inputMessage();
-        log.info("user input: {} ", inputNumber);
+        VoucherCreateRequest voucherCreateRequest = console.inputVoucherCreate(voucherType);
 
-        voucherController.createVoucher(voucherType, inputNumber);
+        voucherController.save(voucherCreateRequest);
+        console.outputCompleteGuide();
     }
 
-    private void getVoucherList() {
-        List<Voucher> voucherList = voucherController.getVoucherList();
+    private void updateVoucher() {
+        console.outputUUIDGuide();
+        UUID voucherId = console.inputUUID();
 
-        if (voucherList.isEmpty()) {
+        console.outputVoucherUpdateGuide();
+        VoucherUpdateRequest voucherUpdateRequest = console.inputVoucherUpdate(voucherId);
+
+        voucherController.update(voucherUpdateRequest);
+        console.outputCompleteGuide();
+    }
+
+    private void deleteVoucher() {
+        console.outputUUIDGuide();
+        UUID voucherId = console.inputUUID();
+
+        voucherController.deleteById(voucherId);
+        console.outputCompleteGuide();
+    }
+    
+    private void selectVoucher() {
+        VoucherListResponse voucherListResponse = voucherController.findAll();
+
+        if (voucherListResponse.getVoucherList().isEmpty()) {
             console.outputErrorMessage("저장된 바우처가 없습니다.");
             return;
         }
 
-        console.outputGetVoucherAll(voucherList);
+        console.outputGetVoucherAll(voucherListResponse);
     }
 }

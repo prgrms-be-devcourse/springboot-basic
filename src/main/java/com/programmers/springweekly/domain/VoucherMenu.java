@@ -2,6 +2,8 @@ package com.programmers.springweekly.domain;
 
 public enum VoucherMenu {
     CREATE,
+    UPDATE,
+    DELETE,
     SELECT;
 
     public static VoucherMenu from(String type) {

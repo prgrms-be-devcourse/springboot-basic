@@ -1,10 +1,10 @@
 package com.programmers.springweekly.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
+import com.programmers.springweekly.domain.voucher.VoucherType;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Validator {
@@ -15,13 +15,15 @@ public final class Validator {
     private static final int PERCENT_MAX = 100;
     private static final int PERCENT_MIN = 0;
 
-    public static void fixedAmountValidate(String fixedAmount) {
-        numberValidate(fixedAmount);
-    }
+    public static void validateDiscountAmount(VoucherType voucherType, String discountAmount) {
+        if (voucherType == VoucherType.FIXED) {
+            numberValidate(discountAmount);
+        }
 
-    public static void percentValidate(String percent) {
-        numberValidate(percent);
-        rangeValidate(percent);
+        if (voucherType == VoucherType.PERCENT) {
+            numberValidate(discountAmount);
+            rangeValidate(discountAmount);
+        }
     }
 
     public static String[] inputParse(String input) {
