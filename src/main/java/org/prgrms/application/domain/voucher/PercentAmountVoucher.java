@@ -5,11 +5,9 @@ public class PercentAmountVoucher extends Voucher {
     private static final double MAX_DISCOUNT_VALUE = 100;
     private VoucherType voucherType;
 
-    public PercentAmountVoucher(Long voucherId, VoucherType voucherType, double discountAmount) {
+    public PercentAmountVoucher(Long voucherId, double discountAmount) {
+        super(voucherId,discountAmount);
         validatePercent(discountAmount);
-        this.voucherId = voucherId;
-        this.voucherType = voucherType;
-        this.discountAmount = discountAmount;
     }
 
     private void validatePercent(double percentAmount) {
@@ -33,7 +31,7 @@ public class PercentAmountVoucher extends Voucher {
 
     @Override
     public VoucherType getVoucherType() {
-        return voucherType;
+        return VoucherType.PERCENT;
     }
 
     @Override

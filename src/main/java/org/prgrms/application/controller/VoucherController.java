@@ -14,15 +14,15 @@ import java.util.List;
 public class VoucherController {
 
     private final VoucherTypeFactory voucherTypeFactory;
+    private VoucherService voucherService;
 
     public VoucherController(VoucherTypeFactory voucherTypeFactory) {
         this.voucherTypeFactory = voucherTypeFactory;
     }
 
-//    public List<Voucher> getStorage() {
-//        VoucherService voucherService;
-//        return voucherService.getVouchers();
-//    }
+    public List<Voucher> getStorage() {
+        return voucherService.getVouchers();
+    }
 
     public void createVoucher(VoucherType voucherType, double discountAmount) {
         VoucherService voucherService;

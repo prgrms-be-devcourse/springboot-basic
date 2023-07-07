@@ -2,17 +2,11 @@ package org.prgrms.application.domain.voucher;
 
 public class FixedAmountVoucher extends Voucher {
 
-    private VoucherType voucherType;
-
-    public FixedAmountVoucher(Long voucherId, VoucherType voucherType, double discountAmount) {
+    public FixedAmountVoucher(Long voucherId, double discountAmount) {
         super(voucherId,discountAmount);
         validatePositive(discountAmount);
-        this.voucherType = voucherType;
     }
 
-    public double getFixedAmount() {
-        return discountAmount;
-    }
 
     public void changeFixedAmount(double discountAmount) {
         validatePositive(discountAmount);
@@ -26,7 +20,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public VoucherType getVoucherType() {
-        return voucherType;
+        return VoucherType.FIXED;
     }
 
     @Override
@@ -37,8 +31,7 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public double discount(double beforeDiscount) {
         validatePositive(beforeDiscount - discountAmount);
-        double discountedAmount = beforeDiscount - discountAmount;
-        return discountedAmount;
+        return beforeDiscount - discountAmount;
     }
 
     private void validatePositive(double amount) {

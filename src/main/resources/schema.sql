@@ -1,4 +1,4 @@
-DROP TABLE customers,vouchers;
+-- DROP TABLE customers,vouchers;
 
 CREATE TABLE customers
 (

@@ -1,37 +1,33 @@
 package org.prgrms.application.domain.voucher;
 
-import org.prgrms.application.service.FixedVoucherService;
-import org.prgrms.application.service.IntegratedVoucherService;
-import org.prgrms.application.service.PercentVoucherService;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class VoucherTypeFactory {
 
-    private FixedVoucherService fixedVoucherService;
-    private PercentVoucherService percentVoucherService;
-    private IntegratedVoucherService integratedVoucherService;
+    private final List<VoucherService> voucherServices;
 
-    public VoucherTypeFactory(FixedVoucherService fixedVoucherService, PercentVoucherService percentVoucherService) {
-        this.fixedVoucherService = fixedVoucherService;
-        this.percentVoucherService = percentVoucherService;
+    public VoucherTypeFactory(List<VoucherService> voucherServices) {
+        this.voucherServices = voucherServices;
     }
-
 
     public VoucherService getType(VoucherType voucherType){
         final VoucherService voucherService;
 
         switch (voucherType){
             case FIXED:
-                voucherService = fixedVoucherService;
+                voucherService = null;
                 break;
             case PERCENT:
-                voucherService = percentVoucherService;
+                voucherService = null;
                 break;
             default:
-                voucherService = integratedVoucherService;
+                voucherService = null;
         }
+
         return  voucherService;
     }
 }
