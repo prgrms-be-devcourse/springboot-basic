@@ -5,6 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
+import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
+import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
@@ -19,8 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application.yaml")
@@ -29,6 +31,8 @@ class JdbcCustomerRepositoryTest {
 
     @Autowired
     JdbcCustomerRepository customerRepository;
+    @Autowired
+    JdbcVoucherRepository voucherRepository;
 
     @AfterEach
     void init() {
@@ -157,6 +161,24 @@ class JdbcCustomerRepositoryTest {
         //then
         assertThat(customerList.isEmpty()).isEqualTo(false);
         assertThat(customerList.size()).isEqualTo(saveCount);
+    }
+
+    @Test
+    @DisplayName("특정 바우처를 가진 고객 조회")
+    void findByVoucherIdTest() {
+
+        // given
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "A"));
+        Voucher savedVoucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100L));
+        voucherRepository.assignVoucherToCustomer(customer.getCustomerId(), savedVoucher.getVoucherId());
+
+        // when
+        Optional<Customer> foundCustomer = customerRepository.findByVoucherId(savedVoucher.getVoucherId());
+
+        // then
+        assertTrue(foundCustomer.isPresent());
+        assertThat(foundCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
+        assertThat(foundCustomer.get().getUsername()).isEqualTo("A");
     }
 
     @Test
