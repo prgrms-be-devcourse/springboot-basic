@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -30,5 +31,12 @@ public class VoucherApiController {
         return ResponseEntity
                 .ok()
                 .body(voucherService.getVoucherById(voucherId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<VoucherResDTO.READ>> getVouchersAll() {
+        return ResponseEntity
+                .ok()
+                .body(voucherService.getVouchersAll());
     }
 }
