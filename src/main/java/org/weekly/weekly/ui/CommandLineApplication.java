@@ -2,16 +2,21 @@ package org.weekly.weekly.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
+import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
 import org.weekly.weekly.ui.exception.InputValidator;
 import org.weekly.weekly.ui.reader.CommandReader;
 import org.weekly.weekly.ui.writer.SystemWriter;
 import org.weekly.weekly.util.CustomerMenu;
 import org.weekly.weekly.util.ManageMenu;
+import org.weekly.weekly.util.Menu;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.dto.request.VoucherInfoRequest;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
+
+import java.util.function.Supplier;
 
 @Component
 public class CommandLineApplication {
@@ -24,37 +29,25 @@ public class CommandLineApplication {
         this.commandWriter = commandWriter;
     }
 
-    public ManageMenu readMenu() {
-        while(true) {
-            try {
-                this.commandWriter.printMangeProgram();
-                return ManageMenu.getMenu(readUserInput());
-            } catch (Exception exception) {
-                printErrorMsg(exception.getMessage());
-            }
-        }
+    public ManageMenu readManageMenu() {
+        return readMenu(()-> {
+            this.commandWriter.printMangeProgram();
+            return ManageMenu.getMenu(readUserInput());
+        });
     }
 
     public VoucherMenu readVoucherMenu() {
-        while(true) {
-            try {
-                this.commandWriter.printVoucherProgram();
-                return VoucherMenu.getMenu(readUserInput());
-            } catch (Exception exception) {
-                printErrorMsg(exception.getMessage());
-            }
-        }
+        return readMenu(()-> {
+            this.commandWriter.printVoucherProgram();
+            return VoucherMenu.getMenu(readUserInput());
+        });
     }
 
     public CustomerMenu readCustomerMenu() {
-        while(true) {
-            try {
-                this.commandWriter.printCustomerProgram();
-                return CustomerMenu.getMenu(readUserInput());
-            } catch (Exception exception) {
-                printErrorMsg(exception.getMessage());
-            }
-        }
+        return readMenu(()-> {
+            this.commandWriter.printCustomerProgram();
+            return CustomerMenu.getMenu(readUserInput());
+        });
     }
 
     public VoucherCreationRequest createVoucherFromInput() {
@@ -69,24 +62,31 @@ public class CommandLineApplication {
         }
     }
 
-    public void createCustomerFromInput() {
+    public CustomerCreationRequest createCustomerFromInput() {
         while(true) {
             try {
-                DiscountType discountType = readDiscountType();
-                VoucherInfoRequest voucherInfoRequest = readVoucherInfo(discountType);
-
+                String email = processEmail();
+                String name = processName();
+                return CustomerCreationRequest.of(email, name);
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
             }
         }
     }
 
-    public void deleteCustomerFromInput() {
-
+    public CustomerUpdateRequest deleteCustomerFromInput() {
+        while(true) {
+            try {
+                String email = processEmail();
+                return CustomerUpdateRequest.of(email);
+            } catch (Exception exception) {
+                printErrorMsg(exception.getMessage());
+            }
+        }
     }
 
     public void printErrorMsg(String errorMsg) {
-        this.commandWriter.printErrorMsg(errorMsg);
+        this.commandWriter.printErrorMessage(errorMsg);
     }
 
     public void printResult(Response response) {
@@ -100,6 +100,15 @@ public class CommandLineApplication {
         return userInput;
     }
 
+    private <T extends Menu> T readMenu(Supplier<T> menuSupplier) {
+        while(true) {
+            try {
+                return menuSupplier.get();
+            } catch (Exception exception) {
+                printErrorMsg(exception.getMessage());
+            }
+        }
+    }
 
     private DiscountType readDiscountType() {
         this.commandWriter.printSelectDiscount();
@@ -113,5 +122,12 @@ public class CommandLineApplication {
         return VoucherInfoRequest.of(voucherInfo);
     }
 
-
+    private String processEmail() {
+        this.commandWriter.printEmailInputMessage();
+        return readUserInput();
+    }
+    private String processName() {
+        this.commandWriter.printNameInputMessage();
+        return readUserInput();
+    }
 }

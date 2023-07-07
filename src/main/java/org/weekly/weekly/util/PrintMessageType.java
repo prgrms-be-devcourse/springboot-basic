@@ -1,6 +1,6 @@
 package org.weekly.weekly.util;
 
-public enum PrintMessage {
+public enum PrintMessageType {
     MANAGE_PROGRAM("=== Manage Program ==="),
     VOUCHER_PROGRAM("=== Voucher Program ==="),
     CUSTOMER_PROGRAM("=== Customer Program ==="),
@@ -8,6 +8,8 @@ public enum PrintMessage {
             "입력예시 => "),
     INPUT_MESSAGE("입력하세요: "),
     DISCOUNT_SELECT("할인 종류중 하나를 선택하세요"),
+    EMAIL_INPUT("이메일을 입력하세요: "),
+    NAME_INPUT("이름을 입력하세요"),
     NO_VOUCHER_DATAS("저장소에 데이터가 없습니다."),
     EMPTY(""),
     CREATE_VOUCHER_SUCCESS("[바우처 생성에 성공]: "),
@@ -15,7 +17,7 @@ public enum PrintMessage {
 
     private final String message;
 
-    PrintMessage(String msg) {
+    PrintMessageType(String msg) {
         this.message = msg;
     }
 

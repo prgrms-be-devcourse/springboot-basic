@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.CommandLineApplication;
 import org.weekly.weekly.util.CustomerMenu;
 import org.weekly.weekly.util.ManageMenu;
-import org.weekly.weekly.util.PrintMessage;
+import org.weekly.weekly.util.PrintMessageType;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.controller.VoucherController;
 import org.weekly.weekly.voucher.dto.Response;
@@ -28,7 +28,7 @@ public class VoucherManagementController {
 
         while(!isExit) {
             try {
-                ManageMenu manageMenu = this.commandLineApplication.readMenu();
+                ManageMenu manageMenu = this.commandLineApplication.readManageMenu();
                 isExit = processManageMenuSelection(manageMenu);
             } catch (RuntimeException runtimeException) {
                 this.commandLineApplication.printErrorMsg(runtimeException.getMessage());
@@ -67,13 +67,13 @@ public class VoucherManagementController {
     private void handleVoucherCreation() {
         VoucherCreationRequest voucherCreationRequest = this.commandLineApplication.createVoucherFromInput();
         Response response = voucherController.createVoucher(voucherCreationRequest);
-        logger.info("{}{}", PrintMessage.CREATE_VOUCHER_SUCCESS.getMessage(),response.getResult());
+        logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(),response.getResult());
         this.commandLineApplication.printResult(response);
     }
 
     private void handleVoucherSearch() {
         Response response = voucherController.getVouchers();
-        logger.info("{}{}", PrintMessage.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.getResult());
+        logger.info("{}{}", PrintMessageType.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.getResult());
         this.commandLineApplication.printResult(response);
     }
 

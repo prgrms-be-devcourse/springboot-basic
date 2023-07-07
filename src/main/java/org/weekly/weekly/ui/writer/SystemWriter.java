@@ -19,43 +19,51 @@ public class SystemWriter {
     private void print(String msg) {System.out.print(msg);}
 
     public void printMangeProgram() {
-        printMenu(ManageMenu.values(), PrintMessage.MANAGE_PROGRAM);
+        printMenu(ManageMenu.values(), PrintMessageType.MANAGE_PROGRAM);
     }
 
     public void printVoucherProgram() {
-        printMenu(VoucherMenu.values(), PrintMessage.VOUCHER_PROGRAM);
+        printMenu(VoucherMenu.values(), PrintMessageType.VOUCHER_PROGRAM);
     }
 
     public void printCustomerProgram() {
-        printMenu(CustomerMenu.values(), PrintMessage.CUSTOMER_PROGRAM);
+        printMenu(CustomerMenu.values(), PrintMessageType.CUSTOMER_PROGRAM);
     }
 
-    public void printErrorMsg(String errorMsg) {
+    public void printErrorMessage(String errorMsg) {
         logger.warn(errorMsg);
-        println(PrintMessage.EMPTY.getMessage());
+        println(PrintMessageType.EMPTY.getMessage());
         println(errorMsg);
     }
 
     public void printCreateVoucher(DiscountType discountType) {
-        println(PrintMessage.EMPTY.getMessage());
-        println(PrintMessage.CREATE_VOUCHER.getMessage() + discountType.getInputExampleMessage());
-        print(PrintMessage.INPUT_MESSAGE.getMessage());
+        println(PrintMessageType.EMPTY.getMessage());
+        println(PrintMessageType.CREATE_VOUCHER.getMessage() + discountType.getInputExampleMessage());
+        print(PrintMessageType.INPUT_MESSAGE.getMessage());
     }
 
     public void printSelectDiscount() {
-        println(PrintMessage.EMPTY.getMessage());
-        println(PrintMessage.DISCOUNT_SELECT.getMessage());
+        println(PrintMessageType.EMPTY.getMessage());
+        println(PrintMessageType.DISCOUNT_SELECT.getMessage());
         Arrays.stream(DiscountType.values())
                 .forEach(discountMap -> System.out.println(discountMap.getSelectMessage()));
     }
 
+    public void printEmailInputMessage() {
+        println(PrintMessageType.EMAIL_INPUT.getMessage());
+    }
+
+    public void printNameInputMessage() {
+        println(PrintMessageType.NAME_INPUT.getMessage());
+    }
+
     public void printReuslt(String result) {
-        println(PrintMessage.EMPTY.getMessage());
+        println(PrintMessageType.EMPTY.getMessage());
         println(result);
     }
 
-    private void printMenu(Menu[] menus, PrintMessage programMessage) {
-        println(PrintMessage.EMPTY.getMessage());
+    private void printMenu(Menu[] menus, PrintMessageType programMessage) {
+        println(PrintMessageType.EMPTY.getMessage());
         println(programMessage.getMessage());
         Arrays.stream(menus)
                 .forEach(menu -> System.out.println(menu.printMessage()));
