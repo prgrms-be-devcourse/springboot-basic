@@ -1,23 +1,21 @@
 package com.programmers.voucher.global.io.menu;
 
 import com.programmers.voucher.domain.customer.controller.CustomerController;
-import com.programmers.voucher.domain.voucher.controller.VoucherController;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.command.ConsoleCommandType;
 import com.programmers.voucher.global.io.command.CustomerCommandType;
-import com.programmers.voucher.global.io.command.VoucherCommandType;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConsoleMenu {
     private final Console console;
     private final CustomerController customerController;
-    private final VoucherController voucherController;
+    private final ConsoleVoucherMenu consoleVoucherMenu;
 
-    public ConsoleMenu(Console console, CustomerController customerController, VoucherController voucherController) {
+    public ConsoleMenu(Console console, CustomerController customerController, ConsoleVoucherMenu consoleVoucherMenu) {
         this.console = console;
         this.customerController = customerController;
-        this.voucherController = voucherController;
+        this.consoleVoucherMenu = consoleVoucherMenu;
     }
 
     public boolean runClient() {
@@ -29,7 +27,7 @@ public class ConsoleMenu {
                 runningCustomerService();
             }
             case VOUCHER -> {
-                runningVoucherService();
+                consoleVoucherMenu.runningVoucherService();
             }
             case HELP -> {
                 return true;
@@ -74,38 +72,6 @@ public class ConsoleMenu {
             }
             case HELP -> {
                 console.printCustomerCommandSet();
-            }
-            case EXIT -> {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void runningVoucherService() {
-        console.printVoucherCommandSet();
-
-        boolean run = true;
-        while (run) {
-            run = voucherMapping();
-        }
-    }
-
-    private boolean voucherMapping() {
-        VoucherCommandType voucherCommandType = console.inputVoucherCommandType();
-
-        switch (voucherCommandType) {
-            case CREATE -> {
-                voucherController.createVoucher();
-            }
-            case LIST -> {
-                voucherController.findVouchers();
-            }
-            case DELETE -> {
-                voucherController.deleteVoucher();
-            }
-            case HELP -> {
-                console.printVoucherCommandSet();
             }
             case EXIT -> {
                 return false;

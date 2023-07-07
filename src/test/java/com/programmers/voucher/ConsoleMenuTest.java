@@ -1,12 +1,11 @@
 package com.programmers.voucher;
 
 import com.programmers.voucher.domain.customer.controller.CustomerController;
-import com.programmers.voucher.domain.voucher.controller.VoucherController;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.command.ConsoleCommandType;
-import com.programmers.voucher.global.io.menu.ConsoleMenu;
 import com.programmers.voucher.global.io.command.CustomerCommandType;
-import com.programmers.voucher.global.io.command.VoucherCommandType;
+import com.programmers.voucher.global.io.menu.ConsoleMenu;
+import com.programmers.voucher.global.io.menu.ConsoleVoucherMenu;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,75 +28,19 @@ class ConsoleMenuTest {
     private CustomerController customerController;
 
     @Mock
-    private VoucherController voucherController;
-
+    private ConsoleVoucherMenu consoleVoucherMenu;
 
     @Test
-    @DisplayName("성공: voucher 명령 입력 - create 명령 입력 - exit 명령 입력")
-    public void voucherCommandTypeCreate() {
+    @DisplayName("성공: voucher 명령 입력")
+    void commandTypeVoucher() {
         //given
         given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
-        given(console.inputVoucherCommandType())
-                .willReturn(VoucherCommandType.CREATE, VoucherCommandType.EXIT);
 
         //when
         consoleMenu.runClient();
 
         //then
-        then(console).should().inputInitialCommand();
-        then(console).should(times(2)).inputVoucherCommandType();
-        then(voucherController).should().createVoucher();
-    }
-
-    @Test
-    @DisplayName("성공: voucher 명령 입력 - list 명령 입력 - exit 명령 입력")
-    void voucherCommandTypeList() {
-        //given
-        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
-        given(console.inputVoucherCommandType())
-                .willReturn(VoucherCommandType.LIST, VoucherCommandType.EXIT);
-
-        //when
-        consoleMenu.runClient();
-
-        //then
-        then(console).should().inputInitialCommand();
-        then(console).should(times(2)).inputVoucherCommandType();
-        then(voucherController).should().findVouchers();
-    }
-
-    @Test
-    @DisplayName("성공: voucher 명령 입력 - delete 명령 입력 - exit 명령 입력")
-    void voucherCommandTypeDelete() {
-        //given
-        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
-        given(console.inputVoucherCommandType())
-                .willReturn(VoucherCommandType.DELETE, VoucherCommandType.EXIT);
-
-        //when
-        consoleMenu.runClient();
-
-        //then
-        then(console).should().inputInitialCommand();
-        then(console).should(times(2)).inputVoucherCommandType();
-        then(voucherController).should().deleteVoucher();
-    }
-
-    @Test
-    @DisplayName("성공: voucher 명령 입력 - help 명령 입력 - exit 명령 입력")
-    void voucherCommandTypeHelp() {
-        //given
-        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.VOUCHER);
-        given(console.inputVoucherCommandType())
-                .willReturn(VoucherCommandType.HELP, VoucherCommandType.EXIT);
-
-        //when
-        consoleMenu.runClient();
-
-        //then
-        then(console).should().inputInitialCommand();
-        then(console).should(times(2)).inputVoucherCommandType();
-        then(console).should(times(2)).printVoucherCommandSet();
+        then(consoleVoucherMenu).should().runningVoucherService();
     }
 
     @Test
