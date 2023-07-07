@@ -4,13 +4,12 @@ import kr.co.programmers.springbootbasic.customer.domain.Customer;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CustomerRepository {
     Customer createCustomer(Customer customer);
-    Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findByCustomerId(String customerId);
     List<Customer> findAll();
     Customer update(Customer customer);
-    void deleteById(UUID customerId);
-    Optional<Customer> findCustomerById(UUID voucherId);
+    void deleteById(String customerId);
+    Optional<Customer> findByVoucherId(String voucherId);
 }

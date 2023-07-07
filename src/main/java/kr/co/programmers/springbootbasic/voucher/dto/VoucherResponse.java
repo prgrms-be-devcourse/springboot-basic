@@ -10,19 +10,14 @@ public class VoucherResponse {
     private final UUID voucherId;
     private final long amount;
     private final LocalDateTime createdAt;
+    private final UUID walletId;
 
-    public VoucherResponse(VoucherType type, UUID voucherId, long amount) {
-        this.type = type;
-        this.voucherId = voucherId;
-        this.amount = amount;
-        this.createdAt = null;
-    }
-
-    public VoucherResponse(VoucherType type, UUID voucherId, long amount, LocalDateTime createdAt) {
+    public VoucherResponse(VoucherType type, UUID voucherId, long amount, LocalDateTime createdAt, UUID walletId) {
         this.type = type;
         this.voucherId = voucherId;
         this.amount = amount;
         this.createdAt = createdAt;
+        this.walletId = walletId;
     }
 
     public VoucherType getType() {
@@ -39,5 +34,9 @@ public class VoucherResponse {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public UUID getWalletId() {
+        return walletId;
     }
 }

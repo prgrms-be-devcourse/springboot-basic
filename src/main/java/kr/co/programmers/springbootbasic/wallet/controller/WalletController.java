@@ -5,8 +5,6 @@ import kr.co.programmers.springbootbasic.wallet.dto.WalletSaveDto;
 import kr.co.programmers.springbootbasic.wallet.service.WalletService;
 import org.springframework.stereotype.Controller;
 
-import java.util.UUID;
-
 @Controller
 public class WalletController {
     private final WalletService walletService;
@@ -19,7 +17,7 @@ public class WalletController {
         return walletService.saveVoucherInCustomerWallet(saveRequest);
     }
 
-    public WalletResponse findWalletById(UUID walletId) {
+    public WalletResponse findWalletById(String walletId) {
         return walletService.findWalletById(walletId);
     }
 }

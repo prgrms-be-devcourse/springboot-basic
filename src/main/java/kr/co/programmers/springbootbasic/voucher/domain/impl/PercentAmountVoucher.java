@@ -10,11 +10,15 @@ import java.util.UUID;
 public class PercentAmountVoucher extends Voucher {
 
     public PercentAmountVoucher(UUID voucherId, long percentAmount) {
-        super(VoucherType.PERCENT_AMOUNT, voucherId, percentAmount);
+        super(VoucherType.PERCENT_AMOUNT, voucherId, percentAmount, null);
     }
 
     public PercentAmountVoucher(UUID voucherId, long percentAmount, LocalDateTime createdAt) {
-        super(VoucherType.PERCENT_AMOUNT, voucherId, percentAmount, createdAt);
+        super(VoucherType.PERCENT_AMOUNT, voucherId, percentAmount, createdAt, null);
+    }
+
+    public PercentAmountVoucher(UUID voucherId, long percentAmount, LocalDateTime createdAt, UUID walletId) {
+        super(VoucherType.PERCENT_AMOUNT, voucherId, percentAmount, createdAt, walletId);
     }
 
     @Override

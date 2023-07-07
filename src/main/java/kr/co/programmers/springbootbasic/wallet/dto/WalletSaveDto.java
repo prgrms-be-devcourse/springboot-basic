@@ -1,21 +1,19 @@
 package kr.co.programmers.springbootbasic.wallet.dto;
 
-import java.util.UUID;
-
 public class WalletSaveDto {
-    private final UUID voucherId;
-    private final UUID walletId;
+    private final String voucherId;
+    private final String walletId;
 
-    public WalletSaveDto(UUID voucherId, UUID walletId) {
+    public WalletSaveDto(String voucherId, String walletId) {
         this.voucherId = voucherId;
         this.walletId = walletId;
     }
 
-    public UUID getVoucherId() {
+    public String getVoucherId() {
         return voucherId;
     }
 
-    public UUID getWalletId() {
+    public String getWalletId() {
         return walletId;
     }
 }

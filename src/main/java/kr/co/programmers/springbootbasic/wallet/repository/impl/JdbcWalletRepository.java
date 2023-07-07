@@ -6,6 +6,7 @@ import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.PercentAmountVoucher;
 import kr.co.programmers.springbootbasic.wallet.domain.Wallet;
+import kr.co.programmers.springbootbasic.wallet.repository.WalletQuery;
 import kr.co.programmers.springbootbasic.wallet.repository.WalletRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,12 +19,6 @@ import java.util.UUID;
 @Repository
 @Profile("deploy")
 public class JdbcWalletRepository implements WalletRepository {
-    private static final String SAVE_VOUCHER_IN_WALLET
-            = "INSERT INTO wallet (id, voucher_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))";
-    private static final String FIND_ALL_VOUCHERS
-            = "SELECT * FROM voucher AS v JOIN wallet AS w ON v.wallet_id = w.id WHERE v.wallet_id = UUID_TO_BIN(?)";
-
-
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcWalletRepository(JdbcTemplate jdbcTemplate) {
@@ -31,19 +26,20 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public void saveVoucherInCustomerWallet(UUID voucherId, UUID walletId) {
-        jdbcTemplate.update(SAVE_VOUCHER_IN_WALLET,
-                walletId.toString().getBytes(),
-                voucherId.toString().getBytes());
+    public void saveVoucherInCustomerWallet(String voucherId, String walletId) {
+        jdbcTemplate.update(WalletQuery.SAVE_VOUCHER_IN_WALLET,
+                walletId,
+                voucherId);
     }
 
     @Override
-    public Wallet findAllVouchersById(UUID walletId) {
-        List<Voucher> vouchers = jdbcTemplate.query(FIND_ALL_VOUCHERS,
+    public Wallet findAllVouchersById(String walletId) {
+        List<Voucher> vouchers = jdbcTemplate.query(WalletQuery.FIND_ALL_VOUCHERS,
                 voucherRowMapper(),
-                walletId.toString().getBytes());
+                walletId);
+        UUID walletUUID = ApplicationUtils.toUUID(walletId.getBytes());
 
-        return new Wallet(walletId, vouchers);
+        return new Wallet(walletUUID, vouchers);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

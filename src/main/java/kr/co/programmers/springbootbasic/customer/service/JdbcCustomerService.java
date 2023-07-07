@@ -37,14 +37,14 @@ public class JdbcCustomerService {
         return ApplicationUtils.convertToCustomerResponse(createdCustomer);
     }
 
-    public Optional<CustomerResponse> findByCustomerId(UUID customerId) {
-        Optional<Customer> customer = customerRepository.findById(customerId);
+    public Optional<CustomerResponse> findByCustomerId(String customerId) {
+        Optional<Customer> customer = customerRepository.findByCustomerId(customerId);
 
         return customer.map(ApplicationUtils::convertToCustomerResponse);
     }
 
-    public Optional<CustomerResponse> findCustomerById(UUID voucherId) {
-        Optional<Customer> customer = customerRepository.findCustomerById(voucherId);
+    public Optional<CustomerResponse> findByVoucherId(String voucherId) {
+        Optional<Customer> customer = customerRepository.findByVoucherId(voucherId);
 
         if (customer.isPresent()) {
             CustomerResponse responseDto = ApplicationUtils.convertToCustomerResponse(customer.get());
@@ -63,7 +63,8 @@ public class JdbcCustomerService {
     }
 
     @Transactional
-    public CustomerResponse updateCustomer(UUID customerId, CustomerStatus customerStatus) {
+    public CustomerResponse updateCustomer(String customerId, CustomerStatus customerStatus) {
+
         Optional<CustomerResponse> foundCustomer = findByCustomerId(customerId);
 
         if (foundCustomer.isEmpty()) {
@@ -71,16 +72,17 @@ public class JdbcCustomerService {
         }
 
         CustomerResponse customerResponse = foundCustomer.get();
+        UUID foundCustomerUUID = customerResponse.getId();
         String customerName = customerResponse.getName();
         UUID walletId = customerResponse.getWalletId();
-        Customer customerForUpdate = new JdbcCustomer(customerId, customerName, customerStatus, walletId);
+        Customer customerForUpdate = new JdbcCustomer(foundCustomerUUID, customerName, customerStatus, walletId);
         Customer updatedCustomer = customerRepository.update(customerForUpdate);
 
         return ApplicationUtils.convertToCustomerResponse(updatedCustomer);
     }
 
     @Transactional
-    public void deleteById(UUID customerId) {
+    public void deleteById(String customerId) {
         customerRepository.deleteById(customerId);
     }
 

@@ -4,8 +4,6 @@ import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 import kr.co.programmers.springbootbasic.io.enums.*;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 
-import java.util.UUID;
-
 public interface Input {
     EntireServiceCommand readEntireServiceCommand();
 
@@ -21,7 +19,7 @@ public interface Input {
 
     CustomerFindCommand readCustomerFindCommand();
 
-    UUID readUUID();
+    String readUUID();
 
     CustomerStatus readCustomerStatus();
 

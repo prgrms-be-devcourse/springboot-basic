@@ -10,6 +10,7 @@ import kr.co.programmers.springbootbasic.wallet.dto.WalletResponse;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletSaveDto;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -76,15 +77,14 @@ public class ConsoleIO implements Input, Output {
     }
 
     @Override
-    public UUID readUUID() {
-        String input = scanner.nextLine();
-
-        return ApplicationUtils.toUUID(input.getBytes());
+    public String readUUID() {
+        return scanner.nextLine();
     }
 
     @Override
     public CustomerStatus readCustomerStatus() {
         int input = scanner.nextInt();
+        scanner.nextLine();
 
         return CustomerStatus.resolveId(input);
     }
@@ -128,7 +128,8 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public void printCustomerMessage(CustomerResponse dto) {
-
+        String message = ApplicationUtils.formatCustomerResponseDto(dto);
+        System.out.print(message);
     }
 
     @Override
@@ -220,5 +221,11 @@ public class ConsoleIO implements Input, Output {
     @Override
     public void printVoucherServiceMenu() {
         System.out.print(ConsoleMessage.VOUCHER_SERVICE_MENU);
+    }
+
+    @Override
+    public void printCustomerDeleteMessage(String customerId) {
+        String message = MessageFormat.format("유저 아이디 : {0}가 삭제됐습니다.\n", customerId);
+        System.out.println(message);
     }
 }

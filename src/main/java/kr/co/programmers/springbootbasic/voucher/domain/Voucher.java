@@ -12,12 +12,13 @@ public abstract class Voucher {
     private final UUID id;
     private final long amount;
     private final LocalDateTime createdAt;
+    private final UUID walletId;
     protected static final long ZERO = 0;
     protected static final long ONE_HUNDRED = 100;
     protected static final long MAX_FIXED_AMOUNT = 1_000_000;
     protected static final Logger logger = LoggerFactory.getLogger(Voucher.class);
 
-    public Voucher(VoucherType type, UUID id, long amount) {
+    public Voucher(VoucherType type, UUID id, long amount, UUID walletId) {
         logger.info("{} 바우처 생성을 시작합니다...", type);
 
         checkValidAmount(type, amount);
@@ -25,9 +26,10 @@ public abstract class Voucher {
         this.id = id;
         this.amount = amount;
         this.createdAt = null;
+        this.walletId = walletId;
     }
 
-    public Voucher(VoucherType type, UUID id, long amount, LocalDateTime createdAt) {
+    public Voucher(VoucherType type, UUID id, long amount, LocalDateTime createdAt, UUID walletId) {
         logger.info("{} 바우처 생성을 시작합니다...", type);
 
         checkValidAmount(type, amount);
@@ -35,6 +37,7 @@ public abstract class Voucher {
         this.id = id;
         this.amount = amount;
         this.createdAt = createdAt;
+        this.walletId = walletId;
     }
 
     public abstract long discount(long productPrice);
@@ -49,6 +52,10 @@ public abstract class Voucher {
 
     public long getAmount() {
         return amount;
+    }
+
+    public UUID getWalletId() {
+        return walletId;
     }
 
     public LocalDateTime getCreatedAt() {

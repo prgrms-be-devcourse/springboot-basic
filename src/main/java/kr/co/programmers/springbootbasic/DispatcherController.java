@@ -6,6 +6,7 @@ import kr.co.programmers.springbootbasic.customer.dto.CustomerResponse;
 import kr.co.programmers.springbootbasic.io.Input;
 import kr.co.programmers.springbootbasic.io.Output;
 import kr.co.programmers.springbootbasic.io.enums.*;
+import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.controller.VoucherController;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
@@ -135,9 +136,9 @@ public class DispatcherController implements ApplicationRunner {
 
     private void findByVoucherId() {
         outputConsole.printVoucherUuidTypeMessage();
-        UUID voucherId = inputConsole.readUUID();
+        String voucherId = inputConsole.readUUID();
 
-        Optional<CustomerResponse> customerResponse = customerController.findCustomerById(voucherId);
+        Optional<CustomerResponse> customerResponse = customerController.findByVoucherId(voucherId);
 
         if (customerResponse.isPresent()) {
             outputConsole.printCustomerMessage(customerResponse.get());
@@ -148,7 +149,7 @@ public class DispatcherController implements ApplicationRunner {
 
     private void findByCustomerId() {
         outputConsole.printCustomerUuidTypeMessage();
-        UUID customerId = inputConsole.readUUID();
+        String customerId = inputConsole.readUUID();
 
         Optional<CustomerResponse> customerResponse = customerController.findByCustomerId(customerId);
 
@@ -171,7 +172,7 @@ public class DispatcherController implements ApplicationRunner {
 
     private void updateCustomer() {
         outputConsole.printCustomerUuidTypeMessage();
-        UUID customerUUID = inputConsole.readUUID();
+        String customerUUID = inputConsole.readUUID();
         outputConsole.printTypeCustomerStatus();
         CustomerStatus customerStatus = inputConsole.readCustomerStatus();
 
@@ -182,19 +183,18 @@ public class DispatcherController implements ApplicationRunner {
 
     private void deleteCustomerById() {
         outputConsole.printCustomerUuidTypeMessage();
-        UUID customerId = inputConsole.readUUID();
+        String customerId = inputConsole.readUUID();
 
         customerController.deleteById(customerId);
 
-        String message = MessageFormat.format("유저 아이디 : {0}가 삭제됐습니다.", customerId);
-        outputConsole.printMessage(message);
+        outputConsole.printCustomerDeleteMessage(customerId);
     }
 
     private void saveVoucherInWallet() {
         outputConsole.printVoucherUuidTypeMessage();
-        UUID voucherId = inputConsole.readUUID();
+        String voucherId = inputConsole.readUUID();
         outputConsole.printWalletUuidTypeMessage();
-        UUID walletId = inputConsole.readUUID();
+        String walletId = inputConsole.readUUID();
 
         WalletSaveDto requestDto = new WalletSaveDto(voucherId, walletId);
         WalletSaveDto responseDto = walletController.saveVoucherInWallet(requestDto);
@@ -204,7 +204,7 @@ public class DispatcherController implements ApplicationRunner {
 
     private void findWalletByWalletId() {
         outputConsole.printWalletUuidTypeMessage();
-        UUID walletId = inputConsole.readUUID();
+        String walletId = inputConsole.readUUID();
 
         WalletResponse walletResponse = walletController.findWalletById(walletId);
 

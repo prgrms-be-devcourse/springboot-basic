@@ -37,7 +37,7 @@ public class ApplicationUtils {
             생성시기 : {3}
                         
             """;
-    private static final String CSV_USER_FORMAT = """
+    private static final String CUSTOMER_FORMAT = """
             고객 아이디 : {0}
             고객 이름 : {1}
             고객 상태 : {2}
@@ -50,8 +50,10 @@ public class ApplicationUtils {
             """;
     private static final String WALLET_FIND_RESPONSE_FORMAT = """
             지갑 아이디 : {0}
+                        
             바우처 정보
             =================================
+                        
             {1}
                     
             """;
@@ -84,8 +86,9 @@ public class ApplicationUtils {
         UUID voucherId = voucher.getId();
         long amount = voucher.getAmount();
         LocalDateTime createdAt = voucher.getCreatedAt();
+        UUID walletId = voucher.getWalletId();
 
-        return new VoucherResponse(type, voucherId, amount, createdAt);
+        return new VoucherResponse(type, voucherId, amount, createdAt, walletId);
     }
 
     public static CustomerResponse convertToCustomerResponse(Customer customer) {
@@ -114,7 +117,7 @@ public class ApplicationUtils {
     }
 
     public static String formatCustomerResponseDto(CustomerResponse dto) {
-        return MessageFormat.format(CSV_USER_FORMAT,
+        return MessageFormat.format(CUSTOMER_FORMAT,
                 dto.getId(),
                 dto.getName(),
                 dto.getStatus()
@@ -132,8 +135,8 @@ public class ApplicationUtils {
     }
 
     public static String formatWalletSaveDto(WalletSaveDto responseDto) {
-        UUID voucherId = responseDto.getVoucherId();
-        UUID walletId = responseDto.getWalletId();
+        String voucherId = responseDto.getVoucherId();
+        String walletId = responseDto.getWalletId();
 
         return MessageFormat.format(WALLET_SAVE_FORMAT,
                 voucherId,

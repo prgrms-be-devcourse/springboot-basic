@@ -4,7 +4,10 @@ import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 import kr.co.programmers.springbootbasic.customer.domain.impl.JdbcCustomer;
 import kr.co.programmers.springbootbasic.customer.repository.CustomerRepository;
+import kr.co.programmers.springbootbasic.customer.repository.CustomerQuery;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,16 +18,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Profile({"deploy", "test"})
 public class JdbcCustomerRepository implements CustomerRepository {
-    private static final String CREATE_CUSTOMER
-            = "INSERT INTO customer (id, name, status_id, wallet_id) VALUES (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?))";
-    private static final String FIND_BY_ID = "SELECT * FROM customer WHERE id = UUID_TO_BIN(?)";
-    private static final String FIND_ALL = "SELECT * FROM customer";
-    private static final String UPDATE_CUSTOMER
-            = "UPDATE customer SET name = ?, status_id = ? WHERE id = UUID_TO_BIN(?)";
-    private static final String DELETE_CUSTOMER = "DELETE FROM customer WHERE id = UUID_TO_BIN(?)";
-    private static final String FIND_CUSTOMER_BY_ID
-            = "SELECT * FROM wallet AS w JOIN customer AS c ON w.id = c.wallet_id WHERE w.voucher_id = UUID_TO_BIN(?)";
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
@@ -38,21 +33,23 @@ public class JdbcCustomerRepository implements CustomerRepository {
         int statusId = customer.getStatus().getStatusId();
         UUID walletId = customer.getWalletId();
 
-        jdbcTemplate.update(CREATE_CUSTOMER,
-                customerId,
+        jdbcTemplate.update(CustomerQuery.CREATE_CUSTOMER,
+                customerId.toString().getBytes(),
                 customerName,
                 statusId,
-                walletId);
+                walletId.toString().getBytes());
+        jdbcTemplate.update(CustomerQuery.CREATE_WALLET,
+                walletId.toString().getBytes());
 
         return customer;
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId) {
+    public Optional<Customer> findByCustomerId(String customerId) {
         try {
-            Customer customer = jdbcTemplate.queryForObject(FIND_BY_ID,
+            Customer customer = jdbcTemplate.queryForObject(CustomerQuery.FIND_BY_CUSTOMER_ID,
                     custmerRowMapper,
-                    customerId.toString().getBytes());
+                    customerId);
 
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
@@ -62,35 +59,39 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(FIND_ALL, custmerRowMapper);
+        return jdbcTemplate.query(CustomerQuery.FIND_ALL, custmerRowMapper);
     }
 
     @Override
     public Customer update(Customer customer) {
         UUID customerId = customer.getId();
-        String customerName = customer.getName();
         int statusId = customer.getStatus().getStatusId();
 
-        jdbcTemplate.update(UPDATE_CUSTOMER,
-                customerName,
+        jdbcTemplate.update(CustomerQuery.UPDATE_CUSTOMER,
                 statusId,
-                customerId);
+                customerId.toString().getBytes());
 
         return customer;
     }
 
     @Override
-    public void deleteById(UUID customerId) {
-        jdbcTemplate.update(DELETE_CUSTOMER, customerId);
+    public void deleteById(String customerId) {
+        Customer customer = jdbcTemplate.queryForObject(CustomerQuery.FIND_BY_CUSTOMER_ID, custmerRowMapper, customerId);
+        UUID walletId = customer.getWalletId();
+        jdbcTemplate.update(CustomerQuery.DELETE_VOUCHER,
+                walletId.toString().getBytes());
+        jdbcTemplate.update(CustomerQuery.DELETE_WALLET,
+                walletId.toString().getBytes());
+        jdbcTemplate.update(CustomerQuery.DELETE_CUSTOMER,
+                customerId.getBytes());
     }
 
     @Override
-    public Optional<Customer> findCustomerById(UUID voucherId) {
+    public Optional<Customer> findByVoucherId(String voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_CUSTOMER_BY_ID,
+            return Optional.ofNullable(jdbcTemplate.queryForObject(CustomerQuery.FIND_BY_VOUCHER_ID,
                     customerJoinRowMapper(),
-                    voucherId.toString().getBytes()
-            ));
+                    voucherId));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -108,9 +109,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private RowMapper<Customer> customerJoinRowMapper() {
         return (rs, rowNum) -> {
             var id = ApplicationUtils.toUUID(rs.getBytes("c.id"));
-            var name = rs.getString("name");
-            var statusId = CustomerStatus.resolveId(rs.getInt("status_id"));
-            var walletId = ApplicationUtils.toUUID(rs.getBytes("wallet_id"));
+            var name = rs.getString("c.name");
+            var statusId = CustomerStatus.resolveId(rs.getInt("c.status_id"));
+            var walletId = ApplicationUtils.toUUID(rs.getBytes("c.wallet_id"));
 
             return new JdbcCustomer(id, name, statusId, walletId);
         };

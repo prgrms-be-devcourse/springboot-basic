@@ -24,18 +24,19 @@ public class WalletService {
 
     @Transactional
     public WalletSaveDto saveVoucherInCustomerWallet(WalletSaveDto saveRequest) {
-        UUID voucherId = saveRequest.getVoucherId();
-        UUID walletId = saveRequest.getWalletId();
+        String voucherId = saveRequest.getVoucherId();
+        String walletId = saveRequest.getWalletId();
         repository.saveVoucherInCustomerWallet(voucherId, walletId);
 
         return saveRequest;
     }
 
-    public WalletResponse findWalletById(UUID walletId) {
+    public WalletResponse findWalletById(String walletId) {
         Wallet wallet = repository.findAllVouchersById(walletId);
         List<VoucherResponse> voucherDtos = makeVoucherResponseList(wallet);
+        UUID walletUUID = ApplicationUtils.toUUID(walletId.getBytes());
 
-        return new WalletResponse(walletId, voucherDtos);
+        return new WalletResponse(walletUUID, voucherDtos);
     }
 
     private static List<VoucherResponse> makeVoucherResponseList(Wallet wallet) {

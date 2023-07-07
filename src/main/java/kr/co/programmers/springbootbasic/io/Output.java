@@ -8,6 +8,7 @@ import kr.co.programmers.springbootbasic.wallet.dto.WalletResponse;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletSaveDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface Output {
     void printProgramMenu();
@@ -51,4 +52,6 @@ public interface Output {
     void printWalletFindMessage(WalletResponse walletResponse);
 
     void printVoucherServiceMenu();
+
+    void printCustomerDeleteMessage(String customerId);
 }

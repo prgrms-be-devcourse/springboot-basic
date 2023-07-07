@@ -1,14 +1,12 @@
 package kr.co.programmers.springbootbasic.voucher.repository.impl;
 
-import kr.co.programmers.springbootbasic.customer.domain.Customer;
-import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
-import kr.co.programmers.springbootbasic.customer.domain.impl.JdbcCustomer;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.PercentAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.exception.JdbcVoucherRepositoryFailException;
+import kr.co.programmers.springbootbasic.voucher.repository.VoucherQuery;
 import kr.co.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +23,9 @@ import java.util.UUID;
 
 @Repository
 @Primary
-@Profile({"deploy", "dev"})
+@Profile({"deploy", "dev", "test"})
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
-    private static final String FIND_VOUCHER_BY_ID = "SELECT * FROM voucher WHERE id = UUID_TO_BIN(?)";
-    private static final String LIST_ALL = "SELECT * FROM voucher";
-    private static final String DELETE_BY_ID = "DELETE FROM voucher WHERE id = UUID_TO_BIN(?)";
-
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
@@ -40,10 +34,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher create(Voucher voucher) {
-        jdbcTemplate.update("INSERT INTO voucher (id, type_id, amount) VALUES (UUID_TO_BIN(?), ?, ?)",
+        jdbcTemplate.update(VoucherQuery.CREATE_VOUCHER,
                 voucher.getId().toString().getBytes(),
                 voucher.getType().getTypeId(),
-                voucher.getAmount());
+                voucher.getAmount(),
+                voucher.getWalletId());
+
         return findVoucherById(voucher.getId())
                 .orElseThrow(() -> new JdbcVoucherRepositoryFailException("바우처를 저장하는데 실패했습니다."));
     }
@@ -51,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findVoucherById(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_VOUCHER_BY_ID,
+            return Optional.ofNullable(jdbcTemplate.queryForObject(VoucherQuery.FIND_VOUCHER_BY_ID,
                     voucherRowMapper(),
                     voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
@@ -63,13 +59,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> listAll() {
-        return jdbcTemplate.query(LIST_ALL,
+        return jdbcTemplate.query(VoucherQuery.LIST_ALL,
                 voucherRowMapper());
     }
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(DELETE_BY_ID,
+        jdbcTemplate.update(VoucherQuery.DELETE_BY_ID,
                 voucherId.toString().getBytes());
     }
 

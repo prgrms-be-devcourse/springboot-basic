@@ -9,10 +9,15 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
     public FixedAmountVoucher(UUID voucherId, long fixedAmount) {
-        super(VoucherType.FIXED_AMOUNT, voucherId, fixedAmount);
+        super(VoucherType.FIXED_AMOUNT, voucherId, fixedAmount, null);
     }
+
     public FixedAmountVoucher(UUID voucherId, long fixedAmount, LocalDateTime createdAt) {
-        super(VoucherType.FIXED_AMOUNT, voucherId, fixedAmount, createdAt);
+        super(VoucherType.FIXED_AMOUNT, voucherId, fixedAmount, createdAt, null);
+    }
+
+    public FixedAmountVoucher(UUID voucherId, long fixedAmount, LocalDateTime createdAt, UUID walletId) {
+        super(VoucherType.FIXED_AMOUNT, voucherId, fixedAmount, createdAt, walletId);
     }
 
     @Override

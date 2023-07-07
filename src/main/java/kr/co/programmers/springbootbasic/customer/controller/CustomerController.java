@@ -4,13 +4,11 @@ import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 import kr.co.programmers.springbootbasic.customer.dto.CustomerResponse;
 import kr.co.programmers.springbootbasic.customer.service.BlackCustomerService;
 import kr.co.programmers.springbootbasic.customer.service.JdbcCustomerService;
-import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 public class CustomerController {
@@ -28,12 +26,12 @@ public class CustomerController {
     }
 
 
-    public Optional<CustomerResponse> findByCustomerId(UUID customerId) {
+    public Optional<CustomerResponse> findByCustomerId(String customerId) {
         return jdbcCustomerService.findByCustomerId(customerId);
     }
 
-    public Optional<CustomerResponse> findCustomerById(UUID voucherId) {
-        return jdbcCustomerService.findCustomerById(voucherId);
+    public Optional<CustomerResponse> findByVoucherId(String voucherId) {
+        return jdbcCustomerService.findByVoucherId(voucherId);
     }
 
     public List<CustomerResponse> findAllCustomers() {
@@ -45,12 +43,12 @@ public class CustomerController {
     }
 
     @Transactional
-    public CustomerResponse updateCustomer(UUID customerId, CustomerStatus customerStatus) {
+    public CustomerResponse updateCustomer(String customerId, CustomerStatus customerStatus) {
         return jdbcCustomerService.updateCustomer(customerId, customerStatus);
     }
 
     @Transactional
-    public void deleteById(UUID customerId) {
+    public void deleteById(String customerId) {
         jdbcCustomerService.deleteById(customerId);
     }
 }
