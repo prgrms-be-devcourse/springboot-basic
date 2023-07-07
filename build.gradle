@@ -17,10 +17,11 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.1.0'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.0.0'
 
     runtimeOnly 'com.mysql:mysql-connector-j:8.0.32'
-    runtimeOnly 'com.h2database:h2:2.1.214'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -6,7 +6,6 @@ import kr.co.programmers.springbootbasic.customer.dto.CustomerResponse;
 import kr.co.programmers.springbootbasic.io.Input;
 import kr.co.programmers.springbootbasic.io.Output;
 import kr.co.programmers.springbootbasic.io.enums.*;
-import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.controller.VoucherController;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
@@ -18,14 +17,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller
-public class DispatcherController implements ApplicationRunner {
+public class DispatcherController {
     private static final Logger logger = LoggerFactory.getLogger(DispatcherController.class);
     private final Input inputConsole;
     private final Output outputConsole;
@@ -42,14 +41,14 @@ public class DispatcherController implements ApplicationRunner {
         this.walletController = walletController;
     }
 
-    @Override
-    public void run(ApplicationArguments args) {
-        while (!isExit) {
-            executeServiceLoop();
-        }
-        logger.info("서비스를 종료합니다.");
-        outputConsole.printExit();
-    }
+//    @Override
+//    public void run(ApplicationArguments args) {
+//        while (!isExit) {
+//            executeServiceLoop();
+//        }
+//        logger.info("서비스를 종료합니다.");
+//        outputConsole.printExit();
+//    }
 
     private void executeServiceLoop() {
         try {

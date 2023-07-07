@@ -67,4 +67,8 @@
     <logger name="kr.co.programmers.springbootbasic.io.enums.EntireServiceCommand" level="warn">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
 </configuration>
