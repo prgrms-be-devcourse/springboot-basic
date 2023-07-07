@@ -1,7 +1,6 @@
-package com.prgrms.mapper;
+package com.prgrms.model.dto.mapper;
 
 import com.prgrms.model.dto.VoucherResponse;
-import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherRegistry;
 import org.springframework.stereotype.Component;
 
