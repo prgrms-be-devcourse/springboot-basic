@@ -8,6 +8,9 @@ import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomerRes
 import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersResponse;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
+import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
+import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.promgrammers.springbootbasic.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +35,8 @@ class CustomerServiceTest {
 
     @Autowired
     private JdbcCustomerRepository customerRepository;
+    @Autowired
+    private JdbcVoucherRepository voucherRepository;
     @Autowired
     private CustomerService customerService;
 
@@ -122,6 +127,23 @@ class CustomerServiceTest {
         //then
         assertThat(findCustomer.customerId()).isEqualTo(customer.getCustomerId());
         assertThat(findCustomer.username()).isEqualTo(customer.getUsername());
+    }
+
+    @Test
+    @DisplayName("단건 조회 성공 - Voucher가 존재하는 경우")
+    void findCustomerByVoucherIdSuccessTest() throws Exception {
+
+        // given
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "A"));
+        Voucher savedVoucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100L));
+        voucherRepository.assignVoucherToCustomer(customer.getCustomerId(), savedVoucher.getVoucherId());
+
+        //when
+        CustomerResponse foundCustomer = customerService.findByVoucherId(savedVoucher.getVoucherId());
+
+        //then
+        assertThat(foundCustomer.customerId()).isEqualTo(customer.getCustomerId());
+        assertThat(foundCustomer.username()).isEqualTo(customer.getUsername());
     }
 
     @Test
