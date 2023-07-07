@@ -32,11 +32,6 @@ public class ApplicationController implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        play();
-
-    }
-
-    private void play() {
         while (isOn) {
             ModeType selectedModeType = getSelectedType();
 
