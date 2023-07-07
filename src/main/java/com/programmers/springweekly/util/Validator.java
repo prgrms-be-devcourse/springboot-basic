@@ -17,12 +17,12 @@ public final class Validator {
 
     public static void validateDiscountAmount(VoucherType voucherType, String discountAmount) {
         if (voucherType == VoucherType.FIXED) {
-            numberValidate(discountAmount);
+            validateNumber(discountAmount);
         }
 
         if (voucherType == VoucherType.PERCENT) {
-            numberValidate(discountAmount);
-            rangeValidate(discountAmount);
+            validateNumber(discountAmount);
+            validateRange(discountAmount);
         }
     }
 
