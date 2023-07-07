@@ -1,9 +1,7 @@
 package com.programmers.springweekly.view;
 
-import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
-
-import java.util.List;
+import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 
 public interface Output {
 
@@ -15,7 +13,10 @@ public interface Output {
 
     void outputExitMessage();
 
-    void outputGetVoucherAll(List<Voucher> voucherMap);
+    void outputGetVoucherAll(VoucherListResponse voucherListResponse);
+
+
+    void outputVoucherUpdateGuide();
 
     void outputGetCustomerList(CustomerListResponse customerList);
 
@@ -31,6 +32,5 @@ public interface Output {
 
     void outputCustomerMenuGuide();
 
-    void outputVoucherMenu();
-
+    void outputVoucherMenuGuide();
 }

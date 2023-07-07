@@ -3,9 +3,6 @@ package com.programmers.springweekly.repository.voucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
 import com.programmers.springweekly.dto.ReadVoucherDto;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -16,6 +13,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 @Slf4j
 public class FileVoucherRepository {
@@ -55,7 +54,7 @@ public class FileVoucherRepository {
 
                 ReadVoucherDto readVoucherDto = new ReadVoucherDto(readLine[0], readLine[1], readLine[2]);
 
-                Voucher voucher = VoucherFactory.createVoucher(readVoucherDto.getVoucherId(), readVoucherDto.getVoucherType(), readVoucherDto.getDiscountAmount());
+                Voucher voucher = VoucherFactory.createVoucher(readVoucherDto.getVoucherId(), readVoucherDto.getVoucherType(), Long.parseLong(readVoucherDto.getDiscountAmount()));
 
                 voucherMap.put(voucher.getVoucherId(), voucher);
             }
