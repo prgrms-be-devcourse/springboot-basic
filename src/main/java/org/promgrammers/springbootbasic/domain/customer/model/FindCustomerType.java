@@ -6,10 +6,10 @@ public enum FindCustomerType {
 
     ID("1"),
     USERNAME("2"),
-    BLACKLIST("3");
+    VOUCHER_ID("3"),
+    BLACKLIST("4");
 
     private final String type;
-
 
     FindCustomerType(String type) {
         this.type = type;

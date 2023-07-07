@@ -5,6 +5,8 @@ import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucher
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherResponse;
 import org.promgrammers.springbootbasic.domain.voucher.model.DeleteVoucherType;
+import org.promgrammers.springbootbasic.domain.voucher.model.FindVoucherType;
+import org.promgrammers.springbootbasic.domain.voucher.model.UpdateVoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.service.VoucherService;
 import org.promgrammers.springbootbasic.view.Console;
@@ -37,14 +39,10 @@ public class VoucherController {
                 VoucherListResponse voucherList = findAll();
                 console.print(voucherList.toString());
             }
-            case FIND_ONE -> {
-                VoucherResponse foundVoucher = findById();
-                console.print(foundVoucher.voucherOutput());
-            }
-            case UPDATE -> {
-                VoucherResponse updatedVoucher = update();
-                console.print(updatedVoucher.voucherOutput());
-            }
+            case FIND_ONE -> findByType();
+
+            case UPDATE -> updateByType();
+
             case DELETE -> {
                 deleteByType();
                 console.print("삭제가 완료되었습니다.");
@@ -61,15 +59,72 @@ public class VoucherController {
         return voucherService.create(createVoucherRequest);
     }
 
+    private void findByType() {
+        String inputType = console.askForVoucherFindType();
+        FindVoucherType findTYpe = FindVoucherType.from(inputType);
+
+        switch (findTYpe) {
+            case FIND_BY_VOUCHER_ID -> findById();
+
+            case FIND_BY_CUSTOMER_ID -> findByCustomerId();
+        }
+    }
+
+    private VoucherListResponse findByCustomerId() {
+        String requestCustomer = console.askForCustomerId();
+        UUID customerId = UUID.fromString(requestCustomer);
+
+        VoucherListResponse voucherListResponse = voucherService.findAllByCustomerId(customerId);
+        console.print(voucherListResponse.toString());
+        return voucherListResponse;
+    }
+
     private VoucherResponse findById() {
         String requestId = console.askForVoucherId();
         UUID voucherId = UUID.fromString(requestId);
 
-        return voucherService.findById(voucherId);
+        VoucherResponse voucherResponse = voucherService.findById(voucherId);
+        console.print(voucherResponse.voucherOutput());
+        return voucherResponse;
     }
 
     private VoucherListResponse findAll() {
         return voucherService.findAll();
+    }
+
+    private void updateByType() {
+        String inputType = console.askForVoucherUpdateType();
+        UpdateVoucherType updateType = UpdateVoucherType.from(inputType);
+
+        switch (updateType) {
+            case ASSIGN -> assignVoucherToCustomer();
+
+            case BY_ID -> update();
+
+            case REMOVE -> removeVoucherFromCustomer();
+        }
+    }
+
+    private void removeVoucherFromCustomer() {
+        String requestCustomer = console.askForCustomerId();
+        UUID customerId = UUID.fromString(requestCustomer);
+
+        String requestVoucher = console.askForVoucherId();
+        UUID voucherId = UUID.fromString(requestVoucher);
+
+        voucherService.removeVoucherFromCustomer(customerId, voucherId);
+        console.print("바우처 삭제가 완료 되었습니다.");
+    }
+
+    private void assignVoucherToCustomer() {
+        String requestCustomer = console.askForCustomerId();
+        UUID customerId = UUID.fromString(requestCustomer);
+
+        String requestVoucher = console.askForVoucherId();
+        UUID voucherId = UUID.fromString(requestVoucher);
+
+        voucherService.assignVoucherToCustomer(customerId, voucherId);
+        console.print("바우처 할당이 완료되었습니다.");
     }
 
     private VoucherResponse update() {
@@ -80,7 +135,10 @@ public class VoucherController {
 
         UpdateVoucherRequest updateVoucherRequest = new UpdateVoucherRequest(voucherId, discountAmount);
 
-        return voucherService.update(updateVoucherRequest);
+        VoucherResponse voucherResponse = voucherService.update(updateVoucherRequest);
+        console.print(voucherResponse.toString());
+
+        return voucherResponse;
     }
 
     private void deleteByType() {

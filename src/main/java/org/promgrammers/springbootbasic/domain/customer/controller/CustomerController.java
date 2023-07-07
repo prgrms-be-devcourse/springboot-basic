@@ -102,6 +102,8 @@ public class CustomerController {
 
             case USERNAME -> findCustomerByUsername();
 
+            case VOUCHER_ID -> findByVoucherId();
+
             case BLACKLIST -> findBlackListCustomer();
         }
     }
@@ -131,6 +133,15 @@ public class CustomerController {
         console.print(blackList.blackTypeOutput());
 
         return blackList;
+    }
+
+    private CustomerResponse findByVoucherId() {
+        String requestId = console.askForVoucherId();
+        UUID voucherId = UUID.fromString(requestId);
+
+        CustomerResponse customerResponse = customerService.findByVoucherId(voucherId);
+        console.print(customerResponse.customerOutput());
+        return customerResponse;
     }
 
     private CustomersResponse findAll() {
