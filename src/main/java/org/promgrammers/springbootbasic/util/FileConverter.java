@@ -1,7 +1,6 @@
 package org.promgrammers.springbootbasic.util;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
-import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
@@ -46,9 +45,8 @@ public class FileConverter {
 
         UUID customerId = UUID.fromString(parts[0]);
         String username = parts[1];
-        CustomerType voucherType = CustomerType.valueOf(parts[2]);
 
-        return new Customer(customerId, username,voucherType);
+        return new Customer(customerId, username);
     }
 
     public static String voucherToLine(Voucher voucher) {

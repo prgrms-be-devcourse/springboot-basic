@@ -2,6 +2,8 @@ package org.promgrammers.springbootbasic.domain.voucher.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.promgrammers.springbootbasic.domain.customer.model.Customer;
+import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucherRequest;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
@@ -37,6 +39,50 @@ class VoucherServiceTest {
     private JdbcVoucherRepository voucherRepository;
     @Autowired
     private VoucherService voucherService;
+    @Autowired
+    private JdbcCustomerRepository customerRepository;
+
+    @Test
+    @DisplayName("고객에게 바우처 할당 성공")
+    void assignVoucherFromCustomerTest() throws Exception {
+
+        //given
+        Voucher voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100L));
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "user1"));
+
+        //when
+        voucherService.assignVoucherToCustomer(customer.getCustomerId(), voucher.getVoucherId());
+
+        //then
+        List<Voucher> customerVouchers = voucherRepository.findAllByCustomerId(customer.getCustomerId());
+        assertThat(customerVouchers.size()).isEqualTo(1);
+        assertThat(customerVouchers.get(0).getVoucherId()).isEqualTo(voucher.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("바우처 할당 실패 - 존재하지 않는 바우처 ID")
+    void assignVoucherToCustomer_InvalidVoucherIdTest() {
+
+        // given
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "user1"));
+        UUID voucherId = UUID.randomUUID();
+
+        // when -> then
+        assertThrows(BusinessException.class,
+                () -> voucherService.assignVoucherToCustomer(customer.getCustomerId(), voucherId));
+    }
+
+    @Test
+    @DisplayName("바우처 할당 실패 - 존재하지 않는 고객 ID")
+    void assignVoucherToCustomer_InvalidCustomerIdTest() {
+
+        //given
+        Voucher voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100L));
+        UUID customerId = UUID.randomUUID();
+        // when -> then
+        assertThrows(BusinessException.class,
+                () -> voucherService.assignVoucherToCustomer(customerId, voucher.getVoucherId()));
+    }
 
     @Test
     @DisplayName("생성 성공 - FixedVoucher")
@@ -70,6 +116,38 @@ class VoucherServiceTest {
         assertThat(voucherRepository.findAll().size()).isEqualTo(1);
         assertThat(voucherRepository.findAll().get(0).getVoucherType()).isEqualTo(VoucherType.PERCENT);
         assertThat(voucherRepository.findAll().get(0).getAmount()).isEqualTo(10L);
+    }
+
+    @Test
+    @DisplayName("특정 고객의 모든 바우처 조회")
+    void findAllVouchersByCustomerIdTest() {
+
+        //given
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "user1"));
+        Voucher voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100L));
+        Voucher voucher2 = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+
+        voucherService.assignVoucherToCustomer(customer.getCustomerId(), voucher.getVoucherId());
+        voucherService.assignVoucherToCustomer(customer.getCustomerId(), voucher2.getVoucherId());
+
+        // when
+        VoucherListResponse voucherList = voucherService.findAllByCustomerId(customer.getCustomerId());
+
+        // then
+        assertThat(voucherList.voucherResponseList()).hasSize(2);
+        assertThat(voucherList.voucherResponseList().get(0).voucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(voucherList.voucherResponseList().get(1).voucherId()).isEqualTo(voucher2.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("특정 고객의 모든 바우처 조회 실패 - 존재하지 않는 고객 ID")
+    void findAllVouchersByCustomerId_InvalidCustomerIdTest() {
+        // given
+        UUID customerId = UUID.randomUUID();
+
+        // when, then
+        BusinessException exception = assertThrows(BusinessException.class,
+                () -> voucherService.findAllByCustomerId(customerId));
     }
 
     @Test
@@ -190,4 +268,6 @@ class VoucherServiceTest {
 
         assertThrows(BusinessException.class, () -> voucherService.deleteById(customerId));
     }
+
+
 }
