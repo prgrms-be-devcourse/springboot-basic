@@ -42,7 +42,7 @@ public enum VoucherType {
         return discountGuide;
     }
 
-    public Voucher createPolicy(Discount amount) {
+    public Voucher createVoucher(Discount amount) {
         return voucherFunction.apply(amount, this);
     }
 
