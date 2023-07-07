@@ -16,7 +16,9 @@ public class Customer {
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         validateCustomerId(customerId);
+        validateName(name);
         validateEmail(email);
+
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -24,7 +26,16 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
+    private static void validateName(String name) {
+        if (Objects.isNull(name) || name.isBlank()) {
+            throw new IllegalArgumentException("고객 이름이 비어있습니다.");
+        }
+    }
+
     private static void validateEmail(String email) {
+        if (Objects.isNull(email) || email.isBlank()) {
+            throw new IllegalArgumentException("고객 이메일이 비어있습니다.");
+        }
         if (!Patterns.EMAIL_PATTERN.matcher(email).matches()) {
             String errorMessage = String.format("옳바른 이메일 형식을 입력해주세요. 입력값: %s", email);
             throw new IllegalArgumentException(errorMessage);
@@ -42,9 +53,7 @@ public class Customer {
     }
 
     public void changeName(String name) {
-        if (Objects.isNull(name) || name.isBlank()) {
-            throw new IllegalArgumentException("고객 이름이 비었습니다.");
-        }
+        validateName(name);
         this.name = name;
     }
 

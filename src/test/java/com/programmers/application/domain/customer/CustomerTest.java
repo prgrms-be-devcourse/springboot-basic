@@ -110,7 +110,7 @@ class CustomerTest {
     @DisplayName("변경 할 이름이 비어있거나 없으면, changeName()을 실행할 때 예외가 발생한다.")
     @ParameterizedTest
     @NullAndEmptySource
-    void throwNullAndEmptyNameException(String changeName) {
+    void throwNullAndEmptyChangeNameException(String changeName) {
         //given
         UUID customerId = UUID.randomUUID();
         String name = "aCustomer";
@@ -122,6 +122,38 @@ class CustomerTest {
         //when, then
         Assertions.assertThatThrownBy(() -> customer.changeName(changeName))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("고객 이름이 비었습니다.");
+                .hasMessage("고객 이름이 비어있습니다.");
+    }
+
+    @DisplayName("고객의 이메일을 입력하지 않으면, 고객을 생성할 때 예외가 발생한다.")
+    @ParameterizedTest
+    @NullAndEmptySource
+    void throwNullAndEmptyEmailException(String email) {
+        //given
+        UUID customerId = UUID.randomUUID();
+        String name = "aCustomer";
+        LocalDateTime lastLoginAt = LocalDateTime.of(2023, 1, 10, 1, 12);
+        LocalDateTime createdAt = LocalDateTime.of(2023, 1, 10, 1, 12);
+
+        //when, then
+        Assertions.assertThatThrownBy(() -> new Customer(customerId, name, email, lastLoginAt, createdAt))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("고객 이메일이 비어있습니다.");
+    }
+
+    @DisplayName("고객의 이름을 입력하지 않으면, 고객을 생성할 때 예외가 발생한다.")
+    @ParameterizedTest
+    @NullAndEmptySource
+    void throwNullAndEmptyNameException(String name) {
+        //given
+        UUID customerId = UUID.randomUUID();
+        String email = "mgtmh991013@naver.com";
+        LocalDateTime lastLoginAt = LocalDateTime.of(2023, 1, 10, 1, 12);
+        LocalDateTime createdAt = LocalDateTime.of(2023, 1, 10, 1, 12);
+
+        //when, then
+        Assertions.assertThatThrownBy(() -> new Customer(customerId, name, email, lastLoginAt, createdAt))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("고객 이름이 비어있습니다.");
     }
 }
