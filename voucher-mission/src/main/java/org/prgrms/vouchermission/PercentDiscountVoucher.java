@@ -13,13 +13,13 @@ public class PercentDiscountVoucher extends Voucher {
         this.percent = percent;
     }
 
-    private static void validateVoucherPeriod(LocalDate createdDate, LocalDate expirationDate) {
+    private void validateVoucherPeriod(LocalDate createdDate, LocalDate expirationDate) {
         if (createdDate.isAfter(expirationDate)) {
             throw new IllegalArgumentException("만료일은 발급일보다 빠를 수 없습니다.");
         }
     }
 
-    private static void validateVoucherValue(long percent) {
+    private void validateVoucherValue(long percent) {
         if (percent <= 0) {
             throw new IllegalArgumentException("할인율은 0 또는 음수일 수 없습니다.");
         }

@@ -13,13 +13,13 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
-    private static void validateVoucherPeriod(LocalDate createdDate, LocalDate expirationDate) {
+    private void validateVoucherPeriod(LocalDate createdDate, LocalDate expirationDate) {
         if (createdDate.isAfter(expirationDate)) {
             throw new IllegalArgumentException("만료일은 발급일보다 빠를 수 없습니다.");
         }
     }
 
-    private static void validateVoucherValue(long amount) {
+    private void validateVoucherValue(long amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("할인액은 0 또는 음수일 수 없습니다.");
         }
