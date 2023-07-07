@@ -39,4 +39,13 @@ public class VoucherApiController {
                 .ok()
                 .body(voucherService.getVouchersAll());
     }
+
+    @PutMapping
+    public ResponseEntity<String> updateVoucherById(@PathVariable(name = "voucher_id") UUID voucherId,
+                                                    @RequestBody @Validated VoucherReqDTO.UPDATE update) {
+        voucherService.updateVoucherById(voucherId, update);
+        return ResponseEntity
+                .status(ResponseStatus.SUCCESS_UPDATE_VOUCHER.getHttpStatus())
+                .body(ResponseStatus.SUCCESS_UPDATE_VOUCHER.getMessage());
+    }
 }
