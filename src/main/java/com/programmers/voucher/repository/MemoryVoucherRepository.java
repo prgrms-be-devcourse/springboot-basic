@@ -13,23 +13,23 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final String NOT_FOUND_ERROR_MESSAGE = "[ERROR] 해당 요청에 대한 결과를 찾을 수 없습니다.";
-    private final Map<UUID, Voucher> STORAGE = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
-        STORAGE.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return STORAGE.values().stream().toList();
+        return storage.values().stream().toList();
     }
 
     @Override
     public Voucher findById(UUID voucherId) {
-        if (!STORAGE.containsKey(voucherId)) throw new NoSuchElementException(NOT_FOUND_ERROR_MESSAGE);
-        return STORAGE.get(voucherId);
+        if (!storage.containsKey(voucherId)) throw new NoSuchElementException(NOT_FOUND_ERROR_MESSAGE);
+        return storage.get(voucherId);
 
     }
 }
