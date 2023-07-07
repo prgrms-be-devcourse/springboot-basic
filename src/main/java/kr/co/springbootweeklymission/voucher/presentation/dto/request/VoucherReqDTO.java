@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VoucherReqDTO {
     @Getter
+    @Setter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)

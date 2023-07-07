@@ -1,13 +1,13 @@
 package kr.co.springbootweeklymission.voucher.presentation;
 
 import kr.co.springbootweeklymission.voucher.application.VoucherService;
+import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +17,17 @@ import java.util.UUID;
 @RequestMapping("/view/v1/vouchers")
 public class VoucherViewController {
     private final VoucherService voucherService;
+
+    @GetMapping("/create-page")
+    public String createPage() {
+        return "voucher/createVoucher";
+    }
+
+    @PostMapping("/create-page")
+    public String createVoucher(@ModelAttribute @Validated VoucherReqDTO.CREATE create) {
+        voucherService.createVoucher(create);
+        return "redirect:/view/v1/vouchers";
+    }
 
     @GetMapping
     public String getVouchersAll(Model model) {
