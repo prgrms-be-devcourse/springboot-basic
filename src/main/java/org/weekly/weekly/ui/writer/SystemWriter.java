@@ -4,11 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import org.weekly.weekly.util.*;
 import org.weekly.weekly.voucher.domain.DiscountType;
-import org.weekly.weekly.util.PrintMessage;
-import org.weekly.weekly.util.VoucherMenu;
 
-import java.io.Closeable;
 import java.util.Arrays;
 
 @Component
@@ -20,11 +18,16 @@ public class SystemWriter {
     }
     private void print(String msg) {System.out.print(msg);}
 
+    public void printMangeProgram() {
+        printMenu(ManageMenu.values(), PrintMessage.MANAGE_PROGRAM);
+    }
+
     public void printVoucherProgram() {
-        println(PrintMessage.EMPTY.getMessage());
-        println(PrintMessage.PROGRAM.getMessage());
-        Arrays.stream(VoucherMenu.values())
-                .forEach(voucherMenu -> System.out.println(voucherMenu.getPrintMsg()));
+        printMenu(VoucherMenu.values(), PrintMessage.VOUCHER_PROGRAM);
+    }
+
+    public void printCustomerProgram() {
+        printMenu(CustomerMenu.values(), PrintMessage.CUSTOMER_PROGRAM);
     }
 
     public void printErrorMsg(String errorMsg) {
@@ -49,5 +52,12 @@ public class SystemWriter {
     public void printReuslt(String result) {
         println(PrintMessage.EMPTY.getMessage());
         println(result);
+    }
+
+    private void printMenu(Menu[] menus, PrintMessage programMessage) {
+        println(PrintMessage.EMPTY.getMessage());
+        println(programMessage.getMessage());
+        Arrays.stream(menus)
+                .forEach(menu -> System.out.println(menu.printMessage()));
     }
 }

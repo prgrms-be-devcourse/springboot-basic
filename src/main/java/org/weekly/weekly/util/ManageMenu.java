@@ -29,7 +29,8 @@ public enum ManageMenu implements Menu {
         throw new RuntimeException(ExceptionMsg.NOT_MENU.getMsg());
     }
 
-    public String getPrintMessage() {
+    @Override
+    public String printMessage() {
         return printMessage;
     }
 }

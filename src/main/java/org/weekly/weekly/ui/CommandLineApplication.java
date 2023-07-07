@@ -27,7 +27,7 @@ public class CommandLineApplication {
     public ManageMenu readMenu() {
         while(true) {
             try {
-                this.commandWriter.printVoucherProgram();
+                this.commandWriter.printMangeProgram();
                 return ManageMenu.getMenu(readUserInput());
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
@@ -49,7 +49,7 @@ public class CommandLineApplication {
     public CustomerMenu readCustomerMenu() {
         while(true) {
             try {
-                this.commandWriter.printVoucherProgram();
+                this.commandWriter.printCustomerProgram();
                 return CustomerMenu.getMenu(readUserInput());
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
@@ -70,7 +70,15 @@ public class CommandLineApplication {
     }
 
     public void createCustomerFromInput() {
+        while(true) {
+            try {
+                DiscountType discountType = readDiscountType();
+                VoucherInfoRequest voucherInfoRequest = readVoucherInfo(discountType);
 
+            } catch (Exception exception) {
+                printErrorMsg(exception.getMessage());
+            }
+        }
     }
 
     public void deleteCustomerFromInput() {

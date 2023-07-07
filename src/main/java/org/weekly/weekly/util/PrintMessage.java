@@ -1,7 +1,9 @@
 package org.weekly.weekly.util;
 
 public enum PrintMessage {
-    PROGRAM("=== Voucher Program ==="),
+    MANAGE_PROGRAM("=== Manage Program ==="),
+    VOUCHER_PROGRAM("=== Voucher Program ==="),
+    CUSTOMER_PROGRAM("=== Customer Program ==="),
     CREATE_VOUCHER("바우처를 생성합니다.\n" +
             "입력예시 => "),
     INPUT_MESSAGE("입력하세요: "),

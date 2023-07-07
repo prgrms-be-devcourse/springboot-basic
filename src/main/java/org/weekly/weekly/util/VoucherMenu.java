@@ -1,7 +1,6 @@
 package org.weekly.weekly.util;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,7 +8,7 @@ public enum VoucherMenu implements Menu {
     EXIT("Type exit to exit the program."),
     CREATE("Type create to create a new voucher."),
     LIST("Type list to list all vouchers.");
-    private final String printMsg;
+    private final String printMessage;
 
     private final static Map<String, VoucherMenu> VOUCHER_MENU_MAP;
     static {
@@ -19,7 +18,7 @@ public enum VoucherMenu implements Menu {
     }
 
     VoucherMenu(String printMsg) {
-        this.printMsg = printMsg;
+        this.printMessage = printMsg;
     }
 
     public static VoucherMenu getMenu(String userInput) {
@@ -29,7 +28,8 @@ public enum VoucherMenu implements Menu {
         throw new RuntimeException(ExceptionMsg.NOT_MENU.getMsg());
     }
 
-    public String getPrintMsg() {
-        return printMsg;
+    @Override
+    public String printMessage() {
+        return printMessage;
     }
 }
