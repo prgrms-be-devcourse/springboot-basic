@@ -85,20 +85,6 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
-        try (
-                BufferedWriter bw = new BufferedWriter(new FileWriter(file))
-        ) {
-            bw.write("");
-        } catch (IOException e) {
-            String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
-
-            LOG.error(errorMessage, e);
-            throw new FileAccessException(errorMessage, e);
-        }
-    }
-
-    @Override
     public void deleteById(UUID voucherId) {
         List<Voucher> vouchers = findAll();
         boolean removed = vouchers.removeIf(v -> Objects.equals(v.getVoucherId(), voucherId));

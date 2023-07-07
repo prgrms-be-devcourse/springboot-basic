@@ -37,11 +37,6 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
-        store.clear();
-    }
-
-    @Override
     public void deleteById(UUID voucherId) {
         Voucher remove = store.remove(voucherId);
         if(remove == null) {

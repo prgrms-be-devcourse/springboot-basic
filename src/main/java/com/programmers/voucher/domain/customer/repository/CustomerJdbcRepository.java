@@ -108,12 +108,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteAll() {
-        String sql = "delete from customer";
-        template.update(sql, Map.of());
-    }
-
-    @Override
     public void deleteById(UUID customerId) {
         String sql = "delete from customer where customer_id = :customerId";
         MapSqlParameterSource param = new MapSqlParameterSource()

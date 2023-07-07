@@ -15,7 +15,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,12 +68,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
         } catch (EmptyResultDataAccessException ex) {
             return Optional.empty();
         }
-    }
-
-    @Override
-    public void deleteAll() {
-        String sql = "delete from voucher";
-        template.update(sql, Map.of());
     }
 
     @Override
