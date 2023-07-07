@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.dev.bootbasic.view.Command.EXIT;
-import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Component
 public class CommandLineApplication implements CommandLineRunner {
@@ -61,7 +60,7 @@ public class CommandLineApplication implements CommandLineRunner {
 
         List<VoucherDetailsViewResponse> voucherResponses = allVouchers.stream()
                 .map(VoucherDetailsViewResponse::from)
-                .collect(toUnmodifiableList());
+                .toList();
         viewManager.showCollectionMessage(voucherResponses);
     }
 
