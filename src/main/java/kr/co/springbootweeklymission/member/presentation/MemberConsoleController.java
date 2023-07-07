@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class MemberController {
+public class MemberConsoleController {
     private final MemberService memberService;
 
     public void createMember(MemberReqDTO.CREATE create) {

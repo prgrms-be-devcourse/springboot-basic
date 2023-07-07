@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.view;
+package kr.co.springbootweeklymission.console;
 
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;

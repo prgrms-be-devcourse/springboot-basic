@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class VoucherController {
+public class VoucherConsoleController {
     private final VoucherService voucherService;
 
     public void createVoucher(VoucherReqDTO.CREATE create) {

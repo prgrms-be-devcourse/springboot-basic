@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class WalletController {
+public class WalletConsoleController {
     private final WalletService walletService;
 
     public void createVoucherMember(WalletReqDTO.CREATE create) {

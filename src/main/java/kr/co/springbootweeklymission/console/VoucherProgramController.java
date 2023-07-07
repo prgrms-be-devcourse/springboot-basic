@@ -1,14 +1,11 @@
-package kr.co.springbootweeklymission;
+package kr.co.springbootweeklymission.console;
 
-import kr.co.springbootweeklymission.member.presentation.MemberController;
+import kr.co.springbootweeklymission.member.presentation.MemberConsoleController;
 import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDTO;
-import kr.co.springbootweeklymission.view.Command;
-import kr.co.springbootweeklymission.view.InputView;
-import kr.co.springbootweeklymission.view.OutputView;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
-import kr.co.springbootweeklymission.voucher.presentation.VoucherController;
+import kr.co.springbootweeklymission.voucher.presentation.VoucherConsoleController;
 import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
-import kr.co.springbootweeklymission.wallet.presentation.WalletController;
+import kr.co.springbootweeklymission.wallet.presentation.WalletConsoleController;
 import kr.co.springbootweeklymission.wallet.presentation.dto.request.WalletReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -17,9 +14,9 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 public class VoucherProgramController implements CommandLineRunner {
-    private final MemberController memberController;
-    private final VoucherController voucherController;
-    private final WalletController walletController;
+    private final MemberConsoleController memberConsoleController;
+    private final VoucherConsoleController voucherConsoleController;
+    private final WalletConsoleController walletConsoleController;
 
     private static boolean IS_RUNNING = true;
 
@@ -35,7 +32,7 @@ public class VoucherProgramController implements CommandLineRunner {
                 final MemberReqDTO.CREATE create = MemberReqDTO.CREATE.builder()
                         .memberStatus(InputView.inputMemberStatus())
                         .build();
-                memberController.createMember(create);
+                memberConsoleController.createMember(create);
                 continue;
             }
 
@@ -46,23 +43,23 @@ public class VoucherProgramController implements CommandLineRunner {
                 final MemberReqDTO.UPDATE update = MemberReqDTO.UPDATE.builder()
                         .memberStatus(InputView.inputMemberStatus())
                         .build();
-                memberController.updateMemberById(memberId, update);
+                memberConsoleController.updateMemberById(memberId, update);
                 continue;
             }
 
             if (command.isDeleteMember()) {
                 OutputView.outputDeleteMember();
-                memberController.deleteMemberById(UUID.fromString(InputView.inputMemberId()));
+                memberConsoleController.deleteMemberById(UUID.fromString(InputView.inputMemberId()));
                 continue;
             }
 
             if (command.isReadMember()) {
-                OutputView.outputMember(memberController.getMemberById(UUID.fromString(InputView.inputMemberId())));
+                OutputView.outputMember(memberConsoleController.getMemberById(UUID.fromString(InputView.inputMemberId())));
                 continue;
             }
 
             if (command.isReadAllBlackMember()) {
-                OutputView.outputBlackMembers(memberController.getMembersByBlack());
+                OutputView.outputBlackMembers(memberConsoleController.getMembersByBlack());
                 continue;
             }
 
@@ -73,7 +70,7 @@ public class VoucherProgramController implements CommandLineRunner {
                         .voucherPolicy(InputView.inputVoucherPolicy())
                         .amount(InputView.inputAmount())
                         .build();
-                voucherController.createVoucher(create);
+                voucherConsoleController.createVoucher(create);
                 continue;
             }
 
@@ -85,23 +82,23 @@ public class VoucherProgramController implements CommandLineRunner {
                         .voucherPolicy(VoucherPolicy.valueOf(InputView.inputVoucherPolicy()))
                         .amount(InputView.inputAmount())
                         .build();
-                voucherController.updateVoucherById(voucherId, update);
+                voucherConsoleController.updateVoucherById(voucherId, update);
                 continue;
             }
 
             if (command.isDeleteVoucher()) {
                 OutputView.outputDeleteVoucher();
-                voucherController.deleteVoucherById(UUID.fromString(InputView.inputVoucherId()));
+                voucherConsoleController.deleteVoucherById(UUID.fromString(InputView.inputVoucherId()));
                 continue;
             }
 
             if (command.isReadVoucher()) {
-                OutputView.outputVoucher(voucherController.getVoucherById(UUID.fromString(InputView.inputVoucherId())));
+                OutputView.outputVoucher(voucherConsoleController.getVoucherById(UUID.fromString(InputView.inputVoucherId())));
                 continue;
             }
 
             if (command.isReadAllVouchers()) {
-                OutputView.outputVouchers(voucherController.getVouchersAll());
+                OutputView.outputVouchers(voucherConsoleController.getVouchersAll());
                 continue;
             }
 
@@ -111,17 +108,17 @@ public class VoucherProgramController implements CommandLineRunner {
                         .voucherId(UUID.fromString(InputView.inputVoucherId()))
                         .memberId(UUID.fromString(InputView.inputMemberId()))
                         .build();
-                walletController.createVoucherMember(create);
+                walletConsoleController.createVoucherMember(create);
                 continue;
             }
 
             if (command.isReadVouchersByMember()) {
-                OutputView.outputVouchers(walletController.getVouchersByMemberId(UUID.fromString(InputView.inputMemberId())));
+                OutputView.outputVouchers(walletConsoleController.getVouchersByMemberId(UUID.fromString(InputView.inputMemberId())));
                 continue;
             }
 
             if (command.isReadMemberByVoucher()) {
-                OutputView.outputMember(walletController.getMemberByVoucherId(UUID.fromString(InputView.inputVoucherId())));
+                OutputView.outputMember(walletConsoleController.getMemberByVoucherId(UUID.fromString(InputView.inputVoucherId())));
                 continue;
             }
 
@@ -131,7 +128,7 @@ public class VoucherProgramController implements CommandLineRunner {
                         .voucherId(UUID.fromString(InputView.inputVoucherId()))
                         .memberId(UUID.fromString(InputView.inputMemberId()))
                         .build();
-                walletController.deleteVoucherMemberByVoucherIdAndMemberId(delete);
+                walletConsoleController.deleteVoucherMemberByVoucherIdAndMemberId(delete);
                 continue;
             }
 
