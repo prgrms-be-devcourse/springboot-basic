@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class VoucherController {
@@ -42,7 +43,7 @@ public class VoucherController {
       } catch (IllegalArgumentException e) {
         LOGGER.error("Error Message => {}", e.getMessage());
         console.printErrorMessage(e);
-      } catch (IOException e) {
+      } catch (NoSuchElementException e) {
         LOGGER.warn("Warn Message => {}", e.getMessage());
         console.printErrorMessage(e);
       }
@@ -54,7 +55,7 @@ public class VoucherController {
     console.printAllVoucher(list);
   }
 
-  private void create() throws IOException {
+  private void create() {
     console.requestVoucherType();
     String voucherType = console.readVoucherType();
 

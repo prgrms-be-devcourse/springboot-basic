@@ -1,6 +1,6 @@
 package com.prgrms.commandLineApplication.io;
 
-import java.io.IOException;
+import java.util.NoSuchElementException;
 
 public enum MenuType {
   EXIT,
@@ -9,11 +9,11 @@ public enum MenuType {
 
   private static final String MENU_TYPE_ERROR = "Invalid Menu Type";
 
-  public static MenuType valueOfType(String menu) throws IOException {
+  public static MenuType valueOfType(String menu) {
     try {
       return MenuType.valueOf(menu.toUpperCase());
     } catch (Exception e) {
-      throw new IOException(MENU_TYPE_ERROR);
+      throw new NoSuchElementException(MENU_TYPE_ERROR);
     }
   }
 

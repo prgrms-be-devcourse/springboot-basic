@@ -3,8 +3,6 @@ package com.prgrms.commandLineApplication.voucher.discount.validator;
 import com.prgrms.commandLineApplication.voucher.discount.Discount;
 import com.prgrms.commandLineApplication.voucher.discount.FixedDiscount;
 import com.prgrms.commandLineApplication.voucher.discount.PercentDiscount;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DiscountValidator {
 
