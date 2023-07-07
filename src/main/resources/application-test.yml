@@ -1,0 +1,15 @@
+version: "2.0"
+description: "JDBC H2"
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:voucher_management
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      mode: always

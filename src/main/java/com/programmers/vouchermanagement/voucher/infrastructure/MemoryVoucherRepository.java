@@ -2,11 +2,13 @@ package com.programmers.vouchermanagement.voucher.infrastructure;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Profile("dev")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 

@@ -41,4 +41,19 @@ public class PercentDiscountPolicy implements DiscountPolicy {
         BigDecimal discountedAmount = percent.multiply(BigDecimal.valueOf(originalPrice));
         return discountedAmount.intValue();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PercentDiscountPolicy that = (PercentDiscountPolicy) o;
+
+        return amount == that.amount;
+    }
+
+    @Override
+    public int hashCode() {
+        return amount;
+    }
 }

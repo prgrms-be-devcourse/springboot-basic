@@ -34,4 +34,19 @@ public class FixedAmountDiscountPolicy implements DiscountPolicy {
         }
         return originalPrice - amount;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FixedAmountDiscountPolicy that = (FixedAmountDiscountPolicy) o;
+
+        return amount == that.amount;
+    }
+
+    @Override
+    public int hashCode() {
+        return amount;
+    }
 }

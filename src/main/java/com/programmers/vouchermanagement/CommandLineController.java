@@ -8,10 +8,12 @@ import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+@Profile("!test")
 @Slf4j
 @Controller
 @RequiredArgsConstructor
