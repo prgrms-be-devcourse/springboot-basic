@@ -4,12 +4,10 @@ import com.prgrms.model.order.OrderItem;
 import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.discount.Price;
 
-import java.util.UUID;
-
 public class FixedAmountVoucher extends Voucher {
 
-    public FixedAmountVoucher(UUID voucherId, Discount discount, VoucherType voucherType) {
-        super(voucherId, discount, voucherType);
+    public FixedAmountVoucher(Discount discount, VoucherType voucherType) {
+        super(discount, voucherType);
     }
 
     @Override
@@ -21,4 +19,5 @@ public class FixedAmountVoucher extends Voucher {
     public double sale() {
         return getVoucherDiscount().getValue();
     }
+
 }

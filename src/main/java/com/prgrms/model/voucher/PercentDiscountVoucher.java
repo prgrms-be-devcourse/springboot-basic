@@ -4,13 +4,11 @@ import com.prgrms.model.order.OrderItem;
 import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.discount.Price;
 
-import java.util.UUID;
-
 public class PercentDiscountVoucher extends Voucher {
     private final double PERCENT = 100;
 
-    public PercentDiscountVoucher(UUID voucherId, Discount discount, VoucherType voucherType) {
-        super(voucherId, discount, voucherType);
+    public PercentDiscountVoucher(Discount discount, VoucherType voucherType) {
+        super(discount, voucherType);
     }
 
     @Override
