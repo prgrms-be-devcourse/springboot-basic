@@ -3,6 +3,7 @@ package com.programmers.console.util;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.dto.VoucherResponseDto;
+import org.springframework.cglib.core.Local;
 
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
@@ -18,18 +19,16 @@ public class VoucherStringSerializer {
     private static final String PERCENT = "%";
     private static final String WON = "₩";
 
-    private static DiscountType discountType;
-    private static UUID voucherId;
-    private static Discount discount;
-    private static LocalDateTime createdAt;
-
     public static String convertVoucherResponseToString(VoucherResponseDto responseDto) {
-        discountType = responseDto.discount().getVoucherType();
-        voucherId = responseDto.voucherId();
-        discount = responseDto.discount();
-        createdAt = responseDto.createdAt();
+        DiscountType discountType = responseDto.discount().getVoucherType();
+        UUID voucherId = responseDto.voucherId();
+        Discount discount = responseDto.discount();
+        LocalDateTime createdAt = responseDto.createdAt();
         return MessageFormat.format(ConsoleMessage.PRINT_VOUCHER_MESSAGE_FORM.getMessage(),
-                discountType, voucherId, discountValueFormat(discount), createdAt);
+                discountType,
+                voucherId,
+                discountValueFormat(discount),
+                createdAt);
     }
 
     private static String discountValueFormat(Discount discount) {
