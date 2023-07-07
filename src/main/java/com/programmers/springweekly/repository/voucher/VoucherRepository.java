@@ -1,7 +1,6 @@
 package com.programmers.springweekly.repository.voucher;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
-
 import java.util.List;
 import java.util.UUID;
 
