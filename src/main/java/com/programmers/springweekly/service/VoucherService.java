@@ -2,13 +2,16 @@ package com.programmers.springweekly.service;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
-import com.programmers.springweekly.domain.voucher.VoucherType;
+import com.programmers.springweekly.dto.voucher.request.VoucherCreateRequest;
+import com.programmers.springweekly.dto.voucher.request.VoucherUpdateRequest;
+import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
+import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.repository.voucher.VoucherRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
@@ -16,12 +19,42 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public void saveVoucher(VoucherType voucherType, String discount) {
-        Voucher voucher = VoucherFactory.createVoucher(UUID.randomUUID(), voucherType, discount);
+    public void save(VoucherCreateRequest voucherCreateRequest) {
+        Voucher voucher = VoucherFactory.createVoucher(
+                UUID.randomUUID(),
+                voucherCreateRequest.getVoucherType(),
+                voucherCreateRequest.getDiscountAmount()
+        );
+
         voucherRepository.save(voucher);
     }
 
-    public List<Voucher> findVoucherAll() {
-        return voucherRepository.findAll();
+    public void update(VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher voucher = VoucherFactory.createVoucher(
+                voucherUpdateRequest.getVoucherId(),
+                voucherUpdateRequest.getVoucherType(),
+                voucherUpdateRequest.getDiscountAmount()
+        );
+
+        voucherRepository.update(voucher);
+    }
+
+    public VoucherResponse findById(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId);
+
+        return new VoucherResponse(voucher);
+    }
+
+    public VoucherListResponse findAll() {
+        List<Voucher> voucherList = voucherRepository.findAll();
+        return new VoucherListResponse(voucherList.stream().map(VoucherResponse::new).collect(Collectors.toList()));
+    }
+
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
+    public void deleteAll() {
+        voucherRepository.deleteAll();
     }
 }
