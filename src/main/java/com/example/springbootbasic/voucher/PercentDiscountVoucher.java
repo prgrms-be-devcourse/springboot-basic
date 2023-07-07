@@ -16,8 +16,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherInfo() {
-        return MessageFormat.format("VoucherType: {0}, percent: {1}%", this.getClass().getName(), percent);
+    public void printInfo() {
+        System.out.println(MessageFormat.format("VoucherType: {0}, percent: {1}%", this.getClass().getName(), percent));
     }
 
     public long getPercent() {

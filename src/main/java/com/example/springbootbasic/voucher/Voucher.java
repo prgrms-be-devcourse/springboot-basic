@@ -4,5 +4,5 @@ public interface Voucher {
 
     long discount(long beforeDiscount);
 
-    String getVoucherInfo();
+    void printInfo();
 }

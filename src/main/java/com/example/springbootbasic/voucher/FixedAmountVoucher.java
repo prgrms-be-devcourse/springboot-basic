@@ -15,8 +15,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherInfo() {
-        return MessageFormat.format("VoucherType: {0}, percent: {1}$", this.getClass().getName(), fixedAmount);
+    public void printInfo() {
+        System.out.println(MessageFormat.format("VoucherType: {0}, percent: {1}$", this.getClass().getName(), fixedAmount));
     }
 
     public long getFixedAmount() {
