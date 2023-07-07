@@ -28,7 +28,7 @@ public class CustomerService {
 
     @Transactional
     public CustomerResponse createCustomer(CustomerCreateRequest request) {
-        checkDuplicated(customerRepository.findByNickname(request.nickname()));
+        validateDuplicate(customerRepository.findByNickname(request.nickname()));
         Customer customer = customerRepository.insert(request.toEntity());
 
         return CustomerResponse.from(customer);
@@ -42,13 +42,13 @@ public class CustomerService {
     }
 
     public CustomerResponse getCustomer(UUID customerId) {
-        Customer customer = checkExisted(customerRepository.findById(customerId));
+        Customer customer = validateExist(customerRepository.findById(customerId));
         return CustomerResponse.from(customer);
     }
 
     @Transactional
     public CustomerResponse updateCustomer(UUID customerId, CustomerUpdateRequest request) {
-        Customer customer = checkExisted(customerRepository.findById(customerId));
+        Customer customer = validateExist(customerRepository.findById(customerId));
         customer.update(request.nickname());
 
         return CustomerResponse.from(customerRepository.update(customer));
@@ -59,13 +59,13 @@ public class CustomerService {
         customerRepository.delete(customerId);
     }
 
-    private void checkDuplicated(Optional<Customer> customer) {
+    private void validateDuplicate(Optional<Customer> customer) {
         customer.ifPresent(c -> {
             throw new ConflictException(EXISTED_NICKNAME);
         });
     }
 
-    private Customer checkExisted(Optional<Customer> customer) {
+    private Customer validateExist(Optional<Customer> customer) {
         return customer.orElseThrow(() -> new NotFoundException(NOT_FOUND_CUSTOMER));
     }
 }

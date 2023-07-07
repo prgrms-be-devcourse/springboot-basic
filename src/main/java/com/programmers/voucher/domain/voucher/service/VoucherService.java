@@ -38,13 +38,13 @@ public class VoucherService {
     }
 
     public VoucherResponse getVoucher(UUID voucherId) {
-        Voucher voucher = checkExisted(voucherRepository.findById(voucherId));
+        Voucher voucher = validateExist(voucherRepository.findById(voucherId));
         return VoucherResponse.from(voucher);
     }
 
     @Transactional
     public VoucherResponse updateVoucher(UUID voucherId, VoucherUpdateRequest request) {
-        Voucher voucher = checkExisted(voucherRepository.findById(voucherId));
+        Voucher voucher = validateExist(voucherRepository.findById(voucherId));
         voucher.update(request.voucherType(), request.discountAmount());
 
         return VoucherResponse.from(voucherRepository.update(voucher));
@@ -55,7 +55,7 @@ public class VoucherService {
         voucherRepository.delete(voucherId);
     }
 
-    private Voucher checkExisted(Optional<Voucher> voucher) {
+    private Voucher validateExist(Optional<Voucher> voucher) {
         return voucher.orElseThrow(() -> new NotFoundException(NOT_FOUND_VOUCHER));
     }
 }
