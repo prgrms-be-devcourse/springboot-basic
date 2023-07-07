@@ -3,6 +3,8 @@ package com.example.springbootbasic.io;
 import com.example.springbootbasic.voucher.FixedAmountVoucher;
 import com.example.springbootbasic.voucher.PercentDiscountVoucher;
 import com.example.springbootbasic.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -13,6 +15,8 @@ import java.util.Scanner;
 
 @Component
 public class ConsoleVoucherService implements Input, Output {
+
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleVoucherService.class);
     Scanner scanner = new Scanner(System.in);
 
     public static void print(String text) {
@@ -23,8 +27,7 @@ public class ConsoleVoucherService implements Input, Output {
     public Optional<Command> getInputCommand(String prompt) {
         System.out.print(MessageFormat.format("{0}", prompt));
         String input = scanner.nextLine();
-        Optional<Command> command = Command.valueOfCommand(input);
-        return command;
+        return Command.valueOfCommand(input);
     }
 
     @Override
@@ -44,14 +47,11 @@ public class ConsoleVoucherService implements Input, Output {
                         String percent = scanner.nextLine();
                         yield new PercentDiscountVoucher(percent);
                     }
-                    default -> {
-                        throw new InputMismatchException();
-                    }
+                    default -> throw new InputMismatchException("Wrong type voucher input");
                 };
-            } catch (IllegalStateException e) {
-                System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println("Invalid voucher type. Select again!!");
+                System.out.println("Invalid input. Select again!!");
+                logger.error("Exception type: {}, message: {}", e.getClass().getSimpleName(), e.getMessage());
             }
         }
     }
@@ -75,10 +75,6 @@ public class ConsoleVoucherService implements Input, Output {
     @Override
     public void printAllVouchers(List<Voucher> vouchers) {
         System.out.println("=== List of Vouchers ===");
-        vouchers.forEach(this::printVoucherInfo);
-    }
-
-    private void printVoucherInfo(Voucher voucher) {
-        voucher.printInfo();
+        vouchers.forEach(Voucher::printInfo);
     }
 }
