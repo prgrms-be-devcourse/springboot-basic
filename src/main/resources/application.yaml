@@ -16,4 +16,3 @@ spring:
 
 blackListStoragePath: "src/main/resources/storage/blacklist.csv"
 voucherStoragePath: "src/main/resources/storage/voucherStorage.txt"
-
