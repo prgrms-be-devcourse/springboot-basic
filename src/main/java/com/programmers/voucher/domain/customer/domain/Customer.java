@@ -46,6 +46,7 @@ public class Customer {
     }
 
     public void update(String name, boolean banned) {
+        validateName(name);
         this.name = name;
         this.banned = banned;
     }

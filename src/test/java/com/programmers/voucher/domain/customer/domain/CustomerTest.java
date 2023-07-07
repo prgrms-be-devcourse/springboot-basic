@@ -103,4 +103,31 @@ class CustomerTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    @DisplayName("예외: customer 수정 - 20자를 초과한 이름")
+    void updateCustomer_ButInvalidName_OutOfRange_Then_Exception() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+
+        //when
+        //then
+        String name = "anUsernameUpTo20Chars";
+        assertThatThrownBy(() -> customer.update(name, false))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "한글", "customer++", "customer.!"
+    })
+    @DisplayName("예외: customer 수정 - 잘못된 형식의 이름")
+    void updateCustomer_ButInvalidName_InvalidCharacter_Then_Exception(String name) {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "customer@gmail.com", "customer");
+
+        //when
+        //then
+        assertThatThrownBy(() -> customer.update(name, false))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
