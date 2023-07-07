@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Input {
-
+  
     public String getUserInput() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
