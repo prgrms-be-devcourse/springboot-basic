@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.ui.exception.InputValidator;
 import org.weekly.weekly.ui.reader.CommandReader;
-import org.weekly.weekly.ui.writer.CommandWriter;
 import org.weekly.weekly.ui.writer.SystemWriter;
+import org.weekly.weekly.util.CustomerMenu;
+import org.weekly.weekly.util.ManageMenu;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.dto.Response;
@@ -23,11 +24,33 @@ public class CommandLineApplication {
         this.commandWriter = commandWriter;
     }
 
-    public VoucherMenu readMenu() {
+    public ManageMenu readMenu() {
+        while(true) {
+            try {
+                this.commandWriter.printVoucherProgram();
+                return ManageMenu.getMenu(readUserInput());
+            } catch (Exception exception) {
+                printErrorMsg(exception.getMessage());
+            }
+        }
+    }
+
+    public VoucherMenu readVoucherMenu() {
         while(true) {
             try {
                 this.commandWriter.printVoucherProgram();
                 return VoucherMenu.getMenu(readUserInput());
+            } catch (Exception exception) {
+                printErrorMsg(exception.getMessage());
+            }
+        }
+    }
+
+    public CustomerMenu readCustomerMenu() {
+        while(true) {
+            try {
+                this.commandWriter.printVoucherProgram();
+                return CustomerMenu.getMenu(readUserInput());
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
             }
@@ -44,6 +67,14 @@ public class CommandLineApplication {
                 printErrorMsg(exception.getMessage());
             }
         }
+    }
+
+    public void createCustomerFromInput() {
+
+    }
+
+    public void deleteCustomerFromInput() {
+
     }
 
     public void printErrorMsg(String errorMsg) {

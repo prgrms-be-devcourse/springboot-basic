@@ -10,8 +10,6 @@ import java.util.Arrays;
 public class VoucherManageApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(VoucherManageApplication.class, args);
-		Arrays.stream(Arrays.deepToString(context.getBeanDefinitionNames()).split(","))
-						.forEach(System.out::println);
 		context.getBean(VoucherManagementController.class).start();
 	}
 }
