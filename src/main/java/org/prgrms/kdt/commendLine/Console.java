@@ -42,7 +42,7 @@ public class Console {
     }
 
     public void printAllBlackList(List<Member> blackList) {
-        blackList.forEach(e -> System.out.println(e.getMemberName()));
+        blackList.forEach(e -> System.out.println(e.getMemberName().getName()));
         System.out.println();
     }
 

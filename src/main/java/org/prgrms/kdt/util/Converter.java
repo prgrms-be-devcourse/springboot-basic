@@ -21,7 +21,7 @@ public final class Converter {
     }
 
     public static String memberToString(Member member) {
-        return MessageFormat.format("{0},{1}", member.getMemberId(), member.getMemberName());
+        return MessageFormat.format("{0},{1}", member.getMemberId(), member.getMemberName().getName());
     }
 
     public static String[] stringToArray(String originalString, String delimiter) {
