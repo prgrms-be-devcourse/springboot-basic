@@ -14,7 +14,7 @@ public class Customer {
     private String name;
     private LocalDateTime lastLoginAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public Customer(UUID customerId, String name, String email) {
         validateCustomerId(customerId);
         validateName(name);
         validateEmail(email);
@@ -22,8 +22,8 @@ public class Customer {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.lastLoginAt = lastLoginAt;
-        this.createdAt = createdAt;
+        this.lastLoginAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     private static void validateName(String name) {
