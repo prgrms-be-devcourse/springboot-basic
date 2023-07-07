@@ -7,9 +7,10 @@ import org.devcourse.voucher.controller.console.dto.VoucherInfoResponse;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.joining;
+
 public class ListCommandRunner implements CommandRunner {
 
-    private static final String MESSAGE_TEMPLATE = "Voucher ID : %d, TYPE : %s, AMOUNT : %d\n";
     private final VoucherController controller;
 
     public ListCommandRunner(VoucherController controller) {
@@ -24,15 +25,10 @@ public class ListCommandRunner implements CommandRunner {
     }
 
     private Response postProcessResponse(List<VoucherInfoResponse> responses) {
-        StringBuilder result = new StringBuilder();
-        for (VoucherInfoResponse response : responses) {
-            long id = response.id();
-            String type = response.voucherType();
-            int amount = response.amount();
+        String message = responses.stream()
+                .map(VoucherInfoResponse::convertToMessage)
+                .collect(joining("\n"));
 
-            result.append(MESSAGE_TEMPLATE.formatted(id, type, amount));
-        }
-
-        return new Response(Status.RUNNING, result.toString());
+        return new Response(Status.RUNNING, message);
     }
 }

@@ -9,7 +9,6 @@ import org.devcourse.voucher.view.Input;
 
 public class CreateCommandRunner implements CommandRunner {
 
-    private static final String MESSAGE_TEMPLATE = "Voucher ID : %d, TYPE : %s, AMOUNT : %d\n";
     private final Input input;
     private final VoucherController controller;
 
@@ -25,15 +24,7 @@ public class CreateCommandRunner implements CommandRunner {
         VoucherSaveRequest request = new VoucherSaveRequest(type, amount);
         VoucherInfoResponse response = controller.createVoucher(request);
 
-        return postProcessResponse(response);
-    }
-
-    private Response postProcessResponse(VoucherInfoResponse response) {
-        long id = response.id();
-        String type = response.voucherType();
-        int amount = response.amount();
-
-        return new Response(Status.RUNNING, MESSAGE_TEMPLATE.formatted(id, type, amount));
+        return new Response(Status.RUNNING, response.convertToMessage());
     }
 
 }
