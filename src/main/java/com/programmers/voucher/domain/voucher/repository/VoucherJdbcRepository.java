@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,8 +26,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate template;
 
-    public VoucherJdbcRepository(DataSource dataSource) {
-        this.template = new NamedParameterJdbcTemplate(dataSource);
+    public VoucherJdbcRepository(NamedParameterJdbcTemplate template) {
+        this.template = template;
     }
 
     @Override
