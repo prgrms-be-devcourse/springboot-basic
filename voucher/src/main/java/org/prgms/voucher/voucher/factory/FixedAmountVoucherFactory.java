@@ -5,7 +5,7 @@ import org.prgms.voucher.voucher.FixedAmountVoucher;
 
 public class FixedAmountVoucherFactory implements AmountVoucherFactory {
     @Override
-    public AmountVoucher createVoucher(int originalPrice, int discountAmount) {
-        return new FixedAmountVoucher(originalPrice, discountAmount);
+    public AmountVoucher createVoucher(int discountAmount) {
+        return new FixedAmountVoucher(discountAmount);
     }
 }

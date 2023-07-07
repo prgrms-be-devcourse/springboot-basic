@@ -1,8 +1,8 @@
 package org.prgms.voucher.voucher;
 
 public class PercentAmountVoucher extends AmountVoucher {
-    public PercentAmountVoucher(int originalPrice, int discountAmount) {
-        super(originalPrice, discountAmount, AmountVoucherOptionType.PERCENT_AMOUNT);
+    public PercentAmountVoucher(int discountAmount) {
+        super(discountAmount, AmountVoucherOptionType.PERCENT_AMOUNT);
     }
 
     @Override

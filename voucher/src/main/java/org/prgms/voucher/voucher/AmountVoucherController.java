@@ -23,12 +23,11 @@ public class AmountVoucherController {
         );
     }
 
-    public String listVoucher() {
+    public String listVoucher(int originalPrice) {
         List<AmountVoucher> amountVouchers = amountVoucherService.listAmountVoucher();
 
         return amountVouchers.stream()
-                .map(VoucherPrintDto::new)
-                .map(VoucherPrintDto::getVoucherPrint)
+                .map(voucher -> new VoucherPrintDto(voucher).getVoucherPrint(originalPrice))
                 .collect(Collectors.joining("\n"));
     }
 }
