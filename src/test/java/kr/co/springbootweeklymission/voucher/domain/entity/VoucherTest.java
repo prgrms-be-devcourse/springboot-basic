@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class VoucherTest {
+class VoucherTest {
 
     @Test
     @DisplayName("고정_할인_가격이_할인전_가격보다_큰_경우 - WrongVoucherPolicyException")

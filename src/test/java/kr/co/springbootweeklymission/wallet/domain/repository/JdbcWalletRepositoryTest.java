@@ -55,10 +55,12 @@ public class JdbcWalletRepositoryTest {
         Wallet wallet = WalletCreators.createWallet(voucher1, member);
 
         //when
-        Wallet actual = walletRepository.save(wallet);
+        walletRepository.save(wallet);
+        Wallet actual = walletRepository.findByVoucherId(wallet.getVoucher().getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_WALLET));
 
         //then
-        assertThat(actual.getWalletId()).isEqualTo(wallet.getWalletId());
+        assertThat(actual).isEqualTo(wallet);
     }
 
     @Test

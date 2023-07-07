@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class JdbcMemberRepositoryTest {
+class JdbcMemberRepositoryTest {
     @Autowired
     JdbcMemberRepository memberRepository;
 
