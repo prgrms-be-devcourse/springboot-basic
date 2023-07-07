@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class VoucherApplication implements CommandLineRunner {
@@ -22,7 +24,8 @@ public class VoucherApplication implements CommandLineRunner {
     public void run(String... args) {
         Output.printProgramInfo();
 
-        VoucherConfig voucherConfig = new VoucherConfig();
+        ApplicationContext context = new AnnotationConfigApplicationContext(VoucherConfig.class);
+        VoucherConfig voucherConfig = context.getBean(VoucherConfig.class);
         CommandHandler commandHandler = voucherConfig.commandHandler();
         VoucherRepository voucherRepository = voucherConfig.voucherRepository();
 

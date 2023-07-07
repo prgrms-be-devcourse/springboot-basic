@@ -5,25 +5,34 @@ import com.example.voucher.repository.InMemoryVoucherRepository;
 import com.example.voucher.repository.VoucherRepository;
 import com.example.voucher.ui.Input;
 import com.example.voucher.ui.Output;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class VoucherConfig {
+
+    @Bean
     public CommandHandler commandHandler() {
         return new CommandHandler(input(), output());
     }
 
+    @Bean
     public VoucherRepository voucherRepository() {
         return inMemoryVoucherRepository();
     }
 
-    private Input input() {
+    @Bean
+    public Input input() {
         return new Input();
     }
 
-    private Output output() {
+    @Bean
+    public Output output() {
         return new Output();
     }
 
-    private InMemoryVoucherRepository inMemoryVoucherRepository() {
+    @Bean
+    public InMemoryVoucherRepository inMemoryVoucherRepository() {
         return new InMemoryVoucherRepository();
     }
 }
