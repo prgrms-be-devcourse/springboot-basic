@@ -52,7 +52,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at, last_login_at) VALUES (:customerId, :name, :email, :cratedAt, :lastLoginAt)",
+        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at, last_login_at) VALUES (:customerId, :name, :email, :createdAt, :lastLoginAt)",
                 toParamMap(customer));
         if (update != HAS_UPDATE) {
             throw new RuntimeException("Noting was inserted");

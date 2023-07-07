@@ -10,7 +10,6 @@ import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 
 class PercentAmountVoucherTest {
     Long id = 1L;
@@ -20,7 +19,7 @@ class PercentAmountVoucherTest {
     @ValueSource(doubles = {100, -1})
     void percentDiscountFailTest(double percent) {
 
-        assertThatThrownBy(() -> new PercentAmountVoucher(id, PERCENT, percent))
+        assertThatThrownBy(() -> new PercentAmountVoucher(id, percent))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -29,7 +28,7 @@ class PercentAmountVoucherTest {
     @CsvSource({"50","99","1","24"})
     void percentDiscountSuccessTest(double percent) {
 
-        PercentAmountVoucher voucher = new PercentAmountVoucher(id, PERCENT, percent);
+        PercentAmountVoucher voucher = new PercentAmountVoucher(id, percent);
         double stockPrice = 10000;
         double result = voucher.discount(stockPrice);
 

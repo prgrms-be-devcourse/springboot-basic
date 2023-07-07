@@ -17,7 +17,7 @@ class FixedAmountVoucherTest {
     @ValueSource(doubles = {10000})
     void fixedAmountVoucherFailTest(double discountAmount) {
 
-        FixedAmountVoucher voucher = new FixedAmountVoucher(id, FIXED, discountAmount);
+        FixedAmountVoucher voucher = new FixedAmountVoucher(id, discountAmount);
         double stockPrice = 100;
 
         assertThatThrownBy(()->voucher.discount(stockPrice)).isInstanceOf(IllegalArgumentException.class);
@@ -28,7 +28,7 @@ class FixedAmountVoucherTest {
     @ValueSource(doubles = {-10000})
     void fixedAmountVoucherNegativeFailTest(double discountAmount) {
 
-        assertThatThrownBy(() -> new FixedAmountVoucher(id, FIXED, discountAmount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(id, discountAmount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -37,7 +37,7 @@ class FixedAmountVoucherTest {
     @ValueSource(doubles = {10000})
     void fixedAmountVoucherSuccessTest(double discountAmount) {
 
-        FixedAmountVoucher voucher = new FixedAmountVoucher(id, FIXED, discountAmount);
+        FixedAmountVoucher voucher = new FixedAmountVoucher(id, discountAmount);
         double stockPrice = 20000;
         double result = voucher.discount(stockPrice);
 
