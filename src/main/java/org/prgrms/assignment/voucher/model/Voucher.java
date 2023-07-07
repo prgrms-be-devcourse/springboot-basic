@@ -17,4 +17,5 @@ public interface Voucher {
     void setBenefit(long benefit);
 
     LocalDateTime getExpireDate();
+
 }

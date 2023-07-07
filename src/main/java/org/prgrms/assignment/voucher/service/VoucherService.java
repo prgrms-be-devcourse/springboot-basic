@@ -17,4 +17,6 @@ public interface VoucherService {
 
     Voucher createVoucher(VoucherType voucherType, long benefit, long durationDate);
 
+    void delete(UUID voucherId);
+
 }

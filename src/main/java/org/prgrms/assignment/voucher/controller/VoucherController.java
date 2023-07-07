@@ -1,7 +1,9 @@
 package org.prgrms.assignment.voucher.controller;
 
 import org.prgrms.assignment.voucher.model.Menu;
+import org.prgrms.assignment.voucher.model.Voucher;
 import org.prgrms.assignment.voucher.model.VoucherType;
+import org.prgrms.assignment.voucher.service.VoucherService;
 import org.prgrms.assignment.voucher.service.VoucherServiceImpl;
 import org.prgrms.assignment.voucher.view.Input;
 import org.prgrms.assignment.voucher.view.Output;
@@ -19,7 +21,7 @@ public class VoucherController {
 
     private final Input input;
     private final Output output;
-    private final VoucherServiceImpl voucherService;
+    private final VoucherService voucherService;
 
     public VoucherController(Input input, Output output, VoucherServiceImpl voucherService) {
         this.input = input;
