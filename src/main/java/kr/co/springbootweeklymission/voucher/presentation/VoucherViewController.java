@@ -18,12 +18,12 @@ import java.util.UUID;
 public class VoucherViewController {
     private final VoucherService voucherService;
 
-    @GetMapping("/create-page")
+    @GetMapping("/post-page")
     public String createPage() {
         return "voucher/createVoucher";
     }
 
-    @GetMapping("/update-page/{voucher_id}")
+    @GetMapping("/put-page/{voucher_id}")
     public String updatePage(Model model,
                              @PathVariable(name = "voucher_id") UUID voucherId) {
         model.addAttribute("voucherId", voucherId);
@@ -37,14 +37,14 @@ public class VoucherViewController {
     }
 
 
-    @PostMapping("/update-page/{voucher_id}")
+    @PostMapping("/put/{voucher_id}")
     public String updateVoucherById(@PathVariable(name = "voucher_id") UUID voucherId,
                                     @ModelAttribute @Validated VoucherReqDTO.UPDATE update) {
         voucherService.updateVoucherById(voucherId, update);
         return "redirect:/view/v1/vouchers/" + voucherId;
     }
 
-    @PostMapping("/delete-page/{voucher_id}")
+    @PostMapping("/delete/{voucher_id}")
     public String deleteVoucherById(@PathVariable(name = "voucher_id") UUID voucherId) {
         voucherService.deleteVoucherById(voucherId);
         return "redirect:/view/v1/vouchers";

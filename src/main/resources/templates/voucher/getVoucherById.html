@@ -29,7 +29,6 @@
                     <th>할인 정책</th>
                 </tr>
                 </thead>
-
                 <tbody>
                 <tr>
                     <td th:text="${voucher.voucherId}"></td>
@@ -44,10 +43,10 @@
     <div class="row justify-content-end">
         <div class="col-auto">
             <a class="btn btn-primary"
-               th:href="${'/view/v1/vouchers/update-page/' + voucher.voucherId}">수정 하기</a>
+               th:href="${'/view/v1/vouchers/put-page/' + voucher.voucherId}">수정 하기</a>
         </div>
         <form class="col-auto"
-              th:action="${'/view/v1/vouchers/delete-page/' + voucher.voucherId}"
+              th:action="${'/view/v1/vouchers/delete/' + voucher.voucherId}"
               method="post">
             <button class="btn btn-danger"
                     type="submit">삭제 하기
