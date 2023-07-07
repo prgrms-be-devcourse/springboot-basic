@@ -6,19 +6,19 @@ import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.command.Command;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
-public class ApplicationController implements CommandLineRunner {
+@Component
+public class VoucherApplicationRunner implements CommandLineRunner {
     private final Input input;
     private final Output output;
     private final VoucherController voucherController;
     private final CustomerController customerController;
 
-    public ApplicationController(Input input,
-                                 Output output,
-                                 VoucherController voucherController,
-                                 CustomerController customerController) {
+    public VoucherApplicationRunner(Input input,
+                                    Output output,
+                                    VoucherController voucherController,
+                                    CustomerController customerController) {
         this.input = input;
         this.output = output;
         this.voucherController = voucherController;
