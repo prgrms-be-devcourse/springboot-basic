@@ -16,22 +16,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        if (voucher.getVoucherId() == 0L) {
-            Voucher completeVoucher = setRealVoucherId(voucher);
-            return storage.put(completeVoucher.getVoucherId(), completeVoucher);
-        }
+        voucher.setRealVoucherId(voucherIdFactory.getAndIncrement());
         return storage.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
         return storage.values().stream().toList();
-    }
-
-    private Voucher setRealVoucherId(Voucher voucher) {
-        VoucherVO voucherVO = new VoucherVO(voucherIdFactory.getAndIncrement(), voucher.getValue(), voucher.getCreatedDate(), voucher.getExpirationDate());
-
-        return VoucherFactory.valueOf(voucher.getVoucherType().name())
-                .createVoucher(voucherVO);
     }
 }

@@ -34,4 +34,10 @@ public abstract class Voucher {
     public VoucherFactory getVoucherType() {
         return voucherType;
     }
+
+    void setRealVoucherId(long realVoucherId) {
+        if (this.voucherId == 0L) {
+            this.voucherId = realVoucherId;
+        }
+    }
 }
