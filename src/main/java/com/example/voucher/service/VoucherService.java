@@ -1,15 +1,15 @@
 package com.example.voucher.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.example.voucher.domain.FixedAmountVoucher;
 import com.example.voucher.domain.PercentDiscountVoucher;
 import com.example.voucher.domain.Voucher;
-import com.example.voucher.constant.VoucherType;
+
 import com.example.voucher.repository.VoucherRepository;
+import com.example.voucher.utils.Validator;
 
 @Service
 public class VoucherService {
@@ -20,19 +20,29 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType voucherType, long discount) {
-        Voucher voucher = switch (voucherType) {
-            case FIXED_AMOUNT_DISCOUNT -> new FixedAmountVoucher(discount);
-            case PERCNET_DISCOUNT -> new PercentDiscountVoucher(discount);
-        };
+    public Voucher createFixedAmountDiscountVoucher(long discountAmount) {
+        Validator.validatePositive(discountAmount);
 
+        Voucher voucher = new FixedAmountVoucher(discountAmount);
         voucherRepository.save(voucher);
 
         return voucher;
+
+    }
+
+    public Voucher createPercentDiscountVoucher(long discountPercent) {
+        Validator.validatePercent(discountPercent);
+
+        Voucher voucher = new PercentDiscountVoucher(discountPercent);
+        voucherRepository.save(voucher);
+
+        return voucher;
+
     }
 
     public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
+
     }
 
 }
