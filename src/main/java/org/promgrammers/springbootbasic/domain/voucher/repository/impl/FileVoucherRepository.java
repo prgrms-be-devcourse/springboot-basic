@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -65,6 +66,59 @@ public class FileVoucherRepository implements VoucherRepository {
             e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
+        try {
+            List<String> lines = Files.lines(filePath)
+                    .map(line -> {
+                        Voucher voucher = FileConverter.parseVoucherFromLine(line);
+                        if (voucher.getVoucherId().equals(voucherId)) {
+                            voucher.assignCustomerId(customerId);
+                        }
+                        return FileConverter.voucherToLine(voucher);
+                    })
+                    .collect(Collectors.toList());
+
+            Files.write(filePath, lines, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            logger.error("Voucher 할당 실패", e.getMessage());
+            throw new FileWriteException("Voucher 할당에 실패했습니다.");
+        }
+    }
+
+    @Override
+    public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
+        try {
+            List<String> lines = Files.lines(filePath)
+                    .map(line -> {
+                        Voucher voucher = FileConverter.parseVoucherFromLine(line);
+                        if (voucher.getVoucherId().equals(voucherId) && voucher.getCustomerId().equals(customerId)) {
+                            voucher.assignCustomerId(null);
+                        }
+                        return FileConverter.voucherToLine(voucher);
+                    })
+                    .collect(Collectors.toList());
+
+            Files.write(filePath, lines, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            logger.error("Voucher 제거 실패", e.getMessage());
+            throw new FileWriteException("Voucher 제거에 실패했습니다.");
+        }
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomerId(UUID customerId) {
+        try {
+            return Files.lines(filePath)
+                    .map(FileConverter::parseVoucherFromLine)
+                    .filter(voucher -> Objects.equals(voucher.getCustomerId(), customerId))
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            logger.error("Voucher 목록 조회 실패", e.getMessage());
+            throw new FileWriteException("Voucher 목록 조회에 실패했습니다.");
+        }
     }
 
     @Override

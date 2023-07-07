@@ -39,6 +39,29 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
+        Voucher voucher = storage.get(voucherId);
+        if (voucher != null) {
+            voucher.assignCustomerId(customerId);
+        }
+    }
+
+    @Override
+    public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
+        Voucher voucher = storage.get(voucherId);
+        if (voucher != null && voucher.getCustomerId() != null && voucher.getCustomerId().equals(customerId)) {
+            voucher.assignCustomerId(null);
+        }
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomerId(UUID customerId) {
+        return storage.values().stream()
+                .filter(voucher -> voucher.getCustomerId() != null && voucher.getCustomerId().equals(customerId))
+                .toList();
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         if (!storage.containsKey(voucher)) {

@@ -35,6 +35,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String UPDATE = "UPDATE vouchers SET amount = :amount, voucher_type = :voucherType WHERE voucher_id = :voucherId";
     private static final String DELETE_ALL = "DELETE FROM vouchers";
     private static final String DELETE_BY_ID = "DELETE FROM vouchers WHERE voucher_id = :voucherId";
+    private static final String INSERT_ASSIGN_CUSTOMER = "UPDATE vouchers SET customer_id = :customerId WHERE voucher_id = :voucherId";
+    private static final String FIND_ALL_BY_CUSTOMER_ID = "SELECT * FROM vouchers WHERE customer_id = :customerId";
+    private static final String DELETE_BY_CUSTOMER_ID = "UPDATE vouchers SET customer_id = NULL WHERE customer_id = :customerId AND voucher_id = :voucherId";
 
     public JdbcVoucherRepository(DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
@@ -62,6 +65,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
             };
         }
         return voucher;
+    }
+
+    @Override
+    public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
+        Map<String, Object> params = Map.of("customerId", customerId, "voucherId", voucherId);
+        template.update(INSERT_ASSIGN_CUSTOMER, params);
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomerId(UUID customerId) {
+        Map<String, Object> params = Map.of("customerId", customerId);
+        return template.query(FIND_ALL_BY_CUSTOMER_ID, params, voucherRowMapper);
+    }
+
+    @Override
+    public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
+        Map<String, Object> params = Map.of("customerId", customerId, "voucherId", voucherId);
+        template.update(DELETE_BY_CUSTOMER_ID, params);
     }
 
     @Override
@@ -102,7 +123,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String voucherId = rs.getString("voucher_id");
         long amount = rs.getLong("amount");
         VoucherType voucherType = VoucherType.from(rs.getString("voucher_type"));
+        String customerId = rs.getString("customer_id");
+        UUID mappedCustomerId = (customerId == null) ? null : UUID.fromString(customerId);
 
-        return VoucherFactory.convertToVoucher(UUID.fromString(voucherId), voucherType, amount);
+        Voucher voucher = VoucherFactory.convertToVoucher(UUID.fromString(voucherId), voucherType, amount);
+        voucher.assignCustomerId(mappedCustomerId);
+
+        return voucher;
     });
 }
