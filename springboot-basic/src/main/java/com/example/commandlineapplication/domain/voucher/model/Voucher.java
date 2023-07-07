@@ -9,4 +9,7 @@ public abstract class Voucher {
   public abstract double discountedPrice(long beforeDiscount);
 
   public abstract VoucherType getVoucherType();
+
+  public abstract long getDiscount();
+
 }

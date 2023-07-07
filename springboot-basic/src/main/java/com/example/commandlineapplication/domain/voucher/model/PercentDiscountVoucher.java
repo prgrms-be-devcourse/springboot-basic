@@ -32,4 +32,9 @@ public class PercentDiscountVoucher extends Voucher {
   public VoucherType getVoucherType() {
     return VoucherType.PERCENT;
   }
+
+  @Override
+  public long getDiscount() {
+    return discountPercent;
+  }
 }

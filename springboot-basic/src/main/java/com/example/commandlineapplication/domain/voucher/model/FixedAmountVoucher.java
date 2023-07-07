@@ -20,6 +20,11 @@ public class FixedAmountVoucher extends Voucher {
     return VoucherType.FIXED;
   }
 
+  @Override
+  public long getDiscount() {
+    return discount;
+  }
+
   public double discountedPrice(long price) {
     return checkDiscountedPrice(price);
   }
