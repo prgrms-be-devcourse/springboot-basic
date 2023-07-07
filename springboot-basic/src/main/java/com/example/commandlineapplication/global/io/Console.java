@@ -1,8 +1,8 @@
 package com.example.commandlineapplication.global.io;
 
-import com.example.commandlineapplication.domain.voucher.model.Voucher;
+import com.example.commandlineapplication.domain.voucher.dto.response.VoucherResponse;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
-import com.example.commandlineapplication.domain.voucher.repository.VoucherMemoryRepository;
+import com.example.commandlineapplication.domain.voucher.service.VoucherService;
 import java.util.List;
 import java.util.Scanner;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class Console implements Input, Output {
 
-  private final VoucherMemoryRepository voucherMemoryRepository;
   private static final Scanner scanner = new Scanner(System.in);
+  private final VoucherService voucherService;
 
   @Override
   public String selectOption() {
@@ -45,9 +45,11 @@ public class Console implements Input, Output {
 
   @Override
   public void printHistory() {
-    List<Voucher> historyList = voucherMemoryRepository.findAll();
-    for (Voucher voucher : historyList) {
-      System.out.println(voucher.getVoucherType() + " " + voucher.getVoucherId().toString());
+    List<VoucherResponse> vouchers = voucherService.findVouchers();
+
+    for (VoucherResponse voucher : vouchers) {
+      System.out.println(voucher.getVoucherType() + " " + voucher.getVoucherId().toString() + " "
+          + voucher.getDiscountAmount());
     }
   }
 
