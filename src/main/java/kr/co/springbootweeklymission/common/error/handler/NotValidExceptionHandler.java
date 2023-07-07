@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -35,7 +34,7 @@ public class NotValidExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .map(ResponseError.ValidationException::of)
-                .collect(Collectors.toList());
+                .toList();
         return ResponseError.builder()
                 .message(responseStatus.getMessage())
                 .httpStatus(responseStatus.getHttpStatus())
