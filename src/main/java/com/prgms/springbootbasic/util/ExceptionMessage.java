@@ -8,6 +8,8 @@ public enum ExceptionMessage {
     NO_SUCH_MENU("[Error] Can't Find Such Menu."),
     DUPLICATION_KEY("[Error] Already Exist Key."),
     NO_SUCH_FILE("[Error] Can't Find Such File."),
+
+    NOT_SUPPORTED("[Error] Not Supported"),
     CANT_WRITE_FILE("[Error] Cant Write File"),
     CANT_READ_FILE("[Error] Can't Read File");
 

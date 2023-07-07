@@ -23,6 +23,11 @@ public class InputView {
 		return textIO.newLongInputReader()
 			       .read("VoucherNumber");
 	}
+
+	public String enterUUID() {
+		return textIO.newStringInputReader()
+				.read("UUID");
+	}
 	
 	public void close() {
 		textIO.dispose();

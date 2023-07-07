@@ -20,6 +20,8 @@ public class VoucherOutputView {
         textTerminal.println("=== Voucher Application ===");
         textTerminal.println("Type create to create a new voucher");
         textTerminal.println("Type list to list all vouchers");
+        textTerminal.println("Type update to update voucher");
+        textTerminal.println("Type delete to delete voucher");
     }
 
     public void showWhenEntervoucherType() {

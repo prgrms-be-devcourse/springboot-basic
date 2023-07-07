@@ -10,10 +10,10 @@ public class PercentAmountVoucher implements Voucher {
 	private static final long MINIMUM = 0;
 	private static final long MAXIMUM = 100;
 	private final UUID voucherId;
-	private final long percent;
+	private long percent;
 	
 	public PercentAmountVoucher(UUID voucherId, long percent) {
-		throwWhenOutOfRangePercent(percent);
+		validatePercent(percent);
 		this.voucherId = voucherId;
 		this.percent = percent;
 	}
@@ -31,7 +31,13 @@ public class PercentAmountVoucher implements Voucher {
 	@Override
 	public Long getNumber() { return percent; }
 
-	private void throwWhenOutOfRangePercent(long percent) {
+	@Override
+	public void changeAmount(long percent) {
+		validatePercent(percent);
+		this.percent = percent;
+	}
+
+	private void validatePercent(long percent) {
 		if (percent <= MINIMUM || percent > MAXIMUM) {
 			throw new IllegalArgumentException(ExceptionMessage.OUT_OF_RANGE_PERCENT.getMessage());
 		}

@@ -45,6 +45,10 @@ public class Console {
 		outputView.showWhenEnterVoucherNumber();
 		return inputView.enterVoucherNumber();
 	}
+
+	public String inputUUID() {
+		return inputView.enterUUID();
+	}
 	
 	public void exit() {
 		outputView.exit();

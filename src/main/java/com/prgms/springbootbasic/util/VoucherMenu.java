@@ -6,7 +6,9 @@ import java.util.List;
 public enum VoucherMenu {
 
 	CREATE("create"),
-	LIST("list");
+	LIST("list"),
+	UPDATE("update"),
+	DELETE("delete");
 
 	private static final List<VoucherMenu> VOUCHER_MENU_VALUES = Arrays.stream(VoucherMenu.values()).toList();
 	private final String command;

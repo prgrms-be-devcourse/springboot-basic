@@ -10,4 +10,6 @@ public interface Voucher {
 	UUID getVoucherId();
 	Long getNumber();
 
+	void changeAmount(long amount);
+
 }

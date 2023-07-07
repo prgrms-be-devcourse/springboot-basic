@@ -9,10 +9,10 @@ public class FixedAmountVoucher implements Voucher {
 	private static final long MINIMUM = 0;
 	
 	private final UUID voucherId;
-	private final long amount;
+	private long amount;
 	
 	public FixedAmountVoucher(UUID voucherId, long amount) {
-		throwWhenUnderMinimum(amount);
+		validateAmount(amount);
 		this.voucherId = voucherId;
 		this.amount = amount;
 	}
@@ -30,7 +30,13 @@ public class FixedAmountVoucher implements Voucher {
 	@Override
 	public Long getNumber() { return amount; }
 
-	private void throwWhenUnderMinimum(long amount) {
+	@Override
+	public void changeAmount(long amount) {
+		validateAmount(amount);
+		this.amount = amount;
+	}
+
+	private void validateAmount(long amount) {
 		if (amount <= MINIMUM) {
 			throw new IllegalArgumentException(ExceptionMessage.UNDER_MINIMUM_AMOUNT.getMessage());
 		}

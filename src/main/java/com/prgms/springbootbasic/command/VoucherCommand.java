@@ -9,10 +9,13 @@ import com.prgms.springbootbasic.util.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
+@Transactional(readOnly = true)
 public class VoucherCommand implements Command {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherCommand.class);
@@ -33,19 +36,43 @@ public class VoucherCommand implements Command {
         }
         if (voucherMenu == VoucherMenu.CREATE) {
             createVoucher();
+            return;
+        }
+        if (voucherMenu == VoucherMenu.UPDATE) {
+            update();
+            return;
+        }
+        if (voucherMenu == VoucherMenu.DELETE) {
+            delete();
         }
     }
 
-    private void createVoucher() {
+    @Transactional
+    public void createVoucher() {
         Voucher voucher = inputVoucher();
         vouchersStorage.save(voucher);
         logger.info("바우처 저장에 성공했습니다. voucherType : {} voucherId : {} number : {}", voucher.getVoucherType(), voucher.getVoucherId(), voucher.getNumber());
     }
 
-    private void findVouchers(){
+    public void findVouchers(){
         List<Voucher> vouchers = vouchersStorage.findAll();
         console.showVoucherList(vouchers);
         logger.info("저장된 바우처를 불러오는데 성공했습니다. size : {}", vouchers.size());
+    }
+
+    @Transactional
+    public void update() {
+        UUID voucherId = UUID.fromString(console.inputUUID());
+        Voucher voucher = vouchersStorage.findById(voucherId);
+        Long amount = console.inputVoucherNumber();
+        voucher.changeAmount(amount);
+        vouchersStorage.update(voucher);
+    }
+
+    @Transactional
+    public void delete() {
+        UUID voucherId = UUID.fromString(console.inputUUID());
+        vouchersStorage.deleteOne(voucherId);
     }
 
     private Voucher inputVoucher() {
