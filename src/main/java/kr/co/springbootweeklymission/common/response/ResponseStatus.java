@@ -11,10 +11,11 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ResponseStatus {
     //success command
-    SUCCESS_OK("요청이 성공적으로 처리되었습니다.", HttpStatus.OK),
-    SUCCESS_CREATE("요청이 성공적으로 처리되어 새로운 리소스가 생성되었습니다.", HttpStatus.CREATED),
     SUCCESS_ACCEPTED("요청이 성공적으로 처리되었지만, 결과가 아직 완료되지 않았습니다.", HttpStatus.ACCEPTED),
     SUCCESS_NO_CONTENT("요청이 성공적으로 처리되었지만, 응답 데이터가 없습니다.", HttpStatus.NO_CONTENT),
+
+    //success voucher
+    SUCCESS_CREATE_VOUCHER("요청이 성공적으로 처리되어 새로운 바우처가 생성되었습니다.", HttpStatus.CREATED),
 
     //fail command
     FAIL_INVALID_PARAMETER("파라미터 값이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
