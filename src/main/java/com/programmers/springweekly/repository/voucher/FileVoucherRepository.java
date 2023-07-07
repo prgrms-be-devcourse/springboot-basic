@@ -2,7 +2,7 @@ package com.programmers.springweekly.repository.voucher;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
-import com.programmers.springweekly.dto.ReadVoucherDto;
+import com.programmers.springweekly.domain.voucher.VoucherType;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -52,9 +52,7 @@ public class FileVoucherRepository {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] readLine = line.split(",");
 
-                ReadVoucherDto readVoucherDto = new ReadVoucherDto(readLine[0], readLine[1], readLine[2]);
-
-                Voucher voucher = VoucherFactory.createVoucher(readVoucherDto.getVoucherId(), readVoucherDto.getVoucherType(), Long.parseLong(readVoucherDto.getDiscountAmount()));
+                Voucher voucher = VoucherFactory.createVoucher(UUID.fromString(readLine[0]), VoucherType.valueOf(readLine[1]), Long.parseLong(readLine[2]));
 
                 voucherMap.put(voucher.getVoucherId(), voucher);
             }

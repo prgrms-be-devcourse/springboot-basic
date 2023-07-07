@@ -1,18 +1,17 @@
 package com.programmers.springweekly.dto.customer.request;
 
 import com.programmers.springweekly.domain.customer.CustomerType;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.UUID;
 
 @Getter
 public class CustomerUpdateRequest {
 
-    private final UUID customerId;
-    private final String customerName;
-    private final String customerEmail;
-    private final CustomerType customerType;
+    private UUID customerId;
+    private String customerName;
+    private String customerEmail;
+    private CustomerType customerType;
 
     @Builder
     public CustomerUpdateRequest(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {

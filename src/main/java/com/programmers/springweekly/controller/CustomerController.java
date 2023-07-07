@@ -5,13 +5,12 @@ import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
-import lombok.AllArgsConstructor;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
-import java.util.UUID;
-
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;

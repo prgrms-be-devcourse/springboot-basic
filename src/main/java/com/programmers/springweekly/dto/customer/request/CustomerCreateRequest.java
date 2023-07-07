@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 public class CustomerCreateRequest {
 
-    private final String customerName;
-    private final String customerEmail;
-    private final CustomerType customerType;
+    private String customerName;
+    private String customerEmail;
+    private CustomerType customerType;
 
     @Builder
     public CustomerCreateRequest(String customerName, String customerEmail, CustomerType customerType) {
