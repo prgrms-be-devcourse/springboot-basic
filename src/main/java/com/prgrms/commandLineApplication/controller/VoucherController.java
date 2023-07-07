@@ -4,12 +4,17 @@ import com.prgrms.commandLineApplication.io.Console;
 import com.prgrms.commandLineApplication.io.MenuType;
 import com.prgrms.commandLineApplication.service.VoucherService;
 import com.prgrms.commandLineApplication.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class VoucherController {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(VoucherController.class);
 
   private final VoucherService voucherService;
   private final Console console;
@@ -34,7 +39,11 @@ public class VoucherController {
           case LIST -> list();
           case CREATE -> create();
         }
-      } catch (RuntimeException e) {
+      } catch (IllegalArgumentException e) {
+        LOGGER.error("Error Message => {}", e.getMessage());
+        console.printErrorMessage(e);
+      } catch (IOException e) {
+        LOGGER.warn("Warn Message => {}", e.getMessage());
         console.printErrorMessage(e);
       }
     }
@@ -45,7 +54,7 @@ public class VoucherController {
     console.printAllVoucher(list);
   }
 
-  private void create() {
+  private void create() throws IOException {
     console.requestVoucherType();
     String voucherType = console.readVoucherType();
 
@@ -53,7 +62,7 @@ public class VoucherController {
     int discountAmount = console.readVoucherAmount();
 
     voucherService.create(voucherType, discountAmount);
-    console.printCreateSuccess();
+    console.printCreateSuccess(voucherType, discountAmount);
   }
 
 }
