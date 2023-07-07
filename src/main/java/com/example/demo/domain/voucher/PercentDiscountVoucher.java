@@ -1,5 +1,6 @@
 package com.example.demo.domain.voucher;
 
+import com.example.demo.util.VoucherType;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -25,5 +26,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public double getDiscountAmount() {
         return discountPercent;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
     }
 }

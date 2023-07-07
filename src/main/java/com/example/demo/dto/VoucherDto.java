@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.domain.voucher.FixedAmountVoucher;
 import com.example.demo.domain.voucher.Voucher;
 import com.example.demo.util.VoucherType;
 import java.util.UUID;
@@ -38,7 +37,6 @@ public class VoucherDto {
     }
 
     public static VoucherDto from(Voucher voucher) {
-        VoucherType type = voucher instanceof FixedAmountVoucher ? VoucherType.FIX : VoucherType.PERCENT;
-        return new VoucherDto(voucher.getId(), voucher.getDiscountAmount(), type);
+        return new VoucherDto(voucher.getId(), voucher.getDiscountAmount(), voucher.getVoucherType());
     }
 }
