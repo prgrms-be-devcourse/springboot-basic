@@ -4,6 +4,7 @@ import com.example.commandlineapplication.domain.voucher.dto.mapper.VoucherMappe
 import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCreateRequest;
 import com.example.commandlineapplication.domain.voucher.dto.response.VoucherResponse;
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
+import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import com.example.commandlineapplication.domain.voucher.repository.VoucherJdbcRepository;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +26,9 @@ public class VoucherService {
 
 
   @Transactional
-  public void createVoucher(VoucherCreateRequest voucherCreateRequest) {
+  public void createVoucher(VoucherType inputVoucherType, Integer inputDiscount) {
+    VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputVoucherType,
+        inputDiscount);
     Voucher voucher = voucherFactory.create(voucherCreateRequest);
 
     save(voucher);
