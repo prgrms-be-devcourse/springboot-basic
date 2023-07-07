@@ -30,10 +30,7 @@ public class ConsoleVoucherService implements Input, Output {
     @Override
     public Voucher inputVoucherInfo() {
         while (true) {
-            System.out.println("=== Create Voucher ===");
-            System.out.println("1. FixedAmountVoucher");
-            System.out.println("2. PercentDiscountVoucher");
-            System.out.println("Select voucher type [1, 2]: ");
+            printAvailableVoucherList();
             try {
                 int select = Integer.parseInt(scanner.nextLine());
                 return switch (select) {
