@@ -60,9 +60,9 @@ public class CustomerService {
     }
 
     private void checkDuplicated(Optional<Customer> customer) {
-        if (customer.isPresent()) {
+        customer.ifPresent(c -> {
             throw new ConflictException(EXISTED_NICKNAME);
-        }
+        });
     }
 
     private Customer checkExisted(Optional<Customer> customer) {
