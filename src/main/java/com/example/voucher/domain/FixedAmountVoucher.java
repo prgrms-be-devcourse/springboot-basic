@@ -3,7 +3,7 @@ package com.example.voucher.domain;
 import java.util.UUID;
 
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.utils.validator.VoucherValidator;
+import com.example.voucher.utils.Validator;
 
 public class FixedAmountVoucher implements Voucher {
 
@@ -34,9 +34,9 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeAmount) {
-        VoucherValidator.validateNonZero(beforeAmount);
-        VoucherValidator.validatePositive(beforeAmount);
-        VoucherValidator.validateGreaterThan(beforeAmount, amount);
+        Validator.validateNonZero(beforeAmount);
+        Validator.validatePositive(beforeAmount);
+        Validator.validateGreaterThan(beforeAmount, amount);
 
         return beforeAmount - amount;
     }
