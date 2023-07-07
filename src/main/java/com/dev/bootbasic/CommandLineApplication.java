@@ -19,6 +19,7 @@ import static com.dev.bootbasic.view.Command.EXIT;
 @Component
 public class CommandLineApplication implements CommandLineRunner {
 
+    private static final String LOG_MESSAGE = "Log Message: {}";
     private final ViewManager viewManager;
     private final VoucherController voucherController;
     private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
@@ -32,10 +33,12 @@ public class CommandLineApplication implements CommandLineRunner {
     public void run(String... args) {
         try {
             executeApplication();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             viewManager.showMessage(e.getMessage());
-            logger.warn("Log Message: {}", e.getMessage());
+            logger.warn(LOG_MESSAGE, e.getMessage());
             run();
+        } catch (Exception e) {
+            logger.error(LOG_MESSAGE, e.getMessage());
         }
     }
 
