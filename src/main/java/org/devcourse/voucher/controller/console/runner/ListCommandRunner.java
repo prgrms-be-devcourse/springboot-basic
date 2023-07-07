@@ -21,14 +21,12 @@ public class ListCommandRunner implements CommandRunner {
     public Response run() {
         List<VoucherInfoResponse> responses = controller.listVoucher();
 
-        return postProcessResponse(responses);
+        return new Response(Status.RUNNING, convertToMessage(responses));
     }
 
-    private Response postProcessResponse(List<VoucherInfoResponse> responses) {
-        String message = responses.stream()
+    private String convertToMessage(List<VoucherInfoResponse> responses) {
+        return responses.stream()
                 .map(VoucherInfoResponse::convertToMessage)
                 .collect(joining("\n"));
-
-        return new Response(Status.RUNNING, message);
     }
 }
