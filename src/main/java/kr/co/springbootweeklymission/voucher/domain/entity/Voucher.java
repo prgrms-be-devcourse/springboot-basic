@@ -45,6 +45,6 @@ public class Voucher {
 
     public void updateVoucherInformation(VoucherReqDTO.UPDATE update) {
         this.amount = update.getAmount();
-        this.voucherPolicy = update.getVoucherPolicy();
+        this.voucherPolicy = VoucherPolicy.valueOf(update.getVoucherPolicy());
     }
 }

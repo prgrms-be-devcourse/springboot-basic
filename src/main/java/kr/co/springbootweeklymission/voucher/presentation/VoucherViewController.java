@@ -23,10 +23,26 @@ public class VoucherViewController {
         return "voucher/createVoucher";
     }
 
-    @PostMapping("/create-page")
+    @GetMapping("/update-page/{voucher_id}")
+    public String updatePage(Model model,
+                             @PathVariable(name = "voucher_id") UUID voucherId) {
+        model.addAttribute("voucherId", voucherId);
+        return "voucher/updateVoucherById";
+    }
+
+    @PostMapping
     public String createVoucher(@ModelAttribute @Validated VoucherReqDTO.CREATE create) {
         voucherService.createVoucher(create);
         return "redirect:/view/v1/vouchers";
+    }
+
+    @PostMapping("/update-page/{voucher_id}")
+    public String updateVoucherById(@PathVariable(name = "voucher_id") UUID voucherId,
+                                    @ModelAttribute @Validated VoucherReqDTO.UPDATE update) {
+        System.out.println(voucherId);
+        System.out.println(update.getAmount());
+        voucherService.updateVoucherById(voucherId, update);
+        return "redirect:/view/v1/vouchers/" + voucherId;
     }
 
     @GetMapping
