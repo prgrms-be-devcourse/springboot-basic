@@ -3,6 +3,7 @@ package org.promgrammers.springbootbasic.domain.customer.model;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.promgrammers.springbootbasic.domain.Wallet;
 import org.springframework.util.StringUtils;
 
 import java.util.UUID;
@@ -11,15 +12,18 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode
 public final class Customer {
+
     private final UUID customerId;
     private String username;
     private CustomerType customerType;
+    private Wallet wallet;
 
     public Customer(UUID customerId, String username) {
         validateUsername(username);
         this.customerId = customerId;
         this.username = username;
         this.customerType = CustomerType.WHITE;
+        this.wallet = new Wallet();
     }
 
     private void validateUsername(String username) {
@@ -40,6 +44,7 @@ public final class Customer {
     public String toString() {
         return "Customer[" +
                 "customerId=" + customerId + ", " +
-                "customerType=" + customerType + ']';
+                "customerType=" + customerType +
+                "Wallet = " + wallet.toString() + ']';
     }
 }

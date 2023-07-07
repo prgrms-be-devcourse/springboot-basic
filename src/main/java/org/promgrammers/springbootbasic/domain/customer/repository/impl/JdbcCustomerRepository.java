@@ -28,6 +28,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String SAVE = "INSERT INTO customers(customer_id, username, customer_type) VALUES(:customerId, :username, :customerType)";
     private static final String FIND_BY_ID = "SELECT * FROM customers WHERE customer_id = :customerId";
     private static final String FIND_BY_USERNAME = "SELECT * FROM customers WHERE username = :username";
+    private static final String FIND_BY_VOUCHER_ID = "SELECT c.* FROM customers c INNER JOIN vouchers v ON c.customer_id = v.customer_id WHERE v.voucher_id = :voucherId";
     private static final String FIND_ALL = "SELECT * FROM customers";
     private static final String UPDATE = "UPDATE customers SET username = :username, customer_type = :customerType WHERE customer_id = :customerId";
     private static final String DELETE_ALL = "DELETE FROM customers";
@@ -87,6 +88,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByVoucherId(UUID voucherId) {
+        try {
+            Map<String, Object> param = Map.of("voucherId", voucherId);
+            Customer customer = template.queryForObject(FIND_BY_VOUCHER_ID, param, customerRowMapper);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("해당 바우처를 가진 고객을 찾을 수 없습니다. => voucherId: " + voucherId);
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public List<Customer> findAll() {
         return template.query(FIND_ALL, customerRowMapper);
     }
@@ -114,5 +127,4 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         return new Customer(UUID.fromString(customerId), username);
     });
-
 }
