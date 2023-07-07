@@ -39,18 +39,12 @@ public class ConsoleVoucherService implements Input, Output {
                 return switch (select) {
                     case 1 -> {
                         System.out.println("Enter fixed amount: ");
-                        long fixedAmount = Long.parseLong(scanner.nextLine());
-                        if (fixedAmount < 0) {
-                            throw new IllegalStateException("FixedAmount cannot be negative");
-                        }
+                        String fixedAmount = scanner.nextLine();
                         yield new FixedAmountVoucher(fixedAmount);
                     }
                     case 2 -> {
                         System.out.println("Enter discount percent: ");
-                        int percent = Integer.parseInt(scanner.nextLine());
-                        if (percent < 0 || percent > 100) {
-                            throw new IllegalStateException("Percent should be in range(0, 100)");
-                        }
+                        String percent = scanner.nextLine();
                         yield new PercentDiscountVoucher(percent);
                     }
                     default -> {

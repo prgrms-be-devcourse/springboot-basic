@@ -5,8 +5,15 @@ import java.text.MessageFormat;
 public class FixedAmountVoucher implements Voucher {
     private final long fixedAmount;
 
-    public FixedAmountVoucher(long fixedAmount) {
-        this.fixedAmount = fixedAmount;
+    public FixedAmountVoucher(String fixedAmount) {
+        this.fixedAmount = Long.parseLong(fixedAmount);
+        validateInput();
+    }
+
+    private void validateInput() {
+        if (this.fixedAmount < 0) {
+            throw new IllegalStateException("FixedAmount cannot be negative");
+        }
     }
 
     @Override

@@ -4,10 +4,17 @@ import java.text.MessageFormat;
 
 public class PercentDiscountVoucher implements Voucher {
 
-    private final long percent;
+    private final int percent;
 
-    public PercentDiscountVoucher(long percent) {
-        this.percent = percent;
+    public PercentDiscountVoucher(String percent) throws NumberFormatException {
+        this.percent = Integer.parseInt(percent);
+        validateInput();
+    }
+
+    private void validateInput() {
+        if (this.percent < 0 || this.percent > 100) {
+            throw new IllegalStateException("Percent should be in range(0, 100)");
+        }
     }
 
     @Override
