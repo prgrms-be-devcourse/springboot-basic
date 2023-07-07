@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CustomerTest {
 
-    @DisplayName("옳바른 인자들로 of()를 실행하면 Customer가 생성된다.")
+    @DisplayName("옳바른 인자들로 Customer 생성자 호출하면 고객이 생성된다.")
     @ParameterizedTest
     @CsvSource(value = {
             "aCustomer, mgtmh991013@naver.com",
@@ -34,34 +34,6 @@ class CustomerTest {
         assertThat(customer).isNotNull();
     }
 
-    @DisplayName("고객 아이디가 없다면, of()를 실행할 때 예외가 발생한다.")
-    @ParameterizedTest
-    @NullSource
-    void throwNullCustomerIdException(UUID customerId) {
-        //given
-        String name = "aCustomer";
-        String email = "mgtmh991013@naver.com";
-
-        //when, then
-        Assertions.assertThatThrownBy(() -> new Customer(customerId, name, email))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("고객 아이디가 비어있습니다.");
-    }
-
-    @DisplayName("이메일 형식이 맞지 않으면, of()를 실행할 때 예외가 발생한다.")
-    @ParameterizedTest
-    @ValueSource(strings = "mgtmh991013naver.com, mgtmh991013gmail.com")
-    void throwIncorrectEmailFormatException(String email) {
-        //given
-        UUID customerId = UUID.randomUUID();
-        String name = "aCustomer";
-
-        //when, then
-        assertThatThrownBy(() -> new Customer(customerId, name, email))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(String.format("옳바른 이메일 형식을 입력해주세요. 입력값: %s", email));
-    }
-
     @DisplayName("Customer가 주어졌을 때, login()을 실행하면, lastLoginAt 값이 현재 시간으로 변경된다.")
     @Test
     void login() {
@@ -74,9 +46,10 @@ class CustomerTest {
 
         //when
         customer.login();
+        LocalDateTime currentLastLoginAt = customer.getLastLoginAt();
 
         //then
-        assertThat(customer.getLastLoginAt())
+        assertThat(currentLastLoginAt)
                 .isNotEqualTo(prevLastLoginAt)
                 .isAfter(prevLastLoginAt);
     }
@@ -114,6 +87,20 @@ class CustomerTest {
                 .hasMessage("고객 이름이 비어있습니다.");
     }
 
+    @DisplayName("고객의 아이디를 입력하지 않으면, 고객을 생성할 때 예외가 발생한다.")
+    @ParameterizedTest
+    @NullSource
+    void throwNullCustomerIdException(UUID customerId) {
+        //given
+        String name = "aCustomer";
+        String email = "mgtmh991013@naver.com";
+
+        //when, then
+        Assertions.assertThatThrownBy(() -> new Customer(customerId, name, email))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("고객 아이디가 비어있습니다.");
+    }
+
     @DisplayName("고객의 이메일을 입력하지 않으면, 고객을 생성할 때 예외가 발생한다.")
     @ParameterizedTest
     @NullAndEmptySource
@@ -126,6 +113,20 @@ class CustomerTest {
         Assertions.assertThatThrownBy(() -> new Customer(customerId, name, email))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("고객 이메일이 비어있습니다.");
+    }
+
+    @DisplayName("이메일 형식이 맞지 않으면, 고객을 생성할 때 예외가 발생한다.")
+    @ParameterizedTest
+    @ValueSource(strings = "mgtmh991013naver.com, mgtmh991013gmail.com")
+    void throwIncorrectEmailFormatException(String email) {
+        //given
+        UUID customerId = UUID.randomUUID();
+        String name = "aCustomer";
+
+        //when, then
+        assertThatThrownBy(() -> new Customer(customerId, name, email))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(String.format("옳바른 이메일 형식을 입력해주세요. 입력값: %s", email));
     }
 
     @DisplayName("고객의 이름을 입력하지 않으면, 고객을 생성할 때 예외가 발생한다.")
