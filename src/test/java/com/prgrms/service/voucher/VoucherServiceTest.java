@@ -27,20 +27,16 @@ class VoucherServiceTest {
     private VoucherRepository voucherRepository;
 
     @Mock
-    private VoucherCreator voucherCreator;
-    @Mock
     private DtoConverter dtoConverter;
 
     private VoucherService voucherService;
-    private UUID voucherId1;
-    private UUID voucherId2;
+
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        voucherService = new VoucherService(voucherRepository, voucherCreator, dtoConverter);
-        voucherId1 = UUID.randomUUID();
-        voucherId2 = UUID.randomUUID();
+        voucherService = new VoucherService(voucherRepository,dtoConverter);
+
 
     }
 
@@ -48,10 +44,10 @@ class VoucherServiceTest {
     @DisplayName("전달받은 바우처를 레파지토리에 잘 전달하여 저장소에 저장되는지 확인한다.")
     public void createVoucher_RepositoryInsertVoucher_Equals() {
         //given
-        VoucherRequest voucherRequest = new VoucherRequest(VoucherType.FIXED_AMOUNT_VOUCHER, new FixedDiscount(10));
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId1, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        when(voucherCreator.createVoucher(any(Discount.class), any(VoucherType.class)))
-                .thenReturn(createdVoucher);
+        VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
+        Discount discount= new FixedDiscount(10);
+        VoucherRequest voucherRequest = new VoucherRequest(voucherType, discount);
+        Voucher createdVoucher = new FixedAmountVoucher( discount, voucherType);
         when(voucherRepository.insert(any(Voucher.class))).thenReturn(createdVoucher);
 
         //when
@@ -61,7 +57,6 @@ class VoucherServiceTest {
         assertThat(result)
                 .isNotNull()
                 .isEqualTo(createdVoucher);
-        verify(voucherCreator, times(1)).createVoucher(any(Discount.class), any(VoucherType.class));
         verify(voucherRepository, times(1)).insert(any(Voucher.class));
     }
 
@@ -69,13 +64,17 @@ class VoucherServiceTest {
     @DisplayName("저장된 바우처 정책을 잘 출력하는지 확인한다.")
     public void getAllVoucherList_RepositoryListVoucherList_Equals() {
         //given
-        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher( new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+
         VoucherResponse voucherResponse1 = new VoucherResponse(createdVoucher1);
         VoucherResponse voucherResponse2 = new VoucherResponse(createdVoucher2);
+
         List<VoucherResponse> expected = List.of(voucherResponse1, voucherResponse2);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
+
         VoucherRegistry voucherRegistry = new VoucherRegistry(list);
+
         when(voucherRepository.getAllVoucher()).thenReturn(voucherRegistry);
         when(dtoConverter.convertVoucherResponse(any(VoucherRegistry.class))).thenReturn(expected);
 
