@@ -5,12 +5,11 @@ import com.programmers.voucher.domain.voucher.controller.VoucherController;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.command.Command;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 @Controller
-public class ApplicationController implements Runnable {
+public class ApplicationController implements CommandLineRunner {
     private final Input input;
     private final Output output;
     private final VoucherController voucherController;
@@ -27,15 +26,15 @@ public class ApplicationController implements Runnable {
     }
 
     @Override
-    public void run() {
-        AtomicBoolean running = new AtomicBoolean(true);
+    public void run(String... args) {
+        boolean running = true;
 
-        while (running.get()) {
+        while (running) {
             output.displayCommands();
             Command command = input.readCommand();
 
             switch (command) {
-                case EXIT -> running.set(false);
+                case EXIT -> running = false;
                 case VOUCHER -> voucherController.run();
                 case CUSTOMER -> customerController.run();
             }
