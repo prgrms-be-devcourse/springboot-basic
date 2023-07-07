@@ -28,18 +28,14 @@ public class VoucherControllerTest {
 
     private Voucher createdVoucher1;
     private Voucher createdVoucher2;
-    private UUID voucherId1;
-    private UUID voucherId2;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
         voucherController = new VoucherController(voucherService);
-        voucherId1 = UUID.randomUUID();
-        voucherId2 = UUID.randomUUID();
 
-        createdVoucher1 = new FixedAmountVoucher(voucherId1, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        createdVoucher2 = new PercentDiscountVoucher(voucherId2, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        createdVoucher1 = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        createdVoucher2 = new PercentDiscountVoucher(new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
 
 
     }
@@ -49,7 +45,7 @@ public class VoucherControllerTest {
     public void CreateVoucher_CreatedVoucher_Equal() {
         // Given
         VoucherRequest voucherRequest = new VoucherRequest(VoucherType.FIXED_AMOUNT_VOUCHER, new FixedDiscount(20));
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId1, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         Mockito.when(voucherService.createVoucher(voucherRequest)).thenReturn(createdVoucher);
 
         // When

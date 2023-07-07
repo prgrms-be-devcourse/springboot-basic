@@ -29,8 +29,8 @@ class DtoConverterTest {
     @DisplayName("voucher 리스트인 일급컬렉션을 VoucherResponse로 잘 바꾸는지 확인하다. ")
     public void convertVoucherResponse_EqualVoucherResponse_Contains() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(),new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(),new FixedDiscount(30), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher voucher1 = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher voucher2 = new FixedAmountVoucher(new FixedDiscount(30), VoucherType.FIXED_AMOUNT_VOUCHER);
         VoucherResponse voucherResponse1 = new VoucherResponse(voucher1);
         VoucherResponse voucherResponse2 = new VoucherResponse(voucher2);
         List<Voucher> vouchers = List.of(voucher1,voucher2);

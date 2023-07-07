@@ -26,7 +26,7 @@ class FixedAmountVoucherTest {
     @DisplayName("할인된 금액이 제대로 나오는지 확인한다.")
     public void discountPrice_DiscountedPrice_Equal() {
         //given
-        Voucher createdVoucher = new FixedAmountVoucher(UUID.randomUUID(), new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         //when
         Price discountedPrice = createdVoucher.discountPrice(orderItem);
         //then
@@ -37,7 +37,7 @@ class FixedAmountVoucherTest {
     @DisplayName("할인금액이 원가보다 커 할인된 금액이 음수가 나오는 경우 예외를 던지는지 확인한다.")
     public void discountPrice_NegativeDiscountedPrice_ThrowsException() {
         //given
-        Voucher createdVoucher = new FixedAmountVoucher(UUID.randomUUID(), new FixedDiscount(2000), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher = new FixedAmountVoucher(new FixedDiscount(2000), VoucherType.FIXED_AMOUNT_VOUCHER);
         //when_then
         assertThatThrownBy(() ->createdVoucher.discountPrice(orderItem))
                 .isInstanceOf(IllegalArgumentException.class);

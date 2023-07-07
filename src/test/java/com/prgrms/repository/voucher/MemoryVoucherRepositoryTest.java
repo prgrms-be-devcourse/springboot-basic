@@ -1,6 +1,5 @@
 package com.prgrms.repository.voucher;
 
-import com.prgrms.model.dto.VoucherResponse;
 import com.prgrms.model.voucher.*;
 import com.prgrms.model.voucher.discount.FixedDiscount;
 import com.prgrms.model.voucher.discount.PercentDiscount;
@@ -12,7 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryVoucherRepositoryTest {
 
@@ -27,7 +25,7 @@ class MemoryVoucherRepositoryTest {
     public void FindById_ExistingVoucherId_ReturnsVoucher() {
         //given
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher voucher = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         voucherRepository.insert(voucher);
         //when
         Optional<Voucher> result = voucherRepository.findById(voucherId);
@@ -50,8 +48,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     public void Insert_InsertedVoucher_Equal() {
         //given
-        UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher voucher = new FixedAmountVoucher( new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         //when
         Voucher result = voucherRepository.insert(voucher);
         //then
@@ -62,15 +59,10 @@ class MemoryVoucherRepositoryTest {
     @Test
     public void GetAllVoucher_AllVouchers_Contains() {
         //given
-        UUID voucherId1 = UUID.randomUUID();
-        UUID voucherId2 = UUID.randomUUID();
-
-        Voucher createdVoucher1 = new FixedAmountVoucher(voucherId1, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId2, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         voucherRepository.insert(createdVoucher1);
         voucherRepository.insert(createdVoucher2);
-
-
         //when
         VoucherRegistry result = voucherRepository.getAllVoucher();
 
