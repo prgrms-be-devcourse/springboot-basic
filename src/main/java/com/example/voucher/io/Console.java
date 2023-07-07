@@ -1,77 +1,76 @@
 package com.example.voucher.io;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
-import com.example.voucher.constant.ConstantStrings;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.constant.VoucherType;
+import com.example.voucher.utils.Validator;
 
 public class Console {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private final Writer writer;
+    private final Reader reader;
 
-    private Console() {
+    public Console() {
+        this.writer = new Writer();
+        this.reader = new Reader();
 
     }
 
-    public static void printModeType() {
-        System.out.println(ConstantStrings.MESSAGE_PRINT_MODE_SELECTION);
+    public void requestModeTypeSelection() {
+        writer.writeModeTypeSelection();
+
     }
 
-    public static void printVoucherType() {
-        System.out.println(ConstantStrings.MESSAGE_PRINT_TYPE_SELECTION);
+    public void requestVoucherInfo() {
+        writer.writeVoucherInfoRequest();
+
     }
 
-    public static void printDiscountAmount() {
-        System.out.println(ConstantStrings.MESSAGE_PRINT_DISCOUNT_PRICE);
+    public void requestVoucherTypeSelection() {
+        writer.writeVoucherTypeSelection();
+
     }
 
-    public static void printDiscountPercent() {
-        System.out.println(ConstantStrings.MESSAGE_PRINT_DISCOUNT_PERCENT);
+    public void requestDiscountValue() {
+        writer.writeDiscountValueRequest();
+
     }
 
-    public static void printVoucherInfo(VoucherDTO voucherDTO) {
+    public void printVoucherInfo(VoucherDTO voucherDTO) {
         VoucherType voucherType = voucherDTO.voucherType();
+        String voucherTypeInfo = voucherType.toString();
+        long value = voucherDTO.value();
 
         switch (voucherType) {
-            case FIXED_AMOUNT_DISCOUNT -> System.out.println(
-                String.format(ConstantStrings.FORMAT_PRINT_FIXED_AMOUNT_VOUCHER_INFO, voucherDTO.voucherType(),
-                    voucherDTO.value()));
-            case PERCNET_DISCOUNT -> System.out.println(
-                String.format(ConstantStrings.FORMAT_PRINT_PERCENT_VOUCHER_INFO, voucherDTO.voucherType(),
-                    voucherDTO.value()));
+            case FIXED_AMOUNT_DISCOUNT -> writer.writeFixedAmountDiscountVoucherInfo(voucherTypeInfo, value);
+            case PERCENT_DISCOUNT -> writer.writePercentDiscountVoucherInfo(voucherTypeInfo, value);
         }
+
     }
 
-    public static void printError(String errorMsg) {
-        System.out.println(errorMsg);
+    public void printCustomMessage(String customMessage) {
+        writer.writeCustomMessage(customMessage);
     }
 
-    public static String readModeType() {
-        return scanner.nextLine();
+    public String readModeType() {
+        String inputModeType = reader.readString();
+
+        return inputModeType;
+
     }
 
-    public static Integer readVoucherType() {
-        try {
-            Integer type = scanner.nextInt();
-            return type;
-        } catch (InputMismatchException e) {
-            throw new InputMismatchException(ConstantStrings.MESSAGE_ERROR_INPUT_NUMBER);
-        } finally {
-            scanner.nextLine();
-        }
+    public Integer readVoucherType() {
+        Integer inputVoucherType = reader.readInteger();
+
+        return inputVoucherType;
+
     }
 
-    public static long readDiscount() {
-        try {
-            Long discount = scanner.nextLong();
-            return discount;
-        } catch (InputMismatchException e) {
-            throw new InputMismatchException(ConstantStrings.MESSAGE_ERROR_INPUT_NUMBER);
-        } finally {
-            scanner.nextLine();
-        }
+    public long readDiscountValue() {
+        Long discountAmount = reader.readLong();
+        Validator.validatePositive(discountAmount);
+
+        return discountAmount;
+
     }
 
 }
