@@ -1,5 +1,8 @@
 package com.example.demo.servlet;
 
+import ch.qos.logback.core.pattern.PostCompileProcessor;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -8,12 +11,15 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -28,7 +34,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import javax.sql.DataSource;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class VoucherWebInitializer implements WebApplicationInitializer {
@@ -40,11 +49,6 @@ public class VoucherWebInitializer implements WebApplicationInitializer {
     )
     static class Config implements WebMvcConfigurer, ApplicationContextAware {
         private ApplicationContext applicationContext;
-
-        @Bean
-        public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
-            return new HiddenHttpMethodFilter();
-        }
 
         @Bean
         public SpringResourceTemplateResolver templateResolver(){
@@ -96,6 +100,20 @@ public class VoucherWebInitializer implements WebApplicationInitializer {
         public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
             this.applicationContext = applicationContext;
         }
+
+        @Override
+        public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+            var messageConverter = new MarshallingHttpMessageConverter();
+            var xStreamMarshaller = new XStreamMarshaller();
+            messageConverter.setMarshaller(xStreamMarshaller);
+            messageConverter.setMarshaller(xStreamMarshaller);
+            converters.add(messageConverter);
+
+            var javaTimeModule = new JavaTimeModule();
+            javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_DATE_TIME));
+            var modules = Jackson2ObjectMapperBuilder.json().modules(javaTimeModule);
+            converters.add(1, new MappingJackson2HttpMessageConverter(modules.build()));
+        }
     }
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherWebInitializer.class);
@@ -105,7 +123,7 @@ public class VoucherWebInitializer implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext context
                 = new AnnotationConfigWebApplicationContext();
         context.register(Config.class);
-        container.addListener(new ContextLoaderListener(context));
+        //container.addListener(new ContextLoaderListener(context));
 
         ServletRegistration.Dynamic dispatcher = container
                 .addServlet("dispatcher", new DispatcherServlet(context));

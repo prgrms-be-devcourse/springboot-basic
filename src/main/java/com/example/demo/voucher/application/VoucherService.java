@@ -25,6 +25,7 @@ public class VoucherService {
     public void createVoucher(String voucherType, long value) {
         UUID voucherId = UUID.randomUUID();
         VoucherType type = VoucherType.valueOf(voucherType);
+        System.out.println(type.name());
         voucherRepository.insert(type.createVoucher(voucherId, value));
     }
 
