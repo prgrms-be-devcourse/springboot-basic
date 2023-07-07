@@ -12,18 +12,6 @@ public class VoucherDto {
         this.amount = amount;
     }
 
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public static VoucherDto fromVoucher(Voucher voucher) {
-        return new VoucherDto(voucher.getVoucherId(), voucher.getAmount());
-    }
-
     public Voucher toVoucher() {
         return new Voucher(voucherId, amount);
     }
