@@ -1,12 +1,11 @@
 package com.example.voucher.constant;
 
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
 public enum VoucherType {
 
     FIXED_AMOUNT_DISCOUNT(1),
-    PERCNET_DISCOUNT(2);
+    PERCENT_DISCOUNT(2);
 
     private final Integer inputNum;
 
@@ -23,7 +22,8 @@ public enum VoucherType {
             .filter(e -> readVoucherType == e.getInputNum())
             .findAny()
             .orElseThrow(
-                () -> new NoSuchElementException(ConstantStrings.MESSAGE_PRINT_RETRY_VOUCHER_TYPE_SELECTION_PROMPT));
+                () -> new IllegalArgumentException());
+
     }
 
 }
