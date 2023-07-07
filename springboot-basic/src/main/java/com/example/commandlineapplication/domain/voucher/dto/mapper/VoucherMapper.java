@@ -4,6 +4,7 @@ import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCrea
 import com.example.commandlineapplication.domain.voucher.dto.response.VoucherResponse;
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +14,16 @@ public class VoucherMapper {
 
   public VoucherResponse voucherToResponse(Voucher voucher) {
     return VoucherResponse.builder()
-        .voucherId(voucher.getVoucherId())
+        .voucherId(UUID.fromString(voucher.getVoucherId().toString()))
         .discountAmount(voucher.getDiscount())
         .voucherType(voucher.getVoucherType())
         .build();
   }
 
-  public VoucherCreateRequest toCreateRequest(VoucherType voucherType, long discount) {
+  public VoucherCreateRequest toCreateRequest(UUID voucherId, VoucherType voucherType,
+      long discount) {
     return VoucherCreateRequest.builder()
+        .voucherId(voucherId)
         .discountAmount(discount)
         .voucherType(voucherType)
         .build();

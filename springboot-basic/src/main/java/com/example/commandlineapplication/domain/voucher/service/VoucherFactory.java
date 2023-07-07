@@ -21,9 +21,7 @@ public class VoucherFactory {
   private final long MIN_FIXED_AMOUNT = 0L;
 
   public Voucher create(VoucherCreateRequest request) {
-    VoucherType voucherType = request.getVoucherType();
-
-    return toVoucher(voucherType, UUID.randomUUID(), request.getDiscountAmount());
+    return toVoucher(request.getVoucherType(), request.getVoucherId(), request.getDiscountAmount());
   }
 
   public Voucher toVoucher(VoucherType voucherType, UUID voucherId, long amount) {

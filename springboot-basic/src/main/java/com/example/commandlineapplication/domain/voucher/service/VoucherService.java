@@ -27,7 +27,8 @@ public class VoucherService {
 
   @Transactional
   public void createVoucher(VoucherType inputVoucherType, Integer inputDiscount) {
-    VoucherCreateRequest voucherCreateRequest = voucherMapper.toCreateRequest(inputVoucherType,
+    VoucherCreateRequest voucherCreateRequest = voucherMapper.toCreateRequest(UUID.randomUUID(),
+        inputVoucherType,
         inputDiscount);
     Voucher voucher = voucherFactory.create(voucherCreateRequest);
 
