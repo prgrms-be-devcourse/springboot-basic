@@ -1,20 +1,9 @@
 package com.example.demo.util;
 
 public enum CommandType {
-    EXIT("exit"),
-    CREATE("create"),
-    LIST("list");
-
-    private final String commandType;
-
-    CommandType(String commandType) {
-        this.commandType = commandType;
-    }
-
-    @Override
-    public String toString() {
-        return commandType;
-    }
+    EXIT,
+    CREATE,
+    LIST;
     
     public static CommandType from(String input) {
         try {

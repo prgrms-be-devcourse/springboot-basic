@@ -1,15 +1,13 @@
 package com.example.demo.util;
 
 public enum VoucherType {
-    FIX("fix", "할인 금액을 입력해주세요 >> "),
-    PERCENT("percent", "    1 이상 100 이하로 입력해주세요.\n    할인 비율을 입력해주세요 >> ");
+    FIX("할인 금액을 입력해주세요 >> "),
+    PERCENT("    1 이상 100 이하로 입력해주세요.\n    할인 비율을 입력해주세요 >> ");
 
 
-    private final String voucherType;
     private final String voucherAmountInfoMessage;
 
-    VoucherType(String voucherType, String voucherAmountInfoMessage) {
-        this.voucherType = voucherType;
+    VoucherType(String voucherAmountInfoMessage) {
         this.voucherAmountInfoMessage = voucherAmountInfoMessage;
     }
 
@@ -17,11 +15,6 @@ public enum VoucherType {
         return voucherAmountInfoMessage;
     }
 
-    @Override
-    public String toString() {
-        return voucherType;
-    }
-    
     public static VoucherType from(String input) {
         try {
             return valueOf(input.toUpperCase());
