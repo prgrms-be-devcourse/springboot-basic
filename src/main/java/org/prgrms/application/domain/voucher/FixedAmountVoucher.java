@@ -14,18 +14,8 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public Long getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
     public VoucherType getVoucherType() {
         return VoucherType.FIXED;
-    }
-
-    @Override
-    public double getDiscountAmount() {
-        return discountAmount;
     }
 
     @Override

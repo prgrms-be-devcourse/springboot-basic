@@ -25,18 +25,8 @@ public class PercentAmountVoucher extends Voucher {
     }
 
     @Override
-    public Long getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT;
-    }
-
-    @Override
-    public double getDiscountAmount() {
-        return discountAmount;
     }
 
     @Override
