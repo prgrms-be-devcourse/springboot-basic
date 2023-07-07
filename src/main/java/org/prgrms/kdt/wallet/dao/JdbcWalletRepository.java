@@ -7,8 +7,6 @@ import org.prgrms.kdt.voucher.domain.DiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.wallet.domain.Wallet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -67,7 +65,7 @@ public class JdbcWalletRepository implements WalletRepository {
                 "LEFT JOIN members B ON A.member_id = B.id " +
                 "LEFT JOIN voucher C ON A.voucher_id = C.id" +
                 "WHERE A.voucher_id = ?";
-        return jdbcTemplate.query(sql, walletRowMapper, voucherId.toString())
+        return jdbcTemplate.query(sql, walletRowMapper, voucherId.toString());
     }
 
     @Override
