@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.1.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'kr.co'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //spring boot starter
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    //devtools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    //Assertj
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+
+    //JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
