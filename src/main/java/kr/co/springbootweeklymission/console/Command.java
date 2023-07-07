@@ -51,58 +51,58 @@ public enum Command {
     }
 
     public boolean isCreateMember() {
-        return this.number == Command.CREATE_MEMBER.getNumber();
+        return this == Command.CREATE_MEMBER;
     }
 
     public boolean isUpdateMember() {
-        return this.number == Command.UPDATE_MEMBER.getNumber();
+        return this == Command.UPDATE_MEMBER;
     }
 
     public boolean isDeleteMember() {
-        return this.number == Command.DELETE_MEMBER.getNumber();
+        return this == Command.DELETE_MEMBER;
     }
 
     public boolean isReadMember() {
-        return this.number == Command.READ_MEMBER.getNumber();
+        return this == Command.READ_MEMBER;
     }
 
     public boolean isReadAllBlackMember() {
-        return this.number == Command.READ_ALL_BLACK_MEMBER.getNumber();
+        return this == Command.READ_ALL_BLACK_MEMBER;
     }
 
     public boolean isCreateVoucher() {
-        return this.number == Command.CREATE_VOUCHER.getNumber();
+        return this == Command.CREATE_VOUCHER;
     }
 
     public boolean isUpdateVoucher() {
-        return this.number == Command.UPDATE_VOUCHER.getNumber();
+        return this == Command.UPDATE_VOUCHER;
     }
 
     public boolean isDeleteVoucher() {
-        return this.number == Command.DELETE_VOUCHER.getNumber();
+        return this == Command.DELETE_VOUCHER;
     }
 
     public boolean isReadVoucher() {
-        return this.number == Command.READ_VOUCHER.getNumber();
+        return this == Command.READ_VOUCHER;
     }
 
     public boolean isReadAllVouchers() {
-        return this.number == Command.READ_ALL_VOUCHERS.getNumber();
+        return this == Command.READ_ALL_VOUCHERS;
     }
 
     public boolean isCreateVoucherMember() {
-        return this.number == Command.CREATE_VOUCHER_MEMBER.getNumber();
+        return this == Command.CREATE_VOUCHER_MEMBER;
     }
 
     public boolean isReadVouchersByMember() {
-        return this.number == Command.READ_VOUCHERS_BY_MEMBER.getNumber();
+        return this == Command.READ_VOUCHERS_BY_MEMBER;
     }
 
     public boolean isReadMemberByVoucher() {
-        return this.number == Command.READ_MEMBER_BY_VOUCHER.getNumber();
+        return this == Command.READ_MEMBER_BY_VOUCHER;
     }
 
     public boolean isDeleteVoucherMember() {
-        return this.number == Command.DELETE_VOUCHER_MEMBER.getNumber();
+        return this == Command.DELETE_VOUCHER_MEMBER;
     }
 }
