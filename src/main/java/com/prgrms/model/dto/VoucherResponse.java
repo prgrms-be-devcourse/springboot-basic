@@ -4,9 +4,6 @@ import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherType;
 
-import java.util.Objects;
-
-
 public class VoucherResponse {
     private final VoucherType voucherType;
     private final Discount discount;
@@ -19,8 +16,8 @@ public class VoucherResponse {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.voucherType).append(" : ")
-                .append(this.discount.getValue());
+        sb.append(voucherType).append(" : ")
+                .append(discount.getValue());
 
         return sb.toString();
     }
