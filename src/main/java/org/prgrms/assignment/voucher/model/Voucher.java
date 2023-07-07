@@ -4,39 +4,17 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 
-public class Voucher {
+public interface Voucher {
 
-    // mapping용 프로퍼티.
-    private UUID voucherId;
-    private VoucherType voucherType;
-    private LocalDateTime createdAt;
-    private long benefit;
+    UUID getVoucherId();
 
-    public Voucher() {
-    }
+    long getBenefit();
 
-    public Voucher(UUID voucherId, VoucherType voucherType, long benefit, LocalDateTime createdAt) {
-        this.voucherId = voucherId;
-        this.voucherType = voucherType;
-        this.benefit = benefit;
-        this.createdAt = createdAt;
-    }
+    VoucherType getVoucherType();
 
-    public UUID getVoucherId() {
-        return voucherId;
-    }
+    LocalDateTime getCreatedAt();
 
-    public long getBenefit() {
-        return benefit;
-    }
+    void setBenefit(long benefit);
 
-    public VoucherType getVoucherType() { return voucherType; }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setBenefit(long benefit) {
-        this.benefit = benefit;
-    }
+    LocalDateTime getExpireDate();
 }

@@ -1,6 +1,7 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.kdt.customer.repository;
 
 import org.prgrms.kdt.JdbcCustomerRepository;
+import org.prgrms.kdt.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
