@@ -1,8 +1,7 @@
 package com.programmers.application.controller;
 
-import com.programmers.application.controller.command.Command;
+import com.programmers.application.controller.voucher.command.Command;
 import com.programmers.application.io.IO;
-import com.programmers.application.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -10,18 +9,16 @@ import java.io.IOException;
 @Component
 public class VoucherController implements Controller{
     private final IO io;
-    private final VoucherService voucherService;
 
-    public VoucherController(IO io, VoucherService voucherService) {
+    public VoucherController(IO io) {
         this.io = io;
-        this.voucherService = voucherService;
     }
 
     @Override
     public void process() throws IOException {
         printMenu();
         Command command = Command.valueOf(io.read().toUpperCase());
-        command.executeVoucher(voucherService, command, io);
+        command.executeVoucher();
     }
 
     private void printMenu() throws IOException {

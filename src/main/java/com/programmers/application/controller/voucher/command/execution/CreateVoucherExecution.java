@@ -1,17 +1,20 @@
-package com.programmers.application.controller.command.execution;
+package com.programmers.application.controller.voucher.command.execution;
 
 import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import com.programmers.application.io.IO;
 import com.programmers.application.service.VoucherService;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class CreateVoucherExecution implements VoucherExecution{
+@Component
+public class CreateVoucherExecution implements VoucherExecution {
     private static final String SEPARATOR = " ";
     private static final int TYPE_INDEX = 0;
     private static final int AMOUNT_INDEX = 1;
+
     private final VoucherService voucherService;
     private final IO io;
 
@@ -21,7 +24,7 @@ public class CreateVoucherExecution implements VoucherExecution{
     }
 
     @Override
-    public void run() throws IOException {
+    public void execute() throws IOException {
         printOption();
         String[] typeAndAmount = io.read().split(SEPARATOR);
         String type = typeAndAmount[TYPE_INDEX];
@@ -51,3 +54,5 @@ public class CreateVoucherExecution implements VoucherExecution{
         io.write("For example) fixed 1000");
     }
 }
+
+

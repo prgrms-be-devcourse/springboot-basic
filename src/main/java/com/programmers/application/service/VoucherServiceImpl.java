@@ -5,7 +5,7 @@ import com.programmers.application.domain.voucher.VoucherFactory;
 import com.programmers.application.dto.reponse.ResponseFactory;
 import com.programmers.application.dto.reponse.VoucherInfoResponse;
 import com.programmers.application.dto.request.VoucherCreationRequest;
-import com.programmers.application.repository.VoucherRepository;
+import com.programmers.application.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
