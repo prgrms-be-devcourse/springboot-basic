@@ -4,8 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.programmers.voucher.global.util.ConsoleErrorMessages.INVALID_CONSOLE_COMMAND;
 
@@ -23,10 +27,12 @@ public enum ConsoleCommandType implements CommandType {
         this.type = type;
     }
 
+    private static final Map<String, ConsoleCommandType> types =
+            Collections.unmodifiableMap(Stream.of(values())
+                    .collect(Collectors.toMap(ConsoleCommandType::getType, Function.identity())));
+
     public static ConsoleCommandType getValue(String type) {
-        return Arrays.stream(values())
-                .filter(i -> Objects.equals(i.type, type))
-                .findAny()
+        return Optional.ofNullable(types.get(type))
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(INVALID_CONSOLE_COMMAND, type);
 
