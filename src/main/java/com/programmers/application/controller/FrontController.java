@@ -1,28 +1,22 @@
 package com.programmers.application.controller;
 
 import com.programmers.application.io.IO;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.EnumMap;
 import java.util.Map;
 
 @Component
 public class FrontController {
     private static final Logger LOGGER = LoggerFactory.getLogger(FrontController.class);
 
-    private final Map<ServiceCommand, Controller> controllerMap = new EnumMap<>(ServiceCommand.class);
-    private final VoucherController voucherController;
-    private final ExitController exitController;
+    private final Map<ServiceCommand, Controller> controllerMap;
     private final IO io;
 
-    //추후 고객, 지갑 컨트롤러 추가
-    public FrontController(VoucherController voucherController, ExitController exitController, IO io) {
-        this.voucherController = voucherController;
-        this.exitController = exitController;
+    public FrontController(Map<ServiceCommand, Controller> controllerMap, IO io) {
+        this.controllerMap = controllerMap;
         this.io = io;
     }
 
@@ -45,16 +39,5 @@ public class FrontController {
         io.write("Enter a customer to use the customer program");
         io.write("Enter a wallet to use the wallet program");
         io.write("Enter a exit to exit the program.");
-    }
-
-    @PostConstruct
-    private void initControllerMap() {
-        controllerMap.put(ServiceCommand.VOUCHER, voucherController);
-        controllerMap.put(ServiceCommand.EXIT, exitController);
-    }
-
-    //추후 고객, 지갑 서비스 추가
-    private enum ServiceCommand {
-        VOUCHER, EXIT
     }
 }
