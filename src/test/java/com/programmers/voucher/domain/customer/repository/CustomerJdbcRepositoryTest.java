@@ -8,8 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,8 +26,8 @@ class CustomerJdbcRepositoryTest {
     @TestConfiguration
     static class Config {
         @Bean
-        public CustomerJdbcRepository customerJdbcRepository(DataSource dataSource) {
-            return new CustomerJdbcRepository(dataSource);
+        public CustomerJdbcRepository customerJdbcRepository(NamedParameterJdbcTemplate template) {
+            return new CustomerJdbcRepository(template);
         }
     }
 

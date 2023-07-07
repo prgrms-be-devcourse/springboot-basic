@@ -32,13 +32,12 @@ public class CustomerService {
 
     @Transactional
     public UUID createCustomer(String email, String name) {
-        boolean emailDuplication = customerRepository.findByEmail(email)
-                .isPresent();
-        if (emailDuplication) {
-            String errorMessage = MessageFormat.format(CustomerErrorMessages.DUPLICATE_EMAIL, email);
-            LOG.warn(errorMessage);
-            throw new DuplicateKeyException(errorMessage);
-        }
+        customerRepository.findByEmail(email)
+                .ifPresent(customer -> {
+                    String errorMessage = MessageFormat.format(CustomerErrorMessages.DUPLICATE_EMAIL, email);
+                    LOG.warn(errorMessage);
+                    throw new DuplicateKeyException(errorMessage);
+                });
 
         Customer customer = new Customer(UUID.randomUUID(), email, name);
         customerRepository.save(customer);
