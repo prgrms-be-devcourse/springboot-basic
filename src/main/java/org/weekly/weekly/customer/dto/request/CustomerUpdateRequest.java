@@ -13,4 +13,8 @@ public class CustomerUpdateRequest {
         InputValidator.isEmpty(email);
         return new CustomerUpdateRequest(email);
     }
+
+    public String email() {
+        return email;
+    }
 }
