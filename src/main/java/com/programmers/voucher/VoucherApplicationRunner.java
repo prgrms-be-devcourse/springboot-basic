@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherApplicationRunner implements CommandLineRunner {
+    private static boolean isRunning = true;
+
     private final Input input;
     private final Output output;
     private final VoucherController voucherController;
@@ -27,14 +29,12 @@ public class VoucherApplicationRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        boolean running = true;
-
-        while (running) {
+        while (isRunning) {
             output.displayCommands();
             Command command = input.readCommand();
 
             switch (command) {
-                case EXIT -> running = false;
+                case EXIT -> isRunning = false;
                 case VOUCHER -> voucherController.run();
                 case CUSTOMER -> customerController.run();
             }
