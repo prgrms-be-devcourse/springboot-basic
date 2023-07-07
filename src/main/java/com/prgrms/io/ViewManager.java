@@ -2,7 +2,6 @@ package com.prgrms.io;
 
 import com.prgrms.model.dto.VoucherRequest;
 import com.prgrms.model.dto.VoucherResponse;
-import com.prgrms.model.voucher.VoucherCreator;
 import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.model.voucher.discount.DiscountCreator;

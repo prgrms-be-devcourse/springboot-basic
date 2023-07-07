@@ -8,7 +8,6 @@ import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.discount.FixedDiscount;
 import com.prgrms.model.voucher.discount.PercentDiscount;
 import com.prgrms.repository.voucher.VoucherRepository;
-import com.prgrms.model.voucher.VoucherCreator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -36,8 +34,6 @@ class VoucherServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         voucherService = new VoucherService(voucherRepository,dtoConverter);
-
-
     }
 
     @Test
