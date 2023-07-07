@@ -1,0 +1,12 @@
+kdt:
+  version: "v1.0"
+  minimum-order-amount: 1
+  support-version: a, b, c, d
+
+  description: |
+    line 1 hello world
+    line 2 xxxx
+    line 3 asfd
+spring:
+  profiles:
+    active: dev
