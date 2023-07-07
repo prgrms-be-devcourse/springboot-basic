@@ -7,7 +7,7 @@ public interface Output {
 
     void printNoVoucher();
 
-    void printMsg(String msg, boolean lnCheck);
+    void printMessage(String msg, boolean lnCheck);
 
     void printVoucherInfo(Voucher voucher);
 

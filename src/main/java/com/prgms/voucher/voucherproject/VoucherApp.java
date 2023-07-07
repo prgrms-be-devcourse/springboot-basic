@@ -32,7 +32,7 @@ public class VoucherApp implements CommandLineRunner {
         VoucherType voucherType = null;
 
         while (!exit) {
-            console.printMsg(Constant.CONSOLE_MENU, true);
+            console.printMessage(Constant.CONSOLE_MENU, true);
             menuName = console.inputCommand().toLowerCase();
 
             try {
@@ -46,10 +46,10 @@ public class VoucherApp implements CommandLineRunner {
             switch (inputCommand) {
                 case EXIT -> {
                     exit = true;
-                    console.printMsg("프로그램을 종료합니다.", true);
+                    console.printMessage("프로그램을 종료합니다.", true);
                 }
                 case CREATE -> {
-                    console.printMsg(Constant.CONSOLE_VOUCHER_MENU, false);
+                    console.printMessage(Constant.CONSOLE_VOUCHER_MENU, false);
                     String selectedNum = console.inputCommand();
 
                     try {

@@ -31,7 +31,7 @@ public class VoucherService {
     }
 
     private void createFixedVoucher() {
-        console.printMsg(Constant.CREATE_FIXEDVOUCHER_MSG, true);
+        console.printMessage(Constant.CREATE_FIXED_VOUCHER, true);
         discount = console.inputDiscountAmount();
         console.bufferDeleted();
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
@@ -39,7 +39,7 @@ public class VoucherService {
     }
 
     private void createPercentVoucher() {
-        console.printMsg(Constant.CREATE_PERCENTVOUCHER_MSG, true);
+        console.printMessage(Constant.CREATE_PERCENT_VOUCHER, true);
         percent = console.inputDiscountAmount();
         console.bufferDeleted();
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);

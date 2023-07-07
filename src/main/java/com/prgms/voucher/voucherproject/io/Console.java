@@ -24,7 +24,7 @@ public class Console implements Input, Output{
     }
 
     @Override
-    public void printMsg(String msg, boolean lnCheck) {
+    public void printMessage(String msg, boolean lnCheck) {
         if(lnCheck){
             System.out.println(msg);
         }
