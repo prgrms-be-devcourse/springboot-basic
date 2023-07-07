@@ -76,26 +76,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
   }
 
   @Override
-  public void update(UUID voucherId) {
-
-    Voucher foundVoucher = findById(voucherId).orElseThrow(IllegalArgumentException::new);
-
-    String sql = "update voucher set voucher_id = :voucherId, discount = :discount, type= :type where voucher_id = :voucherId";
-
-    SqlParameterSource param = new MapSqlParameterSource()
-        .addValue("voucherId", foundVoucher.getVoucherId().toString())
-        .addValue("discount", foundVoucher.getDiscount())
-        .addValue("type", foundVoucher.getVoucherType().name());
-
-    int updated = template.update(sql, param);
-
-    if (updated != 1) {
-      LOG.error("voucher가 수정되지 않았습니다.");
-      throw new RuntimeException("voucher가 수정되지 않았습니다.");
-    }
-  }
-
-  @Override
   public List<Voucher> findAll() {
     String sql = "select * from customer";
 
@@ -120,6 +100,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
   @Override
   public void deleteAll() {
     String sql = "delete from voucher";
+
     template.query(sql, rowMapper());
   }
 }
