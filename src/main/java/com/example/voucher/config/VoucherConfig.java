@@ -5,6 +5,7 @@ import com.example.voucher.repository.InMemoryVoucherRepository;
 import com.example.voucher.repository.VoucherRepository;
 import com.example.voucher.ui.Input;
 import com.example.voucher.ui.Output;
+import com.example.voucher.util.UUIDGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +14,7 @@ public class VoucherConfig {
 
     @Bean
     public CommandHandler commandHandler() {
-        return new CommandHandler(input(), output());
+        return new CommandHandler(input(), output(), uuidGenerator());
     }
 
     @Bean
@@ -34,5 +35,10 @@ public class VoucherConfig {
     @Bean
     public InMemoryVoucherRepository inMemoryVoucherRepository() {
         return new InMemoryVoucherRepository();
+    }
+
+    @Bean
+    public UUIDGenerator uuidGenerator() {
+        return new UUIDGenerator();
     }
 }
