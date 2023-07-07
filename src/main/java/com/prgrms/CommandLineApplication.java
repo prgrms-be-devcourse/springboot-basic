@@ -4,18 +4,24 @@ import com.prgrms.controller.VoucherController;
 import com.prgrms.io.Menu;
 import com.prgrms.io.ViewManager;
 import com.prgrms.model.dto.VoucherRequest;
-import com.prgrms.model.voucher.VoucherRegistry;
+import com.prgrms.model.dto.VoucherResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-@RequiredArgsConstructor
 public class CommandLineApplication implements CommandLineRunner {
     private final VoucherController voucherController;
     private final ViewManager viewManager;
+
+    public CommandLineApplication(VoucherController voucherController, ViewManager viewManager){
+        this.voucherController = voucherController;
+        this.viewManager = viewManager;
+    }
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
@@ -35,8 +41,8 @@ public class CommandLineApplication implements CommandLineRunner {
                         voucherController.createVoucher(voucherRequest);
                     }
                     case LIST -> {
-                        VoucherRegistry voucherRegistry = voucherController.listVoucher();
-                        viewManager.viewVoucherList(voucherRegistry);
+                        List<VoucherResponse> vouchers = voucherController.listVoucher();
+                        viewManager.viewVoucherList(vouchers);
                     }
                 }
             } catch (IllegalArgumentException e) {
