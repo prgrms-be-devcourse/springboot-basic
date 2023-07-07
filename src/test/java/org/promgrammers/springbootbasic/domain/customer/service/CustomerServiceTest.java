@@ -37,7 +37,6 @@ class CustomerServiceTest {
 
     @Test
     @DisplayName("저장 성공- 고객 저장 테스트")
-    @Transactional
     void save() throws Exception {
 
         //given
