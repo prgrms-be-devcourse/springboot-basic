@@ -8,16 +8,16 @@ public abstract class AmountVoucher {
     protected final int discountAmount;
     private final LocalDate publishDate;
     private final LocalDate expirationDate;
-    private final AmountVoucherOptionType amountVoucherOptionType;
+    private final AmountVoucherCreationType amountVoucherCreationType;
 
-    protected AmountVoucher(int discountAmount, AmountVoucherOptionType amountVoucherOptionType) {
+    protected AmountVoucher(int discountAmount, AmountVoucherCreationType amountVoucherCreationType) {
         validateDiscountAmount(discountAmount);
 
         this.id = UUID.randomUUID();
         this.discountAmount = discountAmount;
         this.publishDate = LocalDate.now();
         this.expirationDate = publishDate.plusMonths(6);
-        this.amountVoucherOptionType = amountVoucherOptionType;
+        this.amountVoucherCreationType = amountVoucherCreationType;
     }
 
     abstract int discount(int originalPrice);
@@ -26,8 +26,8 @@ public abstract class AmountVoucher {
         return id;
     }
 
-    public String getOptionTypeName() {
-        return amountVoucherOptionType.getTypeName();
+    public String getCreationTypeName() {
+        return amountVoucherCreationType.getTypeName();
     }
 
     public LocalDate getPublishDate() {

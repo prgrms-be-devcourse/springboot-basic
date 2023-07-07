@@ -1,12 +1,12 @@
 package org.prgms.voucher.voucher;
 
 public class AmountVoucherCreateDto {
-    private final AmountVoucherOptionType amountVoucherOptionType;
+    private final AmountVoucherCreationType amountVoucherCreationType;
     private final int originalPrice;
     private final int discountAmount;
 
-    public AmountVoucherCreateDto(AmountVoucherOptionType amountVoucherOptionType, int originalPrice, int discountAmount) {
-        this.amountVoucherOptionType = amountVoucherOptionType;
+    public AmountVoucherCreateDto(AmountVoucherCreationType amountVoucherCreationType, int originalPrice, int discountAmount) {
+        this.amountVoucherCreationType = amountVoucherCreationType;
         this.originalPrice = originalPrice;
         this.discountAmount = discountAmount;
     }
@@ -19,7 +19,7 @@ public class AmountVoucherCreateDto {
         return discountAmount;
     }
 
-    public AmountVoucherOptionType getAmountVoucherOptionType() {
-        return amountVoucherOptionType;
+    public AmountVoucherCreationType getAmountVoucherCreationType() {
+        return amountVoucherCreationType;
     }
 }
