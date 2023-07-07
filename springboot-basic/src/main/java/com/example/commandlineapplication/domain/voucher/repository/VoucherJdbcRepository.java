@@ -36,7 +36,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     return (resultSet, rowMap) -> {
       UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
       VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-      long discount = resultSet.getLong("discount");
+      long discount = resultSet.getLong("voucher_discount");
       VoucherCreateRequest voucherCreateRequest = voucherMapper.toCreateRequest(voucherType,
           discount);
 
@@ -63,12 +63,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
   @Override
   public Voucher insert(Voucher voucher) {
-    String sql = "insert into voucher values (:voucherId, :discount, :type)";
+    String sql = "insert into voucher values (:voucherId, :voucher_discount, :voucher_type)";
 
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("voucherId", voucher.getVoucherId().toString())
-        .addValue("discount", voucher.getDiscount())
-        .addValue("type", voucher.getVoucherType());
+        .addValue("voucher_discount", voucher.getDiscount())
+        .addValue("voucher_type", voucher.getVoucherType().name());
 
     int saved = template.update(sql, param);
 
