@@ -74,7 +74,7 @@ public class CommandLineApplication {
         }
     }
 
-    public CustomerUpdateRequest deleteCustomerFromInput() {
+    public CustomerUpdateRequest customerDetailFromInput() {
         while(true) {
             try {
                 String email = processEmail();

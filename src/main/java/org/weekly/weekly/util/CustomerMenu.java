@@ -8,8 +8,9 @@ public enum CustomerMenu implements Menu {
     EXIT("Type exit to exit the program."),
     CREATE("Type create to create a new voucher."),
     DELETE("Type list to list all vouchers."),
-    SEARCH_ALL("Type: search all 모든 유저 검색"),
-    SEARCH_DETAIL_TO_EMAIL("Type: search detail to email 유저 상세 검색");
+    DELETE_ALL("[Type: delete_all] 모든 유저 삭제"),
+    SEARCH_ALL("[Type: search_all] 모든 유저 검색"),
+    SEARCH_DETAIL("[Type: search_detail] 유저 상세 검색");
 
     private final String printMessage;
     private static final Map<String, CustomerMenu> CUSTOMER_MENU_MAP;

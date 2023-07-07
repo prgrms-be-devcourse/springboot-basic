@@ -3,6 +3,9 @@ package org.weekly.weekly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.weekly.weekly.customer.controller.CustomerController;
+import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
+import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
 import org.weekly.weekly.ui.CommandLineApplication;
 import org.weekly.weekly.util.CustomerMenu;
 import org.weekly.weekly.util.ManageMenu;
@@ -17,10 +20,12 @@ public class VoucherManagementController {
     private final Logger logger = LoggerFactory.getLogger(VoucherManagementController.class);
     private final CommandLineApplication commandLineApplication;
     private final VoucherController voucherController;
+    private final CustomerController customerController;
 
-    public VoucherManagementController(CommandLineApplication commandLineApplication, VoucherController voucherController) {
+    public VoucherManagementController(CommandLineApplication commandLineApplication, VoucherController voucherController, CustomerController customerController) {
         this.commandLineApplication = commandLineApplication;
         this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
     public void start() {
@@ -88,32 +93,45 @@ public class VoucherManagementController {
             return false;
         }
 
+        if (CustomerMenu.DELETE_ALL.equals(selectMenu)) {
+            handleCustomerDeleteAll();
+            return false;
+        }
+
         if (CustomerMenu.SEARCH_ALL.equals(selectMenu)) {
             handleCustomerSearchAll();
             return false;
         }
 
-        if (CustomerMenu.SEARCH_DETAIL_TO_EMAIL.equals(selectMenu)) {
+        if (CustomerMenu.SEARCH_DETAIL.equals(selectMenu)) {
             handleSearchDetail();
+            return false;
         }
 
         return true;
     }
 
     private void handleCustomerCreation() {
-        this.commandLineApplication.createCustomerFromInput();
+        CustomerCreationRequest customerCreation = this.commandLineApplication.createCustomerFromInput();
+        this.customerController.createCustomer(customerCreation);
     }
 
     private void handleCustomerDelete() {
-        this.commandLineApplication.deleteCustomerFromInput();
+        CustomerUpdateRequest customerUpdateRequest = this.commandLineApplication.customerDetailFromInput();
+        this.customerController.deleteCustomer(customerUpdateRequest);
+    }
+
+    private void handleCustomerDeleteAll() {
+        this.customerController.deleteAllCustomer();
     }
 
     private void handleCustomerSearchAll() {
-
+        this.customerController.searchAllCustomer();
     }
 
     private void handleSearchDetail() {
-
+        CustomerUpdateRequest customerUpdateRequest = this.commandLineApplication.customerDetailFromInput();
+        this.customerController.searchDetailCustomer(customerUpdateRequest);
     }
 
 }
