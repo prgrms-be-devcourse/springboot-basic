@@ -1,5 +1,6 @@
 package org.prgrms.application.domain.voucher;
 
+import org.prgrms.application.service.FixedVoucherService;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.stereotype.Component;
 
@@ -14,20 +15,20 @@ public class VoucherTypeFactory {
         this.voucherServices = voucherServices;
     }
 
-    public VoucherService getType(VoucherType voucherType){
+    public VoucherService getVoucherService(VoucherType voucherType){
         final VoucherService voucherService;
 
         switch (voucherType){
             case FIXED:
-                voucherService = null;
+                voucherService = voucherServices.get(0);
                 break;
             case PERCENT:
-                voucherService = null;
+                voucherService =  voucherServices.get(1);
                 break;
             default:
-                voucherService = null;
+                throw new IllegalArgumentException("알 수 없는 voucherType입니다.");
         }
 
-        return  voucherService;
+        return voucherService;
     }
 }
