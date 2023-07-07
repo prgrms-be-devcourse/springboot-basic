@@ -15,7 +15,7 @@ public enum VoucherCommand {
     UPDATE(4, "바우처 수정"),
     DELETE(5, "바우처 삭제");
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherCommand.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VoucherCommand.class);
     private final int number;
     private final String text;
 
@@ -29,7 +29,7 @@ public enum VoucherCommand {
                 .filter(command -> command.isEqualTo(number))
                 .findFirst()
                 .orElseThrow(() -> {
-                    logger.error("{} => {}", INVALID_COMMAND, number);
+                    LOG.error("{} => {}", INVALID_COMMAND, number);
                     return new InvalidCommandException(INVALID_COMMAND);
                 });
     }

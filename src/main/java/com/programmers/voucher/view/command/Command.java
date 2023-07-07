@@ -12,7 +12,7 @@ public enum Command {
     VOUCHER(2, "바우처 관리"),
     CUSTOMER(3, "고객 관리");
 
-    private static final Logger logger = LoggerFactory.getLogger(Command.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Command.class);
     private final int number;
     private final String text;
 
@@ -26,7 +26,7 @@ public enum Command {
                 .filter(command -> command.isEqualTo(number))
                 .findFirst()
                 .orElseThrow(() -> {
-                    logger.error("{} => {}", ErrorMessage.INVALID_COMMAND, number);
+                    LOG.error("{} => {}", ErrorMessage.INVALID_COMMAND, number);
                     return new InvalidCommandException(ErrorMessage.INVALID_COMMAND);
                 });
     }

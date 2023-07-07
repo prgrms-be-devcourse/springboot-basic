@@ -15,8 +15,8 @@ import java.util.Arrays;
 
 @Component
 public class ConsoleOutput implements Output {
-    private static final TextIO textIO = TextIoFactory.getTextIO();
-    private static final TextTerminal<?> textTerminal = textIO.getTextTerminal();
+    private static final TextIO TEXT_IO = TextIoFactory.getTextIO();
+    private static final TextTerminal<?> TEXT_TERMINAL = TEXT_IO.getTextTerminal();
 
     @Override
     public void displayCommands() {
@@ -40,18 +40,18 @@ public class ConsoleOutput implements Output {
 
     @Override
     public void displayVoucher(VoucherResponse voucher) {
-        textTerminal.println(voucher.toString());
+        TEXT_TERMINAL.println(voucher.toString());
     }
 
     @Override
     public void displayCustomer(CustomerResponse customer) {
-        textTerminal.println(customer.toString());
+        TEXT_TERMINAL.println(customer.toString());
     }
 
     private <T extends Enum<T>> void displayMenu(String title, T[] commands) {
-        textTerminal.println(title);
+        TEXT_TERMINAL.println(title);
         Arrays.stream(commands)
                 .map(String::valueOf)
-                .forEach(textTerminal::println);
+                .forEach(TEXT_TERMINAL::println);
     }
 }

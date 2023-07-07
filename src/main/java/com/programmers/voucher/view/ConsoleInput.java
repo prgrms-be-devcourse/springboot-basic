@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Component
 public class ConsoleInput implements Input {
-    private static final TextIO textIO = TextIoFactory.getTextIO();
+    private static final TextIO TEXT_IO = TextIoFactory.getTextIO();
 
     @Override
     public Command readCommand() {
@@ -51,13 +51,13 @@ public class ConsoleInput implements Input {
     }
 
     private int readIntInput(String prompt) {
-        return textIO.newIntInputReader()
+        return TEXT_IO.newIntInputReader()
                 .withInputTrimming(true)
                 .read(prompt);
     }
 
     private String readStringInput(String prompt) {
-        return textIO.newStringInputReader()
+        return TEXT_IO.newStringInputReader()
                 .withInputTrimming(true)
                 .read(prompt);
     }

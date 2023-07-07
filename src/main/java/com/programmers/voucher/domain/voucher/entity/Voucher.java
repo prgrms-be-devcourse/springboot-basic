@@ -9,7 +9,7 @@ import static com.programmers.voucher.constant.ErrorMessage.INVALID_DISCOUNT_AMO
 import static com.programmers.voucher.constant.ErrorMessage.INVALID_DISCOUNT_PERCENT;
 
 public class Voucher {
-    private static final Logger logger = LoggerFactory.getLogger(Voucher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Voucher.class);
 
     private final UUID id;
     private VoucherType type;
@@ -42,14 +42,14 @@ public class Voucher {
 
     private static void validatePositive(int amount) {
         if (amount <= 0) {
-            logger.error("{} => {}", INVALID_DISCOUNT_AMOUNT, amount);
+            LOGGER.error("{} => {}", INVALID_DISCOUNT_AMOUNT, amount);
             throw new IllegalArgumentException(INVALID_DISCOUNT_AMOUNT);
         }
     }
 
     private static void validatePercent(VoucherType type, int amount) {
         if (type == VoucherType.PERCENT && amount > 100) {
-            logger.error("{} => {}", INVALID_DISCOUNT_PERCENT, amount);
+            LOGGER.error("{} => {}", INVALID_DISCOUNT_PERCENT, amount);
             throw new IllegalArgumentException(INVALID_DISCOUNT_PERCENT);
         }
     }
