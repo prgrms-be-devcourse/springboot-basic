@@ -1,13 +1,13 @@
 package com.devcourse.springbootbasic.application;
 
 import com.devcourse.springbootbasic.application.controller.PlatformController;
-import com.devcourse.springbootbasic.application.converter.CustomerConverter;
-import com.devcourse.springbootbasic.application.converter.VoucherConverter;
-import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
-import com.devcourse.springbootbasic.application.model.ListMenu;
-import com.devcourse.springbootbasic.application.model.Menu;
-import com.devcourse.springbootbasic.application.exception.InvalidDataException;
-import com.devcourse.springbootbasic.application.io.ConsoleManager;
+import com.devcourse.springbootbasic.application.customer.CustomerConverter;
+import com.devcourse.springbootbasic.application.voucher.VoucherConverter;
+import com.devcourse.springbootbasic.application.voucher.model.Voucher;
+import com.devcourse.springbootbasic.application.global.model.ListMenu;
+import com.devcourse.springbootbasic.application.global.model.Menu;
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
+import com.devcourse.springbootbasic.application.global.io.ConsoleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

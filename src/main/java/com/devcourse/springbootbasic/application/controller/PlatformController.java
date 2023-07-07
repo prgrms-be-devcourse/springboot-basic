@@ -1,9 +1,9 @@
 package com.devcourse.springbootbasic.application.controller;
 
-import com.devcourse.springbootbasic.application.domain.customer.Customer;
-import com.devcourse.springbootbasic.application.domain.voucher.Voucher;
-import com.devcourse.springbootbasic.application.service.CustomerService;
-import com.devcourse.springbootbasic.application.service.VoucherService;
+import com.devcourse.springbootbasic.application.customer.model.Customer;
+import com.devcourse.springbootbasic.application.voucher.model.Voucher;
+import com.devcourse.springbootbasic.application.customer.service.CustomerService;
+import com.devcourse.springbootbasic.application.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
