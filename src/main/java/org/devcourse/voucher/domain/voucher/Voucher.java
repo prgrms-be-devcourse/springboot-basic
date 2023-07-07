@@ -21,6 +21,10 @@ public class Voucher {
         }
     }
 
+    public static Voucher of(VoucherType type, int amount) {
+        return new Voucher(0, type, amount);
+    }
+
     public long getId() {
         return id;
     }

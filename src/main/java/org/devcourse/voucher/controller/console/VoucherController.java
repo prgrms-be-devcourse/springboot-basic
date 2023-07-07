@@ -17,7 +17,7 @@ public class VoucherController {
     }
 
     public VoucherInfoResponse createVoucher(VoucherSaveRequest request) {
-        Voucher voucher = new Voucher(0, request.voucherType(), request.amount());
+        Voucher voucher = Voucher.of(request.voucherType(), request.amount());
         Voucher savedVoucher = voucherService.save(voucher);
 
         VoucherVO value = savedVoucher.values();
