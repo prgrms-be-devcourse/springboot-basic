@@ -1,8 +1,6 @@
 package com.programmers.voucher.domain.customer.repository;
 
 import com.programmers.voucher.domain.customer.entity.Customer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,7 +14,6 @@ import java.util.UUID;
 @Primary
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private static final String INSERT_SQL = "INSERT INTO customer(id, nickname) VALUES(?, ?)";
     private static final String FIND_ALL_SQL = "SELECT * FROM customer";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM customer WHERE id = ?";
@@ -24,9 +21,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String UPDATE_SQL = "UPDATE customer SET nickname = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM customer WHERE id = ?";
     private static final String DELETE_ALL_SQL = "DELETE FROM customer";
-    private static final RowMapper<Customer> customerRowMapper = (rs, rowNum) -> new Customer(
-            UUID.fromString(rs.getString("id")),
-            rs.getString("nickname"));
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -42,19 +36,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(FIND_ALL_SQL, customerRowMapper);
+        return jdbcTemplate.query(FIND_ALL_SQL, customerRowMapper());
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return jdbcTemplate.query(FIND_BY_ID_SQL, customerRowMapper, customerId.toString())
+        return jdbcTemplate.query(FIND_BY_ID_SQL, customerRowMapper(), customerId.toString())
                 .stream()
                 .findFirst();
     }
 
     @Override
     public Optional<Customer> findByNickname(String nickname) {
-        return jdbcTemplate.query(FIND_BY_NICKNAME_SQL, customerRowMapper, nickname)
+        return jdbcTemplate.query(FIND_BY_NICKNAME_SQL, customerRowMapper(), nickname)
                 .stream()
                 .findFirst();
     }
@@ -73,5 +67,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update(DELETE_ALL_SQL);
+    }
+
+    private RowMapper<Customer> customerRowMapper() {
+        return (rs, rowNum) -> new Customer(
+                UUID.fromString(rs.getString("id")),
+                rs.getString("nickname"));
     }
 }
