@@ -2,13 +2,13 @@ package com.example.voucher;
 
 import java.util.Arrays;
 
-public enum CommandEnum {
+public enum Command {
     CREATE("create"),
     LIST("list");
 
     private final String command;
 
-    CommandEnum(String command) {
+    Command(String command) {
         this.command = command;
     }
 
@@ -16,7 +16,7 @@ public enum CommandEnum {
         return command;
     }
 
-    public static CommandEnum fromString(String command) {
+    public static Command fromString(String command) {
         return Arrays.stream(values())
                 .filter(value -> value.getCommand().equalsIgnoreCase(command))
                 .findFirst()

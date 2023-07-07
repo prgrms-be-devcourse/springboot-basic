@@ -30,8 +30,8 @@ public class VoucherApplication implements CommandLineRunner {
         CommandHandler commandHandler = voucherConfig.commandHandler();
         VoucherRepository voucherRepository = voucherConfig.voucherRepository();
 
-        CommandEnum commandEnum = commandHandler.handleCommand();
-        switch (commandEnum) {
+        Command command = commandHandler.handleCommand();
+        switch (command) {
             case CREATE:
                 VoucherDto voucherDto = commandHandler.handleCreateCommand();
                 voucherRepository.insert(voucherDto.toVoucher());

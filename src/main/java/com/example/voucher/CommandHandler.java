@@ -16,9 +16,9 @@ public class CommandHandler {
         this.output = output;
     }
 
-    public CommandEnum handleCommand() {
+    public Command handleCommand() {
         String command = input.readInput();
-        return CommandEnum.fromString(command);
+        return Command.fromString(command);
     }
 
     public void handleListCommand(List<Voucher> vouchers) {
