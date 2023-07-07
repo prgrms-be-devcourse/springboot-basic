@@ -6,8 +6,8 @@ public class PercentDiscountVoucher extends Voucher {
 
     private final long percent;
 
-    public PercentDiscountVoucher(long voucherId, long percent, LocalDate createdDate, LocalDate expirationDate) {
-        super(voucherId, createdDate, expirationDate, VoucherFactory.PERCENT);
+    public PercentDiscountVoucher(long percent, LocalDate createdDate, LocalDate expirationDate) {
+        super(createdDate, expirationDate, VoucherFactory.PERCENT);
         validateVoucherValue(percent);
         validateVoucherPeriod(createdDate, expirationDate);
         this.percent = percent;

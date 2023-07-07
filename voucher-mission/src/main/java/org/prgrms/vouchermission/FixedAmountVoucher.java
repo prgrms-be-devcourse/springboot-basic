@@ -6,8 +6,8 @@ public class FixedAmountVoucher extends Voucher {
 
     private final long amount;
 
-    public FixedAmountVoucher(long voucherId, long amount, LocalDate createdDate, LocalDate expirationDate) {
-        super(voucherId, createdDate, expirationDate, VoucherFactory.AMOUNT);
+    public FixedAmountVoucher(long amount, LocalDate createdDate, LocalDate expirationDate) {
+        super(createdDate, expirationDate, VoucherFactory.AMOUNT);
         validateVoucherValue(amount);
         validateVoucherPeriod(createdDate, expirationDate);
         this.amount = amount;

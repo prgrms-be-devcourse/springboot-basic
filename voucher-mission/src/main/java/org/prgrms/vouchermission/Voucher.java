@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public abstract class Voucher {
 
-    private final long voucherId;
+    private long voucherId;
     private final LocalDate createdDate;
     private final LocalDate expirationDate;
     private final VoucherFactory voucherType;
@@ -13,8 +13,7 @@ public abstract class Voucher {
 
     abstract long getValue();
 
-    public Voucher(long voucherId, LocalDate createdDate, LocalDate expirationDate, VoucherFactory voucherType) {
-        this.voucherId = voucherId;
+    public Voucher(LocalDate createdDate, LocalDate expirationDate, VoucherFactory voucherType) {
         this.createdDate = createdDate;
         this.expirationDate = expirationDate;
         this.voucherType = voucherType;

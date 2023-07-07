@@ -7,14 +7,14 @@ public enum VoucherFactory {
     PERCENT {
         @Override
         public Voucher createVoucher(VoucherVO voucherVO) {
-            return new PercentDiscountVoucher(voucherVO.getVoucherId(), voucherVO.getValue(), voucherVO.getCreatedDate(), voucherVO.getExpirationDate());
+            return new PercentDiscountVoucher(voucherVO.getValue(), voucherVO.getCreatedDate(), voucherVO.getExpirationDate());
         }
 
     },
     AMOUNT {
         @Override
         public Voucher createVoucher(VoucherVO voucherVO) {
-            return new FixedAmountVoucher(voucherVO.getVoucherId(), voucherVO.getValue(), voucherVO.getCreatedDate(), voucherVO.getExpirationDate());
+            return new FixedAmountVoucher(voucherVO.getValue(), voucherVO.getCreatedDate(), voucherVO.getExpirationDate());
         }
     };
 
