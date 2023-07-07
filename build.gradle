@@ -17,10 +17,18 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	implementation 'org.projectlombok:lombok'
+
+	implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
+
+	implementation 'org.springframework.boot:spring-book-starter-thymeleaf'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 	testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
 }
 

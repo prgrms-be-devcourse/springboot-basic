@@ -81,7 +81,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("No result found by ID");
+            logger.error("No result found by ID", e);
             return Optional.empty();
         }
     }
@@ -93,7 +93,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                     Collections.singletonMap("name", name),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("No result found by Name");
+            logger.error("No result found by Name", e);
             return Optional.empty();
         }
     }
@@ -105,7 +105,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                     Collections.singletonMap("email", email),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result");
+            logger.error("Got empty result", e);
             return Optional.empty();
         }
     }

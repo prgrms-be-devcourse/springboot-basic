@@ -61,14 +61,14 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher saveVoucher(Voucher voucher) {
+    public Optional<Voucher> saveVoucher(Voucher voucher) {
         int updated = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, discount_amount, voucher_type) VALUES(UNHEX(REPLACE(:voucherId, '-', '')), :discountAmount, :voucherType)",
                 toParamMap(voucher));
         if (updated != 1) {
             logger.error("Voucher insert error");
             throw new VoucherException(ExceptionMessageConstant.VOUCHER_NOT_INSERTED_EXCEPTION);
         }
-        return voucher;
+        return Optional.of(voucher);
     }
 
     @Override

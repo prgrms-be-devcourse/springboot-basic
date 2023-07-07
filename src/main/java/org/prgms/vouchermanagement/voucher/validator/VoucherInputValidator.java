@@ -1,11 +1,11 @@
 package org.prgms.vouchermanagement.voucher.validator;
 
 import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.InputMismatchException;
 import java.util.regex.Pattern;
 
 @Component
@@ -18,22 +18,19 @@ public class VoucherInputValidator {
 
     public void checkVoucherTypeInput(String input) {
         if (!INTEGER_ONE_OR_TWO.matcher(input).matches()) {
-            logger.error("Voucher Type Input Error -> {}", input);
-            throw new InputMismatchException(ExceptionMessageConstant.VOUCHER_TYPE_INPUT_EXCEPTION);
+            throw new VoucherException(ExceptionMessageConstant.VOUCHER_TYPE_INPUT_EXCEPTION);
         }
     }
 
     public void checkFixedAmount(String amount) {
         if (!INTEGER_NO_BOUNDARY.matcher(amount).matches()) {
-            logger.error("FixedAmount Input Error -> {}", amount);
-            throw new InputMismatchException(ExceptionMessageConstant.FIXED_VOUCHER_AMOUNT_INPUT_EXCEPTION);
+            throw new VoucherException(ExceptionMessageConstant.FIXED_VOUCHER_AMOUNT_INPUT_EXCEPTION);
         }
     }
 
     public void checkPercent(String percent) {
         if (!INTEGER_ONE_TO_NINETY_NINE.matcher(percent).matches()) {
-            logger.error("PercentDiscount Input Error -> {}", percent);
-            throw new InputMismatchException(ExceptionMessageConstant.PERCENT_DISCOUNT_INPUT_EXCEPTION);
+            throw new VoucherException(ExceptionMessageConstant.PERCENT_DISCOUNT_INPUT_EXCEPTION);
         }
     }
 }

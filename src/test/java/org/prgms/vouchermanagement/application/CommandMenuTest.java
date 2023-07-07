@@ -56,4 +56,69 @@ class CommandMenuTest {
         assertThat(command4, is(CommandMenu.SHOW_BLACK_LIST));
 
     }
+
+    @Test
+    @DisplayName("바우처 생성 메뉴 선택 확인 test")
+    void getCommandMenu_Create_Test() {
+        //given
+        String input = "create";
+
+        //when
+        CommandMenu command = CommandMenu.getCommandMenu(input);
+
+        //then
+        assertThat(command, is(CommandMenu.CREATE_NEW_VOUCHER));
+    }
+
+    @Test
+    @DisplayName("바우처 리스트 출력 메뉴 선택 확인 test")
+    void getCommandMenu_List_Test() {
+        //given
+        String input = "list";
+
+        //when
+        CommandMenu command = CommandMenu.getCommandMenu(input);
+
+        //then
+        assertThat(command, is(CommandMenu.SHOW_VOUCHER_LIST));
+    }
+
+    @Test
+    @DisplayName("종료 메뉴 선택 확인 test")
+    void getCommandMenu_Exit_Test() {
+        //given
+        String input = "exit";
+
+        //when
+        CommandMenu command = CommandMenu.getCommandMenu(input);
+
+        //then
+        assertThat(command, is(CommandMenu.EXIT));
+    }
+
+    @Test
+    @DisplayName("블랙 리스트 출력 메뉴 선택 확인 test")
+    void getCommandMenu_Black_Test() {
+        //given
+        String input = "black";
+
+        //when
+        CommandMenu command = CommandMenu.getCommandMenu(input);
+
+        //then
+        assertThat(command, is(CommandMenu.SHOW_BLACK_LIST));
+    }
+
+    @Test
+    @DisplayName("customer 리스트 출력 메뉴 선택 확인 test")
+    void getCommandMenu_Customers_Test() {
+        //given
+        String input = "customers";
+
+        //when
+        CommandMenu command = CommandMenu.getCommandMenu(input);
+
+        //then
+        assertThat(command, is(CommandMenu.SHOW_CUSTOMER_LIST));
+    }
 }
