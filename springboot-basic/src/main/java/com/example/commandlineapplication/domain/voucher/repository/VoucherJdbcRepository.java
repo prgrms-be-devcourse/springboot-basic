@@ -1,5 +1,6 @@
 package com.example.commandlineapplication.domain.voucher.repository;
 
+import com.example.commandlineapplication.domain.voucher.dto.mapper.VoucherMapper;
 import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCreateRequest;
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
@@ -22,10 +23,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
   private final Logger LOG = LoggerFactory.getLogger(VoucherJdbcRepository.class);
   private final NamedParameterJdbcTemplate template;
   private final VoucherFactory voucherFactory;
+  private final VoucherMapper voucherMapper;
 
-  public VoucherJdbcRepository(NamedParameterJdbcTemplate template, VoucherFactory voucherFactory) {
+  public VoucherJdbcRepository(NamedParameterJdbcTemplate template, VoucherFactory voucherFactory,
+      VoucherMapper voucherMapper) {
     this.template = template;
     this.voucherFactory = voucherFactory;
+    this.voucherMapper = voucherMapper;
   }
 
   private RowMapper<Voucher> rowMapper() {
@@ -33,7 +37,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
       UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
       VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
       long discount = resultSet.getLong("discount");
-      VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(voucherType, discount);
+      VoucherCreateRequest voucherCreateRequest = voucherMapper.toCreateRequest(voucherType,
+          discount);
 
       return voucherFactory.create(voucherCreateRequest);
     };

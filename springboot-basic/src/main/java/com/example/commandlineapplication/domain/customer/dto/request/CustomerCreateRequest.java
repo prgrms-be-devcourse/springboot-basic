@@ -1,11 +1,13 @@
 package com.example.commandlineapplication.domain.customer.dto.request;
 
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@Builder
 @Getter
+@AllArgsConstructor
 public class CustomerCreateRequest {
 
   private final UUID customerId;
