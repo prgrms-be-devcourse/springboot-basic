@@ -40,11 +40,11 @@ public class VoucherConsole {
     }
 
     public Long inputAmountByVoucher(VoucherType voucherType) {
-        if (VoucherType.isFixed(voucherType)) {
+        if (voucherType.isFixed()) {
             printMessage(FIXED_AMOUNT_VOUCHER_MESSAGE);
         }
 
-        if (VoucherType.isPercent(voucherType)) {
+        if (voucherType.isPercent()) {
             printMessage(PERCENT_AMOUNT_VOUCHER_MESSAGE);
         }
 
@@ -64,11 +64,11 @@ public class VoucherConsole {
     }
 
     public void printCreatedVoucher(VoucherDto voucher) {
-        if (VoucherType.isFixed(voucher.getVoucherType())) {
+        if (voucher.getVoucherType().isFixed()) {
             System.out.printf(SUCCESS_CREATED_FIXED_VOUCHER, voucher.getVoucherType().name(), voucher.getAmount());
         }
 
-        if (VoucherType.isPercent(voucher.getVoucherType())) {
+        if (voucher.getVoucherType().isPercent()) {
             System.out.printf(SUCCESS_CREATED_PERCENT_VOUCHER, voucher.getVoucherType().name(), voucher.getAmount());
         }
     }

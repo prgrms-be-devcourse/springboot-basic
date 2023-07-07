@@ -14,6 +14,10 @@ public enum CommandType {
     private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
     private static final String CANT_FIND_COMMAND_TYPE = "알맞는 명령이 없습니다.";
 
+    public boolean isExit() {
+        return this == CommandType.EXIT;
+    }
+
     public static CommandType findCommandType(String userCommand) {
         return Arrays.stream(CommandType.values())
                 .filter(commandType -> commandType.name().equals(userCommand.toUpperCase()))
@@ -22,9 +26,5 @@ public enum CommandType {
                     logger.error("원인 : {} -> 에러 메시지 : {}", userCommand, CANT_FIND_COMMAND_TYPE);
                     throw new IllegalArgumentException(CANT_FIND_COMMAND_TYPE);
                 });
-    }
-
-    public static boolean isNotExit(CommandType commandType) {
-        return commandType != CommandType.EXIT;
     }
 }

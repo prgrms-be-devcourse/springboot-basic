@@ -12,12 +12,12 @@ public enum VoucherType {
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
     private static final String CANT_FIND_VOUCHER_TYPE = "알맞는 바우처 형식이 없습니다.";
 
-    public static boolean isFixed(VoucherType voucherType) {
-        return voucherType == VoucherType.FIXED;
+    public boolean isFixed() {
+        return this == VoucherType.FIXED;
     }
 
-    public static boolean isPercent(VoucherType voucherType) {
-        return voucherType == VoucherType.PERCENT;
+    public boolean isPercent() {
+        return this == VoucherType.PERCENT;
     }
 
     public static VoucherType findVoucherType(String userVoucherType) {

@@ -33,7 +33,7 @@ public class CommandLineApplication implements CommandLineRunner {
     public void run(String... args) {
         CommandType userCommand = CommandType.NONE;
 
-        while (CommandType.isNotExit(userCommand)) {
+        while (!userCommand.isExit()) {
             String command = voucherConsole.inputCommand(INIT_MESSAGE);
             userCommand = CommandType.findCommandType(command);
             executeCommand(userCommand);
