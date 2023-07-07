@@ -8,12 +8,9 @@ public abstract class Voucher {
 
     protected BigDecimal amount;
 
-    protected VoucherType voucherType;
-
-    public Voucher(UUID voucherId, BigDecimal amount, VoucherType voucherType) {
+    public Voucher(UUID voucherId, BigDecimal amount) {
         this.voucherId = voucherId;
         this.amount = amount;
-        this.voucherType = voucherType;
     }
 
     abstract BigDecimal discount(BigDecimal beforeAmount);
@@ -26,7 +23,5 @@ public abstract class Voucher {
         return amount;
     }
 
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
+    public abstract VoucherType getVoucherType();
 }

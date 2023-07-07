@@ -98,10 +98,10 @@ public class VoucherJdbcStorage implements VoucherStorage {
             String type = resultSet.getString("type");
             VoucherType voucherType = VoucherType.findByVoucherTypeName(type);
             if (voucherType.isFixedVoucher()) {
-                return new FixedAmountVoucher(UUID.fromString(id), amount, voucherType);
+                return new FixedAmountVoucher(UUID.fromString(id), amount);
             }
 
-            return new PercentDiscountVoucher(UUID.fromString(id), amount, voucherType);
+            return new PercentDiscountVoucher(UUID.fromString(id), amount);
         };
     }
 

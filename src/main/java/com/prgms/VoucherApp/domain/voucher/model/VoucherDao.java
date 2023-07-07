@@ -32,10 +32,8 @@ public class VoucherDao {
     @Transactional
     public void save(VoucherCreateReqDto requestDto) {
         Voucher voucher = switch (requestDto.getVoucherType()) {
-            case FIXED_VOUCHER ->
-                new FixedAmountVoucher(UUID.randomUUID(), requestDto.getAmount(), requestDto.getVoucherType());
-            case PERCENT_VOUCHER ->
-                new PercentDiscountVoucher(UUID.randomUUID(), requestDto.getAmount(), requestDto.getVoucherType());
+            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), requestDto.getAmount());
+            case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), requestDto.getAmount());
         };
         voucherStorage.save(voucher);
     }
@@ -68,10 +66,9 @@ public class VoucherDao {
     @Transactional
     public void update(VoucherUpdateReqDto voucherUpdateReqDto) {
         Voucher voucher = switch (voucherUpdateReqDto.getVoucherType()) {
-            case FIXED_VOUCHER ->
-                new FixedAmountVoucher(voucherUpdateReqDto.getId(), voucherUpdateReqDto.getAmount(), voucherUpdateReqDto.getVoucherType());
+            case FIXED_VOUCHER -> new FixedAmountVoucher(voucherUpdateReqDto.getId(), voucherUpdateReqDto.getAmount());
             case PERCENT_VOUCHER ->
-                new PercentDiscountVoucher(voucherUpdateReqDto.getId(), voucherUpdateReqDto.getAmount(), voucherUpdateReqDto.getVoucherType());
+                new PercentDiscountVoucher(voucherUpdateReqDto.getId(), voucherUpdateReqDto.getAmount());
         };
 
         voucherStorage.update(voucher);

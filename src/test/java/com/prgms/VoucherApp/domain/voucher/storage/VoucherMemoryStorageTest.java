@@ -3,7 +3,6 @@ package com.prgms.VoucherApp.domain.voucher.storage;
 import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
 import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
 import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ class VoucherMemoryStorageTest {
     @DisplayName("고정 비용 할인권 생성 테스트")
     void saveFixedVoucher() {
         // given
-        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000), VoucherType.FIXED_VOUCHER);
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
 
         // when
         storage.save(fixedVoucher);
@@ -39,7 +38,7 @@ class VoucherMemoryStorageTest {
     @DisplayName("퍼센트 비율 할인권 생성 테스트")
     void savePercentVoucher() {
         // given
-        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000), VoucherType.PERCENT_VOUCHER);
+        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
 
         // when
         storage.save(percentVoucher);

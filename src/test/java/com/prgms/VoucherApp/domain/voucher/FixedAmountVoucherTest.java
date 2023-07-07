@@ -16,7 +16,7 @@ class FixedAmountVoucherTest {
     @DisplayName("고정 비용으로 할인이 된다.")
     void fixedAmountDiscount(BigDecimal fixedAmount, BigDecimal result) {
         // given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), fixedAmount, VoucherType.FIXED_VOUCHER);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), fixedAmount);
 
         // when
         BigDecimal actualDiscount = fixedAmountVoucher.discount(BigDecimal.valueOf(10000L));

@@ -23,10 +23,10 @@ public class Converter {
         VoucherType voucherType = VoucherType.findByVoucherTypeName(voucherField[2]);
 
         if (voucherType.isFixedVoucher()) {
-            return new FixedAmountVoucher(voucherId, amount, voucherType);
+            return new FixedAmountVoucher(voucherId, amount);
         }
 
-        return new PercentDiscountVoucher(voucherId, amount, voucherType);
+        return new PercentDiscountVoucher(voucherId, amount);
     }
 
     public static Customer convertToBlacklist(String record) {

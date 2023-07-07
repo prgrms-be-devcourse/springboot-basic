@@ -7,8 +7,8 @@ public class FixedAmountVoucher extends Voucher {
 
     private static final Long DISCOUNT_AMOUNT_MIN_VALUE = 0L;
 
-    public FixedAmountVoucher(UUID getVoucherId, BigDecimal discountAmount, VoucherType voucherType) {
-        super(getVoucherId, discountAmount, voucherType);
+    public FixedAmountVoucher(UUID getVoucherId, BigDecimal discountAmount) {
+        super(getVoucherId, discountAmount);
     }
 
 
@@ -24,5 +24,10 @@ public class FixedAmountVoucher extends Voucher {
     private boolean isResultNegative(BigDecimal beforeAmount) {
         return beforeAmount.subtract(amount)
             .compareTo(BigDecimal.ZERO) < DISCOUNT_AMOUNT_MIN_VALUE;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED_VOUCHER;
     }
 }

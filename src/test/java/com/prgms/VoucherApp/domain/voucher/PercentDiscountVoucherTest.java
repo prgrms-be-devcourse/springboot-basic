@@ -17,7 +17,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("비율 값 할인")
     void percentDiscount(BigDecimal percent, BigDecimal result) {
         // given
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent, VoucherType.PERCENT_VOUCHER);
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
 
         // when
         BigDecimal actualDiscount = percentDiscountVoucher.discount(BigDecimal.valueOf(10000L));

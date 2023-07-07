@@ -27,7 +27,7 @@ class VoucherJdbcStorageTest {
     @DisplayName("고정 비용 할인권을 저장한다.")
     void saveFixedVoucher() {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500), VoucherType.FIXED_VOUCHER);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
 
         // when
         voucherStorage.save(voucher);
@@ -41,7 +41,7 @@ class VoucherJdbcStorageTest {
     @DisplayName("퍼센트 비용 할인권을 저장한다.")
     void savePercentVoucher() {
         // given
-        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT_VOUCHER);
+        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
         voucherStorage.save(voucher);
@@ -56,8 +56,8 @@ class VoucherJdbcStorageTest {
     @DisplayName("전체 할인권을 조회한다.")
     void findVouchers() {
         // given
-        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500), VoucherType.FIXED_VOUCHER);
-        Voucher voucherB = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT_VOUCHER);
+        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
+        Voucher voucherB = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
         voucherStorage.save(voucherA);
@@ -73,7 +73,7 @@ class VoucherJdbcStorageTest {
     @DisplayName("개별 할인권을 조회한다.")
     void findVoucher() {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500), VoucherType.FIXED_VOUCHER);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
 
         // when
         voucherStorage.save(voucher);
@@ -99,9 +99,9 @@ class VoucherJdbcStorageTest {
     @DisplayName("고정 비용으로 할인되는 할인권만 조회한다.")
     void findVoucherFixedType() {
         // given
-        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500), VoucherType.FIXED_VOUCHER);
-        Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000), VoucherType.FIXED_VOUCHER);
-        Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT_VOUCHER);
+        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
+        Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000));
+        Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
         voucherStorage.save(voucherA);
@@ -118,9 +118,9 @@ class VoucherJdbcStorageTest {
     @DisplayName("퍼센트로 할인되는 할인권만 조회한다.")
     void findVoucherPercentType() {
         // given
-        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500), VoucherType.FIXED_VOUCHER);
-        Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000), VoucherType.FIXED_VOUCHER);
-        Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT_VOUCHER);
+        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
+        Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000));
+        Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
         voucherStorage.save(voucherA);
@@ -137,8 +137,8 @@ class VoucherJdbcStorageTest {
     @DisplayName("타입별로 할인권 조회 시 조회되지 않는 경우")
     void findVoucherTypeFail() {
         // given
-        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500), VoucherType.FIXED_VOUCHER);
-        Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000), VoucherType.FIXED_VOUCHER);
+        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
+        Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000));
 
         // when
         voucherStorage.save(voucherA);
@@ -154,11 +154,11 @@ class VoucherJdbcStorageTest {
     @DisplayName("할인권의 내용을 업데이트 한다.")
     void updateVoucher() {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2000), VoucherType.FIXED_VOUCHER);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2000));
         voucherStorage.save(voucher);
 
         // when
-        voucherStorage.update(new FixedAmountVoucher(voucher.getVoucherId(), BigDecimal.valueOf(5500), VoucherType.FIXED_VOUCHER));
+        voucherStorage.update(new FixedAmountVoucher(voucher.getVoucherId(), BigDecimal.valueOf(5500)));
 
         Optional<Voucher> updatedVoucher = voucherStorage.findByVoucherId(voucher.getVoucherId());
 
@@ -171,9 +171,9 @@ class VoucherJdbcStorageTest {
     void deleteVoucher() {
         // given
 
-        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500), VoucherType.FIXED_VOUCHER);
-        Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000), VoucherType.FIXED_VOUCHER);
-        Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT_VOUCHER);
+        Voucher voucherA = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
+        Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000));
+        Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
         voucherStorage.save(voucherA);
