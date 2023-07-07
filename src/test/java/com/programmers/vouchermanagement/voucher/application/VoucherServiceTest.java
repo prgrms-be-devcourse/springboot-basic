@@ -32,7 +32,8 @@ class VoucherServiceTest {
         VoucherDto request = new VoucherDto(DiscountType.FIX, 5000);
         DiscountType discountType = request.discountType();
         int amount = request.amount();
-        Voucher voucher = discountType.createVoucher(amount);
+        DiscountPolicy discountPolicy = discountType.createDiscountPolicy(amount);
+        Voucher voucher = new Voucher(discountPolicy);
 
         given(voucherRepository.save(any(Voucher.class)))
                 .willReturn(voucher);
