@@ -26,6 +26,12 @@ public class VoucherMemoryRepository implements VoucherRepository {
   }
 
   @Override
+  public void update(UUID voucherId) {
+    Voucher foundVoucher = findById(voucherId).orElseThrow(IllegalArgumentException::new);
+    
+  }
+
+  @Override
   public List<Voucher> findAll() {
     return storage.values()
         .stream()
