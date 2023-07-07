@@ -7,6 +7,7 @@ import com.devcourse.springbootbasic.application.global.exception.InvalidDataExc
 import com.devcourse.springbootbasic.application.global.io.CsvReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -69,7 +70,7 @@ public class CustomerRepository {
             }
             return customer;
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), exception.getCause());
         }
     }
 
@@ -84,7 +85,7 @@ public class CustomerRepository {
             }
             return customer;
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), exception.getCause());
         }
     }
 
@@ -95,38 +96,50 @@ public class CustomerRepository {
                     customerRowMapper
             );
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), exception.getCause());
         }
     }
 
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
-                        "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-                        Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                        customerRowMapper
-                )
-        );
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                            Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                            customerRowMapper
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public Optional<Customer> findByName(String name) {
-        return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
-                        "SELECT * FROM customers WHERE name = :name",
-                        Collections.singletonMap("name", name),
-                        customerRowMapper
-                )
-        );
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "SELECT * FROM customers WHERE name = :name",
+                            Collections.singletonMap("name", name),
+                            customerRowMapper
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public Optional<Customer> findByEmail(String email) {
-        return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
-                        "SELECT * FROM customers WHERE email = :email",
-                        Collections.singletonMap("email", email),
-                        customerRowMapper
-                )
-        );
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "SELECT * FROM customers WHERE email = :email",
+                            Collections.singletonMap("email", email),
+                            customerRowMapper
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public void deleteAll() {
@@ -136,7 +149,7 @@ public class CustomerRepository {
                     Collections.emptyMap()
             );
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), exception.getCause());
         }
     }
 
@@ -145,7 +158,7 @@ public class CustomerRepository {
             jdbcTemplate.update(
                     "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
                     new HashMap<>(){{
-                        put("customerId", customerId);
+                        put("customerId", customerId.toString().getBytes());
                     }}
             );
         } catch (DataAccessException e) {

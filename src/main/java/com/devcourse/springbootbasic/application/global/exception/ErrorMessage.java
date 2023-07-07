@@ -11,7 +11,8 @@ public enum ErrorMessage {
     INVALID_CUSTOMER_CREATION("고객 추가에 실패했습니다."),
     INVALID_DISCOUNT_VALUE("부적절한 바우처 할인값입니다."),
     INVALID_FILE_ACCESS("부적절한 파일 접근입니다."),
-    INVALID_SQL_QUERY("부적절한 쿼리 사용입니다.");
+    INVALID_SQL_QUERY("부적절한 쿼리 사용입니다."),
+    INVALID_SQL_RESULT("쿼리 결과가 없습니다.");
 
     private final String messageText;
 

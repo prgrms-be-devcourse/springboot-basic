@@ -33,7 +33,6 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerRepositoryTest {
 
     static List<Customer> validCustomers = List.of(
@@ -93,13 +92,17 @@ class CustomerRepositoryTest {
                 .start();
     }
 
+    @BeforeEach
+    void cleanup() {
+        customerRepository.deleteAll();
+    }
+
     @AfterAll
     void destroy() {
         embeddedMysql.stop();
     }
 
     @Test
-    @Order(1)
     @DisplayName("블랙고객 리스트를 반환하면 성공한다.")
     void FindAllBlackCustomers_Normal_ReturnBlackCustomers() {
         var result = customerRepository.findAllBlackCustomers();
@@ -109,7 +112,6 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(2)
     @DisplayName("정상적인 고객으로 추가 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void insert_ParamValidCustomer_InsertAndReturnCustomer(Customer customer) {
@@ -122,18 +124,18 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(3)
-    @DisplayName("비정상적인 고객으로 추가하려고 했을때 실패한다.")
+    @DisplayName("이미 존재하는 고객으로 추가하려고 했을때 실패한다.")
     @MethodSource("provideInvalidCustomers")
     void insert_ParamInvalidCustomer_Exception(Customer customer) {
+        customerRepository.insert(customer);
         Assertions.assertThrows(InvalidDataException.class, () -> customerRepository.insert(customer));
     }
 
     @ParameterizedTest
-    @Order(8)
     @DisplayName("이미 존재하는 고객 아이디로 업데이트할 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void update_ParamExistCustomerId_ReturnAndUpdateCustomer(Customer customer) {
+        customerRepository.insert(customer);
         customerRepository.update(customer);
         var updatedCustomer = customerRepository.findById(customer.getCustomerId());
         assertThat(updatedCustomer.isPresent(), is(true));
@@ -142,17 +144,17 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(10)
     @DisplayName("존재하지 않는 고객 아이디로 업데이트할 시 실패한다.")
     @MethodSource("provideValidCustomers")
     void update_ParamNotExistCustomerId_ReturnAndUpdateCustomer(Customer customer) {
         Assertions.assertThrows(InvalidDataException.class, () -> customerRepository.update(customer));
     }
 
-    @Test
-    @Order(4)
+    @ParameterizedTest
     @DisplayName("전체 고객 리스트 반환 시 성공한다.")
-    void findAll_ParamVoid_ReturnVoucherList() {
+    @MethodSource("provideValidCustomers")
+    void findAll_ParamVoid_ReturnVoucherList(Customer customer) {
+        customerRepository.insert(customer);
         var customers = customerRepository.findAll();
         var customersCount = customerRepository.count();
         assertThat(customers, instanceOf(List.class));
@@ -161,10 +163,10 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(5)
     @DisplayName("존재하는 고객을 아이디로 조회 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void findById_ParamExistCustomerId_ReturnCustomerOptional(Customer customer) {
+        customerRepository.insert(customer);
         var findedCustomer = customerRepository.findById(customer.getCustomerId());
         assertThat(findedCustomer.isPresent(), is(true));
         assertThat(findedCustomer.get(), instanceOf(Customer.class));
@@ -172,18 +174,18 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(9)
     @DisplayName("존재하지 않는 고객 아이디로 조회 시 실패한다.")
     @MethodSource("provideValidCustomers")
     void findById_ParamNotExistCustomerId_ReturnEmptyOptional(Customer customer) {
-        Assertions.assertThrows(Exception.class, () -> customerRepository.findById(customer.getCustomerId()));
+        var result = customerRepository.findById(customer.getCustomerId());
+        assertThat(result.isEmpty(), is(true));
     }
 
     @ParameterizedTest
-    @Order(6)
     @DisplayName("존재하는 고객 이름으로 조회 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void findByName_ParamExistName_ReturnCustomerOptional(Customer customer) {
+        customerRepository.insert(customer);
         var findedCustomer = customerRepository.findByName(customer.getName());
         assertThat(findedCustomer.isPresent(), is(true));
         assertThat(findedCustomer.get(), instanceOf(Customer.class));
@@ -191,18 +193,18 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(10)
     @DisplayName("존재하지 않는 고객 이름으로 조회 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void findByName_ParamNotExistName_ReturnEmptyOptional(Customer customer) {
-        Assertions.assertThrows(Exception.class, () -> customerRepository.findByName(customer.getName()));
+        var result = customerRepository.findByName(customer.getName());
+        assertThat(result.isEmpty(), is(true));
     }
 
     @ParameterizedTest
-    @Order(7)
     @DisplayName("존재하는 고객 이메일로 조회 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void findByName_ParamExistEmail_ReturnCustomerOptional(Customer customer) {
+        customerRepository.insert(customer);
         var findedCustomer = customerRepository.findByEmail(customer.getEmail());
         assertThat(findedCustomer.isPresent(), is(true));
         assertThat(findedCustomer.get(), instanceOf(Customer.class));
@@ -210,15 +212,14 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(11)
     @DisplayName("존재하지 않는 고객 이메일로 조회 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void findByName_ParamNotExistEmail_ReturnEmptyOptional(Customer customer) {
-        Assertions.assertThrows(Exception.class, () -> customerRepository.findByEmail(customer.getEmail()));
+        var result = customerRepository.findByEmail(customer.getEmail());
+        assertThat(result.isEmpty(), is(true));
     }
 
     @Test
-    @Order(9)
     @DisplayName("모든 데이터가 삭제되면 성공한다.")
     void deleteAll_ParamVoid_DeleteAllCustomers() {
         customerRepository.deleteAll();
@@ -227,21 +228,17 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(12)
     @DisplayName("이미 존재하는 고객을 아이디로 삭제 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void deleteById_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
         customerRepository.insert(customer);
         var beforeCount = customerRepository.count();
-        System.out.println(customerRepository.findAll());
         customerRepository.deleteById(customer.getCustomerId());
         var afterCount = customerRepository.count();
-        System.out.println(customerRepository.findAll());
         assertThat(beforeCount, is(afterCount+1));
     }
 
     @ParameterizedTest
-    @Order(13)
     @DisplayName("이미 존재하는 고객을 이름으로 삭제 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void deleteByName_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
@@ -253,7 +250,6 @@ class CustomerRepositoryTest {
     }
 
     @ParameterizedTest
-    @Order(14)
     @DisplayName("이미 존재하는 고객을 이메일로 삭제 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void deleteByEmail_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
