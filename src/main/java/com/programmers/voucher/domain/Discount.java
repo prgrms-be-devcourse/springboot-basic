@@ -19,7 +19,7 @@ public abstract class Discount {
 
     public abstract long getAmount();
 
-    public DiscountType getVoucherType() {
+    public DiscountType getDiscountType() {
         return discountType;
     }
 }
