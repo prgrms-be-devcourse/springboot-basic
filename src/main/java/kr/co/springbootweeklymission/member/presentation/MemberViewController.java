@@ -43,6 +43,12 @@ public class MemberViewController {
         return "redirect:/view/v1/members/" + memberId;
     }
 
+    @PostMapping("/delete/{member_id}")
+    public String deleteMemberById(@PathVariable(name = "member_id") UUID memberId) {
+        memberService.deleteMemberById(memberId);
+        return "redirect:/view/v1/members";
+    }
+
     @GetMapping
     public String getMembersAll(Model model) {
         List<MemberResDTO.READ> reads = memberService.getMembersAll();
