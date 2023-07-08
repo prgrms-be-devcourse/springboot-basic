@@ -24,4 +24,8 @@
     <logger name="com.programmers.springmission" level="info">
         <appender-ref ref="ROLLING_FILE" />
     </logger>
+
+    <logger level="debug" name="org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter">
+        <appender-ref ref="ROLLING_FILE"/>
+    </logger>
 </configuration>
