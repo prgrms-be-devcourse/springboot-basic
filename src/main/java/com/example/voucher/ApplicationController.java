@@ -27,7 +27,7 @@ public class ApplicationController implements CommandLineRunner {
         while (isOn) {
             ModeType selectedModeType = console.getSelectedType();
 
-            if (selectedModeType == null) {
+            if (selectedModeType == ModeType.NONE) {
                 continue;
             }
 

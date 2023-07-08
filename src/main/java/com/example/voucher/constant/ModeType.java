@@ -8,7 +8,8 @@ public enum ModeType {
 
     EXIT,
     CREATE,
-    LIST;
+    LIST,
+    NONE;
 
     public static ModeType getModeType(String typeName) {
         return Arrays.stream(values())

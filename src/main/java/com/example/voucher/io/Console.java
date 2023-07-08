@@ -61,7 +61,7 @@ public class Console {
             logger.error(e.getMessage());
             writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
 
-            return null;
+            return ModeType.NONE;
         }
     }
 
