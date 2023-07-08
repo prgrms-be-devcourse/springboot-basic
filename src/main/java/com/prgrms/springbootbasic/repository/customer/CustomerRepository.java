@@ -2,22 +2,18 @@ package com.prgrms.springbootbasic.repository.customer;
 
 import com.prgrms.springbootbasic.domain.customer.Customer;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public interface CustomerRepository {
 
+    //생성(create)
     Customer insert(Customer customer);
 
-    Customer update(Customer customer);
+    //업데이트(update)
+    void update(Customer customer);
 
+    //조회(Read) - 리스트 출력
     List<Customer> findAll();
 
-    Optional<Customer> findById(UUID customerId);
-
-    Optional<Customer> findByName(String name);
-
-    Optional<Customer> findByEmail(String email);
-
+    //customer 모두 삭제(Delete)
     void deleteAll();
 }
