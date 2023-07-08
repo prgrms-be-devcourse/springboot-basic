@@ -24,10 +24,9 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void createVoucher(VoucherCreateRequest request) {
+    public void createVoucher(VoucherType voucherType, long discountValue) {
         try {
-            VoucherType voucherType = Validator.validateVoucherTypeMatch(request.voucherType());
-            voucherService.createVoucher(voucherType, request.discountValue());
+            voucherService.createVoucher(voucherType, discountValue);
 
         } catch (IllegalArgumentException e) {
             ExceptionHandler.handleException(new IllegalArgumentException(INVALID_ARGUMENT_CANT_CREATE));
@@ -36,7 +35,6 @@ public class VoucherController {
             ExceptionHandler.handleException(new Exception(EXCEPTION_CANT_CREATE));
 
         }
-
     }
 
     public List<VoucherDTO> getVouchers() {
@@ -47,7 +45,6 @@ public class VoucherController {
             .collect(Collectors.toList());
 
         return voucherDTOS;
-
     }
 
 }
