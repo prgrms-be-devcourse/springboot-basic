@@ -4,22 +4,21 @@ import com.prgmrs.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Profile("dev")
 public class InMemoryVoucherDatabase implements VoucherDatabase {
-    private static final Map<UUID, Voucher> storage = new HashMap<>();
+    private static final List<Voucher> storage = new ArrayList<>();
 
     @Override
-    public Map<UUID, Voucher> load(String filePath) {
+    public List<Voucher> load(String filePath) {
         return storage;
     }
 
     @Override
     public void store(Voucher voucher, String filePath) {
-        storage.put(voucher.getVoucherId(), voucher);
+        storage.add(voucher);
     }
 }

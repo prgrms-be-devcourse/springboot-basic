@@ -9,6 +9,7 @@ import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.setting.BlacklistProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,7 +43,7 @@ public class ConsoleListWriter {
     }
 
     public void showList(VoucherListResponse voucherListResponse, ListSelectionType listSelectionType) {
-        Map<UUID, Voucher> voucherHistory = voucherListResponse.getVoucherList();
+        List<Voucher> voucherHistory = voucherListResponse.getVoucherList();
 
         if (listSelectionType.equals("e")) {
             write("temp");
@@ -54,9 +55,9 @@ public class ConsoleListWriter {
         }
         write("============== List of created vouchers ==============");
         write("type    uuid                                 discount");
-        voucherHistory.entrySet().forEach(entry -> {
-            UUID uuid = entry.getKey();
-            Voucher voucher = entry.getValue();
+        voucherHistory.forEach(voucher -> {
+            UUID uuid = voucher.getVoucherId();
+
             if (voucher.getDiscountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
                 write(String.format("fixed   %s %s", uuid, fixedAmountDiscountStrategy.getAmount().getValue()));
                 return;

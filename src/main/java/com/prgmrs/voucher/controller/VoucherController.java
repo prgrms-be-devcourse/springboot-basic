@@ -4,11 +4,8 @@ import com.prgmrs.voucher.dto.VoucherListResponse;
 import com.prgmrs.voucher.dto.VoucherRequest;
 import com.prgmrs.voucher.dto.VoucherResponse;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
-import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class VoucherController {
@@ -25,10 +22,6 @@ public class VoucherController {
 
     public VoucherListResponse findAll() {
         return voucherService.findAll();
-    }
-
-    public Voucher findVoucherById(UUID uuid) {
-        return voucherService.findVoucherById(uuid);
     }
 
     public VoucherListResponse findByUsername(String name) {

@@ -18,8 +18,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -28,9 +28,9 @@ public class FileVoucherDatabase implements VoucherDatabase {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherDatabase.class);
 
     @Override
-    public Map<UUID, Voucher> load(String filePath) {
+    public List<Voucher> load(String filePath) {
         boolean append = Files.exists(Paths.get(filePath));
-        Map<UUID, Voucher> storage = new HashMap<>();
+        ArrayList<Voucher> storage = new ArrayList<>();
 
         if (!append) {
             return storage;
@@ -47,14 +47,14 @@ public class FileVoucherDatabase implements VoucherDatabase {
                     Amount amount = new Amount(Long.parseLong(value));
                     FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
                     Voucher voucher = new Voucher(uuid, fixedAmountDiscountStrategy);
-                    storage.put(uuid, voucher);
+                    storage.add(voucher);
                 }
 
                 if (VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER.equals(VoucherSelectionType.of(code))) {
                     Percent percent = new Percent(Long.parseLong(value));
                     PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
                     Voucher voucher = new Voucher(uuid, percentDiscountStrategy);
-                    storage.put(uuid, voucher);
+                    storage.add(voucher);
                 }
             }
         } catch (Exception e) {

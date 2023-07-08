@@ -7,11 +7,11 @@ import com.prgmrs.voucher.model.vo.Amount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.anEmptyMap;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +22,7 @@ class FileVoucherDatabaseTest {
     void FileLoadWithoutExceptionTest() {
         final String FILE_PATH = "csv/vouchers.csv";
         FileVoucherDatabase database = new FileVoucherDatabase();
-        Map<UUID, Voucher> result = database.load(FILE_PATH);
+        List<Voucher> result = database.load(FILE_PATH);
 
         assertNotNull(result);
     }
@@ -33,7 +33,7 @@ class FileVoucherDatabaseTest {
         final String FILE_PATH = "not/existing.csv";
         FileVoucherDatabase database = new FileVoucherDatabase();
 
-        assertThat(database.load(FILE_PATH), is(anEmptyMap()));
+        assertThat(database.load(FILE_PATH), is(empty()));
     }
 
     @Test

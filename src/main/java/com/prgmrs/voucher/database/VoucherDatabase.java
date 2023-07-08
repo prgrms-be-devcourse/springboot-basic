@@ -2,11 +2,10 @@ package com.prgmrs.voucher.database;
 
 import com.prgmrs.voucher.model.Voucher;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 public interface VoucherDatabase {
-    Map<UUID, Voucher> load(String filepath);
+    List<Voucher> load(String filepath);
 
     void store(Voucher voucher, String filepath);
 }

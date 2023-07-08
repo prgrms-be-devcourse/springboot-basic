@@ -4,8 +4,7 @@ import com.prgmrs.voucher.database.VoucherDatabase;
 import com.prgmrs.voucher.model.Voucher;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Component
 public class FileVoucherRepository implements VoucherRepository {
@@ -22,18 +21,12 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Map<UUID, Voucher> findAll() {
+    public List<Voucher> findAll() {
         return voucherDatabase.load(FILE_PATH);
     }
 
     @Override
-    public Voucher findVoucherById(UUID uuid) {
-        Map<UUID, Voucher> storage = voucherDatabase.load(FILE_PATH);
-        return storage.get(uuid);
-    }
-
-    @Override
-    public Map<UUID, Voucher> findByUsername() {
+    public List<Voucher> findByUsername() {
         return null;
     }
 }

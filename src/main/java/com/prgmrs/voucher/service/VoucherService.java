@@ -75,10 +75,6 @@ public class VoucherService {
         return new VoucherListResponse(voucherRepository.findAll());
     }
 
-    public Voucher findVoucherById(UUID uuid) {
-        return voucherRepository.findVoucherById(uuid);
-    }
-
     public VoucherListResponse findByUsername() {
         return new VoucherListResponse(voucherRepository.findByUsername());
     }
