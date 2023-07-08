@@ -45,7 +45,7 @@ public class ConsoleApplication implements CommandLineRunner {
         }
     }
 
-    private void createVoucher() {
+    public void createVoucher() {
         String voucherTypeInput = console.inputVoucherType();
         VoucherType voucherType = VoucherType.of(voucherTypeInput);
 
@@ -59,7 +59,7 @@ public class ConsoleApplication implements CommandLineRunner {
         }
     }
 
-    private void getVoucherList() {
+    public void getVoucherList() {
         Map<UUID, Voucher> voucherMap = voucherController.printVoucherList();
         console.printlnVoucherList(voucherMap);
     }
