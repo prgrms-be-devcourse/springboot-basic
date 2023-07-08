@@ -15,11 +15,11 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public void createMember(CreateMemberRequest request){
+    public void createMember(CreateMemberRequest request) {
         memberService.createMember(request);
     }
 
-    public List<Member> findAllMember(){
+    public List<Member> findAllMember() {
         return memberService.findAllMember();
     }
 

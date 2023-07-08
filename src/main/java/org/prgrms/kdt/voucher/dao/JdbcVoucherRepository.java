@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.dao;
 
+import org.prgrms.kdt.exception.NotUpdateException;
 import org.prgrms.kdt.voucher.domain.DiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
@@ -51,7 +52,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucher.getVoucherType().getName(),
                 voucher.getDiscountPolicy().getAmount());
         if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+            throw new NotUpdateException("insert가 제대로 이루어지지 않았습니다.");
         }
         return voucher;
     }

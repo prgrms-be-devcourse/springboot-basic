@@ -15,7 +15,7 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member createMember(CreateMemberRequest request){
+    public Member createMember(CreateMemberRequest request) {
         Member member = new Member(request.name(), request.status());
         return memberRepository.insert(member);
     }

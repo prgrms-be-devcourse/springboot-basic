@@ -15,19 +15,19 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    public void createWallet(CreateWalletRequest request){
+    public void createWallet(CreateWalletRequest request) {
         walletService.assignVoucherToCustomer(request);
     }
 
-    public WalletListResponse findVouchersByMemberId(UUID memberId){
+    public WalletListResponse findVouchersByMemberId(UUID memberId) {
         return walletService.findVouchersByMemberId(memberId);
     }
 
-    public WalletListResponse findMembersByVoucherId(UUID voucherId){
+    public WalletListResponse findMembersByVoucherId(UUID voucherId) {
         return walletService.findMembersByVoucherId(voucherId);
     }
 
-    public void deleteWalletById(UUID walletId){
+    public void deleteWalletById(UUID walletId) {
         walletService.deleteWalletById(walletId);
     }
 

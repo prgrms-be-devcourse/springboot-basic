@@ -1,7 +1,6 @@
 package org.prgrms.kdt.voucher.domain;
 
 import org.prgrms.kdt.exception.InvalidInputException;
-import org.prgrms.kdt.voucher.exception.InvalidDiscountException;
 
 import java.util.Arrays;
 import java.util.Objects;

@@ -1,5 +1,6 @@
 package org.prgrms.kdt.member.dao;
 
+import org.prgrms.kdt.exception.NotUpdateException;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberName;
 import org.prgrms.kdt.member.domain.MemberStatus;
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class JdbcMemberRepository implements MemberRepository{
+public class JdbcMemberRepository implements MemberRepository {
     private final Logger logger = LoggerFactory.getLogger(JdbcMemberRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
@@ -37,8 +38,8 @@ public class JdbcMemberRepository implements MemberRepository{
         int update = jdbcTemplate.update(sql, member.getMemberId().toString(),
                 member.getMemberName().getName(),
                 member.getStatus().getDescripton());
-        if (update != 1){
-            throw new RuntimeException("Noting was inserted");
+        if (update != 1) {
+            throw new NotUpdateException("insert가 제대로 이루어지지 않았습니다.");
         }
         return member;
     }
@@ -47,8 +48,8 @@ public class JdbcMemberRepository implements MemberRepository{
     public Member update(Member member) {
         String sql = "UPDATE member SET name = ?, status = ? WHERE id = ?";
         int update = jdbcTemplate.update(sql, member.getMemberName().getName(), member.getStatus().getDescripton(), member.getMemberId().toString());
-        if (update != 1){
-            throw new RuntimeException("Noting was updated");
+        if (update != 1) {
+            throw new NotUpdateException("update가 제대로 이루어지지 않았습니다.");
         }
         return member;
     }
@@ -66,7 +67,7 @@ public class JdbcMemberRepository implements MemberRepository{
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     memberRowMapper,
                     memberId.toString()));
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
         }
@@ -79,7 +80,7 @@ public class JdbcMemberRepository implements MemberRepository{
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     memberRowMapper,
                     memberName.getName()));
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
         }

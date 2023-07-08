@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class BlackListRepository{
+public class BlackListRepository {
     private final Map<UUID, Member> storage;
     private final MemberLoader memberLoader;
 
@@ -17,10 +17,12 @@ public class BlackListRepository{
         this.memberLoader = memberLoader;
         this.storage = this.memberLoader.loadFileToMemoryMember();
     }
+
     public Member insert(Member member) {
         storage.put(member.getMemberId(), member);
         return member;
     }
+
     public List<Member> findAllBlackMember() {
         return List.copyOf(storage.values());
     }

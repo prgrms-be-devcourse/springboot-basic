@@ -60,40 +60,29 @@ public class CommendLineRunner implements CommandLineRunner {
     // handler mapping
     private void executeAction(Menu menu) throws IOException {
         switch (menu) {
-            case CREATE:
-                createVoucher();
-                break;
-            case LIST:
-                console.printAllVoucher(voucherController.findAll());
-                break;
-            case BLACK_LIST:
-                console.printAllMember(memberController.findAllBlackMember());
-                break;
-            case CREATE_MEMBER:
-                createMember();
-                break;
-            case MEMBER_LIST:
-                console.printAllMember(memberController.findAllMember());
-                break;
-            case ASSIGN_VOUCHER:
-                assignVoucher();
-                break;
-            case VOUCHER_LIST_BY_MEMBER:
-                console.printAllWallet(findVouchersByMember());
-                break;
-            case DELETE_WALLET:
-                walletController.deleteWalletById(console.getWalletId());
-                break;
-            case MEMBER_LIST_BY_VOUCHER:
-                console.printAllWallet(findMembersByVoucher());
-                break;
-            case WALLET_LIST:
-                console.printAllWallet(walletController.findAllWallet());
-                break;
+            case CREATE -> createVoucher();
+
+            case LIST -> console.printAllVoucher(voucherController.findAll());
+
+            case BLACK_LIST -> console.printAllMember(memberController.findAllBlackMember());
+
+            case CREATE_MEMBER -> createMember();
+
+            case MEMBER_LIST -> console.printAllMember(memberController.findAllMember());
+
+            case ASSIGN_VOUCHER -> assignVoucher();
+
+            case VOUCHER_LIST_BY_MEMBER -> console.printAllWallet(findVouchersByMember());
+
+            case DELETE_WALLET -> walletController.deleteWalletById(console.getWalletId());
+
+            case MEMBER_LIST_BY_VOUCHER -> console.printAllWallet(findMembersByVoucher());
+
+            case WALLET_LIST -> console.printAllWallet(walletController.findAllWallet());
         }
     }
 
-    private void createMember() throws IOException{
+    private void createMember() throws IOException {
         String memberName = console.getMemberName();
         memberController.createMember(new CreateMemberRequest(memberName, MemberStatus.COMMON));
     }

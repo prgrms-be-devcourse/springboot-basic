@@ -1,6 +1,6 @@
 package org.prgrms.kdt.wallet.dao;
 
-import org.prgrms.kdt.exception.DatabaseInsertException;
+import org.prgrms.kdt.exception.NotUpdateException;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.voucher.domain.DiscountPolicy;
@@ -50,7 +50,7 @@ public class JdbcWalletRepository implements WalletRepository {
                 wallet.getMember().getMemberId().toString(),
                 wallet.getVoucher().getVoucherId().toString());
         if (update != 1) {
-            throw new DatabaseInsertException("db에 insert가 수행되지 못했습니다.");
+            throw new NotUpdateException("db에 insert가 수행되지 못했습니다.");
         }
         return wallet;
     }
@@ -63,7 +63,7 @@ public class JdbcWalletRepository implements WalletRepository {
                 "WHERE A.id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, walletRowMapper, walletId));
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             logger.error("해당 월렛은 존재하지 않습니다.");
             return Optional.empty();
         }

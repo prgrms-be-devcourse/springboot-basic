@@ -15,7 +15,7 @@ public enum MemberStatus {
         this.descripton = descripton;
     }
 
-    public static MemberStatus getStatus(String str){
+    public static MemberStatus getStatus(String str) {
         return Arrays.stream(MemberStatus.values())
                 .filter((e) -> Objects.equals(e.descripton, str))
                 .findFirst()
