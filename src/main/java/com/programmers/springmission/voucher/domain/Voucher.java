@@ -1,6 +1,5 @@
 package com.programmers.springmission.voucher.domain;
 
-import com.programmers.springmission.customer.domain.Customer;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -11,11 +10,18 @@ public class Voucher {
     private final UUID voucherId;
     private final VoucherPolicy voucherPolicy;
     private long voucherAmount;
-    private Customer customer;
+    private UUID customerId;
 
     public Voucher(VoucherPolicy voucherPolicy, long voucherAmount) {
         voucherPolicy.validateAmount(voucherAmount);
         this.voucherId = UUID.randomUUID();
+        this.voucherPolicy = voucherPolicy;
+        this.voucherAmount = voucherAmount;
+    }
+
+    public Voucher(UUID voucherId, VoucherPolicy voucherPolicy, long voucherAmount) {
+        voucherPolicy.validateAmount(voucherAmount);
+        this.voucherId = voucherId;
         this.voucherPolicy = voucherPolicy;
         this.voucherAmount = voucherAmount;
     }
@@ -29,8 +35,8 @@ public class Voucher {
         this.voucherAmount = voucherAmount;
     }
 
-    public void assignVoucherToCustomer(Customer customer) {
-        this.customer = customer;
+    public void assignVoucherToCustomer(UUID customerId) {
+        this.customerId = customerId;
     }
 }
 
