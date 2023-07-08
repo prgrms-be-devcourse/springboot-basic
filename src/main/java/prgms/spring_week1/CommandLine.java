@@ -78,16 +78,21 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void insertNewVoucher(VoucherType voucherType) {
+        Long discountValue = null;
+
         if (voucherType == FIXED) {
-            output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
-            long discountValue = input.insertFixedDiscountValue();
-            voucherService.insertFixedAmountVoucher(discountValue);
+            while (discountValue == null) {
+                output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
+                discountValue = input.insertFixedDiscountValue();
+            }
         }
         if (voucherType == PERCENT) {
-            output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
-            long discountValue = input.insertPercentDiscountValue();
-            voucherService.insertPercentDiscountVoucher(discountValue);
+            while (discountValue == null) {
+                output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
+                discountValue = input.insertPercentDiscountValue();
+            }
         }
+        voucherService.insertNewVoucher(voucherType, discountValue);
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
@@ -98,7 +103,7 @@ public class CommandLine implements CommandLineRunner {
         }
 
         for (Voucher voucher : voucherList) {
-            output.classifyVoucherInfo(voucher.getVoucherType(),voucher.getDiscount());
+            output.classifyVoucherInfo(voucher.getVoucherType(), voucher.getDiscount());
         }
     }
 }

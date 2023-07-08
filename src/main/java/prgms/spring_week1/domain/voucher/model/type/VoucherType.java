@@ -18,16 +18,18 @@ public enum VoucherType {
     }
 
     public static Long validateAmountInputValue(long inputValue){
-        if(inputValue > 0 || inputValue <= 100){
+        if(inputValue > 0){
             return inputValue;
         }
+
         return null;
     }
 
     public static Long validatePercentInputValue(long inputValue){
-        if(inputValue > 0){
+        if(inputValue > 0 && inputValue <= 100){
             return inputValue;
         }
+
         return null;
     }
 }

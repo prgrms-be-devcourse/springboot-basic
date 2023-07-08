@@ -19,23 +19,14 @@ public class Input {
         return Menu.findMenuType(selectOption);
     }
 
-    public Long insertFixedDiscountValue() {
-
+    public Long insertFixedDiscountValue(){
         Long discountValue = VoucherType.validateAmountInputValue(Long.parseLong(this.input()));
-
-        if (discountValue == null) {
-            return insertPercentDiscountValue();
-        }
 
         return discountValue;
     }
 
-    public Long insertPercentDiscountValue() {
+    public Long insertPercentDiscountValue(){
         Long discountValue = VoucherType.validatePercentInputValue(Long.parseLong(this.input()));
-
-        if (discountValue == null) {
-            return insertPercentDiscountValue();
-        }
 
         return discountValue;
     }
