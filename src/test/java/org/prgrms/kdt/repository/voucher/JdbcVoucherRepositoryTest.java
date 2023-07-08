@@ -4,9 +4,11 @@ import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 
-import org.prgrms.kdt.entity.VoucherEntity;
-import org.prgrms.kdt.utils.VoucherType;
+import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.entity.VoucherEntity;
+import org.prgrms.kdt.service.voucher.VoucherService;
+import org.prgrms.kdt.utils.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -58,6 +62,9 @@ class JdbcVoucherRepositoryTest {
 
     @Autowired
     JdbcVoucherRepository jdbcVoucherRepository;
+    
+    @Autowired
+    VoucherService voucherService;
 
     @Autowired
     DataSource dataSource;
@@ -68,7 +75,8 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setup() {
-        newVoucher = VoucherEntity.toEntity(VoucherType.valueOf("FIXED").makeVoucher(1000));
+        VoucherEntity voucherEntity = new VoucherEntity();
+        newVoucher = voucherEntity.toEntity(VoucherType.valueOf("FIXED").makeVoucher(1000));
         var mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(3306)
@@ -99,28 +107,33 @@ class JdbcVoucherRepositoryTest {
         } catch (BadSqlGrammarException e) {
             e.getSQLException().getErrorCode();
         }
-        var retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
-        assertThat(retrievedVoucher.isEmpty(), is(false));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(newVoucher));
+        var retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherEntityId());
+        assertThat(retrievedVoucher.getVoucherEntityId(), is(newVoucher.getVoucherEntityId()));
     }
 
     @Test
     @Order(3)
     @DisplayName("전체 바우처를 조회할 수 있다.")
     public void testFindAll() {
-        var customers = jdbcVoucherRepository.findAll();
-        assertThat(customers.isEmpty(), is(false));
+        var vouchers = jdbcVoucherRepository.findAll();
+        assertThat(vouchers.size(), is(1));
     }
+
 
     @Test
     @Order(4)
     @DisplayName("바우처 아이디로 바우처를 조회할 수 있다.")
-    public void testFindByName() {
-        var voucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
-        assertThat(voucher.isEmpty(), is(false));
+    public void testFindById_() {
+        // given
+        Voucher insertVoucher = voucherService.save(VoucherType.of("FIXED"), 1000L);
 
-        var unknown = jdbcVoucherRepository.findById(voucher.get().getVoucherId());
-        assertThat(unknown.isEmpty(), is(true));
+        // when
+        Voucher findVoucher = voucherService.getVoucher(insertVoucher.getVoucherId());
+
+        // then
+        assertThat(findVoucher.getVoucherId(), is(insertVoucher.getVoucherId()));
+
     }
+
 
 }

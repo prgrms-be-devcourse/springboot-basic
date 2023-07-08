@@ -23,9 +23,12 @@ public class VoucherService {
     }
 
     public Voucher getVoucher(Long voucherId) {
-        VoucherEntity voucherEntity = voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("can not find a voucher for" + voucherId));
+        VoucherEntity voucherEntity = null;
+        try {
+            voucherEntity = voucherRepository.findById(voucherId);
+        } catch (Exception e) {
+            new RuntimeException("can not find a voucher for" + voucherId);
+        }
         return toDomain(voucherEntity);
     }
 
@@ -35,13 +38,14 @@ public class VoucherService {
 
     }
 
-
     public Voucher save(VoucherType type, Long discount) {
         VoucherType voucherType = type;
+        VoucherEntity voucherEntity = new VoucherEntity();
         switch (voucherType) {
             case FIXED, PERCENT -> {
                 System.out.println("voucherType = " + voucherType);
-                return toDomain(voucherRepository.insert(VoucherEntity.toEntity(voucherType.makeVoucher(discount))));
+                return toDomain(voucherRepository.insert(voucherEntity.
+                        toEntity(voucherType.makeVoucher(discount))));
             }
             default -> throw new RuntimeException("해당 바우처는 발급 불가능합니다");
         }
@@ -53,12 +57,12 @@ public class VoucherService {
     }
 
     protected Voucher toDomain(VoucherEntity voucherEntity){
-        switch (voucherEntity.getVoucherType()){
+        switch (voucherEntity.getVoucherEntityType()){
             case "FIXED":
-                return new FixedAmountVoucher(voucherEntity.getVoucherId(),voucherEntity.getAmount());
+                return new FixedAmountVoucher(voucherEntity.getVoucherEntityId(),voucherEntity.getEntityAmount());
 
             case "PERCENT":
-                return new PercentDiscountVoucher(voucherEntity.getVoucherId(), voucherEntity.getAmount());
+                return new PercentDiscountVoucher(voucherEntity.getVoucherEntityId(), voucherEntity.getEntityAmount());
             default:
                 throw new IllegalArgumentException("잘못된 VoucherType 입니다.");
         }

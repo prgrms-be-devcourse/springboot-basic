@@ -12,14 +12,14 @@ import java.util.function.Function;
 public enum VoucherType {
 
 
-    FIXED("FIXED", (value)->new FixedAmountVoucher(++Constants.WINNING_SCORE, value)),
-    PERCENT("PERCENT", (value)->new PercentDiscountVoucher(new Random().nextLong(), value));
+    FIXED("FIXED", (value)->new FixedAmountVoucher(new Random().nextLong(),value)),
+    PERCENT("PERCENT", (value)->new PercentDiscountVoucher(new Random().nextLong(),value));
 
     private final String matchString;
     private final Function<Long,Voucher> expression;
 
-    private static class Constants { // 정적 멤버 클래스
-        private static Long WINNING_SCORE = 0L;
+    private static class Sequence { // 정적 멤버 클래스
+        private static Long SEQUENCE_ID = 0L;
     }
     VoucherType(String matchString,Function<Long, Voucher> expression) {
         this.matchString = matchString;
@@ -37,7 +37,4 @@ public enum VoucherType {
         return expression.apply(discount);
     }
 
-    public String getMatchString() {
-        return matchString;
-    }
 }

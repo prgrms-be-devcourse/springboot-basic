@@ -16,13 +16,7 @@ import org.springframework.context.annotation.PropertySource;
 		basePackages = {"org.prgrms.kdt"}
 )
 public class KdtApplication {
-
-	private static final Logger logger = LoggerFactory.getLogger(KdtApplication.class);
 	public static void main(String[] args) {
-		logger.info("Application Start!");
-		var applicationContext = SpringApplication.run(KdtApplication.class, args);
-		applicationContext.getBean(VoucherApplication.class).run();
-		logger.info("Application End!");
 	}
 
 }

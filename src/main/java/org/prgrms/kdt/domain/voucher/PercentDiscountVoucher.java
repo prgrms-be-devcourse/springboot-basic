@@ -1,12 +1,8 @@
 package org.prgrms.kdt.domain.voucher;
 
 import org.prgrms.kdt.utils.VoucherType;
-import org.prgrms.kdt.domain.voucher.Voucher;
 
-import java.io.Serializable;
-import java.util.UUID;
-
-public class PercentDiscountVoucher implements Voucher, Serializable {
+public class PercentDiscountVoucher implements Voucher {
     private Long voucherId;
     private final long percent;
     private boolean status = false;
@@ -19,6 +15,7 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
 
     private static void validate(long percent) {
         if (percent < 0) throw new IllegalArgumentException("할인 퍼센트는 양수여야 합니다.");
+        if (percent == 0) throw new IllegalArgumentException("할인 퍼센트는 0이상이어야 합니다.");
         if (percent > 100) throw new IllegalArgumentException("할인 퍼센트는 100 미만이어야 합니다.");
     }
 

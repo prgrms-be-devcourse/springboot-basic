@@ -2,10 +2,7 @@ package org.prgrms.kdt.domain.voucher;
 
 import org.prgrms.kdt.utils.VoucherType;
 
-import java.io.Serializable;
-import java.util.UUID;
-
-public class FixedAmountVoucher implements Voucher, Serializable {
+public class FixedAmountVoucher implements Voucher {
 
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 

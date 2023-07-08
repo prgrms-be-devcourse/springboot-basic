@@ -7,45 +7,44 @@ import java.util.UUID;
 
 public class VoucherEntity {
 
-    private static Long voucherId;
-    private static String voucherType;
-    private static Long amount;
-    private static boolean status;
+    private Long voucherEntityId;
+    private String voucherEntityType;
+    private Long entityAmount;
+    private boolean entityStatus;
+
+    public VoucherEntity() {
+
+    }
 
     public VoucherEntity(Long voucherId, String voucherType, Long amount, boolean status) {
-        this.voucherId = voucherId;
-        this.voucherType = voucherType;
-        this.amount= amount;
-        this.status = status;
+        voucherEntityId = voucherId;
+        voucherEntityType = voucherType;
+        entityAmount= amount;
+        entityStatus = status;
     }
 
-    public static VoucherEntity toEntity(Voucher voucher) {
-        voucherId = voucher.getVoucherId();
-        voucherType = String.valueOf(voucher.getVoucherType());
-        amount = voucher.getDiscountAmount();
-        status = voucher.getStatus();
+    public VoucherEntity toEntity(Voucher voucher) {
+        voucherEntityId = voucher.getVoucherId();
+        voucherEntityType = String.valueOf(voucher.getVoucherType());
+        entityAmount = voucher.getDiscountAmount();
+        entityStatus = voucher.getStatus();
 
-        return new VoucherEntity(voucherId, voucherType, amount, status);
+        return new VoucherEntity(voucherEntityId, voucherEntityType, entityAmount, entityStatus);
     }
 
-    public Long getVoucherId() {
-        return voucherId;
+    public Long getVoucherEntityId() {
+        return voucherEntityId;
     }
 
-
-
-    public String getVoucherType() {
-        return voucherType;
+    public String getVoucherEntityType() {
+        return voucherEntityType;
     }
 
-
-
-    public Long getAmount() {
-        return amount;
+    public Long getEntityAmount() {
+        return entityAmount;
     }
 
-
-    public boolean getStatus() {
-        return status;
+    public boolean isEntityStatus() {
+        return entityStatus;
     }
 }

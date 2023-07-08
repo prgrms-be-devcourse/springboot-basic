@@ -11,10 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @Primary
@@ -26,26 +24,29 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+
     public JdbcVoucherRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 
     private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, i) -> {
+        VoucherEntity voucherEntity;
         final Long voucherId = resultSet.getLong("voucher_id");
         final String voucherType = resultSet.getString("voucher_type");
         Long amount = resultSet.getLong("discount_amount");
         boolean status = resultSet.getBoolean("status");
-        return VoucherEntity.toEntity(VoucherType.of(voucherType).makeVoucher(amount));
+        voucherEntity = new VoucherEntity(voucherId,voucherType,amount,status);
+        return voucherEntity.toEntity(VoucherType.of(voucherType).makeVoucher(amount));
     };
 
     @Override
     public VoucherEntity insert(VoucherEntity voucherEntity) {
         int insert = jdbcTemplate.update("INSERT INTO vouchers(voucher_id,voucher_type,discount_amount,status) VALUES (?,?,?,?)",
-                voucherEntity.getVoucherId(),
-                voucherEntity.getVoucherType(),
-                voucherEntity.getAmount(),
-                voucherEntity.getStatus());
+                voucherEntity.getVoucherEntityId(),
+                voucherEntity.getVoucherEntityType(),
+                voucherEntity.getEntityAmount(),
+                voucherEntity.isEntityStatus());
         if (insert != 1) {
             throw new RuntimeException("추가된 데이터 내역이 없습니다.");
         }
@@ -59,14 +60,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 
     @Override
-    public Optional<VoucherEntity> findById(Long voucherId) {
+    public VoucherEntity findById(Long voucherId){
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = ?",
+            return jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = ?",
                     voucherRowMapper,
-                    voucherId));
+                    voucherId);
         } catch (EmptyResultDataAccessException e) {
             logger.error("결과값이 없습니다!");
-            return Optional.empty();
+            return null;
         }
     }
 
