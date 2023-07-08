@@ -2,7 +2,7 @@ package com.prgrms.springbootbasic.controller.voucher;
 
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
 import com.prgrms.springbootbasic.enums.VoucherType;
-import com.prgrms.springbootbasic.service.VoucherService;
+import com.prgrms.springbootbasic.service.voucher.VoucherService;
 import java.util.Map;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
