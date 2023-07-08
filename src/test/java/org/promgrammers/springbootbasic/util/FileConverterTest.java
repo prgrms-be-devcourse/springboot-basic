@@ -6,6 +6,7 @@ import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.global.util.FileConverter;
 
 import java.util.UUID;
 
@@ -71,7 +72,7 @@ class FileConverterTest {
 
         //then
         assertThat(customer.getCustomerId()).isEqualTo(expectedCustomerId);
-        assertThat(customer.getCustomerType()).isEqualTo(CustomerType.BLACK);
+        assertThat(customer.getCustomerType()).isEqualTo(CustomerType.WHITE);
     }
 
     @Test

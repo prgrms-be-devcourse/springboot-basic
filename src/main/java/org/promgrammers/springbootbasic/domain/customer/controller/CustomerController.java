@@ -9,14 +9,14 @@ import org.promgrammers.springbootbasic.domain.customer.model.DeleteCustomerType
 import org.promgrammers.springbootbasic.domain.customer.model.FindCustomerType;
 import org.promgrammers.springbootbasic.domain.customer.service.BlackCustomerService;
 import org.promgrammers.springbootbasic.domain.customer.service.CustomerService;
-import org.promgrammers.springbootbasic.exception.DataValidationException;
+import org.promgrammers.springbootbasic.global.error.exception.DataValidationException;
 import org.promgrammers.springbootbasic.view.Console;
 import org.promgrammers.springbootbasic.view.CrudMenu;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
-import static org.promgrammers.springbootbasic.exception.ErrorCode.INVALID_USERNAME_MESSAGE;
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.INVALID_USERNAME_MESSAGE;
 
 @Controller
 public class CustomerController {

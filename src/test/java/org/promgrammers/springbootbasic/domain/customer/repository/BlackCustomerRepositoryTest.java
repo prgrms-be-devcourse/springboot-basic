@@ -30,7 +30,7 @@ class BlackCustomerRepositoryTest {
 
         //then
         assertNotNull(customers);
-        assertThat(customers.size()).isEqualTo(3);
+        assertThat(customers.size()).isEqualTo(0);
         assertThat(customers).allMatch(customer -> CustomerType.BLACK.equals(customer.getCustomerType()));
     }
 

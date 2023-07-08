@@ -21,9 +21,9 @@ public class VoucherFactory {
 
     public static Voucher createVoucher(CreateVoucherRequest createVoucherRequest) {
 
-        VoucherType voucherType = createVoucherRequest.voucherType();
+        VoucherType voucherType = createVoucherRequest.getVoucherType();
 
-        return convertToVoucher(UUID.randomUUID(), voucherType, createVoucherRequest.discountAmount());
+        return convertToVoucher(UUID.randomUUID(), voucherType, createVoucherRequest.getDiscountAmount());
     }
 
     public static Voucher convertToVoucher(UUID voucherId, VoucherType voucherType, long amount) {

@@ -5,12 +5,12 @@ import org.promgrammers.springbootbasic.domain.customer.dto.response.CustomersRe
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.BlackCustomerRepository;
-import org.promgrammers.springbootbasic.exception.BusinessException;
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_CUSTOMER;
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.NOT_FOUND_CUSTOMER;
 
 @Service
 public class BlackCustomerService {

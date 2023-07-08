@@ -2,7 +2,7 @@ package org.promgrammers.springbootbasic.domain.customer.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
-import org.promgrammers.springbootbasic.util.FileConverter;
+import org.promgrammers.springbootbasic.global.util.FileConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
