@@ -3,8 +3,8 @@ package com.dev.voucherproject.controller.console;
 import com.dev.voucherproject.model.menu.VoucherMenu;
 import com.dev.voucherproject.model.storage.voucher.VoucherDao;
 import com.dev.voucherproject.model.voucher.*;
-import com.dev.voucherproject.model.storage.voucher.VoucherStorage;
 import com.dev.voucherproject.view.Console;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -12,14 +12,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
+@Profile("default")
 public class VoucherMenuController implements MenuController {
     private final Console console;
-    private final VoucherStorage voucherStorage;
     private final VoucherDao voucherDao;
 
-    public VoucherMenuController(Console console, VoucherStorage voucherStorage, VoucherDao voucherDao) {
+    public VoucherMenuController(Console console, VoucherDao voucherDao) {
         this.console = console;
-        this.voucherStorage = voucherStorage;
         this.voucherDao = voucherDao;
     }
 
@@ -37,24 +36,21 @@ public class VoucherMenuController implements MenuController {
                 case CREATE -> {
                     console.printSelectVoucherPolicy();
 
-                    VoucherVo voucherVo = getVoucherVo();
-
-                    voucherStorage.insert(Voucher.of(UUID.randomUUID(), voucherVo.voucherPolicy(), voucherVo.discountNumber()));
+                    VoucherVo voucherVo = inputVoucherVo();
+                    voucherDao.insert(Voucher.of(UUID.randomUUID(), voucherVo.voucherPolicy(), voucherVo.discountNumber()));
                 }
                 case LIST -> {
-                    List<Voucher> vouchers = voucherStorage.findAll();
-                    List<VoucherDto> dtos = getVoucherDtos(vouchers);
+                    List<Voucher> vouchers = voucherDao.findAll();
+                    List<VoucherDto> dtos = convertToVoucherDtos(vouchers);
 
                     console.printAllVouchers(dtos);
                 }
                 case FIND_BY_ID -> {
-                    UUID voucherId = getUuid();
-
+                    UUID voucherId = inputUuid();
                     Optional<Voucher> optionalVoucher = voucherDao.findById(voucherId);
 
                     if (optionalVoucher.isPresent()) {
                         Voucher voucher = optionalVoucher.get();
-
                         console.printVoucher(VoucherDto.fromEntity(voucher));
                     }
                 }
@@ -63,7 +59,7 @@ public class VoucherMenuController implements MenuController {
 
                     VoucherPolicy voucherPolicy = VoucherPolicy.convertStringInputToPolicy(policyInput);
                     List<Voucher> vouchers = voucherDao.findAllByPolicy(voucherPolicy);
-                    List<VoucherDto> dtos = getVoucherDtos(vouchers);
+                    List<VoucherDto> dtos = convertToVoucherDtos(vouchers);
 
                     console.printAllVouchers(dtos);
                 }
@@ -71,14 +67,13 @@ public class VoucherMenuController implements MenuController {
                     voucherDao.deleteAll();
                 }
                 case DELETE_BY_ID -> {
-                    UUID voucherId = getUuid();
+                    UUID voucherId = inputUuid();
 
                     voucherDao.deleteById(voucherId);
                 }
                 case UPDATE -> {
-                    UUID voucherId = getUuid();
-
-                    VoucherVo voucherVo = getVoucherVo();
+                    UUID voucherId = inputUuid();
+                    VoucherVo voucherVo = inputVoucherVo();
 
                     voucherDao.update(Voucher.of(voucherId, voucherVo.voucherPolicy(), voucherVo.discountNumber()));
                 }
@@ -90,14 +85,13 @@ public class VoucherMenuController implements MenuController {
         }
     }
 
-    private static List<VoucherDto> getVoucherDtos(List<Voucher> vouchers) {
-        List<VoucherDto> dtos = vouchers.stream()
+    private List<VoucherDto> convertToVoucherDtos(List<Voucher> vouchers) {
+        return vouchers.stream()
             .map(VoucherDto::fromEntity)
             .toList();
-        return dtos;
     }
 
-    private VoucherVo getVoucherVo() {
+    private VoucherVo inputVoucherVo() {
         String policyInput = console.inputVoucherPolicySelection();
 
         VoucherPolicy voucherPolicy = VoucherPolicy.convertStringInputToPolicy(policyInput);
@@ -106,7 +100,7 @@ public class VoucherMenuController implements MenuController {
         return new VoucherVo(voucherPolicy, discountNumber);
     }
 
-    private UUID getUuid() {
+    private UUID inputUuid() {
         String uuidInput = console.inputUuid();
         return UUID.fromString(uuidInput);
     }

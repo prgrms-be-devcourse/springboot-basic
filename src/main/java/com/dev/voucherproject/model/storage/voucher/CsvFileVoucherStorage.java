@@ -4,8 +4,6 @@ import com.dev.voucherproject.model.storage.io.CsvFileReader;
 import com.dev.voucherproject.model.voucher.Voucher;
 import com.dev.voucherproject.model.storage.io.VoucherFileWriter;
 import com.dev.voucherproject.model.voucher.VoucherPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
