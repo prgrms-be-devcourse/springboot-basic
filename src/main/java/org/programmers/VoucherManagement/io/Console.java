@@ -3,13 +3,11 @@ package org.programmers.VoucherManagement.io;
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
-import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Scanner;
 
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_INCLUDE_1_TO_100;
 import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.VOUCHER_AMOUNT_IS_NOT_NUMBER;
 
 @Component
@@ -87,19 +85,7 @@ public class Console implements Input, Output {
 
     public int readDiscountValue(DiscountType discountType) {
         printInputAmountMessage();
-
-        int value = readValue();
-        if(discountType == DiscountType.PERCENT && !isValidPercentDiscountValue(value)){
-            throw new VoucherException(NOT_INCLUDE_1_TO_100);
-        }
-
-        return value;
+        return readValue();
     }
-
-    private boolean isValidPercentDiscountValue(int value) {
-        if (value >= 0 && value <= 100) {
-            return true;
-        }
-        return false;
-    }
+    
 }

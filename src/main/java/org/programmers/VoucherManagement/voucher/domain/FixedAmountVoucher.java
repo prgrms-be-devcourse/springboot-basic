@@ -4,21 +4,9 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
     public FixedAmountVoucher(UUID voucherId, DiscountType discountType, DiscountValue discountValue) {
-        super(voucherId, discountType, discountValue);
+        this.voucherId = voucherId;
+        this.discountType = discountType;
+        this.discountValue = discountValue;
     }
 
-    @Override
-    public DiscountType getDiscountType() {
-        return discountType;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
-    public DiscountValue getDiscountValue() {
-        return discountValue;
-    }
 }

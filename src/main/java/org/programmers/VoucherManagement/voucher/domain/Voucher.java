@@ -7,16 +7,16 @@ public abstract class Voucher {
     protected DiscountValue discountValue;
     protected DiscountType discountType;
 
-    public Voucher(UUID voucherId, DiscountType discountType, DiscountValue discountValue) {
-        this.voucherId = voucherId;
-        this.discountValue = discountValue;
-        this.discountType = discountType;
+    public DiscountType getDiscountType() {
+        return discountType;
     }
 
-    abstract public DiscountType getDiscountType();
+    public UUID getVoucherId() {
+        return voucherId;
+    }
 
-    abstract public UUID getVoucherId();
-
-    abstract public DiscountValue getDiscountValue();
+    public DiscountValue getDiscountValue() {
+        return discountValue;
+    }
 
 }
