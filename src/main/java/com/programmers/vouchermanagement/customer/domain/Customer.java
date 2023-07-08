@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.customer.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -7,6 +8,7 @@ import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Customer {
 
     private final UUID id;
@@ -15,12 +17,6 @@ public class Customer {
 
     public Customer(String name, CustomerType type) {
         this.id = UUID.randomUUID();
-        this.name = name;
-        this.type = type;
-    }
-
-    public Customer(UUID id, String name, CustomerType type) {
-        this.id = id;
         this.name = name;
         this.type = type;
     }

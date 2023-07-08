@@ -1,7 +1,9 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@Getter
 @EqualsAndHashCode
 public abstract class DiscountPolicy {
 
@@ -13,10 +15,6 @@ public abstract class DiscountPolicy {
     }
 
     abstract void validateAmount(int amount);
-
-    public int getAmount() {
-        return amount;
-    }
 
     public abstract DiscountType getType();
 
