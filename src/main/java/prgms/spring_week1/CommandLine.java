@@ -17,6 +17,8 @@ import prgms.spring_week1.menu.Menu;
 
 import java.util.List;
 
+import static prgms.spring_week1.menu.Menu.EXIT;
+
 @Component
 public class CommandLine implements CommandLineRunner {
 
@@ -36,26 +38,26 @@ public class CommandLine implements CommandLineRunner {
     public void run(String... args) throws Exception {
         boolean isRunning = true;
         while (isRunning) {
-            output.outputMessage(ConsoleOutputMessage.MENU_LIST_MESSAGE);
-            String selectOption = input.input();
-            switch (findMenuName(selectOption)) {
+            Menu menuName = getMenu();
+            switch (menuName) {
                 case EXIT -> isRunning = false;
                 case CREATE -> selectVoucherType();
                 case LIST -> printAllVoucher(voucherService.findAll());
                 case BLACK -> output.printBlackConsumerList(customerService.getBlackConsumerList());
-                default -> output.outputMessage(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
             }
         }
     }
 
-    private Menu findMenuName(String inputText) {
-        try {
-            Menu selectMenu = Menu.findMenuType(inputText);
-            return selectMenu;
-        } catch (NoSuchOptionValueException e) {
-            logger.error(e.getMessage());
-            return Menu.INVALID;
+    private Menu getMenu() {
+        output.outputMessage(ConsoleOutputMessage.MENU_LIST_MESSAGE);
+        Menu menu = input.selectMenu();
+
+        if(menu == null){
+            output.outputMessage(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
+            return this.getMenu();
         }
+
+        return menu;
     }
 
     private void selectVoucherType() {

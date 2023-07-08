@@ -5,7 +5,6 @@ import prgms.spring_week1.exception.NoSuchOptionValueException;
 import java.util.stream.Stream;
 
 public enum Menu {
-    INVALID,
     EXIT,
     CREATE,
     LIST,
@@ -15,6 +14,6 @@ public enum Menu {
         return Stream.of(Menu.values())
                 .filter(menu -> menu.name().equalsIgnoreCase(inputText))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchOptionValueException("해당 메뉴 타입이 존재하지 않습니다."));
+                .orElse(null);
     }
 }
