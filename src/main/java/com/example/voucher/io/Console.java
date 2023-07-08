@@ -43,14 +43,14 @@ public class Console {
 
         int number = reader.readInteger();
 
-        return Validator.validateVoucherTypeMatch(number);
+        return  VoucherType.getVouchersType(number);
     }
 
     public long readDiscountValue() {
         writer.writeDiscountValueRequest();
 
         Long discountAmount = reader.readLong();
-        Validator.validatePositive(discountAmount);
+        validatePositive(discountAmount);
 
         return discountAmount;
     }
@@ -60,7 +60,7 @@ public class Console {
 
         try {
             String input = reader.readString();
-            ModeType selectedModeType = Validator.validateModeTypeMatch(input);
+            ModeType selectedModeType = ModeType.getModeType(input);
 
             return selectedModeType;
         } catch (IllegalArgumentException e) {
@@ -70,5 +70,10 @@ public class Console {
         }
     }
 
+    private void validatePositive(long value) {
+        if (value <= 0) {
+            throw new IllegalArgumentException(MESSAGE_ERROR_POSITIVE_CONSTRAINT);
+        }
+    }
 
 }
