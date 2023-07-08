@@ -37,6 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String DELETE_BY_ID = "DELETE FROM vouchers WHERE voucher_id = :voucherId";
     private static final String INSERT_ASSIGN_CUSTOMER = "UPDATE vouchers SET customer_id = :customerId WHERE voucher_id = :voucherId";
     private static final String FIND_ALL_BY_CUSTOMER_ID = "SELECT * FROM vouchers WHERE customer_id = :customerId";
+    private static final String FIND_ALL_BY_TYPE = "SELECT * FROM vouchers WHERE voucher_type = :voucherType";
     private static final String DELETE_BY_CUSTOMER_ID = "UPDATE vouchers SET customer_id = NULL WHERE customer_id = :customerId AND voucher_id = :voucherId";
 
     public JdbcVoucherRepository(DataSource dataSource) {
@@ -80,6 +81,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        Map<String, Object> params = Map.of("voucherType", voucherType.toString());
+        return template.query(FIND_ALL_BY_TYPE, params, voucherRowMapper);
+    }
+
+    @Override
     public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
         Map<String, Object> params = Map.of("customerId", customerId, "voucherId", voucherId);
         template.update(DELETE_BY_CUSTOMER_ID, params);
@@ -96,6 +103,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return Optional.empty();
         }
     }
+
 
     @Override
     public List<Voucher> findAll() {

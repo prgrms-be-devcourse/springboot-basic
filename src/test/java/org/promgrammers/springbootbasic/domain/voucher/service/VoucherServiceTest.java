@@ -151,6 +151,22 @@ class VoucherServiceTest {
     }
 
     @Test
+    @DisplayName("특정 바우처로 조회")
+    void findAllByVouchersTypeTest() {
+
+        //given
+        Voucher voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100L));
+        Voucher voucher2 = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+
+        // when
+        VoucherListResponse voucherList = voucherService.findByType(VoucherType.FIXED);
+        // then
+        assertThat(voucherList.voucherResponseList()).hasSize(2);
+//        assertThat(voucherList.voucherResponseList().get(0).voucherId()).isEqualTo(voucher.getVoucherId());
+//        assertThat(voucherList.voucherResponseList().get(1).voucherId()).isEqualTo(voucher2.getVoucherId());
+    }
+
+    @Test
     @DisplayName("전체 조회")
     void findAllVoucherTest() throws Exception {
 
