@@ -24,7 +24,7 @@ public class VoucherController {
         return voucherService.getVouchers()
             .stream()
             .map(o -> new VoucherDTO(o.getValue(), o.getVoucherType()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
 }
