@@ -1,11 +1,12 @@
 package com.prgrms.service.voucher;
 
-import com.prgrms.model.dto.mapper.DtoConverter;
-import com.prgrms.model.dto.VoucherRequest;
-import com.prgrms.model.dto.VoucherResponse;
+import com.prgrms.model.voucher.dto.mapper.DtoConverter;
+import com.prgrms.model.voucher.dto.VoucherRequest;
+import com.prgrms.model.voucher.dto.VoucherResponse;
 import com.prgrms.model.voucher.*;
-import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.dto.discount.Discount;
 import com.prgrms.repository.voucher.VoucherRepository;
+import com.prgrms.util.KeyGenerator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +23,11 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-        Discount discount = voucherRequest.getDiscount();
-        VoucherType voucherType = voucherRequest.getVoucherType();
-        Voucher voucher = voucherType.createVoucher(discount);
-        
+        int id = KeyGenerator.make();
+        Discount discount = voucherRequest.discount();
+
+        Voucher voucher = voucherRequest.voucherType().createVoucher(id,discount);
+
         return voucherRepository.insert(voucher);
     }
 
