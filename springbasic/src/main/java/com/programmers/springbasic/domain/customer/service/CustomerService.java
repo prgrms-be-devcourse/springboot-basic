@@ -64,14 +64,4 @@ public class CustomerService {
 
         customerRepository.delete(customerId);
     }
-
-    private String getInfo(Customer customer) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(CustomerInfo.CUSTOMER_ID_INFO_MESSAGE.getInfoMessage() + customer.getCustomerId() + "\n")
-                .append(CustomerInfo.CUSTOMER_NAME_INFO_MESSAGE.getInfoMessage() + customer.getName() + "\n")
-                .append(CustomerInfo.CUSTOMER_EMAIL_INFO_MESSAGE.getInfoMessage() + customer.getEmail() + "\n");
-
-        return sb.toString();
-    }
 }
