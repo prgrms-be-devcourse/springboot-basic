@@ -74,9 +74,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public void update(Customer customer) {
         try {
             jdbcTemplate.update(CUSTOMER_UPDATE_QUERY,
-                    customer.getCustomerId().toString().getBytes(),
                     customer.getName(),
-                    customer.getEmail());
+                    customer.getEmail(),
+                    customer.getCustomerId().toString().getBytes());
         } catch (DataAccessException e) {
             logger.error(e.getMessage());
         }

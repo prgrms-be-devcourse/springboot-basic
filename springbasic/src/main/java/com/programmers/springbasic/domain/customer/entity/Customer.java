@@ -21,4 +21,12 @@ public class Customer {
         this.name = name;
         this.email = email;
     }
+
+    public void changeName(String newName) {
+        this.name = newName;
+    }
+
+    public void changeEmail(String newEmail) {
+        this.email = newEmail;
+    }
 }
