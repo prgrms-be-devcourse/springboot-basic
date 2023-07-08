@@ -60,8 +60,9 @@ class VoucherServiceTest {
 
         //when
         voucherService.updateVoucherById(voucher.getVoucherId(), update);
+        VoucherPolicy actual = VoucherPolicy.valueOf(update.getVoucherPolicy());
 
         //then
-        assertThat(voucher.getVoucherPolicy()).isEqualTo(update.getVoucherPolicy());
+        assertThat(actual).isEqualTo(voucher.getVoucherPolicy());
     }
 }

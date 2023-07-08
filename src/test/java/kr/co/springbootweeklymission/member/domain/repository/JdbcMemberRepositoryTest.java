@@ -68,7 +68,7 @@ class JdbcMemberRepositoryTest {
         List<Member> actual = memberRepository.findAllByBlack();
 
         //then
-        assertThat(actual).hasSize(2);
+        assertThat(actual).hasSize(3);
     }
 
     @Test

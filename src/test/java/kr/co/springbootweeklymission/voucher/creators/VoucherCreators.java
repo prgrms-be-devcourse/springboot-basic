@@ -40,7 +40,7 @@ public class VoucherCreators {
                                                                 VoucherPolicy voucherPolicy) {
         return VoucherReqDTO.UPDATE.builder()
                 .amount(amount)
-                .voucherPolicy(voucherPolicy)
+                .voucherPolicy(voucherPolicy.toString())
                 .build();
     }
 }

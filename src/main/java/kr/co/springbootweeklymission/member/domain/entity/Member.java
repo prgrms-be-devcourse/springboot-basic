@@ -23,7 +23,7 @@ public class Member {
     public static Member toMember(MemberReqDTO.CREATE create) {
         return Member.builder()
                 .memberId(UUID.randomUUID())
-                .memberStatus(create.getMemberStatus())
+                .memberStatus(MemberStatus.valueOf(create.getMemberStatus()))
                 .build();
     }
 
@@ -32,6 +32,6 @@ public class Member {
     }
 
     public void updateMemberInformation(MemberReqDTO.UPDATE update) {
-        this.memberStatus = update.getMemberStatus();
+        this.memberStatus = MemberStatus.valueOf(update.getMemberStatus());
     }
 }

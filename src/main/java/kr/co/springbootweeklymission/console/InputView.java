@@ -1,6 +1,5 @@
 package kr.co.springbootweeklymission.console;
 
-import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -33,9 +32,9 @@ public class InputView {
         return SCANNER.nextLine();
     }
 
-    public static MemberStatus inputMemberStatus() {
+    public static String inputMemberStatus() {
         log.info("회원 상태를 입력해주세요.");
-        return MemberStatus.valueOf(SCANNER.nextLine());
+        return SCANNER.nextLine();
     }
 
     public static String inputMemberId() {

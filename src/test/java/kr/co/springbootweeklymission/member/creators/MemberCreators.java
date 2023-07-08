@@ -31,15 +31,9 @@ public class MemberCreators {
                 .build();
     }
 
-    public static MemberReqDTO.CREATE createBlackMemberCreateDTO() {
-        return MemberReqDTO.CREATE.builder()
-                .memberStatus(MemberStatus.BLACK)
-                .build();
-    }
-
     public static MemberReqDTO.UPDATE updateMemberInformation(MemberStatus memberStatus) {
         return MemberReqDTO.UPDATE.builder()
-                .memberStatus(memberStatus)
+                .memberStatus(memberStatus.toString())
                 .build();
     }
 }

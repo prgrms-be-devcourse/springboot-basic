@@ -1,22 +1,23 @@
 package kr.co.springbootweeklymission.member.presentation.dto.request;
 
-import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
 import lombok.*;
 
 public class MemberReqDTO {
     @Getter
+    @Setter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CREATE {
-        private MemberStatus memberStatus;
+        private String memberStatus;
     }
 
     @Getter
+    @Setter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class UPDATE {
-        private MemberStatus memberStatus;
+        private String memberStatus;
     }
 }
