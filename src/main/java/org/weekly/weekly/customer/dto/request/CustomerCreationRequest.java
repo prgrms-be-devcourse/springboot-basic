@@ -23,4 +23,8 @@ public class CustomerCreationRequest {
     public Customer toCustomer() {
         return Customer.of(UUID.randomUUID(), name, email);
     }
+
+    public String getEmail() {
+        return email;
+    }
 }

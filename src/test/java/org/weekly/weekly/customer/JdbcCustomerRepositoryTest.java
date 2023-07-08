@@ -63,18 +63,6 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
-    void 회원_등록실패_테스트() {
-        // Given
-        Customer insertCustomer = jdbcCustomerRepository.insert(customer);
-        Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(insertCustomer.getEmail());
-
-        // When + Then
-        assertThatThrownBy(()->jdbcCustomerRepository.insert(customer)).isInstanceOf(CustomerException.class);
-    }
-
-
-
-    @Test
     void 이메일_회원_검색_성공_테스트() {
         // Given
         Customer insertCustomer = jdbcCustomerRepository.insert(customer);

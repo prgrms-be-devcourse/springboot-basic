@@ -35,21 +35,15 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Override
     public Customer insert(Customer customer) {
         String sql = "INSERT INTO customers(customer_id, name, email, create_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)";
-        int insert = 0;
-        try {
-            insert = jdbcTemplate.update(sql,
-                    uuidToBytes(customer.getCustomerId()),
-                    customer.getName(),
-                    customer.getEmail(),
-                    LocalDateTime.now());
+        int insert = jdbcTemplate.update(sql,
+                uuidToBytes(customer.getCustomerId()),
+                customer.getName(),
+                customer.getEmail(),
+                LocalDateTime.now());
 
-            if (insert != 1) {
-                throw new CustomerException(ExceptionMsg.SQL_INSERT_ERROR);
-            }
-        } catch (DataAccessException ex) {
-            throw new CustomerException(ExceptionMsg.SQL_ERROR);
+        if (insert != 1) {
+            throw new CustomerException(ExceptionMsg.SQL_INSERT_ERROR);
         }
-
         return customer;
     }
 

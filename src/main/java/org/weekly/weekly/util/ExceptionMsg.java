@@ -16,6 +16,7 @@ public enum ExceptionMsg {
     NOT_EMAIL_FORMAT("이메일형식이 아닙니다."),
     SQL_ERROR("값을 가져오기 실패"),
     SQL_INSERT_ERROR("값 추가 실패"),
+    SQL_EXIST("이미 존재합니다."),
     SQL_DELETE_ERROR("삭제 실패");
 
     private String msg;

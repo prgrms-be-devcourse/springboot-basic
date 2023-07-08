@@ -9,6 +9,7 @@ public enum PrintMessageType {
     INPUT_MESSAGE("입력하세요: "),
     DISCOUNT_SELECT("할인 종류중 하나를 선택하세요"),
     EMAIL_INPUT("이메일을 입력하세요: "),
+    NEW_EMAIL_INPUT("새 이메일을 입력하세요: "),
     NAME_INPUT("이름을 입력하세요"),
     NO_VOUCHER_DATAS("저장소에 데이터가 없습니다."),
     EMPTY(""),

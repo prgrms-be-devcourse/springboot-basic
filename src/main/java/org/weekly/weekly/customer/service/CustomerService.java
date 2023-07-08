@@ -4,7 +4,13 @@ import org.springframework.stereotype.Service;
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
 import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
+import org.weekly.weekly.customer.dto.response.CustomerDto;
+import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.customer.repository.CustomerRepository;
+import org.weekly.weekly.util.ExceptionMsg;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -14,27 +20,54 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(CustomerCreationRequest creationRequest) {
+    public CustomerDto createCustomer(CustomerCreationRequest creationRequest) {
+        validateCustomerNotExist(creationRequest.getEmail());
+
         Customer customer = creationRequest.toCustomer();
-        this.customerRepository.insert(customer);
-        return customer;
+        customerRepository.insert(customer);
+        return CustomerDto.of(customer);
     }
 
     public void deleteCustomer(CustomerUpdateRequest updateRequest) {
         String email = updateRequest.email();
-        this.customerRepository.deleteByEmail(email);
+        customerRepository.deleteByEmail(email);
     }
 
-    public void deleteAllCustomer() {
-        this.customerRepository.deleteAll();
+    public void deleteAllCustomers() {
+        customerRepository.deleteAll();
     }
 
-    public void searchDetailCustomer(CustomerUpdateRequest updateRequest) {
+
+    public CustomerDto searchDetailCustomer(CustomerUpdateRequest updateRequest) {
         String email = updateRequest.email();
-        this.customerRepository.findByEmail(email);
+        Customer customer = validateCustomerExistAndGet(email);
+        return CustomerDto.of(customer);
     }
 
-    public void searchAllCustomer() {
-        this.customerRepository.findAll();
+    public List<CustomerDto> searchAllCustomer() {
+        List<Customer> customers = customerRepository.findAll();
+        return customers.stream().map(CustomerDto::of).toList();
+    }
+
+    public void updateCustomer(CustomerUpdateRequest updateRequest) {
+        validateCustomerNotExist(updateRequest.newEmail());
+
+        Customer customer = validateCustomerExistAndGet(updateRequest.email());
+        customerRepository.update(customer);
+    }
+
+    private void validateCustomerNotExist(String email) {
+        Optional<Customer> findCustomer = customerRepository.findByEmail(email);
+        if (findCustomer.isPresent()) {
+            throw new CustomerException(ExceptionMsg.SQL_EXIST);
+        }
+    }
+
+    private Customer validateCustomerExistAndGet(String email) {
+        Optional<Customer> customer = customerRepository.findByEmail(email);
+        if (customer.isEmpty()) {
+            throw new CustomerException(ExceptionMsg.SQL_ERROR);
+        }
+        return customer.get();
     }
 }

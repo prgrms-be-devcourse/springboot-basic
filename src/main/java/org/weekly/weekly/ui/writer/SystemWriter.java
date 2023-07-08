@@ -53,6 +53,10 @@ public class SystemWriter {
         println(PrintMessageType.EMAIL_INPUT.getMessage());
     }
 
+    public void printNewEmailInputMessage() {
+        println(PrintMessageType.NEW_EMAIL_INPUT.getMessage());
+    }
+
     public void printNameInputMessage() {
         println(PrintMessageType.NAME_INPUT.getMessage());
     }

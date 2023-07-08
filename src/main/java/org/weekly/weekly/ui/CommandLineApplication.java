@@ -85,6 +85,18 @@ public class CommandLineApplication {
         }
     }
 
+    public CustomerUpdateRequest customerUpdateRequest(){
+        while(true) {
+            try {
+                String email = processEmail();
+                String newEmail = processNewEmail();
+                return CustomerUpdateRequest.of(email, newEmail);
+            } catch (Exception exception) {
+                printErrorMsg(exception.getMessage());
+            }
+        }
+    }
+
     public void printErrorMsg(String errorMsg) {
         this.commandWriter.printErrorMessage(errorMsg);
     }
@@ -126,6 +138,12 @@ public class CommandLineApplication {
         this.commandWriter.printEmailInputMessage();
         return readUserInput();
     }
+
+    private String processNewEmail() {
+        this.commandWriter.printNewEmailInputMessage();
+        return readUserInput();
+    }
+
     private String processName() {
         this.commandWriter.printNameInputMessage();
         return readUserInput();

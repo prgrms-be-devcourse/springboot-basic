@@ -112,26 +112,31 @@ public class VoucherManagementController {
     }
 
     private void handleCustomerCreation() {
-        CustomerCreationRequest customerCreation = this.commandLineApplication.createCustomerFromInput();
-        this.customerController.createCustomer(customerCreation);
+        CustomerCreationRequest customerCreation = commandLineApplication.createCustomerFromInput();
+        customerController.createCustomer(customerCreation);
     }
 
     private void handleCustomerDelete() {
-        CustomerUpdateRequest customerUpdateRequest = this.commandLineApplication.customerDetailFromInput();
-        this.customerController.deleteCustomer(customerUpdateRequest);
+        CustomerUpdateRequest customerUpdateRequest = commandLineApplication.customerDetailFromInput();
+        customerController.deleteCustomer(customerUpdateRequest);
     }
 
     private void handleCustomerDeleteAll() {
-        this.customerController.deleteAllCustomer();
+        customerController.deleteAllCustomer();
     }
 
     private void handleCustomerSearchAll() {
-        this.customerController.searchAllCustomer();
+        customerController.searchAllCustomer();
     }
 
     private void handleSearchDetail() {
-        CustomerUpdateRequest customerUpdateRequest = this.commandLineApplication.customerDetailFromInput();
-        this.customerController.searchDetailCustomer(customerUpdateRequest);
+        CustomerUpdateRequest customerUpdateRequest = commandLineApplication.customerDetailFromInput();
+        customerController.searchDetailCustomer(customerUpdateRequest);
+    }
+
+    private void handleUpdateCustomer() {
+        CustomerUpdateRequest customerUpdateRequest = commandLineApplication.customerUpdateRequest();
+        customerController.updateCustomer(customerUpdateRequest);
     }
 
 }
