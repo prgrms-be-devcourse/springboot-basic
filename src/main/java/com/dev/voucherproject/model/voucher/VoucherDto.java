@@ -14,7 +14,7 @@ public class VoucherDto {
     }
     
     public static VoucherDto fromEntity(Voucher voucher) {
-        return new VoucherDto(voucher.getVoucherPolicy(), voucher.getVoucherId(), voucher.getDiscountFigure());
+        return new VoucherDto(voucher.getPolicyName(), voucher.getVoucherId(), voucher.getDiscountFigure());
     }
 
     public VoucherPolicy getVoucherPolicy() {

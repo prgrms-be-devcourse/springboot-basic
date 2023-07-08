@@ -5,8 +5,8 @@ import java.util.UUID;
 public class FixedAmountVoucher extends Voucher {
     private final long amount;
 
-    public FixedAmountVoucher(UUID voucherId, VoucherPolicy voucherPolicy, long amount) {
-        super(voucherId, voucherPolicy);
+    public FixedAmountVoucher(UUID voucherId, long amount) {
+        super(voucherId);
         amountValidate(amount);
         this.amount = amount;
     }
@@ -22,6 +22,11 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public long getDiscountFigure() {
         return this.amount;
+    }
+
+    @Override
+    public VoucherPolicy getPolicyName() {
+        return VoucherPolicy.FIXED_AMOUNT_VOUCHER;
     }
 
     private void amountValidate(long amount) {

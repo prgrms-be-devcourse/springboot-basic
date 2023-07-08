@@ -5,8 +5,8 @@ import java.util.UUID;
 public class PercentDiscountVoucher extends Voucher {
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, VoucherPolicy voucherPolicy, long percent) {
-        super(voucherId, voucherPolicy);
+    public PercentDiscountVoucher(UUID voucherId, long percent) {
+        super(voucherId);
         percentValidate(percent);
         this.percent = percent;
     }
@@ -20,6 +20,11 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public long getDiscountFigure() {
         return this.percent;
+    }
+
+    @Override
+    public VoucherPolicy getPolicyName() {
+        return VoucherPolicy.PERCENT_DISCOUNT_VOUCHER;
     }
 
     private double getDoubleTypePercentage(long percent) {
