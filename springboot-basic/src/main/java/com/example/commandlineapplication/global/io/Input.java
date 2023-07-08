@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface Input {
 
-  String selectOption();
+  String input();
 
   Integer getDiscount();
 }

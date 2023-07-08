@@ -16,7 +16,7 @@ public class Console implements Input, Output {
   private final VoucherService voucherService;
 
   @Override
-  public String selectOption() {
+  public String input() {
     return scanner.nextLine();
   }
 
@@ -28,7 +28,7 @@ public class Console implements Input, Output {
   @Override
   public void printMenu() {
     System.out.println(
-        "=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType list to list all vouchers.");
+        "=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType delete to delete a voucher.\nType list to list all vouchers.");
   }
 
   @Override
@@ -53,9 +53,14 @@ public class Console implements Input, Output {
     }
   }
 
+  @Override
+  public void printDeleteUUID() {
+    System.out.println("Input UUID to delete");
+  }
+
   public VoucherType selectVoucherTypeOption() {
     printCreateOption();
-    return VoucherType.of(selectOption());
+    return VoucherType.of(input());
   }
 
   public Integer selectDiscount() {

@@ -4,6 +4,7 @@ import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import com.example.commandlineapplication.domain.voucher.service.VoucherService;
 import com.example.commandlineapplication.global.io.Command;
 import com.example.commandlineapplication.global.io.Console;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class VoucherController implements Runnable {
     while (isRunning) {
       console.printMenu();
       try {
-        Command command = Command.of(console.selectOption());
+        Command command = Command.of(console.input());
 
         switch (command) {
           case CREATE:
@@ -33,6 +34,12 @@ public class VoucherController implements Runnable {
 
             voucherService.createVoucher(inputVoucherType, inputDiscount);
             continue;
+          case DELETE:
+            console.printDeleteUUID();
+            String inputUUID = console.input();
+
+            voucherService.deleteVoucher(UUID.fromString(inputUUID));
+            continue;
           case LIST:
             console.printHistory();
             continue;
@@ -40,7 +47,6 @@ public class VoucherController implements Runnable {
             isRunning = false;
         }
       } catch (Exception e) {
-        LOG.warn(e.getMessage());
         return;
       }
     }

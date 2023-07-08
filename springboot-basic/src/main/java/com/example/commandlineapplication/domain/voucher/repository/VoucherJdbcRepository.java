@@ -5,7 +5,6 @@ import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCrea
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import com.example.commandlineapplication.domain.voucher.service.VoucherFactory;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +34,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
   private RowMapper<Voucher> rowMapper() {
     return (resultSet, rowMap) -> {
-      UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+      UUID voucherId = UUID.fromString((resultSet.getString("voucher_id")));
       VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
       long discount = resultSet.getLong("voucher_discount");
       VoucherCreateRequest voucherCreateRequest = voucherMapper.toCreateRequest(voucherId,
@@ -44,12 +43,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
       return voucherFactory.create(voucherCreateRequest);
     };
-  }
-
-  private static UUID toUUID(byte[] bytes) {
-    ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-
-    return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
   }
 
   @Override

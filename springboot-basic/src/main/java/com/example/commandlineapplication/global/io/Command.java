@@ -5,8 +5,9 @@ import java.util.Arrays;
 public enum Command {
   EXIT,
   CREATE,
+  DELETE,
   LIST;
-  
+
   public static Command of(String inputCommand) {
     return Arrays.stream(values())
         .filter(command -> command.getLowerCaseCommand().equals(inputCommand))
