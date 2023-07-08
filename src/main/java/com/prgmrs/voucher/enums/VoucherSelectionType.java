@@ -4,8 +4,7 @@ import com.prgmrs.voucher.exception.NoSuchVoucherTypeException;
 
 public enum VoucherSelectionType {
     FIXED_AMOUNT_VOUCHER("fixed"),
-    PERCENT_DISCOUNT_VOUCHER("percent"),
-    BACK("back");
+    PERCENT_DISCOUNT_VOUCHER("percent");
     private final String value;
 
     VoucherSelectionType(String value) {

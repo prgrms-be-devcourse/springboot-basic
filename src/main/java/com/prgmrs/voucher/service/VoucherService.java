@@ -6,9 +6,9 @@ import com.prgmrs.voucher.dto.VoucherResponse;
 import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.exception.NoSuchVoucherTypeException;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
-import com.prgmrs.voucher.model.FixedAmountVoucher;
-import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
+import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.model.validator.VoucherValidator;
 import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.DiscountValue;
@@ -52,11 +52,13 @@ public class VoucherService {
         switch (voucherSelectionType) {
             case FIXED_AMOUNT_VOUCHER -> {
                 Amount amount = new Amount(discountValue.getValue());
-                voucher = new FixedAmountVoucher(uuid, amount);
+                FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+                voucher = new Voucher(uuid, fixedAmountDiscountStrategy);
             }
             case PERCENT_DISCOUNT_VOUCHER -> {
                 Percent percent = new Percent(discountValue.getValue());
-                voucher = new PercentDiscountVoucher(uuid, percent);
+                PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
+                voucher = new Voucher(uuid, percentDiscountStrategy);
             }
             default -> {
                 logger.error("unexpected error occurred: unexpected voucher type");

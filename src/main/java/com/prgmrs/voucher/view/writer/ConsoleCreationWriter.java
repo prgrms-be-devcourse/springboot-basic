@@ -3,10 +3,10 @@ package com.prgmrs.voucher.view.writer;
 import com.prgmrs.voucher.dto.UserResponse;
 import com.prgmrs.voucher.dto.VoucherResponse;
 import com.prgmrs.voucher.enums.VoucherSelectionType;
-import com.prgmrs.voucher.model.FixedAmountVoucher;
-import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
+import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.setting.VoucherProperties;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +36,6 @@ public class ConsoleCreationWriter {
         write("=== Choosing voucher type ===");
         write("Type 'fixed' to create a voucher with fixed amount.");
         write("Type 'percent' to create a voucher with percent discount.");
-        write("Type 'back' to return to previous step");
 
     }
 
@@ -62,14 +61,14 @@ public class ConsoleCreationWriter {
         Voucher voucher = voucherResponse.getVoucher();
 
         write("=== Successfully created a new voucher ===");
-        if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
+        if (voucher.getDiscountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
             write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
-            write(MessageFormat.format("discount amount : {0}", fixedAmountVoucher.getAmount().getValue()));
+            write(MessageFormat.format("discount amount : {0}", fixedAmountDiscountStrategy.getAmount().getValue()));
             return;
         }
-        if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
+        if (voucher.getDiscountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
             write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
-            write(MessageFormat.format("discount percent : {0}%", percentDiscountVoucher.getPercent().getValue()));
+            write(MessageFormat.format("discount percent : {0}%", percentDiscountStrategy.getPercent().getValue()));
         }
     }
 

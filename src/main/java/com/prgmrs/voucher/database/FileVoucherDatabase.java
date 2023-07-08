@@ -4,9 +4,9 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.exception.FileNotReadException;
-import com.prgmrs.voucher.model.FixedAmountVoucher;
-import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
+import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.Percent;
 import org.slf4j.Logger;
@@ -45,13 +45,15 @@ public class FileVoucherDatabase implements VoucherDatabase {
                 String value = nextLine[2];
                 if (VoucherSelectionType.FIXED_AMOUNT_VOUCHER.equals(VoucherSelectionType.of(code))) {
                     Amount amount = new Amount(Long.parseLong(value));
-                    Voucher voucher = new FixedAmountVoucher(uuid, amount);
+                    FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+                    Voucher voucher = new Voucher(uuid, fixedAmountDiscountStrategy);
                     storage.put(uuid, voucher);
                 }
 
                 if (VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER.equals(VoucherSelectionType.of(code))) {
                     Percent percent = new Percent(Long.parseLong(value));
-                    Voucher voucher = new PercentDiscountVoucher(uuid, percent);
+                    PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
+                    Voucher voucher = new Voucher(uuid, percentDiscountStrategy);
                     storage.put(uuid, voucher);
                 }
             }
@@ -71,13 +73,13 @@ public class FileVoucherDatabase implements VoucherDatabase {
                 writer.writeNext(header);
             }
 
-            if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
-                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherSelectionType.FIXED_AMOUNT_VOUCHER.getValue(), Long.toString(fixedAmountVoucher.getAmount().getValue())});
+            if (voucher.getDiscountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
+                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherSelectionType.FIXED_AMOUNT_VOUCHER.getValue(), Long.toString(fixedAmountDiscountStrategy.getAmount().getValue())});
                 return;
             }
 
-            if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
-                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER.getValue(), Long.toString(percentDiscountVoucher.getPercent().getValue())});
+            if (voucher.getDiscountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
+                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER.getValue(), Long.toString(percentDiscountStrategy.getPercent().getValue())});
             }
         } catch (Exception e) {
             logger.error("unexpected error occurred : ", e);

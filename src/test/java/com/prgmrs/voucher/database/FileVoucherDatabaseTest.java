@@ -1,8 +1,8 @@
 package com.prgmrs.voucher.database;
 
 import com.prgmrs.voucher.exception.FileNotReadException;
-import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
 import com.prgmrs.voucher.model.vo.Amount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,8 @@ class FileVoucherDatabaseTest {
         final String FILE_PATH = "csv/vouchers.csv";
         UUID randomVoucherId = UUID.randomUUID();
         Amount amount = new Amount(3000);
-        Voucher voucher = new FixedAmountVoucher(randomVoucherId, amount);
+        FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+        Voucher voucher = new Voucher(randomVoucherId, fixedAmountDiscountStrategy);
 
         FileVoucherDatabase database = new FileVoucherDatabase();
 
@@ -55,7 +56,8 @@ class FileVoucherDatabaseTest {
         final String FILE_PATH = "not/existing.csv";
         UUID randomVoucherId = UUID.randomUUID();
         Amount amount = new Amount(3000);
-        Voucher voucher = new FixedAmountVoucher(randomVoucherId, amount);
+        FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+        Voucher voucher = new Voucher(randomVoucherId, fixedAmountDiscountStrategy);
 
         FileVoucherDatabase database = new FileVoucherDatabase();
         assertThrows(FileNotReadException.class, () -> database.store(voucher, FILE_PATH));

@@ -1,5 +1,6 @@
 package com.prgmrs.voucher.model;
 
+import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
 import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.DiscountValue;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,8 @@ class FixedAmountVoucherTest {
     void getVoucherIdTest() {
         UUID voucherId = UUID.randomUUID();
         Amount amount = new Amount(10000);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+        FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+        Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
         UUID returnedVoucherId = voucher.getVoucherId();
 
@@ -29,9 +31,10 @@ class FixedAmountVoucherTest {
     void getAmountTest() {
         UUID voucherId = UUID.randomUUID();
         Amount amount = new Amount(500);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+        FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+        Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
-        long returnedAmount = voucher.getAmount().getValue();
+        Amount returnedAmount = ((FixedAmountDiscountStrategy)voucher.getDiscountStrategy()).getAmount();
 
         assertThat(returnedAmount, is(amount.getValue()));
     }
@@ -42,7 +45,8 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         Amount amount = new Amount(1000);
         DiscountValue beforeDiscount = new DiscountValue(5000);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+        FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+        Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
         DiscountValue amountAfterDiscount = voucher.discount(beforeDiscount);
 
@@ -55,7 +59,8 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         Amount amount = new Amount(1000);
         DiscountValue discountValueBeforeDiscount = new DiscountValue(500);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+        FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+        Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
         DiscountValue discountValueAfterDiscount = voucher.discount(discountValueBeforeDiscount);
 

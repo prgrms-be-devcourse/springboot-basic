@@ -3,9 +3,9 @@ package com.prgmrs.voucher.view.writer;
 import com.prgmrs.voucher.dto.BlacklistResponse;
 import com.prgmrs.voucher.dto.VoucherListResponse;
 import com.prgmrs.voucher.enums.ListSelectionType;
-import com.prgmrs.voucher.model.FixedAmountVoucher;
-import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
+import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.setting.BlacklistProperties;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +44,7 @@ public class ConsoleListWriter {
     public void showList(VoucherListResponse voucherListResponse, ListSelectionType listSelectionType) {
         Map<UUID, Voucher> voucherHistory = voucherListResponse.getVoucherList();
 
-        if(listSelectionType.equals("e")) {
+        if (listSelectionType.equals("e")) {
             write("temp");
         }
 
@@ -57,13 +57,13 @@ public class ConsoleListWriter {
         voucherHistory.entrySet().forEach(entry -> {
             UUID uuid = entry.getKey();
             Voucher voucher = entry.getValue();
-            if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
-                write(String.format("fixed   %s %s", uuid, fixedAmountVoucher.getAmount().getValue()));
+            if (voucher.getDiscountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
+                write(String.format("fixed   %s %s", uuid, fixedAmountDiscountStrategy.getAmount().getValue()));
                 return;
             }
 
-            if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
-                write(String.format("percent %s %s%%", uuid, percentDiscountVoucher.getPercent().getValue()));
+            if (voucher.getDiscountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
+                write(String.format("percent %s %s%%", uuid, percentDiscountStrategy.getPercent().getValue()));
             }
         });
 

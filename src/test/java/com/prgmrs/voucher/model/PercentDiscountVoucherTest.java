@@ -1,5 +1,6 @@
 package com.prgmrs.voucher.model;
 
+import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.model.vo.Percent;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,8 @@ class PercentDiscountVoucherTest {
     void getVoucherIdTest() {
         UUID voucherId = UUID.randomUUID();
         Percent percent = new Percent(50);
-        PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, percent);
+        PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
+        Voucher voucher = new Voucher(voucherId, percentDiscountStrategy);
 
         UUID returnedVoucherId = voucher.getVoucherId();
 
@@ -29,9 +31,10 @@ class PercentDiscountVoucherTest {
     void getAmountTest() {
         UUID voucherId = UUID.randomUUID();
         Percent percent = new Percent(50);
-        PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, percent);
+        PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
+        Voucher voucher = new Voucher(voucherId, percentDiscountStrategy);
 
-        Percent returnedPercent = voucher.getPercent();
+        Percent returnedPercent = ((PercentDiscountStrategy)voucher.getDiscountStrategy()).getPercent();
 
         assertThat(returnedPercent.getValue(), is(percent.getValue()));
     }
@@ -42,7 +45,8 @@ class PercentDiscountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         Percent percent = new Percent(34);
         DiscountValue beforeDiscount = new DiscountValue(1000);
-        PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, percent);
+        PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
+        Voucher voucher = new Voucher(voucherId, percentDiscountStrategy);
         DiscountValue discountValue = voucher.discount(beforeDiscount);
 
         assertThat(discountValue.getValue(), is( (beforeDiscount.getValue()/100 * percent.getValue()) ));
