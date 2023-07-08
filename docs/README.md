@@ -5,18 +5,39 @@
 ### Voucher domain
 
 - repository
-  - VoucherRepository 구현한 InMemoryVoucherRepository
+  - VoucherRepository 구현한 InMemoryVoucherRepository, JdbcVoucherRepository
 - domain
   - Voucher 클래스를 엔티티로 사용
   - VoucherPolicy 인터페이스를 구현한 FixedAmountPolicy, PercentDiscountPolicy
   - VoucherType enum 지정
 - application
-  - 생성과 조회를 담당하는 VoucherService
+  - CRUD 담당하는 VoucherService
 - dto
   - 바우처 생성에 필요한 VoucherCreateRequest
+  - 바우처 수정에 필요한 VoucherUpdateRequest
   - 생성된 바우처 반환에 필요한 VoucherResponse
 - presentation
-  - service 와 view 연결해주는 VoucherController
+  - ManagementController 와 연결되는 VoucherController
+
+<br>
+
+### Customer domain
+
+- repository
+  - CustomerRepository 구현한 JdbcCustomerRepository
+- domain
+  - Customer 클래스를 엔티티로 사용
+  - Customer 가 보유한 바우처를 저장하는 Wallet
+  - FindType enum 지정 (id, email 어느 것으로 찾을 지)
+- application
+  - CRUD 담당하는 CustomerService
+- dto
+  - 고객 생성에 필요한 CustomerCreateRequest
+  - 고객 수정에 필요한 CustomerUpdateRequest
+  - 생성된 고객 반환에 필요한 CustomerResponse
+  - 보유한 바우처 반환에 필요한 WalletResponse
+- presentation
+  - ManagementController 와 연결되는 CustomerController
 
 <br>
 
@@ -36,3 +57,4 @@
 
 - AppConfig 에서 view 주입
 - exception 에서 커스텀 익셉션 관리
+- LoggerAspect 에서 aop 활용한 로깅
