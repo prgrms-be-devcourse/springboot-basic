@@ -24,8 +24,8 @@ public class VoucherController {
         return voucherService.readVoucherList();
     }
 
-    public VoucherDto readVoucher(UUID id) {
-        return voucherService.readAll(id);
+    public VoucherDto read(UUID id) {
+        return voucherService.read(id);
     }
 }
 
