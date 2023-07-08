@@ -10,21 +10,24 @@ import java.util.UUID;
 public class VoucherResponse {
 
     private final UUID voucherId;
-    private final long amount;
     private final VoucherType voucherType;
+    private final long voucherAmount;
+    private final UUID customerId;
 
     public VoucherResponse(Voucher voucher) {
         this.voucherId = voucher.getVoucherId();
-        this.amount = voucher.getVoucherAmount();
         this.voucherType = voucher.getVoucherPolicy().getVoucherType();
+        this.voucherAmount = voucher.getVoucherAmount();
+        this.customerId = voucher.getCustomerId();
     }
 
     @Override
     public String toString() {
-        return "Created Voucher {" +
+        return "Voucher {" +
                 "voucherId=" + voucherId +
-                ", amount=" + amount +
-                ", voucherType=" + voucherType +
+                ", voucherPolicy=" + voucherType +
+                ", voucherAmount=" + voucherAmount +
+                ", customerId=" + customerId +
                 '}';
     }
 }
