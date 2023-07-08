@@ -18,14 +18,11 @@ public class Input {
     }
 
     public Menu selectMenu() {
-        String selectOption = this.inputString();
-        return Menu.findMenuType(selectOption);
+        return Menu.findMenuType(this.inputString());
     }
 
     public Integer insertDiscountValue() {
-        int discountValue = Integer.parseInt(this.inputString());
-
-        return discountValue;
+        return Integer.parseInt(this.inputString());
     }
 
 }
