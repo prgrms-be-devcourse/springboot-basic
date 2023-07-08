@@ -15,7 +15,7 @@ class VoucherTypeTest {
     @DisplayName("성공 - [1] percent,[2] fixed면 객체 생성")
     void creationSuccessTest(String voucherType) throws Exception {
 
-        assertDoesNotThrow(() -> VoucherType.from(voucherType));
+        assertDoesNotThrow(() -> VoucherType.fromTypeString(voucherType));
     }
 
     @ParameterizedTest
@@ -23,6 +23,6 @@ class VoucherTypeTest {
     @DisplayName("실패 - [1] percent, [2] fixed외 조건")
     void creationFailTest(String voucherType) throws Exception {
 
-        assertThrows(IllegalArgumentException.class, () -> VoucherType.from(voucherType));
+        assertThrows(IllegalArgumentException.class, () -> VoucherType.fromTypeString(voucherType));
     }
 }

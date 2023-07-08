@@ -52,7 +52,7 @@ public class VoucherController {
 
     private VoucherResponse createVoucher() {
         String inputVoucherType = console.askForVoucherType();
-        VoucherType voucherType = VoucherType.from(inputVoucherType);
+        VoucherType voucherType = VoucherType.fromTypeString(inputVoucherType);
         long discountAmount = console.askForDiscountAmount();
 
         CreateVoucherRequest createVoucherRequest = CreateVoucherRequest.of(voucherType, discountAmount);

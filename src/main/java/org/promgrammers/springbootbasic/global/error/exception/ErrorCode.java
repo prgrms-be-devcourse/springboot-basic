@@ -19,7 +19,8 @@ public enum ErrorCode {
     NO_VOUCHER_PROVIDED(404, "제공된 바우처가 없습니다."),
     DUPLICATED_VOUCHER(400, "이미 할당된 바우처 입니다."),
     INVALID_FIXED_VOUCHER_AMOUNT(400, "값을 확인하세요. 할인 금액은 0보다 커야합니다."),
-    INVALID_PERCENT_VOUCHER_AMOUNT(400, "값을 확인하세요. 할인 범위는 1 ~ 99 사이의 값만 가능합니다.");
+    INVALID_PERCENT_VOUCHER_AMOUNT(400, "값을 확인하세요. 할인 범위는 1 ~ 99 사이의 값만 가능합니다."),
+    INVALID_VOUCHER_TYPE(400, "잘못된 바우처 타입 입니다.");
 
     private final int status;
     private final String message;
