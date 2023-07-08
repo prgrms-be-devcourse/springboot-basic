@@ -21,8 +21,8 @@ public class Voucher {
 
     public double discountedPrice(long originalPrice) {
         double result = switch (voucherType) {
-            case FIXED_AMOUNT -> originalPrice - discountValue.getValue();
-            case PERCENT_DISCOUNT -> originalPrice - (1 - discountValue.getValue() / 100);
+            case FIXED_AMOUNT -> originalPrice - discountValue.value();
+            case PERCENT_DISCOUNT -> originalPrice - (1 - discountValue.value() / 100);
         };
         validateDiscountedPrice(result);
         return result;
@@ -47,6 +47,6 @@ public class Voucher {
     }
 
     public String toString() {
-        return MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue.getValue());
+        return MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue.value());
     }
 }

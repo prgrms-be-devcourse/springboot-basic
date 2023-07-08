@@ -24,13 +24,13 @@ public final class VoucherConverter {
     }
 
     public static String convertVoucherToCsv(Voucher voucher) {
-        return MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountValue().getValue());
+        return MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountValue().value());
     }
 
     public static Voucher convertCsvToVoucher(String voucherInfo) {
         String[] voucherInfoArray = voucherInfo.split(",");
         VoucherType voucherType = VoucherType.getVoucherType(voucherInfoArray[1]);
-        return new Voucher(UUID.fromString(voucherInfoArray[0]), voucherType, new DiscountValue(voucherType, voucherInfoArray[2]));
+        return new Voucher(UUID.fromString(voucherInfoArray[0]), voucherType, DiscountValue.from(voucherType, voucherInfoArray[2]));
     }
 
 }

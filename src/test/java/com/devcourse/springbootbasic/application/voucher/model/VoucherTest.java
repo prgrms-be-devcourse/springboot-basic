@@ -32,7 +32,7 @@ class VoucherTest {
     @Test
     @DisplayName("비율값 바우처 할인 잘못 적용되었을때 예외 던지고 실패한다.")
     void DiscountPrice_ParamWrongPercentVoucher_Exception() {
-        var voucher = new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"));
+        var voucher = new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"));
         assertThrows(InvalidDataException.class, () -> voucher.discountedPrice(-1L));
     }
 
@@ -40,7 +40,7 @@ class VoucherTest {
     @DisplayName("비율값 바우처 문자열 반환하면 성공한다.")
     @MethodSource("providePercentVouchers")
     void ToString_PercentVoucher_ReturnVoucherString(long originalPrice, Voucher voucher) {
-        var expected = MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucher.getVoucherType().name(), voucher.getVoucherId(), voucher.getVoucherType().getTypeString(), voucher.getDiscountValue().getValue());
+        var expected = MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucher.getVoucherType().name(), voucher.getVoucherId(), voucher.getVoucherType().getTypeString(), voucher.getDiscountValue().value());
         var result = voucher.toString();
         assertEquals(expected, result);
     }
@@ -64,31 +64,31 @@ class VoucherTest {
     @DisplayName("고정값 바우처 문자열 반환하면 성공한다.")
     @MethodSource("provideFixedVouchers")
     void ToString_FixedVoucher_ReturnVoucherString(long originalPrice, Voucher voucher) {
-        var expected = MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucher.getVoucherType().name(), voucher.getVoucherId(), voucher.getVoucherType().getTypeString(), voucher.getDiscountValue().getValue());
+        var expected = MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucher.getVoucherType().name(), voucher.getVoucherId(), voucher.getVoucherType().getTypeString(), voucher.getDiscountValue().value());
         var result = voucher.toString();
         assertEquals(expected, result);
     }
 
     static Stream<Arguments> providePercentVouchers() {
         return Stream.of(
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"))),
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "100"))),
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0")))
+                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"))),
+                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "100"))),
+                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0")))
         );
     }
 
     static Stream<Arguments> provideFixedVouchers() {
         return Stream.of(
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"))),
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"))),
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0")))
+                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "10"))),
+                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"))),
+                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "0")))
         );
     }
 
     static Stream<Arguments> provideInvalidFixedVouchers() {
         return Stream.of(
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "101"))),
-                Arguments.of(-1L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0")))
+                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "101"))),
+                Arguments.of(-1L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "0")))
         );
     }
 

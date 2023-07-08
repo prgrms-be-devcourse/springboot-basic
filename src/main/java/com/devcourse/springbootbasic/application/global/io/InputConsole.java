@@ -38,7 +38,7 @@ public class InputConsole {
         String inputDiscountValue = textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .read("Discount Value: ");
-        return new DiscountValue(voucherType, inputDiscountValue);
+        return DiscountValue.from(voucherType, inputDiscountValue);
     }
 
 }
