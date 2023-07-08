@@ -3,12 +3,12 @@ package kr.co.springbootweeklymission.wallet.presentation;
 import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.wallet.application.WalletService;
+import kr.co.springbootweeklymission.wallet.presentation.dto.request.WalletReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +18,19 @@ import java.util.UUID;
 @RequestMapping("/view/v1/wallets")
 public class WalletViewController {
     private final WalletService walletService;
+
+    @GetMapping("/post-page/{member_id}")
+    public String createPage(Model model,
+                             @PathVariable(name = "member_id") UUID memberId) {
+        model.addAttribute("memberId", memberId);
+        return "wallet/createWallet";
+    }
+
+    @PostMapping
+    public String createWallet(@ModelAttribute @Validated WalletReqDTO.CREATE create) {
+        walletService.createVoucherMember(create);
+        return "redirect:/view/v1/wallets/members/" + create.getMemberId();
+    }
 
     @GetMapping("/members/{member_id}")
     public String getVouchersByMemberId(Model model,
