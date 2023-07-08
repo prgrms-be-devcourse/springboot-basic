@@ -17,7 +17,7 @@ class Reader {
     public Integer readInteger() {
         String input = scanner.nextLine();
 
-        return  Integer.parseInt(input);
+        return Integer.parseInt(input);
     }
 
     public Long readLong() {

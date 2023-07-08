@@ -1,6 +1,6 @@
 package com.example.voucher.io;
 
-import static com.example.voucher.utils.ExceptionMessage.*;
+import static com.example.voucher.constant.ExceptionMessage.*;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -60,7 +60,7 @@ public class Console {
             ModeType selectedModeType = ModeType.getModeType(input);
 
             return selectedModeType;
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
             writer.writeCustomMessage(e.getMessage());
 

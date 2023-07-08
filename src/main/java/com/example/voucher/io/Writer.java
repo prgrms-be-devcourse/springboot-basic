@@ -8,11 +8,9 @@ class Writer {
         Type create to create a new voucher.
         Type list to list all vouchers.
         """;
-
     public final String VOUCHER_TYPE_INPUT_INFO = """
         Select VoucherType And Info
           	""";
-
     public final String VOUCHER_TYPE_SELECTION = """
         * Input Number for select VoucherType
         1. FixedAmount
