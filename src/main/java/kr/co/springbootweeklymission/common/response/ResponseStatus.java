@@ -12,8 +12,8 @@ import org.springframework.http.HttpStatus;
 public enum ResponseStatus {
     //success voucher
     SUCCESS_CREATE_VOUCHER("요청이 성공적으로 처리되어 새로운 바우처가 생성되었습니다.", HttpStatus.CREATED),
-    SUCCESS_UPDATE_VOUCHER("요청이 성공적으로 처리되어 새로운 바우처가 생성되었습니다.", HttpStatus.OK),
-    SUCCESS_DELETE_VOUCHER("요청이 성공적으로 처리되어 새로운 바우처가 생성되었습니다.", HttpStatus.OK),
+    SUCCESS_UPDATE_VOUCHER("요청이 성공적으로 처리되어 새로운 바우처가 수정되었습니다.", HttpStatus.OK),
+    SUCCESS_DELETE_VOUCHER("요청이 성공적으로 처리되어 새로운 바우처가 삭제되었습니다.", HttpStatus.OK),
 
     //fail command
     FAIL_INVALID_PARAMETER("파라미터 값이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
