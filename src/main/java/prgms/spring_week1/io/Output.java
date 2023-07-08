@@ -1,7 +1,7 @@
 package prgms.spring_week1.io;
 
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
-import prgms.spring_week1.domain.voucher.model.type.VoucherType;
+import prgms.spring_week1.domain.voucher.model.dto.VoucherOutputDto;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
 import java.util.List;
@@ -20,20 +20,8 @@ public class Output {
         blackConsumerList.forEach(bl -> System.out.println(bl.name() + " " + bl.age()));
     }
 
-    public void classifyVoucherInfo(VoucherType voucherType,long discountAmount) {
-        switch (voucherType){
-            case FIXED -> printDiscountFixedVoucherInfo(discountAmount);
-            case PERCENT -> printDiscountAmountVoucherInfo(discountAmount);
-        }
+    public void printVoucherInfo(VoucherOutputDto voucherOutputDto) {
+        System.out.println(voucherOutputDto);
     }
 
-    public void printDiscountFixedVoucherInfo(long fixedAmount) {
-        System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
-                "할인 가격 :" + fixedAmount + "원");
-    }
-
-    public void printDiscountAmountVoucherInfo(long percentDiscount) {
-        System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
-                "할인률 :" + percentDiscount + " 퍼센트");
-    }
 }
