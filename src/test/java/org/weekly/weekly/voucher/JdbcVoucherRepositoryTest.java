@@ -3,14 +3,9 @@ package org.weekly.weekly.voucher;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
@@ -22,30 +17,19 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
 @Testcontainers
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
-class JdbcVoucherRepositoryTest {
-    @Container
-    static MySQLContainer mySQLContainer = (MySQLContainer) new MySQLContainer("mysql:8")
-            .withInitScript("schema.sql");
-
-    @DynamicPropertySource
-    public static void overrideContainerProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
-        dynamicPropertyRegistry.add("spring.datasource.url",mySQLContainer::getJdbcUrl);
-        dynamicPropertyRegistry.add("spring.datasource.username",mySQLContainer::getUsername);
-        dynamicPropertyRegistry.add("spring.datasource.password",mySQLContainer::getPassword);
-    }
-
+class JdbcVoucherRepositoryTest{
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
 
-
-    static Voucher fixedVoucher;
-    static Voucher percentVoucher;
+    Voucher fixedVoucher;
+    Voucher percentVoucher;
 
     @BeforeEach
     void setUp() {
@@ -58,8 +42,6 @@ class JdbcVoucherRepositoryTest {
     void 전체_바우처_검색_테스트() {
         List<Voucher> vouchers = jdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
-
-        vouchers.stream().forEach(voucher -> System.out.println(voucher.getDiscountType().name()));
     }
 
     @Test

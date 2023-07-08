@@ -6,13 +6,20 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
-    UUID uuid;
+    UUID customerId;
     String name;
     String email;
     LocalDateTime createAt;
 
-    private Customer(UUID uuid, String name, String email) {
-        this.uuid = uuid;
+    public Customer(UUID customerId, String name, String email, LocalDateTime createAt) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.customerId = customerId;
+    }
+
+    private Customer(UUID customerId, String name, String email) {
+        this.customerId = customerId;
         this.name = name;
         this.email = email;
     }
@@ -22,4 +29,19 @@ public class Customer {
         return new Customer(uuid, name, email);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
 }

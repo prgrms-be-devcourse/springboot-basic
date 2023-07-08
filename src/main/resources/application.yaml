@@ -34,3 +34,13 @@ spring.config.activate.on-profile: test
 command:
   write: system
   read: scanner
+
+spring:
+  datasource:
+    url: jdbc:tc:mysql:8://test
+
+  sql:
+    init:
+      mode: always
+
+

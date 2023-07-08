@@ -31,7 +31,7 @@ public class CustomerService {
 
     public void searchDetailCustomer(CustomerUpdateRequest updateRequest) {
         String email = updateRequest.email();
-        this.customerRepository.findByEmail();
+        this.customerRepository.findByEmail(email);
     }
 
     public void searchAllCustomer() {
