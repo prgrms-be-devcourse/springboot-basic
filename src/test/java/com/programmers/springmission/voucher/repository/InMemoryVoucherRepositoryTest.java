@@ -1,9 +1,11 @@
-package com.programmers.springmission.voucher.domain;
+package com.programmers.springmission.voucher.repository;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
+import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
+import com.programmers.springmission.voucher.domain.Voucher;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
-import com.programmers.springmission.voucher.repository.InMemoryVoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
