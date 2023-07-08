@@ -8,8 +8,8 @@ import java.util.Arrays;
 public enum OptionType {
 
     EXIT("exit"),
-    CREATE("create"),
-    LIST("list");
+    VOUCHER("voucher"),
+    CUSTOMER("customer");
 
     private static final OptionType[] OPTION_TYPES = OptionType.values();
 
