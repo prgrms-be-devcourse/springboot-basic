@@ -1,9 +1,9 @@
-package com.prgmrs.voucher.model;
+package com.prgmrs.voucher.model.validator;
 
+import com.prgmrs.voucher.enums.VoucherType;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.setting.VoucherProperties;
-import com.prgmrs.voucher.enums.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

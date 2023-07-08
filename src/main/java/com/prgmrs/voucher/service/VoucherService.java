@@ -9,7 +9,7 @@ import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
-import com.prgmrs.voucher.model.VoucherValidator;
+import com.prgmrs.voucher.model.validator.VoucherValidator;
 import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.model.vo.Percent;
@@ -75,5 +75,9 @@ public class VoucherService {
 
     public Voucher findVoucherById(UUID uuid) {
         return voucherRepository.findVoucherById(uuid);
+    }
+
+    public VoucherListResponse findByUsername() {
+        return new VoucherListResponse(voucherRepository.findByUsername());
     }
 }

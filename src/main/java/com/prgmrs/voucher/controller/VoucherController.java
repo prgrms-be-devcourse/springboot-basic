@@ -30,4 +30,8 @@ public class VoucherController {
     public Voucher findVoucherById(UUID uuid) {
         return voucherService.findVoucherById(uuid);
     }
+
+    public VoucherListResponse findByUsername(String name) {
+        return voucherService.findByUsername();
+    }
 }

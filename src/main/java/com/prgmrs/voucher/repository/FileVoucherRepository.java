@@ -31,4 +31,9 @@ public class FileVoucherRepository implements VoucherRepository {
         Map<UUID, Voucher> storage = voucherDatabase.load(FILE_PATH);
         return storage.get(uuid);
     }
+
+    @Override
+    public Map<UUID, Voucher> findByUsername() {
+        return null;
+    }
 }
