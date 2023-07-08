@@ -1,13 +1,13 @@
 package com.prgrms.model.voucher;
 
 import com.prgrms.model.order.OrderItem;
-import com.prgrms.model.voucher.discount.Discount;
-import com.prgrms.model.voucher.discount.Price;
+import com.prgrms.model.voucher.dto.discount.Discount;
+import com.prgrms.model.voucher.dto.price.Price;
 
 public class FixedAmountVoucher extends Voucher {
 
-    public FixedAmountVoucher(Discount discount, VoucherType voucherType) {
-        super(discount, voucherType);
+    public FixedAmountVoucher(int voucherId, Discount discount, VoucherType voucherType) {
+        super(voucherId, discount, voucherType);
     }
 
     @Override

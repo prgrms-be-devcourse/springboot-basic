@@ -1,23 +1,21 @@
 package com.prgrms.model.voucher;
 
 import com.prgrms.model.order.OrderItem;
-import com.prgrms.model.voucher.discount.Discount;
-import com.prgrms.model.voucher.discount.Price;
-import com.prgrms.util.KeyGenerator;
-
-import java.util.UUID;
+import com.prgrms.model.voucher.dto.discount.Discount;
+import com.prgrms.model.voucher.dto.price.Price;
 
 public abstract class Voucher {
-    private final UUID voucherId = KeyGenerator.make();
+    private final int voucherId ;
     private final Discount discount;
     private final VoucherType voucherType;
 
-    public Voucher(Discount discount, VoucherType voucherType) {
+    public Voucher(int voucherId, Discount discount, VoucherType voucherType) {
+        this.voucherId = voucherId;
         this.discount = discount;
         this.voucherType = voucherType;
     }
 
-    public UUID getVoucherId() {
+    public int getVoucherId() {
         return voucherId;
     }
 
