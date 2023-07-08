@@ -23,7 +23,7 @@ public class VoucherResponseDTO {
 
 	@Override
 	public String toString() {
-		return MessageFormat.format("id : {0},discount type : {1}, discount amount : {2}, assigned customer id : {3}",
+		return MessageFormat.format("id : {0}, discount type : {1}, discount amount : {2}, assigned customer id : {3}",
 				id, discountType, discountAmount, customer_id);
 	}
 }

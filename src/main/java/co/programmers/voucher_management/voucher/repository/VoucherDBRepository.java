@@ -83,7 +83,7 @@ public class VoucherDBRepository implements VoucherRepository {
 		findById(id).orElseThrow(
 				() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id)));
 		String discountType = voucher.getDiscountStrategy().getType();
-		Integer discountAmount = voucher.getDiscountStrategy().getAmount();
+		int discountAmount = voucher.getDiscountStrategy().getAmount();
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 				.addValue("id", id)
 				.addValue("discount_type", discountType)

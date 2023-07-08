@@ -1,6 +1,6 @@
 package co.programmers.voucher_management.voucher.repository;
 
-import static co.programmers.voucher_management.voucher.entity.Voucher.STATUS.*;
+import static co.programmers.voucher_management.common.Status.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class VoucherFileRepository implements VoucherRepository {
 		String discountType = voucher.getDiscountStrategy().getType();
 		String amount = String.valueOf(voucher.getDiscountStrategy().getAmount());
 		String customerId = "";
-		String status = NORMAL.toString();
+		String status = NORMAL.getSymbol();
 		String createdAt = LocalDateTime.now().toString();
 		String updatedAt = createdAt;
 		String[] dataToWrite = {id, discountType, amount, customerId, status, createdAt, updatedAt};
@@ -70,7 +70,10 @@ public class VoucherFileRepository implements VoucherRepository {
 			List<Voucher> vouchers = new ArrayList<>();
 			List<String[]> file = csvReader.readAll();
 			for (String[] fileLine : file) {
-				vouchers.add(new Voucher(fileLine));
+				String status = fileLine[VoucherProperty.STATUS.index];
+				if (NORMAL.getSymbol().equals(status)) {
+					vouchers.add(new Voucher(fileLine));
+				}
 			}
 			return vouchers;
 		} catch (IOException ioException) {
@@ -98,7 +101,9 @@ public class VoucherFileRepository implements VoucherRepository {
 	@Override
 	public Voucher update(Voucher voucher) {
 		long id = voucher.getId();
+
 		deleteById(id);
+
 		return create(voucher);
 	}
 
@@ -140,8 +145,16 @@ public class VoucherFileRepository implements VoucherRepository {
 		vouchers.stream()
 				.filter(voucher -> voucher.getId() == id)
 				.forEach(Voucher::delete);
-		for (Voucher voucher : vouchers) {
-			create(voucher);
+		try (CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath, false))) {
+			vouchers.stream()
+					.map(voucher -> new String[] {
+							String.valueOf(voucher.getId()),
+							voucher.getDiscountStrategy().getType(),
+							String.valueOf(voucher.getDiscountStrategy().getAmount()),
+							String.valueOf(voucher.getCustomerId()), String.valueOf(voucher.getStatus())})
+					.forEach(csvWriter::writeNext);
+		} catch (IOException ioException) {
+			throw new RuntimeException();
 		}
 	}
 
@@ -160,10 +173,7 @@ public class VoucherFileRepository implements VoucherRepository {
 		DISCOUNT_TYPE(1),
 		DISCOUNT_AMOUNT(2),
 		CUSTOMER_ID(3),
-		STATUS(4),
-		CREATED_AT(5),
-		UPDATED_AT(6);
-
+		STATUS(4);
 		final int index;
 
 		VoucherProperty(int index) {

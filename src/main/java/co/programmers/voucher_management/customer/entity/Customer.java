@@ -1,8 +1,8 @@
 package co.programmers.voucher_management.customer.entity;
 
-import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
+import co.programmers.voucher_management.common.Status;
 import co.programmers.voucher_management.customer.repository.CustomerFileRepository;
 import co.programmers.voucher_management.exception.NameFormatException;
 import co.programmers.voucher_management.exception.PhoneNumberFormatException;
@@ -18,9 +18,7 @@ public class Customer {
 	String name;
 	String rating;
 	String phoneNumber;
-	char status;
-	LocalDateTime createdAt;
-	LocalDateTime updatedAt;
+	String status;
 
 	@Builder
 	public Customer(long id, String name, String rating, String phoneNumber) {
@@ -32,6 +30,7 @@ public class Customer {
 		this.name = name;
 		this.rating = rating;
 		this.phoneNumber = phoneNumber;
+		status = Status.NORMAL.getSymbol();
 	}
 
 	public Customer(String[] line) {
@@ -39,7 +38,11 @@ public class Customer {
 		String name = line[CustomerFileRepository.CustomerProperty.NAME.ordinal()];
 		String rating = line[CustomerFileRepository.CustomerProperty.RATING.ordinal()];
 		String phoneNumber = line[CustomerFileRepository.CustomerProperty.PHONE_NUMBER.ordinal()];
-		new Customer(id, name, rating, phoneNumber);
+		this.id = id;
+		this.name = name;
+		this.rating = rating;
+		this.phoneNumber = phoneNumber;
+		status = Status.NORMAL.getSymbol();
 	}
 
 	private void validateRating(String rating) {
@@ -64,18 +67,6 @@ public class Customer {
 		}
 	}
 
-	public enum Rating {
-		NORMAL("normal"),
-		BLACKLIST("blacklist");
-
-		private final String meaning;
-
-		Rating(String meaning) {
-			this.meaning = meaning;
-
-		}
-	}
-
 	@Override
 	public String toString() {
 		return "Customer{" +
@@ -84,8 +75,22 @@ public class Customer {
 				", rating='" + rating + '\'' +
 				", phoneNumber='" + phoneNumber + '\'' +
 				", status=" + status +
-				", createdAt=" + createdAt +
-				", updatedAt=" + updatedAt +
 				'}';
+	}
+
+	public enum Rating {
+		NORMAL("normal"),
+		BLACKLIST("blacklist");
+
+		private final String symbol;
+
+		Rating(String symbol) {
+			this.symbol = symbol;
+
+		}
+
+		public String symbol() {
+			return symbol;
+		}
 	}
 }

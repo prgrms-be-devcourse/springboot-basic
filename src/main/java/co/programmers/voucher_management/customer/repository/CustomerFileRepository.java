@@ -1,7 +1,5 @@
 package co.programmers.voucher_management.customer.repository;
 
-import static co.programmers.voucher_management.voucher.entity.Voucher.STATUS.*;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.opencsv.CSVReader;
 
+import co.programmers.voucher_management.common.Status;
 import co.programmers.voucher_management.customer.entity.Customer;
 
 @Repository
@@ -30,10 +29,20 @@ public class CustomerFileRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findByRating(String rating) {
-		if (Customer.Rating.BLACKLIST.name().equals(rating)) {
-			return findBlackList();
+		try (Reader reader = Files.newBufferedReader(path);
+			 CSVReader csvReader = new CSVReader(reader)) {
+			List<Customer> foundResult = new ArrayList<>();
+			List<String[]> customers = csvReader.readAll();
+			for (String[] fileLine : customers) {
+				String ratingToCompare = fileLine[CustomerFileRepository.CustomerProperty.RATING.ordinal()];
+				if (rating.equals(ratingToCompare)) {
+					foundResult.add(new Customer(fileLine));
+				}
+			}
+			return foundResult;
+		} catch (IOException ioException) {
+			throw new RuntimeException("File Reader Failed");
 		}
-		return List.of();
 	}
 
 	@Override
@@ -41,37 +50,18 @@ public class CustomerFileRepository implements CustomerRepository {
 		String[] line;
 		try (Reader reader = Files.newBufferedReader(path);
 			 CSVReader csvReader = new CSVReader(reader)) {
-			while((line = csvReader.readNext())!=null){
+			while ((line = csvReader.readNext()) != null) {
 				long id = Long.parseLong(line[CustomerProperty.ID.index]);
 				String status = line[CustomerProperty.STATUS.index];
-				if((customerId == id) && (status.equals(NORMAL.toString()))){
+				String normalStatus = String.valueOf(Status.NORMAL.getSymbol());
+				if ((customerId == id) && (status.equals(normalStatus))) {
 					return Optional.of(new Customer(line));
 				}
 			}
-		}catch (IOException ioException) {
-			throw new RuntimeException("File Reader Failed");
-		}
-		return Optional.empty();
-	}
-
-	private List<Customer> findBlackList() {
-		try (Reader reader = Files.newBufferedReader(path);
-			 CSVReader csvReader = new CSVReader(reader)) {
-			List<Customer> customers = new ArrayList<>();
-			List<String[]> blackLists = csvReader.readAll();
-			for (String[] blackList : blackLists) {
-				customers.add(maptoCustomer(blackList));
-			}
-			return customers;
 		} catch (IOException ioException) {
 			throw new RuntimeException("File Reader Failed");
 		}
-	}
-
-	private Customer maptoCustomer(String[] oneLine) {
-		return Customer.builder()
-				.name(oneLine[CustomerProperty.NAME.index])
-				.build();
+		return Optional.empty();
 	}
 
 	public enum CustomerProperty {
@@ -86,5 +76,6 @@ public class CustomerFileRepository implements CustomerRepository {
 		CustomerProperty(int index) {
 			this.index = index;
 		}
+
 	}
 }

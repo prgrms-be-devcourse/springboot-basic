@@ -28,24 +28,31 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
 	@Override
 	public Voucher create(Voucher voucher) {
-		repository.put(assignId(), voucher);
+		long id = assignId();
+		voucher.assignId(id);
+		repository.put(id, voucher);
 		return voucher;
 	}
 
 	public List<Voucher> findAll() {
 		return repository.values()
 				.stream()
-				.filter(v -> v.getStatus() == 'Y')
+				.filter(v -> v.getStatus().equals("Y"))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Optional<Voucher> findById(long id) {
-		return Optional.ofNullable(repository.get(id));
+		Voucher foundVoucher = repository.get(id);
+		if (foundVoucher == null) {
+			throw new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id));
+		}
+		return Optional.of(foundVoucher);
 	}
 
 	@Override
 	public void deleteById(long id) {
+		findById(id);
 		repository.get(id)
 				.delete();
 	}
@@ -53,6 +60,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	@Override
 	public Voucher update(Voucher voucher) {
 		long id = voucher.getId();
+		findById(id);
 		String discountType = voucher.getDiscountStrategy().getType();
 		Integer discountAmount = voucher.getDiscountStrategy().getAmount();
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
@@ -64,12 +72,20 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
 	@Override
 	public Voucher assignCustomer(Voucher voucher, Customer customer) {
-		return null;
+		long id = voucher.getId();
+		long customerId = customer.getId();
+		voucher.assignCustomer(customerId);
+		update(voucher);
+		return findById(id).orElseThrow(
+				() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id)));
 	}
 
 	@Override
 	public List<Voucher> findByCustomerId(long customerId) {
-		return null;
+		return repository.values()
+				.stream()
+				.filter(v -> v.getCustomerId() == customerId)
+				.collect(Collectors.toList());
 	}
 
 	private Long assignId() {

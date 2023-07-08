@@ -68,7 +68,7 @@ public class MenuLauncherFactory {
 	}
 
 	private Response inquiryBlackList() {
-		String rating = Customer.Rating.BLACKLIST.toString();
+		String rating = Customer.Rating.BLACKLIST.symbol();
 		return customerService.inquireByRating(rating);
 	}
 
@@ -124,7 +124,7 @@ public class MenuLauncherFactory {
 	}
 
 	private Response deleteVoucher() {
-		outputView.print(requestMessageFormat);
+		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a voucher"));
 		try {
 			Long id = Long.parseLong(inputView.input());
 			return voucherService.deleteById(id);
