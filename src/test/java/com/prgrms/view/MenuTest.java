@@ -91,7 +91,7 @@ class MenuTest {
     }
 
     @Test
-    void createCommand_ShouldReturnCorrectCommandInstanceBasedOnMenu() {
+    void createCommand_CorrectCommandInstanceBasedOnMenu() {
         //given
         MockitoAnnotations.openMocks(this);
         Menu menu = Menu.CREATE;
