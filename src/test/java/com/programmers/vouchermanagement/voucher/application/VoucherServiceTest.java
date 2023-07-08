@@ -1,6 +1,8 @@
 package com.programmers.vouchermanagement.voucher.application;
 
 import com.programmers.vouchermanagement.voucher.domain.*;
+import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
+import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,8 +31,8 @@ class VoucherServiceTest {
     @DisplayName("바우처를 생성한다.")
     void createVoucher() {
         // given
-        VoucherDto request = new VoucherDto(DiscountType.FIX, 5000);
-        DiscountType discountType = request.discountType();
+        VoucherCreationRequest request = new VoucherCreationRequest(DiscountType.FIX, 5000);
+        DiscountType discountType = request.type();
         int amount = request.amount();
         DiscountPolicy discountPolicy = discountType.createDiscountPolicy(amount);
         Voucher voucher = new Voucher(discountPolicy);
@@ -59,7 +61,7 @@ class VoucherServiceTest {
                 .willReturn(List.of(voucher1, voucher2));
 
         // when
-        List<VoucherDto> result = voucherService.getVouchers();
+        List<VoucherResponse> result = voucherService.getVouchers();
 
         // then
         assertThat(result).hasSize(2);
