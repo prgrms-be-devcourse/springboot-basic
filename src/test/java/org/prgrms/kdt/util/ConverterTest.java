@@ -40,7 +40,7 @@ class ConverterTest {
         String memberString = Converter.memberToString(member);
 
         //then
-        String expectString = MessageFormat.format("{0},{1}", uuid, member.getMemberName());
+        String expectString = MessageFormat.format("{0},{1}", uuid, member.getMemberName().getName());
         assertThat(memberString, is(expectString));
     }
 

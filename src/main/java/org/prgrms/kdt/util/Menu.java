@@ -3,23 +3,29 @@ package org.prgrms.kdt.util;
 import org.prgrms.kdt.exception.InvalidInputException;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public enum Menu {
-    EXIT("exit"),
-    CREATE("create"),
-    LIST("list"),
-    BLACK_LIST("blacklist");
+    EXIT(1),
+    CREATE(2),
+    LIST(3),
+    BLACK_LIST(4),
+    CREATE_MEMBER(5),
+    MEMBER_LIST(6),
+    ASSIGN_VOUCHER(7),
+    VOUCHER_LIST_BY_MEMBER(8),
+    DELETE_WALLET(9),
+    MEMBER_LIST_BY_VOUCHER(10),
+    WALLET_LIST(11);
 
-    private final String descripton;
+    private final int descriptonNumber;
 
-    Menu(String descripton) {
-        this.descripton = descripton;
+    Menu(int descriptonNumber) {
+        this.descriptonNumber = descriptonNumber;
     }
 
-    public static Menu getMenu(String str) {
+    public static Menu getMenu(int num) {
         return Arrays.stream(Menu.values())
-                .filter((e) -> Objects.equals(e.descripton, str))
+                .filter((e) -> e.descriptonNumber == num)
                 .findFirst()
                 .orElseThrow(() -> new InvalidInputException("잘못된 입력입니다."));
     }

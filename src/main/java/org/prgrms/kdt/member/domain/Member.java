@@ -4,12 +4,18 @@ import java.util.UUID;
 
 public class Member {
     private final UUID memberId;
-    private final String memberName;
+    private final MemberName name;
     private final MemberStatus status;
 
-    public Member(UUID memberId, String memberName, MemberStatus status) {
+    public Member(UUID memberId, String name, MemberStatus status) {
         this.memberId = memberId;
-        this.memberName = memberName;
+        this.name = new MemberName(name);
+        this.status = status;
+    }
+
+    public Member(String name, MemberStatus status) {
+        this.memberId = UUID.randomUUID();
+        this.name = new MemberName(name);
         this.status = status;
     }
 
@@ -17,8 +23,8 @@ public class Member {
         return memberId;
     }
 
-    public String getMemberName() {
-        return memberName;
+    public MemberName getMemberName() {
+        return name;
     }
 
     public MemberStatus getStatus() {

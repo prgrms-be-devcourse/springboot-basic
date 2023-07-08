@@ -2,6 +2,7 @@ package org.prgrms.kdt.commendLine;
 
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.wallet.dto.WalletListResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class Console {
@@ -20,29 +22,63 @@ public class Console {
 
     public String getVoucherTypes() throws IOException {
         System.out.print("1. FixedAmountVoucher 2. PercentDiscountVoucher\n " +
-                "번호를 선택하세요:");
+                "번호를 선택하세요: ");
         return br.readLine();
     }
 
     public String getDiscountAmount() throws IOException {
-        System.out.print("할인 금액을 선택하세요:");
+        System.out.print("할인 금액을 선택하세요: ");
         return br.readLine();
     }
 
-    public void printMenu() {
-        System.out.println("Type -exit- to exit the program.\n" +
-                "Type -create- to create a new voucher.\n" +
-                "Type -list- to list all vouchers.\n" +
-                "Type -blacklist- to list all blackList");
+    public String getMemberName() throws IOException {
+        System.out.print("멤버 이름을 입력하세요: ");
+        return br.readLine();
     }
 
-    public void printAllBoucher(List<Voucher> vouchers) {
-        vouchers.forEach(e -> System.out.println(MessageFormat.format("{0},{1}", e.getVoucherType(), e.getDiscountPolicy().getAmount())));
+    public UUID getMemberId() throws IOException {
+        System.out.print("회원 id를 입력해주세요: ");
+        return UUID.fromString(br.readLine());
+    }
+
+    public UUID getVoucherId() throws IOException {
+        System.out.print("바우처 id를 입력해주세요: ");
+        return UUID.fromString(br.readLine());
+    }
+
+    public UUID getWalletId() throws IOException {
+        System.out.print("해당 지갑의 id를 입력해주세요: ");
+        return UUID.fromString(br.readLine());
+    }
+
+    public void printMenu() {
+        System.out.println("1. 프로그램 종료\n" +
+                "2. 새로운 바우처 만들기\n" +
+                "3. 모든 바우처 조회\n" +
+                "4. 모든 블랙리스트 조회\n" +
+                "5. 새 회원 만들기\n" +
+                "6. 모든 회원 조회\n" +
+                "7. 회원에게 바우처 할당\n" +
+                "8. 멤버가 보유한 바우처들 조회\n" +
+                "9. 멤버가 보유한 해당 바우처 삭제\n" +
+                "10. 해당 바우처를 보유한 멤버 조회\n" +
+                "11. 모든 월렛 조회");
+        System.out.print("번호를 입력하세요: ");
+    }
+
+    public void printAllVoucher(List<Voucher> vouchers) {
+        vouchers.forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.getVoucherId(), e.getVoucherType(), e.getDiscountPolicy().getAmount())));
         System.out.println();
     }
 
-    public void printAllBlackList(List<Member> blackList) {
-        blackList.forEach(e -> System.out.println(e.getMemberName()));
+    public void printAllMember(List<Member> members) {
+        members.forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.getMemberId(), e.getMemberName().getName(), e.getStatus())));
+        System.out.println();
+    }
+
+    public void printAllWallet(WalletListResponse response) {
+        response.wallets().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2},{3}",
+                e.walletId(), e.memberName(), e.voucherType(), e.voucherAmount())));
         System.out.println();
     }
 

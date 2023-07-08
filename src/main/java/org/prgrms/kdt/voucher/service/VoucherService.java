@@ -3,7 +3,7 @@ package org.prgrms.kdt.voucher.service;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.dto.CreateRequest;
+import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(CreateRequest request) {
+    public Voucher createVoucher(CreateVoucherRequest request) {
         VoucherType voucherType = request.getVoucherType();
         double discountAmount = request.getDiscountAmount();
 
