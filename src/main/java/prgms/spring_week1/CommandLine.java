@@ -98,10 +98,7 @@ public class CommandLine implements CommandLineRunner {
         }
 
         for (Voucher voucher : voucherList) {
-            switch (voucher.getVoucherType()) {
-                case FIXED -> output.printDiscountFixedVoucherInfo(voucher.getDiscount());
-                case PERCENT -> output.printDiscountAmountVoucherInfo(voucher.getDiscount());
-            }
+            output.classifyVoucherInfo(voucher.getVoucherType(),voucher.getDiscount());
         }
     }
 }

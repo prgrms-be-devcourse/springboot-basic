@@ -1,6 +1,7 @@
 package prgms.spring_week1.io;
 
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
+import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
 import java.util.List;
@@ -17,6 +18,13 @@ public class Output {
             return;
         }
         blackConsumerList.forEach(bl -> System.out.println(bl.name() + " " + bl.age()));
+    }
+
+    public void classifyVoucherInfo(VoucherType voucherType,long discountAmount) {
+        switch (voucherType){
+            case FIXED -> printDiscountFixedVoucherInfo(discountAmount);
+            case PERCENT -> printDiscountAmountVoucherInfo(discountAmount);
+        }
     }
 
     public void printDiscountFixedVoucherInfo(long fixedAmount) {
