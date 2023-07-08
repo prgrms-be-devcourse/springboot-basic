@@ -7,7 +7,7 @@ public enum CustomerType {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("고객 명단에 존재하지 않습니다.");
+            throw new IllegalArgumentException("잘못된 고객 타입입니다.");
         }
     }
 }
