@@ -2,19 +2,16 @@ package com.prgrms.repository.voucher;
 
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherRegistry;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
-@Primary
 public class MemoryVoucherRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> storage = new TreeMap<>();
+    private final Map<Integer, Voucher> storage = new TreeMap<>();
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(int voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
 
