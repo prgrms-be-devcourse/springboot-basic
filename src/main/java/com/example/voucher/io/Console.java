@@ -3,13 +3,15 @@ package com.example.voucher.io;
 import static com.example.voucher.utils.ExceptionMessage.*;
 
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.utils.ExceptionHandler;
 
 public class Console {
+
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
 
     private final Writer writer;
     private final Reader reader;
@@ -19,8 +21,8 @@ public class Console {
         this.reader = new Reader();
     }
 
-    public void printVoucherInfo(List<VoucherDTO> vouchers){
-        for( VoucherDTO voucher : vouchers){
+    public void printVoucherInfo(List<VoucherDTO> vouchers) {
+        for (VoucherDTO voucher : vouchers) {
             VoucherType voucherType = voucher.voucherType();
             String voucherTypeInfo = voucherType.toString();
             long value = voucher.value();
@@ -32,17 +34,13 @@ public class Console {
         }
     }
 
-    public void printCustomMessage(String customMessage) {
-        writer.writeCustomMessage(customMessage);
-    }
-
     public VoucherType readVoucherType() {
         writer.writeVoucherInfoRequest();
         writer.writeVoucherTypeSelection();
 
         int number = reader.readInteger();
 
-        return  VoucherType.getVouchersType(number);
+        return VoucherType.getVouchersType(number);
     }
 
     public long readDiscountValue() {
@@ -63,7 +61,8 @@ public class Console {
 
             return selectedModeType;
         } catch (IllegalArgumentException e) {
-            ExceptionHandler.handleException(new IllegalArgumentException(INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION));
+            logger.error(e.getMessage());
+            writer.writeCustomMessage(e.getMessage());
 
             return null;
         }

@@ -21,9 +21,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
             .filter(e -> readVoucherType == e.getInputNum())
             .findAny()
-            .orElseThrow(
-                () -> new IllegalArgumentException());
-
+            .orElseThrow(() -> new IllegalArgumentException());
     }
 
 }

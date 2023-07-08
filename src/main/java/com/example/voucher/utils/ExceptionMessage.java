@@ -3,7 +3,6 @@ package com.example.voucher.utils;
 public class ExceptionMessage {
 
     private ExceptionMessage() {
-
     }
 
     public static final String INVALID_ARGUMENT = """
@@ -18,7 +17,6 @@ public class ExceptionMessage {
     public static final String EXCEPTION_CANT_CREATE = """
         예외가 발생하여 바우처를 생성하지 못했습니다.
         """;
-
     public static final String MESSAGE_ERROR_POSITIVE_CONSTRAINT = """
         값은 양수여야 합니다
         """;

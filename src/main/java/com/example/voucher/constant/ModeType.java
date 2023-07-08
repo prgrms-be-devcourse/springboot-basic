@@ -7,9 +7,7 @@ public enum ModeType {
     LIST;
 
     public static ModeType getModeType(String typeName) {
-
         return ModeType.valueOf(typeName.toUpperCase());
-
     }
 
 }
