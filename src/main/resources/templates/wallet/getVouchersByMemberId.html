@@ -9,7 +9,7 @@
           crossorigin="anonymous"/>
     <style>
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             padding-top: 50px;
             text-align: center;
@@ -24,7 +24,8 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>회원 ID</th>
+                    <th>바우처 ID</th>
                     <th>할인 값</th>
                     <th>할인 정책</th>
                     <th> </th>
@@ -33,6 +34,7 @@
 
                 <tbody>
                 <tr th:each="voucher : ${vouchers}">
+                    <td th:text="${memberId}"></td>
                     <td th:text="${voucher.voucherId}"></td>
                     <td th:text="${voucher.amount}"></td>
                     <td th:text="${voucher.voucherPolicy}"></td>

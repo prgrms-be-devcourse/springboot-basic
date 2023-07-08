@@ -1,5 +1,6 @@
 package kr.co.springbootweeklymission.wallet.presentation;
 
+import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.wallet.application.WalletService;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,21 @@ import java.util.UUID;
 public class WalletViewController {
     private final WalletService walletService;
 
-    @GetMapping("/{member_id}")
+    @GetMapping("/members/{member_id}")
     public String getVouchersByMemberId(Model model,
                                         @PathVariable(name = "member_id") UUID memberId) {
         List<VoucherResDTO.READ> reads = walletService.getVouchersByMemberId(memberId);
         model.addAttribute("vouchers", reads);
+        model.addAttribute("memberId", memberId);
         return "wallet/getVouchersByMemberId";
+    }
+
+    @GetMapping("/vouchers/{voucher_id}")
+    public String getMemberByVoucherId(Model model,
+                                       @PathVariable(name = "voucher_id") UUID voucherId) {
+        MemberResDTO.READ read = walletService.getMemberByVoucherId(voucherId);
+        model.addAttribute("member", read);
+        model.addAttribute("voucherId", voucherId);
+        return "wallet/getMemberByVoucherId";
     }
 }

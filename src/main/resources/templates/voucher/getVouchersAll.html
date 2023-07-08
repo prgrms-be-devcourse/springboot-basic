@@ -27,6 +27,7 @@
                     <th>ID</th>
                     <th>할인 정책</th>
                     <th> </th>
+                    <th> </th>
                 </tr>
                 </thead>
 
@@ -37,6 +38,10 @@
                     <td>
                         <a class="btn btn-success"
                            th:href="${'/view/v1/vouchers/' + voucher.voucherId}">상세 정보</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary"
+                           th:href="${'/view/v1/wallets/vouchers/' + voucher.voucherId}">할당된 고객 정보</a>
                     </td>
                 </tr>
                 </tbody>
