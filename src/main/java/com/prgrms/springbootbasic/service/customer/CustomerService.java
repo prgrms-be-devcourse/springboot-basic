@@ -1,8 +1,17 @@
 package com.prgrms.springbootbasic.service.customer;
 
-import org.springframework.stereotype.Service;
+import com.prgrms.springbootbasic.domain.customer.Customer;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@Service
-public class CustomerService {
+public interface CustomerService {
 
+    void createCustomers(List<Customer> customers);
+
+    Customer createCustomer(String email, String name);
+
+    List<Customer> getAllCustomers();
+
+    Optional<Customer> getCustomer(UUID customerId);
 }
