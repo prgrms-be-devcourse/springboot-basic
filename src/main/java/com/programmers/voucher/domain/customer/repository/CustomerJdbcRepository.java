@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
+
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerJdbcRepository.class);
@@ -40,8 +42,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
                 .addValue("banned", customerDto.isBanned());
 
         int saved = template.update(sql, param);
-        if (saved != 1) {
-            DataAccessException ex = new IncorrectResultSizeDataAccessException(1, saved);
+        if (saved != UPDATE_ONE) {
+            DataAccessException ex = new IncorrectResultSizeDataAccessException(UPDATE_ONE, saved);
             LOG.error(ex.getMessage(), ex);
             throw ex;
         }
@@ -98,17 +100,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
                 .addValue("banned", customerDto.isBanned());
 
         int updated = template.update(sql, param);
-        if (updated != 1) {
-            DataAccessException exception = new IncorrectResultSizeDataAccessException(1, updated);
+        if (updated != UPDATE_ONE) {
+            DataAccessException exception = new IncorrectResultSizeDataAccessException(UPDATE_ONE, updated);
             LOG.error(exception.getMessage(), exception);
             throw exception;
         }
-    }
-
-    @Override
-    public void deleteAll() {
-        String sql = "delete from customer";
-        template.update(sql, Map.of());
     }
 
     @Override
@@ -117,8 +113,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId);
         int deleted = template.update(sql, param);
-        if (deleted != 1) {
-            DataAccessException exception = new IncorrectResultSizeDataAccessException(1, deleted);
+        if (deleted != UPDATE_ONE) {
+            DataAccessException exception = new IncorrectResultSizeDataAccessException(UPDATE_ONE, deleted);
             LOG.error(exception.getMessage(), exception);
             throw exception;
         }

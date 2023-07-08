@@ -85,23 +85,6 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공: voucher 전체 삭제")
-    void deleteAll() {
-        //given
-        Voucher fixedVoucherA = createFixedVoucher(UUID.randomUUID(), 10);
-        Voucher fixedVoucherB = createFixedVoucher(UUID.randomUUID(), 10);
-        voucherRepository.save(fixedVoucherA);
-        voucherRepository.save(fixedVoucherB);
-
-        //when
-        voucherRepository.deleteAll();
-
-        //then
-        List<Voucher> findVouchers = voucherRepository.findAll();
-        assertThat(findVouchers).isEmpty();
-    }
-
-    @Test
     @DisplayName("성공: voucher 단건 삭제")
     void deleteById() {
         //given

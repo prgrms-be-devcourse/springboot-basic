@@ -18,6 +18,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 import static com.programmers.voucher.global.util.CommonErrorMessages.CANNOT_ACCESS_FILE;
+import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
 
 @Repository
 @Profile("dev")
@@ -84,25 +85,11 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
-        try (
-                BufferedWriter bw = new BufferedWriter(new FileWriter(file))
-        ) {
-            bw.write("");
-        } catch (IOException e) {
-            String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
-
-            LOG.error(errorMessage, e);
-            throw new FileAccessException(errorMessage, e);
-        }
-    }
-
-    @Override
     public void deleteById(UUID voucherId) {
         List<Voucher> vouchers = findAll();
         boolean removed = vouchers.removeIf(v -> Objects.equals(v.getVoucherId(), voucherId));
         if(removed) {
-            IncorrectResultSizeDataAccessException ex = new IncorrectResultSizeDataAccessException(1, 0);
+            IncorrectResultSizeDataAccessException ex = new IncorrectResultSizeDataAccessException(UPDATE_ONE, 0);
             LOG.error(ex.getMessage());
             throw ex;
         }

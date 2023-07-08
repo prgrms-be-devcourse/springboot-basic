@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.UUID;
+import java.util.regex.Matcher;
 
 public class Customer {
     private static final Logger LOG = LoggerFactory.getLogger(Customer.class);
@@ -26,7 +27,8 @@ public class Customer {
     }
 
     private void validateEmail(String email) {
-        if(!email.matches(CustomerFieldRegex.emailRegex)) {
+        Matcher emailMatcher = CustomerFieldRegex.EMAIL_PATTERN.matcher(email);
+        if(!emailMatcher.matches()) {
             String errorMessage = MessageFormat.format(CustomerErrorMessages.INVALID_EMAIL, email);
             LOG.warn(errorMessage);
             throw new IllegalArgumentException(errorMessage);
@@ -34,7 +36,8 @@ public class Customer {
     }
 
     private void validateName(String name) {
-        if (!name.matches(CustomerFieldRegex.nameRegex)) {
+        Matcher nameMatcher = CustomerFieldRegex.NAME_PATTERN.matcher(name);
+        if (!nameMatcher.matches()) {
             String errorMessage = MessageFormat.format(CustomerErrorMessages.INVALID_NAME, name);
             LOG.warn(errorMessage);
             throw new IllegalArgumentException(errorMessage);
@@ -46,6 +49,7 @@ public class Customer {
     }
 
     public void update(String name, boolean banned) {
+        validateName(name);
         this.name = name;
         this.banned = banned;
     }

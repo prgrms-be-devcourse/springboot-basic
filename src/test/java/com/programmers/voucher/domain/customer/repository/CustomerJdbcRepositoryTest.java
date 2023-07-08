@@ -185,23 +185,6 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("성공: customer 전체 삭제")
-    void deleteAll() {
-        //given
-        Customer customerA = new Customer(UUID.randomUUID(), "customerA@gmail.com", "customerA");
-        Customer customerB = new Customer(UUID.randomUUID(), "customerB@gmail.com", "customerB");
-        customerJdbcRepository.save(customerA);
-        customerJdbcRepository.save(customerB);
-
-        //when
-        customerJdbcRepository.deleteAll();
-
-        //then
-        List<Customer> findCustomers = customerJdbcRepository.findAll();
-        assertThat(findCustomers).isEmpty();
-    }
-
-    @Test
     @DisplayName("성공: customer 단건 삭제")
     void deleteById() {
         //given

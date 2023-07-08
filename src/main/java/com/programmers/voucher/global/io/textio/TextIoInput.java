@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.programmers.voucher.domain.customer.util.CustomerErrorMessages.INVALID_EMAIL;
 import static com.programmers.voucher.domain.customer.util.CustomerErrorMessages.INVALID_NAME;
@@ -120,22 +122,23 @@ public class TextIoInput implements ConsoleInput {
     public CustomerCreateRequest inputCustomerCreateInfo() {
         String email = textIO.newStringInputReader()
                 .withValueChecker((val, itemName) -> {
-                    return regexValidate(val, CustomerFieldRegex.emailRegex, INVALID_EMAIL);
+                    return regexValidate(val, CustomerFieldRegex.EMAIL_PATTERN, INVALID_EMAIL);
                 })
                 .read(ENTER_EMAIL);
 
         String name = textIO.newStringInputReader()
                 .withValueChecker(((val, itemName) -> {
-                    return regexValidate(val, CustomerFieldRegex.nameRegex, INVALID_NAME);
+                    return regexValidate(val, CustomerFieldRegex.NAME_PATTERN, INVALID_NAME);
                 }))
                 .read(ENTER_NAME);
 
         return new CustomerCreateRequest(email, name);
     }
 
-    private List<String> regexValidate(String val, String emailRegex, String invalidEmailRange) {
+    private List<String> regexValidate(String val, Pattern fieldPattern, String invalidEmailRange) {
         List<String> messages = new ArrayList<>();
-        if (!val.matches(emailRegex)) {
+        Matcher fieldMatcher = fieldPattern.matcher(val);
+        if (!fieldMatcher.matches()) {
             messages.add(invalidEmailRange);
         }
         return messages;

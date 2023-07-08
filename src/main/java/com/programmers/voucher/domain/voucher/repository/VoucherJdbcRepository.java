@@ -15,9 +15,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
 
 @Repository
 @Profile("db")
@@ -42,8 +43,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         int saved = template.update(sql, param);
 
-        if (saved != 1) {
-            DataAccessException ex = new IncorrectResultSizeDataAccessException(1, saved);
+        if (saved != UPDATE_ONE) {
+            DataAccessException ex = new IncorrectResultSizeDataAccessException(UPDATE_ONE, saved);
             LOG.error(ex.getMessage(), ex);
             throw ex;
         }
@@ -70,19 +71,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
-        String sql = "delete from voucher";
-        template.update(sql, Map.of());
-    }
-
-    @Override
     public void deleteById(UUID voucherId) {
         String sql = "delete from voucher where voucher_id = :voucherId";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId.toString());
         int deleted = template.update(sql, param);
-        if (deleted != 1) {
-            DataAccessException exception = new IncorrectResultSizeDataAccessException(1, deleted);
+        if (deleted != UPDATE_ONE) {
+            DataAccessException exception = new IncorrectResultSizeDataAccessException(UPDATE_ONE, deleted);
             LOG.error(exception.getMessage(), exception);
             throw exception;
         }
