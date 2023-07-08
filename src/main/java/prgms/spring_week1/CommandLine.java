@@ -8,6 +8,7 @@ import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
+import prgms.spring_week1.exception.NoSuchOptionValueException;
 import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
@@ -51,12 +52,10 @@ public class CommandLine implements CommandLineRunner {
     private Menu getMenu() {
         output.outputMessage(ConsoleOutputMessage.MENU_LIST_MESSAGE);
         Menu menu = input.selectMenu();
-
-        if (menu == null) {
+        while (menu == null) {
             output.outputMessage(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
-            return this.getMenu();
+            menu = input.selectMenu();
         }
-
         return menu;
     }
 
