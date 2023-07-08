@@ -20,13 +20,13 @@ public class Input {
     }
 
     public Long insertFixedDiscountValue(){
-        Long discountValue = VoucherType.validateAmountInputValue(Long.parseLong(this.input()));
+        Long discountValue = Long.parseLong(this.input());
 
         return discountValue;
     }
 
     public Long insertPercentDiscountValue(){
-        Long discountValue = VoucherType.validatePercentInputValue(Long.parseLong(this.input()));
+        Long discountValue = Long.parseLong(this.input());
 
         return discountValue;
     }

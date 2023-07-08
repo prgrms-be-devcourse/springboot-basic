@@ -77,20 +77,29 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void insertNewVoucher(VoucherType voucherType) {
-        Long discountValue = null;
-
-        if (voucherType == FIXED) {
-            while (discountValue == null) {
+        Long discountValue = switch (voucherType) {
+            case FIXED -> {
                 output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
-                discountValue = input.insertFixedDiscountValue();
+                Long inputAmountValue = input.insertFixedDiscountValue();
+                while (VoucherType.validateAmountInputValue(inputAmountValue) == null) {
+                    output.outputMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
+                    inputAmountValue = VoucherType.validateAmountInputValue(input.insertFixedDiscountValue());
+                }
+
+                yield inputAmountValue;
             }
-        }
-        if (voucherType == PERCENT) {
-            while (discountValue == null) {
+            case PERCENT -> {
                 output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
-                discountValue = input.insertPercentDiscountValue();
+                Long inputPercentValue = input.insertPercentDiscountValue();
+                while (VoucherType.validatePercentInputValue(inputPercentValue) == null) {
+                    output.outputMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
+                    inputPercentValue = VoucherType.validatePercentInputValue(input.insertPercentDiscountValue());
+                }
+
+                yield inputPercentValue;
             }
-        }
+        };
+
         voucherService.insertNewVoucher(voucherType, discountValue);
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
