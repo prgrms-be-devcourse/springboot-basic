@@ -2,7 +2,6 @@ package com.example.voucher.io;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
 import static com.example.voucher.io.Writer.*;
-
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +27,12 @@ public class Console {
             long value = voucher.value();
 
             writer.writeMessage(voucherType, value);
+        }
+    }
+
+    public void displayCreateResult(boolean isCreated) {
+        if (!isCreated) {
+            writer.writeMessage(Message.INVALID_ARGUMENT_CANT_CREATE_VOUCHER);
         }
     }
 
