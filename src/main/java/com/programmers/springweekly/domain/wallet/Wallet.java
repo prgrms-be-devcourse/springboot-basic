@@ -1,14 +1,21 @@
 package com.programmers.springweekly.domain.wallet;
 
-import java.util.UUID;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @Getter
-@RequiredArgsConstructor
 public class Wallet {
 
     private final UUID walletId;
     private final UUID customerId;
     private final UUID voucherId;
+
+    @Builder
+    public Wallet(UUID walletId, UUID customerId, UUID voucherId) {
+        this.walletId = walletId;
+        this.customerId = customerId;
+        this.voucherId = voucherId;
+    }
 }
