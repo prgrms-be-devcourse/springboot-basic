@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS wallet;
 DROP TABLE IF EXISTS voucher;
-DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS customer;
 
 CREATE TABLE voucher (
     id VARCHAR(36),
@@ -22,9 +22,9 @@ CREATE TABLE customer (
 CREATE TABLE wallet (
     id VARCHAR(36),
     voucher_id VARCHAR(36),
-    member_id VARCHAR(36),
+    customer_id VARCHAR(36),
     foreign key (voucher_id) references voucher (id)
         on delete cascade on update cascade,
-    foreign key (member_id) references member (id)
+    foreign key (customer_id) references customer (id)
         on delete cascade on update cascade
 );
