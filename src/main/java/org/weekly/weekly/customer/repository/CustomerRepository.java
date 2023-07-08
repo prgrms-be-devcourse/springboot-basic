@@ -12,6 +12,6 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
     List<Customer> findAll();
 
-    Customer update(Customer customer);
+    Customer update(Customer customer, String newEmail);
 }
 

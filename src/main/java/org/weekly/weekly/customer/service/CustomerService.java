@@ -5,7 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
 import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
-import org.weekly.weekly.customer.dto.response.CustomerDto;
+import org.weekly.weekly.customer.dto.response.CustomerResponse;
+import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.customer.repository.CustomerRepository;
 import org.weekly.weekly.util.ExceptionMsg;
@@ -22,12 +23,12 @@ public class CustomerService {
     }
 
     @Transactional
-    public CustomerDto createCustomer(CustomerCreationRequest creationRequest) {
+    public CustomerResponse createCustomer(CustomerCreationRequest creationRequest) {
         validateCustomerNotExist(creationRequest.getEmail());
 
         Customer customer = creationRequest.toCustomer();
         customerRepository.insert(customer);
-        return CustomerDto.of(customer);
+        return CustomerResponse.of(customer);
     }
 
     @Transactional
@@ -41,26 +42,25 @@ public class CustomerService {
     }
 
 
-    public CustomerDto findDetailCustomer(CustomerUpdateRequest updateRequest) {
+    public CustomerResponse findDetailCustomer(CustomerUpdateRequest updateRequest) {
         String email = updateRequest.email();
         Customer customer = validateCustomerExistAndGet(email);
-        return CustomerDto.of(customer);
+        return CustomerResponse.of(customer);
     }
 
-    public List<CustomerDto> findAllCustomer() {
+    public CustomersResponse findAllCustomer() {
         List<Customer> customers = customerRepository.findAll();
-        return customers.stream().map(CustomerDto::of).toList();
+        return new CustomersResponse(customers);
     }
 
     @Transactional
-    public CustomerDto updateCustomer(CustomerUpdateRequest updateRequest) {
+    public CustomerResponse updateCustomer(CustomerUpdateRequest updateRequest) {
         validateCustomerNotExist(updateRequest.newEmail());
 
         Customer customer = validateCustomerExistAndGet(updateRequest.email());
 
-        customer.updateName(updateRequest.newEmail());
-        Customer updateCustomer = customerRepository.update(customer);
-        return CustomerDto.of(updateCustomer);
+        Customer updateCustomer = customerRepository.update(customer, updateRequest.newEmail());
+        return CustomerResponse.of(updateCustomer);
     }
 
     private void validateCustomerNotExist(String email) {

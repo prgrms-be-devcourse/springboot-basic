@@ -3,7 +3,8 @@ package org.weekly.weekly.customer.controller;
 import org.springframework.stereotype.Controller;
 import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
 import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
-import org.weekly.weekly.customer.dto.response.CustomerDto;
+import org.weekly.weekly.customer.dto.response.CustomerResponse;
+import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.customer.service.CustomerService;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public CustomerDto createCustomer(CustomerCreationRequest creationRequest) {
+    public CustomerResponse createCustomer(CustomerCreationRequest creationRequest) {
         return customerService.createCustomer(creationRequest);
     }
 
@@ -29,15 +30,15 @@ public class CustomerController {
         customerService.deleteAllCustomers();
     }
 
-    public CustomerDto searchDetailCustomer(CustomerUpdateRequest updateRequest) {
+    public CustomerResponse findDetailCustomer(CustomerUpdateRequest updateRequest) {
         return customerService.findDetailCustomer(updateRequest);
     }
 
-    public List<CustomerDto> searchAllCustomer() {
+    public CustomersResponse findAllCustomer() {
         return customerService.findAllCustomer();
     }
 
-    public CustomerDto updateCustomer(CustomerUpdateRequest updateRequest) {
+    public CustomerResponse updateCustomer(CustomerUpdateRequest updateRequest) {
         return customerService.updateCustomer(updateRequest);
     }
 }

@@ -16,6 +16,7 @@ import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.dto.request.VoucherInfoRequest;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 @Component
@@ -32,21 +33,21 @@ public class CommandLineApplication {
     public ManageMenu readManageMenu() {
         return readMenu(()-> {
             commandWriter.printMangeProgram();
-            return ManageMenu.getMenu(readUserInput());
+            return ManageMenu.getMenu(readMenuInput());
         });
     }
 
     public VoucherMenu readVoucherMenu() {
         return readMenu(()-> {
             commandWriter.printVoucherProgram();
-            return VoucherMenu.getMenu(readUserInput());
+            return VoucherMenu.getMenu(readMenuInput());
         });
     }
 
     public CustomerMenu readCustomerMenu() {
         return readMenu(()-> {
             commandWriter.printCustomerProgram();
-            return CustomerMenu.getMenu(readUserInput());
+            return CustomerMenu.getMenu(readMenuInput());
         });
     }
 
@@ -105,6 +106,16 @@ public class CommandLineApplication {
         commandWriter.printReuslt(response.getResult());
     }
 
+    public void printDeleteMessage() {
+        commandWriter.printDeleteMessage();
+    }
+
+
+    private String readMenuInput() {
+        String userInput = commandReader.readLine();
+        InputValidator.isEmpty(userInput);
+        return userInput.toUpperCase();
+    }
 
     private String readUserInput() {
         String userInput = commandReader.readLine();

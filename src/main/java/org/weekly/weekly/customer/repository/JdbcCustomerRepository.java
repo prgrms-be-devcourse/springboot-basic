@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,7 +40,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
                 uuidToBytes(customer.getCustomerId()),
                 customer.getName(),
                 customer.getEmail(),
-                LocalDateTime.now());
+                Timestamp.valueOf(customer.getCreateAt()));
 
         if (insert != 1) {
             throw new CustomerException(ExceptionMsg.SQL_INSERT_ERROR);
@@ -77,12 +78,15 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public Customer update(Customer customer) {
-        String sql = "UPDATE customers SET name = ? WHERE email = ?";
+    public Customer update(Customer customer, String newEmail) {
+        String sql = "UPDATE customers SET email = ? WHERE email = ?";
+
+        String beforeEmail = customer.getEmail();
+        customer.updateEmail(newEmail);
 
         int update = jdbcTemplate.update(sql,
-                customer.getName(),
-                customer.getEmail());
+                customer.getEmail(),
+                beforeEmail);
 
         if (update != 1) {
             throw new CustomerException(ExceptionMsg.SQL_ERROR);

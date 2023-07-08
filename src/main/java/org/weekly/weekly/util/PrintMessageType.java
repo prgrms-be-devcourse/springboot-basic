@@ -14,7 +14,8 @@ public enum PrintMessageType {
     NO_VOUCHER_DATAS("저장소에 데이터가 없습니다."),
     EMPTY(""),
     CREATE_VOUCHER_SUCCESS("[바우처 생성에 성공]: "),
-    FIND_ALL_VOUCHER_SUCCESS("[모든 바우처 조회 성공]: ");
+    FIND_ALL_VOUCHER_SUCCESS("[모든 바우처 조회 성공]: "),
+    DELETE("삭제에 성공했습니다!");
 
     private final String message;
 

@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public enum ManageMenu implements Menu {
     EXIT("Type exit to exit the program."),
-    VOUCHER("Type create to create a new voucher."),
-    CUSTOMER("Type list to list all vouchers.");
+    VOUCHER("Type voucher to voucher a new voucher."),
+    CUSTOMER("Type customer to customer all vouchers.");
 
     private final String printMessage;
     private static final Map<String, ManageMenu> MANAGE_MENU_MAP;
@@ -15,7 +15,7 @@ public enum ManageMenu implements Menu {
     static {
         MANAGE_MENU_MAP = new ConcurrentHashMap<>();
         Arrays.stream(ManageMenu.values())
-                .peek(manageMenu -> MANAGE_MENU_MAP.put(manageMenu.name(), manageMenu));
+                .forEach(manageMenu -> MANAGE_MENU_MAP.put(manageMenu.name(), manageMenu));
     }
 
     ManageMenu(String printMessage) {

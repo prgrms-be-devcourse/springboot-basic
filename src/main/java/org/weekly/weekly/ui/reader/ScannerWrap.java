@@ -19,7 +19,7 @@ public class ScannerWrap implements CommandReader{
     public String readLine() {
         String userInput = scanner.nextLine().trim();
         checkException(userInput);
-        return userInput.toUpperCase();
+        return userInput;
     }
 
     private void checkException(String userInput) {

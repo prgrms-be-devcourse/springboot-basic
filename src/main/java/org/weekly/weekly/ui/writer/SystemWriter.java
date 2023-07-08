@@ -66,6 +66,11 @@ public class SystemWriter {
         println(result);
     }
 
+    public void printDeleteMessage() {
+        println(PrintMessageType.DELETE.getMessage());
+    }
+
+
     private void printMenu(Menu[] menus, PrintMessageType programMessage) {
         println(PrintMessageType.EMPTY.getMessage());
         println(programMessage.getMessage());

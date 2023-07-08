@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public enum CustomerMenu implements Menu {
-    EXIT("Type exit to exit the program."),
-    CREATE("Type create to create a new voucher."),
-    DELETE("Type list to list all vouchers."),
+    EXIT("[Type: exit] to exit the program."),
+    CREATE("[Type: create] to create a new voucher."),
+    DELETE("[Type: list] to list all vouchers."),
     DELETE_ALL("[Type: delete_all] 모든 유저 삭제"),
-    SEARCH_ALL("[Type: search_all] 모든 유저 검색"),
-    SEARCH_DETAIL("[Type: search_detail] 유저 상세 검색"),
+    FIND_ALL("[Type: find_all] 모든 유저 검색"),
+    FIND_DETAIL("[Type: find_detail] 유저 상세 검색"),
     UPDATE("[Type: update] 유저 정보 업데이트");
 
     private final String printMessage;
@@ -18,7 +18,7 @@ public enum CustomerMenu implements Menu {
     static {
         CUSTOMER_MENU_MAP = new ConcurrentHashMap<>();
         Arrays.stream(CustomerMenu.values())
-                .peek(customerMenu -> CUSTOMER_MENU_MAP.put(customerMenu.name(), customerMenu));
+                .forEach(customerMenu -> CUSTOMER_MENU_MAP.put(customerMenu.name(), customerMenu));
     }
 
     CustomerMenu(String printMessage) {

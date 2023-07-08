@@ -114,15 +114,15 @@ class JdbcCustomerRepositoryTest {
     @Test
     void 회원_닉네임_업데이트_테스트() {
         // Given
+        String newName = "newName";
         Customer insertCusomter = jdbcCustomerRepository.insert(customer);
 
         // When
-        insertCusomter.updateName("newName");
-        jdbcCustomerRepository.update(insertCusomter);
+        jdbcCustomerRepository.update(insertCusomter,newName);
 
         // Then
-        Optional<Customer> updateCustomer = jdbcCustomerRepository.findByEmail(insertCusomter.getEmail());
+        Optional<Customer> updateCustomer = jdbcCustomerRepository.findByEmail(newName);
         assertThat(updateCustomer.isPresent(), is(true));
-        assertThat(updateCustomer.get(), samePropertyValuesAs(insertCusomter));
+        assertThat(updateCustomer.get().getEmail(), is(newName));
     }
 }

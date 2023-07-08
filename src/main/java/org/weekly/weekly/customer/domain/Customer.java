@@ -12,21 +12,15 @@ public class Customer {
     LocalDateTime createAt;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createAt) {
-        this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.customerId = customerId;
-    }
-
-    private Customer(UUID customerId, String name, String email) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
+        this.createAt = createAt;
     }
 
     public static Customer of(UUID uuid, String name, String email) {
         CustomerValidator.validateEmailFormat(email);
-        return new Customer(uuid, name, email);
+        return new Customer(uuid, name, email, LocalDateTime.now());
     }
 
     public String getName() {
@@ -45,7 +39,7 @@ public class Customer {
         return customerId;
     }
 
-    public void updateName(String name) {
-        this.name = name;
+    public void updateEmail(String email) {
+        this.email = email;
     }
 }
