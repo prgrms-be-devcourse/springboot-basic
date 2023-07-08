@@ -41,7 +41,7 @@ public class CommandLine implements CommandLineRunner {
             Menu menuName = getMenu();
             switch (menuName) {
                 case EXIT -> isRunning = false;
-                case CREATE -> selectVoucherType();
+                case CREATE -> selectVoucherTypeBeforCreate();
                 case LIST -> printAllVoucher(voucherService.findAll());
                 case BLACK -> output.printBlackConsumerList(customerService.getBlackConsumerList());
             }
@@ -60,7 +60,7 @@ public class CommandLine implements CommandLineRunner {
         return menu;
     }
 
-    private void selectVoucherType() {
+    private void selectVoucherTypeBeforCreate() {
         output.outputMessage(ConsoleOutputMessage.TYPE_SELECT_MESSAGE);
         String select = null;
 
