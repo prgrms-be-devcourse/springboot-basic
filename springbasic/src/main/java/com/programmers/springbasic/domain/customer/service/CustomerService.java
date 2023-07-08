@@ -1,10 +1,12 @@
 package com.programmers.springbasic.domain.customer.service;
 
+import com.programmers.springbasic.domain.customer.dto.request.CustomerCreateRequestDTO;
+import com.programmers.springbasic.domain.customer.dto.request.CustomerDeleteRequestDTO;
+import com.programmers.springbasic.domain.customer.dto.request.CustomerSingleFindRequestDTO;
+import com.programmers.springbasic.domain.customer.dto.request.CustomerUpdateRequestDTO;
+import com.programmers.springbasic.domain.customer.dto.response.CustomerResponseDTO;
 import com.programmers.springbasic.domain.customer.entity.Customer;
 import com.programmers.springbasic.domain.customer.repository.CustomerRepository;
-import com.programmers.springbasic.domain.customer.validator.CustomerCreateRequestValidator;
-import com.programmers.springbasic.domain.customer.validator.CustomerIdValidator;
-import com.programmers.springbasic.domain.customer.view.CustomerInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,44 +20,46 @@ import java.util.stream.Collectors;
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
-    public void createCustomer(CustomerCreateRequestValidator customerCreateRequestValidator) {
-        String name = customerCreateRequestValidator.getName();
-        String email = customerCreateRequestValidator.getEmail();
+    public void createCustomer(CustomerCreateRequestDTO customerCreateRequestDTO) {
+        String name = customerCreateRequestDTO.getName();
+        String email = customerCreateRequestDTO.getEmail();
 
         Customer customer = new Customer(name, email);
         customerRepository.save(customer);
     }
 
-    public List<String> getAllInfo() {
+    public List<CustomerResponseDTO> getAllInfo() {
         List<Customer> customers = customerRepository.findAll();
 
         return customers.stream()
-                .map(this::getInfo)
+                .map(CustomerResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public String findCustomer(CustomerIdValidator customerIdValidator) {
-        String validCustomerId = customerIdValidator.getInputCustomerId();
+    public CustomerResponseDTO findCustomer(CustomerSingleFindRequestDTO customerSingleFindRequestDTO) {
+        String validCustomerId = customerSingleFindRequestDTO.getCustomerId();
         UUID customerId = UUID.fromString(validCustomerId);
 
-        Customer customer = customerRepository.findById(customerId).orElseThrow();
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("조회하고자 하는 고객이 없습니다."));
 
-        return getInfo(customer);
+        return new CustomerResponseDTO(customer);
     }
 
-    public void updateCustomer(CustomerIdValidator customerIdValidator) {   // TODO: update customer
-        String validCustomerId = customerIdValidator.getInputCustomerId();
-        UUID customerId = UUID.fromString(validCustomerId);
+    public void updateCustomer(CustomerUpdateRequestDTO customerUpdateRequestDTO) {
+        UUID customerId = UUID.fromString(customerUpdateRequestDTO.getCustomerId());
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("조회하고자 하는 고객이 없습니다."));
 
-        Customer customer = customerRepository.findById(customerId).orElseThrow();
+        String newName = customerUpdateRequestDTO.getName();
+        String newEmail = customerUpdateRequestDTO.getEmail();
 
-        // update customer
+        customer.changeName(newName);
+        customer.changeEmail(newEmail);
 
         customerRepository.update(customer);
     }
 
-    public void removeCustomer(CustomerIdValidator customerIdValidator) {
-        String validCustomerId = customerIdValidator.getInputCustomerId();
+    public void removeCustomer(CustomerDeleteRequestDTO customerDeleteRequestDTO) {
+        String validCustomerId = customerDeleteRequestDTO.getCustomerId();
         UUID customerId = UUID.fromString(validCustomerId);
 
         customerRepository.delete(customerId);
