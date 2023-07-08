@@ -11,16 +11,16 @@ class DiscountTypeTest {
 
     @Nested
     @DisplayName("할인 유형에 적합한 DiscountType 을 반환한다.")
-    class returnAppropriateDiscountType {
+    class from_success {
 
         @Test
         @DisplayName("fix 가 들어온 경우")
         void WhenFixComeInto() {
-            // when
-            String name = "fix";
-
             // given
-            DiscountType result = DiscountType.from(name);
+            String number = "1";  // Fix amount
+
+            // when
+            DiscountType result = DiscountType.from(number);
 
             // then
             assertThat(result).isEqualTo(DiscountType.FIX);
@@ -29,11 +29,11 @@ class DiscountTypeTest {
         @Test
         @DisplayName("percent 가 들어온 경우")
         void WhenPercentComeInto() {
-            // when
-            String name = "percent";
-
             // given
-            DiscountType result = DiscountType.from(name);
+            String number = "2";    // Percent
+
+            // when
+            DiscountType result = DiscountType.from(number);
 
             // then
             assertThat(result).isEqualTo(DiscountType.PERCENT);
@@ -42,15 +42,13 @@ class DiscountTypeTest {
 
     @Test
     @DisplayName("존재하지 않는 할인 유형이 들어오면 에외가 발생한다.")
-    void occurExceptionWhenDiscountTypeDoesNotExist() {
-        // when
-        String name = "fixx";
+    void from_exception() {
+        // given
+        String number = "3";
 
-        // given & then
-        assertThatThrownBy(() -> {
-            DiscountType.from(name);
-        })
+        // when & then
+        assertThatThrownBy(() -> DiscountType.from(number))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("This discount type does not exist.");
+                .hasMessage("존재하지 않는 할인 유형 입니다.");
     }
 }

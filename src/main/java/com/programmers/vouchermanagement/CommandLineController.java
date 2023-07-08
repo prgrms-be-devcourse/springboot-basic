@@ -1,7 +1,8 @@
 package com.programmers.vouchermanagement;
 
 import com.programmers.vouchermanagement.view.Command;
-import com.programmers.vouchermanagement.view.Console;
+import com.programmers.vouchermanagement.view.InputView;
+import com.programmers.vouchermanagement.view.OutputView;
 import com.programmers.vouchermanagement.voucher.domain.DiscountType;
 import com.programmers.vouchermanagement.voucher.application.VoucherDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
@@ -29,7 +30,6 @@ public class CommandLineController implements CommandLineRunner {
             try {
                 running = isRunning();
             } catch (RuntimeException e) {
-                Console.outputErrorMessage(e.getMessage());
                 log.error(e.getMessage());
             }
 
@@ -37,17 +37,19 @@ public class CommandLineController implements CommandLineRunner {
     }
 
     private boolean isRunning() {
-        Command command = Command.from(Console.selectCommand());
+        OutputView.showCommand();
+        Command command = InputView.inputCommand();
         switch (command) {
             case CREATE -> {
-                DiscountType discountType = DiscountType.from(Console.selectDiscountType());
-                int discountAmount = Console.inputDiscountAmount();
+                OutputView.showDiscountType();
+                DiscountType discountType = InputView.inputDiscountType();
+                int discountAmount = InputView.inputDiscountAmount();
                 VoucherDto request = new VoucherDto(discountType, discountAmount);
                 voucherController.createVoucher(request);
             }
             case LIST-> {
                 List<VoucherDto> vouchers = voucherController.getVouchers();
-                Console.outputVouchers(vouchers);
+                OutputView.showVouchers(vouchers);
             }
             case EXIT -> {
                 return false;
