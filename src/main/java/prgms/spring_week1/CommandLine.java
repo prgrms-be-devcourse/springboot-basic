@@ -111,7 +111,7 @@ public class CommandLine implements CommandLineRunner {
         }
 
         for (Voucher voucher : voucherList) {
-            output.printVoucherInfo(new VoucherOutputDto(voucher.getVoucherType(),voucher.getDiscount()));
+            output.printVoucherInfo(new VoucherOutputDto(voucher.getVoucherType(), voucher.getDiscount()));
         }
     }
 }
