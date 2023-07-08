@@ -70,6 +70,8 @@ public class CommendLineRunner implements CommandLineRunner {
             case CREATE_MEMBER:
                 createMember();
                 break;
+            case MEMBER_LIST:
+                console.printAllMember(memberController.findAllMember());
             case ASSIGN_VOUCHER:
                 assignVoucher();
                 break;

@@ -24,4 +24,7 @@ public class MemberService {
         return memberRepository.findAllBlackMember();
     }
 
+    public List<Member> findAllMember() {
+        return memberRepository.findAll();
+    }
 }

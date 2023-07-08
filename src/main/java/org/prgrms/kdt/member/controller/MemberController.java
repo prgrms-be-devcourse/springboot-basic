@@ -19,6 +19,10 @@ public class MemberController {
         memberService.createMember(request);
     }
 
+    public List<Member> findAllMember(){
+        return memberService.findAllMember();
+    }
+
     public List<Member> findAllBlackMember() {
         return memberService.findAllBlackMember();
     }

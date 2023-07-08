@@ -10,10 +10,11 @@ public enum Menu {
     LIST(3),
     BLACK_LIST(4),
     CREATE_MEMBER(5),
-    ASSIGN_VOUCHER(6),
-    VOUCHER_LIST_BY_MEMBER(7),
-    DELETE_WALLET(8),
-    MEMBER_LIST_BY_VOUCHER(9);
+    MEMBER_LIST(6),
+    ASSIGN_VOUCHER(7),
+    VOUCHER_LIST_BY_MEMBER(8),
+    DELETE_WALLET(9),
+    MEMBER_LIST_BY_VOUCHER(10);
 
     private final int descriptonNumber;
 
