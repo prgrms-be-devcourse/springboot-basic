@@ -46,7 +46,7 @@ public class CommandLineController {
     }
 
     private String createVoucherResponseMessage(Voucher voucher) {
-        return new VoucherResponse(voucher.getId(), voucher.getVoucherType(), 1000)
+        return new VoucherResponse(voucher.getId(), voucher.getVoucherType(), voucher.getDiscountValue())
                 .generateMessage();
     }
 
