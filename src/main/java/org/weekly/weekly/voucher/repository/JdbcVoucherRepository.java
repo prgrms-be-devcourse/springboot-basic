@@ -1,6 +1,7 @@
 package org.weekly.weekly.voucher.repository;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -53,13 +54,17 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher insert(Voucher voucher) {
         String sql = "INSERT INTO vouchers(voucher_id, amount, discount, registration_date, expiration_date) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)";
-
-        int update = jdbcTemplate.update(sql,
-                uuidToBytes(voucher.getVoucherId()),
-                voucher.getAmount(),
-                voucher.getDiscountType().name(),
-                Timestamp.valueOf(voucher.getRegistrationDate().atStartOfDay()),
-                Timestamp.valueOf(voucher.getExpirationDate().atStartOfDay()));
+        int update = 0;
+        try {
+            update = jdbcTemplate.update(sql,
+                    uuidToBytes(voucher.getVoucherId()),
+                    voucher.getAmount(),
+                    voucher.getDiscountType().name(),
+                    Timestamp.valueOf(voucher.getRegistrationDate().atStartOfDay()),
+                    Timestamp.valueOf(voucher.getExpirationDate().atStartOfDay()));
+        } catch(DataAccessException dataAccessException) {
+            throw new VoucherException(ExceptionMsg.SQL_INSERT_ERROR);
+        }
 
         if (update != 1) {
             throw new VoucherException(ExceptionMsg.SQL_ERROR);
