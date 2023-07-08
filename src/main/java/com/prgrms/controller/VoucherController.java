@@ -1,7 +1,7 @@
 package com.prgrms.controller;
 
-import com.prgrms.model.dto.VoucherRequest;
-import com.prgrms.model.dto.VoucherResponse;
+import com.prgrms.model.voucher.dto.VoucherRequest;
+import com.prgrms.model.voucher.dto.VoucherResponse;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.service.voucher.VoucherService;
 
