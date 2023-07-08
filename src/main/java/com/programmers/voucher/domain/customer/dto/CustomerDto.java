@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.customer.dto;
 
+import com.programmers.voucher.domain.customer.domain.Customer;
+
 import java.util.UUID;
 
 public class CustomerDto {
@@ -13,6 +15,15 @@ public class CustomerDto {
         this.email = email;
         this.name = name;
         this.banned = banned;
+    }
+
+    public static CustomerDto from(Customer customer) {
+        UUID customerId = customer.getCustomerId();
+        String email = customer.getEmail();
+        String name = customer.getName();
+        boolean banned = customer.isBanned();
+
+        return new CustomerDto(customerId, email, name, banned);
     }
 
     public UUID getCustomerId() {

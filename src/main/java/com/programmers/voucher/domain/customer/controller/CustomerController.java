@@ -26,7 +26,7 @@ public class CustomerController {
     public void findBlacklistCustomers() {
         List<Customer> customers = customerService.findBlacklistCustomers();
         List<CustomerDto> customerDtos = customers.stream()
-                .map(Customer::toDto)
+                .map(CustomerDto::from)
                 .toList();
 
         console.printCustomers(customerDtos);
@@ -35,7 +35,7 @@ public class CustomerController {
     public void findCustomers() {
         List<Customer> customers = customerService.findCustomers();
         List<CustomerDto> customerDtos = customers.stream()
-                .map(Customer::toDto)
+                .map(CustomerDto::from)
                 .toList();
 
         console.printCustomers(customerDtos);

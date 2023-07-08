@@ -31,7 +31,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void save(Customer customer) {
-        CustomerDto customerDto = customer.toDto();
+        CustomerDto customerDto = CustomerDto.from(customer);
 
         String sql = "insert into customer(customer_id, email, name, banned)" +
                 " values(:customerId, :email, :name, :banned)";
@@ -91,7 +91,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void update(Customer customer) {
-        CustomerDto customerDto = customer.toDto();
+        CustomerDto customerDto = CustomerDto.from(customer);
 
         String sql = "update customer set name = :name, banned = :banned where customer_id = :customerId";
         MapSqlParameterSource param = new MapSqlParameterSource()
