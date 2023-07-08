@@ -14,7 +14,13 @@ import java.util.List;
 
 @Component
 public class VoucherController implements ApplicationRunner {
-    private static final String CREATED_RESPONSE = "\n:: Voucher Created ::";
+    private static final String GREETING = """
+            === Voucher Program ===
+           Type <EXIT> to exit the program.
+           Type <CREATE> to create a new voucher.
+           Type <LIST> to list all vouchers.
+           """;
+    private static final String CREATION_RESPONSE = "\n:: Voucher Created ::";
     private static final String EXITING_RESPONSE = "\n:: Application Ended ::";
 
     private final Console console = new Console();
@@ -27,21 +33,21 @@ public class VoucherController implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         boolean power = true;
-        console.greeting();
+        console.print(GREETING);
 
         while (power) {
             ApplicationRequest request = console.readRequest();
-            ApplicationResponse response = generateResponse(request);
-            console.write(response.payload());
+            ApplicationResponse response = mapServiceToCreateResponse(request);
+            console.print(response.payload());
             power = response.power();
         }
     }
 
-    public ApplicationResponse generateResponse(ApplicationRequest request) {
+    public ApplicationResponse mapServiceToCreateResponse(ApplicationRequest request) { // todo : check naming
         return switch (request.command()) {
             case CREATE -> {
                 voucherService.create((CreateVoucherRequest) request.payload());
-                yield new ApplicationResponse<>(true, CREATED_RESPONSE);
+                yield new ApplicationResponse<>(true, CREATION_RESPONSE);
             }
             case LIST -> {
                 List<GetVoucherResponse> responses = voucherService.findAll();

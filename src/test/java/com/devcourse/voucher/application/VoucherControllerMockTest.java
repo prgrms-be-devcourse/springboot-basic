@@ -36,11 +36,11 @@ class VoucherControllerMockTest {
     @DisplayName("생성 요청이 들어오면 전원이 켜져야 한다.")
     void createMapServiceTest() {
         // given
-        ApplicationRequest request = ApplicationRequest.noPayload(CREATE);
+        ApplicationRequest request = new ApplicationRequest(CREATE, null);
         willDoNothing().given(voucherService).create(any());
 
         // when
-        ApplicationResponse response = voucherController.generateResponse(request);
+        ApplicationResponse response = voucherController.mapServiceToCreateResponse(request);
 
         // then
         then(voucherService).should(times(1)).create(any());
@@ -51,12 +51,12 @@ class VoucherControllerMockTest {
     @DisplayName("조회 요청이 들어오면 전원이 켜지고 예상한 리스트를 반환해야 한다.")
     void listMapServiceTest() {
         // given
-        ApplicationRequest request = ApplicationRequest.noPayload(LIST);
+        ApplicationRequest request = new ApplicationRequest(LIST, null);
         List<GetVoucherResponse> expected = new ArrayList<>();
         given(voucherService.findAll()).willReturn(expected);
 
         // when
-        ApplicationResponse response = voucherController.generateResponse(request);
+        ApplicationResponse response = voucherController.mapServiceToCreateResponse(request);
 
         // then
         then(voucherService).should(times(1)).findAll();
@@ -68,10 +68,10 @@ class VoucherControllerMockTest {
     @DisplayName("종료 요청이 들어오면 전원이 꺼져야 한다.")
     void exitMapServiceTest() {
         // given
-        ApplicationRequest request = ApplicationRequest.noPayload(EXIT);
+        ApplicationRequest request = new ApplicationRequest<>(EXIT, null);
 
         // when
-        ApplicationResponse response = voucherController.generateResponse(request);
+        ApplicationResponse response = voucherController.mapServiceToCreateResponse(request);
 
         // then
         assertThat(response.power()).isFalse();

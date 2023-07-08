@@ -5,22 +5,13 @@ import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.presentation.Command;
 import com.devcourse.voucher.presentation.dto.ApplicationRequest;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
-public class Console implements Reader<String>, Writer {
+import static com.devcourse.voucher.presentation.Command.CREATE;
+
+public class Console {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final String GREETING = """
-            === Voucher Program ===
-           Type <EXIT> to exit the program.
-           Type <CREATE> to create a new voucher.
-           Type <LIST> to list all vouchers.
-           """;
     private static final String GET_COMMAND_GUIDE = """
             \n:: Support Command(CREATE, LIST, EXIT) ::
             Type Command :\s""";
@@ -33,95 +24,40 @@ public class Console implements Reader<String>, Writer {
     private static final String EXPIRATION_DATE_GUIDE = """
             \n:: Support Format(yyyy-MM-dd) ::
             Type type of Voucher :\s""";
-    private static final String NOT_SUPPORT_DATE_FORMAT = "[Error] Your Input is incorrect Date Format : ";
-    private static final String NOT_A_NUMBER = "[Error] Your Input is not a Number : ";
 
-    @Override
-    public String read() {
+    private final IoParser parser = new IoParser();
+
+    public String read(String message) {
+        System.out.print(message);
         return scanner.nextLine();
     }
 
-    @Override
-    public <T> void write(T input) {
-        if (isIterable(input)) {
-            writeIterable(input);
-            return;
-        }
-
+    public <T> void print(T input) {
         System.out.print(input);
     }
 
-    public void greeting() {
-        write(GREETING);
-    }
-
     public ApplicationRequest readRequest() {
-        String readCommand = readCommand();
-        Command command = Command.from(readCommand);
+        String inputCommand = read(GET_COMMAND_GUIDE);
+        Command command = parser.parseCommand(inputCommand);
 
         if (command.isCreation()) {
             CreateVoucherRequest request = readCreationRequest();
-            return ApplicationRequest.creation(request);
+            return new ApplicationRequest(CREATE, request);
         }
 
-        return ApplicationRequest.noPayload(command);
-    }
-
-    private String readCommand() {
-        write(GET_COMMAND_GUIDE);
-        return read();
+        return new ApplicationRequest(command, null);
     }
 
     private CreateVoucherRequest readCreationRequest() {
-        StringBuilder stringBuilder = new StringBuilder();
+        String inputDiscount = read(DISCOUNT_INT_GUIDE);
+        int discount = parser.parseDiscount(inputDiscount);
 
-        readInformation(stringBuilder, VOUCHER_TYPE_GUIDE);
-        readInformation(stringBuilder, DISCOUNT_INT_GUIDE);
-        readInformation(stringBuilder, EXPIRATION_DATE_GUIDE);
+        String inputExpiredAt = read(EXPIRATION_DATE_GUIDE);
+        LocalDateTime expiredAt = parser.parseExpiration(inputExpiredAt);
 
-        return createVoucherRequest(stringBuilder.toString());
-    }
+        String inputType = read(VOUCHER_TYPE_GUIDE);
+        Voucher.Type type = parser.parseVoucherType(inputType);
 
-    private void readInformation(StringBuilder stringBuilder, String message) {
-        write(message);
-        String input = read();
-        stringBuilder.append(input).append(",");
-    }
-
-    private CreateVoucherRequest createVoucherRequest(String information) {
-        StringTokenizer tokenizer = new StringTokenizer(information, ",");
-
-        String type = tokenizer.nextToken();
-        int discount = parseDiscount(tokenizer.nextToken());
-        LocalDateTime expiredAt = parseExpiration(tokenizer.nextToken());
-
-        return new CreateVoucherRequest(discount, expiredAt, Voucher.Type.from(type));
-    }
-
-    private LocalDateTime parseExpiration(String expiredAt) {
-        try {
-            LocalDate localDate = LocalDate.parse(expiredAt, TIME_FORMAT);
-            return LocalDateTime.of(localDate, LocalTime.MIDNIGHT);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(NOT_SUPPORT_DATE_FORMAT + expiredAt);
-        }
-    }
-
-    private Integer parseDiscount(String discount) {
-        try {
-            return Integer.parseInt(discount);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(NOT_A_NUMBER + discount);
-        }
-    }
-
-    private <T> void writeIterable(T iterable) {
-        for (Object content : (Iterable) iterable) {
-            System.out.println(content.toString());
-        }
-    }
-    
-    private <T> boolean isIterable(T input) {
-        return input instanceof Iterable<?>;
+        return new CreateVoucherRequest(discount, expiredAt, type);
     }
 }

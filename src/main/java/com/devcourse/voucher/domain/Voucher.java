@@ -10,19 +10,7 @@ import static com.devcourse.voucher.domain.Voucher.Status.USED;
 public class Voucher {
     protected enum Status { USED, ISSUED }
     public enum Type {
-        FIXED,
-        PERCENT,
-        ;
-
-        private static final String NOT_SUPPORT_TYPE = "[Error] Your Input Is Not Support. Type : ";
-
-        public static Type from(String input) {
-            try {
-                return Enum.valueOf(Voucher.Type.class, input.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(NOT_SUPPORT_TYPE + input);
-            }
-        }
+        FIXED, PERCENT;
 
         public boolean isPercent() {
             return this == PERCENT;
