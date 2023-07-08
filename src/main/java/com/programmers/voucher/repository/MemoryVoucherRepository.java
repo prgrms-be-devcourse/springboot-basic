@@ -1,6 +1,8 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.domain.Voucher;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Profile("dev")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
