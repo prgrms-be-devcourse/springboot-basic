@@ -30,13 +30,17 @@ public class VoucherController {
         voucherService.createVoucher(discountAmount); // 나는 그냥 바우처를 만들어 라고 명령만! : (어디에 할지는 자동으로 26번쨰줄에서 결정이되었음)
     }
 
-    @GetMapping(value = "/vouchers")
-    public String findVouchers(Model model,VoucherType voucherType) {
-        VoucherService voucherService;
-        voucherService = voucherTypeFactory.getVoucherService(voucherType);
-        List<Voucher> vouchers = voucherService.getVouchers();
-        model.addAttribute("serverTime", LocalDateTime.now());
-        model.addAttribute("vouchers", vouchers);
-        return "views/vouchers";
+//    @GetMapping(value = "/vouchers")
+//    public String findVouchers(Model model) {
+//        List<Voucher> vouchers = voucherService.getVouchers(); // 이부분 수정 필수!
+//        model.addAttribute("serverTime", LocalDateTime.now());
+//        model.addAttribute("vouchers", vouchers);
+//        return "views/vouchers";
+//    }
+
+    @GetMapping(value = "/")
+    public String getHomePage(Model model) {
+        model.addAttribute("message", LocalDateTime.now());
+        return "views/home";
     }
 }

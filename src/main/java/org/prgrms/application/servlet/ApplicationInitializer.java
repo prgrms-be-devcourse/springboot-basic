@@ -46,6 +46,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
             @Override
             public void configureViewResolvers(ViewResolverRegistry registry){
+
                 SpringResourceTemplateResolver springResourceTemplateResolver = new SpringResourceTemplateResolver();
                 springResourceTemplateResolver.setApplicationContext(applicationContext);
                 springResourceTemplateResolver.setPrefix("/WEB-INF/");
@@ -100,10 +101,10 @@ public class ApplicationInitializer implements WebApplicationInitializer {
             }
     }
 
-
     @Override
     public void onStartup(ServletContext servletContext) {
         logger.info("Starting Server...");
+
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
         applicationContext.register(RootConfig.class);
 
