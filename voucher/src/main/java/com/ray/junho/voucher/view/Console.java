@@ -16,15 +16,38 @@ public class Console {
         this.outputView = outputView;
     }
 
-
-    private final String START_MESSAGE = """
+    private static final String START_MESSAGE = """
             === Voucher Program ===
             Type exit to exit the program.
             Type create to create a new voucher.
             Type list to list all vouchers.""";
-    private final String EXIT_MESSAGE = "프로그램을 종료합니다.";
-    private final String VOUCHER_CREATE_MESSAGE = "생성할 바우처를 입력하세요. [1. 고정 금액 할인 / 2. 퍼센트 할인]";
+    private static final String EXIT_MESSAGE = "프로그램을 종료합니다.";
+    private static final String VOUCHER_CREATE_MESSAGE = "생성할 바우처를 입력하세요. [1. 고정 금액 할인 / 2. 퍼센트 할인]";
 
+
+    public String read() {
+        return inputView.read();
+    }
+
+    public int readVoucherTypeToCreate() {
+        outputView.print(VOUCHER_CREATE_MESSAGE);
+        return StringUtil.convertStringToInt(read());
+    }
+
+    public int readVoucherDiscountAmount(int voucherType) {
+        if (voucherType == 1) {
+            outputView.print("할인할 금액을 입력하세요.");
+        }
+        if (voucherType == 2) {
+            outputView.print("할인율을 입력하세요 (1% ~ 100%)");
+        }
+        return StringUtil.convertStringToInt(read());
+    }
+
+    public int readVoucherAmountToCreate() {
+        outputView.print("생성할 바우처 수량을 입력해 주세요. (1개 ~ x개)");
+        return StringUtil.convertStringToInt(read());
+    }
 
     public void printStartMessage() {
         outputView.print(START_MESSAGE);
@@ -36,30 +59,6 @@ public class Console {
 
     public void print(List<String> list) {
         list.forEach(outputView::print);
-    }
-
-    public String read() {
-        return inputView.read();
-    }
-
-    public int readVoucherTypeToCreate() {
-        outputView.print(VOUCHER_CREATE_MESSAGE);
-        return StringUtil.convertStringToInt(inputView.read());
-    }
-
-    public int readVoucherDiscountAmount(int voucherType) {
-        if (voucherType == 1) {
-            outputView.print("할인할 금액을 입력하세요.");
-        }
-        if (voucherType == 2) {
-            outputView.print("할인율을 입력하세요 (1% ~ 100%)");
-        }
-        return StringUtil.convertStringToInt(inputView.read());
-    }
-
-    public int readVoucherAmountToCreate() {
-        outputView.print("생성할 바우처 수량을 입력해 주세요. (1개 ~ x개)");
-        return StringUtil.convertStringToInt(inputView.read());
     }
 
     public void printCSuccessfullyCreatedMessage() {
