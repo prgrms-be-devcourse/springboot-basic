@@ -5,7 +5,6 @@ import org.weekly.weekly.voucher.domain.DiscountType;
 
 import java.time.LocalDate;
 import java.util.function.LongPredicate;
-import java.util.function.Predicate;
 
 public class VoucherValidator {
     private static final int RANGE_START = 0;

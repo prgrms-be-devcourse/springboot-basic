@@ -1,10 +1,15 @@
 package org.weekly.weekly.ui.exception;
 
 import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.voucher.exception.VoucherException;
 
 import java.util.Arrays;
 
 public class InputValidator {
+    public InputValidator() {
+        throw new InputException(ExceptionMsg.UTIL_CLASS);
+    }
+
     private static final int VOUCHER_INPUT_SIZE = 2;
     public static void isEmpty(String userInput) {
         if (userInput == null || userInput.isBlank()) {

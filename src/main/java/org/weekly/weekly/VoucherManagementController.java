@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.weekly.weekly.customer.controller.CustomerController;
 import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
 import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
+import org.weekly.weekly.customer.dto.response.CustomerDto;
 import org.weekly.weekly.ui.CommandLineApplication;
 import org.weekly.weekly.util.CustomerMenu;
 import org.weekly.weekly.util.ManageMenu;
@@ -108,12 +109,18 @@ public class VoucherManagementController {
             return false;
         }
 
+        if (CustomerMenu.UPDATE.equals(selectMenu)) {
+            handleUpdateCustomer();
+            return false;
+        }
+
         return true;
     }
 
     private void handleCustomerCreation() {
         CustomerCreationRequest customerCreation = commandLineApplication.createCustomerFromInput();
-        customerController.createCustomer(customerCreation);
+        CustomerDto customerDto = customerController.createCustomer(customerCreation);
+
     }
 
     private void handleCustomerDelete() {
