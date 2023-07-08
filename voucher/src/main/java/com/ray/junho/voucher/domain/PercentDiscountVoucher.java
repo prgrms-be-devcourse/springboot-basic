@@ -28,6 +28,10 @@ public class PercentDiscountVoucher extends Voucher {
         return beforeDiscount.minus(discountedValue);
     }
 
+    public int getDiscountRate() {
+        return discountRate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

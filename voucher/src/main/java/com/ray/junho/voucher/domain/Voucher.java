@@ -25,6 +25,16 @@ public abstract class Voucher {
         return voucherType;
     }
 
+    public int getDiscountValue() {
+        if (voucherType.isFixedAmountVoucher()){
+            return ((FixedAmountVoucher) this).getDiscountValue();
+        }
+        if (voucherType.isPercentDiscountVoucher()) {
+            return ((PercentDiscountVoucher) this).getDiscountRate();
+        }
+        throw new IllegalArgumentException("Cannot find type");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

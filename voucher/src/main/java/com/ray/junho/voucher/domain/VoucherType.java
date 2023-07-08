@@ -19,4 +19,12 @@ public enum VoucherType {
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 바우처 타입이 없습니다."));
     }
+
+    public boolean isFixedAmountVoucher() {
+        return this.equals(FIXED_AMOUNT);
+    }
+
+    public boolean isPercentDiscountVoucher() {
+        return this.equals(PERCENT_DISCOUNT);
+    }
 }
