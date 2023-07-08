@@ -2,6 +2,8 @@ package com.prgrms.commandLineApplication.io;
 
 import com.prgrms.commandLineApplication.voucher.Voucher;
 import com.prgrms.commandLineApplication.voucher.discount.DiscountType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,14 +12,8 @@ import java.util.Scanner;
 @Component
 public class Console implements Input, Output {
 
-  private static final Scanner scanner = new Scanner(System.in);
-
-  public static final String FIXED = "FIXED";
-  public static final String PERCENT = "PERCENT";
-  public static final String UUID = "UUID";
-  public static final String VOUCHER = "VOUCHER";
-  public static final String UNIT_PERCENT = "%";
-  public static final String UNIT_WON = "₩";
+  private static final Logger LOGGER = LoggerFactory.getLogger(Console.class);
+  private static final Scanner SCANNER = new Scanner(System.in);
 
   public static final String ENTER_CREATE_TYPE = "Enter the type you want to create";
   public static final String ENTER_CREATE_VALUE = "Enter the value you want to create";
@@ -31,7 +27,7 @@ public class Console implements Input, Output {
           """;
 
   private String userInput() {
-    return scanner.nextLine();
+    return SCANNER.nextLine();
   }
 
   @Override
@@ -51,8 +47,7 @@ public class Console implements Input, Output {
 
   @Override
   public void requestVoucherType() {
-    System.out.println(String.format("-%s | -%s", FIXED, PERCENT));
-    System.out.println(ENTER_CREATE_TYPE);
+    System.out.println("FIXED" + " | " + "PERCENT\n" + ENTER_CREATE_TYPE);
   }
 
   @Override
@@ -73,19 +68,19 @@ public class Console implements Input, Output {
   @Override
   public void printAllVoucher(List<Voucher> vouchers) {
     for (Voucher voucher : vouchers) {
-      DiscountType discountType = voucher.getDiscount().getDiscountType();
-      System.out.println(String.format("- %s : %s", UUID, voucher.getVoucherId()));
-      System.out.println(String.format("- %s %s : %s%s", discountType, VOUCHER, voucher.supplyDiscountAmount(), printUnit(discountType)));
+      DiscountType discountType = voucher.supplyDiscountType();
+      System.out.println(String.format("- VOUCHER_ID : %s", voucher.getVoucherId()));
+      System.out.println(String.format("- %s VOUCHER : %s%s", discountType, voucher.supplyDiscountAmount(), printUnit(discountType)));
     }
   }
 
   private String printUnit(DiscountType discountType) {
-    return FIXED.equals(discountType.name()) ? UNIT_WON : UNIT_PERCENT;
+    return DiscountType.getUnit(discountType);
   }
 
   @Override
-  public void printCreateSuccess() {
-    System.out.println(CREATE_SUCCESS);
+  public void printCreateSuccess(String voucherType, int discountAmount) {
+    LOGGER.info("{} : VOUCHER => {} {} ", CREATE_SUCCESS, voucherType.toUpperCase(), discountAmount);
   }
 
   @Override

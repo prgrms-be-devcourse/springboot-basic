@@ -8,9 +8,10 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class CommandLineApplication {
 
-	public static void main(String[] args) {
-		ApplicationContext applicationContext = SpringApplication.run(CommandLineApplication.class, args);
-		applicationContext.getBean(VoucherController.class).run();
-	}
+  public static void main(String[] args) {
+
+    ApplicationContext applicationContext = SpringApplication.run(CommandLineApplication.class, args);
+    applicationContext.getBean(VoucherController.class).run();
+  }
 
 }

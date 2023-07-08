@@ -1,17 +1,15 @@
 package com.prgrms.commandLineApplication.repository;
 
 import com.prgrms.commandLineApplication.voucher.Voucher;
-import com.prgrms.commandLineApplication.voucher.validator.VoucherValidator;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
+  private static final String NO_EXIST_VOUCHER = "It doesn't exist";
   private static final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
 
   @Override
@@ -28,8 +26,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
   @Override
   public Voucher findById(UUID id) {
-    VoucherValidator.checkId(id);
-    return voucherStorage.get(id);
+    return Optional.ofNullable(voucherStorage.get(id))
+            .orElseThrow(() -> new IllegalArgumentException(NO_EXIST_VOUCHER + " -> " + id));
   }
 
 }

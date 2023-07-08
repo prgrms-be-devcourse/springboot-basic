@@ -4,12 +4,18 @@ import com.prgrms.commandLineApplication.io.Console;
 import com.prgrms.commandLineApplication.io.MenuType;
 import com.prgrms.commandLineApplication.service.VoucherService;
 import com.prgrms.commandLineApplication.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class VoucherController {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(VoucherController.class);
 
   private final VoucherService voucherService;
   private final Console console;
@@ -20,20 +26,25 @@ public class VoucherController {
   }
 
   public void run() {
-    while (true) {
+    boolean isRunning = true;
+
+    while (isRunning) {
       try {
         console.printMenu();
-        MenuType menuType = MenuType.valueOfType(console.readMenu());
+
+        String enterMenu = console.readMenu();
+        MenuType menuType = MenuType.valueOfType(enterMenu);
 
         switch (menuType) {
-          case EXIT -> {
-            return;
-          }
+          case EXIT -> isRunning = false;
           case LIST -> list();
           case CREATE -> create();
-          default -> console.printMenuError();
         }
-      } catch (RuntimeException e) {
+      } catch (IllegalArgumentException e) {
+        LOGGER.error("Error Message => {}", e.getMessage());
+        console.printErrorMessage(e);
+      } catch (NoSuchElementException e) {
+        LOGGER.warn("Warn Message => {}", e.getMessage());
         console.printErrorMessage(e);
       }
     }
@@ -52,7 +63,7 @@ public class VoucherController {
     int discountAmount = console.readVoucherAmount();
 
     voucherService.create(voucherType, discountAmount);
-    console.printCreateSuccess();
+    console.printCreateSuccess(voucherType, discountAmount);
   }
 
 }

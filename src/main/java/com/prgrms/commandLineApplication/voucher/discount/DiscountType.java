@@ -1,25 +1,23 @@
 package com.prgrms.commandLineApplication.voucher.discount;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 public enum DiscountType {
   FIXED,
   PERCENT;
 
-  private static final String ERROR_MESSAGE = "Invalid Voucher Type";
-  private static final Map<String, DiscountType> VOUCHER_TYPES = new HashMap<>();
-
-  static {
-    Arrays.stream(values())
-            .forEach(voucher -> VOUCHER_TYPES.put(voucher.name(), voucher));
-  }
+  private static final String VOUCHER_TYPE_ERROR = "Invalid Voucher Type";
 
   public static DiscountType valueOfType(String type) {
-    return Optional.ofNullable(VOUCHER_TYPES.get(type.toUpperCase()))
-            .orElseThrow(() -> new IllegalArgumentException(ERROR_MESSAGE + " -> " + type));
+    try {
+      return DiscountType.valueOf(type.toUpperCase());
+    } catch (Exception e) {
+      throw new NoSuchElementException(VOUCHER_TYPE_ERROR);
+    }
+  }
+
+  public static String getUnit(DiscountType discountType) {
+    return DiscountType.FIXED == discountType ? "₩" : "%";
   }
 
 }

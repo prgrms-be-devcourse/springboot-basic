@@ -7,10 +7,10 @@ public class FixedDiscount extends Discount {
   public static final int MINIMUM_VALUE = 0;
   public static final int MAXIMUM_VALUE = 10_000;
 
-  private static final DiscountType discountType = DiscountType.FIXED;
-  private final int discountAmount;
+  protected final int discountAmount;
 
   private FixedDiscount(int discountAmount) {
+    super(DiscountType.FIXED);
     this.discountAmount = discountAmount;
   }
 
@@ -25,13 +25,8 @@ public class FixedDiscount extends Discount {
   }
 
   @Override
-  public DiscountType getDiscountType() {
-    return discountType;
-  }
-
-  @Override
   public int executeDiscount(int price) {
-    return price - discountAmount;
+    return Math.max(price - discountAmount, 0);
   }
 
 }

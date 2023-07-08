@@ -9,8 +9,8 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
-  public static Voucher createVoucher(String voucherType, int discountAmount) {
-    Discount discount = DiscountFactory.createDiscount(voucherType, discountAmount);
+  public static Voucher of(String voucherType, int discountAmount) {
+    Discount discount = DiscountFactory.of(voucherType, discountAmount);
     return new Voucher(UUID.randomUUID(), discount);
   }
 

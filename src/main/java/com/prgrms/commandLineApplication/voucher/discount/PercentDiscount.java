@@ -7,10 +7,10 @@ public class PercentDiscount extends Discount {
   public static final int MINIMUM_VALUE = 0;
   public static final int PERCENT_RATE_BASE = 100;
 
-  private static final DiscountType discountType = DiscountType.PERCENT;
   private final int discountAmount;
 
   private PercentDiscount(int discountAmount) {
+    super(DiscountType.PERCENT);
     this.discountAmount = discountAmount;
   }
 
@@ -22,11 +22,6 @@ public class PercentDiscount extends Discount {
   @Override
   public int getDiscountAmount() {
     return discountAmount;
-  }
-
-  @Override
-  public DiscountType getDiscountType() {
-    return discountType;
   }
 
   @Override

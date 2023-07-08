@@ -26,7 +26,7 @@ public class VoucherService {
   }
 
   public void create(String voucherType, int discountAmount) {
-    Voucher createdVoucher = VoucherFactory.createVoucher(voucherType, discountAmount);
+    Voucher createdVoucher = VoucherFactory.of(voucherType, discountAmount);
     voucherRepository.save(createdVoucher);
   }
 
