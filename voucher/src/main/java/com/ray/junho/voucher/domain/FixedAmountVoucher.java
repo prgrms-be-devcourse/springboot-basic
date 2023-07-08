@@ -44,4 +44,12 @@ public class FixedAmountVoucher implements Voucher {
     public int hashCode() {
         return Objects.hash(id, discountValue);
     }
+
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher{" +
+                "id=" + id +
+                ", discountValue=" + discountValue +
+                '}';
+    }
 }
