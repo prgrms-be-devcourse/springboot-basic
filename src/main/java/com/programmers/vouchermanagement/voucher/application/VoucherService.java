@@ -45,4 +45,8 @@ public class VoucherService {
         Voucher voucher = new Voucher(id, discountPolicy);
         voucherRepository.update(voucher);
     }
+
+    public void deleteVoucher(UUID id) {
+        voucherRepository.deleteById(id);
+    }
 }

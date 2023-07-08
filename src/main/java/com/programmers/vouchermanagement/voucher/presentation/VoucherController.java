@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,5 +26,9 @@ public class VoucherController {
 
     public void updateVoucher(VoucherUpdateRequest request) {
         voucherService.updateVoucher(request);
+    }
+
+    public void deleteVoucher(UUID id) {
+        voucherService.deleteVoucher(id);
     }
 }

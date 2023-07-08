@@ -14,6 +14,7 @@ public class InputView {
     private static final String INPUT_DISCOUNT_TYPE = "할인 유형 번호를 입력해주세요.";
     private static final String INPUT_DISCOUNT_AMOUNT = "할인 양을 입력해주세요.";
     private static final String INPUT_VOUCHER_UPDATE = "수정할 바우처 번호를 입력해주세요.";
+    private static final String INPUT_VOUCHER_DELETE = "삭제할 바우처 번호를 입력해주세요.";
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static Command inputCommand() {
@@ -47,10 +48,19 @@ public class InputView {
         return inputValue;
     }
 
-    public static UUID inputUpdateVoucherId(List<VoucherResponse> vouchers) {
+    public static UUID inputVoucherUpdate(List<VoucherResponse> vouchers) {
         System.out.println(INPUT_VOUCHER_UPDATE);
+        return inputVoucherId(vouchers);
+    }
+
+    private static UUID inputVoucherId(List<VoucherResponse> vouchers) {
         String selectedVoucherNumber = SCANNER.nextLine();
         VoucherResponse voucherResponse = vouchers.get(Integer.parseInt(selectedVoucherNumber) - 1);
         return voucherResponse.getId();
+    }
+
+    public static UUID inputVoucherDelete(List<VoucherResponse> vouchers) {
+        System.out.println(INPUT_VOUCHER_DELETE);
+        return inputVoucherId(vouchers);
     }
 }
