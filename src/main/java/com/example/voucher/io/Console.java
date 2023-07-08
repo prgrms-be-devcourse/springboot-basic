@@ -1,6 +1,7 @@
 package com.example.voucher.io;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
+import static com.example.voucher.io.Writer.*;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -24,19 +25,15 @@ public class Console {
     public void printVoucherInfo(List<VoucherDTO> vouchers) {
         for (VoucherDTO voucher : vouchers) {
             VoucherType voucherType = voucher.voucherType();
-            String voucherTypeInfo = voucherType.toString();
             long value = voucher.value();
 
-            switch (voucherType) {
-                case FIXED_AMOUNT_DISCOUNT -> writer.writeFixedAmountDiscountVoucherInfo(voucherTypeInfo, value);
-                case PERCENT_DISCOUNT -> writer.writePercentDiscountVoucherInfo(voucherTypeInfo, value);
-            }
+            writer.writeMessage(voucherType, value);
         }
     }
 
     public VoucherType readVoucherType() {
-        writer.writeVoucherInfoRequest();
-        writer.writeVoucherTypeSelection();
+        writer.writeMessage(Message.VOUCHER_TYPE_INPUT_INFO);
+        writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
 
         int number = reader.readInteger();
 
@@ -44,7 +41,7 @@ public class Console {
     }
 
     public long readDiscountValue() {
-        writer.writeDiscountValueRequest();
+        writer.writeMessage(Message.DISCOUNT_VALUE);
 
         Long discountAmount = reader.readLong();
         validatePositive(discountAmount);
@@ -53,7 +50,7 @@ public class Console {
     }
 
     public ModeType getSelectedType() {
-        writer.writeModeTypeSelection();
+        writer.writeMessage(Message.MODE_TYPE_SELECTION);
 
         try {
             String input = reader.readString();
@@ -62,7 +59,7 @@ public class Console {
             return selectedModeType;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            writer.writeCustomMessage(e.getMessage());
+            writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
 
             return null;
         }
