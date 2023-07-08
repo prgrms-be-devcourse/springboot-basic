@@ -4,9 +4,9 @@ import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 
 public class VoucherOutputDto {
     private final VoucherType voucherType;
-    private final long discount;
+    private final int discount;
 
-    public VoucherOutputDto(VoucherType voucherType, long discount) {
+    public VoucherOutputDto(VoucherType voucherType, int discount) {
         this.voucherType = voucherType;
         this.discount = discount;
     }

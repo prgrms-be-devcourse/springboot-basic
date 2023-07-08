@@ -77,10 +77,10 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void insertNewVoucher(VoucherType voucherType) {
-        Long discountValue = switch (voucherType) {
+        int discountValue = switch (voucherType) {
             case FIXED -> {
                 output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
-                Long inputAmountValue = input.insertFixedDiscountValue();
+                Integer inputAmountValue = input.insertFixedDiscountValue();
                 while (VoucherType.validateAmountInputValue(inputAmountValue) == null) {
                     output.outputMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
                     inputAmountValue = VoucherType.validateAmountInputValue(input.insertFixedDiscountValue());
@@ -90,7 +90,7 @@ public class CommandLine implements CommandLineRunner {
             }
             case PERCENT -> {
                 output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
-                Long inputPercentValue = input.insertPercentDiscountValue();
+                Integer inputPercentValue = input.insertPercentDiscountValue();
                 while (VoucherType.validatePercentInputValue(inputPercentValue) == null) {
                     output.outputMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
                     inputPercentValue = VoucherType.validatePercentInputValue(input.insertPercentDiscountValue());

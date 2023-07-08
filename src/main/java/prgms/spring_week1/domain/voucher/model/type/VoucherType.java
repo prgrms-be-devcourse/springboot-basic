@@ -17,7 +17,7 @@ public enum VoucherType {
         return matchedVoucherType;
     }
 
-    public static Long validateAmountInputValue(long inputValue) {
+    public static Integer validateAmountInputValue(int inputValue) {
         if (inputValue > 0) {
             return inputValue;
         }
@@ -25,7 +25,7 @@ public enum VoucherType {
         return null;
     }
 
-    public static Long validatePercentInputValue(long inputValue) {
+    public static Integer validatePercentInputValue(int inputValue) {
         if (inputValue > 0 && inputValue <= 100) {
             return inputValue;
         }

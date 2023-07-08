@@ -19,14 +19,14 @@ public class Input {
         return Menu.findMenuType(selectOption);
     }
 
-    public Long insertFixedDiscountValue() {
-        Long discountValue = Long.parseLong(this.input());
+    public Integer insertFixedDiscountValue() {
+        int discountValue = Integer.parseInt(this.input());
 
         return discountValue;
     }
 
-    public Long insertPercentDiscountValue() {
-        Long discountValue = Long.parseLong(this.input());
+    public Integer insertPercentDiscountValue() {
+        int discountValue = Integer.parseInt(this.input());
 
         return discountValue;
     }
