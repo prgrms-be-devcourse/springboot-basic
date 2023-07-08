@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.view;
 
 import com.programmers.vouchermanagement.voucher.domain.DiscountType;
+import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 
 import java.util.Scanner;
 
@@ -14,6 +15,12 @@ public class InputView {
     public static Command inputCommand() {
         System.out.println(INPUT_COMMAND);
         return Command.from(SCANNER.nextLine());
+    }
+
+    public static VoucherCreationRequest inputVoucherInfo() {
+        DiscountType type = inputDiscountType();
+        int amount = inputDiscountAmount();
+        return new VoucherCreationRequest(type, amount);
     }
 
     public static DiscountType inputDiscountType() {

@@ -3,7 +3,6 @@ package com.programmers.vouchermanagement;
 import com.programmers.vouchermanagement.view.Command;
 import com.programmers.vouchermanagement.view.InputView;
 import com.programmers.vouchermanagement.view.OutputView;
-import com.programmers.vouchermanagement.voucher.domain.DiscountType;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
@@ -43,10 +42,8 @@ public class CommandLineController implements CommandLineRunner {
         switch (command) {
             case CREATE -> {
                 OutputView.showDiscountType();
-                DiscountType discountType = InputView.inputDiscountType();
-                int discountAmount = InputView.inputDiscountAmount();
-                VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(discountType, discountAmount);
-                voucherController.createVoucher(voucherCreationRequest);
+                VoucherCreationRequest request = InputView.inputVoucherInfo();
+                voucherController.createVoucher(request);
             }
             case LIST-> {
                 List<VoucherResponse> vouchers = voucherController.getVouchers();
