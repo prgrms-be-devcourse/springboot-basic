@@ -1,6 +1,6 @@
 package com.example.voucher.io;
 
-public class Writer {
+class Writer {
 
     public final String MODE_TYPE_SELECTION = """
         === Voucher Program ===
@@ -26,17 +26,14 @@ public class Writer {
     public final String PERCENT_DISCOUNT_VOUCHER_INFO_FORMAT = "VoucherType : %s, discountPercent : %d";
 
     public Writer() {
-
     }
 
     public void writeModeTypeSelection() {
         System.out.println(MODE_TYPE_SELECTION);
-
     }
 
     public void writeVoucherInfoRequest(){
         System.out.println(VOUCHER_TYPE_INPUT_INFO);
-
     }
 
     public void writeVoucherTypeSelection() {
@@ -45,22 +42,18 @@ public class Writer {
 
     public void writeDiscountValueRequest() {
         System.out.println(DISCOUNT_VALUE);
-
     }
 
     public void writeFixedAmountDiscountVoucherInfo(String voucherType, long value) {
         System.out.println(String.format(FIXED_AMOUNT_DISCOUNT_VOUCHER_INFO_FORMAT, voucherType, value));
-
     }
 
     public void writePercentDiscountVoucherInfo(String voucherType, long value) {
         System.out.println(String.format(PERCENT_DISCOUNT_VOUCHER_INFO_FORMAT, voucherType, value));
-
     }
 
     public void writeCustomMessage(String customMessage) {
         System.out.println(customMessage);
-
     }
 
 }

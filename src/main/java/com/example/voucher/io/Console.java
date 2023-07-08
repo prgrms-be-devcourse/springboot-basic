@@ -20,22 +20,6 @@ public class Console {
         this.reader = new Reader();
     }
 
-    public void requestModeTypeSelection() {
-        writer.writeModeTypeSelection();
-    }
-
-    public void requestVoucherInfo() {
-        writer.writeVoucherInfoRequest();
-    }
-
-    public void requestVoucherTypeSelection() {
-        writer.writeVoucherTypeSelection();
-    }
-
-    public void requestDiscountValue() {
-        writer.writeDiscountValueRequest();
-    }
-
     public void printVoucherInfo(List<VoucherDTO> vouchers){
         for( VoucherDTO voucher : vouchers){
             VoucherType voucherType = voucher.voucherType();
@@ -54,8 +38,8 @@ public class Console {
     }
 
     public VoucherType readVoucherType() {
-        this.requestVoucherInfo();
-        this.requestVoucherTypeSelection();
+        writer.writeVoucherInfoRequest();
+        writer.writeVoucherTypeSelection();
 
         int number = reader.readInteger();
 
@@ -63,7 +47,7 @@ public class Console {
     }
 
     public long readDiscountValue() {
-        this.requestDiscountValue();
+        writer.writeDiscountValueRequest();
 
         Long discountAmount = reader.readLong();
         Validator.validatePositive(discountAmount);
@@ -72,7 +56,7 @@ public class Console {
     }
 
     public ModeType getSelectedType() {
-        this.requestModeTypeSelection();
+        writer.writeModeTypeSelection();
 
         try {
             String input = reader.readString();
