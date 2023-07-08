@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.FixedAmountVoucher;
 import com.example.voucher.domain.PercentDiscountVoucher;
 import com.example.voucher.domain.Voucher;
@@ -18,6 +19,17 @@ public class VoucherService {
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
+    }
+
+    public Voucher createVoucher(VoucherType voucherType, long discountValue) {
+
+        Voucher createdVoucher = switch (voucherType) {
+            case FIXED_AMOUNT_DISCOUNT -> createFixedAmountDiscountVoucher(discountValue);
+            case PERCENT_DISCOUNT -> createPercentDiscountVoucher(discountValue);
+        };
+
+        return createdVoucher;
+
     }
 
     public Voucher createFixedAmountDiscountVoucher(long discountAmount) {

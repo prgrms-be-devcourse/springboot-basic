@@ -25,14 +25,9 @@ public class VoucherController {
     }
 
     public void createVoucher(VoucherCreateRequest request) {
-
         try {
             VoucherType voucherType = Validator.validateVoucherTypeMatch(request.voucherType());
-
-            switch (voucherType) {
-                case FIXED_AMOUNT_DISCOUNT -> voucherService.createFixedAmountDiscountVoucher(request.discountValue());
-                case PERCENT_DISCOUNT -> voucherService.createPercentDiscountVoucher(request.discountValue());
-            }
+            voucherService.createVoucher(voucherType, request.discountValue());
 
         } catch (IllegalArgumentException e) {
             ExceptionHandler.handleException(new IllegalArgumentException(INVALID_ARGUMENT_CANT_CREATE));
