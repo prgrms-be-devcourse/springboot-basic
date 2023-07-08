@@ -8,7 +8,6 @@ import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
-import prgms.spring_week1.exception.NoSuchOptionValueException;
 import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
@@ -17,7 +16,8 @@ import prgms.spring_week1.menu.Menu;
 
 import java.util.List;
 
-import static prgms.spring_week1.menu.Menu.EXIT;
+import static prgms.spring_week1.domain.voucher.model.type.VoucherType.FIXED;
+import static prgms.spring_week1.domain.voucher.model.type.VoucherType.PERCENT;
 
 @Component
 public class CommandLine implements CommandLineRunner {
@@ -52,7 +52,7 @@ public class CommandLine implements CommandLineRunner {
         output.outputMessage(ConsoleOutputMessage.MENU_LIST_MESSAGE);
         Menu menu = input.selectMenu();
 
-        if(menu == null){
+        if (menu == null) {
             output.outputMessage(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
             return this.getMenu();
         }
@@ -72,34 +72,22 @@ public class CommandLine implements CommandLineRunner {
         }
 
         switch (VoucherType.findVoucherType(select)) {
-            case FIXED -> insertFixedAmountValue();
-            case PERCENT -> insertPercentDiscountValue();
+            case FIXED -> insertNewVoucher(FIXED);
+            case PERCENT -> insertNewVoucher(PERCENT);
         }
     }
 
-    private void insertFixedAmountValue() {
-        output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
-        insertFixedAmountVoucher(Long.parseLong(input.input()));
-    }
-
-    private void insertFixedAmountVoucher(long discountAmount) {
-        while (discountAmount <= 0) {
-            insertFixedAmountValue();
+    private void insertNewVoucher(VoucherType voucherType) {
+        if (voucherType == FIXED) {
+            output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
+            long discountValue = input.insertFixedDiscountValue();
+            voucherService.insertFixedAmountVoucher(discountValue);
         }
-        voucherService.insertFixedAmountVoucher(discountAmount);
-        output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
-    }
-
-    private void insertPercentDiscountValue() {
-        output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
-        insertPercentDiscountVoucher(Integer.parseInt(input.input()));
-    }
-
-    private void insertPercentDiscountVoucher(int discountPercent) {
-        while (discountPercent < 0 || discountPercent > 100) {
-            insertPercentDiscountValue();
+        if (voucherType == PERCENT) {
+            output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
+            long discountValue = input.insertPercentDiscountValue();
+            voucherService.insertPercentDiscountVoucher(discountValue);
         }
-        voucherService.insertPercentDiscountVoucher(discountPercent);
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 

@@ -20,7 +20,7 @@ public class VoucherService {
         voucherRepository.insert(new FixedAmountVoucher(discountAmount));
     }
 
-    public void insertPercentDiscountVoucher(int discountPercent) {
+    public void insertPercentDiscountVoucher(Long discountPercent) {
         voucherRepository.insert(new PercentDiscountVoucher(discountPercent));
     }
 
