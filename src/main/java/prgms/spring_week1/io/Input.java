@@ -7,17 +7,17 @@ import java.util.Scanner;
 public class Input {
     private final Scanner sc = new Scanner(System.in);
 
-    public String input() {
+    public String inputString() {
         return sc.nextLine();
     }
 
     public Menu selectMenu() {
-        String selectOption = this.input();
+        String selectOption = this.inputString();
         return Menu.findMenuType(selectOption);
     }
 
     public Integer insertDiscountValue() {
-        int discountValue = Integer.parseInt(this.input());
+        int discountValue = Integer.parseInt(this.inputString());
 
         return discountValue;
     }

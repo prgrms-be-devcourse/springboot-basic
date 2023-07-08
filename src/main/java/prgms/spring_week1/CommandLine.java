@@ -64,7 +64,7 @@ public class CommandLine implements CommandLineRunner {
         String select = null;
 
         try {
-            select = input.input();
+            select = input.inputString();
         } catch (NoSuchVoucherTypeException e) {
             logger.error(e.getMessage());
             output.outputMessage(ConsoleOutputMessage.INVALID_VOUCHER_TYPE_MESSAGE);
