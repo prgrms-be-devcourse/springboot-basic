@@ -10,7 +10,7 @@ public enum Menu {
     LIST,
     BLACK;
 
-    public static Menu findMenuType(String inputText) throws NoSuchOptionValueException {
+    public static Menu findMenuType(String inputText) {
         return Stream.of(Menu.values())
                 .filter(menu -> menu.name().equalsIgnoreCase(inputText))
                 .findFirst()
