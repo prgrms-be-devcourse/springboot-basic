@@ -1,4 +1,4 @@
-package com.prgrms.springbootbasic.service;
+package com.prgrms.springbootbasic.service.voucher;
 
 import com.prgrms.springbootbasic.domain.voucher.FixedDiscountVoucher;
 import com.prgrms.springbootbasic.domain.voucher.PercentDiscountVoucher;
@@ -41,7 +41,7 @@ public class VoucherService {
                 break;
             case PERCENT:
                 if (discount < 1 || discount > 99) {
-                    throw new IllegalArgumentException("퍼센트 할인 바우처의 할인 퍼센트는 1 ~ 99까지의 숫자를 입력해야 합니다.  ");
+                    throw new IllegalArgumentException("퍼센트 할인 바우처의 할인 퍼센트는 1 ~ 99까지의 숫자를 입력해야 합니다.");
                 }
                 break;
         }
