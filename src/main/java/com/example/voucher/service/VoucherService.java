@@ -1,5 +1,7 @@
 package com.example.voucher.service;
 
+import static com.example.voucher.utils.ExceptionMessage.*;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -22,39 +24,30 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType, long discountValue) {
-
         Voucher createdVoucher = switch (voucherType) {
             case FIXED_AMOUNT_DISCOUNT -> createFixedAmountDiscountVoucher(discountValue);
             case PERCENT_DISCOUNT -> createPercentDiscountVoucher(discountValue);
         };
 
         return createdVoucher;
-
     }
 
     public Voucher createFixedAmountDiscountVoucher(long discountAmount) {
-        Validator.validatePositive(discountAmount);
-
         Voucher voucher = new FixedAmountVoucher(discountAmount);
         voucherRepository.save(voucher);
 
         return voucher;
-
     }
 
     public Voucher createPercentDiscountVoucher(long discountPercent) {
-        Validator.validatePercent(discountPercent);
-
         Voucher voucher = new PercentDiscountVoucher(discountPercent);
         voucherRepository.save(voucher);
 
         return voucher;
-
     }
 
     public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
-
     }
 
 }
