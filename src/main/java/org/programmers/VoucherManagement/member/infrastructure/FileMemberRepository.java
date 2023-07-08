@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.member.infrastructure;
 
+import org.programmers.VoucherManagement.global.util.MemberConverter;
 import org.programmers.VoucherManagement.io.Console;
 import org.programmers.VoucherManagement.member.domain.Member;
-import org.programmers.VoucherManagement.global.util.MemberConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,10 +33,10 @@ public class FileMemberRepository implements MemberRepository {
 
             return MemberConverter.toMembers(lines);
         } catch (FileNotFoundException e) {
-            logger.info(e.getMessage());
+            logger.error(e.getMessage());
             throw new RuntimeException("해당하는 파일을 찾을 수 없습니다.", e);
         } catch (IOException e) {
-            logger.info(e.getMessage());
+            logger.error(e.getMessage());
             throw new RuntimeException("파일을 읽을 수 없습니다.", e);
         }
     }
