@@ -48,8 +48,8 @@ public class VoucherService {
                 .toList();
     }
 
-    public VoucherResponse updateVoucher(VoucherUpdateRequest voucherUpdateRequest) {
-        Voucher voucher = validVoucherExist(voucherUpdateRequest.getVoucherId());
+    public VoucherResponse updateVoucher(UUID inputVoucherId, VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher voucher = validVoucherExist(inputVoucherId);
         voucher.updateAmount(voucherUpdateRequest.getAmount());
 
         voucherRepository.update(voucher);
@@ -69,6 +69,22 @@ public class VoucherService {
     private Voucher validVoucherExist(UUID voucherId) {
         return voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER));
+    }
+
+    public VoucherResponse assignVoucherToCustomer(UUID inputVoucherId, UUID inputCustomerId) {
+        Voucher voucher = validVoucherExist(inputVoucherId);
+        validateVoucherAssignCustomer(inputCustomerId, voucher);
+
+        voucherRepository.assign(voucher);
+        return new VoucherResponse(voucher);
+    }
+
+    private void validateVoucherAssignCustomer(UUID inputCustomerId, Voucher voucher) {
+        if (voucher.getCustomerId() != null) {
+            throw new InvalidInputException(ErrorMessage.DUPLICATE_ASSIGN_VOUCHER);
+        }
+
+        voucher.assignVoucherToCustomer(inputCustomerId);
     }
 }
 

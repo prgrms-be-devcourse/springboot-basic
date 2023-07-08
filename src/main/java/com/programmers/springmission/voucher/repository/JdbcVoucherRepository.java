@@ -73,6 +73,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void assign(Voucher voucher) {
+        jdbcTemplate.update(
+                "UPDATE vouchers SET customer_id = ? WHERE voucher_id = ?",
+                voucher.getCustomerId().toString(),
+                voucher.getVoucherId().toString());
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update(
                 "DELETE FROM vouchers WHERE voucher_id = ?",

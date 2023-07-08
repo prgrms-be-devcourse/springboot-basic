@@ -32,7 +32,7 @@ public class VoucherController {
                 VoucherResponse voucherResponse = createVoucher();
                 console.outputVoucherCreate(voucherResponse);
             }
-            case FIND_BY_ID -> {
+            case FIND_ONE -> {
                 VoucherResponse voucherResponse = findByIdVoucher();
                 console.outputVoucherFindById(voucherResponse);
             }
@@ -51,6 +51,10 @@ public class VoucherController {
             case DELETE_ALL ->  {
                 deleteAllVoucher();
                 console.outputVoucherDeleteAll();
+            }
+            case WALLET -> {
+                VoucherResponse voucherResponse = assignVoucherToCustomer();
+                console.outputVoucherAssign(voucherResponse);
             }
         }
     }
@@ -76,8 +80,8 @@ public class VoucherController {
         UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
         long inputAmount = Long.parseLong(console.inputVoucherAmount());
 
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(inputVoucherId, inputAmount);
-        return voucherService.updateVoucher(voucherUpdateRequest);
+        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(inputAmount);
+        return voucherService.updateVoucher(inputVoucherId, voucherUpdateRequest);
     }
 
     private void deleteByIdVoucher() {
@@ -87,6 +91,12 @@ public class VoucherController {
 
     private void deleteAllVoucher() {
         voucherService.deleteAllVoucher();
+    }
+
+    private VoucherResponse assignVoucherToCustomer() {
+        UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
+        UUID inputCustomerId = UUID.fromString(console.inputCustomerId());
+        return voucherService.assignVoucherToCustomer(inputVoucherId, inputCustomerId);
     }
 }
 
