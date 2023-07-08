@@ -44,7 +44,7 @@ public class VoucherControllerTest {
 
     @Test
     @DisplayName("값 누락 없이 바우처 정책을 잘 만드는지 테스트한다.")
-    public void CreateVoucher_CreatedVoucher_Equal() {
+    public void createVoucher_CreatedVoucher_Equal() {
         // Given
         VoucherRequest voucherRequest = new VoucherRequest(VoucherType.FIXED_AMOUNT_VOUCHER, new FixedDiscount(20));
         Mockito.when(voucherService.createVoucher(voucherRequest)).thenReturn(createdVoucher1);
@@ -60,7 +60,7 @@ public class VoucherControllerTest {
 
     @Test
     @DisplayName("voucherId 가 다른 두 바우처 정책의 리스트를 잘 만드는지 테스트합니다.")
-    public void ListVoucher_DifferentVoucherId_Equal() {
+    public void listVoucher_DifferentVoucherId_Equal() {
         // Given
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
         VoucherRegistry voucherRegistry = new VoucherRegistry(list);
@@ -79,7 +79,7 @@ public class VoucherControllerTest {
 
     @Test
     @DisplayName("voucherId 가 같은 두 바우처 정책의 리스트를 잘 만드는지 테스트합니다. 통과되므로 추후에 중복의 경우를 만들지 못하도록 예외로")
-    public void ListVoucher_SameVoucherId_Equal() {
+    public void listVoucher_SameVoucherId_Equal() {
         // Given
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
         VoucherRegistry voucherRegistry = new VoucherRegistry(list);

@@ -21,7 +21,7 @@ class ExitCommandTest {
     void setUp() {
     }
     @Test
-    void Execute_ON_PowerOFF() {
+    void execute_ON_PowerOFF() {
         //given
         MockitoAnnotations.openMocks(this);
         ExitCommand exitCommand = new ExitCommand(viewManager);

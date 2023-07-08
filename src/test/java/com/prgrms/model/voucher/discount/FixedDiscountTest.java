@@ -1,7 +1,9 @@
 package com.prgrms.model.voucher.discount;
 
+import com.prgrms.model.voucher.dto.discount.FixedDiscount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
@@ -11,8 +13,9 @@ class FixedDiscountTest {
     public void validPositiveDiscount_NegativeValue_ExceptionThrown() {
         //given
         int value = -10;
+
         //when_then
-        assertThatThrownBy(()->new FixedDiscount(value))
+        assertThatThrownBy(() -> new FixedDiscount(value))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -21,9 +24,9 @@ class FixedDiscountTest {
     public void validLimit_AboveLimit_ExceptionThrown() {
         //given
         int value = 20_000;
+
         //when_then
-        assertThatThrownBy(()->new FixedDiscount(value))
+        assertThatThrownBy(() -> new FixedDiscount(value))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-
 }

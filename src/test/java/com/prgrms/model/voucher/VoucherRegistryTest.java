@@ -1,16 +1,11 @@
 package com.prgrms.model.voucher;
 
-import com.prgrms.model.voucher.discount.FixedDiscount;
-import com.prgrms.model.voucher.discount.PercentDiscount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherRegistryTest {
 

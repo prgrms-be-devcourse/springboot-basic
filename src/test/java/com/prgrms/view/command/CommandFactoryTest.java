@@ -25,7 +25,7 @@ class CommandFactoryTest {
     }
 
     @Test
-    void CreateExitCommand_ExitCommand_True() {
+    void createExitCommand_ExitCommand_True() {
         //when
         Command exitCommand = commandFactory.createExitCommand();
 
@@ -34,7 +34,7 @@ class CommandFactoryTest {
     }
 
     @Test
-    void CreateCreateCommand_CreateCommand_True() {
+    void createCreateCommand_CreateCommand_True() {
         //when
         Command createCommand = commandFactory.createCreateCommand();
 
@@ -43,7 +43,7 @@ class CommandFactoryTest {
     }
 
     @Test
-    void CreateListCommand_ListCommand_True() {
+    void createListCommand_ListCommand_True() {
         //when
         Command listCommand = commandFactory.createListCommand();
 

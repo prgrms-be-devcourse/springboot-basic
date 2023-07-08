@@ -24,7 +24,7 @@ class CreateCommandTest {
     void setUp() {
     }
     @Test
-    void Execute_ON_PowerON() {
+    void execute_ON_PowerON() {
         //given
         MockitoAnnotations.openMocks(this);
         CreateCommand createCommand = new CreateCommand(voucherController, viewManager);

@@ -33,7 +33,7 @@ class ListCommandTest {
     void setUp() {
     }
     @Test
-    void Execute_ON_PowerON() {
+    void execute_ON_PowerON() {
         //given
         MockitoAnnotations.openMocks(this);
         ListCommand listCommand = new ListCommand(voucherController, viewManager);
