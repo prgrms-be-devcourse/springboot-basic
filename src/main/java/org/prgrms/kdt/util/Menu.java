@@ -14,7 +14,8 @@ public enum Menu {
     ASSIGN_VOUCHER(7),
     VOUCHER_LIST_BY_MEMBER(8),
     DELETE_WALLET(9),
-    MEMBER_LIST_BY_VOUCHER(10);
+    MEMBER_LIST_BY_VOUCHER(10),
+    WALLET_LIST(11);
 
     private final int descriptonNumber;
 

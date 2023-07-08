@@ -73,4 +73,12 @@ public class JdbcWalletRepository implements WalletRepository {
         String sql = "DELETE FROM wallet WHERE id = ?";
         jdbcTemplate.update(sql, walletId.toString());
     }
+
+    @Override
+    public List<Wallet> findAll() {
+        String sql = "select * from wallet A " +
+                "LEFT JOIN member B ON A.member_id = B.id " +
+                "LEFT JOIN voucher C ON A.voucher_id = C.id";
+        return jdbcTemplate.query(sql, walletRowMapper);
+    }
 }

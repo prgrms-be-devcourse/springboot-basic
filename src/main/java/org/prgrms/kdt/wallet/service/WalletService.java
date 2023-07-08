@@ -53,6 +53,11 @@ public class WalletService {
         return getWalletListResponse(wallets);
     }
 
+    public WalletListResponse findAllWallet() {
+        List<Wallet> wallets = walletRepository.findAll();
+        return getWalletListResponse(wallets);
+    }
+
     private WalletListResponse getWalletListResponse(List<Wallet> wallets) {
         List<WalletResponse> walletResponses = wallets.stream()
                 .map(wallet -> new WalletResponse(

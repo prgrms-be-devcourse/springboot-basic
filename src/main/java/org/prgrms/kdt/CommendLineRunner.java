@@ -72,6 +72,7 @@ public class CommendLineRunner implements CommandLineRunner {
                 break;
             case MEMBER_LIST:
                 console.printAllMember(memberController.findAllMember());
+                break;
             case ASSIGN_VOUCHER:
                 assignVoucher();
                 break;
@@ -83,6 +84,9 @@ public class CommendLineRunner implements CommandLineRunner {
                 break;
             case MEMBER_LIST_BY_VOUCHER:
                 console.printAllWallet(findMembersByVoucher());
+                break;
+            case WALLET_LIST:
+                console.printAllWallet(walletController.findAllWallet());
                 break;
         }
     }

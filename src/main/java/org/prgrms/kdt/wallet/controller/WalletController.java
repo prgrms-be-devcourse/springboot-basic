@@ -30,4 +30,8 @@ public class WalletController {
     public void deleteWalletById(UUID walletId){
         walletService.deleteWalletById(walletId);
     }
+
+    public WalletListResponse findAllWallet() {
+        return walletService.findAllWallet();
+    }
 }
