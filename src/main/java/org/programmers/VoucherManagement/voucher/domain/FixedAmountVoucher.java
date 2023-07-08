@@ -7,4 +7,18 @@ public class FixedAmountVoucher extends Voucher {
         super(voucherId, discountType, discountValue);
     }
 
+    @Override
+    public DiscountType getDiscountType() {
+        return discountType;
+    }
+
+    @Override
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    @Override
+    public DiscountValue getDiscountValue() {
+        return discountValue;
+    }
 }

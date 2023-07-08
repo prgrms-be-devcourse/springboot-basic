@@ -13,17 +13,10 @@ public abstract class Voucher {
         this.discountType = discountType;
     }
 
-    public DiscountType getDiscountType() {
-        return discountType;
-    }
+    abstract public DiscountType getDiscountType();
 
-    public UUID getVoucherId(){
-        return voucherId;
-    };
+    abstract public UUID getVoucherId();
 
-    public DiscountValue getDiscountValue(){
-        return discountValue;
-    };
+    abstract public DiscountValue getDiscountValue();
 
-    abstract long calculateDiscountPrice(long beforeDiscountPrice);
 }
