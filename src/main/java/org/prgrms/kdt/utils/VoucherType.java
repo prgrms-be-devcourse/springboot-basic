@@ -4,9 +4,7 @@ import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 
-import java.util.Optional;
 import java.util.Random;
-import java.util.UUID;
 import java.util.function.Function;
 
 public enum VoucherType {
