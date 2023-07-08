@@ -1,10 +1,24 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-public interface DiscountPolicy {
+import lombok.EqualsAndHashCode;
 
-    int getAmount();
+@EqualsAndHashCode
+public abstract class DiscountPolicy {
 
-    DiscountType getType();
+    private final int amount;
 
-    int discount(int originalPrice);
+    DiscountPolicy(int amount) {
+        validateAmount(amount);
+        this.amount = amount;
+    }
+
+    abstract void validateAmount(int amount);
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public abstract DiscountType getType();
+
+    public abstract int discount(int originalPrice);
 }
