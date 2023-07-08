@@ -43,8 +43,22 @@
 
     <div class="row justify-content-end">
         <div class="col-auto">
-            <a class="btn btn-danger"
-               th:href="${'/'}">할당된 바우처 삭제</a>
+            <form th:action="${'/view/v1/wallets/delete'}"
+                  method="post">
+                <input hidden
+                       type="text"
+                       name="memberId"
+                       th:value="${member.memberId}">
+                <input hidden
+                       type="text"
+                       name="voucherId"
+                       th:value="${voucherId}">
+                <button class="btn btn-danger"
+                        type="submit"> 할당된 바우처 삭제하기
+                </button>
+            </form>
+        </div>
+        <div class="col-auto">
             <a class="btn btn-secondary"
                th:href="${'/view/v1/vouchers'}">뒤로 가기</a>
         </div>

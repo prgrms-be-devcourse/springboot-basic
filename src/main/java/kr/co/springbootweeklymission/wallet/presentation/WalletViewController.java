@@ -32,6 +32,12 @@ public class WalletViewController {
         return "redirect:/view/v1/wallets/members/" + create.getMemberId();
     }
 
+    @PostMapping("/delete")
+    public String deleteVoucherMemberByVoucherIdAndMemberId(@ModelAttribute @Validated WalletReqDTO.DELETE delete) {
+        walletService.deleteVoucherMemberByVoucherIdAndMemberId(delete);
+        return "redirect:/view/v1/vouchers";
+    }
+
     @GetMapping("/members/{member_id}")
     public String getVouchersByMemberId(Model model,
                                         @PathVariable(name = "member_id") UUID memberId) {
