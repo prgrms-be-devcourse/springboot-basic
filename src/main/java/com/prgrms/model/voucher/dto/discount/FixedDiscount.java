@@ -1,4 +1,4 @@
-package com.prgrms.model.voucher.discount;
+package com.prgrms.model.voucher.dto.discount;
 
 public class FixedDiscount extends Discount {
 

@@ -1,4 +1,4 @@
-package com.prgrms.io;
+package com.prgrms.view.message;
 
 public enum ErrorMessage {
 
