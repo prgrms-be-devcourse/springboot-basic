@@ -22,7 +22,7 @@ public class FixedAmountVoucherTest {
             "10000, 10000, 0"
         }
     )
-    public void fixedAmountIsNormalValue_Then_Return_DiscountedAmount(long amount, long beforeDiscount, int afterDiscount) {
+    public void fixedAmountIsNormalValue_Then_Return_DiscountedAmount(long amount, long beforeDiscount, int expectedDiscount) {
         //GIVEN
         Voucher voucher = Voucher.of(UUID.randomUUID(), VoucherPolicy.FIXED_AMOUNT_VOUCHER, amount);
 
@@ -30,7 +30,7 @@ public class FixedAmountVoucherTest {
         long actual = voucher.discount(beforeDiscount);
 
         //THEN
-        assertThat(actual).isEqualTo(afterDiscount);
+        assertThat(actual).isEqualTo(expectedDiscount);
     }
 
     @DisplayName("바우처의 할인금액이 주문금액보다 클 경우 최종 주문금액은 0이 반환된다.")
@@ -42,7 +42,7 @@ public class FixedAmountVoucherTest {
             "10000, 9000, 0"
         }
     )
-    public void fixedAmountIsGreaterThanOrderPrice_Then_Return_Zero(long amount, long beforeDiscount, int afterDiscount) {
+    public void fixedAmountIsGreaterThanOrderPrice_Then_Return_Zero(long amount, long beforeDiscount, int expectedDiscount) {
         //GIVEN
         Voucher voucher = Voucher.of(UUID.randomUUID(), VoucherPolicy.FIXED_AMOUNT_VOUCHER, amount);
 
@@ -50,7 +50,7 @@ public class FixedAmountVoucherTest {
         long actual = voucher.discount(beforeDiscount);
 
         //THEN
-        assertThat(actual).isEqualTo(afterDiscount);
+        assertThat(actual).isEqualTo(expectedDiscount);
     }
 
     @ParameterizedTest

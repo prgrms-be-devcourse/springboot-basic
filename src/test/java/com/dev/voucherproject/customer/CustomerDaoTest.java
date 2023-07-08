@@ -2,6 +2,7 @@ package com.dev.voucherproject.customer;
 
 import com.dev.voucherproject.model.customer.Customer;
 import com.dev.voucherproject.model.storage.customer.CustomerDao;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,28 +16,23 @@ import static org.hamcrest.Matchers.is;
 
 
 @SpringBootTest
-@TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerDaoTest {
 
     @Autowired
     CustomerDao customerDao;
 
-    Customer customerA;
-
-    Customer customerB;
-
-    @BeforeAll
+    @BeforeEach
     void init() {
         customerDao.deleteAll();
-        customerA = new Customer(UUID.randomUUID(), "test1", "test1@email.com", LocalDateTime.now());
-        customerB = new Customer(UUID.randomUUID(), "test2", "test2@email.com", LocalDateTime.now());
     }
 
     @Test
-    @Order(1)
     @DisplayName("고객을 저장할 수 있다.")
     void insertCustomer() {
+        //GIVEN
+        Customer customerA = new Customer(UUID.randomUUID(), "test1", "test1@email.com", LocalDateTime.now());
+        Customer customerB = new Customer(UUID.randomUUID(), "test2", "test2@email.com", LocalDateTime.now());
+
         //WHEN
         customerDao.insert(customerA);
         customerDao.insert(customerB);
@@ -47,80 +43,102 @@ class CustomerDaoTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("이미 등록된 이메일로 등록할 경우 고객이 저장되지 않는다.")
     void insertDuplicateEmailCustomer() {
         //GIVEN
-        Customer newCustomer = new Customer(UUID.randomUUID(), "test3", customerA.getEmail(), LocalDateTime.now());
+        Customer customerA = new Customer(UUID.randomUUID(), "test1", "test1@email.com", LocalDateTime.now());
+        customerDao.insert(customerA);
 
         //WHEN
+        Customer newCustomer = new Customer(UUID.randomUUID(), "test3", customerA.getEmail(), LocalDateTime.now());
         customerDao.insert(newCustomer);
 
         //THEN
         List<Customer> customers = customerDao.findAll();
-        assertThat(customers.size(), is(2));
+        assertThat(customers.size(), is(1));
     }
 
     @Test
-    @Order(3)
-    @DisplayName("이미 등록된 이메일로 변경할 경우 이메일이 변경되지 않는다.")
-    void updateWithRegisteredEmail() {
-        //GIVEN
-        String newEmail = "test2@email.com";
-
-        //WHEN
-        customerDao.update(customerA.updateEmail(newEmail));
-
-        //THEN
-        Customer updatedCustomerA = customerDao.findById(customerA.getCustomerId()).get();
-
-
-        assertThat(updatedCustomerA.getCustomerId(), is(customerA.getCustomerId()));
-        assertThat(updatedCustomerA.getEmail(), is(customerA.getEmail()));
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("특정 이메일의 고객을 조회할 수 있다")
-    void findByEmail() {
-        //GIVEN
-        String email = customerA.getEmail();
-
-        //WHEN
-        Customer findCustomerByEmail = customerDao.findByEmail(email).get();
-
-        //THEN
-        assertThat(findCustomerByEmail.getCustomerId(), is(customerA.getCustomerId()));
-    }
-
-    @Test
-    @Order(5)
     @DisplayName("이메일을 변경할 수 있다.")
     void update() {
         //GIVEN
-        String newEmail = "update1@email.com";
+        Customer customerA = new Customer(UUID.randomUUID(), "test1", "test1@email.com", LocalDateTime.now());
+        customerDao.insert(customerA);
 
         //WHEN
+        String newEmail = "TEST1@email.com";
         customerDao.update(customerA.updateEmail(newEmail));
 
         //THEN
         Customer updatedCustomerA = customerDao.findById(customerA.getCustomerId()).get();
-        assertThat(updatedCustomerA.getCustomerId(), is(customerA.getCustomerId()));
-        assertThat(updatedCustomerA.getEmail(), is(newEmail));
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(updatedCustomerA.getCustomerId()).isEqualTo(customerA.getCustomerId());
+            soft.assertThat(updatedCustomerA.getEmail()).isEqualTo(newEmail);
+        });
     }
 
     @Test
-    @Order(6)
+    @DisplayName("이미 등록된 이메일로 변경할 경우 이메일이 변경되지 않는다.")
+    void updateWithRegisteredEmail() {
+        //GIVEN
+        Customer customerA = new Customer(UUID.randomUUID(), "test1", "test1@email.com", LocalDateTime.now());
+        Customer customerB = new Customer(UUID.randomUUID(), "test2", "test2@email.com", LocalDateTime.now());
+        customerDao.insert(customerA);
+        customerDao.insert(customerB);
+
+        //WHEN
+        String newEmail = customerB.getEmail();
+        customerDao.update(customerA.updateEmail(newEmail));
+
+        //THEN
+        Customer updatedCustomerA = customerDao.findById(customerA.getCustomerId()).get();
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(updatedCustomerA.getCustomerId()).isEqualTo(customerA.getCustomerId());
+            soft.assertThat(updatedCustomerA.getEmail()).isNotEqualTo(newEmail);
+            soft.assertThat(updatedCustomerA.getEmail()).isEqualTo(customerA.getEmail());
+        });
+    }
+
+    @Test
+    @DisplayName("특정 이름의 고객을 조회할 수 있다")
+    void findByName() {
+        //GIVEN
+        Customer customerA = new Customer(UUID.randomUUID(), "test1", "test1@email.com", LocalDateTime.now());
+        customerDao.insert(customerA);
+
+        //WHEN
+        Customer findCustomer = customerDao.findByName(customerA.getName()).get();
+
+        //THEN
+        assertThat(findCustomer.getCustomerId(), is(customerA.getCustomerId()));
+    }
+
+    @Test
+    @DisplayName("특정 이메일의 고객을 조회할 수 있다")
+    void findByEmail() {
+        //GIVEN
+        Customer customerA = new Customer(UUID.randomUUID(), "test1", "test1@email.com", LocalDateTime.now());
+        customerDao.insert(customerA);
+
+        //WHEN
+        Customer findCustomer = customerDao.findByEmail(customerA.getEmail()).get();
+
+        //THEN
+        assertThat(findCustomer.getCustomerId(), is(customerA.getCustomerId()));
+    }
+
+    @Test
     @DisplayName("특정 ID의 고객을 제거할 수 있다.")
     void deleteById() {
         //GIVEN
-        UUID customerBId = customerB.getCustomerId();
+        Customer customerA = new Customer(UUID.randomUUID(), "test1", "test1@email.com", LocalDateTime.now());
+        customerDao.insert(customerA);
 
         //WHEN
-        customerDao.deleteById(customerBId);
+        customerDao.deleteById(customerA.getCustomerId());
 
         //THEN
         List<Customer> customers = customerDao.findAll();
-        assertThat(customers.size(), is(1));
+        assertThat(customers.size(), is(0));
     }
 }

@@ -20,14 +20,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("csv")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CsvFileVoucherStorageTest {
 
     @Autowired
     CsvFileVoucherStorage csvFileVoucherStorage;
 
+    @BeforeEach
+    void init() {
+        csvFileVoucherStorage.deleteAll();
+    }
+
     @ParameterizedTest
-    @Order(1)
     @MethodSource("voucherSource")
     @DisplayName("바우처 정보를 voucher.csv 파일에 저장할 수 있다.")
     void insert(Voucher voucher) {
@@ -35,33 +38,31 @@ class CsvFileVoucherStorageTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("voucher.csv 파일을 읽을 수 있다.")
     void findAll() {
+        //GIVEN
+        Voucher voucher = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
+        csvFileVoucherStorage.insert(voucher);
+
         //WHEN
         List<Voucher> vouchers = csvFileVoucherStorage.findAll();
 
         //THEN
-        assertThat(vouchers).hasSize(3);
+        assertThat(vouchers).hasSize(1);
     }
 
     @ParameterizedTest
-    @Order(3)
     @MethodSource("voucherSource")
     @DisplayName("특정 ID의 바우처를 조회할 수 있다")
     void findById(Voucher voucher) {
+        //GIVEN
+        csvFileVoucherStorage.insert(voucher);
+
         //WHEN
-        Voucher findVoucherById = csvFileVoucherStorage.findById(voucher.getVoucherId()).get();
+        Voucher findVoucher = csvFileVoucherStorage.findById(voucher.getVoucherId()).get();
 
         //THEN
-        assertThat(findVoucherById.getVoucherId()).isEqualTo(voucher.getVoucherId());
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("csv 파일의 내용을 모두 제거할 수 있다.")
-    void deleteAll() {
-        csvFileVoucherStorage.deleteAll();
+        assertThat(findVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
     }
 
     static Stream<Arguments> voucherSource() {

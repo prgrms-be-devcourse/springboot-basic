@@ -18,26 +18,22 @@ import static org.assertj.core.api.Assertions.*;
 
 
 @SpringBootTest
-@TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class VoucherDaoTest {
 
     @Autowired
     VoucherDao voucherDao;
-    Voucher fixedAmountVoucher;
-    Voucher percentDiscountVoucher;
 
-    @BeforeAll
+    @BeforeEach
     void init() {
         voucherDao.deleteAll();
-        fixedAmountVoucher = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
-        percentDiscountVoucher = Voucher.of(UUID.randomUUID(), PERCENT_DISCOUNT_VOUCHER, 55);
     }
 
     @Test
-    @Order(1)
     @DisplayName("고정할인정책바우처를 저장할 수 있다.")
     void insertFixedAmountVoucher() {
+        //GIVEN
+        Voucher fixedAmountVoucher = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
+
         //WHEN
         voucherDao.insert(fixedAmountVoucher);
 
@@ -47,22 +43,29 @@ class VoucherDaoTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("비율할인정책바우처를 저장할 수 있다.")
     void insertPercentDiscountVoucher() {
+        //GIVEN
+        Voucher percentDiscountVoucher = Voucher.of(UUID.randomUUID(), PERCENT_DISCOUNT_VOUCHER, 60);
+
         //WHEN
         voucherDao.insert(percentDiscountVoucher);
 
         //THEN
-        Voucher voucher = voucherDao.findById(fixedAmountVoucher.getVoucherId()).get();
-        assertThat(voucher.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
+        Voucher voucher = voucherDao.findById(percentDiscountVoucher.getVoucherId()).get();
+        assertThat(voucher.getVoucherId()).isEqualTo(percentDiscountVoucher.getVoucherId());
     }
 
 
     @Test
-    @Order(3)
     @DisplayName("전체 바우처를 조회할 수 있다.")
     void findAll() {
+        //GIVEN
+        Voucher fixedAmountVoucher = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
+        Voucher percentDiscountVoucher = Voucher.of(UUID.randomUUID(), PERCENT_DISCOUNT_VOUCHER, 60);
+        voucherDao.insert(fixedAmountVoucher);
+        voucherDao.insert(percentDiscountVoucher);
+
         //WHEN
         List<Voucher> vouchers = voucherDao.findAll();
 
@@ -71,68 +74,97 @@ class VoucherDaoTest {
     }
 
     @Test
-    @Order(4)
-    @DisplayName("바우처 정책으로 조회할 수 있다")
-    void findAllByPolicy() {
+    @DisplayName("고정할인정책으로 바우처를 조회할 수 있다")
+    void findAllFixed_Amount_Vouchers() {
+        //GIVEN
+        Voucher fixedAmountVoucherA = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
+        Voucher fixedAmountVoucherB = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 6000);
+        Voucher percentDiscountVoucherA = Voucher.of(UUID.randomUUID(), PERCENT_DISCOUNT_VOUCHER, 40);
+        voucherDao.insert(fixedAmountVoucherA);
+        voucherDao.insert(fixedAmountVoucherB);
+        voucherDao.insert(percentDiscountVoucherA);
+
         //WHEN
-        List<Voucher> fixedPolicyVouchers = voucherDao.findAllByPolicy(FIXED_AMOUNT_VOUCHER);
-        List<Voucher> percentPolicyVouchers = voucherDao.findAllByPolicy(PERCENT_DISCOUNT_VOUCHER);
+        List<Voucher> fixedAmountVouchers = voucherDao.findAllByPolicy(FIXED_AMOUNT_VOUCHER);
 
         //THEN
-        SoftAssertions soft = new SoftAssertions();
-        soft.assertThat(fixedPolicyVouchers).hasSize(1);
-        soft.assertThat(percentPolicyVouchers).hasSize(1);
-        soft.assertAll();
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(fixedAmountVouchers).hasSize(2);
+            soft.assertThat(fixedAmountVouchers).containsOnly(fixedAmountVoucherA, fixedAmountVoucherB);
+        });
     }
 
     @Test
-    @Order(5)
+    @DisplayName("비율할인정책으로 바우처를 조회할 수 있다")
+    void findAllPercent_discount_vouchers() {
+        //GIVEN
+        Voucher percentDiscountVoucherA = Voucher.of(UUID.randomUUID(), PERCENT_DISCOUNT_VOUCHER, 40);
+        Voucher percentDiscountVoucherB = Voucher.of(UUID.randomUUID(), PERCENT_DISCOUNT_VOUCHER, 50);
+        Voucher fixedAmountVoucherA = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
+        voucherDao.insert(percentDiscountVoucherA);
+        voucherDao.insert(percentDiscountVoucherB);
+        voucherDao.insert(fixedAmountVoucherA);
+
+        //WHEN
+        List<Voucher> percentDiscountVouchers = voucherDao.findAllByPolicy(PERCENT_DISCOUNT_VOUCHER);
+
+        //THEN
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(percentDiscountVouchers).hasSize(2);
+            soft.assertThat(percentDiscountVouchers).containsOnly(percentDiscountVoucherA, percentDiscountVoucherB);
+        });
+    }
+
+    @Test
     @DisplayName("특정 바우처의 정책과 할인수치를 변경할 수 있다")
     void update() {
         //GIVEN
-        Voucher voucher = Voucher.of(fixedAmountVoucher.getVoucherId(), PERCENT_DISCOUNT_VOUCHER, 20);
+        Voucher voucher = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
+        voucherDao.insert(voucher);
 
         //WHEN
-        voucherDao.update(voucher);
+        voucherDao.update(Voucher.of(voucher.getVoucherId(), PERCENT_DISCOUNT_VOUCHER, 30));
 
         //THEN
-        Voucher updatedVoucher = voucherDao.findById(fixedAmountVoucher.getVoucherId()).get();
-        assertThat(updatedVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
-        assertThat(updatedVoucher.getVoucherPolicy()).isEqualTo(voucher.getVoucherPolicy());
-        assertThat(updatedVoucher.getDiscountFigure()).isEqualTo(voucher.getDiscountFigure());
+        Voucher voucherAfterUpdate = voucherDao.findById(voucher.getVoucherId()).get();
+
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(voucherAfterUpdate.getVoucherId()).isEqualTo(voucher.getVoucherId());
+            soft.assertThat(voucherAfterUpdate.getPolicyName()).isEqualTo(PERCENT_DISCOUNT_VOUCHER);
+            soft.assertThat(voucherAfterUpdate.getDiscountFigure()).isEqualTo(30);
+        });
     }
 
     @Test
-    @Order(6)
     @DisplayName("특정 ID의 바우처를 조회할 수 있다")
     void findById() {
         //GIVEN
-        UUID fixedAmountVoucherVoucherId = fixedAmountVoucher.getVoucherId();
+        Voucher voucher = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
+        voucherDao.insert(voucher);
 
         //WHEN
-        Voucher findVoucher = voucherDao.findById(fixedAmountVoucherVoucherId).get();
+        Voucher findVoucher = voucherDao.findById(voucher.getVoucherId()).get();
 
         //THEN
-        assertThat(findVoucher.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
+        assertThat(findVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
     }
 
     @Test
-    @Order(7)
     @DisplayName("특정 ID의 바우처를 제거할 수 있다.")
     void deleteById() {
         //GIVEN
-        UUID fixedAmountVoucherVoucherId = fixedAmountVoucher.getVoucherId();
+        Voucher voucher = Voucher.of(UUID.randomUUID(), FIXED_AMOUNT_VOUCHER, 5000);
+        voucherDao.insert(voucher);
 
         //WHEN
-        voucherDao.deleteById(fixedAmountVoucherVoucherId);
+        voucherDao.deleteById(voucher.getVoucherId());
 
         //THEN
         List<Voucher> vouchers = voucherDao.findAll();
-        assertThat(vouchers).hasSize(1);
+        assertThat(vouchers).hasSize(0);
     }
 
     @Test
-    @Order(8)
     @DisplayName("존재하지 않는 ID 로 조회하면 Optional.empty()를 반환한다.")
     void findByNotExistId() {
         //GIVEN
