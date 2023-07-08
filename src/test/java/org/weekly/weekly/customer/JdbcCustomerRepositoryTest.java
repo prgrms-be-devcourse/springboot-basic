@@ -122,4 +122,19 @@ class JdbcCustomerRepositoryTest {
         List<Customer> customers = jdbcCustomerRepository.findAll();
         assertThat(customers.isEmpty(), is(true));
     }
+
+    @Test
+    void 회원_닉네임_업데이트_테스트() {
+        // Given
+        Customer insertCusomter = jdbcCustomerRepository.insert(customer);
+
+        // When
+        insertCusomter.updateName("newName");
+        jdbcCustomerRepository.update(insertCusomter);
+
+        // Then
+        Optional<Customer> updateCustomer = jdbcCustomerRepository.findByEmail(insertCusomter.getEmail());
+        assertThat(updateCustomer.isPresent(), is(true));
+        assertThat(updateCustomer.get(), samePropertyValuesAs(insertCusomter));
+    }
 }

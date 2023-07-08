@@ -44,4 +44,8 @@ public class Customer {
     public UUID getCustomerId() {
         return customerId;
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
 }

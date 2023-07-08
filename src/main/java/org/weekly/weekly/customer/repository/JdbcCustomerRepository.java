@@ -10,6 +10,7 @@ import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.util.ExceptionMsg;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
+import org.weekly.weekly.voucher.exception.VoucherException;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
@@ -81,7 +82,22 @@ public class JdbcCustomerRepository implements CustomerRepository{
         return jdbcTemplate.query(sql, (rs, rowNum) -> mapToCustomer(rs));
     }
 
-    public static UUID toUUID(byte[] bytes) {
+    @Override
+    public Customer update(Customer customer) {
+        String sql = "UPDATE customers SET name = ? WHERE email = ?";
+
+        int update = jdbcTemplate.update(sql,
+                customer.getName(),
+                customer.getEmail());
+
+        if (update != 1) {
+            throw new CustomerException(ExceptionMsg.SQL_ERROR);
+        }
+        return customer;
+    }
+
+
+    private static UUID toUUID(byte[] bytes) {
         var buffer = ByteBuffer.wrap(bytes);
         return new UUID(buffer.getLong(), buffer.getLong());
     }
