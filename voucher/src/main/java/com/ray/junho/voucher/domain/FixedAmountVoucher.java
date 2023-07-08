@@ -1,16 +1,18 @@
 package com.ray.junho.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class FixedAmountVoucher implements Voucher {
+import static com.ray.junho.voucher.domain.VoucherType.FIXED_AMOUNT;
 
-    private final long id;
+public class FixedAmountVoucher extends Voucher {
 
     private final int discountValue;
 
-    public FixedAmountVoucher(long id, int discountValue) {
+    public FixedAmountVoucher(long id, LocalDateTime createdAt, LocalDateTime expireAt, int discountValue) {
+        super(id, createdAt, expireAt, FIXED_AMOUNT);
+
         validateDiscountValue(discountValue);
-        this.id = id;
         this.discountValue = discountValue;
     }
 
@@ -33,15 +35,20 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public int getDiscountValue() {
+        return discountValue;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FixedAmountVoucher that = (FixedAmountVoucher) o;
-        return id == that.id && discountValue == that.discountValue;
+        return discountValue == that.discountValue;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, discountValue);
+        return Objects.hash(discountValue);
     }
 }

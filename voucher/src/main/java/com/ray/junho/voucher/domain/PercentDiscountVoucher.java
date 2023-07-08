@@ -1,16 +1,18 @@
 package com.ray.junho.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class PercentDiscountVoucher implements Voucher {
+import static com.ray.junho.voucher.domain.VoucherType.PERCENT_DISCOUNT;
 
-    private final long id;
+public class PercentDiscountVoucher extends Voucher {
 
     private final int discountRate;
 
-    public PercentDiscountVoucher(long id, int discountRate) {
+    public PercentDiscountVoucher(long id, LocalDateTime createdAt, LocalDateTime expireAt, int discountRate)  {
+        super(id, createdAt, expireAt, PERCENT_DISCOUNT);
+
         validatePercentage(discountRate);
-        this.id = id;
         this.discountRate = discountRate;
     }
 
@@ -26,16 +28,20 @@ public class PercentDiscountVoucher implements Voucher {
         return beforeDiscount.minus(discountedValue);
     }
 
+    public int getDiscountRate() {
+        return discountRate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PercentDiscountVoucher that = (PercentDiscountVoucher) o;
-        return id == that.id && discountRate == that.discountRate;
+        return discountRate == that.discountRate;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, discountRate);
+        return Objects.hash(discountRate);
     }
 }
