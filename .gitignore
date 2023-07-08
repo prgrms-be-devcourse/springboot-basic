@@ -34,3 +34,6 @@ build/
 
 # Mac
 .DS_Store
+
+# ignore
+src/main/resources/application**
