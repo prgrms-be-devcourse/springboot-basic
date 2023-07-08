@@ -13,11 +13,11 @@ public enum VoucherType {
     private static final String CANT_FIND_VOUCHER_TYPE = "알맞는 바우처 형식이 없습니다.";
 
     public boolean isFixed() {
-        return this == VoucherType.FIXED;
+        return this == FIXED;
     }
 
     public boolean isPercent() {
-        return this == VoucherType.PERCENT;
+        return this == PERCENT;
     }
 
     public static VoucherType findVoucherType(String userVoucherType) {
