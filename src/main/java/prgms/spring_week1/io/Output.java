@@ -1,6 +1,7 @@
 package prgms.spring_week1.io;
 
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
+import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.dto.VoucherOutputDto;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
@@ -17,11 +18,19 @@ public class Output {
             outputMessage(ConsoleOutputMessage.EMPTY_BLACK_LIST_MESSAGE);
             return;
         }
-        blackConsumerList.forEach(bl -> System.out.println(bl.name() + " " + bl.age()));
-    }
 
-    public void printVoucherInfo(VoucherOutputDto voucherOutputDto) {
-        System.out.println(voucherOutputDto);
+        for (BlackConsumer blackConsumer : blackConsumerList) {
+            System.out.println(blackConsumer.name() + " " + blackConsumer.age());
+        }
     }
+    public void printAllVoucher(List<Voucher> voucherList) {
+        if (voucherList.isEmpty()) {
+            this.outputMessage(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
+            return;
+        }
 
+        voucherList.stream()
+                .map(i -> new VoucherOutputDto(i.getVoucherType(),i.getDiscount()))
+                .forEach(System.out::println);
+    }
 }

@@ -43,7 +43,7 @@ public class CommandLine implements CommandLineRunner {
             switch (menuName) {
                 case EXIT -> isRunning = false;
                 case CREATE -> selectVoucherTypeBeforeCreate();
-                case LIST -> printAllVoucher(voucherService.findAll());
+                case LIST -> output.printAllVoucher(voucherService.findAll());
                 case BLACK -> output.printBlackConsumerList(customerService.getBlackConsumerList());
             }
         }
@@ -52,10 +52,12 @@ public class CommandLine implements CommandLineRunner {
     private Menu getMenu() {
         output.outputMessage(ConsoleOutputMessage.MENU_LIST_MESSAGE);
         Menu menu = input.selectMenu();
+
         while (menu == null) {
             output.outputMessage(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
             menu = input.selectMenu();
         }
+
         return menu;
     }
 
@@ -101,14 +103,5 @@ public class CommandLine implements CommandLineRunner {
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
-    private void printAllVoucher(List<Voucher> voucherList) {
-        if (voucherList.isEmpty()) {
-            output.outputMessage(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
-            return;
-        }
 
-        for (Voucher voucher : voucherList) {
-            output.printVoucherInfo(new VoucherOutputDto(voucher.getVoucherType(), voucher.getDiscount()));
-        }
-    }
 }

@@ -9,20 +9,16 @@ import java.util.Scanner;
 public class Input {
     private final Scanner sc = new Scanner(System.in);
 
-    public String inputString() {
-        return sc.nextLine();
-    }
-
     public VoucherType selectVoucherType() throws NoSuchVoucherTypeException {
-        return VoucherType.findVoucherType(this.inputString());
+        return VoucherType.findVoucherType(sc.nextLine());
     }
 
     public Menu selectMenu() {
-        return Menu.findMenuType(this.inputString());
+        return Menu.findMenuType(sc.nextLine());
     }
 
-    public Integer insertDiscountValue() {
-        return Integer.parseInt(this.inputString());
+    public int insertDiscountValue() {
+        return sc.nextInt();
     }
 
 }
