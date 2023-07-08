@@ -40,7 +40,7 @@ public class VoucherApiController {
                 .body(voucherService.getVouchersAll());
     }
 
-    @PutMapping
+    @PutMapping("/{voucher_id}")
     public ResponseEntity<String> updateVoucherById(@PathVariable(name = "voucher_id") UUID voucherId,
                                                     @RequestBody @Validated VoucherReqDTO.UPDATE update) {
         voucherService.updateVoucherById(voucherId, update);
@@ -49,7 +49,7 @@ public class VoucherApiController {
                 .body(ResponseStatus.SUCCESS_UPDATE_VOUCHER.getMessage());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{voucher_id}")
     public ResponseEntity<String> deleteVoucherById(@PathVariable(name = "voucher_id") UUID voucherId) {
         voucherService.deleteVoucherById(voucherId);
         return ResponseEntity

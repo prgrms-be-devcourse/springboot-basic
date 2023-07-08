@@ -3,6 +3,7 @@ package kr.co.springbootweeklymission.voucher.creators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 
 import java.util.UUID;
 
@@ -36,11 +37,34 @@ public class VoucherCreators {
                 .build();
     }
 
+    public static VoucherReqDTO.CREATE createFixedDiscountDto() {
+        return VoucherReqDTO.CREATE.builder()
+                .amount(10)
+                .voucherPolicy(VoucherPolicy.FIXED_DISCOUNT.toString())
+                .build();
+    }
+
     public static VoucherReqDTO.UPDATE updateVoucherInformation(int amount,
                                                                 VoucherPolicy voucherPolicy) {
         return VoucherReqDTO.UPDATE.builder()
                 .amount(amount)
                 .voucherPolicy(voucherPolicy.toString())
+                .build();
+    }
+
+    public static VoucherResDTO.READ readFixedDiscountDto(UUID voucherId) {
+        return VoucherResDTO.READ.builder()
+                .voucherId(voucherId)
+                .amount(10)
+                .voucherPolicy(VoucherPolicy.FIXED_DISCOUNT)
+                .build();
+    }
+
+    public static VoucherResDTO.READ readFixedDiscountDto() {
+        return VoucherResDTO.READ.builder()
+                .voucherId(UUID.randomUUID())
+                .amount(10)
+                .voucherPolicy(VoucherPolicy.FIXED_DISCOUNT)
                 .build();
     }
 }
