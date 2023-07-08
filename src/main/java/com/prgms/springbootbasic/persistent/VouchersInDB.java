@@ -1,9 +1,11 @@
 package com.prgms.springbootbasic.persistent;
 
 import com.prgms.springbootbasic.domain.Voucher;
+import com.prgms.springbootbasic.util.BinaryToUUID;
 import com.prgms.springbootbasic.util.SQLQuery;
 import com.prgms.springbootbasic.util.VoucherType;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,8 +21,8 @@ import java.util.UUID;
 @Primary
 public class VouchersInDB implements VouchersStorage {
 
-    private static RowMapper<Voucher> voucherMapper = (ResultSet resultSet, int i) -> {
-        UUID voucherId = biToUUID(resultSet.getBytes("voucher_id"));
+    private final RowMapper<Voucher> voucherMapper = (ResultSet resultSet, int i) -> {
+        UUID voucherId = BinaryToUUID.biToUUID(resultSet.getBytes("voucher_id"));
         int amount = resultSet.getInt("amount");
         String typeOfString = resultSet.getString("type");
         VoucherType voucherType = VoucherType.of(typeOfString);
@@ -35,8 +37,8 @@ public class VouchersInDB implements VouchersStorage {
     @Override
     public void save(Voucher voucher) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("voucherId", voucher.getVoucherId().toString().getBytes())
-                                                                        .addValue("amount", voucher.getNumber())
-                                                                        .addValue("type", voucher.getVoucherType().getType());
+                .addValue("amount", voucher.getNumber())
+                .addValue("type", voucher.getVoucherType().getType());
         int result = jdbcTemplate.update(SQLQuery.INSERT_VOUCHER.getQuery(), sqlParameterSource);
         if (result != 1) throw new IllegalStateException();
     }
@@ -65,11 +67,6 @@ public class VouchersInDB implements VouchersStorage {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("voucherId", voucherId.toString().getBytes());
         int result = jdbcTemplate.update(SQLQuery.DELETE_VOUCHER.getQuery(), sqlParameterSource);
         if (result != 1) throw new IllegalStateException();
-    }
-
-    static UUID biToUUID(byte[] bytes) {
-        ByteBuffer wrap = ByteBuffer.wrap(bytes);
-        return new UUID(wrap.getLong(), wrap.getLong());
     }
 
 }

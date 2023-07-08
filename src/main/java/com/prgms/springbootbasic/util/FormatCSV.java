@@ -1,10 +1,7 @@
 package com.prgms.springbootbasic.util;
 
 import com.prgms.springbootbasic.domain.Voucher;
-import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class FormatCSV {

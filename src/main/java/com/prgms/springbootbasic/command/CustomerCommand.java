@@ -1,6 +1,6 @@
 package com.prgms.springbootbasic.command;
 
-import com.prgms.springbootbasic.domain.BlackList;
+import com.prgms.springbootbasic.persistent.BlackList;
 import com.prgms.springbootbasic.domain.Customer;
 import com.prgms.springbootbasic.util.CustomerMenu;
 import com.prgms.springbootbasic.ui.Console;
