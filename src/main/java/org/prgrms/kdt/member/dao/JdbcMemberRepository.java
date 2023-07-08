@@ -87,7 +87,7 @@ public class JdbcMemberRepository implements MemberRepository{
 
     @Override
     public List<Member> findAllBlackMember() {
-        String sql = "select * from member WHERE type = 'BLACK'";
+        String sql = "select * from member WHERE status = 'BLACK'";
         return jdbcTemplate.query(sql, memberRowMapper);
     }
 }

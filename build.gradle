@@ -18,8 +18,10 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //assertj 의존성 추가
+    testImplementation 'org.assertj:assertj-core:3.23.1'
     //모키토 의존성 추가
-    testImplementation 'org.mockito:mockito-core:4.8.0'
+    testImplementation "org.mockito:mockito-core:3.+"
     //JdbcTemplate 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     //DB설정
