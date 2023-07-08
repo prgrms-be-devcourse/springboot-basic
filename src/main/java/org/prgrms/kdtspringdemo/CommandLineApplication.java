@@ -39,23 +39,26 @@ public class CommandLineApplication implements CommandLineRunner {
         } while (userCommand.isRunning());
     }
 
-    private void executeCommand(CommandType commandtype) {
-        switch (commandtype) {
+    private CommandType executeCommand(CommandType commandtype) {
+        return switch (commandtype) {
             case EXIT -> {
                 voucherConsole.printMessage(SYSTEM_SHUTDOWN_MESSAGE);
+                yield CommandType.EXIT;
             }
             case CREATE -> {
                 String userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE_MESSAGE);
                 VoucherDto voucher = createVoucher(userVoucherType);
                 voucherConsole.printCreatedVoucher(voucher);
+                yield CommandType.CREATE;
             }
             case LIST -> {
                 List<VoucherDto> vouchers = voucherService.getAllVoucher();
                 for (VoucherDto voucherDto : vouchers) {
                     voucherConsole.printCreatedVoucher(voucherDto);
                 }
+                yield CommandType.LIST;
             }
-        }
+        };
     }
 
     private VoucherDto createVoucher(String userVoucherType) {

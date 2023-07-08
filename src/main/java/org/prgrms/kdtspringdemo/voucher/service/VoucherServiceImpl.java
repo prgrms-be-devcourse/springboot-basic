@@ -22,15 +22,10 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public VoucherDto create(VoucherDto voucherDto) {
         VoucherType voucherType = VoucherType.findVoucherType(voucherDto.getVoucherType());
-        Voucher voucher = null;
-        switch (voucherType) {
-            case FIXED -> {
-                voucher = new FixedAmountVoucher(voucherDto.getAmount());
-            }
-            case PERCENT -> {
-                voucher = new PercentAmountVoucher(voucherDto.getAmount());
-            }
-        }
+        Voucher voucher = switch (voucherType) {
+            case FIXED -> new FixedAmountVoucher(voucherDto.getAmount());
+            case PERCENT -> new PercentAmountVoucher(voucherDto.getAmount());
+        };
 
         Voucher savedVoucher = voucherRepository.save(voucher);
 
