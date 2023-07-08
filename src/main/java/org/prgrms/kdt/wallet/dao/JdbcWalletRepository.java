@@ -70,7 +70,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public void deleteById(UUID walletId) {
-        String sql = "DELETE FROM wallet WHERE member_id = ?";
+        String sql = "DELETE FROM wallet WHERE id = ?";
         jdbcTemplate.update(sql, walletId.toString());
     }
 }

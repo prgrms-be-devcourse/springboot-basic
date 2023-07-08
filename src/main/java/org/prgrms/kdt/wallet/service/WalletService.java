@@ -8,6 +8,8 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
+import org.prgrms.kdt.wallet.dto.WalletListResponse;
+import org.prgrms.kdt.wallet.dto.WalletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,21 +39,30 @@ public class WalletService {
         walletRepository.insert(new Wallet(UUID.randomUUID(), member, voucher));
     }
 
-    public List<Voucher> findVouchersByMemberId(UUID memberId) {
+    public WalletListResponse findVouchersByMemberId(UUID memberId) {
         List<Wallet> wallets = walletRepository.findByMemberId(memberId);
-        return wallets.stream()
-                .map(Wallet::getVoucher)
-                .collect(Collectors.toList());
+        return getWalletListResponse(wallets);
     }
 
-    public void deleteWalletByMemberId(UUID walletId) {
+    public void deleteWalletById(UUID walletId) {
         walletRepository.deleteById(walletId);
     }
 
-    public List<Member> findMembersByVoucherId(UUID voucherId) {
+    public WalletListResponse findMembersByVoucherId(UUID voucherId) {
         List<Wallet> wallets = walletRepository.findByVoucherId(voucherId);
-        return wallets.stream()
-                .map(Wallet::getMember)
+        return getWalletListResponse(wallets);
+    }
+
+    private WalletListResponse getWalletListResponse(List<Wallet> wallets) {
+        List<WalletResponse> walletResponses = wallets.stream()
+                .map(wallet -> new WalletResponse(
+                        wallet.getWalletId(),
+                        wallet.getMember().getMemberName().getName(),
+                        wallet.getVoucher().getVoucherType().getName(),
+                        wallet.getVoucher().getDiscountPolicy().getAmount()
+                ))
                 .collect(Collectors.toList());
+
+        return new WalletListResponse(walletResponses);
     }
 }

@@ -3,23 +3,21 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.commendLine.Console;
 import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.member.controller.MemberController;
-import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.member.dto.CreateMemberRequest;
 import org.prgrms.kdt.util.Menu;
 import org.prgrms.kdt.voucher.controller.VoucherController;
-import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
 import org.prgrms.kdt.wallet.controller.WalletController;
 import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
+import org.prgrms.kdt.wallet.dto.WalletListResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -76,13 +74,13 @@ public class CommendLineRunner implements CommandLineRunner {
                 assignVoucher();
                 break;
             case VOUCHER_LIST_BY_MEMBER:
-                console.printAllVoucher(findVouchersByMember());
+                console.printAllWallet(findVouchersByMember());
                 break;
-            case DELETE_VOUCHER:
-                walletController.deleteWalletByMemberId(console.getWalletId());
+            case DELETE_WALLET:
+                walletController.deleteWalletById(console.getWalletId());
                 break;
             case MEMBER_LIST_BY_VOUCHER:
-                console.printAllMember(findMembersByVoucher());
+                console.printAllWallet(findMembersByVoucher());
                 break;
         }
     }
@@ -92,11 +90,11 @@ public class CommendLineRunner implements CommandLineRunner {
         memberController.createMember(new CreateMemberRequest(memberName, MemberStatus.COMMON));
     }
 
-    private List<Member> findMembersByVoucher() throws IOException {
+    private WalletListResponse findMembersByVoucher() throws IOException {
         return walletController.findMembersByVoucherId(console.getVoucherId());
     }
 
-    private List<Voucher> findVouchersByMember() throws IOException {
+    private WalletListResponse findVouchersByMember() throws IOException {
         return walletController.findVouchersByMemberId(console.getMemberId());
     }
 

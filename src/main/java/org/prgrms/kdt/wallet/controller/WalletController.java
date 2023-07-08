@@ -1,12 +1,10 @@
 package org.prgrms.kdt.wallet.controller;
 
-import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
+import org.prgrms.kdt.wallet.dto.WalletListResponse;
 import org.prgrms.kdt.wallet.service.WalletService;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -21,15 +19,15 @@ public class WalletController {
         walletService.assignVoucherToCustomer(request);
     }
 
-    public List<Voucher> findVouchersByMemberId(UUID memberId){
+    public WalletListResponse findVouchersByMemberId(UUID memberId){
         return walletService.findVouchersByMemberId(memberId);
     }
 
-    public List<Member> findMembersByVoucherId(UUID voucherId){
+    public WalletListResponse findMembersByVoucherId(UUID voucherId){
         return walletService.findMembersByVoucherId(voucherId);
     }
 
-    public void deleteWalletByMemberId(UUID walletId){
-        walletService.deleteWalletByMemberId(walletId);
+    public void deleteWalletById(UUID walletId){
+        walletService.deleteWalletById(walletId);
     }
 }

@@ -3,7 +3,6 @@ package org.prgrms.kdt.util;
 import org.prgrms.kdt.exception.InvalidInputException;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public enum Menu {
     EXIT(1),
@@ -13,7 +12,7 @@ public enum Menu {
     CREATE_MEMBER(5),
     ASSIGN_VOUCHER(6),
     VOUCHER_LIST_BY_MEMBER(7),
-    DELETE_VOUCHER(8),
+    DELETE_WALLET(8),
     MEMBER_LIST_BY_VOUCHER(9);
 
     private final int descriptonNumber;
