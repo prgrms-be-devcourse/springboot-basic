@@ -2,6 +2,7 @@ package com.programmers.springmission.voucher.domain;
 
 import lombok.Getter;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -37,6 +38,19 @@ public class Voucher {
 
     public void assignVoucherToCustomer(UUID customerId) {
         this.customerId = customerId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Voucher voucher = (Voucher) o;
+        return voucherAmount == voucher.voucherAmount && Objects.equals(voucherId, voucher.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, voucherPolicy, voucherAmount, customerId);
     }
 }
 
