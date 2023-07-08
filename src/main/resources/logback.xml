@@ -1,0 +1,21 @@
+<configuration>
+
+    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] [%-5level] %logger{36} - %msg%n"></property>
+
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyy-MM}/log-%d{dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.weekly.weekly.voucher.controller.VoucherController" level="info" additivity="false">
+        <appender-ref ref="ROLLING_FILE" />
+    </logger>
+
+    <root level="warn">
+        <appender-ref ref="ROLLING_FILE" />
+    </root>
+</configuration>
