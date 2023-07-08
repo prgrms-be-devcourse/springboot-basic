@@ -23,12 +23,16 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     private void validatePercent(long percent) {
-        if (percent <= PERCENT_DISCOUNT_MIN || percent >= PERCENT_DISCOUNT_MAX) {
+        if (noneMatchPercentDiscount(percent)) {
             String errorMessage = MessageFormat.format(INVALID_PERCENT_DISCOUNT, percent);
 
             LOG.warn(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
+    }
+
+    private boolean noneMatchPercentDiscount(long percent) {
+        return percent <= PERCENT_DISCOUNT_MIN || percent >= PERCENT_DISCOUNT_MAX;
     }
 
     @Override

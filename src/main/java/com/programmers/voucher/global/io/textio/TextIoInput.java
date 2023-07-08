@@ -69,14 +69,14 @@ public class TextIoInput implements ConsoleInput {
         return VoucherType.getValue(rawVoucherType);
     }
 
-    private List<String> voucherTypeValidateErrorMessages(String val) {
+    private List<String> voucherTypeValidateErrorMessages(String rawVoucherType) {
         boolean invalidVoucherType = Arrays.stream(VoucherType.values())
                 .map(VoucherType::getType)
-                .noneMatch(rawType -> Objects.equals(rawType, val));
+                .noneMatch(rawType -> Objects.equals(rawType, rawVoucherType));
 
         List<String> messages = new ArrayList<>();
         if (invalidVoucherType) {
-            String errorMessage = MessageFormat.format(INVALID_VOUCHER_TYPE, val);
+            String errorMessage = MessageFormat.format(INVALID_VOUCHER_TYPE, rawVoucherType);
 
             LOG.warn(errorMessage);
             messages.add(errorMessage);
@@ -90,15 +90,19 @@ public class TextIoInput implements ConsoleInput {
                 .read(AMOUNT);
     }
 
-    private List<String> fixedAmountValidateErrorMessages(Long val) {
+    private List<String> fixedAmountValidateErrorMessages(Long amount) {
         List<String> messages = new ArrayList<>();
-        if (val <= FIXED_AMOUNT_MIN) {
-            String errorMessage = MessageFormat.format(INVALID_FIXED_AMOUNT, val);
+        if (noneMatchFixedAmount(amount)) {
+            String errorMessage = MessageFormat.format(INVALID_FIXED_AMOUNT, amount);
 
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
         return messages;
+    }
+
+    private boolean noneMatchFixedAmount(Long amount) {
+        return amount <= FIXED_AMOUNT_MIN;
     }
 
     private long inputPercentDiscount() {
@@ -107,15 +111,19 @@ public class TextIoInput implements ConsoleInput {
                 .read(PERCENT);
     }
 
-    private List<String> percentDiscountValidateErrorMessages(Long val) {
+    private List<String> percentDiscountValidateErrorMessages(Long percent) {
         List<String> messages = new ArrayList<>();
-        if (val <= PERCENT_DISCOUNT_MIN || val >= PERCENT_DISCOUNT_MAX) {
-            String errorMessage = MessageFormat.format(INVALID_PERCENT_DISCOUNT, val);
+        if (noneMatchPercentDiscount(percent)) {
+            String errorMessage = MessageFormat.format(INVALID_PERCENT_DISCOUNT, percent);
 
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
         return messages;
+    }
+
+    private boolean noneMatchPercentDiscount(Long percent) {
+        return percent <= PERCENT_DISCOUNT_MIN || percent >= PERCENT_DISCOUNT_MAX;
     }
 
     @Override
@@ -135,9 +143,9 @@ public class TextIoInput implements ConsoleInput {
         return new CustomerCreateRequest(email, name);
     }
 
-    private List<String> regexValidate(String val, Pattern fieldPattern, String invalidEmailRange) {
+    private List<String> regexValidate(String field, Pattern fieldPattern, String invalidEmailRange) {
         List<String> messages = new ArrayList<>();
-        Matcher fieldMatcher = fieldPattern.matcher(val);
+        Matcher fieldMatcher = fieldPattern.matcher(field);
         if (!fieldMatcher.matches()) {
             messages.add(invalidEmailRange);
         }

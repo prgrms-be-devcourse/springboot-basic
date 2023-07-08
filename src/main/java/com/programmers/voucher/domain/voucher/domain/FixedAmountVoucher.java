@@ -22,12 +22,16 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     private void validateAmount(long amount) {
-        if (amount <= FIXED_AMOUNT_MIN) {
+        if (noneMatchFixedAmount(amount)) {
             String errorMessage = MessageFormat.format(INVALID_FIXED_AMOUNT, amount);
 
             LOG.warn(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
+    }
+
+    private boolean noneMatchFixedAmount(long amount) {
+        return amount <= FIXED_AMOUNT_MIN;
     }
 
     @Override
