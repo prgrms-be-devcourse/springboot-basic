@@ -1,7 +1,6 @@
-package com.prgrms.mapper;
+package com.prgrms.model.voucher.dto.mapper;
 
 import com.prgrms.model.voucher.dto.VoucherResponse;
-import com.prgrms.model.voucher.dto.mapper.DtoConverter;
 import com.prgrms.model.voucher.FixedAmountVoucher;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherRegistry;

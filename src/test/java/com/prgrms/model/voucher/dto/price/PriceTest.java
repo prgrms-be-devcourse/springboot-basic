@@ -1,4 +1,4 @@
-package com.prgrms.model.voucher.discount;
+package com.prgrms.model.voucher.dto.price;
 
 import com.prgrms.model.voucher.dto.price.Price;
 import org.junit.jupiter.api.Test;
