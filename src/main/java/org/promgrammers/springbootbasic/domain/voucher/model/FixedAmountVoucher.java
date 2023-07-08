@@ -1,9 +1,12 @@
 package org.promgrammers.springbootbasic.domain.voucher.model;
 
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
+
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.INVALID_FIXED_VOUCHER_AMOUNT;
 
 public class FixedAmountVoucher extends Voucher {
 
@@ -28,7 +31,7 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     protected void validateAmount(long discountAmount) {
         if (discountAmount <= MIN_AMOUNT) {
-            throw new IllegalArgumentException("할인 금액은 0보다 커야합니다. => " + discountAmount);
+            throw new BusinessException(INVALID_FIXED_VOUCHER_AMOUNT);
         }
     }
 }

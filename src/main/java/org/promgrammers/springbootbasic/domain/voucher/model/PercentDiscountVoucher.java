@@ -1,9 +1,12 @@
 package org.promgrammers.springbootbasic.domain.voucher.model;
 
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
+
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.INVALID_PERCENT_VOUCHER_AMOUNT;
 
 public class PercentDiscountVoucher extends Voucher {
 
@@ -27,11 +30,9 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     protected void validateAmount(long discountAmount) {
-        if (discountAmount <= MIN_PERCENT) {
-            throw new IllegalArgumentException("할인율은 0보다 커야 합니다. => " + discountAmount);
-        }
-        if (discountAmount > MAX_PERCENT) {
-            throw new IllegalArgumentException("할인율은 100보다 클 수 없습니다. => " + discountAmount);
+
+        if (discountAmount <= MIN_PERCENT || discountAmount > MAX_PERCENT) {
+            throw new BusinessException(INVALID_PERCENT_VOUCHER_AMOUNT);
         }
     }
 }

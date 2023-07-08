@@ -5,13 +5,14 @@ import lombok.Getter;
 
 @Getter
 public class CommonResponse<T> {
-    private final String code;
+
+    private final int status;
     private final String msg;
     private final T body;
 
     @Builder
-    public CommonResponse(String code, String msg, T body) {
-        this.code = code;
+    public CommonResponse(int status, String msg, T body) {
+        this.status = status;
         this.msg = msg;
         this.body = body;
     }
