@@ -14,8 +14,8 @@ public enum CommandType {
     private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
     private static final String CANT_FIND_COMMAND_TYPE = "알맞는 명령이 없습니다.";
 
-    public boolean isExit() {
-        return this == CommandType.EXIT;
+    public boolean isRunning() {
+        return this != EXIT;
     }
 
     public static CommandType findCommandType(String userCommand) {
