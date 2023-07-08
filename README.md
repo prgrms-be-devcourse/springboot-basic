@@ -1,8 +1,12 @@
 # SpringBoot Basic Weekly Mission
 스프링부트 basic 위클리미션을 코드리뷰하는 Repository입니다.
 
+before
+![스크린샷 2023-06-28 11-33-05](https://github.com/prgrms-be-devcourse/springboot-basic/assets/102570281/7f39d6ce-c778-4623-9278-42152e0ccdee)
 
+after
 ![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/102570281/3d143def-7ae5-4372-b0a2-66757178002a)
+
 **클래스 객체 설명**
 
 CustomerService
