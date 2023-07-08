@@ -19,13 +19,7 @@ public class Input {
         return Menu.findMenuType(selectOption);
     }
 
-    public Integer insertFixedDiscountValue() {
-        int discountValue = Integer.parseInt(this.input());
-
-        return discountValue;
-    }
-
-    public Integer insertPercentDiscountValue() {
+    public Integer insertDiscountValue() {
         int discountValue = Integer.parseInt(this.input());
 
         return discountValue;

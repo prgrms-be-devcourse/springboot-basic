@@ -4,8 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prgms.spring_week1.domain.voucher.model.Voucher;
-import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
-import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
+import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 
 import java.util.List;
@@ -18,8 +17,8 @@ class MemoryVoucherRepositoryTest {
     @BeforeEach
     void setUp() {
         voucherRepository = new MemoryVoucherRepository();
-        voucherRepository.insert(new FixedAmountVoucher(10000));
-        voucherRepository.insert(new PercentDiscountVoucher(30));
+        voucherRepository.insert(new Voucher(VoucherType.FIXED,10000));
+        voucherRepository.insert(new Voucher(VoucherType.PERCENT,30));
     }
 
     @Test
@@ -37,7 +36,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 추가가 제대로 동작하는 지 확인")
     void insert() {
         //given
-        Voucher newVoucher = new FixedAmountVoucher(10000);
+        Voucher newVoucher = new Voucher(VoucherType.FIXED,10000);
         //when
         voucherRepository.insert(newVoucher);
         //then

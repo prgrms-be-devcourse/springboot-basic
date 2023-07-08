@@ -80,20 +80,20 @@ public class CommandLine implements CommandLineRunner {
         int discountValue = switch (voucherType) {
             case FIXED -> {
                 output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
-                Integer inputAmountValue = input.insertFixedDiscountValue();
+                Integer inputAmountValue = input.insertDiscountValue();
                 while (VoucherType.validateAmountInputValue(inputAmountValue) == null) {
                     output.outputMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
-                    inputAmountValue = VoucherType.validateAmountInputValue(input.insertFixedDiscountValue());
+                    inputAmountValue = VoucherType.validateAmountInputValue(input.insertDiscountValue());
                 }
 
                 yield inputAmountValue;
             }
             case PERCENT -> {
                 output.outputMessage(ConsoleOutputMessage.INPUT_DISCOUNT_PERCENT_MESSAGE);
-                Integer inputPercentValue = input.insertPercentDiscountValue();
+                Integer inputPercentValue = input.insertDiscountValue();
                 while (VoucherType.validatePercentInputValue(inputPercentValue) == null) {
                     output.outputMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
-                    inputPercentValue = VoucherType.validatePercentInputValue(input.insertPercentDiscountValue());
+                    inputPercentValue = VoucherType.validatePercentInputValue(input.insertDiscountValue());
                 }
 
                 yield inputPercentValue;
