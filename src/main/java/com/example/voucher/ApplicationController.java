@@ -57,7 +57,7 @@ public class ApplicationController implements CommandLineRunner {
 
         } finally {
             console.displayCreateResult(isCreated);
-            
+
         }
     }
 
