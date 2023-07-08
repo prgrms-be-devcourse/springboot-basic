@@ -30,13 +30,13 @@ public class WalletService {
     }
 
     @Transactional
-    public void assignVoucherToCustomer(CreateWalletRequest request) {
+    public Wallet assignVoucherToCustomer(CreateWalletRequest request) {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저 입니다."));
         Voucher voucher = voucherRepository.findById(request.voucherId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 바우처 입니다."));
 
-        walletRepository.insert(new Wallet(UUID.randomUUID(), member, voucher));
+        return walletRepository.insert(new Wallet(UUID.randomUUID(), member, voucher));
     }
 
     public WalletListResponse findVouchersByMemberId(UUID memberId) {
