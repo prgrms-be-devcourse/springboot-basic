@@ -1,9 +1,11 @@
 package com.prgrms.util;
 
-import java.util.UUID;
+import java.util.Random;
 
 public class KeyGenerator {
-    public static UUID make() {
-        return UUID.randomUUID();
+    private static Random rand = new Random();
+
+    public static int make() {
+        return Math.abs(rand.nextInt());
     }
 }
