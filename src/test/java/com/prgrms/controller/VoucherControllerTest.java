@@ -1,12 +1,13 @@
 package com.prgrms.controller;
 
-import com.prgrms.model.dto.mapper.DtoConverter;
-import com.prgrms.model.dto.VoucherRequest;
-import com.prgrms.model.dto.VoucherResponse;
+import com.prgrms.model.voucher.dto.mapper.DtoConverter;
+import com.prgrms.model.voucher.dto.VoucherRequest;
+import com.prgrms.model.voucher.dto.VoucherResponse;
 import com.prgrms.model.voucher.*;
-import com.prgrms.model.voucher.discount.FixedDiscount;
-import com.prgrms.model.voucher.discount.PercentDiscount;
+import com.prgrms.model.voucher.dto.discount.FixedDiscount;
+import com.prgrms.model.voucher.dto.discount.PercentDiscount;
 import com.prgrms.service.voucher.VoucherService;
+import com.prgrms.util.KeyGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,9 +33,11 @@ public class VoucherControllerTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         voucherController = new VoucherController(voucherService);
+        int voucherId1 = KeyGenerator.make();
+        int voucherId2 = KeyGenerator.make();
 
-        createdVoucher1 = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        createdVoucher2 = new PercentDiscountVoucher(new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        createdVoucher1 = new FixedAmountVoucher(voucherId1, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        createdVoucher2 = new PercentDiscountVoucher(voucherId2, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
 
 
     }
@@ -45,14 +47,13 @@ public class VoucherControllerTest {
     public void CreateVoucher_CreatedVoucher_Equal() {
         // Given
         VoucherRequest voucherRequest = new VoucherRequest(VoucherType.FIXED_AMOUNT_VOUCHER, new FixedDiscount(20));
-        Voucher createdVoucher = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Mockito.when(voucherService.createVoucher(voucherRequest)).thenReturn(createdVoucher);
+        Mockito.when(voucherService.createVoucher(voucherRequest)).thenReturn(createdVoucher1);
 
         // When
         Voucher result = voucherController.createVoucher(voucherRequest);
 
         // Then
-        assertThat(result).isEqualTo(createdVoucher);
+        assertThat(result).isEqualTo(createdVoucher1);
         Mockito.verify(voucherService, Mockito.times(1)).createVoucher(voucherRequest);
     }
 
