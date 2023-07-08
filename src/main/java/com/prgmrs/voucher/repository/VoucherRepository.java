@@ -11,4 +11,6 @@ public interface VoucherRepository {
     Map<UUID, Voucher> findAll();
 
     Voucher findVoucherById(UUID uuid);
+
+    Map<UUID, Voucher> findByUsername();
 }

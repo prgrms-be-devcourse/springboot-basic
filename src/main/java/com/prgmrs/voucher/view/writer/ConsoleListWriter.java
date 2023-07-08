@@ -1,9 +1,7 @@
-package com.prgmrs.voucher.view;
+package com.prgmrs.voucher.view.writer;
 
 import com.prgmrs.voucher.dto.BlacklistResponse;
 import com.prgmrs.voucher.dto.VoucherListResponse;
-import com.prgmrs.voucher.dto.VoucherResponse;
-import com.prgmrs.voucher.enums.VoucherType;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
@@ -11,18 +9,17 @@ import com.prgmrs.voucher.setting.BlacklistProperties;
 import com.prgmrs.voucher.setting.VoucherProperties;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class ConsoleWriter {
+public class ConsoleListWriter {
     private final BlacklistProperties blacklistProperties;
     private final VoucherProperties voucherProperties;
 
 
-    public ConsoleWriter(BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
+    public ConsoleListWriter(BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
         this.blacklistProperties = blacklistProperties;
         this.voucherProperties = voucherProperties;
     }
@@ -31,47 +28,17 @@ public class ConsoleWriter {
         System.out.println(message);
     }
 
-    public void showCommand() {
-        write("=== Voucher Program ===");
-        write("Type exit to exit the program.");
-        write("Type create to create a new voucher.");
-        write("Type list to list all vouchers.");
+    public void showListType() {
+        write("=== Choosing list type ===");
+        write("Type 'all' to list all vouchers");
+        write("Type 'user' to list vouchers a specific user has");
         if (blacklistProperties.isBlacklistAllow()) {
-            write("Type blacklist to list blacklist.");
+            write("Type 'ban' to print out the blacklist");
         }
     }
 
-    public void showVoucherCreationMessage() {
-        write("Type fixed to create a voucher with fixed amount.");
-        write("Type percent to create a voucher with percent discount.");
-    }
-
-    public void showSpecificCreationMessage(VoucherType voucherType) {
-        if (VoucherType.FIXED_AMOUNT_VOUCHER == voucherType) {
-            write("=== Creating Voucher with fixed amount ===");
-            write(MessageFormat.format("Type amount to create a voucher with fixed amount. maximum value is {0}", voucherProperties.getMaximumFixedAmount()));
-            return;
-        }
-
-        if (VoucherType.PERCENT_DISCOUNT_VOUCHER == voucherType) {
-            write("=== Creating Voucher with percent discount ===");
-            write("Type percent to create a voucher with percent discount. (1 to 100 without percent sign)");
-        }
-    }
-
-    public void showVoucherResult(VoucherResponse voucherResponse) {
-        Voucher voucher = voucherResponse.getVoucher();
-
-        write("=== Successfully created a new voucher ===");
-        if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
-            write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
-            write(MessageFormat.format("discount amount : {0}", fixedAmountVoucher.getAmount().getValue()));
-            return;
-        }
-        if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
-            write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
-            write(MessageFormat.format("discount percent : {0}%", percentDiscountVoucher.getPercent().getValue()));
-        }
+    public void showWhichVoucherUser() {
+        write("Type name to show vouchers a user have");
     }
 
     public void showList(VoucherListResponse voucherListResponse) {
@@ -95,6 +62,8 @@ public class ConsoleWriter {
                 write(String.format("percent %s %s%%", uuid, percentDiscountVoucher.getPercent().getValue()));
             }
         });
+
+        write("type number to take vouher user the user");
 
     }
 
