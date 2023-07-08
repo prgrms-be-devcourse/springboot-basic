@@ -15,13 +15,13 @@ public class BufferedReaderWrap implements CommandReader {
     private final BufferedReader bufferedReader;
 
     public BufferedReaderWrap() {
-        System.out.println("buffer");this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+       bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
     public String readLine(){
         try {
-            return this.bufferedReader.readLine();
+            return bufferedReader.readLine();
         } catch (IOException exception) {
             throw new InputException(ExceptionMsg.NOT_INPUT_FORMAT);
         }

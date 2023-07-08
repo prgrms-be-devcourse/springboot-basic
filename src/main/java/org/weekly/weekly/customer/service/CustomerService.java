@@ -1,6 +1,7 @@
 package org.weekly.weekly.customer.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
 import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
@@ -20,6 +21,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    @Transactional
     public CustomerDto createCustomer(CustomerCreationRequest creationRequest) {
         validateCustomerNotExist(creationRequest.getEmail());
 
@@ -28,6 +30,7 @@ public class CustomerService {
         return CustomerDto.of(customer);
     }
 
+    @Transactional
     public void deleteCustomer(CustomerUpdateRequest updateRequest) {
         String email = updateRequest.email();
         customerRepository.deleteByEmail(email);
@@ -38,22 +41,26 @@ public class CustomerService {
     }
 
 
-    public CustomerDto searchDetailCustomer(CustomerUpdateRequest updateRequest) {
+    public CustomerDto findDetailCustomer(CustomerUpdateRequest updateRequest) {
         String email = updateRequest.email();
         Customer customer = validateCustomerExistAndGet(email);
         return CustomerDto.of(customer);
     }
 
-    public List<CustomerDto> searchAllCustomer() {
+    public List<CustomerDto> findAllCustomer() {
         List<Customer> customers = customerRepository.findAll();
         return customers.stream().map(CustomerDto::of).toList();
     }
 
-    public void updateCustomer(CustomerUpdateRequest updateRequest) {
+    @Transactional
+    public CustomerDto updateCustomer(CustomerUpdateRequest updateRequest) {
         validateCustomerNotExist(updateRequest.newEmail());
 
         Customer customer = validateCustomerExistAndGet(updateRequest.email());
-        customerRepository.update(customer);
+
+        customer.updateName(updateRequest.newEmail());
+        Customer updateCustomer = customerRepository.update(customer);
+        return CustomerDto.of(updateCustomer);
     }
 
     private void validateCustomerNotExist(String email) {

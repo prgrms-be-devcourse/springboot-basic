@@ -30,14 +30,14 @@ public class CustomerController {
     }
 
     public CustomerDto searchDetailCustomer(CustomerUpdateRequest updateRequest) {
-        return customerService.searchDetailCustomer(updateRequest);
+        return customerService.findDetailCustomer(updateRequest);
     }
 
     public List<CustomerDto> searchAllCustomer() {
-        return customerService.searchAllCustomer();
+        return customerService.findAllCustomer();
     }
 
-    public void updateCustomer(CustomerUpdateRequest updateRequest) {
-        customerService.updateCustomer(updateRequest);
+    public CustomerDto updateCustomer(CustomerUpdateRequest updateRequest) {
+        return customerService.updateCustomer(updateRequest);
     }
 }

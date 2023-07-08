@@ -19,10 +19,10 @@ public class VoucherController {
 
 
     public Response createVoucher(VoucherCreationRequest voucherCreationRequest) {
-        return this.voucherService.insertVoucher(voucherCreationRequest);
+        return voucherService.insertVoucher(voucherCreationRequest);
     }
 
     public Response getVouchers() {
-        return this.voucherService.getVouchers();
+        return voucherService.getVouchers();
     }
 }

@@ -11,8 +11,7 @@ public class ConsoleWrap implements CommandReader{
     private final Console consoleWrap;
 
     public ConsoleWrap() {
-        System.out.println("consol");
-        this.consoleWrap = System.console();
+        consoleWrap = System.console();
     }
 
     @Override

@@ -12,12 +12,12 @@ public class ScannerWrap implements CommandReader{
     private final Scanner scanner;
 
     public ScannerWrap() {
-        this.scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
     }
 
     @Override
     public String readLine() {
-        String userInput = this.scanner.nextLine().trim();
+        String userInput = scanner.nextLine().trim();
         checkException(userInput);
         return userInput.toUpperCase();
     }

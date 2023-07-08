@@ -19,7 +19,7 @@ public enum ExceptionMsg {
     SQL_EXIST("이미 존재합니다."),
     SQL_DELETE_ERROR("삭제 실패");
 
-    private String msg;
+    private final String msg;
 
     ExceptionMsg(String msg) {
         this.msg = msg;

@@ -33,22 +33,22 @@ public class VoucherManagementController {
 
         while(!isExit) {
             try {
-                ManageMenu manageMenu = this.commandLineApplication.readManageMenu();
+                ManageMenu manageMenu = commandLineApplication.readManageMenu();
                 isExit = processManageMenuSelection(manageMenu);
             } catch (RuntimeException runtimeException) {
-                this.commandLineApplication.printErrorMsg(runtimeException.getMessage());
+                commandLineApplication.printErrorMsg(runtimeException.getMessage());
             }
         }
     }
 
     private boolean processManageMenuSelection(ManageMenu manageMenu) {
         if (ManageMenu.VOUCHER.equals(manageMenu)) {
-            VoucherMenu voucherMenu = this.commandLineApplication.readVoucherMenu();
+            VoucherMenu voucherMenu = commandLineApplication.readVoucherMenu();
             return processVoucherMenuSelection(voucherMenu);
         }
 
         if (ManageMenu.CUSTOMER.equals(manageMenu)){
-            CustomerMenu customerMenu = this.commandLineApplication.readCustomerMenu();
+            CustomerMenu customerMenu = commandLineApplication.readCustomerMenu();
             return processCustomerMenuSelection(customerMenu);
         }
 
@@ -70,16 +70,16 @@ public class VoucherManagementController {
     }
 
     private void handleVoucherCreation() {
-        VoucherCreationRequest voucherCreationRequest = this.commandLineApplication.createVoucherFromInput();
+        VoucherCreationRequest voucherCreationRequest = commandLineApplication.createVoucherFromInput();
         Response response = voucherController.createVoucher(voucherCreationRequest);
         logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(),response.getResult());
-        this.commandLineApplication.printResult(response);
+        commandLineApplication.printResult(response);
     }
 
     private void handleVoucherSearch() {
         Response response = voucherController.getVouchers();
         logger.info("{}{}", PrintMessageType.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.getResult());
-        this.commandLineApplication.printResult(response);
+        commandLineApplication.printResult(response);
     }
 
     private boolean processCustomerMenuSelection(CustomerMenu selectMenu) {

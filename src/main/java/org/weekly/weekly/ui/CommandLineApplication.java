@@ -31,21 +31,21 @@ public class CommandLineApplication {
 
     public ManageMenu readManageMenu() {
         return readMenu(()-> {
-            this.commandWriter.printMangeProgram();
+            commandWriter.printMangeProgram();
             return ManageMenu.getMenu(readUserInput());
         });
     }
 
     public VoucherMenu readVoucherMenu() {
         return readMenu(()-> {
-            this.commandWriter.printVoucherProgram();
+            commandWriter.printVoucherProgram();
             return VoucherMenu.getMenu(readUserInput());
         });
     }
 
     public CustomerMenu readCustomerMenu() {
         return readMenu(()-> {
-            this.commandWriter.printCustomerProgram();
+            commandWriter.printCustomerProgram();
             return CustomerMenu.getMenu(readUserInput());
         });
     }
@@ -98,16 +98,16 @@ public class CommandLineApplication {
     }
 
     public void printErrorMsg(String errorMsg) {
-        this.commandWriter.printErrorMessage(errorMsg);
+        commandWriter.printErrorMessage(errorMsg);
     }
 
     public void printResult(Response response) {
-        this.commandWriter.printReuslt(response.getResult());
+        commandWriter.printReuslt(response.getResult());
     }
 
 
     private String readUserInput() {
-        String userInput = this.commandReader.readLine();
+        String userInput = commandReader.readLine();
         InputValidator.isEmpty(userInput);
         return userInput;
     }
@@ -123,29 +123,29 @@ public class CommandLineApplication {
     }
 
     private DiscountType readDiscountType() {
-        this.commandWriter.printSelectDiscount();
+        commandWriter.printSelectDiscount();
         String no = readUserInput();
         return DiscountType.getDiscountTypeByNumber(no);
     }
 
     private VoucherInfoRequest readVoucherInfo(DiscountType discountType){
-        this.commandWriter.printCreateVoucher(discountType);
+        commandWriter.printCreateVoucher(discountType);
         String voucherInfo = readUserInput();
         return VoucherInfoRequest.of(voucherInfo);
     }
 
     private String processEmail() {
-        this.commandWriter.printEmailInputMessage();
+        commandWriter.printEmailInputMessage();
         return readUserInput();
     }
 
     private String processNewEmail() {
-        this.commandWriter.printNewEmailInputMessage();
+        commandWriter.printNewEmailInputMessage();
         return readUserInput();
     }
 
     private String processName() {
-        this.commandWriter.printNameInputMessage();
+        commandWriter.printNameInputMessage();
         return readUserInput();
     }
 }
