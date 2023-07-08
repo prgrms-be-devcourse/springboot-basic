@@ -8,7 +8,7 @@ import org.prgms.vouchermanagement.voucher.domain.repository.VoucherRepository;
 import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,7 +51,7 @@ public class VoucherService {
     public void showVoucherList() {
         console.printSelectVoucherListType();
         VoucherType typeToShow  = VoucherType.getVoucherType(console.getVoucherTypeInput());
-        Map<UUID, Voucher> voucherList = voucherRepository.getVoucherList();
+        List<Voucher> voucherList = voucherRepository.getVoucherList();
         console.printVoucherList(voucherList, typeToShow);
     }
 }

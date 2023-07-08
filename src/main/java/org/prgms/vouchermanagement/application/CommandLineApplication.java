@@ -7,7 +7,6 @@ import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.prgms.vouchermanagement.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.NoSuchFileException;

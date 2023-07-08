@@ -4,33 +4,31 @@ import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 @Repository
 @Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository{
-    private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
+    private final List<Voucher> voucherStorage = new ArrayList<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(voucherStorage.get(voucherId));
+        return voucherStorage.stream()
+                .filter(voucher -> voucher.getVoucherId() == voucherId)
+                .findAny();
     }
 
     @Override
     public Optional<Voucher> saveVoucher(Voucher voucher) {
-        voucherStorage.put(voucher.getVoucherId(), voucher);
+        voucherStorage.add(voucher);
         return Optional.of(voucher);
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherList() {
+    public List<Voucher> getVoucherList() {
         if (!voucherStorage.isEmpty()) {
-            return Collections.unmodifiableMap(voucherStorage);
+            return Collections.unmodifiableList(voucherStorage);
         }
-        return Collections.emptyMap();
+        return Collections.emptyList();
     }
 }

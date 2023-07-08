@@ -24,6 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -117,10 +118,7 @@ class VoucherNamedJdbcRepositoryTest {
     void testGetVoucherList() {
         voucherNamedJdbcRepository.saveVoucher(percentDiscountVoucher);
 
-        Map<UUID, Voucher> voucherList = voucherNamedJdbcRepository.getVoucherList();
-        assertThat(voucherList).isNotEmpty();
-        assertThat(voucherList).size().isEqualTo(2);
-
-        voucherList.forEach((v1, v2) -> logger.info("UUID -> {}, Amount -> {}", v1, v2.getDiscount()));
+        List<Voucher> voucherList = voucherNamedJdbcRepository.getVoucherList();
+        assertThat(voucherList).isNotEmpty().hasSize(2);
     }
 }

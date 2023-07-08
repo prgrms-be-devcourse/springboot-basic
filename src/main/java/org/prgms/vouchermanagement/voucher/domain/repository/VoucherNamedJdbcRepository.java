@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 @Profile("jdbc")
@@ -71,11 +70,8 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherList() {
-        List<Voucher> vouchers = jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
-        return vouchers.stream().collect(
-          Collectors.toMap(Voucher::getVoucherId, voucher -> voucher)
-        );
+    public List<Voucher> getVoucherList() {
+        return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
     }
 
     public UUID toUUID(byte[] bytes) {
