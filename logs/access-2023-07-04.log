@@ -1,0 +1,25 @@
+15:47:10.668 [main] INFO  org.prgrms.kdt.KdtApplication -- Application Start!
+15:47:13.948 [main] INFO  org.prgrms.kdt.KdtApplication -- Starting KdtApplication using Java 17.0.4.1 with PID 2586 (/Users/bona/devcourse/kdt-spring-order/target/classes started by bona in /Users/bona/devcourse/kdt-spring-order)
+15:47:13.967 [main] DEBUG org.prgrms.kdt.KdtApplication -- Running with Spring Boot v3.1.0, Spring v6.0.9
+15:47:13.976 [main] INFO  org.prgrms.kdt.KdtApplication -- The following 1 profile is active: "dev"
+15:47:29.570 [main] INFO  org.prgrms.kdt.KdtApplication -- Started KdtApplication in 18.183 seconds (process running for 23.564)
+15:51:40.230 [main] INFO  org.prgrms.kdt.KdtApplication -- Application Start!
+15:51:43.483 [main] INFO  org.prgrms.kdt.KdtApplication -- Starting KdtApplication using Java 17.0.4.1 with PID 2657 (/Users/bona/devcourse/kdt-spring-order/target/classes started by bona in /Users/bona/devcourse/kdt-spring-order)
+15:51:43.484 [main] DEBUG org.prgrms.kdt.KdtApplication -- Running with Spring Boot v3.1.0, Spring v6.0.9
+15:51:43.486 [main] INFO  org.prgrms.kdt.KdtApplication -- The following 1 profile is active: "dev"
+15:51:53.560 [main] INFO  org.prgrms.kdt.KdtApplication -- Started KdtApplication in 12.537 seconds (process running for 18.075)
+16:08:33.055 [main] INFO  org.prgrms.kdt.KdtApplication -- Application Start!
+16:08:36.099 [main] INFO  org.prgrms.kdt.KdtApplication -- Starting KdtApplication using Java 17.0.4.1 with PID 2984 (/Users/bona/devcourse/kdt-spring-order/target/classes started by bona in /Users/bona/devcourse/kdt-spring-order)
+16:08:36.103 [main] DEBUG org.prgrms.kdt.KdtApplication -- Running with Spring Boot v3.1.0, Spring v6.0.9
+16:08:36.107 [main] INFO  org.prgrms.kdt.KdtApplication -- The following 1 profile is active: "dev"
+16:08:39.541 [main] INFO  org.prgrms.kdt.KdtApplication -- Started KdtApplication in 6.038 seconds (process running for 9.956)
+17:17:27.768 [main] INFO  org.prgrms.kdt.KdtApplication -- Application Start!
+17:17:30.842 [main] INFO  org.prgrms.kdt.KdtApplication -- Starting KdtApplication using Java 17.0.4.1 with PID 4021 (/Users/bona/devcourse/kdt-spring-order/target/classes started by bona in /Users/bona/devcourse/kdt-spring-order)
+17:17:30.851 [main] DEBUG org.prgrms.kdt.KdtApplication -- Running with Spring Boot v3.1.0, Spring v6.0.9
+17:17:30.852 [main] INFO  org.prgrms.kdt.KdtApplication -- The following 1 profile is active: "dev"
+17:17:45.022 [main] INFO  org.prgrms.kdt.KdtApplication -- Started KdtApplication in 16.588 seconds (process running for 21.934)
+17:19:19.250 [main] INFO  org.prgrms.kdt.KdtApplication -- Application Start!
+17:19:23.016 [main] INFO  org.prgrms.kdt.KdtApplication -- Starting KdtApplication using Java 17.0.4.1 with PID 4049 (/Users/bona/devcourse/kdt-spring-order/target/classes started by bona in /Users/bona/devcourse/kdt-spring-order)
+17:19:23.017 [main] DEBUG org.prgrms.kdt.KdtApplication -- Running with Spring Boot v3.1.0, Spring v6.0.9
+17:19:23.018 [main] INFO  org.prgrms.kdt.KdtApplication -- The following 1 profile is active: "dev"
+17:19:32.745 [main] INFO  org.prgrms.kdt.KdtApplication -- Started KdtApplication in 12.907 seconds (process running for 18.365)

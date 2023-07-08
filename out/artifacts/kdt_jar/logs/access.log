@@ -1,0 +1,4 @@
+17:13:21.460 [main] INFO  org.prgrms.kdt.KdtApplication -- Starting KdtApplication using Java 17.0.4.1 with PID 5706 (/Users/bona/devcourse/kdt-spring-order/out/artifacts/kdt_jar/kdt.jar started by bona in /Users/bona/devcourse/kdt-spring-order/out/artifacts/kdt_jar)
+17:13:21.463 [main] DEBUG org.prgrms.kdt.KdtApplication -- Running with Spring Boot, Spring
+17:13:21.465 [main] INFO  org.prgrms.kdt.KdtApplication -- No active profile set, falling back to 1 default profile: "default"
+17:13:23.154 [main] INFO  org.prgrms.kdt.KdtApplication -- Started KdtApplication in 2.551 seconds (process running for 2.931)

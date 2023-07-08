@@ -1,0 +1,14 @@
+00:39:43.707 [main] INFO  org.prgrms.kdt.KdtApplication -- Application Start!
+00:39:44.621 [main] INFO  org.prgrms.kdt.KdtApplication -- Starting KdtApplication using Java 17.0.4.1 with PID 5255 (/Users/bona/devcourse/kdt-spring-order/target/classes started by bona in /Users/bona/devcourse/kdt-spring-order)
+00:39:44.622 [main] DEBUG org.prgrms.kdt.KdtApplication -- Running with Spring Boot v3.1.0, Spring v6.0.9
+00:39:44.623 [main] INFO  org.prgrms.kdt.KdtApplication -- The following 1 profile is active: "dev"
+00:39:47.620 [main] INFO  org.prgrms.kdt.KdtApplication -- Started KdtApplication in 3.766 seconds (process running for 5.318)
+00:39:47.622 [main] INFO  org.prgrms.kdt.KdtApplication -- Application End!
+00:41:03.156 [main] INFO  org.prgrms.kdt.KdtApplication -- Application Start!
+00:41:03.956 [main] INFO  org.prgrms.kdt.KdtApplication -- Starting KdtApplication using Java 17.0.4.1 with PID 5309 (/Users/bona/devcourse/kdt-spring-order/target/classes started by bona in /Users/bona/devcourse/kdt-spring-order)
+00:41:03.957 [main] DEBUG org.prgrms.kdt.KdtApplication -- Running with Spring Boot v3.1.0, Spring v6.0.9
+00:41:03.959 [main] INFO  org.prgrms.kdt.KdtApplication -- The following 1 profile is active: "dev"
+00:41:06.682 [main] INFO  org.prgrms.kdt.KdtApplication -- Started KdtApplication in 3.399 seconds (process running for 4.867)
+00:41:06.686 [main] INFO  org.prgrms.kdt.KdtApplication -- Application End!
+00:41:42.303 [http-nio-8080-exec-6] ERROR o.p.k.r.v.JdbcVoucherRepository -- 결과값이 없습니다!
+00:41:46.536 [http-nio-8080-exec-7] ERROR o.p.k.r.v.JdbcVoucherRepository -- 결과값이 없습니다!
