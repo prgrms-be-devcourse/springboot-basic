@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+          crossorigin="anonymous">
+    <title>바우처 서비스 관리 페이지</title>
+</head>
+<body>
+
+<h1 class="py-5 text-center">바우처 서비스 관리 페이지</h1>
+
+<div class="d-grid gap-2 col-6 mx-auto">
+    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/vouchers/list}'|">Voucher 조회</button>
+    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/vouchers/insert}'|">Voucher 입력</button>
+    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/vouchers/delete}'|">Voucher 삭제</button>
+</div>
+</body>
+</html>

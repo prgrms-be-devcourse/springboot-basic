@@ -1,8 +1,8 @@
 package org.prgms.vouchermanagement.global.io;
 
 import org.prgms.vouchermanagement.customer.domain.entity.Customer;
-import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
+import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
@@ -76,14 +76,14 @@ public class Console {
             System.out.println("=== Fixed Amount Voucher List ===");
             voucherList.forEach((k, v) -> {
                     if (v.getVoucherType() == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE)
-                        System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
+                        System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.getDiscount()));
                 }
             );
         } else if (listVoucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             System.out.println("=== Percent Discount Voucher List ===");
             voucherList.forEach((k, v) -> {
                     if (v.getVoucherType() == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE)
-                        System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
+                        System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.getDiscount()));
                 }
             );
         }

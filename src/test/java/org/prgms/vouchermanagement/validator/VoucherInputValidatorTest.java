@@ -3,6 +3,7 @@ package org.prgms.vouchermanagement.validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 
 import java.util.InputMismatchException;
@@ -24,15 +25,15 @@ class VoucherInputValidatorTest {
 
         //when, then
         assertThatThrownBy(() -> validator.checkVoucherTypeInput(input1))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.VOUCHER_TYPE_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> validator.checkVoucherTypeInput(input2))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.VOUCHER_TYPE_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> validator.checkVoucherTypeInput(input3))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.VOUCHER_TYPE_INPUT_EXCEPTION);
 
     }
@@ -63,15 +64,15 @@ class VoucherInputValidatorTest {
 
         //when, then
         assertThatThrownBy(() -> validator.checkFixedAmount(input1))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.FIXED_VOUCHER_AMOUNT_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> validator.checkFixedAmount(input2))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.FIXED_VOUCHER_AMOUNT_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> validator.checkFixedAmount(input3))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.FIXED_VOUCHER_AMOUNT_INPUT_EXCEPTION);
 
     }
@@ -108,19 +109,19 @@ class VoucherInputValidatorTest {
 
         //when, then
         assertThatThrownBy(() -> validator.checkPercent(input1))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.PERCENT_DISCOUNT_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> validator.checkPercent(input2))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.PERCENT_DISCOUNT_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> validator.checkPercent(input3))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.PERCENT_DISCOUNT_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> validator.checkPercent(input4))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.PERCENT_DISCOUNT_INPUT_EXCEPTION);
 
     }

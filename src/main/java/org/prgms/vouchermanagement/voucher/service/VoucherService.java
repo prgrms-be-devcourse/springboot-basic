@@ -2,9 +2,8 @@ package org.prgms.vouchermanagement.voucher.service;
 
 import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.global.io.Console;
-import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
-import org.prgms.vouchermanagement.voucher.domain.entity.VoucherImpl;
+import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.domain.repository.VoucherRepository;
 import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.springframework.stereotype.Service;
@@ -29,12 +28,12 @@ public class VoucherService {
 
         if (typeToCreate == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
             long amountOrPercent = console.getFixedVoucherAmount();
-            VoucherImpl voucher = new VoucherImpl(UUID.randomUUID(), amountOrPercent, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
+            Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
             savedVoucher = voucherRepository.saveVoucher(voucher);
         }
         if (typeToCreate == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             long amountOrPercent = console.getPercentDiscount();
-            VoucherImpl voucher = new VoucherImpl(UUID.randomUUID(), amountOrPercent, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
+            Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
             savedVoucher = voucherRepository.saveVoucher(voucher);
         }
 

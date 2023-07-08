@@ -3,7 +3,6 @@ package org.prgms.vouchermanagement.voucher.domain.repository;
 import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
-import org.prgms.vouchermanagement.voucher.domain.entity.VoucherImpl;
 import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("discountAmount", voucher.returnDiscount());
+            put("discountAmount", voucher.getDiscount());
             put("voucherType", voucher.getVoucherType() == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE ? 1 : 2);
         }};
     }
@@ -39,8 +38,8 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         VoucherType voucherType = VoucherType.getVoucherType(resultSet.getInt("voucher_type"));
 
         return switch (voucherType) {
-            case FIXED_AMOUNT_VOUCHER_TYPE -> new VoucherImpl(voucherId, discountAmount, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
-            case PERCENT_DISCOUNT_VOUCHER_TYPE -> new VoucherImpl(voucherId, discountAmount, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
+            case FIXED_AMOUNT_VOUCHER_TYPE -> new Voucher(voucherId, discountAmount, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
+            case PERCENT_DISCOUNT_VOUCHER_TYPE -> new Voucher(voucherId, discountAmount, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
         };
     };
 

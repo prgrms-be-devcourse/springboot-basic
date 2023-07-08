@@ -22,7 +22,9 @@ dependencies {
 
 	implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
 
-	implementation 'org.springframework.boot:spring-book-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
