@@ -36,4 +36,4 @@ build/
 .DS_Store
 
 # ignore
-src/main/resources/application**
+src/main/resources/*yml
