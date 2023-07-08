@@ -39,7 +39,7 @@ public class ManagementController implements CommandLineRunner {
                     case VOUCHER -> voucherController.run();
                     case CUSTOMER -> customerController.run();
                 }
-            } catch (InvalidInputException | NumberFormatException | DataAccessException invalidInputException) {
+            } catch (InvalidInputException | IllegalArgumentException | DataAccessException invalidInputException) {
                 console.output(invalidInputException.getMessage());
                 log.warn(invalidInputException.getMessage());
             }
