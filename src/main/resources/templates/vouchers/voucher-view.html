@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+<head>
+  <meta charset="UTF-8">
+  <title>바우처 상세페이지</title>
+</head>
+<body>
+
+<h1 th:text="${voucher.getVoucherId()}">id</h1>
+
+<!--id값은 상세페이지마다 다르다-->
+<a th:href="@{/vouchers/delete/{id}(id =${voucher.getVoucherId()})}">삭제</a>
+
+
+</body>
+</html>

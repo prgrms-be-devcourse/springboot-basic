@@ -32,7 +32,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, i) -> {
-        final UUID voucherId = convertUUID(resultSet.getBytes("voucher_id"));
+        final Long voucherId = resultSet.getLong("voucher_id");
         final String voucherType = resultSet.getString("voucher_type");
         Long amount = resultSet.getLong("discount_amount");
         boolean status = resultSet.getBoolean("status");
@@ -41,8 +41,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public VoucherEntity insert(VoucherEntity voucherEntity) {
-        int insert = jdbcTemplate.update("INSERT INTO vouchers(voucher_id,voucher_type,discount_amount,status) VALUES (UUID_TO_BIN(?),?,?,?)",
-                voucherEntity.getVoucherId().toString().getBytes(),
+        int insert = jdbcTemplate.update("INSERT INTO vouchers(voucher_id,voucher_type,discount_amount,status) VALUES (?,?,?,?)",
+                voucherEntity.getVoucherId(),
                 voucherEntity.getVoucherType(),
                 voucherEntity.getAmount(),
                 voucherEntity.getStatus());
@@ -59,21 +59,23 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 
     @Override
-    public Optional<VoucherEntity> findById(UUID voucherId) {
+    public Optional<VoucherEntity> findById(Long voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = ?",
                     voucherRowMapper,
-                    voucherId.toString().getBytes()));
+                    voucherId));
         } catch (EmptyResultDataAccessException e) {
             logger.error("결과값이 없습니다!");
             return Optional.empty();
         }
     }
 
-
-    public static UUID convertUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    @Override
+    public void deleteById(Long voucherId) {
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?",
+                voucherRowMapper,
+                voucherId);
     }
+
 }
 

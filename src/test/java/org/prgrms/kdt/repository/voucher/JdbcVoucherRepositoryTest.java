@@ -68,7 +68,7 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setup() {
-        newVoucher = VoucherEntity.toEntity(VoucherType.valueOf("FIXED_AMOUNT_VOUCHER").makeVoucher(1000));
+        newVoucher = VoucherEntity.toEntity(VoucherType.valueOf("FIXED").makeVoucher(1000));
         var mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(3306)
@@ -94,7 +94,6 @@ class JdbcVoucherRepositoryTest {
     @Order(2)
     @DisplayName("바우처를 발급할 수 있다.")
     public void testInsert() {
-
         try {
             jdbcVoucherRepository.insert(newVoucher);
         } catch (BadSqlGrammarException e) {

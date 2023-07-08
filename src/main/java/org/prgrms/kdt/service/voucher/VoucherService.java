@@ -22,7 +22,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher getVoucher(Long voucherId) {
         VoucherEntity voucherEntity = voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException("can not find a voucher for" + voucherId));
@@ -39,7 +39,7 @@ public class VoucherService {
     public Voucher save(VoucherType type, Long discount) {
         VoucherType voucherType = type;
         switch (voucherType) {
-            case FIXED_AMOUNT_VOUCHER, PERCENT_DISCOUNT_VOUCHER -> {
+            case FIXED, PERCENT -> {
                 System.out.println("voucherType = " + voucherType);
                 return toDomain(voucherRepository.insert(VoucherEntity.toEntity(voucherType.makeVoucher(discount))));
             }
@@ -48,12 +48,16 @@ public class VoucherService {
 
     }
 
+    public void deleteById(Long voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
     protected Voucher toDomain(VoucherEntity voucherEntity){
         switch (voucherEntity.getVoucherType()){
-            case "FIXED_AMOUNT_VOUCHER":
+            case "FIXED":
                 return new FixedAmountVoucher(voucherEntity.getVoucherId(),voucherEntity.getAmount());
 
-            case "PERCENT_DISCOUNT_VOUCHER":
+            case "PERCENT":
                 return new PercentDiscountVoucher(voucherEntity.getVoucherId(), voucherEntity.getAmount());
             default:
                 throw new IllegalArgumentException("잘못된 VoucherType 입니다.");

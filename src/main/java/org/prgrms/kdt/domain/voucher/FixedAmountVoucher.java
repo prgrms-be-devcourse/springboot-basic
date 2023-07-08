@@ -9,12 +9,12 @@ public class FixedAmountVoucher implements Voucher, Serializable {
 
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
-    private final UUID voucherId;
+    private final Long voucherId;
     private final long amount;
     private boolean status = false;
 
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(Long voucherId, long amount) {
         validate(amount);
         this.voucherId = voucherId;
         this.amount = amount;
@@ -29,7 +29,7 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     }
 
     @Override
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 
@@ -40,7 +40,7 @@ public class FixedAmountVoucher implements Voucher, Serializable {
 
     @Override
     public VoucherType getVoucherType() {
-        return VoucherType.FIXED_AMOUNT_VOUCHER;
+        return VoucherType.FIXED;
     }
 
     @Override

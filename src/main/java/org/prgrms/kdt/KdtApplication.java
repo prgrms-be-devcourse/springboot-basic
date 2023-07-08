@@ -1,6 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.application.MainApplication;
+import org.prgrms.kdt.application.VoucherApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +21,7 @@ public class KdtApplication {
 	public static void main(String[] args) {
 		logger.info("Application Start!");
 		var applicationContext = SpringApplication.run(KdtApplication.class, args);
-		applicationContext.getBean(MainApplication.class).run();
+		applicationContext.getBean(VoucherApplication.class).run();
 		logger.info("Application End!");
 	}
 

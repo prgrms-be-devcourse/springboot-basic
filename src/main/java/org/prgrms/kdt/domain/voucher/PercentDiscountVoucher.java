@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher, Serializable {
-    private UUID voucherId;
+    private Long voucherId;
     private final long percent;
     private boolean status = false;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucher(Long voucherId, long percent) {
         validate(percent);
         this.voucherId = voucherId;
         this.percent = percent;
@@ -23,7 +23,7 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     }
 
     @Override
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 
@@ -34,7 +34,7 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
 
     @Override
     public VoucherType getVoucherType() {
-        return VoucherType.PERCENT_DISCOUNT_VOUCHER;
+        return VoucherType.PERCENT;
     }
 
     @Override
