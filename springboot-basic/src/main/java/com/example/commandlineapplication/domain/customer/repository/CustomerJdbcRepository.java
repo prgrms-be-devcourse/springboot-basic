@@ -19,6 +19,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
   private final Logger LOG = LoggerFactory.getLogger(CustomerJdbcRepository.class);
   private final NamedParameterJdbcTemplate template;
+  private static final int SUCCESS_EXECUTE = 1;
 
   public CustomerJdbcRepository(DataSource dataSource) {
     this.template = new NamedParameterJdbcTemplate(dataSource);
@@ -46,7 +47,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     int saved = template.update(sql, param);
 
-    if (saved != 1) {
+    if (saved != SUCCESS_EXECUTE) {
       LOG.error("customer가 저장되지 않았습니다.");
       throw new RuntimeException("customer가 저장되지 않았습니다.");
     }
@@ -64,7 +65,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     int updated = template.update(sql, param);
 
-    if (updated != 1) {
+    if (updated != SUCCESS_EXECUTE) {
       LOG.error("customer가 수정되지 않았습니다.");
       throw new RuntimeException("customer가 수정되지 않았습니다.");
     }
@@ -103,7 +104,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     int deleted = template.update(sql, param);
 
-    if (deleted != 1) {
+    if (deleted != SUCCESS_EXECUTE) {
       LOG.error("customer가 삭제되지 않았습니다.");
       throw new RuntimeException("customer가 삭제되지 않았습니다.");
     }

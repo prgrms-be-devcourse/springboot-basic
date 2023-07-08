@@ -24,6 +24,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
   private final NamedParameterJdbcTemplate template;
   private final VoucherFactory voucherFactory;
   private final VoucherMapper voucherMapper;
+  private static final int SUCCESS_EXECUTE = 1;
 
   public VoucherJdbcRepository(NamedParameterJdbcTemplate template, VoucherFactory voucherFactory,
       VoucherMapper voucherMapper) {
@@ -73,7 +74,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     int saved = template.update(sql, param);
 
-    if (saved != 1) {
+    if (saved != SUCCESS_EXECUTE) {
       LOG.error("voucher가 저장되지 않았습니다.");
       throw new RuntimeException("voucher가 저장되지 않았습니다.");
     }
@@ -97,7 +98,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     int deleted = template.update(sql, param);
 
-    if (deleted != 1) {
+    if (deleted != SUCCESS_EXECUTE) {
       LOG.error("voucher가 삭제되지 않았습니다.");
       throw new RuntimeException("voucher가 삭제되지 않았습니다.");
     }
