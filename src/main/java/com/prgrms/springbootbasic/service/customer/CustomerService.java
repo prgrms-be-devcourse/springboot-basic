@@ -1,17 +1,32 @@
 package com.prgrms.springbootbasic.service.customer;
 
-import com.prgrms.springbootbasic.domain.customer.Customer;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import com.prgrms.springbootbasic.dto.customer.CustomerDto;
+import com.prgrms.springbootbasic.repository.customer.CustomerRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-public interface CustomerService {
+@Service
+@RequiredArgsConstructor
+public class CustomerService {
 
-    void createCustomers(List<Customer> customers);
+    private CustomerRepository customerRepository;
 
-    Customer createCustomer(String email, String name);
+    //생성(update)
+    public CustomerDto create(CustomerDto create) {
+        return null;
+    }
 
-    List<Customer> getAllCustomers();
+    //조회(read - custmer의 모든 List를 조회하기)
+    public CustomerDto findAllCustomer() {
+        return null;
+    }
 
-    Optional<Customer> getCustomer(UUID customerId);
+    //수정(update)
+    public CustomerDto update(CustomerDto update) {
+        return null;
+    }
+
+    //삭제
+    public void delete(String id) {
+    }
 }
