@@ -52,25 +52,25 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<Wallet> findByMemberId(UUID memberId) {
-        String sql = "select * from wallet A" +
-                "LEFT JOIN members B ON A.member_id = B.id " +
-                "LEFT JOIN voucher C ON A.voucher_id = C.id" +
+        String sql = "select * from wallet A " +
+                "LEFT JOIN member B ON A.member_id = B.id " +
+                "LEFT JOIN voucher C ON A.voucher_id = C.id " +
                 "WHERE A.member_id = ?";
         return jdbcTemplate.query(sql, walletRowMapper, memberId.toString());
     }
 
     @Override
     public List<Wallet> findByVoucherId(UUID voucherId) {
-        String sql = "select * from wallet A" +
-                "LEFT JOIN members B ON A.member_id = B.id " +
-                "LEFT JOIN voucher C ON A.voucher_id = C.id" +
+        String sql = "select * from wallet A " +
+                "LEFT JOIN member B ON A.member_id = B.id " +
+                "LEFT JOIN voucher C ON A.voucher_id = C.id " +
                 "WHERE A.voucher_id = ?";
         return jdbcTemplate.query(sql, walletRowMapper, voucherId.toString());
     }
 
     @Override
-    public void deleteByMemberId(UUID memberId) {
+    public void deleteById(UUID walletId) {
         String sql = "DELETE FROM wallet WHERE member_id = ?";
-        jdbcTemplate.update(sql, memberId.toString());
+        jdbcTemplate.update(sql, walletId.toString());
     }
 }

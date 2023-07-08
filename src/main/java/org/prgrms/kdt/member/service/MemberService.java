@@ -2,7 +2,7 @@ package org.prgrms.kdt.member.service;
 
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.dao.MemberRepository;
-import org.prgrms.kdt.member.dto.CreateRequest;
+import org.prgrms.kdt.member.dto.CreateMemberRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +15,8 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member createMember(CreateRequest request){
-        Member member = new Member(request.memberId(), request.name(), request.status());
+    public Member createMember(CreateMemberRequest request){
+        Member member = new Member(request.name(), request.status());
         return memberRepository.insert(member);
     }
 

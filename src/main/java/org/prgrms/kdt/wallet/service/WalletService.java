@@ -8,12 +8,14 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Component
 public class WalletService {
     private final MemberRepository memberRepository;
     private final VoucherRepository voucherRepository;
@@ -42,8 +44,8 @@ public class WalletService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteWalletByMemberId(UUID memberId) {
-        walletRepository.deleteByMemberId(memberId);
+    public void deleteWalletByMemberId(UUID walletId) {
+        walletRepository.deleteById(walletId);
     }
 
     public List<Member> findMembersByVoucherId(UUID voucherId) {

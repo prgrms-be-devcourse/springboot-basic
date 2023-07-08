@@ -1,7 +1,6 @@
 package org.prgrms.kdt.member.domain;
 
 import org.prgrms.kdt.exception.InvalidInputException;
-import org.prgrms.kdt.util.Menu;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -21,5 +20,9 @@ public enum MemberStatus {
                 .filter((e) -> Objects.equals(e.descripton, str))
                 .findFirst()
                 .orElseThrow(() -> new InvalidInputException("알맞은 멤버 상태를 찾을 수 없습니다."));
+    }
+
+    public String getDescripton() {
+        return descripton;
     }
 }

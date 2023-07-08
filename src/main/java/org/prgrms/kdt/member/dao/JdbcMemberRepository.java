@@ -35,7 +35,8 @@ public class JdbcMemberRepository implements MemberRepository{
     public Member insert(Member member) {
         String sql = "INSERT INTO member(id, name, status) VALUES (?, ?, ?)";
         int update = jdbcTemplate.update(sql, member.getMemberId().toString(),
-                member.getMemberName().getName());
+                member.getMemberName().getName(),
+                member.getStatus().getDescripton());
         if (update != 1){
             throw new RuntimeException("Noting was inserted");
         }
@@ -45,7 +46,7 @@ public class JdbcMemberRepository implements MemberRepository{
     @Override
     public Member update(Member member) {
         String sql = "UPDATE member SET name = ?, status = ? WHERE id = ?";
-        int update = jdbcTemplate.update(sql, member.getMemberName().getName(), member.getStatus(), member.getMemberId().toString());
+        int update = jdbcTemplate.update(sql, member.getMemberName().getName(), member.getStatus().getDescripton(), member.getMemberId().toString());
         if (update != 1){
             throw new RuntimeException("Noting was updated");
         }

@@ -13,6 +13,12 @@ public class Member {
         this.status = status;
     }
 
+    public Member(String name, MemberStatus status) {
+        this.memberId = UUID.randomUUID();
+        this.name = new MemberName(name);
+        this.status = status;
+    }
+
     public UUID getMemberId() {
         return memberId;
     }

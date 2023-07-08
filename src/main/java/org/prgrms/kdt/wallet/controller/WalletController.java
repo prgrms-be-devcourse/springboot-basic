@@ -4,10 +4,12 @@ import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
 import org.prgrms.kdt.wallet.service.WalletService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
+@Component
 public class WalletController {
     private final WalletService walletService;
 
@@ -27,7 +29,7 @@ public class WalletController {
         return walletService.findMembersByVoucherId(voucherId);
     }
 
-    public void deleteWalletByMemberId(UUID memberId){
-        walletService.deleteWalletByMemberId(memberId);
+    public void deleteWalletByMemberId(UUID walletId){
+        walletService.deleteWalletByMemberId(walletId);
     }
 }
