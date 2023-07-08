@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface Output {
 
-    void showMenu(Menu[] menuList);
+    void showMenu(MenuExplain[] menuExplains);
 
     void showVoucherTypes(VoucherType[] voucherTypes);
 

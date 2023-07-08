@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public enum Menu {
-    EXIT("exit", "Type exit to exit the program."),
-    CREATE("create", "Type create to create a new voucher."),
-    LIST("list","Type list to list all vouchers.");
+    EXIT("exit"),
+    CREATE("create"),
+    LIST("list");
 
     private static final String TOO_LONG_COMMAND_ERROR = "Your COMMAND length is over than 1!";
     private static final String NO_MENU_NAMED_ERROR = "There is no menu named ";
@@ -22,21 +22,14 @@ public enum Menu {
     }
     private final String menuName;
 
-    private final String menuExplain;
-
     private static final Menu[] menus = Menu.values();
 
-    Menu(String menuName, String menuExplain) {
+    Menu(String menuName) {
         this.menuName = menuName;
-        this.menuExplain = menuExplain;
     }
 
     public String getMenuName() {
         return menuName;
-    }
-
-    public String getMenuExplain() {
-        return menuExplain;
     }
 
     public static boolean isValidMenu(String command) {

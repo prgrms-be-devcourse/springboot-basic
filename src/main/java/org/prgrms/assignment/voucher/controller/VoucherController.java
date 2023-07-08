@@ -6,6 +6,7 @@ import org.prgrms.assignment.voucher.model.VoucherType;
 import org.prgrms.assignment.voucher.service.VoucherService;
 import org.prgrms.assignment.voucher.service.VoucherServiceImpl;
 import org.prgrms.assignment.voucher.view.Input;
+import org.prgrms.assignment.voucher.view.MenuExplain;
 import org.prgrms.assignment.voucher.view.Output;
 import org.springframework.stereotype.Controller;
 
@@ -32,7 +33,7 @@ public class VoucherController {
     public void run() {
         while(true) {
             try {
-                output.showMenu(Menu.values());
+                output.showMenu(MenuExplain.values());
                 String command = input.getCommandInput();
 
                 switch (Menu.of(command)) {
