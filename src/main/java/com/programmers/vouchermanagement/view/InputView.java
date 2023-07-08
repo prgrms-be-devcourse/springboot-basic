@@ -2,14 +2,18 @@ package com.programmers.vouchermanagement.view;
 
 import com.programmers.vouchermanagement.voucher.domain.DiscountType;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
+import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class InputView {
 
     private static final String INPUT_COMMAND = "명령어 번호를 입력해주세요.";
     private static final String INPUT_DISCOUNT_TYPE = "할인 유형 번호를 입력해주세요.";
     private static final String INPUT_DISCOUNT_AMOUNT = "할인 양을 입력해주세요.";
+    private static final String INPUT_VOUCHER_UPDATE = "수정할 바우처 번호를 입력해주세요.";
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static Command inputCommand() {
@@ -41,5 +45,12 @@ public class InputView {
             throw new IllegalArgumentException("숫자만 입력해주세요");
         }
         return inputValue;
+    }
+
+    public static UUID inputUpdateVoucherId(List<VoucherResponse> vouchers) {
+        System.out.println(INPUT_VOUCHER_UPDATE);
+        String selectedVoucherNumber = SCANNER.nextLine();
+        VoucherResponse voucherResponse = vouchers.get(Integer.parseInt(selectedVoucherNumber) - 1);
+        return voucherResponse.getId();
     }
 }

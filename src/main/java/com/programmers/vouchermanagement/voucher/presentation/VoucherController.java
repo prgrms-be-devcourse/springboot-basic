@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.voucher.presentation;
 
 import com.programmers.vouchermanagement.voucher.application.VoucherService;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
+import com.programmers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,5 +21,9 @@ public class VoucherController {
 
     public List<VoucherResponse> getVouchers() {
         return voucherService.getVouchers();
+    }
+
+    public void updateVoucher(VoucherUpdateRequest request) {
+        voucherService.updateVoucher(request);
     }
 }

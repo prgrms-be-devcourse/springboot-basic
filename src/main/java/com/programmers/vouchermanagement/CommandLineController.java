@@ -4,6 +4,7 @@ import com.programmers.vouchermanagement.view.Command;
 import com.programmers.vouchermanagement.view.InputView;
 import com.programmers.vouchermanagement.view.OutputView;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
+import com.programmers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Profile("!test")
 @Slf4j
@@ -51,6 +53,15 @@ public class CommandLineController implements CommandLineRunner {
             }
             case EXIT -> {
                 return false;
+            }
+            case UPDATE -> {
+                List<VoucherResponse> vouchers = voucherController.getVouchers();
+                OutputView.showVoucherUpdate(vouchers);
+                UUID id = InputView.inputUpdateVoucherId(vouchers);
+                OutputView.showDiscountType();
+                VoucherCreationRequest updateVoucherInfo = InputView.inputVoucherInfo();
+                VoucherUpdateRequest request = new VoucherUpdateRequest(id, updateVoucherInfo.type(), updateVoucherInfo.amount());
+                voucherController.updateVoucher(request);
             }
         }
         return true;

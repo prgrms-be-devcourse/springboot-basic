@@ -5,12 +5,14 @@ import com.programmers.vouchermanagement.voucher.domain.DiscountType;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
+import com.programmers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -33,5 +35,14 @@ public class VoucherService {
         return vouchers.stream()
                 .map(VoucherResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public void updateVoucher(VoucherUpdateRequest request) {
+        UUID id = request.id();
+        DiscountType discountType = request.type();
+        int amount = request.amount();
+        DiscountPolicy discountPolicy = discountType.createDiscountPolicy(amount);
+        Voucher voucher = new Voucher(id, discountPolicy);
+        voucherRepository.update(voucher);
     }
 }

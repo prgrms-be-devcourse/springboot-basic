@@ -14,8 +14,8 @@ public enum Command {
     EXIT("1", "프로그램 종료"),
     CREATE("2", "바우처 생성"),
     LIST("3", "바우처 조회"),
-    DELETE("4", "바우처 삭제"),
-    UPDATE("5", "바우처 수정");
+    UPDATE("4", "바우처 수정"),
+    DELETE("5", "바우처 삭제");
 
     private final String number;
     private final String description;

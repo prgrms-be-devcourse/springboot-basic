@@ -13,6 +13,7 @@ public class OutputView {
     private static final String VOUCHER_LIST = "================= 바우처 조회 =================";
     private static final String LINE = "ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ";
     private static final String VOUCHER_TABLE_TITLE = " 번호 |                바우처 ID               | 할인 유형 | 할인 양 ";
+    private static final String VOUCHER_UPDATE = "================= 바우처 수정 =================";
 
     public static void showCommand() {
         System.out.println(VOUCHER_PROGRAM);
@@ -43,5 +44,10 @@ public class OutputView {
             System.out.println(LINE);
             i++;
         }
+    }
+
+    public static void showVoucherUpdate(List<VoucherResponse> vouchers) {
+        System.out.println(VOUCHER_UPDATE);
+        showVoucher(vouchers);
     }
 }
