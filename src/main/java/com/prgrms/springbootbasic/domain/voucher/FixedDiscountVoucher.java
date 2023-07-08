@@ -1,4 +1,4 @@
-package com.prgrms.springbootbasic.domain;
+package com.prgrms.springbootbasic.domain.voucher;
 
 import com.prgrms.springbootbasic.enums.VoucherType;
 import java.util.UUID;
@@ -14,7 +14,7 @@ public class FixedDiscountVoucher implements Voucher {
         this.voucherId = UUID.randomUUID();
         this.discount = discount;
     }
-
+    
     @Override
     public VoucherType getVoucherType() {
         return VoucherType.FIXED;

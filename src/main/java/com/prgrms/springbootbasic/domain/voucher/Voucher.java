@@ -1,4 +1,4 @@
-package com.prgrms.springbootbasic.domain;
+package com.prgrms.springbootbasic.domain.voucher;
 
 import com.prgrms.springbootbasic.enums.VoucherType;
 import java.util.UUID;

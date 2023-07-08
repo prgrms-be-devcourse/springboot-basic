@@ -1,6 +1,6 @@
-package com.prgrms.springbootbasic.repository;
+package com.prgrms.springbootbasic.repository.voucher;
 
-import com.prgrms.springbootbasic.domain.Voucher;
+import com.prgrms.springbootbasic.domain.voucher.Voucher;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;

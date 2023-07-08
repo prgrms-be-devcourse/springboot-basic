@@ -1,7 +1,7 @@
 package com.prgrms.springbootbasic;
 
-import com.prgrms.springbootbasic.controller.VoucherController;
-import com.prgrms.springbootbasic.domain.Voucher;
+import com.prgrms.springbootbasic.controller.voucher.VoucherController;
+import com.prgrms.springbootbasic.domain.voucher.Voucher;
 import com.prgrms.springbootbasic.enums.Command;
 import com.prgrms.springbootbasic.enums.VoucherType;
 import com.prgrms.springbootbasic.view.Console;
@@ -25,31 +25,41 @@ public class ConsoleApplication implements CommandLineRunner {
         console.consoleMenu();
 
         while (true) {
-            String command = console.inputCommand();
-            Command inputCommand = Command.checkInputCommand(command);
+            try {
+                String command = console.inputCommand();
+                Command inputCommand = Command.of(command);
 
-            switch (inputCommand) {
-                case CREATE -> createVoucher();
-                case LIST -> getVoucherList();
-                case EXIT -> {
-                    console.printMessage("프로그램을 종료합니다.");
-                    return;
+                switch (inputCommand) {
+                    case CREATE -> createVoucher();
+                    case LIST -> getVoucherList();
+                    case EXIT -> {
+                        console.printMessage("프로그램을 종료합니다.");
+                        return;
+                    }
                 }
+            } catch (IllegalArgumentException e) {
+                log.error("명령어가 잘못 입력되었습니다. ", e.getMessage());
+            } catch (Exception e) {
+                log.error("프로그램에서 오류가 발생하였습니다.", e.getMessage());
             }
         }
     }
 
-    private void createVoucher() {
+    public void createVoucher() {
         String voucherTypeInput = console.inputVoucherType();
-        VoucherType voucherType = VoucherType.checkVoucherType(voucherTypeInput);
+        VoucherType voucherType = VoucherType.of(voucherTypeInput);
 
         long voucherDiscount = console.inputVoucherDiscount();
 
-        voucherController.createVoucher(voucherType, voucherDiscount);
-        console.printMessage("바우처가 생성되었습니다!");
+        try {
+            voucherController.createVoucher(voucherType, voucherDiscount);
+            console.printMessage("바우처가 생성되었습니다!");
+        } catch (IllegalArgumentException e) {
+            console.printMessage("생성할 바우처의 금액의 범위를 다시 한번 확인해주세요!");
+        }
     }
 
-    private void getVoucherList() {
+    public void getVoucherList() {
         Map<UUID, Voucher> voucherMap = voucherController.printVoucherList();
         console.printlnVoucherList(voucherMap);
     }
