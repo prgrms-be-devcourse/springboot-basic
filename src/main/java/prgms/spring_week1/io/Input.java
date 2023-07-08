@@ -1,5 +1,7 @@
 package prgms.spring_week1.io;
 
+import prgms.spring_week1.domain.voucher.model.type.VoucherType;
+import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 import prgms.spring_week1.menu.Menu;
 
 import java.util.Scanner;
@@ -9,6 +11,10 @@ public class Input {
 
     public String inputString() {
         return sc.nextLine();
+    }
+
+    public VoucherType selectVoucherType() throws NoSuchVoucherTypeException {
+        return VoucherType.findVoucherType(this.inputString());
     }
 
     public Menu selectMenu() {
