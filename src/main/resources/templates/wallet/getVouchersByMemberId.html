@@ -18,29 +18,24 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="py-5 mb-5">회원 목록</h1>
+    <h1 class="py-5 mb-5">지갑 목록</h1>
     <div class="row">
         <div>
             <table class="table">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th> </th>
+                    <th>할인 값</th>
+                    <th>할인 정책</th>
                     <th> </th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr th:each="member : ${members}">
-                    <td th:text="${member.memberId}"></td>
-                    <td>
-                        <a class="btn btn-success"
-                           th:href="${'/view/v1/members/' + member.memberId}">상세 정보</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-primary"
-                           th:href="${'/view/v1/wallets/' + member.memberId}">지갑 정보</a>
-                    </td>
+                <tr th:each="voucher : ${vouchers}">
+                    <td th:text="${voucher.voucherId}"></td>
+                    <td th:text="${voucher.amount}"></td>
+                    <td th:text="${voucher.voucherPolicy}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -50,9 +45,9 @@
     <div class="row justify-content-end">
         <div class="col-auto">
             <a class="btn btn-primary"
-               th:href="${'/view/v1/members/post-page'}">새 회원 등록</a>
+               th:href="${'/'}">바우처 할당</a>
             <a class="btn btn-secondary"
-               th:href="${'/'}">뒤로 가기</a>
+               th:href="${'/view/v1/members'}">뒤로 가기</a>
         </div>
     </div>
 </div>

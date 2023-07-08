@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class WalletReqDTO {
     @Getter
+    @Setter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
