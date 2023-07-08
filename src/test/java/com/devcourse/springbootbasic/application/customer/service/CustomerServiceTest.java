@@ -1,6 +1,5 @@
 package com.devcourse.springbootbasic.application.customer.service;
 
-import com.devcourse.springbootbasic.application.customer.service.CustomerService;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
@@ -120,7 +119,7 @@ class CustomerServiceTest {
     @ParameterizedTest
     @DisplayName("정상적인 고객 정보 추가 시 성공한다.")
     @MethodSource("provideValidCustomers")
-    void registCustomer_ParamValidCustomer_InsertAndReturnCustomer(Customer customer) {
+    void registerCustomer_ParamValidCustomer_InsertAndReturnCustomer(Customer customer) {
         customerService.registCustomer(customer);
         var registeredCustomer = customerService.findCustomerById(customer);
         assertThat(registeredCustomer, samePropertyValuesAs(customer));

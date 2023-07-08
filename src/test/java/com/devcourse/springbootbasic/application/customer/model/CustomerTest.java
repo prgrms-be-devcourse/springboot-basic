@@ -33,10 +33,10 @@ class CustomerTest {
     @ParameterizedTest
     @DisplayName("고객 정보가 출력되면 성공한다.")
     @MethodSource("provideCustomers")
-    void ToString_Customer_ReturnCustomerString(UUID customerId, String name, String email, LocalDateTime createdAt, Customer customer) {
+    void ToString_Customer_ReturnCustomerString(UUID customerId, String name, String email, LocalDateTime createdTime, Customer customer) {
         var expected = MessageFormat.format(
                 "Customer(id: {0}, name: {1}, email: {2}, createAt: {3})"
-                , customerId, name, email, createdAt);
+                , customerId, name, email, createdTime);
         var result = customer.toString();
         assertEquals(expected, result);
     }

@@ -12,15 +12,15 @@ public class Customer {
     private final UUID customerId;
     private final String name;
     private final String email;
-    private final LocalDateTime createdAt;
+    private final LocalDateTime createdTime;
 
     public Customer(
-            UUID customerId, String name, String email, LocalDateTime createdAt
+            UUID customerId, String name, String email, LocalDateTime createdTime
     ) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createdAt = createdAt;
+        this.createdTime = createdTime;
         validateName();
         validateEmail();
     }
@@ -41,7 +41,7 @@ public class Customer {
     public String toString() {
         return MessageFormat.format(
                 "Customer(id: {0}, name: {1}, email: {2}, createAt: {3})"
-                , customerId, name, email, createdAt);
+                , customerId, name, email, createdTime);
     }
 
     public UUID getCustomerId() {
@@ -56,8 +56,8 @@ public class Customer {
         return email;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getcreatedTime() {
+        return createdTime;
     }
 
 }

@@ -26,8 +26,8 @@ public class CustomerRepository {
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var name = resultSet.getString("name");
         var email = resultSet.getString("email");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, name, email, createdAt);
+        var createdTime = resultSet.getTimestamp("created_time").toLocalDateTime();
+        return new Customer(customerId, name, email, createdTime);
     };
 
     private final CsvReader csvReader;
@@ -43,7 +43,7 @@ public class CustomerRepository {
             put("customerId", customer.getCustomerId().toString().getBytes());
             put("name", customer.getName());
             put("email", customer.getEmail());
-            put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
+            put("createdTime", Timestamp.valueOf(customer.getcreatedTime()));
         }};
     }
 
@@ -62,7 +62,7 @@ public class CustomerRepository {
     public Customer insert(Customer customer) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
+                    "INSERT INTO customers(customer_id, name, email, created_time) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdTime)",
                     toParamMap(customer)
             );
             if (updateResult != 1) {
@@ -77,7 +77,7 @@ public class CustomerRepository {
     public Customer update(Customer customer) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "UPDATE customers SET name = :name, email = :email, created_at = :createdAt WHERE customer_id = UUID_TO_BIN(:customerId)",
+                    "UPDATE customers SET name = :name, email = :email, created_time = :createdTime WHERE customer_id = UUID_TO_BIN(:customerId)",
                     toParamMap(customer)
             );
             if (updateResult != 1) {

@@ -1,6 +1,5 @@
 package com.devcourse.springbootbasic.application.customer.repository;
 
-import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.wix.mysql.EmbeddedMysql;
@@ -235,7 +234,7 @@ class CustomerRepositoryTest {
         var beforeCount = customerRepository.count();
         customerRepository.deleteById(customer.getCustomerId());
         var afterCount = customerRepository.count();
-        assertThat(beforeCount, is(afterCount+1));
+        assertThat(beforeCount, is(afterCount + 1));
     }
 
     @ParameterizedTest
@@ -246,7 +245,7 @@ class CustomerRepositoryTest {
         var beforeCount = customerRepository.count();
         customerRepository.deleteByName(customer.getName());
         var afterCount = customerRepository.count();
-        assertThat(beforeCount, is(afterCount+1));
+        assertThat(beforeCount, is(afterCount + 1));
     }
 
     @ParameterizedTest
@@ -257,7 +256,7 @@ class CustomerRepositoryTest {
         var beforeCount = customerRepository.count();
         customerRepository.deleteByEmail(customer.getEmail());
         var afterCount = customerRepository.count();
-        assertThat(beforeCount, is(afterCount+1));
+        assertThat(beforeCount, is(afterCount + 1));
     }
 
     static Stream<Arguments> provideValidCustomers() {
