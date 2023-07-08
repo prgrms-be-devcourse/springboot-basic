@@ -31,13 +31,12 @@ public class CommandLineApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        CommandType userCommand = CommandType.NONE;
-
-        while (userCommand.isRunning()) {
+        CommandType userCommand;
+        do {
             String command = voucherConsole.inputCommand(INIT_MESSAGE);
             userCommand = CommandType.findCommandType(command);
             executeCommand(userCommand);
-        }
+        } while (userCommand.isRunning());
     }
 
     private void executeCommand(CommandType commandtype) {
@@ -55,9 +54,6 @@ public class CommandLineApplication implements CommandLineRunner {
                 for (VoucherDto voucherDto : vouchers) {
                     voucherConsole.printCreatedVoucher(voucherDto);
                 }
-            }
-            default -> {
-                voucherConsole.printMessage(INVALID_COMMAND_MESSAGE);
             }
         }
     }

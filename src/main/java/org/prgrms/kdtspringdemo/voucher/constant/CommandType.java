@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 public enum CommandType {
-    NONE,
     EXIT,
     CREATE,
     LIST;
