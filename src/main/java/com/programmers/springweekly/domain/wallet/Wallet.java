@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Wallet {
 
+    private final UUID walletId;
     private final UUID customerId;
     private final UUID voucherId;
 }

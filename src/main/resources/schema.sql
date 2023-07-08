@@ -16,9 +16,9 @@ create table vouchers
 
 create table wallet
 (
-    customer_id varchar(36),
-    voucher_id varchar(36),
+    wallet_id varchar(36) primary key,
+    customer_id varchar(36) not null unique,
+    voucher_id varchar(36) not null,
     foreign key (customer_id) references customers(customer_id),
     foreign key (voucher_id) references vouchers(voucher_id),
-    primary key (customer_id,voucher_id)
 )
