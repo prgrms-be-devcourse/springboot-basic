@@ -27,7 +27,7 @@ public class VoucherFileDaoTest {
 
         // when
         storage.save(fixedVoucher);
-        Voucher findVoucher = storage.findByVoucherId(fixedVoucher.getVoucherId()).get();
+        Voucher findVoucher = storage.findById(fixedVoucher.getVoucherId()).get();
 
         // then
         assertThat(findVoucher).usingRecursiveComparison().isEqualTo(fixedVoucher);
@@ -41,7 +41,7 @@ public class VoucherFileDaoTest {
 
         // when
         storage.save(percentVoucher);
-        Voucher findVoucher = storage.findByVoucherId(percentVoucher.getVoucherId()).get();
+        Voucher findVoucher = storage.findById(percentVoucher.getVoucherId()).get();
 
         // then
         assertThat(findVoucher).usingRecursiveComparison().isEqualTo(percentVoucher);

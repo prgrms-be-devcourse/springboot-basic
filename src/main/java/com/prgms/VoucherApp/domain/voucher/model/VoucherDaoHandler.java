@@ -34,7 +34,7 @@ public class VoucherDaoHandler {
     }
 
     public Optional<VoucherResDto> findOne(UUID id) {
-        return voucherDao.findByVoucherId(id)
+        return voucherDao.findById(id)
             .map(VoucherResDto::new);
     }
 

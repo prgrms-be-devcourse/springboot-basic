@@ -10,7 +10,7 @@ public interface VoucherDao {
 
     List<Voucher> findAll();
 
-    Optional<Voucher> findByVoucherId(UUID voucherId);
+    Optional<Voucher> findById(UUID voucherId);
 
     List<Voucher> findByVoucherType(VoucherType type);
 

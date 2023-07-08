@@ -45,7 +45,7 @@ public class VoucherJdbcDao implements VoucherDao {
     }
 
     @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         String sql = "SELECT * FROM voucher where id = :id";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", voucherId);

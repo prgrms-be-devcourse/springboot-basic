@@ -38,7 +38,7 @@ public class VoucherFileDao implements VoucherDao {
     }
 
     @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         try {
             List<String> voucherFileContents = Files.readAllLines(Paths.get(filePath));
             voucherFileContents.forEach((voucher) -> {

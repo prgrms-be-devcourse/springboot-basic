@@ -74,7 +74,7 @@ class VoucherJdbcDaoTest {
 
         // when
         voucherDao.save(voucher);
-        Optional<Voucher> findVoucher = voucherDao.findByVoucherId(voucher.getVoucherId());
+        Optional<Voucher> findVoucher = voucherDao.findById(voucher.getVoucherId());
 
         // then
         Assertions.assertThat(findVoucher.get()).usingRecursiveComparison().isEqualTo(voucher);
@@ -86,7 +86,7 @@ class VoucherJdbcDaoTest {
         // given
 
         // when
-        Optional<Voucher> voucherId = voucherDao.findByVoucherId(UUID.randomUUID());
+        Optional<Voucher> voucherId = voucherDao.findById(UUID.randomUUID());
 
         // then
         Assertions.assertThat(voucherId).isEmpty();
@@ -157,7 +157,7 @@ class VoucherJdbcDaoTest {
         // when
         voucherDao.update(new FixedAmountVoucher(voucher.getVoucherId(), BigDecimal.valueOf(5500)));
 
-        Optional<Voucher> updatedVoucher = voucherDao.findByVoucherId(voucher.getVoucherId());
+        Optional<Voucher> updatedVoucher = voucherDao.findById(voucher.getVoucherId());
 
         // then
         Assertions.assertThat(updatedVoucher.get().getAmount()).isEqualTo(BigDecimal.valueOf(5500));

@@ -16,7 +16,7 @@ public class VoucherMemoryDao implements VoucherDao {
     private Map<UUID, Voucher> voucherLinkedMap = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         Voucher voucher = voucherLinkedMap.get(voucherId);
         return Optional.ofNullable(voucher);
     }

@@ -29,7 +29,7 @@ class VoucherMemoryDaoTest {
         storage.save(fixedVoucher);
 
         // then
-        assertThat(storage.findByVoucherId(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
+        assertThat(storage.findById(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
     }
 
     @Test
@@ -42,6 +42,6 @@ class VoucherMemoryDaoTest {
         storage.save(percentVoucher);
 
         // then
-        assertThat(storage.findByVoucherId(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
+        assertThat(storage.findById(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
     }
 }
