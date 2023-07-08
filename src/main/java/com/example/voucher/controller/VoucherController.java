@@ -1,7 +1,6 @@
 package com.example.voucher.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.dto.VoucherDTO;

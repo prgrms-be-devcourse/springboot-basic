@@ -36,12 +36,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeAmount) {
-        validatePositive(beforeAmount);
+    public long discount(long originalAmount) {
+        validatePositive(originalAmount);
 
         double discountPercent = percent / PERCENT_DIVISOR;
-        double discountAmount = beforeAmount * discountPercent;
-        long discountedAmount = beforeAmount - (long)discountAmount;
+        double discountAmount = originalAmount * discountPercent;
+        long discountedAmount = originalAmount - (long)discountAmount;
 
         return discountedAmount;
     }

@@ -42,8 +42,8 @@ class Writer {
 
     public static final String VOUCHER_INFO_TEMPLATE = "VoucherType : %s, discountValue : %d";
 
-    public void writeMessage(VoucherType voucherType, long value) {
-        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherType, value));
+    public void writeMessage(VoucherType voucherType, long discountValue) {
+        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherType, discountValue));
     }
 
     public void writeMessage(Message message) {

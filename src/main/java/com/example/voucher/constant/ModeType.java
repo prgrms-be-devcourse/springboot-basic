@@ -11,9 +11,9 @@ public enum ModeType {
     LIST,
     NONE;
 
-    public static ModeType getModeType(String typeName) {
+    public static ModeType getModeType(String inputTypeName) {
         return Arrays.stream(values())
-            .filter(m -> m.name().equalsIgnoreCase(typeName))
+            .filter(m -> m.name().equalsIgnoreCase(inputTypeName))
             .findAny()
             .orElseThrow(() -> new IllegalArgumentException(INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION));
     }

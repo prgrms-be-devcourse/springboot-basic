@@ -14,7 +14,7 @@ public interface Voucher {
 
     VoucherType getVoucherType();
 
-    long discount(long beforeAmount);
+    long discount(long originalAmount);
 
     default void validatePositive(long value) {
         if (value <= 0) {

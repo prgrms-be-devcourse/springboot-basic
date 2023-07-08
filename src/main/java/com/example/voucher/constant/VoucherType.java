@@ -18,9 +18,9 @@ public enum VoucherType {
         return inputNum;
     }
 
-    public static VoucherType getVouchersType(int readVoucherType) {
+    public static VoucherType getVouchersType(int inputVoucherType) {
         return Arrays.stream(values())
-            .filter(v -> readVoucherType == v.getInputNum())
+            .filter(v -> inputVoucherType == v.getInputNum())
             .findAny()
             .orElseThrow(() -> new IllegalArgumentException(INVALID_ARGUMENT_CANT_CREATE));
     }

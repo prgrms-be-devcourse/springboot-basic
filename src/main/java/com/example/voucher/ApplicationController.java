@@ -22,9 +22,9 @@ public class ApplicationController implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        boolean isOn = true;
+        boolean isRunning = true;
 
-        while (isOn) {
+        while (isRunning) {
             ModeType selectedModeType = console.getSelectedType();
 
             if (selectedModeType == ModeType.NONE) {
@@ -32,7 +32,7 @@ public class ApplicationController implements CommandLineRunner {
             }
 
             switch (selectedModeType) {
-                case EXIT -> isOn = false;
+                case EXIT -> isRunning = false;
                 case CREATE -> createVoucher();
                 case LIST -> displayVouchers();
             }

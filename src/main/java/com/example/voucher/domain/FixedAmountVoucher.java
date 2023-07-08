@@ -33,11 +33,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeAmount) {
-        validatePositive(beforeAmount);
-        validateGreaterThan(beforeAmount, amount);
+    public long discount(long originalAmount) {
+        validatePositive(originalAmount);
+        validateGreaterThan(originalAmount, amount);
 
-        return beforeAmount - amount;
+        return originalAmount - amount;
     }
 
     private void validateGreaterThan(long value, long threshold) {
