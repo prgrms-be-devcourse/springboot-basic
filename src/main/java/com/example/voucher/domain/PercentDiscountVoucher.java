@@ -1,11 +1,8 @@
 package com.example.voucher.domain;
 
 import static com.example.voucher.utils.ExceptionMessage.*;
-
 import java.util.UUID;
-
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.utils.Validator;
 
 public class PercentDiscountVoucher implements Voucher {
 
@@ -40,7 +37,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeAmount) {
-        Validator.validateNonZero(beforeAmount);
+        validatePositive(beforeAmount);
 
         double discountPercent = percent / PERCENT_DIVISOR;
         double discountAmount = beforeAmount * discountPercent;

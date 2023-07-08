@@ -1,9 +1,8 @@
 package com.example.voucher.domain;
 
+import static com.example.voucher.utils.ExceptionMessage.*;
 import java.util.UUID;
-
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.utils.Validator;
 
 public class FixedAmountVoucher implements Voucher {
 
@@ -13,6 +12,7 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(long amount) {
+        validatePositive(amount);
         this.voucherId = UUID.randomUUID();
         this.amount = amount;
     }
@@ -34,11 +34,17 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeAmount) {
-        Validator.validateNonZero(beforeAmount);
-        Validator.validatePositive(beforeAmount);
-        Validator.validateGreaterThan(beforeAmount, amount);
+        validatePositive(beforeAmount);
+        validateGreaterThan(beforeAmount, amount);
 
         return beforeAmount - amount;
+    }
+
+    private void validateGreaterThan(long value, long threshold) {
+        if (value <= threshold) {
+            throw new IllegalArgumentException(
+                String.format("{} {}", FORMAT_ERROR_GREATER_THAN_CONSTRAINT, threshold));
+        }
     }
 
 }

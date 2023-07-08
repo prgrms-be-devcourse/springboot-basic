@@ -8,7 +8,6 @@ import com.example.voucher.constant.ModeType;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.utils.ExceptionHandler;
-import com.example.voucher.utils.Validator;
 
 public class Console {
 
