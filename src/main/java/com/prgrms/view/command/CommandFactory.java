@@ -2,8 +2,9 @@ package com.prgrms.view.command;
 
 import com.prgrms.controller.VoucherController;
 import com.prgrms.view.ViewManager;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class CommandFactory {
     private VoucherController voucherController;
     private ViewManager viewManager;
