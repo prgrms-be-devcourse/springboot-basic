@@ -37,7 +37,7 @@ public class Customer {
         this.lastLoginAt = LocalDateTime.now();
     }
 
-    private static void validateName(String name) {
+    private void validateName(String name) {
         if(name.isBlank()) {
             throw new RuntimeException("Name should not be blank");
         }
