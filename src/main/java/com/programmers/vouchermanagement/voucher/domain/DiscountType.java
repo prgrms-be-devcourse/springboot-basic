@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import com.programmers.vouchermanagement.voucher.exception.InvalidDiscountTypeException;
 import lombok.Getter;
 
 import java.util.Collections;
@@ -34,7 +35,7 @@ public enum DiscountType {
         if (DISCOUNT_TYPE_MAP.containsKey(number)) {
             return DISCOUNT_TYPE_MAP.get(number);
         }
-        throw new IllegalArgumentException("존재하지 않는 할인 유형 입니다.");
+        throw new InvalidDiscountTypeException("존재하지 않는 할인 유형 입니다.");
     }
 
     public DiscountPolicy createDiscountPolicy(int amount) {

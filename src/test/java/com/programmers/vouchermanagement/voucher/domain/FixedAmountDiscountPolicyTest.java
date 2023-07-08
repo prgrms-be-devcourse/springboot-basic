@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import com.programmers.vouchermanagement.voucher.exception.InvalidDiscountAmountException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,8 +30,8 @@ class FixedAmountDiscountPolicyTest {
         void lessThanMinAmount(int amount) {
             // when & then
             assertThatThrownBy(() -> new FixedAmountDiscountPolicy(amount))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("The minimum discount amount is 1.");
+                    .isInstanceOf(InvalidDiscountAmountException.class)
+                    .hasMessage("고정할인금액은 최소 1원 이상이여야 합니다.");
         }
     }
 

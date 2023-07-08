@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.customer.domain;
 
+import com.programmers.vouchermanagement.customer.exception.InvalidCustomerTypeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ class CustomerTypeTest {
 
         // given & then
         assertThatThrownBy(() -> CustomerType.from(type))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidCustomerTypeException.class)
                 .hasMessage("잘못된 고객 타입입니다.");
     }
 }

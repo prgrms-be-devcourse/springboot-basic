@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import com.programmers.vouchermanagement.voucher.exception.InvalidDiscountTypeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,7 @@ class DiscountTypeTest {
 
         // when & then
         assertThatThrownBy(() -> DiscountType.from(number))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidDiscountTypeException.class)
                 .hasMessage("존재하지 않는 할인 유형 입니다.");
     }
 }
