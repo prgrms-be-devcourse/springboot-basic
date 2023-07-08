@@ -22,7 +22,7 @@ public class Console {
         this.reader = new Reader();
     }
 
-    public void printVoucherInfo(List<VoucherDTO> vouchers) {
+    public void displayVoucherInfo(List<VoucherDTO> vouchers) {
         for (VoucherDTO voucher : vouchers) {
             VoucherType voucherType = voucher.voucherType();
             long value = voucher.value();
@@ -31,8 +31,8 @@ public class Console {
         }
     }
 
-    public VoucherType readVoucherType() {
-        writer.writeMessage(Message.VOUCHER_TYPE_INPUT_INFO);
+    public VoucherType getVoucherType() {
+        writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
         writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
 
         int number = reader.readInteger();
@@ -40,8 +40,8 @@ public class Console {
         return VoucherType.getVouchersType(number);
     }
 
-    public long readDiscountValue() {
-        writer.writeMessage(Message.DISCOUNT_VALUE);
+    public long getDiscountValue() {
+        writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
 
         Long discountAmount = reader.readLong();
         validatePositive(discountAmount);

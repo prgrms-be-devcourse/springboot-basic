@@ -11,7 +11,7 @@ class Writer {
             Type create to create a new voucher.
             Type list to list all vouchers.
             """),
-        VOUCHER_TYPE_INPUT_INFO("""
+        VOUCHER_INFO_INPUT_REQUEST("""
             Select VoucherType And Info
               	"""),
         VOUCHER_TYPE_SELECTION("""
@@ -19,7 +19,7 @@ class Writer {
             1. FixedAmount
             2. PercentDiscount
               	"""),
-        DISCOUNT_VALUE("""
+        DISCOUNT_VALUE_INPUT_REQUEST("""
             * Input Discount Value
             """),
         INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION("""
@@ -40,10 +40,10 @@ class Writer {
     public Writer() {
     }
 
-    public static final String VOUCHER_INFO_FORMAT = "VoucherType : %s, discountValue : %d";
+    public static final String VOUCHER_INFO_TEMPLATE = "VoucherType : %s, discountValue : %d";
 
     public void writeMessage(VoucherType voucherType, long value) {
-        System.out.println(String.format(VOUCHER_INFO_FORMAT, voucherType, value));
+        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherType, value));
     }
 
     public void writeMessage(Message message) {

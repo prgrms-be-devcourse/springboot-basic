@@ -1,10 +1,8 @@
 package com.example.voucher;
 
 import java.util.List;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
-
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.controller.VoucherController;
@@ -35,22 +33,22 @@ public class ApplicationController implements CommandLineRunner {
 
             switch (selectedModeType) {
                 case EXIT -> isOn = false;
-                case CREATE -> processCreate();
-                case LIST -> processList();
+                case CREATE -> createVoucher();
+                case LIST -> displayVouchers();
             }
         }
     }
 
-    private void processCreate() {
-        VoucherType voucherType = console.readVoucherType();
-        long discountValue = console.readDiscountValue();
+    private void createVoucher() {
+        VoucherType voucherType = console.getVoucherType();
+        long discountValue = console.getDiscountValue();
 
         voucherController.createVoucher(voucherType, discountValue);
     }
 
-    private void processList() {
+    private void displayVouchers() {
         List<VoucherDTO> vouchers = voucherController.getVouchers();
-        console.printVoucherInfo(vouchers);
+        console.displayVoucherInfo(vouchers);
     }
 
 }
