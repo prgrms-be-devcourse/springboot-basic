@@ -1,6 +1,7 @@
 package org.promgrammers.springbootbasic.domain.customer.repository;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
@@ -34,8 +35,15 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     JdbcVoucherRepository voucherRepository;
 
-    @AfterEach
+    @BeforeEach
     void init() {
+        voucherRepository.deleteAll();
+        customerRepository.deleteAll();
+    }
+
+    @AfterEach
+    void afterEach() {
+        voucherRepository.deleteAll();
         customerRepository.deleteAll();
     }
 

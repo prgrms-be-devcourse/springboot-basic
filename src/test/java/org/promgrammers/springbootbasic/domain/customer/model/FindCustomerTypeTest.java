@@ -14,7 +14,7 @@ class FindCustomerTypeTest {
     @ParameterizedTest
     @DisplayName("생성 성공 - 올바른 커맨드 입력")
     @CsvSource(
-            {"1, ID", "2, USERNAME", "3,BLACKLIST"})
+            {"1, ID", "2, USERNAME","3,VOUCHER_ID", "4,BLACKLIST"})
     void findCustomerTypeSuccessTest(String inputCommand, FindCustomerType expectedCommand) {
 
         //given -> when
@@ -26,7 +26,7 @@ class FindCustomerTypeTest {
 
     @DisplayName("생성 실패 - 올바르지 않은 커맨드 입력")
     @ParameterizedTest
-    @ValueSource(strings = {"find", "id", "4", "&^^", "", " "})
+    @ValueSource(strings = {"find", "id", "5", "&^^", "", " "})
     void createCommandFailTest(String input) throws Exception {
 
         assertThrows(IllegalArgumentException.class, () -> FindCustomerType.from(input));
