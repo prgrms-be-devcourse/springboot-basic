@@ -23,10 +23,24 @@ public class MemberViewController {
         return "member/createMember";
     }
 
+    @GetMapping("/put-page/{member_id}")
+    public String updatePage(Model model,
+                             @PathVariable(name = "member_id") UUID memberId) {
+        model.addAttribute("memberId", memberId);
+        return "member/updateMemberById";
+    }
+
     @PostMapping
     public String createMember(@ModelAttribute @Validated MemberReqDTO.CREATE create) {
         memberService.createMember(create);
         return "redirect:/view/v1/members";
+    }
+
+    @PostMapping("/put/{member_id}")
+    public String updateMemberById(@PathVariable(name = "member_id") UUID memberId,
+                                   @ModelAttribute @Validated MemberReqDTO.UPDATE update) {
+        memberService.updateMemberById(memberId, update);
+        return "redirect:/view/v1/members/" + memberId;
     }
 
     @GetMapping
