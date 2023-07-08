@@ -1,27 +1,23 @@
 package com.prgrms.model.voucher;
 
-import com.prgrms.io.ErrorMessage;
-import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.view.message.ErrorMessage;
+import com.prgrms.model.voucher.dto.discount.Discount;
 
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("1",
             "얼만큼 할인 받고 싶은지 입력하세요 :",
-                          FixedAmountVoucher::new),
+            FixedAmountVoucher::new),
     PERCENT_DISCOUNT_VOUCHER("2",
             "할인율을 입력하세요 :",
             PercentDiscountVoucher::new);
 
     private final String number;
     private final String discountGuide;
-    private final BiFunction<Discount,VoucherType, Voucher> voucherFunction ;
+    private final TriFunction<Integer, Discount, VoucherType, Voucher> voucherFunction;
 
-    VoucherType(String number, String discountGuide, BiFunction<Discount,VoucherType, Voucher> voucherFunction) {
+    VoucherType(String number, String discountGuide, TriFunction<Integer, Discount, VoucherType, Voucher> voucherFunction) {
         this.number = number;
         this.discountGuide = discountGuide;
         this.voucherFunction = voucherFunction;
@@ -31,7 +27,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(p -> p.number.equals(policy))
                 .findFirst()
-                .orElseThrow(()->new IllegalArgumentException(ErrorMessage.INVALID_SELECTION.getMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_SELECTION.getMessage()));
     }
 
     public String voucherPolicyOptionGuide() {
@@ -42,8 +38,8 @@ public enum VoucherType {
         return discountGuide;
     }
 
-    public Voucher createVoucher(Discount amount) {
-        return voucherFunction.apply(amount, this);
+    public Voucher createVoucher(int id, Discount discount) {
+        return voucherFunction.apply(id, discount, this);
     }
 
 }
