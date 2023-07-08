@@ -1,13 +1,14 @@
 package com.prgrms.service.voucher;
 
-import com.prgrms.model.dto.mapper.DtoConverter;
-import com.prgrms.model.dto.VoucherRequest;
-import com.prgrms.model.dto.VoucherResponse;
+import com.prgrms.model.voucher.dto.mapper.DtoConverter;
+import com.prgrms.model.voucher.dto.VoucherRequest;
+import com.prgrms.model.voucher.dto.VoucherResponse;
 import com.prgrms.model.voucher.*;
-import com.prgrms.model.voucher.discount.Discount;
-import com.prgrms.model.voucher.discount.FixedDiscount;
-import com.prgrms.model.voucher.discount.PercentDiscount;
+import com.prgrms.model.voucher.dto.discount.Discount;
+import com.prgrms.model.voucher.dto.discount.FixedDiscount;
+import com.prgrms.model.voucher.dto.discount.PercentDiscount;
 import com.prgrms.repository.voucher.VoucherRepository;
+import com.prgrms.util.KeyGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,12 +29,13 @@ class VoucherServiceTest {
     private DtoConverter dtoConverter;
 
     private VoucherService voucherService;
+    private int id = KeyGenerator.make();
 
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        voucherService = new VoucherService(voucherRepository,dtoConverter);
+        voucherService = new VoucherService(voucherRepository, dtoConverter);
     }
 
     @Test
@@ -41,9 +43,9 @@ class VoucherServiceTest {
     public void createVoucher_RepositoryInsertVoucher_Equals() {
         //given
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
-        Discount discount= new FixedDiscount(10);
+        Discount discount = new FixedDiscount(10);
         VoucherRequest voucherRequest = new VoucherRequest(voucherType, discount);
-        Voucher createdVoucher = new FixedAmountVoucher( discount, voucherType);
+        Voucher createdVoucher = new FixedAmountVoucher(id, discount, voucherType);
         when(voucherRepository.insert(any(Voucher.class))).thenReturn(createdVoucher);
 
         //when
@@ -60,8 +62,8 @@ class VoucherServiceTest {
     @DisplayName("저장된 바우처 정책을 잘 출력하는지 확인한다.")
     public void getAllVoucherList_RepositoryListVoucherList_Equals() {
         //given
-        Voucher createdVoucher1 = new FixedAmountVoucher(new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher( new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(id, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(id, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
 
         VoucherResponse voucherResponse1 = new VoucherResponse(createdVoucher1);
         VoucherResponse voucherResponse2 = new VoucherResponse(createdVoucher2);
@@ -80,7 +82,7 @@ class VoucherServiceTest {
         //then
         assertThat(result)
                 .isNotNull()
-                .containsOnly(voucherResponse1,voucherResponse2);
+                .containsOnly(voucherResponse1, voucherResponse2);
         verify(voucherRepository, times(1)).getAllVoucher();
     }
 }
