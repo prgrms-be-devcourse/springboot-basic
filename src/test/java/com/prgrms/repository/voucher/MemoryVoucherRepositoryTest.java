@@ -26,9 +26,11 @@ class MemoryVoucherRepositoryTest {
     public void FindById_ExistingVoucherId_ReturnsVoucher() {
         //given
         Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+
         voucherRepository.insert(voucher);
         //when
         Optional<Voucher> result = voucherRepository.findById(voucherId);
+
         //then
         assertThat(result.get()).isNotNull()
                 .usingRecursiveComparison()
@@ -39,6 +41,7 @@ class MemoryVoucherRepositoryTest {
     public void FindById_NonExistingVoucherId_ReturnsEmptyOptional() {
         //when
         Optional<Voucher> result = voucherRepository.findById(voucherId);
+
         //then
         assertThat(result).isEmpty();
     }
@@ -47,8 +50,10 @@ class MemoryVoucherRepositoryTest {
     public void Insert_InsertedVoucher_Equal() {
         //given
         Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+
         //when
         Voucher result = voucherRepository.insert(voucher);
+
         //then
         assertThat(result).isNotNull()
                 .isEqualTo(voucher);
@@ -61,6 +66,7 @@ class MemoryVoucherRepositoryTest {
         Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         voucherRepository.insert(createdVoucher1);
         voucherRepository.insert(createdVoucher2);
+
         //when
         VoucherRegistry result = voucherRepository.getAllVoucher();
 

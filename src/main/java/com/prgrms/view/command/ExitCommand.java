@@ -5,9 +5,10 @@ import com.prgrms.view.ViewManager;
 public class ExitCommand implements Command {
     private ViewManager viewManager;
 
-    public ExitCommand (ViewManager viewManager){
+    public ExitCommand(ViewManager viewManager) {
         this.viewManager = viewManager;
     }
+
     @Override
     public Power execute() {
         viewManager.guideClose();

@@ -1,10 +1,7 @@
 package com.prgrms.view.view;
 
-import com.prgrms.model.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.Optional;
 import java.util.Scanner;
 
 @Component

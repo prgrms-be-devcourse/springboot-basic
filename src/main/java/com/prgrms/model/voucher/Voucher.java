@@ -5,7 +5,7 @@ import com.prgrms.model.voucher.dto.discount.Discount;
 import com.prgrms.model.voucher.dto.price.Price;
 
 public abstract class Voucher {
-    private final int voucherId ;
+    private final int voucherId;
     private final Discount discount;
     private final VoucherType voucherType;
 
@@ -28,5 +28,4 @@ public abstract class Voucher {
     }
 
     abstract public Price discountPrice(OrderItem orderItem);
-
 }

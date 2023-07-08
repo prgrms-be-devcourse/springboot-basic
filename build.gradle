@@ -23,6 +23,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -32,6 +33,10 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.3'
 
     testImplementation "org.assertj:assertj-core:3.20.2"
+
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    testImplementation 'mysql:mysql-connector-java:8.0.23'
+    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
 }
 
 tasks.named('test') {

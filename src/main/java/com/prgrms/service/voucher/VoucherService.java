@@ -26,7 +26,7 @@ public class VoucherService {
         int id = KeyGenerator.make();
         Discount discount = voucherRequest.discount();
 
-        Voucher voucher = voucherRequest.voucherType().createVoucher(id,discount);
+        Voucher voucher = voucherRequest.voucherType().createVoucher(id, discount);
 
         return voucherRepository.insert(voucher);
     }

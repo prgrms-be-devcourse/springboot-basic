@@ -42,7 +42,7 @@ public class ViewManager {
         output.write(voucherType.discountGuide());
         double discountAmount = input.enterDiscount();
 
-        Discount discount = discountCreator.createDiscount(discountAmount,voucherType);
+        Discount discount = discountCreator.createDiscount(discountAmount, voucherType);
 
         output.write(GuideMessage.COMPLETE_CREATE.toString());
 

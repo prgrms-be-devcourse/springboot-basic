@@ -1,8 +1,6 @@
 package com.prgrms.model.order;
 
-import java.util.UUID;
-
-public record OrderItem(UUID productId,
+public record OrderItem(int productId,
                         long productPrice,
                         long quantity) {
 

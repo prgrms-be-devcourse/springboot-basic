@@ -1,15 +1,7 @@
 package com.prgrms.view.command;
 
 import com.prgrms.controller.VoucherController;
-import com.prgrms.model.order.OrderItem;
-import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherType;
-import com.prgrms.model.voucher.dto.VoucherRequest;
 import com.prgrms.model.voucher.dto.VoucherResponse;
-import com.prgrms.model.voucher.dto.discount.Discount;
-import com.prgrms.model.voucher.dto.discount.FixedDiscount;
-import com.prgrms.model.voucher.dto.discount.PercentDiscount;
-import com.prgrms.model.voucher.dto.price.Price;
 import com.prgrms.view.ViewManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +24,7 @@ class ListCommandTest {
     @BeforeEach
     void setUp() {
     }
+
     @Test
     void execute_ON_PowerON() {
         //given

@@ -19,5 +19,4 @@ public class FixedAmountVoucher extends Voucher {
     public double sale() {
         return getVoucherDiscount().getValue();
     }
-
 }

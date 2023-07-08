@@ -41,5 +41,4 @@ public enum VoucherType {
     public Voucher createVoucher(int id, Discount discount) {
         return voucherFunction.apply(id, discount, this);
     }
-
 }

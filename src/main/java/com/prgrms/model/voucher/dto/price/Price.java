@@ -15,6 +15,7 @@ public class Price {
             throw new IllegalArgumentException(ErrorMessage.Negative_ARGUMENT.getMessage());
         }
     }
+
     public double getValue() {
         return value;
     }

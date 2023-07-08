@@ -4,7 +4,7 @@ public enum Power {
     ON,
     OFF;
 
-    public boolean isOn(){
+    public boolean isOn() {
         return this.equals(ON);
     }
 

@@ -25,7 +25,7 @@ public class CommandLineApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Power power = Power.ON;
-        CommandFactory commandFactory = new CommandFactory(voucherController,viewManager);
+        CommandFactory commandFactory = new CommandFactory(voucherController, viewManager);
         while (power.isOn()) {
             try {
                 Menu menu = viewManager.guideStartVoucher();

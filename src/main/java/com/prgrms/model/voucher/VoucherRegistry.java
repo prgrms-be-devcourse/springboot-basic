@@ -10,11 +10,11 @@ public class VoucherRegistry {
         this.voucherRegistry = voucherRegistry;
     }
 
-    public boolean isEmpty(List<Voucher> voucherRegistry ){
+    public boolean isEmpty(List<Voucher> voucherRegistry) {
         return voucherRegistry.isEmpty();
     }
 
-    public List<Voucher> getVoucherRegistry () {
+    public List<Voucher> getVoucherRegistry() {
         return voucherRegistry.stream().toList();
     }
 }

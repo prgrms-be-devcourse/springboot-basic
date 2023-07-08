@@ -19,11 +19,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 
 @SpringJUnitConfig
@@ -32,19 +31,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class JdbcVoucherRepositoryTest {
 
     @Configuration
-    @ComponentScan(
-            basePackages = {"com.prgrms.repository.voucher"}
-    )
+    @ComponentScan(basePackages = {"com.prgrms.repository.voucher"})
     static class Config {
 
         @Bean
         public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/order_byeol")
-                    .username("root")
-                    .password("7351")
-                    .type(HikariDataSource.class)
-                    .build();
+            return DataSourceBuilder.create().url("jdbc:mysql://localhost/order_byeol").username("root").password("7351").type(HikariDataSource.class).build();
         }
 
         @Bean

@@ -8,13 +8,13 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 public enum Menu {
-    EXIT(CommandFactory:: createExitCommand),
+    EXIT(CommandFactory::createExitCommand),
     CREATE(CommandFactory::createCreateCommand),
     LIST(CommandFactory::createListCommand);
 
-    private final Function<CommandFactory,Command> commandFunction;
+    private final Function<CommandFactory, Command> commandFunction;
 
-    Menu(Function<CommandFactory,Command> commandFunction) {
+    Menu(Function<CommandFactory, Command> commandFunction) {
         this.commandFunction = commandFunction;
     }
 
@@ -25,7 +25,7 @@ public enum Menu {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_SELECTION.getMessage()));
     }
 
-    public Command createCommand(CommandFactory commandFactory){
+    public Command createCommand(CommandFactory commandFactory) {
         return commandFunction.apply(commandFactory);
     }
 }

@@ -38,8 +38,6 @@ public class VoucherControllerTest {
 
         createdVoucher1 = new FixedAmountVoucher(voucherId1, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         createdVoucher2 = new PercentDiscountVoucher(voucherId2, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
-
-
     }
 
     @Test

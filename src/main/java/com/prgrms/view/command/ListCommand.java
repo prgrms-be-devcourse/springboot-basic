@@ -6,14 +6,15 @@ import com.prgrms.model.voucher.dto.VoucherResponse;
 
 import java.util.List;
 
-public class ListCommand implements Command{
+public class ListCommand implements Command {
     private VoucherController voucherController;
     private ViewManager viewManager;
 
-    public ListCommand (VoucherController voucherController, ViewManager viewManager){
+    public ListCommand(VoucherController voucherController, ViewManager viewManager) {
         this.voucherController = voucherController;
         this.viewManager = viewManager;
     }
+
     @Override
     public Power execute() {
         List<VoucherResponse> vouchers = voucherController.listVoucher();

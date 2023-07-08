@@ -23,6 +23,7 @@ class CreateCommandTest {
     @BeforeEach
     void setUp() {
     }
+
     @Test
     void execute_ON_PowerON() {
         //given

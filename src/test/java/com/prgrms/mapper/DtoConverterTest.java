@@ -57,4 +57,5 @@ class DtoConverterTest {
             return Double.compare(a.getDiscount().getValue(), b.getDiscount().getValue());
         }
     }
+
 }
