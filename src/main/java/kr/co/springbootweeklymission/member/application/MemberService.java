@@ -39,6 +39,14 @@ public class MemberService {
                 .toList();
     }
 
+    public List<MemberResDTO.READ> getMembersAll() {
+        final List<Member> members = memberRepository.findAll();
+
+        return members.stream()
+                .map(MemberResDTO.READ::toMemberReadDto)
+                .toList();
+    }
+
     @Transactional
     public void updateMemberById(UUID memberId,
                                  MemberReqDTO.UPDATE update) {

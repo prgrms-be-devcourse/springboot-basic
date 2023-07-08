@@ -36,7 +36,6 @@ public class VoucherViewController {
         return "redirect:/view/v1/vouchers";
     }
 
-
     @PostMapping("/put/{voucher_id}")
     public String updateVoucherById(@PathVariable(name = "voucher_id") UUID voucherId,
                                     @ModelAttribute @Validated VoucherReqDTO.UPDATE update) {

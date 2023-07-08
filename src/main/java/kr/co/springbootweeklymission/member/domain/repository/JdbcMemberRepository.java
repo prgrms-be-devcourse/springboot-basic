@@ -61,6 +61,14 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
+    public List<Member> findAll() {
+        String sql = "" +
+                "select * " +
+                "from tbl_members";
+        return jdbcTemplate.query(sql, memberRowMapper());
+    }
+
+    @Override
     public void update(Member member) {
         String sql = "" +
                 "update tbl_members set " +

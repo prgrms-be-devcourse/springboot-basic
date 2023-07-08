@@ -13,6 +13,8 @@ public interface MemberRepository {
 
     List<Member> findAllByBlack();
 
+    List<Member> findAll();
+
     void update(Member member);
 
     void delete(Member member);

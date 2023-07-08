@@ -46,6 +46,11 @@ public class InFileMemberRepository implements MemberRepository {
     }
 
     @Override
+    public List<Member> findAll() {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_READ);
+    }
+
+    @Override
     public void update(Member member) {
         throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
     }
