@@ -7,11 +7,12 @@ import java.util.Arrays;
 
 public enum CrudType {
     CREATE("1"),
-    FIND_BY_ID("2"),
+    FIND_ONE("2"),
     FIND_ALL("3"),
     UPDATE("4"),
     DELETE_BY_ID("5"),
-    DELETE_ALL("6");
+    DELETE_ALL("6"),
+    WALLET("7");
 
     private static final CrudType[] CRUD_TYPES = CrudType.values();
 
