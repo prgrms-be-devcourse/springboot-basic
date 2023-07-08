@@ -1,13 +1,11 @@
 package com.prgmrs.voucher.view.render;
 
-import com.prgmrs.voucher.controller.BlacklistController;
 import com.prgmrs.voucher.controller.VoucherController;
 import com.prgmrs.voucher.dto.VoucherRequest;
 import com.prgmrs.voucher.dto.VoucherResponse;
-import com.prgmrs.voucher.enums.VoucherType;
+import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.exception.NoSuchVoucherTypeException;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
-import com.prgmrs.voucher.setting.BlacklistProperties;
 import com.prgmrs.voucher.view.ConsoleReader;
 import com.prgmrs.voucher.view.writer.ConsoleCreationWriter;
 import org.springframework.stereotype.Component;
@@ -15,17 +13,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsoleVoucherCreationView {
     private final VoucherController voucherController;
-    private final BlacklistController blackListController;
     private final ConsoleReader consoleReader;
     private final ConsoleCreationWriter consoleCreationWriter;
-    private final BlacklistProperties blacklistProperties;
 
-    public ConsoleVoucherCreationView(VoucherController voucherController, BlacklistController blackListController, ConsoleReader consoleReader, ConsoleCreationWriter consoleCreationWriter, BlacklistProperties blacklistProperties) {
+    public ConsoleVoucherCreationView(VoucherController voucherController, ConsoleReader consoleReader, ConsoleCreationWriter consoleCreationWriter) {
         this.voucherController = voucherController;
-        this.blackListController = blackListController;
         this.consoleReader = consoleReader;
         this.consoleCreationWriter = consoleCreationWriter;
-        this.blacklistProperties = blacklistProperties;
     }
 
     void selectVoucher() {
@@ -33,8 +27,8 @@ public class ConsoleVoucherCreationView {
         while (continueRunning) {
             consoleCreationWriter.showVoucherType();
             try {
-                VoucherType voucherType = VoucherType.of(consoleReader.read());
-                createVoucher(voucherType);
+                VoucherSelectionType voucherSelectionType = VoucherSelectionType.of(consoleReader.read());
+                createVoucher(voucherSelectionType);
                 continueRunning = false;
             } catch (NoSuchVoucherTypeException e) {
                 consoleCreationWriter.write("such voucher type not exist");
@@ -42,12 +36,12 @@ public class ConsoleVoucherCreationView {
         }
     }
 
-    void createVoucher(VoucherType voucherType) {
+    void createVoucher(VoucherSelectionType voucherSelectionType) {
         boolean continueRunning = true;
         while (continueRunning) {
-            consoleCreationWriter.showSpecificVoucherCreation(voucherType);
+            consoleCreationWriter.showSpecificVoucherCreation(voucherSelectionType);
             String token = consoleReader.read();
-            VoucherRequest voucherRequest = new VoucherRequest(voucherType, token);
+            VoucherRequest voucherRequest = new VoucherRequest(voucherSelectionType, token);
             try {
                 VoucherResponse voucherResponse = voucherController.createVoucher(voucherRequest);
                 consoleCreationWriter.showVoucherResult(voucherResponse);

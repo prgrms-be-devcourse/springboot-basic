@@ -2,12 +2,13 @@ package com.prgmrs.voucher.enums;
 
 import com.prgmrs.voucher.exception.NoSuchVoucherTypeException;
 
-public enum VoucherType {
+public enum VoucherSelectionType {
     FIXED_AMOUNT_VOUCHER("fixed"),
-    PERCENT_DISCOUNT_VOUCHER("percent");
+    PERCENT_DISCOUNT_VOUCHER("percent"),
+    BACK("back");
     private final String value;
 
-    VoucherType(String value) {
+    VoucherSelectionType(String value) {
         this.value = value;
     }
 
@@ -15,8 +16,8 @@ public enum VoucherType {
         return value;
     }
 
-    public static VoucherType of(String value) throws NoSuchVoucherTypeException {
-        for (VoucherType enumValue : VoucherType.values()) {
+    public static VoucherSelectionType of(String value) throws NoSuchVoucherTypeException {
+        for (VoucherSelectionType enumValue : VoucherSelectionType.values()) {
             if (enumValue.getValue().equalsIgnoreCase(value)) {
                 return enumValue;
             }

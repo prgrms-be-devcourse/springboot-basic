@@ -1,18 +1,18 @@
 package com.prgmrs.voucher.dto;
 
-import com.prgmrs.voucher.enums.VoucherType;
+import com.prgmrs.voucher.enums.VoucherSelectionType;
 
 public class VoucherRequest {
-    private final VoucherType voucherType;
+    private final VoucherSelectionType voucherSelectionType;
     private final String token;
 
-    public VoucherRequest(VoucherType voucherType, String token) {
-        this.voucherType = voucherType;
+    public VoucherRequest(VoucherSelectionType voucherSelectionType, String token) {
+        this.voucherSelectionType = voucherSelectionType;
         this.token = token;
     }
 
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public VoucherSelectionType getVoucherType() {
+        return voucherSelectionType;
     }
 
     public String getToken() {

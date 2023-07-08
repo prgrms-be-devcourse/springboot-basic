@@ -3,7 +3,7 @@ package com.prgmrs.voucher.service;
 import com.prgmrs.voucher.dto.VoucherListResponse;
 import com.prgmrs.voucher.dto.VoucherRequest;
 import com.prgmrs.voucher.dto.VoucherResponse;
-import com.prgmrs.voucher.enums.VoucherType;
+import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.exception.NoSuchVoucherTypeException;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
@@ -35,7 +35,7 @@ public class VoucherService {
     public VoucherResponse createVoucher(VoucherRequest voucherRequest) throws WrongRangeFormatException {
         String token = voucherRequest.getToken();
         Optional<Long> convertedValue = voucherValidator.stringToLongConverter(token);
-        VoucherType voucherType = voucherRequest.getVoucherType();
+        VoucherSelectionType voucherSelectionType = voucherRequest.getVoucherType();
         UUID uuid = UUID.randomUUID();
         Voucher voucher;
 
@@ -45,11 +45,11 @@ public class VoucherService {
 
         DiscountValue discountValue = new DiscountValue(convertedValue.get());
 
-        if (!voucherValidator.isAmountValid(voucherType, discountValue)) {
+        if (!voucherValidator.isAmountValid(voucherSelectionType, discountValue)) {
             throw new WrongRangeFormatException("possible value out of range");
         }
 
-        switch (voucherType) {
+        switch (voucherSelectionType) {
             case FIXED_AMOUNT_VOUCHER -> {
                 Amount amount = new Amount(discountValue.getValue());
                 voucher = new FixedAmountVoucher(uuid, amount);

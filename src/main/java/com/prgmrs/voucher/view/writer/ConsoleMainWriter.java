@@ -10,8 +10,8 @@ public class ConsoleMainWriter {
 
     public void showManagementType() {
         write("=== Voucher Program ===");
-        write("Type create to create a voucher or user.");
-        write("Type list to list vouchers.");
-        write("Type exit to exit the program.");
+        write("Type 'create' to create a voucher or user.");
+        write("Type 'list' to list vouchers.");
+        write("Type 'exit' to exit the program.");
     }
 }

@@ -1,6 +1,6 @@
 package com.prgmrs.voucher.model.validator;
 
-import com.prgmrs.voucher.enums.VoucherType;
+import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.setting.VoucherProperties;
@@ -29,15 +29,15 @@ public class VoucherValidator {
         return Optional.empty();
     }
 
-    public boolean isAmountValid(VoucherType type, DiscountValue discountValue) throws WrongRangeFormatException {
+    public boolean isAmountValid(VoucherSelectionType type, DiscountValue discountValue) throws WrongRangeFormatException {
         boolean isValid = true;
 
-        if (type == VoucherType.FIXED_AMOUNT_VOUCHER
+        if (type == VoucherSelectionType.FIXED_AMOUNT_VOUCHER
                 && (0 >= discountValue.getValue() || discountValue.getValue() > voucherProperties.getMaximumFixedAmount())) {
             isValid = false;
         }
 
-        if (type == VoucherType.PERCENT_DISCOUNT_VOUCHER
+        if (type == VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER
                 && (0 >= discountValue.getValue() || discountValue.getValue() > 100)) {
             isValid = false;
         }

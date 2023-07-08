@@ -9,6 +9,6 @@ public class ConsoleReader {
     private final Scanner sc = new Scanner(System.in);
 
     public String read() {
-        return sc.nextLine();
+        return sc.next();
     }
 }

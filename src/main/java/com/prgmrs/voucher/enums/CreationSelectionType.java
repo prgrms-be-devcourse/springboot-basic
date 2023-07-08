@@ -2,12 +2,14 @@ package com.prgmrs.voucher.enums;
 
 import com.prgmrs.voucher.exception.NoSuchChoiceException;
 
-public enum CreationType {
+public enum CreationSelectionType {
     CREATE_VOUCHER("voucher"),
-    CREATE_USER("user");
+    CREATE_USER("user"),
+    BACK("back");
+
     private final String value;
 
-    CreationType(String value) {
+    CreationSelectionType(String value) {
         this.value = value;
     }
 
@@ -15,8 +17,8 @@ public enum CreationType {
         return value;
     }
 
-    public static CreationType of(String value) throws NoSuchChoiceException {
-        for (CreationType enumValue : CreationType.values()) {
+    public static CreationSelectionType of(String value) throws NoSuchChoiceException {
+        for (CreationSelectionType enumValue : CreationSelectionType.values()) {
             if (enumValue.getValue().equalsIgnoreCase(value)) {
                 return enumValue;
             }

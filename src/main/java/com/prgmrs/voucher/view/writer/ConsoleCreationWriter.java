@@ -2,12 +2,11 @@ package com.prgmrs.voucher.view.writer;
 
 import com.prgmrs.voucher.dto.UserResponse;
 import com.prgmrs.voucher.dto.VoucherResponse;
-import com.prgmrs.voucher.enums.VoucherType;
+import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;
-import com.prgmrs.voucher.setting.BlacklistProperties;
 import com.prgmrs.voucher.setting.VoucherProperties;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +14,10 @@ import java.text.MessageFormat;
 
 @Component
 public class ConsoleCreationWriter {
-    private final BlacklistProperties blacklistProperties;
     private final VoucherProperties voucherProperties;
 
 
-    public ConsoleCreationWriter(BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
-        this.blacklistProperties = blacklistProperties;
+    public ConsoleCreationWriter(VoucherProperties voucherProperties) {
         this.voucherProperties = voucherProperties;
     }
 
@@ -30,14 +27,17 @@ public class ConsoleCreationWriter {
 
     public void showCreationType() {
         write("=== Choosing creation type ===");
-        write("Type voucher to create a voucher.");
-        write("Type user to create a user.");
+        write("Type 'voucher' to create a voucher.");
+        write("Type 'user' to create a user.");
+        write("Type 'back' to return to previous step");
     }
 
     public void showVoucherType() {
         write("=== Choosing voucher type ===");
-        write("Type fixed to create a voucher with fixed amount.");
-        write("Type percent to create a voucher with percent discount.");
+        write("Type 'fixed' to create a voucher with fixed amount.");
+        write("Type 'percent' to create a voucher with percent discount.");
+        write("Type 'back' to return to previous step");
+
     }
 
     public void showNamingUser() {
@@ -45,14 +45,14 @@ public class ConsoleCreationWriter {
         write("Type any name to create a user");
     }
 
-    public void showSpecificVoucherCreation(VoucherType voucherType) {
-        if (VoucherType.FIXED_AMOUNT_VOUCHER == voucherType) {
+    public void showSpecificVoucherCreation(VoucherSelectionType voucherSelectionType) {
+        if (VoucherSelectionType.FIXED_AMOUNT_VOUCHER == voucherSelectionType) {
             write("=== Creating Voucher with fixed amount ===");
             write(MessageFormat.format("Type amount to create a voucher with fixed amount. maximum value is {0}", voucherProperties.getMaximumFixedAmount()));
             return;
         }
 
-        if (VoucherType.PERCENT_DISCOUNT_VOUCHER == voucherType) {
+        if (VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER == voucherSelectionType) {
             write("=== Creating Voucher with percent discount ===");
             write("Type percent to create a voucher with percent discount. (1 to 100 without percent sign)");
         }

@@ -2,11 +2,11 @@ package com.prgmrs.voucher.view.writer;
 
 import com.prgmrs.voucher.dto.BlacklistResponse;
 import com.prgmrs.voucher.dto.VoucherListResponse;
+import com.prgmrs.voucher.enums.ListSelectionType;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.setting.BlacklistProperties;
-import com.prgmrs.voucher.setting.VoucherProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -16,12 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class ConsoleListWriter {
     private final BlacklistProperties blacklistProperties;
-    private final VoucherProperties voucherProperties;
 
 
-    public ConsoleListWriter(BlacklistProperties blacklistProperties, VoucherProperties voucherProperties) {
+    public ConsoleListWriter(BlacklistProperties blacklistProperties) {
         this.blacklistProperties = blacklistProperties;
-        this.voucherProperties = voucherProperties;
     }
 
     public void write(String message) {
@@ -35,14 +33,20 @@ public class ConsoleListWriter {
         if (blacklistProperties.isBlacklistAllow()) {
             write("Type 'ban' to print out the blacklist");
         }
+        write("Type 'back' to return to previous step");
+
     }
 
     public void showWhichVoucherUser() {
         write("Type name to show vouchers a user have");
     }
 
-    public void showList(VoucherListResponse voucherListResponse) {
+    public void showList(VoucherListResponse voucherListResponse, ListSelectionType listSelectionType) {
         Map<UUID, Voucher> voucherHistory = voucherListResponse.getVoucherList();
+
+        if(listSelectionType.equals("e")) {
+            write("temp");
+        }
 
         if (voucherHistory.isEmpty()) {
             write("list is empty.");

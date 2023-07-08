@@ -2,7 +2,7 @@ package com.prgmrs.voucher.database;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.prgmrs.voucher.enums.VoucherType;
+import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.exception.FileNotReadException;
 import com.prgmrs.voucher.model.FixedAmountVoucher;
 import com.prgmrs.voucher.model.PercentDiscountVoucher;
@@ -43,13 +43,13 @@ public class FileVoucherDatabase implements VoucherDatabase {
                 UUID uuid = UUID.fromString(nextLine[0]);
                 String code = nextLine[1];
                 String value = nextLine[2];
-                if (VoucherType.FIXED_AMOUNT_VOUCHER.equals(VoucherType.of(code))) {
+                if (VoucherSelectionType.FIXED_AMOUNT_VOUCHER.equals(VoucherSelectionType.of(code))) {
                     Amount amount = new Amount(Long.parseLong(value));
                     Voucher voucher = new FixedAmountVoucher(uuid, amount);
                     storage.put(uuid, voucher);
                 }
 
-                if (VoucherType.PERCENT_DISCOUNT_VOUCHER.equals(VoucherType.of(code))) {
+                if (VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER.equals(VoucherSelectionType.of(code))) {
                     Percent percent = new Percent(Long.parseLong(value));
                     Voucher voucher = new PercentDiscountVoucher(uuid, percent);
                     storage.put(uuid, voucher);
@@ -72,12 +72,12 @@ public class FileVoucherDatabase implements VoucherDatabase {
             }
 
             if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
-                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherType.FIXED_AMOUNT_VOUCHER.getValue(), Long.toString(fixedAmountVoucher.getAmount().getValue())});
+                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherSelectionType.FIXED_AMOUNT_VOUCHER.getValue(), Long.toString(fixedAmountVoucher.getAmount().getValue())});
                 return;
             }
 
             if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
-                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherType.PERCENT_DISCOUNT_VOUCHER.getValue(), Long.toString(percentDiscountVoucher.getPercent().getValue())});
+                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER.getValue(), Long.toString(percentDiscountVoucher.getPercent().getValue())});
             }
         } catch (Exception e) {
             logger.error("unexpected error occurred : ", e);
