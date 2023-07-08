@@ -1,13 +1,12 @@
 package com.devcourse.springbootbasic.application;
 
-import com.devcourse.springbootbasic.application.controller.PlatformController;
-import com.devcourse.springbootbasic.application.customer.CustomerConverter;
-import com.devcourse.springbootbasic.application.voucher.VoucherConverter;
-import com.devcourse.springbootbasic.application.voucher.model.Voucher;
-import com.devcourse.springbootbasic.application.global.model.ListMenu;
-import com.devcourse.springbootbasic.application.global.model.Menu;
+import com.devcourse.springbootbasic.application.customer.controller.CustomerController;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.io.ConsoleManager;
+import com.devcourse.springbootbasic.application.global.model.ListMenu;
+import com.devcourse.springbootbasic.application.global.model.Menu;
+import com.devcourse.springbootbasic.application.voucher.VoucherConverter;
+import com.devcourse.springbootbasic.application.voucher.controller.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,14 +16,20 @@ import java.util.UUID;
 @Component
 public class ConsoleApplication implements Runnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(PlatformController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleApplication.class);
 
     private final ConsoleManager consoleManager;
-    private final PlatformController platformController;
+    private final VoucherController voucherController;
+    private final CustomerController customerController;
 
-    public ConsoleApplication(ConsoleManager consoleManager, PlatformController platformController) {
+    public ConsoleApplication(
+            ConsoleManager consoleManager,
+            VoucherController voucherController,
+            CustomerController customerController
+    ) {
         this.consoleManager = consoleManager;
-        this.platformController = platformController;
+        this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
     @Override
@@ -49,10 +54,7 @@ public class ConsoleApplication implements Runnable {
                 return true;
             }
             case CREATE -> {
-                Voucher voucher = VoucherConverter.convertDtoToVoucher(
-                        consoleManager.getVoucherDto(), UUID.randomUUID()
-                );
-                platformController.createVoucher(voucher);
+                VoucherConverter.convertDtoToVoucher(consoleManager.getVoucherDto(), UUID.randomUUID());
             }
             case LIST -> {
                 var listMenu = consoleManager.consoleListMenu();
@@ -64,9 +66,15 @@ public class ConsoleApplication implements Runnable {
 
     private void branchByListMenu(ListMenu listMenu) {
         var list = switch (listMenu) {
-            case VOUCHER_LIST -> VoucherConverter.convertToStringList(platformController.getVouchers());
-            case BLACK_CUSTOMER_LIST -> CustomerConverter.convertToStringList(platformController.getBlackCustomers());
+            case VOUCHER_LIST -> voucherController.getAllVouchers();
+            case BLACK_CUSTOMER_LIST -> customerController.findBlackCustomers();
         };
-        consoleManager.printList(listMenu, list);
+        consoleManager.printList(
+                listMenu,
+                list.stream()
+                        .map(Object::toString)
+                        .toList()
+        );
     }
+
 }
