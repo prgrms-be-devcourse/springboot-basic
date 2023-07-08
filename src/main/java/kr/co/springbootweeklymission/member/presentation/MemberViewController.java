@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,5 +23,13 @@ public class MemberViewController {
         List<MemberResDTO.READ> reads = memberService.getMembersAll();
         model.addAttribute("members", reads);
         return "member/getMembersAll";
+    }
+
+    @GetMapping("/{member_id}")
+    public String getMemberById(Model model,
+                                @PathVariable(name = "member_id") UUID memberId) {
+        MemberResDTO.READ read = memberService.getMemberById(memberId);
+        model.addAttribute("member", read);
+        return "member/getMemberById";
     }
 }
