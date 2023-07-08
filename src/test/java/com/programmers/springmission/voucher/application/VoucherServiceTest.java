@@ -1,15 +1,24 @@
 package com.programmers.springmission.voucher.application;
 
+import com.programmers.springmission.ManagementController;
+import com.programmers.springmission.customer.domain.Customer;
+import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.InvalidInputException;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
 import com.programmers.springmission.voucher.presentation.request.VoucherUpdateRequest;
 import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
-import com.programmers.springmission.voucher.repository.InMemoryVoucherRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.programmers.springmission.voucher.repository.JdbcVoucherRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,15 +26,30 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application.yml")
+@ActiveProfiles("jdbc")
 class VoucherServiceTest {
 
-    InMemoryVoucherRepository repository;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    JdbcCustomerRepository customerRepository;
+
+    @Autowired
+    JdbcVoucherRepository voucherRepository;
+
+    @Autowired
     VoucherService service;
 
-    @BeforeEach
-    void beforeEach() {
-        repository = new InMemoryVoucherRepository();
-        service = new VoucherService(repository);
+    @MockBean
+    ManagementController managementController;
+
+    @AfterEach
+    void afterEach() {
+        customerRepository.deleteAll();
+        voucherRepository.deleteAll();
     }
 
     @DisplayName("FixedAmountVoucher create 성공 테스트")
@@ -103,12 +127,12 @@ class VoucherServiceTest {
         VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
         VoucherResponse voucherResponse1 = service.createVoucher(voucherCreateRequest1);
         VoucherResponse voucherResponse2 = service.createVoucher(voucherCreateRequest2);
-        VoucherUpdateRequest voucherUpdateRequest1 = new VoucherUpdateRequest(voucherResponse1.getVoucherId(), 500L);
-        VoucherUpdateRequest voucherUpdateRequest2 = new VoucherUpdateRequest(voucherResponse2.getVoucherId(), 50L);
+        VoucherUpdateRequest voucherUpdateRequest1 = new VoucherUpdateRequest(500L);
+        VoucherUpdateRequest voucherUpdateRequest2 = new VoucherUpdateRequest(50L);
 
         // when
-        VoucherResponse result1 = service.updateVoucher(voucherUpdateRequest1);
-        VoucherResponse result2 = service.updateVoucher(voucherUpdateRequest2);
+        VoucherResponse result1 = service.updateVoucher(voucherResponse1.getVoucherId(), voucherUpdateRequest1);
+        VoucherResponse result2 = service.updateVoucher(voucherResponse2.getVoucherId(), voucherUpdateRequest2);
 
         // then
         assertThat(result1.getVoucherAmount()).isEqualTo(500L);
@@ -124,15 +148,15 @@ class VoucherServiceTest {
         VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
         VoucherResponse voucherResponse1 = service.createVoucher(voucherCreateRequest1);
         VoucherResponse voucherResponse2 = service.createVoucher(voucherCreateRequest2);
-        VoucherUpdateRequest voucherUpdateRequest1 = new VoucherUpdateRequest(voucherResponse1.getVoucherId(), 0L);
-        VoucherUpdateRequest voucherUpdateRequest2 = new VoucherUpdateRequest(voucherResponse2.getVoucherId(), 200L);
+        VoucherUpdateRequest voucherUpdateRequest1 = new VoucherUpdateRequest(0L);
+        VoucherUpdateRequest voucherUpdateRequest2 = new VoucherUpdateRequest(200L);
 
         // then
-        assertThatThrownBy(() -> service.updateVoucher(voucherUpdateRequest1))
+        assertThatThrownBy(() -> service.updateVoucher(voucherResponse1.getVoucherId(), voucherUpdateRequest1))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
 
-        assertThatThrownBy(() -> service.updateVoucher(voucherUpdateRequest2))
+        assertThatThrownBy(() -> service.updateVoucher(voucherResponse2.getVoucherId(), voucherUpdateRequest2))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }
@@ -148,7 +172,7 @@ class VoucherServiceTest {
         // when
         VoucherResponse voucherResponse1 = service.createVoucher(voucherCreateRequest1);
         VoucherResponse voucherResponse2 = service.createVoucher(voucherCreateRequest2);
-        repository.deleteById(voucherResponse2.getVoucherId());
+        voucherRepository.deleteById(voucherResponse2.getVoucherId());
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
@@ -167,7 +191,7 @@ class VoucherServiceTest {
         VoucherResponse voucherResponse2 = service.createVoucher(voucherCreateRequest2);
 
         // when
-        repository.deleteAll();
+        voucherRepository.deleteAll();
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
@@ -188,6 +212,29 @@ class VoucherServiceTest {
         assertThatThrownBy(() -> service.findByIdVoucher(UUID.randomUUID()))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.NOT_EXIST_VOUCHER.getMessage());
+    }
+
+    @DisplayName("바우처에 고객 할당 성공하는지 테스트")
+    @Test
+    void assign_voucher_to_customer() {
+
+        // given
+        VoucherCreateRequest voucherCreateRequest1 = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
+        VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
+        VoucherResponse voucherResponse1 = service.createVoucher(voucherCreateRequest1);
+        VoucherResponse voucherResponse2 = service.createVoucher(voucherCreateRequest2);
+
+        Customer customer = new Customer("신재윤", "abc@gmail.com");
+        customerRepository.save(customer);
+
+        // when
+        service.assignVoucherToCustomer(voucherResponse1.getVoucherId(), customer.getCustomerId());
+        service.assignVoucherToCustomer(voucherResponse2.getVoucherId(), customer.getCustomerId());
+
+        // then
+        List<VoucherResponse> voucherResponses = service.findAllVoucher();
+        assertThat(voucherResponses.get(0).getCustomerId()).isEqualTo(customer.getCustomerId());
+        assertThat(voucherResponses.get(1).getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 }
 

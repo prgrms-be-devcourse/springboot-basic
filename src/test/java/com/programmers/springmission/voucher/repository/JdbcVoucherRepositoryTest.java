@@ -1,6 +1,8 @@
 package com.programmers.springmission.voucher.repository;
 
 import com.programmers.springmission.ManagementController;
+import com.programmers.springmission.customer.domain.Customer;
+import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
 import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
 import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
 import com.programmers.springmission.voucher.domain.Voucher;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
@@ -21,10 +24,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JdbcVoucherRepositoryTest {
 
     @Autowired
-    private JdbcVoucherRepository repository;
+    JdbcVoucherRepository repository;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @MockBean
-    private ManagementController managementController;
+    ManagementController managementController;
 
     @DisplayName("Voucher 가 repository 에 저장 성공하는지 테스트")
     @Test
@@ -93,5 +99,25 @@ class JdbcVoucherRepositoryTest {
         // then
         List<Voucher> all = repository.findAll();
         assertThat(all.size()).isEqualTo(0);
+    }
+
+    @DisplayName("바우처에 고객 할당 성공하는지 테스트")
+    @Test
+    void assign_voucher_to_customer() {
+
+        // given
+        Voucher voucher = new Voucher(new FixedAmountPolicy(VoucherType.FIXED_AMOUNT), 10L);
+        Customer customer = new Customer("신재윤", "abc@gmail.com");
+        JdbcCustomerRepository jdbcCustomerRepository = new JdbcCustomerRepository(jdbcTemplate);
+        jdbcCustomerRepository.save(customer);
+
+        // when
+        repository.save(voucher);
+        voucher.assignVoucherToCustomer(customer.getCustomerId());
+        repository.assign(voucher);
+
+        // then
+        List<Voucher> all = repository.findAll();
+        assertThat(all.get(0).getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 }
