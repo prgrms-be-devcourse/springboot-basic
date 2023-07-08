@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
+    private static final Logger logger = LoggerFactory.getLogger(PercentAmountVoucher.class);
     private static final long MIN_AMOUNT = 0;
     private static final long MAX_AMOUNT = 100;
     private static final String OUT_OF_RANGE_AMOUNT = "할인 범위가 아닙니다.";

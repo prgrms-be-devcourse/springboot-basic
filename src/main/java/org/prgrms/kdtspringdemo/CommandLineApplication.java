@@ -20,7 +20,6 @@ public class CommandLineApplication implements CommandLineRunner {
             """;
     private static final String SYSTEM_SHUTDOWN_MESSAGE = "시스템을 종료합니다.\n";
     private static final String CHOICE_VOUCHER_TYPE_MESSAGE = "바우처 타입을 입력하세요.(ex : FIXED or PERCENT)\n";
-    private static final String INVALID_COMMAND_MESSAGE = "잘못된 명령입니다.\n";
 
     private final VoucherConsole voucherConsole = new VoucherConsole();
     private final VoucherService voucherService;
@@ -31,41 +30,34 @@ public class CommandLineApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        CommandType userCommand;
-        do {
-            String command = voucherConsole.inputCommand(INIT_MESSAGE);
-            userCommand = CommandType.findCommandType(command);
+        CommandType userCommand = voucherConsole.inputCommand(INIT_MESSAGE);
+
+        while (userCommand.isRunning()) {
             executeCommand(userCommand);
-        } while (userCommand.isRunning());
+            userCommand = voucherConsole.inputCommand(INIT_MESSAGE);
+        }
     }
 
-    private CommandType executeCommand(CommandType commandtype) {
-        return switch (commandtype) {
-            case EXIT -> {
-                voucherConsole.printMessage(SYSTEM_SHUTDOWN_MESSAGE);
-                yield CommandType.EXIT;
-            }
-            case CREATE -> {
-                String userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE_MESSAGE);
-                VoucherDto voucher = createVoucher(userVoucherType);
-                voucherConsole.printCreatedVoucher(voucher);
-                yield CommandType.CREATE;
-            }
-            case LIST -> {
-                List<VoucherDto> vouchers = voucherService.getAllVoucher();
-                for (VoucherDto voucherDto : vouchers) {
-                    voucherConsole.printCreatedVoucher(voucherDto);
-                }
-                yield CommandType.LIST;
-            }
-        };
+    private void executeCommand(CommandType commandtype) {
+        switch (commandtype) {
+            case EXIT -> voucherConsole.printMessage(SYSTEM_SHUTDOWN_MESSAGE);
+            case CREATE -> createVoucher();
+            case LIST -> getAllVoucher();
+        }
     }
 
-    private VoucherDto createVoucher(String userVoucherType) {
-        VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
-        Long amount = voucherConsole.inputAmountByVoucher(voucherType);
-        VoucherDto voucherDto = new VoucherDto(voucherType, amount);
+    private void getAllVoucher() {
+        List<VoucherDto> vouchers = voucherService.getAllVoucher();
+        for (VoucherDto voucherDto : vouchers) {
+            voucherConsole.printCreatedVoucher(voucherDto.getVoucherType(), voucherDto.getAmount());
+        }
+    }
 
-        return voucherService.create(voucherDto);
+    private void createVoucher() {
+        VoucherType userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE_MESSAGE);
+        Long amount = voucherConsole.inputAmountByVoucher();
+
+        VoucherDto voucherDto = voucherService.create(userVoucherType, amount);
+        voucherConsole.printCreatedVoucher(voucherDto.getVoucherType(), voucherDto.getAmount());
     }
 }

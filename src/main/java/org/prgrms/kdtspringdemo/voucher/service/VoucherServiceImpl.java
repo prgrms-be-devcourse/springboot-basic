@@ -20,11 +20,11 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherDto create(VoucherDto voucherDto) {
-        VoucherType voucherType = VoucherType.findVoucherType(voucherDto.getVoucherType());
+    public VoucherDto create(VoucherType userVoucherType, long amount) {
+        VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
         Voucher voucher = switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(voucherDto.getAmount());
-            case PERCENT -> new PercentAmountVoucher(voucherDto.getAmount());
+            case FIXED -> new FixedAmountVoucher(amount);
+            case PERCENT -> new PercentAmountVoucher(amount);
         };
 
         Voucher savedVoucher = voucherRepository.save(voucher);
@@ -34,9 +34,8 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public List<VoucherDto> getAllVoucher() {
-        List<Voucher> voucherList = voucherRepository.findAll();
-
-        return voucherList.stream()
+        return voucherRepository.findAll()
+                .stream()
                 .map(v -> new VoucherDto(v.getVoucherType(), v.getAmount()))
                 .collect(Collectors.toUnmodifiableList());
     }
