@@ -3,9 +3,12 @@ package com.programmers.voucher.domain.customer.dto.request;
 import java.util.UUID;
 
 public class CustomerUpdateRequest {
-    private final UUID customerId;
-    private final String name;
-    private final boolean banned;
+    private UUID customerId;
+    private String name;
+    private boolean banned;
+
+    public CustomerUpdateRequest() {
+    }
 
     public CustomerUpdateRequest(UUID customerId, String name, boolean banned) {
         this.customerId = customerId;
