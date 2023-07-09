@@ -61,7 +61,10 @@ public class VoucherController {
         console.printVoucherListTitle();
         VouchersResponseDto vouchersResponseDto = voucherService.findAll();
 
-        List<Voucher> vouchers = vouchersResponseDto.vouchers();
+        return getVouchersResult(vouchersResponseDto.vouchers());
+    }
+
+    public List<Voucher> getVouchersResult(List<Voucher> vouchers) {
         if (vouchers.isEmpty()) {
             console.printVoucherListEmptyMessage();
             return vouchers;
