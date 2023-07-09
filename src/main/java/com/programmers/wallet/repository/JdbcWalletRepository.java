@@ -46,6 +46,18 @@ public class JdbcWalletRepository {
         }
     }
 
+    public void deleteByVoucherIdAndCustomerId(UUID voucherId, UUID customerId) {
+        String sql = "delete from vouchers where id = ? and customer_id = ?";
+
+        jdbcTemplate.update(sql, voucherId.toString(), customerId.toString());
+    }
+
+    public void deleteAllByCustomerId(UUID customerId) {
+        String sql = "delete from vouchers where customer_id = ?";
+
+        jdbcTemplate.update(sql, customerId.toString());
+    }
+
     private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) ->
                 VoucherType.createVoucher(rs.getString("type"),

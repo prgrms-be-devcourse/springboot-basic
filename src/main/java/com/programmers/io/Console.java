@@ -96,6 +96,10 @@ public class Console implements Input, Output {
     private static final String WALLET_SEARCH_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to search. ===";
     private static final String WALLET_SEARCH_VOUCHER_TITLE_MESSAGE = "\n=== Search for a voucher. ===";
     private static final String WALLET_SEARCH_VOUCHER_ID_MESSAGE = "\n=== Type voucher id to search. ===";
+    private static final String WALLET_DELETE_VOUCHER_TITLE_MESSAGE =
+            "\n=== Remove the voucher assigned to the customer. ===\n" +
+                    "(We will search for a customer first and delete the voucher assigned to that customer.)";
+    private static final String WALLET_DELETE_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to delete the voucher. ===";
 
     @Override
     public void printMenu() {
@@ -293,5 +297,13 @@ public class Console implements Input, Output {
 
     public void printCustomer(Customer customer) {
         System.out.println(customer + "\n");
+    }
+
+    public void printWalletDeleteVoucherTitleMessage() {
+        System.out.println(WALLET_DELETE_VOUCHER_TITLE_MESSAGE);
+    }
+
+    public void printWalletDeleteCustomerIdMessage() {
+        System.out.println(WALLET_DELETE_CUSTOMER_ID_MESSAGE);
     }
 }

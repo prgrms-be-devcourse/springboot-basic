@@ -3,6 +3,7 @@ package com.programmers.wallet.controller;
 import com.programmers.customer.controller.CustomerController;
 import com.programmers.customer.domain.Customer;
 import com.programmers.customer.dto.CustomerResponseDto;
+import com.programmers.exception.InvalidRequestValueException;
 import com.programmers.io.Console;
 import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Voucher;
@@ -21,6 +22,9 @@ import java.util.UUID;
 public class WalletController {
 
     private static final Logger log = LoggerFactory.getLogger(WalletController.class);
+
+    private static final String DELETE_ONE_VOUCHER_NUMBER = "1";
+    private static final String DELETE_ALL_VOUCHERS_NUMBER = "2";
 
     private final Console console;
     private final VoucherController voucherController;
@@ -43,7 +47,7 @@ public class WalletController {
             case ASSIGN_VOUCHER -> assignVoucher();
             case SEARCH_CUSTOMER -> searchCustomerToGetVouchers();
             case SEARCH_VOUCHER -> searchVoucherToGetCustomer();
-            //  case DELETE_VOUCHER -> deleteVoucher();
+            case DELETE_VOUCHER -> deleteVoucher();
         }
     }
 
@@ -91,5 +95,60 @@ public class WalletController {
         CustomerResponseDto customerResponseDto = walletService.findCustomerByVoucherId(voucherId);
         Customer customer = new Customer(customerResponseDto.id(), customerResponseDto.name());
         console.printCustomer(customer);
+    }
+
+    public void deleteVoucher() {
+        console.printWalletDeleteVoucherTitleMessage();
+        UUID customerId = getCustomerIdToDeleteVoucher();
+        VouchersResponseDto vouchersResponseDto = walletService.findByCustomerId(customerId);
+
+        console.printVoucherListTitle();
+        voucherController.getVouchersResult(vouchersResponseDto.vouchers());
+
+        selectDeleteType(customerId);
+    }
+
+    public UUID getCustomerIdToDeleteVoucher() {
+        customerController.getNormalCustomerList();
+
+        console.printWalletDeleteCustomerIdMessage();
+        return UUID.fromString(console.readInput());
+    }
+
+    public void selectDeleteType(UUID customerId) {
+        console.printDeleteTypeVoucherSelectionMessage();
+        String command = console.readInput();
+        checkDeleteTypeSelection(command);
+
+        switch (command) {
+            case DELETE_ONE_VOUCHER_NUMBER -> deleteOneVoucher(customerId);
+            case DELETE_ALL_VOUCHERS_NUMBER -> deleteAllVouchers(customerId);
+        }
+    }
+
+    private void checkDeleteTypeSelection(String deleteTypeRequest) {
+        if (deleteTypeRequest.isEmpty()) {
+            throw new InvalidRequestValueException("[ERROR] Delete Type 번호 요청 값이 비었습니다.");
+        }
+
+        if (!deleteTypeRequest.equals(DELETE_ONE_VOUCHER_NUMBER) && !deleteTypeRequest.equals(DELETE_ALL_VOUCHERS_NUMBER)) {
+            throw new InvalidRequestValueException("[ERROR] 요청하신 Delete Type 번호가 유효하지 않습니다.");
+        }
+    }
+
+    public void deleteOneVoucher(UUID customerId) {
+        console.printDeleteVoucherIdMessage();
+        UUID voucherId = UUID.fromString(console.readInput());
+
+        WalletRequestDto walletRequestDto = new WalletRequestDto(voucherId, customerId);
+        walletService.deleteByVoucherIdAndCustomerId(walletRequestDto);
+        console.printDeleteVoucherCompleteMessage();
+        log.info("The voucher of one customer has been deleted. customer id = {}", customerId);
+    }
+
+    public void deleteAllVouchers(UUID customerId) {
+        walletService.deleteAllByCustomerId(customerId);
+        console.printDeleteAllVouchersCompleteMessage();
+        log.info("All vouchers of one customer have been deleted. customer id = {}", customerId);
     }
 }

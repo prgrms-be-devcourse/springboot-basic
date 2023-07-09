@@ -37,4 +37,14 @@ public class WalletService {
 
         return new CustomerResponseDto(customer.getCustomerId(), customer.getCustomerName(), customer.getCustomerType());
     }
+
+    @Transactional
+    public void deleteByVoucherIdAndCustomerId(WalletRequestDto voucherDto) {
+        jdbcWalletRepository.deleteByVoucherIdAndCustomerId(voucherDto.voucherId(), voucherDto.customerId());
+    }
+
+    @Transactional
+    public void deleteAllByCustomerId(UUID customerId) {
+        jdbcWalletRepository.deleteAllByCustomerId(customerId);
+    }
 }
