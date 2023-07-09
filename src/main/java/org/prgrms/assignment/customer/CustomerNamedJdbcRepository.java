@@ -1,17 +1,13 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.assignment.customer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
@@ -19,11 +15,12 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
+@Primary
 public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         String customerName = resultSet.getString("name");
@@ -36,7 +33,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     };;
     public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        this.namedParameterJdbcTemplate = jdbcTemplate;
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
@@ -51,7 +48,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
+        int update = namedParameterJdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
                 toParamMap(customer));
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
@@ -61,7 +58,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
+        int update = namedParameterJdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
             toParamMap(customer));
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
@@ -71,18 +68,18 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject("select count(*) from customers", Collections.emptyMap(), Integer.class);
+        return namedParameterJdbcTemplate.queryForObject("select count(*) from customers", Collections.emptyMap(), Integer.class);
     }
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("select * from customers", customerRowMapper);
+        return namedParameterJdbcTemplate.query("select * from customers", customerRowMapper);
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where customer_id = UUID_TO_BIN(:customerId)",
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers where customer_id = UUID_TO_BIN(:customerId)",
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     customerRowMapper));
         } catch(EmptyResultDataAccessException e) {
@@ -94,7 +91,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where name = :name",
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers where name = :name",
                     Collections.singletonMap("name", name),
                     customerRowMapper));
         } catch(EmptyResultDataAccessException e) {
@@ -106,7 +103,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where email = :email",
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers where email = :email",
                     Collections.singletonMap("email", email),
                     customerRowMapper));
         } catch(EmptyResultDataAccessException e) {
@@ -117,7 +114,12 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("DELETE from customers", Collections.emptyMap());
+        namedParameterJdbcTemplate.update("DELETE from customers", Collections.emptyMap());
+    }
+
+    @Override
+    public void delete(UUID customerId) {
+        namedParameterJdbcTemplate.update("DELETE from customers where customer_id = UUID_TO_BIN(:customerId)", Collections.singletonMap("customerId", customerId.toString().getBytes()));
     }
 
     static UUID toUUID(byte[] bytes) {

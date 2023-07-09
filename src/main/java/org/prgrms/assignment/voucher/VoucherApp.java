@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
-@Profile({"local"})
+@Profile({"dev"})
 public class VoucherApp {
 
     public static void main(String[] args) {

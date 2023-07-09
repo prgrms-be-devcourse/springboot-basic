@@ -1,4 +1,4 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.assignment.customer;
 
 import org.prgrms.kdt.JdbcCustomerRepository;
 import org.slf4j.Logger;
@@ -10,9 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
-import java.sql.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
@@ -30,7 +32,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
-    };;
+    };
 
     public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.dataSource = dataSource;
@@ -45,6 +47,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             customer.getEmail(),
             Timestamp.valueOf(customer.getCreatedAt()));
         if(update != 1) {
+            logger.error("insert error");
             throw new RuntimeException("Nothing was inserted");
         }
         return customer;
@@ -59,6 +62,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
                 customer.getCustomerId().toString().getBytes()
         );
         if(update != 1) {
+            logger.error("update error");
             throw new RuntimeException("Nothing was inserted");
         }
         return customer;
@@ -113,6 +117,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE from customers");
+    }
+
+    @Override
+    public void delete(UUID customerId) {
+
     }
 
     static UUID toUUID(byte[] bytes) {

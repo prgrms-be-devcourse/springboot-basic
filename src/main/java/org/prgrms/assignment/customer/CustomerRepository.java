@@ -1,4 +1,4 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.assignment.customer;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,5 +22,6 @@ public interface CustomerRepository {
 
     void deleteAll();
 
+    void delete(UUID customerId);
 }
 
