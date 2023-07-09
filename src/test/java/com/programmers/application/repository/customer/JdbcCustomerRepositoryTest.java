@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -102,5 +103,20 @@ class JdbcCustomerRepositoryTest {
         Customer updatedCustomer = jdbcCustomerRepository.findByCustomerId(customer.getCustomerId()).get();
         assertThat(updatedCustomer.getName()).isEqualTo(customer.getName());
         assertThat(updatedCustomer.getLastLoginAt()).isEqualTo(customer.getLastLoginAt());
+    }
+
+    @DisplayName("Customer 생성 및 저장 시, deleteByCustomerId() 실행하면 Customer가 삭제된다.")
+    @Test
+    void deleteByCustomerId() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "aCustomer", "mgtmh991013@naver.com");
+        jdbcCustomerRepository.save(customer);
+
+        //when
+        jdbcCustomerRepository.deleteByCustomerId(customer.getCustomerId());
+
+        //then
+        Optional<Customer> deletedCustomer = jdbcCustomerRepository.findByCustomerId(customer.getCustomerId());
+        assertThat(deletedCustomer).isEmpty();
     }
 }
