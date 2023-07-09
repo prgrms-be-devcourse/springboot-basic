@@ -1,5 +1,6 @@
 package com.programmers.voucher.repository;
 
+import com.programmers.exception.NotFoundException;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,22 +56,54 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID id) {
-        return Optional.empty();
+        return findAll().stream()
+                .filter(voucher -> Objects.equals(voucher.getVoucherId(), id))
+                .findAny()
+                .map(Optional::of)
+                .orElseThrow(() -> new NotFoundException("[ERROR] 바우처가 존재하지 않습니다."));
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        List<Voucher> vouchers = new ArrayList<>(findAll());
+
+        for (int index = 0; index < vouchers.size(); index++) {
+            UUID voucherId = vouchers.get(index).getVoucherId();
+
+            if (voucherId.equals(voucher.getVoucherId())) {
+                vouchers.set(index, voucher);
+                break;
+            }
+        }
+
+        deleteAll();
+        vouchers.forEach(this::save);
+        return voucher;
     }
 
     @Override
     public void deleteById(UUID id) {
+        List<Voucher> vouchers = new ArrayList<>(findAll());
 
+        Voucher deleteVoucher = vouchers.stream()
+                .filter(voucher -> Objects.equals(voucher.getVoucherId(), id))
+                .findAny()
+                .get();
+
+        vouchers.remove(deleteVoucher);
+        deleteAll();
+        vouchers.forEach(this::save);
     }
 
     @Override
     public void deleteAll() {
+        try {
+            BufferedWriter writer = Files.newBufferedWriter(path);
+            writer.write("");
 
+            writer.flush();
+        } catch (IOException ignored) {
+        }
     }
 
     public Voucher extractVoucher(String line) {
