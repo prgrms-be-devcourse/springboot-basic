@@ -36,7 +36,6 @@ public enum VoucherCommandType implements CommandType {
         return Optional.ofNullable(types.get(type))
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(INVALID_VOUCHER_CONSOLE_COMMAND, type);
-
                     LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);
                 });

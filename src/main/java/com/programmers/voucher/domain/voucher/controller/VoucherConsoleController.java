@@ -26,7 +26,6 @@ public class VoucherConsoleController {
 
     public void createVoucher() {
         VoucherCreateRequest request = console.inputVoucherCreateInfo();
-
         UUID voucherId = voucherService.createVoucher(request.getVoucherType(), request.getAmount());
 
         String consoleMessage = MessageFormat.format(CREATED_NEW_VOUCHER, voucherId.toString());
@@ -44,7 +43,6 @@ public class VoucherConsoleController {
 
     public void deleteVoucher() {
         UUID voucherId = console.inputUUID();
-
         voucherService.deleteVoucher(voucherId);
 
         console.print(DELETED_VOUCHER);

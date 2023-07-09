@@ -36,7 +36,6 @@ public enum CustomerCommandType implements CommandType {
         return Optional.ofNullable(types.get(type))
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(INVALID_CUSTOMER_CONSOLE_COMMAND, type);
-
                     LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);
                 });

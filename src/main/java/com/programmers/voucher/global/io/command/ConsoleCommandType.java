@@ -35,7 +35,6 @@ public enum ConsoleCommandType implements CommandType {
         return Optional.ofNullable(types.get(type))
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(INVALID_CONSOLE_COMMAND, type);
-
                     LOG.warn(errorMessage);
                     return new IllegalArgumentException(errorMessage);
                 });

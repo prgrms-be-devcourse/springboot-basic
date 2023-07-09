@@ -93,7 +93,6 @@ public class TextIoOutput implements ConsoleOutput {
                         voucherDto.getVoucherId(), voucherDto.getAmount());
             }
         }
-
         throw new IllegalStateException(VoucherErrorMessages.UNHANDLED_VOUCHER_TYPE);
     }
 

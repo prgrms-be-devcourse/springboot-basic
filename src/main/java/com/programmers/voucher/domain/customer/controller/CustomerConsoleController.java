@@ -43,7 +43,6 @@ public class CustomerConsoleController {
 
     public void createCustomer() {
         CustomerCreateRequest request = console.inputCustomerCreateInfo();
-
         UUID customerId = customerService.createCustomer(request.getEmail(), request.getName());
 
         String consoleMessage = MessageFormat.format(ConsoleMessages.CREATED_NEW_CUSTOMER, customerId);
@@ -52,7 +51,6 @@ public class CustomerConsoleController {
 
     public void updateCustomer() {
         CustomerUpdateRequest request = console.inputCustomerUpdateInfo();
-
         customerService.updateCustomer(request.getCustomerId(), request.getName(), request.isBanned());
 
         console.print(ConsoleMessages.UPDATED_CUSTOMER);
@@ -60,7 +58,6 @@ public class CustomerConsoleController {
 
     public void deleteCustomer() {
         UUID customerId = console.inputUUID();
-
         customerService.deleteCustomer(customerId);
 
         console.print(ConsoleMessages.DELETED_CUSTOMER);

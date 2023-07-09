@@ -34,7 +34,6 @@ public class VoucherFileRepository implements VoucherRepository {
             this.file = resource.getFile();
         } catch (IOException e) {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, filePath);
-
             LOG.error(errorMessage, e);
             throw new FileAccessException(errorMessage, e);
         }
@@ -50,7 +49,6 @@ public class VoucherFileRepository implements VoucherRepository {
             bw.newLine();
         } catch (IOException e) {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
-
             LOG.error(errorMessage, e);
             throw new FileAccessException(errorMessage, e);
         }
@@ -69,7 +67,6 @@ public class VoucherFileRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
-
             LOG.error(errorMessage, e);
             throw new FileAccessException(errorMessage, e);
         }
@@ -88,7 +85,7 @@ public class VoucherFileRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         List<Voucher> vouchers = findAll();
         boolean removed = vouchers.removeIf(v -> Objects.equals(v.getVoucherId(), voucherId));
-        if(removed) {
+        if (removed) {
             IncorrectResultSizeDataAccessException ex = new IncorrectResultSizeDataAccessException(UPDATE_ONE, 0);
             LOG.error(ex.getMessage());
             throw ex;
@@ -108,7 +105,6 @@ public class VoucherFileRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             String errorMessage = MessageFormat.format(CANNOT_ACCESS_FILE, file.getPath());
-
             LOG.error(errorMessage, e);
             throw new FileAccessException(errorMessage, e);
         }

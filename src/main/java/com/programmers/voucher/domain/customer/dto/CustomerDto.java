@@ -22,7 +22,6 @@ public class CustomerDto {
         String email = customer.getEmail();
         String name = customer.getName();
         boolean banned = customer.isBanned();
-
         return new CustomerDto(customerId, email, name, banned);
     }
 

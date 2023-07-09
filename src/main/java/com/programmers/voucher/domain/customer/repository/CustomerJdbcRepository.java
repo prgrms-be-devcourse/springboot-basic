@@ -26,7 +26,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate template;
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate template) {
-        this.template =template;
+        this.template = template;
     }
 
     @Override
@@ -112,6 +112,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         String sql = "delete from customer where customer_id = :customerId";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId);
+
         int deleted = template.update(sql, param);
         if (deleted != UPDATE_ONE) {
             DataAccessException exception = new IncorrectResultSizeDataAccessException(UPDATE_ONE, deleted);

@@ -17,7 +17,6 @@ public class ConsoleCustomerMenu {
 
     public void runningCustomerService() {
         console.printCustomerCommandSet();
-
         boolean run = true;
         while (run) {
             run = customerMapping();
@@ -26,7 +25,6 @@ public class ConsoleCustomerMenu {
 
     private boolean customerMapping() {
         CustomerCommandType customerCommandType = console.inputCustomerCommandType();
-
         switch (customerCommandType) {
             case CREATE -> {
                 customerController.createCustomer();

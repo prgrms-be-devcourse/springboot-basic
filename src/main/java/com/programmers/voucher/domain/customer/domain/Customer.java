@@ -27,7 +27,7 @@ public class Customer {
 
     private void validateEmail(String email) {
         Matcher emailMatcher = CustomerFieldRegex.EMAIL_PATTERN.matcher(email);
-        if(!emailMatcher.matches()) {
+        if (!emailMatcher.matches()) {
             String errorMessage = MessageFormat.format(CustomerErrorMessages.INVALID_EMAIL, email);
             LOG.warn(errorMessage);
             throw new IllegalArgumentException(errorMessage);

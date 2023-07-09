@@ -57,7 +57,6 @@ public class CustomerService {
         String oldCustomerInfo = customer.toString();
 
         customer.update(name, banned);
-
         customerRepository.update(customer);
         String newCustomerInfo = customer.toString();
 

@@ -17,7 +17,6 @@ public class ConsoleVoucherMenu {
 
     public void runningVoucherService() {
         console.printVoucherCommandSet();
-
         boolean run = true;
         while (run) {
             run = voucherMapping();
@@ -26,7 +25,6 @@ public class ConsoleVoucherMenu {
 
     private boolean voucherMapping() {
         VoucherCommandType voucherCommandType = console.inputVoucherCommandType();
-
         switch (voucherCommandType) {
             case CREATE -> {
                 voucherController.createVoucher();

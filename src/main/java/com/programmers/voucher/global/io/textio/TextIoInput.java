@@ -57,7 +57,6 @@ public class TextIoInput implements ConsoleInput {
                 return new VoucherCreateRequest(voucherType, percent);
             }
         }
-
         throw new IllegalStateException(VoucherErrorMessages.UNHANDLED_VOUCHER_TYPE);
     }
 
@@ -77,7 +76,6 @@ public class TextIoInput implements ConsoleInput {
         List<String> messages = new ArrayList<>();
         if (invalidVoucherType) {
             String errorMessage = MessageFormat.format(INVALID_VOUCHER_TYPE, rawVoucherType);
-
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
@@ -94,7 +92,6 @@ public class TextIoInput implements ConsoleInput {
         List<String> messages = new ArrayList<>();
         if (noneMatchFixedAmount(amount)) {
             String errorMessage = MessageFormat.format(INVALID_FIXED_AMOUNT, amount);
-
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
@@ -115,7 +112,6 @@ public class TextIoInput implements ConsoleInput {
         List<String> messages = new ArrayList<>();
         if (noneMatchPercentDiscount(percent)) {
             String errorMessage = MessageFormat.format(INVALID_PERCENT_DISCOUNT, percent);
-
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
@@ -133,7 +129,6 @@ public class TextIoInput implements ConsoleInput {
                     return regexValidate(val, CustomerFieldRegex.EMAIL_PATTERN, INVALID_EMAIL);
                 })
                 .read(ENTER_EMAIL);
-
         String name = textIO.newStringInputReader()
                 .withValueChecker(((val, itemName) -> {
                     return regexValidate(val, CustomerFieldRegex.NAME_PATTERN, INVALID_NAME);
@@ -155,10 +150,8 @@ public class TextIoInput implements ConsoleInput {
     @Override
     public CustomerUpdateRequest inputCustomerUpdateInfo() {
         UUID customerId = inputUUID();
-
         String newName = textIO.newStringInputReader()
                 .read(ENTER_NEW_NAME);
-
         boolean banned = textIO.newBooleanInputReader()
                 .withTrueInput(BAN)
                 .withFalseInput(UNBAN)

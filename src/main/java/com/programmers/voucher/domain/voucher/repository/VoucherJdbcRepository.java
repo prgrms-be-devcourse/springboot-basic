@@ -33,16 +33,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
+        VoucherDto voucherDto = VoucherDto.from(voucher);
         String sql = "insert into voucher(voucher_id, voucher_type, amount)" +
                 " values(:voucherId, :voucherType, :amount)";
-        VoucherDto voucherDto = VoucherDto.from(voucher);
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherDto.getVoucherId().toString())
                 .addValue("voucherType", voucherDto.getVoucherType().name())
                 .addValue("amount", voucherDto.getAmount());
 
         int saved = template.update(sql, param);
-
         if (saved != UPDATE_ONE) {
             DataAccessException ex = new IncorrectResultSizeDataAccessException(UPDATE_ONE, saved);
             LOG.error(ex.getMessage(), ex);
@@ -75,6 +74,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         String sql = "delete from voucher where voucher_id = :voucherId";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId.toString());
+
         int deleted = template.update(sql, param);
         if (deleted != UPDATE_ONE) {
             DataAccessException exception = new IncorrectResultSizeDataAccessException(UPDATE_ONE, deleted);
