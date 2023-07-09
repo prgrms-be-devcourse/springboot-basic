@@ -37,7 +37,7 @@ class WalletServiceTest {
 
     @DisplayName("고객이 보유하고 있는 바우처를 조회한다")
     @Test
-    public void findByCustomerId() {
+    public void findVouchersByCustomerId() {
         //given
         UUID customerId = UUID.randomUUID();
 
@@ -45,10 +45,10 @@ class WalletServiceTest {
         vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), "voucher1", 10L));
         vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), "voucher2", 20L));
 
-        when(jdbcWalletRepository.findByCustomerId(customerId)).thenReturn(vouchers);
+        when(jdbcWalletRepository.findVouchersByCustomerId(customerId)).thenReturn(vouchers);
 
         //when
-        VouchersResponseDto vouchersResponseDto = walletService.findByCustomerId(customerId);
+        VouchersResponseDto vouchersResponseDto = walletService.findVouchersByCustomerId(customerId);
 
         //then
         assertThat(vouchers.size(), is(vouchersResponseDto.vouchers().size()));

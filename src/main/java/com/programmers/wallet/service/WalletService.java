@@ -22,12 +22,12 @@ public class WalletService {
     }
 
     @Transactional
-    public void updateCustomerId(WalletDto voucherDto) {
-        jdbcWalletRepository.updateCustomerId(voucherDto.customerId(), voucherDto.voucherId());
+    public void updateVoucherCustomerId(WalletDto voucherDto) {
+        jdbcWalletRepository.updateVoucherCustomerId(voucherDto.customerId(), voucherDto.voucherId());
     }
 
-    public VouchersResponseDto findByCustomerId(UUID customerId) {
-        List<Voucher> vouchers = jdbcWalletRepository.findByCustomerId(customerId);
+    public VouchersResponseDto findVouchersByCustomerId(UUID customerId) {
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customerId);
 
         return new VouchersResponseDto(vouchers);
     }
@@ -39,12 +39,12 @@ public class WalletService {
     }
 
     @Transactional
-    public void deleteByVoucherIdAndCustomerId(WalletDto voucherDto) {
-        jdbcWalletRepository.deleteByVoucherIdAndCustomerId(voucherDto.voucherId(), voucherDto.customerId());
+    public void deleteVoucherByVoucherIdAndCustomerId(WalletDto voucherDto) {
+        jdbcWalletRepository.deleteVoucherByVoucherIdAndCustomerId(voucherDto.voucherId(), voucherDto.customerId());
     }
 
     @Transactional
-    public void deleteAllByCustomerId(UUID customerId) {
-        jdbcWalletRepository.deleteAllByCustomerId(customerId);
+    public void deleteAllVouchersByCustomerId(UUID customerId) {
+        jdbcWalletRepository.deleteAllVouchersByCustomerId(customerId);
     }
 }

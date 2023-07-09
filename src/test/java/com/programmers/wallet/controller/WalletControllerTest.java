@@ -57,7 +57,7 @@ class WalletControllerTest {
         vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), "voucher2", 20L));
 
         VouchersResponseDto vouchersResponseDto = new VouchersResponseDto(vouchers);
-        when(walletService.findByCustomerId(UUID.fromString(customerId))).thenReturn(vouchersResponseDto);
+        when(walletService.findVouchersByCustomerId(UUID.fromString(customerId))).thenReturn(vouchersResponseDto);
         when(voucherController.getVouchersResult(vouchersResponseDto.vouchers())).thenReturn(vouchers);
 
         //when
@@ -83,7 +83,7 @@ class WalletControllerTest {
         //then
         verify(console, times(1)).printDeleteVoucherIdMessage();
         verify(console, times(1)).readInput();
-        verify(walletService, times(1)).deleteByVoucherIdAndCustomerId(walletDto);
+        verify(walletService, times(1)).deleteVoucherByVoucherIdAndCustomerId(walletDto);
         verify(console, times(1)).printDeleteVoucherCompleteMessage();
     }
 
@@ -98,7 +98,7 @@ class WalletControllerTest {
         walletController.deleteAllVouchers(customerId);
 
         //then
-        verify(walletService, times(1)).deleteAllByCustomerId(customerId);
+        verify(walletService, times(1)).deleteAllVouchersByCustomerId(customerId);
         verify(console, times(1)).printDeleteAllVouchersCompleteMessage();
     }
 }

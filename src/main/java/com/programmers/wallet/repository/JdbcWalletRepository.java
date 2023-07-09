@@ -23,13 +23,13 @@ public class JdbcWalletRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void updateCustomerId(UUID customerId, UUID voucherId) {
+    public void updateVoucherCustomerId(UUID customerId, UUID voucherId) {
         String sql = "update vouchers set customer_id = ? WHERE id = ?";
 
         jdbcTemplate.update(sql, customerId.toString(), voucherId.toString());
     }
 
-    public List<Voucher> findByCustomerId(UUID customerId) {
+    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         String sql = "select * from vouchers where customer_id = ?";
 
         return jdbcTemplate.query(sql, voucherRowMapper(), customerId.toString());
@@ -46,13 +46,13 @@ public class JdbcWalletRepository {
         }
     }
 
-    public void deleteByVoucherIdAndCustomerId(UUID voucherId, UUID customerId) {
+    public void deleteVoucherByVoucherIdAndCustomerId(UUID voucherId, UUID customerId) {
         String sql = "delete from vouchers where id = ? and customer_id = ?";
 
         jdbcTemplate.update(sql, voucherId.toString(), customerId.toString());
     }
 
-    public void deleteAllByCustomerId(UUID customerId) {
+    public void deleteAllVouchersByCustomerId(UUID customerId) {
         String sql = "delete from vouchers where customer_id = ?";
 
         jdbcTemplate.update(sql, customerId.toString());

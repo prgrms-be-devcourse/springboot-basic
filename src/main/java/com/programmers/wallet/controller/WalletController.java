@@ -57,7 +57,7 @@ public class WalletController {
         customerController.getNormalCustomerList();
 
         WalletDto walletDto = makeWalletDto();
-        walletService.updateCustomerId(walletDto);
+        walletService.updateVoucherCustomerId(walletDto);
 
         console.printWalletAssignCompleteMessage();
         log.info("The voucher assigned successfully. voucher id = {}, customer id = {}", walletDto.voucherId(), walletDto.customerId());
@@ -79,7 +79,7 @@ public class WalletController {
 
         console.printWalletSearchCustomerIdMessage();
         UUID customerId = UUID.fromString(console.readInput());
-        VouchersResponseDto vouchersResponseDto = walletService.findByCustomerId(customerId);
+        VouchersResponseDto vouchersResponseDto = walletService.findVouchersByCustomerId(customerId);
 
         console.printVoucherListTitle();
         return voucherController.getVouchersResult(vouchersResponseDto.vouchers());
@@ -100,7 +100,7 @@ public class WalletController {
     public void deleteVoucher() {
         console.printWalletDeleteVoucherTitleMessage();
         UUID customerId = getCustomerIdToDeleteVoucher();
-        VouchersResponseDto vouchersResponseDto = walletService.findByCustomerId(customerId);
+        VouchersResponseDto vouchersResponseDto = walletService.findVouchersByCustomerId(customerId);
 
         console.printVoucherListTitle();
         voucherController.getVouchersResult(vouchersResponseDto.vouchers());
@@ -141,13 +141,13 @@ public class WalletController {
         UUID voucherId = UUID.fromString(console.readInput());
 
         WalletDto walletDto = new WalletDto(voucherId, customerId);
-        walletService.deleteByVoucherIdAndCustomerId(walletDto);
+        walletService.deleteVoucherByVoucherIdAndCustomerId(walletDto);
         console.printDeleteVoucherCompleteMessage();
         log.info("The voucher of one customer has been deleted. customer id = {}", customerId);
     }
 
     public void deleteAllVouchers(UUID customerId) {
-        walletService.deleteAllByCustomerId(customerId);
+        walletService.deleteAllVouchersByCustomerId(customerId);
         console.printDeleteAllVouchersCompleteMessage();
         log.info("All vouchers of one customer have been deleted. customer id = {}", customerId);
     }

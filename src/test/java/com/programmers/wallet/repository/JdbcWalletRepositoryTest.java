@@ -77,7 +77,7 @@ class JdbcWalletRepositoryTest {
 
     @DisplayName("특정 회원에게 바우처를 할당한다")
     @Test
-    void updateCustomerId() {
+    void updateVoucherCustomerId() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "voucherName", 10L);
         Customer customer = new Customer("customerName");
@@ -86,7 +86,7 @@ class JdbcWalletRepositoryTest {
         jdbcCustomerRepository.save(customer);
 
         //when
-        jdbcWalletRepository.updateCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
         UUID assignedCustomerId = jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId()).get().getCustomerId();
         //then
         assertThat(assignedCustomerId, is(customer.getCustomerId()));
@@ -94,7 +94,7 @@ class JdbcWalletRepositoryTest {
 
     @DisplayName("고객이 보유하고 있는 바우처를 조회한다")
     @Test
-    void findByCustomerId() {
+    void findVouchersByCustomerId() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testName2", 20L);
@@ -106,11 +106,11 @@ class JdbcWalletRepositoryTest {
         voucherRepository.save(percentDiscountVoucher2);
         jdbcCustomerRepository.save(customer);
 
-        jdbcWalletRepository.updateCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
-        jdbcWalletRepository.updateCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
 
         //when
-        List<Voucher> vouchers = jdbcWalletRepository.findByCustomerId(customer.getCustomerId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
 
         //then
         assertThat(vouchers.size(), is(2));
@@ -125,7 +125,7 @@ class JdbcWalletRepositoryTest {
 
         voucherRepository.save(fixedAmountVoucher);
         jdbcCustomerRepository.save(customer);
-        jdbcWalletRepository.updateCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
 
         //when
         Optional<Customer> resultCustomer = jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId());
@@ -136,7 +136,7 @@ class JdbcWalletRepositoryTest {
 
     @DisplayName("특정 바우처를 보유한 고객을 찾을 수 없는 경우 예외처리한다")
     @Test
-    void findCustomerIdByVoucherIdException() {
+    void findCustomerByVoucherIdException() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
         voucherRepository.save(fixedAmountVoucher);
@@ -149,7 +149,7 @@ class JdbcWalletRepositoryTest {
 
     @DisplayName("회원이 보유한 특정 바우처를 제거한다")
     @Test
-    void deleteByVoucherIdAndCustomerId() {
+    void deleteVoucherByVoucherIdAndCustomerId() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testName2", 20L);
@@ -159,11 +159,11 @@ class JdbcWalletRepositoryTest {
         voucherRepository.save(percentDiscountVoucher);
         jdbcCustomerRepository.save(customer);
 
-        jdbcWalletRepository.updateCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
-        jdbcWalletRepository.updateCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
 
         //when
-        jdbcWalletRepository.deleteByVoucherIdAndCustomerId(fixedAmountVoucher.getVoucherId(), customer.getCustomerId());
+        jdbcWalletRepository.deleteVoucherByVoucherIdAndCustomerId(fixedAmountVoucher.getVoucherId(), customer.getCustomerId());
         List<Voucher> result = voucherRepository.findAll();
 
         //then
@@ -172,7 +172,7 @@ class JdbcWalletRepositoryTest {
 
     @DisplayName("회원이 보유한 모든 바우처를 제거한다")
     @Test
-    void deleteAllByCustomerId() {
+    void deleteAllVouchersByCustomerId() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testName2", 20L);
@@ -182,12 +182,12 @@ class JdbcWalletRepositoryTest {
         voucherRepository.save(percentDiscountVoucher);
         jdbcCustomerRepository.save(customer);
 
-        jdbcWalletRepository.updateCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
-        jdbcWalletRepository.updateCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
 
         //when
-        jdbcWalletRepository.deleteAllByCustomerId(customer.getCustomerId());
-        List<Voucher> result = jdbcWalletRepository.findByCustomerId(customer.getCustomerId());
+        jdbcWalletRepository.deleteAllVouchersByCustomerId(customer.getCustomerId());
+        List<Voucher> result = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
 
         //then
         assertThat(result).isEmpty();
