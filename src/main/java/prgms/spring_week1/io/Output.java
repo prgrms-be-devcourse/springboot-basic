@@ -2,7 +2,6 @@ package prgms.spring_week1.io;
 
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
-import prgms.spring_week1.domain.voucher.model.dto.VoucherOutputDto;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
 import java.util.List;
@@ -28,10 +27,17 @@ public class Output {
             return;
         }
 
-        voucherList.stream()
-                .map(i -> new VoucherOutputDto(i.getVoucherType(),i.getDiscount()))
-                .forEach(System.out::println);
+        for (Voucher voucher : voucherList) {
+            if(voucher.getDiscount()<=100){
+                System.out.println("상품권 종류 : 고정 할인률 상품권 " +
+                        "할인률 :" + voucher.getDiscount() + " 퍼센트");
+                continue;
+            }
+            System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
+                    "할인 가격 :" + voucher.getDiscount() + "원");
+        }
     }
+
     public void outputWarnMessage(String message) {
         System.out.println(message);
     }

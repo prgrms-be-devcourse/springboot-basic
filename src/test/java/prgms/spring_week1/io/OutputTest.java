@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
-import prgms.spring_week1.domain.voucher.model.dto.VoucherOutputDto;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.repository.impl.MemoryVoucherRepository;
@@ -36,14 +35,17 @@ class OutputTest {
         //given
         Voucher testFixedVoucher = new Voucher(VoucherType.FIXED,10000);
         Voucher testPercentVoucher = new Voucher(VoucherType.PERCENT,30);
+        List<Voucher> voucherList = new ArrayList<>();
+
+        voucherList.add(testFixedVoucher);
+        voucherList.add(testPercentVoucher);
 
         //when
-        output.printVoucherInfo(new VoucherOutputDto(testFixedVoucher.getVoucherType(),testFixedVoucher.getDiscount()));
-        output.printVoucherInfo(new VoucherOutputDto(testPercentVoucher.getVoucherType(),testPercentVoucher.getDiscount()));
+        output.printAllVoucher(voucherList);
 
         //then
         assertEquals("상품권 종류 : 고정 가격 할인 상품권 할인 가격 :10000원\n" +
-                "상품권 종류 : 고정 가격 할인 상품권 할인률 :30 퍼센트", outputMessage.toString().strip());
+                "상품권 종류 : 고정 할인률 상품권 할인률 :30 퍼센트", outputMessage.toString().strip());
     }
 
     @Test
