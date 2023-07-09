@@ -4,7 +4,6 @@ import com.programmers.application.domain.voucher.Voucher;
 import com.programmers.application.domain.voucher.VoucherFactory;
 import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -37,12 +38,15 @@ class JdbcVoucherRepositoryTest {
         //given
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
         Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
+        System.out.println("voucher = " + voucher.getVoucherId());
 
         //when
-        Voucher savedVoucher = jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.save(voucher);
 
         //then
-        Assertions.assertThat(voucher).isEqualTo(savedVoucher);
+        Voucher savedVoucher = jdbcVoucherRepository.findByVoucherId(voucher.getVoucherId()).get();
+        System.out.println("savedVoucher = " + savedVoucher.getVoucherId());
+        assertThat(voucher).usingRecursiveComparison().isEqualTo(savedVoucher);
     }
 
     @DisplayName("바우처 생성 및 저장 시, finalAll() 실행하면 바우처가 조회된다.")
@@ -59,7 +63,7 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> voucherList = jdbcVoucherRepository.findAll();
 
         //then
-        Assertions.assertThat(voucherList).hasSize(expectedCount);
+        assertThat(voucherList).hasSize(expectedCount);
     }
 
     private void createAndSaveVoucher(List<VoucherCreationRequest> voucherCreationRequestList) {
