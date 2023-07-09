@@ -1,4 +1,6 @@
 drop table if exists customers cascade;
+drop table if exists vouchers cascade;
+drop table if exists wallet cascade;
 create table customers
 (
     customer_id    varchar(36) primary key,

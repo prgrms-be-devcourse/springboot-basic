@@ -179,3 +179,27 @@ blacklist
 - 바우처 삭제 기능(deleteById, deleteAll)
 - 레이어 간 데이터 이동시 dto를 활용하여 이동할 수 있도록 dto객체 생성
 - 테스트 코드 구현
+
+<hr>
+
+### 2-4  Wallet 지갑 기능 구현
+
+### 요약
+
+- Jdbc를 활용하여 콘솔에서 `바우처 지갑(Wallet)을 CREATE, READ, DELETE` 할 수 있도록 `Controller`, `Service`, `Repository`를 구현했습니다.
+- Customer와 Wallet의 관계를 1:1로 설정하였습니다.
+    - 한 명의 고객은 하나의 바우처만 가질 수 있다.
+- Voucher와 Wallet의 관계를 N:1로 설정하였습니다.
+    - 한 개의 바우처는 여러명의 고객에게 할당할 수 있다.
+
+### Wallet
+
+- NamedParameterJdbcTemplate을 이용
+- 특정 고객에게 바우처를 할당(save)
+- 고객이 어떤 바우처를 보유할 수 있는지 조회(findByCustomerId)
+- 고객이 보유한 바우처 삭제(deleteByWalletId)
+- 특정 바우처를 보유한 고객들을 조회(findByVoucherId)
+- 바우처 지갑에 있는 모든 리스트 조회(findAll)
+- 테스트 코드 구현
+
+
