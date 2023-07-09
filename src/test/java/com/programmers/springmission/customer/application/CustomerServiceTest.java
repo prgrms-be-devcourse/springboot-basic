@@ -30,8 +30,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @SpringBootTest
+@ActiveProfiles({"test", "jdbc"})
 @TestPropertySource(locations = "classpath:application.yml")
-@ActiveProfiles("jdbc")
 class CustomerServiceTest {
 
     @Autowired
@@ -249,10 +249,10 @@ class CustomerServiceTest {
         CustomerResponse customerResponse2 = service.createCustomer(customerCreateRequest2);
         Voucher voucher1 = new Voucher(new FixedAmountPolicy(VoucherType.FIXED_AMOUNT), 2000L);
         Voucher voucher2 = new Voucher(new PercentDiscountPolicy(VoucherType.PERCENT_DISCOUNT), 50L);
-
-        // when
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
+
+        // when
         voucher1.assignVoucherToCustomer(customerResponse1.getCustomerId());
         voucher2.assignVoucherToCustomer(customerResponse1.getCustomerId());
         voucherRepository.assign(voucher1);

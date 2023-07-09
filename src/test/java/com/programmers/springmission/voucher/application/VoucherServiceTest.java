@@ -27,8 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @SpringBootTest
+@ActiveProfiles({"test", "jdbc"})
 @TestPropertySource(locations = "classpath:application.yml")
-@ActiveProfiles("jdbc")
 class VoucherServiceTest {
 
     @Autowired
