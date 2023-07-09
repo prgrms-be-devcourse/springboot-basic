@@ -71,8 +71,8 @@ public class Console implements Input, Output {
             "Type '1' or '2' to delete type.\n" +
             "1. Delete one voucher.\n" +
             "2. Delete all vouchers.";
-    private static final String DELETE_VOUCHER_COMPLETE_MESSAGE = "--- The voucher deleted successfully !! ---\n";
-    private static final String DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE = "--- All vouchers deleted successfully !! ---\n";
+    private static final String DELETE_VOUCHER_COMPLETE_MESSAGE = "\n--- The voucher deleted successfully !! ---\n";
+    private static final String DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE = "\n--- All vouchers deleted successfully !! ---\n";
     private static final String DELETE_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to delete ===";
     private static final String DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE =
             "\n=== Delete ===\n" +
@@ -89,17 +89,17 @@ public class Console implements Input, Output {
             "3. Search for a voucher. (Search for a voucher to find the assigned customer.)\n" +
             "4. Delete the voucher assigned to the customer.";
     private static final String WALLET_ASSIGN_TITLE_MESSAGE = "\n=== Assign a voucher. ===";
-    private static final String WALLET_ASSIGN_VOUCHER_ID_MESSAGE = "\n=== Type voucher id to assign. ===";
+    private static final String WALLET_ASSIGN_VOUCHER_ID_MESSAGE = "=== Type voucher id to assign. ===";
     private static final String WALLET_ASSIGN_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to assign. ===";
-    private static final String WALLET_ASSIGN_COMPLETE_MESSAGE = "--- The voucher assigned successfully !! ---\n";
+    private static final String WALLET_ASSIGN_COMPLETE_MESSAGE = "\n--- The voucher assigned successfully !! ---\n";
     private static final String WALLET_SEARCH_CUSTOMER_TITLE_MESSAGE = "\n=== Search for a customer. ===";
-    private static final String WALLET_SEARCH_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to search. ===";
+    private static final String WALLET_SEARCH_CUSTOMER_ID_MESSAGE = "=== Type customer id to search. ===";
     private static final String WALLET_SEARCH_VOUCHER_TITLE_MESSAGE = "\n=== Search for a voucher. ===";
-    private static final String WALLET_SEARCH_VOUCHER_ID_MESSAGE = "\n=== Type voucher id to search. ===";
+    private static final String WALLET_SEARCH_VOUCHER_ID_MESSAGE = "=== Type voucher id to search. ===";
     private static final String WALLET_DELETE_VOUCHER_TITLE_MESSAGE =
             "\n=== Remove the voucher assigned to the customer. ===\n" +
                     "(We will search for a customer first and delete the voucher assigned to that customer.)";
-    private static final String WALLET_DELETE_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to delete the voucher. ===";
+    private static final String WALLET_DELETE_CUSTOMER_ID_MESSAGE = "=== Type customer id to delete the voucher. ===";
 
     @Override
     public void printMenu() {
