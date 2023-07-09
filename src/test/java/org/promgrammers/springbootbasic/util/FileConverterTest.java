@@ -63,15 +63,15 @@ class FileConverterTest {
     void parseCustomerFromLineSuccessTest() throws Exception {
 
         //given
-        String line = "381aec71-9e69-4355-8c69-8b687b0bf446,BLACK";
+        String line = "381aec71-9e69-4355-8c69-8b687b0bf446,A,BLACK";
         UUID expectedCustomerId = UUID.fromString("381aec71-9e69-4355-8c69-8b687b0bf446");
 
         //when
         Customer customer = FileConverter.parseCustomerFromLine(line);
 
         //then
-        assertThat(customer.customerId()).isEqualTo(expectedCustomerId);
-        assertThat(customer.customerType()).isEqualTo(CustomerType.BLACK);
+        assertThat(customer.getCustomerId()).isEqualTo(expectedCustomerId);
+        assertThat(customer.getCustomerType()).isEqualTo(CustomerType.BLACK);
     }
 
     @Test

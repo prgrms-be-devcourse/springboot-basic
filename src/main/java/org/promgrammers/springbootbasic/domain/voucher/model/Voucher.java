@@ -1,15 +1,17 @@
 package org.promgrammers.springbootbasic.domain.voucher.model;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 import java.util.UUID;
 
+@Getter
+@EqualsAndHashCode
 public abstract class Voucher {
 
     private final UUID voucherId;
-    private final long amount;
-
-    public abstract VoucherType getVoucherType();
-
-    public abstract long discount(long beforeDiscount);
+    private long amount;
+    private UUID customerId;
 
     public UUID getVoucherId() {
         return voucherId;
@@ -21,9 +23,20 @@ public abstract class Voucher {
         this.amount = amount;
     }
 
-    protected abstract void validateAmount(long discountAmount);
-
-    public long getAmount() {
-        return amount;
+    public void updateAmount(long newAmount) {
+        validateAmount(newAmount);
+        this.amount = newAmount;
     }
+
+    public Voucher assignCustomerId(UUID customerId) {
+        this.customerId = customerId;
+        return this;
+    }
+
+    protected abstract void validateAmount(long amount);
+
+    public abstract VoucherType getVoucherType();
+
+    public abstract long discount(long beforeDiscount);
+
 }

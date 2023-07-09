@@ -1,49 +1,26 @@
 package org.promgrammers.springbootbasic.domain.customer.repository;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
-import org.promgrammers.springbootbasic.domain.customer.model.CustomerType;
-import org.promgrammers.springbootbasic.util.FileConverter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@Repository
-public class CustomerRepository {
+public interface CustomerRepository {
 
-    private final Path filePath;
+    Customer save(Customer customer);
 
-    public CustomerRepository(@Value("${blackListStoragePath}") String blackListStoragePath) {
-        this.filePath = Paths.get(blackListStoragePath);
-    }
+    Optional<Customer> findById(UUID customerId);
 
-    public List<Customer> findAll() {
-        List<Customer> customers = new ArrayList<>();
-        try {
-            List<String> lines = Files.readAllLines(filePath);
-            for (String line : lines) {
-                Customer customer = FileConverter.parseCustomerFromLine(line);
-                customers.add(customer);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return customers;
-    }
+    Optional<Customer> findByUsername(String username);
 
-    public List<Customer> findAllByCustomerType(CustomerType customerType) {
-        List<Customer> customers = new ArrayList<>();
-        List<Customer> allCustomers = findAll();
-        for (Customer customer : allCustomers) {
-            if (customer.customerType() == customerType) {
-                customers.add(customer);
-            }
-        }
-        return customers;
-    }
+    Optional<Customer> findByVoucherId(UUID voucherId);
+
+    List<Customer> findAll();
+
+    Customer update(Customer customer);
+
+    void deleteAll();
+
+    void deleteById(UUID customerId);
 }

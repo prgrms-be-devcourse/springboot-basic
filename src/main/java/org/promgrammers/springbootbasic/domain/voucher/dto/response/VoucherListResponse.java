@@ -9,7 +9,7 @@ public record VoucherListResponse(List<VoucherResponse> voucherResponseList) {
         StringBuilder sb = new StringBuilder();
         sb.append("유효한 바우처 목록 \n");
         for (VoucherResponse voucherResponse : voucherResponseList) {
-            sb.append("  ").append(voucherResponse.toString()).append("\n");
+            sb.append("  ").append(voucherResponse.voucherOutput()).append("\n");
         }
         return sb.toString();
     }

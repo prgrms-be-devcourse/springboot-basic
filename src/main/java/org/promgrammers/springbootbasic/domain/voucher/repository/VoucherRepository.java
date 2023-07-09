@@ -1,3 +1,4 @@
+
 package org.promgrammers.springbootbasic.domain.voucher.repository;
 
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
@@ -13,5 +14,15 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
+    void assignVoucherToCustomer(UUID customerId, UUID voucherId);
+
+    void removeVoucherFromCustomer(UUID customerId, UUID voucherId);
+
+    List<Voucher> findAllByCustomerId(UUID customerId);
+
+    Voucher update(Voucher voucher);
+
     void deleteAll();
+
+    void deleteById(UUID voucherId);
 }

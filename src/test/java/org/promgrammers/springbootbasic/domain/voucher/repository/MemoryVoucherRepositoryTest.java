@@ -10,7 +10,9 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
-import org.promgrammers.springbootbasic.exception.DuplicateIDException;
+import org.promgrammers.springbootbasic.domain.voucher.repository.impl.MemoryVoucherRepository;
+import org.promgrammers.springbootbasic.exception.repository.DuplicateIDException;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(Lifecycle.PER_CLASS)
+@ActiveProfiles("memory")
 class MemoryVoucherRepositoryTest {
 
     private MemoryVoucherRepository memoryVoucherRepository;

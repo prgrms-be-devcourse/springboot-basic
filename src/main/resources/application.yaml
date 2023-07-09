@@ -1,16 +1,18 @@
 spring:
   profiles:
-    active: dev
+    active: memory
 
-saveType: "File Management"
-voucherStoragePath: "src/main/resources/storage/voucherStorage.txt"
+saveType: "Memory Management"
 blackListStoragePath: "src/main/resources/storage/blacklist.csv"
 
 ---
 
 spring:
   profiles:
-    active: local
+    active:
+  datasource:
+    username: sa
+    url: jdbc:h2:tcp://localhost/~/vouchers
 
-saveType: "Memory Management"
 blackListStoragePath: "src/main/resources/storage/blacklist.csv"
+voucherStoragePath: "src/main/resources/storage/voucherStorage.txt"
