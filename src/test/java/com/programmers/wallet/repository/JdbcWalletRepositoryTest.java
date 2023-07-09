@@ -135,7 +135,7 @@ class JdbcWalletRepositoryTest {
 
     @DisplayName("특정 바우처를 보유한 고객을 찾을 수 없는 경우 빈 Customer를 반환한다")
     @Test
-    void findCustomerByVoucherIdException() {
+    void findCustomerByVoucherIdEmpty() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
         voucherRepository.save(fixedAmountVoucher);
