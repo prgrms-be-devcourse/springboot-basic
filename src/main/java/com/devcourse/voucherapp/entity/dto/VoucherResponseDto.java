@@ -6,7 +6,9 @@ import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Getter
 public class VoucherResponseDto {
 
@@ -14,10 +16,8 @@ public class VoucherResponseDto {
     private final VoucherType type;
     private final int discountAmount;
 
-    public VoucherResponseDto(Voucher voucher) {
-        this.id = voucher.getId();
-        this.type = voucher.getType();
-        this.discountAmount = voucher.getDiscountAmount();
+    public static VoucherResponseDto from(Voucher voucher) {
+        return new VoucherResponseDto(voucher.getId(), voucher.getType(), voucher.getDiscountAmount());
     }
 
     @Override

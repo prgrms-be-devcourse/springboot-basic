@@ -26,20 +26,20 @@ public class VoucherService {
         Voucher newVoucher = voucherType.makeVoucher(UUID.randomUUID(), request.getDiscountAmount());
         Voucher voucher = voucherRepository.save(newVoucher);
 
-        return new VoucherResponseDto(voucher);
+        return VoucherResponseDto.from(voucher);
     }
 
     public VouchersResponseDto findAllVouchers() {
         List<Voucher> vouchers = voucherRepository.findAllVouchers();
 
-        return new VouchersResponseDto(vouchers);
+        return VouchersResponseDto.from(vouchers);
     }
 
     public VoucherResponseDto findVoucherById(String id) {
         Voucher voucher = voucherRepository.findVoucherById(id)
                 .orElseThrow(() -> new NotFoundVoucherException(id));
 
-        return new VoucherResponseDto(voucher);
+        return VoucherResponseDto.from(voucher);
     }
 
     public VoucherResponseDto update(VoucherUpdateRequestDto request) {
@@ -47,7 +47,7 @@ public class VoucherService {
         Voucher updatedVoucher = voucherType.makeVoucher(request.getId(), request.getDiscountAmount());
         Voucher voucher = voucherRepository.update(updatedVoucher);
 
-        return new VoucherResponseDto(voucher);
+        return VoucherResponseDto.from(voucher);
     }
 
     public void deleteById(String id) {
