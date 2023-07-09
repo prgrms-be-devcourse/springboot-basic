@@ -40,4 +40,23 @@ class JdbcCustomerRepositoryTest {
         Customer savedCustomer = jdbcCustomerRepository.findByCustomerId(customer.getCustomerId()).get();
         assertThat(customer).usingRecursiveComparison().isEqualTo(savedCustomer);
     }
+
+    @DisplayName("Customer 생성 및 저장 시, findByEmail()을 실행하면 해당 이메일로 Customer이 조회된다.")
+    @ParameterizedTest
+    @CsvSource(value = {
+            "aCustomer, mgtmh991013@naver.com",
+            "bCustomer, mgtmh991013@gmail.com"
+    })
+    void findByEmail(String name, String email) {
+        //given
+        UUID customerId = UUID.randomUUID();
+        Customer customer = new Customer(customerId, name, email);
+        jdbcCustomerRepository.save(customer);
+
+        //when
+        Customer savedCustomer = jdbcCustomerRepository.findByEmail(email).get();
+
+        //then
+        assertThat(customer).usingRecursiveComparison().isEqualTo(savedCustomer);
+    }
 }
