@@ -85,4 +85,22 @@ class JdbcCustomerRepositoryTest {
             jdbcCustomerRepository.save(customer);
         }
     }
+
+    @DisplayName("Customer 상태를 변경하고, update() 실행하면 Customer가 변경된다.")
+    @Test
+    void update() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "aCustomer", "mgtmh991013@naver.com");
+        jdbcCustomerRepository.save(customer);
+        customer.changeName("bCustomer");
+        customer.login();
+
+        //when
+        jdbcCustomerRepository.update(customer);
+
+        //then
+        Customer updatedCustomer = jdbcCustomerRepository.findByCustomerId(customer.getCustomerId()).get();
+        assertThat(updatedCustomer.getName()).isEqualTo(customer.getName());
+        assertThat(updatedCustomer.getLastLoginAt()).isEqualTo(customer.getLastLoginAt());
+    }
 }
