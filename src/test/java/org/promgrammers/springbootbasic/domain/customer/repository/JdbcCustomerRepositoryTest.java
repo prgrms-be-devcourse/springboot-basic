@@ -1,7 +1,5 @@
 package org.promgrammers.springbootbasic.domain.customer.repository;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
@@ -10,10 +8,10 @@ import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,27 +23,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-@TestPropertySource(locations = "classpath:application.yaml")
+@JdbcTest
+@Import({JdbcCustomerRepository.class, JdbcVoucherRepository.class})
 @ActiveProfiles("test")
 class JdbcCustomerRepositoryTest {
+
 
     @Autowired
     JdbcCustomerRepository customerRepository;
     @Autowired
     JdbcVoucherRepository voucherRepository;
 
-    @BeforeEach
-    void init() {
-        voucherRepository.deleteAll();
-        customerRepository.deleteAll();
-    }
-
-    @AfterEach
-    void afterEach() {
-        voucherRepository.deleteAll();
-        customerRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("저장 성공 - 고객 저장")

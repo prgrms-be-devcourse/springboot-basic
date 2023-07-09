@@ -1,7 +1,5 @@
 package org.promgrammers.springbootbasic.domain.voucher.repository;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
@@ -11,10 +9,10 @@ import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVouc
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-@TestPropertySource(locations = "classpath:application.yaml")
 @ActiveProfiles("test")
+@JdbcTest
+@Import({JdbcCustomerRepository.class, JdbcVoucherRepository.class})
 class JdbcVoucherRepositoryTest {
 
     @Autowired
@@ -36,18 +34,6 @@ class JdbcVoucherRepositoryTest {
 
     @Autowired
     JdbcCustomerRepository customerRepository;
-
-    @BeforeEach
-    void init() {
-        voucherRepository.deleteAll();
-        customerRepository.deleteAll();
-    }
-
-    @AfterEach
-    void afterEach() {
-        voucherRepository.deleteAll();
-        customerRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("바우처 할당 성공")
@@ -282,6 +268,4 @@ class JdbcVoucherRepositoryTest {
         Optional<Voucher> deletedVoucher = voucherRepository.findById(savedVoucher.getVoucherId());
         assertThat(deletedVoucher.isPresent()).isEqualTo(false);
     }
-
-
 }

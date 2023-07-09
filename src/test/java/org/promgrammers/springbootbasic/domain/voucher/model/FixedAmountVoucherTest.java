@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @ValueSource(longs = {0, -1, -10L, -20L})
     void creationFailTest(long amount) throws Exception {
-        Assertions.assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(BusinessException.class,
                 () -> new FixedAmountVoucher(UUID.randomUUID(), amount));
     }
 
