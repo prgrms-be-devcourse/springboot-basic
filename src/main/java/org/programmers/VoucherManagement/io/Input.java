@@ -3,10 +3,15 @@ package org.programmers.VoucherManagement.io;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 
 public interface Input {
-    MenuType readType();
+    int readType();
 
-    DiscountType readDiscountType();
+    String readDiscountType();
 
-    int readValue();
+    String readMemberId();
 
+    int readDiscountValue(DiscountType discountType);
+
+    String readMemberStatus();
+
+    String readMemberName();
 }
