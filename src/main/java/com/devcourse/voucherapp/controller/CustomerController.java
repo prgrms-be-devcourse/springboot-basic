@@ -2,6 +2,7 @@ package com.devcourse.voucherapp.controller;
 
 import com.devcourse.voucherapp.entity.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
 import com.devcourse.voucherapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,5 +15,9 @@ public class CustomerController {
 
     public CustomerResponseDto create(CustomerCreateRequestDto request) {
         return customerService.create(request);
+    }
+
+    public CustomersResponseDto findAllCustomers() {
+        return customerService.findAllCustomers();
     }
 }

@@ -3,6 +3,7 @@ package com.devcourse.voucherapp.repository;
 import com.devcourse.voucherapp.entity.CustomerType;
 import com.devcourse.voucherapp.entity.customer.Customer;
 import com.devcourse.voucherapp.exception.ExistedCustomerException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,6 +52,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Customer> findAllCustomers() {
+        String sql = "select id, type, nickname from customer";
+
+        return template.query(sql, getCustomerRowMapper());
     }
 
     private SqlParameterSource getParameterSource(Customer customer) {

@@ -3,7 +3,9 @@ package com.devcourse.voucherapp.service;
 import com.devcourse.voucherapp.entity.customer.Customer;
 import com.devcourse.voucherapp.entity.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
 import com.devcourse.voucherapp.repository.CustomerRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +21,11 @@ public class CustomerService {
         Customer customer = customerRepository.create(newCustomer);
 
         return CustomerResponseDto.from(customer);
+    }
+
+    public CustomersResponseDto findAllCustomers() {
+        List<Customer> customers = customerRepository.findAllCustomers();
+
+        return CustomersResponseDto.from(customers);
     }
 }

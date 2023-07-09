@@ -3,6 +3,7 @@ package com.devcourse.voucherapp.view;
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class ViewManager {
 
     private static final String CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n새 고객의 닉네임을 입력하세요.(공백 없는 소문자 알파벳과 숫자만 가능)";
     private static final String CUSTOMER_CREATION_SUCCESS_MESSAGE = "\n고객 생성이 완료되었습니다.";
+    private static final String ALL_CUSTOMERS_LIST_MESSAGE = "\n현재까지 생성된 고객 목록입니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -113,6 +115,13 @@ public class ViewManager {
     public void showCustomerCreationSuccessMessage(CustomerResponseDto response) {
         outputView.printWithLineBreak(CUSTOMER_CREATION_SUCCESS_MESSAGE);
         outputView.printWithLineBreak(response);
+    }
+
+    public void showAllCustomers(CustomersResponseDto response) {
+        outputView.printWithLineBreak(ALL_CUSTOMERS_LIST_MESSAGE);
+        for (CustomerResponseDto customer : response.getCustomers()) {
+            outputView.printWithLineBreak(customer);
+        }
     }
 
     private String readUserInput() {

@@ -6,6 +6,7 @@ import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.dto.VoucherUpdateRequestDto;
@@ -48,6 +49,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case UPDATE -> updateVoucher();
             case DELETE -> deleteVoucher();
             case CUSTOMER_CREATE -> createCustomer();
+            case CUSTOMER_READ -> readAllCustomers();
             case QUIT -> quitApplication();
         }
     }
@@ -99,6 +101,11 @@ public class CommandLineApplication implements CommandLineRunner {
         CustomerResponseDto response = customerController.create(request);
 
         viewManager.showCustomerCreationSuccessMessage(response);
+    }
+
+    private void readAllCustomers() {
+        CustomersResponseDto response = customerController.findAllCustomers();
+        viewManager.showAllCustomers(response);
     }
 
     private void quitApplication() {
