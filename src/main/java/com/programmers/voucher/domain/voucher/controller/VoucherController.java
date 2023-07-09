@@ -36,7 +36,7 @@ public class VoucherController {
     public void findVouchers() {
         List<Voucher> vouchers = voucherService.findVouchers();
         List<VoucherDto> voucherDtos = vouchers.stream()
-                .map(Voucher::toDto)
+                .map(VoucherDto::from)
                 .toList();
 
         console.printVouchers(voucherDtos);

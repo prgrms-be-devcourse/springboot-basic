@@ -115,7 +115,7 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     private String voucherToCsv(Voucher voucher) {
-        VoucherDto voucherDto = voucher.toDto();
+        VoucherDto voucherDto = VoucherDto.from(voucher);
         return voucherDto.getVoucherId()
                 + "," + voucherDto.getVoucherType()
                 + "," + voucherDto.getAmount();

@@ -1,6 +1,6 @@
 package com.programmers.voucher.domain.voucher.domain;
 
-import com.programmers.voucher.domain.voucher.dto.VoucherDto;
+import com.programmers.voucher.domain.voucher.pattern.VoucherVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,13 +41,8 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public VoucherDto toDto() {
-        return new VoucherDto(super.voucherId, VoucherType.PERCENT, percent);
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public void accept(VoucherVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -56,5 +51,9 @@ public class PercentDiscountVoucher extends Voucher {
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
                 '}';
+    }
+
+    public long getPercent() {
+        return percent;
     }
 }

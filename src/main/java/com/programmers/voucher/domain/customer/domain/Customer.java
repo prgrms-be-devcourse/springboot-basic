@@ -1,6 +1,5 @@
 package com.programmers.voucher.domain.customer.domain;
 
-import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.util.CustomerErrorMessages;
 import com.programmers.voucher.domain.customer.util.CustomerFieldRegex;
 import org.slf4j.Logger;
@@ -44,18 +43,10 @@ public class Customer {
         }
     }
 
-    public CustomerDto toDto() {
-        return new CustomerDto(customerId, email, name, banned);
-    }
-
     public void update(String name, boolean banned) {
         validateName(name);
         this.name = name;
         this.banned = banned;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
     }
 
     @Override
@@ -65,5 +56,21 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isBanned() {
+        return banned;
     }
 }
