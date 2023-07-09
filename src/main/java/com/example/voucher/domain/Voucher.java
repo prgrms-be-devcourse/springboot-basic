@@ -1,9 +1,7 @@
 package com.example.voucher.domain;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
-
 import java.util.UUID;
-
 import com.example.voucher.constant.VoucherType;
 
 public interface Voucher {

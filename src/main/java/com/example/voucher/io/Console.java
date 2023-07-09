@@ -5,7 +5,6 @@ import static com.example.voucher.io.Writer.*;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.example.voucher.constant.ExceptionMessage;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.domain.dto.VoucherDTO;
@@ -41,11 +40,11 @@ public class Console {
         writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
         writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
 
-        try{
+        try {
             int number = reader.readInteger();
 
             return VoucherType.getVouchersType(number);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
             writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
 
@@ -56,20 +55,17 @@ public class Console {
     public Long getDiscountValue() {
         writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
 
-        try{
+        try {
             Long discountAmount = reader.readLong();
             validatePositive(discountAmount);
 
             return discountAmount;
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
             writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
 
             return null;
         }
-
-
-
     }
 
     public ModeType getSelectedType() {

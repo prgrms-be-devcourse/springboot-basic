@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.io.Console;
 
@@ -43,22 +42,18 @@ public class ApplicationController implements CommandLineRunner {
         VoucherType voucherType = console.getVoucherType();
 
         if (voucherType == null) {
-            console.displayVoucherCreationError();
-
             return;
         }
 
         Long discountValue = console.getDiscountValue();
 
         if (discountValue == null) {
-            console.displayVoucherCreationError();
-
             return;
         }
 
-        Voucher createdVoucher = voucherController.createVoucher(voucherType, discountValue);
-
-        if (createdVoucher == null) {
+        try {
+            voucherController.createVoucher(voucherType, discountValue);
+        } catch (Exception e) {
             console.displayVoucherCreationError();
         }
     }
