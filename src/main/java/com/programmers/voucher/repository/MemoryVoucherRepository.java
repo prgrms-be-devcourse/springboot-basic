@@ -1,5 +1,6 @@
 package com.programmers.voucher.repository;
 
+import com.programmers.exception.NotFoundException;
 import com.programmers.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -30,21 +31,27 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID id) {
-        return Optional.empty();
+        if (!storage.containsKey(id)) {
+            throw new NotFoundException("[ERROR] 바우처가 존재하지 않습니다.");
+        }
+
+        return Optional.of(storage.get(id));
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        storage.put(voucher.getVoucherId(), voucher);
+
+        return voucher;
     }
 
     @Override
     public void deleteById(UUID id) {
-
+        storage.remove(id);
     }
 
     @Override
     public void deleteAll() {
-
+        storage.clear();
     }
 }
