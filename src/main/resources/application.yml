@@ -1,0 +1,3 @@
+app:
+  path:
+    file: file/customer-blacklist.csv
