@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain.customer.service;
 
 import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.repository.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -96,11 +97,14 @@ class CustomerServiceTest {
         given(customerRepository.findAll()).willReturn(customers);
 
         //when
-        List<Customer> findCustomers = customerService.findCustomers();
+        List<CustomerDto> findCustomers = customerService.findCustomers();
 
         //then
+        CustomerDto customerDtoA = CustomerDto.from(customerA);
+        CustomerDto customerDtoB = CustomerDto.from(customerB);
+
         assertThat(findCustomers).usingRecursiveFieldByFieldElementComparator()
-                .contains(customerA, customerB);
+                .contains(customerDtoA, customerDtoB);
     }
 
     @Test
