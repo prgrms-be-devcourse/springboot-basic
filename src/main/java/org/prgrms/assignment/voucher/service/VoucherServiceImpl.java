@@ -1,6 +1,6 @@
 package org.prgrms.assignment.voucher.service;
 
-import org.prgrms.assignment.voucher.dto.VoucherDTO;
+import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
 import org.prgrms.assignment.voucher.entity.VoucherEntity;
 import org.prgrms.assignment.voucher.entity.VoucherHistoryEntity;
 import org.prgrms.assignment.voucher.model.Voucher;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
@@ -29,17 +30,18 @@ public class VoucherServiceImpl implements VoucherService{
 
     @Override
     @Transactional(readOnly = true)
-    public Voucher getVoucherById(UUID voucherId) {
-        return convertToVoucher(voucherRepository.
-                findByID(voucherId).
+    public VoucherResponseDTO getVoucherById(UUID voucherId) {
+        return convertToVoucherResponseDTO(voucherRepository.
+            findVoucherEntityById(voucherId).
                 orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId)));
     }
 
     @Override
-    public List<VoucherDTO> convertToVoucherDTOs() {
+    public List<VoucherResponseDTO> getAllVoucherDTOs() {
         return voucherRepository.findAll().
                 stream().
-                map(voucherEntity -> new VoucherDTO(voucherEntity.voucherType(),
+                map(voucherEntity -> new VoucherResponseDTO(voucherEntity.voucherId(),
+                    voucherEntity.voucherType(),
                     voucherEntity.benefit(),
                     voucherEntity.createdAt(),
                     voucherEntity.expireDate())
@@ -49,15 +51,17 @@ public class VoucherServiceImpl implements VoucherService{
 
     @Override
     @Transactional
-    public void update(Voucher voucher) {
-        voucherRepository.update(convertToVoucherEntity(voucher), convertToVoucherHistoryEntity(voucher, VoucherStatus.UPDATED));
+    public void updateVoucherEntity(Voucher voucher) {
+        voucherRepository.update(convertToVoucherEntity(voucher));
+        voucherRepository.insertVoucherHistoryEntity(convertToVoucherHistoryEntity(voucher, VoucherStatus.UPDATED));
     }
 
     @Override
     @Transactional
     public Voucher createVoucher(VoucherType voucherType, long benefit, long durationDate) {
         Voucher voucher = voucherFactory.createVoucher(voucherType, UUID.randomUUID(), benefit, durationDate);
-        voucherRepository.insert(convertToVoucherEntity(voucher), convertToVoucherHistoryEntity(voucher, VoucherStatus.UNUSED));
+        voucherRepository.insertVoucherEntity(convertToVoucherEntity(voucher));
+        voucherRepository.insertVoucherHistoryEntity(convertToVoucherHistoryEntity(voucher, VoucherStatus.UNUSED));
         return voucher;
     }
 
@@ -67,17 +71,16 @@ public class VoucherServiceImpl implements VoucherService{
     }
 
     private VoucherEntity convertToVoucherEntity(Voucher voucher) {
-        return new VoucherEntity(voucher.getVoucherId().toString().getBytes(), voucher.getVoucherType(), voucher.getCreatedAt(),
+        return new VoucherEntity(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getCreatedAt(),
             voucher.getBenefit(), voucher.getExpireDate());
     }
 
     private VoucherHistoryEntity convertToVoucherHistoryEntity(Voucher voucher, VoucherStatus voucherStatus) {
-        return new VoucherHistoryEntity(voucher.getVoucherId().toString().getBytes(), voucherStatus, LocalDateTime.now());
+        return new VoucherHistoryEntity(voucher.getVoucherId(), UUID.randomUUID(), voucherStatus, LocalDateTime.now());
     }
 
-    private Voucher convertToVoucher(VoucherEntity voucherEntity) {
-        int durationDate = (int) ChronoUnit.DAYS.between(voucherEntity.createdAt(), voucherEntity.expireDate());
-        return voucherFactory.createVoucher(voucherEntity.voucherType(), UUID.nameUUIDFromBytes(voucherEntity.voucherId()),
-            voucherEntity.benefit(), durationDate);
+    private VoucherResponseDTO convertToVoucherResponseDTO(VoucherEntity voucherEntity) {
+        return new VoucherResponseDTO(voucherEntity.voucherId(), voucherEntity.voucherType(), voucherEntity.benefit(),
+            voucherEntity.createdAt(), voucherEntity.expireDate());
     }
 }
