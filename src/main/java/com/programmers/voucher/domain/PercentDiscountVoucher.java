@@ -17,7 +17,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final VoucherType voucherType;
 
     public PercentDiscountVoucher(UUID voucherId, String voucherName, long percent) {
-        checkVoucherInput(voucherName, percent);
+        checkVoucherValue(voucherName, percent);
 
         this.voucherId = voucherId;
         this.voucherName = voucherName;
@@ -25,7 +25,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.voucherType = VoucherType.PercentDiscountVoucher;
     }
 
-    private void checkVoucherInput(String voucherName, long percent) {
+    private void checkVoucherValue(String voucherName, long percent) {
         if (voucherName.isEmpty()) {
             log.error("The voucher name input not found. voucher type = {}", PercentDiscountVoucher.class.getName());
             throw new EmptyException("[ERROR] Voucher 이름이 입력되지 않았습니다.");

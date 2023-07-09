@@ -61,13 +61,13 @@ public class MenuController {
         }
     }
 
-    private void checkMenuSelection(String input) {
-        if (input.isEmpty()) {
+    private void checkMenuSelection(String selection) {
+        if (selection.isEmpty()) {
             throw new EmptyException("[ERROR] 메뉴 번호가 입력되지 않았습니다.");
         }
 
-        if (!input.equals(MENU_VOUCHER_NUMBER) && !input.equals(MENU_CUSTOMER_NUMBER)) {
-            throw new InvalidInputException("[ERROR] 입력하신 메뉴 번호가 유효하지 않습니다.");
+        if (!selection.equals(MENU_VOUCHER_NUMBER) && !selection.equals(MENU_CUSTOMER_NUMBER)) {
+            throw new InvalidInputException("[ERROR] 메뉴 번호가 유효하지 않습니다.");
         }
     }
 

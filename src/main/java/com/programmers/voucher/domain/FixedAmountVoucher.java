@@ -17,7 +17,7 @@ public class FixedAmountVoucher implements Voucher {
     private final VoucherType voucherType;
 
     public FixedAmountVoucher(UUID voucherId, String voucherName, long amount) {
-        checkVoucherInput(voucherName, amount);
+        checkVoucherValue(voucherName, amount);
 
         this.voucherId = voucherId;
         this.voucherName = voucherName;
@@ -25,7 +25,7 @@ public class FixedAmountVoucher implements Voucher {
         this.voucherType = VoucherType.FixedAmountVoucher;
     }
 
-    private void checkVoucherInput(String voucherName, long amount) {
+    private void checkVoucherValue(String voucherName, long amount) {
         if (voucherName.isEmpty()) {
             log.error("The voucher name input not found. voucher type = {}", FixedAmountVoucher.class.getName());
             throw new EmptyException("[ERROR] Voucher 이름이 입력되지 않았습니다.");

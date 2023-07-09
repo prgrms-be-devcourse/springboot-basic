@@ -67,13 +67,13 @@ public class CustomerController {
         }
     }
 
-    private void checkCustomerTypeSelection(String input) {
-        if (input.isEmpty()) {
+    private void checkCustomerTypeSelection(String selection) {
+        if (selection.isEmpty()) {
             throw new EmptyException("[ERROR] Customer Type 번호가 입력되지 않았습니다.");
         }
 
-        if (!input.equals(NORMAL_CUSTOMER_TYPE_NUMBER) && !input.equals(BLACKLIST_TYPE_NUMBER)) {
-            throw new InvalidInputException("[ERROR] 입력하신 Customer Type 번호가 유효하지 않습니다.");
+        if (!selection.equals(NORMAL_CUSTOMER_TYPE_NUMBER) && !selection.equals(BLACKLIST_TYPE_NUMBER)) {
+            throw new InvalidInputException("[ERROR] Customer Type 번호가 유효하지 않습니다.");
         }
     }
 
@@ -145,13 +145,13 @@ public class CustomerController {
         }
     }
 
-    private void checkDeleteTypeSelection(String input) {
-        if (input.isEmpty()) {
+    private void checkDeleteTypeSelection(String selection) {
+        if (selection.isEmpty()) {
             throw new EmptyException("[ERROR] Delete Type 번호가 입력되지 않았습니다.");
         }
 
-        if (!input.equals(DELETE_ONE_CUSTOMER_NUMBER) && !input.equals(DELETE_ALL_CUSTOMERS_NUMBER)) {
-            throw new InvalidInputException("[ERROR] 입력하신 Delete Type 번호가 유효하지 않습니다.");
+        if (!selection.equals(DELETE_ONE_CUSTOMER_NUMBER) && !selection.equals(DELETE_ALL_CUSTOMERS_NUMBER)) {
+            throw new InvalidInputException("[ERROR] Delete Type 번호가 유효하지 않습니다.");
         }
     }
 

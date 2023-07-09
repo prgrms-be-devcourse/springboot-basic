@@ -37,8 +37,8 @@ public enum VoucherType {
                 });
     }
 
-    private static void checkVoucherTypeInputEmpty(String input) {
-        if (input.isEmpty()) {
+    private static void checkVoucherTypeInputEmpty(String voucherType) {
+        if (voucherType.isEmpty()) {
             log.error("The voucher type input not found.");
             throw new EmptyException("[ERROR] Voucher Type 값이 입력되지 않았습니다.");
         }

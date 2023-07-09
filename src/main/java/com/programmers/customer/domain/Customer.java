@@ -16,7 +16,7 @@ public class Customer {
     private final CustomerType customerType;
 
     public Customer(UUID customerId, String customerName) {
-        checkCustomerInput(customerName);
+        checkCustomerName(customerName);
 
         this.customerId = customerId;
         this.customerName = customerName;
@@ -24,14 +24,14 @@ public class Customer {
     }
 
     public Customer(String customerName) {
-        checkCustomerInput(customerName);
+        checkCustomerName(customerName);
 
         this.customerId = UUID.randomUUID();
         this.customerName = customerName;
         this.customerType = CustomerType.NORMAL;
     }
 
-    private void checkCustomerInput(String customerName) {
+    private void checkCustomerName(String customerName) {
         if (customerName.isEmpty()) {
             log.error("The customer name input not found.");
             throw new EmptyException("[ERROR] 회원 이름이 입력되지 않았습니다.");
@@ -40,7 +40,7 @@ public class Customer {
 
         if (customerName.length() > 30) {
             log.error("The invalid customer input found.");
-            throw new InvalidInputException("[ERROR] 회원 이름을 30글자 이하로 입력해주세요.");
+            throw new InvalidInputException("[ERROR] 회원 이름은 30글자 이하여야 합니다.");
         }
     }
 
