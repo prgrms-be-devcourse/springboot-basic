@@ -4,15 +4,12 @@ import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
 
 public interface Output {
-    void printType();
-
-    void printDiscountType();
-
-    void printExitMessage();
+    void printConsoleMessage(ConsoleMessage message);
 
     void printVoucherList(GetVoucherListResponse getVoucherListResponse);
 
-    void printMemberList(GetMemberListResponse memberList);
+    void printAllMemberList(GetMemberListResponse memberList);
 
-    void printInputAmountMessage();
+    void printBlackMemberList(GetMemberListResponse memberList);
+
 }

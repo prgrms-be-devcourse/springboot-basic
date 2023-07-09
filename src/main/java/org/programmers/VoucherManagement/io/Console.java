@@ -8,26 +8,12 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.Scanner;
 
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.VOUCHER_AMOUNT_IS_NOT_NUMBER;
+import static org.programmers.VoucherManagement.io.ConsoleMessage.*;
+import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.AMOUNT_IS_NOT_NUMBER;
 
 @Component
 public class Console implements Input, Output {
     private static final Scanner SCANNER = new Scanner(System.in);
-
-    @Override
-    public void printType() {
-        System.out.println(ConsoleMessage.START_TYPE_MESSAGE);
-    }
-
-    @Override
-    public void printDiscountType() {
-        System.out.println(ConsoleMessage.DISCOUNT_TYPE_MESSAGE);
-    }
-
-    @Override
-    public void printExitMessage() {
-        System.out.println(ConsoleMessage.EXIT_MESSAGE);
-    }
 
     @Override
     public void printVoucherList(GetVoucherListResponse getVoucherListResponse) {
@@ -44,48 +30,75 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printMemberList(GetMemberListResponse memberList) {
-        System.out.println(ConsoleMessage.START_VIEW_BLACKLIST_MESSAGE);
+    public void printConsoleMessage(ConsoleMessage message) {
+        System.out.println(message);
+    }
+
+    @Override
+    public void printAllMemberList(GetMemberListResponse memberList) {
+        printConsoleMessage(ConsoleMessage.START_VIEW_ALL_MEMBER_MESSAGE);
+        printMemberList(memberList);
+    }
+
+    @Override
+    public void printBlackMemberList(GetMemberListResponse memberList) {
+        printConsoleMessage(START_VIEW_BLACKLIST_MESSAGE);
+        printMemberList(memberList);
+    }
+
+
+    private void printMemberList(GetMemberListResponse memberList) {
         memberList
                 .getGetMemberListRes()
                 .stream()
                 .forEach(response -> {
-                    System.out.println(MessageFormat.format("{0} : {1}"
+                    System.out.println(MessageFormat.format("{0} : {1} -> {2}"
                             , response.getMemberID()
-                            , response.getName()));
+                            , response.getName()
+                            , response.getMemberStatus().toString()));
                 });
     }
 
 
     @Override
-    public MenuType readType() {
-        String type = SCANNER.nextLine();
-        return MenuType.from(type.toLowerCase());
+    public int readType() {
+        return readValue();
     }
 
     @Override
-    public DiscountType readDiscountType() {
-        String type = SCANNER.nextLine();
-        return DiscountType.from(type);
+    public String readDiscountType() {
+        return SCANNER.nextLine();
     }
 
     @Override
-    public void printInputAmountMessage() {
-        System.out.println("할인 금액(₩ / %)을 입력하세요");
+    public String readMemberName() {
+        printConsoleMessage(MEMBER_NAME_MESSAGE);
+        return SCANNER.nextLine();
     }
 
+    @Override
+    public String readMemberStatus() {
+        printConsoleMessage(MEMBER_STATUS_MESSAGE);
+        return SCANNER.nextLine();
+    }
 
-    public int readValue() {
+    @Override
+    public int readDiscountValue(DiscountType discountType) {
+        printConsoleMessage(DISCOUNT_VALUE_MESSAGE);
+        return readValue();
+    }
+
+    @Override
+    public String readMemberId() {
+        printConsoleMessage(MEMBER_ID_MESSAGE);
+        return SCANNER.nextLine();
+    }
+
+    private int readValue() {
         try {
             return Integer.parseInt(SCANNER.nextLine());
         } catch (NumberFormatException e) {
-            throw new NumberFormatException(VOUCHER_AMOUNT_IS_NOT_NUMBER.getMessage());
+            throw new NumberFormatException(AMOUNT_IS_NOT_NUMBER.getMessage());
         }
     }
-
-    public int readDiscountValue(DiscountType discountType) {
-        printInputAmountMessage();
-        return readValue();
-    }
-    
 }

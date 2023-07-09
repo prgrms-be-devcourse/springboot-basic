@@ -1,12 +1,19 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.presentation.MemberController;
+import org.programmers.VoucherManagement.member.domain.MemberStatus;
+import org.programmers.VoucherManagement.member.dto.CreateMemberRequest;
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
+import org.programmers.VoucherManagement.member.dto.UpdateMemberRequest;
+import org.programmers.VoucherManagement.member.presentation.MemberController;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
+import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+
+import static org.programmers.VoucherManagement.io.ConsoleMessage.*;
 
 @Component
 public class CommandExecutor {
@@ -23,7 +30,7 @@ public class CommandExecutor {
     public void execute(MenuType menuType) {
         switch (menuType) {
             case CREATE -> {
-                console.printDiscountType();
+                console.printConsoleMessage(DISCOUNT_TYPE_MESSAGE);
                 CreateVoucherRequest request = makeCreateVoucherRequest();
                 voucherController.createVoucher(request);
             }
@@ -31,18 +38,48 @@ public class CommandExecutor {
                 GetVoucherListResponse voucherList = voucherController.getVoucherList();
                 console.printVoucherList(voucherList);
             }
-            case EXIT -> console.printExitMessage();
-            case BLACKLIST -> {
-                GetMemberListResponse blackMemberList = memberController.getBlackMemberList();
-                console.printMemberList(blackMemberList);
+            case EXIT -> {
+                console.printConsoleMessage(EXIT_MESSAGE);
+            }
+            case INSERT_MEMBER -> {
+                CreateMemberRequest request = makeCreateMemberRequest();
+                memberController.createMember(request);
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case UPDATE_MEMBER -> {
+                String memberId = console.readMemberId();
+                MemberStatus memberStatus = MemberStatus.from(console.readMemberStatus());
+                memberController.updateMember(UUID.fromString(memberId), new UpdateMemberRequest(memberStatus));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case DELETE_MEMBER -> {
+                String memberId = console.readMemberId();
+                memberController.deleteMember(UUID.fromString(memberId));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case BLACK_MEMBER_LIST -> {
+                GetMemberListResponse blackMemberList = memberController.getAllBlackMembers();
+                console.printBlackMemberList(blackMemberList);
+            }
+            case MEMBER_LIST -> {
+                GetMemberListResponse memberList = memberController.getAllMembers();
+                console.printAllMemberList(memberList);
             }
         }
     }
 
     private CreateVoucherRequest makeCreateVoucherRequest() {
-        DiscountType discountType = console.readDiscountType();
+        DiscountType discountType = DiscountType.from(console.readDiscountType());
         int discountValue = console.readDiscountValue(discountType);
 
         return new CreateVoucherRequest(discountType, discountValue);
     }
+
+    private CreateMemberRequest makeCreateMemberRequest() {
+        String name = console.readMemberName();
+        MemberStatus memberStatus = MemberStatus.from(console.readMemberStatus());
+
+        return new CreateMemberRequest(name, memberStatus);
+    }
+
 }

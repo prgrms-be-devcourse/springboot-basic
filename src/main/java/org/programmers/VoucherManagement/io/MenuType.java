@@ -11,28 +11,42 @@ import java.util.stream.Collectors;
 import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_COMMAND;
 
 public enum MenuType {
-    EXIT("exit"),
-    CREATE("create"),
-    LIST("list"),
-    BLACKLIST("blacklist");
+    //Member
+    INSERT_MEMBER("insertmember", 1),
+    UPDATE_MEMBER("updatemember", 2),
+    DELETE_MEMBER("deletemember", 3),
+    BLACK_MEMBER_LIST("blackmemberlist", 4),
+    MEMBER_LIST("memberlist", 5),
 
-    private static final Map<String, MenuType> COMMAND_TYPE_MAP =
+
+    //Voucher
+    EXIT("exit", 6),
+    CREATE("create", 7),
+    LIST("list", 8);
+
+    private static final Map<Integer, MenuType> COMMAND_TYPE_MAP =
             Collections.unmodifiableMap(Arrays
                     .stream(values())
-                    .collect(Collectors.toMap(MenuType::getType, Function.identity())));
+                    .collect(Collectors.toMap(MenuType::getNumber, Function.identity())));
 
     private final String type;
+    private final int number;
 
-    MenuType(String type) {
+    MenuType(String type, int number) {
         this.type = type;
+        this.number = number;
     }
 
     private String getType() {
         return type;
     }
 
+    private int getNumber() {
+        return number;
+    }
 
-    public static MenuType from(String type) {
+
+    public static MenuType from(int type) {
         if (!COMMAND_TYPE_MAP.containsKey(type)) {
             throw new VoucherException(NOT_EXIST_COMMAND);
         }
