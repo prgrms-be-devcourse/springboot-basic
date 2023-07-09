@@ -1,28 +1,24 @@
 package org.promgrammers.springbootbasic.controller;
 
-import org.promgrammers.springbootbasic.domain.customer.controller.CustomerController;
-import org.promgrammers.springbootbasic.domain.voucher.controller.VoucherController;
+import org.promgrammers.springbootbasic.domain.customer.controller.CustomerCommandController;
+import org.promgrammers.springbootbasic.domain.voucher.controller.VoucherCommandController;
 import org.promgrammers.springbootbasic.domain.voucher.model.Command;
 import org.promgrammers.springbootbasic.view.Console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
-@Component
-@Profile("!test")
 public class CommandLineController implements CommandLineRunner {
 
-    private final VoucherController voucherController;
-    private final CustomerController customerController;
+    private final VoucherCommandController voucherCommandController;
+    private final CustomerCommandController customerCommandController;
     private final Console console;
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineController.class);
 
-    public CommandLineController(VoucherController voucherController, CustomerController customerController, Console console) {
-        this.voucherController = voucherController;
-        this.customerController = customerController;
+    public CommandLineController(VoucherCommandController voucherCommandController, CustomerCommandController customerCommandController, Console console) {
+        this.voucherCommandController = voucherCommandController;
+        this.customerCommandController = customerCommandController;
         this.console = console;
     }
 
@@ -42,8 +38,8 @@ public class CommandLineController implements CommandLineRunner {
     private void execute(Command command) {
         switch (command) {
             case EXIT -> CommandProgramStatus.stop();
-            case VOUCHER -> voucherController.execute();
-            case CUSTOMER -> customerController.execute();
+            case VOUCHER -> voucherCommandController.execute();
+            case CUSTOMER -> customerCommandController.execute();
         }
     }
 

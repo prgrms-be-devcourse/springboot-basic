@@ -16,13 +16,13 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 @Controller
-public class CustomerController {
+public class CustomerCommandController {
 
     private final Console console;
     private final CustomerService customerService;
     private final BlackCustomerService blackCustomerService;
 
-    public CustomerController(CustomerService customerService, Console console, BlackCustomerService blackCustomerService) {
+    public CustomerCommandController(CustomerService customerService, Console console, BlackCustomerService blackCustomerService) {
         this.customerService = customerService;
         this.console = console;
         this.blackCustomerService = blackCustomerService;
