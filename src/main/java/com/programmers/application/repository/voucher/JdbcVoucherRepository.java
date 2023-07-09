@@ -1,8 +1,9 @@
 package com.programmers.application.repository.voucher;
 
+import com.programmers.application.domain.voucher.FixedAmountVoucher;
+import com.programmers.application.domain.voucher.PercentDiscountVoucher;
 import com.programmers.application.domain.voucher.Voucher;
-import com.programmers.application.domain.voucher.VoucherFactory;
-import com.programmers.application.dto.request.VoucherCreationRequest;
+import com.programmers.application.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,7 +45,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
-        return Optional.empty();
+        String sql = "SELECT * FROM voucher WHERE voucher_id = :voucherId";
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("voucherId", toBytes(voucherId));
+        Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, param, getVoucherRowMapper());
+        return Optional.ofNullable(voucher);
     }
 
     private static UUID toUUID(byte[] bytes) {
@@ -60,10 +66,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static RowMapper<Voucher> getVoucherRowMapper() {
         return (rs, rowNum) -> {
+            UUID voucherId = toUUID(rs.getBytes("voucher_id"));
             long discountAmount = rs.getInt("discount_amount");
             String type = rs.getString("type");
-            return VoucherFactory.createVoucher(new VoucherCreationRequest(type, discountAmount));
-
+            VoucherType voucherType = VoucherType.valueOf(type.toUpperCase());
+            return switch (voucherType) {
+                case FIXED -> FixedAmountVoucher.of(voucherId, discountAmount);
+                case PERCENT -> PercentDiscountVoucher.of(voucherId, discountAmount);
+            };
         };
     }
 }

@@ -15,7 +15,7 @@ public class FixedAmountVoucher extends Voucher {
         this.discountAmount = discountAmount;
     }
 
-    protected static Voucher of(UUID voucherId, long discountAmount) {
+    public static Voucher of(UUID voucherId, long discountAmount) {
         validateVoucherId(voucherId);
         validateDiscountAmount(discountAmount);
         return new FixedAmountVoucher(voucherId, discountAmount);
