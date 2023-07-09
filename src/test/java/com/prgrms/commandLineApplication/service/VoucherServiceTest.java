@@ -13,7 +13,7 @@ class VoucherServiceTest {
   @ParameterizedTest
   @CsvSource(value = {"pe|10", "fix|10", "hello|10"}, delimiter = '|')
   @DisplayName("잘못된 타입을 입력했을 경우 예외가 발생한다.")
-  void enterWrongVoucherType_ErrorSuccess(String voucherType, int discountValue) {
+  void enterWrongVoucherType_ThrowException(String voucherType, int discountValue) {
     Assertions.assertThatThrownBy(() -> voucherService.create(voucherType, discountValue))
             .isInstanceOf(IllegalArgumentException.class);
   }

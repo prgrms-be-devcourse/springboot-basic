@@ -25,7 +25,7 @@ class PercentDiscountVoucherTest {
   @ParameterizedTest
   @ValueSource(ints = {-1, -100, 200})
   @DisplayName("범위를 벗어난 할인값을 입력했을 경우 예외가 발생한다.")
-  void percentAmountRange_ErrorSuccess(int discountAmount) {
+  void percentAmountRange_ThrowException(int discountAmount) {
     Assertions.assertThatThrownBy(() -> new Voucher(UUID.randomUUID(), PercentDiscount.of(discountAmount)))
             .isInstanceOf(IllegalArgumentException.class);
   }
