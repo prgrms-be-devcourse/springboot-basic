@@ -24,7 +24,11 @@ public final class ConsoleOutputMessage {
 
     public static final String INVALID_MENU_MESSAGE = "해당 메뉴가 존재하지 않습니다.";
 
-    public static final String INPUT_DISCOUNT_AMOUNT_MESSAGE = "할인 정보를 입력하세요 : ";
+    public static final String INPUT_DISCOUNT_AMOUNT_MESSAGE = """
+                    할인 정보를 입력하세요
+                    고정 금액 할인(Fixed) 바우처는 0보다 큰 수만 입력할 수 있으며,
+                    할인율(Percent) 바우처는 1 ~ 100 까지의 수만 입력할 수 있습니다.
+                    """;
 
     public static final String INVALID_INPUT_DISCOUNT_MESSAGE = "올바르지 않은 입력값입니다.";
 

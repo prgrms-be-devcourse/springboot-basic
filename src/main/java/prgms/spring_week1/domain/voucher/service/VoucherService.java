@@ -21,11 +21,6 @@ public class VoucherService {
     }
 
     public void insertNewVoucher(VoucherType voucherType, int discountAmount) {
-        if(voucherType == VoucherType.PERCENT && discountAmount > 100){
-            logger.warn("100 퍼센트 이상의 값은 넣을 수 없습니다.");
-            throw new NumberFormatException();
-        }
-
         Voucher voucher = new Voucher(voucherType, discountAmount);
         voucherRepository.insert(voucher);
     }
