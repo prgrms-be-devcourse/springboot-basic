@@ -26,7 +26,7 @@ public class ViewManager {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public String readMenuNumber() {
+    public String readMenuOption() {
         outputView.printWithLineBreak(MENU_TITLE);
         for (Menu menu : Menu.values()) {
             outputView.printWithLineBreak(menu);

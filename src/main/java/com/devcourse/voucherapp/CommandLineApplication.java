@@ -26,8 +26,8 @@ public class CommandLineApplication implements CommandLineRunner {
     public void run(String... args) {
         while (isRunning) {
             try {
-                String menuNumber = viewManager.readMenuNumber();
-                Menu selectedMenu = Menu.from(menuNumber);
+                String menuOption = viewManager.readMenuOption();
+                Menu selectedMenu = Menu.from(menuOption);
                 executeMenu(selectedMenu);
             } catch (Exception e) {
                 String message = e.getMessage();

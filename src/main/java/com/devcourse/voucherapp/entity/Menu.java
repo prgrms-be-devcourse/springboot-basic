@@ -15,31 +15,31 @@ public enum Menu {
     READ("2", "할인권 조회"),
     UPDATE("3", "할인권 수정"),
     DELETE("4", "할인권 삭제"),
-    QUIT("5", "프로그램 종료");
+    QUIT("quit", "프로그램 종료");
 
     private static final Map<String, Menu> MENUS = Collections.unmodifiableMap(Stream.of(values())
-            .collect(Collectors.toMap(Menu::getNumber, Function.identity())));
+            .collect(Collectors.toMap(Menu::getOption, Function.identity())));
 
     @Getter
-    private final String number;
+    private final String option;
 
     private final String name;
 
-    Menu(String number, String name) {
-        this.number = number;
+    Menu(String option, String name) {
+        this.option = option;
         this.name = name;
     }
 
-    public static Menu from(String menuNumber) {
-        if (MENUS.containsKey(menuNumber)) {
-            return MENUS.get(menuNumber);
+    public static Menu from(String menuOption) {
+        if (MENUS.containsKey(menuOption)) {
+            return MENUS.get(menuOption);
         }
 
-        throw new MenuInputException(menuNumber);
+        throw new MenuInputException(menuOption);
     }
 
     @Override
     public String toString() {
-        return format("{0}. {1}", number, name);
+        return format("{0}. {1}", option, name);
     }
 }
