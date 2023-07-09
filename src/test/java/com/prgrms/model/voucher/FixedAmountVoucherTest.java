@@ -3,7 +3,6 @@ package com.prgrms.model.voucher;
 import com.prgrms.model.order.OrderItem;
 import com.prgrms.model.voucher.dto.discount.FixedDiscount;
 import com.prgrms.model.voucher.dto.price.Price;
-import com.prgrms.util.KeyGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FixedAmountVoucherTest {
     private OrderItem orderItem;
-    private int id = KeyGenerator.make();
+    private int id = 1;
 
     @BeforeEach
     public void setUp() {

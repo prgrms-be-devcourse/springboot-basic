@@ -3,19 +3,17 @@ package com.prgrms.repository.voucher;
 import com.prgrms.model.voucher.*;
 import com.prgrms.model.voucher.dto.discount.FixedDiscount;
 import com.prgrms.model.voucher.dto.discount.PercentDiscount;
-import com.prgrms.util.KeyGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MemoryVoucherRepositoryTest {
 
     private MemoryVoucherRepository voucherRepository;
-    private int voucherId = KeyGenerator.make();
+    private int voucherId = 1;
 
     @BeforeEach
     void setUp() {
@@ -68,10 +66,10 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.insert(createdVoucher2);
 
         //when
-        VoucherRegistry result = voucherRepository.getAllVoucher();
+        Vouchers result = voucherRepository.getAllVoucher();
 
         //then
-        assertThat(result.getVoucherRegistry())
+        assertThat(result.getVouchers())
                 .isNotNull()
                 .containsOnly(createdVoucher1, createdVoucher2);
     }
