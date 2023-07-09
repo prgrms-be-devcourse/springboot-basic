@@ -3,9 +3,11 @@ package com.programmers.application;
 import com.programmers.application.controller.FrontController;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("!test")
 public class CLIVoucherApplicationRunner implements ApplicationRunner {
     private final FrontController frontController;
 
