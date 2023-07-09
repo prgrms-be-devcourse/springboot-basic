@@ -21,7 +21,9 @@ public class Customer {
     }
 
     private void validateName(String name) {
-        if (name.isEmpty()) {
+        try {
+            name.isEmpty();
+        } catch (NullPointerException e) {
             throw new RuntimeException(ErrorMessage.NULL_ARGUMENT.getMessage());
         }
     }

@@ -15,13 +15,12 @@ class VoucherRegistryTest {
     void isEmpty_True() {
         //given
         List<Voucher> list = new ArrayList<>();
-        VoucherRegistry voucherRegistry = new VoucherRegistry(list);
+        Vouchers vouchers = new Vouchers(list);
 
         //when
-        boolean result = voucherRegistry.isEmpty(list);
+        boolean result = vouchers.isEmpty(list);
 
         //then
         assertThat(result).isEqualTo(true);
     }
-
 }

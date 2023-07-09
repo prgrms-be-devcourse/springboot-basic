@@ -1,10 +1,12 @@
 package com.prgrms.repository.voucher;
 
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherRegistry;
+import com.prgrms.model.voucher.Vouchers;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -22,8 +24,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherRegistry getAllVoucher() {
-        return new VoucherRegistry(storage.values()
+    public Vouchers getAllVoucher() {
+        return new Vouchers(storage.values()
                 .stream()
                 .toList());
     }

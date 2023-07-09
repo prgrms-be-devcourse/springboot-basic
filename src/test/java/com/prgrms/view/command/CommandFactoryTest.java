@@ -1,6 +1,7 @@
 package com.prgrms.view.command;
 
 import com.prgrms.controller.VoucherController;
+import com.prgrms.view.Menu;
 import com.prgrms.view.ViewManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,11 @@ class CommandFactoryTest {
 
     @Test
     void createExitCommand_ExitCommand_True() {
+        //given
+        Menu menu = Menu.EXIT;
+
         //when
-        Command exitCommand = commandFactory.createExitCommand();
+        Command exitCommand = commandFactory.createCommand(menu);
 
         //then
         assertThat(exitCommand).isInstanceOf(ExitCommand.class);
@@ -35,8 +39,11 @@ class CommandFactoryTest {
 
     @Test
     void createCreateCommand_CreateCommand_True() {
+        //given
+        Menu menu = Menu.CREATE;
+
         //when
-        Command createCommand = commandFactory.createCreateCommand();
+        Command createCommand = commandFactory.createCommand(menu);
 
         //then
         assertThat(createCommand).isInstanceOf(CreateCommand.class);
@@ -44,8 +51,11 @@ class CommandFactoryTest {
 
     @Test
     void createListCommand_ListCommand_True() {
+        //given
+        Menu menu = Menu.LIST;
+
         //when
-        Command listCommand = commandFactory.createListCommand();
+        Command listCommand = commandFactory.createCommand(menu);
 
         //then
         assertThat(listCommand).isInstanceOf(ListCommand.class);

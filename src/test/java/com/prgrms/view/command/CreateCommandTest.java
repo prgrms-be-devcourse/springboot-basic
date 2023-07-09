@@ -1,12 +1,10 @@
 package com.prgrms.view.command;
 
 import com.prgrms.controller.VoucherController;
-
 import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.model.voucher.dto.VoucherRequest;
 import com.prgrms.model.voucher.dto.discount.PercentDiscount;
 import com.prgrms.view.ViewManager;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,12 +18,8 @@ class CreateCommandTest {
     @Mock
     private ViewManager viewManager;
 
-    @BeforeEach
-    void setUp() {
-    }
-
     @Test
-    void execute_ON_PowerON() {
+    void execute_On_PowerON() {
         //given
         MockitoAnnotations.openMocks(this);
         CreateCommand createCommand = new CreateCommand(voucherController, viewManager);

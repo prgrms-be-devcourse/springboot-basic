@@ -3,7 +3,6 @@ package com.prgrms.view.command;
 import com.prgrms.controller.VoucherController;
 import com.prgrms.model.voucher.dto.VoucherResponse;
 import com.prgrms.view.ViewManager;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,10 +19,6 @@ class ListCommandTest {
     private VoucherController voucherController;
     @Mock
     private ViewManager viewManager;
-
-    @BeforeEach
-    void setUp() {
-    }
 
     @Test
     void execute_ON_PowerON() {

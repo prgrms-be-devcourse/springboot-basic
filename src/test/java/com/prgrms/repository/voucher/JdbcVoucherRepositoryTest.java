@@ -5,7 +5,6 @@ import com.prgrms.model.voucher.FixedAmountVoucher;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.model.voucher.dto.discount.FixedDiscount;
-import com.prgrms.util.KeyGenerator;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +57,7 @@ class JdbcVoucherRepositoryTest {
 
     private Voucher newFixVoucher;
 
-    private int id = KeyGenerator.make();
+    private int id = 1;
 
     @BeforeAll
     void clean() {
@@ -74,8 +73,8 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @Order(2)
-    @DisplayName("바우처를 추가할 수 있다.")
-    public void testInsert() {
+    @DisplayName("바우처를 추가한 결과 반환하는 바우처의 아이디와 추가한 바우처의 아이디는 같다.")
+    public void insert_VoucherId_EqualsNewVoucherId() {
 
         jdbcVoucherRepository.insert(newFixVoucher);
 
@@ -86,20 +85,19 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @Order(3)
-    @DisplayName("전체 고객을 조회할 수 있다.")
-    public void testFindAll() {
+    @DisplayName("데이터베이스에 몇 개의 데이터를 저장한 후 전체 고객을 조회한 결과는 빈 값을 반환하지 않는다.")
+    public void findAll_Vouchers_NotEmpty() {
         var vouchers = jdbcVoucherRepository.getAllVoucher();
-        assertThat(vouchers.getVoucherRegistry().isEmpty(), is(false));
+        assertThat(vouchers.getVouchers().isEmpty(), is(false));
     }
 
     @Test
     @Order(4)
-    @DisplayName("이름으로 고객을 조회할 수 있다.")
-    public void testFindById() {
+    @DisplayName("데이터베이스에 존재하는 회원의 아이디로 검색했을 때 반환하는 바우처의 아이디와 검색할 때 사용한 바우처의 아이디는 같다.")
+    public void findById_ExistingVoucherId_EqualsSearchId() {
         var voucher = jdbcVoucherRepository.findById(newFixVoucher.getVoucherId());
         assertThat(voucher.isEmpty(), is(false));
 
         assertThat(voucher.get().getVoucherId()).isEqualTo(newFixVoucher.getVoucherId());
     }
-
 }

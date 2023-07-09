@@ -6,12 +6,12 @@ public class Vouchers{
 
     private final List<Voucher> vouchers;
 
-    public Vouchers(List<Voucher> voucherRegistry) {
-        this.vouchers = voucherRegistry;
+    public Vouchers(List<Voucher> vouchers) {
+        this.vouchers = vouchers;
     }
 
-    public boolean isEmpty(List<Voucher> voucherRegistry) {
-        return voucherRegistry.isEmpty();
+    public boolean isEmpty(List<Voucher> vouchers) {
+        return vouchers.isEmpty();
     }
 
     public List<Voucher> getVouchers() {

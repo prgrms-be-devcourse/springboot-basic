@@ -1,12 +1,11 @@
 package com.prgrms.model.voucher.dto.mapper;
 
-import com.prgrms.model.voucher.dto.VoucherResponse;
 import com.prgrms.model.voucher.FixedAmountVoucher;
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherRegistry;
 import com.prgrms.model.voucher.VoucherType;
+import com.prgrms.model.voucher.Vouchers;
+import com.prgrms.model.voucher.dto.VoucherResponse;
 import com.prgrms.model.voucher.dto.discount.FixedDiscount;
-import com.prgrms.util.KeyGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class DtoConverterTest {
 
     private DtoConverter dtoConverter;
-    private int idOne = KeyGenerator.make();
-    private int idTwo = KeyGenerator.make();
+    private int idOne = 1;
+    private int idTwo = 2;
 
     @BeforeEach
     void setUp() {
@@ -35,7 +34,7 @@ class DtoConverterTest {
         VoucherResponse voucherResponse1 = new VoucherResponse(voucher1);
         VoucherResponse voucherResponse2 = new VoucherResponse(voucher2);
         List<Voucher> vouchers = List.of(voucher1, voucher2);
-        VoucherRegistry voucherRegistry = new VoucherRegistry(vouchers);
+        Vouchers voucherRegistry = new Vouchers(vouchers);
 
         //when
         List<VoucherResponse> result = dtoConverter.convertVoucherResponse(voucherRegistry);

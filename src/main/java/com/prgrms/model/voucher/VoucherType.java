@@ -3,6 +3,7 @@ package com.prgrms.model.voucher;
 import com.prgrms.view.message.ErrorMessage;
 import com.prgrms.model.voucher.dto.discount.Discount;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum VoucherType {
@@ -31,7 +32,7 @@ public enum VoucherType {
     }
 
     public String voucherPolicyOptionGuide() {
-        return number + "번 : " + name();
+        return MessageFormat.format("{0}번 : {1}", number, name());
     }
 
     public String discountGuide() {

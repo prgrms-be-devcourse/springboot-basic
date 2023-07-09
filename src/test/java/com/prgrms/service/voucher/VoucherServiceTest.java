@@ -27,15 +27,17 @@ class VoucherServiceTest {
 
     @Mock
     private DtoConverter dtoConverter;
+    @Mock
+    private KeyGenerator keyGenerator;
 
     private VoucherService voucherService;
-    private int id = KeyGenerator.make();
+    private int id = 1;
 
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        voucherService = new VoucherService(voucherRepository, dtoConverter);
+        voucherService = new VoucherService(voucherRepository, dtoConverter, keyGenerator);
     }
 
     @Test
@@ -71,10 +73,10 @@ class VoucherServiceTest {
         List<VoucherResponse> expected = List.of(voucherResponse1, voucherResponse2);
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
 
-        VoucherRegistry voucherRegistry = new VoucherRegistry(list);
+        Vouchers voucherRegistry = new Vouchers(list);
 
         when(voucherRepository.getAllVoucher()).thenReturn(voucherRegistry);
-        when(dtoConverter.convertVoucherResponse(any(VoucherRegistry.class))).thenReturn(expected);
+        when(dtoConverter.convertVoucherResponse(any(Vouchers.class))).thenReturn(expected);
 
         //when
         List<VoucherResponse> result = voucherService.getAllVoucherList();

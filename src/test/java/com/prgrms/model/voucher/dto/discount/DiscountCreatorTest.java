@@ -2,10 +2,6 @@ package com.prgrms.model.voucher.dto.discount;
 
 
 import com.prgrms.model.voucher.VoucherType;
-import com.prgrms.model.voucher.dto.discount.Discount;
-import com.prgrms.model.voucher.dto.discount.DiscountCreator;
-import com.prgrms.model.voucher.dto.discount.FixedDiscount;
-import com.prgrms.model.voucher.dto.discount.PercentDiscount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,13 +21,13 @@ class DiscountCreatorTest {
     @Test
     @DisplayName(" 고정금액 할인 인자를 잘 만드는지 값과 타입을 확인한다.")
     public void givenFixVoucherType_WhenCreateDiscount_ThenEqualValue_And_Type() {
-        // Given
+        // given
         VoucherType fixedVoucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
 
-        // When
+        // when
         Discount fixCreatedDiscount = discountCreator.createDiscount(value, fixedVoucherType);
 
-        // Then
+        // then
         assertThat(fixCreatedDiscount.getValue()).isEqualTo(10);
         assertThat(fixCreatedDiscount).isInstanceOf(FixedDiscount.class);
     }
@@ -39,13 +35,13 @@ class DiscountCreatorTest {
     @Test
     @DisplayName(" 할인 인자를 잘 만드는지 값과 타입을 확인한다.")
     public void givenPercentVoucherType_WhenCreateDiscount_ThenEqualValue_And_Type() {
-        // Given
+        // given
         VoucherType percentVoucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
 
-        // When
+        // when
         Discount percentCreatedDiscount = discountCreator.createDiscount(value, percentVoucherType);
 
-        // Then
+        // then
         assertThat(percentCreatedDiscount.getValue()).isEqualTo(10);
         assertThat(percentCreatedDiscount).isInstanceOf(PercentDiscount.class);
     }

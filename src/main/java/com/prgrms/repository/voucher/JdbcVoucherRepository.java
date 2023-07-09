@@ -1,9 +1,11 @@
 package com.prgrms.repository.voucher;
 
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherRegistry;
 import com.prgrms.model.voucher.VoucherType;
+import com.prgrms.model.voucher.Vouchers;
+import com.prgrms.model.voucher.dto.discount.Discount;
 import com.prgrms.model.voucher.dto.discount.DiscountCreator;
+import com.prgrms.view.message.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -18,21 +20,20 @@ import java.util.*;
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
-
-    private final NamedParameterJdbcTemplate jdbcTemplate;
     private static DiscountCreator discountCreator = new DiscountCreator();
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        int voucherId = resultSet.getInt("voucher_id");
+        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        double discountValue = resultSet.getDouble("discount");
+        Discount discount = discountCreator.createDiscount(discountValue, voucherType);
+        return voucherType.createVoucher(voucherId, discount);
+    };
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucher_id = resultSet.getInt("voucher_id");
-        var voucher_type = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        var discountValue = resultSet.getDouble("discount");
-        var discount = discountCreator.createDiscount(discountValue, voucher_type);
-        return voucher_type.createVoucher(voucher_id, discount);
-    };
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
@@ -44,18 +45,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount) VALUES (:voucher_id, :voucher_type, :discount)",
+        int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount) VALUES (:voucher_id, :voucher_type, :discount)",
                 toParamMap(voucher));
+
         if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+            throw new RuntimeException(ErrorMessage.NOT_UPDATE.getMessage());
         }
+
         return voucher;
     }
 
     @Override
-    public VoucherRegistry getAllVoucher() {
+    public Vouchers getAllVoucher() {
         List<Voucher> vouchers = jdbcTemplate.query("select * from vouchers", voucherRowMapper);
-        return new VoucherRegistry(vouchers);
+        return new Vouchers( vouchers);
     }
 
     @Override
@@ -65,7 +68,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     Collections.singletonMap("voucher_id", voucherId),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.error("데이터를 찾을 수 없습니다.", e);
             return Optional.empty();
         }
     }
