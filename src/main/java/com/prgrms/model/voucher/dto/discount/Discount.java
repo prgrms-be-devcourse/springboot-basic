@@ -6,14 +6,14 @@ public abstract class Discount {
     private final double value;
 
     public Discount(double value) {
-        validPositiveDiscount(value < 0);
+        validPositiveDiscount(value);
         validLimit(value);
         this.value = value;
     }
 
-    private void validPositiveDiscount(boolean expression) {
-        if (expression) {
-            throw new IllegalArgumentException(ErrorMessage.Negative_ARGUMENT.getMessage());
+    private void validPositiveDiscount(double value) {
+        if (value < 0) {
+            throw new IllegalArgumentException(ErrorMessage.NEGATIVE_ARGUMENT.getMessage());
         }
     }
 
