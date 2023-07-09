@@ -94,6 +94,8 @@ public class Console implements Input, Output {
     private static final String WALLET_ASSIGN_COMPLETE_MESSAGE = "--- The voucher assigned successfully !! ---\n";
     private static final String WALLET_SEARCH_CUSTOMER_TITLE_MESSAGE = "\n=== Search for a customer. ===";
     private static final String WALLET_SEARCH_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to search. ===";
+    private static final String WALLET_SEARCH_VOUCHER_TITLE_MESSAGE = "\n=== Search for a voucher. ===";
+    private static final String WALLET_SEARCH_VOUCHER_ID_MESSAGE = "\n=== Type voucher id to search. ===";
 
     @Override
     public void printMenu() {
@@ -279,5 +281,17 @@ public class Console implements Input, Output {
 
     public void printWalletSearchCustomerIdMessage() {
         System.out.println(WALLET_SEARCH_CUSTOMER_ID_MESSAGE);
+    }
+
+    public void printWalletSearchVoucherTitleMessage() {
+        System.out.println(WALLET_SEARCH_VOUCHER_TITLE_MESSAGE);
+    }
+
+    public void printWalletSearchVoucherIdMessage() {
+        System.out.println(WALLET_SEARCH_VOUCHER_ID_MESSAGE);
+    }
+
+    public void printCustomer(Customer customer) {
+        System.out.println(customer + "\n");
     }
 }

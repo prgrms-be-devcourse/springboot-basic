@@ -1,6 +1,8 @@
 package com.programmers.wallet.controller;
 
 import com.programmers.customer.controller.CustomerController;
+import com.programmers.customer.domain.Customer;
+import com.programmers.customer.dto.CustomerResponseDto;
 import com.programmers.io.Console;
 import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Voucher;
@@ -40,7 +42,7 @@ public class WalletController {
         switch (walletMenu) {
             case ASSIGN_VOUCHER -> assignVoucher();
             case SEARCH_CUSTOMER -> searchCustomerToGetVouchers();
-            //  case SEARCH_VOUCHER -> searchVoucherToGetCustomer();
+            case SEARCH_VOUCHER -> searchVoucherToGetCustomer();
             //  case DELETE_VOUCHER -> deleteVoucher();
         }
     }
@@ -77,5 +79,17 @@ public class WalletController {
 
         console.printVoucherListTitle();
         return voucherController.getVouchersResult(vouchersResponseDto.vouchers());
+    }
+
+    public void searchVoucherToGetCustomer() {
+        console.printWalletSearchVoucherTitleMessage();
+        voucherController.getVoucherList();
+
+        console.printWalletSearchVoucherIdMessage();
+        UUID voucherId = UUID.fromString(console.readInput());
+
+        CustomerResponseDto customerResponseDto = walletService.findCustomerByVoucherId(voucherId);
+        Customer customer = new Customer(customerResponseDto.id(), customerResponseDto.name());
+        console.printCustomer(customer);
     }
 }
