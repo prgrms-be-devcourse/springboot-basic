@@ -2,6 +2,7 @@ package com.devcourse.voucherapp.view;
 
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class ViewManager {
     private static final String MENU_TITLE = "\n[할인권 프로그램 v1.0]";
     private static final String INPUT_MESSAGE = "입력 : ";
     private static final String QUIT_MESSAGE = "\n프로그램을 종료합니다.";
+
     private static final String VOUCHER_TYPE_SELECTION_MESSAGE = "\n할인 방식을 선택하세요.";
     private static final String VOUCHER_CREATION_SUCCESS_MESSAGE = "\n할인권 생성이 완료되었습니다.";
     private static final String ALL_VOUCHERS_LIST_MESSAGE = "\n현재까지 생성된 할인권 목록입니다.";
@@ -22,6 +24,9 @@ public class ViewManager {
     private static final String VOUCHER_UPDATE_SUCCESS_MESSAGE = "\n할인권 수정이 완료되었습니다.";
     private static final String DELETE_VOUCHER_ID_INPUT_MESSAGE = "\n삭제할 할인권의 ID를 입력하세요.";
     private static final String VOUCHER_DELETE_SUCCESS_MESSAGE = "\n할인권이 정상적으로 삭제되었습니다.";
+
+    private static final String CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n새 고객의 닉네임을 입력하세요.(소문자 알파벳과 숫자만 가능)";
+    private static final String CUSTOMER_CREATION_SUCCESS_MESSAGE = "\n고객 생성이 완료되었습니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -70,6 +75,12 @@ public class ViewManager {
         return readUserInput();
     }
 
+    public String readCustomerNickname() {
+        outputView.printWithLineBreak(CUSTOMER_NICKNAME_INPUT_MESSAGE);
+
+        return readUserInput();
+    }
+
     public void showExceptionMessage(String message) {
         outputView.printWithLineBreak(message);
     }
@@ -97,6 +108,11 @@ public class ViewManager {
 
     public void showVoucherDeleteSuccessMessage() {
         outputView.printWithLineBreak(VOUCHER_DELETE_SUCCESS_MESSAGE);
+    }
+
+    public void showCustomerCreationSuccessMessage(CustomerResponseDto response) {
+        outputView.printWithLineBreak(CUSTOMER_CREATION_SUCCESS_MESSAGE);
+        outputView.printWithLineBreak(response);
     }
 
     private String readUserInput() {

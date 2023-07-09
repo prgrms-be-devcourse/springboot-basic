@@ -15,6 +15,7 @@ public enum Menu {
     READ("2", "할인권 조회"),
     UPDATE("3", "할인권 수정"),
     DELETE("4", "할인권 삭제"),
+    CUSTOMER_CREATE("5", "새 고객 생성"),
     QUIT("quit", "프로그램 종료");
 
     private static final Map<String, Menu> MENUS = Collections.unmodifiableMap(Stream.of(values())

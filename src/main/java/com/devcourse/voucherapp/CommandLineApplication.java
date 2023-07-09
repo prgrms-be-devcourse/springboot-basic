@@ -1,8 +1,11 @@
 package com.devcourse.voucherapp;
 
+import com.devcourse.voucherapp.controller.CustomerController;
 import com.devcourse.voucherapp.controller.VoucherController;
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.entity.dto.CustomerCreateRequestDto;
+import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.dto.VoucherUpdateRequestDto;
@@ -20,6 +23,7 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private final ViewManager viewManager;
     private final VoucherController voucherController;
+    private final CustomerController customerController;
     private boolean isRunning = true;
 
     @Override
@@ -43,6 +47,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case READ -> readAllVouchers();
             case UPDATE -> updateVoucher();
             case DELETE -> deleteVoucher();
+            case CUSTOMER_CREATE -> createCustomer();
             case QUIT -> quitApplication();
         }
     }
@@ -85,6 +90,15 @@ public class CommandLineApplication implements CommandLineRunner {
         voucherController.deleteById(id);
 
         viewManager.showVoucherDeleteSuccessMessage();
+    }
+
+    private void createCustomer() {
+        String nickname = viewManager.readCustomerNickname();
+
+        CustomerCreateRequestDto request = new CustomerCreateRequestDto(nickname);
+        CustomerResponseDto response = customerController.create(request);
+
+        viewManager.showCustomerCreationSuccessMessage(response);
     }
 
     private void quitApplication() {

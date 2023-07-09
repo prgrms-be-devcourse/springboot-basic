@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -67,7 +68,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return template.update(sql, getParameterMap(id));
     }
 
-    private MapSqlParameterSource getParameterSource(Voucher voucher) {
+    private SqlParameterSource getParameterSource(Voucher voucher) {
         return new MapSqlParameterSource()
                 .addValue("id", voucher.getId().toString())
                 .addValue("typeNumber", voucher.getType().getNumber())

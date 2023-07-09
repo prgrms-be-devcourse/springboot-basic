@@ -1,7 +1,5 @@
 package com.devcourse.voucherapp.entity.voucher;
 
-import static java.text.MessageFormat.format;
-
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.exception.DiscountAmountException;
 import java.util.UUID;
