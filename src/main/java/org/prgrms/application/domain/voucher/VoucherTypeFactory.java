@@ -15,14 +15,14 @@ public class VoucherTypeFactory {
         this.voucherServices = voucherServices;
     }
 
-    public VoucherService getVoucherService(VoucherType voucherType){
+    public VoucherService getVoucherService(String voucherType){
         final VoucherService voucherService;
 
         switch (voucherType){
-            case FIXED:
+            case "FIXED":
                 voucherService = voucherServices.get(0);
                 break;
-            case PERCENT:
+            case "PERCENT":
                 voucherService =  voucherServices.get(1);
                 break;
             default:
