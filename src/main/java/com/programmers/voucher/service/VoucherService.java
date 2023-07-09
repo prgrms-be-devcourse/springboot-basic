@@ -23,8 +23,8 @@ public class VoucherService {
     }
 
     @Transactional
-    public VoucherResponseDto save(VoucherCreateRequestDto voucherDto) {
-        Voucher requestVoucher = VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.name(), voucherDto.amount());
+    public VoucherResponseDto save(VoucherCreateRequestDto voucherCreateRequestDto) {
+        Voucher requestVoucher = VoucherType.createVoucher(voucherCreateRequestDto.type().toString(), voucherCreateRequestDto.name(), voucherCreateRequestDto.value());
         Voucher voucher = voucherRepository.save(requestVoucher);
 
         return new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
