@@ -34,6 +34,7 @@ class CustomerTest {
         assertThat(customer, instanceOf(Customer.class));
     }
 
+    @DisplayName("이름이 비었을 경우 예외처리한다")
     @Test
     void customerWithEmptyName() {
         //given
@@ -43,6 +44,7 @@ class CustomerTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName("이름 길이 제한을 넘었을 경우 예외처리한다")
     @Test
     void customerWithLongName() {
         //given
