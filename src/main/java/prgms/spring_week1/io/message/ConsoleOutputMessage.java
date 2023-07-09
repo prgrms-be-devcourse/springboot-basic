@@ -24,15 +24,11 @@ public final class ConsoleOutputMessage {
 
     public static final String INVALID_MENU_MESSAGE = "해당 메뉴가 존재하지 않습니다.";
 
-    public static final String INPUT_DISCOUNT_AMOUNT_MESSAGE = "할인 가격을 입력하세요 : ";
+    public static final String INPUT_DISCOUNT_AMOUNT_MESSAGE = "할인 정보를 입력하세요 : ";
 
-    public static final String INPUT_DISCOUNT_PERCENT_MESSAGE = "할인율을 입력하세요 : ";
-
-    public static final String INVALID_INPUT_DISCOUNT_MESSAGE = "올바르지 않은 값입니다. 다시 입력해주세요 :";
+    public static final String INVALID_INPUT_DISCOUNT_MESSAGE = "올바르지 않은 입력값입니다.";
 
     public static final String COMPLETE_VOUCHER_INSERT_MESSAGE = "상품권 등록이 완료되었습니다.";
-
-    public static final String INVALID_VOUCHER_TYPE_MESSAGE = "해당 바우처 타입이 존재하지 않습니다.";
 
     public static final String EMPTY_BLACK_LIST_MESSAGE = "블랙리스트 목록이 없습니다.";
 }
