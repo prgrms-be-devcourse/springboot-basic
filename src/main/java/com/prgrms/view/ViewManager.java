@@ -1,26 +1,29 @@
 package com.prgrms.view;
 
-import com.prgrms.view.message.GuideMessage;
-import com.prgrms.view.view.Input;
-import com.prgrms.view.view.Output;
+import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.model.voucher.dto.VoucherRequest;
 import com.prgrms.model.voucher.dto.VoucherResponse;
 import com.prgrms.model.voucher.dto.discount.Discount;
-import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.model.voucher.dto.discount.DiscountCreator;
-import lombok.RequiredArgsConstructor;
+import com.prgrms.view.message.GuideMessage;
+import com.prgrms.view.view.Input;
+import com.prgrms.view.view.Output;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class ViewManager {
 
     private final Output output;
     private final Input input;
     private final DiscountCreator discountCreator = new DiscountCreator();
+
+    public ViewManager(Output output, Input input) {
+        this.output = output;
+        this.input = input;
+    }
 
     public Menu guideStartVoucher() {
         output.write(GuideMessage.START.toString());
@@ -33,12 +36,12 @@ public class ViewManager {
                 .forEach(voucherPolicy -> output.write(voucherPolicy.voucherPolicyOptionGuide()));
 
         String option = input.enterOption();
-        VoucherType voucherType = VoucherType.findByPolicy(option);
+        VoucherType voucherType = VoucherType.findByType(option);
 
         return guideVoucherPolicy(voucherType);
     }
 
-    public VoucherRequest guideVoucherPolicy(VoucherType voucherType) {
+    private VoucherRequest guideVoucherPolicy(VoucherType voucherType) {
         output.write(voucherType.discountGuide());
         double discountAmount = input.enterDiscount();
 
