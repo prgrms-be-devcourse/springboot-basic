@@ -17,10 +17,8 @@ public class VoucherService {
     }
 
     public void insertNewVoucher(VoucherType voucherType, int discountAmount) {
-        switch (voucherType) {
-            case FIXED -> voucherRepository.insert(new Voucher(VoucherType.FIXED,discountAmount));
-            case PERCENT -> voucherRepository.insert(new Voucher(VoucherType.PERCENT,discountAmount));
-        }
+        Voucher voucher = new Voucher(voucherType, discountAmount);
+        voucherRepository.insert(voucher);
     }
 
     public List<Voucher> findAll() {

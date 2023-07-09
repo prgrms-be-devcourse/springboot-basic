@@ -3,12 +3,13 @@ package prgms.spring_week1.io;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.dto.VoucherOutputDto;
+import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Output {
-
     public void outputMessage(String outputMessage) {
         System.out.println(outputMessage);
     }
@@ -32,5 +33,8 @@ public class Output {
         voucherList.stream()
                 .map(i -> new VoucherOutputDto(i.getVoucherType(),i.getDiscount()))
                 .forEach(System.out::println);
+    }
+    public void outputWarnMessage(String message) {
+        System.out.println(message);
     }
 }

@@ -9,12 +9,10 @@ public enum VoucherType {
     PERCENT;
 
     public static VoucherType findVoucherType(String inputSelectText) {
-        VoucherType matchedVoucherType = Stream.of(VoucherType.values())
+        return Stream.of(values())
                 .filter(v -> v.name().equalsIgnoreCase(inputSelectText))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchVoucherTypeException("해당 바우처 타입이 존재하지 않습니다."));
-
-        return matchedVoucherType;
     }
 
     public static Integer validateAmountInputValue(int inputValue) {
