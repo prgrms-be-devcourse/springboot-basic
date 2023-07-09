@@ -8,7 +8,7 @@ public class ExceptionMessage {
     public static final String INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION = """
         유효하지 않은 값 입니다. 모드 타입을 다시 선택해주세요.
         """;
-    public static final String INVALID_ARGUMENT_CANT_CREATE = """
+    public static final String INVALID_ARGUMENT_CANT_CREATE_VOUCHER = """
         유효하지 않은 값입니다. 바우처를 생성할 수 없습니다.
         """;
     public static final String MESSAGE_ERROR_POSITIVE_CONSTRAINT = """

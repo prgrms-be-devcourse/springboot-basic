@@ -1,20 +1,16 @@
-package com.example.voucher;
+package com.example.voucher.controller;
 
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.controller.VoucherController;
+import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.io.Console;
 
 @Controller
 public class ApplicationController implements CommandLineRunner {
-
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 
     private final Console console;
     private final VoucherController voucherController;
@@ -31,7 +27,7 @@ public class ApplicationController implements CommandLineRunner {
         while (isRunning) {
             ModeType selectedModeType = console.getSelectedType();
 
-            if (selectedModeType == ModeType.NONE) {
+            if (selectedModeType == null) {
                 continue;
             }
 
@@ -44,20 +40,26 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void createVoucher() {
-        boolean isCreated = true;
+        VoucherType voucherType = console.getVoucherType();
 
-        try {
-            VoucherType voucherType = console.getVoucherType();
-            long discountValue = console.getDiscountValue();
-            voucherController.createVoucher(voucherType, discountValue);
+        if (voucherType == null) {
+            console.displayVoucherCreationError();
 
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            isCreated = false;
+            return;
+        }
 
-        } finally {
-            console.displayCreateResult(isCreated);
+        Long discountValue = console.getDiscountValue();
 
+        if (discountValue == null) {
+            console.displayVoucherCreationError();
+
+            return;
+        }
+
+        Voucher createdVoucher = voucherController.createVoucher(voucherType, discountValue);
+
+        if (createdVoucher == null) {
+            console.displayVoucherCreationError();
         }
     }
 

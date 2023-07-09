@@ -5,6 +5,8 @@ import static com.example.voucher.io.Writer.*;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.example.voucher.constant.ExceptionMessage;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.constant.VoucherType;
@@ -30,28 +32,44 @@ public class Console {
         }
     }
 
-    public void displayCreateResult(boolean isCreated) {
-        if (!isCreated) {
-            writer.writeMessage(Message.INVALID_ARGUMENT_CANT_CREATE_VOUCHER);
-        }
+    public void displayVoucherCreationError() {
+        logger.error(ExceptionMessage.INVALID_ARGUMENT_CANT_CREATE_VOUCHER);
+        writer.writeMessage(Message.INVALID_ARGUMENT_CANT_CREATE_VOUCHER);
     }
 
     public VoucherType getVoucherType() {
         writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
         writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
 
-        int number = reader.readInteger();
+        try{
+            int number = reader.readInteger();
 
-        return VoucherType.getVouchersType(number);
+            return VoucherType.getVouchersType(number);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
+
+            return null;
+        }
     }
 
-    public long getDiscountValue() {
+    public Long getDiscountValue() {
         writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
 
-        Long discountAmount = reader.readLong();
-        validatePositive(discountAmount);
+        try{
+            Long discountAmount = reader.readLong();
+            validatePositive(discountAmount);
 
-        return discountAmount;
+            return discountAmount;
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
+
+            return null;
+        }
+
+
+
     }
 
     public ModeType getSelectedType() {
@@ -66,7 +84,7 @@ public class Console {
             logger.error(e.getMessage());
             writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
 
-            return ModeType.NONE;
+            return null;
         }
     }
 

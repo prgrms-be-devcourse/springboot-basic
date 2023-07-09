@@ -22,7 +22,7 @@ public enum VoucherType {
         return Arrays.stream(values())
             .filter(v -> inputVoucherType == v.getInputNum())
             .findAny()
-            .orElseThrow(() -> new IllegalArgumentException(INVALID_ARGUMENT_CANT_CREATE));
+            .orElseThrow(() -> new IllegalArgumentException(INVALID_ARGUMENT_CANT_CREATE_VOUCHER));
     }
 
 }
