@@ -6,13 +6,13 @@ public class Price {
     private final double value;
 
     public Price(double value) {
-        validPositivePrice(value < 0);
+        validPositivePrice(value);
         this.value = value;
     }
 
-    private void validPositivePrice(boolean expression) {
-        if (expression) {
-            throw new IllegalArgumentException(ErrorMessage.Negative_ARGUMENT.getMessage());
+    private void validPositivePrice(double value) {
+        if (value < 0) {
+            throw new IllegalArgumentException(ErrorMessage.NEGATIVE_ARGUMENT.getMessage());
         }
     }
 
