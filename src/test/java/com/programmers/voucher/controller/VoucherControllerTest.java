@@ -4,12 +4,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
-import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherType;
-import com.programmers.voucher.dto.VoucherResponseDto;
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.dto.VouchersResponseDto;
 import com.programmers.io.Console;
 import com.programmers.voucher.service.VoucherService;
@@ -59,7 +58,7 @@ class VoucherControllerTest {
     void getVoucherToUpdate() {
         //given
         UUID voucherId = UUID.randomUUID();
-        VoucherResponseDto mockVoucher = new VoucherResponseDto(voucherId, "Voucher1", 100, VoucherType.FixedAmountVoucher);
+        VoucherDto mockVoucher = new VoucherDto(voucherId, "Voucher1", 100, VoucherType.FixedAmountVoucher);
 
         when(voucherService.findById(voucherId)).thenReturn(mockVoucher);
         when(console.readInput()).thenReturn(voucherId.toString());

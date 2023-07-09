@@ -9,11 +9,9 @@ import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.VoucherCreateRequestDto;
-import com.programmers.voucher.dto.VoucherResponseDto;
-import com.programmers.voucher.dto.VoucherUpdateRequestDto;
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.dto.VouchersResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
-import com.programmers.voucher.service.VoucherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,13 +46,13 @@ class VoucherServiceTest {
         when(voucherRepository.save(any(FixedAmountVoucher.class))).thenReturn(savedVoucher);
 
         //when
-        VoucherResponseDto voucherResponseDto = voucherService.save(voucherCreateRequestDto);
+        VoucherDto voucherDto = voucherService.save(voucherCreateRequestDto);
 
         //then
-        assertThat(savedVoucher.getVoucherId(), is(voucherResponseDto.id()));
-        assertThat(savedVoucher.getVoucherName(), is(voucherResponseDto.name()));
-        assertThat(savedVoucher.getVoucherValue(), is(voucherResponseDto.value()));
-        assertThat(savedVoucher.getVoucherType(), is(voucherResponseDto.type()));
+        assertThat(savedVoucher.getVoucherId(), is(voucherDto.id()));
+        assertThat(savedVoucher.getVoucherName(), is(voucherDto.name()));
+        assertThat(savedVoucher.getVoucherValue(), is(voucherDto.value()));
+        assertThat(savedVoucher.getVoucherType(), is(voucherDto.type()));
     }
 
     @DisplayName("저장된 모든 바우처를 조회한다")
@@ -87,11 +85,11 @@ class VoucherServiceTest {
         when(voucherRepository.findById(id)).thenReturn(Optional.of(fixedAmountVoucher));
 
         //when
-        VoucherResponseDto response = voucherService.findById(id);
+        VoucherDto voucherDto = voucherService.findById(id);
 
         //then
-        assertThat(fixedAmountVoucher.getVoucherId(), is(response.id()));
-        assertThat(fixedAmountVoucher.getVoucherName(), is(response.name()));
+        assertThat(fixedAmountVoucher.getVoucherId(), is(voucherDto.id()));
+        assertThat(fixedAmountVoucher.getVoucherName(), is(voucherDto.name()));
     }
 
     @DisplayName("바우처를 업데이트한다")
@@ -99,17 +97,17 @@ class VoucherServiceTest {
     public void update() {
         //given
         UUID id = UUID.randomUUID();
-        VoucherUpdateRequestDto voucherDto = new VoucherUpdateRequestDto(id, "voucher", 10L, VoucherType.FixedAmountVoucher);
+        VoucherDto voucherDto = new VoucherDto(id, "voucher", 10L, VoucherType.FixedAmountVoucher);
         Voucher updatedVoucher = new FixedAmountVoucher(id, "updatedVoucher", 20L);
 
         when(voucherRepository.update(any(FixedAmountVoucher.class))).thenReturn(updatedVoucher);
 
         //when
-        VoucherResponseDto response = voucherService.update(voucherDto);
+        VoucherDto result = voucherService.update(voucherDto);
 
         //then
-        assertThat(updatedVoucher.getVoucherId(), is(response.id()));
-        assertThat(updatedVoucher.getVoucherName(), is(response.name()));
-        assertThat(updatedVoucher.getVoucherValue(), is(response.value()));
+        assertThat(updatedVoucher.getVoucherId(), is(result.id()));
+        assertThat(updatedVoucher.getVoucherName(), is(result.name()));
+        assertThat(updatedVoucher.getVoucherValue(), is(result.value()));
     }
 }

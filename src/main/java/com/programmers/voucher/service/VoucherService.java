@@ -3,8 +3,7 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.VoucherCreateRequestDto;
-import com.programmers.voucher.dto.VoucherResponseDto;
-import com.programmers.voucher.dto.VoucherUpdateRequestDto;
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.dto.VouchersResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -23,11 +22,11 @@ public class VoucherService {
     }
 
     @Transactional
-    public VoucherResponseDto save(VoucherCreateRequestDto voucherCreateRequestDto) {
+    public VoucherDto save(VoucherCreateRequestDto voucherCreateRequestDto) {
         Voucher requestVoucher = VoucherType.createVoucher(voucherCreateRequestDto.type().toString(), voucherCreateRequestDto.name(), voucherCreateRequestDto.value());
         Voucher voucher = voucherRepository.save(requestVoucher);
 
-        return new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
+        return new VoucherDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
     }
 
     public VouchersResponseDto findAll() {
@@ -36,18 +35,18 @@ public class VoucherService {
         return new VouchersResponseDto(vouchers);
     }
 
-    public VoucherResponseDto findById(UUID id) {
+    public VoucherDto findById(UUID id) {
         Voucher voucher = voucherRepository.findById(id).get();
 
-        return new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
+        return new VoucherDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
     }
 
     @Transactional
-    public VoucherResponseDto update(VoucherUpdateRequestDto voucherDto) {
-        Voucher requestVoucher = VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.id(), voucherDto.name(), voucherDto.amount());
+    public VoucherDto update(VoucherDto voucherDto) {
+        Voucher requestVoucher = VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.id(), voucherDto.name(), voucherDto.value());
         Voucher voucher = voucherRepository.update(requestVoucher);
 
-        return new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
+        return new VoucherDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType());
     }
 
     @Transactional
