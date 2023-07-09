@@ -5,6 +5,7 @@ import com.programmers.exception.InvalidVoucherValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -15,6 +16,17 @@ public class FixedAmountVoucher implements Voucher {
     private final String voucherName;
     private final long amount;
     private final VoucherType voucherType;
+    private final Optional<UUID> customerId;
+
+    public FixedAmountVoucher(UUID voucherId, String voucherName, long amount, Optional<UUID> customerId) {
+        checkVoucherValue(voucherName, amount);
+
+        this.voucherId = voucherId;
+        this.voucherName = voucherName;
+        this.amount = amount;
+        this.voucherType = VoucherType.FixedAmountVoucher;
+        this.customerId = customerId;
+    }
 
     public FixedAmountVoucher(UUID voucherId, String voucherName, long amount) {
         checkVoucherValue(voucherName, amount);
@@ -23,6 +35,7 @@ public class FixedAmountVoucher implements Voucher {
         this.voucherName = voucherName;
         this.amount = amount;
         this.voucherType = VoucherType.FixedAmountVoucher;
+        this.customerId = Optional.empty();
     }
 
     private void checkVoucherValue(String voucherName, long amount) {
@@ -58,15 +71,28 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public Optional<UUID> getCustomerId() {
+        return customerId;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
 
     @Override
     public String toString() {
-        return "[ Voucher Type = Fixed Amount Voucher" +
-                ", Id = " + voucherId +
-                ", discount amount = " + amount +
-                ", voucher name = " + voucherName + " ]";
+        return customerId.map(
+                uuid -> "[ voucher type = Fixed Amount Voucher" +
+                        ", voucher id = " + voucherId +
+                        ", discount amount = " + amount +
+                        ", voucher name = " + voucherName +
+                        ", customer id = " + uuid + " ]"
+                ).orElseGet(() ->
+                        "[ voucher type = Fixed Amount Voucher" +
+                        ", voucher id = " + voucherId +
+                        ", discount amount = " + amount +
+                        ", voucher name = " + voucherName +
+                        ", customer id = null ]");
     }
 }

@@ -97,7 +97,7 @@ class VoucherServiceTest {
     public void update() {
         //given
         UUID id = UUID.randomUUID();
-        VoucherDto voucherDto = new VoucherDto(id, "voucher", 10L, VoucherType.FixedAmountVoucher);
+        VoucherDto voucherDto = new VoucherDto(id, "voucher", 10L, VoucherType.FixedAmountVoucher, Optional.empty());
         Voucher updatedVoucher = new FixedAmountVoucher(id, "updatedVoucher", 20L);
 
         when(voucherRepository.update(any(FixedAmountVoucher.class))).thenReturn(updatedVoucher);

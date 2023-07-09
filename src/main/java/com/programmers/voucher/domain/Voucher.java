@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface Voucher {
@@ -11,6 +12,8 @@ public interface Voucher {
     long getVoucherValue();
 
     VoucherType getVoucherType();
+
+    Optional<UUID> getCustomerId();
 
     long discount(long beforeDiscount);
 }

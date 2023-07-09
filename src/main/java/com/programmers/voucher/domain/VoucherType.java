@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public enum VoucherType {
@@ -16,9 +17,9 @@ public enum VoucherType {
 
     private final String number;
     private final String name;
-    private final VoucherTypeFunction<UUID, String, Long, Voucher> voucherConstructor;
+    private final VoucherTypeFunction<UUID, String, Long, Optional<UUID>, Voucher> voucherConstructor;
 
-    VoucherType(String number, String name, VoucherTypeFunction<UUID, String, Long, Voucher> voucherConstructor) {
+    VoucherType(String number, String name, VoucherTypeFunction<UUID, String, Long, Optional<UUID>, Voucher> voucherConstructor) {
         this.number = number;
         this.name = name;
         this.voucherConstructor = voucherConstructor;
@@ -43,21 +44,31 @@ public enum VoucherType {
         }
     }
 
+    public static Voucher createVoucher(String voucherTypeInput, String voucherName, Long discountValue, Optional<UUID> customerId) {
+        VoucherType voucherType = findVoucherType(voucherTypeInput.toLowerCase());
+        return voucherType.makeVoucher(voucherName, discountValue, customerId);
+    }
+
+    public static Voucher createVoucher(String voucherTypeInput, UUID uuid, String voucherName, Long discountValue, Optional<UUID> customerId) {
+        VoucherType voucherType = findVoucherType(voucherTypeInput.toLowerCase());
+        return voucherType.makeVoucher(uuid, voucherName, discountValue, customerId);
+    }
+
     public static Voucher createVoucher(String voucherTypeInput, String voucherName, Long discountValue) {
         VoucherType voucherType = findVoucherType(voucherTypeInput.toLowerCase());
-        return voucherType.makeVoucher(voucherName, discountValue);
+        return voucherType.makeVoucher(voucherName, discountValue, Optional.empty());
     }
 
     public static Voucher createVoucher(String voucherTypeInput, UUID uuid, String voucherName, Long discountValue) {
         VoucherType voucherType = findVoucherType(voucherTypeInput.toLowerCase());
-        return voucherType.makeVoucher(uuid, voucherName, discountValue);
+        return voucherType.makeVoucher(uuid, voucherName, discountValue, Optional.empty());
     }
 
-    private Voucher makeVoucher(String voucherName, Long discountValue) {
-        return this.voucherConstructor.apply(UUID.randomUUID(), voucherName, discountValue);
+    private Voucher makeVoucher(String voucherName, Long discountValue, Optional<UUID> customerId) {
+        return this.voucherConstructor.apply(UUID.randomUUID(), voucherName, discountValue, customerId);
     }
 
-    private Voucher makeVoucher(UUID uuid, String voucherName, Long discountValue) {
-        return this.voucherConstructor.apply(uuid, voucherName, discountValue);
+    private Voucher makeVoucher(UUID uuid, String voucherName, Long discountValue, Optional<UUID> customerId) {
+        return this.voucherConstructor.apply(uuid, voucherName, discountValue, customerId);
     }
 }

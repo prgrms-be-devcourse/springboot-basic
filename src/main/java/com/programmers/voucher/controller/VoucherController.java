@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -54,7 +55,7 @@ public class VoucherController {
         console.printVoucherNameInput();
         String voucherName = console.readInput();
 
-        return VoucherType.createVoucher(voucherTypeInput, voucherName, discountValue);
+        return VoucherType.createVoucher(voucherTypeInput, voucherName, discountValue, Optional.empty());
     }
 
     public List<Voucher> getVoucherList() {
@@ -94,7 +95,7 @@ public class VoucherController {
 
         VoucherDto voucherDto = voucherService.findById(updateVoucherId);
 
-        return VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.id(), voucherDto.name(), voucherDto.value());
+        return VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.id(), voucherDto.name(), voucherDto.value(), voucherDto.customerId());
     }
 
     private VoucherDto makeVoucherRequestDtoToUpdate(Voucher voucher) {
@@ -104,7 +105,7 @@ public class VoucherController {
         console.printUpdateNewVoucherNameMessage();
         String updateVoucherName = console.readInput();
 
-        return new VoucherDto(voucher.getVoucherId(), updateVoucherName, updateVoucherValue, voucher.getVoucherType());
+        return new VoucherDto(voucher.getVoucherId(), updateVoucherName, updateVoucherValue, voucher.getVoucherType(), voucher.getCustomerId());
     }
 
     public void deleteVoucher() {

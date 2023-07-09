@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 class VoucherControllerTest {
@@ -58,7 +59,7 @@ class VoucherControllerTest {
     void getVoucherToUpdate() {
         //given
         UUID voucherId = UUID.randomUUID();
-        VoucherDto mockVoucher = new VoucherDto(voucherId, "Voucher1", 100, VoucherType.FixedAmountVoucher);
+        VoucherDto mockVoucher = new VoucherDto(voucherId, "Voucher1", 100, VoucherType.FixedAmountVoucher, Optional.empty());
 
         when(voucherService.findById(voucherId)).thenReturn(mockVoucher);
         when(console.readInput()).thenReturn(voucherId.toString());

@@ -5,6 +5,7 @@ import com.programmers.exception.InvalidVoucherValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -15,6 +16,17 @@ public class PercentDiscountVoucher implements Voucher {
     private final String voucherName;
     private final long percent;
     private final VoucherType voucherType;
+    private final Optional<UUID> customerId;
+
+    public PercentDiscountVoucher(UUID voucherId, String voucherName, long percent, Optional<UUID> customerId) {
+        checkVoucherValue(voucherName, percent);
+
+        this.voucherId = voucherId;
+        this.voucherName = voucherName;
+        this.percent = percent;
+        this.voucherType = VoucherType.PercentDiscountVoucher;
+        this.customerId = customerId;
+    }
 
     public PercentDiscountVoucher(UUID voucherId, String voucherName, long percent) {
         checkVoucherValue(voucherName, percent);
@@ -23,6 +35,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.voucherName = voucherName;
         this.percent = percent;
         this.voucherType = VoucherType.PercentDiscountVoucher;
+        this.customerId = Optional.empty();
     }
 
     private void checkVoucherValue(String voucherName, long percent) {
@@ -58,15 +71,29 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public Optional<UUID> getCustomerId() {
+        return customerId;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return (long)(beforeDiscount * ((100 - percent) / 100.0));
     }
 
     @Override
     public String toString() {
-        return "[ Voucher Type = Percent Discount Voucher" +
-                ", Id = " + voucherId +
-                ", discount percent = " + percent +
-                ", voucher name = " + voucherName + " ]";
+        return customerId.map(
+                uuid -> "[ voucher type = Percent Discount Voucher" +
+                        ", voucher id = " + voucherId +
+                        ", discount percent = " + percent +
+                        ", voucher name = " + voucherName +
+                        ", customer id = " + uuid +
+                        " ]"
+                ).orElseGet(() ->
+                        "[ voucher type = Percent Discount Voucher" +
+                        ", voucher id = " + voucherId +
+                        ", discount percent = " + percent +
+                        ", voucher name = " + voucherName +
+                        ", customer id = null ]");
     }
 }

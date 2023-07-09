@@ -83,10 +83,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
-        return (rs, rowNum) ->
-                VoucherType.createVoucher(rs.getString("type"),
-                        UUID.fromString(rs.getString("id")),
-                        rs.getString("name"),
-                        rs.getLong("value"));
+        return (rs, rowNum) -> {
+            UUID id = UUID.fromString(rs.getString("id"));
+            String name = rs.getString("name");
+            long value = rs.getLong("value");
+            String type = rs.getString("type");
+            String customerId = rs.getString("customer_id");
+
+            if (customerId == null) {
+                return VoucherType.createVoucher(type, id, name, value, Optional.empty());
+            } else {
+                UUID customerUUID = UUID.fromString(customerId);
+                return VoucherType.createVoucher(type, id, name, value, Optional.of(customerUUID));
+            }
+        };
     }
 }
