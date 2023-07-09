@@ -14,5 +14,5 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
-    int delete(String id);
+    int deleteById(String id);
 }

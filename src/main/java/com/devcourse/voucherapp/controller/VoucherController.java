@@ -30,7 +30,7 @@ public class VoucherController {
         return voucherService.update(request);
     }
 
-    public void delete(String id) {
-        voucherService.delete(id);
+    public void deleteById(String id) {
+        voucherService.deleteById(id);
     }
 }

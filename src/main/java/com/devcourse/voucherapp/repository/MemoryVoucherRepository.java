@@ -41,7 +41,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int delete(String id) {
+    public int deleteById(String id) {
         UUID voucherId = convertToUuid(id);
         Voucher deletedVoucher = storage.remove(voucherId);
 

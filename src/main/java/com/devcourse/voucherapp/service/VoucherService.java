@@ -50,8 +50,8 @@ public class VoucherService {
         return new VoucherResponseDto(voucher);
     }
 
-    public void delete(String id) {
-        int deletionCounts = voucherRepository.delete(id);
+    public void deleteById(String id) {
+        int deletionCounts = voucherRepository.deleteById(id);
 
         if (deletionCounts == ZERO) {
             throw new NotFoundVoucherException(id);

@@ -61,7 +61,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int delete(String id) {
+    public int deleteById(String id) {
         String sql = "delete from voucher where id = :id";
 
         return template.update(sql, getParameterMap(id));

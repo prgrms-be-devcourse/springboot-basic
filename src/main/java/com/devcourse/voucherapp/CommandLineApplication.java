@@ -40,7 +40,7 @@ public class CommandLineApplication implements CommandLineRunner {
     private void executeMenu(Menu selectedMenu) {
         switch (selectedMenu) {
             case CREATE -> createVoucher();
-            case LIST -> listAllVouchers();
+            case READ -> readAllVouchers();
             case UPDATE -> updateVoucher();
             case DELETE -> deleteVoucher();
             case QUIT -> quitApplication();
@@ -60,13 +60,13 @@ public class CommandLineApplication implements CommandLineRunner {
         viewManager.showVoucherCreationSuccessMessage(response);
     }
 
-    private void listAllVouchers() {
+    private void readAllVouchers() {
         VouchersResponseDto response = voucherController.findAllVouchers();
         viewManager.showAllVouchers(response);
     }
 
     private void updateVoucher() {
-        listAllVouchers();
+        readAllVouchers();
 
         String id = viewManager.readVoucherIdToUpdate();
         VoucherResponseDto findResponse = voucherController.findVoucherById(id);
@@ -79,10 +79,10 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void deleteVoucher() {
-        listAllVouchers();
+        readAllVouchers();
 
         String id = viewManager.readVoucherIdToDelete();
-        voucherController.delete(id);
+        voucherController.deleteById(id);
 
         viewManager.showVoucherDeleteSuccessMessage();
     }

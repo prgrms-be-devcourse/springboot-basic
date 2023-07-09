@@ -19,7 +19,7 @@ class MenuTest {
         Menu quitMenu = Menu.of("5");
 
         assertEquals(Menu.CREATE, createMenu);
-        assertEquals(Menu.LIST, listMenu);
+        assertEquals(Menu.READ, listMenu);
         assertEquals(Menu.UPDATE, updateMenu);
         assertEquals(Menu.DELETE, deleteMenu);
         assertEquals(Menu.QUIT, quitMenu);
