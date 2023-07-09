@@ -1,9 +1,9 @@
 package com.programmers.voucher.service;
 
 import com.programmers.voucher.domain.Discount;
+import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.domain.FixedDiscount;
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +14,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VoucherServiceTest {
 

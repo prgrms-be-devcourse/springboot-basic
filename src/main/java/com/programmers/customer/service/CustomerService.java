@@ -10,6 +10,8 @@ public interface CustomerService {
 
     CustomerResponseDto create(CustomerRequestDto requestDto);
 
+    CustomerResponseDto update(CustomerRequestDto requestDto);
+
     List<CustomerResponseDto> findCustomers();
 
     CustomerResponseDto findCustomerById(UUID customerID);
