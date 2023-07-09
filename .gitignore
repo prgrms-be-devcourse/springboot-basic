@@ -36,3 +36,4 @@ src/main/java/com/example/demo/Demo1Application.java
 src/main/resources/application.yaml
 logs/*
 
+/out/
