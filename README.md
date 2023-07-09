@@ -3,7 +3,7 @@
 
 ### 설계도 
 
-![image](/doc/바우처설계도_W2.png)
+![image](/doc/바우처설계도_Step2.png)
 
 
 
