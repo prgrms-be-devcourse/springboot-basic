@@ -12,6 +12,9 @@ public class Input {
     private final Logger logger = LoggerFactory.getLogger(Input.class);
     private final Scanner sc = new Scanner(System.in);
 
+    public void printConsoleMessage(String message) {
+        System.out.println(message);
+    }
 
     public VoucherType selectVoucherType() {
         System.out.println(ConsoleOutputMessage.TYPE_SELECT_MESSAGE);
@@ -22,6 +25,7 @@ public class Input {
         System.out.println(ConsoleOutputMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE);
         int inputValue = sc.nextInt();
         sc.nextLine();
+
         if (inputValue < 0) {
             logger.warn("0보다 작은 수는 들어올 수 없습니다.");
             throw new NumberFormatException();

@@ -46,7 +46,7 @@ public class CommandLine implements CommandLineRunner {
         VoucherType voucherType = input.selectVoucherType();
         int discountValue = input.insertDiscountValue();
         voucherService.insertNewVoucher(voucherType, discountValue);
-        output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
     private void createVoucher() {
@@ -54,7 +54,7 @@ public class CommandLine implements CommandLineRunner {
             insertDiscountValue();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
-            output.outputWarnMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
+            input.printConsoleMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
         }
 
     }
