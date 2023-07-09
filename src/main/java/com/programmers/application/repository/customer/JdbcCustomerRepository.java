@@ -37,7 +37,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        String sql = "SELECT * FROM customer";
+        return namedParameterJdbcTemplate.query(sql, getCustomerRowMapper());
     }
 
     @Override
