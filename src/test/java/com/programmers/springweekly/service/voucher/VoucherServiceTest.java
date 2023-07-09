@@ -119,5 +119,4 @@ public class VoucherServiceTest {
         // then
         assertThat(voucherService.findAll().getVoucherList().size()).isEqualTo(0);
     }
-
 }

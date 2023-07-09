@@ -76,11 +76,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("walletId", walletId.toString());
 
-        try {
-            template.update(sql, param);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        template.update(sql, param);
     }
 
     @Override
