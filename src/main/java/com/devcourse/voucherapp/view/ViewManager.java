@@ -25,7 +25,7 @@ public class ViewManager {
     private static final String DELETE_VOUCHER_ID_INPUT_MESSAGE = "\n삭제할 할인권의 ID를 입력하세요.";
     private static final String VOUCHER_DELETE_SUCCESS_MESSAGE = "\n할인권이 정상적으로 삭제되었습니다.";
 
-    private static final String CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n새 고객의 닉네임을 입력하세요.(소문자 알파벳과 숫자만 가능)";
+    private static final String CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n새 고객의 닉네임을 입력하세요.(공백 없는 소문자 알파벳과 숫자만 가능)";
     private static final String CUSTOMER_CREATION_SUCCESS_MESSAGE = "\n고객 생성이 완료되었습니다.";
 
     private final InputView inputView;

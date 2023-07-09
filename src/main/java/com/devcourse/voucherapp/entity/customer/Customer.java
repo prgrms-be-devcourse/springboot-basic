@@ -28,6 +28,10 @@ public class Customer {
         return new Customer(UUID.randomUUID(), NORMAL, nickname);
     }
 
+    public static Customer from(UUID id, CustomerType type, String nickname) {
+        return new Customer(id, type, nickname);
+    }
+
     private void validateIsAlphaNumeric(String nickname) {
         if (isNotAlphaNumeric(nickname)) {
             throw new CustomerInputException(nickname);
