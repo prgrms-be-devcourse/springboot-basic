@@ -12,6 +12,7 @@ import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
 import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
+import org.promgrammers.springbootbasic.global.error.exception.DataValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -76,7 +77,7 @@ class CustomerServiceTest {
         customerRepository.save(new Customer(UUID.randomUUID(), existingUsername));
 
         // when -> then
-        assertThrows(BusinessException.class, () -> {
+        assertThrows(DataValidationException.class, () -> {
             CreateCustomerRequest createCustomerRequest = new CreateCustomerRequest(existingUsername);
             customerService.createCustomer(createCustomerRequest);
         });
