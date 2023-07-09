@@ -11,7 +11,7 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
 import org.prgrms.kdt.wallet.controller.WalletController;
 import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.WalletListResponse;
+import org.prgrms.kdt.wallet.dto.WalletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -87,11 +88,11 @@ public class CommendLineRunner implements CommandLineRunner {
         memberController.createMember(new CreateMemberRequest(memberName, MemberStatus.COMMON));
     }
 
-    private WalletListResponse findMembersByVoucher() throws IOException {
+    private List<WalletResponse> findMembersByVoucher() throws IOException {
         return walletController.findMembersByVoucherId(console.getVoucherId());
     }
 
-    private WalletListResponse findVouchersByMember() throws IOException {
+    private List<WalletResponse> findVouchersByMember() throws IOException {
         return walletController.findVouchersByMemberId(console.getMemberId());
     }
 

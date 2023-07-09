@@ -8,7 +8,6 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.WalletListResponse;
 import org.prgrms.kdt.wallet.dto.WalletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +38,7 @@ public class WalletService {
         return walletRepository.insert(new Wallet(UUID.randomUUID(), member, voucher));
     }
 
-    public WalletListResponse findVouchersByMemberId(UUID memberId) {
+    public List<WalletResponse> findVouchersByMemberId(UUID memberId) {
         List<Wallet> wallets = walletRepository.findByMemberId(memberId);
         return getWalletListResponse(wallets);
     }
@@ -48,18 +47,18 @@ public class WalletService {
         walletRepository.deleteById(walletId);
     }
 
-    public WalletListResponse findMembersByVoucherId(UUID voucherId) {
+    public List<WalletResponse> findMembersByVoucherId(UUID voucherId) {
         List<Wallet> wallets = walletRepository.findByVoucherId(voucherId);
         return getWalletListResponse(wallets);
     }
 
-    public WalletListResponse findAllWallet() {
+    public List<WalletResponse> findAllWallet() {
         List<Wallet> wallets = walletRepository.findAll();
         return getWalletListResponse(wallets);
     }
 
-    private WalletListResponse getWalletListResponse(List<Wallet> wallets) {
-        List<WalletResponse> walletResponses = wallets.stream()
+    private List<WalletResponse> getWalletListResponse(List<Wallet> wallets) {
+        return wallets.stream()
                 .map(wallet -> new WalletResponse(
                         wallet.getWalletId(),
                         wallet.getMember().getMemberName().getName(),
@@ -67,7 +66,5 @@ public class WalletService {
                         wallet.getVoucher().getDiscountPolicy().getAmount()
                 ))
                 .collect(Collectors.toList());
-
-        return new WalletListResponse(walletResponses);
     }
 }
