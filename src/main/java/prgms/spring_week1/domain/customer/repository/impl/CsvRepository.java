@@ -1,9 +1,12 @@
 package prgms.spring_week1.domain.customer.repository.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
+import prgms.spring_week1.domain.voucher.service.VoucherService;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +17,7 @@ import java.util.List;
 
 @Component
 public final class CsvRepository implements BlackListRepository {
+    private final Logger logger = LoggerFactory.getLogger(CsvRepository.class);
     private final String csvFilePath;
 
     public CsvRepository(@Value("${file.blackList}") String csvFilePath) {
@@ -22,19 +26,22 @@ public final class CsvRepository implements BlackListRepository {
 
     @Override
     public List<BlackConsumer> getBlackConsumerList() {
+        List<String> csvList = null;
         List<BlackConsumer> blackConsumerList = new ArrayList<>();
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(csvFilePath)));
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] consumer = line.split(",");
-                blackConsumerList.add(new BlackConsumer(consumer[0], consumer[1]));
-            }
-
-            return blackConsumerList;
+            csvList = br.lines().toList();
         } catch (IOException e) {
-            System.out.println("해당 파일이 존재하지 않습니다");
+            logger.warn("해당 파일이 존재하지 않습니다");
             return blackConsumerList;
         }
+
+        for (String consumerLine : csvList) {
+            String[] consumer = consumerLine.split(",");
+            blackConsumerList.add(new BlackConsumer(consumer[0], consumer[1]));
+        }
+
+        return blackConsumerList;
     }
 }
