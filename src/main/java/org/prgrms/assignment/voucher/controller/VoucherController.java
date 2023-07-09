@@ -1,75 +1,51 @@
 package org.prgrms.assignment.voucher.controller;
 
-import org.prgrms.assignment.voucher.model.Menu;
-import org.prgrms.assignment.voucher.model.Voucher;
-import org.prgrms.assignment.voucher.model.VoucherType;
+import lombok.RequiredArgsConstructor;
+import org.prgrms.assignment.voucher.dto.VoucherRequestDTO;
+import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
 import org.prgrms.assignment.voucher.service.VoucherService;
-import org.prgrms.assignment.voucher.service.VoucherServiceImpl;
-import org.prgrms.assignment.voucher.view.Input;
-import org.prgrms.assignment.voucher.view.MenuExplain;
-import org.prgrms.assignment.voucher.view.Output;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import java.nio.ByteBuffer;
-import java.util.InputMismatchException;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class VoucherController {
 
-    private static final String SELECT_VOUCHER_MESSAGE = "TYPE YOUR VOUCHER";
-    private static final String TYPE_DURATION_MESSAGE = "TYPE YOUR VOUCHER'S DURATION";
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
-    private final Input input;
-    private final Output output;
     private final VoucherService voucherService;
 
-    public VoucherController(Input input, Output output, VoucherServiceImpl voucherService) {
-        this.input = input;
-        this.output = output;
-        this.voucherService = voucherService;
+    @GetMapping("/vouchers")
+    public String getAllVoucherDTOs(Model model) {
+        List<VoucherResponseDTO> allVoucherDTOs = voucherService.getAllVoucherDTOs();
+        model.addAttribute("serverTime", LocalDateTime.now());
+        model.addAttribute("allVoucherDTOs", allVoucherDTOs);
+        return "views/vouchers";
     }
 
-    public void run() {
-        while(true) {
-            try {
-                output.showMenu(MenuExplain.values());
-                String command = input.getCommandInput();
-
-                switch (Menu.of(command)) {
-                    case EXIT-> {
-                        return;
-                    }
-                    case CREATE -> {
-                        output.printMessage(SELECT_VOUCHER_MESSAGE);
-                        output.showVoucherTypes(VoucherType.values());
-
-                        String voucherTypeName = input.getVoucherInput();
-                        VoucherType voucherType = VoucherType.of(voucherTypeName);
-
-                        output.printMessage(voucherType.getBenefitMessage());
-                        Long benefit = input.getBenefit();
-
-                        output.printMessage(TYPE_DURATION_MESSAGE);
-                        Long durationDate = input.getDurationInput();
-
-                        voucherService.createVoucher(voucherType, benefit, durationDate);
-                    }
-                    case LIST -> {
-                        output.showVoucherList(voucherService
-                                .convertToVoucherDTOs());
-                    }
-                }
-            } catch(IllegalArgumentException | InputMismatchException e) {
-                e.printStackTrace();
-            }
-        }
+    @GetMapping("/vouchers/new")
+    public String viewNewVoucherPage() {
+        return "views/new-voucher";
     }
 
-    public static UUID convertBytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        long high = byteBuffer.getLong();
-        long low = byteBuffer.getLong();
-        return new UUID(high, low);
+
+    @PostMapping("/vouchers/new")
+    public String createVoucher(VoucherRequestDTO voucherDTO) {
+        voucherService.createVoucher(voucherDTO.voucherType(), voucherDTO.benefit(), voucherDTO.durationDate());
+        return "redirect:/vouchers";
     }
+
+//    @GetMapping("/api/v1/vouchers/{voucherId}")
+//    @ResponseBody
+//    @CrossOrigin(origins = "*")
+//    public ResponseEntity<Voucher> findCustomer(@PathVariable("voucherid") UUID voucherId) {
+//        var customer = customerService.getCustomer(customerId);
+//        return customer.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+//    }
 }
