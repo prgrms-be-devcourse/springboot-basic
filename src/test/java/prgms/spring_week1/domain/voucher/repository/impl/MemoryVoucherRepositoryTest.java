@@ -17,8 +17,8 @@ class MemoryVoucherRepositoryTest {
     @BeforeEach
     void setUp() {
         voucherRepository = new MemoryVoucherRepository();
-        voucherRepository.insert(new Voucher(VoucherType.FIXED,10000));
-        voucherRepository.insert(new Voucher(VoucherType.PERCENT,30));
+        voucherRepository.insert(new Voucher(VoucherType.FIXED, 10000));
+        voucherRepository.insert(new Voucher(VoucherType.PERCENT, 30));
     }
 
     @Test
@@ -36,7 +36,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 추가가 제대로 동작하는 지 확인")
     void insert() {
         //given
-        Voucher newVoucher = new Voucher(VoucherType.FIXED,10000);
+        Voucher newVoucher = new Voucher(VoucherType.FIXED, 10000);
         //when
         voucherRepository.insert(newVoucher);
         //then

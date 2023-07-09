@@ -33,8 +33,8 @@ class OutputTest {
     @DisplayName("바우처를 조회 했을 때 제대로 출력되는 지 확인")
     void printVoucherInfo() {
         //given
-        Voucher testFixedVoucher = new Voucher(VoucherType.FIXED,10000);
-        Voucher testPercentVoucher = new Voucher(VoucherType.PERCENT,30);
+        Voucher testFixedVoucher = new Voucher(VoucherType.FIXED, 10000);
+        Voucher testPercentVoucher = new Voucher(VoucherType.PERCENT, 30);
         List<Voucher> voucherList = new ArrayList<>();
 
         voucherList.add(testFixedVoucher);

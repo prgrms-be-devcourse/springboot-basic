@@ -49,10 +49,10 @@ public class CommandLine implements CommandLineRunner {
         output.outputMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
-    private void createVoucher(){
+    private void createVoucher() {
         try {
             insertDiscountValue();
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             output.outputWarnMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
         }

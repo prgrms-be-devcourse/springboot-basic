@@ -18,7 +18,7 @@ class MenuTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"EXI","crrea", "EXwww"})
+    @ValueSource(strings = {"EXI", "crrea", "EXwww"})
     @DisplayName("존재하지 않는 메뉴를 입력했을 때 null을 던지는지 확인")
     void findMenuType_fail(String inputText) {
         assertEquals(null, Menu.findMenuType(inputText));
