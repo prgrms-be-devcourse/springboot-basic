@@ -51,7 +51,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        return Optional.empty();
+        String sql = "SELECT * FROM customer WHERE email = :email";
+        HashMap<String, String> param = new HashMap<>();
+        param.put("email", email);
+        Customer customer = namedParameterJdbcTemplate.queryForObject(sql, param, getCustomerRowMapper());
+        return Optional.ofNullable(customer);
     }
 
     @Override
