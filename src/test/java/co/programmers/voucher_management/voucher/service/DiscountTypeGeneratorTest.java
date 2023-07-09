@@ -25,8 +25,8 @@ class DiscountTypeGeneratorTest {
 		@DisplayName("유효한 경우 객체를 반환한다")
 		void is_valid(String discountType, int discountAmount) {
 			DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
-			assertThat(discountStrategy.getType(), equalTo(discountType));
-			assertThat(discountStrategy.getAmount(), equalTo(discountAmount));
+			assertThat(discountStrategy.getType(), is(equalTo(discountType)));
+			assertThat(discountStrategy.getAmount(), is(equalTo(discountAmount)));
 		}
 
 		@ParameterizedTest

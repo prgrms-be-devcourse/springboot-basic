@@ -38,8 +38,8 @@ class PercentageDiscountTest {
 		@DisplayName("유효한 경우 객체를 생성한다 : 0 보다 크고 100보다 작거나 같은 경우")
 		void is_valid(int amount) {
 			PercentageDiscount percentageDiscount = new PercentageDiscount(amount);
-			assertThat(amount, equalTo(percentageDiscount.getAmount()));
-			assertThat(percentageDiscount.getType(), equalTo("percent"));
+			assertThat(amount, is(equalTo(percentageDiscount.getAmount())));
+			assertThat(percentageDiscount.getType(), is(equalTo("percent")));
 		}
 
 	}
@@ -61,7 +61,7 @@ class PercentageDiscountTest {
 			int originalPrice = Integer.parseInt(parsedData[0]);
 			int discountAmount = Integer.parseInt(parsedData[1]);
 			PercentageDiscount percentageDiscount = new PercentageDiscount(discountAmount);
-			assertThat(percentageDiscount.discount(originalPrice), equalTo(finalPrice));
+			assertThat(percentageDiscount.discount(originalPrice), is(equalTo(finalPrice)));
 		}
 	}
 

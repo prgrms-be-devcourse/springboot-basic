@@ -16,8 +16,8 @@ class VoucherTest {
 
 		Voucher voucher = new Voucher(id, discountStrategy);
 		assertThat(voucher, notNullValue());
-		assertThat(voucher.getId(), equalTo(id));
-		assertThat(voucher.getDiscountStrategy(), equalTo(discountStrategy));
+		assertThat(voucher.getId(), is(equalTo(id)));
+		assertThat(voucher.getDiscountStrategy(), is(equalTo(discountStrategy)));
 	}
 
 }

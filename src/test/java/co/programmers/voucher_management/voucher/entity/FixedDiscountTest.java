@@ -37,8 +37,8 @@ class FixedDiscountTest {
 		@DisplayName("유효한 경우 객체를 생성한다 : 0 과 1,000,000 사이인 경우")
 		void is_valid(int amount) {
 			FixedDiscount fixedDiscount = new FixedDiscount(amount);
-			assertThat(amount, equalTo(fixedDiscount.getAmount()));
-			assertThat(fixedDiscount.getType(), equalTo("fixed"));
+			assertThat(amount, is(equalTo(fixedDiscount.getAmount())));
+			assertThat(fixedDiscount.getType(), is(equalTo("fixed")));
 		}
 
 	}
@@ -60,7 +60,7 @@ class FixedDiscountTest {
 			int originalPrice = Integer.parseInt(parsedData[0]);
 			int discountAmount = Integer.parseInt(parsedData[1]);
 			FixedDiscount fixedDiscount = new FixedDiscount(discountAmount);
-			assertThat(fixedDiscount.discount(originalPrice), equalTo(finalPrice));
+			assertThat(fixedDiscount.discount(originalPrice), is(equalTo(finalPrice)));
 		}
 
 		@ParameterizedTest
@@ -74,7 +74,7 @@ class FixedDiscountTest {
 		@DisplayName("할인 금액이 기존 금액보다 큰 경우 0원을 반환한다")
 		void amount_is_bigger(Integer originalPrice, Integer discountAmount) {
 			FixedDiscount fixedDiscount = new FixedDiscount(discountAmount);
-			assertThat(fixedDiscount.discount(originalPrice), equalTo(0));
+			assertThat(fixedDiscount.discount(originalPrice), is(equalTo(0)));
 		}
 	}
 
