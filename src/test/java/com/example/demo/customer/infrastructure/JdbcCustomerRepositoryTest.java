@@ -43,13 +43,6 @@ class JdbcCustomerRepositoryTest {
                     .ignoreFailedDrops(true)
                     .addScript("h2.sql")
                     .build();
-
-//            return DataSourceBuilder.create()
-//                    .url("jdbc:mysql://localhost/spring_basic")
-//                    .username("root")
-//                    .password("1234")
-//                    .type(HikariDataSource.class)
-//                    .build();
         }
 
         @Bean

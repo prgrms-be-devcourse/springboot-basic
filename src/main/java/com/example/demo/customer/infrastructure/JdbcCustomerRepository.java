@@ -76,13 +76,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
         jdbcTemplate.update(sql);
     }
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
+    private static UUID toUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
 
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
-    static byte[] toBytes(UUID uuid) {
+    private static byte[] toBytes(UUID uuid) {
         ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(uuid.getMostSignificantBits());
         bb.putLong(uuid.getLeastSignificantBits());
