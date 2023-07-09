@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        } </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>고객 상세</h2></div>
+    <div>
+        <label for="customerId">고객 ID</label>
+        <input type="text" id="customerId" name="customerId" class="form-control" th:value="${customer.customerId()}"
+               readonly>
+    </div>
+    <div>
+        <label for="username">고객 이름</label>
+        <input type="text" id="username" name="username" class="form-control" th:value="${customer.username()}"
+               readonly></div>
+    <div>
+        <label for="customerType">고객 타입</label>
+        <input type="text" id="customerType" name="customerType" class="form-control"
+               th:value="${customer.customerType()}"
+               readonly>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="row">
+            <div class="col">
+                <form th:action="@{/customers/{id}(id=${customer.customerId()})}" method="post">
+                    <button class="w-100 btn btn-secondary btn-lg" type="submit">삭제</button>
+                </form>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='customers.html'"
+                        th:onclick="|location.href='@{/customers/list}'|"
+                        type="button">목록으로
+                </button>
+            </div>
+        </div>
+    </div> <!-- /container -->
+</body>
+</html>
