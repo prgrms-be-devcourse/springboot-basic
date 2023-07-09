@@ -46,6 +46,18 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public VoucherDto findVoucher(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> {
+                    String errorMessage = MessageFormat.format(VoucherErrorMessages.NO_SUCH_VOUCHER, voucherId);
+                    LOG.warn(errorMessage);
+                    return new NoSuchElementException(errorMessage);
+                });
+
+        return VoucherDto.from(voucher);
+    }
+
     @Transactional
     public void deleteVoucher(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
