@@ -130,7 +130,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final RowMapper<Voucher> voucherRowMapper = ((rs, rowNum) -> {
         String voucherId = rs.getString("voucher_id");
         long amount = rs.getLong("amount");
-        VoucherType voucherType = VoucherType.from(rs.getString("voucher_type"));
+        VoucherType voucherType = VoucherType.fromTypeString(rs.getString("voucher_type"));
         String customerId = rs.getString("customer_id");
         UUID mappedCustomerId = (customerId == null) ? null : UUID.fromString(customerId);
 
