@@ -4,6 +4,7 @@ import com.programmers.springweekly.dto.wallet.request.WalletCreateRequest;
 import com.programmers.springweekly.dto.wallet.response.WalletResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 import com.programmers.springweekly.service.WalletService;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -17,15 +18,15 @@ public class WalletController {
         walletService.save(walletCreateRequest);
     }
 
-    public WalletResponse findByCustomerId(String customerId) {
+    public WalletResponse findByCustomerId(UUID customerId) {
         return walletService.findByCustomerId(customerId);
     }
 
-    public WalletsResponse findByVoucherId(String voucherId) {
+    public WalletsResponse findByVoucherId(UUID voucherId) {
         return walletService.findByVoucherId(voucherId);
     }
 
-    public void deleteByWalletId(String walletId) {
+    public void deleteByWalletId(UUID walletId) {
         walletService.deleteByWalletId(walletId);
     }
 

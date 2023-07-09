@@ -16,6 +16,7 @@ public class ConsoleApplication implements CommandLineRunner {
 
     private final ConsoleVoucher consoleVoucher;
     private final ConsoleCustomer consoleCustomer;
+    private final ConsoleWallet consoleWallet;
     private final Console console;
 
     private boolean running = true;
@@ -30,12 +31,12 @@ public class ConsoleApplication implements CommandLineRunner {
                 switch (selectMenu) {
                     case CUSTOMER -> consoleCustomer.run();
                     case VOUCHER -> consoleVoucher.run();
+                    case WALLET -> consoleWallet.run();
                     case EXIT -> {
                         console.outputExitMessage();
                         running = false;
                     }
-                    default ->
-                            throw new IllegalArgumentException("Input :" + selectMenu + "The type you are looking for is not found.");
+                    default -> throw new IllegalArgumentException("Input :" + selectMenu + "The type you are looking for is not found.");
                 }
             } catch (IllegalArgumentException e) {
                 log.error("잘못된 입력값 입니다 -> " + e.getMessage());

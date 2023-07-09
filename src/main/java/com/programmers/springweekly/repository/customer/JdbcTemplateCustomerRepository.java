@@ -2,19 +2,21 @@ package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+import javax.sql.DataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
-
 @Repository
+@Slf4j
 @Profile({"test", "local"})
 public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
@@ -59,13 +61,12 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString());
 
-        Customer customer = template.queryForObject(sql, param, customerRowMapper());
-
-        if (customer == null) {
-            throw new NoSuchElementException("찾는 회원이 없습니다.");
+        try {
+            return template.queryForObject(sql, param, customerRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            log.error("찾는 고객이 없습니다.");
+            throw new NoSuchElementException("찾는 고객이 없습니다.");
         }
-
-        return customer;
     }
 
     @Override

@@ -1,17 +1,20 @@
 package com.programmers.springweekly.repository.wallet;
 
 import com.programmers.springweekly.domain.wallet.Wallet;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+import javax.sql.DataSource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.util.List;
-import java.util.UUID;
-
 @Repository
+@Slf4j
 public class JdbcTemplateWalletRepository implements WalletRepository {
 
     private final NamedParameterJdbcTemplate template;
@@ -22,12 +25,12 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
     @Override
     public Wallet save(Wallet wallet) {
-        String sql = "insert into values(:walletId, :customerId, :voucherId)";
+        String sql = "insert into wallet values(:walletId, :customerId, :voucherId)";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("walletId", wallet.getWalletId())
-                .addValue("customerId", wallet.getCustomerId())
-                .addValue("voucherId", wallet.getCustomerId());
+                .addValue("walletId", wallet.getWalletId().toString())
+                .addValue("customerId", wallet.getCustomerId().toString())
+                .addValue("voucherId", wallet.getVoucherId().toString());
 
         template.update(sql, param);
 
@@ -35,33 +38,49 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Wallet findByCustomerId(String customerId) {
+    public Wallet findByCustomerId(UUID customerId) {
         String sql = "select * from wallet where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("customerId", customerId);
+                .addValue("customerId", customerId.toString());
 
-        return template.queryForObject(sql, param, walletRowMapper());
+        try {
+            return template.queryForObject(sql, param, walletRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            log.error("해당 고객에게 할당된 바우처가 없습니다.");
+            throw new NoSuchElementException("해당 고객에게 할당된 바우처가 없습니다.");
+        }
     }
 
     @Override
-    public List<Wallet> findByVoucherId(String voucherId) {
+    public List<Wallet> findByVoucherId(UUID voucherId) {
         String sql = "select * from wallet where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("voucherId", voucherId);
+                .addValue("voucherId", voucherId.toString());
+
+        List<Wallet> walletList = template.query(sql, param, walletRowMapper());
+
+        if (walletList.isEmpty()) {
+            log.error("이 바우처는 현재 할당된 고객이 없습니다.");
+            throw new NoSuchElementException("이 바우처는 현재 할당된 고객이 없습니다.");
+        }
 
         return template.query(sql, param, walletRowMapper());
     }
 
     @Override
-    public void deleteByWalletId(String walletId) {
+    public void deleteByWalletId(UUID walletId) {
         String sql = "delete from wallet where wallet_id = :walletId";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("walletId", walletId);
+                .addValue("walletId", walletId.toString());
 
-        template.update(sql, param);
+        try {
+            template.update(sql, param);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override

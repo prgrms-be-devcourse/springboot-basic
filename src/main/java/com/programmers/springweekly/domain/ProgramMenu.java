@@ -3,7 +3,8 @@ package com.programmers.springweekly.domain;
 public enum ProgramMenu {
     EXIT,
     CUSTOMER,
-    VOUCHER;
+    VOUCHER,
+    WALLET;
 
     public static ProgramMenu from(String type) {
         try {

@@ -10,6 +10,8 @@ import com.programmers.springweekly.dto.voucher.request.VoucherCreateRequest;
 import com.programmers.springweekly.dto.voucher.request.VoucherUpdateRequest;
 import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
+import com.programmers.springweekly.dto.wallet.response.WalletResponse;
+import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 import com.programmers.springweekly.util.Validator;
 import java.util.Scanner;
 import java.util.UUID;
@@ -88,6 +90,7 @@ public class Console implements Input, Output {
         System.out.println("====== 바우처 프로그램 ======");
         System.out.println("customer : 고객 관련된 작업");
         System.out.println("voucher : 바우처 관련된 작업");
+        System.out.println("wallet : 바우처 지갑과 관련된 작업");
         System.out.println("exit : 프로그램 종료");
     }
 
@@ -138,6 +141,37 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public void outputGetWalletList(WalletsResponse walletList) {
+        for (WalletResponse wallet : walletList.getWalletList()) {
+            System.out.println(NEW_LINE);
+            System.out.println("바우처 지갑 ID : " + wallet.getWalletId());
+            System.out.println("고객 ID  : " + wallet.getCustomerId());
+            System.out.println("할당된 바우처 ID : " + wallet.getVoucherId());
+            System.out.println(NEW_LINE + "\n");
+        }
+    }
+
+    @Override
+    public void outputGetWalletListByVoucher(WalletsResponse walletList) {
+        System.out.println(NEW_LINE);
+        System.out.println("바우처 ID : " + walletList.getWalletList().get(0).getVoucherId());
+        System.out.println(NEW_LINE);
+        for (WalletResponse wallet : walletList.getWalletList()) {
+            System.out.println("할당된 고객 ID  : " + wallet.getCustomerId());
+
+        }
+        System.out.println(NEW_LINE + "\n");
+    }
+
+    @Override
+    public void outputGetWallet(WalletResponse wallet) {
+        System.out.println(NEW_LINE);
+        System.out.println("고객 ID : " + wallet.getCustomerId());
+        System.out.println("할당된 바우처 ID : " + wallet.getVoucherId());
+        System.out.println(NEW_LINE + "\n");
+    }
+
+    @Override
     public void outputErrorMessage(String errorText) {
         System.out.println(errorText);
     }
@@ -182,4 +216,40 @@ public class Console implements Input, Output {
         System.out.println("delete : 바우처를 삭제합니다.");
         System.out.println("select : 바우처를 모두 조회합니다.");
     }
+
+    @Override
+    public void outputWalletMenuGuide() {
+        System.out.println("=========== 바우처 지갑 프로그램 ===========");
+        System.out.println("assign : 바우처를 고객에게 할당합니다.");
+        System.out.println("delete : 고객에게 할당된 바우처를 삭제합니다.");
+        System.out.println("findAll : 모든 고객에게 할당된 바우처 정보를 조회합니다.");
+        System.out.println("findBycustomer : 고객에게 할당된 바우처를 조회합니다.");
+        System.out.println("findByVoucher : 해당 바우처가 할당된 모든 고객을 조회합니다.");
+    }
+
+    @Override
+    public void outputCustomerUUIDGuide() {
+        System.out.println("바우처를 할당하려는 고객의 ID를 입력해주세요");
+    }
+
+    @Override
+    public void outputVoucherUUIDGuide() {
+        System.out.println("고객에게 할당하려는 바우처의 ID를 입력해주세요");
+    }
+
+    @Override
+    public void outputWalletUUIDGuide() {
+        System.out.println("삭제하려는 바우처 지갑의 ID를 입력해주세요");
+    }
+
+    @Override
+    public void outputCustomerUUIDToFind() {
+        System.out.println("고객에게 할당된 바우처를 찾기 위해 고객의 ID를 입력해주세요");
+    }
+
+    @Override
+    public void outputGetVoucherUUIDToFind() {
+        System.out.println("해당 바우처를 가진 고객들을 찾기 위해 바우처의 ID를 입력해주세요");
+    }
+
 }

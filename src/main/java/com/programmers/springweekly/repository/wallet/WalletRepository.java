@@ -1,18 +1,18 @@
 package com.programmers.springweekly.repository.wallet;
 
 import com.programmers.springweekly.domain.wallet.Wallet;
-
 import java.util.List;
+import java.util.UUID;
 
 public interface WalletRepository {
 
     Wallet save(Wallet wallet);
 
-    Wallet findByCustomerId(String customerId);
+    Wallet findByCustomerId(UUID customerId);
 
-    List<Wallet> findByVoucherId(String voucherId);
+    List<Wallet> findByVoucherId(UUID voucherId);
 
-    void deleteByWalletId(String walletId);
+    void deleteByWalletId(UUID walletId);
 
     List<Wallet> findAll();
 
