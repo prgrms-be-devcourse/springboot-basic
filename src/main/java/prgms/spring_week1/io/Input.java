@@ -2,9 +2,7 @@ package prgms.spring_week1.io;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import prgms.spring_week1.CommandLine;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
-import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
 
