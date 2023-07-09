@@ -1,6 +1,5 @@
 package com.programmers.voucher.domain.customer.controller;
 
-import com.programmers.voucher.domain.customer.domain.Customer;
 import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
@@ -24,19 +23,13 @@ public class CustomerConsoleController {
     }
 
     public void findBlacklistCustomers() {
-        List<Customer> customers = customerService.findBlacklistCustomers();
-        List<CustomerDto> customerDtos = customers.stream()
-                .map(CustomerDto::from)
-                .toList();
+        List<CustomerDto> customerDtos = customerService.findBlacklistCustomers();
 
         console.printCustomers(customerDtos);
     }
 
     public void findCustomers() {
-        List<Customer> customers = customerService.findCustomers();
-        List<CustomerDto> customerDtos = customers.stream()
-                .map(CustomerDto::from)
-                .toList();
+        List<CustomerDto> customerDtos = customerService.findCustomers();
 
         console.printCustomers(customerDtos);
     }

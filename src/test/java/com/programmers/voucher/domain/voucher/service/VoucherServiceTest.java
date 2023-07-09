@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.voucher.service;
 
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.testutil.VoucherTestUtil.createFixedVoucher;
-import static com.programmers.voucher.testutil.VoucherTestUtil.createPercentVoucher;
+import static com.programmers.voucher.testutil.VoucherTestUtil.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -109,10 +109,14 @@ class VoucherServiceTest {
         given(voucherRepository.findAll()).willReturn(store);
 
         //when
-        List<Voucher> result = voucherService.findVouchers();
+        List<VoucherDto> result = voucherService.findVouchers();
 
         //then
-        assertThat(result).contains(fixedVoucher, percentVoucher);
+        VoucherDto fixedVoucherDto = VoucherDto.from(fixedVoucher);
+        VoucherDto percentVoucherDto = VoucherDto.from(percentVoucher);
+
+        assertThat(result).usingRecursiveFieldByFieldElementComparator()
+                .contains(fixedVoucherDto, percentVoucherDto);
     }
 
     @Test

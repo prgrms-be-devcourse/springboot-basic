@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain.customer.service;
 
 import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.repository.CustomerRepository;
 import com.programmers.voucher.domain.customer.util.CustomerErrorMessages;
 import com.programmers.voucher.domain.customer.util.CustomerMessages;
@@ -26,8 +27,11 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public List<Customer> findBlacklistCustomers() {
-        return customerRepository.findAllByBanned();
+    public List<CustomerDto> findBlacklistCustomers() {
+        List<Customer> customers = customerRepository.findAllByBanned();
+        return customers.stream()
+                .map(CustomerDto::from)
+                .toList();
     }
 
     @Transactional
@@ -64,8 +68,11 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public List<Customer> findCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerDto> findCustomers() {
+        List<Customer> customers = customerRepository.findAll();
+        return customers.stream()
+                .map(CustomerDto::from)
+                .toList();
     }
 
     @Transactional

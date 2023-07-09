@@ -1,6 +1,6 @@
 package com.programmers.voucher.domain.customer.controller;
 
-import com.programmers.voucher.domain.customer.domain.Customer;
+import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.customer.service.CustomerService;
@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.UUID;
 
+import static com.programmers.voucher.testutil.CustomerTestUtil.createCustomerDto;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -81,9 +82,12 @@ class CustomerConsoleControllerTest {
     @DisplayName("성공: Customer 목록 조회 요청")
     void findCustomers() {
         //given
-        Customer customerA = new Customer(UUID.randomUUID(), "customerA@gmail.com", "customerA");
-        Customer customerB = new Customer(UUID.randomUUID(), "customerB@gmail.com", "customerB");
-        List<Customer> customers = List.of(customerA, customerB);
+        CustomerDto customerA
+                = createCustomerDto(UUID.randomUUID(), "customerA@gmail.com", "customerA", false);
+        CustomerDto customerB
+                = createCustomerDto(UUID.randomUUID(), "customerB@gmail.com", "customerB", false);
+
+        List<CustomerDto> customers = List.of(customerA, customerB);
 
         given(customerService.findCustomers()).willReturn(customers);
 

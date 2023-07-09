@@ -1,7 +1,6 @@
 package com.programmers.voucher.global.io.textio;
 
 import com.programmers.voucher.domain.customer.dto.CustomerDto;
-import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
 import com.programmers.voucher.global.io.command.CommandType;
@@ -9,6 +8,7 @@ import com.programmers.voucher.global.io.command.ConsoleCommandType;
 import com.programmers.voucher.global.io.command.CustomerCommandType;
 import com.programmers.voucher.global.io.command.VoucherCommandType;
 import com.programmers.voucher.global.util.ConsoleMessages;
+import com.programmers.voucher.testutil.VoucherTestUtil;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.mock.MockTextTerminal;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.programmers.voucher.global.util.ConsoleMessages.*;
+import static com.programmers.voucher.testutil.CustomerTestUtil.createCustomerDto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TextIoOutputTest {
@@ -102,15 +103,15 @@ class TextIoOutputTest {
     @DisplayName("성공: 바우처 목록 출력")
     void printVouchers() {
         //given
-        VoucherDto fixedVoucher = new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 10);
-        VoucherDto percentVoucher = new VoucherDto(UUID.randomUUID(), VoucherType.PERCENT, 10);
-        List<VoucherDto> givenVouchers = List.of(fixedVoucher, percentVoucher);
+        VoucherDto fixedVoucherDto = VoucherTestUtil.createFixedVoucherDto(UUID.randomUUID(), 10);
+        VoucherDto percentVoucherDto = VoucherTestUtil.createPercentVoucherDto(UUID.randomUUID(), 10);
+        List<VoucherDto> givenVouchers = List.of(fixedVoucherDto, percentVoucherDto);
 
         //when
         textIoOutput.printVouchers(givenVouchers);
 
         //then
-        String expectedOutput = voucherInfo(fixedVoucher) + "\n" + voucherInfo(percentVoucher);
+        String expectedOutput = voucherInfo(fixedVoucherDto) + "\n" + voucherInfo(percentVoucherDto);
         String output = mockTextTerminal.getOutput();
 
         assertThat(output).isEqualTo(expectedOutput);
@@ -137,10 +138,10 @@ class TextIoOutputTest {
     @DisplayName("성공: 회원 목록 출력")
     void printCustomers() {
         //given
-        CustomerDto customer =
-                new CustomerDto(UUID.randomUUID(), "customer@gmail.com", "customer", false);
-        CustomerDto bannedCustomer =
-                new CustomerDto(UUID.randomUUID(), "banned@gmail.com", "banned", true);
+        CustomerDto customer
+                = createCustomerDto(UUID.randomUUID(), "customer@gmail.com", "customer", false);
+        CustomerDto bannedCustomer
+                = createCustomerDto(UUID.randomUUID(), "banned@gmail.com", "banned", true);
         List<CustomerDto> givenCustomers = List.of(customer, bannedCustomer);
 
         //when

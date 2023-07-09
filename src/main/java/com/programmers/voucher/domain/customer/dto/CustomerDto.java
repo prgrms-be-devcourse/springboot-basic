@@ -10,7 +10,7 @@ public class CustomerDto {
     private final String name;
     private final boolean banned;
 
-    public CustomerDto(UUID customerId, String email, String name, boolean banned) {
+    private CustomerDto(UUID customerId, String email, String name, boolean banned) {
         this.customerId = customerId;
         this.email = email;
         this.name = name;

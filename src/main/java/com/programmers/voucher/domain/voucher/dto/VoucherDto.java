@@ -10,7 +10,7 @@ public class VoucherDto {
     private final VoucherType voucherType;
     private final long amount;
 
-    public VoucherDto(UUID voucherId, VoucherType voucherType, long amount) {
+    VoucherDto(UUID voucherId, VoucherType voucherType, long amount) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.amount = amount;
