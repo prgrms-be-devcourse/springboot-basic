@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain;
 
 import com.programmers.exception.InvalidRequestValueException;
+import com.programmers.exception.InvalidVoucherValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class FixedAmountVoucher implements Voucher {
 
         if (amount < 0) {
             log.error("The invalid voucher amount found. voucher type = {}", FixedAmountVoucher.class.getName());
-            throw new InvalidRequestValueException("[ERROR] amount 값이 유효하지 않습니다.");
+            throw new InvalidVoucherValueException("[ERROR] amount 값이 유효하지 않습니다.");
         }
     }
 

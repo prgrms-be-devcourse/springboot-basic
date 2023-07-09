@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain;
 
 import com.programmers.exception.InvalidRequestValueException;
+import com.programmers.exception.InvalidVoucherValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class PercentDiscountVoucher implements Voucher {
 
         if (percent < 1 || percent > 100) {
             log.error("The invalid voucher percent found. voucher type = {}", PercentDiscountVoucher.class.getName());
-            throw new InvalidRequestValueException("[ERROR] percent 값이 유효하지 않습니다.");
+            throw new InvalidVoucherValueException("[ERROR] percent 값이 유효하지 않습니다.");
         }
     }
 

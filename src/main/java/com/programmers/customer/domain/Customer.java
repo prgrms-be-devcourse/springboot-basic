@@ -1,5 +1,6 @@
 package com.programmers.customer.domain;
 
+import com.programmers.exception.InvalidCustomerValueException;
 import com.programmers.exception.InvalidRequestValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,14 +33,14 @@ public class Customer {
 
     private void checkCustomerName(String customerName) {
         if (customerName.isEmpty()) {
-            log.error("The customer name input not found.");
+            log.error("The customer name not found.");
             throw new InvalidRequestValueException("[ERROR] 회원 이름이 입력되지 않았습니다.");
 
         }
 
         if (customerName.length() > 30) {
-            log.error("The invalid customer input found.");
-            throw new InvalidRequestValueException("[ERROR] 회원 이름은 30글자 이하여야 합니다.");
+            log.error("The invalid customer name found.");
+            throw new InvalidCustomerValueException("[ERROR] 회원 이름은 30글자 이하여야 합니다.");
         }
     }
 

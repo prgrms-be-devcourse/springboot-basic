@@ -31,14 +31,14 @@ public enum VoucherType {
                 .filter(voucherType -> Objects.equals(voucherType.number, input) || Objects.equals(voucherType.name, input))
                 .findAny()
                 .orElseThrow(() -> {
-                    log.error("the invalid voucher type input found. input value = {}", input);
+                    log.error("the invalid voucher type found. voucher type value = {}", input);
                     return new InvalidRequestValueException("[ERROR] 요청하신 voucher type 값이 유효하지 않습니다.");
                 });
     }
 
     private static void checkVoucherTypeEmpty(String voucherType) {
         if (voucherType.isEmpty()) {
-            log.error("The voucher type input not found.");
+            log.error("The voucher type not found.");
             throw new InvalidRequestValueException("[ERROR] voucher type 값이 비었습니다.");
         }
     }
