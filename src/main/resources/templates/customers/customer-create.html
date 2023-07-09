@@ -14,18 +14,22 @@
 <body>
 <div class="container">
     <div class="d-flex flex-column mt-3">
-    <p class="h1 text-center">회원 생성</p>
-    <form>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-        </div>
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name">
-        </div>
-        <button type="submit" class="btn btn-outline-secondary">생성</button>
-    </form>
+        <p class="h1 text-center">회원 생성</p>
+        <form th:action method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+            <button type="submit" class="btn btn-outline-secondary">생성</button>
+            <button onclick="location.href='customer-list.html'"
+                    th:onclick="|location.href='@{/customers}'|"
+                    type="button" class="btn btn-outline-secondary">취소
+            </button>
+        </form>
     </div>
 </div>
 </body>

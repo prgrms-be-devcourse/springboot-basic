@@ -15,26 +15,35 @@
 <div class="container">
     <div class="d-flex flex-column">
         <p class="h1 text-center mt-3">회원 상세</p>
-        <form>
+        <form method="post">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" readonly>
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                       th:value="${customer.email}" readonly>
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="name" name="name" th:value="${customer.name}">
             </div>
             <div class="mb-3">
-                <label for="name" class="form-label">상태</label>
-                <select class="form-select" aria-label="Default select example">
-                <option value="true">일반</option>
-                <option value="false">BAN</option>
+                <label for="banned" class="form-label">상태</label>
+                <select th:field="${customer.banned}" id="banned" name="banned" class="form-select"
+                        aria-label="Default select example">
+                    <option value="0">일반</option>
+                    <option value="1">BAN</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-outline-secondary">업데이트</button>
-            <button type="button" class="btn btn-danger">삭제</button>
+            <button onclick="location.href='customer-list.html'"
+                    th:onclick="|location.href='@{/customers}'|"
+                    type="button" class="btn btn-outline-secondary">목록
+            </button>
         </form>
-
+        <form th:action="@{|/customers/${customer.customerId}/delete|}" method="post" class="mt-3">
+            <button th:onclick="|location.href='@{/customers/{customerId}/delete(customerId=${customer.customerId})}'|"
+                    type="submit" class="btn btn-danger">삭제
+            </button>
+        </form>
     </div>
 </div>
 </body>
