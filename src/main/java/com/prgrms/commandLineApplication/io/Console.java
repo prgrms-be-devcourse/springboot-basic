@@ -12,8 +12,8 @@ import java.util.Scanner;
 @Component
 public class Console implements Input, Output {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Console.class);
-  private static final Scanner SCANNER = new Scanner(System.in);
+  private static final Logger logger = LoggerFactory.getLogger(Console.class);
+  private static final Scanner scanner = new Scanner(System.in);
 
   public static final String ENTER_CREATE_TYPE = "Enter the type you want to create";
   public static final String ENTER_CREATE_VALUE = "Enter the value you want to create";
@@ -27,7 +27,7 @@ public class Console implements Input, Output {
           """;
 
   private String userInput() {
-    return SCANNER.nextLine();
+    return scanner.nextLine();
   }
 
   @Override
@@ -70,17 +70,13 @@ public class Console implements Input, Output {
     for (Voucher voucher : vouchers) {
       DiscountType discountType = voucher.supplyDiscountType();
       System.out.println(String.format("- VOUCHER_ID : %s", voucher.getVoucherId()));
-      System.out.println(String.format("- %s VOUCHER : %s%s", discountType, voucher.supplyDiscountAmount(), printUnit(discountType)));
+      System.out.println(String.format("- %s VOUCHER : %s%s", discountType, voucher.supplyDiscountAmount(), DiscountType.getUnit(discountType)));
     }
-  }
-
-  private String printUnit(DiscountType discountType) {
-    return DiscountType.getUnit(discountType);
   }
 
   @Override
   public void printCreateSuccess(String voucherType, int discountAmount) {
-    LOGGER.info("{} : VOUCHER => {} {} ", CREATE_SUCCESS, voucherType.toUpperCase(), discountAmount);
+    logger.info("{} : VOUCHER => {} {} ", CREATE_SUCCESS, voucherType.toUpperCase(), discountAmount);
   }
 
   @Override
