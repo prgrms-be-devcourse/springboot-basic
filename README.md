@@ -1,36 +1,51 @@
-# SpringBoot Basic Weekly Mission
+# SpringBoot Basic Weekly2 Mission
 
 
-## 요구사항
+### 설계도 
 
-- [x]  Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 개발PC에 설치해서 명령어들을 사용해보고 프로젝트를 만든다. 그리고 IDE (IntelliJ)에서 실행시켜 본다.
-- [x]  바우처 관리 Command-line Application을 만들어본다.
-    - 참고: https://dzone.com/articles/interactive-console-applications-in-java
-    - [x]  스프링부트 애플리케이션으로 만든다. (Web기능이 없이 만듭니다. 즉, 서버가 띄지 않고 커맨드라인 애플리케이션으로 동작해야한다.)
-    - [x]  프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.
-
-  ```bash
-  === Voucher Program ===
-  Type **exit** to exit the program.
-  Type **create** to create a new voucher.
-  Type **list** to list all vouchers.
-  ```
-
-    - [x]  create / list 커맨드를 지원한다.
-        - create 커맨드를 통해 바우처를 생성할수 있다. (FixedAmountVoucher, PercentDiscountVoucher)
-        - list 커맨드를 통해 만들어진 바우처를 조회할 수 있다.
-        - 바우처 정보를 매모리에 관리한다. 어플리케이션이 종료가 되어 데이터가 모두 사라져도 괜찮습니다. (나중에 영속성을 가지도록 변경할거에요 걱정마세요!)
-- [x]  적절한 로그를 기록하고 `logback` 설정을해서 에러는 파일로 기록된다.
-- [x]  실행가능한 `jar` 파일을 생성한다.
+![image](/doc/바우처설계도_W2.png)
 
 
 
-## 프로젝트 그림그리기 및 소개하기
+### 요구사항
 
-#### 최초
-![image](/doc/diagram.png)
+**(기본)** **바우처 관리 애플리케이션**
+
+- [ ]  바우처 관리 애플리케이션에 단위테스트를 작성해보세요.
+    - 가능한 많은 단위 테스트코드를 작성하려고 노력해보세요.
+    - 엣지 케이스(예외 케이스)를 고려해서 작성해주세요.
+    - Hamcrest 의 메쳐들을 다양하게 작성해보고 익숙해져 보세요.
+- [ ]  바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
+    - customers 테이블 정의 및 추가
+    - CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
+- [ ]  (1주차엔 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
+    - 바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+    - 바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
+    - 기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
+
+**(심화)** **바우처 지갑을 만들어보세요.**
+
+- 특정 고객에게 바우처를 할당할 수 있습니다.
+- 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
+- 고객이 보유한 바우처를 제거할 수 있어야 합니다.
+- 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
 
 
-#### 현재
-![image](/doc/바우처설계도.png)
+### 작업 할 순서 목록
 
+- [ ] JdbcVouceherRespotitory CRUD 구현
+- [ ] JdbcVouceherRespotitory CRUD 테스트코드 작성
+- [ ] VoucherService 수정, 삭제, 조건 조회 기능 구현 
+- [ ] VoucherService 수정, 삭제, 조건 조회 기능 테스트 코드 작성
+- [ ] JdbcCustomerRespotitory CRUD 구현
+- [ ] JdbcCustomerRespotitory CRUD 테스트 코드 작성
+- [ ] CustomerService 생성, 수정, 삭제, 조회 기능 구현
+- [ ] CustomerService 생성, 수정, 삭제, 조회 기능 테스트 코드 작성
+- [ ] CustomerController 생성, 수정, 삭제, 조건 조회 요청 기능 구현
+- [ ] ApplicationController 사용자 기능 요청 기능 구현
+- [ ] Console 사용자관련 입출력 기능 구현
+- [ ] Controller, Console 테스트코드 작성 
+- [ ] CustomerService 사용자의 바우처 생성 조회 삭제 기능 구현 
+- [ ] CustomerService 사용자의 바우처 생성 조회 삭제 테스트 코드 작성
+- [ ] VoucherService 특정 바우처 보유 고객 조회 조회 기능 구현
+- [ ] VoucherService 특정 바우처 보유 고객 조회 조회 테스트 코드 작성 
