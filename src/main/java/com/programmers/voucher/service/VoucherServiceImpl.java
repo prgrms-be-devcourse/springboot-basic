@@ -5,10 +5,12 @@ import com.programmers.voucher.domain.VoucherMapper;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
+@Transactional(readOnly = true)
 @Service
 public class VoucherServiceImpl implements VoucherService {
 
@@ -18,6 +20,7 @@ public class VoucherServiceImpl implements VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    @Transactional
     public Voucher create(VoucherRequestDto requestDto) {
         Voucher voucher = VoucherMapper.convertRequestDtoToDomain(requestDto);
         return voucherRepository.save(voucher);
