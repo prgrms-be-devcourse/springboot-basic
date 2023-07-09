@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-import com.programmers.customer.controller.CustomerController;
 import com.programmers.customer.domain.Customer;
 import com.programmers.customer.domain.CustomerType;
 import com.programmers.customer.dto.CustomerCreateRequestDto;

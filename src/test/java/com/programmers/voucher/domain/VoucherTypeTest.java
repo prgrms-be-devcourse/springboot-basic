@@ -3,8 +3,6 @@ package com.programmers.voucher.domain;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.VoucherType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

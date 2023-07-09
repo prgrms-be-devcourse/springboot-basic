@@ -11,7 +11,6 @@ import com.programmers.customer.dto.CustomerResponseDto;
 import com.programmers.customer.dto.CustomerUpdateRequestDto;
 import com.programmers.customer.dto.CustomersResponseDto;
 import com.programmers.customer.repository.CustomerRepository;
-import com.programmers.customer.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
