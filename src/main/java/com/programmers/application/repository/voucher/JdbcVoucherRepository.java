@@ -52,7 +52,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return Optional.ofNullable(voucher);
     }
 
-    private static RowMapper<Voucher> getVoucherRowMapper() {
+    private RowMapper<Voucher> getVoucherRowMapper() {
         return (rs, rowNum) -> {
             UUID voucherId = UUIDMapper.toUUID(rs.getBytes("voucher_id"));
             long discountAmount = rs.getInt("discount_amount");

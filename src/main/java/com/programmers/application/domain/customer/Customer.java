@@ -26,6 +26,14 @@ public class Customer {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
+        this.customerId = customerId;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.name = name;
+        this.lastLoginAt = lastLoginAt;
+    }
+
     private static void validateName(String name) {
         if (Objects.isNull(name) || name.isBlank()) {
             throw new IllegalArgumentException("고객 이름이 비어있습니다.");

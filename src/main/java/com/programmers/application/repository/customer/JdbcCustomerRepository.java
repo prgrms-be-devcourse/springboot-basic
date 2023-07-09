@@ -2,10 +2,13 @@ package com.programmers.application.repository.customer;
 
 import com.programmers.application.domain.customer.Customer;
 import com.programmers.application.util.UUIDMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,7 +24,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        String sql = "INSERT INTO customer (customer_id, email, name, created_at, last_login_at) VALUES (:customerId, :name, :email, :createdAt, :lastLoginAt)";
+        String sql = "INSERT INTO customer (customer_id, name, email, created_at, last_login_at) VALUES (:customerId, :name, :email, :createdAt, :lastLoginAt)";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("customerId", UUIDMapper.toBytes(customer.getCustomerId()))
                 .addValue("name", customer.getName())
@@ -39,7 +42,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByCustomerId(UUID customerId) {
-        return Optional.empty();
+        String sql = "SELECT * FROM customer WHERE customer_id = :customerId";
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("customerId", UUIDMapper.toBytes(customerId));
+        Customer customer = namedParameterJdbcTemplate.queryForObject(sql, param, getCustomerRowMapper());
+        return Optional.ofNullable(customer);
     }
 
     @Override
@@ -55,5 +62,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteByCustomerId(UUID customerId) {
 
+    }
+
+    private RowMapper<Customer> getCustomerRowMapper() {
+        return (rs, rowNum) -> {
+            UUID voucherId = UUIDMapper.toUUID(rs.getBytes("customer_id"));
+            String email = rs.getString("email");
+            String name = rs.getString("name");
+            LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+            LocalDateTime lastLoginAt = rs.getTimestamp("last_login_at").toLocalDateTime();
+            return new Customer(voucherId,name, email, createdAt, lastLoginAt);
+        };
     }
 }
