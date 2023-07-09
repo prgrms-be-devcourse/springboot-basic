@@ -30,6 +30,11 @@ public class PercentDiscountVoucher extends Voucher{
         return discountAmount;
     }
 
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
+    }
+
     private static void validateVoucherId(UUID voucherId) {
         if (Objects.isNull(voucherId)) {
             throw new IllegalArgumentException("바우처 아이디가 비어있습니다.");
