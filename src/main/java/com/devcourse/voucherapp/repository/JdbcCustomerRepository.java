@@ -28,13 +28,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer create(Customer customer) {
-        String nickname = customer.getNickname();
-        Optional<Customer> existedCustomer = findCustomerByNickname(nickname);
-
-        if (existedCustomer.isPresent()) {
-            throw new ExistedCustomerException(nickname);
-        }
-
         String sql = "insert into customer(id, type, nickname) values (:id, :typeNumber, :nickname)";
         template.update(sql, getParameterSource(customer));
 

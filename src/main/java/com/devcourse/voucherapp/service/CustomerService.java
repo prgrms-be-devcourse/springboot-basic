@@ -4,6 +4,7 @@ import com.devcourse.voucherapp.entity.customer.Customer;
 import com.devcourse.voucherapp.entity.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
+import com.devcourse.voucherapp.exception.ExistedCustomerException;
 import com.devcourse.voucherapp.repository.CustomerRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,12 @@ public class CustomerService {
 
     public CustomerResponseDto create(CustomerCreateRequestDto request) {
         String nickname = request.getNickname();
+
+        customerRepository.findCustomerByNickname(nickname)
+                .ifPresent(customer -> {
+                    throw new ExistedCustomerException(nickname);
+                });
+
         Customer newCustomer = Customer.from(nickname);
         Customer customer = customerRepository.create(newCustomer);
 
