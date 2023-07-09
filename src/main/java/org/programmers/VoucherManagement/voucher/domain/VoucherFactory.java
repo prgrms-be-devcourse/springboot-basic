@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Component
 public class VoucherFactory {
-    public Voucher createVoucher(CreateVoucherRequest createVoucherRequest){
+    public static Voucher createVoucher(CreateVoucherRequest createVoucherRequest) {
         DiscountType discountType = createVoucherRequest.getDiscountType();
 
         Voucher voucher = switch (discountType) {
@@ -17,6 +17,14 @@ public class VoucherFactory {
                     new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
         };
 
+        return voucher;
+    }
+
+    public static Voucher mapVoucher(UUID voucherId, int discountValue, DiscountType discountType) {
+        Voucher voucher = switch (discountType) {
+            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(discountValue));
+            case PERCENT -> new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(discountValue));
+        };
         return voucher;
     }
 }
