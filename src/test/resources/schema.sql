@@ -15,7 +15,7 @@ CREATE TABLE customer (
     id VARCHAR(36),
     name VARCHAR(10),
     created_at timestamp default current_timestamp,
-    modified_at timestamp NOT NULL,
+    modified_at timestamp,
     primary key (id)
 );
 

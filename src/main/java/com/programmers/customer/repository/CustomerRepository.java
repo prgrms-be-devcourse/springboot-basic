@@ -9,6 +9,8 @@ public interface CustomerRepository {
 
     Customer save(Customer customer);
 
+    Customer update(Customer customer);
+
     List<Customer> findAll();
 
     Customer findById(UUID customerId);
