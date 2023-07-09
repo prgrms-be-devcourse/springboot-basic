@@ -49,7 +49,7 @@ public enum VoucherType {
         this.voucherGenerator = voucherGenerator;
     }
 
-    public static VoucherType of(String voucherTypeNumber) {
+    public static VoucherType from(String voucherTypeNumber) {
         if (VOUCHER_TYPES.containsKey(voucherTypeNumber)) {
             return VOUCHER_TYPES.get(voucherTypeNumber);
         }

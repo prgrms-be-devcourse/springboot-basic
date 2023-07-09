@@ -30,7 +30,7 @@ public enum Menu {
         this.name = name;
     }
 
-    public static Menu of(String menuNumber) {
+    public static Menu from(String menuNumber) {
         if (MENUS.containsKey(menuNumber)) {
             return MENUS.get(menuNumber);
         }

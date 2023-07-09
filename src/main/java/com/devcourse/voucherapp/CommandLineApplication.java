@@ -27,7 +27,7 @@ public class CommandLineApplication implements CommandLineRunner {
         while (isRunning) {
             try {
                 String menuNumber = viewManager.readMenuNumber();
-                Menu selectedMenu = Menu.of(menuNumber);
+                Menu selectedMenu = Menu.from(menuNumber);
                 executeMenu(selectedMenu);
             } catch (Exception e) {
                 String message = e.getMessage();
@@ -49,7 +49,7 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private void createVoucher() {
         String typeNumber = viewManager.readVoucherTypeNumber();
-        VoucherType voucherType = VoucherType.of(typeNumber);
+        VoucherType voucherType = VoucherType.from(typeNumber);
 
         String message = voucherType.getMessage();
         String discountAmount = viewManager.readDiscountAmount(message);

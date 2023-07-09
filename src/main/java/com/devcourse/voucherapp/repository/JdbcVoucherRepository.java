@@ -84,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             String typeNumber = resultSet.getString("type");
             int discountAmount = resultSet.getInt("discount_amount");
 
-            return VoucherType.of(typeNumber)
+            return VoucherType.from(typeNumber)
                     .makeVoucher(UUID.fromString(id), String.valueOf(discountAmount));
         };
     }
