@@ -1,5 +1,7 @@
 package com.prgrms.model.customer;
 
+import com.prgrms.view.message.ErrorMessage;
+
 import java.time.LocalDateTime;
 
 public class Customer {
@@ -19,8 +21,8 @@ public class Customer {
     }
 
     private void validateName(String name) {
-        if (name.isBlank()) {
-            throw new RuntimeException("Name should not be blank");
+        if (name.isEmpty()) {
+            throw new RuntimeException(ErrorMessage.NULL_ARGUMENT.getMessage());
         }
     }
 
