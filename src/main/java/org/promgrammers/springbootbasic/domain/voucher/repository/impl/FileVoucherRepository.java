@@ -1,10 +1,11 @@
 package org.promgrammers.springbootbasic.domain.voucher.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
-import org.promgrammers.springbootbasic.exception.repository.FileWriteException;
-import org.promgrammers.springbootbasic.exception.repository.InvalidFilePathException;
-import org.promgrammers.springbootbasic.util.FileConverter;
+import org.promgrammers.springbootbasic.global.error.exception.repository.FileWriteException;
+import org.promgrammers.springbootbasic.global.error.exception.repository.InvalidFilePathException;
+import org.promgrammers.springbootbasic.global.util.FileConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -118,6 +119,19 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             logger.error("Voucher 목록 조회 실패", e.getMessage());
             throw new FileWriteException("Voucher 목록 조회에 실패했습니다.");
+        }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        try {
+            return Files.lines(filePath)
+                    .map(FileConverter::parseVoucherFromLine)
+                    .filter(voucher -> voucher.getVoucherType() == voucherType)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            logger.error("Voucher 타입 검색 실패", e.getMessage());
+            throw new FileWriteException("Voucher 타입 검색 실패.");
         }
     }
 
