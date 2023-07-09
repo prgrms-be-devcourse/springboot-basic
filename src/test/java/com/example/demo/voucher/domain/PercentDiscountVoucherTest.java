@@ -1,5 +1,6 @@
 package com.example.demo.voucher.domain;
 
+import com.example.demo.voucher.application.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +59,7 @@ class PercentDiscountVoucherTest {
 
         // Then
         assertEquals(percent, voucher.getValue());
-        assertEquals("PercentDiscountVoucher", voucher.getName());
+        assertEquals(VoucherType.PERCENT_DISCOUNT_VOUCHER.name(), voucher.getName());
         assertEquals(voucherId, voucher.getVoucherId());
     }
 

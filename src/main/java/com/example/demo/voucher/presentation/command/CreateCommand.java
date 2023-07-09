@@ -6,6 +6,7 @@ import com.example.demo.voucher.application.VoucherService;
 import com.example.demo.voucher.application.VoucherType;
 import com.example.demo.common.command.Command;
 import com.example.demo.voucher.presentation.message.VoucherTypeMessage;
+import com.example.demo.voucher.presentation.message.VoucherTypeMessageInfo;
 import com.example.demo.voucher.presentation.message.VoucherTypeMessageMapper;
 import org.springframework.stereotype.Component;
 
@@ -43,9 +44,11 @@ public class CreateCommand implements Command {
     }
 
     private void printMenu() {
+        VoucherTypeMessageInfo info = new VoucherTypeMessageInfo(VoucherTypeMessageMapper.getInstance());
+
         output.printLine("Please enter the voucher type:");
         Arrays.stream(VoucherType.values())
-                .map(type -> type.getCounter() + " : " + VoucherTypeMessageMapper.getInstance().getMessage(type).getMessage())
+                .map(type -> type.getCounter() + " : " + info.toMessage(type))
                 .forEach(output::printLine);
     }
 
