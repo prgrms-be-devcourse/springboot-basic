@@ -1,7 +1,7 @@
 package org.programmers.VoucherManagement.member.infrastructure;
 
+
 import org.programmers.VoucherManagement.global.util.MemberConverter;
-import org.programmers.VoucherManagement.io.Console;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,15 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class FileMemberRepository implements MemberRepository {
+public class FileMemberRepository {
     private final File file;
     private final Logger logger = LoggerFactory.getLogger(Console.class);
 
     private FileMemberRepository(@Value("${app.path.file}") String filePath) {
         this.file = new File(filePath);
     }
-
-    @Override
+    
     public List<Member> findAllByMemberStatus() {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
