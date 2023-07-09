@@ -1,4 +1,4 @@
-package com.programmers.springweekly.service;
+package com.programmers.springweekly.service.wallet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,6 +12,7 @@ import com.programmers.springweekly.dto.wallet.response.WalletResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
 import com.programmers.springweekly.repository.voucher.VoucherRepository;
+import com.programmers.springweekly.service.WalletService;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.assertj.core.api.Assertions;
