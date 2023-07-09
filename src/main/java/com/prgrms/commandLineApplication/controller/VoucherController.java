@@ -8,14 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
 public class VoucherController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(VoucherController.class);
+  private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
   private final VoucherService voucherService;
   private final Console console;
@@ -41,10 +40,10 @@ public class VoucherController {
           case CREATE -> create();
         }
       } catch (IllegalArgumentException e) {
-        LOGGER.error("Error Message => {}", e.getMessage());
+        logger.error("Error Message => {}", e.getMessage(), e);
         console.printErrorMessage(e);
       } catch (NoSuchElementException e) {
-        LOGGER.warn("Warn Message => {}", e.getMessage());
+        logger.warn("Warn Message => {}", e.getMessage(), e);
         console.printErrorMessage(e);
       }
     }
