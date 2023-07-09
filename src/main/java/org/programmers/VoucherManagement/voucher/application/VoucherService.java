@@ -1,15 +1,14 @@
 package org.programmers.VoucherManagement.voucher.application;
 
 import lombok.RequiredArgsConstructor;
-import org.programmers.VoucherManagement.voucher.domain.*;
-import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
+import org.programmers.VoucherManagement.voucher.domain.Voucher;
+import org.programmers.VoucherManagement.voucher.domain.VoucherFactory;
 import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
