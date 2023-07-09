@@ -21,8 +21,8 @@ public class VoucherTestUtil {
         return VoucherDto.from(fixedVoucher);
     }
 
-    public static VoucherDto createPercentVoucherDto(UUID voucherId, long amount) {
-        Voucher percentVoucher = createPercentVoucher(voucherId, amount);
+    public static VoucherDto createPercentVoucherDto(UUID voucherId, long percent) {
+        Voucher percentVoucher = createPercentVoucher(voucherId, percent);
         return VoucherDto.from(percentVoucher);
     }
 }
