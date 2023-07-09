@@ -2,24 +2,24 @@ package com.prgms.VoucherApp.domain.wallet.model;
 
 import com.prgms.VoucherApp.domain.customer.model.Customer;
 import com.prgms.VoucherApp.domain.customer.model.CustomerDao;
+import com.prgms.VoucherApp.domain.customer.model.CustomerJdbcDao;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
-import com.prgms.VoucherApp.domain.voucher.model.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.voucher.model.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.voucher.model.Voucher;
-import com.prgms.VoucherApp.domain.voucher.model.VoucherDao;
+import com.prgms.VoucherApp.domain.voucher.model.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@SpringBootTest
+@JdbcTest
+@Import({VoucherJdbcDao.class, CustomerJdbcDao.class, WalletJdbcDao.class})
 class WalletJdbcDaoTest {
 
     @Autowired

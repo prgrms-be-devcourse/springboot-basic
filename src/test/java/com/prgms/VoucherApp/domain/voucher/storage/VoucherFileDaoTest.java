@@ -1,10 +1,14 @@
 package com.prgms.VoucherApp.domain.voucher.storage;
 
-import com.prgms.VoucherApp.domain.voucher.model.*;
+import com.prgms.VoucherApp.domain.voucher.model.FixedAmountVoucher;
+import com.prgms.VoucherApp.domain.voucher.model.PercentDiscountVoucher;
+import com.prgms.VoucherApp.domain.voucher.model.Voucher;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherFileDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
@@ -12,12 +16,13 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = {VoucherFileDao.class})
+@JdbcTest
+@Import(VoucherFileDao.class)
 @ActiveProfiles(profiles = "dev")
 public class VoucherFileDaoTest {
 
     @Autowired
-    VoucherDao storage;
+    VoucherFileDao storage;
 
     @Test
     @DisplayName("고정 비용 할인권 생성 테스트")

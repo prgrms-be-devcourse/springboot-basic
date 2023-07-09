@@ -3,14 +3,15 @@ package com.prgms.VoucherApp.domain.customer.storage;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
 import com.prgms.VoucherApp.domain.customer.model.Customer;
 import com.prgms.VoucherApp.domain.customer.model.CustomerDao;
+import com.prgms.VoucherApp.domain.customer.model.CustomerJdbcDao;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +19,8 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
 
-@SpringBootTest
-@Transactional
+@JdbcTest
+@Import(CustomerJdbcDao.class)
 class CustomerJdbcDaoTest {
 
     @Autowired
