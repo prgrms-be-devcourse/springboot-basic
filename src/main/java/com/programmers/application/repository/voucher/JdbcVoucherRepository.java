@@ -6,12 +6,13 @@ import com.programmers.application.domain.voucher.Voucher;
 import com.programmers.application.domain.voucher.VoucherType;
 import com.programmers.application.util.UUIDMapper;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,10 +47,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
         String sql = "SELECT * FROM voucher WHERE voucher_id = :voucherId";
-        HashMap<String, Object> param = new HashMap<>();
-        param.put("voucherId", UUIDMapper.toBytes(voucherId));
-        Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, param, getVoucherRowMapper());
-        return Optional.ofNullable(voucher);
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("voucherId", UUIDMapper.toBytes(voucherId));
+        try {
+            Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, paramMap, getVoucherRowMapper());
+            return Optional.of(voucher);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private RowMapper<Voucher> getVoucherRowMapper() {
