@@ -2,7 +2,7 @@ package org.prgrms.kdt.commendLine;
 
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.wallet.dto.WalletListResponse;
+import org.prgrms.kdt.wallet.dto.WalletResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -76,8 +76,8 @@ public class Console {
         System.out.println();
     }
 
-    public void printAllWallet(WalletListResponse response) {
-        response.wallets().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2},{3}",
+    public void printAllWallet(List<WalletResponse> response) {
+        response.forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2},{3}",
                 e.walletId(), e.memberName(), e.voucherType(), e.voucherAmount())));
         System.out.println();
     }

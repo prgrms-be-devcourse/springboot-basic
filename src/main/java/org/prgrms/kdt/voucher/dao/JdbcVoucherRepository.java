@@ -35,8 +35,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        String sql = "select * from voucher WHERE id = ?";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from voucher WHERE id = ?",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     voucherRowMapper,
                     voucherId.toString()));
         } catch (EmptyResultDataAccessException e) {
@@ -47,7 +48,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        int update = jdbcTemplate.update("INSERT INTO voucher(id, type, amount) VALUES (?, ?, ?)",
+        String sql = "INSERT INTO voucher(id, type, amount) VALUES (?, ?, ?)";
+        int update = jdbcTemplate.update(sql,
                 voucher.getVoucherId().toString(),
                 voucher.getVoucherType().getName(),
                 voucher.getDiscountPolicy().getAmount());
