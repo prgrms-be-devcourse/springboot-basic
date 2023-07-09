@@ -9,14 +9,14 @@ import java.util.Map;
 @Component
 public class CommandExecution {
 
-    private final Map<Command, VoucherExecution> commandExecutionMap;
+    private final Map<VoucherCommand, VoucherExecution> voucherExecutionMap;
 
-    public CommandExecution(Map<Command, VoucherExecution> commandExecutionMap) {
-        this.commandExecutionMap = commandExecutionMap;
+    public CommandExecution(Map<VoucherCommand, VoucherExecution> commandExecutionMap) {
+        this.voucherExecutionMap = commandExecutionMap;
     }
 
-    public void executeVoucher(Command command) throws IOException {
-        VoucherExecution voucherExecution = commandExecutionMap.get(command);
+    public void executeVoucher(VoucherCommand command) throws IOException {
+        VoucherExecution voucherExecution = voucherExecutionMap.get(command);
         voucherExecution.execute();
     }
 }

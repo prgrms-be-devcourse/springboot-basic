@@ -1,6 +1,6 @@
 package com.programmers.application.config;
 
-import com.programmers.application.controller.voucher.command.Command;
+import com.programmers.application.controller.voucher.command.VoucherCommand;
 import com.programmers.application.controller.voucher.command.execution.CreateVoucherExecution;
 import com.programmers.application.controller.voucher.command.execution.ExitVoucherExecution;
 import com.programmers.application.controller.voucher.command.execution.ListVoucherExecution;
@@ -25,12 +25,12 @@ public class VoucherExecutionMapConfiguration {
     }
 
     @Bean
-    public Map<Command, VoucherExecution> commandExecutionMap() {
-        EnumMap<Command, VoucherExecution> commandExecutionMap = new EnumMap<>(Command.class);
-        commandExecutionMap.put(Command.CREATE, createVoucherExecution);
-        commandExecutionMap.put(Command.LIST, listVoucherExecution);
-        commandExecutionMap.put(Command.EXIT, exitVoucherExecution);
-        return commandExecutionMap;
+    public Map<VoucherCommand, VoucherExecution> voucherExecutionMap() {
+        EnumMap<VoucherCommand, VoucherExecution> voucherExecutionEnumMap = new EnumMap<>(VoucherCommand.class);
+        voucherExecutionEnumMap.put(VoucherCommand.CREATE, createVoucherExecution);
+        voucherExecutionEnumMap.put(VoucherCommand.LIST, listVoucherExecution);
+        voucherExecutionEnumMap.put(VoucherCommand.EXIT, exitVoucherExecution);
+        return voucherExecutionEnumMap;
     }
 }
 

@@ -1,6 +1,6 @@
 package com.programmers.application.controller.voucher.command;
 
-public enum Command {
+public enum VoucherCommand {
     EXIT,
     CREATE,
     LIST,

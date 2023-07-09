@@ -1,7 +1,7 @@
 package com.programmers.application.controller;
 
-import com.programmers.application.controller.voucher.command.Command;
 import com.programmers.application.controller.voucher.command.CommandExecution;
+import com.programmers.application.controller.voucher.command.VoucherCommand;
 import com.programmers.application.io.IO;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ public class VoucherController implements Controller{
     @Override
     public void process() throws IOException {
         printMenu();
-        Command command = Command.valueOf(io.read().toUpperCase());
+        VoucherCommand command = VoucherCommand.valueOf(io.read().toUpperCase());
         commandExecution.executeVoucher(command);
     }
 
