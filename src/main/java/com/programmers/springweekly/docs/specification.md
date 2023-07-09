@@ -192,6 +192,10 @@ blacklist
 - Voucher와 Wallet의 관계를 N:1로 설정하였습니다.
     - 한 개의 바우처는 여러명의 고객에게 할당할 수 있다.
 
+![스크린샷 2023-07-10 오전 12 23 51](https://github.com/Hchanghyeon/springboot-basic/assets/92444744/a0c5395b-0b0f-4f21-99ae-f9a5f36a7b03)
+
+    
+
 ### Wallet
 
 - NamedParameterJdbcTemplate을 이용
