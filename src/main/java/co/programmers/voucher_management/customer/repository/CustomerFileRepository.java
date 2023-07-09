@@ -41,7 +41,7 @@ public class CustomerFileRepository implements CustomerRepository {
 			}
 			return foundResult;
 		} catch (IOException ioException) {
-			throw new RuntimeException("File Reader Failed");
+			throw new RuntimeException();
 		}
 	}
 
@@ -59,7 +59,7 @@ public class CustomerFileRepository implements CustomerRepository {
 				}
 			}
 		} catch (IOException ioException) {
-			throw new RuntimeException("File Reader Failed");
+			throw new RuntimeException();
 		}
 		return Optional.empty();
 	}

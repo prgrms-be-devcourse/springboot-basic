@@ -77,15 +77,4 @@ public class VoucherService {
 		return new Response(Response.State.SUCCESS, List.of());
 	}
 
-	public Response inquiryByVoucher(long voucherId) {
-		Voucher voucher = voucherRepository.findById(voucherId)
-				.orElseThrow(
-						() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", voucherId)));
-		long customerId = voucher.getCustomerId();
-		Customer customer = customerRepository.findById(customerId)
-				.orElseThrow(() -> new EmptyAssignerException(
-						MessageFormat.format("No customer assigned to voucher of id {0}", voucherId)));
-		CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO(customer);
-		return new Response(Response.State.SUCCESS, customerResponseDTO);
-	}
 }

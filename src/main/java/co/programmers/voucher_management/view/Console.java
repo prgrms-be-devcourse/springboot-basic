@@ -30,7 +30,7 @@ public class Console implements InputView, OutputView {
 		try {
 			return bufferedReader.readLine();
 		} catch (IOException ioException) {
-			throw new RuntimeException("BufferedReader Failed");
+			throw new RuntimeException();
 		}
 	}
 

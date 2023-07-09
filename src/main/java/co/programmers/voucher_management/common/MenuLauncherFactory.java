@@ -91,7 +91,7 @@ public class MenuLauncherFactory {
 		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a voucher"));
 		long voucherId = Long.parseLong(inputView.input());
 		try {
-			return voucherService.inquiryByVoucher(voucherId);
+			return customerService.inquiryCustomerByVoucher(voucherId);
 		} catch (EmptyAssignerException | NoSuchDataException exception) {
 			return new Response(Response.State.FAILED, exception.getMessage());
 		}

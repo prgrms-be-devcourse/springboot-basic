@@ -118,7 +118,7 @@ public class VoucherDBRepository implements VoucherRepository {
 					.customerId(customerId)
 					.build();
 		} catch (SQLException sqlException) {
-			throw new RuntimeException("DB Reader Failed");
+			throw new RuntimeException();
 		}
 	}
 }

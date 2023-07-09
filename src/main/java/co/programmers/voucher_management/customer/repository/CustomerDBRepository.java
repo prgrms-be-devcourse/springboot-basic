@@ -45,12 +45,12 @@ public class CustomerDBRepository implements CustomerRepository {
 					.rating(rating)
 					.build();
 		} catch (SQLException sqlException) {
-			throw new RuntimeException("DB Reader Failed");
+			throw new RuntimeException();
 		}
 	}
 
 	@Override
-	public List<Customer> findByRating(String rating) { // TODO
+	public List<Customer> findByRating(String rating) {
 		return jdbcTemplate.query(SELECT_BY_RATING_QUERY,
 				new MapSqlParameterSource().addValue("rating", rating), CustomerRowMapper);
 	}
