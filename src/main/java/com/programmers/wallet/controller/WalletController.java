@@ -112,7 +112,10 @@ public class WalletController {
         VouchersResponseDto vouchersResponseDto = walletService.findVouchersByCustomerId(customerId);
 
         console.printVoucherListTitle();
-        voucherController.getVouchersContent(vouchersResponseDto.vouchers());
+        List<Voucher> vouchers = voucherController.getVouchersContent(vouchersResponseDto.vouchers());
+        if (vouchers.isEmpty()) {
+            return;
+        }
 
         selectDeleteType(customerId);
     }
