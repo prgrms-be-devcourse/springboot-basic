@@ -35,7 +35,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public void save(Voucher voucher) {
         String sql = "insert into voucher(voucher_id, voucher_type, amount)" +
                 " values(:voucherId, :voucherType, :amount)";
-        VoucherDto voucherDto = voucher.toDto();
+        VoucherDto voucherDto = VoucherDto.from(voucher);
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherDto.getVoucherId().toString())
                 .addValue("voucherType", voucherDto.getVoucherType().name())
