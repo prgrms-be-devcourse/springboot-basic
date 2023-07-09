@@ -1,5 +1,7 @@
 package co.programmers.voucher_management.voucher.repository;
 
+import static co.programmers.voucher_management.common.Status.*;
+
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,7 +46,8 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	@Override
 	public Optional<Voucher> findById(long id) {
 		Voucher foundVoucher = repository.get(id);
-		if (foundVoucher == null) {
+		String status = foundVoucher.getStatus();
+		if (foundVoucher == null || status.equals(DELETED.getSymbol())) {
 			throw new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id));
 		}
 		return Optional.of(foundVoucher);
@@ -73,8 +76,6 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	@Override
 	public Voucher assignCustomer(Voucher voucher, Customer customer) {
 		long id = voucher.getId();
-		long customerId = customer.getId();
-		voucher.assignCustomer(customerId);
 		update(voucher);
 		return findById(id).orElseThrow(
 				() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id)));

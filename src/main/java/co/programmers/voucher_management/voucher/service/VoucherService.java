@@ -7,10 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import co.programmers.voucher_management.common.Response;
-import co.programmers.voucher_management.customer.dto.CustomerResponseDTO;
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.customer.repository.CustomerRepository;
-import co.programmers.voucher_management.exception.EmptyAssignerException;
 import co.programmers.voucher_management.exception.NoSuchDataException;
 import co.programmers.voucher_management.voucher.dto.VoucherAssignDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
@@ -31,8 +29,8 @@ public class VoucherService {
 
 	public Response create(VoucherRequestDTO voucherRequestDTO) {
 		Voucher voucher = new Voucher(voucherRequestDTO);
-		voucherRepository.create(voucher);
-		return new Response(Response.State.SUCCESS, List.of());
+		Voucher created = voucherRepository.create(voucher);
+		return new Response(Response.State.SUCCESS, created);
 	}
 
 	public Response inquiryVoucherOf() {
@@ -53,8 +51,8 @@ public class VoucherService {
 
 	public Response update(VoucherUpdateDTO voucherUpdateDTO) {
 		Voucher voucher = new Voucher(voucherUpdateDTO);
-		voucherRepository.update(voucher);
-		return new Response(Response.State.SUCCESS, List.of());
+		Voucher updated = voucherRepository.update(voucher);
+		return new Response(Response.State.SUCCESS, updated);
 	}
 
 	public Response deleteById(Long id) {
@@ -73,8 +71,8 @@ public class VoucherService {
 				.orElseThrow(
 						() -> new NoSuchDataException(MessageFormat.format("No such customer of id {0}", customerId)));
 		voucher.assignCustomer(customerId);
-		voucherRepository.assignCustomer(voucher, customer);
-		return new Response(Response.State.SUCCESS, List.of());
+		Voucher assigned = voucherRepository.assignCustomer(voucher, customer);
+		return new Response(Response.State.SUCCESS, assigned);
 	}
 
 }

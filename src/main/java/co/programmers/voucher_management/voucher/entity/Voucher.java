@@ -80,4 +80,15 @@ public class Voucher {
 	public void assignId(long id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "Voucher{" +
+				"id=" + id +
+				", discountType=" + discountStrategy.getType() +
+				", discountAmount=" + discountStrategy.getAmount() +
+				", customerId=" + customerId +
+				", status='" + status + '\'' +
+				'}';
+	}
 }
