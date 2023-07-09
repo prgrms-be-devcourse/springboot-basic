@@ -23,10 +23,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class VoucherControllerTest {
+class VoucherConsoleControllerTest {
 
     @InjectMocks
-    private VoucherController voucherController;
+    private VoucherConsoleController voucherController;
 
     @Mock
     private Console console;

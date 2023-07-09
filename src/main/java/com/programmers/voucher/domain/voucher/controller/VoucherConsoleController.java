@@ -15,11 +15,11 @@ import static com.programmers.voucher.global.util.ConsoleMessages.CREATED_NEW_VO
 import static com.programmers.voucher.global.util.ConsoleMessages.DELETED_VOUCHER;
 
 @Controller
-public class VoucherController {
+public class VoucherConsoleController {
     private final Console console;
     private final VoucherService voucherService;
 
-    public VoucherController(Console console, VoucherService voucherService) {
+    public VoucherConsoleController(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
     }

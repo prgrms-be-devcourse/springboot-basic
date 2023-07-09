@@ -20,10 +20,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class CustomerControllerTest {
+class CustomerConsoleControllerTest {
 
     @InjectMocks
-    private CustomerController customerController;
+    private CustomerConsoleController customerController;
 
     @Mock
     private Console console;

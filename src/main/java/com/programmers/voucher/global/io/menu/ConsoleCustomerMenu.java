@@ -1,6 +1,6 @@
 package com.programmers.voucher.global.io.menu;
 
-import com.programmers.voucher.domain.customer.controller.CustomerController;
+import com.programmers.voucher.domain.customer.controller.CustomerConsoleController;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.command.CustomerCommandType;
 import org.springframework.stereotype.Component;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsoleCustomerMenu {
     private final Console console;
-    private final CustomerController customerController;
+    private final CustomerConsoleController customerController;
 
-    public ConsoleCustomerMenu(Console console, CustomerController customerController) {
+    public ConsoleCustomerMenu(Console console, CustomerConsoleController customerController) {
         this.console = console;
         this.customerController = customerController;
     }

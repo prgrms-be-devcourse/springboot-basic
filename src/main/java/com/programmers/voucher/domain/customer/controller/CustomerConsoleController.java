@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class CustomerController {
+public class CustomerConsoleController {
     private final Console console;
     private final CustomerService customerService;
 
-    public CustomerController(Console console, CustomerService customerService) {
+    public CustomerConsoleController(Console console, CustomerService customerService) {
         this.console = console;
         this.customerService = customerService;
     }

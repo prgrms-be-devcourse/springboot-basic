@@ -1,6 +1,6 @@
 package com.programmers.voucher.global.io.menu;
 
-import com.programmers.voucher.domain.voucher.controller.VoucherController;
+import com.programmers.voucher.domain.voucher.controller.VoucherConsoleController;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.command.VoucherCommandType;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +24,7 @@ class ConsoleVoucherMenuTest {
     private Console console;
 
     @Mock
-    private VoucherController voucherController;
+    private VoucherConsoleController voucherController;
 
     @Test
     @DisplayName("성공: create 명령 입력 - exit 명령 입력")

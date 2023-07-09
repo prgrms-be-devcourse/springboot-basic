@@ -1,6 +1,6 @@
 package com.programmers.voucher.global.io.menu;
 
-import com.programmers.voucher.domain.customer.controller.CustomerController;
+import com.programmers.voucher.domain.customer.controller.CustomerConsoleController;
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.command.CustomerCommandType;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +24,7 @@ class ConsoleCustomerMenuTest {
     private Console console;
 
     @Mock
-    private CustomerController customerController;
+    private CustomerConsoleController customerController;
 
     @Test
     @DisplayName("성공: blacklist 명령 입력 - exit 명령 입력")
