@@ -1,6 +1,5 @@
 package com.programmers.voucher.domain.voucher.controller;
 
-import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
@@ -33,10 +32,7 @@ public class VoucherConsoleController {
     }
 
     public void findVouchers() {
-        List<Voucher> vouchers = voucherService.findVouchers();
-        List<VoucherDto> voucherDtos = vouchers.stream()
-                .map(VoucherDto::from)
-                .toList();
+        List<VoucherDto> voucherDtos = voucherService.findVouchers();
 
         console.printVouchers(voucherDtos);
     }

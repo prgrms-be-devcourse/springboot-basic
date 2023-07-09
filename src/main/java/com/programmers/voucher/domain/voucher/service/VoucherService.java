@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.voucher.service;
 
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
 import com.programmers.voucher.domain.voucher.util.VoucherMessages;
@@ -38,8 +39,11 @@ public class VoucherService {
     }
 
     @Transactional(readOnly = true)
-    public List<Voucher> findVouchers() {
-        return voucherRepository.findAll();
+    public List<VoucherDto> findVouchers() {
+        List<Voucher> vouchers = voucherRepository.findAll();
+        return vouchers.stream()
+                .map(VoucherDto::from)
+                .toList();
     }
 
     @Transactional
