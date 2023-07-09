@@ -14,20 +14,4 @@ public enum VoucherType {
                 .findFirst()
                 .orElseThrow(() -> new NoSuchVoucherTypeException("해당 바우처 타입이 존재하지 않습니다."));
     }
-
-    public static Integer validateAmountInputValue(int inputValue) {
-        if (inputValue > 0) {
-            return inputValue;
-        }
-
-        return null;
-    }
-
-    public static Integer validatePercentInputValue(int inputValue) {
-        if (inputValue > 0 && inputValue <= 100) {
-            return inputValue;
-        }
-
-        return null;
-    }
 }
