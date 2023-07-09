@@ -10,11 +10,13 @@ import com.programmers.springmission.customer.repository.CustomerRepository;
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.InvalidInputException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
@@ -23,6 +25,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    @Transactional
     public CustomerResponse createCustomer(CustomerCreateRequest customerCreateRequest) {
         duplicatedCustomerEmail(customerCreateRequest.getEmail());
         Customer customer = new Customer(customerCreateRequest.getName(), customerCreateRequest.getEmail());
@@ -50,6 +53,7 @@ public class CustomerService {
                 .toList();
     }
 
+    @Transactional
     public CustomerResponse updateCustomer(UUID customerId, CustomerUpdateRequest customerUpdateRequest) {
         Customer customer = validCustomerExistById(customerId);
         customer.updateName(customerUpdateRequest.getName());
@@ -58,12 +62,14 @@ public class CustomerService {
         return new CustomerResponse(customer);
     }
 
+    @Transactional
     public void deleteByIdCustomer(UUID customerId) {
         Customer customer = validCustomerExistById(customerId);
 
         customerRepository.deleteById(customer.getCustomerId());
     }
 
+    @Transactional
     public void deleteAllCustomer() {
         customerRepository.deleteAll();
     }

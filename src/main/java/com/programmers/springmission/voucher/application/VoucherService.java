@@ -11,11 +11,13 @@ import com.programmers.springmission.voucher.presentation.request.VoucherUpdateR
 import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
 import com.programmers.springmission.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
@@ -24,6 +26,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    @Transactional
     public VoucherResponse createVoucher(VoucherCreateRequest voucherCreateRequest) {
         VoucherType voucherType = voucherCreateRequest.getVoucherType();
         Voucher voucher = switch (voucherType) {
@@ -48,6 +51,7 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional
     public VoucherResponse updateVoucher(UUID inputVoucherId, VoucherUpdateRequest voucherUpdateRequest) {
         Voucher voucher = validVoucherExist(inputVoucherId);
         voucher.updateAmount(voucherUpdateRequest.getAmount());
@@ -56,12 +60,14 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
+    @Transactional
     public void deleteByIdVoucher(UUID voucherId) {
         Voucher voucher = validVoucherExist(voucherId);
 
         voucherRepository.deleteById(voucher.getVoucherId());
     }
 
+    @Transactional
     public void deleteAllVoucher() {
         voucherRepository.deleteAll();
     }
@@ -71,6 +77,7 @@ public class VoucherService {
                 .orElseThrow(() -> new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER));
     }
 
+    @Transactional
     public VoucherResponse assignVoucherToCustomer(UUID inputVoucherId, UUID inputCustomerId) {
         Voucher voucher = validVoucherExist(inputVoucherId);
         validateVoucherAssignCustomer(inputCustomerId, voucher);
