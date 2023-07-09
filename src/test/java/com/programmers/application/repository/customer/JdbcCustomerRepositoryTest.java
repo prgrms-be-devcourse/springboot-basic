@@ -2,6 +2,7 @@ package com.programmers.application.repository.customer;
 
 import com.programmers.application.domain.customer.Customer;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,5 +61,28 @@ class JdbcCustomerRepositoryTest {
 
         //then
         assertThat(customer).usingRecursiveComparison().isEqualTo(savedCustomer);
+    }
+
+    @DisplayName("Customer 생성 및 저장 시, finalAll() 실행하면 전체 Customer가 조회된다.")
+    @Test
+    void findAll() {
+        final int expectedCount = 2;
+        //given
+        Customer customer1 = new Customer(UUID.randomUUID(), "aCustomer", "mgtmh991013@naver.com");
+        Customer customer2 = new Customer(UUID.randomUUID(), "bCustomer", "mgtmh991013@gmail.com");
+        ArrayList<Customer> customers = new ArrayList<>(List.of(customer1, customer2));
+        createAndSaveCustomer(customers);
+
+        //when
+        List<Customer> customerList = jdbcCustomerRepository.findAll();
+
+        //then
+        assertThat(customerList).hasSize(expectedCount);
+    }
+
+    private void createAndSaveCustomer(List<Customer> customers) {
+        for (Customer customer : customers) {
+            jdbcCustomerRepository.save(customer);
+        }
     }
 }
