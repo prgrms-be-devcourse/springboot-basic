@@ -16,7 +16,8 @@ public class Console implements Input, Output {
             "Type 'create' or '2' to create a new voucher or a new customer.\n" +
             "Type 'list' or '3' to list all vouchers or all customers.\n" +
             "Type 'update' or '4' to update a voucher or a customer.\n" +
-            "Type 'delete' or '5' to delete a voucher or a customer.";
+            "Type 'delete' or '5' to delete a voucher or a customer.\n" +
+            "Type 'wallet' or '6' to use wallet function.";
     private static final String VOUCHER_TYPE_MESSAGE =
             "\n=== Voucher Type ===\n" +
             "Type voucher name or number to create.\n" +
@@ -56,11 +57,9 @@ public class Console implements Input, Output {
     private static final String UPDATE_NEW_VOUCHER_NAME_MESSAGE = "\n=== Type new voucher name ===";
     private static final String UPDATE_NEW_VOUCHER_VALUE_MESSAGE = "\n=== Type new voucher value ===";
     private static final String UPDATE_VOUCHER_COMPLETE_MESSAGE = "--- The voucher updated successfully !! ---\n";
-
     private static final String UPDATE_CUSTOMER_ID_MESSAGE = "=== Type customer id to update ===";
     private static final String UPDATE_NEW_CUSTOMER_NAME_MESSAGE = "\n=== Type new customer name ===";
     private static final String UPDATE_CUSTOMER_COMPLETE_MESSAGE = "--- The customer updated successfully !! ---\n";
-
     private static final String DELETE_MESSAGE =
             "\n=== Delete ===\n" +
             "Type '1' or '2' to delete item.\n" +
@@ -74,7 +73,6 @@ public class Console implements Input, Output {
             "2. Delete all vouchers.";
     private static final String DELETE_VOUCHER_COMPLETE_MESSAGE = "--- The voucher deleted successfully !! ---\n";
     private static final String DELETE_ALL_VOUCHERS_COMPLETE_MESSAGE = "--- All vouchers deleted successfully !! ---\n";
-
     private static final String DELETE_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to delete ===";
     private static final String DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE =
             "\n=== Delete ===\n" +
@@ -83,6 +81,17 @@ public class Console implements Input, Output {
             "2. Delete all customers.";
     private static final String DELETE_CUSTOMER_COMPLETE_MESSAGE = "--- The customer deleted successfully !! ---\n";
     private static final String DELETE_ALL_CUSTOMERS_COMPLETE_MESSAGE = "--- All customers deleted successfully !! ---\n";
+    private static final String WALLET_MESSAGE =
+            "\n=== Wallet ===\n" +
+            "Type '1 / 2 / 3 / 4' to use function.\n" +
+            "1. Assign a voucher.\n" +
+            "2. Search for a customer. (Search for a customer to find out the customer's voucher.)\n" +
+            "3. Search for a voucher. (Search for a voucher to find the assigned customer.)\n" +
+            "4. Delete the voucher assigned to the customer.";
+    private static final String WALLET_ASSIGN_TITLE_MESSAGE = "\n=== Assign a voucher. ===";
+    private static final String WALLET_ASSIGN_VOUCHER_ID_MESSAGE = "\n=== Type voucher id to assign. ===";
+    private static final String WALLET_ASSIGN_CUSTOMER_ID_MESSAGE = "\n=== Type customer id to assign. ===";
+    private static final String WALLET_ASSIGN_COMPLETE_MESSAGE = "--- The voucher assigned successfully !! ---\n";
 
     @Override
     public void printMenu() {
@@ -239,5 +248,26 @@ public class Console implements Input, Output {
 
     public void printDeleteAllCustomersCompleteMessage() {
         System.out.println(DELETE_ALL_CUSTOMERS_COMPLETE_MESSAGE);
+    }
+
+    @Override
+    public void printWalletMessage() {
+        System.out.println(WALLET_MESSAGE);
+    }
+
+    public void printWalletAssignTitleMessage() {
+        System.out.println(WALLET_ASSIGN_TITLE_MESSAGE);
+    }
+
+    public void printWalletAssignVoucherIdMessage() {
+        System.out.println(WALLET_ASSIGN_VOUCHER_ID_MESSAGE);
+    }
+
+    public void printWalletAssignCustomerIdMessage() {
+        System.out.println(WALLET_ASSIGN_CUSTOMER_ID_MESSAGE);
+    }
+
+    public void printWalletAssignCompleteMessage() {
+        System.out.println(WALLET_ASSIGN_COMPLETE_MESSAGE);
     }
 }

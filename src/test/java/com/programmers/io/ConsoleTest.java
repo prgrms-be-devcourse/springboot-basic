@@ -26,7 +26,8 @@ class ConsoleTest {
                     "Type 'create' or '2' to create a new voucher or a new customer.\n" +
                     "Type 'list' or '3' to list all vouchers or all customers.\n" +
                     "Type 'update' or '4' to update a voucher or a customer.\n" +
-                    "Type 'delete' or '5' to delete a voucher or a customer.";
+                    "Type 'delete' or '5' to delete a voucher or a customer.\n" +
+                    "Type 'wallet' or '6' to use wallet function.";
     private static final String VOUCHER_TYPE_MESSAGE =
             "\n=== Voucher Type ===\n" +
                     "Type voucher name or number to create.\n" +
@@ -72,6 +73,13 @@ class ConsoleTest {
                     "Type '1' or '2' to delete type.\n" +
                     "1. Delete one customer.\n" +
                     "2. Delete all customers.";
+    private static final String WALLET_MESSAGE =
+            "\n=== Wallet ===\n" +
+                    "Type '1 / 2 / 3 / 4' to use function.\n" +
+                    "1. Assign a voucher.\n" +
+                    "2. Search for a customer. (Search for a customer to find out the customer's voucher.)\n" +
+                    "3. Search for a voucher. (Search for a voucher to find the assigned customer.)\n" +
+                    "4. Delete the voucher assigned to the customer.";
 
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream printStream = System.out;
@@ -269,5 +277,17 @@ class ConsoleTest {
 
         //then
         assertThat(outputStream.toString()).contains(DELETE_TYPE_CUSTOMER_SELECTION_MESSAGE);
+    }
+
+
+    @DisplayName("wallet 메뉴 메시지를 출력한다")
+    @Test
+    void printWalletMessage() {
+        //given
+        //when
+        console.printWalletMessage();
+
+        //then
+        assertThat(outputStream.toString()).contains(WALLET_MESSAGE);
     }
 }

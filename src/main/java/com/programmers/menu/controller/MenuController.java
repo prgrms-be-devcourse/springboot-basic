@@ -5,6 +5,7 @@ import com.programmers.voucher.controller.VoucherController;
 import com.programmers.customer.controller.CustomerController;
 import com.programmers.io.Console;
 import com.programmers.menu.domain.Menu;
+import com.programmers.wallet.controller.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,13 @@ public class MenuController {
     private final Console console;
     private final VoucherController voucherController;
     private final CustomerController customerController;
+    private final WalletController walletController;
 
-    public MenuController(Console console, VoucherController voucherController, CustomerController customerController) {
+    public MenuController(Console console, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.console = console;
         this.voucherController = voucherController;
         this.customerController = customerController;
+        this.walletController = walletController;
     }
 
     public void run() {
@@ -45,6 +48,7 @@ public class MenuController {
                 case LIST -> list();
                 case UPDATE -> update();
                 case DELETE -> delete();
+                case WALLET -> walletController.activate();
             }
         }
     }

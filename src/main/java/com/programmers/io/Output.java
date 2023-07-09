@@ -19,4 +19,6 @@ public interface Output {
     void printDeleteTypeVoucherSelectionMessage();
 
     void printDeleteTypeCustomerSelectionMessage();
+
+    void printWalletMessage();
 }
