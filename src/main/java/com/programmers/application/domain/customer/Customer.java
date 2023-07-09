@@ -64,4 +64,16 @@ public class Customer {
     public String getName() {
         return name;
     }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }
