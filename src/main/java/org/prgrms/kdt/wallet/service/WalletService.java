@@ -40,7 +40,7 @@ public class WalletService {
 
     public List<WalletResponse> findVouchersByMemberId(UUID memberId) {
         List<Wallet> wallets = walletRepository.findByMemberId(memberId);
-        return getWalletListResponse(wallets);
+        return getWalletResponseList(wallets);
     }
 
     public void deleteWalletById(UUID walletId) {
@@ -49,15 +49,15 @@ public class WalletService {
 
     public List<WalletResponse> findMembersByVoucherId(UUID voucherId) {
         List<Wallet> wallets = walletRepository.findByVoucherId(voucherId);
-        return getWalletListResponse(wallets);
+        return getWalletResponseList(wallets);
     }
 
     public List<WalletResponse> findAllWallet() {
         List<Wallet> wallets = walletRepository.findAll();
-        return getWalletListResponse(wallets);
+        return getWalletResponseList(wallets);
     }
 
-    private List<WalletResponse> getWalletListResponse(List<Wallet> wallets) {
+    private List<WalletResponse> getWalletResponseList(List<Wallet> wallets) {
         return wallets.stream()
                 .map(wallet -> new WalletResponse(
                         wallet.getWalletId(),
