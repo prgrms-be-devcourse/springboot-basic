@@ -1,7 +1,5 @@
 package com.prgms.VoucherApp.domain.voucher.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,7 +7,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +16,10 @@ import java.util.UUID;
 @Primary
 public class VoucherJdbcDao implements VoucherDao {
 
-    private static Logger logger = LoggerFactory.getLogger(VoucherJdbcDao.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public VoucherJdbcDao(DataSource dataSource) {
-        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public VoucherJdbcDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override

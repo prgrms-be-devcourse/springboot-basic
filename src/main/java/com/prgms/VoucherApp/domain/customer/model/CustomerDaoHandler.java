@@ -4,8 +4,6 @@ import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateReqDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +15,6 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class CustomerDaoHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerDaoHandler.class);
     private final BlackListFileDao blackListStorage;
     private final CustomerDao customerDao;
 
@@ -30,7 +27,6 @@ public class CustomerDaoHandler {
     public void save(CustomerCreateReqDto requestDto) {
         Customer customer = new Customer(UUID.randomUUID(), requestDto.getCustomerStatus());
         customerDao.save(customer);
-        logger.info("저장된 고객의 정보 id : {}, status : {}", customer.getCustomerId(), customer.getCustomerStatus());
     }
 
     public CustomersResDto findAll() {

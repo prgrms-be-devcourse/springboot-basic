@@ -4,8 +4,6 @@ import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateReqDto;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateReqDto;
 import com.prgms.VoucherApp.domain.voucher.dto.VouchersResDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +15,6 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class VoucherDaoHandler {
 
-    private final Logger logger = LoggerFactory.getLogger(VoucherDaoHandler.class);
     private final VoucherDao voucherDao;
 
     public VoucherDaoHandler(VoucherDao voucherDao) {

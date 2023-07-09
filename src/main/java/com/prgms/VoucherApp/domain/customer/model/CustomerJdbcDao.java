@@ -1,8 +1,6 @@
 package com.prgms.VoucherApp.domain.customer.model;
 
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,11 +15,10 @@ import java.util.UUID;
 @Repository
 public class CustomerJdbcDao implements CustomerDao {
 
-    private final static Logger logger = LoggerFactory.getLogger(CustomerJdbcDao.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public CustomerJdbcDao(DataSource dataSource) {
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public CustomerJdbcDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
