@@ -73,7 +73,6 @@ class WalletJdbcDaoTest {
 
         // when
         List<Wallet> findWallets = walletDao.findByCustomerId(customer.getCustomerId());
-        System.out.println(findWallets);
 
         // then
         Assertions.assertThat(findWallets)
