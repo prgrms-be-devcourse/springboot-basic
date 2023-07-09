@@ -117,7 +117,7 @@ class JdbcCustomerRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> jdbcCustomerRepository.findById(customer.getCustomerId()))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @DisplayName("회원을 수정한다")

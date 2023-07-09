@@ -119,7 +119,7 @@ class JdbcVoucherRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId()))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @DisplayName("바우처를 수정한다")
