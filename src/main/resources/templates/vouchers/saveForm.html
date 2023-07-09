@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>바우처 등록</h2></div>
+    <h4 class="mb-3">바우처 입력</h4>
+    <form th:action method="post">
+        <div>
+            <label for="voucherType">바우처 타입</label>
+            <input type="text" id="voucherType" name="voucherType"
+                   class="form-control"
+                   placeholder="타입을 fixed / percent 중 입력해 주세요.">
+        </div>
+
+        <div>
+            <label for="discountAmount">값</label>
+            <input type="text" id="discountAmount" name="discountAmount"
+                   class="form-control"
+                   placeholder="값을 입력하세요">
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">바우처 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='vouchers.html'"
+                        th:onclick="|location.href='@{/vouchers/list}'|"
+                        type="button">취소
+                </button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
