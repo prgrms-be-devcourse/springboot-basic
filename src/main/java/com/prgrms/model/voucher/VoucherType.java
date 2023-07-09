@@ -23,9 +23,9 @@ public enum VoucherType {
         this.voucherFunction = voucherFunction;
     }
 
-    public static VoucherType findByPolicy(String policy) {
+    public static VoucherType findByType(String voucherType) {
         return Arrays.stream(VoucherType.values())
-                .filter(p -> p.number.equals(policy))
+                .filter(p -> p.number.equals(voucherType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_SELECTION.getMessage()));
     }
