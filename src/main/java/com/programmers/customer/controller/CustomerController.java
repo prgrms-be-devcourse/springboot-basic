@@ -5,8 +5,7 @@ import com.programmers.customer.dto.CustomerCreateRequestDto;
 import com.programmers.customer.dto.CustomerResponseDto;
 import com.programmers.customer.dto.CustomerUpdateRequestDto;
 import com.programmers.customer.dto.CustomersResponseDto;
-import com.programmers.exception.EmptyException;
-import com.programmers.exception.InvalidInputException;
+import com.programmers.exception.InvalidRequestValueException;
 import com.programmers.io.Console;
 import com.programmers.customer.service.BlacklistService;
 import com.programmers.customer.service.CustomerService;
@@ -69,11 +68,11 @@ public class CustomerController {
 
     private void checkCustomerTypeSelection(String selection) {
         if (selection.isEmpty()) {
-            throw new EmptyException("[ERROR] Customer Type 번호가 입력되지 않았습니다.");
+            throw new InvalidRequestValueException("[ERROR] customer type 번호가 비었습니다.");
         }
 
         if (!selection.equals(NORMAL_CUSTOMER_TYPE_NUMBER) && !selection.equals(BLACKLIST_TYPE_NUMBER)) {
-            throw new InvalidInputException("[ERROR] Customer Type 번호가 유효하지 않습니다.");
+            throw new InvalidRequestValueException("[ERROR] customer type 번호가 유효하지 않습니다.");
         }
     }
 
@@ -147,11 +146,11 @@ public class CustomerController {
 
     private void checkDeleteTypeSelection(String selection) {
         if (selection.isEmpty()) {
-            throw new EmptyException("[ERROR] Delete Type 번호가 입력되지 않았습니다.");
+            throw new InvalidRequestValueException("[ERROR] delete type 번호가 비었습니다.");
         }
 
         if (!selection.equals(DELETE_ONE_CUSTOMER_NUMBER) && !selection.equals(DELETE_ALL_CUSTOMERS_NUMBER)) {
-            throw new InvalidInputException("[ERROR] Delete Type 번호가 유효하지 않습니다.");
+            throw new InvalidRequestValueException("[ERROR] delete type 번호가 유효하지 않습니다.");
         }
     }
 

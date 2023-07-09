@@ -1,7 +1,6 @@
 package com.programmers.menu.domain;
 
-import com.programmers.exception.EmptyException;
-import com.programmers.exception.InvalidInputException;
+import com.programmers.exception.InvalidRequestValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,22 +24,22 @@ public enum Menu {
         this.number = number;
     }
 
-    public static Menu findMenu(String input) {
-        checkMenuInputEmpty(input);
+    public static Menu findMenu(String menuRequest) {
+        checkMenuRequestEmpty(menuRequest);
 
         return Arrays.stream(Menu.values())
-                .filter(menu -> Objects.equals(menu.name, input) || Objects.equals(menu.number, input))
+                .filter(menu -> Objects.equals(menu.name, menuRequest) || Objects.equals(menu.number, menuRequest))
                 .findAny()
                 .orElseThrow(() -> {
-                    log.error("The invalid menu input found. input value = {}", input);
-                    return new InvalidInputException("[ERROR] 입력하신 메뉴 값이 유효하지 않습니다.");
+                    log.error("The invalid menu request found. request value = {}", menuRequest);
+                    return new InvalidRequestValueException("[ERROR] 요청하신 메뉴 값이 유효하지 않습니다.");
                 });
     }
 
-    private static void checkMenuInputEmpty(String input) {
-        if (input.isEmpty()) {
-            log.error("The menu input not found.");
-            throw new EmptyException("[ERROR] 메뉴 값이 입력되지 않았습니다.");
+    private static void checkMenuRequestEmpty(String menuRequest) {
+        if (menuRequest.isEmpty()) {
+            log.error("The menu request not found.");
+            throw new InvalidRequestValueException("[ERROR] 메뉴 요청 값이 비었습니다.");
         }
     }
 }

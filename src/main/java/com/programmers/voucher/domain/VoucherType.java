@@ -1,7 +1,6 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.exception.EmptyException;
-import com.programmers.exception.InvalidInputException;
+import com.programmers.exception.InvalidRequestValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,21 +25,21 @@ public enum VoucherType {
     }
 
     public static VoucherType findVoucherType(String input) {
-        checkVoucherTypeInputEmpty(input);
+        checkVoucherTypeEmpty(input);
 
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> Objects.equals(voucherType.number, input) || Objects.equals(voucherType.name, input))
                 .findAny()
                 .orElseThrow(() -> {
                     log.error("the invalid voucher type input found. input value = {}", input);
-                    return new InvalidInputException("[ERROR] 입력하신 Voucher Type 값이 유효하지 않습니다.");
+                    return new InvalidRequestValueException("[ERROR] 요청하신 voucher type 값이 유효하지 않습니다.");
                 });
     }
 
-    private static void checkVoucherTypeInputEmpty(String voucherType) {
+    private static void checkVoucherTypeEmpty(String voucherType) {
         if (voucherType.isEmpty()) {
             log.error("The voucher type input not found.");
-            throw new EmptyException("[ERROR] Voucher Type 값이 입력되지 않았습니다.");
+            throw new InvalidRequestValueException("[ERROR] voucher type 값이 비었습니다.");
         }
     }
 

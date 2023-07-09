@@ -1,7 +1,6 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.exception.EmptyException;
-import com.programmers.exception.InvalidInputException;
+import com.programmers.exception.InvalidRequestValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,13 +26,13 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void checkVoucherValue(String voucherName, long percent) {
         if (voucherName.isEmpty()) {
-            log.error("The voucher name input not found. voucher type = {}", PercentDiscountVoucher.class.getName());
-            throw new EmptyException("[ERROR] Voucher 이름이 입력되지 않았습니다.");
+            log.error("The voucher name not found. voucher type = {}", PercentDiscountVoucher.class.getName());
+            throw new InvalidRequestValueException("[ERROR] voucher 이름이 비었습니다.");
         }
 
         if (percent < 1 || percent > 100) {
-            log.error("The invalid voucher input found. voucher type = {}", PercentDiscountVoucher.class.getName());
-            throw new InvalidInputException("[ERROR] percent 값이 유효하지 않습니다.");
+            log.error("The invalid voucher percent found. voucher type = {}", PercentDiscountVoucher.class.getName());
+            throw new InvalidRequestValueException("[ERROR] percent 값이 유효하지 않습니다.");
         }
     }
 

@@ -3,14 +3,13 @@ package com.programmers.voucher.controller;
 import static com.programmers.util.ValueFormatter.changeDiscountValueToNumber;
 import static com.programmers.util.ValueFormatter.reformatVoucherType;
 
+import com.programmers.exception.InvalidRequestValueException;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.dto.VoucherCreateRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.dto.VoucherUpdateRequestDto;
 import com.programmers.voucher.dto.VouchersResponseDto;
-import com.programmers.exception.EmptyException;
-import com.programmers.exception.InvalidInputException;
 import com.programmers.io.Console;
 import com.programmers.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -121,13 +120,13 @@ public class VoucherController {
         }
     }
 
-    private void checkDeleteTypeSelection(String input) {
-        if (input.isEmpty()) {
-            throw new EmptyException("[ERROR] Delete Type 번호가 입력되지 않았습니다.");
+    private void checkDeleteTypeSelection(String deleteTypeSelection) {
+        if (deleteTypeSelection.isEmpty()) {
+            throw new InvalidRequestValueException("[ERROR] Delete Type 번호가 비었습니다.");
         }
 
-        if (!input.equals(DELETE_ONE_VOUCHER_NUMBER) && !input.equals(DELETE_ALL_VOUCHERS_NUMBER)) {
-            throw new InvalidInputException("[ERROR] 입력하신 Delete Type 번호가 유효하지 않습니다.");
+        if (!deleteTypeSelection.equals(DELETE_ONE_VOUCHER_NUMBER) && !deleteTypeSelection.equals(DELETE_ALL_VOUCHERS_NUMBER)) {
+            throw new InvalidRequestValueException("[ERROR] Delete Type 번호가 유효하지 않습니다.");
         }
     }
 

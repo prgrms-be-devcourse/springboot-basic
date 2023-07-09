@@ -1,9 +1,8 @@
 package com.programmers.menu.controller;
 
+import com.programmers.exception.InvalidRequestValueException;
 import com.programmers.voucher.controller.VoucherController;
 import com.programmers.customer.controller.CustomerController;
-import com.programmers.exception.EmptyException;
-import com.programmers.exception.InvalidInputException;
 import com.programmers.io.Console;
 import com.programmers.menu.domain.Menu;
 import org.slf4j.Logger;
@@ -63,11 +62,11 @@ public class MenuController {
 
     private void checkMenuSelection(String selection) {
         if (selection.isEmpty()) {
-            throw new EmptyException("[ERROR] 메뉴 번호가 입력되지 않았습니다.");
+            throw new InvalidRequestValueException("[ERROR] 메뉴 번호가 비었습니다.");
         }
 
         if (!selection.equals(MENU_VOUCHER_NUMBER) && !selection.equals(MENU_CUSTOMER_NUMBER)) {
-            throw new InvalidInputException("[ERROR] 메뉴 번호가 유효하지 않습니다.");
+            throw new InvalidRequestValueException("[ERROR] 메뉴 번호가 유효하지 않습니다.");
         }
     }
 
