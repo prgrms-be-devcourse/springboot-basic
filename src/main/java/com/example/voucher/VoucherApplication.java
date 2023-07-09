@@ -1,20 +1,23 @@
 package com.example.voucher;
 
-import com.example.voucher.config.VoucherConfig;
+import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDto;
-import com.example.voucher.repository.VoucherRepository;
+import com.example.voucher.service.VoucherService;
 import com.example.voucher.ui.Output;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class VoucherApplication implements CommandLineRunner {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
+    private final VoucherService voucherService;
+    private final CommandHandler commandHandler;
+
+    public VoucherApplication(VoucherService voucherService, CommandHandler commandHandler) {
+        this.voucherService = voucherService;
+        this.commandHandler = commandHandler;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(VoucherApplication.class, args);
@@ -24,19 +27,15 @@ public class VoucherApplication implements CommandLineRunner {
     public void run(String... args) {
         Output.printProgramInfo();
 
-        ApplicationContext context = new AnnotationConfigApplicationContext(VoucherConfig.class);
-        VoucherConfig voucherConfig = context.getBean(VoucherConfig.class);
-        CommandHandler commandHandler = voucherConfig.commandHandler();
-        VoucherRepository voucherRepository = voucherConfig.voucherRepository();
-
         Command command = commandHandler.handleCommand();
         switch (command) {
             case CREATE:
                 VoucherDto voucherDto = commandHandler.handleCreateCommand();
-                voucherRepository.insert(voucherDto.toVoucher());
+                voucherService.createVoucher(voucherDto);
                 break;
             case LIST:
-                commandHandler.handleListCommand(voucherRepository.findAll());
+                List<Voucher> vouchers = voucherService.getAllVouchers();
+                commandHandler.handleListCommand(vouchers);
                 break;
         }
     }
