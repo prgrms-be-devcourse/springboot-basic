@@ -20,7 +20,6 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherType type, long discount) {
         try {
-            isValidDiscount(type, discount);
             Voucher voucher = switch (type) {
                 case FIXED -> new FixedDiscountVoucher(discount);
                 case PERCENT -> new PercentDiscountVoucher(discount);
@@ -29,21 +28,6 @@ public class VoucherService {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             throw e;
-        }
-    }
-
-    public void isValidDiscount(VoucherType type, long discount) {
-        switch (type) {
-            case FIXED:
-                if (discount <= 0) {
-                    throw new IllegalArgumentException("고정 할인 바우처의 입력 금액은 0 이하를 입력할 수 없습니다.");
-                }
-                break;
-            case PERCENT:
-                if (discount < 1 || discount > 99) {
-                    throw new IllegalArgumentException("퍼센트 할인 바우처의 할인 퍼센트는 1 ~ 99까지의 숫자를 입력해야 합니다.");
-                }
-                break;
         }
     }
 
