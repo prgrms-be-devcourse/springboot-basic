@@ -2,13 +2,13 @@ package com.prgrms.repository.voucher;
 
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.Vouchers;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
-@Repository
+@Component
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<Integer, Voucher> storage = new TreeMap<>();
 

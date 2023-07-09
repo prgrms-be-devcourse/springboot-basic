@@ -2,7 +2,7 @@ package com.prgrms.model.voucher;
 
 import java.util.List;
 
-public class Vouchers{
+public class Vouchers {
 
     private final List<Voucher> vouchers;
 

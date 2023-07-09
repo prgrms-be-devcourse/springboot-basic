@@ -28,7 +28,7 @@ public enum Menu {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_SELECTION.getMessage()));
     }
 
-    public  Command createCommand(VoucherController voucherController, ViewManager viewManager) {
-        return commandFunction.apply(voucherController,viewManager);
+    public Command createCommand(VoucherController voucherController, ViewManager viewManager) {
+        return commandFunction.apply(voucherController, viewManager);
     }
 }

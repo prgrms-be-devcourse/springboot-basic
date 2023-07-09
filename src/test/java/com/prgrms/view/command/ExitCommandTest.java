@@ -2,6 +2,7 @@ package com.prgrms.view.command;
 
 import com.prgrms.controller.VoucherController;
 import com.prgrms.view.ViewManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -17,6 +18,7 @@ class ExitCommandTest {
     private VoucherController voucherController;
 
     @Test
+    @DisplayName("ExitCommand의 execute가 Power의 OFF를 올바르게 호출한다.")
     void execute_On_PowerOFF() {
         //given
         MockitoAnnotations.openMocks(this);

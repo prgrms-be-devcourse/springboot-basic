@@ -5,6 +5,7 @@ import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.model.voucher.dto.VoucherRequest;
 import com.prgrms.model.voucher.dto.discount.PercentDiscount;
 import com.prgrms.view.ViewManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,6 +20,7 @@ class CreateCommandTest {
     private ViewManager viewManager;
 
     @Test
+    @DisplayName("CreateCommand의 execute가 Power의 ON을 올바르게 호출한다.")
     void execute_On_PowerON() {
         //given
         MockitoAnnotations.openMocks(this);

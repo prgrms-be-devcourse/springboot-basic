@@ -17,7 +17,7 @@ public abstract class Discount {
         }
     }
 
-    protected abstract void validLimit(double value) ;
+    protected abstract void validLimit(double value);
 
     public double getValue() {
         return value;

@@ -9,7 +9,7 @@ public class ExitCommand implements Command {
     private ViewManager viewManager;
     private VoucherController voucherController;
 
-    public ExitCommand(VoucherController voucherController ,ViewManager viewManager) {
+    public ExitCommand(VoucherController voucherController, ViewManager viewManager) {
         this.voucherController = voucherController;
         this.viewManager = viewManager;
     }

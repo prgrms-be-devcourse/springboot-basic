@@ -19,5 +19,4 @@ public class CommandFactory {
         return menu.createCommand(voucherController, viewManager);
     }
 
-
 }

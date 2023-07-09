@@ -24,6 +24,7 @@ public class VoucherService {
         this.dtoConverter = dtoConverter;
         this.keyGenerator = keyGenerator;
     }
+
     public Voucher createVoucher(VoucherRequest voucherRequest) {
         int id = keyGenerator.make();
         Discount discount = voucherRequest.discount();

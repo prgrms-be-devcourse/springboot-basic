@@ -4,6 +4,7 @@ import com.prgrms.controller.VoucherController;
 import com.prgrms.view.Menu;
 import com.prgrms.view.ViewManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -26,6 +27,7 @@ class CommandFactoryTest {
     }
 
     @Test
+    @DisplayName("EXIT라는 메뉴를 받아 ExitCommad를 반환한다.")
     void createExitCommand_ExitCommand_True() {
         //given
         Menu menu = Menu.EXIT;
@@ -38,6 +40,7 @@ class CommandFactoryTest {
     }
 
     @Test
+    @DisplayName("CREATE라는 메뉴를 받아 CreateCommad를 반환한다.")
     void createCreateCommand_CreateCommand_True() {
         //given
         Menu menu = Menu.CREATE;
@@ -50,6 +53,7 @@ class CommandFactoryTest {
     }
 
     @Test
+    @DisplayName("LIST라는 메뉴를 받아 ListCommad를 반환한다.")
     void createListCommand_ListCommand_True() {
         //given
         Menu menu = Menu.LIST;
