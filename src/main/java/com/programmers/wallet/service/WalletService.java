@@ -4,7 +4,7 @@ import com.programmers.customer.domain.Customer;
 import com.programmers.customer.dto.CustomerResponseDto;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VouchersResponseDto;
-import com.programmers.wallet.dto.WalletRequestDto;
+import com.programmers.wallet.dto.WalletDto;
 import com.programmers.wallet.repository.JdbcWalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ public class WalletService {
     }
 
     @Transactional
-    public void updateCustomerId(WalletRequestDto voucherDto) {
+    public void updateCustomerId(WalletDto voucherDto) {
         jdbcWalletRepository.updateCustomerId(voucherDto.customerId(), voucherDto.voucherId());
     }
 
@@ -39,7 +39,7 @@ public class WalletService {
     }
 
     @Transactional
-    public void deleteByVoucherIdAndCustomerId(WalletRequestDto voucherDto) {
+    public void deleteByVoucherIdAndCustomerId(WalletDto voucherDto) {
         jdbcWalletRepository.deleteByVoucherIdAndCustomerId(voucherDto.voucherId(), voucherDto.customerId());
     }
 

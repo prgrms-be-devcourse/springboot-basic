@@ -11,7 +11,7 @@ import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VouchersResponseDto;
-import com.programmers.wallet.dto.WalletRequestDto;
+import com.programmers.wallet.dto.WalletDto;
 import com.programmers.wallet.service.WalletService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -78,12 +78,12 @@ class WalletControllerTest {
 
         //when
         walletController.deleteOneVoucher(customerId);
-        WalletRequestDto walletRequestDto = new WalletRequestDto(voucherId, customerId);
+        WalletDto walletDto = new WalletDto(voucherId, customerId);
 
         //then
         verify(console, times(1)).printDeleteVoucherIdMessage();
         verify(console, times(1)).readInput();
-        verify(walletService, times(1)).deleteByVoucherIdAndCustomerId(walletRequestDto);
+        verify(walletService, times(1)).deleteByVoucherIdAndCustomerId(walletDto);
         verify(console, times(1)).printDeleteVoucherCompleteMessage();
     }
 

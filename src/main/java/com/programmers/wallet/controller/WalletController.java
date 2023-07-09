@@ -9,7 +9,7 @@ import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VouchersResponseDto;
 import com.programmers.wallet.domain.WalletMenu;
-import com.programmers.wallet.dto.WalletRequestDto;
+import com.programmers.wallet.dto.WalletDto;
 import com.programmers.wallet.service.WalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,21 +56,21 @@ public class WalletController {
         voucherController.getVoucherList();
         customerController.getNormalCustomerList();
 
-        WalletRequestDto walletRequestDto = makeWalletRequestDto();
-        walletService.updateCustomerId(walletRequestDto);
+        WalletDto walletDto = makeWalletDto();
+        walletService.updateCustomerId(walletDto);
 
         console.printWalletAssignCompleteMessage();
-        log.info("The voucher assigned successfully. voucher id = {}, customer id = {}", walletRequestDto.voucherId(), walletRequestDto.customerId());
+        log.info("The voucher assigned successfully. voucher id = {}, customer id = {}", walletDto.voucherId(), walletDto.customerId());
     }
 
-    private WalletRequestDto makeWalletRequestDto() {
+    private WalletDto makeWalletDto() {
         console.printWalletAssignVoucherIdMessage();
         UUID voucherId = UUID.fromString(console.readInput());
 
         console.printWalletAssignCustomerIdMessage();
         UUID customerId = UUID.fromString(console.readInput());
 
-        return new WalletRequestDto(voucherId, customerId);
+        return new WalletDto(voucherId, customerId);
     }
 
     public List<Voucher> searchCustomerToGetVouchers() {
@@ -140,8 +140,8 @@ public class WalletController {
         console.printDeleteVoucherIdMessage();
         UUID voucherId = UUID.fromString(console.readInput());
 
-        WalletRequestDto walletRequestDto = new WalletRequestDto(voucherId, customerId);
-        walletService.deleteByVoucherIdAndCustomerId(walletRequestDto);
+        WalletDto walletDto = new WalletDto(voucherId, customerId);
+        walletService.deleteByVoucherIdAndCustomerId(walletDto);
         console.printDeleteVoucherCompleteMessage();
         log.info("The voucher of one customer has been deleted. customer id = {}", customerId);
     }
