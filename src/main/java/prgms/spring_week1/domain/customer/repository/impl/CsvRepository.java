@@ -20,6 +20,8 @@ public final class CsvRepository implements BlackListRepository {
     private final Logger logger = LoggerFactory.getLogger(CsvRepository.class);
     private final String csvFilePath;
 
+    private final String DELIMITER = ",";
+
     public CsvRepository(@Value("${file.blackList}") String csvFilePath) {
         this.csvFilePath = csvFilePath;
     }
@@ -38,7 +40,7 @@ public final class CsvRepository implements BlackListRepository {
         }
 
         for (String consumerLine : csvList) {
-            String[] consumer = consumerLine.split(",");
+            String[] consumer = consumerLine.split(DELIMITER);
             blackConsumerList.add(new BlackConsumer(consumer[0], consumer[1]));
         }
 
