@@ -30,7 +30,7 @@ public class CommandLineApplication implements CommandLineRunner {
             try {
                 Menu menu = viewManager.guideStartVoucher();
                 Command command = commandFactory.createCommand(menu);
-                command.execute();
+                power = command.execute();
             } catch (IllegalArgumentException e) {
                 logger.error("사용자의 잘못된 입력이 발생하였습니다.");
                 viewManager.viewError(e.getMessage());
