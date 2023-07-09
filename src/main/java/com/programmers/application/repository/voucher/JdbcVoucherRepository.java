@@ -1,7 +1,10 @@
 package com.programmers.application.repository.voucher;
 
 import com.programmers.application.domain.voucher.Voucher;
+import com.programmers.application.domain.voucher.VoucherFactory;
+import com.programmers.application.dto.request.VoucherCreationRequest;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -32,6 +35,22 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Override
+    public List<Voucher> findAll() {
+        String sql = "SELECT * FROM voucher";
+        return namedParameterJdbcTemplate.query(sql, getVoucherRowMapper());
+    }
+
+    @Override
+    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    private static UUID toUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
+
     private byte[] toBytes(UUID voucherId) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(16);
         byteBuffer.putLong(voucherId.getMostSignificantBits());
@@ -39,13 +58,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return byteBuffer.array();
     }
 
-    @Override
-    public List<Voucher> findAll() {
-        return null;
-    }
+    private static RowMapper<Voucher> getVoucherRowMapper() {
+        return (rs, rowNum) -> {
+            long discountAmount = rs.getInt("discount_amount");
+            String type = rs.getString("type");
+            return VoucherFactory.createVoucher(new VoucherCreationRequest(type, discountAmount));
 
-    @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
-        return Optional.empty();
+        };
     }
 }
