@@ -38,14 +38,12 @@ class JdbcVoucherRepositoryTest {
         //given
         VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(voucherType, discountAmount);
         Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
-        System.out.println("voucher = " + voucher.getVoucherId());
 
         //when
         jdbcVoucherRepository.save(voucher);
 
         //then
         Voucher savedVoucher = jdbcVoucherRepository.findByVoucherId(voucher.getVoucherId()).get();
-        System.out.println("savedVoucher = " + savedVoucher.getVoucherId());
         assertThat(voucher).usingRecursiveComparison().isEqualTo(savedVoucher);
     }
 
