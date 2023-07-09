@@ -6,8 +6,8 @@ CREATE TABLE customer
     customer_id   BINARY(16)   NOT NULL PRIMARY KEY,
     email         VARCHAR(255) NOT NULL,
     name          VARCHAR(255) NOT NULL,
-    created_at    DATETIME     NOT NULL,
-    last_login_at DATETIME
+    created_at    DATETIME(6)     NOT NULL,
+    last_login_at DATETIME(6)
 );
 
 CREATE TABLE voucher

@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-@Rollback(value = false)
+//@Rollback(value = false)
 class JdbcCustomerRepositoryTest {
 
     @Autowired
@@ -35,9 +34,10 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(customerId, name, email);
 
         //when
-        Customer savedCustomer = jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.save(customer);
 
         //then
-        assertThat(customer).isEqualTo(savedCustomer);
+        Customer savedCustomer = jdbcCustomerRepository.findByCustomerId(customer.getCustomerId()).get();
+        assertThat(customer).usingRecursiveComparison().isEqualTo(savedCustomer);
     }
 }
