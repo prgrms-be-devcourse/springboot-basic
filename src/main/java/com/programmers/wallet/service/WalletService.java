@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,9 +34,14 @@ public class WalletService {
     }
 
     public CustomerResponseDto findCustomerByVoucherId(UUID voucherId) {
-        Customer customer = jdbcWalletRepository.findCustomerByVoucherId(voucherId).get();
+        Optional<Customer> customerWrapper = jdbcWalletRepository.findCustomerByVoucherId(voucherId);
 
-        return new CustomerResponseDto(customer.getCustomerId(), customer.getCustomerName(), customer.getCustomerType());
+        if (customerWrapper.isPresent()) {
+            Customer customer = customerWrapper.get();
+            return new CustomerResponseDto(customer.getCustomerId(), customer.getCustomerName(), customer.getCustomerType());
+        }
+
+        return new CustomerResponseDto(null, null, null);
     }
 
     @Transactional

@@ -1,7 +1,6 @@
 package com.programmers.wallet.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -134,7 +133,7 @@ class JdbcWalletRepositoryTest {
         assertThat(resultCustomer.get().getCustomerId(), is(customer.getCustomerId()));
     }
 
-    @DisplayName("특정 바우처를 보유한 고객을 찾을 수 없는 경우 예외처리한다")
+    @DisplayName("특정 바우처를 보유한 고객을 찾을 수 없는 경우 빈 Customer를 반환한다")
     @Test
     void findCustomerByVoucherIdException() {
         //given
@@ -142,9 +141,11 @@ class JdbcWalletRepositoryTest {
         voucherRepository.save(fixedAmountVoucher);
 
         //when
+        Optional<Customer> customer = jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId());
+
         //then
-        assertThatThrownBy(() -> jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId()))
-                .isInstanceOf(IllegalStateException.class);
+        assertThat(customer).isEmpty();
+
     }
 
     @DisplayName("회원이 보유한 특정 바우처를 제거한다")

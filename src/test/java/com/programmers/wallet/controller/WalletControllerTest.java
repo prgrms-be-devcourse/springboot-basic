@@ -58,7 +58,7 @@ class WalletControllerTest {
 
         VouchersResponseDto vouchersResponseDto = new VouchersResponseDto(vouchers);
         when(walletService.findVouchersByCustomerId(UUID.fromString(customerId))).thenReturn(vouchersResponseDto);
-        when(voucherController.getVouchersResult(vouchersResponseDto.vouchers())).thenReturn(vouchers);
+        when(voucherController.getVouchersContent(vouchersResponseDto.vouchers())).thenReturn(vouchers);
 
         //when
         List<Voucher> result = walletController.searchCustomerToGetVouchers();

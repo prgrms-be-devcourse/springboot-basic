@@ -82,7 +82,7 @@ public class WalletController {
         VouchersResponseDto vouchersResponseDto = walletService.findVouchersByCustomerId(customerId);
 
         console.printVoucherListTitle();
-        return voucherController.getVouchersResult(vouchersResponseDto.vouchers());
+        return voucherController.getVouchersContent(vouchersResponseDto.vouchers());
     }
 
     public void searchVoucherToGetCustomer() {
@@ -93,6 +93,15 @@ public class WalletController {
         UUID voucherId = UUID.fromString(console.readInput());
 
         CustomerResponseDto customerResponseDto = walletService.findCustomerByVoucherId(voucherId);
+        getCustomerContent(customerResponseDto);
+    }
+
+    public void getCustomerContent(CustomerResponseDto customerResponseDto) {
+        if (customerResponseDto.id() == null && customerResponseDto.name() == null && customerResponseDto.type() == null) {
+            console.printNormalCustomerListEmptyMessage();
+            return;
+        }
+
         Customer customer = new Customer(customerResponseDto.id(), customerResponseDto.name());
         console.printCustomer(customer);
     }
@@ -103,7 +112,7 @@ public class WalletController {
         VouchersResponseDto vouchersResponseDto = walletService.findVouchersByCustomerId(customerId);
 
         console.printVoucherListTitle();
-        voucherController.getVouchersResult(vouchersResponseDto.vouchers());
+        voucherController.getVouchersContent(vouchersResponseDto.vouchers());
 
         selectDeleteType(customerId);
     }

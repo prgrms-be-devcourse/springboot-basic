@@ -42,7 +42,7 @@ public class JdbcWalletRepository {
             Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), voucherId.toString());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException("[ERROR] 회원이 존재하지 않습니다.");
+            return Optional.empty();
         }
     }
 
