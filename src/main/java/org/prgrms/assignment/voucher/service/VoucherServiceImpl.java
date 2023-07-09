@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,10 +31,12 @@ public class VoucherServiceImpl implements VoucherService{
 
     @Override
     @Transactional(readOnly = true)
-    public VoucherResponseDTO getVoucherById(UUID voucherId) {
-        return convertToVoucherResponseDTO(voucherRepository.
-            findVoucherEntityById(voucherId).
-                orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId)));
+    public Optional<VoucherResponseDTO> getVoucherById(UUID voucherId) {
+        if(voucherRepository.findVoucherEntityById(voucherId).isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(convertToVoucherResponseDTO(voucherRepository.
+            findVoucherEntityById(voucherId).get()));
     }
 
     @Override

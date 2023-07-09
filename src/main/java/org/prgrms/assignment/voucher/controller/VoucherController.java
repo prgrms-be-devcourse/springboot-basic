@@ -6,12 +6,15 @@ import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
 import org.prgrms.assignment.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,11 +44,14 @@ public class VoucherController {
         return "redirect:/vouchers";
     }
 
-//    @GetMapping("/api/v1/vouchers/{voucherId}")
-//    @ResponseBody
-//    @CrossOrigin(origins = "*")
-//    public ResponseEntity<Voucher> findCustomer(@PathVariable("voucherid") UUID voucherId) {
-//        var customer = customerService.getCustomer(customerId);
-//        return customer.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-//    }
+    @GetMapping("/vouchers/{voucherId}")
+    public String getVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
+        Optional<VoucherResponseDTO> voucher = voucherService.getVoucherById(voucherId);
+        model.addAttribute("serverTime", LocalDateTime.now());
+        if(voucher.isPresent()) {
+            model.addAttribute("voucher", voucher.get());
+            return "views/voucher-details";
+        }
+        return "views/404";
+    }
 }
