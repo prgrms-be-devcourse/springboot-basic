@@ -5,6 +5,7 @@ import com.programmers.application.util.UUIDMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -61,7 +62,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        String sql = "UPDATE customer SET name = :name, last_login_at = :lastLoginAt WHERE customer_id = :customerId";
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("customerId", UUIDMapper.toBytes(customer.getCustomerId()))
+                .addValue("name", customer.getName())
+                .addValue("lastLoginAt", customer.getLastLoginAt());
+        namedParameterJdbcTemplate.update(sql, paramMap);
+        return customer;
     }
 
     @Override
@@ -76,7 +83,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             String name = rs.getString("name");
             LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
             LocalDateTime lastLoginAt = rs.getTimestamp("last_login_at").toLocalDateTime();
-            return new Customer(voucherId,name, email, createdAt, lastLoginAt);
+            return new Customer(voucherId, name, email, createdAt, lastLoginAt);
         };
     }
 }
