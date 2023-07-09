@@ -119,4 +119,17 @@ class JdbcCustomerRepositoryTest {
         Optional<Customer> deletedCustomer = jdbcCustomerRepository.findByCustomerId(customer.getCustomerId());
         assertThat(deletedCustomer).isEmpty();
     }
+
+    @DisplayName("저장 되지 않은 Customer의 Id로 findByCustomerId() 실행하면 빈 Optional이 반환된다.")
+    @Test
+    void returnEmptyOptional() {
+        //given
+        UUID notSavedCustomerId = UUID.randomUUID();
+
+        //when
+        Optional<Customer> notSavedCustomer = jdbcCustomerRepository.findByCustomerId(notSavedCustomerId);
+
+        //then
+        assertThat(notSavedCustomer).isEmpty();
+    }
 }

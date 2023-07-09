@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -69,5 +71,18 @@ class JdbcVoucherRepositoryTest {
             Voucher voucher = VoucherFactory.createVoucher(voucherCreationRequest);
             jdbcVoucherRepository.save(voucher);
         }
+    }
+
+    @DisplayName("저장 되지 않은 Voucher의 Id로 findByVoucherId() 실행하면 빈 Optional이 반환된다.")
+    @Test
+    void returnEmptyOptional() {
+        //given
+        UUID notSavedVoucherId = UUID.randomUUID();
+
+        //when
+        Optional<Voucher> notSavedVoucher = jdbcVoucherRepository.findByVoucherId(notSavedVoucherId);
+
+        //then
+        assertThat(notSavedVoucher).isEmpty();
     }
 }
