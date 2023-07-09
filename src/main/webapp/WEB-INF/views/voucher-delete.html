@@ -1,0 +1,23 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>KDT - Delete Voucher</title>
+</head>
+<body class="container-fluid">
+<h1>KDT Spring App</h1>
+<img th:src="@{/resources/bg.png}" class="img-fluid">
+<h2>Delete Voucher</h2>
+<form th:action="@{/vouchers/delete}" method="post">
+    <div class="mb-3">
+        <label for="VoucherId" class="form-label">Type voucher Id which you want to DELETE.</label>
+        <input type="text" name="voucherId" class="form-control" id="VoucherId" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>

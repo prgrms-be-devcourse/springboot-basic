@@ -3,10 +3,10 @@ package org.prgrms.assignment.voucher.controller;
 import lombok.RequiredArgsConstructor;
 import org.prgrms.assignment.voucher.dto.VoucherRequestDTO;
 import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
+import org.prgrms.assignment.voucher.entity.VoucherEntity;
 import org.prgrms.assignment.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,6 @@ public class VoucherController {
         return "views/new-voucher";
     }
 
-
     @PostMapping("/vouchers/new")
     public String createVoucher(VoucherRequestDTO voucherDTO) {
         voucherService.createVoucher(voucherDTO.voucherType(), voucherDTO.benefit(), voucherDTO.durationDate());
@@ -54,4 +53,16 @@ public class VoucherController {
         }
         return "views/404";
     }
+
+    @GetMapping("/vouchers/delete")
+    public String viewDeletePage() {
+        return "views/voucher-delete";
+    }
+
+    @PostMapping("/vouchers/delete")
+    public String deleteVoucher(String voucherId) {
+        voucherService.delete(UUID.fromString(voucherId));
+        return "redirect:/vouchers";
+    }
+
 }
