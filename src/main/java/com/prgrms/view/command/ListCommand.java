@@ -3,9 +3,11 @@ package com.prgrms.view.command;
 import com.prgrms.controller.VoucherController;
 import com.prgrms.view.ViewManager;
 import com.prgrms.model.voucher.dto.VoucherResponse;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ListCommand implements Command {
     private VoucherController voucherController;
     private ViewManager viewManager;
