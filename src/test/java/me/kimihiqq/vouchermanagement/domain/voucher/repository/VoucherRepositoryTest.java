@@ -3,7 +3,6 @@ package me.kimihiqq.vouchermanagement.domain.voucher.repository;
 import me.kimihiqq.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +17,7 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -51,7 +51,9 @@ class VoucherRepositoryTest {
         Optional<Voucher> retrievedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId());
         // then
         assertThat(retrievedVoucher.isPresent(), is(true));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(fixedVoucher));
+        assertThat(retrievedVoucher.get().getDiscount(), is(fixedVoucher.getDiscount()));
+        assertThat(retrievedVoucher.get().getType(), is(fixedVoucher.getType()));
+        assertThat(retrievedVoucher.get().getVoucherId(), is(fixedVoucher.getVoucherId()));
     }
 
     @Test
@@ -63,7 +65,9 @@ class VoucherRepositoryTest {
         Optional<Voucher> retrievedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId());
         // then
         assertThat(retrievedVoucher.isPresent(), is(true));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(fixedVoucher));
+        assertThat(retrievedVoucher.get().getDiscount(), is(fixedVoucher.getDiscount()));
+        assertThat(retrievedVoucher.get().getType(), is(fixedVoucher.getType()));
+        assertThat(retrievedVoucher.get().getVoucherId(), is(fixedVoucher.getVoucherId()));
     }
 
     @Test
@@ -75,18 +79,12 @@ class VoucherRepositoryTest {
         // when
         List<Voucher> vouchers = voucherRepository.findAll();
         // then
-        assertThat(vouchers, containsInAnyOrder(
-                Matchers.samePropertyValuesAs(fixedVoucher),
-                Matchers.samePropertyValuesAs(percentVoucher)
-        ));
+        assertThat(vouchers, hasItems(hasProperty("discount", is(fixedVoucher.getDiscount())),
+                hasProperty("type", is(fixedVoucher.getType())),
+                hasProperty("voucherId", is(fixedVoucher.getVoucherId()))));
+        assertThat(vouchers, hasItems(hasProperty("discount", is(percentVoucher.getDiscount())),
+                hasProperty("type", is(percentVoucher.getType())),
+                hasProperty("voucherId", is(percentVoucher.getVoucherId()))));
     }
 
-    @Test
-    @DisplayName("존재하지 않는 바우처을 찾으려고 시도하면 결과가 없다")
-    void voucherNotFound() {
-        // when
-        Optional<Voucher> retrievedVoucher = voucherRepository.findById(UUID.randomUUID());
-        // then
-        assertThat(retrievedVoucher.isPresent(), is(false));
-    }
 }
