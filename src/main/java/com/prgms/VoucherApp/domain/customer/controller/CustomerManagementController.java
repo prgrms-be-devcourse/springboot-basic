@@ -101,7 +101,7 @@ public class CustomerManagementController implements Runnable {
                     }
                 }
 
-            } catch (IllegalArgumentException exception) {
+            } catch (RuntimeException exception) {
                 output.printErrorMsg(exception.getMessage());
             }
         }

@@ -101,7 +101,7 @@ public class VoucherManagementController implements Runnable {
                         output.printNotImplementMsg();
                     }
                 }
-            } catch (IllegalArgumentException exception) {
+            } catch (RuntimeException exception) {
                 output.printErrorMsg(exception.getMessage());
             }
         }
