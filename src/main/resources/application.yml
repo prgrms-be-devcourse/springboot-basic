@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: jdbc
+  output:
+    ansi:
+      enabled: always
 
 ---
 
