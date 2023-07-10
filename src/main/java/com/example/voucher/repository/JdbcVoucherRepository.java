@@ -2,13 +2,11 @@ package com.example.voucher.repository;
 
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
-
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.VoucherCreator;
@@ -18,6 +16,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final String SAVE_VOUCHER = "INSERT INTO VOUCHER VALUES (:voucherId, :discountValue, :voucherType)";
     private final String FIND_ALL_VOUCHERS = "SELECT * FROM VOUCHER";
+    private final String DELETE_ALL_VOUCHERS = "DELETE FROM VOUCHER";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -38,6 +37,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         RowMapper<Voucher> voucherRowMapper = voucherRowMapper();
 
         return jdbcTemplate.query(FIND_ALL_VOUCHERS, voucherRowMapper);
+    }
+
+    @Override
+    public void deleteAll() {
+        SqlParameterSource parameterSource = new MapSqlParameterSource();
+        jdbcTemplate.update(DELETE_ALL_VOUCHERS, parameterSource);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
