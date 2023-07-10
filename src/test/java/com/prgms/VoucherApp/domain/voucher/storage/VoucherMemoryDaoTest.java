@@ -1,6 +1,9 @@
 package com.prgms.VoucherApp.domain.voucher.storage;
 
-import com.prgms.VoucherApp.domain.voucher.model.*;
+import com.prgms.VoucherApp.domain.voucher.model.FixedAmountVoucher;
+import com.prgms.VoucherApp.domain.voucher.model.PercentDiscountVoucher;
+import com.prgms.VoucherApp.domain.voucher.model.Voucher;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherMemoryDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,11 +15,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class VoucherMemoryDaoTest {
 
-    VoucherDao storage;
+    VoucherMemoryDao voucherMemoryDao;
 
     @BeforeEach
     void setUp() {
-        storage = new VoucherMemoryDao();
+        voucherMemoryDao = new VoucherMemoryDao();
     }
 
     @Test
@@ -26,10 +29,10 @@ class VoucherMemoryDaoTest {
         Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
 
         // when
-        storage.save(fixedVoucher);
+        voucherMemoryDao.save(fixedVoucher);
 
         // then
-        assertThat(storage.findByVoucherId(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
+        assertThat(voucherMemoryDao.findByVoucherId(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
     }
 
     @Test
@@ -39,9 +42,9 @@ class VoucherMemoryDaoTest {
         Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
 
         // when
-        storage.save(percentVoucher);
+        voucherMemoryDao.save(percentVoucher);
 
         // then
-        assertThat(storage.findByVoucherId(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
+        assertThat(voucherMemoryDao.findByVoucherId(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
     }
 }

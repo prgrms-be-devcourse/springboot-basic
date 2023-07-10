@@ -2,15 +2,15 @@ package com.prgms.VoucherApp.domain.customer.storage;
 
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
 import com.prgms.VoucherApp.domain.customer.model.Customer;
-import com.prgms.VoucherApp.domain.customer.model.CustomerDao;
+import com.prgms.VoucherApp.domain.customer.model.CustomerJdbcDao;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +18,12 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
 
-@SpringBootTest
-@Transactional
+@JdbcTest
+@Import(CustomerJdbcDao.class)
 class CustomerJdbcDaoTest {
 
     @Autowired
-    CustomerDao customerDao;
+    CustomerJdbcDao customerJdbcDao;
 
     @Test
     @DisplayName("고객를 저장한다.")
@@ -32,8 +32,8 @@ class CustomerJdbcDaoTest {
         Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerDao.save(customer);
-        Optional<Customer> findCustomer = customerDao.findById(customer.getCustomerId());
+        customerJdbcDao.save(customer);
+        Optional<Customer> findCustomer = customerJdbcDao.findById(customer.getCustomerId());
 
         // then
         MatcherAssert.assertThat(findCustomer.isEmpty(), is(false));
@@ -48,13 +48,14 @@ class CustomerJdbcDaoTest {
         Customer customerB = new Customer(UUID.randomUUID(), CustomerStatus.BLACKLIST);
 
         // when
-        customerDao.save(customerA);
-        customerDao.save(customerB);
+        customerJdbcDao.save(customerA);
+        customerJdbcDao.save(customerB);
 
-        List<Customer> findCustomers = customerDao.findAll();
+        List<Customer> findCustomers = customerJdbcDao.findAll();
 
         // then
         MatcherAssert.assertThat(findCustomers.isEmpty(), is(false));
+        MatcherAssert.assertThat(findCustomers, hasSize(2));
         MatcherAssert.assertThat(findCustomers, contains(samePropertyValuesAs(customerA), samePropertyValuesAs(customerB)));
     }
 
@@ -65,9 +66,9 @@ class CustomerJdbcDaoTest {
         Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerDao.save(customer);
+        customerJdbcDao.save(customer);
 
-        Optional<Customer> findCustomer = customerDao.findById(customer.getCustomerId());
+        Optional<Customer> findCustomer = customerJdbcDao.findById(customer.getCustomerId());
 
         // then
         MatcherAssert.assertThat(findCustomer.isEmpty(), is(false));
@@ -81,8 +82,8 @@ class CustomerJdbcDaoTest {
         Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerDao.save(customer);
-        Optional<Customer> findCustomer = customerDao.findById(UUID.randomUUID());
+        customerJdbcDao.save(customer);
+        Optional<Customer> findCustomer = customerJdbcDao.findById(UUID.randomUUID());
 
         // then
         MatcherAssert.assertThat(findCustomer.isEmpty(), is(true));
@@ -97,12 +98,12 @@ class CustomerJdbcDaoTest {
         Customer customerC = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerDao.save(customerA);
-        customerDao.save(customerB);
-        customerDao.save(customerC);
+        customerJdbcDao.save(customerA);
+        customerJdbcDao.save(customerB);
+        customerJdbcDao.save(customerC);
 
-        List<Customer> normalCustomers = customerDao.findByCustomerStatus(CustomerStatus.NORMAL);
-        List<Customer> blacklistCustomers = customerDao.findByCustomerStatus(CustomerStatus.BLACKLIST);
+        List<Customer> normalCustomers = customerJdbcDao.findByCustomerStatus(CustomerStatus.NORMAL);
+        List<Customer> blacklistCustomers = customerJdbcDao.findByCustomerStatus(CustomerStatus.BLACKLIST);
 
         // then
         MatcherAssert.assertThat(normalCustomers, Matchers.hasSize(2));
@@ -117,10 +118,10 @@ class CustomerJdbcDaoTest {
         Customer customerB = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
 
         // when
-        customerDao.save(customerA);
-        customerDao.save(customerB);
+        customerJdbcDao.save(customerA);
+        customerJdbcDao.save(customerB);
 
-        List<Customer> blacklistCustomers = customerDao.findByCustomerStatus(CustomerStatus.BLACKLIST);
+        List<Customer> blacklistCustomers = customerJdbcDao.findByCustomerStatus(CustomerStatus.BLACKLIST);
 
         // then
         MatcherAssert.assertThat(blacklistCustomers, Matchers.hasSize(0));
@@ -131,12 +132,12 @@ class CustomerJdbcDaoTest {
     void updateCustomerStatus() {
         // given
         Customer customer = new Customer(UUID.randomUUID(), CustomerStatus.NORMAL);
-        customerDao.save(customer);
+        customerJdbcDao.save(customer);
 
         // when
         CustomerUpdateReqDto updateReqDto = new CustomerUpdateReqDto(customer.getCustomerId(), CustomerStatus.BLACKLIST);
-        customerDao.updateStatus(updateReqDto);
-        Optional<Customer> findCustomer = customerDao.findById(customer.getCustomerId());
+        customerJdbcDao.updateStatus(updateReqDto);
+        Optional<Customer> findCustomer = customerJdbcDao.findById(customer.getCustomerId());
 
         // then
         MatcherAssert.assertThat(findCustomer.get().getCustomerStatus(), is(CustomerStatus.BLACKLIST));
@@ -150,11 +151,11 @@ class CustomerJdbcDaoTest {
         Customer customerB = new Customer(UUID.randomUUID(), CustomerStatus.BLACKLIST);
 
         // when
-        customerDao.save(customerA);
-        customerDao.save(customerB);
+        customerJdbcDao.save(customerA);
+        customerJdbcDao.save(customerB);
 
-        customerDao.deleteById(customerA.getCustomerId());
-        List<Customer> findCustomers = customerDao.findAll();
+        customerJdbcDao.deleteById(customerA.getCustomerId());
+        List<Customer> findCustomers = customerJdbcDao.findAll();
 
         // then
         MatcherAssert.assertThat(findCustomers, hasSize(1));

@@ -5,7 +5,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -13,12 +14,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@SpringBootTest
+@JdbcTest
+@Import(VoucherJdbcDao.class)
 @Transactional
 class VoucherJdbcDaoTest {
 
     @Autowired
-    VoucherDao voucherDao;
+    VoucherJdbcDao voucherJdbcDao;
 
     @Test
     @DisplayName("고정 비용 할인권을 저장한다.")
@@ -27,8 +29,8 @@ class VoucherJdbcDaoTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
 
         // when
-        voucherDao.save(voucher);
-        List<Voucher> vouchers = voucherDao.findAll();
+        voucherJdbcDao.save(voucher);
+        List<Voucher> vouchers = voucherJdbcDao.findAll();
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator().containsExactly(voucher);
@@ -41,8 +43,8 @@ class VoucherJdbcDaoTest {
         Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
-        voucherDao.save(voucher);
-        List<Voucher> vouchers = voucherDao.findAll();
+        voucherJdbcDao.save(voucher);
+        List<Voucher> vouchers = voucherJdbcDao.findAll();
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
@@ -57,9 +59,9 @@ class VoucherJdbcDaoTest {
         Voucher voucherB = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
-        voucherDao.save(voucherA);
-        voucherDao.save(voucherB);
-        List<Voucher> vouchers = voucherDao.findAll();
+        voucherJdbcDao.save(voucherA);
+        voucherJdbcDao.save(voucherB);
+        List<Voucher> vouchers = voucherJdbcDao.findAll();
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
@@ -73,8 +75,8 @@ class VoucherJdbcDaoTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2500));
 
         // when
-        voucherDao.save(voucher);
-        Optional<Voucher> findVoucher = voucherDao.findByVoucherId(voucher.getVoucherId());
+        voucherJdbcDao.save(voucher);
+        Optional<Voucher> findVoucher = voucherJdbcDao.findByVoucherId(voucher.getVoucherId());
 
         // then
         Assertions.assertThat(findVoucher.get()).usingRecursiveComparison().isEqualTo(voucher);
@@ -86,7 +88,7 @@ class VoucherJdbcDaoTest {
         // given
 
         // when
-        Optional<Voucher> voucherId = voucherDao.findByVoucherId(UUID.randomUUID());
+        Optional<Voucher> voucherId = voucherJdbcDao.findByVoucherId(UUID.randomUUID());
 
         // then
         Assertions.assertThat(voucherId).isEmpty();
@@ -101,11 +103,11 @@ class VoucherJdbcDaoTest {
         Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
-        voucherDao.save(voucherA);
-        voucherDao.save(voucherB);
-        voucherDao.save(voucherC);
+        voucherJdbcDao.save(voucherA);
+        voucherJdbcDao.save(voucherB);
+        voucherJdbcDao.save(voucherC);
 
-        List<Voucher> findFixedVouchers = voucherDao.findByVoucherType(VoucherType.FIXED_VOUCHER);
+        List<Voucher> findFixedVouchers = voucherJdbcDao.findByVoucherType(VoucherType.FIXED_VOUCHER);
 
         // then
         Assertions.assertThat(findFixedVouchers).usingRecursiveFieldByFieldElementComparator().containsExactly(voucherA, voucherB);
@@ -120,11 +122,11 @@ class VoucherJdbcDaoTest {
         Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
-        voucherDao.save(voucherA);
-        voucherDao.save(voucherB);
-        voucherDao.save(voucherC);
+        voucherJdbcDao.save(voucherA);
+        voucherJdbcDao.save(voucherB);
+        voucherJdbcDao.save(voucherC);
 
-        List<Voucher> findFixedVouchers = voucherDao.findByVoucherType(VoucherType.PERCENT_VOUCHER);
+        List<Voucher> findFixedVouchers = voucherJdbcDao.findByVoucherType(VoucherType.PERCENT_VOUCHER);
 
         // then
         Assertions.assertThat(findFixedVouchers).usingRecursiveFieldByFieldElementComparator().containsExactly(voucherC);
@@ -138,10 +140,10 @@ class VoucherJdbcDaoTest {
         Voucher voucherB = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(6000));
 
         // when
-        voucherDao.save(voucherA);
-        voucherDao.save(voucherB);
+        voucherJdbcDao.save(voucherA);
+        voucherJdbcDao.save(voucherB);
 
-        List<Voucher> findVouchers = voucherDao.findByVoucherType(VoucherType.PERCENT_VOUCHER);
+        List<Voucher> findVouchers = voucherJdbcDao.findByVoucherType(VoucherType.PERCENT_VOUCHER);
 
         // then
         Assertions.assertThat(findVouchers).hasSize(0);
@@ -152,12 +154,12 @@ class VoucherJdbcDaoTest {
     void updateVoucher() {
         // given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(2000));
-        voucherDao.save(voucher);
+        voucherJdbcDao.save(voucher);
 
         // when
-        voucherDao.update(new FixedAmountVoucher(voucher.getVoucherId(), BigDecimal.valueOf(5500)));
+        voucherJdbcDao.update(new FixedAmountVoucher(voucher.getVoucherId(), BigDecimal.valueOf(5500)));
 
-        Optional<Voucher> updatedVoucher = voucherDao.findByVoucherId(voucher.getVoucherId());
+        Optional<Voucher> updatedVoucher = voucherJdbcDao.findByVoucherId(voucher.getVoucherId());
 
         // then
         Assertions.assertThat(updatedVoucher.get().getAmount()).isEqualTo(BigDecimal.valueOf(5500));
@@ -173,12 +175,12 @@ class VoucherJdbcDaoTest {
         Voucher voucherC = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(50));
 
         // when
-        voucherDao.save(voucherA);
-        voucherDao.save(voucherB);
-        voucherDao.save(voucherC);
+        voucherJdbcDao.save(voucherA);
+        voucherJdbcDao.save(voucherB);
+        voucherJdbcDao.save(voucherC);
 
-        voucherDao.deleteById(voucherA.getVoucherId());
-        List<Voucher> findVouchers = voucherDao.findAll();
+        voucherJdbcDao.deleteById(voucherA.getVoucherId());
+        List<Voucher> findVouchers = voucherJdbcDao.findAll();
 
         // then
         Assertions.assertThat(findVouchers).hasSize(2);
