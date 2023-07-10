@@ -5,6 +5,7 @@ import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,5 +48,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
         } else {
             log.info("Voucher not found for deletion: {}", voucherId);
         }
+    }
+
+    @Override
+    public List<Voucher> findAllByCreationDateTimeBetween(LocalDateTime start, LocalDateTime end) {
+        return null;
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -61,4 +63,11 @@ public class JDBCVoucherRepository implements VoucherRepository {
         String sql = "DELETE FROM vouchers WHERE id = ?";
         jdbcTemplate.update(sql, voucherId.toString());
     }
+
+    @Override
+    public List<Voucher> findAllByCreationDateTimeBetween(LocalDateTime start, LocalDateTime end) {
+        String sql = "SELECT * FROM vouchers WHERE creationDateTime BETWEEN ? AND ?";
+        return jdbcTemplate.query(sql, voucherRowMapper, Timestamp.valueOf(start), Timestamp.valueOf(end));
+    }
+
 }

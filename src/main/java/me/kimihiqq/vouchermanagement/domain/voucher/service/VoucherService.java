@@ -8,6 +8,7 @@ import me.kimihiqq.vouchermanagement.domain.voucher.repository.VoucherRepository
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,5 +32,11 @@ public class VoucherService {
 
     public Optional<Voucher> findVoucherById(UUID voucherId) {
         return voucherRepository.findById(voucherId);
+    }
+
+    public void deleteById(UUID voucherId) { voucherRepository.deleteById(voucherId);}
+
+    public List<Voucher> listVouchersByCreationDateTimeBetween(LocalDateTime start, LocalDateTime end) {
+        return voucherRepository.findAllByCreationDateTimeBetween(start, end);
     }
 }

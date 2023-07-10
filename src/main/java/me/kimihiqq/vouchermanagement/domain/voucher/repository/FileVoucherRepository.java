@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,4 +86,11 @@ public class FileVoucherRepository implements VoucherRepository {
             log.error("Error deleting voucher: {}", voucherId, e);
         }
     }
+
+    @Override
+    public List<Voucher> findAllByCreationDateTimeBetween(LocalDateTime start, LocalDateTime end) {
+        return null;
+    }
+
+
 }
