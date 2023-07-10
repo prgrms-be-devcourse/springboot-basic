@@ -27,11 +27,6 @@ public class CommandExecutor {
         this.memberController = memberController;
         this.console = console;
     }
-//    //Voucher
-//    INSERT_VOUCHER("insertvoucher", 6),
-//    UPDATE_VOUCHER("updatevoucher", 7),
-//    DELETE_VOUCHER("deletevoucher", 8),
-//    VOUCHER_LIST("voucherlist", 9),
 
     public void execute(MenuType menuType) {
         switch (menuType) {
