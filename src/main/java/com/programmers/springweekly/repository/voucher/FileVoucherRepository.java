@@ -52,7 +52,7 @@ public class FileVoucherRepository {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] readLine = line.split(",");
 
-                Voucher voucher = VoucherFactory.createVoucher(UUID.fromString(readLine[0]), VoucherType.valueOf(readLine[1]), Long.parseLong(readLine[2]));
+                Voucher voucher = VoucherFactory.createVoucher(UUID.fromString(readLine[0]), VoucherType.valueOf(readLine[2]), Long.parseLong(readLine[1]));
 
                 voucherMap.put(voucher.getVoucherId(), voucher);
             }
@@ -64,5 +64,5 @@ public class FileVoucherRepository {
 
         return Collections.unmodifiableMap(voucherMap);
     }
-    
+
 }

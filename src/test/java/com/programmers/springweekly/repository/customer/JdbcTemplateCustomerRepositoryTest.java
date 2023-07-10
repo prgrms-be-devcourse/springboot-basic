@@ -68,7 +68,7 @@ class JdbcTemplateCustomerRepositoryTest {
         // when
         jdbcTemplateCustomerRepository.save(customer);
         jdbcTemplateCustomerRepository.update(customerExpect);
-        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
+        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId()).get();
 
         // then
         assertThat(customerActual).usingRecursiveComparison().isEqualTo(customerExpect);
@@ -88,7 +88,7 @@ class JdbcTemplateCustomerRepositoryTest {
         // when
         jdbcTemplateCustomerRepository.save(customerExpect);
 
-        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
+        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId()).get();
 
         // then
         assertThat(customerActual).usingRecursiveComparison().isEqualTo(customerExpect);

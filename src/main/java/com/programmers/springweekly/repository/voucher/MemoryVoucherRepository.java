@@ -4,7 +4,7 @@ import com.programmers.springweekly.domain.voucher.Voucher;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.context.annotation.Profile;
@@ -29,14 +29,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         Voucher voucher = voucherMap.get(voucherId);
 
-        if (voucher == null) {
-            throw new NoSuchElementException("찾는 바우처가 없습니다.");
-        }
-
-        return voucher;
+        return Optional.ofNullable(voucher);
     }
 
     @Override

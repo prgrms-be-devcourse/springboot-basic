@@ -3,7 +3,7 @@ package com.programmers.springweekly.repository.customer;
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
@@ -52,7 +52,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer findById(UUID customerId) {
+    public Optional<Customer> findById(UUID customerId) {
         String sql = "select * from customers where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
@@ -60,11 +60,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
         Customer customer = template.queryForObject(sql, param, customerRowMapper());
 
-        if (customer == null) {
-            throw new NoSuchElementException("찾는 회원이 없습니다.");
-        }
-
-        return customer;
+        return Optional.ofNullable(customer);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,9 @@ public class CustomerService {
     }
 
     public CustomerResponse findById(UUID customerId) {
-        Customer customer = customerRepository.findById(customerId);
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException("Input : " + customerId + ", 찾는 회원이 없습니다."));
+
         return new CustomerResponse(customer);
     }
 
@@ -61,5 +64,5 @@ public class CustomerService {
     public void deleteAll() {
         customerRepository.deleteAll();
     }
-    
+
 }

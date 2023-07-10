@@ -7,12 +7,12 @@ import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
 import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +37,8 @@ class JdbcTemplateVoucherRepositoryTest {
         // when
         voucherRepository.save(voucherExpected1);
         voucherRepository.save(voucherExpected2);
-        Voucher voucherActual1 = voucherRepository.findById(voucherId1);
-        Voucher voucherActual2 = voucherRepository.findById(voucherId2);
+        Voucher voucherActual1 = voucherRepository.findById(voucherId1).get();
+        Voucher voucherActual2 = voucherRepository.findById(voucherId2).get();
 
         // then
         assertThat(voucherActual1).usingRecursiveComparison().isEqualTo(voucherExpected1);
@@ -57,7 +57,7 @@ class JdbcTemplateVoucherRepositoryTest {
         voucherRepository.save(voucher);
         voucherRepository.update(voucherExpected1);
 
-        Voucher voucherActual1 = voucherRepository.findById(voucher.getVoucherId());
+        Voucher voucherActual1 = voucherRepository.findById(voucher.getVoucherId()).get();
 
         // then
         assertThat(voucherActual1).usingRecursiveComparison().isEqualTo(voucherExpected1);
@@ -73,7 +73,7 @@ class JdbcTemplateVoucherRepositoryTest {
 
         // when
         voucherRepository.save(voucherExpected1);
-        Voucher voucherActual1 = voucherRepository.findById(voucherId1);
+        Voucher voucherActual1 = voucherRepository.findById(voucherId1).get();
 
         // then
         assertThat(voucherActual1).usingRecursiveComparison().isEqualTo(voucherExpected1);
@@ -114,7 +114,7 @@ class JdbcTemplateVoucherRepositoryTest {
 
         // then
         assertThatThrownBy(() -> voucherRepository.findById(voucherId))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(EmptyResultDataAccessException.class);
     }
 
     @Test
@@ -135,5 +135,5 @@ class JdbcTemplateVoucherRepositoryTest {
         // then
         assertThat(voucherRepository.findAll().size()).isEqualTo(0);
     }
-    
+
 }

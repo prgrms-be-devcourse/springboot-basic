@@ -8,6 +8,7 @@ import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.repository.voucher.VoucherRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,8 @@ public class VoucherService {
     }
 
     public VoucherResponse findById(UUID voucherId) {
-        Voucher voucher = voucherRepository.findById(voucherId);
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
 
         return new VoucherResponse(voucher);
     }
@@ -56,5 +58,5 @@ public class VoucherService {
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
-    
+
 }

@@ -31,7 +31,7 @@ public class MemoryVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // then
-        assertThat(voucherRepository.findById(voucherId))
+        assertThat(voucherRepository.findById(voucherId).get())
                 .usingRecursiveComparison().isEqualTo(voucher);
     }
 
@@ -46,7 +46,7 @@ public class MemoryVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // then
-        assertThat(voucherRepository.findById(voucherId))
+        assertThat(voucherRepository.findById(voucherId).get())
                 .usingRecursiveComparison().isEqualTo(voucher);
     }
 
