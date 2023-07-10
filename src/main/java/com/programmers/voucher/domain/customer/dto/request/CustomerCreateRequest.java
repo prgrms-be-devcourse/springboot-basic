@@ -1,8 +1,11 @@
 package com.programmers.voucher.domain.customer.dto.request;
 
 public class CustomerCreateRequest {
-    private final String email;
-    private final String name;
+    private String email;
+    private String name;
+
+    public CustomerCreateRequest() {
+    }
 
     public CustomerCreateRequest(String email, String name) {
         this.email = email;
