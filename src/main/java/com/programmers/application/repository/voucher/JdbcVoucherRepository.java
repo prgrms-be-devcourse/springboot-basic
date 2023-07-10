@@ -36,11 +36,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .columns("voucher_id, discount_amount, type")
                 .values(":voucherId, :discountAmount, :type")
                 .build();
-        MapSqlParameterSource params = new MapSqlParameterSource()
+        SqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("voucherId", UUIDMapper.toBytes(voucher.getVoucherId()))
                 .addValue("discountAmount", voucher.getDiscountAmount())
                 .addValue("type", voucher.getVoucherType().name());
-        namedParameterJdbcTemplate.update(sql, params);
+        namedParameterJdbcTemplate.update(sql, paramMap);
         return voucher;
     }
 

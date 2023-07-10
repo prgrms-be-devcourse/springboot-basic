@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,8 +33,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .columns("customer_id, name, email, created_at, last_login_at")
                 .values(":customerId, :name, :email, :createdAt, :lastLoginAt")
                 .build();
-        MapSqlParameterSource params = new MapSqlParameterSource().addValue("customerId", UUIDMapper.toBytes(customer.getCustomerId())).addValue("name", customer.getName()).addValue("email", customer.getEmail()).addValue("createdAt", customer.getCreatedAt()).addValue("lastLoginAt", customer.getLastLoginAt());
-        namedParameterJdbcTemplate.update(sql, params);
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("customerId", UUIDMapper.toBytes(customer.getCustomerId()))
+                .addValue("name", customer.getName()).addValue("email", customer.getEmail())
+                .addValue("createdAt", customer.getCreatedAt())
+                .addValue("lastLoginAt", customer.getLastLoginAt());
+        namedParameterJdbcTemplate.update(sql, paramMap);
         return customer;
     }
 
@@ -72,9 +75,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .from("customer")
                 .where("email = :email")
                 .build();
-        HashMap<String, String> param = new HashMap<>();
-        param.put("email", email);
-        Customer customer = namedParameterJdbcTemplate.queryForObject(sql, param, getCustomerRowMapper());
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("email", email);
+        Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramMap, getCustomerRowMapper());
         return Optional.ofNullable(customer);
     }
 
@@ -85,7 +88,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .set("name = :name, last_login_at = :lastLoginAt")
                 .where("customer_id = :customerId")
                 .build();
-        SqlParameterSource paramMap = new MapSqlParameterSource().addValue("customerId", UUIDMapper.toBytes(customer.getCustomerId())).addValue("name", customer.getName()).addValue("lastLoginAt", customer.getLastLoginAt());
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("customerId", UUIDMapper.toBytes(customer.getCustomerId()))
+                .addValue("name", customer.getName())
+                .addValue("lastLoginAt", customer.getLastLoginAt());
         namedParameterJdbcTemplate.update(sql, paramMap);
         return customer;
     }
@@ -96,8 +102,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .deleteFrom("customer")
                 .where("customer_id = :customerId")
                 .build();
-        SqlParameterSource param = new MapSqlParameterSource().addValue("customerId", UUIDMapper.toBytes(customerId));
-        namedParameterJdbcTemplate.update(sql, param);
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("customerId", UUIDMapper.toBytes(customerId));
+        namedParameterJdbcTemplate.update(sql, paramMap);
     }
 
     private RowMapper<Customer> getCustomerRowMapper() {
