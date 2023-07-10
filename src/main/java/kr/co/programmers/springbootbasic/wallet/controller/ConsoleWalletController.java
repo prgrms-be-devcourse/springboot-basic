@@ -1,15 +1,22 @@
 package kr.co.programmers.springbootbasic.wallet.controller;
 
+import kr.co.programmers.springbootbasic.util.ApplicationUtils;
+import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletResponse;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletSaveDto;
 import kr.co.programmers.springbootbasic.wallet.service.WalletService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+import java.util.UUID;
+
 @Controller
-public class WalletController {
+@Profile("console")
+public class ConsoleWalletController {
     private final WalletService walletService;
 
-    public WalletController(WalletService walletService) {
+    public ConsoleWalletController(WalletService walletService) {
         this.walletService = walletService;
     }
 
@@ -18,6 +25,9 @@ public class WalletController {
     }
 
     public WalletResponse findWalletById(String walletId) {
-        return walletService.findWalletById(walletId);
+        List<VoucherResponse> voucherDtos = walletService.findWalletById(walletId);
+        UUID walletUUID = ApplicationUtils.toUUID(walletId.getBytes());
+
+        return new WalletResponse(walletUUID, voucherDtos);
     }
 }

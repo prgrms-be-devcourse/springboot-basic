@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile({"deploy", "test"})
+@Profile("web")
 public class JdbcCustomerRepository implements CustomerRepository {
     private final JdbcTemplate jdbcTemplate;
 

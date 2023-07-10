@@ -1,6 +1,5 @@
 package kr.co.programmers.springbootbasic.voucher.repository;
 
-import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 
 import java.util.List;
@@ -15,4 +14,8 @@ public interface VoucherRepository {
     List<Voucher> listAll();
 
     void deleteById(UUID voucherId);
+
+    List<Voucher> findByType(Integer typeId);
+
+    List<Voucher> findByDate(String formattedDate);
 }

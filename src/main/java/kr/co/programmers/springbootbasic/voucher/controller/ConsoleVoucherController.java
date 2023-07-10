@@ -1,24 +1,23 @@
 package kr.co.programmers.springbootbasic.voucher.controller;
 
-import kr.co.programmers.springbootbasic.customer.dto.CustomerResponse;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
-import kr.co.programmers.springbootbasic.voucher.dto.VoucherCreateRequest;
 import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
 import kr.co.programmers.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+@Profile("console")
+public class ConsoleVoucherController {
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleVoucherController.class);
     private final VoucherService voucherService;
 
-    public VoucherController(VoucherService voucherService) {
+    public ConsoleVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 

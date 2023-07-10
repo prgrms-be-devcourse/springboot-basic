@@ -8,11 +8,19 @@ import java.util.UUID;
 public class VoucherResponse {
     private final VoucherType type;
     private final UUID voucherId;
-    private final long amount;
+    private final Long amount;
     private final LocalDateTime createdAt;
     private final UUID walletId;
 
-    public VoucherResponse(VoucherType type, UUID voucherId, long amount, LocalDateTime createdAt, UUID walletId) {
+    public VoucherResponse(UUID voucherId) {
+        this.type = null;
+        this.voucherId = voucherId;
+        this.amount = null;
+        this.createdAt = null;
+        this.walletId = null;
+    }
+
+    public VoucherResponse(VoucherType type, UUID voucherId, Long amount, LocalDateTime createdAt, UUID walletId) {
         this.type = type;
         this.voucherId = voucherId;
         this.amount = amount;
@@ -28,7 +36,7 @@ public class VoucherResponse {
         return voucherId;
     }
 
-    public long getAmount() {
+    public Long getAmount() {
         return amount;
     }
 

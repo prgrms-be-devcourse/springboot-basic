@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @Repository
 @Primary
-@Profile({"deploy", "dev", "test"})
+@Profile("web")
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final JdbcTemplate jdbcTemplate;
@@ -67,6 +67,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update(VoucherQuery.DELETE_BY_ID,
                 voucherId.toString().getBytes());
+    }
+
+    @Override
+    public List<Voucher> findByType(Integer typeId) {
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE type_id = ?",
+                voucherRowMapper(),
+                typeId);
+    }
+
+    @Override
+    public List<Voucher> findByDate(String formattedDate) {
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE created_at LIKE ?",
+                voucherRowMapper(),
+                "%" + formattedDate + "%");
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

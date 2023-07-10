@@ -62,7 +62,7 @@ public abstract class Voucher {
         return createdAt;
     }
 
-    private void checkValidAmount(VoucherType type, long amount) throws NoValidAmountException {
+    private void checkValidAmount(VoucherType type, long amount) {
         switch (type) {
             case FIXED_AMOUNT -> checkValidFixedAmount(amount);
             case PERCENT_AMOUNT -> checkValidPercentAmount(amount);

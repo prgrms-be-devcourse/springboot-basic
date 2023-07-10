@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>성공</title>
+</head>
+<body>
+<script th:inline="javascript">
+    window.onload = function () {
+        alert([[${customerResponse}]]);
+        window.location.href = /*[[${redirectUrl}]]*/ '';
+    }
+</script>
+</body>
+</html>

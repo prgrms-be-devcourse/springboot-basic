@@ -1,6 +1,5 @@
 package kr.co.programmers.springbootbasic.voucher.repository.impl;
 
-import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 import kr.co.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
@@ -31,6 +30,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         repository.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByType(Integer typeId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByDate(String formattedDate) {
+        return null;
     }
 
     @Override

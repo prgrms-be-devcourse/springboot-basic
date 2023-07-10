@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-@Profile("deploy")
+@Profile("web")
 public class JdbcWalletRepository implements WalletRepository {
     private final JdbcTemplate jdbcTemplate;
 
@@ -48,10 +48,11 @@ public class JdbcWalletRepository implements WalletRepository {
             var type = VoucherType.resolveTypeId(rs.getInt("type_id"));
             var amount = rs.getLong("amount");
             var createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+            var walletId = ApplicationUtils.toUUID(rs.getBytes("wallet_id"));
 
             return switch (type) {
-                case FIXED_AMOUNT -> new FixedAmountVoucher(voucherId, amount, createdAt);
-                case PERCENT_AMOUNT -> new PercentAmountVoucher(voucherId, amount, createdAt);
+                case FIXED_AMOUNT -> new FixedAmountVoucher(voucherId, amount, createdAt, walletId);
+                case PERCENT_AMOUNT -> new PercentAmountVoucher(voucherId, amount, createdAt, walletId);
             };
         };
     }

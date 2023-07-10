@@ -9,6 +9,8 @@ import kr.co.programmers.springbootbasic.customer.repository.CustomerRepository;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Profile("web")
 public class JdbcCustomerService {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerService.class);
 

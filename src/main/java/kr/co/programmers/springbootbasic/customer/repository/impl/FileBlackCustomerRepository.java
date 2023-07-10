@@ -9,6 +9,7 @@ import kr.co.programmers.springbootbasic.customer.exception.FileReadFailExceptio
 import kr.co.programmers.springbootbasic.customer.exception.FileWriteFailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
+@Profile("web")
 public class FileBlackCustomerRepository implements BlackCustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileBlackCustomerRepository.class);
     private static final String USER_BLACK_LIST_PATH = "src/main/resources/customer_blacklist.csv";

@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous" defer></script>
+
+    <title>💳 바우처 관리 페이지 - 생성 💳</title>
+</head>
+<body>
+<header>
+    <p class="h1">바우처 생성</p>
+</header>
+<main>
+    <form th:action="@{/vouchers/voucher}" method="post">
+        <div class="mb-3">
+            <div>
+                <label for="voucherAmount" class="form-label">바우처 값</label>
+                <input type="text" class="form-control" id="voucherAmount" name="amount" aria-describedby="amountHelp">
+                <div id="amountHelp" class="form-text">
+                    <div>정액할인은 100만원 이하여야 합니다.</div>
+                    <div>정률할인은 0보다 크고 100보다 작아야 합니다.</div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div>
+            <label class="form-label">바우처 타입</label>
+            <br/>
+            <label for="fixedAmount"><input type="radio" name="voucherType" value="FIXED_AMOUNT" id="fixedAmount">
+                정액할인
+            </label>
+            <label for="percentAmount"><input type="radio" name="voucherType" value="PERCENT_AMOUNT" id="percentAmount">
+                정률할인
+            </label>
+        </div>
+        <br/>
+        <div>
+            <button type="submit" class="btn btn-primary">생성하기</button>
+        </div>
+    </form>
+</main>
+<footer>
+    <div>©All Rights By Yesung From Programmers Dev-course</div>
+</footer>
+</body>
+</html>

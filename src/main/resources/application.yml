@@ -1,0 +1,50 @@
+# reference :
+# https://tecoble.techcourse.co.kr/post/2022-10-04-active_profiles/
+
+spring:
+  profiles:
+    active: web
+
+---
+
+spring:
+  mvc:
+    hiddenmethod.filter.enabled: true
+  thymeleaf:
+    check-template-location: true
+    suffix: .html
+    cache: false
+  config:
+    activate:
+      on-profile: web
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_service?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 1234
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: console
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_service?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 1234
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:~/voucher_service
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

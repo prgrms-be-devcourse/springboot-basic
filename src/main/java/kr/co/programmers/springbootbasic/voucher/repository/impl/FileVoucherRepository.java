@@ -1,6 +1,5 @@
 package kr.co.programmers.springbootbasic.voucher.repository.impl;
 
-import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
@@ -60,6 +59,16 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             throw new FileVoucherRepositoryFailException("삭제할 바우처가 존재하지 않습니다.\n");
         }
+    }
+
+    @Override
+    public List<Voucher> findByType(Integer typeId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByDate(String formattedDate) {
+        return null;
     }
 
     @Override

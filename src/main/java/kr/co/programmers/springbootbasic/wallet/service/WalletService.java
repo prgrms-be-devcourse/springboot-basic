@@ -7,6 +7,7 @@ import kr.co.programmers.springbootbasic.wallet.domain.Wallet;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletResponse;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletSaveDto;
 import kr.co.programmers.springbootbasic.wallet.repository.WalletRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Profile("web")
 public class WalletService {
     private final WalletRepository repository;
 
@@ -31,12 +33,10 @@ public class WalletService {
         return saveRequest;
     }
 
-    public WalletResponse findWalletById(String walletId) {
+    public List<VoucherResponse> findWalletById(String walletId) {
         Wallet wallet = repository.findAllVouchersById(walletId);
-        List<VoucherResponse> voucherDtos = makeVoucherResponseList(wallet);
-        UUID walletUUID = ApplicationUtils.toUUID(walletId.getBytes());
 
-        return new WalletResponse(walletUUID, voucherDtos);
+        return makeVoucherResponseList(wallet);
     }
 
     private static List<VoucherResponse> makeVoucherResponseList(Wallet wallet) {
