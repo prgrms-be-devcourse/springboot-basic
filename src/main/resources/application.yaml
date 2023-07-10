@@ -1,0 +1,6 @@
+system:
+  blacklist:
+    blacklistAllow: true
+    blacklistShowId: true
+  voucher:
+    maximum-fixed-amount: 1000
