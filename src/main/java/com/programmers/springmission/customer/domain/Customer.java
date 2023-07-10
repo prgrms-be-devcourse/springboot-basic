@@ -36,11 +36,11 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(customerId, customer.customerId) && Objects.equals(name, customer.name) && Objects.equals(email, customer.email) && Objects.equals(createdAt, customer.createdAt);
+        return Objects.equals(customerId, customer.customerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerId, name, email, createdAt);
+        return Objects.hash(customerId);
     }
 }

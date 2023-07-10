@@ -45,12 +45,12 @@ public class Voucher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Voucher voucher = (Voucher) o;
-        return voucherAmount == voucher.voucherAmount && Objects.equals(voucherId, voucher.voucherId);
+        return Objects.equals(voucherId, voucher.voucherId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(voucherId, voucherPolicy, voucherAmount, customerId);
+        return Objects.hash(voucherId);
     }
 }
 
