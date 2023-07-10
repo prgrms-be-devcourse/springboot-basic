@@ -2,7 +2,7 @@ package com.prgms.VoucherApp.view.console;
 
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import com.prgms.VoucherApp.view.CustomerCommand;
 import com.prgms.VoucherApp.view.ManagementType;
@@ -124,18 +124,18 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printVoucherList(List<VoucherResDto> findVouchers) {
+    public void printVoucherList(List<VoucherResponse> findVouchers) {
         if (findVouchers.isEmpty()) {
             log.error("The user tried to view the list, but currently, the list is empty");
             textTerminal.println("There are no available discount vouchers stored.");
             return;
         }
-        findVouchers.forEach((voucher -> textTerminal.println(voucher.getVoucherInfo())));
+        findVouchers.forEach((voucher -> textTerminal.println(String.valueOf(voucher))));
     }
 
     @Override
-    public void printVoucher(VoucherResDto voucher) {
-        textTerminal.println(voucher.getVoucherInfo());
+    public void printVoucher(VoucherResponse voucher) {
+        textTerminal.println(String.valueOf(voucher));
     }
 
     @Override

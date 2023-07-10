@@ -3,13 +3,9 @@ package com.prgms.VoucherApp.domain.voucher.dto;
 import java.util.Collections;
 import java.util.List;
 
-public class VouchersResDto {
-
-    private final List<VoucherResponse> vouchers;
-
-    public VouchersResDto(List<VoucherResponse> vouchers) {
-        this.vouchers = vouchers;
-    }
+public record VouchersResponse(
+    List<VoucherResponse> vouchers
+) {
 
     public boolean isEmpty() {
         return vouchers.isEmpty();
