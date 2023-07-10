@@ -10,6 +10,4 @@ public interface VoucherRepository {
     Voucher save(Voucher voucher);
 
     List<Voucher> findAll();
-
-    void deleteAll();
 }

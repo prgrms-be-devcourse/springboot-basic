@@ -1,8 +1,8 @@
 package com.devcourse.voucher.application;
 
-import com.devcourse.global.configuration.AppConfig;
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import com.devcourse.voucher.domain.Voucher;
+import com.devcourse.voucher.domain.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static com.devcourse.voucher.domain.Voucher.Type.FIXED;
 import static com.devcourse.voucher.domain.Voucher.Type.PERCENT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringJUnitConfig(classes = {VoucherService.class, AppConfig.class})
+@SpringJUnitConfig(classes = {VoucherService.class, MemoryVoucherRepository.class})
 class VoucherServiceTest {
     @Autowired
     private VoucherService voucherService;
