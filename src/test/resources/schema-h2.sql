@@ -1,10 +1,12 @@
-CREATE TABLE vouchers (
+CREATE TABLE vouchers
+(
     id VARCHAR(36) PRIMARY KEY,
     type VARCHAR(255),
     discount BIGINT
 );
 
-CREATE TABLE customers (
+CREATE TABLE customers
+(
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255),
     email VARCHAR(255),
@@ -12,7 +14,8 @@ CREATE TABLE customers (
 
 );
 
-CREATE TABLE VoucherWallet (
+CREATE TABLE VoucherWallet
+(
     customerId VARCHAR(36),
     voucherId VARCHAR(36),
     PRIMARY KEY (customerId, voucherId),
