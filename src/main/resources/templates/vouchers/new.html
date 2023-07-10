@@ -9,19 +9,16 @@
     <h1>Create Voucher</h1>
     <form th:action="@{/vouchers}" method="post">
         <div class="form-group">
-            <label for="voucherId">Voucher ID</label>
-            <input type="text" class="form-control" id="voucherId" name="voucherId">
-        </div>
-        <div class="form-group">
             <label for="type">Type</label>
-            <select class="form-control" id="type" name="type">
+            <select class="form-control" id="type" name="type" required>
+                <option value="">Choose...</option>
                 <option value="FIXED">Fixed Amount</option>
                 <option value="PERCENT">Percent Discount</option>
             </select>
         </div>
         <div class="form-group">
             <label for="discount">Discount</label>
-            <input type="number" class="form-control" id="discount" name="discount">
+            <input type="number" class="form-control" id="discount" name="discount" min="1" required>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
