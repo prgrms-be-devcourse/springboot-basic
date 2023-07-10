@@ -8,6 +8,7 @@ import org.programmers.VoucherManagement.member.presentation.MemberController;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
+import org.programmers.VoucherManagement.voucher.dto.UpdateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +27,32 @@ public class CommandExecutor {
         this.memberController = memberController;
         this.console = console;
     }
+//    //Voucher
+//    INSERT_VOUCHER("insertvoucher", 6),
+//    UPDATE_VOUCHER("updatevoucher", 7),
+//    DELETE_VOUCHER("deletevoucher", 8),
+//    VOUCHER_LIST("voucherlist", 9),
 
     public void execute(MenuType menuType) {
         switch (menuType) {
-            case CREATE -> {
+            case INSERT_VOUCHER -> {
                 console.printConsoleMessage(DISCOUNT_TYPE_MESSAGE);
                 CreateVoucherRequest request = makeCreateVoucherRequest();
                 voucherController.createVoucher(request);
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
-            case LIST -> {
+            case UPDATE_VOUCHER -> {
+                String voucherId = console.readVoucherId();
+                int voucherValue = console.readDiscountValue();
+                voucherController.updateVoucher(UUID.fromString(voucherId), new UpdateVoucherRequest(voucherValue));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case DELETE_VOUCHER -> {
+                String voucherId = console.readVoucherId();
+                voucherController.deleteVoucher(UUID.fromString(voucherId));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case VOUCHER_LIST -> {
                 GetVoucherListResponse voucherList = voucherController.getVoucherList();
                 console.printVoucherList(voucherList);
             }
@@ -70,7 +88,7 @@ public class CommandExecutor {
 
     private CreateVoucherRequest makeCreateVoucherRequest() {
         DiscountType discountType = DiscountType.from(console.readDiscountType());
-        int discountValue = console.readDiscountValue(discountType);
+        int discountValue = console.readDiscountValue();
 
         return new CreateVoucherRequest(discountType, discountValue);
     }

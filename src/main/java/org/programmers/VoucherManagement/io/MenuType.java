@@ -20,9 +20,14 @@ public enum MenuType {
 
 
     //Voucher
-    EXIT("exit", 6),
-    CREATE("create", 7),
-    LIST("list", 8);
+    INSERT_VOUCHER("insertvoucher", 6),
+    UPDATE_VOUCHER("updatevoucher", 7),
+    DELETE_VOUCHER("deletevoucher", 8),
+    VOUCHER_LIST("voucherlist", 9),
+
+    //System
+    EXIT("exit", 10);
+
 
     private static final Map<Integer, MenuType> COMMAND_TYPE_MAP =
             Collections.unmodifiableMap(Arrays

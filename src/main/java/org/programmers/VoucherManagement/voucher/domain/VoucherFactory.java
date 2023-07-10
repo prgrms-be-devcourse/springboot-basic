@@ -22,8 +22,8 @@ public class VoucherFactory {
 
     public static Voucher mapVoucher(UUID voucherId, int discountValue, DiscountType discountType) {
         Voucher voucher = switch (discountType) {
-            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(discountValue));
-            case PERCENT -> new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(discountValue));
+            case FIXED -> new FixedAmountVoucher(voucherId, discountType, new DiscountValue(discountValue));
+            case PERCENT -> new PercentAmountVoucher(voucherId, discountType, new DiscountValue(discountValue));
         };
         return voucher;
     }

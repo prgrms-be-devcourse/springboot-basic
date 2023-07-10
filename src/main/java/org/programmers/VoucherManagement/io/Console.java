@@ -1,7 +1,6 @@
 package org.programmers.VoucherManagement.io;
 
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
 import org.springframework.stereotype.Component;
 
@@ -77,13 +76,19 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public String readVoucherId() {
+        printConsoleMessage(VOUCHER_ID_MESSAGE);
+        return SCANNER.nextLine();
+    }
+
+    @Override
     public String readMemberStatus() {
         printConsoleMessage(MEMBER_STATUS_MESSAGE);
         return SCANNER.nextLine();
     }
 
     @Override
-    public int readDiscountValue(DiscountType discountType) {
+    public int readDiscountValue() {
         printConsoleMessage(DISCOUNT_VALUE_MESSAGE);
         return readValue();
     }
