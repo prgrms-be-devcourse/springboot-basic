@@ -3,6 +3,7 @@ package me.kimihiqq.vouchermanagement.controller;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.dto.VoucherDto;
 import me.kimihiqq.vouchermanagement.domain.voucher.service.VoucherService;
+import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,12 @@ public class VoucherApiController {
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
         return voucherService.listVouchersByCreationDateTimeBetween(start, end);
     }
+
+    @GetMapping("/type/{type}")
+    public List<Voucher> getVouchersByType(@PathVariable("type") VoucherTypeOption type) {
+        return voucherService.listVouchersByType(type);
+    }
+
 
 }
 

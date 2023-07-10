@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.dto.VoucherDto;
 import me.kimihiqq.vouchermanagement.domain.voucher.repository.VoucherRepository;
+import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -39,4 +40,9 @@ public class VoucherService {
     public List<Voucher> listVouchersByCreationDateTimeBetween(LocalDateTime start, LocalDateTime end) {
         return voucherRepository.findAllByCreationDateTimeBetween(start, end);
     }
+
+    public List<Voucher> listVouchersByType(VoucherTypeOption type) {
+        return voucherRepository.findAllByType(type);
+    }
+
 }

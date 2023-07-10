@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS customers (
 CREATE TABLE IF NOT EXISTS vouchers (
     id VARCHAR(36) PRIMARY KEY,
     type VARCHAR(20),
-    discount INT
+    discount INT,
+    creationDateTime TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS VoucherWallet (

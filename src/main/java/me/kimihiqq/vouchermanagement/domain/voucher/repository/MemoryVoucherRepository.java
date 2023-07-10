@@ -2,6 +2,7 @@ package me.kimihiqq.vouchermanagement.domain.voucher.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
+import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -52,6 +53,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByCreationDateTimeBetween(LocalDateTime start, LocalDateTime end) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findAllByType(VoucherTypeOption type) {
         return null;
     }
 }

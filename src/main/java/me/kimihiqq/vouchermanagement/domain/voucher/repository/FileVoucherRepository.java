@@ -92,5 +92,10 @@ public class FileVoucherRepository implements VoucherRepository {
         return null;
     }
 
+    @Override
+    public List<Voucher> findAllByType(VoucherTypeOption type) {
+        return null;
+    }
+
 
 }

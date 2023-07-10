@@ -70,4 +70,11 @@ public class JDBCVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query(sql, voucherRowMapper, Timestamp.valueOf(start), Timestamp.valueOf(end));
     }
 
+    @Override
+    public List<Voucher> findAllByType(VoucherTypeOption type) {
+        String sql = "SELECT * FROM vouchers WHERE type = ?";
+        return jdbcTemplate.query(sql, voucherRowMapper, type.name());
+    }
+
+
 }
