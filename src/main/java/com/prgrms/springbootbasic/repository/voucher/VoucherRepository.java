@@ -1,12 +1,27 @@
 package com.prgrms.springbootbasic.repository.voucher;
 
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public interface VoucherRepository {
 
-    Voucher insert(Voucher voucher);
+    //create
+    Voucher create(Voucher voucher);
 
-    Map<UUID, Voucher> getAllVouchersList();
+    //read
+    Voucher findById(UUID voucherId);
+
+    Voucher findByCreatedAt(LocalDateTime createAt);
+
+    List<Voucher> findAll();
+
+    //update
+    void update(Voucher voucher);
+
+    //delete
+    void deleteById(UUID voucherId);
+
+    void deleteAll();
 }
