@@ -36,9 +36,13 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
                 .addValue("customerEmail", customer.getCustomerEmail())
                 .addValue("customerType", customer.getCustomerType().toString());
 
-        template.update(sql, param);
-
-        return customer;
+        try {
+            template.update(sql, param);
+            return customer;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        }
     }
 
     @Override
