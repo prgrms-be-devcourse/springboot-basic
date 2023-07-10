@@ -21,4 +21,12 @@ public class VoucherCreateRequest {
     public long getAmount() {
         return amount;
     }
+
+    public void setVoucherType(VoucherType voucherType) {
+        this.voucherType = voucherType;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
 }

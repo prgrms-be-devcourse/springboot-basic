@@ -27,4 +27,16 @@ public class CustomerUpdateRequest {
     public boolean isBanned() {
         return banned;
     }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
+    }
 }
