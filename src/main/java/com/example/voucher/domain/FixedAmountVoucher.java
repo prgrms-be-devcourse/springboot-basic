@@ -6,25 +6,30 @@ import com.example.voucher.constant.VoucherType;
 
 public class FixedAmountVoucher implements Voucher {
 
+    private final UUID voucherId;
+    private final long discountValue;
     private final VoucherType voucherType = VoucherType.FIXED_AMOUNT_DISCOUNT;
 
-    private final UUID voucherId;
-    private final long amount;
-
-    public FixedAmountVoucher(long amount) {
-        validatePositive(amount);
+    public FixedAmountVoucher(long discountValue) {
+        validatePositive(discountValue);
         this.voucherId = UUID.randomUUID();
-        this.amount = amount;
+        this.discountValue = discountValue;
+    }
+
+    public FixedAmountVoucher(UUID voucherId, long discountValue) {
+        this.voucherId = voucherId;
+        this.discountValue = discountValue;
     }
 
     @Override
+
     public UUID getVoucherId() {
         return voucherId;
     }
 
     @Override
-    public Long getValue() {
-        return amount;
+    public Long getDiscountValue() {
+        return discountValue;
     }
 
     @Override
@@ -35,9 +40,9 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long originalAmount) {
         validatePositive(originalAmount);
-        validateGreaterThan(originalAmount, amount);
+        validateGreaterThan(originalAmount, discountValue);
 
-        return originalAmount - amount;
+        return originalAmount - discountValue;
     }
 
     private void validateGreaterThan(long value, long threshold) {

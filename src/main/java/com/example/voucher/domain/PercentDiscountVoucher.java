@@ -8,16 +8,22 @@ public class PercentDiscountVoucher implements Voucher {
 
     private static final int PERCENT_DIVISOR = 100;
 
+    private final UUID voucherId;
+    private final long discountValue;
     private final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
 
-    private final UUID voucherId;
-    private final long percent;
-
-    public PercentDiscountVoucher(long percent) {
-        validatePercent(percent);
+    public PercentDiscountVoucher(long discountValue) {
+        validatePercent(discountValue);
 
         this.voucherId = UUID.randomUUID();
-        this.percent = percent;
+        this.discountValue = discountValue;
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long discountValue) {
+        validatePercent(discountValue);
+
+        this.voucherId = voucherId;
+        this.discountValue = discountValue;
     }
 
     @Override
@@ -26,8 +32,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public Long getValue() {
-        return percent;
+    public Long getDiscountValue() {
+        return discountValue;
     }
 
     @Override
@@ -39,7 +45,7 @@ public class PercentDiscountVoucher implements Voucher {
     public long discount(long originalAmount) {
         validatePositive(originalAmount);
 
-        double discountPercent = percent / PERCENT_DIVISOR;
+        double discountPercent = discountValue / PERCENT_DIVISOR;
         double discountAmount = originalAmount * discountPercent;
         long discountedAmount = originalAmount - (long)discountAmount;
 
