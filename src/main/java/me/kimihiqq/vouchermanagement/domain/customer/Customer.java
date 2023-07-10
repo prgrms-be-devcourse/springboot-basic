@@ -8,14 +8,12 @@ public class Customer {
     private UUID id;
     private String name;
     private String email;
-//    private VoucherWallet voucherWallet;
     private CustomerStatus customerStatus;
 
     public Customer(UUID id, String name, String email, CustomerStatus customerStatus) {
         this.id = id;
         this.name = name;
         this.email = email;
-//        this.voucherWallet = new VoucherWallet(id);
         this.customerStatus = customerStatus;
     }
 
@@ -40,8 +38,9 @@ public class Customer {
         this.customerStatus = customerStatus;
     }
 
-//    public VoucherWallet getVoucherWallet() {
-//        return voucherWallet;
-//    }
+    @Override
+    public String toString() {
+        return id + ": " + name + " - " + email;
+    }
 
 }

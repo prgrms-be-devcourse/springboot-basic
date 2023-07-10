@@ -1,8 +1,6 @@
 package me.kimihiqq.vouchermanagement.domain.voucher.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kimihiqq.vouchermanagement.domain.voucher.FixedAmountVoucher;
-import me.kimihiqq.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,23 +54,14 @@ public class FileVoucherRepository implements VoucherRepository {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                Voucher voucher = null;
-                if (VoucherTypeOption.valueOf(parts[1].toUpperCase()) == VoucherTypeOption.FIXED) {
+                try {
+                    String[] parts = line.split(",");
+                    VoucherTypeOption voucherTypeOption = VoucherTypeOption.valueOf(parts[1].toUpperCase());
                     long discount = Long.parseLong(parts[2]);
-                    if (discount >= 0) {
-                        voucher = new FixedAmountVoucher(UUID.fromString(parts[0]), discount);
-                    }
-                } else {
-                    long discount = Long.parseLong(parts[2]);
-                    if (discount >= 0 && discount <= 100) {
-                        voucher = new PercentDiscountVoucher(UUID.fromString(parts[0]), discount);
-                    }
-                }
-                if (voucher != null) {
+                    Voucher voucher = voucherTypeOption.createVoucher(discount);
                     vouchers.add(voucher);
-                } else {
-                    log.warn("Invalid voucher found in storage: {}", line);
+                } catch (Exception e) {
+                    log.warn("Invalid voucher found in storage: {}, error: {}", line, e.getMessage());
                 }
             }
             log.info("All vouchers loaded");

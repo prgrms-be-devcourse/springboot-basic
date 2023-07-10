@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Profile({"db", "test"})
 @Slf4j
@@ -40,13 +41,15 @@ public class CustomerService {
         customerRepository.update(customer);
     }
 
+
     public List<Customer> findCustomersWithVoucher(UUID voucherId) {
         Set<UUID> customerIds = voucherWalletService.findCustomerIdsByVoucherId(voucherId);
-        List<Customer> customers = new ArrayList<>();
-        for(UUID id: customerIds){
-            findCustomerById(id).ifPresent(customers::add);
-        }
-        return customers;
+        return customerIds.stream()
+                .map(this::findCustomerById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
+
 
 }
