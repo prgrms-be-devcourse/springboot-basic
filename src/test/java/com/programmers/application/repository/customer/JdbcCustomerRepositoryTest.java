@@ -32,13 +32,13 @@ class JdbcCustomerRepositoryTest {
             "aCustomer, mgtmh991013@naver.com",
             "bCustomer, mgtmh991013@gmail.com"
     })
-    void save(String name, String email) {
+    void insert(String name, String email) {
         //given
         UUID customerId = UUID.randomUUID();
         Customer customer = new Customer(customerId, name, email);
 
         //when
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         //then
         Customer savedCustomer = jdbcCustomerRepository.findByCustomerId(customer.getCustomerId()).get();
@@ -55,7 +55,7 @@ class JdbcCustomerRepositoryTest {
         //given
         UUID customerId = UUID.randomUUID();
         Customer customer = new Customer(customerId, name, email);
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         //when
         Customer savedCustomer = jdbcCustomerRepository.findByEmail(email).get();
@@ -83,7 +83,7 @@ class JdbcCustomerRepositoryTest {
 
     private void createAndSaveCustomer(List<Customer> customers) {
         for (Customer customer : customers) {
-            jdbcCustomerRepository.save(customer);
+            jdbcCustomerRepository.insert(customer);
         }
     }
 
@@ -92,7 +92,7 @@ class JdbcCustomerRepositoryTest {
     void update() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "aCustomer", "mgtmh991013@naver.com");
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
         customer.changeName("bCustomer");
         customer.login();
 
@@ -110,7 +110,7 @@ class JdbcCustomerRepositoryTest {
     void deleteByCustomerId() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "aCustomer", "mgtmh991013@naver.com");
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         //when
         jdbcCustomerRepository.deleteByCustomerId(customer.getCustomerId());

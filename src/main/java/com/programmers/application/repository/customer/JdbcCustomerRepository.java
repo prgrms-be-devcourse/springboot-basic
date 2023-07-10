@@ -29,7 +29,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer save(Customer customer) {
+    public Customer insert(Customer customer) {
         String sql = new InsertSqlBuilder().insertInto("customer")
                 .columns("customer_id, name, email, created_at, last_login_at")
                 .values(":customerId, :name, :email, :createdAt, :lastLoginAt")
