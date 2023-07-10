@@ -46,6 +46,41 @@ class MemoryVoucherRepositoryTest {
         assertThat(result.size(), is(greaterThan(0)));
     }
 
+    @Order(3)
+    @ParameterizedTest
+    @DisplayName("바우처를 아이디로 조회하는 경우 성공한다.")
+    @MethodSource("provideVouchers")
+    void findById_ParamExistVoucher_ReturnVoucherOrNull(Voucher voucher) {
+        voucherRepository.insert(voucher);
+        var foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        var maybeNull = voucherRepository.findById(UUID.randomUUID());
+        assertThat(foundVoucher.isEmpty(), is(false));
+        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+        assertThat(maybeNull.isEmpty(), is(true));
+    }
+
+    @Order(4)
+    @Test
+    @DisplayName("모든 바우처 제거한다.")
+    void deleteAll_ParamVoid_DeleteAllVouchers() {
+        voucherRepository.deleteAll();
+        var allVouchers = voucherRepository.findAllVouchers();
+        assertThat(allVouchers.isEmpty(), is(true));
+    }
+
+    @Order(5)
+    @ParameterizedTest
+    @DisplayName("아이디로 바우처 제거한다.")
+    @MethodSource("provideVouchers")
+    void deleteById_ParamVoucher_DeleteVoucher(Voucher voucher) {
+        voucherRepository.insert(voucher);
+        voucherRepository.deleteById(voucher.getVoucherId());
+        var maybeNull = voucherRepository.findById(voucher.getVoucherId());
+        var maybeNull2 = voucherRepository.findById(UUID.randomUUID());
+        assertThat(maybeNull.isEmpty(), is(true));
+        assertThat(maybeNull2.isEmpty(), is(true));
+    }
+
     static Stream<Arguments> provideVouchers() {
         return Stream.of(
                 Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"))),
