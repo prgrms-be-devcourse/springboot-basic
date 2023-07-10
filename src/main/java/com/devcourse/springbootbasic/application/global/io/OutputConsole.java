@@ -36,7 +36,7 @@ public class OutputConsole {
         Arrays.stream(VoucherType.values())
                 .forEach(voucherType -> {
                     textTerminal.print(MessageFormat.format("{0}: ", voucherType.getTypeOrdinal()));
-                    textTerminal.println(voucherType.getTypeString());
+                    textTerminal.println(voucherType.getTypeDescription());
                 });
     }
 

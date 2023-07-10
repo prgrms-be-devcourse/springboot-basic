@@ -40,7 +40,7 @@ class VoucherTest {
     @DisplayName("비율값 바우처 문자열 반환하면 성공한다.")
     @MethodSource("providePercentVouchers")
     void ToString_PercentVoucher_ReturnVoucherString(long originalPrice, Voucher voucher) {
-        var expected = MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucher.getVoucherType().name(), voucher.getVoucherId(), voucher.getVoucherType().getTypeString(), voucher.getDiscountValue().value());
+        var expected = MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucher.getVoucherType().name(), voucher.getVoucherId(), voucher.getVoucherType().getTypeDescription(), voucher.getDiscountValue().value());
         var result = voucher.toString();
         assertEquals(expected, result);
     }
@@ -64,7 +64,7 @@ class VoucherTest {
     @DisplayName("고정값 바우처 문자열 반환하면 성공한다.")
     @MethodSource("provideFixedVouchers")
     void ToString_FixedVoucher_ReturnVoucherString(long originalPrice, Voucher voucher) {
-        var expected = MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucher.getVoucherType().name(), voucher.getVoucherId(), voucher.getVoucherType().getTypeString(), voucher.getDiscountValue().value());
+        var expected = MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucher.getVoucherType().name(), voucher.getVoucherId(), voucher.getVoucherType().getTypeDescription(), voucher.getDiscountValue().value());
         var result = voucher.toString();
         assertEquals(expected, result);
     }

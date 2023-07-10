@@ -11,16 +11,16 @@ public enum VoucherType {
     PERCENT_DISCOUNT("2", "Percent Discount Voucher");
 
     private final String typeOrdinal;
-    private final String typeString;
+    private final String typeDescription;
 
     VoucherType(String typeOrdinal, String typeString) {
         this.typeOrdinal = typeOrdinal;
-        this.typeString = typeString;
+        this.typeDescription = typeString;
     }
 
     public static VoucherType getVoucherType(String voucherTypeString) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> Objects.equals(voucherType.typeOrdinal, voucherTypeString) || Objects.equals(voucherType.typeString, voucherTypeString) || voucherType.name().equals(voucherTypeString))
+                .filter(voucherType -> Objects.equals(voucherType.typeOrdinal, voucherTypeString) || Objects.equals(voucherType.typeDescription, voucherTypeString) || voucherType.name().equals(voucherTypeString))
                 .findAny()
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_VOUCHER_TYPE.getMessageText()));
     }
@@ -29,7 +29,7 @@ public enum VoucherType {
         return typeOrdinal;
     }
 
-    public String getTypeString() {
-        return typeString;
+    public String getTypeDescription() {
+        return typeDescription;
     }
 }

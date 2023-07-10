@@ -47,6 +47,6 @@ public class Voucher {
     }
 
     public String toString() {
-        return MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucherType.name(), voucherId, voucherType.getTypeString(), discountValue.value());
+        return MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucherType.name(), voucherId, voucherType.getTypeDescription(), discountValue.value());
     }
 }
