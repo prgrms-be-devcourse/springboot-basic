@@ -37,9 +37,4 @@ public class VoucherMemoryRepository implements VoucherRepository {
     Voucher foundVoucher = findById(voucherId).orElseThrow(IllegalArgumentException::new);
     storage.remove(foundVoucher.getVoucherId());
   }
-
-  @Override
-  public void deleteAll() {
-    storage.clear();
-  }
 }

@@ -105,11 +105,4 @@ public class VoucherJdbcRepository implements VoucherRepository {
       throw new RuntimeException("voucher가 삭제되지 않았습니다.");
     }
   }
-
-  @Override
-  public void deleteAll() {
-    String sql = "delete from voucher";
-
-    template.query(sql, rowMapper());
-  }
 }
