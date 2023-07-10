@@ -19,6 +19,12 @@ public class VoucherResDto {
         this.voucherType = voucher.getVoucherType();
     }
 
+    public VoucherResDto(UUID voucherId, BigDecimal amount, VoucherType voucherType) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        this.voucherType = voucherType;
+    }
+
     public UUID getVoucherId() {
         return this.voucherId;
     }

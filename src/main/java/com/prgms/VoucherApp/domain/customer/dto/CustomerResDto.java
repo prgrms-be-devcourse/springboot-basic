@@ -10,8 +10,8 @@ public class CustomerResDto {
     private UUID customerId;
     private CustomerStatus customerStatus;
 
-    public CustomerResDto(String customerId, CustomerStatus customerStatus) {
-        this.customerId = UUID.fromString(customerId);
+    public CustomerResDto(UUID customerId, CustomerStatus customerStatus) {
+        this.customerId = customerId;
         this.customerStatus = customerStatus;
     }
 
