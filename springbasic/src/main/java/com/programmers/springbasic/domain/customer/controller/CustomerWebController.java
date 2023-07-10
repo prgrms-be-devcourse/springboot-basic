@@ -60,4 +60,17 @@ public class CustomerWebController {
 
         return "customers/customerList";
     }
+
+    @GetMapping("/update")
+    public String updateForm() {
+        return "customers/updateCustomerForm";
+    }
+
+    @PostMapping("/update")
+    public String update(CustomerUpdateRequestDTO customerUpdateRequestDTO) {
+        CustomerUpdateRequestValidator.validateUpdateCustomerRequest(customerUpdateRequestDTO);
+        customerService.updateCustomer(customerUpdateRequestDTO);
+
+        return "redirect:/";    // 고객 추가가 끝나고 home 화면으로 보냄.
+    }
 }
