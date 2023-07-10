@@ -33,67 +33,72 @@ public class CustomerManagementController implements Runnable {
             Integer inputCustomerNumber = input.inputCustomerCommand();
             CustomerCommand customerCommand = CustomerCommand.findByCustomerTypeNumber(inputCustomerNumber);
 
-            if (customerCommand.isCreate()) {
-                String inputCustomerStatus = input.inputCustomerStatus();
-                CustomerStatus inputStatus = CustomerStatus.findByStatus(inputCustomerStatus);
-                CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(inputStatus);
-                customerDaoHandler.save(customerCreateReqDto);
-                continue;
+            switch (customerCommand) {
+                case CREATE -> {
+                    String inputCustomerStatus = input.inputCustomerStatus();
+                    CustomerStatus inputStatus = CustomerStatus.findByStatus(inputCustomerStatus);
+
+                    CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(inputStatus);
+
+                    customerDaoHandler.save(customerCreateReqDto);
+                }
+
+                case FIND_ALL -> {
+                    CustomersResDto findCustomers = customerDaoHandler.findAll();
+                    output.printCustomers(findCustomers);
+                }
+
+                case FIND_ONE -> {
+                    String inputUUID = input.inputUUID();
+                    UUID customerId = UUID.fromString(inputUUID);
+
+                    customerDaoHandler.findOne(customerId)
+                        .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
+                }
+
+                case FIND_BY_STATUS -> {
+                    String inputCustomerStatus = input.inputCustomerStatus();
+                    CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
+
+                    CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(customerStatus);
+
+                    CustomersResDto findCustomers = customerDaoHandler.findByStatus(customerCreateReqDto);
+
+                    output.printCustomers(findCustomers);
+                }
+
+                case FIND_BLACKLIST -> {
+                    CustomersResDto blackLists = customerDaoHandler.readBlackLists();
+                    output.printBlackLists(blackLists);
+                }
+
+                case UPDATE -> {
+                    String inputUUID = input.inputUUID();
+                    UUID customerId = UUID.fromString(inputUUID);
+
+                    String inputCustomerStatus = input.inputCustomerStatus();
+                    CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
+
+                    CustomerUpdateReqDto customerUpdateReqDto = new CustomerUpdateReqDto(customerId, customerStatus);
+
+                    customerDaoHandler.update(customerUpdateReqDto);
+                }
+
+                case DELETE -> {
+                    String inputUUID = input.inputUUID();
+                    UUID customerId = UUID.fromString(inputUUID);
+
+                    customerDaoHandler.deleteById(customerId);
+                }
+
+                case EXIT -> {
+                    isRunning = false;
+                }
+
+                default -> {
+                    output.printNotImplementMsg();
+                }
             }
-
-            if (customerCommand.isFindAll()) {
-                CustomersResDto findCustomers = customerDaoHandler.findAll();
-                output.printCustomers(findCustomers);
-                continue;
-            }
-
-            if (customerCommand.isFindOne()) {
-                String inputUUID = input.inputUUID();
-                UUID customerId = UUID.fromString(inputUUID);
-                customerDaoHandler.findOne(customerId)
-                    .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
-                continue;
-            }
-
-            if (customerCommand.isFindByStatus()) {
-                String inputCustomerStatus = input.inputCustomerStatus();
-                CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
-                CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(customerStatus);
-                CustomersResDto findCustomers = customerDaoHandler.findByStatus(customerCreateReqDto);
-                output.printCustomers(findCustomers);
-                continue;
-            }
-
-            if (customerCommand.isFindBlackList()) {
-                CustomersResDto blackLists = customerDaoHandler.readBlackLists();
-                output.printBlackLists(blackLists);
-                continue;
-            }
-
-            if (customerCommand.isUpdate()) {
-                String inputUUID = input.inputUUID();
-                UUID customerId = UUID.fromString(inputUUID);
-                String inputCustomerStatus = input.inputCustomerStatus();
-                CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
-                CustomerUpdateReqDto customerUpdateReqDto = new CustomerUpdateReqDto(customerId, customerStatus);
-                customerDaoHandler.update(customerUpdateReqDto);
-                continue;
-            }
-
-            if (customerCommand.isDelete()) {
-                String inputUUID = input.inputUUID();
-                UUID customerId = UUID.fromString(inputUUID);
-                customerDaoHandler.deleteById(customerId);
-                continue;
-            }
-
-
-            if (customerCommand.isExit()) {
-                isRunning = false;
-                continue;
-            }
-
-            output.printNotImplementMsg();
         }
     }
 }

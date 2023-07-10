@@ -35,65 +35,71 @@ public class VoucherManagementController implements Runnable {
             Integer inputCommandNumber = input.inputVoucherCommand();
             VoucherCommand command = VoucherCommand.findByVoucherCommandNumber(inputCommandNumber);
 
-            if (command.isCreate()) {
-                output.printDisplayVoucherPolicy();
-                String inputVoucherType = input.inputVoucherType();
-                VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
-                output.printDisplayDiscountCondition(voucherType);
-                Long amount = input.inputDiscountAmount(voucherType);
-                VoucherCreateReqDto voucherCreateReqDto = new VoucherCreateReqDto(voucherType, BigDecimal.valueOf(amount));
-                voucherDaoHandler.save(voucherCreateReqDto);
-                continue;
+            switch (command) {
+                case CREATE -> {
+                    output.printDisplayVoucherPolicy();
+                    String inputVoucherType = input.inputVoucherType();
+
+                    VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
+                    output.printDisplayDiscountCondition(voucherType);
+                    Long amount = input.inputDiscountAmount(voucherType);
+
+                    VoucherCreateReqDto voucherCreateReqDto = new VoucherCreateReqDto(voucherType, BigDecimal.valueOf(amount));
+
+                    voucherDaoHandler.save(voucherCreateReqDto);
+                }
+
+                case FIND_ALL -> {
+                    VouchersResDto findVouchers = voucherDaoHandler.findAll();
+                    output.printVoucherList(findVouchers.getVouchers());
+                }
+
+                case FIND_ONE -> {
+                    String inputUUID = input.inputUUID();
+                    UUID voucherId = UUID.fromString(inputUUID);
+
+                    voucherDaoHandler.findOne(voucherId)
+                        .ifPresentOrElse(output::printVoucher, output::printFindEmpty);
+                }
+
+                case FIND_BY_VOUCHER_TYPE -> {
+                    String inputVoucherType = input.inputVoucherType();
+                    VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
+
+                    VouchersResDto findVouchers = voucherDaoHandler.findByVoucherType(voucherType);
+
+                    output.printVoucherList(findVouchers.getVouchers());
+                }
+
+                case UPDATE -> {
+                    String inputUUID = input.inputUUID();
+                    UUID voucherId = UUID.fromString(inputUUID);
+
+                    String inputVoucherType = input.inputVoucherType();
+                    VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
+
+                    Long inputAmount = input.inputDiscountAmount(voucherType);
+                    BigDecimal amount = BigDecimal.valueOf(inputAmount);
+
+                    VoucherUpdateReqDto voucherUpdateReqDto = new VoucherUpdateReqDto(voucherId, amount, voucherType);
+                    voucherDaoHandler.update(voucherUpdateReqDto);
+                }
+
+                case DELETE -> {
+                    String inputUUID = input.inputUUID();
+                    UUID voucherId = UUID.fromString(inputUUID);
+
+                    voucherDaoHandler.deleteById(voucherId);
+                }
+
+                case EXIT -> {
+                    isRunning = false;
+                }
+
+                default -> {
+                    output.printNotImplementMsg();
+                }
             }
-
-            if (command.isFindAll()) {
-                VouchersResDto findVouchers = voucherDaoHandler.findAll();
-                output.printVoucherList(findVouchers.getVouchers());
-                continue;
-            }
-
-            if (command.isFindOne()) {
-                String inputUUID = input.inputUUID();
-                UUID voucherId = UUID.fromString(inputUUID);
-                voucherDaoHandler.findOne(voucherId)
-                    .ifPresentOrElse(output::printVoucher, output::printFindEmpty);
-                continue;
-            }
-
-            if (command.isFindByVoucherType()) {
-                String inputVoucherType = input.inputVoucherType();
-                VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
-                VouchersResDto findVouchers = voucherDaoHandler.findByVoucherType(voucherType);
-                output.printVoucherList(findVouchers.getVouchers());
-                continue;
-            }
-
-            if (command.isUpdate()) {
-                String inputUUID = input.inputUUID();
-                UUID voucherId = UUID.fromString(inputUUID);
-                String inputVoucherType = input.inputVoucherType();
-                VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
-                Long inputAmount = input.inputDiscountAmount(voucherType);
-                BigDecimal amount = BigDecimal.valueOf(inputAmount);
-                VoucherUpdateReqDto voucherUpdateReqDto = new VoucherUpdateReqDto(voucherId, amount, voucherType);
-                voucherDaoHandler.update(voucherUpdateReqDto);
-                continue;
-            }
-
-            if (command.isDelete()) {
-                String inputUUID = input.inputUUID();
-                UUID voucherId = UUID.fromString(inputUUID);
-                voucherDaoHandler.deleteById(voucherId);
-                continue;
-            }
-
-
-            if (command.isExit()) {
-                isRunning = false;
-                continue;
-            }
-
-            output.printNotImplementMsg();
         }
     }
 }
