@@ -2,7 +2,6 @@ package com.prgms.VoucherApp.view;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,49 +33,11 @@ public enum CustomerCommand {
         return CUSTOMER_COMMAND_MAP.containsKey(commandNumber);
     }
 
-    public static List<Integer> getAllCustomerCommand() {
-        return CUSTOMER_COMMAND_MAP.keySet()
-            .stream()
-            .toList();
-    }
-
     public String getCustomerCommandName() {
         return name().toLowerCase();
     }
 
     public int getCustomerCommandNumber() {
         return customerCommandNumber;
-    }
-
-    public boolean isCreate() {
-        return this == CREATE;
-    }
-
-    public boolean isFindAll() {
-        return this == FIND_ALL;
-    }
-
-    public boolean isFindOne() {
-        return this == FIND_ONE;
-    }
-
-    public boolean isFindByStatus() {
-        return this == FIND_BY_STATUS;
-    }
-
-    public boolean isFindBlackList() {
-        return this == FIND_BLACKLIST;
-    }
-
-    public boolean isUpdate() {
-        return this == UPDATE;
-    }
-
-    public boolean isDelete() {
-        return this == DELETE;
-    }
-
-    public boolean isExit() {
-        return this == EXIT;
     }
 }
