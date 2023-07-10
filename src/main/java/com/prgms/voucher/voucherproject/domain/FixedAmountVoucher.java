@@ -25,6 +25,10 @@ public class FixedAmountVoucher implements Voucher {
         return amount;
     }
 
+    public static boolean isFixedAmountVoucher(Voucher voucher) {
+        return voucher instanceof FixedAmountVoucher;
+    }
+
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }

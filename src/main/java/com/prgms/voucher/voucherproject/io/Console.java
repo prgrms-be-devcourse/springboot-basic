@@ -7,9 +7,10 @@ import com.prgms.voucher.voucherproject.domain.Voucher;
 
 import java.util.Scanner;
 
-public class Console implements Input, Output{
+public class Console implements Input, Output {
 
-    public Console(){}
+    public Console() {
+    }
 
     private static final Scanner sc = new Scanner(System.in);
 
@@ -25,21 +26,22 @@ public class Console implements Input, Output{
 
     @Override
     public void printMessage(String msg, boolean lnCheck) {
-        if(lnCheck){
+        if (lnCheck) {
             System.out.println(msg);
+            return;
         }
-        else{
-            System.out.print(msg);
-        }
+
+        System.out.print(msg);
+
     }
 
     @Override
     public void printVoucherInfo(Voucher voucher) {
-        if(voucher instanceof PercentDiscountVoucher) {
-            System.out.println( "| UUID:" + voucher.getId() + "  | VoucherType: PercentVoucher | percent:" + ((PercentDiscountVoucher) voucher).getPercent()+ " |");
+        if (PercentDiscountVoucher.isPercentDiscountVoucher(voucher)) {
+            System.out.println("| UUID:" + voucher.getId() + "  | VoucherType: PercentVoucher | percent:" + ((PercentDiscountVoucher) voucher).getPercent() + " |");
         }
-        if(voucher instanceof FixedAmountVoucher) {
-            System.out.println( "| UUID:" + voucher.getId() + "  | VoucherType: FixedVoucher | amount:" + ((FixedAmountVoucher) voucher).getAmount()+ " |");
+        if (FixedAmountVoucher.isFixedAmountVoucher(voucher)) {
+            System.out.println("| UUID:" + voucher.getId() + "  | VoucherType: FixedVoucher | amount:" + ((FixedAmountVoucher) voucher).getAmount() + " |");
         }
     }
 

@@ -26,6 +26,10 @@ public class PercentDiscountVoucher implements Voucher {
         return percent;
     }
 
+    public static boolean isPercentDiscountVoucher(Voucher voucher) {
+        return voucher instanceof PercentDiscountVoucher;
+    }
+
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
