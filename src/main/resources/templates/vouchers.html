@@ -27,9 +27,10 @@
         <td th:text="*{voucherType}"></td>
         <td th:text="*{discountAmount}"></td>
         <td>
-            <a th:href="@{/detail/{id}(id=${voucher.voucherId})}" class = "btn btn-primary">상세</a>
-            <a th:href="@{/edit/{id}(id=${voucher.voucherId})}" class="btn btn-primary">수정</a>
-            <a th:href="@{/delete/{id}(id=${voucher.voucherId})}" class="btn btn-danger">삭제</a>
+            <a th:href="@{/api/v1/voucher/detail/{id}(id=${voucher.voucherId})}" class = "btn btn-primary">상세</a>
+<!--            <a th:href="@{/api/v1/voucher/vouchers(id=${voucher.voucherId})}" class="btn btn-primary">수정</a>-->
+<!--            <a th:href="@{/api/v1/voucher/deleteVoucher(id=${voucher.voucherId})}" class="btn btn-danger">삭제</a>-->
+            <a th:href="@{/api/v1/voucher/vouchers/{id}(id = ${voucher.voucherId})}"class="btn btn-danger">삭제</a>
         </td>
     </tr>
     </tbody>

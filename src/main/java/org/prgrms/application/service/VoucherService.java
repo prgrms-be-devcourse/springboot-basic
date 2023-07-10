@@ -23,6 +23,7 @@ public class VoucherService {
 
     public Voucher createVoucher(String voucherType, String discountAmount){
         long voucherId = abs(new Random().nextLong());
+        System.out.println(discountAmount);
         Voucher voucher = Voucher.of(voucherId, voucherType, discountAmount);
         VoucherEntity voucherEntity = voucherRepository.insert(toEntity(voucher));
 
@@ -38,14 +39,8 @@ public class VoucherService {
         return vouchers;
     }
 
-    public List<Voucher> deleteVoucher(Long voucherId) {
+    public void deleteVoucher(Long voucherId) {
         voucherRepository.deleteById(voucherId);
-        List<VoucherEntity> voucherEntities = voucherRepository.findAll();
-        List<Voucher> vouchers = new ArrayList<>();
-        for (VoucherEntity voucherEntity : voucherEntities) {
-            vouchers.add(toDomain(voucherEntity));
-        }
-        return vouchers;
     }
 
     private Voucher toDomain(VoucherEntity voucherEntity){

@@ -1,7 +1,6 @@
 package org.prgrms.application.controller.voucher;
 
 import org.prgrms.application.controller.voucher.request.VoucherCreationRequest;
-import org.prgrms.application.controller.voucher.request.VoucherDeleteRequest;
 import org.prgrms.application.domain.voucher.Voucher;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -35,14 +34,18 @@ public class VoucherController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/vouchers")
+    @GetMapping(value = "vouchers")
     public String findVouchers(Model model) {
         List<Voucher> vouchers = voucherService.getVouchers();
         model.addAttribute("vouchers", vouchers);
         return "vouchers";
     }
 
-
-
+    @GetMapping(value = "vouchers/{id}") //TODO : deletemappipng으로 안되는 중 <a태그 한계>
+    public String deleteVoucher(@PathVariable("id") long voucherId){
+        System.out.println(voucherId);
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/vouchers";
+    }
 
 }
