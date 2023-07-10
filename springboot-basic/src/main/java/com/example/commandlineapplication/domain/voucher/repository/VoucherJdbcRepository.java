@@ -25,10 +25,10 @@ import org.springframework.stereotype.Repository;
 public class VoucherJdbcRepository implements VoucherRepository {
 
   private static final Logger LOG = LoggerFactory.getLogger(VoucherJdbcRepository.class);
+  private static final int SUCCESS_EXECUTE = 1;
   private final NamedParameterJdbcTemplate template;
   private final VoucherFactory voucherFactory;
   private final VoucherMapper voucherMapper;
-  private static final int SUCCESS_EXECUTE = 1;
 
   public VoucherJdbcRepository(NamedParameterJdbcTemplate template, VoucherFactory voucherFactory,
       VoucherMapper voucherMapper) {

@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 public class VoucherFactory {
 
   private static final Logger LOG = LoggerFactory.getLogger(VoucherFactory.class);
-  private final long MAX_PERCENT = 100L;
-  private final long MIN_PERCENT = 0L;
-  private final long MIN_FIXED_AMOUNT = 0L;
+  private static final long MAX_PERCENT = 100L;
+  private static final long MIN_PERCENT = 0L;
+  private static final long MIN_FIXED_AMOUNT = 0L;
 
   public Voucher create(VoucherCreateRequest request) {
     return toVoucher(request.getVoucherType(), request.getVoucherId(), request.getDiscountAmount());
