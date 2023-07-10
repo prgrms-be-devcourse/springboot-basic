@@ -2,9 +2,8 @@ package com.programmers.springweekly.dto.customer.response;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
-import lombok.Getter;
-
 import java.util.UUID;
+import lombok.Getter;
 
 @Getter
 public class CustomerResponse {
@@ -19,5 +18,15 @@ public class CustomerResponse {
         this.customerName = customer.getCustomerName();
         this.customerEmail = customer.getCustomerEmail();
         this.customerType = customer.getCustomerType();
+    }
+
+    @Override
+    public String toString() {
+        return "고객이 생성되었습니다." +
+                "customerId=" + customerId +
+                ", customerName='" + customerName + '\'' +
+                ", customerEmail='" + customerEmail + '\'' +
+                ", customerType=" + customerType +
+                '}';
     }
 }

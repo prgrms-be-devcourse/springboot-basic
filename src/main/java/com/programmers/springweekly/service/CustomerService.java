@@ -6,12 +6,11 @@ import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
@@ -19,7 +18,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public void save(CustomerCreateRequest customerCreateRequest) {
+    public CustomerResponse save(CustomerCreateRequest customerCreateRequest) {
         Customer customer = Customer.builder()
                 .customerId(UUID.randomUUID())
                 .customerName(customerCreateRequest.getCustomerName())
@@ -27,7 +26,7 @@ public class CustomerService {
                 .customerType(customerCreateRequest.getCustomerType())
                 .build();
 
-        customerRepository.save(customer);
+        return new CustomerResponse(customerRepository.save(customer));
     }
 
     public void update(CustomerUpdateRequest customerUpdateRequest) {

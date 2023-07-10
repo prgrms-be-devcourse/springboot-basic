@@ -7,11 +7,10 @@ import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.util.Validator;
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Console implements Input, Output {
@@ -121,6 +120,11 @@ public class Console implements Input, Output {
     @Override
     public void outputCompleteGuide() {
         System.out.println("작업이 처리되었습니다.");
+    }
+
+    @Override
+    public void outputCompleteGuideContainMsg(String message) {
+        System.out.println(message);
     }
 
     @Override

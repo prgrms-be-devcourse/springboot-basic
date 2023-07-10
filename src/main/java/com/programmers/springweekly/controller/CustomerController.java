@@ -5,10 +5,9 @@ import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-
-import java.util.UUID;
 
 @Controller
 @AllArgsConstructor
@@ -16,8 +15,8 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    public void save(CustomerCreateRequest customerCreateRequest) {
-        customerService.save(customerCreateRequest);
+    public CustomerResponse save(CustomerCreateRequest customerCreateRequest) {
+        return customerService.save(customerCreateRequest);
     }
 
     public void update(CustomerUpdateRequest customerUpdateRequest) {
