@@ -28,15 +28,18 @@ public class CustomerJdbcDao implements CustomerDao {
     @Override
     public void save(Customer customer) {
         String sql = "INSERT INTO customer VALUES (:id, :status)";
+
         SqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", customer.getCustomerId().toString())
             .addValue("status", customer.getCustomerStatus().getStatusName());
+
         namedParameterJdbcTemplate.update(sql, paramMap);
     }
 
     @Override
     public List<Customer> findAll() {
         String sql = "SELECT * FROM customer";
+
         List<Customer> customers = namedParameterJdbcTemplate.query(sql, customerRowMapper());
         return customers;
     }
@@ -45,8 +48,10 @@ public class CustomerJdbcDao implements CustomerDao {
     @Override
     public Optional<Customer> findById(UUID id) {
         String sql = "SELECT * FROM customer WHERE id = :id";
+
         SqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", id.toString());
+
         try {
             Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramMap, customerRowMapper());
             return Optional.of(customer);
@@ -58,8 +63,10 @@ public class CustomerJdbcDao implements CustomerDao {
     @Override
     public List<Customer> findByCustomerStatus(CustomerStatus customerStatus) {
         String sql = "SELECT * FROM customer WHERE status = :status";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("status", customerStatus.getStatusName());
+
         List<Customer> customers = namedParameterJdbcTemplate.query(sql, paramMap, customerRowMapper());
         return customers;
     }
@@ -67,20 +74,30 @@ public class CustomerJdbcDao implements CustomerDao {
     @Override
     public void updateStatus(CustomerUpdateRequest reqDto) {
         String sql = "UPDATE customer SET status = :status WHERE id = :id";
+
         SqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("status", reqDto.status().getStatusName())
             .addValue("id", reqDto.id().toString());
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count == 0) {
+            throw new IllegalArgumentException("존재하지 않는 id 를 입력받았습니다.");
+        }
     }
 
     @Override
     public void deleteById(UUID id) {
         String sql = "DELETE FROM customer WHERE id = :id";
+
         SqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", id.toString());
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count == 0) {
+            throw new IllegalArgumentException("존재하지 않는 id 를 입력받았습니다.");
+        }
     }
 
     private RowMapper<Customer> customerRowMapper() {

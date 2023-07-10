@@ -29,6 +29,7 @@ public class VoucherJdbcDao implements VoucherDao {
     @Override
     public void save(Voucher voucher) {
         String sql = "INSERT INTO voucher VALUES (:id, :amount, :type)";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", voucher.getVoucherId().toString())
             .addValue("amount", voucher.getAmount())
@@ -40,6 +41,7 @@ public class VoucherJdbcDao implements VoucherDao {
     @Override
     public List<Voucher> findAll() {
         String sql = "SELECT * FROM voucher";
+
         List<Voucher> vouchers = namedParameterJdbcTemplate.query(sql, voucherRowMapper());
         return vouchers;
     }
@@ -47,6 +49,7 @@ public class VoucherJdbcDao implements VoucherDao {
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
         String sql = "SELECT * FROM voucher where id = :id";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", voucherId);
         try {
@@ -60,6 +63,7 @@ public class VoucherJdbcDao implements VoucherDao {
     @Override
     public List<Voucher> findByVoucherType(VoucherType type) {
         String sql = "SELECT * FROM voucher where type = :type";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("type", type.getVoucherTypeName());
 
@@ -70,21 +74,31 @@ public class VoucherJdbcDao implements VoucherDao {
     @Override
     public void update(Voucher voucher) {
         String sql = "UPDATE voucher SET amount = :amount, type = :type WHERE id = :id";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("amount", voucher.getAmount())
             .addValue("type", voucher.getVoucherType().getVoucherTypeName())
             .addValue("id", voucher.getVoucherId().toString());
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count == 0) {
+            throw new IllegalArgumentException("존재하지 않는 id 를 입력 받았습니다.");
+        }
     }
 
     @Override
     public void deleteById(UUID voucherId) {
         String sql = "DELETE FROM voucher WHERE id = :id";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", voucherId.toString());
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count == 0) {
+            throw new IllegalArgumentException("존재하지 않는 id 를 입력받았습니다.");
+        }
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
