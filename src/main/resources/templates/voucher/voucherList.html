@@ -12,7 +12,7 @@
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <a th:href="@{/vouchers/create}" class="btn btn-primary me-md-2" role="button">Add Voucher</a>
 </div>
-<table class="table">
+<table class="table table-hover table-striped">
     <thead class="table-dark">
     <tr>
         <th scope="col">Voucher Id</th>
@@ -22,7 +22,7 @@
     </thead>
     <tbody class="table-group-divider">
     <tr th:each="voucher: ${allVouchers}">
-        <td th:text="${voucher.voucherId}"></td>
+        <td><a th:text="${voucher.voucherId}" th:href="@{/vouchers/detail/{id}(id = ${voucher.voucherId})}"></a></td>
         <td th:text="${voucher.discount}"></td>
         <td th:text="${voucher.voucherType}"></td>
     </tr>

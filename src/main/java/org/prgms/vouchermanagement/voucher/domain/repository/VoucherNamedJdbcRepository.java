@@ -59,19 +59,30 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         int updated = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, discount_amount, voucher_type) VALUES(UNHEX(REPLACE(:voucherId, '-', '')), :discountAmount, :voucherType)",
                 toParamMap(voucher));
         if (updated != 1) {
             logger.error("Voucher insert error");
             throw new VoucherException(ExceptionMessageConstant.VOUCHER_NOT_INSERTED_EXCEPTION);
         }
-        return Optional.of(voucher);
+        return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        int updated = jdbcTemplate.update("UPDATE vouchers SET discount_amount = :discountAmount, voucher_type = :voucherType WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+                toParamMap(voucher));
+        if (updated != 1) {
+            logger.error("Voucher update error");
+            throw new VoucherException(ExceptionMessageConstant.VOUCHER_NOT_UPDATED_EXCEPTION);
+        }
+        return voucher;
     }
 
     public UUID toUUID(byte[] bytes) {

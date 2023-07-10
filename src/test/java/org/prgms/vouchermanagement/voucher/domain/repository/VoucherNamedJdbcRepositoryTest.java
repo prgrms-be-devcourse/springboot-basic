@@ -25,7 +25,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import javax.sql.DataSource;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -114,11 +113,24 @@ class VoucherNamedJdbcRepositoryTest {
 
     @Test
     @Order(3)
-    @DisplayName("Voucher get voucherList 기능 test")
+    @DisplayName("Voucher findAll 기능 test")
     void testGetVoucherList() {
         voucherNamedJdbcRepository.save(percentDiscountVoucher);
 
         List<Voucher> voucherList = voucherNamedJdbcRepository.findAll();
         assertThat(voucherList).isNotEmpty().hasSize(2);
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Voucher update 기능 test")
+    void testUpdateVoucher() {
+        Voucher updateVoucher = new Voucher(fixedAmountVoucher.getVoucherId(), 9000, fixedAmountVoucher.getVoucherType());
+        voucherNamedJdbcRepository.update(updateVoucher);
+
+        Optional<Voucher> voucher = voucherNamedJdbcRepository.findById(fixedAmountVoucher.getVoucherId());
+        assertThat(voucher).isNotEmpty();
+        assertThat(voucher.get()).usingRecursiveComparison().isEqualTo(updateVoucher);
+        assertThat(voucher.get().getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
     }
 }

@@ -1,16 +1,13 @@
 package org.prgms.vouchermanagement.voucher.service;
 
 import lombok.RequiredArgsConstructor;
-import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.global.io.Console;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.domain.repository.VoucherRepository;
-import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,23 +17,19 @@ public class VoucherService {
     private final Console console;
 
     public void createNewVoucher() {
-        Optional<Voucher> savedVoucher = Optional.empty();
         VoucherType typeToCreate = selectVoucherType();
 
         if (typeToCreate == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
             long amountOrPercent = console.getFixedVoucherAmount();
             Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
-            savedVoucher = voucherRepository.save(voucher);
+            voucherRepository.save(voucher);
         }
         if (typeToCreate == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             long amountOrPercent = console.getPercentDiscount();
             Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
-            savedVoucher = voucherRepository.save(voucher);
+            voucherRepository.save(voucher);
         }
 
-        if (savedVoucher.isEmpty()) {
-            throw new VoucherException(ExceptionMessageConstant.VOUCHER_NOT_INSERTED_EXCEPTION);
-        }
         console.printSavedFinished();
     }
 

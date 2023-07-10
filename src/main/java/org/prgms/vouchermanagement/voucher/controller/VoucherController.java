@@ -2,18 +2,16 @@ package org.prgms.vouchermanagement.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.prgms.vouchermanagement.voucher.domain.dto.VoucherDto;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.service.ThymeleafVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/vouchers")
@@ -44,4 +42,20 @@ public class VoucherController {
         return "redirect:/vouchers/list";
     }
 
+    @GetMapping("/detail/{id}")
+    public String voucherDetail(@PathVariable("id")UUID voucherId, Model model) {
+        Optional<VoucherDto> voucherDto = voucherService.findVoucherDtoById(voucherId);
+        if (voucherDto.isEmpty()) {
+            return "error";
+        }
+        model.addAttribute("voucher", voucherDto.get());
+        return "voucher/detail";
+    }
+
+    @PostMapping("/update")
+    public String updateVoucher(@ModelAttribute("voucher") VoucherDto voucherDto) {
+        log.info("{} -> ", voucherDto.getVoucherId());
+        voucherService.updateVoucher(voucherDto);
+        return "redirect:/vouchers/list";
+    }
 }

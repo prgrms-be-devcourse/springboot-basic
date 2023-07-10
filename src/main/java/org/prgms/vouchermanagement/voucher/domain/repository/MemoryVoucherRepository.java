@@ -19,9 +19,9 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         voucherStorage.add(voucher);
-        return Optional.of(voucher);
+        return voucher;
     }
 
     @Override
@@ -30,5 +30,10 @@ public class MemoryVoucherRepository implements VoucherRepository{
             return Collections.unmodifiableList(voucherStorage);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
     }
 }
