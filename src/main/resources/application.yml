@@ -1,12 +1,14 @@
 spring:
   profiles:
     active: db
-
   datasource:
     url: jdbc:mysql://localhost:3306/voucher_management
     username: root
     password: 1011
     driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      schema-locations: classpath:schema-mysql.sql
 
 voucher:
   file:
