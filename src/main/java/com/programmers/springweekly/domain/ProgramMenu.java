@@ -12,4 +12,5 @@ public enum ProgramMenu {
             throw new IllegalArgumentException("Input: " + type + ", 찾으시는 프로그램 메뉴가 없습니다.");
         }
     }
+    
 }

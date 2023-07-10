@@ -34,8 +34,7 @@ public class ConsoleApplication implements CommandLineRunner {
                         console.outputExitMessage();
                         running = false;
                     }
-                    default ->
-                            throw new IllegalArgumentException("Input :" + selectMenu + "The type you are looking for is not found.");
+                    default -> throw new IllegalArgumentException("Input :" + selectMenu + "The type you are looking for is not found.");
                 }
             } catch (IllegalArgumentException e) {
                 log.error("잘못된 입력값 입니다 -> " + e.getMessage());
@@ -44,4 +43,5 @@ public class ConsoleApplication implements CommandLineRunner {
             }
         }
     }
+
 }

@@ -77,4 +77,5 @@ public class ConsoleCustomer {
 
         console.outputGetCustomerList(customerBlacklist);
     }
+    
 }

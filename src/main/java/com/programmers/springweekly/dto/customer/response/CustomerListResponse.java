@@ -1,8 +1,7 @@
 package com.programmers.springweekly.dto.customer.response;
 
-import lombok.Getter;
-
 import java.util.List;
+import lombok.Getter;
 
 @Getter
 public class CustomerListResponse {
@@ -12,4 +11,5 @@ public class CustomerListResponse {
     public CustomerListResponse(List<CustomerResponse> customerList) {
         this.customerList = customerList;
     }
+
 }

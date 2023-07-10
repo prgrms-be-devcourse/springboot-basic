@@ -1,12 +1,12 @@
 package com.programmers.springweekly.domain;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class EnumTest {
 
@@ -36,4 +36,5 @@ public class EnumTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Input: " + input + ", 찾으시는 고객 타입이 없습니다.");
     }
+
 }

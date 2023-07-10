@@ -17,4 +17,5 @@ public class VoucherResponse {
         this.discountAmount = voucher.getVoucherAmount();
         this.voucherType = voucher.getVoucherType();
     }
+    
 }

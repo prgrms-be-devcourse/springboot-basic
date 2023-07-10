@@ -1,16 +1,15 @@
 package com.programmers.springweekly.repository.voucher;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
 import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemoryVoucherRepositoryTest {
 
@@ -71,4 +70,5 @@ public class MemoryVoucherRepositoryTest {
         // then
         assertThat(voucherRepository.findAll()).contains(voucher1, voucher2, voucher3, voucher4);
     }
+
 }

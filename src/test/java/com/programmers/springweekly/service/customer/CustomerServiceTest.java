@@ -1,5 +1,7 @@
 package com.programmers.springweekly.service.customer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.dto.customer.request.CustomerCreateRequest;
 import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
@@ -11,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @Transactional
@@ -140,7 +140,7 @@ public class CustomerServiceTest {
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
-        
+
         customerService.save(customerCreateRequest);
 
         CustomerListResponse customerListBefore = customerService.findAll();
@@ -185,4 +185,5 @@ public class CustomerServiceTest {
         // then
         assertThat(customerListAfter.getCustomerList().size()).isEqualTo(0);
     }
+
 }

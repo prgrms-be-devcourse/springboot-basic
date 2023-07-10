@@ -56,4 +56,5 @@ public class VoucherService {
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
+    
 }

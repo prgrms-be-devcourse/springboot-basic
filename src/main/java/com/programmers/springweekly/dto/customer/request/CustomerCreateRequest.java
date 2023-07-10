@@ -17,4 +17,5 @@ public class CustomerCreateRequest {
         this.customerEmail = customerEmail;
         this.customerType = customerType;
     }
+    
 }

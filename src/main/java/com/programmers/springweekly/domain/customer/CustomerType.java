@@ -15,4 +15,5 @@ public enum CustomerType {
     public static boolean isBlacklistedCustomer(CustomerType customerType) {
         return customerType == CustomerType.BLACKLIST;
     }
+    
 }

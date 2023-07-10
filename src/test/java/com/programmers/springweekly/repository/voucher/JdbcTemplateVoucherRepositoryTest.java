@@ -135,4 +135,5 @@ class JdbcTemplateVoucherRepositoryTest {
         // then
         assertThat(voucherRepository.findAll().size()).isEqualTo(0);
     }
+    
 }

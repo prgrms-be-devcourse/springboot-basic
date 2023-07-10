@@ -1,9 +1,8 @@
 package com.programmers.springweekly.domain.customer;
 
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.UUID;
 
 @Getter
 public class Customer {
@@ -20,4 +19,5 @@ public class Customer {
         this.customerEmail = customerEmail;
         this.customerType = customerType;
     }
+
 }

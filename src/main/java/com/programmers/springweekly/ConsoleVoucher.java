@@ -60,7 +60,7 @@ public class ConsoleVoucher {
         voucherController.deleteById(voucherId);
         console.outputCompleteGuide();
     }
-    
+
     private void selectVoucher() {
         VoucherListResponse voucherListResponse = voucherController.findAll();
 
@@ -71,4 +71,5 @@ public class ConsoleVoucher {
 
         console.outputGetVoucherAll(voucherListResponse);
     }
+
 }

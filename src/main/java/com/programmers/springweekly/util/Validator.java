@@ -61,4 +61,5 @@ public final class Validator {
             throw new IllegalArgumentException("Input : " + inputPercent + ", 입력하신 숫자는 범위를 벗어납니다.");
         }
     }
+    
 }

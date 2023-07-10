@@ -18,4 +18,5 @@ public class VoucherUpdateRequest {
         this.discountAmount = discountAmount;
         this.voucherType = voucherType;
     }
+    
 }

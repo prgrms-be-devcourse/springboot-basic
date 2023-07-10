@@ -20,4 +20,5 @@ public class CustomerUpdateRequest {
         this.customerEmail = customerEmail;
         this.customerType = customerType;
     }
+    
 }

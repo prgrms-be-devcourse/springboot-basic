@@ -2,17 +2,16 @@ package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-
-import javax.sql.DataSource;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Repository
 @Profile({"test", "local"})
@@ -114,4 +113,5 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
                         .build()
         );
     }
+
 }

@@ -33,4 +33,5 @@ public interface Output {
     void outputCustomerMenuGuide();
 
     void outputVoucherMenuGuide();
+    
 }

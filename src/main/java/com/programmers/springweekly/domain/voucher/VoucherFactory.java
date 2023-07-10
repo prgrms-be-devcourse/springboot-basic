@@ -16,4 +16,5 @@ public class VoucherFactory {
             default -> throw new IllegalArgumentException("Input: " + voucherType + "바우처 타입이 없습니다.");
         }
     }
+    
 }

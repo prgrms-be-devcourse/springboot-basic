@@ -11,4 +11,5 @@ public enum VoucherType {
             throw new IllegalArgumentException("Input: " + type + ", 찾으시는 바우처 타입이 없습니다.");
         }
     }
+    
 }

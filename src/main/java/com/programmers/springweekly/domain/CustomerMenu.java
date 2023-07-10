@@ -14,4 +14,5 @@ public enum CustomerMenu {
             throw new IllegalArgumentException("Input: " + type + ", 찾으시는 고객 메뉴가 없습니다.");
         }
     }
+    
 }

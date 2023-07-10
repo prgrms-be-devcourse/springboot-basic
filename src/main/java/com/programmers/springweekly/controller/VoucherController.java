@@ -38,4 +38,5 @@ public class VoucherController {
     public void deleteAll() {
         voucherService.deleteAll();
     }
+    
 }
