@@ -11,10 +11,10 @@ public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         super(voucherId, VoucherTypeOption.FIXED, discountAmount);
-        validateDiscountAmount(discountAmount);
     }
 
-    private void validateDiscountAmount(long discountAmount) {
+    @Override
+    protected void validateDiscount(long discountAmount) {
         if (discountAmount <= 0) {
             throw new InvalidDiscountAmountException("Discount amount must be positive.");
         }

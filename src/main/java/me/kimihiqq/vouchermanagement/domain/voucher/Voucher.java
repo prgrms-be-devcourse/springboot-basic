@@ -19,11 +19,8 @@ public abstract class Voucher {
         this.discount = discount;
     }
 
-    private void validateDiscount(long discount) {
-        if (discount <= 0) {
-            throw new IllegalArgumentException("Discount must be positive.");
-        }
-    }
+    protected abstract void validateDiscount(long discount);
+
 
     public UUID getVoucherId() {
         return voucherId;

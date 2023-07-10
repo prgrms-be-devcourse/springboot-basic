@@ -11,10 +11,10 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long discountRate) {
         super(voucherId, VoucherTypeOption.PERCENT, discountRate);
-        validateDiscountRate(discountRate);
     }
 
-    private void validateDiscountRate(long discountRate) {
+    @Override
+    protected void validateDiscount(long discountRate) {
         if (discountRate <= 0 || discountRate > 100) {
             throw new InvalidDiscountRateException("Discount rate must be between 0 and 100.");
         }
