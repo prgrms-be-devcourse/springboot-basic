@@ -51,6 +51,38 @@ class VoucherMapTest {
         assertThat(list, notNullValue());
     }
 
+    @Test
+    @DisplayName("생성된 바우처를 아이디로 찾으면 성공한다.")
+    void getVoucherById_ParamExistVoucher_ReturnVoucherOrNull() {
+        var voucherId = UUID.randomUUID();
+        var voucherId2 = UUID.randomUUID();
+        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 10));
+        voucherMap.addVoucher(voucher);
+        var findedVoucher = voucherMap.getVoucherById(voucherId);
+        var maybeNull = voucherMap.getVoucherById(voucherId2);
+        assertThat(findedVoucher, samePropertyValuesAs(voucher));
+        assertThat(maybeNull, nullValue());
+    }
+
+    @Test
+    @DisplayName("모든 바우처를 제거하면 성공한다.")
+    void clearVoucherMap_ParamVoid_ClearVoucherMap() {
+        voucherMap.clearVoucherMap();
+        var map = voucherMap.getAllVouchers();
+        assertThat(map.isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("생성된 바우처를 아이디로 제거 시 성공한다.")
+    void removeVoucherById_ParamExistVoucher_RemoveVoucher() {
+        var voucherId = UUID.randomUUID();
+        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 10));
+        voucherMap.addVoucher(voucher);
+        voucherMap.removeVoucherById(voucherId);
+        var maybeNull = voucherMap.getVoucherById(voucherId);
+        assertThat(maybeNull, nullValue());
+    }
+
     static Stream<Arguments> provideValids() {
         return Stream.of(
                 Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"))),

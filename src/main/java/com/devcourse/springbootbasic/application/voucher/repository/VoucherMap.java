@@ -30,4 +30,15 @@ public class VoucherMap {
                 .toList();
     }
 
+    public Voucher getVoucherById(UUID voucherId) {
+        return map.get(voucherId);
+    }
+
+    public void clearVoucherMap() {
+        map.clear();
+    }
+
+    public void removeVoucherById(UUID voucherId) {
+        map.remove(voucherId);
+    }
 }
