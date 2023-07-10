@@ -3,10 +3,7 @@ package org.prgrms.assignment.voucher.controller;
 import lombok.RequiredArgsConstructor;
 import org.prgrms.assignment.voucher.dto.VoucherRequestDTO;
 import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
-import org.prgrms.assignment.voucher.entity.VoucherEntity;
 import org.prgrms.assignment.voucher.service.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VoucherController {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
-
     private final VoucherService voucherService;
 
     @GetMapping("/vouchers")
@@ -30,11 +25,6 @@ public class VoucherController {
         model.addAttribute("serverTime", LocalDateTime.now());
         model.addAttribute("allVoucherDTOs", allVoucherDTOs);
         return "views/vouchers";
-    }
-
-    @GetMapping("/vouchers/new")
-    public String viewNewVoucherPage() {
-        return "views/new-voucher";
     }
 
     @PostMapping("/vouchers/new")
@@ -54,15 +44,20 @@ public class VoucherController {
         return "views/404";
     }
 
-    @GetMapping("/vouchers/delete")
-    public String viewDeletePage() {
-        return "views/voucher-delete";
-    }
-
     @PostMapping("/vouchers/delete")
     public String deleteVoucher(String voucherId) {
         voucherService.delete(UUID.fromString(voucherId));
         return "redirect:/vouchers";
+    }
+
+    @GetMapping("/vouchers/new")
+    public String viewNewVoucherPage() {
+        return "views/new-voucher";
+    }
+
+    @GetMapping("/vouchers/delete")
+    public String viewDeletePage() {
+        return "views/voucher-delete";
     }
 
 }
