@@ -36,4 +36,28 @@ public class CustomerWebController {
 
         return "redirect:/";    // 고객 추가가 끝나고 home 화면으로 보냄.
     }
+
+    @GetMapping("/find")
+    public String findForm() {
+        return "customers/findCustomerForm";
+    }
+
+    @GetMapping("/single")
+    public String find(@RequestParam("customerId") String customerId, Model model) {
+        CustomerIdValidator.validateCustomerId(customerId);
+        CustomerSingleFindRequestDTO customerSingleFindRequestDTO = new CustomerSingleFindRequestDTO(customerId);
+        CustomerResponseDTO customerResponseDTO = customerService.findCustomer(customerSingleFindRequestDTO);
+
+        model.addAttribute("customerResponseDTO", customerResponseDTO);
+
+        return "customers/customerSingle";
+    }
+
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<CustomerResponseDTO> customerResponseDTOS = customerService.getAllInfo();
+        model.addAttribute("customerResponseDTOS", customerResponseDTOS);
+
+        return "customers/customerList";
+    }
 }

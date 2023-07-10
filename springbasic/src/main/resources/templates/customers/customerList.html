@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>고객 ID</th>
+                <th>이름</th>
+                <th>이메일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customerResponseDTO : ${customerResponseDTOS}">
+                <td th:text="${customerResponseDTO.getCustomerId()}"></td>
+                <td th:text="${customerResponseDTO.getName()}"></td>
+                <td th:text="${customerResponseDTO.getEmail()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
