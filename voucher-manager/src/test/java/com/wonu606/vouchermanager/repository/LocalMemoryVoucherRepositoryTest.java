@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.DuplicateKeyException;
 
 @DisplayName("LocalMemoryVoucherRepository 테스트")
 public class LocalMemoryVoucherRepositoryTest {
@@ -57,7 +58,7 @@ public class LocalMemoryVoucherRepositoryTest {
 
             // When & Then
             assertThatThrownBy(() -> repository.save(voucher))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(DuplicateKeyException.class)
                     .hasMessage("이미 존재하는 바우처의 uuid입니다. [uuid]: " + voucher.getUuid());
         }
     }
