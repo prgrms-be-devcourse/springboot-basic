@@ -1,20 +1,17 @@
-package com.devcourse.springbootbasic.application.customer;
+package com.devcourse.springbootbasic.application.global.utils;
 
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 
+import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.UUID;
 
-public final class CustomerConverter {
+public class Utils {
 
-    private CustomerConverter() {}
-
-    public static List<String> convertToStringList(List<Customer> list) {
-        return list.stream()
-                .map(Customer::toString)
-                .toList();
+    public static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     public static Customer convertCsvToCustomer(String blackCustomerInfo) {

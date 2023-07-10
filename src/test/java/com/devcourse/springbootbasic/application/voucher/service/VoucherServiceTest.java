@@ -25,13 +25,6 @@ import static org.mockito.BDDMockito.given;
 @ActiveProfiles("dev")
 class VoucherServiceTest {
 
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100")),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0")),
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240")),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"))
-    );
-
     @Mock
     VoucherRepository voucherRepository;
     VoucherService voucherService;
@@ -68,5 +61,12 @@ class VoucherServiceTest {
         assertThat(result, instanceOf(List.class));
         assertThat(result.get(0), instanceOf(Voucher.class));
     }
+
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100")),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0")),
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240")),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"))
+    );
 
 }

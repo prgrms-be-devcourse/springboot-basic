@@ -3,3 +3,10 @@ settings:
   voucherRecordPath: "storage/vouchers/voucher_record.csv"
   blackCustomerPath: "storage/customers/customer_blacklist.csv"
   description: "어려워잌ㅋ"
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_system
+    username: root
+    password: root1234!
+    driver-class-name: com.mysql.jdbc.Driver

@@ -38,13 +38,6 @@ import static org.mockito.Mockito.mock;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerServiceTest {
 
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
-    );
-
     @TestConfiguration
     static class TestConfig {
         @Bean
@@ -82,7 +75,7 @@ class CustomerServiceTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", classPathScript("test-schema.sql"))
+                .addSchema("test-voucher_system", classPathScript("test-customer_schema.sql"))
                 .start();
     }
 
@@ -237,5 +230,12 @@ class CustomerServiceTest {
         return validCustomers.stream()
                 .map(Arguments::of);
     }
+
+    static List<Customer> validCustomers = List.of(
+            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+    );
 
 }

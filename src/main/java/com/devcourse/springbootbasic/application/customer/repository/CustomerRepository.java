@@ -1,10 +1,10 @@
 package com.devcourse.springbootbasic.application.customer.repository;
 
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
-import com.devcourse.springbootbasic.application.customer.CustomerConverter;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.io.CsvReader;
+import com.devcourse.springbootbasic.application.global.utils.Utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -22,14 +21,6 @@ public class CustomerRepository {
     @Value("${settings.blackCustomerPath}")
     private String filepath;
 
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var createdTime = resultSet.getTimestamp("created_time").toLocalDateTime();
-        return new Customer(customerId, name, email, createdTime);
-    };
-
     private final CsvReader csvReader;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -38,24 +29,10 @@ public class CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("name", customer.getName());
-            put("email", customer.getEmail());
-            put("createdTime", Timestamp.valueOf(customer.getcreatedTime()));
-        }};
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
     public List<Customer> findAllBlackCustomers() {
         return csvReader.readFile(filepath)
                 .stream()
-                .map(CustomerConverter::convertCsvToCustomer)
+                .map(Utils::convertCsvToCustomer)
                 .toList();
     }
 
@@ -202,6 +179,23 @@ public class CustomerRepository {
 
     public void setFilePath(String filePath) {
         this.filepath = filePath;
+    }
+
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
+        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        var name = resultSet.getString("name");
+        var email = resultSet.getString("email");
+        var createdTime = resultSet.getTimestamp("created_time").toLocalDateTime();
+        return new Customer(customerId, name, email, createdTime);
+    };
+
+    private Map<String, Object> toParamMap(Customer customer) {
+        return new HashMap<>() {{
+            put("customerId", customer.getCustomerId().toString().getBytes());
+            put("name", customer.getName());
+            put("email", customer.getEmail());
+            put("createdTime", Timestamp.valueOf(customer.getcreatedTime()));
+        }};
     }
 
 }

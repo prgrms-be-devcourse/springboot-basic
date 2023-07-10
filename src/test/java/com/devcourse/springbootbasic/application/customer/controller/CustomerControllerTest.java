@@ -37,20 +37,6 @@ import static org.mockito.Mockito.mock;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerControllerTest {
 
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
-    );
-
-    static List<CustomerDto> validCustomerDtos = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
-    );
-
     @TestConfiguration
     static class TestConfig {
         @Bean
@@ -88,7 +74,7 @@ class CustomerControllerTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", classPathScript("test-schema.sql"))
+                .addSchema("test-voucher_system", classPathScript("test-customer_schema.sql"))
                 .start();
     }
 
@@ -294,5 +280,18 @@ class CustomerControllerTest {
                 .map(Arguments::of);
     }
 
+    static List<Customer> validCustomers = List.of(
+            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+    );
+
+    static List<CustomerDto> validCustomerDtos = List.of(
+            new CustomerDto(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
+            new CustomerDto(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
+            new CustomerDto(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
+            new CustomerDto(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+    );
 
 }

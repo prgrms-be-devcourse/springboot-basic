@@ -18,20 +18,6 @@ import static org.hamcrest.Matchers.*;
 
 class CustomerDtoTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
-    );
-
-    static List<CustomerDto> customerDtos = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
-    );
-
     @ParameterizedTest
     @DisplayName("Dto에서 Domain으로 변환하면 성공한다.")
     @MethodSource("provideValidCustomers")
@@ -59,5 +45,19 @@ class CustomerDtoTest {
         return customerDtos.stream()
                 .map(Arguments::of);
     }
+
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+    );
+
+    static List<CustomerDto> customerDtos = List.of(
+            new CustomerDto(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
+            new CustomerDto(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
+            new CustomerDto(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
+            new CustomerDto(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+    );
 
 }
