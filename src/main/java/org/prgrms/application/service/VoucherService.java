@@ -21,9 +21,9 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(String voucherType, String discountAmount){
+    public Voucher createVoucher(String voucherType, double discountAmount){
         long voucherId = abs(new Random().nextLong());
-        System.out.println(discountAmount);
+        System.out.println(voucherType);
         Voucher voucher = Voucher.of(voucherId, voucherType, discountAmount);
         VoucherEntity voucherEntity = voucherRepository.insert(toEntity(voucher));
 

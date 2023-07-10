@@ -3,9 +3,9 @@ package org.prgrms.application.controller.voucher.request;
 public class VoucherCreationRequest {
 
     private String voucherType;
-    private String discountAmount;
+    private long discountAmount;
 
-    public VoucherCreationRequest(String voucherType, String discountAmount) {
+    public VoucherCreationRequest(String voucherType, long discountAmount) {
         this.voucherType = voucherType;
         this.discountAmount = discountAmount;
     }
@@ -14,7 +14,7 @@ public class VoucherCreationRequest {
         return voucherType;
     }
 
-    public String getDiscountAmount() {
+    public long getDiscountAmount() {
         return discountAmount;
     }
 }

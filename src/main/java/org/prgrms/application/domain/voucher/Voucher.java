@@ -12,8 +12,9 @@ public class Voucher {
         this.discountAmount = discountAmount;
     }
 
-    public static Voucher of(Long voucherId, String voucherType, String discountAmount) {
-        return new Voucher(voucherId, VoucherType.findBySelection(voucherType), Double.parseDouble(discountAmount));
+    public static Voucher of(Long voucherId, String voucherType, double discountAmount) {
+        System.out.println(discountAmount);
+        return new Voucher(voucherId, VoucherType.findBySelection(voucherType),discountAmount);
     }
 
     public Long getVoucherId() {
