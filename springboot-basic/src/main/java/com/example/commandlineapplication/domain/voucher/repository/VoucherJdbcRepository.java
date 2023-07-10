@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
 @Primary
 public class VoucherJdbcRepository implements VoucherRepository {
 
-  private final Logger LOG = LoggerFactory.getLogger(VoucherJdbcRepository.class);
+  private static final Logger LOG = LoggerFactory.getLogger(VoucherJdbcRepository.class);
   private final NamedParameterJdbcTemplate template;
   private final VoucherFactory voucherFactory;
   private final VoucherMapper voucherMapper;

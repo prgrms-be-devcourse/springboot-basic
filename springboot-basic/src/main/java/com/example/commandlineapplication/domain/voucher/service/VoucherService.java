@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class VoucherService {
 
-  private final static Logger LOG = LoggerFactory.getLogger(VoucherService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(VoucherService.class);
   private final VoucherRepository voucherRepository;
   private final VoucherFactory voucherFactory;
   private final VoucherMapper voucherMapper;
@@ -46,11 +46,6 @@ public class VoucherService {
         .orElseThrow(IllegalArgumentException::new);
 
     voucherRepository.deleteById(foundVoucher.getVoucherId());
-  }
-
-  @Transactional
-  public void deleteVouchers() {
-    voucherRepository.deleteAll();
   }
 
   @Transactional(readOnly = true)

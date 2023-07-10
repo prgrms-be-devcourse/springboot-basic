@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class VoucherFactory {
 
-  private final Logger LOG = LoggerFactory.getLogger(VoucherFactory.class);
+  private static final Logger LOG = LoggerFactory.getLogger(VoucherFactory.class);
   private final long MAX_PERCENT = 100L;
   private final long MIN_PERCENT = 0L;
   private final long MIN_FIXED_AMOUNT = 0L;
