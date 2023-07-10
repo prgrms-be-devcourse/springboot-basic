@@ -16,6 +16,15 @@ repositories {
 }
 
 dependencies {
+	// JDBC
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	// MySQL
+	runtimeOnly 'com.mysql:mysql-connector-j:8.0.33'
+
+	// H2
+	runtimeOnly 'com.h2database:h2'
+
 	// Lombok
 	compileOnly 'org.projectlombok:lombok:1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'

@@ -1,37 +1,40 @@
 package com.programmers.vouchermanagement.view;
 
+import lombok.Getter;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Getter
 public enum Command {
 
-    CREATE("create"),
-    LIST("list"),
-    EXIT("exit");
+    EXIT("1", "프로그램 종료"),
+    CREATE("2", "바우처 생성"),
+    LIST("3", "바우처 조회"),
+    UPDATE("4", "바우처 수정"),
+    DELETE("5", "바우처 삭제");
 
-    private final String name;
+    private final String number;
+    private final String description;
     private static final Map<String, Command> COMMAND_MAP;
 
     static {
         COMMAND_MAP = Collections.unmodifiableMap(Stream.of(values())
-                .collect(Collectors.toMap(Command::getName, Function.identity())));
+                .collect(Collectors.toMap(Command::getNumber, Function.identity())));
     }
 
-    Command(String name) {
-        this.name = name;
+    Command(String number, String description) {
+        this.number = number;
+        this.description = description;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public static Command from(String name) {
-        if (COMMAND_MAP.containsKey(name)) {
-            return COMMAND_MAP.get(name);
+    public static Command from(String number) {
+        if (COMMAND_MAP.containsKey(number)) {
+            return COMMAND_MAP.get(number);
         }
-        throw new IllegalArgumentException("This command does not exist.");
+        throw new IllegalArgumentException("존재하지 않는 명령어 입니다.");
     }
 }

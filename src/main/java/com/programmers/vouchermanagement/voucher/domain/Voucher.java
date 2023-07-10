@@ -1,10 +1,29 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 import java.util.UUID;
 
-public interface Voucher {
+@Getter
+@EqualsAndHashCode
+@AllArgsConstructor
+public class Voucher {
 
-    UUID getId();
+    private final UUID id;
+    private DiscountPolicy discountPolicy;
 
-    int discount(int originalPrice);
+    public Voucher(DiscountPolicy discountPolicy) {
+        this.id = UUID.randomUUID();
+        this.discountPolicy = discountPolicy;
+    }
+
+    public int discount(int originalPrice) {
+        return discountPolicy.discount(originalPrice);
+    }
+
+    public void changeDiscountPolicy(DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
 }

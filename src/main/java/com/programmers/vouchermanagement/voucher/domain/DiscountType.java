@@ -1,36 +1,44 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import com.programmers.vouchermanagement.voucher.exception.InvalidDiscountTypeException;
+import lombok.Getter;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Getter
 public enum DiscountType {
 
-    FIX("fix"),
-    PERCENT("percent");
+    FIX("1", "정액 할인", FixedAmountDiscountPolicy::new),
+    PERCENT("2", "정률 할인", PercentDiscountPolicy::new);
 
+    private final String number;
     private final String name;
+    private final Function<Integer, DiscountPolicy> voucherCreationFunction;
     private static final Map<String, DiscountType> DISCOUNT_TYPE_MAP;
 
     static {
         DISCOUNT_TYPE_MAP = Collections.unmodifiableMap(Stream.of(values())
-                        .collect(Collectors.toMap(DiscountType::getName, Function.identity())));
+                        .collect(Collectors.toMap(DiscountType::getNumber, Function.identity())));
     }
 
-    DiscountType(String name) {
+    DiscountType(String number, String name, Function<Integer, DiscountPolicy> voucherCreationFunction) {
+        this.number = number;
         this.name = name;
+        this.voucherCreationFunction = voucherCreationFunction;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public static DiscountType from(String name) {
-        if (DISCOUNT_TYPE_MAP.containsKey(name)) {
-            return DISCOUNT_TYPE_MAP.get(name);
+    public static DiscountType from(String number) {
+        if (DISCOUNT_TYPE_MAP.containsKey(number)) {
+            return DISCOUNT_TYPE_MAP.get(number);
         }
-        throw new IllegalArgumentException("This discount type does not exist.");
+        throw new InvalidDiscountTypeException("존재하지 않는 할인 유형 입니다.");
+    }
+
+    public DiscountPolicy createDiscountPolicy(int amount) {
+        return voucherCreationFunction.apply(amount);
     }
 }

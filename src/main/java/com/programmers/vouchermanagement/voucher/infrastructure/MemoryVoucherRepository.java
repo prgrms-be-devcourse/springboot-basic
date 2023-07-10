@@ -2,14 +2,13 @@ package com.programmers.vouchermanagement.voucher.infrastructure;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Profile("dev")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
@@ -22,7 +21,27 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.ofNullable(storage.get(id));
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        deleteById(voucher.getId());
+        save(voucher);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        storage.remove(id);
+    }
+
+    public void clearStorage() {
+        storage.clear();
     }
 }
