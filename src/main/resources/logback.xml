@@ -17,7 +17,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
 
-        <file>logs/access.log</file>
+        <file>logs/error.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
