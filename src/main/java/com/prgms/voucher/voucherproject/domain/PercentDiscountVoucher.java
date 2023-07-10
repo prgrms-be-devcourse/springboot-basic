@@ -3,8 +3,8 @@ package com.prgms.voucher.voucherproject.domain;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private final static long MIN_PERCENT = 1;
-    private final static long MAX_PERCENT = 99;
+    private static final long MIN_PERCENT = 1;
+    private static final long MAX_PERCENT = 99;
 
     private final UUID voucherId;
     private final long percent;
@@ -19,11 +19,11 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public UUID getId() {
-        return voucherId;
+        return this.voucherId;
     }
 
     public long getPercent() {
-        return percent;
+        return this.percent;
     }
 
     public static boolean isPercentDiscountVoucher(Voucher voucher) {
@@ -32,7 +32,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (this.percent / 100);
     }
 
 }

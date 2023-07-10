@@ -18,11 +18,11 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public UUID getId() {
-        return voucherId;
+        return this.voucherId;
     }
 
     public long getAmount() {
-        return amount;
+        return this.amount;
     }
 
     public static boolean isFixedAmountVoucher(Voucher voucher) {
@@ -30,7 +30,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        long discountedAmount = beforeDiscount - this.amount;
+        return discountedAmount < 0 ? 0 : discountedAmount;
     }
 
 }
