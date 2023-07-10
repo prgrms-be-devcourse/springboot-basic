@@ -1,6 +1,6 @@
 package com.programmers.springbasic.domain.voucher.entity;
 
-import com.programmers.springbasic.domain.voucher.model.VoucherOption;
+import com.programmers.springbasic.domain.voucher.view.VoucherOption;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -16,6 +16,7 @@ public abstract class Voucher implements Serializable {
     protected VoucherOption voucherType;    // voucher 타입
     protected LocalDate expirationDate;    // voucher의 만료일
     protected boolean isActive;   // voucher의 활성화 상태
+    protected UUID customerId;    // 할당 받은 고객
 
     Voucher() {
         this.code = UUID.randomUUID();

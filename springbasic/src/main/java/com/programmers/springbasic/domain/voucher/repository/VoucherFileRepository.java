@@ -1,10 +1,11 @@
 package com.programmers.springbasic.domain.voucher.repository;
 
 import com.programmers.springbasic.domain.voucher.entity.Voucher;
-import com.programmers.springbasic.domain.voucher.model.VoucherOption;
+import com.programmers.springbasic.domain.voucher.view.VoucherOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ import java.io.ObjectOutputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Profile("prod")
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
@@ -43,6 +45,11 @@ public class VoucherFileRepository implements VoucherRepository {
                 break;
             }
         }
+    }
+
+    @Override
+    public Optional<Voucher> findByCode(UUID voucherCode) {
+        return Optional.empty();
     }
 
     @Override
@@ -79,6 +86,26 @@ public class VoucherFileRepository implements VoucherRepository {
                 return Collections.emptyList();
             }
         }
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomerId(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+
+    }
+
+    @Override
+    public void delete(UUID voucherCode) {
+
+    }
+
+    @Override
+    public List<UUID> findAllCustomerIdByVoucherType(String voucherType) {
+        return null;
     }
 
     private Map<UUID, Voucher> readVouchersFromFile(String voucherFilePath) {
