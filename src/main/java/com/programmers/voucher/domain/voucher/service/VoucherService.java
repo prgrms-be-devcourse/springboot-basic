@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -41,6 +42,15 @@ public class VoucherService {
     @Transactional(readOnly = true)
     public List<VoucherDto> findVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
+        return vouchers.stream()
+                .map(VoucherDto::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<VoucherDto> findVouchers(VoucherType voucherType,
+                                         LocalDateTime startTime, LocalDateTime endTime) {
+        List<Voucher> vouchers = voucherRepository.findAll(voucherType, startTime, endTime);
         return vouchers.stream()
                 .map(VoucherDto::from)
                 .toList();
