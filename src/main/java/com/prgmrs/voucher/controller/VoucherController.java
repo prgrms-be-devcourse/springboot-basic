@@ -1,8 +1,8 @@
 package com.prgmrs.voucher.controller;
 
-import com.prgmrs.voucher.dto.VoucherListResponse;
-import com.prgmrs.voucher.dto.VoucherRequest;
-import com.prgmrs.voucher.dto.VoucherResponse;
+import com.prgmrs.voucher.dto.request.VoucherRequest;
+import com.prgmrs.voucher.dto.response.VoucherListResponse;
+import com.prgmrs.voucher.dto.response.VoucherResponse;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,15 @@ public class VoucherController {
         return voucherService.findAll();
     }
 
-    public VoucherListResponse findByUsername(String name) {
-        return voucherService.findByUsername();
+    public VoucherListResponse getAssignedVoucherListByUsername(String username) {
+        return voucherService.getAssignedVoucherListByUsername(username);
+    }
+
+    public VoucherListResponse getNotAssignedVoucher() {
+        return voucherService.getNotAssignedVoucher();
+    }
+
+    public VoucherListResponse getAssignedVoucherList() {
+        return voucherService.getAssignedVoucherList();
     }
 }

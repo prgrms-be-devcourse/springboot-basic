@@ -12,6 +12,7 @@ public class ConsoleMainWriter {
         write("=== Voucher Program ===");
         write("Type 'create' to create a voucher or user.");
         write("Type 'list' to list vouchers.");
+        write("Type 'assign' to manage voucher assignment");
         write("Type 'exit' to exit the program.");
     }
 }

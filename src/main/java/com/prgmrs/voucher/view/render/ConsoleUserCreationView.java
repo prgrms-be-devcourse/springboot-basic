@@ -1,8 +1,8 @@
 package com.prgmrs.voucher.view.render;
 
 import com.prgmrs.voucher.controller.UserController;
-import com.prgmrs.voucher.dto.UserRequest;
-import com.prgmrs.voucher.dto.UserResponse;
+import com.prgmrs.voucher.dto.request.UserRequest;
+import com.prgmrs.voucher.dto.response.UserResponse;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.view.ConsoleReader;
 import com.prgmrs.voucher.view.writer.ConsoleCreationWriter;

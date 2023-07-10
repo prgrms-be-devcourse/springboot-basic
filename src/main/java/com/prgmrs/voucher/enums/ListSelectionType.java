@@ -3,9 +3,10 @@ package com.prgmrs.voucher.enums;
 import com.prgmrs.voucher.exception.NoSuchChoiceException;
 
 public enum ListSelectionType {
-    SHOW_ENTIRE_LIST("all"),
+    SHOW_ENTIRE_VOUCHER("all"),
     SHOW_USER_LIST("user"),
     SHOW_BLACKLIST("ban"),
+    SHOW_VOUCHER_OWNER("owner"),
     BACK("back");
 
     private final String value;

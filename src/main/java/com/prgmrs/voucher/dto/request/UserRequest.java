@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.dto;
+package com.prgmrs.voucher.dto.request;
 
 public class UserRequest {
     private final String username;

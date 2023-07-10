@@ -4,6 +4,7 @@ import com.prgmrs.voucher.database.VoucherDatabase;
 import com.prgmrs.voucher.model.Voucher;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -26,7 +27,15 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByUsername() {
-        return null;
+    public List<Voucher> getAssignedVoucherListByUsername(String username) {
+        return Collections.emptyList();    }
+
+    @Override
+    public List<Voucher> getNotAssignedVoucher() {
+        return Collections.emptyList();
     }
+
+    @Override
+    public List<Voucher> getAssignedVoucherList() {
+        return Collections.emptyList();    }
 }

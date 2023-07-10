@@ -1,7 +1,7 @@
 package com.prgmrs.voucher.view.writer;
 
-import com.prgmrs.voucher.dto.UserResponse;
-import com.prgmrs.voucher.dto.VoucherResponse;
+import com.prgmrs.voucher.dto.response.UserResponse;
+import com.prgmrs.voucher.dto.response.VoucherResponse;
 import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;

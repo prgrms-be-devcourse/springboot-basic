@@ -23,9 +23,10 @@ CREATE TABLE `assignment`
 (
     `voucher_id`      CHAR(36) NOT NULL,
     `user_id`         CHAR(36) NOT NULL,
+    `is_used`         BOOLEAN NOT NULL DEFAULT 0,
     `assigned_time`   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `unassigned_time` TIMESTAMP,
-    PRIMARY KEY (`voucher_id`, `user_id`),
+    PRIMARY KEY (`voucher_id`, `user_id`, `assigned_time`),
     FOREIGN KEY (`voucher_id`) REFERENCES `voucher` (`voucher_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 );

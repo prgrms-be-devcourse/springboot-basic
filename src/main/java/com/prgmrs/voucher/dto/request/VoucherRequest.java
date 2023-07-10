@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.dto;
+package com.prgmrs.voucher.dto.request;
 
 import com.prgmrs.voucher.enums.VoucherSelectionType;
 

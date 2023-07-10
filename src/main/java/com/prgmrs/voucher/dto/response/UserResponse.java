@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.dto;
+package com.prgmrs.voucher.dto.response;
 
 import com.prgmrs.voucher.model.User;
 

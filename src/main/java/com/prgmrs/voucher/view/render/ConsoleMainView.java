@@ -15,13 +15,15 @@ public class ConsoleMainView implements CommandLineRunner {
     private final ConsoleCreationWriter consoleCreationWriter;
     private final ConsoleListView consoleListView;
     private final ConsoleCreationView consoleCreationView;
+    private final ConsoleAssignmentView consoleAssignmentView;
 
-    public ConsoleMainView(ConsoleReader consoleReader, ConsoleMainWriter consoleMainWriter, ConsoleCreationWriter consoleCreationWriter, ConsoleListView consoleListView, ConsoleCreationView consoleCreationView) {
+    public ConsoleMainView(ConsoleReader consoleReader, ConsoleMainWriter consoleMainWriter, ConsoleCreationWriter consoleCreationWriter, ConsoleListView consoleListView, ConsoleCreationView consoleCreationView, ConsoleAssignmentView consoleAssignmentView) {
         this.consoleReader = consoleReader;
         this.consoleMainWriter = consoleMainWriter;
         this.consoleCreationWriter = consoleCreationWriter;
         this.consoleListView = consoleListView;
         this.consoleCreationView = consoleCreationView;
+        this.consoleAssignmentView = consoleAssignmentView;
     }
 
     @Override
@@ -43,6 +45,7 @@ public class ConsoleMainView implements CommandLineRunner {
         switch (managementType) {
             case CREATE_MODE -> consoleCreationView.selectCreationType();
             case LIST_MODE -> consoleListView.selectListType();
+            case ASSIGN_MODE -> consoleAssignmentView.selectAssignmentType();
             case EXIT_THE_LOOP -> continueRunning = false;
         }
         return continueRunning;

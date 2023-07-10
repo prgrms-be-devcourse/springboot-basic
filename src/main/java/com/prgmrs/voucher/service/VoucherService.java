@@ -1,8 +1,8 @@
 package com.prgmrs.voucher.service;
 
-import com.prgmrs.voucher.dto.VoucherListResponse;
-import com.prgmrs.voucher.dto.VoucherRequest;
-import com.prgmrs.voucher.dto.VoucherResponse;
+import com.prgmrs.voucher.dto.request.VoucherRequest;
+import com.prgmrs.voucher.dto.response.VoucherListResponse;
+import com.prgmrs.voucher.dto.response.VoucherResponse;
 import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.exception.NoSuchVoucherTypeException;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
@@ -75,7 +75,16 @@ public class VoucherService {
         return new VoucherListResponse(voucherRepository.findAll());
     }
 
-    public VoucherListResponse findByUsername() {
-        return new VoucherListResponse(voucherRepository.findByUsername());
+    public VoucherListResponse getAssignedVoucherListByUsername(String username) {
+        return new VoucherListResponse(voucherRepository.getAssignedVoucherListByUsername(username));
+    }
+
+    public VoucherListResponse getNotAssignedVoucher() {
+        return new VoucherListResponse(voucherRepository.getNotAssignedVoucher());
+    }
+
+    public VoucherListResponse getAssignedVoucherList() {
+        return new VoucherListResponse(voucherRepository.getAssignedVoucherList());
+
     }
 }

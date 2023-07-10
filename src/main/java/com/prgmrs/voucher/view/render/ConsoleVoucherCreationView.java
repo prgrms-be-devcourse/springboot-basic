@@ -1,8 +1,8 @@
 package com.prgmrs.voucher.view.render;
 
 import com.prgmrs.voucher.controller.VoucherController;
-import com.prgmrs.voucher.dto.VoucherRequest;
-import com.prgmrs.voucher.dto.VoucherResponse;
+import com.prgmrs.voucher.dto.request.VoucherRequest;
+import com.prgmrs.voucher.dto.response.VoucherResponse;
 import com.prgmrs.voucher.enums.VoucherSelectionType;
 import com.prgmrs.voucher.exception.NoSuchVoucherTypeException;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;

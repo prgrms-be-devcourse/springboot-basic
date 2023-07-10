@@ -1,11 +1,16 @@
 package com.prgmrs.voucher.view.render;
 
 import com.prgmrs.voucher.controller.BlacklistController;
+import com.prgmrs.voucher.controller.UserController;
 import com.prgmrs.voucher.controller.VoucherController;
-import com.prgmrs.voucher.dto.BlacklistResponse;
-import com.prgmrs.voucher.dto.VoucherListResponse;
+import com.prgmrs.voucher.dto.request.UserListRequest;
+import com.prgmrs.voucher.dto.response.BlacklistResponse;
+import com.prgmrs.voucher.dto.response.UserListResponse;
+import com.prgmrs.voucher.dto.response.UserResponse;
+import com.prgmrs.voucher.dto.response.VoucherListResponse;
 import com.prgmrs.voucher.enums.ListSelectionType;
 import com.prgmrs.voucher.exception.NoSuchChoiceException;
+import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.setting.BlacklistProperties;
 import com.prgmrs.voucher.view.ConsoleReader;
 import com.prgmrs.voucher.view.writer.ConsoleCreationWriter;
@@ -20,14 +25,16 @@ public class ConsoleListView {
     private final BlacklistProperties blacklistProperties;
     private final ConsoleReader consoleReader;
     private final ConsoleCreationWriter consoleCreationWriter;
+    private final UserController userController;
 
-    public ConsoleListView(VoucherController voucherController, ConsoleListWriter consoleListWriter, BlacklistController blacklistController, BlacklistProperties blacklistProperties, ConsoleReader consoleReader, ConsoleCreationWriter consoleCreationWriter) {
+    public ConsoleListView(VoucherController voucherController, ConsoleListWriter consoleListWriter, BlacklistController blacklistController, BlacklistProperties blacklistProperties, ConsoleReader consoleReader, ConsoleCreationWriter consoleCreationWriter, UserController userController) {
         this.voucherController = voucherController;
         this.consoleListWriter = consoleListWriter;
         this.blacklistController = blacklistController;
         this.blacklistProperties = blacklistProperties;
         this.consoleReader = consoleReader;
         this.consoleCreationWriter = consoleCreationWriter;
+        this.userController = userController;
     }
 
     void selectListType() {
@@ -46,11 +53,12 @@ public class ConsoleListView {
 
     private void redirectListType(ListSelectionType listSelectionType) {
         switch (listSelectionType) {
-            case SHOW_ENTIRE_LIST -> {
+            case SHOW_ENTIRE_VOUCHER -> {
                 VoucherListResponse voucherListResponse = voucherController.findAll();
-                consoleListWriter.showList(voucherListResponse, listSelectionType);
+                consoleListWriter.showVoucherList(voucherListResponse);
             }
-            case SHOW_USER_LIST -> selectUser(listSelectionType);
+            case SHOW_USER_LIST -> selectUser();
+            case SHOW_VOUCHER_OWNER -> selectVoucher();
             case SHOW_BLACKLIST -> {
                 if (!blacklistProperties.isBlacklistAllow())
                     break;
@@ -61,9 +69,43 @@ public class ConsoleListView {
         }
     }
 
-    private void selectUser(ListSelectionType listSelectionType) {
-        String name = "";
-        VoucherListResponse voucherListResponse = voucherController.findByUsername(name);
-        consoleListWriter.showList(voucherListResponse, listSelectionType);
+    private void selectUser() {
+        boolean continueRunning = true;
+        while (continueRunning) {
+            UserListResponse userListResponse = userController.getUserListWithVoucherAssigned();
+            consoleListWriter.showUserList(userListResponse);
+
+            consoleListWriter.showWhichUser();
+            String username = consoleReader.read();
+
+            try {
+                VoucherListResponse voucherListResponse = voucherController.getAssignedVoucherListByUsername(username);
+                consoleListWriter.showVoucherList(voucherListResponse);
+                continueRunning = false;
+            } catch (WrongRangeFormatException e) {
+                consoleListWriter.write("incorrect format or value out of range");
+            }
+        }
+    }
+
+    private void selectVoucher() {
+        boolean continueRunning = true;
+        while (continueRunning) {
+            VoucherListResponse voucherListResponse = voucherController.getAssignedVoucherList();
+            consoleListWriter.showVoucherList(voucherListResponse);
+
+            consoleListWriter.showWhichVoucher();
+            String order = consoleReader.read();
+
+            UserListRequest userListRequest = new UserListRequest(order, voucherListResponse.getVoucherList());
+
+            try {
+                UserResponse userResponse = userController.getUserByVoucherId(userListRequest);
+                consoleListWriter.showUser(userResponse);
+                continueRunning = false;
+            } catch (WrongRangeFormatException e) {
+                consoleListWriter.write("incorrect format or value out of range");
+            }
+        }
     }
 }

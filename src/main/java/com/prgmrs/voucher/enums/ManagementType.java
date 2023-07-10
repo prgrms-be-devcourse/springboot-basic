@@ -5,6 +5,7 @@ import com.prgmrs.voucher.exception.NoSuchChoiceException;
 public enum ManagementType {
     CREATE_MODE("create"),
     LIST_MODE("list"),
+    ASSIGN_MODE("assign"),
     EXIT_THE_LOOP("exit");
 
 

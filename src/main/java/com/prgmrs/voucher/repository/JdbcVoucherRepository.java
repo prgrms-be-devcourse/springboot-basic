@@ -48,11 +48,58 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String sql = "SELECT voucher_id, discount_type, discount_value FROM voucher";
-
-        List<Voucher> voucherList = new ArrayList<>();
+        String sql = "SELECT voucher_id, discount_type, discount_value FROM voucher ORDER BY created_at ASC";
 
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
+
+        return getVouchers(rows);
+    }
+
+    @Override
+    public List<Voucher> getAssignedVoucherListByUsername(String username) {
+        String sql = "SELECT v.voucher_id, v.discount_type, v.discount_value FROM voucher v JOIN assignment a ON v.voucher_id = a.voucher_id JOIN user u ON a.user_id = u.user_id WHERE  u.username = :username AND a.unassigned_time IS NULL ORDER BY v.created_at ASC;";
+
+        Map<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("username", username);
+
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, paramMap);
+
+        return getVouchers(rows);
+    }
+
+    @Override
+    public List<Voucher> getAssignedVoucherList() {
+        String sql = "SELECT v.voucher_id, v.discount_type, v.discount_value FROM voucher v JOIN assignment a ON v.voucher_id = a.voucher_id WHERE a.unassigned_time IS NULL ORDER BY v.created_at ASC;";
+
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
+
+        return getVouchers(rows);
+    }
+
+    @Override
+    public List<Voucher> getNotAssignedVoucher() {
+        String sql = "SELECT DISTINCT v.voucher_id, v.discount_type, v.discount_value " +
+                "FROM voucher v LEFT JOIN assignment a ON v.voucher_id = a.voucher_id " +
+                "WHERE a.voucher_id IS NULL " +
+                "OR (" +
+                "  v.voucher_id IN (" +
+                "    SELECT a.voucher_id" +
+                "    FROM assignment a" +
+                "    GROUP BY a.voucher_id" +
+                "    HAVING MAX(a.is_used) = 0 AND MAX(a.unassigned_time IS NULL) = 0" +
+                "  )" +
+                ")";
+
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
+
+        return getVouchers(rows);
+    }
+
+
+    private List<Voucher> getVouchers(List<Map<String, Object>> rows) {
+        List<Voucher> voucherList = new ArrayList<>();
+
         for (Map<String, Object> row : rows) {
             UUID voucherId = UUID.fromString(row.get("voucher_id").toString());
             Number discountTypeNumber = (Number) row.get("discount_type");
@@ -79,10 +126,5 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
 
         return voucherList;
-    }
-
-    @Override
-    public List<Voucher> findByUsername() {
-        return null;
     }
 }

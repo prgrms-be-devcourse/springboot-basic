@@ -1,6 +1,6 @@
 package com.prgmrs.voucher.controller;
 
-import com.prgmrs.voucher.dto.BlacklistResponse;
+import com.prgmrs.voucher.dto.response.BlacklistResponse;
 import com.prgmrs.voucher.service.BlacklistService;
 import org.springframework.stereotype.Component;
 
