@@ -29,75 +29,80 @@ public class CustomerManagementController implements Runnable {
     public void run() {
         boolean isRunning = true;
         while (isRunning) {
-            output.printCustomerCommand();
-            Integer inputCustomerNumber = input.inputCustomerCommand();
-            CustomerCommand customerCommand = CustomerCommand.findByCustomerTypeNumber(inputCustomerNumber);
+            try {
+                output.printCustomerCommand();
+                Integer inputCustomerNumber = input.inputCustomerCommand();
+                CustomerCommand customerCommand = CustomerCommand.findByCustomerTypeNumber(inputCustomerNumber);
 
-            switch (customerCommand) {
-                case CREATE -> {
-                    String inputCustomerStatus = input.inputCustomerStatus();
-                    CustomerStatus inputStatus = CustomerStatus.findByStatus(inputCustomerStatus);
+                switch (customerCommand) {
+                    case CREATE -> {
+                        String inputCustomerStatus = input.inputCustomerStatus();
+                        CustomerStatus inputStatus = CustomerStatus.findByStatus(inputCustomerStatus);
 
-                    CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest(inputStatus);
+                        CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest(inputStatus);
 
-                    customerDaoHandler.save(customerCreateRequest);
+                        customerDaoHandler.save(customerCreateRequest);
+                    }
+
+                    case FIND_ALL -> {
+                        CustomersResponse findCustomers = customerDaoHandler.findAll();
+                        output.printCustomers(findCustomers);
+                    }
+
+                    case FIND_ONE -> {
+                        String inputUUID = input.inputUUID();
+                        UUID customerId = UUID.fromString(inputUUID);
+
+                        customerDaoHandler.findOne(customerId)
+                            .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
+                    }
+
+                    case FIND_BY_STATUS -> {
+                        String inputCustomerStatus = input.inputCustomerStatus();
+                        CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
+
+                        CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest(customerStatus);
+
+                        CustomersResponse findCustomers = customerDaoHandler.findByStatus(customerCreateRequest);
+
+                        output.printCustomers(findCustomers);
+                    }
+
+                    case FIND_BLACKLIST -> {
+                        CustomersResponse blackLists = customerDaoHandler.readBlackLists();
+                        output.printBlackLists(blackLists);
+                    }
+
+                    case UPDATE -> {
+                        String inputUUID = input.inputUUID();
+                        UUID customerId = UUID.fromString(inputUUID);
+
+                        String inputCustomerStatus = input.inputCustomerStatus();
+                        CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
+
+                        CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(customerId, customerStatus);
+
+                        customerDaoHandler.update(customerUpdateRequest);
+                    }
+
+                    case DELETE -> {
+                        String inputUUID = input.inputUUID();
+                        UUID customerId = UUID.fromString(inputUUID);
+
+                        customerDaoHandler.deleteById(customerId);
+                    }
+
+                    case EXIT -> {
+                        isRunning = false;
+                    }
+
+                    default -> {
+                        output.printNotImplementMsg();
+                    }
                 }
 
-                case FIND_ALL -> {
-                    CustomersResponse findCustomers = customerDaoHandler.findAll();
-                    output.printCustomers(findCustomers);
-                }
-
-                case FIND_ONE -> {
-                    String inputUUID = input.inputUUID();
-                    UUID customerId = UUID.fromString(inputUUID);
-
-                    customerDaoHandler.findOne(customerId)
-                        .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
-                }
-
-                case FIND_BY_STATUS -> {
-                    String inputCustomerStatus = input.inputCustomerStatus();
-                    CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
-
-                    CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest(customerStatus);
-
-                    CustomersResponse findCustomers = customerDaoHandler.findByStatus(customerCreateRequest);
-
-                    output.printCustomers(findCustomers);
-                }
-
-                case FIND_BLACKLIST -> {
-                    CustomersResponse blackLists = customerDaoHandler.readBlackLists();
-                    output.printBlackLists(blackLists);
-                }
-
-                case UPDATE -> {
-                    String inputUUID = input.inputUUID();
-                    UUID customerId = UUID.fromString(inputUUID);
-
-                    String inputCustomerStatus = input.inputCustomerStatus();
-                    CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
-
-                    CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(customerId, customerStatus);
-
-                    customerDaoHandler.update(customerUpdateRequest);
-                }
-
-                case DELETE -> {
-                    String inputUUID = input.inputUUID();
-                    UUID customerId = UUID.fromString(inputUUID);
-
-                    customerDaoHandler.deleteById(customerId);
-                }
-
-                case EXIT -> {
-                    isRunning = false;
-                }
-
-                default -> {
-                    output.printNotImplementMsg();
-                }
+            } catch (IllegalArgumentException exception) {
+                output.printErrorMsg(exception.getMessage());
             }
         }
     }

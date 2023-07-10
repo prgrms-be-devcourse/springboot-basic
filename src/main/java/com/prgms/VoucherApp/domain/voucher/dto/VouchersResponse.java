@@ -5,9 +5,9 @@ import java.util.List;
 
 public class VouchersResDto {
 
-    private final List<VoucherResDto> vouchers;
+    private final List<VoucherResponse> vouchers;
 
-    public VouchersResDto(List<VoucherResDto> vouchers) {
+    public VouchersResDto(List<VoucherResponse> vouchers) {
         this.vouchers = vouchers;
     }
 
@@ -15,7 +15,7 @@ public class VouchersResDto {
         return vouchers.isEmpty();
     }
 
-    public List<VoucherResDto> getVouchers() {
+    public List<VoucherResponse> getVouchers() {
         return Collections.unmodifiableList(vouchers);
     }
 }
