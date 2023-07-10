@@ -1,5 +1,6 @@
 package org.prgms.vouchermanagement.voucher.service;
 
+import lombok.RequiredArgsConstructor;
 import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.global.io.Console;
 import org.prgms.vouchermanagement.voucher.VoucherType;
@@ -13,14 +14,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final Console console;
-
-    public VoucherService(VoucherRepository voucherRepository, Console console) {
-        this.voucherRepository = voucherRepository;
-        this.console = console;
-    }
 
     public void createNewVoucher() {
         Optional<Voucher> savedVoucher = Optional.empty();
