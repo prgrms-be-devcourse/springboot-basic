@@ -11,7 +11,9 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -60,7 +62,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
       return Optional.ofNullable(voucher);
     } catch (EmptyResultDataAccessException e) {
-      LOG.error("voucherId가 존재하지 않습니다. ", e);
+      LOG.error("voucherId가 존재하지 않습니다. " + e.getMessage() + e);
       return Optional.empty();
     }
   }
@@ -77,8 +79,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
     int saved = template.update(sql, param);
 
     if (saved != SUCCESS_EXECUTE) {
-      LOG.error("voucher가 저장되지 않았습니다.");
-      throw new RuntimeException("voucher가 저장되지 않았습니다.");
+      DataAccessException exception = new IncorrectResultSizeDataAccessException(SUCCESS_EXECUTE,
+          saved);
+      LOG.error(exception.getMessage(), exception);
+      throw exception;
     }
 
     return voucher;
@@ -101,8 +105,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
     int deleted = template.update(sql, param);
 
     if (deleted != SUCCESS_EXECUTE) {
-      LOG.error("voucher가 삭제되지 않았습니다.");
-      throw new RuntimeException("voucher가 삭제되지 않았습니다.");
+      DataAccessException exception = new IncorrectResultSizeDataAccessException(SUCCESS_EXECUTE,
+          deleted);
+      LOG.error(exception.getMessage(), exception);
+      throw exception;
     }
   }
 }
