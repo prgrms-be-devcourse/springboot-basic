@@ -10,7 +10,7 @@ import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class Converter {
+public final class Converter {
     private static final String DELIMITER = ",";
 
     private Converter() {
