@@ -1,33 +1,44 @@
 package org.prgrms.application.service;
 
-import org.prgrms.application.domain.FixedAmountVoucher;
-import org.prgrms.application.domain.Voucher;
-import org.prgrms.application.domain.VoucherFactory;
-import org.prgrms.application.domain.VoucherType;
-import org.prgrms.application.repository.VoucherRepository;
-import org.springframework.stereotype.Service;
+import org.prgrms.application.domain.voucher.*;
+import org.prgrms.application.entity.VoucherEntity;
+import org.prgrms.application.repository.voucher.VoucherRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import java.util.Map;
-import java.util.UUID;
+import static org.prgrms.application.domain.voucher.VoucherType.FIXED;
+import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 
-@Service
-public class VoucherService {
+public abstract class VoucherService {
 
-    private VoucherRepository voucherRepository;
-    private VoucherFactory voucherFactory;
+    protected VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.voucherFactory = voucherFactory;
     }
 
-    public void createVoucher(VoucherType voucherType, Double voucherDetail) {
-        Voucher voucher = voucherFactory.create(voucherType, voucherDetail);
-        voucherRepository.insert(voucher);
+    public abstract void createVoucher(VoucherType voucherType, double voucherDetail);
+
+    public List<Voucher> getVouchers() {
+        List<VoucherEntity> voucherEntities = voucherRepository.findAll();
+        return voucherEntities.stream().map(this::toDomain).collect(Collectors.toList());
     }
 
-    public Map<UUID, Voucher> getVoucherList() {
-        return voucherRepository.findAll();
+    protected Voucher toDomain(VoucherEntity voucherEntity){
+        switch (voucherEntity.getVoucherType()){
+            case "FIXED":
+                return new FixedAmountVoucher(voucherEntity.getVoucherId(), FIXED, voucherEntity.getDiscountAmount());
+
+            case "PERCENT":
+                return new PercentAmountVoucher(voucherEntity.getVoucherId(), PERCENT, voucherEntity.getDiscountAmount());
+
+            default:
+                throw new IllegalArgumentException("알 수 없는 voucherType입니다.");
+        }
+    }
+
+    protected VoucherEntity toEntity(Voucher voucher){
+        return new VoucherEntity(voucher.getVoucherId(),voucher.getVoucherType().toString(),voucher.getDiscountAmount());
     }
 
 }

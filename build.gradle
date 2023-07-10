@@ -17,7 +17,12 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	runtimeOnly 'com.h2database:h2'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.hamcrest:hamcrest-library:2.2'
+	implementation 'com.zaxxer:HikariCP:4.0.3'
 }
 
 tasks.named('test') {

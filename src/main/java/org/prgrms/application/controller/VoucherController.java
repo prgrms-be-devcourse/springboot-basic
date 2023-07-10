@@ -1,27 +1,29 @@
 package org.prgrms.application.controller;
 
-import org.prgrms.application.domain.Voucher;
-import org.prgrms.application.domain.VoucherType;
+import org.prgrms.application.domain.voucher.Voucher;
+import org.prgrms.application.domain.voucher.VoucherType;
+import org.prgrms.application.domain.voucher.VoucherTypeFactory;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Controller
 public class VoucherController {
 
+    private final VoucherTypeFactory voucherTypeFactory;
     private VoucherService voucherService;
 
-    public VoucherController(VoucherService voucherService) {
-        this.voucherService = voucherService;
+    public VoucherController(VoucherTypeFactory voucherTypeFactory) {
+        this.voucherTypeFactory = voucherTypeFactory;
     }
 
-    public Map<UUID, Voucher> getStorage() {
-        return voucherService.getVoucherList();
+    public List<Voucher> getStorage() {
+        return voucherService.getVouchers();
     }
 
-    public void createVoucher(VoucherType voucherType, Double voucherDetail) {
-        voucherService.createVoucher(voucherType, voucherDetail);
+    public void createVoucher(VoucherType voucherType, double discountAmount) {
+        voucherService = voucherTypeFactory.getType(voucherType);
+        voucherService.createVoucher(voucherType, discountAmount);
     }
 }

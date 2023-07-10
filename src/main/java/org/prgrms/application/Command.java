@@ -1,10 +1,9 @@
 package org.prgrms.application;
 
 import org.prgrms.application.controller.VoucherController;
-import org.prgrms.application.domain.VoucherType;
+import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.view.InputView;
 import org.prgrms.application.view.OutputView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,6 @@ public class Command implements CommandLineRunner {
     private final VoucherController voucherController;
     private boolean isRunning = true;
 
-    @Autowired
     public Command(InputView inputView, OutputView outputView, VoucherController voucherController) {
         this.inputView = inputView;
         this.outputView = outputView;
@@ -37,7 +35,7 @@ public class Command implements CommandLineRunner {
             case CREATE -> {
                 outputView.printSelectVoucherType();
                 VoucherType voucherType = inputView.selectVoucherType();
-                Double voucherDetail = inputView.inputVoucherDetails();
+                double voucherDetail = inputView.inputVoucherDetails();
                 voucherController.createVoucher(voucherType, voucherDetail);
             }
 

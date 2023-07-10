@@ -1,10 +1,9 @@
 package org.prgrms.application.view;
 
-import org.prgrms.application.domain.Voucher;
+import org.prgrms.application.domain.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Component
 public class OutputView {
@@ -17,13 +16,13 @@ public class OutputView {
     }
 
 
-    public void printStorageList(Map<UUID, Voucher> storage) {
-        for (Map.Entry<UUID, Voucher> entry : storage.entrySet()) {
-            System.out.println("바우처 정보 : " + entry.getValue().toString());
+    public void printStorageList(List<Voucher> storage) {
+        for (Voucher entry : storage) {
+            System.out.println("바우처 정보 : " + entry.toString());
         }
     }
 
-    public void printSelectVoucherType(){
+    public void printSelectVoucherType() {
         System.out.println("Select VoucherType");
         System.out.println("Fixed");
         System.out.println("Percent");
