@@ -1,38 +1,31 @@
-# SpringBoot Basic Weekly Mission
+# 📌 SpringBoot Basic Weekly Mission
 스프링부트 basic 위클리미션을 코드리뷰하는 Repository입니다.
 
-before
-![스크린샷 2023-06-28 11-33-05](https://github.com/prgrms-be-devcourse/springboot-basic/assets/102570281/7f39d6ce-c778-4623-9278-42152e0ccdee)
+# 📌 그림 그리기 & 설명하기
+![스크린샷 2023-07-10 00-53-29](https://github.com/prgrms-be-devcourse/springboot-basic/assets/102570281/bc29c381-bc96-4409-85ca-ce02475a0419)
 
-after
-![img_1.png](img_1.png)![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/102570281/3d143def-7ae5-4372-b0a2-66757178002a)
+# 📌 요구 사항
 
-**클래스 객체 설명**
+**(기본)** **바우처 관리 애플리케이션**
 
-CustomerService
-- 블랙리스트 정보를 저장소에게 요청해서 리스트 형태로 제공하는 역할을 합니다.
-- 컨트롤러의 요청을 저장소 객체에게 전달해서 리스트를 반환할 책임이 있습니다.
+- [ ]  바우처 관리 애플리케이션에 단위테스트를 작성해보세요.
+    - 가능한 많은 단위 테스트코드를 작성하려고 노력해보세요.
+    - 엣지 케이스(예외 케이스)를 고려해서 작성해주세요.
+    - Hamcrest 의 메쳐들을 다양하게 작성해보고 익숙해져 보세요.
+- [ ]  바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
+    - customers 테이블 정의 및 추가
+    - CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
+- [ ]  (1주차엔 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
+    - 바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+    - 바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
+    - 기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
 
-BlackListRepository
-- CustomerService 에서 블랙리스트 정보를 요청 받으면 목록 정보를 반환합니다.
-- 블랙리스트 목록 정보를 제공해줄 책임이 있습니다.
+# 📌 작업 목록
 
-CsvRepository
-- BlackListRepository 의 구현체로 , csv 형태의 블랙리스트 정보를 리스트 형태로 반환합니다.
-- Csv 형태의 목록 파일을 리스트로 변환시키고 반환할 책임이 있습니다.
-
-VoucherService
-- 바우처의 등록 , 조회 역할을 담당합니다.
-- 컨트롤러에서 요청이 오면 저장소 객체에서 요청해서 리스트를 반환해줄 책임이 있습니다.
-
-VoucherRepository
-- 바우처 목록을 저장하고 저장된 목록을 반환합니다.
-- VoucherService 에서 요청이 오면 목록 조회 , 등록을 수행할 책임이 있습니다.
-
-MemoryVoucherRepository
-- VoucherRepository의 구현체로 리스트 형태로 메모리에 저장하고 리스트 형태로 반환합니다.
-- VoucherService 에서 요청이 오면 리스트 형태로 목록 조회 , 등록을 수행할 책임이 있습니다.
-
-CommandLine
-- 스프링 어플리케이션이 실행되면 컨트롤러 역할을 수행합니다.
-- 클라이언트가 입력값을 넣으면 거기에 해당하는 함수 및 기능을 수행할 책임이 있습니다.
+- [ ]  그림그리기 & 소개하기에 맞게 패키지 구조 수정 및 추가
+- [ ]  컨트롤러(commadLine)에서 crud 관련 메뉴 추가 및 메소드 호출 구현
+- [ ]  바우처 관련 crud를 jdbc 를 이용하여 구현
+- [ ]  바우처 crud 테스트 코드 작성
+- [ ]  customer jdbc 테이블 설계
+- [ ]  jdbc를 이용하여  customer 관련 crud 구현
+- [ ] customer crud jdbc 테스트 코드 작성
