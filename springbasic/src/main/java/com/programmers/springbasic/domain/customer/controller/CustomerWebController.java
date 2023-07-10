@@ -73,4 +73,17 @@ public class CustomerWebController {
 
         return "redirect:/";    // 고객 추가가 끝나고 home 화면으로 보냄.
     }
+
+    @GetMapping("/delete")
+    public String deleteForm() {
+        return "customers/deleteCustomerForm";
+    }
+
+    @PostMapping("/delete")
+    public String delete(CustomerDeleteRequestDTO customerDeleteRequestDTO) {
+        CustomerIdValidator.validateCustomerId(customerDeleteRequestDTO.getCustomerId());
+        customerService.removeCustomer(customerDeleteRequestDTO);
+
+        return "redirect:/";
+    }
 }
