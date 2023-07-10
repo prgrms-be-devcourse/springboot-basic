@@ -1,7 +1,6 @@
 package org.promgrammers.springbootbasic.domain.voucher.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 
 import java.util.Arrays;
@@ -21,23 +20,11 @@ public enum VoucherType {
         this.typeName = typeName;
     }
 
+    @JsonCreator
     public static VoucherType fromTypeString(String voucherType) {
         return Arrays.stream(values())
-                .filter(voucher -> voucher.typeNumber.equals(voucherType) || voucher.typeName.equals(voucherType.toLowerCase()))
+                .filter(voucher -> voucher.typeNumber.equals(voucherType) || voucher.typeName.equalsIgnoreCase(voucherType))
                 .findFirst()
                 .orElseThrow(() -> new BusinessException(INVALID_VOUCHER_TYPE));
-    }
-
-    @JsonCreator
-    public static VoucherType from(String value) {
-        return Arrays.stream(VoucherType.values())
-                .filter(status -> status.getValue().equals(value))
-                .findFirst()
-                .orElseThrow(() -> new BusinessException(INVALID_VOUCHER_TYPE));
-    }
-
-    @JsonValue
-    public String getValue() {
-        return typeName;
     }
 }
