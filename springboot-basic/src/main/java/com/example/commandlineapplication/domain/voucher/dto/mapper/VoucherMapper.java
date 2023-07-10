@@ -8,8 +8,8 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class VoucherMapper {
 
   public VoucherResponse voucherToResponse(Voucher voucher) {
@@ -29,3 +29,7 @@ public class VoucherMapper {
         .build();
   }
 }
+
+
+
+

@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+@AllArgsConstructor
 @Builder
 @Getter
-@AllArgsConstructor
 public class VoucherResponse {
 
   private final UUID voucherId;
