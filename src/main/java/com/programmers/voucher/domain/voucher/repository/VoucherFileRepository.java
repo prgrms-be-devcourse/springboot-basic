@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.voucher.global.util.CommonErrorMessages.CANNOT_ACCESS_FILE;
@@ -79,6 +80,11 @@ public class VoucherFileRepository implements VoucherRepository {
         return findAll().stream()
                 .filter(voucher -> Objects.equals(voucher.getVoucherId(), voucherId))
                 .findAny();
+    }
+
+    @Override
+    public List<Voucher> findAll(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
+        return null;
     }
 
     @Override

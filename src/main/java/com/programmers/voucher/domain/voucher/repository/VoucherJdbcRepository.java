@@ -59,6 +59,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAll(VoucherType voucherType,
+                                 LocalDateTime startTime, LocalDateTime endTime) {
+        String sql = createSearchQuery(voucherType, startTime, endTime);
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("voucherType", voucherType != null ? voucherType.toString() : null)
+                .addValue("startTime", startTime)
+                .addValue("endTime", endTime);
+        return template.query(sql, param, voucherRowMapper());
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         String sql = "select * from voucher where voucher_id = :voucherId";
         MapSqlParameterSource param = new MapSqlParameterSource()
@@ -70,6 +81,25 @@ public class VoucherJdbcRepository implements VoucherRepository {
         } catch (EmptyResultDataAccessException ex) {
             return Optional.empty();
         }
+    }
+
+    private String createSearchQuery(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
+        String sql = "select * from voucher";
+        boolean multipleCondition = false;
+        if(voucherType != null || startTime != null && endTime != null) {
+            sql += " where";
+        }
+        if(voucherType != null) {
+            sql += " voucher_type = :voucherType";
+            multipleCondition = true;
+        }
+        if(startTime != null && endTime != null) {
+            if(multipleCondition) {
+                sql += " and";
+            }
+            sql += " created_at between :startTime and :endTime";
+        }
+        return sql;
     }
 
     @Override
