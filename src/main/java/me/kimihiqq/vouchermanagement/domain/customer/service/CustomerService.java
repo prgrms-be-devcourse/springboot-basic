@@ -40,7 +40,7 @@ public class CustomerService {
     public void updateCustomerStatus(Customer customer) {
         customerRepository.update(customer);
     }
-    
+
 
     public List<Customer> findCustomersWithVoucher(UUID voucherId) {
         Set<UUID> customerIds = voucherWalletService.findCustomerIdsByVoucherId(voucherId);

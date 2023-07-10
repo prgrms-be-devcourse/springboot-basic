@@ -1,6 +1,7 @@
 package me.kimihiqq.vouchermanagement.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import me.kimihiqq.vouchermanagement.config.exception.InvalidDiscountAmountException;
 import me.kimihiqq.vouchermanagement.option.VoucherTypeOption;
 
 import java.util.UUID;
@@ -15,7 +16,7 @@ public class FixedAmountVoucher extends Voucher {
 
     private void validateDiscountAmount(long discountAmount) {
         if (discountAmount <= 0) {
-            throw new IllegalArgumentException("Discount amount must be positive.");
+            throw new InvalidDiscountAmountException("Discount amount must be positive.");
         }
     }
 
