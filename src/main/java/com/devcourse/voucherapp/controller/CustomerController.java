@@ -2,6 +2,7 @@ package com.devcourse.voucherapp.controller;
 
 import com.devcourse.voucherapp.entity.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.dto.CustomerUpdateRequestDto;
 import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
 import com.devcourse.voucherapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,9 @@ public class CustomerController {
 
     public CustomersResponseDto findAllCustomers() {
         return customerService.findAllCustomers();
+    }
+
+    public CustomerResponseDto update(CustomerUpdateRequestDto request) {
+        return customerService.update(request);
     }
 }

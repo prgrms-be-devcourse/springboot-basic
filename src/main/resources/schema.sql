@@ -9,6 +9,6 @@ CREATE TABLE voucher (
 
 CREATE TABLE customer (
     id VARCHAR(36) PRIMARY KEY,
-    type INTEGER NOT NULL,
+    type VARCHAR(5) NOT NULL,
     nickname VARCHAR(255) UNIQUE NOT NULL
 )

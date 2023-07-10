@@ -22,6 +22,6 @@ public class CustomerResponseDto {
 
     @Override
     public String toString() {
-        return format("{0} | {1} | {2}", id, type, nickname);
+        return format("{0} | {1} | {2}", id, type.getName(), nickname);
     }
 }

@@ -2,7 +2,6 @@ package com.devcourse.voucherapp.repository;
 
 import com.devcourse.voucherapp.entity.CustomerType;
 import com.devcourse.voucherapp.entity.customer.Customer;
-import com.devcourse.voucherapp.exception.ExistedCustomerException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,6 +53,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return template.query(sql, getCustomerRowMapper());
     }
 
+    @Override
+    public Customer update(Customer customer) {
+        String sql = "update customer set type = :typeNumber where nickname = :nickname";
+        template.update(sql, getParameterSource(customer));
+
+        return customer;
+    }
+
     private SqlParameterSource getParameterSource(Customer customer) {
         return new MapSqlParameterSource()
                 .addValue("id", customer.getId().toString())
@@ -68,7 +75,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private RowMapper<Customer> getCustomerRowMapper() {
         return (resultSet, rowNum) -> {
             String id = resultSet.getString("id");
-            int typeNumber = resultSet.getInt("type");
+            String typeNumber = resultSet.getString("type");
             String nickname = resultSet.getString("nickname");
 
             return Customer.from(UUID.fromString(id), CustomerType.from(typeNumber), nickname);
