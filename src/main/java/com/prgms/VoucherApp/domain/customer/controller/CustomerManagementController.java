@@ -3,7 +3,7 @@ package com.prgms.VoucherApp.domain.customer.controller;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
-import com.prgms.VoucherApp.domain.customer.model.CustomerDaoHandler;
+import com.prgms.VoucherApp.domain.customer.model.CustomerService;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 import com.prgms.VoucherApp.view.CustomerCommand;
 import com.prgms.VoucherApp.view.Input;
@@ -15,12 +15,12 @@ import java.util.UUID;
 @Controller
 public class CustomerManagementController implements Runnable {
 
-    private final CustomerDaoHandler customerDaoHandler;
+    private final CustomerService customerService;
     private final Input input;
     private final Output output;
 
-    public CustomerManagementController(CustomerDaoHandler customerDaoHandler, Input input, Output output) {
-        this.customerDaoHandler = customerDaoHandler;
+    public CustomerManagementController(CustomerService customerService, Input input, Output output) {
+        this.customerService = customerService;
         this.input = input;
         this.output = output;
     }
@@ -41,11 +41,11 @@ public class CustomerManagementController implements Runnable {
 
                         CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest(inputStatus);
 
-                        customerDaoHandler.save(customerCreateRequest);
+                        customerService.save(customerCreateRequest);
                     }
 
                     case FIND_ALL -> {
-                        CustomersResponse findCustomers = customerDaoHandler.findAll();
+                        CustomersResponse findCustomers = customerService.findAll();
                         output.printCustomers(findCustomers);
                     }
 
@@ -53,7 +53,7 @@ public class CustomerManagementController implements Runnable {
                         String inputUUID = input.inputUUID();
                         UUID customerId = UUID.fromString(inputUUID);
 
-                        customerDaoHandler.findOne(customerId)
+                        customerService.findOne(customerId)
                             .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
                     }
 
@@ -63,13 +63,13 @@ public class CustomerManagementController implements Runnable {
 
                         CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest(customerStatus);
 
-                        CustomersResponse findCustomers = customerDaoHandler.findByStatus(customerCreateRequest);
+                        CustomersResponse findCustomers = customerService.findByStatus(customerCreateRequest);
 
                         output.printCustomers(findCustomers);
                     }
 
                     case FIND_BLACKLIST -> {
-                        CustomersResponse blackLists = customerDaoHandler.readBlackLists();
+                        CustomersResponse blackLists = customerService.readBlackLists();
                         output.printBlackLists(blackLists);
                     }
 
@@ -82,14 +82,14 @@ public class CustomerManagementController implements Runnable {
 
                         CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(customerId, customerStatus);
 
-                        customerDaoHandler.update(customerUpdateRequest);
+                        customerService.update(customerUpdateRequest);
                     }
 
                     case DELETE -> {
                         String inputUUID = input.inputUUID();
                         UUID customerId = UUID.fromString(inputUUID);
 
-                        customerDaoHandler.deleteById(customerId);
+                        customerService.deleteById(customerId);
                     }
 
                     case EXIT -> {

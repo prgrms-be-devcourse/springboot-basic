@@ -13,11 +13,11 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
-public class VoucherDaoHandler {
+public class VoucherService {
 
     private final VoucherDao voucherDao;
 
-    public VoucherDaoHandler(VoucherDao voucherDao) {
+    public VoucherService(VoucherDao voucherDao) {
         this.voucherDao = voucherDao;
     }
 

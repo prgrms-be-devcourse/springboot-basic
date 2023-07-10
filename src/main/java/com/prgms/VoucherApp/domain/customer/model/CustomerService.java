@@ -13,12 +13,12 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
-public class CustomerDaoHandler {
+public class CustomerService {
 
     private final BlackListFileDao blackListStorage;
     private final CustomerDao customerDao;
 
-    public CustomerDaoHandler(BlackListFileDao blackListStorage, CustomerDao customerDao) {
+    public CustomerService(BlackListFileDao blackListStorage, CustomerDao customerDao) {
         this.blackListStorage = blackListStorage;
         this.customerDao = customerDao;
     }
