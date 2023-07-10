@@ -22,12 +22,14 @@ public class CustomerJdbcDao implements CustomerDao {
     }
 
     @Override
-    public void save(Customer customer) {
+    public Customer save(Customer customer) {
         String sql = "INSERT INTO customer VALUES (:id, :status)";
         SqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", customer.getCustomerId().toString())
             .addValue("status", customer.getCustomerStatus().getStatusName());
         namedParameterJdbcTemplate.update(sql, paramMap);
+
+        return customer;
     }
 
     @Override

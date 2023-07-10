@@ -22,12 +22,14 @@ public class VoucherDaoHandler {
     }
 
     @Transactional
-    public void save(VoucherCreateReqDto requestDto) {
+    public VoucherResDto save(VoucherCreateReqDto requestDto) {
         Voucher voucher = switch (requestDto.getVoucherType()) {
             case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), requestDto.getAmount());
             case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), requestDto.getAmount());
         };
         voucherDao.save(voucher);
+
+        return new VoucherResDto(voucher);
     }
 
     public Optional<VoucherResDto> findOne(UUID id) {

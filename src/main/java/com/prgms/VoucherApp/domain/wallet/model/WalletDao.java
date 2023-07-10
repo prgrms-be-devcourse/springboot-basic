@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface WalletDao {
 
-    void save(Wallet wallet);
+    Wallet save(Wallet wallet);
 
     Optional<Wallet> findById(UUID walletId);
 

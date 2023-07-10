@@ -22,12 +22,13 @@ public class VoucherFileDao implements VoucherDao {
     private String filePath;
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         try {
             Files.writeString(
                 Paths.get(filePath),
                 String.format("%s%n", Converter.toString(voucher)),
                 StandardOpenOption.APPEND);
+            return voucher;
         } catch (IOException e) {
             throw new RuntimeException("IO 문제로 바우처가 저장되지 않았습니다.", e);
         }

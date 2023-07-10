@@ -30,7 +30,7 @@ public class WalletJdbcDao implements WalletDao {
     }
 
     @Override
-    public void save(Wallet wallet) {
+    public Wallet save(Wallet wallet) {
         String sql = "INSERT INTO wallet VALUES (:id, :customerId, :voucherId)";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", wallet.getWalletId())
@@ -38,6 +38,7 @@ public class WalletJdbcDao implements WalletDao {
             .addValue("voucherId", wallet.getVoucher().getVoucherId());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
+        return wallet;
     }
 
     @Override

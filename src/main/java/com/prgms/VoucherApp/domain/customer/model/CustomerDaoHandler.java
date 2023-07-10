@@ -24,9 +24,11 @@ public class CustomerDaoHandler {
     }
 
     @Transactional
-    public void save(CustomerCreateReqDto requestDto) {
+    public CustomerResDto save(CustomerCreateReqDto requestDto) {
         Customer customer = new Customer(UUID.randomUUID(), requestDto.getCustomerStatus());
         customerDao.save(customer);
+
+        return new CustomerResDto(customer);
     }
 
     public CustomersResDto findAll() {

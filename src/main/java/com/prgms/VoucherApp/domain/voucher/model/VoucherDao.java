@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface VoucherDao {
 
-    void save(Voucher voucher);
+    Voucher save(Voucher voucher);
 
     List<Voucher> findAll();
 

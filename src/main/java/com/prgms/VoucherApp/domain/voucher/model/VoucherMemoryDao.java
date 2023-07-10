@@ -30,8 +30,9 @@ public class VoucherMemoryDao implements VoucherDao {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         voucherLinkedMap.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override

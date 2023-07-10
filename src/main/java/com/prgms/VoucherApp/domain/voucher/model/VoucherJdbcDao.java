@@ -23,7 +23,7 @@ public class VoucherJdbcDao implements VoucherDao {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         String sql = "INSERT INTO voucher VALUES (:id, :amount, :type)";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", voucher.getVoucherId().toString())
@@ -31,6 +31,7 @@ public class VoucherJdbcDao implements VoucherDao {
             .addValue("type", voucher.getVoucherType().getVoucherTypeName());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
+        return voucher;
     }
 
     @Override
