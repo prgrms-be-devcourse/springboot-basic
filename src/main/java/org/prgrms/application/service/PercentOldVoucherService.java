@@ -11,9 +11,9 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 @Service
-public class PercentVoucherService extends VoucherService{
+public class PercentOldVoucherService extends OldVoucherService {
 
-    public PercentVoucherService(VoucherRepository voucherRepository) {
+    public PercentOldVoucherService(VoucherRepository voucherRepository) {
         super(voucherRepository);
     }
 

@@ -1,8 +1,6 @@
 package org.prgrms.application.service;
 
 import org.prgrms.application.domain.voucher.FixedAmountVoucher;
-import org.prgrms.application.domain.voucher.PercentAmountVoucher;
-import org.prgrms.application.domain.voucher.Voucher;
 import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.voucher.VoucherRepository;
@@ -11,9 +9,9 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 @Service
-public class FixedVoucherService extends VoucherService{
+public class FixedOldVoucherService extends OldVoucherService {
 
-    public FixedVoucherService(VoucherRepository voucherRepository) {
+    public FixedOldVoucherService(VoucherRepository voucherRepository) {
         super(voucherRepository);
     }
 

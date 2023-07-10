@@ -3,18 +3,18 @@ package org.prgrms.application.controller.voucher.request;
 public class VoucherCreationRequest {
 
     private String voucherType;
-    private String discountDetail;
+    private String discountAmount;
 
-    public VoucherCreationRequest(String voucherType, String discountDetail) {
+    public VoucherCreationRequest(String voucherType, String discountAmount) {
         this.voucherType = voucherType;
-        this.discountDetail = discountDetail;
+        this.discountAmount = discountAmount;
     }
 
     public String getVoucherType() {
         return voucherType;
     }
 
-    public String getDiscountDetail() {
-        return discountDetail;
+    public String getDiscountAmount() {
+        return discountAmount;
     }
 }

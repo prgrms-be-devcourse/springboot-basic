@@ -5,36 +5,36 @@ import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Random;
+
+import static java.lang.Math.abs;
 
 @Service
-public abstract class VoucherService {
+public class VoucherService {
 
-    protected VoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    public abstract void createVoucher(double voucherDetail);
+    public Voucher createVoucher(String voucherType, String discountAmount){
+        long voucherId = abs(new Random().nextLong());
+        Voucher voucher = Voucher.of(voucherId, voucherType, discountAmount);
+        VoucherEntity voucherEntity = voucherRepository.insert(toEntity(voucher));
 
-    public List<Voucher> getVouchers() {
-        List<VoucherEntity> voucherEntities = voucherRepository.findAll();
-        return voucherEntities.stream().map(this::toDomain).collect(Collectors.toList());
+        return toDomain(voucherEntity);
     }
 
-    protected Voucher toDomain(VoucherEntity voucherEntity){
-        switch (voucherEntity.getVoucherType()){
-            case "FIXED":
-                return new FixedAmountVoucher(voucherEntity.getVoucherId(), voucherEntity.getDiscountAmount());
+    private Voucher toDomain(VoucherEntity voucherEntity){
+        VoucherType voucherType = VoucherType.findBySelection(voucherEntity.getVoucherType());
 
-            case "PERCENT":
-                return new PercentAmountVoucher(voucherEntity.getVoucherId(), voucherEntity.getDiscountAmount());
+        return new Voucher(voucherEntity.getVoucherId(), voucherType, voucherEntity.getDiscountAmount());
+    }
 
-            default:
-                throw new IllegalArgumentException("알 수 없는 voucherType입니다.");
-        }
+    private VoucherEntity toEntity(Voucher voucher){
+
+        return new VoucherEntity(voucher.getVoucherId(), voucher.getVoucherType().name(), voucher.getDiscountAmount());
     }
 
 }

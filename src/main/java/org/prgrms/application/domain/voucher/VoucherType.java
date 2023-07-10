@@ -3,8 +3,14 @@ package org.prgrms.application.domain.voucher;
 import java.util.Arrays;
 
 public enum VoucherType {
-    FIXED,
-    PERCENT;
+    FIXED("fixed"),
+    PERCENT("percent");
+
+    private final String typeName;
+
+    VoucherType(String typeName) {
+        this.typeName = typeName;
+    }
 
     public static VoucherType findBySelection(String selection) {
         return Arrays.stream(values())
