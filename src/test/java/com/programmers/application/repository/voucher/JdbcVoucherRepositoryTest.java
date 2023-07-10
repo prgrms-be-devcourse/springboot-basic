@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-//@Rollback(value = false)
 class JdbcVoucherRepositoryTest {
     private static final int PERCENT_DISCOUNT_AMOUNT = 10;
     private static final int FIXED_DISCOUNT_AMOUNT = 100;

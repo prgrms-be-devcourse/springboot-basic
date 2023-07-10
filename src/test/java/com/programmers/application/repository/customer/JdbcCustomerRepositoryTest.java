@@ -20,13 +20,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-//@Rollback(value = false)
 class JdbcCustomerRepositoryTest {
 
     @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
 
-    @DisplayName("옳바른 이름과 이메일 입력 시, save()를 실행하면 테스트가 성공한다.")
+    @DisplayName("옳바른 이름과 이메일 입력 시, insert()를 실행하면 테스트가 성공한다.")
     @ParameterizedTest
     @CsvSource(value = {
             "aCustomer, mgtmh991013@naver.com",
