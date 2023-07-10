@@ -2,7 +2,6 @@ package com.devcourse.springbootbasic.application.voucher.vo;
 
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import org.w3c.dom.DOMImplementationSource;
 
 import java.util.Objects;
 
@@ -15,6 +14,12 @@ public record DiscountValue(
         validatePositive(parsedValue);
         validatePercent(voucherType, parsedValue);
         return new DiscountValue(parsedValue);
+    }
+
+    public static DiscountValue from(VoucherType voucherType, double valueDouble) {
+        validatePositive(valueDouble);
+        validatePercent(voucherType, valueDouble);
+        return new DiscountValue(valueDouble);
     }
 
     private static double parseDiscountValue(String value) {
