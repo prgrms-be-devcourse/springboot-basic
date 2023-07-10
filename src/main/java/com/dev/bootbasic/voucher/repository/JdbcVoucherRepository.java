@@ -5,6 +5,7 @@ import com.dev.bootbasic.voucher.domain.PercentDiscountVoucher;
 import com.dev.bootbasic.voucher.domain.Voucher;
 import com.dev.bootbasic.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final String INSERT_VOUCHER_COMMAND = "INSERT INTO vouchers (id, voucher_type, discount_amount) VALUES (:id, :voucherType, :discountAmount)";
     private static final String SELECT_ALL_VOUCHER_QUERY = "SELECT * FROM vouchers";
+    private static final String SELECT_ONE_VOUCHER_QUERY = "SELECT * FROM vouchers WHERE id = :voucherId";
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -27,7 +29,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findVoucher(UUID voucherId) {
-        return Optional.empty();
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("voucherId", voucherId.toString());
+
+        try {
+            Voucher voucher = namedParameterJdbcTemplate.queryForObject(SELECT_ONE_VOUCHER_QUERY, params, getVoucherRowMapper());
+            return Optional.ofNullable(voucher);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
