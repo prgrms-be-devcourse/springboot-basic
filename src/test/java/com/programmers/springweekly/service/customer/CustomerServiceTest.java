@@ -1,18 +1,19 @@
 package com.programmers.springweekly.service.customer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.dto.customer.request.CustomerCreateRequest;
 import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @Transactional
@@ -23,6 +24,7 @@ public class CustomerServiceTest {
     private CustomerService customerService;
 
     @Test
+    @DisplayName("고객을 생성하여 저장할 수 있다.")
     void save() {
         // given
         CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
@@ -41,6 +43,7 @@ public class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("저장된 고객을 업데이트 할 수 있다.")
     void update() {
         // given
         CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
@@ -69,6 +72,7 @@ public class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("모든 고객을 조회할 수 있다.")
     void finaAll() {
         // given
         CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()
@@ -101,6 +105,7 @@ public class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("고객중 타입이 블랙리스트인 고객을 조회할 수 있다.")
     void getBlackList() {
         // given
         CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()
@@ -133,6 +138,7 @@ public class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("고객을 찾아 저장소에서 삭제할 수 있다.")
     void deleteById() {
         // given
         CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
@@ -140,7 +146,7 @@ public class CustomerServiceTest {
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
-        
+
         customerService.save(customerCreateRequest);
 
         CustomerListResponse customerListBefore = customerService.findAll();
@@ -154,6 +160,7 @@ public class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("저장소에서 모든 고객을 삭제할 수 있다.")
     void deleteAll() {
         // given
         CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()

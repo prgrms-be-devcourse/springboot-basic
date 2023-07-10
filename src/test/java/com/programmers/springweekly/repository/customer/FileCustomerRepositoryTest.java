@@ -1,17 +1,16 @@
 package com.programmers.springweekly.repository.customer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @SpringBootTest(classes = {FileCustomerRepository.class})
@@ -21,7 +20,7 @@ class FileCustomerRepositoryTest {
     private FileCustomerRepository customerRepository;
 
     @Test
-    @DisplayName("블랙 리스트 명단을 정상적으로 가져온다.")
+    @DisplayName("블랙 리스트 명단을 가져올 수 있다.")
     void getBlacklistOfFileRepository() {
         // given
         UUID customer1UUID = UUID.fromString("1927f6b6-55bf-4f1f-d6e2-043198833df7");
