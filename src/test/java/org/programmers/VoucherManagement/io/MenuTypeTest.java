@@ -9,24 +9,24 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class MenuTypeTest {
     @Test
-    @DisplayName("입력값에 따라 CommandType을 반환하는 테스트 - 성공")
-    void 입력값에따라_Command를_반환_성공() {
+    @DisplayName("입력값에 따라 MenuType을 반환하는 테스트 - 성공")
+    void from_InputMenu_EqualsMenuType() {
         //given
-        int listInput = 8;
-        int createInput = 7;
+        int listInput = 9;
+        int createInput = 6;
 
         //when
         MenuType listTypeExpect = MenuType.from(listInput);
         MenuType createTypeExpect = MenuType.from(createInput);
 
         //then
-        assertThat(listTypeExpect).isEqualTo(MenuType.LIST);
-        assertThat(createTypeExpect).isEqualTo(MenuType.CREATE);
+        assertThat(listTypeExpect).isEqualTo(MenuType.VOUCHER_LIST);
+        assertThat(createTypeExpect).isEqualTo(MenuType.INSERT_VOUCHER);
     }
 
     @Test
-    @DisplayName("입력값에 따라 CommandType을 반환하는 테스트 - 실패")
-    void 입력값에따라_Command를_반환_실패() {
+    @DisplayName("입력값에 따라 MenuType을 반환하는 테스트 - 실패")
+    void from_InputMenu_ThrowVoucherException() {
         int input = 43;
 
         assertThatThrownBy(() -> MenuType.from(input))

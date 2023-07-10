@@ -19,7 +19,7 @@ public class FileMemberRepositoryTest {
 
     @Test
     @DisplayName("csv파일을읽고 Member리스트화하여 반환 테스트 - 성공")
-    void csv파일을읽고_Member리스트화하여_반환_성공() {
+    void findAllByMemberStatus_Success() {
         assertThatCode(() -> {
             List<Member> members = memberRepository.findAllByMemberStatus();
             assertTrue(!members.isEmpty());

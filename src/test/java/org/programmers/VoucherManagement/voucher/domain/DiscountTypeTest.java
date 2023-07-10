@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class DiscountTypeTest {
     @Test
     @DisplayName("입력값에 따라 DiscountType을 반환하는 테스트 - 성공")
-    void 입력값에따라_할인타입을_반환_성공(){
+    void from_InputTypeString_EqualsDiscountType() {
         String fixedInput = "fixed";
         String percentInput = "percent";
 
@@ -22,10 +22,10 @@ public class DiscountTypeTest {
 
     @Test
     @DisplayName("입력값에 따라 DiscountType을 반환하는 테스트 - 실패")
-    void 입력값에따라_할인타입을_반환_실패(){
+    void from_InputTypeString_ThrowVoucherException() {
         String input = "fixed123";
 
-        assertThatThrownBy(()->DiscountType.from(input))
+        assertThatThrownBy(() -> DiscountType.from(input))
                 .isInstanceOf(VoucherException.class)
                 .hasMessage("해당하는 유형의 바우처가 존재하지 않습니다.");
     }
