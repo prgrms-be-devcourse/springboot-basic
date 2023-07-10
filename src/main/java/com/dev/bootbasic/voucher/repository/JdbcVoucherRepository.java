@@ -18,9 +18,9 @@ import java.util.UUID;
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final String INSERT_VOUCHER_COMMAND = "INSERT INTO vouchers (id, voucher_type, discount_amount) VALUES (:id, :voucherType, :discountAmount)";
-    private static final String SELECT_ALL_VOUCHER_QUERY = "SELECT * FROM vouchers";
-    private static final String SELECT_ONE_VOUCHER_QUERY = "SELECT * FROM vouchers WHERE id = :voucherId";
+        private static final String INSERT_VOUCHER_COMMAND = "INSERT INTO vouchers (id, voucher_type, discount_amount) VALUES (:id, :voucherType, :discountAmount)";
+        private static final String SELECT_ALL_VOUCHER_QUERY = "SELECT * FROM vouchers";
+        private static final String SELECT_ONE_VOUCHER_QUERY = "SELECT * FROM vouchers WHERE id = :voucherId";
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
