@@ -26,11 +26,11 @@ public class VoucherApp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String menuName;
-        boolean notExit = true;
+        boolean isRunning = true;
         MenuType inputCommand = null;
         VoucherType voucherType = null;
 
-        while (notExit) {
+        while (isRunning) {
             console.printMessage(Constant.CONSOLE_MENU, true);
             menuName = console.inputCommand().toLowerCase();
 
@@ -44,7 +44,7 @@ public class VoucherApp implements CommandLineRunner {
 
             switch (inputCommand) {
                 case EXIT -> {
-                    notExit = false;
+                    isRunning = false;
                     console.printMessage("프로그램을 종료합니다.", true);
                 }
                 case CREATE -> {
