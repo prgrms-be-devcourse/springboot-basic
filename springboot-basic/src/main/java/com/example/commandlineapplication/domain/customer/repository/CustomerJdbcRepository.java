@@ -17,9 +17,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
 
-  private final Logger LOG = LoggerFactory.getLogger(CustomerJdbcRepository.class);
-  private final NamedParameterJdbcTemplate template;
+  private static final Logger LOG = LoggerFactory.getLogger(CustomerJdbcRepository.class);
   private static final int SUCCESS_EXECUTE = 1;
+  private final NamedParameterJdbcTemplate template;
 
   public CustomerJdbcRepository(DataSource dataSource) {
     this.template = new NamedParameterJdbcTemplate(dataSource);

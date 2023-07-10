@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FixedAmountVoucher extends Voucher {
 
+  private static final long MIN_DISCOUNTED_PRICE = 0L;
   private final UUID voucherId;
   private final long discount;
-  private final long MIN_DISCOUNTED_PRICE = 0L;
 
   @Override
   public UUID getVoucherId() {
@@ -26,13 +26,16 @@ public class FixedAmountVoucher extends Voucher {
   }
 
   public double discountedPrice(long price) {
-    return checkDiscountedPrice(price);
-  }
-
-  private long checkDiscountedPrice(long price) {
+    checkDiscountedPrice(price);
     if (price < discount) {
       return MIN_DISCOUNTED_PRICE;
     }
     return price - discount;
+  }
+
+  private void checkDiscountedPrice(long price) {
+    if (price < MIN_DISCOUNTED_PRICE) {
+      throw new IllegalArgumentException("고정 할인 범위를 확인해주세요.");
+    }
   }
 }

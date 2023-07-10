@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherController implements Runnable {
 
-  private final Logger LOG = LoggerFactory.getLogger(VoucherController.class);
+  private static final Logger LOG = LoggerFactory.getLogger(VoucherController.class);
   private final Console console;
   private final VoucherService voucherService;
 
