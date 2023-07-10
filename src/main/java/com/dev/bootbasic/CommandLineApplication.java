@@ -35,10 +35,10 @@ public class CommandLineApplication implements CommandLineRunner {
             executeApplication();
         } catch (IllegalArgumentException | IllegalStateException e) {
             viewManager.showMessage(e.getMessage());
-            logger.warn(LOG_MESSAGE, e.getMessage());
+            logger.warn(LOG_MESSAGE, e.getMessage(), e);
             run();
         } catch (Exception e) {
-            logger.error(LOG_MESSAGE, e.getMessage());
+            logger.error(LOG_MESSAGE, e.getMessage(), e);
         }
     }
 
