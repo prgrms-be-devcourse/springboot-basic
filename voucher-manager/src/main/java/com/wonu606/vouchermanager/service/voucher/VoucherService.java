@@ -4,14 +4,12 @@ import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.repository.Repository;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class VoucherService {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherService.class);
@@ -20,6 +18,11 @@ public class VoucherService {
     private final VoucherFactory factory;
     private final Repository repository;
 
+
+    public VoucherService(VoucherFactory factory, Repository repository) {
+        this.factory = factory;
+        this.repository = repository;
+    }
 
     public Voucher createVoucher(VoucherDto voucherDto) {
         return createVoucher(voucherDto, 0);

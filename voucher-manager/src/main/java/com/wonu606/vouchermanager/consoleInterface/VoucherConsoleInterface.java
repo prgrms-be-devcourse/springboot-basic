@@ -10,11 +10,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class VoucherConsoleInterface {
 
     private final VoucherConsoleIO voucherConsoleIO;
     private final VoucherController controller;
+
+    public VoucherConsoleInterface(VoucherConsoleIO voucherConsoleIO,
+            VoucherController controller) {
+        this.voucherConsoleIO = voucherConsoleIO;
+        this.controller = controller;
+    }
 
     public void run() {
         VoucherMenu menu = VoucherMenu.START;

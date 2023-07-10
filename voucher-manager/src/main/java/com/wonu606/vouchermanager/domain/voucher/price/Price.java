@@ -1,9 +1,5 @@
 package com.wonu606.vouchermanager.domain.voucher.price;
 
-
-import lombok.Getter;
-
-@Getter
 public class Price {
 
     private final double value;
@@ -11,6 +7,10 @@ public class Price {
     public Price(double value) {
         validateValue(value);
         this.value = value;
+    }
+
+    public double getValue() {
+        return value;
     }
 
     private void validateValue(double value) {

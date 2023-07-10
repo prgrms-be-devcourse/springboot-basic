@@ -8,10 +8,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class VoucherController {
 
     private final VoucherService service;
+
+    public VoucherController(VoucherService service) {
+        this.service = service;
+    }
 
     public Voucher createVoucher(VoucherDto voucherDto) {
         return service.createVoucher(voucherDto);

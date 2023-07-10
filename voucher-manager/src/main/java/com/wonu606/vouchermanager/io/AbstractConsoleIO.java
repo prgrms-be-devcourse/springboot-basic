@@ -1,12 +1,14 @@
 package com.wonu606.vouchermanager.io;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public abstract class AbstractConsoleIO {
 
     protected final ConsoleInput input;
     protected final ConsolePrinter printer;
+
+    public AbstractConsoleIO(ConsoleInput input, ConsolePrinter printer) {
+        this.input = input;
+        this.printer = printer;
+    }
 
     public String readString(String description) {
         return input.readString(description);

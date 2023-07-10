@@ -3,11 +3,7 @@ package com.wonu606.vouchermanager.domain.voucher;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.DiscountValue;
 import com.wonu606.vouchermanager.domain.voucher.price.Price;
 import java.util.UUID;
-import lombok.Getter;
-import lombok.ToString;
 
-@Getter
-@ToString
 public abstract class Voucher {
 
     protected final UUID uuid;
@@ -16,6 +12,19 @@ public abstract class Voucher {
     public Voucher(UUID uuid, DiscountValue discountValue) {
         this.discountValue = discountValue;
         this.uuid = uuid;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public DiscountValue getDiscountValue() {
+        return discountValue;
+    }
+
+    @Override
+    public String toString() {
+        return "Voucher{" + "uuid=" + uuid + ", discountValue=" + discountValue + '}';
     }
 
     public abstract Price calculateDiscountedPrice(Price originalPrice);

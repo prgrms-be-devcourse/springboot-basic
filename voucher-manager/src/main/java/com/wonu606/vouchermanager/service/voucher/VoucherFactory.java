@@ -7,14 +7,16 @@ import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import com.wonu606.vouchermanager.util.UUIDGenerator;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class VoucherFactory {
 
     private final UUIDGenerator uuidGenerator;
+
+    public VoucherFactory(UUIDGenerator uuidGenerator) {
+        this.uuidGenerator = uuidGenerator;
+    }
 
     public Voucher create(VoucherDto voucherDto) {
         VoucherType creationType = VoucherType.getVoucherTypeByName(voucherDto.getType());
