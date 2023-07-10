@@ -76,7 +76,7 @@ public class ConsoleInputView implements Input {
         return textIO.newStringInputReader()
             .withInputTrimming(true)
             .withValueChecker((val, itemName) -> {
-                if (!UUIDFormatChecker.UUID_REGEX_COMPILE.matcher(val).matches()) {
+                if (!UUIDFormatChecker.isValidUUID(val)) {
                     log.warn("input UUID [{}] is invalid format", val);
                     return List.of("Please input UUID Format 00000000-0000-0000-0000-000000000000");
                 }

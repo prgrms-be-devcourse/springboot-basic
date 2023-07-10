@@ -1,9 +1,9 @@
 package com.prgms.VoucherApp.domain.customer.model;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateReqDto;
-import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
-import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
-import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateRequest;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
+import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,40 +24,41 @@ public class CustomerDaoHandler {
     }
 
     @Transactional
-    public CustomerResDto save(CustomerCreateReqDto requestDto) {
-        Customer customer = new Customer(UUID.randomUUID(), requestDto.getCustomerStatus());
+    public CustomerResponse save(CustomerCreateRequest requestDto) {
+        Customer customer = new Customer(UUID.randomUUID(), requestDto.customerStatus());
+
         customerDao.save(customer);
 
-        return new CustomerResDto(customer);
+        return new CustomerResponse(customer);
     }
 
-    public CustomersResDto findAll() {
+    public CustomersResponse findAll() {
         List<Customer> findCustomers = customerDao.findAll();
 
-        List<CustomerResDto> convertCustomerResDto = findCustomers.stream()
-            .map(CustomerResDto::new)
+        List<CustomerResponse> convertCustomerResponse = findCustomers.stream()
+            .map(CustomerResponse::new)
             .toList();
 
-        return new CustomersResDto(convertCustomerResDto);
+        return new CustomersResponse(convertCustomerResponse);
     }
 
-    public Optional<CustomerResDto> findOne(UUID id) {
+    public Optional<CustomerResponse> findOne(UUID id) {
         return customerDao.findById(id)
-            .map(CustomerResDto::new);
+            .map(CustomerResponse::new);
     }
 
-    public CustomersResDto findByStatus(CustomerCreateReqDto requestDto) {
-        List<Customer> findCustomers = customerDao.findByCustomerStatus(requestDto.getCustomerStatus());
+    public CustomersResponse findByStatus(CustomerCreateRequest requestDto) {
+        List<Customer> findCustomers = customerDao.findByCustomerStatus(requestDto.customerStatus());
 
-        List<CustomerResDto> convertCustomerResDto = findCustomers.stream()
-            .map(CustomerResDto::new)
+        List<CustomerResponse> convertCustomerResponse = findCustomers.stream()
+            .map(CustomerResponse::new)
             .toList();
 
-        return new CustomersResDto(convertCustomerResDto);
+        return new CustomersResponse(convertCustomerResponse);
     }
 
     @Transactional
-    public void update(CustomerUpdateReqDto requestDto) {
+    public void update(CustomerUpdateRequest requestDto) {
         customerDao.updateStatus(requestDto);
     }
 
@@ -66,13 +67,13 @@ public class CustomerDaoHandler {
         customerDao.deleteById(id);
     }
 
-    public CustomersResDto readBlackLists() {
+    public CustomersResponse readBlackLists() {
         List<Customer> findBlacklists = blackListStorage.findBlacklist();
 
-        List<CustomerResDto> convertCustomerResDto = findBlacklists.stream()
-            .map(CustomerResDto::new)
+        List<CustomerResponse> convertCustomerResponse = findBlacklists.stream()
+            .map(CustomerResponse::new)
             .toList();
 
-        return new CustomersResDto(convertCustomerResDto);
+        return new CustomersResponse(convertCustomerResponse);
     }
 }

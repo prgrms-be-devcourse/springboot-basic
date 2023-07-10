@@ -1,9 +1,9 @@
 package com.prgms.VoucherApp.domain.voucher.controller;
 
 
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateReqDto;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateReqDto;
-import com.prgms.VoucherApp.domain.voucher.dto.VouchersResDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateRequest;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateRequest;
+import com.prgms.VoucherApp.domain.voucher.dto.VouchersResponse;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherDaoHandler;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import com.prgms.VoucherApp.view.Input;
@@ -31,69 +31,79 @@ public class VoucherManagementController implements Runnable {
     public void run() {
         boolean isRunning = true;
         while (isRunning) {
-            output.printVoucherCommand();
-            Integer inputCommandNumber = input.inputVoucherCommand();
-            VoucherCommand command = VoucherCommand.findByVoucherCommandNumber(inputCommandNumber);
+            try {
+                output.printVoucherCommand();
+                Integer inputCommandNumber = input.inputVoucherCommand();
+                VoucherCommand command = VoucherCommand.findByVoucherCommandNumber(inputCommandNumber);
 
-            if (command.isCreate()) {
-                output.printDisplayVoucherPolicy();
-                String inputVoucherType = input.inputVoucherType();
-                VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
-                output.printDisplayDiscountCondition(voucherType);
-                Long amount = input.inputDiscountAmount(voucherType);
-                VoucherCreateReqDto voucherCreateReqDto = new VoucherCreateReqDto(voucherType, BigDecimal.valueOf(amount));
-                voucherDaoHandler.save(voucherCreateReqDto);
-                continue;
+                switch (command) {
+                    case CREATE -> {
+                        output.printDisplayVoucherPolicy();
+                        String inputVoucherType = input.inputVoucherType();
+
+                        VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
+                        output.printDisplayDiscountCondition(voucherType);
+                        Long amount = input.inputDiscountAmount(voucherType);
+
+                        VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(voucherType, BigDecimal.valueOf(amount));
+
+                        voucherDaoHandler.save(voucherCreateRequest);
+                    }
+
+                    case FIND_ALL -> {
+                        VouchersResponse findVouchers = voucherDaoHandler.findAll();
+                        output.printVoucherList(findVouchers.getVouchers());
+                    }
+
+                    case FIND_ONE -> {
+                        String inputUUID = input.inputUUID();
+                        UUID voucherId = UUID.fromString(inputUUID);
+
+                        voucherDaoHandler.findOne(voucherId)
+                            .ifPresentOrElse(output::printVoucher, output::printFindEmpty);
+                    }
+
+                    case FIND_BY_VOUCHER_TYPE -> {
+                        String inputVoucherType = input.inputVoucherType();
+                        VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
+
+                        VouchersResponse findVouchers = voucherDaoHandler.findByVoucherType(voucherType);
+
+                        output.printVoucherList(findVouchers.getVouchers());
+                    }
+
+                    case UPDATE -> {
+                        String inputUUID = input.inputUUID();
+                        UUID voucherId = UUID.fromString(inputUUID);
+
+                        String inputVoucherType = input.inputVoucherType();
+                        VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
+
+                        Long inputAmount = input.inputDiscountAmount(voucherType);
+                        BigDecimal amount = BigDecimal.valueOf(inputAmount);
+
+                        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(voucherId, amount, voucherType);
+                        voucherDaoHandler.update(voucherUpdateRequest);
+                    }
+
+                    case DELETE -> {
+                        String inputUUID = input.inputUUID();
+                        UUID voucherId = UUID.fromString(inputUUID);
+
+                        voucherDaoHandler.deleteById(voucherId);
+                    }
+
+                    case EXIT -> {
+                        isRunning = false;
+                    }
+
+                    default -> {
+                        output.printNotImplementMsg();
+                    }
+                }
+            } catch (RuntimeException exception) {
+                output.printErrorMsg(exception.getMessage());
             }
-
-            if (command.isFindAll()) {
-                VouchersResDto findVouchers = voucherDaoHandler.findAll();
-                output.printVoucherList(findVouchers.getVouchers());
-                continue;
-            }
-
-            if (command.isFindOne()) {
-                String inputUUID = input.inputUUID();
-                UUID voucherId = UUID.fromString(inputUUID);
-                voucherDaoHandler.findOne(voucherId)
-                    .ifPresentOrElse(output::printVoucher, output::printFindEmpty);
-                continue;
-            }
-
-            if (command.isFindByVoucherType()) {
-                String inputVoucherType = input.inputVoucherType();
-                VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
-                VouchersResDto findVouchers = voucherDaoHandler.findByVoucherType(voucherType);
-                output.printVoucherList(findVouchers.getVouchers());
-                continue;
-            }
-
-            if (command.isUpdate()) {
-                String inputUUID = input.inputUUID();
-                UUID voucherId = UUID.fromString(inputUUID);
-                String inputVoucherType = input.inputVoucherType();
-                VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
-                Long inputAmount = input.inputDiscountAmount(voucherType);
-                BigDecimal amount = BigDecimal.valueOf(inputAmount);
-                VoucherUpdateReqDto voucherUpdateReqDto = new VoucherUpdateReqDto(voucherId, amount, voucherType);
-                voucherDaoHandler.update(voucherUpdateReqDto);
-                continue;
-            }
-
-            if (command.isDelete()) {
-                String inputUUID = input.inputUUID();
-                UUID voucherId = UUID.fromString(inputUUID);
-                voucherDaoHandler.deleteById(voucherId);
-                continue;
-            }
-
-
-            if (command.isExit()) {
-                isRunning = false;
-                continue;
-            }
-
-            output.printNotImplementMsg();
         }
     }
 }

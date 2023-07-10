@@ -2,7 +2,6 @@ package com.prgms.VoucherApp.domain.customer.model;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -25,12 +24,6 @@ public enum CustomerStatus {
 
     public static CustomerStatus findByStatus(String status) {
         return CUSTOMER_STATUS_MAP.get(status);
-    }
-
-    public static List<String> getAllCustomerStatus() {
-        return CUSTOMER_STATUS_MAP.keySet()
-            .stream()
-            .toList();
     }
 
     public static boolean containsCustomerStatus(String customerStatus) {

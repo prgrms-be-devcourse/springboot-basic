@@ -15,11 +15,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class VoucherMemoryDaoTest {
 
-    VoucherMemoryDao storage;
+    VoucherMemoryDao voucherMemoryDao;
 
     @BeforeEach
     void setUp() {
-        storage = new VoucherMemoryDao();
+        voucherMemoryDao = new VoucherMemoryDao();
     }
 
     @Test
@@ -29,10 +29,10 @@ class VoucherMemoryDaoTest {
         Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
 
         // when
-        storage.save(fixedVoucher);
+        voucherMemoryDao.save(fixedVoucher);
 
         // then
-        assertThat(storage.findById(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
+        assertThat(voucherMemoryDao.findById(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
     }
 
     @Test
@@ -42,9 +42,9 @@ class VoucherMemoryDaoTest {
         Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), BigDecimal.valueOf(1000));
 
         // when
-        storage.save(percentVoucher);
+        voucherMemoryDao.save(percentVoucher);
 
         // then
-        assertThat(storage.findById(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
+        assertThat(voucherMemoryDao.findById(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
     }
 }

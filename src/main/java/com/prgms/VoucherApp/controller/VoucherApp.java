@@ -30,18 +30,19 @@ public class VoucherApp implements Runnable {
             output.printManagementMenu();
             int inputCommand = input.inputManagementCommand();
             ManagementType type = ManagementType.findByType(inputCommand);
-            if (type.isVoucher()) {
-                voucherManagementController.run();
-                continue;
-            }
 
-            if (type.isCustomer()) {
-                customerManagementController.run();
-                continue;
-            }
+            switch (type) {
+                case VOUCHER -> {
+                    voucherManagementController.run();
+                }
 
-            if (type.isExit()) {
-                isPower = false;
+                case CUSTOMER -> {
+                    customerManagementController.run();
+                }
+
+                case EXIT -> {
+                    isPower = false;
+                }
             }
         }
     }

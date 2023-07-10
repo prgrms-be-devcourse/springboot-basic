@@ -1,9 +1,9 @@
 package com.prgms.VoucherApp.domain.voucher.model;
 
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateReqDto;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateReqDto;
-import com.prgms.VoucherApp.domain.voucher.dto.VouchersResDto;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateRequest;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateRequest;
+import com.prgms.VoucherApp.domain.voucher.dto.VouchersResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,47 +22,47 @@ public class VoucherDaoHandler {
     }
 
     @Transactional
-    public VoucherResDto save(VoucherCreateReqDto requestDto) {
-        Voucher voucher = switch (requestDto.getVoucherType()) {
-            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), requestDto.getAmount());
-            case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), requestDto.getAmount());
+    public VoucherResponse save(VoucherCreateRequest requestDto) {
+        Voucher voucher = switch (requestDto.voucherType()) {
+            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), requestDto.amount());
+            case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), requestDto.amount());
         };
         voucherDao.save(voucher);
 
-        return new VoucherResDto(voucher);
+        return new VoucherResponse(voucher);
     }
 
-    public Optional<VoucherResDto> findOne(UUID id) {
+    public Optional<VoucherResponse> findOne(UUID id) {
         return voucherDao.findById(id)
-            .map(VoucherResDto::new);
+            .map(VoucherResponse::new);
     }
 
-    public VouchersResDto findAll() {
+    public VouchersResponse findAll() {
         List<Voucher> findVouchers = voucherDao.findAll();
 
-        List<VoucherResDto> convertVoucherResDto = findVouchers.stream()
-            .map(VoucherResDto::new)
+        List<VoucherResponse> convertVoucherResponse = findVouchers.stream()
+            .map(VoucherResponse::new)
             .toList();
 
-        return new VouchersResDto(convertVoucherResDto);
+        return new VouchersResponse(convertVoucherResponse);
     }
 
-    public VouchersResDto findByVoucherType(VoucherType voucherType) {
+    public VouchersResponse findByVoucherType(VoucherType voucherType) {
         List<Voucher> findVouchers = voucherDao.findByVoucherType(voucherType);
 
-        List<VoucherResDto> convertVoucherResDto = findVouchers.stream()
-            .map(VoucherResDto::new)
+        List<VoucherResponse> convertVoucherResponse = findVouchers.stream()
+            .map(VoucherResponse::new)
             .toList();
 
-        return new VouchersResDto(convertVoucherResDto);
+        return new VouchersResponse(convertVoucherResponse);
     }
 
     @Transactional
-    public void update(VoucherUpdateReqDto voucherUpdateReqDto) {
-        Voucher voucher = switch (voucherUpdateReqDto.getVoucherType()) {
-            case FIXED_VOUCHER -> new FixedAmountVoucher(voucherUpdateReqDto.getId(), voucherUpdateReqDto.getAmount());
+    public void update(VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher voucher = switch (voucherUpdateRequest.voucherType()) {
+            case FIXED_VOUCHER -> new FixedAmountVoucher(voucherUpdateRequest.id(), voucherUpdateRequest.amount());
             case PERCENT_VOUCHER ->
-                new PercentDiscountVoucher(voucherUpdateReqDto.getId(), voucherUpdateReqDto.getAmount());
+                new PercentDiscountVoucher(voucherUpdateRequest.id(), voucherUpdateRequest.amount());
         };
 
         voucherDao.update(voucher);
