@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
 
-
 @Component
 public class VoucherApp implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
@@ -27,11 +26,11 @@ public class VoucherApp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String menuName;
-        boolean exit = false;
+        boolean notExit = true;
         MenuType inputCommand = null;
         VoucherType voucherType = null;
 
-        while (!exit) {
+        while (notExit) {
             console.printMessage(Constant.CONSOLE_MENU, true);
             menuName = console.inputCommand().toLowerCase();
 
@@ -45,12 +44,12 @@ public class VoucherApp implements CommandLineRunner {
 
             switch (inputCommand) {
                 case EXIT -> {
-                    exit = true;
+                    notExit = false;
                     console.printMessage("프로그램을 종료합니다.", true);
                 }
                 case CREATE -> {
                     console.printMessage(Constant.CONSOLE_VOUCHER_MENU, false);
-                    String selectedNum = console.inputCommand();
+                    int selectedNum = console.inputIntType();
 
                     try {
                         voucherType = VoucherType.getSelectedVoucherType(selectedNum);
