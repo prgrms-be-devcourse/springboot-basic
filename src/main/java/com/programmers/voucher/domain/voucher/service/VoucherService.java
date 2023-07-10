@@ -31,7 +31,7 @@ public class VoucherService {
     @Transactional
     public UUID createVoucher(VoucherType voucherType, long amount) {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = voucherType.createVoucher(voucherId, amount);
+        Voucher voucher = voucherType.publishVoucher(voucherId, amount);
         voucherRepository.save(voucher);
 
         LOG.info(CREATED_NEW_VOUCHER, voucher.toString());
