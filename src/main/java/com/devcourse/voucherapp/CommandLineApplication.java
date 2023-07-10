@@ -50,9 +50,10 @@ public class CommandLineApplication implements CommandLineRunner {
             case UPDATE -> updateVoucher();
             case DELETE -> deleteVoucher();
             case CUSTOMER_CREATE -> createCustomer();
-            case CUSTOMER_READ -> readAllCustomers();
+            case CUSTOMER_READ_ALL -> readAllCustomers();
             case CUSTOMER_UPDATE -> updateCustomer();
             case CUSTOMER_DELETE -> deleteCustomer();
+            case CUSTOMER_READ_BLACK_LIST -> readBlackListCustomers();
             case QUIT -> quitApplication();
         }
     }
@@ -130,6 +131,11 @@ public class CommandLineApplication implements CommandLineRunner {
         customerController.deleteByNickname(nickname);
 
         viewManager.showCustomerDeleteSuccessMessage();
+    }
+
+    private void readBlackListCustomers() {
+        CustomersResponseDto response = customerController.findBlackListCustomers();
+        viewManager.showAllCustomers(response);
     }
 
     private void quitApplication() {

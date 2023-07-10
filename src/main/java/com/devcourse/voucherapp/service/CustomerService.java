@@ -65,4 +65,10 @@ public class CustomerService {
             throw new NotFoundCustomerException(nickname);
         }
     }
+
+    public CustomersResponseDto findBlackListCustomers() {
+        List<Customer> blackListCustomers = customerRepository.findBlackListCustomers();
+
+        return CustomersResponseDto.from(blackListCustomers);
+    }
 }

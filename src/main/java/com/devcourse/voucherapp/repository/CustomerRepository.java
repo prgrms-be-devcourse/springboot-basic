@@ -15,4 +15,6 @@ public interface CustomerRepository {
     Customer update(Customer customer);
 
     int deleteByNickname(String nickname);
+
+    List<Customer> findBlackListCustomers();
 }

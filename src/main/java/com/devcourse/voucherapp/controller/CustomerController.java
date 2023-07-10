@@ -29,4 +29,8 @@ public class CustomerController {
     public void deleteByNickname(String nickname) {
         customerService.deleteByNickname(nickname);
     }
+
+    public CustomersResponseDto findBlackListCustomers() {
+        return customerService.findBlackListCustomers();
+    }
 }

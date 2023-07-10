@@ -1,5 +1,7 @@
 package com.devcourse.voucherapp.repository;
 
+import static com.devcourse.voucherapp.entity.CustomerType.BLACK;
+
 import com.devcourse.voucherapp.entity.CustomerType;
 import com.devcourse.voucherapp.entity.customer.Customer;
 import java.util.List;
@@ -38,7 +40,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         String sql = "select id, type, nickname from customer where nickname = :nickname";
 
         try {
-            Customer customer = template.queryForObject(sql, getParameterMap(nickname), getCustomerRowMapper());
+            Customer customer = template.queryForObject(sql, getParameterNickname(nickname), getCustomerRowMapper());
 
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
@@ -65,7 +67,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public int deleteByNickname(String nickname) {
         String sql = "delete from customer where nickname = :nickname";
 
-        return template.update(sql, getParameterMap(nickname));
+        return template.update(sql, getParameterNickname(nickname));
+    }
+
+    @Override
+    public List<Customer> findBlackListCustomers() {
+        String sql = "select id, type, nickname from customer where type = :typeNumber";
+        String blackListTypeNumber = BLACK.getNumber();
+
+        return template.query(sql, getParameterTypeNumber(blackListTypeNumber), getCustomerRowMapper());
     }
 
     private SqlParameterSource getParameterSource(Customer customer) {
@@ -75,8 +85,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .addValue("nickname", customer.getNickname());
     }
 
-    private Map<String, String> getParameterMap(String nickname) {
+    private Map<String, String> getParameterNickname(String nickname) {
         return Map.of("nickname", nickname);
+    }
+
+    private Map<String, String> getParameterTypeNumber(String typeNumber) {
+        return Map.of("typeNumber", typeNumber);
     }
 
     private RowMapper<Customer> getCustomerRowMapper() {
