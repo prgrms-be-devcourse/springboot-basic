@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -18,6 +19,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Primary
 public class VoucherJdbcRepository implements VoucherRepository {
 
   private final Logger LOG = LoggerFactory.getLogger(VoucherJdbcRepository.class);

@@ -5,7 +5,7 @@ import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCrea
 import com.example.commandlineapplication.domain.voucher.dto.response.VoucherResponse;
 import com.example.commandlineapplication.domain.voucher.model.Voucher;
 import com.example.commandlineapplication.domain.voucher.model.VoucherType;
-import com.example.commandlineapplication.domain.voucher.repository.VoucherJdbcRepository;
+import com.example.commandlineapplication.domain.voucher.repository.VoucherRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class VoucherService {
 
   private final static Logger LOG = LoggerFactory.getLogger(VoucherService.class);
-  private final VoucherJdbcRepository voucherRepository;
+  private final VoucherRepository voucherRepository;
   private final VoucherFactory voucherFactory;
   private final VoucherMapper voucherMapper;
 
