@@ -17,7 +17,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String NOT_FOUND_ERROR_MESSAGE = "[ERROR] 해당 요청에 대한 결과를 찾을 수 없습니다.";
     private static final String UPDATE_FAIL_MESSAGE = "[ERROR] 수정 요청에 대한 값을 찾지 못했습니다..";
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -25,8 +25,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        String sql = "insert into customer (id, name, created_at, modified_at)" +
-                " values(:id, :name, :createdAt, :modifiedAt)";
+        String sql = """
+                insert into customer (id, name, created_at, modified_at)
+                values(:id, :name, :createdAt, :modifiedAt)""";
         jdbcTemplate.update(sql, converParameterToMap(customer));
         return customer;
     }
