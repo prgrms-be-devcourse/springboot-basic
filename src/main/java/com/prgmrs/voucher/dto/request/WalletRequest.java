@@ -4,13 +4,13 @@ import com.prgmrs.voucher.model.Voucher;
 
 import java.util.List;
 
-public class AssignmentRequest {
+public class WalletRequest {
     private final String username;
     private final String order;
     private final List<Voucher> voucherList;
 
 
-    public AssignmentRequest(String username, String order, List<Voucher> voucherList) {
+    public WalletRequest(String username, String order, List<Voucher> voucherList) {
         this.username = username;
         this.order = order;
         this.voucherList = voucherList;

@@ -52,14 +52,14 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> getUserListWithVoucherAssigned() {
-        String sql = "SELECT DISTINCT u.user_id, u.username FROM user u JOIN assignment a ON u.user_id = a.user_id WHERE a.assigned_time IS NOT NULL AND a.unassigned_time IS NULL";
+        String sql = "SELECT DISTINCT u.user_id, u.username FROM user u JOIN wallet w ON u.user_id = w.user_id WHERE w.assigned_time IS NOT NULL AND w.unassigned_time IS NULL";
 
         return getUsers(sql);
     }
 
     @Override
     public User getUserByVoucherId(Voucher voucher) {
-        String sql = "SELECT u.user_id, u.username FROM user u JOIN assignment a ON u.user_id = a.user_id WHERE a.voucher_id = :voucher_id";
+        String sql = "SELECT u.user_id, u.username FROM user u JOIN wallet w ON u.user_id = w.user_id WHERE w.voucher_id = :voucher_id";
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucher_id", voucher.getVoucherId().toString());

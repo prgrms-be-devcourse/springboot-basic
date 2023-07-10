@@ -1,54 +1,54 @@
 package com.prgmrs.voucher.view.render;
 
-import com.prgmrs.voucher.controller.AssignmentController;
+import com.prgmrs.voucher.controller.WalletController;
 import com.prgmrs.voucher.controller.UserController;
 import com.prgmrs.voucher.controller.VoucherController;
-import com.prgmrs.voucher.dto.request.AssignmentRequest;
-import com.prgmrs.voucher.dto.response.AssignmentResponse;
+import com.prgmrs.voucher.dto.request.WalletRequest;
+import com.prgmrs.voucher.dto.response.WalletResponse;
 import com.prgmrs.voucher.dto.response.UserListResponse;
 import com.prgmrs.voucher.dto.response.VoucherListResponse;
-import com.prgmrs.voucher.enums.AssignmentSelectionType;
+import com.prgmrs.voucher.enums.WalletSelectionType;
 import com.prgmrs.voucher.exception.NoSuchChoiceException;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.view.ConsoleReader;
-import com.prgmrs.voucher.view.writer.ConsoleAssignmentWriter;
+import com.prgmrs.voucher.view.writer.ConsoleWalletWriter;
 import com.prgmrs.voucher.view.writer.ConsoleListWriter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsoleAssignmentView {
-    private final ConsoleAssignmentWriter consoleAssignmentWriter;
+public class ConsoleWalletView {
+    private final ConsoleWalletWriter consoleWalletWriter;
     private final ConsoleReader consoleReader;
     private final ConsoleListWriter consoleListWriter;
     private final UserController userController;
     private final VoucherController voucherController;
-    private final AssignmentController assignmentController;
+    private final WalletController walletController;
 
-    public ConsoleAssignmentView(ConsoleAssignmentWriter consoleAssignmentWriter, ConsoleReader consoleReader, ConsoleListWriter consoleListWriter, UserController userController, VoucherController voucherController, AssignmentController assignmentController) {
-        this.consoleAssignmentWriter = consoleAssignmentWriter;
+    public ConsoleWalletView(ConsoleWalletWriter consoleWalletWriter, ConsoleReader consoleReader, ConsoleListWriter consoleListWriter, UserController userController, VoucherController voucherController, WalletController walletController) {
+        this.consoleWalletWriter = consoleWalletWriter;
         this.consoleReader = consoleReader;
         this.consoleListWriter = consoleListWriter;
         this.userController = userController;
         this.voucherController = voucherController;
-        this.assignmentController = assignmentController;
+        this.walletController = walletController;
     }
 
-    void selectAssignmentType() {
+    void selectWalletType() {
         boolean continueRunning = true;
         while (continueRunning) {
-            consoleAssignmentWriter.showAssignmentType();
+            consoleWalletWriter.showWalletType();
             try {
-                AssignmentSelectionType assignmentSelectionType = AssignmentSelectionType.of(consoleReader.read());
-                redirectAssignment(assignmentSelectionType);
+                WalletSelectionType walletSelectionType = WalletSelectionType.of(consoleReader.read());
+                redirectWallet(walletSelectionType);
                 continueRunning = false;
             } catch (NoSuchChoiceException e) {
-                consoleAssignmentWriter.write("such assignment type not exist");
+                consoleWalletWriter.write("such wallet type not exist");
             }
         }
     }
 
-    private void redirectAssignment(AssignmentSelectionType assignmentSelectionType) {
-        switch (assignmentSelectionType) {
+    private void redirectWallet(WalletSelectionType walletSelectionType) {
+        switch (walletSelectionType) {
             case ASSIGN_VOUCHER -> selectUser();
             case FREE_VOUCHER -> selectUserWithVoucher();
             case BACK -> {}
@@ -60,22 +60,22 @@ public class ConsoleAssignmentView {
         while (continueRunning) {
             UserListResponse userListResponse = userController.getAllUsers();
             consoleListWriter.showUserList(userListResponse);
-            consoleAssignmentWriter.showNameUser(AssignmentSelectionType.ASSIGN_VOUCHER);
+            consoleWalletWriter.showNameUser(WalletSelectionType.ASSIGN_VOUCHER);
             String username = consoleReader.read();
 
             VoucherListResponse voucherListResponse = voucherController.getNotAssignedVoucher();
             consoleListWriter.showVoucherList(voucherListResponse);
 
-            consoleAssignmentWriter.showNumberVoucher(AssignmentSelectionType.ASSIGN_VOUCHER);
+            consoleWalletWriter.showNumberVoucher(WalletSelectionType.ASSIGN_VOUCHER);
             String order = consoleReader.read();
 
-            AssignmentRequest assignmentRequest = new AssignmentRequest(username, order, voucherListResponse.getVoucherList());
+            WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.getVoucherList());
             try {
-                AssignmentResponse assignmentResponse = assignmentController.assignVoucher(assignmentRequest);
-                consoleAssignmentWriter.showAssignmentResult(assignmentResponse, AssignmentSelectionType.ASSIGN_VOUCHER);
+                WalletResponse walletResponse = walletController.assignVoucher(walletRequest);
+                consoleWalletWriter.showWalletResult(walletResponse, WalletSelectionType.ASSIGN_VOUCHER);
                 continueRunning = false;
             } catch (WrongRangeFormatException e) {
-                consoleAssignmentWriter.write("incorrect format or value out of range");
+                consoleWalletWriter.write("incorrect format or value out of range");
             }
         }
     }
@@ -85,22 +85,22 @@ public class ConsoleAssignmentView {
         while (continueRunning) {
             UserListResponse userListResponse = userController.getUserListWithVoucherAssigned();
             consoleListWriter.showUserList(userListResponse);
-            consoleAssignmentWriter.showNameUser(AssignmentSelectionType.FREE_VOUCHER);
+            consoleWalletWriter.showNameUser(WalletSelectionType.FREE_VOUCHER);
             String username = consoleReader.read();
 
             VoucherListResponse voucherListResponse = voucherController.getAssignedVoucherListByUsername(username);
             consoleListWriter.showVoucherList(voucherListResponse);
 
-            consoleAssignmentWriter.showNumberVoucher(AssignmentSelectionType.FREE_VOUCHER);
+            consoleWalletWriter.showNumberVoucher(WalletSelectionType.FREE_VOUCHER);
             String order = consoleReader.read();
 
-            AssignmentRequest assignmentRequest = new AssignmentRequest(username, order, voucherListResponse.getVoucherList());
+            WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.getVoucherList());
             try {
-                AssignmentResponse assignmentResponse = assignmentController.freeVoucher(assignmentRequest);
-                consoleAssignmentWriter.showAssignmentResult(assignmentResponse, AssignmentSelectionType.FREE_VOUCHER);
+                WalletResponse walletResponse = walletController.freeVoucher(walletRequest);
+                consoleWalletWriter.showWalletResult(walletResponse, WalletSelectionType.FREE_VOUCHER);
                 continueRunning = false;
             } catch (WrongRangeFormatException e) {
-                consoleAssignmentWriter.write("incorrect format or value out of range");
+                consoleWalletWriter.write("incorrect format or value out of range");
             }
         }
     }
