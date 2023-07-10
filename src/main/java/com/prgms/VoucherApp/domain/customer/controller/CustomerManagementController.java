@@ -1,8 +1,8 @@
 package com.prgms.VoucherApp.domain.customer.controller;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateReqDto;
-import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
-import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateRequest;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
+import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import com.prgms.VoucherApp.domain.customer.model.CustomerDaoHandler;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 import com.prgms.VoucherApp.view.CustomerCommand;
@@ -38,13 +38,13 @@ public class CustomerManagementController implements Runnable {
                     String inputCustomerStatus = input.inputCustomerStatus();
                     CustomerStatus inputStatus = CustomerStatus.findByStatus(inputCustomerStatus);
 
-                    CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(inputStatus);
+                    CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest(inputStatus);
 
-                    customerDaoHandler.save(customerCreateReqDto);
+                    customerDaoHandler.save(customerCreateRequest);
                 }
 
                 case FIND_ALL -> {
-                    CustomersResDto findCustomers = customerDaoHandler.findAll();
+                    CustomersResponse findCustomers = customerDaoHandler.findAll();
                     output.printCustomers(findCustomers);
                 }
 
@@ -60,15 +60,15 @@ public class CustomerManagementController implements Runnable {
                     String inputCustomerStatus = input.inputCustomerStatus();
                     CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
 
-                    CustomerCreateReqDto customerCreateReqDto = new CustomerCreateReqDto(customerStatus);
+                    CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest(customerStatus);
 
-                    CustomersResDto findCustomers = customerDaoHandler.findByStatus(customerCreateReqDto);
+                    CustomersResponse findCustomers = customerDaoHandler.findByStatus(customerCreateRequest);
 
                     output.printCustomers(findCustomers);
                 }
 
                 case FIND_BLACKLIST -> {
-                    CustomersResDto blackLists = customerDaoHandler.readBlackLists();
+                    CustomersResponse blackLists = customerDaoHandler.readBlackLists();
                     output.printBlackLists(blackLists);
                 }
 
@@ -79,9 +79,9 @@ public class CustomerManagementController implements Runnable {
                     String inputCustomerStatus = input.inputCustomerStatus();
                     CustomerStatus customerStatus = CustomerStatus.findByStatus(inputCustomerStatus);
 
-                    CustomerUpdateReqDto customerUpdateReqDto = new CustomerUpdateReqDto(customerId, customerStatus);
+                    CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(customerId, customerStatus);
 
-                    customerDaoHandler.update(customerUpdateReqDto);
+                    customerDaoHandler.update(customerUpdateRequest);
                 }
 
                 case DELETE -> {

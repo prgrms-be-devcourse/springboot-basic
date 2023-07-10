@@ -1,6 +1,6 @@
 package com.prgms.VoucherApp.domain.customer.model;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -65,11 +65,11 @@ public class CustomerJdbcDao implements CustomerDao {
     }
 
     @Override
-    public void updateStatus(CustomerUpdateReqDto reqDto) {
+    public void updateStatus(CustomerUpdateRequest reqDto) {
         String sql = "UPDATE customer SET status = :status WHERE id = :id";
         SqlParameterSource paramMap = new MapSqlParameterSource()
-            .addValue("status", reqDto.getStatus().getStatusName())
-            .addValue("id", reqDto.getId().toString());
+            .addValue("status", reqDto.status().getStatusName())
+            .addValue("id", reqDto.id().toString());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
     }

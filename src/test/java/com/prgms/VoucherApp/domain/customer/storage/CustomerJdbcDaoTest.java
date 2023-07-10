@@ -1,6 +1,6 @@
 package com.prgms.VoucherApp.domain.customer.storage;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateReqDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
 import com.prgms.VoucherApp.domain.customer.model.Customer;
 import com.prgms.VoucherApp.domain.customer.model.CustomerJdbcDao;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
@@ -135,7 +135,7 @@ class CustomerJdbcDaoTest {
         customerJdbcDao.save(customer);
 
         // when
-        CustomerUpdateReqDto updateReqDto = new CustomerUpdateReqDto(customer.getCustomerId(), CustomerStatus.BLACKLIST);
+        CustomerUpdateRequest updateReqDto = new CustomerUpdateRequest(customer.getCustomerId(), CustomerStatus.BLACKLIST);
         customerJdbcDao.updateStatus(updateReqDto);
         Optional<Customer> findCustomer = customerJdbcDao.findById(customer.getCustomerId());
 

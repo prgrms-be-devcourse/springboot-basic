@@ -1,7 +1,7 @@
 package com.prgms.VoucherApp.view.console;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerResDto;
-import com.prgms.VoucherApp.domain.customer.dto.CustomersResDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
+import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResDto;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import com.prgms.VoucherApp.view.CustomerCommand;
@@ -139,7 +139,7 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printBlackLists(CustomersResDto blacklists) {
+    public void printBlackLists(CustomersResponse blacklists) {
         if (blacklists.isEmpty()) {
             log.error("The user tried to view the blacklist, but currently, the list is empty");
             textTerminal.println("There are no blacklisted entries currently registered.");
@@ -147,23 +147,23 @@ public class ConsoleOutputView implements Output {
         }
 
         blacklists.getCustomers()
-            .forEach((blackList -> textTerminal.println(blackList.getCustomerInfo())));
+            .forEach((blackList -> textTerminal.println(String.valueOf(blackList))));
     }
 
     @Override
-    public void printCustomers(CustomersResDto customers) {
+    public void printCustomers(CustomersResponse customers) {
         if (customers.isEmpty()) {
             textTerminal.println("There are no blacklisted entries currently registered.");
             return;
         }
 
         customers.getCustomers()
-            .forEach((customer) -> textTerminal.println(customer.getCustomerInfo()));
+            .forEach((customer) -> textTerminal.println(String.valueOf(customer)));
     }
 
     @Override
-    public void printCustomer(CustomerResDto customer) {
-        textTerminal.println(customer.getCustomerInfo());
+    public void printCustomer(CustomerResponse customer) {
+        textTerminal.println(String.valueOf(customer));
     }
 
     @Override
