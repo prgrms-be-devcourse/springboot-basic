@@ -3,9 +3,6 @@ package com.programmers.springweekly.repository.customer;
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import jakarta.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 @Slf4j
 public class FileCustomerRepository {
@@ -51,6 +50,8 @@ public class FileCustomerRepository {
                 saveIfBlacklistedCustomer(readLine[0], readLine[1], readLine[2], readLine[3]);
             }
 
+        } catch (IndexOutOfBoundsException e) {
+            log.error("현재 파일에 저장된 열의 수가 맞지 않습니다.", e.getMessage());
         } catch (Exception e) {
             log.error("error message: {}", e.getMessage());
         }
