@@ -11,6 +11,11 @@ public class PercentDiscountVoucher implements Voucher {
         validateInput();
     }
 
+    public PercentDiscountVoucher(int percent) {
+        this.percent = percent;
+        validateInput();
+    }
+
     private void validateInput() {
         if (this.percent < 0 || this.percent > 100) {
             throw new IllegalStateException(MessageFormat.format("퍼센트는 0 ~ 100 사이의 숫자여야 합니다. 입력한 숫자: {}", this.percent));

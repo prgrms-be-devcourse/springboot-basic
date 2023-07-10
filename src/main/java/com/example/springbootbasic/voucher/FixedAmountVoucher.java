@@ -10,15 +10,23 @@ public class FixedAmountVoucher implements Voucher {
         validateInput();
     }
 
+    public FixedAmountVoucher(long fixedAmount) {
+        this.fixedAmount = fixedAmount;
+        validateInput();
+    }
+
     private void validateInput() {
         if (this.fixedAmount < 0) {
-            throw new IllegalStateException(MessageFormat.format("할인금액은 음수가 될 수 없습니다. 입력한 금액 : {}", this.fixedAmount));
+            throw new IllegalStateException("할인금액은 음수가 될 수 없습니다. 입력한 금액 : %d".formatted(this.fixedAmount));
+        }
+        if (this.fixedAmount == 0) {
+            throw new IllegalStateException("할인금액은 0이 될 수 없습니다. 입력한 금액 : %d".formatted(this.fixedAmount));
         }
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - fixedAmount;
+        return Math.max(beforeDiscount - fixedAmount, 0);
     }
 
     @Override
