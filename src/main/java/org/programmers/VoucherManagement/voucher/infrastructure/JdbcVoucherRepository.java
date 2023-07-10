@@ -68,6 +68,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteAll() {
+        String sql = "delete from voucher_table";
+        jdbcTemplate.update(sql);
+    }
+
+    @Override
     public void update(Voucher voucher) {
         String sql = "update voucher_table set voucher_value = ? where voucher_id = ?";
         int updateCount = jdbcTemplate.update(sql,

@@ -19,4 +19,6 @@ public interface MemberRepository {
 
     void delete(Member member); //삭제
 
+    void deleteAll();  //전체 삭제
+
 }

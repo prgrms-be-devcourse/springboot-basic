@@ -16,8 +16,9 @@ import java.util.UUID;
 
 import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.*;
 
-@Primary
+
 @Repository
+@Primary
 public class JdbcMemberRepository implements MemberRepository {
     private final JdbcTemplate jdbcTemplate;
 
@@ -82,6 +83,12 @@ public class JdbcMemberRepository implements MemberRepository {
         if (deleteCount != 1) {
             throw new MemberException(FAIL_TO_DELETE);
         }
+    }
+
+    @Override
+    public void deleteAll() {
+        String sql = "delete from member_table";
+        jdbcTemplate.update(sql);
     }
 
     public static RowMapper<Member> memberRowMapper() {

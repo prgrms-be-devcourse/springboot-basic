@@ -29,6 +29,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteAll() {
+        map.clear();
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return map.values()
                 .stream()
