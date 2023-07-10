@@ -12,8 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toUnmodifiableList;
-
 @Service
 public class VoucherService {
 
@@ -42,7 +40,7 @@ public class VoucherService {
         Collection<Voucher> allVouchers = voucherRepository.getAllVouchers();
 
         return allVouchers.stream().map(VoucherDetailsResponse::from)
-                .collect(toUnmodifiableList());
+                .toList();
     }
 
 }

@@ -2,9 +2,12 @@ package com.dev.bootbasic;
 
 import com.dev.bootbasic.view.Command;
 import com.dev.bootbasic.view.ViewManager;
+import com.dev.bootbasic.view.dto.VoucherDetailsViewResponse;
 import com.dev.bootbasic.voucher.controller.VoucherController;
 import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +19,10 @@ import static com.dev.bootbasic.view.Command.EXIT;
 @Component
 public class CommandLineApplication implements CommandLineRunner {
 
+    private static final String LOG_MESSAGE = "Log Message: {}";
     private final ViewManager viewManager;
     private final VoucherController voucherController;
+    private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     public CommandLineApplication(ViewManager viewManager, VoucherController voucherController) {
         this.viewManager = viewManager;
@@ -28,9 +33,12 @@ public class CommandLineApplication implements CommandLineRunner {
     public void run(String... args) {
         try {
             executeApplication();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             viewManager.showMessage(e.getMessage());
+            logger.warn(LOG_MESSAGE, e.getMessage());
             run();
+        } catch (Exception e) {
+            logger.error(LOG_MESSAGE, e.getMessage());
         }
     }
 
@@ -52,7 +60,11 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private void showAllVouchers() {
         List<VoucherDetailsResponse> allVouchers = voucherController.findAllVouchers();
-        viewManager.showCollectionMessage(allVouchers);
+
+        List<VoucherDetailsViewResponse> voucherResponses = allVouchers.stream()
+                .map(VoucherDetailsViewResponse::from)
+                .toList();
+        viewManager.showCollectionMessage(voucherResponses);
     }
 
 }
