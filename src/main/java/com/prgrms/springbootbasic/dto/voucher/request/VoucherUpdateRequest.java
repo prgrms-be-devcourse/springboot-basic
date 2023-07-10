@@ -1,11 +1,15 @@
 package com.prgrms.springbootbasic.dto.voucher.request;
 
+import com.prgrms.springbootbasic.enums.VoucherType;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class VoucherUpdateRequest {
 
-    private final long discount;
+    private UUID voucherId;
+    private long discount;
+    private VoucherType type;
 }
