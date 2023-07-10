@@ -18,6 +18,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    //생성(create)
     public Voucher createVoucher(VoucherType type, long discount) {
         try {
             Voucher voucher = switch (type) {
@@ -33,5 +34,25 @@ public class VoucherService {
 
     public Map<UUID, Voucher> fetchAllVouchers() {
         return voucherRepository.getAllVouchersList();
+    }
+
+    //조회(Read) - id를 통해서 조회
+    public void findById() {
+
+    }
+
+    //수정(Update)
+    public void updetVoucher() {
+
+    }
+
+    //삭제(Delete) -id
+    public void deleteById() {
+
+    }
+
+    //삭제(Delete)
+    public void deleteAllVoucher() {
+
     }
 }
