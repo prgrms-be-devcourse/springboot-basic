@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.service.VoucherService;
+import me.kimihiqq.vouchermanagement.domain.voucherwallet.VoucherWallet;
 import me.kimihiqq.vouchermanagement.domain.voucherwallet.repository.VoucherWalletRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -21,26 +22,27 @@ public class VoucherWalletService {
     private final VoucherWalletRepository voucherWalletRepository;
     private final VoucherService voucherService;
 
-
     public Set<Voucher> findVouchersByCustomerId(UUID customerId) {
-        Set<UUID> voucherIds = voucherWalletRepository.findVoucherIdsByCustomerId(customerId);
-        return voucherIds.stream()
-                .map(voucherService::findVoucherById)
+        Set<VoucherWallet> voucherWallets = voucherWalletRepository.findVoucherWalletsByCustomerId(customerId);
+        return voucherWallets.stream()
+                .map(voucherWallet -> voucherService.findVoucherById(voucherWallet.getVoucherId()))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toSet());
     }
 
-
-    public void addVoucherToWallet(UUID customerId, UUID voucherId) {
-        voucherWalletRepository.addVoucherToWallet(customerId, voucherId);
+    public void addVoucherToWallet(VoucherWallet voucherWallet) {
+        voucherWalletRepository.addVoucherToWallet(voucherWallet);
     }
 
-    public void removeVoucherFromWallet(UUID customerId, UUID voucherId) {
-        voucherWalletRepository.removeVoucherFromWallet(customerId, voucherId);
+    public void removeVoucherFromWallet(VoucherWallet voucherWallet) {
+        voucherWalletRepository.removeVoucherFromWallet(voucherWallet);
     }
 
     public Set<UUID> findCustomerIdsByVoucherId(UUID voucherId) {
-        return voucherWalletRepository.findCustomerIdsByVoucherId(voucherId);
+        return voucherWalletRepository.findVoucherWalletsByVoucherId(voucherId)
+                .stream()
+                .map(VoucherWallet::getCustomerId)
+                .collect(Collectors.toSet());
     }
 }

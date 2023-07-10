@@ -1,13 +1,13 @@
 package me.kimihiqq.vouchermanagement.domain.voucherwallet.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import me.kimihiqq.vouchermanagement.domain.voucherwallet.VoucherWallet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,28 +22,25 @@ public class JDBCVoucherWalletRepository implements VoucherWalletRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<UUID> voucherIdRowMapper = (rs, rowNum) -> UUID.fromString(rs.getString("voucherId"));
+    private RowMapper<VoucherWallet> voucherWalletRowMapper = (rs, rowNum) -> new VoucherWallet(UUID.fromString(rs.getString("customerId")), UUID.fromString(rs.getString("voucherId")));
 
     @Override
-    public void addVoucherToWallet(UUID customerId, UUID voucherId) {
+    public void addVoucherToWallet(VoucherWallet voucherWallet) {
         String sql = "INSERT INTO VoucherWallet(customerId, voucherId) values (?, ?)";
-        jdbcTemplate.update(sql, customerId.toString(), voucherId.toString());
+        jdbcTemplate.update(sql, voucherWallet.getCustomerId().toString(), voucherWallet.getVoucherId().toString());
     }
 
     @Override
-    public void removeVoucherFromWallet(UUID customerId, UUID voucherId) {
+    public void removeVoucherFromWallet(VoucherWallet voucherWallet) {
         String sql = "DELETE FROM VoucherWallet WHERE customerId = ? AND voucherId = ?";
-        jdbcTemplate.update(sql, customerId.toString(), voucherId.toString());
+        jdbcTemplate.update(sql, voucherWallet.getCustomerId().toString(), voucherWallet.getVoucherId().toString());
     }
 
     @Override
-    public Set<UUID> findVoucherIdsByCustomerId(UUID customerId) {
-        String sql = "SELECT voucherId FROM VoucherWallet WHERE customerId = ?";
-        List<UUID> voucherIds = jdbcTemplate.query(sql, voucherIdRowMapper, customerId.toString());
-        return new HashSet<>(voucherIds);
+    public Set<VoucherWallet> findVoucherWalletsByCustomerId(UUID customerId) {
+        String sql = "SELECT * FROM VoucherWallet WHERE customerId = ?";
+        return new HashSet<>(jdbcTemplate.query(sql, voucherWalletRowMapper, customerId.toString()));
     }
-
-
 
     @Override
     public void deleteByCustomerId(UUID customerId) {
@@ -52,10 +49,8 @@ public class JDBCVoucherWalletRepository implements VoucherWalletRepository {
     }
 
     @Override
-    public Set<UUID> findCustomerIdsByVoucherId(UUID voucherId) {
-        String sql = "SELECT customerId FROM VoucherWallet WHERE voucherId = ?";
-        List<UUID> customerIds = jdbcTemplate.query(sql, new Object[]{voucherId.toString()}, (rs, rowNum) -> UUID.fromString(rs.getString("customerId")));
-        return new HashSet<>(customerIds);
+    public Set<VoucherWallet> findVoucherWalletsByVoucherId(UUID voucherId) {
+        String sql = "SELECT * FROM VoucherWallet WHERE voucherId = ?";
+        return new HashSet<>(jdbcTemplate.query(sql, voucherWalletRowMapper, voucherId.toString()));
     }
-
 }

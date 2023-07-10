@@ -9,6 +9,7 @@ import me.kimihiqq.vouchermanagement.domain.customer.service.CustomerService;
 import me.kimihiqq.vouchermanagement.domain.voucher.Voucher;
 import me.kimihiqq.vouchermanagement.domain.voucher.dto.VoucherDto;
 import me.kimihiqq.vouchermanagement.domain.voucher.service.VoucherService;
+import me.kimihiqq.vouchermanagement.domain.voucherwallet.VoucherWallet;
 import me.kimihiqq.vouchermanagement.domain.voucherwallet.service.VoucherWalletService;
 import me.kimihiqq.vouchermanagement.io.Console;
 import me.kimihiqq.vouchermanagement.option.*;
@@ -134,16 +135,18 @@ public class VoucherController {
                     case ADD_VOUCHER_TO_CUSTOMER:
                         customerId = UUID.fromString(console.readLineWithPrompt("Enter customer ID: "));
                         UUID voucherId = UUID.fromString(console.readLineWithPrompt("Enter voucher ID: "));
+                        VoucherWallet voucherWalletToAdd = new VoucherWallet(customerId, voucherId);
 
-                        voucherWalletService.addVoucherToWallet(customerId, voucherId);
+                        voucherWalletService.addVoucherToWallet(voucherWalletToAdd);
                         console.printLine("Added voucher " + voucherId + " to customer " + customerId);
                         break;
 
                     case REMOVE_VOUCHER_FROM_CUSTOMER:
                         customerId = UUID.fromString(console.readLineWithPrompt("Enter customer ID: "));
                         voucherId = UUID.fromString(console.readLineWithPrompt("Enter voucher ID: "));
+                        VoucherWallet voucherWalletToRemove = new VoucherWallet(customerId, voucherId);
 
-                        voucherWalletService.removeVoucherFromWallet(customerId, voucherId);
+                        voucherWalletService.removeVoucherFromWallet(voucherWalletToRemove);
                         console.printLine("Removed voucher " + voucherId + " from customer " + customerId);
                         break;
                 }
