@@ -9,7 +9,7 @@ import lombok.Getter;
 public class FixedDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final long discount;
+    private long discount;
     private final LocalDateTime createAt;
     private final VoucherType type;
 
