@@ -3,6 +3,7 @@ package com.example.voucher.io;
 import static com.example.voucher.constant.ExceptionMessage.*;
 import static com.example.voucher.io.Writer.*;
 import java.util.List;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.voucher.constant.ExceptionMessage;
@@ -24,10 +25,11 @@ public class Console {
 
     public void displayVoucherInfo(List<VoucherDTO> vouchers) {
         for (VoucherDTO voucher : vouchers) {
+            UUID voucherId = voucher.voucherID();
             VoucherType voucherType = voucher.voucherType();
-            long value = voucher.value();
+            long discountValue = voucher.discountValue();
 
-            writer.writeMessage(voucherType, value);
+            writer.writeMessage(voucherId, voucherType, discountValue);
         }
     }
 

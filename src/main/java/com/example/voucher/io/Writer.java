@@ -1,5 +1,6 @@
 package com.example.voucher.io;
 
+import java.util.UUID;
 import com.example.voucher.constant.VoucherType;
 
 class Writer {
@@ -25,7 +26,7 @@ class Writer {
         INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION("""
             유효하지 않은 값 입니다. 모드 타입을 다시 선택해주세요.
             """),
-        INVALID_ARGUMENT_CANT_CREATE_VOUCHER ("""
+        INVALID_ARGUMENT_CANT_CREATE_VOUCHER("""
             유효하지 않은 값입니다. 바우처를 생성할 수 없습니다.
             """);
 
@@ -43,10 +44,10 @@ class Writer {
     public Writer() {
     }
 
-    public static final String VOUCHER_INFO_TEMPLATE = "VoucherType : %s, discountValue : %d";
+    public static final String VOUCHER_INFO_TEMPLATE = "VoucherID : %s, VoucherType : %s, discountValue : %d";
 
-    public void writeMessage(VoucherType voucherType, long discountValue) {
-        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherType, discountValue));
+    public void writeMessage(UUID voucherId, VoucherType voucherType, long discountValue) {
+        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherId, voucherType, discountValue));
     }
 
     public void writeMessage(Message message) {
