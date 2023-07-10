@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Voucher Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Voucher Detail</h1>
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th>ID</th>
+            <td th:text="${voucher.voucherId}"></td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td th:text="${voucher.type}"></td>
+        </tr>
+        <tr>
+            <th>Discount</th>
+            <td th:text="${voucher.discount}"></td>
+        </tr>
+        <tr>
+            <th>Creation Date</th>
+            <td th:text="${voucher.creationDateTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -17,3 +17,6 @@ voucher:
 customer:
   file:
     path: src/main/resources/customer_list.csv
+
+server:
+  port: 8080
