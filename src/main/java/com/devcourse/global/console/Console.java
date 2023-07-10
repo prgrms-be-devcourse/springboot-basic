@@ -6,6 +6,7 @@ import com.devcourse.voucher.presentation.Command;
 import com.devcourse.voucher.presentation.dto.ApplicationRequest;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Scanner;
 
 import static com.devcourse.voucher.presentation.Command.CREATE;
@@ -33,6 +34,11 @@ public class Console {
     }
 
     public <T> void print(T input) {
+        if (isCollection(input)) {
+            print((Collection<?>) input);
+            return;
+        }
+
         System.out.print(input);
     }
 
@@ -49,15 +55,25 @@ public class Console {
     }
 
     private CreateVoucherRequest readCreationRequest() {
+        String inputType = read(VOUCHER_TYPE_GUIDE);
+        Voucher.Type type = parser.parseVoucherType(inputType);
+
         String inputDiscount = read(DISCOUNT_INT_GUIDE);
         int discount = parser.parseDiscount(inputDiscount);
 
         String inputExpiredAt = read(EXPIRATION_DATE_GUIDE);
         LocalDateTime expiredAt = parser.parseExpiration(inputExpiredAt);
 
-        String inputType = read(VOUCHER_TYPE_GUIDE);
-        Voucher.Type type = parser.parseVoucherType(inputType);
-
         return new CreateVoucherRequest(discount, expiredAt, type);
+    }
+
+    private <T> void print(Collection<T> input) {
+        for (T content : input) {
+            System.out.println(content.toString());
+        }
+    }
+
+    private <T> boolean isCollection(T input) {
+        return input instanceof Collection<?>;
     }
 }

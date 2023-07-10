@@ -32,21 +32,21 @@ public class VoucherController implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        boolean power = true;
+        boolean status = true;
         console.print(GREETING);
 
-        while (power) {
+        while (status) {
             ApplicationRequest request = console.readRequest();
-            ApplicationResponse response = mapServiceToCreateResponse(request);
+            ApplicationResponse response = toResponse(request.command(), request.payload());
             console.print(response.payload());
-            power = response.power();
+            status = response.status();
         }
     }
 
-    public ApplicationResponse mapServiceToCreateResponse(ApplicationRequest request) { // todo : check naming
-        return switch (request.command()) {
+    public <T> ApplicationResponse toResponse(Command command, T payload) {
+        return switch (command) {
             case CREATE -> {
-                voucherService.create((CreateVoucherRequest) request.payload());
+                voucherService.create((CreateVoucherRequest) payload);
                 yield new ApplicationResponse<>(true, CREATION_RESPONSE);
             }
             case LIST -> {
