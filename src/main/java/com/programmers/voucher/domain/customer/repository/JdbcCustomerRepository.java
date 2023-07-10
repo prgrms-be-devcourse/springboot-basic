@@ -20,7 +20,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String FIND_BY_NICKNAME_SQL = "SELECT * FROM customer WHERE nickname = ?";
     private static final String UPDATE_SQL = "UPDATE customer SET nickname = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM customer WHERE id = ?";
-    private static final String DELETE_ALL_SQL = "DELETE FROM customer";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -62,11 +61,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void delete(UUID customerId) {
         jdbcTemplate.update(DELETE_SQL, customerId.toString());
-    }
-
-    @Override
-    public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL_SQL);
     }
 
     private RowMapper<Customer> customerRowMapper() {

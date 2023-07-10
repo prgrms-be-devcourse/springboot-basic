@@ -1,12 +1,12 @@
 package com.programmers.voucher.domain.customer.repository;
 
 import com.programmers.voucher.domain.customer.entity.Customer;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,15 +15,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
+@Transactional
 @ActiveProfiles("test")
 class JdbcCustomerRepositoryTest {
     @Autowired
     private JdbcCustomerRepository customerRepository;
-
-    @AfterEach
-    void afterEach() {
-        customerRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("고객 생성에 성공한다.")

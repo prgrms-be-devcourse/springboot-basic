@@ -20,7 +20,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String FIND_BY_ID_SQL = "SELECT * FROM voucher WHERE id = ?";
     private static final String UPDATE_SQL = "UPDATE voucher SET type = ?, amount = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM voucher WHERE id = ?";
-    private static final String DELETE_ALL_SQL = "DELETE FROM voucher";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -55,11 +54,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void delete(UUID voucherId) {
         jdbcTemplate.update(DELETE_SQL, voucherId.toString());
-    }
-
-    @Override
-    public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL_SQL);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
