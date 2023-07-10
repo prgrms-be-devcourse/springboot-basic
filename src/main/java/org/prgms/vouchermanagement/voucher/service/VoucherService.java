@@ -26,12 +26,12 @@ public class VoucherService {
         if (typeToCreate == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
             long amountOrPercent = console.getFixedVoucherAmount();
             Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
-            savedVoucher = voucherRepository.saveVoucher(voucher);
+            savedVoucher = voucherRepository.save(voucher);
         }
         if (typeToCreate == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             long amountOrPercent = console.getPercentDiscount();
             Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
-            savedVoucher = voucherRepository.saveVoucher(voucher);
+            savedVoucher = voucherRepository.save(voucher);
         }
 
         if (savedVoucher.isEmpty()) {
@@ -48,7 +48,7 @@ public class VoucherService {
     public void showVoucherList() {
         console.printSelectVoucherListType();
         VoucherType typeToShow  = VoucherType.getVoucherType(console.getVoucherTypeInput());
-        List<Voucher> voucherList = voucherRepository.getVoucherList();
+        List<Voucher> voucherList = voucherRepository.findAll();
         console.printVoucherList(voucherList, typeToShow);
     }
 }

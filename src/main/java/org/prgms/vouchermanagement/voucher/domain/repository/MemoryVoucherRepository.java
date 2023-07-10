@@ -19,13 +19,13 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> saveVoucher(Voucher voucher) {
+    public Optional<Voucher> save(Voucher voucher) {
         voucherStorage.add(voucher);
         return Optional.of(voucher);
     }
 
     @Override
-    public List<Voucher> getVoucherList() {
+    public List<Voucher> findAll() {
         if (!voucherStorage.isEmpty()) {
             return Collections.unmodifiableList(voucherStorage);
         }

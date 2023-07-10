@@ -105,7 +105,7 @@ class VoucherNamedJdbcRepositoryTest {
     @Order(2)
     @DisplayName("Voucher save 기능 test")
     void testSave() {
-        voucherNamedJdbcRepository.saveVoucher(fixedAmountVoucher);
+        voucherNamedJdbcRepository.save(fixedAmountVoucher);
 
         Optional<Voucher> savedVoucher = voucherNamedJdbcRepository.findById(fixedAmountVoucher.getVoucherId());
         assertThat(savedVoucher).isNotEmpty();
@@ -116,9 +116,9 @@ class VoucherNamedJdbcRepositoryTest {
     @Order(3)
     @DisplayName("Voucher get voucherList 기능 test")
     void testGetVoucherList() {
-        voucherNamedJdbcRepository.saveVoucher(percentDiscountVoucher);
+        voucherNamedJdbcRepository.save(percentDiscountVoucher);
 
-        List<Voucher> voucherList = voucherNamedJdbcRepository.getVoucherList();
+        List<Voucher> voucherList = voucherNamedJdbcRepository.findAll();
         assertThat(voucherList).isNotEmpty().hasSize(2);
     }
 }

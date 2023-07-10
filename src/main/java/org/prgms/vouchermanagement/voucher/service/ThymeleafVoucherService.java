@@ -16,12 +16,12 @@ public class ThymeleafVoucherService {
     private final VoucherRepository voucherRepository;
 
     public List<Voucher> getVouchers() {
-        return voucherRepository.getVoucherList();
+        return voucherRepository.findAll();
     }
 
     public void createNewVoucher(VoucherDto voucherDto) {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), voucherDto.getDiscount(), voucherDto.getVoucherType());
-        voucherRepository.saveVoucher(newVoucher);
+        voucherRepository.save(newVoucher);
     }
 
 }

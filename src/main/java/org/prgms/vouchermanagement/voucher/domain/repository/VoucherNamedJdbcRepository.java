@@ -59,7 +59,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> saveVoucher(Voucher voucher) {
+    public Optional<Voucher> save(Voucher voucher) {
         int updated = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, discount_amount, voucher_type) VALUES(UNHEX(REPLACE(:voucherId, '-', '')), :discountAmount, :voucherType)",
                 toParamMap(voucher));
         if (updated != 1) {
@@ -70,7 +70,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getVoucherList() {
+    public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
     }
 
