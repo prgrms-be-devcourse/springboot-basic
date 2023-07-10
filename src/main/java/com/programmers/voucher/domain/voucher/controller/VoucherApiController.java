@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.voucher.controller;
 
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.dto.request.VoucherSearchRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,10 @@ public class VoucherApiController {
     }
 
     @GetMapping("/vouchers")
-    public ResponseEntity<List<VoucherDto>> findVouchers() {
-        List<VoucherDto> vouchers = voucherService.findVouchers();
+    public ResponseEntity<List<VoucherDto>> findVouchers(@ModelAttribute VoucherSearchRequest request) {
+        List<VoucherDto> vouchers = voucherService.findVouchers(
+                request.getVoucherType(),
+                request.getStartTime(), request.getEndTime());
         return ResponseEntity.ok().body(vouchers);
     }
 

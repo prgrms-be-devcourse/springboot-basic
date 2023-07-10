@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.voucher.controller;
 
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.dto.request.VoucherSearchRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +23,11 @@ public class VoucherController {
     }
 
     @GetMapping("/vouchers")
-    public String findVouchers(Model model) {
-        List<VoucherDto> vouchers = voucherService.findVouchers();
+    public String findVouchers(Model model,
+                               @ModelAttribute VoucherSearchRequest request) {
+        List<VoucherDto> vouchers = voucherService.findVouchers(
+                request.getVoucherType(),
+                request.getStartTime(), request.getEndTime());
         model.addAttribute("vouchers", vouchers);
         return "vouchers/voucher-list";
     }

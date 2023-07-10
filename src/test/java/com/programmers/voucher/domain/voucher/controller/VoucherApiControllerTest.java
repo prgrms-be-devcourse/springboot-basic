@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
+import com.programmers.voucher.domain.voucher.dto.request.VoucherSearchRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.testutil.VoucherTestUtil;
 import org.junit.jupiter.api.DisplayName;
@@ -43,22 +44,25 @@ class VoucherApiControllerTest {
     @DisplayName("성공: voucher 목록 조회 요청")
     void findVouchers() throws Exception {
         //given
+        VoucherSearchRequest request = new VoucherSearchRequest(null, null, null);
         VoucherDto fixedVoucher = VoucherTestUtil.createFixedVoucherDto(UUID.randomUUID(), 10);
         VoucherDto percentVoucher = VoucherTestUtil.createPercentVoucherDto(UUID.randomUUID(), 10);
         List<VoucherDto> vouchers = List.of(fixedVoucher, percentVoucher);
 
-        given(voucherService.findVouchers()).willReturn(vouchers);
+        given(voucherService.findVouchers(any(), any(), any())).willReturn(vouchers);
+        String jsonRequestPayload = mapper.writeValueAsString(request);
         String jsonResponsePayload = mapper.writeValueAsString(vouchers);
 
         //when
-        ResultActions resultActions = mvc.perform(get("/api/v1/vouchers"))
+        ResultActions resultActions = mvc.perform(get("/api/v1/vouchers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequestPayload))
                 .andDo(print());
 
         //then
         resultActions.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(jsonResponsePayload));
-
     }
 
     @Test
