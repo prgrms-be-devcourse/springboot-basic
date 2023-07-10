@@ -39,4 +39,10 @@ public abstract class Voucher {
 
     public abstract long discount(long beforeDiscount);
 
+    @Override
+    public String toString() {
+        return voucherId + ": " + type + " - " + discount;
+    }
+
+
 }

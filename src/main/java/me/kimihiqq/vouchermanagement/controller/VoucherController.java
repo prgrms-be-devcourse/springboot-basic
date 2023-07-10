@@ -66,11 +66,11 @@ public class VoucherController {
                         VoucherDto voucherDto = new VoucherDto(voucherTypeOption.name(), discount);
                         Voucher createdVoucher = voucherService.createVoucher(voucherDto);
 
-                        console.printLine(createdVoucher.getVoucherId() + ": " + createdVoucher.getType() + " - " + createdVoucher.getDiscount());
+                        console.printLine(createdVoucher.toString());
                         break;
                     case LIST_VOUCHERS:
                         voucherService.listVouchers().forEach(voucher ->
-                                console.printLine(voucher.getVoucherId() + ": " + voucher.getType() + " - " + voucher.getDiscount())
+                                console.printLine(voucher.toString())
                         );
                         break;
                     case LIST_CUSTOMERS_WITH_VOUCHER:
@@ -78,7 +78,7 @@ public class VoucherController {
                         List<Customer> customers = customerService.findCustomersWithVoucher(voucherId);
 
                         customers.forEach(customer ->
-                                console.printLine(customer.getId() + ": " + customer.getName() + " - " + customer.getEmail())
+                                console.printLine(customer.toString())
                         );
                         break;
                 }
@@ -105,11 +105,11 @@ public class VoucherController {
                         CustomerDto customerDto = new CustomerDto(name, email, CustomerStatus.WHITE);
                         Customer createdCustomer = customerService.createCustomer(customerDto);
 
-                        console.printLine(createdCustomer.getId() + ": " + createdCustomer.getName() + " - " + createdCustomer.getEmail());
+                        console.printLine(createdCustomer.toString());
                         break;
                     case LIST_CUSTOMERS:
                         customerService.listCustomers().forEach(customer ->
-                                console.printLine(customer.getId() + ": " + customer.getName() + " - " + customer.getEmail())
+                                console.printLine(customer.toString())
                         );
                         break;
                     case LIST_ALL_VOUCHERS_BY_CUSTOMER:
@@ -117,7 +117,7 @@ public class VoucherController {
                         Set<Voucher> vouchers = voucherWalletService.findVouchersByCustomerId(customerId);
 
                         vouchers.forEach(voucher ->
-                                console.printLine(voucher.getVoucherId() + ": " + voucher.getType() + " - " + voucher.getDiscount())
+                                console.printLine(voucher.toString())
                         );
                         break;
                     case UPDATE_CUSTOMER_STATUS:
