@@ -1,5 +1,6 @@
 package org.prgrms.application.domain.voucher;
 
+// TODO : 바우처가 타입정책에 맞는 생성한다?
 public class Voucher {
     private final Long voucherId;
     private final VoucherType voucherType;

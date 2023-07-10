@@ -18,14 +18,14 @@
     <tr>
         <th scope="col">ID</th>
         <th scope="col">VoucherType</th>
-        <th scope="col">DiscountDetail</th>
+        <th scope="col">DiscountAmount</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="voucher: ${vouchers}" th:object="${voucher}" >
-        <td th:text="${voucher.voucherId}"></td>
-        <td th:text="*{voucher.voucherType}"></td>
-        <td th:text="*{voucher.discountDetail}"></td>
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{voucherType}"></td>
+        <td th:text="*{discountAmount}"></td>
         <td>
             <a th:href="@{/detail/{id}(id=${voucher.voucherId})}" class = "btn btn-primary">상세</a>
             <a th:href="@{/edit/{id}(id=${voucher.voucherId})}" class="btn btn-primary">수정</a>

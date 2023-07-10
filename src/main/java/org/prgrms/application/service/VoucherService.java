@@ -5,6 +5,9 @@ import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static java.lang.Math.abs;
@@ -26,6 +29,25 @@ public class VoucherService {
         return toDomain(voucherEntity);
     }
 
+    public List<Voucher> getVouchers(){
+        List<VoucherEntity> voucherEntities = voucherRepository.findAll();
+        List<Voucher> vouchers = new ArrayList<>();
+        for (VoucherEntity voucherEntity : voucherEntities) {
+            vouchers.add(toDomain(voucherEntity));
+        }
+        return vouchers;
+    }
+
+    public List<Voucher> deleteVoucher(Long voucherId) {
+        voucherRepository.deleteById(voucherId);
+        List<VoucherEntity> voucherEntities = voucherRepository.findAll();
+        List<Voucher> vouchers = new ArrayList<>();
+        for (VoucherEntity voucherEntity : voucherEntities) {
+            vouchers.add(toDomain(voucherEntity));
+        }
+        return vouchers;
+    }
+
     private Voucher toDomain(VoucherEntity voucherEntity){
         VoucherType voucherType = VoucherType.findBySelection(voucherEntity.getVoucherType());
 
@@ -36,5 +58,6 @@ public class VoucherService {
 
         return new VoucherEntity(voucher.getVoucherId(), voucher.getVoucherType().name(), voucher.getDiscountAmount());
     }
+
 
 }
