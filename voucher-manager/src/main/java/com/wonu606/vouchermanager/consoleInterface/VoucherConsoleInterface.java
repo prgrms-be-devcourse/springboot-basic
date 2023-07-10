@@ -22,7 +22,7 @@ public class VoucherConsoleInterface {
             try {
                 menu = voucherConsoleIO.selectMenu();
                 executeMenuAction(menu);
-            } catch (IllegalArgumentException exception) {
+            } catch (Exception exception) {
                 voucherConsoleIO.displayMessage(exception.getMessage());
             }
         }
