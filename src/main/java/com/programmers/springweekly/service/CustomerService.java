@@ -8,7 +8,6 @@ import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,12 +46,12 @@ public class CustomerService {
 
     public CustomerListResponse findAll() {
         List<Customer> customerList = customerRepository.findAll();
-        return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).collect(Collectors.toList()));
+        return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).toList());
     }
 
     public CustomerListResponse getBlackList() {
         List<Customer> customerList = customerRepository.getBlackList();
-        return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).collect(Collectors.toList()));
+        return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).toList());
     }
 
     public void deleteById(UUID customerId) {
