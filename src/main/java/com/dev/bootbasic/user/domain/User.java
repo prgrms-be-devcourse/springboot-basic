@@ -30,6 +30,10 @@ public class User {
         return name;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
