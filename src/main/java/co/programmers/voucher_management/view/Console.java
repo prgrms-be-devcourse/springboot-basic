@@ -13,16 +13,9 @@ import co.programmers.voucher_management.common.Response;
 public class Console implements InputView, OutputView {
 	private static final String STARTER_MESSAGE =
 			"=== Voucher Program ===\n"
-					+ "Type '1' or 'x' to exit the program.\n"
-					+ "Type '2' to create a new voucher.\n"
-					+ "Type '3' to list all vouchers.\n"
-					+ "Type '4' to modify a voucher.\n"
-					+ "Type '5' to delete a voucher.\n"
-					+ "Type '6' to list customer blacklists.\n"
-					+ "Type '7' to assign a voucher to the customer.\n"
-					+ "Type '8' to list vouchers of certain customer.\n"
-					+ "Type '9' to delete a voucher of a certain customer.\n"
-					+ "Type '10' to find a customer of certain voucher.\n";
+					+ "Type '0' or 'x' to exit the program.\n"
+					+ "Type '1' to execute 'Voucher menu'.\n"
+					+ "Type '2' to execute 'Customer menu'.\n";
 	private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	@Override
