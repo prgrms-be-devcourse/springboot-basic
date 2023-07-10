@@ -2,6 +2,7 @@ package com.programmers.customer.service;
 
 import com.programmers.customer.dto.CustomerRequestDto;
 import com.programmers.customer.dto.CustomerResponseDto;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,8 +29,9 @@ class CustomerServiceImplTest {
     @Autowired
     private CustomerService customerService;
 
+    @DisplayName("요청을 토대로 고객을 생성할 수 있다.")
     @Test
-    void test() {
+    void createCustomerByRequestTest() {
         CustomerRequestDto requestDto = new CustomerRequestDto(UUID.randomUUID(), "고객");
 
         CustomerResponseDto createdCustomer = customerService.create(requestDto);
@@ -36,8 +39,9 @@ class CustomerServiceImplTest {
         assertThat(requestDto.customerId()).isEqualTo(createdCustomer.customerId());
     }
 
+    @DisplayName("고객의 이름을 수정할 수 있다.")
     @Test
-    void updateTest() {
+    void updateCustomerNameTest() {
         UUID id = UUID.randomUUID();
         CustomerRequestDto requestDto = new CustomerRequestDto(id, "고객");
         CustomerResponseDto createdCustomer = customerService.create(requestDto);
@@ -47,5 +51,18 @@ class CustomerServiceImplTest {
 
         assertThat(createdCustomer.customerId()).isEqualTo(updatedCustomer.customerId());
         assertThat(createdCustomer.name()).isNotEqualTo(updatedCustomer.name());
+    }
+
+    @DisplayName("모든 고객을 조회할 수 있다.")
+    @Test
+    void findAllCustomersTest() {
+        CustomerRequestDto requestDto = new CustomerRequestDto(UUID.randomUUID(), "고객");
+        CustomerRequestDto requestDto2 = new CustomerRequestDto(UUID.randomUUID(), "손님");
+        customerService.create(requestDto);
+        customerService.create(requestDto2);
+
+        List<CustomerResponseDto> customers = customerService.findCustomers();
+
+        assertThat(customers.size()).isEqualTo(2);
     }
 }

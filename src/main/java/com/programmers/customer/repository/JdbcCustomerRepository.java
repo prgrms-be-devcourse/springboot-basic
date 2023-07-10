@@ -62,7 +62,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteById(UUID customerId) {
         String sql = "delete from customer where id = :id";
-        jdbcTemplate.update(sql, Collections.singletonMap("id", customerId.toString()));
+        int update = jdbcTemplate.update(sql, Collections.singletonMap("id", customerId.toString()));
+        if (update != 1) {
+            throw new NoSuchElementException(UPDATE_FAIL_MESSAGE);
+        }
     }
 
     private Map<String, Object> converParameterToMap (Customer customer) {

@@ -33,27 +33,30 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponseDto update(CustomerRequestDto requestDto) {
         Customer oldCustomer = customerRepository.findById(requestDto.customerId());
-        Customer newCustomer = new Customer(oldCustomer.getCustomerId(),
-                requestDto.name(),
-                oldCustomer.getCreatedAt(),
-                LocalDateTime.now());
+        UUID id = oldCustomer.getCustomerId();
+        String newName = requestDto.name();
+        LocalDateTime createdAt = oldCustomer.getCreatedAt();
+        LocalDateTime modifiedAt = LocalDateTime.now();
+        Customer newCustomer = new Customer(id, newName, createdAt, modifiedAt);
         return CustomerMapper.convertDomainToResponseDto(customerRepository.update(newCustomer));
     }
 
     @Override
     public List<CustomerResponseDto> findCustomers() {
-        return null;
+        return customerRepository.findAll().stream()
+                .map(CustomerMapper::convertDomainToResponseDto)
+                .toList();
     }
 
     @Override
     public CustomerResponseDto findCustomerById(UUID customerID) {
         Customer customer = customerRepository.findById(customerID);
-        return null;
+        return CustomerMapper.convertDomainToResponseDto(customer);
     }
 
     @Transactional
     @Override
     public void deleteCustomerById(UUID customerID) {
-
+        customerRepository.deleteById(customerID);
     }
 }

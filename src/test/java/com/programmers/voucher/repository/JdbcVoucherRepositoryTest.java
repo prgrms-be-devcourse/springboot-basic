@@ -32,7 +32,8 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
 
-    //테스트 컨테이너 연결을 확인하는 테스트는 어떻게 짜면 좋을지 모르겠습니다!
+    // 테스트 컨테이너 연결을 확인하는 테스트는 어떻게 짜면 좋을지 모르겠습니다!
+    // 현재는 insert()가 정상적으로 작동했는지를 토대로 확인했습니다.
     @DisplayName("DB에 바우처 정보를 저장할 수 있다.")
     @Test
     void insertVoucherTest() {
