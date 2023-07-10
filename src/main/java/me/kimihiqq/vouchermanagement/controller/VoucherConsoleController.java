@@ -22,7 +22,7 @@ import java.util.UUID;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class VoucherController {
+public class VoucherConsoleController {
     private final Console console;
     private final VoucherService voucherService;
     private final CustomerService customerService;
