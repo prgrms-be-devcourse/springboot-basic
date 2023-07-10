@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +20,6 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
     private final Console console = new Console();
-
 
     private long discount;
     private long percent;
@@ -34,16 +32,26 @@ public class VoucherService {
         console.printMessage(Constant.CREATE_FIXED_VOUCHER, true);
         discount = console.inputDiscountAmount();
         console.bufferDeleted();
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
-        voucherRepository.save(fixedAmountVoucher);
+        try {
+            Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
+            voucherRepository.save(fixedAmountVoucher);
+        } catch (IllegalArgumentException e) {
+            exceptionCatch("fixedAmountVoucher", e);
+        }
+
     }
 
     private void createPercentVoucher() {
         console.printMessage(Constant.CREATE_PERCENT_VOUCHER, true);
         percent = console.inputDiscountAmount();
         console.bufferDeleted();
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
-        voucherRepository.save(percentDiscountVoucher);
+        try {
+            Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+            voucherRepository.save(percentDiscountVoucher);
+        } catch (IllegalArgumentException e) {
+            exceptionCatch("percentDiscountVoucher", e);
+        }
+
     }
 
     public void list() {
@@ -51,40 +59,29 @@ public class VoucherService {
 
         if (voucherList.isEmpty()) {
             console.printNoVoucher();
-        } else {
-            for(Voucher v : voucherList){
-                console.printVoucherInfo(v);
-            }
         }
+
+        for (Voucher v : voucherList) {
+            console.printVoucherInfo(v);
+        }
+
     }
 
     public void create(VoucherType voucherType) {
         switch (voucherType) {
             case FIXED -> {
-                try {
-                    createFixedVoucher();
-                } catch (IllegalArgumentException e) {
-                    logger.error("FixedAmountVoucher IllegalArgumentException -> {}", discount);
-                    System.out.println(e.getLocalizedMessage());
-                }
+                createFixedVoucher();
             }
 
-
             case PERCENT -> {
-                try {
-                    createPercentVoucher();
-                } catch (IllegalArgumentException e) {
-                    logger.error("PercentDiscountVoucher IllegalArgumentException -> {}", percent);
-                    System.out.println(e.getLocalizedMessage());
-                }
+                createPercentVoucher();
             }
         }
     }
 
-    public Voucher getVoucher(UUID voucherId) {
-        return voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+    private void exceptionCatch(String voucherType, Exception e) {
+        logger.error("{} IllegalArgumentException -> {}", voucherType, discount);
+        System.out.println(e.getLocalizedMessage());
     }
 
 }
