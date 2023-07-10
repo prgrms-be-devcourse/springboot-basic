@@ -36,8 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
-
-//    private final DataClassRowMapper<VoucherEntity> voucherRowMapper = new DataClassRowMapper<>(VoucherEntity.class);
+    
     private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, rowNumber) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherType voucherType = VoucherType.of(resultSet.getString("voucher_type"));
@@ -57,7 +56,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return new VoucherHistoryEntity(voucherId, historyId, voucherStatus, recordedTime);
     };
 
-//    private final DataClassRowMapper<VoucherHistoryEntity> voucherHistoryRowMapper = new DataClassRowMapper<>(VoucherHistoryEntity.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
