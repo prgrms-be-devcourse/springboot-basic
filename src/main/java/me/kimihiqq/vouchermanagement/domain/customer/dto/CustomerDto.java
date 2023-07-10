@@ -6,8 +6,7 @@ import me.kimihiqq.vouchermanagement.option.CustomerStatus;
 import java.util.UUID;
 
 public record CustomerDto (String name, String email, CustomerStatus customerStatus) {
-    public Customer toCustomer() {
-        UUID id = UUID.randomUUID();
+    public Customer toCustomer(UUID id) {
         return new Customer(id, this.name(), this.email(), this.customerStatus());
     }
 }

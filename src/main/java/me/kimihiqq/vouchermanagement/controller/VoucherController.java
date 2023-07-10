@@ -27,7 +27,6 @@ public class VoucherController {
     private final CustomerService customerService;
     private final VoucherWalletService voucherWalletService;
 
-    @Override
     public void run() {
         while (true) {
             try {

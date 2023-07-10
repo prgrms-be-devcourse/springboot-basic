@@ -22,7 +22,8 @@ public class CustomerService {
 
 
     public Customer createCustomer(CustomerDto customerDto) {
-        Customer customer = customerDto.toCustomer();
+        UUID id = UUID.randomUUID();
+        Customer customer = customerDto.toCustomer(id);
         return customerRepository.save(customer);
     }
 
