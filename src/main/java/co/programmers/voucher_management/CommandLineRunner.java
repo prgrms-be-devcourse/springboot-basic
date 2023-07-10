@@ -46,7 +46,7 @@ public class CommandLineRunner implements org.springframework.boot.CommandLineRu
 		} while (!(userInput.equals("x") || userInput.equals("0")));
 	}
 
-	Response executeCommand(String userInput) {
+	private Response executeCommand(String userInput) {
 		if (userInput.equals("0") || userInput.equals("x")) {
 			return new Response<>(Response.State.SUCCESS, List.of("Terminated"));
 		}
