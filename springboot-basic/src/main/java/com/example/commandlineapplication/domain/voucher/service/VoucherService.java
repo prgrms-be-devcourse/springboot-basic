@@ -24,7 +24,6 @@ public class VoucherService {
   private final VoucherFactory voucherFactory;
   private final VoucherMapper voucherMapper;
 
-
   @Transactional
   public void createVoucher(VoucherType inputVoucherType, Integer inputDiscount) {
     VoucherCreateRequest voucherCreateRequest = voucherMapper.toCreateRequest(UUID.randomUUID(),
@@ -36,7 +35,9 @@ public class VoucherService {
   }
 
   public Voucher save(Voucher voucher) {
-    LOG.info("Voucher가 저장되었습니다.");
+    LOG.info(
+        "Voucher가 저장되었습니다. ID : " + voucher.getVoucherId() + " type : " + voucher.getVoucherType()
+            .name());
     return voucherRepository.insert(voucher);
   }
 

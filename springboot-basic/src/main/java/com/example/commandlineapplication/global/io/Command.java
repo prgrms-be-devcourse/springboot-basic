@@ -3,6 +3,7 @@ package com.example.commandlineapplication.global.io;
 import java.util.Arrays;
 
 public enum Command {
+  
   EXIT,
   CREATE,
   DELETE,
