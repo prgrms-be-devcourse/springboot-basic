@@ -123,6 +123,6 @@ public class VoucherFileRepository implements VoucherRepository {
         VoucherType voucherType = VoucherType.valueOf(voucherInfo[1]);
         long amount = Long.parseLong(voucherInfo[2]);
 
-        return voucherType.createVoucher(voucherId, amount);
+        return voucherType.publishVoucher(voucherId, amount);
     }
 }
