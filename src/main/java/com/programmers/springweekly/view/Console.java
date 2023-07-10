@@ -10,9 +10,11 @@ import com.programmers.springweekly.util.Validator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class Console implements Input, Output {
 
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -52,7 +54,13 @@ public class Console implements Input, Output {
 
     @Override
     public UUID inputUUID() {
-        return UUID.fromString(SCANNER.nextLine());
+        try {
+            UUID uuid = UUID.fromString(SCANNER.nextLine());
+            return uuid;
+        } catch (Exception e) {
+            log.error("입력된 값은 UUID 형식이 아닐 수 있습니다. 다시 한 번 확인해보세요. {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
