@@ -1,6 +1,10 @@
 package com.programmers.application.repository.customer;
 
 import com.programmers.application.domain.customer.Customer;
+import com.programmers.application.repository.sql.builder.DeleteSqlBuilder;
+import com.programmers.application.repository.sql.builder.InsertSqlBuilder;
+import com.programmers.application.repository.sql.builder.SelectSqlBuilder;
+import com.programmers.application.repository.sql.builder.UpdateSqlBuilder;
 import com.programmers.application.util.UUIDMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -26,7 +30,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        String sql = "INSERT INTO customer (customer_id, name, email, created_at, last_login_at) VALUES (:customerId, :name, :email, :createdAt, :lastLoginAt)";
+        String sql = new InsertSqlBuilder().insertInto("customer")
+                .columns("customer_id, name, email, created_at, last_login_at")
+                .values(":customerId, :name, :email, :createdAt, :lastLoginAt")
+                .build();
         MapSqlParameterSource params = new MapSqlParameterSource().addValue("customerId", UUIDMapper.toBytes(customer.getCustomerId())).addValue("name", customer.getName()).addValue("email", customer.getEmail()).addValue("createdAt", customer.getCreatedAt()).addValue("lastLoginAt", customer.getLastLoginAt());
         namedParameterJdbcTemplate.update(sql, params);
         return customer;
@@ -34,13 +41,20 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        String sql = "SELECT * FROM customer";
+        String sql = new SelectSqlBuilder()
+                .select("*")
+                .from("customer")
+                .build();
         return namedParameterJdbcTemplate.query(sql, getCustomerRowMapper());
     }
 
     @Override
     public Optional<Customer> findByCustomerId(UUID customerId) {
-        String sql = "SELECT * FROM customer WHERE customer_id = :customerId";
+        String sql = new SelectSqlBuilder()
+                .select("*")
+                .from("customer")
+                .where("customer_id = :customerId")
+                .build();
         SqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("customerId", UUIDMapper.toBytes(customerId));
         try {
@@ -53,7 +67,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        String sql = "SELECT * FROM customer WHERE email = :email";
+        String sql = new SelectSqlBuilder()
+                .select("*")
+                .from("customer")
+                .where("email = :email")
+                .build();
         HashMap<String, String> param = new HashMap<>();
         param.put("email", email);
         Customer customer = namedParameterJdbcTemplate.queryForObject(sql, param, getCustomerRowMapper());
@@ -62,7 +80,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        String sql = "UPDATE customer SET name = :name, last_login_at = :lastLoginAt WHERE customer_id = :customerId";
+        String sql = new UpdateSqlBuilder()
+                .update("customer")
+                .set("name = :name, last_login_at = :lastLoginAt")
+                .where("customer_id = :customerId")
+                .build();
         SqlParameterSource paramMap = new MapSqlParameterSource().addValue("customerId", UUIDMapper.toBytes(customer.getCustomerId())).addValue("name", customer.getName()).addValue("lastLoginAt", customer.getLastLoginAt());
         namedParameterJdbcTemplate.update(sql, paramMap);
         return customer;
@@ -70,7 +92,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteByCustomerId(UUID customerId) {
-        String sql = "DELETE FROM customer where customer_id = :customerId";
+        String sql = new DeleteSqlBuilder()
+                .deleteFrom("customer")
+                .where("customer_id = :customerId")
+                .build();
         SqlParameterSource param = new MapSqlParameterSource().addValue("customerId", UUIDMapper.toBytes(customerId));
         namedParameterJdbcTemplate.update(sql, param);
     }

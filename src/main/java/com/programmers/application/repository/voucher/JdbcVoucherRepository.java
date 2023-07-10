@@ -4,6 +4,8 @@ import com.programmers.application.domain.voucher.FixedAmountVoucher;
 import com.programmers.application.domain.voucher.PercentDiscountVoucher;
 import com.programmers.application.domain.voucher.Voucher;
 import com.programmers.application.domain.voucher.VoucherType;
+import com.programmers.application.repository.sql.builder.InsertSqlBuilder;
+import com.programmers.application.repository.sql.builder.SelectSqlBuilder;
 import com.programmers.application.util.UUIDMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,7 +31,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "INSERT INTO voucher (voucher_id, discount_amount, type) VALUES (:voucherId, :discountAmount, :type)";
+        String sql = new InsertSqlBuilder()
+                .insertInto("voucher")
+                .columns("voucher_id, discount_amount, type")
+                .values(":voucherId, :discountAmount, :type")
+                .build();
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("voucherId", UUIDMapper.toBytes(voucher.getVoucherId()))
                 .addValue("discountAmount", voucher.getDiscountAmount())
@@ -40,13 +46,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String sql = "SELECT * FROM voucher";
+        String sql = new SelectSqlBuilder()
+                .select("*")
+                .from("voucher")
+                .build();
         return namedParameterJdbcTemplate.query(sql, getVoucherRowMapper());
     }
 
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
-        String sql = "SELECT * FROM voucher WHERE voucher_id = :voucherId";
+        String sql = new SelectSqlBuilder()
+                .select("*")
+                .from("voucher")
+                .where("voucher_id = :voucherId")
+                .build();
         SqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("voucherId", UUIDMapper.toBytes(voucherId));
         try {
