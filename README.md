@@ -6,7 +6,7 @@
 ![img_2.png](doc/week2/img_2.png)
 
 #### 클래스 다이어 그램(역할 및 책임)
-![img.png](doc/week2/img.png)
+![img_1.png](doc/week2/img_1.png)
 
 ## 요구 사항
 **(기본)** **바우처 관리 애플리케이션**
