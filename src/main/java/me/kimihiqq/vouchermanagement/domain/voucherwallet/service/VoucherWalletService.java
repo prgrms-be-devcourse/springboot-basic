@@ -32,7 +32,6 @@ public class VoucherWalletService {
     }
 
 
-
     public void addVoucherToWallet(UUID customerId, UUID voucherId) {
         voucherWalletRepository.addVoucherToWallet(customerId, voucherId);
     }
