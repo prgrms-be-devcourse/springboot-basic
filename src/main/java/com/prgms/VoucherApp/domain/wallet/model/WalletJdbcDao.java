@@ -82,7 +82,11 @@ public class WalletJdbcDao implements WalletDao {
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", walletId);
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count == 0) {
+            throw new IllegalArgumentException("존재하지 않는 id를 입력 받았습니다.");
+        }
     }
 
     private RowMapper<Wallet> walletRowMapper() {
