@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomerService {
 
+    private static final int ZERO = 0;
+
     private final CustomerRepository customerRepository;
 
     public CustomerResponseDto create(CustomerCreateRequestDto request) {
@@ -54,5 +56,13 @@ public class CustomerService {
         Customer updatedCustomer = customerRepository.update(customer);
 
         return CustomerResponseDto.from(updatedCustomer);
+    }
+
+    public void deleteByNickname(String nickname) {
+        int deletionCounts = customerRepository.deleteByNickname(nickname);
+
+        if (deletionCounts == ZERO) {
+            throw new NotFoundCustomerException(nickname);
+        }
     }
 }

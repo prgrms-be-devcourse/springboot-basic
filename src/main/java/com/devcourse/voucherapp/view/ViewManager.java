@@ -33,6 +33,8 @@ public class ViewManager {
     private static final String UPDATE_CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n변경을 원하는 고객의 닉네임을 입력하세요. : ";
     private static final String UPDATE_CUSTOMER_TYPE_INPUT_MESSAGE = "\n어떤 고객 타입으로 변경하시겠습니까?";
     private static final String CUSTOMER_UPDATE_SUCCESS_MESSAGE = "\n고객 수정이 완료되었습니다.";
+    private static final String DELETE_CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n삭제할 고객의 닉네임을 입력하세요.";
+    private static final String CUSTOMER_DELETE_SUCCESS_MESSAGE = "\n해당 고객 정보가 정상적으로 삭제되었습니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -102,6 +104,12 @@ public class ViewManager {
         return readUserInput();
     }
 
+    public String readVoucherNicknameToDelete() {
+        outputView.printWithLineBreak(DELETE_CUSTOMER_NICKNAME_INPUT_MESSAGE);
+
+        return readUserInput();
+    }
+
     public void showExceptionMessage(String message) {
         outputView.printWithLineBreak(message);
     }
@@ -146,6 +154,10 @@ public class ViewManager {
     public void showCustomerUpdateSuccessMessage(CustomerResponseDto response) {
         outputView.printWithLineBreak(CUSTOMER_UPDATE_SUCCESS_MESSAGE);
         outputView.printWithLineBreak(response);
+    }
+
+    public void showCustomerDeleteSuccessMessage() {
+        outputView.printWithLineBreak(CUSTOMER_DELETE_SUCCESS_MESSAGE);
     }
 
     private String readUserInput() {

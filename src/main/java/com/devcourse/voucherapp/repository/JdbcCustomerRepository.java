@@ -61,6 +61,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customer;
     }
 
+    @Override
+    public int deleteByNickname(String nickname) {
+        String sql = "delete from customer where nickname = :nickname";
+
+        return template.update(sql, getParameterMap(nickname));
+    }
+
     private SqlParameterSource getParameterSource(Customer customer) {
         return new MapSqlParameterSource()
                 .addValue("id", customer.getId().toString())

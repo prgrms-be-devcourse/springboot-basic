@@ -1,7 +1,6 @@
 package com.devcourse.voucherapp.repository;
 
 import com.devcourse.voucherapp.entity.customer.Customer;
-import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +13,6 @@ public interface CustomerRepository {
     List<Customer> findAllCustomers();
 
     Customer update(Customer customer);
+
+    int deleteByNickname(String nickname);
 }

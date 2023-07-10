@@ -25,4 +25,8 @@ public class CustomerController {
     public CustomerResponseDto update(CustomerUpdateRequestDto request) {
         return customerService.update(request);
     }
+
+    public void deleteByNickname(String nickname) {
+        customerService.deleteByNickname(nickname);
+    }
 }
