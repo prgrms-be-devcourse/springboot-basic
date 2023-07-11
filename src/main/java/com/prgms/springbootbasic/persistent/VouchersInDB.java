@@ -2,17 +2,15 @@ package com.prgms.springbootbasic.persistent;
 
 import com.prgms.springbootbasic.domain.Voucher;
 import com.prgms.springbootbasic.util.BinaryToUUID;
-import com.prgms.springbootbasic.util.SQLQuery;
+import com.prgms.springbootbasic.util.ExceptionMessage;
 import com.prgms.springbootbasic.util.VoucherType;
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.UUID;
@@ -21,12 +19,18 @@ import java.util.UUID;
 @Primary
 public class VouchersInDB implements VouchersStorage {
 
+    private static final String INSERT = "insert into vouchers(voucher_id, type, amount) values (UUID_TO_BIN(:voucherId), :type, :amount)";
+    private static final String FIND_ALL = "select * from vouchers";
+    private static final String FIND_ONE = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String DELETE_ONE = "delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String UPDATE_AMOUNT = "update vouchers set amount = :amount where voucher_id = UUID_TO_BIN(:voucherId)";
+
     private final RowMapper<Voucher> voucherMapper = (ResultSet resultSet, int i) -> {
         UUID voucherId = BinaryToUUID.biToUUID(resultSet.getBytes("voucher_id"));
         int amount = resultSet.getInt("amount");
         String typeOfString = resultSet.getString("type");
         VoucherType voucherType = VoucherType.of(typeOfString);
-        return voucherType.exsistVoucher(voucherId, amount);
+        return voucherType.createVoucher(voucherId, amount);
     };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -39,34 +43,40 @@ public class VouchersInDB implements VouchersStorage {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("voucherId", voucher.getVoucherId().toString().getBytes())
                 .addValue("amount", voucher.getNumber())
                 .addValue("type", voucher.getVoucherType().getType());
-        int result = jdbcTemplate.update(SQLQuery.INSERT_VOUCHER.getQuery(), sqlParameterSource);
-        if (result != 1) throw new IllegalStateException();
+        int result = jdbcTemplate.update(INSERT, sqlParameterSource);
+        if (result != 1) {
+            throw new IllegalStateException(ExceptionMessage.FAIL_TO_INSERT.getMessage());
+        }
     }
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(SQLQuery.FIND_ALL_VOUCHER.getQuery(), voucherMapper);
+        return jdbcTemplate.query(FIND_ALL, voucherMapper);
     }
 
     @Override
     public Voucher findById(UUID voucherId) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("voucherId", voucherId.toString().getBytes());
-        return jdbcTemplate.queryForObject(SQLQuery.FIND_ONE_VOUCHER.getQuery(), sqlParameterSource, voucherMapper);
+        return jdbcTemplate.queryForObject(FIND_ONE, sqlParameterSource, voucherMapper);
     }
 
     @Override
     public void update(Voucher voucher) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("voucherId", voucher.getVoucherId().toString().getBytes())
                                                             .addValue("amount", voucher.getNumber());
-        int result = jdbcTemplate.update(SQLQuery.UPDATE_VOUCHER.getQuery(), sqlParameterSource);
-        if (result != 1) throw new IllegalStateException();
+        int result = jdbcTemplate.update(UPDATE_AMOUNT, sqlParameterSource);
+        if (result != 1) {
+            throw new IllegalStateException(ExceptionMessage.FAIL_TO_UPDATE.getMessage());
+        }
     }
 
     @Override
     public void deleteOne(UUID voucherId) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("voucherId", voucherId.toString().getBytes());
-        int result = jdbcTemplate.update(SQLQuery.DELETE_VOUCHER.getQuery(), sqlParameterSource);
-        if (result != 1) throw new IllegalStateException();
+        int result = jdbcTemplate.update(DELETE_ONE, sqlParameterSource);
+        if (result != 1) {
+            throw new IllegalStateException(ExceptionMessage.FAIL_TO_DELETE.getMessage());
+        }
     }
 
 }

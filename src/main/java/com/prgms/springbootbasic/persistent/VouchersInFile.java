@@ -54,7 +54,7 @@ public class VouchersInFile implements VouchersStorage {
 		UUID voucherId = UUID.fromString(voucherOfCSV[1]);
 		long number = Long.parseLong(voucherOfCSV[2]);
 		VoucherType voucherType = VoucherType.of(type);
-		return voucherType.exsistVoucher(voucherId, number);
+		return voucherType.createVoucher(voucherId, number);
 	}
 
 }

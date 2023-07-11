@@ -72,7 +72,7 @@ class VouchersInDBTest {
         vouchersInDB.save(voucher);
         Voucher findVoucher = vouchersInDB.findById(voucher.getVoucherId());
         // 필드 이름 모두 같은지 확인
-        assertThat(voucher).usingRecursiveComparison()
+        assertThat(findVoucher).usingRecursiveComparison()
                 .isEqualTo(voucher);
     }
 

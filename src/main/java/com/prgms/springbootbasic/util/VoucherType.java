@@ -28,11 +28,11 @@ public enum VoucherType {
 
 	public String getType() { return type; }
 
-	public Voucher createVoucher(long number) {
+	public Voucher createNewVoucher(long number) {
 		return voucherFunction.apply(number);
 	}
 
-	public Voucher exsistVoucher(UUID voucherId, long number) {
+	public Voucher createVoucher(UUID voucherId, long number) {
 		return voucherBiFunction.apply(voucherId, number);
 	}
 

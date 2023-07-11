@@ -30,20 +30,11 @@ public class VoucherCommand implements Command {
     public void execute() {
         String menuOfString = console.initApplication(Menu.VOUCHER);
         VoucherMenu voucherMenu = VoucherMenu.of(menuOfString);
-        if (voucherMenu == VoucherMenu.LIST) {
-            findVouchers();
-            return;
-        }
-        if (voucherMenu == VoucherMenu.CREATE) {
-            createVoucher();
-            return;
-        }
-        if (voucherMenu == VoucherMenu.UPDATE) {
-            update();
-            return;
-        }
-        if (voucherMenu == VoucherMenu.DELETE) {
-            delete();
+        switch (voucherMenu) {
+            case LIST -> findVouchers();
+            case CREATE -> createVoucher();
+            case UPDATE -> update();
+            case DELETE -> delete();
         }
     }
 
@@ -79,7 +70,7 @@ public class VoucherCommand implements Command {
         String voucherTypeOfString = console.inputVoucherType();
         VoucherType voucherType = VoucherType.of(voucherTypeOfString);
         Long number = console.inputVoucherNumber();
-        return voucherType.createVoucher(number);
+        return voucherType.createNewVoucher(number);
     }
 
 }

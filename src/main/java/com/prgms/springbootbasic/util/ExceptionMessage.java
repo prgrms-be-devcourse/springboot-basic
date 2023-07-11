@@ -9,6 +9,10 @@ public enum ExceptionMessage {
     DUPLICATION_KEY("[Error] Already Exist Key."),
     NO_SUCH_FILE("[Error] Can't Find Such File."),
 
+    FAIL_TO_INSERT("[Error] Fail to insert"),
+    FAIL_TO_UPDATE("[Error] Fail to update"),
+    FAIL_TO_DELETE("[Error] Fail to delete"),
+
     NOT_SUPPORTED("[Error] Not Supported"),
     CANT_WRITE_FILE("[Error] Cant Write File"),
     CANT_READ_FILE("[Error] Can't Read File");

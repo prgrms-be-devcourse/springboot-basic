@@ -1,10 +1,7 @@
 package com.prgms.springbootbasic.persistent;
 
 import com.prgms.springbootbasic.domain.Customer;
-import com.prgms.springbootbasic.domain.Voucher;
 import com.prgms.springbootbasic.util.BinaryToUUID;
-import com.prgms.springbootbasic.util.SQLQuery;
-import com.prgms.springbootbasic.util.VoucherType;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,6 +12,8 @@ import java.util.UUID;
 
 @Repository
 public class CustomersInDB {
+
+    private static final String FIND_ALL = "select * from customers";
 
     private final RowMapper<Customer> customerMapper = (ResultSet resultSet, int i) -> {
         UUID customerId = BinaryToUUID.biToUUID(resultSet.getBytes("customer_id"));
@@ -28,7 +27,7 @@ public class CustomersInDB {
     }
 
     public List<Customer> findAll() {
-        List<Customer> customers = jdbcTemplate.query(SQLQuery.FIND_ALL_CUSTOMER.getQuery(), customerMapper);
+        List<Customer> customers = jdbcTemplate.query(FIND_ALL, customerMapper);
         return customers;
     }
 
