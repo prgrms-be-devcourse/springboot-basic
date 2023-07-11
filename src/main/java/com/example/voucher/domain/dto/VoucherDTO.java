@@ -1,7 +1,8 @@
 package com.example.voucher.domain.dto;
 
-import com.example.voucher.constant.VoucherType;
+import java.util.UUID;
+import com.example.voucher.domain.Voucher;
 
-public record VoucherDTO(long value, VoucherType voucherType) {
+public record VoucherDTO(UUID voucherID, long discountValue, Voucher.Type voucherType) {
 
 }

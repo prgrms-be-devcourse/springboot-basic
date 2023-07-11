@@ -4,7 +4,10 @@ public class ExceptionMessage {
 
     private ExceptionMessage() {
     }
-
+    
+    public static final String INVALID_ARGUMENT_RETRY_SERVICE_TYPE_SELECTION = """
+        유효하지 않은 값 입니다. 서비스 타입을 다시 선택해주세요.
+        """;
     public static final String INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION = """
         유효하지 않은 값 입니다. 모드 타입을 다시 선택해주세요.
         """;

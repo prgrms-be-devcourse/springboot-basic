@@ -32,5 +32,5 @@
 
 
 #### 현재
-![image](/doc/바우처설계도_W1.png)
+![image](/doc/바우처설계도_Step1.png)
 
