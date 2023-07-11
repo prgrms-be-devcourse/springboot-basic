@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public class VoucherResultSet {
 
-    private UUID uuid;
-    private String simpleName;
-    private double discountValue;
+    private final UUID uuid;
+    private final String simpleName;
+    private final double discountValue;
 
     public VoucherResultSet(UUID uuid, String simpleName, double discountValue) {
         this.uuid = uuid;
