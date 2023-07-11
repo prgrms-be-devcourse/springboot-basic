@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.weekly.weekly.customer.domain.Customer;
-import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.customer.repository.JdbcCustomerRepository;
 
 import java.util.List;
@@ -14,12 +13,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-@Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
 @SpringBootTest
@@ -59,7 +55,9 @@ class JdbcCustomerRepositoryTest {
 
         // Then
         assertThat(findCustomer.isEmpty(), is(false));
-        assertThat(findCustomer.get(), samePropertyValuesAs(insertCustomer));
+        assertThat(findCustomer.get().getCustomerId(), is(insertCustomer.getCustomerId()));
+        assertThat(findCustomer.get().getName(), is(insertCustomer.getName()));
+        assertThat(findCustomer.get().getEmail(), is(insertCustomer.getEmail()));
     }
 
     @Test

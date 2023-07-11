@@ -11,12 +11,12 @@
 	<groupId>org.weekly</groupId>
 	<artifactId>weekly</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>weekly</name>
+	<name>weekly</name>21	
+	<packaging>war</packaging>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -35,7 +35,23 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mysql</groupId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+		`	<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.28</version>
 		</dependency>
@@ -58,6 +74,8 @@
 			<version>1.18.3</version>
 			<scope>test</scope>
 		</dependency>
+
+
 	</dependencies>
 
 

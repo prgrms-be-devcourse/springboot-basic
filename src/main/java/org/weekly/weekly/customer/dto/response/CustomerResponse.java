@@ -21,6 +21,18 @@ public class CustomerResponse implements Response {
         return new CustomerResponse(customer.getName(), customer.getEmail(), customer.getCreateAt());
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String getResult() {
         return MessageFormat.format("[이름: {0}, 이메일: {1}, 생성 시기: {2}]", name, email, createAt);
