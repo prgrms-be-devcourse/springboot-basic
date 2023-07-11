@@ -26,7 +26,7 @@ public class VoucherServiceTest {
     void 바우처_생성_성공_테스트() {
         //given
         long amount = 1000;
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1000);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(amount);
 
         //mocking
         given(voucherRepository.save(any())).willReturn(fixedAmountVoucher);
@@ -36,5 +36,21 @@ public class VoucherServiceTest {
 
         //then
         Assertions.assertThat(responseDto.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
+    }
+
+    @Test
+    void 바우처_조회_성공_테스트() {
+        //given
+        long amount = 1000;
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(amount);
+
+        //mocking
+        given(voucherRepository.findById(any())).willReturn(fixedAmountVoucher);
+
+        //when
+        VoucherResponseDto responseDto = voucherService.findById(fixedAmountVoucher.getVoucherId());
+
+        //then
+        Assertions.assertThat(responseDto.getAmount()).isEqualTo(fixedAmountVoucher.getAmount());
     }
 }
