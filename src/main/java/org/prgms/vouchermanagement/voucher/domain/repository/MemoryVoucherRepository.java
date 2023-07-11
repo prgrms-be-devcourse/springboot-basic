@@ -34,6 +34,12 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        // 메모리에서 구현 X, 타임리프 구현
+        return voucher;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        // 메모리에서 구현 X, 타임리프 구현
     }
 }

@@ -33,5 +33,10 @@
     </div>
 </form>
 
+<form th:action="@{/vouchers/delete}" th:method="post">
+    <input type="hidden" th:field="${voucher.voucherId}">
+    <button type="submit" class="btn btn-primary" >Delete</button>
+</form>
+
 </body>
 </html>

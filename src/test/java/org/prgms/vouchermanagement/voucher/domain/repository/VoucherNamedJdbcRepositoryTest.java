@@ -133,4 +133,15 @@ class VoucherNamedJdbcRepositoryTest {
         assertThat(voucher.get()).usingRecursiveComparison().isEqualTo(updateVoucher);
         assertThat(voucher.get().getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
     }
+
+    @Test
+    @Order(5)
+    @DisplayName("Voucher delete 기능 test")
+    void testDeleteVoucherById() {
+        voucherNamedJdbcRepository.deleteById(fixedAmountVoucher.getVoucherId());
+        voucherNamedJdbcRepository.deleteById(percentDiscountVoucher.getVoucherId());
+
+        List<Voucher> voucherList = voucherNamedJdbcRepository.findAll();
+        assertThat(voucherList).isEmpty();
+    }
 }

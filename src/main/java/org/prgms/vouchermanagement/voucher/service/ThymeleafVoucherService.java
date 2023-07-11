@@ -5,6 +5,7 @@ import org.prgms.vouchermanagement.voucher.domain.dto.VoucherDto;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.domain.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,14 +33,21 @@ public class ThymeleafVoucherService {
         return Optional.empty();
     }
 
+    @Transactional
     public Voucher createNewVoucher(VoucherDto voucherDto) {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), voucherDto.getDiscount(), voucherDto.getVoucherType());
         return voucherRepository.save(newVoucher);
     }
 
+    @Transactional
     public Voucher updateVoucher(VoucherDto voucherDto) {
         Voucher updateVoucher =  new Voucher(voucherDto.getVoucherId(), voucherDto.getDiscount(), voucherDto.getVoucherType());
         return voucherRepository.update(updateVoucher);
+    }
+
+    @Transactional
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 
 }

@@ -85,6 +85,12 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+    }
+
     public UUID toUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());

@@ -20,6 +20,7 @@ import java.util.UUID;
 public class VoucherController {
 
     private final ThymeleafVoucherService voucherService;
+    private static final String REDIRECT_TO_LIST = "redirect:/vouchers/list";
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -39,7 +40,7 @@ public class VoucherController {
         log.info("responseDto type -> {}", voucherDto.getVoucherType());
         log.info("responseDto amount -> {}", voucherDto.getDiscount());
         voucherService.createNewVoucher(voucherDto);
-        return "redirect:/vouchers/list";
+        return REDIRECT_TO_LIST;
     }
 
     @GetMapping("/detail/{id}")
@@ -54,8 +55,15 @@ public class VoucherController {
 
     @PostMapping("/update")
     public String updateVoucher(@ModelAttribute("voucher") VoucherDto voucherDto) {
-        log.info("{} -> ", voucherDto.getVoucherId());
+        log.info("UPDATE -> {} ", voucherDto.getVoucherId());
         voucherService.updateVoucher(voucherDto);
-        return "redirect:/vouchers/list";
+        return REDIRECT_TO_LIST;
+    }
+
+    @PostMapping("/delete")
+    public String deleteById(@ModelAttribute("voucherId") UUID voucherID) {
+        log.info("DELETE ID -> {}", voucherID);
+        voucherService.deleteById(voucherID);
+        return REDIRECT_TO_LIST;
     }
 }
