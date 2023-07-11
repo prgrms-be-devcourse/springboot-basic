@@ -2,7 +2,7 @@ package com.programmers.springbootbasic.service;
 
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherRepository;
-import com.programmers.springbootbasic.service.dto.VoucherRequest;
+import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherRequest request) {
+    public Voucher createVoucher(VoucherCreationRequest request) {
         Voucher fixedAmountVoucher = VoucherMapper.toVoucher(request);
         voucherRepository.save(fixedAmountVoucher);
         return fixedAmountVoucher;

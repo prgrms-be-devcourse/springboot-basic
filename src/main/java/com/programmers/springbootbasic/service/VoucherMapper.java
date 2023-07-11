@@ -3,7 +3,7 @@ package com.programmers.springbootbasic.service;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherDateTime;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
-import com.programmers.springbootbasic.service.dto.VoucherRequest;
+import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;
 
@@ -16,7 +16,7 @@ public final class VoucherMapper {
 
     }
 
-    public static Voucher toVoucher(VoucherRequest request) {
+    public static Voucher toVoucher(VoucherCreationRequest request) {
         VoucherDateTime voucherDateTime = VoucherDateTime.of(LocalDateTime.now(), request.expirationDate());
         VoucherType voucherType = VoucherType.from(request.voucherType());
         return switch (voucherType) {
