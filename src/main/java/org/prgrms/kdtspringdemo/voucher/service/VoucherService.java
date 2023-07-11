@@ -9,11 +9,11 @@ import java.util.UUID;
 public interface VoucherService {
     VoucherResponseDto create(VoucherType userVoucherType, long amount);
 
-    VoucherResponseDto getVoucher(UUID voucherId);
+    VoucherResponseDto findById(UUID voucherId);
 
-    List<VoucherResponseDto> getAllVoucher();
+    List<VoucherResponseDto> findAll();
 
-    VoucherResponseDto updateVoucher(UUID voucherId, VoucherType voucherType, long amount);
+    VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount);
 
-    VoucherResponseDto deleteVoucher(UUID voucherId);
+    VoucherResponseDto delete(UUID voucherId);
 }

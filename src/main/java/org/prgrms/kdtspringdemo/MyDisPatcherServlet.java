@@ -85,12 +85,12 @@ public class MyDisPatcherServlet implements CommandLineRunner {
     private void getVoucher() {
         UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID_MESSAGE);
 
-        VoucherResponseDto voucherResponseDto = voucherService.getVoucher(userVoucherId);
+        VoucherResponseDto voucherResponseDto = voucherService.findById(userVoucherId);
         voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
     }
 
     private void getAllVoucher() {
-        List<VoucherResponseDto> vouchers = voucherService.getAllVoucher();
+        List<VoucherResponseDto> vouchers = voucherService.findAll();
         for (VoucherResponseDto voucherResponseDto : vouchers) {
             voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
         }
@@ -101,14 +101,14 @@ public class MyDisPatcherServlet implements CommandLineRunner {
         VoucherType userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE_MESSAGE);
         Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER_MESSAGE);
 
-        VoucherResponseDto voucherResponseDto = voucherService.updateVoucher(userVoucherId, userVoucherType, userAmount);
+        VoucherResponseDto voucherResponseDto = voucherService.update(userVoucherId, userVoucherType, userAmount);
         voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
     }
 
     private void deleteVoucher() {
         UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID_MESSAGE);
 
-        VoucherResponseDto voucherResponseDto = voucherService.deleteVoucher(userVoucherId);
+        VoucherResponseDto voucherResponseDto = voucherService.delete(userVoucherId);
         voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
     }
 }

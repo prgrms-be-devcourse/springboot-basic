@@ -37,7 +37,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherResponseDto getVoucher(UUID voucherId) {
+    public VoucherResponseDto findById(UUID voucherId) {
         Voucher voucher = validateExist(voucherRepository.findById(voucherId));
         return VoucherResponseDto.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
@@ -51,7 +51,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public List<VoucherResponseDto> getAllVoucher() {
+    public List<VoucherResponseDto> findAll() {
         return voucherRepository.findAll()
                 .stream()
                 .map(v -> new VoucherResponseDto(v.getVoucherId(), v.getVoucherType(), v.getAmount()))
@@ -59,7 +59,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherResponseDto updateVoucher(UUID voucherId, VoucherType voucherType, long amount) {
+    public VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount) {
         Voucher voucher = switch (voucherType) {
             case FIXED -> new FixedAmountVoucher(voucherId, amount);
             case PERCENT -> new PercentAmountVoucher(voucherId, amount);
@@ -71,7 +71,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherResponseDto deleteVoucher(UUID voucherId) {
+    public VoucherResponseDto delete(UUID voucherId) {
         Voucher deleteVoucher = voucherRepository.delete(voucherId);
 
         return VoucherResponseDto.toDto(deleteVoucher.getVoucherId(), deleteVoucher.getVoucherType(), deleteVoucher.getAmount());
