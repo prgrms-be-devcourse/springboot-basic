@@ -34,6 +34,10 @@ public abstract class Voucher {
         return new PercentDiscountVoucher(voucherId, name, minimumPriceCondition, voucherDateTime, percent);
     }
 
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
     public String getName() {
         return name;
     }
