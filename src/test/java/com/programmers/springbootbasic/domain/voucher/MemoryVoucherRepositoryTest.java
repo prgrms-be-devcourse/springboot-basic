@@ -16,7 +16,7 @@ class MemoryVoucherRepositoryTest {
 
     @ParameterizedTest
     @EnumSource(VoucherType.class)
-    void Voucher생성_save_성공(VoucherType voucherType) {
+    void 바우처생성_바우처저장_성공(VoucherType voucherType) {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 쿠폰";
@@ -42,7 +42,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    void Voucher생성및저장_findAll_성공() {
+    void 바우처생성및저장_모든바우처가져오기_성공() {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 5000원 할인 쿠폰";
