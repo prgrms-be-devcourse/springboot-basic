@@ -1,4 +1,4 @@
-package com.devcourse.springbootbasic.application.voucher.vo;
+package com.devcourse.springbootbasic.application.voucher.model;
 
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;

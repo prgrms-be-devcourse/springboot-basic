@@ -95,10 +95,10 @@ class CustomerServiceTest {
         var customerRepositoryMock = mock(CustomerRepository.class);
         given(customerRepositoryMock.findAllBlackCustomers()).willReturn(
                 List.of(
-                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과","apple@gmail.com", LocalDateTime.parse("2023-07-04T12:55:16.649232", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn"))),
-                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기","strawberry@gmail.com",LocalDateTime.parse("2023-07-04T12:55:16.668232", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn"))),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도","grape@gmail.com",LocalDateTime.parse("2023-07-04T12:55:16.682232", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn"))),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배","peach@gmail.com", LocalDateTime.parse("2023-05-23T12:42:12.121232", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn")))
+                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과"),
+                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기"),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도"),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배")
                 )
         );
         var sut = new CustomerService(customerRepositoryMock);
@@ -114,7 +114,7 @@ class CustomerServiceTest {
     @MethodSource("provideValidCustomers")
     void registerCustomer_ParamValidCustomer_InsertAndReturnCustomer(Customer customer) {
         customerService.registCustomer(customer);
-        var registeredCustomer = customerService.findCustomerById(customer);
+        var registeredCustomer = customerService.findCustomerById(customer.getCustomerId());
         assertThat(registeredCustomer, samePropertyValuesAs(customer));
     }
 
@@ -123,7 +123,7 @@ class CustomerServiceTest {
     @MethodSource("provideValidCustomers")
     void findCustomerById_ParamValidCustomer_ReturnCustomer(Customer customer) {
         customerService.registCustomer(customer);
-        var findedCustomer = customerService.findCustomerById(customer);
+        var findedCustomer = customerService.findCustomerById(customer.getCustomerId());
         assertThat(findedCustomer, samePropertyValuesAs(customer));
     }
 
@@ -132,16 +132,7 @@ class CustomerServiceTest {
     @MethodSource("provideValidCustomers")
     void findCustomerByName_ParamValidCustomer_ReturnCustomer(Customer customer) {
         customerService.registCustomer(customer);
-        var result = customerService.findCustomerByName(customer);
-        assertThat(result, samePropertyValuesAs(customer));
-    }
-
-    @ParameterizedTest
-    @DisplayName("정상적인 고객 정보 이메일로 조회 시 해당 고객 반환하면 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void findCustomerByEmail_ParamValidCustomer_ReturnCustomer(Customer customer) {
-        customerService.registCustomer(customer);
-        var result = customerService.findCustomerByEmail(customer);
+        var result = customerService.findCustomerByName(customer.getName());
         assertThat(result, samePropertyValuesAs(customer));
     }
 
@@ -150,7 +141,7 @@ class CustomerServiceTest {
     @MethodSource("provideValidCustomers")
     void findCustomerById_ParamNotExistCustomer_Exception(Customer customer) {
         Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerById(customer));
+                () -> customerService.findCustomerById(customer.getCustomerId()));
     }
 
     @ParameterizedTest
@@ -158,15 +149,7 @@ class CustomerServiceTest {
     @MethodSource("provideValidCustomers")
     void findCustomerByName_ParamNotExistCustomer_Exception(Customer customer) {
         Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerByName(customer));
-    }
-
-    @ParameterizedTest
-    @DisplayName("비정상적인 고객 정보 이메일로 조회 시 해당 고객 반환하면 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void findCustomerByEmail_ParamNotExistCustomer_Exception(Customer customer) {
-        Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerByEmail(customer));
+                () -> customerService.findCustomerByName(customer.getName()));
     }
 
     @ParameterizedTest
@@ -174,29 +157,7 @@ class CustomerServiceTest {
     @MethodSource("provideValidCustomers")
     void deleteCustomerById_ParamValidCustomer_ReturnCustomer(Customer customer) {
         customerService.registCustomer(customer);
-        var findedCustomer = customerService.deleteCustomerById(customer);
-        var allCustomers = customerService.findAllCustomers();
-        assertThat(findedCustomer, samePropertyValuesAs(customer));
-        assertThat(allCustomers.isEmpty(), is(true));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하는 고객을 이름으로 삭제하면 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void deleteCustomerByName_ParamValidCustomer_ReturnCustomer(Customer customer) {
-        customerService.registCustomer(customer);
-        var findedCustomer = customerService.deleteCustomerByName(customer);
-        var allCustomers = customerService.findAllCustomers();
-        assertThat(findedCustomer, samePropertyValuesAs(customer));
-        assertThat(allCustomers.isEmpty(), is(true));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하는 고객을 이메일로 삭제하면 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void deleteCustomerByEmail_ParamValidCustomer_ReturnCustomer(Customer customer) {
-        customerService.registCustomer(customer);
-        var findedCustomer = customerService.deleteCustomerByEmail(customer);
+        var findedCustomer = customerService.deleteCustomerById(customer.getCustomerId());
         var allCustomers = customerService.findAllCustomers();
         assertThat(findedCustomer, samePropertyValuesAs(customer));
         assertThat(allCustomers.isEmpty(), is(true));
@@ -207,23 +168,7 @@ class CustomerServiceTest {
     @MethodSource("provideValidCustomers")
     void deleteCustomerById_ParamNotExistCustomer_Exception(Customer customer) {
         Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerById(customer));
-    }
-
-    @ParameterizedTest
-    @DisplayName("부재인 고객을 이름으로 삭제하면 실패한다.")
-    @MethodSource("provideValidCustomers")
-    void deleteCustomerByName_ParamNotExistCustomer_Exception(Customer customer) {
-        Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerByName(customer));
-    }
-
-    @ParameterizedTest
-    @DisplayName("부재인 고객을 이메일로 삭제하면 실패한다.")
-    @MethodSource("provideValidCustomers")
-    void deleteCustomerByEmail_ParamNotExistCustomer_Exception(Customer customer) {
-        Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerByEmail(customer));
+                () -> customerService.findCustomerById(customer.getCustomerId()));
     }
 
     static Stream<Arguments> provideValidCustomers() {
@@ -232,10 +177,10 @@ class CustomerServiceTest {
     }
 
     static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기"),
+            new Customer(UUID.randomUUID(), "포도"),
+            new Customer(UUID.randomUUID(), "배")
     );
 
 }

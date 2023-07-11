@@ -18,7 +18,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -36,29 +35,6 @@ import static org.mockito.Mockito.mock;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerControllerTest {
-
-    @TestConfiguration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:8070/test-voucher_system")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-    }
 
     @Autowired
     CustomerController customerController;
@@ -89,7 +65,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    @DisplayName("고객 정보를 리스트로 반환하면 성공한다.")
+    @DisplayName("진상고객 정보를 리스트로 반환하면 성공한다.")
     void findBlackCustomers_ParamVoid_ReturnCustomerDtoList() {
         var serviceMock = mock(CustomerService.class);
         given(serviceMock.findAllCustomers()).willReturn(validCustomers);
@@ -102,10 +78,10 @@ class CustomerControllerTest {
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객을 추가하면 성공한다.")
-    @MethodSource("provideValidCustomerDtos")
+    @MethodSource("provideValidCustomerDto")
     void registCustomer_ParamCustomer_InsertAndReturnCustomerDto(CustomerDto customerDto) {
-        customerController.registCustomer(customerDto);
-        var insertedCustomer = customerController.findCustomerById(customerDto);
+        customerController.registerCustomer(customerDto);
+        var insertedCustomer = customerController.findCustomerById(customerDto.customerId());
         assertThat(insertedCustomer, notNullValue());
         assertThat(insertedCustomer, instanceOf(CustomerDto.class));
         assertThat(insertedCustomer.name(), is(customerDto.name()));
@@ -116,8 +92,8 @@ class CustomerControllerTest {
     @MethodSource("provideValidCustomers")
     void registCustomer_ParamNotExistCustomerDto_Exception(Customer customer) {
         var dto = CustomerDto.of(customer);
-        customerController.registCustomer(dto);
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.registCustomer(dto));
+        customerController.registerCustomer(dto);
+        Assertions.assertThrows(InvalidDataException.class, () -> customerController.registerCustomer(dto));
     }
 
     @ParameterizedTest
@@ -125,16 +101,11 @@ class CustomerControllerTest {
     @MethodSource("provideValidCustomers")
     void updateCustomer_ParamExistCustomerDto_UpdateCustomerDto(Customer customer) {
         var dto = CustomerDto.of(customer);
-        customerController.registCustomer(dto);
-        var otherCustomer = new Customer(
-                customer.getCustomerId(),
-                "토끼",
-                customer.getEmail(),
-                customer.getcreatedTime()
-        );
+        customerController.registerCustomer(dto);
+        var otherCustomer = new Customer(customer.getCustomerId(), "토끼");
         var otherDto = CustomerDto.of(otherCustomer);
         customerController.updateCustomer(otherDto);
-        var updatedDto = customerController.findCustomerById(otherDto);
+        var updatedDto = customerController.findCustomerById(otherDto.customerId());
         assertThat(updatedDto.name(), is(otherDto.name()));
     }
 
@@ -142,12 +113,7 @@ class CustomerControllerTest {
     @DisplayName("존재하지 않는 고객을 업데이트하면 실패한다.")
     @MethodSource("provideValidCustomers")
     void updateCustomer_ParamNotExistCustomerDto_Exception(Customer customer) {
-        var otherCustomer = new Customer(
-                customer.getCustomerId(),
-                "토끼",
-                customer.getEmail(),
-                customer.getcreatedTime()
-        );
+        var otherCustomer = new Customer(customer.getCustomerId(), "토끼");
         var otherDto = CustomerDto.of(otherCustomer);
         Assertions.assertThrows(InvalidDataException.class, () -> customerController.updateCustomer(otherDto));
     }
@@ -165,50 +131,34 @@ class CustomerControllerTest {
 
     @ParameterizedTest
     @DisplayName("존재하는 고객을 아이디로 조회 시 성공한다.")
-    @MethodSource("provideValidCustomerDtos")
+    @MethodSource("provideValidCustomerDto")
     void findCustomerById_ParamExistCustomerDto_ReturnCustomerDto(CustomerDto customerDto) {
-        customerController.registCustomer(customerDto);
-        var findedCustomerDto = customerController.findCustomerById(customerDto);
+        customerController.registerCustomer(customerDto);
+        var findedCustomerDto = customerController.findCustomerById(customerDto.customerId());
         assertThat(findedCustomerDto, samePropertyValuesAs(customerDto));
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객을 아이디로 조회 시 실패한다.")
-    @MethodSource("provideValidCustomerDtos")
+    @MethodSource("provideValidCustomerDto")
     void findCustomerById_ParamNotExistCustomerDto_Exception(CustomerDto customerDto) {
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerById(customerDto));
+        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerById(customerDto.customerId()));
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 고객을 이름으로 조회 시 성공한다.")
-    @MethodSource("provideValidCustomerDtos")
+    @MethodSource("provideValidCustomerDto")
     void findCustomerByName_ParamExistCustomerDto_ReturnCustomerDto(CustomerDto customerDto) {
-        customerController.registCustomer(customerDto);
-        var findedCustomerDto = customerController.findCustomerByName(customerDto);
+        customerController.registerCustomer(customerDto);
+        var findedCustomerDto = customerController.findCustomerByName(customerDto.name());
         assertThat(findedCustomerDto, samePropertyValuesAs(customerDto));
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객을 이름으로 조회 시 실패한다.")
-    @MethodSource("provideValidCustomerDtos")
+    @MethodSource("provideValidCustomerDto")
     void findCustomerByName_ParamNotExistCustomerDto_Exception(CustomerDto customerDto) {
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerByName(customerDto));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하는 고객을 이메일로 조회 시 성공한다.")
-    @MethodSource("provideValidCustomerDtos")
-    void findCustomerByEmail_ParamExistCustomerDto_ReturnCustomerDto(CustomerDto customerDto) {
-        customerController.registCustomer(customerDto);
-        var findedCustomerDto = customerController.findCustomerByEmail(customerDto);
-        assertThat(findedCustomerDto, samePropertyValuesAs(customerDto));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하지 않는 고객을 이메일로 조회 시 실패한다.")
-    @MethodSource("provideValidCustomerDtos")
-    void findCustomerByEmail_ParamNotExistCustomerDto_Exception(CustomerDto customerDto) {
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerByEmail(customerDto));
+        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerByName(customerDto.name()));
     }
 
     @Test
@@ -221,53 +171,19 @@ class CustomerControllerTest {
 
     @ParameterizedTest
     @DisplayName("존재하는 고객을 아이디로 제거하면 성공한다.")
-    @MethodSource("provideValidCustomerDtos")
+    @MethodSource("provideValidCustomerDto")
     void deleteCustomerById_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerDto customerDto) {
-        customerController.registCustomer(customerDto);
-        var deletedCustomer = customerController.deleteCustomerById(customerDto);
+        customerController.registerCustomer(customerDto);
+        var deletedCustomer = customerController.deleteCustomerById(customerDto.customerId());
         assertThat(deletedCustomer, samePropertyValuesAs(customerDto));
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerById(customerDto));
+        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerById(customerDto.customerId()));
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객을 아이디로 제거하면 실패한다.")
-    @MethodSource("provideValidCustomerDtos")
+    @MethodSource("provideValidCustomerDto")
     void deletCustomerById_ParamNotExistCustomer_Exception(CustomerDto customerDto) {
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.deleteCustomerById(customerDto));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하는 고객을 이름으로 제거하면 성공한다.")
-    @MethodSource("provideValidCustomerDtos")
-    void deleteCustomerByName_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerDto customerDto) {
-        customerController.registCustomer(customerDto);
-        var deletedCustomer = customerController.deleteCustomerByName(customerDto);
-        assertThat(deletedCustomer, samePropertyValuesAs(customerDto));
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerById(customerDto));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하지 않는 고객을 이름으로 제거하면 실패한다.")
-    @MethodSource("provideValidCustomerDtos")
-    void deletCustomerByName_ParamNotExistCustomer_Exception(CustomerDto customerDto) {
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.deleteCustomerByName(customerDto));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하는 고객을 이메일로 제거하면 성공한다.")
-    @MethodSource("provideValidCustomerDtos")
-    void deleteCustomerByEmail_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerDto customerDto) {
-        customerController.registCustomer(customerDto);
-        var deletedCustomer = customerController.deleteCustomerByEmail(customerDto);
-        assertThat(deletedCustomer, samePropertyValuesAs(customerDto));
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerById(customerDto));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하지 않는 고객을 이메일로 제거하면 실패한다.")
-    @MethodSource("provideValidCustomerDtos")
-    void deletCustomerByEmail_ParamNotExistCustomer_Exception(CustomerDto customerDto) {
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.deleteCustomerByEmail(customerDto));
+        Assertions.assertThrows(InvalidDataException.class, () -> customerController.deleteCustomerById(customerDto.customerId()));
     }
 
     static Stream<Arguments> provideValidCustomers() {
@@ -275,23 +191,23 @@ class CustomerControllerTest {
                 .map(Arguments::of);
     }
 
-    static Stream<Arguments> provideValidCustomerDtos() {
-        return validCustomerDtos.stream()
+    static Stream<Arguments> provideValidCustomerDto() {
+        return validCustomerDto.stream()
                 .map(Arguments::of);
     }
 
     static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기"),
+            new Customer(UUID.randomUUID(), "포도"),
+            new Customer(UUID.randomUUID(), "배")
     );
 
-    static List<CustomerDto> validCustomerDtos = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+    static List<CustomerDto> validCustomerDto = List.of(
+            new CustomerDto(UUID.randomUUID(), "사과"),
+            new CustomerDto(UUID.randomUUID(), "딸기"),
+            new CustomerDto(UUID.randomUUID(), "포도"),
+            new CustomerDto(UUID.randomUUID(), "배")
     );
 
 }

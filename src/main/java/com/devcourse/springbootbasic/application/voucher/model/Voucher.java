@@ -1,8 +1,6 @@
 package com.devcourse.springbootbasic.application.voucher.model;
 
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 
 import java.text.MessageFormat;

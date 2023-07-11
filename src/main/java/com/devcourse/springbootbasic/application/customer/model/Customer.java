@@ -11,37 +11,24 @@ public class Customer {
 
     private final UUID customerId;
     private final String name;
-    private final String email;
-    private final LocalDateTime createdTime;
 
     public Customer(
-            UUID customerId, String name, String email, LocalDateTime createdTime
+            UUID customerId, String name
     ) {
+        validateName(name);
         this.customerId = customerId;
         this.name = name;
-        this.email = email;
-        this.createdTime = createdTime;
-        validateName();
-        validateEmail();
     }
 
-    private void validateName() {
+    private void validateName(String name) {
         if (name.isBlank()) {
-            throw new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText());
-        }
-    }
-
-    private void validateEmail() {
-        if (!email.contains("@")) {
-            throw new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText());
+            throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
         }
     }
 
     @Override
     public String toString() {
-        return MessageFormat.format(
-                "Customer(id: {0}, name: {1}, email: {2}, createAt: {3})"
-                , customerId, name, email, createdTime);
+        return MessageFormat.format("Customer(id: {0}, name: {1})", customerId, name);
     }
 
     public UUID getCustomerId() {
@@ -50,14 +37,6 @@ public class Customer {
 
     public String getName() {
         return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getcreatedTime() {
-        return createdTime;
     }
 
 }

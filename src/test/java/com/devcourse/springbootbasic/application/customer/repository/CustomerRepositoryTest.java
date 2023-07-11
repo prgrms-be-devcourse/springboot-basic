@@ -110,7 +110,7 @@ class CustomerRepositoryTest {
 
     @ParameterizedTest
     @DisplayName("이미 존재하는 고객으로 추가하려고 했을때 실패한다.")
-    @MethodSource("provideInvalidCustomers")
+    @MethodSource("provideValidCustomers")
     void insert_ParamInvalidCustomer_Exception(Customer customer) {
         customerRepository.insert(customer);
         Assertions.assertThrows(InvalidDataException.class, () -> customerRepository.insert(customer));
@@ -185,25 +185,6 @@ class CustomerRepositoryTest {
         assertThat(result.isEmpty(), is(true));
     }
 
-    @ParameterizedTest
-    @DisplayName("존재하는 고객 이메일로 조회 시 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void findByName_ParamExistEmail_ReturnCustomerOptional(Customer customer) {
-        customerRepository.insert(customer);
-        var findedCustomer = customerRepository.findByEmail(customer.getEmail());
-        assertThat(findedCustomer.isPresent(), is(true));
-        assertThat(findedCustomer.get(), instanceOf(Customer.class));
-        assertThat(findedCustomer.get(), samePropertyValuesAs(customer));
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하지 않는 고객 이메일로 조회 시 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void findByName_ParamNotExistEmail_ReturnEmptyOptional(Customer customer) {
-        var result = customerRepository.findByEmail(customer.getEmail());
-        assertThat(result.isEmpty(), is(true));
-    }
-
     @Test
     @DisplayName("모든 데이터가 삭제되면 성공한다.")
     void deleteAll_ParamVoid_DeleteAllCustomers() {
@@ -223,50 +204,16 @@ class CustomerRepositoryTest {
         assertThat(beforeCount, is(afterCount + 1));
     }
 
-    @ParameterizedTest
-    @DisplayName("이미 존재하는 고객을 이름으로 삭제 시 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void deleteByName_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
-        customerRepository.insert(customer);
-        var beforeCount = customerRepository.count();
-        customerRepository.deleteByName(customer.getName());
-        var afterCount = customerRepository.count();
-        assertThat(beforeCount, is(afterCount + 1));
-    }
-
-    @ParameterizedTest
-    @DisplayName("이미 존재하는 고객을 이메일로 삭제 시 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void deleteByEmail_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
-        customerRepository.insert(customer);
-        var beforeCount = customerRepository.count();
-        customerRepository.deleteByEmail(customer.getEmail());
-        var afterCount = customerRepository.count();
-        assertThat(beforeCount, is(afterCount + 1));
-    }
-
     static Stream<Arguments> provideValidCustomers() {
         return validCustomers.stream()
                 .map(Arguments::of);
     }
 
-    static Stream<Arguments> provideInvalidCustomers() {
-        return validCustomers.stream()
-                .map(Arguments::of);
-    }
-
     static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
-    );
-
-    static List<Customer> invalidCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", "fix@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "딸기", "fix@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "포도", "fix@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "배", "fix@naver.com", LocalDateTime.now())
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기"),
+            new Customer(UUID.randomUUID(), "포도"),
+            new Customer(UUID.randomUUID(), "배")
     );
 
 }

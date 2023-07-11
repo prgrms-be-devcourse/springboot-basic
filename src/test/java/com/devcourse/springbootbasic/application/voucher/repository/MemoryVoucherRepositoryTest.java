@@ -1,8 +1,8 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
+import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

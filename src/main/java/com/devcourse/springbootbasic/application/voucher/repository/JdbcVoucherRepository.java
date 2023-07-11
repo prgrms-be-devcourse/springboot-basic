@@ -4,8 +4,8 @@ import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.utils.Utils;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
+import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 @Repository
@@ -34,11 +33,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     toParamMap(voucher)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INAVLID_VOUCHER_CREATION.getMessageText());
+                throw new InvalidDataException(ErrorMessage.INVALID_CREATION.getMessageText());
             }
             return voucher;
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), e.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
         }
     }
 
@@ -50,11 +49,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     toParamMap(voucher)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INAVLID_VOUCHER_CREATION.getMessageText());
+                throw new InvalidDataException(ErrorMessage.INVALID_UPDATE.getMessageText());
             }
             return voucher;
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), e.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
         }
     }
 

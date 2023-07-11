@@ -2,8 +2,8 @@ package com.devcourse.springbootbasic.application.voucher.repository;
 
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
+import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;

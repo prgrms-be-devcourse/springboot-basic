@@ -1,7 +1,5 @@
 package com.devcourse.springbootbasic.application.voucher.model;
 
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

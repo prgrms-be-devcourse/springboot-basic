@@ -1,7 +1,6 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
 
 import java.util.List;
 import java.util.Optional;

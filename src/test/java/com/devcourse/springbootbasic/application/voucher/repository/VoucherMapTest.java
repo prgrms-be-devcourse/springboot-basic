@@ -1,8 +1,7 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.repository.VoucherMap;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
+import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

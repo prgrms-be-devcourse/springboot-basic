@@ -1,8 +1,8 @@
 package com.devcourse.springbootbasic.application.voucher.controller;
 
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
+import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 
 import java.text.MessageFormat;
 import java.util.UUID;

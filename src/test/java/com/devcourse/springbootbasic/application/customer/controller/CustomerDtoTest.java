@@ -2,7 +2,6 @@ package com.devcourse.springbootbasic.application.customer.controller;
 
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -33,7 +31,6 @@ class CustomerDtoTest {
     void to(CustomerDto customerDto) {
         var entity = CustomerDto.to(customerDto);
         assertThat(entity, instanceOf(Customer.class));
-        assertThat(entity.getEmail(), is(customerDto.email()));
     }
 
     static Stream<Arguments> provideValidCustomers() {
@@ -42,22 +39,22 @@ class CustomerDtoTest {
     }
 
     static Stream<Arguments> provideValidCustomerDtos() {
-        return customerDtos.stream()
+        return customerDto.stream()
                 .map(Arguments::of);
     }
 
     static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new Customer(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기"),
+            new Customer(UUID.randomUUID(), "포도"),
+            new Customer(UUID.randomUUID(), "배")
     );
 
-    static List<CustomerDto> customerDtos = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과", "apple@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "딸기", "strawberry@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "포도", "grape@naver.com", LocalDateTime.now()),
-            new CustomerDto(UUID.randomUUID(), "배", "peach@naver.com", LocalDateTime.now())
+    static List<CustomerDto> customerDto = List.of(
+            new CustomerDto(UUID.randomUUID(), "사과"),
+            new CustomerDto(UUID.randomUUID(), "딸기"),
+            new CustomerDto(UUID.randomUUID(), "포도"),
+            new CustomerDto(UUID.randomUUID(), "배")
     );
 
 }
