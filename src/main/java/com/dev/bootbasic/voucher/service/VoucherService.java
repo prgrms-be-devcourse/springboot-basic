@@ -7,12 +7,14 @@ import com.dev.bootbasic.voucher.dto.VoucherCreateRequest;
 import com.dev.bootbasic.voucher.dto.VoucherDetailsResponse;
 import com.dev.bootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class VoucherService {
 
     private static final String NOT_FOUND_VOUCHER_MESSAGE = "찾을 수 없는 바우처입니다.";
@@ -24,6 +26,7 @@ public class VoucherService {
         this.voucherFactory = voucherFactory;
     }
 
+    @Transactional
     public UUID createVoucher(VoucherCreateRequest request) {
         Voucher createdVoucher = voucherFactory.create(request.voucherType(), request.discountAmount());
         return voucherRepository.saveVoucher(createdVoucher);

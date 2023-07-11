@@ -5,12 +5,14 @@ import com.dev.bootbasic.user.controller.dto.UserCreateResponse;
 import com.dev.bootbasic.user.domain.User;
 import com.dev.bootbasic.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 import static java.util.UUID.randomUUID;
 
 @Service
+@Transactional()
 public class UserService {
 
     private final UserRepository userRepository;
