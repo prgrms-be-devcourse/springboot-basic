@@ -1,10 +1,10 @@
 package com.devcourse.springbootbasic.application.customer.controller;
 
-import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class CustomerController {
@@ -15,11 +15,13 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public List<Customer> findBlackCustomers() {
-        return customerService.getBlackCustomers();
+    public List<CustomerDto> findBlackCustomers() {
+        return customerService.getBlackCustomers().stream()
+                .map(CustomerDto::of)
+                .toList();
     }
 
-    public CustomerDto registCustomer(CustomerDto customerDto) {
+    public CustomerDto registerCustomer(CustomerDto customerDto) {
         return CustomerDto.of(
                 customerService.registCustomer(
                         CustomerDto.to(customerDto)
@@ -42,56 +44,20 @@ public class CustomerController {
                 .toList();
     }
 
-    public CustomerDto findCustomerById(CustomerDto customerDto) {
-        return CustomerDto.of(
-                customerService.findCustomerById(
-                        CustomerDto.to(customerDto)
-                )
-        );
+    public CustomerDto findCustomerById(UUID customerId) {
+        return CustomerDto.of(customerService.findCustomerById(customerId));
     }
 
-    public CustomerDto findCustomerByName(CustomerDto customerDto) {
-        return CustomerDto.of(
-                customerService.findCustomerByName(
-                        CustomerDto.to(customerDto)
-                )
-        );
-    }
-
-    public CustomerDto findCustomerByEmail(CustomerDto customerDto) {
-        return CustomerDto.of(
-                customerService.findCustomerByEmail(
-                        CustomerDto.to(customerDto)
-                )
-        );
+    public CustomerDto findCustomerByName(String name) {
+        return CustomerDto.of(customerService.findCustomerByName(name));
     }
 
     public void deleteAllCustomers() {
         customerService.deleteAllCustomers();
     }
 
-    public CustomerDto deleteCustomerById(CustomerDto customerDto) {
-        return CustomerDto.of(
-                customerService.deleteCustomerById(
-                        CustomerDto.to(customerDto)
-                )
-        );
-    }
-
-    public CustomerDto deleteCustomerByName(CustomerDto customerDto) {
-        return CustomerDto.of(
-                customerService.deleteCustomerByName(
-                        CustomerDto.to(customerDto)
-                )
-        );
-    }
-
-    public CustomerDto deleteCustomerByEmail(CustomerDto customerDto) {
-        return CustomerDto.of(
-                customerService.deleteCustomerByEmail(
-                        CustomerDto.to(customerDto)
-                )
-        );
+    public CustomerDto deleteCustomerById(UUID customerId) {
+        return CustomerDto.of(customerService.deleteCustomerById(customerId));
     }
 
 }

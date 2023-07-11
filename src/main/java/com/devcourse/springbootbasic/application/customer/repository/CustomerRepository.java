@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
@@ -32,37 +31,37 @@ public class CustomerRepository {
     public List<Customer> findAllBlackCustomers() {
         return csvReader.readFile(filepath)
                 .stream()
-                .map(Utils::convertCsvToCustomer)
+                .map(this::convertCsvToCustomer)
                 .toList();
     }
 
     public Customer insert(Customer customer) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "INSERT INTO customers(customer_id, name, email, created_time) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdTime)",
+                    "INSERT INTO customers(customer_id, name) VALUES (UUID_TO_BIN(:customerId), :name)",
                     toParamMap(customer)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_CREATION.getMessageText());
+                throw new InvalidDataException(ErrorMessage.INVALID_CREATION.getMessageText());
             }
             return customer;
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), exception.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
         }
     }
 
     public Customer update(Customer customer) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "UPDATE customers SET name = :name, email = :email, created_time = :createdTime WHERE customer_id = UUID_TO_BIN(:customerId)",
+                    "UPDATE customers SET name = :name WHERE customer_id = UUID_TO_BIN(:customerId)",
                     toParamMap(customer)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText());
+                throw new InvalidDataException(ErrorMessage.INVALID_UPDATE.getMessageText());
             }
             return customer;
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), exception.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
         }
     }
 
@@ -73,7 +72,7 @@ public class CustomerRepository {
                     customerRowMapper
             );
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), exception.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
         }
     }
 
@@ -105,20 +104,6 @@ public class CustomerRepository {
         }
     }
 
-    public Optional<Customer> findByEmail(String email) {
-        try {
-            return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            "SELECT * FROM customers WHERE email = :email",
-                            Collections.singletonMap("email", email),
-                            customerRowMapper
-                    )
-            );
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
-
     public void deleteAll() {
         try {
             jdbcTemplate.update(
@@ -126,7 +111,7 @@ public class CustomerRepository {
                     Collections.emptyMap()
             );
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), exception.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
         }
     }
 
@@ -134,38 +119,10 @@ public class CustomerRepository {
         try {
             jdbcTemplate.update(
                     "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-                    new HashMap<>(){{
-                        put("customerId", customerId.toString().getBytes());
-                    }}
+                    Map.of("customerId", customerId.toString().getBytes())
             );
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), e.getCause());
-        }
-    }
-
-    public void deleteByName(String name) {
-        try {
-            jdbcTemplate.update(
-                    "DELETE FROM customers WHERE name = :name",
-                    new HashMap<>() {{
-                        put("name", name);
-                    }}
-            );
-        } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), e.getCause());
-        }
-    }
-
-    public void deleteByEmail(String email) {
-        try {
-            jdbcTemplate.update(
-                    "DELETE FROM customers WHERE email = :email",
-                    new HashMap<>() {{
-                        put("email", email);
-                    }}
-            );
-        } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL_QUERY.getMessageText(), e.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
         }
     }
 
@@ -184,18 +141,22 @@ public class CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
         var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
         var name = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var createdTime = resultSet.getTimestamp("created_time").toLocalDateTime();
-        return new Customer(customerId, name, email, createdTime);
+        return new Customer(customerId, name);
     };
 
     private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("name", customer.getName());
-            put("email", customer.getEmail());
-            put("createdTime", Timestamp.valueOf(customer.getcreatedTime()));
-        }};
+        var paramMap = new HashMap<String, Object>();
+        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
+        paramMap.put("name", customer.getName());
+        return paramMap;
+    }
+
+    private Customer convertCsvToCustomer(String blackCustomerInfo) {
+        String[] customerInfoArray = blackCustomerInfo.split(",");
+        return new Customer(
+                UUID.fromString(customerInfoArray[0]),
+                customerInfoArray[1]
+        );
     }
 
 }

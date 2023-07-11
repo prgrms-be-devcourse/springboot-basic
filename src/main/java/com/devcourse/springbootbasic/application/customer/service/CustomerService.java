@@ -7,6 +7,7 @@ import com.devcourse.springbootbasic.application.customer.repository.CustomerRep
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -33,41 +34,24 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer findCustomerById(Customer customer) {
-        return customerRepository.findById(customer.getCustomerId())
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText()));
+    public Customer findCustomerById(UUID customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
-    public Customer findCustomerByName(Customer customer) {
-        return customerRepository.findByName(customer.getName())
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText()));
-    }
-
-    public Customer findCustomerByEmail(Customer customer) {
-        return customerRepository.findByEmail(customer.getEmail())
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText()));
+    public Customer findCustomerByName(String name) {
+        return customerRepository.findByName(name)
+                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
     public void deleteAllCustomers() {
         customerRepository.deleteAll();
     }
 
-    public Customer deleteCustomerById(Customer customer) {
-        var deletedCustomer = customerRepository.findById(customer.getCustomerId());
-        customerRepository.deleteById(customer.getCustomerId());
-        return deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText()));
-    }
-
-    public Customer deleteCustomerByName(Customer customer) {
-        var deletedCustomer = customerRepository.findByName(customer.getName());
-        customerRepository.deleteByName(customer.getName());
-        return deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText()));
-    }
-
-    public Customer deleteCustomerByEmail(Customer customer) {
-        var deletedCustomer = customerRepository.findByEmail(customer.getEmail());
-        customerRepository.deleteByEmail(customer.getEmail());
-        return deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_CUSTOMER_INFO.getMessageText()));
+    public Customer deleteCustomerById(UUID customerId) {
+        var deletedCustomer = customerRepository.findById(customerId);
+        customerRepository.deleteById(customerId);
+        return deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
 }
