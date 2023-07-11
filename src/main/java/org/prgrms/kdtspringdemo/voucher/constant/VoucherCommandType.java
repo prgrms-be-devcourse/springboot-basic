@@ -9,6 +9,7 @@ public enum VoucherCommandType {
     CREATE,
     LIST_ALL,
     LIST,
+    UPDATE,
     DELETE;
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherCommandType.class);
