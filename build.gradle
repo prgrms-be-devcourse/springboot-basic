@@ -29,12 +29,13 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    //assertj
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+
     // JUnit5
     testImplementation("org.junit.platform:junit-platform-launcher:1.5.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
 
-    //assertj
-    implementation 'org.assertj:assertj-core:3.24.2'
 
     //jdbc
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
