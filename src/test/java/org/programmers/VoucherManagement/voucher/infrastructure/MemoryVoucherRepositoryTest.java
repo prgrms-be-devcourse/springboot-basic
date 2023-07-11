@@ -10,7 +10,6 @@ import org.programmers.VoucherManagement.voucher.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -39,8 +38,8 @@ public class MemoryVoucherRepositoryTest {
         //when
         voucherRepository.save(fixedVoucher);
         voucherRepository.save(percentVoucher);
-        Optional<Voucher> fixedVoucherExpect = voucherRepository.findById(fixedVoucher.getVoucherId());
-        Optional<Voucher> percentVoucherExpect = voucherRepository.findById(percentVoucher.getVoucherId());
+        Voucher fixedVoucherExpect = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
+        Voucher percentVoucherExpect = voucherRepository.findById(percentVoucher.getVoucherId()).get();
 
         //then
         assertThat(fixedVoucherExpect).isEqualTo(fixedVoucher);
