@@ -1,11 +1,11 @@
 package com.example.voucher.controller;
 
-import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
-import com.example.voucher.constant.ModeType;
-import com.example.voucher.constant.VoucherType;
-import com.example.voucher.domain.dto.VoucherDTO;
+import com.example.voucher.constant.ServiceType;
+import com.example.voucher.constant.VoucherServiceType;
+import com.example.voucher.controller.request.VoucherRequest;
+import com.example.voucher.controller.response.VoucherResponse;
 import com.example.voucher.io.Console;
 
 @Controller
@@ -24,43 +24,41 @@ public class ApplicationController implements CommandLineRunner {
         boolean isRunning = true;
 
         while (isRunning) {
-            ModeType selectedModeType = console.getSelectedType();
+            ServiceType selectedServiceType = console.getServiceType();
 
-            if (selectedModeType == null) {
+            if (selectedServiceType == null) {
                 continue;
             }
 
-            switch (selectedModeType) {
+            switch (selectedServiceType) {
                 case EXIT -> isRunning = false;
-                case CREATE -> createVoucher();
-                case LIST -> displayVouchers();
+                case VOUCHER -> startVoucherService();
             }
         }
     }
 
-    private void createVoucher() {
-        VoucherType voucherType = console.getVoucherType();
-
-        if (voucherType == null) {
-            return;
-        }
-
-        Long discountValue = console.getDiscountValue();
-
-        if (discountValue == null) {
+    private void startVoucherService() {
+        VoucherRequest voucherRequest = console.getVoucherRequest();
+        if (voucherRequest == null) {
             return;
         }
 
         try {
-            voucherController.createVoucher(voucherType, discountValue);
+            VoucherResponse voucherResponse = voucherController.run(voucherRequest);
+
+            if (voucherResponse.getVoucherServiceType() == VoucherServiceType.CREATE) {
+                console.displayVoucherInfo(voucherResponse.getVoucher());
+
+                return;
+            }
+
+            if (voucherResponse.getVoucherServiceType() == VoucherServiceType.LIST) {
+                console.displayVoucherInfo(voucherResponse.getVouchers());
+            }
+
         } catch (Exception e) {
             console.displayVoucherCreationError();
         }
-    }
-
-    private void displayVouchers() {
-        List<VoucherDTO> vouchers = voucherController.getVouchers();
-        console.displayVoucherInfo(vouchers);
     }
 
 }

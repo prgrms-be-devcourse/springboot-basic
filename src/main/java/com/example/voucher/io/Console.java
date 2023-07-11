@@ -1,15 +1,18 @@
 package com.example.voucher.io;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
+import static com.example.voucher.constant.VoucherServiceType.*;
 import static com.example.voucher.io.Writer.*;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.voucher.constant.ExceptionMessage;
-import com.example.voucher.constant.ModeType;
+import com.example.voucher.constant.ServiceType;
+import com.example.voucher.constant.VoucherServiceType;
+import com.example.voucher.controller.request.VoucherRequest;
+import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
-import com.example.voucher.constant.VoucherType;
 
 public class Console {
 
@@ -23,10 +26,18 @@ public class Console {
         this.reader = new Reader();
     }
 
+    public void displayVoucherInfo(VoucherDTO voucher) {
+        UUID voucherId = voucher.voucherID();
+        Voucher.Type voucherType = voucher.voucherType();
+        long discountValue = voucher.discountValue();
+
+        writer.writeMessage(voucherId, voucherType, discountValue);
+    }
+
     public void displayVoucherInfo(List<VoucherDTO> vouchers) {
         for (VoucherDTO voucher : vouchers) {
             UUID voucherId = voucher.voucherID();
-            VoucherType voucherType = voucher.voucherType();
+            Voucher.Type voucherType = voucher.voucherType();
             long discountValue = voucher.discountValue();
 
             writer.writeMessage(voucherId, voucherType, discountValue);
@@ -38,14 +49,35 @@ public class Console {
         writer.writeMessage(Message.INVALID_ARGUMENT_CANT_CREATE_VOUCHER);
     }
 
-    public VoucherType getVoucherType() {
-        writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
-        writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
+    public ServiceType getServiceType() {
+        writer.writeMessage(Message.SERVICE_TYPE_SELECTION);
 
         try {
-            int number = reader.readInteger();
+            String input = reader.readString();
 
-            return VoucherType.getVouchersType(number);
+            return ServiceType.getServiceType(input);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_SERVICE_TYPE_SELECTION);
+
+            return null;
+        }
+    }
+
+    public VoucherRequest getVoucherRequest() {
+        try {
+            writer.writeMessage(Message.VOUCHER_SERVICE_TYPE_SELECTION);
+            String inputVoucherServiceType = reader.readString();
+            VoucherServiceType voucherServiceType = VoucherServiceType.getVoucherServiceType(inputVoucherServiceType);
+            VoucherRequest voucherRequest = new VoucherRequest(voucherServiceType);
+
+            if (voucherServiceType == CREATE) {
+                Voucher.Type voucherType = getVoucherType();
+                Long discountValue = getDiscountValue();
+                voucherRequest.setVoucherCreateInfo(voucherType, discountValue);
+            }
+
+            return voucherRequest;
         } catch (Exception e) {
             logger.error(e.getMessage());
             writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
@@ -54,7 +86,15 @@ public class Console {
         }
     }
 
-    public Long getDiscountValue() {
+    private Voucher.Type getVoucherType() {
+        writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
+        writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
+        int number = reader.readInteger();
+
+        return Voucher.Type.getType(number);
+    }
+
+    private Long getDiscountValue() {
         writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
 
         try {
@@ -62,22 +102,6 @@ public class Console {
             validatePositive(discountAmount);
 
             return discountAmount;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);
-
-            return null;
-        }
-    }
-
-    public ModeType getSelectedType() {
-        writer.writeMessage(Message.MODE_TYPE_SELECTION);
-
-        try {
-            String input = reader.readString();
-            ModeType selectedModeType = ModeType.getModeType(input);
-
-            return selectedModeType;
         } catch (Exception e) {
             logger.error(e.getMessage());
             writer.writeMessage(Message.INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION);

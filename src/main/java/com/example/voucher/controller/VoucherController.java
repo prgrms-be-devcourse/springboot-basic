@@ -2,7 +2,9 @@ package com.example.voucher.controller;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import com.example.voucher.constant.VoucherType;
+import com.example.voucher.constant.VoucherServiceType;
+import com.example.voucher.controller.request.VoucherRequest;
+import com.example.voucher.controller.response.VoucherResponse;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.service.VoucherService;
@@ -16,19 +18,37 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Voucher createVoucher(VoucherType voucherType, long discountValue) {
-        return voucherService.createVoucher(voucherType, discountValue);
+    public VoucherResponse run(VoucherRequest voucherRequest) {
+        return switch (voucherRequest.getVoucherServiceType()) {
+            case CREATE -> createVoucher(voucherRequest.getVoucherType(), voucherRequest.getDiscountValue());
+            case LIST -> getVouchers();
+            case REMOVE -> removeVoucher();
+        };
+
     }
 
-    public List<VoucherDTO> getVouchers() {
-        return voucherService.getVouchers()
-            .stream()
-            .map(o -> new VoucherDTO(o.getVoucherId(), o.getDiscountValue(), o.getVoucherType()))
-            .toList();
+    public VoucherResponse createVoucher(Voucher.Type voucherType, long discountValue) {
+        VoucherResponse voucherResponse = new VoucherResponse(VoucherServiceType.CREATE);
+
+        VoucherDTO voucher = voucherService.createVoucher(voucherType, discountValue);
+        voucherResponse.setVoucher(voucher);
+
+        return voucherResponse;
     }
 
-    public void removeVoucher() {
+    public VoucherResponse getVouchers() {
+        VoucherResponse voucherResponse = new VoucherResponse(VoucherServiceType.LIST);
+
+        List<VoucherDTO> vouchers = voucherService.getVouchers();
+        voucherResponse.setVoucherDTOS(vouchers);
+
+        return voucherResponse;
+    }
+
+    public VoucherResponse removeVoucher() {
         voucherService.removeVouchers();
+
+        return new VoucherResponse(VoucherServiceType.REMOVE);
     }
 
 }

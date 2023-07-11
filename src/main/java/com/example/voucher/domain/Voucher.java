@@ -4,6 +4,8 @@ import static com.example.voucher.constant.ExceptionMessage.*;
 import java.util.Arrays;
 import java.util.UUID;
 
+import com.example.voucher.domain.dto.VoucherDTO;
+
 public class Voucher {
 
     public enum Type {
@@ -81,6 +83,10 @@ public class Voucher {
 
     public Long discount(Long originalAmount) {
         return discountPolicy.discount(type, originalAmount, discountValue);
+    }
+
+    public VoucherDTO toDTO(){
+        return new VoucherDTO(voucherId,discountValue,type);
     }
 
 }
