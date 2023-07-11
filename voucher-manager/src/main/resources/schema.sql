@@ -13,7 +13,7 @@ CREATE TABLE customer
     created_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE customerVoucherWallet
+CREATE TABLE customer_voucher_wallet
 (
     customer_email_address VARCHAR(100) NOT NULL,
     voucher_id             VARCHAR(36)  NOT NULL,
