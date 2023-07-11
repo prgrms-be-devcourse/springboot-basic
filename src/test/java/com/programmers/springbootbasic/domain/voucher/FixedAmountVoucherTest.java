@@ -17,11 +17,12 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         int amount = 5_000;
 
         // when
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, createdDate, expirationDate, amount);
+        VoucherDate voucherDate = new VoucherDate(createdDate, expirationDate);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, voucherDate, amount);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -33,12 +34,13 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
         Long minimumPrice = 3_000L;
         int amount = 5_000;
 
         // when
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, minimumPrice, createdDate, expirationDate, amount);
+        VoucherDate voucherDate = new VoucherDate(createdDate, expirationDate);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, minimumPrice, voucherDate, amount);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -50,12 +52,13 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
+        VoucherDate voucherDate = new VoucherDate(createdDate, expirationDate);
         Long minimumPrice = 3_000L;
         int amount = 1_000_000_000;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, name, createdDate, expirationDate, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, name, voucherDate, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -65,12 +68,13 @@ class FixedAmountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(3);
+        LocalDateTime expirationDate = createdDate.plusMonths(3);
+        VoucherDate voucherDate = new VoucherDate(createdDate, expirationDate);
         Long minimumPrice = 3_000L;
         int amount = -1;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, name, minimumPrice, createdDate, expirationDate, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, name, minimumPrice, voucherDate, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -78,10 +82,10 @@ class FixedAmountVoucherTest {
     @CsvSource(value = {"10000,5000,5000", "300,50000,0"})
     void 물건금액할인금액_할인_할인된금액(Long price, int amount, Long expectedPrice) {
         // given
+        VoucherDate voucherDate = new VoucherDate(LocalDateTime.now(), LocalDateTime.MAX);
         FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(),
                 amount + "원 할인",
-                LocalDateTime.now(),
-                LocalDateTime.MAX,
+                voucherDate,
                 amount);
 
         // when

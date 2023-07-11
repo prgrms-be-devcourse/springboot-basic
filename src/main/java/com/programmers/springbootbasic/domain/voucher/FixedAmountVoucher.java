@@ -1,32 +1,33 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
-    private final int amount;
+    private static final long ZERO = 0L;
     private static final int MIN_AMOUNT = 10;
     private static final int MAX_AMOUNT = 10_000_000;
+    private static final String INVALID_AMOUNT = String.format(
+            "잘못된 할인 금액입니다. 할인 금액은 최소 %d원부터 최대 %d원까지 설정 가능합니다. 현재 입력 금액: ", MIN_AMOUNT, MAX_AMOUNT
+    );
 
-    public FixedAmountVoucher(UUID voucherId, String name, LocalDateTime createdDate, LocalDateTime expirationDate, int amount) {
-        this(voucherId, name, 0L, createdDate, expirationDate, amount);
+    private final int amount;
+
+    public FixedAmountVoucher(UUID voucherId, String name, VoucherDate voucherDate, int amount) {
+        this(voucherId, name, ZERO, voucherDate, amount);
     }
 
-    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPriceCondition, LocalDateTime createdDate, LocalDateTime expirationDate, int amount) {
-        super(voucherId, name, minimumPriceCondition, createdDate, expirationDate);
+    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int amount) {
+        super(voucherId, name, minimumPriceCondition, voucherDate);
         if (isInvalidAmount(amount)) {
-            throw new IllegalArgumentException("잘못된 할인 금액입니다. " +
-                    "할인 금액은 최소 " + MIN_AMOUNT + "원부터 최대 " + MAX_AMOUNT + "원까지 설정 가능합니다. " +
-                    "현재 입력 금액: " + amount + "원"
-            );
+            throw new IllegalArgumentException(INVALID_AMOUNT + String.format("%d원", amount));
         }
         this.amount = amount;
     }
 
     @Override
-    protected Long getDiscountPrice(Long priceBeforeDiscount) {
+    public Long getDiscountPrice(Long priceBeforeDiscount) {
         if (priceBeforeDiscount <= amount) {
-            return 0L;
+            return ZERO;
         }
         return priceBeforeDiscount - amount;
     }
