@@ -12,8 +12,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> map = new LinkedHashMap<>();
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         map.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override

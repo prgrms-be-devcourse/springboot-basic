@@ -27,7 +27,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         String sql = "insert into voucher_table(voucher_id, voucher_value , voucher_type) values (?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
                 voucher.getVoucherId().toString(),
@@ -37,6 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         if (insertCount != 1) {
             throw new VoucherException(FAIL_TO_INSERT);
         }
+        return voucher;
     }
 
     @Override

@@ -51,7 +51,7 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void insert(Member member) {
+    public Member insert(Member member) {
         String sql = "insert into member_table(member_id, name, member_status) values (?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
                 member.getMemberUUID().toString(),
@@ -61,6 +61,7 @@ public class JdbcMemberRepository implements MemberRepository {
         if (insertCount != 1) {
             throw new MemberException(FAIL_TO_INSERT);
         }
+        return member;
     }
 
     @Override

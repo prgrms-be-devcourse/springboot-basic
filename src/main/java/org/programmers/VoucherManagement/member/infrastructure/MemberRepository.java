@@ -13,7 +13,7 @@ public interface MemberRepository {
 
     Optional<Member> findById(UUID MemberId); //조회
 
-    void insert(Member member); //저장
+    Member insert(Member member); //저장
 
     void update(Member member); //수정
 
