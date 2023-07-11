@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.text.MessageFormat;
 import java.util.List;
 
 public class ConsoleOutputView implements Output {
@@ -130,12 +131,13 @@ public class ConsoleOutputView implements Output {
             textTerminal.println("There are no available discount vouchers stored.");
             return;
         }
-        findVouchers.forEach((voucher -> textTerminal.println(String.valueOf(voucher))));
+        findVouchers.forEach((
+            voucher -> textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}", voucher.voucherId(), voucher.amount(), voucher.voucherType()))));
     }
 
     @Override
     public void printVoucher(VoucherResponse voucher) {
-        textTerminal.println(String.valueOf(voucher));
+        textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}", voucher.voucherId(), voucher.amount(), voucher.voucherType()));
     }
 
     @Override
@@ -147,7 +149,7 @@ public class ConsoleOutputView implements Output {
         }
 
         blacklists.getCustomers()
-            .forEach((blackList -> textTerminal.println(String.valueOf(blackList))));
+            .forEach((blackList -> textTerminal.println(MessageFormat.format("id : {0} status : {1}", blackList.customerId(), blackList.customerStatus()))));
     }
 
     @Override
@@ -158,12 +160,12 @@ public class ConsoleOutputView implements Output {
         }
 
         customers.getCustomers()
-            .forEach((customer) -> textTerminal.println(String.valueOf(customer)));
+            .forEach((customer) -> textTerminal.println(MessageFormat.format("id : {0} status : {1}", customer.customerId(), customer.customerStatus())));
     }
 
     @Override
     public void printCustomer(CustomerResponse customer) {
-        textTerminal.println(String.valueOf(customer));
+        textTerminal.println(MessageFormat.format("id : {0} status : {1}", customer.customerId(), customer.customerStatus()));
     }
 
     @Override
