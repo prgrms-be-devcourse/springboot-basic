@@ -9,6 +9,8 @@ import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.Output;
 import com.prgms.VoucherApp.view.VoucherCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @Controller
 public class VoucherManagementController implements Runnable {
 
+    private final Logger logger = LoggerFactory.getLogger(VoucherManagementController.class);
     private final VoucherService voucherService;
     private final Input input;
     private final Output output;
@@ -60,7 +63,7 @@ public class VoucherManagementController implements Runnable {
                         UUID voucherId = UUID.fromString(inputUUID);
 
                         voucherService.findOne(voucherId)
-                            .ifPresentOrElse(output::printVoucher, output::printFindEmpty);
+                            .ifPresent(output::printVoucher);
                     }
 
                     case FIND_BY_VOUCHER_TYPE -> {
@@ -102,6 +105,7 @@ public class VoucherManagementController implements Runnable {
                     }
                 }
             } catch (RuntimeException exception) {
+                logger.debug("할인권 관리 프로그램 실행 중에 발생한 예외를 처리하였습니다.", exception);
                 output.printErrorMsg(exception.getMessage());
             }
         }

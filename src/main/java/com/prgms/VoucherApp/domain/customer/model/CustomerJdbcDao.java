@@ -2,6 +2,8 @@ package com.prgms.VoucherApp.domain.customer.model;
 
 
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -16,6 +18,7 @@ import java.util.UUID;
 @Repository
 public class CustomerJdbcDao implements CustomerDao {
 
+    private final Logger logger = LoggerFactory.getLogger(CustomerJdbcDao.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public CustomerJdbcDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -30,7 +33,12 @@ public class CustomerJdbcDao implements CustomerDao {
             .addValue("id", customer.getCustomerId().toString())
             .addValue("status", customer.getCustomerStatus().getStatusName());
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count != 1) {
+            logger.warn("고객이 생성되지 않은 예외가 발생 입력 값 {}", customer);
+            throw new IllegalArgumentException("입력값에 대한 문제로 고객이 생성되지 못했습니다.");
+        }
 
         return customer;
     }
@@ -54,8 +62,9 @@ public class CustomerJdbcDao implements CustomerDao {
         try {
             Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramMap, customerRowMapper());
             return Optional.of(customer);
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+        } catch (EmptyResultDataAccessException exception) {
+            logger.warn("존재하지 않는 아이디가 입력되어 조회하지 못하는 예외가 발생 id = {}", id);
+            throw new IllegalArgumentException("존재하지 않는 아이디가 입력되었습니다.", exception);
         }
     }
 
@@ -81,6 +90,7 @@ public class CustomerJdbcDao implements CustomerDao {
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
+            logger.warn("존재하지 않는 아이디가 입력되어 업데이트하지 못하는 예외가 발생 id = {}", reqDto.id());
             throw new IllegalArgumentException("존재하지 않는 id 를 입력받았습니다.");
         }
     }
@@ -95,6 +105,7 @@ public class CustomerJdbcDao implements CustomerDao {
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
+            logger.warn("존재하지 않는 아이디가 입력되어 삭제하지 못하는 예외가 발생 id = {}", id);
             throw new IllegalArgumentException("존재하지 않는 id 를 입력받았습니다.");
         }
     }

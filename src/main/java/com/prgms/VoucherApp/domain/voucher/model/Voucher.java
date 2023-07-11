@@ -24,4 +24,13 @@ public abstract class Voucher {
     }
 
     public abstract VoucherType getVoucherType();
+
+    @Override
+    public String toString() {
+        return "Voucher{" +
+            "voucherId=" + voucherId +
+            ", amount=" + amount +
+            ", voucherType=" + getVoucherType() +
+            '}';
+    }
 }

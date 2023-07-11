@@ -1,5 +1,7 @@
 package com.prgms.VoucherApp.domain.voucher.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +18,7 @@ import java.util.UUID;
 @Primary
 public class VoucherJdbcDao implements VoucherDao {
 
+    private final Logger logger = LoggerFactory.getLogger(VoucherJdbcDao.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public VoucherJdbcDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -31,7 +34,12 @@ public class VoucherJdbcDao implements VoucherDao {
             .addValue("amount", voucher.getAmount())
             .addValue("type", voucher.getVoucherType().getVoucherTypeName());
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count != 1) {
+            logger.warn("할인권이이 생성되지 않은 예외가 발생 입력 값 {}", voucher);
+            throw new IllegalArgumentException("입력 값의 문제로 할인권이 생성되지 못했습니다.");
+        }
         return voucher;
     }
 
@@ -49,11 +57,13 @@ public class VoucherJdbcDao implements VoucherDao {
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", voucherId);
+
         try {
             Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, paramMap, voucherRowMapper());
             return Optional.of(voucher);
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+        } catch (EmptyResultDataAccessException exception) {
+            logger.warn("존재하지 않는 아이디가 입력되어 조회하지 못하는 예외가 발생 id = {}", voucherId);
+            throw new IllegalArgumentException("존재하지 않는 아이디가 입력되었습니다.", exception);
         }
     }
 
@@ -80,6 +90,7 @@ public class VoucherJdbcDao implements VoucherDao {
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
+            logger.warn("존재하지 않는 아이디가 입력되어 업데이트하지 못하는 예외가 발생 id = {}", voucher.getVoucherId());
             throw new IllegalArgumentException("존재하지 않는 id 를 입력 받았습니다.");
         }
     }
@@ -94,6 +105,7 @@ public class VoucherJdbcDao implements VoucherDao {
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
+            logger.warn("존재하지 않는 아이디가 입력되어 삭제하지 못하는 예외가 발생 id = {}", voucherId);
             throw new IllegalArgumentException("존재하지 않는 id 를 입력받았습니다.");
         }
     }
@@ -107,9 +119,7 @@ public class VoucherJdbcDao implements VoucherDao {
             if (voucherType.isFixedVoucher()) {
                 return new FixedAmountVoucher(UUID.fromString(id), amount);
             }
-
             return new PercentDiscountVoucher(UUID.fromString(id), amount);
         };
     }
-
 }

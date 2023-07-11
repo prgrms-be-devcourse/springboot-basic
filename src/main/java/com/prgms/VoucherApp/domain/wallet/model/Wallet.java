@@ -27,4 +27,13 @@ public class Wallet {
     public Voucher getVoucher() {
         return voucher;
     }
+
+    @Override
+    public String toString() {
+        return "Wallet{" +
+            "walletId=" + walletId +
+            ", customer=" + customer +
+            ", voucher=" + voucher +
+            '}';
+    }
 }

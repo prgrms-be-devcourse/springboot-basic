@@ -4,6 +4,8 @@ import com.prgms.VoucherApp.domain.customer.model.Customer;
 import com.prgms.VoucherApp.domain.customer.model.CustomerDao;
 import com.prgms.VoucherApp.domain.voucher.model.Voucher;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -19,6 +21,7 @@ import java.util.UUID;
 
 @Repository
 public class WalletJdbcDao implements WalletDao {
+    private final Logger logger = LoggerFactory.getLogger(WalletJdbcDao.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final CustomerDao customerDao;
     private final VoucherDao voucherDao;
@@ -37,7 +40,12 @@ public class WalletJdbcDao implements WalletDao {
             .addValue("customerId", wallet.getCustomer().getCustomerId())
             .addValue("voucherId", wallet.getVoucher().getVoucherId());
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count != 1) {
+            logger.warn("지갑이 생성되지 않은 예외가 발생 입력 값 {}", wallet);
+            throw new IllegalArgumentException("입력 값의 문제로 지갑이 생성되지 못했습니다.");
+        }
         return wallet;
     }
 
@@ -49,8 +57,9 @@ public class WalletJdbcDao implements WalletDao {
         try {
             Wallet wallet = namedParameterJdbcTemplate.queryForObject(sql, paramMap, walletRowMapper());
             return Optional.of(wallet);
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+        } catch (EmptyResultDataAccessException exception) {
+            logger.warn("존재하지 않는 아이디가 입력되어 조회하지 못하는 예외가 발생 id = {}", walletId);
+            throw new IllegalArgumentException("존재하지 않는 아이디가 입력되었습니다.", exception);
         }
     }
 
@@ -68,11 +77,13 @@ public class WalletJdbcDao implements WalletDao {
         String sql = "SELECT * FROM wallet WHERE voucher_id = :id";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
             .addValue("id", voucherId);
+
         try {
             Wallet wallet = namedParameterJdbcTemplate.queryForObject(sql, paramMap, walletRowMapper());
             return Optional.of(wallet);
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+        } catch (EmptyResultDataAccessException exception) {
+            logger.warn("존재하지 않는 아이디가 입력되어 조회하지 못하는 예외가 발생 id = {}", voucherId);
+            throw new IllegalArgumentException("존재하지 않는 아이디가 입력되었습니다.", exception);
         }
     }
 
@@ -85,6 +96,7 @@ public class WalletJdbcDao implements WalletDao {
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
+            logger.warn("존재하지 않는 아이디가 입력되어 조회하지 못하는 예외가 발생 id = {}", walletId);
             throw new IllegalArgumentException("존재하지 않는 id를 입력 받았습니다.");
         }
     }
