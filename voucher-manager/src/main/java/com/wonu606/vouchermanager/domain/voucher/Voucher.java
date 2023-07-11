@@ -2,6 +2,7 @@ package com.wonu606.vouchermanager.domain.voucher;
 
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.DiscountValue;
 import com.wonu606.vouchermanager.domain.voucher.price.Price;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -18,8 +19,8 @@ public abstract class Voucher {
         return uuid;
     }
 
-    public DiscountValue getDiscountValue() {
-        return discountValue;
+    public double getDiscountValue() {
+        return discountValue.getValue();
     }
 
     @Override
@@ -28,4 +29,22 @@ public abstract class Voucher {
     }
 
     public abstract Price calculateDiscountedPrice(Price originalPrice);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Voucher voucher = (Voucher) o;
+        return getUuid().equals(voucher.getUuid())
+                && Objects.equals(getDiscountValue(), voucher.getDiscountValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUuid(), getDiscountValue());
+    }
 }

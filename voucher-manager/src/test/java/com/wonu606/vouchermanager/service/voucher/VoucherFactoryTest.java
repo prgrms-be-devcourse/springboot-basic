@@ -42,7 +42,7 @@ public class VoucherFactoryTest {
         // Then
         assertThat(voucher).isInstanceOf(FixedAmountVoucher.class);
         assertThat(voucher.getUuid()).isEqualTo(testUuid);
-        assertThat(voucher.getDiscountValue().getValue())
+        assertThat(voucher.getDiscountValue())
                 .isEqualTo(discountValue);
     }
 
@@ -61,7 +61,7 @@ public class VoucherFactoryTest {
         // Then
         assertThat(voucher).isInstanceOf(PercentageVoucher.class);
         assertThat(voucher.getUuid()).isEqualTo(testUuid);
-        assertThat(voucher.getDiscountValue().getValue())
+        assertThat(voucher.getDiscountValue())
                 .isEqualTo(discountValue);
     }
 

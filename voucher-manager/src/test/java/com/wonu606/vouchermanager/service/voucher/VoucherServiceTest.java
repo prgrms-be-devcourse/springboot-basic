@@ -8,7 +8,7 @@ import static org.mockito.Mockito.times;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
-import com.wonu606.vouchermanager.repository.Repository;
+import com.wonu606.vouchermanager.repository.VoucherRepository;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,15 +20,15 @@ public class VoucherServiceTest {
 
     private VoucherFactory factory;
 
-    private Repository repository;
+    private VoucherRepository voucherRepository;
 
     private VoucherService voucherService;
 
     @BeforeEach
     public void setup() {
         this.factory = mock(VoucherFactory.class);
-        this.repository = mock(Repository.class);
-        this.voucherService = new VoucherService(factory, repository);
+        this.voucherRepository = mock(VoucherRepository.class);
+        this.voucherService = new VoucherService(factory, voucherRepository);
     }
 
     @Test
@@ -39,14 +39,14 @@ public class VoucherServiceTest {
         Voucher expectedVoucher = mock(Voucher.class);
 
         given(factory.create(dto)).willReturn(expectedVoucher);
-        given(repository.save(expectedVoucher)).willReturn(expectedVoucher);
+        given(voucherRepository.save(expectedVoucher)).willReturn(expectedVoucher);
 
         // When
         Voucher actualVoucher = voucherService.createVoucher(dto);
 
         // Then
         then(factory).should(times(1)).create(dto);
-        then(repository).should(times(1)).save(expectedVoucher);
+        then(voucherRepository).should(times(1)).save(expectedVoucher);
         assertEquals(expectedVoucher, actualVoucher);
     }
 
@@ -55,13 +55,13 @@ public class VoucherServiceTest {
     public void GivenSavedVouchers_WhenGetVoucherList_ThenReturnsExpectedVouchers() {
         // Given
         List<Voucher> expectedVouchers = Arrays.asList(mock(Voucher.class), mock(Voucher.class));
-        given(repository.findAll()).willReturn(expectedVouchers);
+        given(voucherRepository.findAll()).willReturn(expectedVouchers);
 
         // When
         List<Voucher> actualVouchers = voucherService.getVoucherList();
 
         // Then
-        then(repository).should(times(1)).findAll();
+        then(voucherRepository).should(times(1)).findAll();
         assertEquals(expectedVouchers, actualVouchers);
     }
 }

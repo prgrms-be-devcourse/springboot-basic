@@ -1,7 +1,6 @@
 package com.wonu606.vouchermanager;
 
 import com.wonu606.vouchermanager.consoleInterface.VoucherConsoleInterface;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

@@ -14,6 +14,4 @@ public class FixedAmountVoucher extends Voucher {
     public Price calculateDiscountedPrice(Price originalPrice) {
         return new Price(Math.max(originalPrice.getValue() - discountValue.getValue(), 0));
     }
-
-
 }

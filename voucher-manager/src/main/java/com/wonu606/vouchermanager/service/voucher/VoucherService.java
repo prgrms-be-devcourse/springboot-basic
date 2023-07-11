@@ -2,26 +2,28 @@ package com.wonu606.vouchermanager.service.voucher;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
-import com.wonu606.vouchermanager.repository.Repository;
+import com.wonu606.vouchermanager.repository.VoucherRepository;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class VoucherService {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherService.class);
     private static final int MAX_RETRIES = 3;
 
     private final VoucherFactory factory;
-    private final Repository repository;
+    private final VoucherRepository voucherRepository;
 
 
-    public VoucherService(VoucherFactory factory, Repository repository) {
+    public VoucherService(VoucherFactory factory, VoucherRepository voucherRepository) {
         this.factory = factory;
-        this.repository = repository;
+        this.voucherRepository = voucherRepository;
     }
 
     public Voucher createVoucher(VoucherDto voucherDto) {
@@ -36,7 +38,7 @@ public class VoucherService {
 
         Voucher voucher = factory.create(voucherDto);
         try {
-            return repository.save(voucher);
+            return voucherRepository.save(voucher);
         } catch (DuplicateKeyException e) {
             log.info("DuplicateKeyException가 발생하였습니다. ", e);
             return createVoucher(voucherDto, retryCount + 1);
@@ -44,7 +46,7 @@ public class VoucherService {
     }
 
     public List<Voucher> getVoucherList() {
-        return repository.findAll();
+        return voucherRepository.findAll();
     }
 }
 

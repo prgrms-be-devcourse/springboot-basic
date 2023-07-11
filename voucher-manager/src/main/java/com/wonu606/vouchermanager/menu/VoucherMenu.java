@@ -24,4 +24,8 @@ public enum VoucherMenu {
                 .map(v -> v.name().toLowerCase())
                 .collect(Collectors.toList());
     }
+
+    public boolean isNotExit() {
+        return this != EXIT;
+    }
 }

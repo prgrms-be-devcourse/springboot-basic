@@ -6,7 +6,6 @@ import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.io.VoucherConsoleIO;
 import com.wonu606.vouchermanager.menu.VoucherMenu;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +22,7 @@ public class VoucherConsoleInterface {
 
     public void run() {
         VoucherMenu menu = VoucherMenu.START;
-        while (isNotExitMenu(menu)) {
+        while (menu.isNotExit()) {
             try {
                 menu = voucherConsoleIO.selectMenu();
                 executeMenuAction(menu);
@@ -32,10 +31,6 @@ public class VoucherConsoleInterface {
             }
         }
         terminal();
-    }
-
-    private boolean isNotExitMenu(VoucherMenu menu) {
-        return menu != VoucherMenu.EXIT;
     }
 
     private void executeMenuAction(VoucherMenu menu) {
