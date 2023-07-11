@@ -8,6 +8,7 @@ import com.devcourse.springbootbasic.application.voucher.controller.VoucherDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class ConsoleManager {
@@ -54,7 +55,7 @@ public class ConsoleManager {
     public VoucherDto getVoucherDto() {
         var voucherType = consoleVoucherType();
         var discountValue = consoleDiscountValue(voucherType);
-        return new VoucherDto(voucherType, discountValue);
+        return new VoucherDto(UUID.randomUUID(), voucherType, discountValue);
     }
 
 }

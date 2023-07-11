@@ -5,13 +5,10 @@ import com.devcourse.springbootbasic.application.global.exception.InvalidDataExc
 import com.devcourse.springbootbasic.application.global.io.ConsoleManager;
 import com.devcourse.springbootbasic.application.global.model.ListMenu;
 import com.devcourse.springbootbasic.application.global.model.Menu;
-import com.devcourse.springbootbasic.application.voucher.VoucherConverter;
 import com.devcourse.springbootbasic.application.voucher.controller.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class ConsoleApplication implements Runnable {
@@ -53,13 +50,8 @@ public class ConsoleApplication implements Runnable {
                 consoleManager.consoleClosePlatform();
                 return true;
             }
-            case CREATE -> {
-                VoucherConverter.convertDtoToVoucher(consoleManager.getVoucherDto(), UUID.randomUUID());
-            }
-            case LIST -> {
-                var listMenu = consoleManager.consoleListMenu();
-                branchByListMenu(listMenu);
-            }
+            case CREATE -> voucherController.createVoucher(consoleManager.getVoucherDto());
+            case LIST -> branchByListMenu(consoleManager.consoleListMenu());
         }
         return false;
     }
