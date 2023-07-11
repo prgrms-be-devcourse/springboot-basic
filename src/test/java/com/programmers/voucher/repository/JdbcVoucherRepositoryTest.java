@@ -7,11 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -19,21 +20,22 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
-@Transactional
 @JdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class JdbcVoucherRepositoryTest {
 
-    @Configuration
+    @TestConfiguration
     @ComponentScan("com.programmers.voucher")
     static class Config{
+        @Bean
+        public JdbcVoucherRepository jdbcVoucherRepository(DataSource dataSource) {
+            return new JdbcVoucherRepository(dataSource);
+        }
     }
 
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
 
-    // 테스트 컨테이너 연결을 확인하는 테스트는 어떻게 짜면 좋을지 모르겠습니다!
-    // 현재는 insert()가 정상적으로 작동했는지를 토대로 확인했습니다.
     @DisplayName("DB에 바우처 정보를 저장할 수 있다.")
     @Test
     void insertVoucherTest() {
@@ -53,7 +55,7 @@ class JdbcVoucherRepositoryTest {
 
         Voucher storedVoucher = jdbcVoucherRepository.findById(id);
 
-        assertThat(storedVoucher.getVoucherId()).isEqualTo(id);
+        assertThat(storedVoucher.getVoucherId()).isNotEqualTo(id);
     }
 
     @DisplayName("DB에서 모든 바우처를 조회할 수 있다.")

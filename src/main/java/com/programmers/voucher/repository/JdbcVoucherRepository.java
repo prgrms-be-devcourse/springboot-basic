@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Primary
-@Profile({"jdbc", "test"})
+@Profile("jdbc")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 
@@ -72,7 +72,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
             Discount discount = Discount.of(discountType, discountValue);
             LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
             LocalDateTime expiredAt = rs.getTimestamp("expired_at").toLocalDateTime();
-
             return new Voucher(voucherId, discount, createdAt, expiredAt);
         };
     }
