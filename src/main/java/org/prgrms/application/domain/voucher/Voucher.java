@@ -1,30 +1,31 @@
 package org.prgrms.application.domain.voucher;
 
+// TODO : 바우처가 타입정책에 맞는 생성한다?
+public class Voucher {
+    private final Long voucherId;
+    private final VoucherType voucherType;
+    private double discountAmount;
 
-public abstract class Voucher {
-    protected static int MIN_DISCOUNT_VALUE = 0;
-    protected Long voucherId;
-    protected double discountAmount;
-
-    public Voucher(Long voucherId, double discountAmount){
+    public Voucher(Long voucherId, VoucherType voucherType, double discountAmount) {
         this.voucherId = voucherId;
+        this.voucherType = voucherType;
         this.discountAmount = discountAmount;
     }
 
-    public Long getVoucherId(){
+    public static Voucher of(Long voucherId, String voucherType, double discountAmount) {
+        System.out.println(discountAmount);
+        return new Voucher(voucherId, VoucherType.findBySelection(voucherType),discountAmount);
+    }
+
+    public Long getVoucherId() {
         return voucherId;
     }
 
-    public double getDiscountAmount(){
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
+    public double getDiscountAmount() {
         return discountAmount;
     }
-
-    public void changeDiscountAmount(double discountAmount){
-        this.discountAmount = discountAmount;
-    }
-
-    public abstract VoucherType getVoucherType();
-
-    public abstract double discount(double beforeDiscount);
-
 }

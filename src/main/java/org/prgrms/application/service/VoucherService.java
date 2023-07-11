@@ -5,36 +5,54 @@ import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.Random;
+
+import static java.lang.Math.abs;
 
 @Service
-public abstract class VoucherService {
+public class VoucherService {
 
-    protected VoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    public abstract void createVoucher(double voucherDetail);
+    public Voucher createVoucher(String voucherType, double discountAmount){
+        long voucherId = abs(new Random().nextLong());
+        System.out.println(voucherType);
+        Voucher voucher = Voucher.of(voucherId, voucherType, discountAmount);
+        VoucherEntity voucherEntity = voucherRepository.insert(toEntity(voucher));
 
-    public List<Voucher> getVouchers() {
+        return toDomain(voucherEntity);
+    }
+
+    public List<Voucher> getVouchers(){
         List<VoucherEntity> voucherEntities = voucherRepository.findAll();
-        return voucherEntities.stream().map(this::toDomain).collect(Collectors.toList());
-    }
-
-    protected Voucher toDomain(VoucherEntity voucherEntity){
-        switch (voucherEntity.getVoucherType()){
-            case "FIXED":
-                return new FixedAmountVoucher(voucherEntity.getVoucherId(), voucherEntity.getDiscountAmount());
-
-            case "PERCENT":
-                return new PercentAmountVoucher(voucherEntity.getVoucherId(), voucherEntity.getDiscountAmount());
-
-            default:
-                throw new IllegalArgumentException("알 수 없는 voucherType입니다.");
+        List<Voucher> vouchers = new ArrayList<>();
+        for (VoucherEntity voucherEntity : voucherEntities) {
+            vouchers.add(toDomain(voucherEntity));
         }
+        return vouchers;
     }
+
+    public void deleteVoucher(Long voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
+    private Voucher toDomain(VoucherEntity voucherEntity){
+        VoucherType voucherType = VoucherType.findBySelection(voucherEntity.getVoucherType());
+
+        return new Voucher(voucherEntity.getVoucherId(), voucherType, voucherEntity.getDiscountAmount());
+    }
+
+    private VoucherEntity toEntity(Voucher voucher){
+
+        return new VoucherEntity(voucher.getVoucherId(), voucher.getVoucherType().name(), voucher.getDiscountAmount());
+    }
+
 
 }
