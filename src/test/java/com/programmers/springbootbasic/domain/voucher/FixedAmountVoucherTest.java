@@ -18,10 +18,10 @@ class FixedAmountVoucherTest {
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = createdDate.plusMonths(3);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
         int amount = 5_000;
 
         // when
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
         Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, voucherDateTime, amount);
 
         // then
