@@ -17,7 +17,7 @@ public class VoucherConsoleIO extends AbstractConsoleIO {
     public VoucherMenu selectMenu() {
         displayMenu();
         String menuSelection = input.readString(VoucherMenu.getAllNames(), "Menu");
-        return VoucherMenu.getVoucherTypeByName(menuSelection);
+        return VoucherMenu.getTypeByName(menuSelection);
     }
 
     public String selectVoucherType() {

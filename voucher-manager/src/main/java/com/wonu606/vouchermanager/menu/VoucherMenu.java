@@ -12,7 +12,7 @@ public enum VoucherMenu {
     CREATE,
     LIST;
 
-    public static VoucherMenu getVoucherTypeByName(String name) {
+    public static VoucherMenu getTypeByName(String name) {
         return Arrays.stream(values())
                 .filter(v -> Objects.equals(v.name(), name.toUpperCase()))
                 .findFirst()
@@ -20,7 +20,7 @@ public enum VoucherMenu {
     }
 
     public static List<String> getAllNames() {
-        return Arrays.stream(VoucherMenu.values())
+        return Arrays.stream(values())
                 .map(v -> v.name().toLowerCase())
                 .collect(Collectors.toList());
     }

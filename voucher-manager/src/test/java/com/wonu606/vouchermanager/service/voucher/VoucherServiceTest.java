@@ -8,9 +8,11 @@ import static org.mockito.Mockito.times;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
-import com.wonu606.vouchermanager.repository.VoucherRepository;
+import com.wonu606.vouchermanager.repository.voucher.LocalMemoryVoucherVoucherRepository;
+import com.wonu606.vouchermanager.repository.voucher.VoucherRepository;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +29,7 @@ public class VoucherServiceTest {
     @BeforeEach
     public void setup() {
         this.factory = mock(VoucherFactory.class);
-        this.voucherRepository = mock(VoucherRepository.class);
+        this.voucherRepository = mock(LocalMemoryVoucherVoucherRepository.class);
         this.voucherService = new VoucherService(factory, voucherRepository);
     }
 
