@@ -9,8 +9,8 @@ public abstract class Voucher {
     private static final String NOT_ENOUGH_MINIMUM_PRICE_CONDITION = "최소 요구 금액을 충족하지 못합니다. 최소 요구 금액: ";
     private static final String CURRENT_PAYMENT_AMOUNT = "현재 결제 금액: ";
     private static final String EXPIRED_VOUCHER = "만료된 바우처입니다. 만료일자: ";
-    private static final String INVALID_ID = "빈 값이나 공백을 아이디로 사용할 수 없습니다. 현재 값: ";
-    private static final String INVALID_NAME = "빈 값이나 공백을 이름으로 사용할 수 없습니다. 현재 값: ";
+    private static final String ID_IS_NULL = "빈 값이나 공백을 아이디로 사용할 수 없습니다. 현재 값: ";
+    private static final String NAME_IS_BLANK = "빈 값이나 공백을 이름으로 사용할 수 없습니다. 현재 값: ";
     private final UUID voucherId;
     private final String name;
     private final Long minimumPriceCondition;
@@ -81,10 +81,10 @@ public abstract class Voucher {
 
     private void checkNullValue(UUID voucherId, String name) {
         if (isNullVoucherId(voucherId)) {
-            throw new IllegalArgumentException(INVALID_ID + voucherId);
+            throw new IllegalArgumentException(ID_IS_NULL + voucherId);
         }
         if (isNullName(name)) {
-            throw new IllegalArgumentException(INVALID_NAME + name);
+            throw new IllegalArgumentException(NAME_IS_BLANK + name);
         }
     }
 
