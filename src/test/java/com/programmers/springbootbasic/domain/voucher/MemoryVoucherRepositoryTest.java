@@ -20,9 +20,9 @@ class MemoryVoucherRepositoryTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 쿠폰";
-        LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiredAt = createdAt.plusMonths(3);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
 
         // when
         Voucher voucher = switch (voucherType) {
@@ -46,9 +46,9 @@ class MemoryVoucherRepositoryTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 5000원 할인 쿠폰";
-        LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiredAt = createdAt.plusMonths(3);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
         int amount = 5_000;
         Voucher voucher = new FixedAmountVoucher(voucherId, name, voucherDateTime, amount);
         Voucher saved = voucherRepository.save(voucher);

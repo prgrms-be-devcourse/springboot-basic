@@ -16,9 +16,9 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiredAt = createdAt.plusMonths(3);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
         int percent = 30;
 
         // when
@@ -33,9 +33,9 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiredAt = createdAt.plusMonths(3);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int percent = 30;
 
@@ -51,9 +51,9 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiredAt = createdAt.plusMonths(3);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
         int percent = 300;
 
         // when && then
@@ -66,9 +66,9 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiredAt = createdAt.plusMonths(3);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int percent = 300;
 
