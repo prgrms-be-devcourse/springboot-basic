@@ -1,0 +1,11 @@
+spring:
+  h2:
+  console:
+    enabled: true
+    path: /test
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/test;
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
