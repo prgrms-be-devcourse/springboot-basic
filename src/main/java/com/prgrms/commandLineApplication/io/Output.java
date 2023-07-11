@@ -1,5 +1,6 @@
 package com.prgrms.commandLineApplication.io;
 
+import com.prgrms.commandLineApplication.customer.Customer;
 import com.prgrms.commandLineApplication.voucher.Voucher;
 
 import java.util.List;
@@ -12,11 +13,17 @@ public interface Output {
 
   void requestDiscountAmount();
 
-  void printMenuError();
+  void printAllVouchers(List<Voucher> vouchers);
 
-  void printAllVoucher(List<Voucher> vouchers);
+  void printCreateVoucherSuccess(String voucherType, int discountAmount);
 
-  void printCreateSuccess(String voucherType, int discountAmount);
+  void requestCustomerName();
+
+  void requestCustomerEmail();
+
+  void printAllCustomers(List<Customer> customers);
+
+  void printCreateCustomerSuccess(String customerName, String email);
 
   void printErrorMessage(Exception e);
 

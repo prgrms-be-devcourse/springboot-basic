@@ -4,8 +4,10 @@ import java.util.NoSuchElementException;
 
 public enum MenuType {
   EXIT,
-  LIST,
-  CREATE;
+  VOUCHERLIST,
+  CREATEVOUCHER,
+  CUSTOMERLIST,
+  CREATECUSTOMER;
 
   private static final String MENU_TYPE_ERROR = "Invalid Menu Type";
 
