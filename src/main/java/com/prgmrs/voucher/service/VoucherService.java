@@ -33,9 +33,9 @@ public class VoucherService {
     }
 
     public VoucherResponse createVoucher(VoucherRequest voucherRequest) throws WrongRangeFormatException {
-        String token = voucherRequest.getToken();
+        String token = voucherRequest.token();
         Optional<Long> convertedValue = voucherValidator.stringToLongConverter(token);
-        VoucherSelectionType voucherSelectionType = voucherRequest.getVoucherType();
+        VoucherSelectionType voucherSelectionType = voucherRequest.voucherSelectionType();
         UUID uuid = UUID.randomUUID();
         Voucher voucher;
 
@@ -51,12 +51,12 @@ public class VoucherService {
 
         switch (voucherSelectionType) {
             case FIXED_AMOUNT_VOUCHER -> {
-                Amount amount = new Amount(discountValue.getValue());
+                Amount amount = new Amount(discountValue.value());
                 FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
                 voucher = new Voucher(uuid, fixedAmountDiscountStrategy);
             }
             case PERCENT_DISCOUNT_VOUCHER -> {
-                Percent percent = new Percent(discountValue.getValue());
+                Percent percent = new Percent(discountValue.value());
                 PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
                 voucher = new Voucher(uuid, percentDiscountStrategy);
             }

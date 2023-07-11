@@ -20,8 +20,8 @@ public class JdbcWalletRepository implements WalletRepository {
         String sql = "INSERT INTO wallet (voucher_id, user_id) VALUES (:voucherId, :userId)";
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherId", wallet.getVoucherId().toString());
-        paramMap.put("userId", wallet.getUserId().toString());
+        paramMap.put("voucherId", wallet.voucherId().toString());
+        paramMap.put("userId", wallet.userId().toString());
         jdbcTemplate.update(sql, paramMap);
     }
 
@@ -30,8 +30,8 @@ public class JdbcWalletRepository implements WalletRepository {
         String sql = "UPDATE wallet SET unassigned_time = CURRENT_TIMESTAMP WHERE voucher_id = :voucherId AND user_id = :userId";
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherId", wallet.getVoucherId().toString());
-        paramMap.put("userId", wallet.getUserId().toString());
+        paramMap.put("voucherId", wallet.voucherId().toString());
+        paramMap.put("userId", wallet.userId().toString());
         jdbcTemplate.update(sql, paramMap);
     }
 }

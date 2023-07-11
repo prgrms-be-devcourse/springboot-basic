@@ -49,7 +49,7 @@ public class ConsoleListWriter {
     }
 
     public void showVoucherList(VoucherListResponse voucherListResponse) {
-        List<Voucher> voucherHistory = voucherListResponse.getVoucherList();
+        List<Voucher> voucherHistory = voucherListResponse.voucherList();
 
         if (voucherHistory.isEmpty()) {
             showEmptyListMessage();
@@ -61,16 +61,16 @@ public class ConsoleListWriter {
 
         for (int i = 0; i < voucherHistory.size(); i++) {
             Voucher voucher = voucherHistory.get(i);
-            UUID uuid = voucher.getVoucherId();
+            UUID uuid = voucher.voucherId();
             String discountType;
             String discountValue;
 
-            if (voucher.getDiscountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
+            if (voucher.discountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
                 discountType = "Fixed";
-                discountValue = String.valueOf(fixedAmountDiscountStrategy.getAmount().getValue());
-            } else if (voucher.getDiscountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
+                discountValue = String.valueOf(fixedAmountDiscountStrategy.amount().value());
+            } else if (voucher.discountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
                 discountType = "Percent";
-                discountValue = String.format("%s%%", percentDiscountStrategy.getPercent().getValue());
+                discountValue = String.format("%s%%", percentDiscountStrategy.percent().value());
             } else {
                 throw new NoSuchVoucherTypeException("no such voucher type");
             }
@@ -81,7 +81,7 @@ public class ConsoleListWriter {
     }
 
     public void showUserList(UserListResponse userListResponse) {
-        List<User> userList = userListResponse.getUserList();
+        List<User> userList = userListResponse.userList();
 
         if (userList.isEmpty()) {
             showEmptyListMessage();
@@ -90,11 +90,11 @@ public class ConsoleListWriter {
 
         write("============== List of users ==============");
         write("uuid                                 name");
-        userList.forEach(user -> write(String.format("%s %s", user.getUserId(), user.getUsername())));
+        userList.forEach(user -> write(String.format("%s %s", user.userId(), user.username())));
     }
 
     public void showBlacklist(BlacklistResponse blacklistResponse) {
-        Map<UUID, String> blacklist = blacklistResponse.getBlacklist();
+        Map<UUID, String> blacklist = blacklistResponse.blacklist();
 
         if (blacklist.isEmpty()) {
             showEmptyListMessage();
@@ -122,11 +122,11 @@ public class ConsoleListWriter {
     }
 
     public void showUser(UserResponse userResponse) {
-        User user = userResponse.getUser();
+        User user = userResponse.user();
 
         write("=== Successfully retrieved the voucher owner ===");
-        write(MessageFormat.format("user id : {0}", user.getUserId()));
-        write(MessageFormat.format("username : {0}", user.getUsername()));
+        write(MessageFormat.format("user id : {0}", user.userId()));
+        write(MessageFormat.format("username : {0}", user.username()));
     }
 
     public void showWhichVoucher() {

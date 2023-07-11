@@ -21,7 +21,7 @@ class PercentDiscountVoucherTest {
         PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
         Voucher voucher = new Voucher(voucherId, percentDiscountStrategy);
 
-        UUID returnedVoucherId = voucher.getVoucherId();
+        UUID returnedVoucherId = voucher.voucherId();
 
         assertThat(returnedVoucherId, is(voucherId));
     }
@@ -34,9 +34,9 @@ class PercentDiscountVoucherTest {
         PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
         Voucher voucher = new Voucher(voucherId, percentDiscountStrategy);
 
-        Percent returnedPercent = ((PercentDiscountStrategy)voucher.getDiscountStrategy()).getPercent();
+        Percent returnedPercent = ((PercentDiscountStrategy)voucher.discountStrategy()).percent();
 
-        assertThat(returnedPercent.getValue(), is(percent.getValue()));
+        assertThat(returnedPercent.value(), is(percent.value()));
     }
 
     @Test
@@ -49,7 +49,7 @@ class PercentDiscountVoucherTest {
         Voucher voucher = new Voucher(voucherId, percentDiscountStrategy);
         DiscountValue discountValue = voucher.discount(beforeDiscount);
 
-        assertThat(discountValue.getValue(), is( (beforeDiscount.getValue()/100 * percent.getValue()) ));
+        assertThat(discountValue.value(), is( (beforeDiscount.value()/100 * percent.value()) ));
     }
 
     @Test

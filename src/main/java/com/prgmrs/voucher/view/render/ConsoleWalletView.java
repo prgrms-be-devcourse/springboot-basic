@@ -1,18 +1,18 @@
 package com.prgmrs.voucher.view.render;
 
-import com.prgmrs.voucher.controller.WalletController;
 import com.prgmrs.voucher.controller.UserController;
 import com.prgmrs.voucher.controller.VoucherController;
+import com.prgmrs.voucher.controller.WalletController;
 import com.prgmrs.voucher.dto.request.WalletRequest;
-import com.prgmrs.voucher.dto.response.WalletResponse;
 import com.prgmrs.voucher.dto.response.UserListResponse;
 import com.prgmrs.voucher.dto.response.VoucherListResponse;
+import com.prgmrs.voucher.dto.response.WalletResponse;
 import com.prgmrs.voucher.enums.WalletSelectionType;
 import com.prgmrs.voucher.exception.NoSuchChoiceException;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.view.ConsoleReader;
-import com.prgmrs.voucher.view.writer.ConsoleWalletWriter;
 import com.prgmrs.voucher.view.writer.ConsoleListWriter;
+import com.prgmrs.voucher.view.writer.ConsoleWalletWriter;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -69,7 +69,7 @@ public class ConsoleWalletView {
             consoleWalletWriter.showNumberVoucher(WalletSelectionType.ASSIGN_VOUCHER);
             String order = consoleReader.read();
 
-            WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.getVoucherList());
+            WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.voucherList());
             try {
                 WalletResponse walletResponse = walletController.assignVoucher(walletRequest);
                 consoleWalletWriter.showWalletResult(walletResponse, WalletSelectionType.ASSIGN_VOUCHER);
@@ -94,7 +94,7 @@ public class ConsoleWalletView {
             consoleWalletWriter.showNumberVoucher(WalletSelectionType.FREE_VOUCHER);
             String order = consoleReader.read();
 
-            WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.getVoucherList());
+            WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.voucherList());
             try {
                 WalletResponse walletResponse = walletController.freeVoucher(walletRequest);
                 consoleWalletWriter.showWalletResult(walletResponse, WalletSelectionType.FREE_VOUCHER);

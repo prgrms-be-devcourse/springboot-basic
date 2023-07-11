@@ -21,7 +21,7 @@ class FixedAmountVoucherTest {
         FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
         Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
-        UUID returnedVoucherId = voucher.getVoucherId();
+        UUID returnedVoucherId = voucher.voucherId();
 
         assertThat(returnedVoucherId, is(voucherId));
     }
@@ -34,9 +34,9 @@ class FixedAmountVoucherTest {
         FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
         Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
-        Amount returnedAmount = ((FixedAmountDiscountStrategy)voucher.getDiscountStrategy()).getAmount();
+        Amount returnedAmount = ((FixedAmountDiscountStrategy)voucher.discountStrategy()).amount();
 
-        assertThat(returnedAmount, is(amount.getValue()));
+        assertThat(returnedAmount, is(amount.value()));
     }
 
     @Test
@@ -50,7 +50,7 @@ class FixedAmountVoucherTest {
 
         DiscountValue amountAfterDiscount = voucher.discount(beforeDiscount);
 
-        assertThat(amountAfterDiscount.getValue(), is(beforeDiscount.getValue() - amount.getValue()));
+        assertThat(amountAfterDiscount.value(), is(beforeDiscount.value() - amount.value()));
     }
 
     @Test
@@ -64,6 +64,6 @@ class FixedAmountVoucherTest {
 
         DiscountValue discountValueAfterDiscount = voucher.discount(discountValueBeforeDiscount);
 
-        assertThat(discountValueAfterDiscount.getValue(), is(0L));
+        assertThat(discountValueAfterDiscount.value(), is(0L));
     }
 }

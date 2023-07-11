@@ -29,18 +29,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         Map<String, Object> paramMap = new HashMap<>();
 
-        paramMap.put("voucherId", voucher.getVoucherId().toString());
+        paramMap.put("voucherId", voucher.voucherId().toString());
 
-        if (voucher.getDiscountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
+        if (voucher.discountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
             short discountType = DiscountType.fromEnumValue("FIXED_AMOUNT_DISCOUNT");
             paramMap.put("discountType", discountType);
-            paramMap.put("discountValue", fixedAmountDiscountStrategy.getAmount().getValue());
+            paramMap.put("discountValue", fixedAmountDiscountStrategy.amount().value());
         }
 
-        if (voucher.getDiscountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
+        if (voucher.discountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
             short discountType = DiscountType.fromEnumValue("PERCENT_DISCOUNT");
             paramMap.put("discountType", discountType);
-            paramMap.put("discountValue", percentDiscountStrategy.getPercent().getValue());
+            paramMap.put("discountValue", percentDiscountStrategy.percent().value());
         }
 
         jdbcTemplate.update(sql, paramMap);
@@ -108,7 +108,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             long discountValue = (long) row.get("discount_value");
             DiscountStrategy discountStrategy;
 
-            switch(discountTypeEnum) {
+            switch (discountTypeEnum) {
                 case FIXED_AMOUNT_DISCOUNT -> {
                     Amount amount = new Amount(discountValue);
                     discountStrategy = new FixedAmountDiscountStrategy(amount);

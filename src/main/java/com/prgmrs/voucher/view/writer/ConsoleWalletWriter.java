@@ -22,7 +22,7 @@ public class ConsoleWalletWriter {
     }
 
     public void showNameUser(WalletSelectionType walletSelectionType) {
-        switch(walletSelectionType) {
+        switch (walletSelectionType) {
             case ASSIGN_VOUCHER -> {
                 write("=== Selecting a user for wallet ===");
                 write("Type existing username to assign voucher");
@@ -35,7 +35,7 @@ public class ConsoleWalletWriter {
     }
 
     public void showNumberVoucher(WalletSelectionType walletSelectionType) {
-        switch(walletSelectionType) {
+        switch (walletSelectionType) {
             case ASSIGN_VOUCHER -> {
                 write("=== Selecting a voucher to assign ===");
                 write("Type row number of the voucher you want to assign");
@@ -48,16 +48,16 @@ public class ConsoleWalletWriter {
     }
 
     public void showWalletResult(WalletResponse walletResponse, WalletSelectionType walletSelectionType) {
-        Wallet wallet = walletResponse.getWallet();
+        Wallet wallet = walletResponse.wallet();
 
-        switch(walletSelectionType) {
+        switch (walletSelectionType) {
             case ASSIGN_VOUCHER -> write("=== Successfully assigned the voucher to the user ===");
             case FREE_VOUCHER -> write("=== Successfully freed the voucher from user ===");
 
         }
 
-        write(MessageFormat.format("user id : {0}", wallet.getUserId()));
-        write(MessageFormat.format("username : {0}", walletResponse.getUsername()));
-        write(MessageFormat.format("voucher id: {0}", wallet.getVoucherId()));
+        write(MessageFormat.format("user id : {0}", wallet.userId()));
+        write(MessageFormat.format("username : {0}", walletResponse.username()));
+        write(MessageFormat.format("voucher id: {0}", wallet.voucherId()));
     }
 }

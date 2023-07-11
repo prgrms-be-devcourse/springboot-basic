@@ -22,8 +22,8 @@ public class JdbcUserRepository implements UserRepository {
         String sql = "INSERT INTO user (user_id, username) VALUES (:userId, :username)";
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("userId", user.getUserId().toString());
-        paramMap.put("username", user.getUsername());
+        paramMap.put("userId", user.userId().toString());
+        paramMap.put("username", user.username());
 
         jdbcTemplate.update(sql, paramMap);
     }
@@ -62,7 +62,7 @@ public class JdbcUserRepository implements UserRepository {
         String sql = "SELECT u.user_id, u.username FROM user u JOIN wallet w ON u.user_id = w.user_id WHERE w.voucher_id = :voucher_id";
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucher_id", voucher.getVoucherId().toString());
+        paramMap.put("voucher_id", voucher.voucherId().toString());
 
         return jdbcTemplate.queryForObject(sql, paramMap, (rs, rowNum) -> {
             UUID userId = UUID.fromString(rs.getString("user_id"));

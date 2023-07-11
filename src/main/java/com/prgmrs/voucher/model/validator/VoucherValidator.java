@@ -33,12 +33,12 @@ public class VoucherValidator {
         boolean isValid = true;
 
         if (type == VoucherSelectionType.FIXED_AMOUNT_VOUCHER
-                && (0 >= discountValue.getValue() || discountValue.getValue() > voucherProperties.getMaximumFixedAmount())) {
+                && (0 >= discountValue.value() || discountValue.value() > voucherProperties.getMaximumFixedAmount())) {
             isValid = false;
         }
 
         if (type == VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER
-                && (0 >= discountValue.getValue() || discountValue.getValue() > 100)) {
+                && (0 >= discountValue.value() || discountValue.value() > 100)) {
             isValid = false;
         }
 

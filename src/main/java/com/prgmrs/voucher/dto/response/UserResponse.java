@@ -2,13 +2,5 @@ package com.prgmrs.voucher.dto.response;
 
 import com.prgmrs.voucher.model.User;
 
-public class UserResponse {
-    private final User user;
-
-    public UserResponse(User user) {
-        this.user = user;
-    }
-    public User getUser() {
-        return user;
-    }
+public record UserResponse(User user) {
 }

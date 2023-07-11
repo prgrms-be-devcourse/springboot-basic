@@ -28,7 +28,8 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAssignedVoucherListByUsername(String username) {
-        return Collections.emptyList();    }
+        return Collections.emptyList();
+    }
 
     @Override
     public List<Voucher> getNotAssignedVoucher() {
@@ -37,5 +38,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAssignedVoucherList() {
-        return Collections.emptyList();    }
+        return Collections.emptyList();
+    }
 }

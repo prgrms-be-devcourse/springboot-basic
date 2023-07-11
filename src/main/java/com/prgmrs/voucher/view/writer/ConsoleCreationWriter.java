@@ -58,25 +58,25 @@ public class ConsoleCreationWriter {
     }
 
     public void showVoucherResult(VoucherResponse voucherResponse) {
-        Voucher voucher = voucherResponse.getVoucher();
+        Voucher voucher = voucherResponse.voucher();
 
         write("=== Successfully created a new voucher ===");
-        if (voucher.getDiscountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
-            write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
-            write(MessageFormat.format("discount amount : {0}", fixedAmountDiscountStrategy.getAmount().getValue()));
+        if (voucher.discountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
+            write(MessageFormat.format("voucher id : {0}", voucher.voucherId()));
+            write(MessageFormat.format("discount amount : {0}", fixedAmountDiscountStrategy.amount().value()));
             return;
         }
-        if (voucher.getDiscountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
-            write(MessageFormat.format("voucher id : {0}", voucher.getVoucherId()));
-            write(MessageFormat.format("discount percent : {0}%", percentDiscountStrategy.getPercent().getValue()));
+        if (voucher.discountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
+            write(MessageFormat.format("voucher id : {0}", voucher.voucherId()));
+            write(MessageFormat.format("discount percent : {0}%", percentDiscountStrategy.percent().value()));
         }
     }
 
     public void showUserResult(UserResponse userResponse) {
-        User user = userResponse.getUser();
+        User user = userResponse.user();
 
         write("=== Successfully created a new user ===");
-        write(MessageFormat.format("user id : {0}", user.getUserId()));
-        write(MessageFormat.format("name : {0}", user.getUsername()));
+        write(MessageFormat.format("user id : {0}", user.userId()));
+        write(MessageFormat.format("name : {0}", user.username()));
     }
 }

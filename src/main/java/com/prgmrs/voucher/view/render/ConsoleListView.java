@@ -53,11 +53,11 @@ public class ConsoleListView {
 
     private void redirectListType(ListSelectionType listSelectionType) {
         switch (listSelectionType) {
-            case SHOW_ENTIRE_VOUCHER -> {
+            case SHOW_ALL_VOUCHERS -> {
                 VoucherListResponse voucherListResponse = voucherController.findAll();
                 consoleListWriter.showVoucherList(voucherListResponse);
             }
-            case SHOW_USER_LIST -> selectUser();
+            case SHOW_USER_WALLET -> selectUser();
             case SHOW_VOUCHER_OWNER -> selectVoucher();
             case SHOW_BLACKLIST -> {
                 if (!blacklistProperties.isBlacklistAllow())
@@ -97,7 +97,7 @@ public class ConsoleListView {
             consoleListWriter.showWhichVoucher();
             String order = consoleReader.read();
 
-            UserListRequest userListRequest = new UserListRequest(order, voucherListResponse.getVoucherList());
+            UserListRequest userListRequest = new UserListRequest(order, voucherListResponse.voucherList());
 
             try {
                 UserResponse userResponse = userController.getUserByVoucherId(userListRequest);

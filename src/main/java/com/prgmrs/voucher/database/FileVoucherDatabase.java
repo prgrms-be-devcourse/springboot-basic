@@ -73,13 +73,13 @@ public class FileVoucherDatabase implements VoucherDatabase {
                 writer.writeNext(header);
             }
 
-            if (voucher.getDiscountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
-                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherSelectionType.FIXED_AMOUNT_VOUCHER.getValue(), Long.toString(fixedAmountDiscountStrategy.getAmount().getValue())});
+            if (voucher.discountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
+                writer.writeNext(new String[]{voucher.voucherId().toString(), VoucherSelectionType.FIXED_AMOUNT_VOUCHER.getValue(), Long.toString(fixedAmountDiscountStrategy.amount().value())});
                 return;
             }
 
-            if (voucher.getDiscountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
-                writer.writeNext(new String[]{voucher.getVoucherId().toString(), VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER.getValue(), Long.toString(percentDiscountStrategy.getPercent().getValue())});
+            if (voucher.discountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
+                writer.writeNext(new String[]{voucher.voucherId().toString(), VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER.getValue(), Long.toString(percentDiscountStrategy.percent().value())});
             }
         } catch (Exception e) {
             logger.error("unexpected error occurred : ", e);
