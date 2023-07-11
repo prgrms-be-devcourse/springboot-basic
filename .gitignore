@@ -172,3 +172,4 @@ gradle-app.setting
 
 .DS_Store
 
+*.csv
