@@ -1,7 +1,10 @@
 package org.programmers.VoucherManagement.member.domain;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.UUID;
 
+@EqualsAndHashCode
 public class Member {
 
     private UUID memberUUID;
