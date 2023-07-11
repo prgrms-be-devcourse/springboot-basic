@@ -14,7 +14,7 @@ MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        storage.put(UUID.randomUUID(), voucher);
+        storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
