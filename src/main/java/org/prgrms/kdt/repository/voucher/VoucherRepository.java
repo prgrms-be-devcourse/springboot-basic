@@ -9,5 +9,7 @@ public interface VoucherRepository {
     VoucherEntity findById(Long voucherId);
     List<VoucherEntity> findAll();
 
+    List<VoucherEntity> findByType(String voucherType);
+
     void deleteById(Long voucherId);
 }

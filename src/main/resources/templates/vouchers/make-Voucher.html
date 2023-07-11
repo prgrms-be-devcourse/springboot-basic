@@ -13,11 +13,11 @@
 <h1>Voucher 등록</h1>
 <form th:action="@{/vouchers/new}" method="post">
     <div class="mb-3">
-        <label for="voucherType" class="form-label">Email address</label>
+        <label for="voucherType" class="form-label">바우처 타입</label>
         <input type="text" name="voucherType" class="form-control" id="voucherType" aria-describedby="emailHelp">
     </div>
     <div class="mb-3">
-        <label for="amount" class="form-label">Name</label>
+        <label for="amount" class="form-label">할인 금액 / 할인률</label>
         <input type="number" name="amount" class="form-control" id="amount">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>

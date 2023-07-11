@@ -5,53 +5,49 @@ import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.request.voucher.CreateVoucherRequest;
 import org.prgrms.kdt.service.voucher.VoucherService;
 import org.prgrms.kdt.utils.VoucherType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/vouchers")
 @RequiredArgsConstructor
-public class VoucherController {
+public class RestApiVoucherController {
 
     private final VoucherService voucherService;
 
-    @GetMapping("/new")
-    public String makeVoucher() {
-        return "vouchers/make-Voucher";
-    }
     @ModelAttribute("voucherTypes")
     public VoucherType[] voucherTypes() {
         return VoucherType.values();
     }
 
     @PostMapping("/new")
-    public String addNewCustomer(CreateVoucherRequest createVoucherRequest) {
+    public Voucher addNewCustomer(CreateVoucherRequest createVoucherRequest) {
         Voucher saveVoucher = voucherService.save(VoucherType.of(createVoucherRequest.voucherType()), createVoucherRequest.amount());
-        return "redirect:/";
+        return saveVoucher;
     }
 
     @GetMapping("/list")
-    public String showVoucherList(Model model) {
+    public List<Voucher> showVoucherList() {
         List<Voucher> voucherList = voucherService.getVouchers();
-        model.addAttribute("voucherList", voucherList);
-        return "vouchers/voucher-list";
+        return voucherList;
+    }
+
+    @GetMapping("/list/{voucherType}")
+    public List<Voucher> findByVoucherType(@PathVariable("voucherType") String voucherType) {
+        List<Voucher> vouchersByType = voucherService.getVouchersByType(voucherType);
+        return vouchersByType;
     }
 
 
-
     @GetMapping("/view/{voucherId}")
-    public String viewVoucher(Model model, @PathVariable("voucherId") Long voucherId) {
-        Model voucher = model.addAttribute("voucher", voucherService.getVoucherById(voucherId));
-        return "vouchers/voucher-view";
+    public Voucher viewVoucher(@PathVariable("voucherId") Long voucherId) {
+        return voucherService.getVoucherById(voucherId);
     }
 
 
     @GetMapping("/delete/{voucherId}")
-    public String deleteVoucher( @PathVariable("voucherId") Long voucherId) {
+    public void deleteVoucher( @PathVariable("voucherId") Long voucherId) {
         voucherService.deleteById(voucherId);
-        return "/";
     }
 }

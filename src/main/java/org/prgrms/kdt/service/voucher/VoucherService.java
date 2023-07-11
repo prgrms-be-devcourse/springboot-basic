@@ -20,7 +20,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher getVoucher(Long voucherId) {
+    public Voucher getVoucherById(Long voucherId) {
         VoucherEntity voucherEntity = null;
         try {
             voucherEntity = voucherRepository.findById(voucherId);
@@ -28,6 +28,11 @@ public class VoucherService {
             new RuntimeException("can not find a voucher for" + voucherId);
         }
         return toDomain(voucherEntity);
+    }
+
+    public List<Voucher> getVouchersByType(String voucherType){
+        List<VoucherEntity> voucherEntities = voucherRepository.findByType(voucherType);
+        return voucherEntities.stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     public List<Voucher> getVouchers() {
@@ -47,7 +52,6 @@ public class VoucherService {
             }
             default -> throw new RuntimeException("해당 바우처는 발급 불가능합니다");
         }
-
     }
 
     public void deleteById(Long voucherId) {

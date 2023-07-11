@@ -10,8 +10,8 @@ import java.util.function.Function;
 public enum VoucherType {
 
 
-    FIXED("FIXED", (value)->new FixedAmountVoucher(new Random().nextLong(),value)),
-    PERCENT("PERCENT", (value)->new PercentDiscountVoucher(new Random().nextLong(),value));
+    FIXED("FIXED", (value)->new FixedAmountVoucher(new Random().nextLong() > 0 ?  new Random().nextLong() : (new Random().nextLong()) * (-1),value)),
+    PERCENT("PERCENT", (value)->new PercentDiscountVoucher(new Random().nextLong() > 0 ?  new Random().nextLong() : (new Random().nextLong()) * (-1),value));
 
     private final String matchString;
     private final Function<Long,Voucher> expression;

@@ -30,12 +30,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, i) -> {
-        VoucherEntity voucherEntity;
         final Long voucherId = resultSet.getLong("voucher_id");
         final String voucherType = resultSet.getString("voucher_type");
         Long amount = resultSet.getLong("discount_amount");
         boolean status = resultSet.getBoolean("status");
-        voucherEntity = new VoucherEntity(voucherId,voucherType,amount,status);
+        VoucherEntity voucherEntity = new VoucherEntity(voucherId, voucherType, amount, status);
         return voucherEntity.toEntity(VoucherType.of(voucherType).makeVoucher(amount));
     };
 
@@ -62,8 +61,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public VoucherEntity findById(Long voucherId){
         try {
             return jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = ?",
-                    voucherRowMapper,
-                    voucherId);
+                    voucherRowMapper, voucherId);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("결과값이 없습니다!");
+            return null;
+        }
+    }
+
+    @Override
+    public List<VoucherEntity> findByType(String voucherType) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = ?",
+                    voucherRowMapper, voucherType);
         } catch (EmptyResultDataAccessException e) {
             logger.error("결과값이 없습니다!");
             return null;
