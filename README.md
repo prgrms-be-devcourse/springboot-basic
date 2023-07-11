@@ -3,7 +3,7 @@
 
 ## 그림 그리기 및 소개하기
 #### 객체의 행동과 상태
-![img_2.png](doc/week2/img_2.png)
+![img.png](doc/week2/img.png)
 
 #### 클래스 다이어 그램(역할 및 책임)
 ![img_1.png](doc/week2/img_1.png)
