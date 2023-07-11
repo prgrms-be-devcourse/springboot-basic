@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,6 +20,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(), voucher);
 
         return voucher;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override

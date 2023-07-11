@@ -9,10 +9,15 @@ import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
+    private static final String NOT_FOUND_VOUCHER = "바우처를 찾지 못했습니다.";
+
     private final VoucherRepository voucherRepository;
 
     public VoucherServiceImpl(VoucherRepository voucherRepository) {
@@ -30,6 +35,16 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher savedVoucher = voucherRepository.save(voucher);
 
         return VoucherDto.toDto(savedVoucher.getVoucherType(), savedVoucher.getAmount());
+    }
+
+    @Override
+    public VoucherDto getVoucher(UUID voucherId) {
+        Voucher voucher = validateExist(voucherRepository.findById(voucherId));
+        return VoucherDto.toDto(voucher.getVoucherType(), voucher.getAmount());
+    }
+
+    private Voucher validateExist(Optional<Voucher> voucher) {
+        return voucher.orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER));
     }
 
     @Override
