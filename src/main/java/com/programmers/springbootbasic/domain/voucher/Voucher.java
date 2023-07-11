@@ -19,7 +19,7 @@ public abstract class Voucher {
     private boolean used = false;
 
     protected Voucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime) {
-        checkInvalidValue(voucherId, name);
+        checkNullValue(voucherId, name);
         this.voucherId = voucherId;
         this.name = name;
         this.minimumPriceCondition = minimumPriceCondition == null ? ZERO : minimumPriceCondition;
@@ -59,11 +59,11 @@ public abstract class Voucher {
         return used;
     }
 
-    private boolean isInvalidVoucherId(UUID voucherId) {
+    private boolean isNullVoucherId(UUID voucherId) {
         return voucherId == null;
     }
 
-    private boolean isInvalidName(String name) {
+    private boolean isNullName(String name) {
         return name == null || name.isBlank();
     }
 
@@ -79,11 +79,11 @@ public abstract class Voucher {
         }
     }
 
-    private void checkInvalidValue(UUID voucherId, String name) {
-        if (isInvalidVoucherId(voucherId)) {
+    private void checkNullValue(UUID voucherId, String name) {
+        if (isNullVoucherId(voucherId)) {
             throw new IllegalArgumentException(INVALID_ID + voucherId);
         }
-        if (isInvalidName(name)) {
+        if (isNullName(name)) {
             throw new IllegalArgumentException(INVALID_NAME + name);
         }
     }
