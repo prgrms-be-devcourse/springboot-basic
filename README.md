@@ -43,3 +43,21 @@
     - [X] Voucher, Customer 관련 기능 분리, `VoucherApp#VoucherManagementApp`, `VoucherApp#CustomerManagementApp`
     - [X] 고객 블랙 리스트 조회 서비스를 이용하도록, blacklist command 추가
     - [X] Customer Domain 추가
+
+---
+
+## Part2
+
+- [X] Hamcrest의 matcher를 이용하여 테스트 코드 작성해보기
+- [X] 가능한 많은 단위 테스트 코드를 작성하기, 엣지 케이스 고려하기
+
+- [X] customers 테이블 정의 및 추가하기
+- [X] Customer Repository 를 추가하고 JdbcTemplate 를 사용하기 `#CustomerJdbcStorage`
+
+- [X] Voucher 정보를 DB로 관리하기
+- [X] vouchers 테이블을 정의하기
+- [X] voucher Repository 만들기, JdbcTemplate 사용해서 구현 `#VoucherJdbcStorage`
+
+- [X] 관리 프로그램에서 각 명령어를 실행 할 수 있도록 하기
+    - [X] Customer 용 Command
+    - [X] Voucher 용 Command

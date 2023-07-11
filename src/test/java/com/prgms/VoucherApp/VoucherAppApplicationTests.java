@@ -8,6 +8,6 @@ class VoucherAppApplicationTests {
 
     @Test
     void contextLoads() {
-    }
 
+    }
 }

@@ -1,8 +1,12 @@
 package com.prgms.VoucherApp.view.console;
 
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.view.Command;
+import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
+import com.prgms.VoucherApp.util.UUIDFormatChecker;
+import com.prgms.VoucherApp.view.CustomerCommand;
 import com.prgms.VoucherApp.view.Input;
+import com.prgms.VoucherApp.view.ManagementType;
+import com.prgms.VoucherApp.view.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.slf4j.Logger;
@@ -23,13 +27,72 @@ public class ConsoleInputView implements Input {
     }
 
     @Override
-    public String inputCommand() {
+    public Integer inputManagementCommand() {
+        return textIO.newIntInputReader()
+            .withInputTrimming(true)
+            .withInlinePossibleValues(1, 2, 3)
+            .withValueChecker((val, itemName) -> {
+                if (!ManagementType.containsManagementType(val)) {
+                    log.warn("inputCommand [{}] is invalid value", val);
+                    return List.of("Please input a valid value.");
+                }
+                return null;
+            })
+            .read("명령어를 입력해주세요 >>");
+    }
+
+    @Override
+    public Integer inputCustomerCommand() {
+        return textIO.newIntInputReader()
+            .withInputTrimming(true)
+            .withInlinePossibleValues(1, 2, 3, 4, 5, 6, 7, 8)
+            .withValueChecker((val, itemName) -> {
+                if (!CustomerCommand.containsCustomerCommand(val)) {
+                    log.warn("inputCustomerCommand [{}] is invalid value", val);
+                    return List.of("Please input a valid value.");
+                }
+                return null;
+            })
+            .read("명령어를 입력해주세요 >>");
+    }
+
+    @Override
+    public String inputCustomerStatus() {
         return textIO.newStringInputReader()
             .withInputTrimming(true)
-            .withInlinePossibleValues("exit", "create", "list", "blacklist")
+            .withInlinePossibleValues("normal, blacklist")
             .withValueChecker((val, itemName) -> {
-                if (!Command.containsCommand(val)) {
-                    log.warn("inputCommand [{}] is invalid value", val);
+                if (!CustomerStatus.containsCustomerStatus(val)) {
+                    log.warn("inputCustomerStatus [{}] is invalid value", val);
+                    return List.of("Please input a valid value.");
+                }
+                return null;
+            })
+            .read("고객 상태를 입력해주세요. >>");
+    }
+
+    @Override
+    public String inputUUID() {
+        return textIO.newStringInputReader()
+            .withInputTrimming(true)
+            .withValueChecker((val, itemName) -> {
+                if (!UUIDFormatChecker.isValidUUID(val)) {
+                    log.warn("input UUID [{}] is invalid format", val);
+                    return List.of("Please input UUID Format 00000000-0000-0000-0000-000000000000");
+                }
+                return null;
+            })
+            .read("도메인 ID를 입력해주세요. >>");
+    }
+
+    @Override
+    public Integer inputVoucherCommand() {
+        return textIO.newIntInputReader()
+            .withInputTrimming(true)
+            .withInlinePossibleValues(1, 2, 3, 4, 5, 6, 7)
+            .withValueChecker((val, itemName) -> {
+                if (!VoucherCommand.containsVoucherCommand(val)) {
+                    log.warn("inputVoucherCommand [{}] is invalid value", val);
                     return List.of("Please input a valid value.");
                 }
                 return null;

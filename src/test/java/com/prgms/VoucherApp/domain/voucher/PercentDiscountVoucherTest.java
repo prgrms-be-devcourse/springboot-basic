@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain.voucher;
 
+import com.prgms.VoucherApp.domain.voucher.model.PercentDiscountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -17,7 +18,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("비율 값 할인")
     void percentDiscount(BigDecimal percent, BigDecimal result) {
         // given
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent, VoucherType.PERCENT_VOUCHER);
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
 
         // when
         BigDecimal actualDiscount = percentDiscountVoucher.discount(BigDecimal.valueOf(10000L));

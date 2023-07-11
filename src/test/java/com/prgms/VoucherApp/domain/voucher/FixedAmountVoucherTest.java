@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain.voucher;
 
+import com.prgms.VoucherApp.domain.voucher.model.FixedAmountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -16,7 +17,7 @@ class FixedAmountVoucherTest {
     @DisplayName("고정 비용으로 할인이 된다.")
     void fixedAmountDiscount(BigDecimal fixedAmount, BigDecimal result) {
         // given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), fixedAmount, VoucherType.FIXED_VOUCHER);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), fixedAmount);
 
         // when
         BigDecimal actualDiscount = fixedAmountVoucher.discount(BigDecimal.valueOf(10000L));

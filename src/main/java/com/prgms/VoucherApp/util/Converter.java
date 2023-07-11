@@ -1,14 +1,16 @@
 package com.prgms.VoucherApp.util;
 
-import com.prgms.VoucherApp.domain.voucher.FixedAmountVoucher;
-import com.prgms.VoucherApp.domain.voucher.PercentDiscountVoucher;
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
+import com.prgms.VoucherApp.domain.customer.model.Customer;
+import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
+import com.prgms.VoucherApp.domain.voucher.model.FixedAmountVoucher;
+import com.prgms.VoucherApp.domain.voucher.model.PercentDiscountVoucher;
+import com.prgms.VoucherApp.domain.voucher.model.Voucher;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class Converter {
+public final class Converter {
     private static final String DELIMITER = ",";
 
     private Converter() {
@@ -21,10 +23,16 @@ public class Converter {
         VoucherType voucherType = VoucherType.findByVoucherTypeName(voucherField[2]);
 
         if (voucherType.isFixedVoucher()) {
-            return new FixedAmountVoucher(voucherId, amount, voucherType);
+            return new FixedAmountVoucher(voucherId, amount);
         }
 
-        return new PercentDiscountVoucher(voucherId, amount, voucherType);
+        return new PercentDiscountVoucher(voucherId, amount);
+    }
+
+    public static Customer convertToBlacklist(String record) {
+        UUID customerId = UUID.fromString(record);
+
+        return new Customer(customerId, CustomerStatus.BLACKLIST);
     }
 
     public static String toString(Voucher voucher) {

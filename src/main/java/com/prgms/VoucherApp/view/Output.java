@@ -1,24 +1,36 @@
 package com.prgms.VoucherApp.view;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
+import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 
 import java.util.List;
 
 public interface Output {
-    void printDisplayMenu();
+    void printManagementMenu();
+
+    void printCustomerCommand();
+
+    void printVoucherCommand();
 
     void printDisplayVoucherPolicy();
 
-    void printErrorMsg(String exception);
+    void printErrorMsg(String msg);
 
     void printDisplayDiscountCondition(VoucherType policy);
 
-    void printCreatedMsg(Voucher voucher);
+    void printCustomers(CustomersResponse customers);
 
-    void printVoucherList(List<VoucherDto> voucher);
+    void printCustomer(CustomerResponse customer);
 
-    void printBlackLists(List<CustomerDto> blackLists);
+    void printVoucherList(List<VoucherResponse> voucher);
+
+    void printVoucher(VoucherResponse voucher);
+
+    void printBlackLists(CustomersResponse blacklists);
+
+    void printFindEmpty();
+
+    void printNotImplementMsg();
 }

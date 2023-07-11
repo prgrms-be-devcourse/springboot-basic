@@ -1,10 +1,13 @@
 package com.prgms.VoucherApp.view.console;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerDto;
-import com.prgms.VoucherApp.domain.voucher.Voucher;
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
-import com.prgms.VoucherApp.domain.voucher.dto.VoucherDto;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
+import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
+import com.prgms.VoucherApp.view.CustomerCommand;
+import com.prgms.VoucherApp.view.ManagementType;
 import com.prgms.VoucherApp.view.Output;
+import com.prgms.VoucherApp.view.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -12,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.text.MessageFormat;
 import java.util.List;
 
 public class ConsoleOutputView implements Output {
@@ -25,54 +29,55 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printDisplayMenu() {
-        printProgram();
-        printExitMenuCommand();
-        printCreateMenuCommand();
-        printListMenuCommand();
-        printBlackListMenuCommand();
+    public void printManagementMenu() {
+        textTerminal.println("=== Program ===");
+
+        for (ManagementType managementType : ManagementType.values()) {
+            textTerminal.print("Type ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(managementType.getTypeNumber() + " "));
+            textTerminal.print("execute ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(managementType.getTypeName() + " Management "));
+            textTerminal.print("Program");
+            textTerminal.println();
+        }
     }
 
+    @Override
+    public void printCustomerCommand() {
+        textTerminal.println("=== Customer management Program ===");
 
-    private void printProgram() {
-        textTerminal.println("=== Voucher Program ===");
+        for (CustomerCommand customerCommand : CustomerCommand.values()) {
+            textTerminal.print("Type ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(customerCommand.getCustomerCommandNumber() + " "));
+            textTerminal.print("execute ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(customerCommand.getCustomerCommandName() + " Command"));
+            textTerminal.println();
+        }
     }
 
-    private void printExitMenuCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-            terminalProperties.setPromptColor(Color.red);
-        }, text -> text.print("exit "));
-        textTerminal.print("to ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptColor(Color.red);
-        }, text -> text.print("exit "));
-        textTerminal.println("the program.");
-    }
+    @Override
+    public void printVoucherCommand() {
+        textTerminal.println("=== Voucher management Program ===");
 
-    private void printCreateMenuCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-        }, text -> text.print("create "));
-        textTerminal.println("to create a new voucher.");
-    }
-
-    private void printListMenuCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-        }, text -> text.print("list "));
-        textTerminal.println("to list all vouchers.");
-    }
-
-    private void printBlackListMenuCommand() {
-        textTerminal.print("Type ");
-        textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
-            terminalProperties.setPromptBold(true);
-        }, text -> text.print("blacklist "));
-        textTerminal.println("to list all blacklist.");
+        for (VoucherCommand voucherCommand : VoucherCommand.values()) {
+            textTerminal.print("Type ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(voucherCommand.getVoucherCommandNumber() + " "));
+            textTerminal.print("execute ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(voucherCommand.getVoucherCommandName() + " Command"));
+            textTerminal.println();
+        }
     }
 
     @Override
@@ -115,35 +120,61 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printCreatedMsg(Voucher voucher) {
-        VoucherDto voucherDto = new VoucherDto(voucher);
-        log.info("The discount coupon {} was created successfully.", voucherDto.getVoucherInfo());
-        textTerminal.println(voucherDto.getVoucherInfo() + " Voucher was created");
+    public void printErrorMsg(String msg) {
+        textTerminal.println(msg);
     }
 
     @Override
-    public void printErrorMsg(String exception) {
-        textTerminal.println(exception);
-    }
-
-    @Override
-    public void printVoucherList(List<VoucherDto> voucherDtos) {
-        if (voucherDtos.isEmpty()) {
+    public void printVoucherList(List<VoucherResponse> findVouchers) {
+        if (findVouchers.isEmpty()) {
             log.error("The user tried to view the list, but currently, the list is empty");
             textTerminal.println("There are no available discount vouchers stored.");
             return;
         }
-        voucherDtos.forEach((voucher -> textTerminal.println(voucher.getVoucherInfo())));
+        findVouchers.forEach((
+            voucher -> textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}", voucher.voucherId(), voucher.amount(), voucher.voucherType()))));
     }
 
     @Override
-    public void printBlackLists(List<CustomerDto> blackLists) {
-        if (blackLists.isEmpty()) {
-            log.error("The user tried to view the list, but currently, the list is empty");
+    public void printVoucher(VoucherResponse voucher) {
+        textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}", voucher.voucherId(), voucher.amount(), voucher.voucherType()));
+    }
+
+    @Override
+    public void printBlackLists(CustomersResponse blacklists) {
+        if (blacklists.isEmpty()) {
+            log.error("The user tried to view the blacklist, but currently, the list is empty");
             textTerminal.println("There are no blacklisted entries currently registered.");
             return;
         }
 
-        blackLists.forEach((blackList -> textTerminal.println(blackList.getCustomerInfo())));
+        blacklists.getCustomers()
+            .forEach((blackList -> textTerminal.println(MessageFormat.format("id : {0} status : {1}", blackList.customerId(), blackList.customerStatus()))));
+    }
+
+    @Override
+    public void printCustomers(CustomersResponse customers) {
+        if (customers.isEmpty()) {
+            textTerminal.println("There are no blacklisted entries currently registered.");
+            return;
+        }
+
+        customers.getCustomers()
+            .forEach((customer) -> textTerminal.println(MessageFormat.format("id : {0} status : {1}", customer.customerId(), customer.customerStatus())));
+    }
+
+    @Override
+    public void printCustomer(CustomerResponse customer) {
+        textTerminal.println(MessageFormat.format("id : {0} status : {1}", customer.customerId(), customer.customerStatus()));
+    }
+
+    @Override
+    public void printFindEmpty() {
+        textTerminal.println("존재하지 않는 ID가 입력되었습니다.");
+    }
+
+    @Override
+    public void printNotImplementMsg() {
+        textTerminal.println("아직 미 완성된 기능입니다.");
     }
 }

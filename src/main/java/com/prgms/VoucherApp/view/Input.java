@@ -1,9 +1,17 @@
 package com.prgms.VoucherApp.view;
 
-import com.prgms.VoucherApp.domain.voucher.VoucherType;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 
 public interface Input {
-    String inputCommand();
+    Integer inputManagementCommand();
+
+    Integer inputCustomerCommand();
+
+    String inputCustomerStatus();
+
+    String inputUUID();
+
+    Integer inputVoucherCommand();
 
     String inputVoucherType();
 
