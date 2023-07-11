@@ -11,8 +11,10 @@ import org.beryx.textio.TextTerminal;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 @Component
@@ -46,7 +48,7 @@ public class Console {
 
     public void printSelectVoucherPolicy() {
         textTerminal.println();
-        textTerminal.println("Select FixAmountVoucher or PercentDiscountVoucher");
+        textTerminal.println("Select FixAmountVoucher(1) or PercentDiscountVoucher(2)");
     }
 
     public void printFixAmountPolicyArgs() {
@@ -79,7 +81,7 @@ public class Console {
 
 
     public void printVoucher(VoucherDto dto) {
-        textTerminal.println("[%s, %d] %s".formatted(dto.getVoucherPolicy().name(), dto.getDiscountNumber(), dto.getVoucherId().toString()));
+        textTerminal.println("[%s, %d] %s".formatted(dto.getVoucherPolicy().name(), dto.getDiscountFigure(), dto.getVoucherId().toString()));
     }
 
     public void printAllCustomers(List<CustomerDto> dtos) {
@@ -117,9 +119,7 @@ public class Console {
     public String inputVoucherPolicySelection() {
         return textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .withInlinePossibleValues(Arrays.stream(VoucherPolicy.values())
-                        .map(VoucherPolicy::getPolicyName)
-                        .toList())
+                .withInlinePossibleValues("1", "2")
                 .read(">>");
     }
     public String inputVoucherMenuSelection() {
@@ -134,7 +134,7 @@ public class Console {
     public String inputUuid() {
         return textIO.newStringInputReader()
             .withInputTrimming(true)
-            .read(">> UUID: ");
+            .read(">> UUID:");
     }
 
     public void newLine() {
