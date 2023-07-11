@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
-import com.wonu606.vouchermanager.repository.voucher.LocalMemoryVoucherVoucherRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

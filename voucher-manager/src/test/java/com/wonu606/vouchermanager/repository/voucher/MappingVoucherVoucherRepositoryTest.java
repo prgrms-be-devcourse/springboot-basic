@@ -12,8 +12,6 @@ import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherResultSet;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
-import com.wonu606.vouchermanager.repository.voucher.MappingVoucherVoucherRepository;
-import com.wonu606.vouchermanager.repository.voucher.VoucherResultSetRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +30,15 @@ class MappingVoucherVoucherRepositoryTest {
     private VoucherResultSetRepository voucherResultSetRepository;
 
     private MappingVoucherVoucherRepository voucherRepository;
+
+    static Stream<Arguments> givenVouchers() {
+        Voucher expectedVoucher1 = new PercentageVoucher(
+                UUID.randomUUID(), new PercentageDiscountValue(50.0));
+        Voucher expectedVoucher2 = new FixedAmountVoucher(
+                UUID.randomUUID(), new FixedAmountValue(50.0));
+
+        return Stream.of(Arguments.of(expectedVoucher1, expectedVoucher2));
+    }
 
     @BeforeEach
     void setUp() {
@@ -127,14 +134,5 @@ class MappingVoucherVoucherRepositoryTest {
 
         // then
         verify(voucherResultSetRepository, times(1)).deleteAll();
-    }
-
-    static Stream<Arguments> givenVouchers() {
-        Voucher expectedVoucher1 = new PercentageVoucher(
-                UUID.randomUUID(), new PercentageDiscountValue(50.0));
-        Voucher expectedVoucher2 = new FixedAmountVoucher(
-                UUID.randomUUID(), new FixedAmountValue(50.0));
-
-        return Stream.of(Arguments.of(expectedVoucher1, expectedVoucher2));
     }
 }

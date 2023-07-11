@@ -8,7 +8,9 @@ CREATE TABLE voucher
 CREATE TABLE customer
 (
     email_address VARCHAR(100) PRIMARY KEY,
-    created_date  TIMESTAMP NOT NULL
+    nickname      VARCHAR(100),
+    last_updated  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE customerVoucherWallet

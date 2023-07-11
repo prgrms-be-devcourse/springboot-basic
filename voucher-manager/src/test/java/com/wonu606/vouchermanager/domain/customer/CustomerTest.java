@@ -18,7 +18,7 @@ class CustomerTest {
         EmailAddress emailAddress = new EmailAddress(validAddress);
 
         // When
-        Customer customer = new Customer(emailAddress);
+        Customer customer = new Customer(emailAddress, "tempNickName");
 
         // Then
         assertThat(customer.getEmailAddress()).isEqualTo(emailAddress.getAddress());
