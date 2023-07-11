@@ -1,10 +1,9 @@
 package com.devcourse.voucherapp.view;
 
 import com.devcourse.voucherapp.entity.customer.CustomerType;
-import com.devcourse.voucherapp.entity.Menu;
-import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.response.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.voucher.response.VouchersResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +38,9 @@ public class ViewManager {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public String readMenuOption() {
+    public <T> String readMenuOption(T[] menus) {
         outputView.printWithLineBreak(MENU_TITLE);
-        for (Menu menu : Menu.values()) {
+        for (T menu : menus) {
             outputView.printWithLineBreak(menu);
         }
 

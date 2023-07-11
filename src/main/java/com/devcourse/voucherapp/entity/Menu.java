@@ -11,15 +11,8 @@ import java.util.stream.Stream;
 import lombok.Getter;
 
 public enum Menu {
-    CREATE("1", "새 할인권 생성"),
-    READ("2", "전체 할인권 조회"),
-    UPDATE("3", "할인권 수정"),
-    DELETE("4", "할인권 삭제"),
-    CUSTOMER_CREATE("5", "새 고객 생성"),
-    CUSTOMER_READ_ALL("6", "전체 고객 조회"),
-    CUSTOMER_UPDATE("7", "고객 수정"),
-    CUSTOMER_DELETE("8", "고객 삭제"),
-    CUSTOMER_READ_BLACK_LIST("9", "블랙리스트 고객 조회"),
+    VOUCHER("1", "할인권 메뉴"),
+    CUSTOMER("2", "고객 메뉴"),
     QUIT("quit", "프로그램 종료");
 
     private static final Map<String, Menu> MENUS = Collections.unmodifiableMap(Stream.of(values())

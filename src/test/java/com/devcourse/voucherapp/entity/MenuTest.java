@@ -12,16 +12,12 @@ class MenuTest {
     @DisplayName("존재하는 메뉴 입력 시, 해당 메뉴 객체가 반환된다.")
     @Test
     void selectExistedMenuTest() {
-        Menu createMenu = Menu.from("1");
-        Menu listMenu = Menu.from("2");
-        Menu updateMenu = Menu.from("3");
-        Menu deleteMenu = Menu.from("4");
+        Menu voucherMenu = Menu.from("1");
+        Menu customerMenu = Menu.from("2");
         Menu quitMenu = Menu.from("quit");
 
-        assertEquals(Menu.CREATE, createMenu);
-        assertEquals(Menu.READ, listMenu);
-        assertEquals(Menu.UPDATE, updateMenu);
-        assertEquals(Menu.DELETE, deleteMenu);
+        assertEquals(Menu.VOUCHER, voucherMenu);
+        assertEquals(Menu.CUSTOMER, customerMenu);
         assertEquals(Menu.QUIT, quitMenu);
     }
 
