@@ -1,15 +1,15 @@
 package com.prgrms.commandLineApplication.customer.validator;
 
 import java.util.UUID;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CustomerValidator {
 
-  private static final String REG_EXP_EMAIL = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-  private static final Pattern EMAIL_PATTERN= Pattern.compile(REG_EXP_EMAIL);
+  private static final String REG_EXP_EMAIL = "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b";
+  private static final Pattern EMAIL_PATTERN = Pattern.compile(REG_EXP_EMAIL);
 
   private static final String INVALID_ID_ERROR = "Invalid ID";
+  private static final String INVALID_NAME_ERROR = "Invalid Name";
   private static final String INVALID_EMAIL_ERROR = "Invalid Email";
 
   public static void checkId(UUID id) {
@@ -18,10 +18,14 @@ public class CustomerValidator {
     }
   }
 
-  public static void checkEmail(String email) {
-    Matcher matchers = EMAIL_PATTERN.matcher(email);
+  public static void checkName(String name) {
+    if (name == null || name.isBlank()) {
+      throw new IllegalArgumentException(INVALID_NAME_ERROR);
+    }
+  }
 
-    if (email == null || !matchers.matches()) {
+  public static void checkEmail(String email) {
+    if (!EMAIL_PATTERN.matcher(email).matches()) {
       throw new IllegalArgumentException(INVALID_EMAIL_ERROR);
     }
   }
