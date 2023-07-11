@@ -1,12 +1,13 @@
 package com.dev.voucherproject.model.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        super(voucherId);
+    public PercentDiscountVoucher(UUID voucherId, LocalDateTime createdAt, long percent) {
+        super(voucherId, createdAt);
         percentValidate(percent);
         this.percent = percent;
     }
@@ -20,11 +21,6 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public long getDiscountFigure() {
         return this.percent;
-    }
-
-    @Override
-    public VoucherPolicy getPolicyName() {
-        return VoucherPolicy.PERCENT_DISCOUNT_VOUCHER;
     }
 
     private double getDoubleTypePercentage(long percent) {
