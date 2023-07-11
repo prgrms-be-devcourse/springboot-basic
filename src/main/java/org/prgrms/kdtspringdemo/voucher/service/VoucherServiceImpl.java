@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
+import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
@@ -25,7 +25,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherDto create(VoucherType userVoucherType, long amount) {
+    public VoucherResponseDto create(VoucherType userVoucherType, long amount) {
         VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
         Voucher voucher = switch (voucherType) {
             case FIXED -> new FixedAmountVoucher(amount);
@@ -34,13 +34,13 @@ public class VoucherServiceImpl implements VoucherService {
 
         Voucher savedVoucher = voucherRepository.save(voucher);
 
-        return VoucherDto.toDto(savedVoucher.getVoucherType(), savedVoucher.getAmount());
+        return VoucherResponseDto.toDto(savedVoucher.getVoucherId(), savedVoucher.getVoucherType(), savedVoucher.getAmount());
     }
 
     @Override
-    public VoucherDto getVoucher(UUID voucherId) {
+    public VoucherResponseDto getVoucher(UUID voucherId) {
         Voucher voucher = validateExist(voucherRepository.findById(voucherId));
-        return VoucherDto.toDto(voucher.getVoucherType(), voucher.getAmount());
+        return VoucherResponseDto.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
     private Voucher validateExist(Optional<Voucher> voucher) {
@@ -48,10 +48,10 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public List<VoucherDto> getAllVoucher() {
+    public List<VoucherResponseDto> getAllVoucher() {
         return voucherRepository.findAll()
                 .stream()
-                .map(v -> new VoucherDto(v.getVoucherType(), v.getAmount()))
+                .map(v -> new VoucherResponseDto(v.getVoucherId(), v.getVoucherType(), v.getAmount()))
                 .collect(Collectors.toUnmodifiableList());
     }
 }

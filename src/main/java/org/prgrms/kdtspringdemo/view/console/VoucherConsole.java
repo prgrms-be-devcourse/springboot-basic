@@ -7,10 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class VoucherConsole {
     private static final Logger logger = LoggerFactory.getLogger(VoucherConsole.class);
     private static final String IS_NUMERIC_EXCEPTION_MESSAGE = "바우처의 할인 정책은 숫자를 입력해주세요.\n";
+    private static final String UUID_FORMAT_EXCEPTION_MESSAGE = "UUID 형식이 잘못 입력되었습니다.";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -53,7 +55,24 @@ public class VoucherConsole {
         }
     }
 
-    public void printCreatedVoucher(String successMessage, VoucherType userVoucherType, long amount) {
-        System.out.printf(successMessage, userVoucherType, amount);
+    public UUID inputVoucherId(String inputVoucherIdMessage) {
+        printMessage(inputVoucherIdMessage);
+        String userVoucherId = scanner.nextLine();
+        validateVoucherId(userVoucherId);
+
+        return UUID.fromString(userVoucherId);
+    }
+
+    private void validateVoucherId(String userVoucherId) {
+        try {
+            UUID.fromString(userVoucherId);
+        } catch (IllegalArgumentException e) {
+            logger.error("원인 : {} -> 에러 메시지 : {}", userVoucherId, IS_NUMERIC_EXCEPTION_MESSAGE);
+            throw new IllegalArgumentException(UUID_FORMAT_EXCEPTION_MESSAGE);
+        }
+    }
+
+    public void printVoucher(String successMessage, UUID userVoucherId, VoucherType userVoucherType, long amount) {
+        System.out.printf(successMessage, userVoucherId.toString(), userVoucherType, amount);
     }
 }
