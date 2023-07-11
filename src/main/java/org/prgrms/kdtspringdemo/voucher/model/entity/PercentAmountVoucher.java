@@ -22,6 +22,12 @@ public class PercentAmountVoucher implements Voucher {
         this.amount = validateAmount(amount);
     }
 
+    public PercentAmountVoucher(UUID voucherId, long amount) {
+        this.voucherId = voucherId;
+        this.voucherType = VoucherType.PERCENT;
+        this.amount = validateAmount(amount);
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;

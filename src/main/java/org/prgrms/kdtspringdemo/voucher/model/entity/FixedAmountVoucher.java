@@ -21,6 +21,12 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = validateAmount(amount);
     }
 
+    public FixedAmountVoucher(UUID voucherId, long amount) {
+        this.voucherId = voucherId;
+        this.voucherType = VoucherType.FIXED;
+        this.amount = validateAmount(amount);
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
