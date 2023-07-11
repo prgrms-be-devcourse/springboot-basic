@@ -1,6 +1,6 @@
 package com.prgrms.commandLineApplication.service;
 
-import com.prgrms.commandLineApplication.repository.MemoryVoucherRepository;
+import com.prgrms.commandLineApplication.repository.voucher.MemoryVoucherRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
