@@ -70,6 +70,7 @@ public class MyDisPatcherServlet implements CommandLineRunner {
             case LIST -> getVoucher();
             case LIST_ALL -> getAllVoucher();
             case UPDATE -> updateVoucher();
+            case DELETE -> deleteVoucher();
         }
     }
 
@@ -101,6 +102,13 @@ public class MyDisPatcherServlet implements CommandLineRunner {
         Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER_MESSAGE);
 
         VoucherResponseDto voucherResponseDto = voucherService.updateVoucher(userVoucherId, userVoucherType, userAmount);
+        voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+    }
+
+    private void deleteVoucher() {
+        UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID_MESSAGE);
+
+        VoucherResponseDto voucherResponseDto = voucherService.deleteVoucher(userVoucherId);
         voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
     }
 }

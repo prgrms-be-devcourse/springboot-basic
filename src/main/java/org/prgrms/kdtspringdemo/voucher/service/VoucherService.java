@@ -14,4 +14,6 @@ public interface VoucherService {
     List<VoucherResponseDto> getAllVoucher();
 
     VoucherResponseDto updateVoucher(UUID voucherId, VoucherType voucherType, long amount);
+
+    VoucherResponseDto deleteVoucher(UUID voucherId);
 }
