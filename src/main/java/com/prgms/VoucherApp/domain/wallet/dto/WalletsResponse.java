@@ -9,4 +9,8 @@ public record WalletsResponse(
     public long getSize() {
         return wallets.size();
     }
+
+    public boolean isEmpty() {
+        return wallets.isEmpty();
+    }
 }

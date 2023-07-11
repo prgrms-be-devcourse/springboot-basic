@@ -3,10 +3,7 @@ package com.prgms.VoucherApp.view.console;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import com.prgms.VoucherApp.util.UUIDFormatChecker;
-import com.prgms.VoucherApp.view.CustomerCommand;
-import com.prgms.VoucherApp.view.Input;
-import com.prgms.VoucherApp.view.ManagementType;
-import com.prgms.VoucherApp.view.VoucherCommand;
+import com.prgms.VoucherApp.view.*;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.slf4j.Logger;
@@ -27,10 +24,10 @@ public class ConsoleInputView implements Input {
     }
 
     @Override
-    public Integer inputManagementCommand() {
+    public int inputManagementCommand() {
         return textIO.newIntInputReader()
             .withInputTrimming(true)
-            .withInlinePossibleValues(1, 2, 3)
+            .withInlinePossibleValues(1, 2, 3, 4)
             .withValueChecker((val, itemName) -> {
                 if (!ManagementType.containsManagementType(val)) {
                     log.warn("inputCommand [{}] is invalid value", val);
@@ -42,7 +39,7 @@ public class ConsoleInputView implements Input {
     }
 
     @Override
-    public Integer inputCustomerCommand() {
+    public int inputCustomerCommand() {
         return textIO.newIntInputReader()
             .withInputTrimming(true)
             .withInlinePossibleValues(1, 2, 3, 4, 5, 6, 7, 8)
@@ -86,7 +83,7 @@ public class ConsoleInputView implements Input {
     }
 
     @Override
-    public Integer inputVoucherCommand() {
+    public int inputVoucherCommand() {
         return textIO.newIntInputReader()
             .withInputTrimming(true)
             .withInlinePossibleValues(1, 2, 3, 4, 5, 6, 7)
@@ -116,7 +113,7 @@ public class ConsoleInputView implements Input {
     }
 
     @Override
-    public Long inputDiscountAmount(VoucherType policy) {
+    public long inputDiscountAmount(VoucherType policy) {
         return switch (policy) {
             case FIXED_VOUCHER -> textIO.newLongInputReader()
                 .withInputTrimming(true)
@@ -150,5 +147,22 @@ public class ConsoleInputView implements Input {
                 })
                 .read("할인 비율을 입력해주세요 >>");
         };
+
+
+    }
+
+    @Override
+    public int inputWalletCommand() {
+        return textIO.newIntInputReader()
+            .withInputTrimming(true)
+            .withInlinePossibleValues(1, 2, 3, 4, 5, 6, 7)
+            .withValueChecker((val, itemName) -> {
+                if (!WalletCommand.containsWalletCommand(val)) {
+                    log.warn("inputCustomerCommand [{}] is invalid value", val);
+                    return List.of("Please input a valid value.");
+                }
+                return null;
+            })
+            .read("명령어를 입력해주세요 >>");
     }
 }

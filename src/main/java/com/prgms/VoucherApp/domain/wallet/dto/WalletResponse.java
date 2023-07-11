@@ -8,8 +8,8 @@ import java.util.UUID;
 
 public record WalletResponse(
     UUID id,
-    CustomerResponse customerResDto,
-    VoucherResponse voucherResDto
+    CustomerResponse customerResponse,
+    VoucherResponse voucherResponse
 ) {
     public WalletResponse(Wallet wallet) {
         this(wallet.getWalletId(), new CustomerResponse(wallet.getCustomer()), new VoucherResponse(wallet.getVoucher()));

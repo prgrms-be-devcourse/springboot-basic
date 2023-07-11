@@ -41,11 +41,11 @@ public class VoucherManagementController implements Runnable {
 
                 switch (command) {
                     case CREATE -> {
-                        output.printDisplayVoucherPolicy();
+                        output.printVoucherPolicy();
                         String inputVoucherType = input.inputVoucherType();
 
                         VoucherType voucherType = VoucherType.findByVoucherTypeName(inputVoucherType);
-                        output.printDisplayDiscountCondition(voucherType);
+                        output.printDiscountCondition(voucherType);
                         Long amount = input.inputDiscountAmount(voucherType);
 
                         VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(voucherType, BigDecimal.valueOf(amount));
