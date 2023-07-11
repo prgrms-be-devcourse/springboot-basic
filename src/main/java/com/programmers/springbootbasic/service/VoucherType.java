@@ -14,11 +14,11 @@ public enum VoucherType {
         this.description = description;
     }
 
-    public static VoucherType from(String description) {
+    public static VoucherType from(String typeDescription) {
         return Arrays.stream(values())
-                .filter(enumeration -> description.equals(enumeration.description))
+                .filter(enumeration -> typeDescription.equals(enumeration.description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE + description));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE + typeDescription));
     }
 
     public String getDescription() {
