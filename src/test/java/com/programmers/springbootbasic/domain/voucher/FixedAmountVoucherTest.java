@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.service.VoucherType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -15,6 +16,7 @@ class FixedAmountVoucherTest {
     void 정상입력값_바우처생성_성공() {
         // given
         UUID voucherId = UUID.randomUUID();
+        VoucherType voucherType = VoucherType.FIX;
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
@@ -22,7 +24,7 @@ class FixedAmountVoucherTest {
         int amount = 5_000;
 
         // when
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, voucherDateTime, amount);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, voucherDateTime, amount);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -32,15 +34,18 @@ class FixedAmountVoucherTest {
     void 정상입력값최소금액포함_바우처생성_성공() {
         // given
         UUID voucherId = UUID.randomUUID();
+        VoucherType voucherType = VoucherType.FIX;
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
         Long minimumPrice = 3_000L;
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
         int amount = 5_000;
 
+
         // when
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, name, minimumPrice, voucherDateTime, amount);
+
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, voucherDateTime, amount);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -50,6 +55,7 @@ class FixedAmountVoucherTest {
     void 잘못된할인금액_바우처생성_예외발생() {
         // given
         UUID voucherId = UUID.randomUUID();
+        VoucherType voucherType = VoucherType.FIX;
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
@@ -58,7 +64,7 @@ class FixedAmountVoucherTest {
         int amount = 1_000_000_000;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, name, minimumPrice, voucherDateTime, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, voucherDateTime, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -66,6 +72,7 @@ class FixedAmountVoucherTest {
     void 잘못된할인금액최소금액포함_바우처생성_예외발생() {
         // given
         UUID voucherId = UUID.randomUUID();
+        VoucherType voucherType = VoucherType.FIX;
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
@@ -74,7 +81,7 @@ class FixedAmountVoucherTest {
         int amount = -1;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, name, minimumPrice, voucherDateTime, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, voucherDateTime, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -83,7 +90,10 @@ class FixedAmountVoucherTest {
     void 물건금액할인금액_할인_할인된금액(Long price, int amount, Long expectedPrice) {
         // given
         VoucherDateTime voucherDateTime = new VoucherDateTime(LocalDateTime.now(), LocalDateTime.MAX);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(),
+        VoucherType voucherType = VoucherType.FIX;
+        FixedAmountVoucher voucher = new FixedAmountVoucher(
+                UUID.randomUUID(),
+                voucherType,
                 amount + "원 할인",
                 voucherDateTime,
                 amount);
