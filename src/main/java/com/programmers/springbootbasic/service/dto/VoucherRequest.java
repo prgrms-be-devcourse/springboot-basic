@@ -8,6 +8,6 @@ public record VoucherRequest(
         Long minimumPriceCondition,
         LocalDateTime createdDate,
         LocalDateTime expirationDate,
-        int discountAmount
+        int amountOrPercent
 ) {
 }

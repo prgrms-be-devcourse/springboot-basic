@@ -20,9 +20,9 @@ public final class VoucherMapper {
         VoucherType voucherType = VoucherType.from(request.voucherType());
         return switch (voucherType) {
             case FIX ->
-                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), voucherDateTime, request.discountAmount());
+                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), voucherDateTime, request.amountOrPercent());
             case PERCENT ->
-                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), voucherDateTime, request.discountAmount());
+                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), voucherDateTime, request.amountOrPercent());
         };
     }
 
