@@ -13,7 +13,6 @@ import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
 import com.programmers.springmission.voucher.domain.Voucher;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.repository.JdbcVoucherRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +49,6 @@ class CustomerServiceTest {
 
     @MockBean
     ManagementController managementController;
-
-    @AfterEach
-    void afterEach() {
-        customerRepository.deleteAll();
-        voucherRepository.deleteAll();
-    }
 
     @DisplayName("Customer create 성공 테스트")
     @Test
