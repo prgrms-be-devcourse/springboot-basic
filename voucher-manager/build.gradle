@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.beryx:text-io:3.4.1'
 	testImplementation 'org.assertj:assertj-core:3.24.2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	testImplementation 'com.h2database:h2'
 }
 
 tasks.named('test') {
