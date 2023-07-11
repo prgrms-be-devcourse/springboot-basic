@@ -8,7 +8,10 @@ import java.util.UUID;
 
 public interface VoucherService {
     VoucherResponseDto create(VoucherType userVoucherType, long amount);
+
     VoucherResponseDto getVoucher(UUID voucherId);
+
     List<VoucherResponseDto> getAllVoucher();
+
     VoucherResponseDto updateVoucher(UUID voucherId, VoucherType voucherType, long amount);
 }
