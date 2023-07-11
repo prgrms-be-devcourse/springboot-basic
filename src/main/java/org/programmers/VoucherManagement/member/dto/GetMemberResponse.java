@@ -1,10 +1,12 @@
 package org.programmers.VoucherManagement.member.dto;
 
+import lombok.EqualsAndHashCode;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
 
 import java.util.UUID;
 
+@EqualsAndHashCode
 public class GetMemberResponse {
     private final UUID memberID;
     private final String name;
