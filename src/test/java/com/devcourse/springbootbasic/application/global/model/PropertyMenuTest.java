@@ -5,14 +5,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-class CommandMenuTest {
+class PropertyMenuTest {
 
     @ParameterizedTest
     @DisplayName("올바른 메뉴 입력하면 성공한다.")
-    @ValueSource(strings = {"0", "1"})
+    @ValueSource(strings = {"0", "1", "2", "3", "4"})
     void getMenu_ParamMenuString_ReturnMenu(String input) {
         assertDoesNotThrow(() -> CommandMenu.getCommandMenu(input));
     }
