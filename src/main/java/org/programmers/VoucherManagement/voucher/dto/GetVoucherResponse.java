@@ -1,10 +1,12 @@
 package org.programmers.VoucherManagement.voucher.dto;
 
+import lombok.EqualsAndHashCode;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
 import java.util.UUID;
 
+@EqualsAndHashCode
 public class GetVoucherResponse {
     private final UUID voucherId;
     private final DiscountType discountType;
