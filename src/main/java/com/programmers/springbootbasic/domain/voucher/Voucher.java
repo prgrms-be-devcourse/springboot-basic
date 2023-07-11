@@ -1,5 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.service.VoucherType;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -12,26 +14,28 @@ public abstract class Voucher {
     private static final String ID_IS_NULL = "빈 값이나 공백을 아이디로 사용할 수 없습니다. 현재 값: ";
     private static final String NAME_IS_BLANK = "빈 값이나 공백을 이름으로 사용할 수 없습니다. 현재 값: ";
     private final UUID voucherId;
+    private final VoucherType voucherType;
     private final String name;
     private final Long minimumPriceCondition;
     private final VoucherDateTime voucherDateTime;
 
     private boolean used = false;
 
-    protected Voucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime) {
+    protected Voucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime) {
         checkNullValue(voucherId, name);
         this.voucherId = voucherId;
+        this.voucherType = voucherType;
         this.name = name;
-        this.minimumPriceCondition = minimumPriceCondition == null ? ZERO : minimumPriceCondition;
+        this.minimumPriceCondition = minimumPriceCondition != null ? minimumPriceCondition : ZERO;
         this.voucherDateTime = voucherDateTime;
     }
 
-    public static Voucher createFixedAmount(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int amount) {
-        return new FixedAmountVoucher(voucherId, name, minimumPriceCondition, voucherDateTime, amount);
+    public static Voucher createFixedAmount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int amount) {
+        return new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, voucherDateTime, amount);
     }
 
-    public static Voucher createPercentDiscount(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int percent) {
-        return new PercentDiscountVoucher(voucherId, name, minimumPriceCondition, voucherDateTime, percent);
+    public static Voucher createPercentDiscount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int percent) {
+        return new PercentDiscountVoucher(voucherId, voucherType, name, minimumPriceCondition, voucherDateTime, percent);
     }
 
     public UUID getVoucherId() {
@@ -48,6 +52,10 @@ public abstract class Voucher {
 
     public VoucherDateTime getVoucherDate() {
         return voucherDateTime;
+    }
+
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     public void use(Long priceBeforeDiscount, LocalDateTime at) {
