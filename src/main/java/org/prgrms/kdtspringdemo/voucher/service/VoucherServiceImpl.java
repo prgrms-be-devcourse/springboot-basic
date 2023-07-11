@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -43,8 +42,12 @@ public class VoucherServiceImpl implements VoucherService {
         return VoucherResponseDto.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
-    private Voucher validateExist(Optional<Voucher> voucher) {
-        return voucher.orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER));
+    private Voucher validateExist(Voucher voucher) {
+        if (voucher == null) {
+            throw new NoSuchElementException(NOT_FOUND_VOUCHER);
+        }
+
+        return voucher;
     }
 
     @Override
@@ -62,7 +65,7 @@ public class VoucherServiceImpl implements VoucherService {
             case PERCENT -> new PercentAmountVoucher(voucherId, amount);
         };
 
-        Voucher updateVoucher = voucherRepository.update(voucher);
+        Voucher updateVoucher = validateExist(voucherRepository.update(voucher));
 
         return VoucherResponseDto.toDto(updateVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
     }
