@@ -1,6 +1,6 @@
 package com.prgrms.commandLineApplication.service;
 
-import com.prgrms.commandLineApplication.repository.VoucherRepository;
+import com.prgrms.commandLineApplication.repository.voucher.VoucherRepository;
 import com.prgrms.commandLineApplication.voucher.Voucher;
 import com.prgrms.commandLineApplication.voucher.VoucherFactory;
 import org.springframework.stereotype.Service;
@@ -21,12 +21,12 @@ public class VoucherService {
     return voucherRepository.findAll();
   }
 
-  public Voucher findVoucher(UUID id) {
+  public Voucher findById(UUID id) {
     return voucherRepository.findById(id);
   }
 
   public void create(String voucherType, int discountAmount) {
-    Voucher createdVoucher = VoucherFactory.of(voucherType, discountAmount);
+    Voucher createdVoucher = VoucherFactory.of(UUID.randomUUID(), voucherType, discountAmount);
     voucherRepository.save(createdVoucher);
   }
 
