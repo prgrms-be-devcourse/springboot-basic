@@ -18,7 +18,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int percent) {
         super(voucherId, voucherType, name, minimumPriceCondition, voucherDateTime);
-        if (isInvalidRange(percent)) {
+        if (isInvalidPercent(percent)) {
             throw new IllegalArgumentException(INVALID_PERCENT + String.format("%d%%", percent));
         }
         this.percent = percent;
@@ -32,7 +32,7 @@ public class PercentDiscountVoucher extends Voucher {
         return Math.round((discountedPrice) / tenForRound) * tenForRound;
     }
 
-    private boolean isInvalidRange(int percent) {
+    private boolean isInvalidPercent(int percent) {
         return percent < MIN_PERCENT || MAX_PERCENT < percent;
     }
 }
