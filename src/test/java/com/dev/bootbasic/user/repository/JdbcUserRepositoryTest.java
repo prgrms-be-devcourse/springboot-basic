@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @JdbcTest
 @ActiveProfiles("test")
 @Import(JdbcUserRepository.class)
@@ -25,29 +27,32 @@ public class JdbcUserRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        UUID id = UUID.randomUUID();
-        user = User.of(id, "test-user", LocalDateTime.now());
-        userRepository.create(user);
+        setUser();
     }
 
     @Test
     public void createTest() {
-        Optional<User> foundUser = userRepository.findById(user.getId());
-        Assertions.assertTrue(foundUser.isPresent());
-        Assertions.assertEquals(user, foundUser.get());
+        User savedUser = userRepository.create(user);
+        assertThat(savedUser).isEqualTo(user);
     }
 
     @Test
-    public void findByNameTest() {
+    public void findByIdTest() {
+        userRepository.create(user);
         Optional<User> foundUser = userRepository.findById(user.getId());
-        Assertions.assertTrue(foundUser.isPresent());
-        Assertions.assertEquals(user, foundUser.get());
+        assertThat(foundUser.get()).isEqualTo(user);
     }
 
     @Test
-    public void deleteByNameTest() {
+    public void deleteByIdTest() {
+        userRepository.create(user);
         userRepository.deleteById(user.getId());
         Optional<User> foundUser = userRepository.findById(user.getId());
         Assertions.assertTrue(foundUser.isEmpty());
+    }
+
+    private void setUser() {
+        UUID id = UUID.randomUUID();
+        user = User.of(id, "test-user", LocalDateTime.now());
     }
 }
