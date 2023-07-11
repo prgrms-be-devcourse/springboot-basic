@@ -16,6 +16,7 @@ class Writer {
             Type create to create a new voucher.
             Type list to list all vouchers.
             Type remove to remove all vouchers.
+            Type search_by_id to search voucher by id.
             """),
         VOUCHER_INFO_INPUT_REQUEST("""
             Select VoucherType And Info
@@ -42,6 +43,9 @@ class Writer {
             """),
         INVALID_ARGUMENT_CANT_CREATE_VOUCHER("""
             유효하지 않은 값입니다. 바우처를 생성할 수 없습니다.
+            """),
+        VOUCHER_CREATION_FAILED("""
+            바우처 작업을 실패했습니다.
             """);
 
         private String text;
@@ -61,7 +65,7 @@ class Writer {
     public static final String VOUCHER_INFO_TEMPLATE = "VoucherID : %s, VoucherType : %s, discountValue : %d";
 
     public void writeMessage(UUID voucherId, Voucher.Type voucherType, long discountValue) {
-        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherId, voucherType, discountValue));
+        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherId.toString(), voucherType, discountValue));
     }
 
     public void writeMessage(Message message) {

@@ -1,24 +1,48 @@
 package com.example.voucher.controller.request;
 
-import com.example.voucher.constant.VoucherServiceType;
+import static com.example.voucher.constant.ExceptionMessage.*;
+import java.util.Arrays;
+import java.util.UUID;
 import com.example.voucher.domain.Voucher;
 
 public class VoucherRequest {
 
-    private final VoucherServiceType voucherServiceType;
+    public enum Type {
+
+        CREATE,
+        LIST,
+        REMOVE,
+        SEARCH_BY_ID;
+
+        public static Type getType(String inputTypeName) {
+            return Arrays.stream(values())
+                .filter(m -> m.name().equalsIgnoreCase(inputTypeName))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION));
+        }
+
+    }
+
+    private final Type type;
+
+    private UUID voucherId;
 
     private Voucher.Type voucherType;
 
     private Long discountValue;
 
-    public VoucherRequest(VoucherServiceType voucherServiceType) {
-        this.voucherServiceType = voucherServiceType;
+    public VoucherRequest(VoucherRequest.Type type) {
+        this.type = type;
         this.voucherType = null;
         this.discountValue = null;
     }
 
-    public VoucherServiceType getVoucherServiceType() {
-        return voucherServiceType;
+    public VoucherRequest.Type getType() {
+        return type;
+    }
+
+    public UUID getVoucherId() {
+        return voucherId;
     }
 
     public Voucher.Type getVoucherType() {
@@ -27,6 +51,10 @@ public class VoucherRequest {
 
     public Long getDiscountValue() {
         return discountValue;
+    }
+
+    public void setVoucherId(UUID voucherId) {
+        this.voucherId = voucherId;
     }
 
     public void setVoucherCreateInfo(Voucher.Type voucherType, Long discountValue) {

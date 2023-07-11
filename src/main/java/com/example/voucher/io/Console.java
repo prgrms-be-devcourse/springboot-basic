@@ -1,7 +1,7 @@
 package com.example.voucher.io;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
-import static com.example.voucher.constant.VoucherServiceType.*;
+import static com.example.voucher.controller.request.VoucherRequest.Type.*;
 import static com.example.voucher.io.Writer.*;
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.voucher.constant.ExceptionMessage;
 import com.example.voucher.constant.ServiceType;
-import com.example.voucher.constant.VoucherServiceType;
 import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
@@ -44,6 +43,11 @@ public class Console {
         }
     }
 
+    public void displayVoucherServiceFailed(String errorMsg) {
+        logger.error(errorMsg);
+        writer.writeMessage(Message.VOUCHER_CREATION_FAILED);
+    }
+
     public void displayVoucherCreationError() {
         logger.error(ExceptionMessage.INVALID_ARGUMENT_CANT_CREATE_VOUCHER);
         writer.writeMessage(Message.INVALID_ARGUMENT_CANT_CREATE_VOUCHER);
@@ -66,15 +70,18 @@ public class Console {
 
     public VoucherRequest getVoucherRequest() {
         try {
-            writer.writeMessage(Message.VOUCHER_SERVICE_TYPE_SELECTION);
-            String inputVoucherServiceType = reader.readString();
-            VoucherServiceType voucherServiceType = VoucherServiceType.getVoucherServiceType(inputVoucherServiceType);
-            VoucherRequest voucherRequest = new VoucherRequest(voucherServiceType);
+            VoucherRequest.Type type = getVoucherRequestType();
+            VoucherRequest voucherRequest = new VoucherRequest(type);
 
-            if (voucherServiceType == CREATE) {
+            if (type == CREATE) {
                 Voucher.Type voucherType = getVoucherType();
                 Long discountValue = getDiscountValue();
                 voucherRequest.setVoucherCreateInfo(voucherType, discountValue);
+            }
+
+            if (type == SEARCH_BY_ID) {
+                UUID voucherId = getId();
+                voucherRequest.setVoucherId(voucherId);
             }
 
             return voucherRequest;
@@ -84,6 +91,13 @@ public class Console {
 
             return null;
         }
+    }
+
+    private VoucherRequest.Type getVoucherRequestType() {
+        writer.writeMessage(Message.VOUCHER_SERVICE_TYPE_SELECTION);
+        String inputVoucherServiceType = reader.readString();
+
+        return VoucherRequest.Type.getType(inputVoucherServiceType);
     }
 
     private Voucher.Type getVoucherType() {
@@ -108,6 +122,13 @@ public class Console {
 
             return null;
         }
+    }
+
+    private UUID getId() {
+        writer.writeMessage(Message.ID_INPUT_REQUEST);
+        String input = reader.readString();
+
+        return UUID.fromString(input);
     }
 
     private void validatePositive(long value) {

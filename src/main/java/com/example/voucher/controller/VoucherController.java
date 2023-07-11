@@ -1,8 +1,8 @@
 package com.example.voucher.controller;
 
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Controller;
-import com.example.voucher.constant.VoucherServiceType;
 import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.controller.response.VoucherResponse;
 import com.example.voucher.domain.Voucher;
@@ -19,16 +19,17 @@ public class VoucherController {
     }
 
     public VoucherResponse run(VoucherRequest voucherRequest) {
-        return switch (voucherRequest.getVoucherServiceType()) {
+        return switch (voucherRequest.getType()) {
             case CREATE -> createVoucher(voucherRequest.getVoucherType(), voucherRequest.getDiscountValue());
             case LIST -> getVouchers();
             case REMOVE -> removeVoucher();
+            case SEARCH_BY_ID -> getVoucherById(voucherRequest.getVoucherId());
         };
 
     }
 
     public VoucherResponse createVoucher(Voucher.Type voucherType, long discountValue) {
-        VoucherResponse voucherResponse = new VoucherResponse(VoucherServiceType.CREATE);
+        VoucherResponse voucherResponse = new VoucherResponse(VoucherResponse.Type.OBJECT);
 
         VoucherDTO voucher = voucherService.createVoucher(voucherType, discountValue);
         voucherResponse.setVoucher(voucher);
@@ -37,7 +38,7 @@ public class VoucherController {
     }
 
     public VoucherResponse getVouchers() {
-        VoucherResponse voucherResponse = new VoucherResponse(VoucherServiceType.LIST);
+        VoucherResponse voucherResponse = new VoucherResponse(VoucherResponse.Type.LIST);
 
         List<VoucherDTO> vouchers = voucherService.getVouchers();
         voucherResponse.setVoucherDTOS(vouchers);
@@ -48,7 +49,16 @@ public class VoucherController {
     public VoucherResponse removeVoucher() {
         voucherService.removeVouchers();
 
-        return new VoucherResponse(VoucherServiceType.REMOVE);
+        return new VoucherResponse(VoucherResponse.Type.NONE);
+    }
+
+    public VoucherResponse getVoucherById(UUID voucherId){
+        VoucherResponse voucherResponse = new VoucherResponse(VoucherResponse.Type.OBJECT);
+
+        VoucherDTO voucher = voucherService.getVoucherById(voucherId);
+        voucherResponse.setVoucher(voucher);
+
+        return voucherResponse;
     }
 
 }

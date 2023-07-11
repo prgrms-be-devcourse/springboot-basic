@@ -3,7 +3,6 @@ package com.example.voucher.controller;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ServiceType;
-import com.example.voucher.constant.VoucherServiceType;
 import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.controller.response.VoucherResponse;
 import com.example.voucher.io.Console;
@@ -46,18 +45,19 @@ public class ApplicationController implements CommandLineRunner {
         try {
             VoucherResponse voucherResponse = voucherController.run(voucherRequest);
 
-            if (voucherResponse.getVoucherServiceType() == VoucherServiceType.CREATE) {
+            if (voucherResponse.getType() == VoucherResponse.Type.OBJECT) {
                 console.displayVoucherInfo(voucherResponse.getVoucher());
 
                 return;
             }
 
-            if (voucherResponse.getVoucherServiceType() == VoucherServiceType.LIST) {
+            if (voucherResponse.getType() == VoucherResponse.Type.LIST) {
                 console.displayVoucherInfo(voucherResponse.getVouchers());
+
             }
 
         } catch (Exception e) {
-            console.displayVoucherCreationError();
+            console.displayVoucherServiceFailed(e.getMessage());
         }
     }
 

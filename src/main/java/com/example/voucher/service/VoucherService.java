@@ -1,6 +1,8 @@
 package com.example.voucher.service;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.voucher.domain.Voucher;
@@ -32,6 +34,10 @@ public class VoucherService {
 
     public void removeVouchers() {
         voucherRepository.deleteAll();
+    }
+
+    public VoucherDTO getVoucherById(UUID voucherId){
+        return voucherRepository.findById(voucherId).toDTO();
     }
 
 }

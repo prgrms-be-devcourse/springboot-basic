@@ -1,19 +1,24 @@
 package com.example.voucher.controller.response;
 
 import java.util.List;
-import com.example.voucher.constant.VoucherServiceType;
 import com.example.voucher.domain.dto.VoucherDTO;
 
 public class VoucherResponse {
 
-    private final VoucherServiceType voucherServiceType;
+    public enum Type{
+        OBJECT,
+        LIST,
+        NONE;
+    }
+
+    private final Type type;
 
     private VoucherDTO voucher;
 
     private List<VoucherDTO> vouchers;
 
-    public VoucherServiceType getVoucherServiceType() {
-        return voucherServiceType;
+    public Type getType() {
+        return type;
     }
 
     public VoucherDTO getVoucher() {
@@ -24,8 +29,8 @@ public class VoucherResponse {
         return vouchers;
     }
 
-    public VoucherResponse(VoucherServiceType voucherServiceType) {
-        this.voucherServiceType = voucherServiceType;
+    public VoucherResponse(VoucherResponse.Type type) {
+        this.type = type;
     }
 
     public void setVoucher(VoucherDTO voucher) {
