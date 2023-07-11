@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
+@Profile("memory")
 public class MemoryVoucherStorage implements VoucherStorage {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 

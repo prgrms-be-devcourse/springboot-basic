@@ -1,9 +1,9 @@
 voucher:
-  path: "storage"
+  path: "test_storage"
   filename: "voucher.csv"
 
 blacklist:
-  path: "storage"
+  path: "test_storage"
   filename: "customer_blacklist.csv"
 
 spring.datasource:
@@ -12,3 +12,4 @@ spring.datasource:
   username: "root"
   password: "0000"
   driver-class-name: com.mysql.cj.jdbc.Driver
+
