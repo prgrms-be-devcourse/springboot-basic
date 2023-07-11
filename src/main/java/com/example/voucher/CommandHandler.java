@@ -6,7 +6,6 @@ import com.example.voucher.ui.Input;
 import com.example.voucher.ui.Output;
 import com.example.voucher.util.UUIDGenerator;
 import java.util.List;
-import java.util.UUID;
 
 public class CommandHandler {
     private Input input;
@@ -33,6 +32,9 @@ public class CommandHandler {
         output.requestVoucherAmount();
         double amount = input.readVoucherInput();
 
-        return new VoucherDto(uuidGenerator.generateUUID(), amount);
+        return new VoucherDto.Builder()
+                .withVoucherId(uuidGenerator.generateUUID())
+                .withAmount(amount)
+                .build();
     }
 }
