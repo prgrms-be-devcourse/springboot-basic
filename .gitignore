@@ -37,4 +37,5 @@ build/
 
 # ignore
 src/main/resources/*yml
+logs/*log
 logs
