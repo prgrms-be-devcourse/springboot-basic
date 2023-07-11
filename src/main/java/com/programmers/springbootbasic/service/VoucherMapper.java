@@ -2,8 +2,7 @@ package com.programmers.springbootbasic.service;
 
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherDateTime;
-import com.programmers.springbootbasic.service.dto.FixedAmountVoucherCreationRequest;
-import com.programmers.springbootbasic.service.dto.PercentDiscountVoucherCreationRequest;
+import com.programmers.springbootbasic.service.dto.VoucherRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;
 
@@ -16,14 +15,15 @@ public final class VoucherMapper {
 
     }
 
-    public static Voucher toFixedAmountVoucher(FixedAmountVoucherCreationRequest request) {
+    public static Voucher toVoucher(VoucherRequest request) {
         VoucherDateTime voucherDateTime = VoucherDateTime.of(LocalDateTime.now(), request.expirationDate());
-        return Voucher.createFixedAmount(UUID.randomUUID(), request.name(), request.minimumPriceCondition(), voucherDateTime, request.amount());
-    }
-
-    public static Voucher toPercentDiscountVoucher(PercentDiscountVoucherCreationRequest request) {
-        VoucherDateTime voucherDateTime = VoucherDateTime.of(LocalDateTime.now(), request.expirationDate());
-        return Voucher.createPercentDiscount(UUID.randomUUID(), request.name(), request.minimumPriceCondition(), voucherDateTime, request.percent());
+        VoucherType voucherType = VoucherType.from(request.voucherType());
+        return switch (voucherType) {
+            case FIX ->
+                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), voucherDateTime, request.discountAmount());
+            case PERCENT ->
+                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), voucherDateTime, request.discountAmount());
+        };
     }
 
     public static VoucherResponses toVoucherResponseList(List<Voucher> vouchers) {
