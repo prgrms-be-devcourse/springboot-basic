@@ -1,9 +1,9 @@
-package com.devcourse.voucherapp.view;
+package com.devcourse.voucherapp.view.io;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsoleOutputView implements OutputView {
+public class ConsoleOutput implements Output {
 
     @Override
     public <T> void printWithLineBreak(T data) {

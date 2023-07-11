@@ -1,7 +1,7 @@
 package com.devcourse.voucherapp.command;
 
 import com.devcourse.voucherapp.entity.Menu;
-import com.devcourse.voucherapp.view.ViewManager;
+import com.devcourse.voucherapp.view.CommonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CommandLineApplication implements CommandLineRunner {
 
-    private final ViewManager viewManager;
+    private final CommonView viewManager;
     private final VoucherCommand voucherCommand;
     private final CustomerCommand customerCommand;
     private boolean isRunning = true;
@@ -20,6 +20,8 @@ public class CommandLineApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         while (isRunning) {
+            viewManager.showTitle();
+
             try {
                 String menuOption = viewManager.readMenuOption(Menu.values());
                 Menu selectedMenu = Menu.from(menuOption);

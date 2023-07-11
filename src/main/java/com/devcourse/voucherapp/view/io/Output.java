@@ -1,6 +1,6 @@
-package com.devcourse.voucherapp.view;
+package com.devcourse.voucherapp.view.io;
 
-public interface OutputView {
+public interface Output {
 
     <T> void printWithLineBreak(T data);
 

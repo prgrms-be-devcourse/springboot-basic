@@ -6,7 +6,8 @@ import com.devcourse.voucherapp.entity.customer.request.CustomerCreateRequestDto
 import com.devcourse.voucherapp.entity.customer.request.CustomerUpdateRequestDto;
 import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
-import com.devcourse.voucherapp.view.ViewManager;
+import com.devcourse.voucherapp.view.CommonView;
+import com.devcourse.voucherapp.view.CustomerView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +15,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomerCommand {
 
-    private final ViewManager viewManager;
+    private final CommonView commonView;
+    private final CustomerView customerView;
     private final CustomerController customerController;
 
     public void run() {
-        String menuOption = viewManager.readMenuOption(CustomerMenu.values());
+        customerView.showTitle();
+
+        String menuOption = commonView.readMenuOption(CustomerMenu.values());
         CustomerMenu selectedMenu = CustomerMenu.from(menuOption);
+
         executeMenu(selectedMenu);
     }
 
@@ -34,42 +39,42 @@ public class CustomerCommand {
     }
 
     private void createCustomer() {
-        String nickname = viewManager.readCustomerNickname();
+        String nickname = customerView.readCustomerNickname();
 
         CustomerCreateRequestDto request = new CustomerCreateRequestDto(nickname);
         CustomerResponseDto response = customerController.create(request);
 
-        viewManager.showCustomerCreationSuccessMessage(response);
+        customerView.showCustomerCreationSuccessMessage(response);
     }
 
     private void readAllCustomers() {
         CustomersResponseDto response = customerController.findAllCustomers();
-        viewManager.showAllCustomers(response);
+        customerView.showAllCustomers(response);
     }
 
     private void updateCustomer() {
         readAllCustomers();
 
-        String nickname = viewManager.readCustomerNicknameToUpdate();
-        String typeNumber = viewManager.readCustomerTypeNumber();
+        String nickname = customerView.readCustomerNicknameToUpdate();
+        String typeNumber = customerView.readCustomerTypeNumber();
 
         CustomerUpdateRequestDto request = new CustomerUpdateRequestDto(typeNumber, nickname);
         CustomerResponseDto response = customerController.update(request);
 
-        viewManager.showCustomerUpdateSuccessMessage(response);
+        customerView.showCustomerUpdateSuccessMessage(response);
     }
 
     private void deleteCustomer() {
         readAllCustomers();
 
-        String nickname = viewManager.readVoucherNicknameToDelete();
+        String nickname = customerView.readCustomerNicknameToDelete();
         customerController.deleteByNickname(nickname);
 
-        viewManager.showCustomerDeleteSuccessMessage();
+        customerView.showCustomerDeleteSuccessMessage();
     }
 
     private void readBlackListCustomers() {
         CustomersResponseDto response = customerController.findBlackListCustomers();
-        viewManager.showAllCustomers(response);
+        customerView.showAllCustomers(response);
     }
 }

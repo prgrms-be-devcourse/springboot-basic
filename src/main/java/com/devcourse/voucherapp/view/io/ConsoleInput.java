@@ -1,10 +1,10 @@
-package com.devcourse.voucherapp.view;
+package com.devcourse.voucherapp.view.io;
 
 import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsoleInputView implements InputView {
+public class ConsoleInput implements Input {
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
