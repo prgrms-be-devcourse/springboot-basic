@@ -7,9 +7,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
-import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.Voucher;
-import com.example.voucher.domain.VoucherCreator;
 
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -17,6 +15,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String SAVE_VOUCHER = "INSERT INTO VOUCHER VALUES (:voucherId, :discountValue, :voucherType)";
     private final String FIND_ALL_VOUCHERS = "SELECT * FROM VOUCHER";
     private final String DELETE_ALL_VOUCHERS = "DELETE FROM VOUCHER";
+    private final String SELECT_VOUCHER_BY_ID = "SELECT * FROM VOUHER WHERE VOUCHER_ID = :voucherId";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -26,7 +25,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        SqlParameterSource parameterSource = voucherParameterSource(voucher);
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+            .addValue("voucherId", voucher.getVoucherId().toString())
+            .addValue("discountValue", voucher.getDiscountValue())
+            .addValue("voucherType", voucher.getType().toString());
+
         jdbcTemplate.update(SAVE_VOUCHER, parameterSource);
 
         return voucher;
@@ -48,18 +51,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
             UUID voucherID = UUID.fromString(rs.getString("voucher_id"));
+            Voucher.Type voucherType = Voucher.Type.valueOf(rs.getString("voucher_type"));
             Long discountValue = rs.getLong("discount_value");
-            VoucherType voucherType = VoucherType.valueOf(rs.getString("voucher_type"));
 
-            return VoucherCreator.createVoucher(voucherID, discountValue, voucherType);
+            return new Voucher(voucherID, voucherType, discountValue);
         };
-    }
-
-    private SqlParameterSource voucherParameterSource(Voucher voucher) {
-        return new MapSqlParameterSource()
-            .addValue("voucherId", voucher.getVoucherId().toString())
-            .addValue("discountValue", voucher.getDiscountValue())
-            .addValue("voucherType", voucher.getVoucherType().toString());
     }
 
 }
