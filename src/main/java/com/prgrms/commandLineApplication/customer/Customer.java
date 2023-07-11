@@ -23,7 +23,23 @@ public class Customer {
     CustomerValidator.checkId(customerId);
     CustomerValidator.checkName(customerName);
     CustomerValidator.checkEmail(email);
-    return new Customer(customerId, email, name);
+    return new Customer(customerId, customerName, email);
+  }
+
+  public void update(String newName) {
+    this.customerName = newName;
+  }
+
+  public UUID getCustomerId() {
+    return customerId;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getCustomerName() {
+    return customerName;
   }
 
 }
