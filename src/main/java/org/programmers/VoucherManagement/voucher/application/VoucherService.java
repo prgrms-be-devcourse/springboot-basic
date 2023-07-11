@@ -33,7 +33,7 @@ public class VoucherService {
 
     public void saveVoucher(CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = VoucherFactory.createVoucher(createVoucherRequest);
-        repository.save(voucher);
+        repository.insert(voucher);
     }
 
     public GetVoucherListResponse getVoucherList() {

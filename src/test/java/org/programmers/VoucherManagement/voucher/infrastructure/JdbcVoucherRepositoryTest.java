@@ -40,7 +40,7 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("Percent 바우처를 생성할 수 있다.")
     void insert_PercentVoucher_EqualsNewPercentVoucher() {
         //given
-        voucherRepository.save(percentVoucher);
+        voucherRepository.insert(percentVoucher);
 
         //when
         Voucher voucherExpect = voucherRepository.findById(percentVoucher.getVoucherId()).get();
@@ -55,7 +55,7 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("Fixed 바우처를 생성할 수 있다.")
     void insert_FixedVoucher_EqualsNewFixedVoucher() {
         //given
-        voucherRepository.save(fixedVoucher);
+        voucherRepository.insert(fixedVoucher);
 
         //when
         Voucher voucherExpect = voucherRepository.findById(fixedVoucher.getVoucherId()).get();

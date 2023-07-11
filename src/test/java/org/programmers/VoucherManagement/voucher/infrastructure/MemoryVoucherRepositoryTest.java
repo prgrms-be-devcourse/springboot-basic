@@ -36,8 +36,8 @@ public class MemoryVoucherRepositoryTest {
         Voucher percentVoucher = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
 
         //when
-        voucherRepository.save(fixedVoucher);
-        voucherRepository.save(percentVoucher);
+        voucherRepository.insert(fixedVoucher);
+        voucherRepository.insert(percentVoucher);
         Voucher fixedVoucherExpect = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
         Voucher percentVoucherExpect = voucherRepository.findById(percentVoucher.getVoucherId()).get();
 
@@ -51,7 +51,7 @@ public class MemoryVoucherRepositoryTest {
     @MethodSource("저장된바우처를_모두조회_성공()")
     void findAll_Success(List<Voucher> voucherList) {
         //given
-        voucherList.stream().forEach(v -> voucherRepository.save(v));
+        voucherList.stream().forEach(v -> voucherRepository.insert(v));
 
         //when
         List<Voucher> voucherListExpect = voucherRepository.findAll();

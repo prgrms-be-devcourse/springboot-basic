@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    Voucher save(Voucher voucher); //저장
+    Voucher insert(Voucher voucher); //저장
 
     void update(Voucher voucher); //수정
 

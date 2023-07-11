@@ -41,7 +41,7 @@ public class VoucherServiceTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(100));
-        voucherRepository.save(saveVoucher);
+        voucherRepository.insert(saveVoucher);
         UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(1000);
 
         //mocking
@@ -61,7 +61,7 @@ public class VoucherServiceTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
-        voucherRepository.save(saveVoucher);
+        voucherRepository.insert(saveVoucher);
         UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(40);
 
         //mocking
@@ -81,7 +81,7 @@ public class VoucherServiceTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
-        voucherRepository.save(saveVoucher);
+        voucherRepository.insert(saveVoucher);
         UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(-1);
 
         //mocking
@@ -98,7 +98,7 @@ public class VoucherServiceTest {
     void deleteVoucher_voucherId_Success() {
         //given
         Voucher saveVoucher = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000));
-        voucherRepository.save(saveVoucher);
+        voucherRepository.insert(saveVoucher);
 
         //mocking
         given(voucherRepository.findById(saveVoucher.getVoucherId())).willReturn(Optional.ofNullable(saveVoucher));
