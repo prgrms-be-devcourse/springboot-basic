@@ -3,9 +3,8 @@ classDiagram
     %% Controller
     class SpringbootBasicApplication
     class ConsoleApplication
-    class PlatformController
     SpringbootBasicApplication --> ConsoleApplication
-    ConsoleApplication --> PlatformController
+    ConsoleApplication --> ConsoleManager
 
     %% IO
     class ConsoleManager
@@ -13,34 +12,29 @@ classDiagram
     class OutputConsole
     ConsoleManager --> InputConsole
     ConsoleManager --> OutputConsole
-    PlatformController --> ConsoleManager
+
+    class VoucherController
+    class CustomerController
+    ConsoleApplication --> VoucherController : VoucherDto
+    ConsoleApplication --> CustomerController : CustomerDto
 
     %% Service
-    class VoucherService {
-        createVoucher()
-        getVouchers()
-    }
-    class CustomerService {
-        getBlackCustomers()
-    }
-    PlatformController --> VoucherService : Voucher
-    PlatformController --> CustomerService : Customer
+    class VoucherService
+    class CustomerService
+    VoucherController --> VoucherService : Voucher
+    CustomerController --> CustomerService : Customer
 
     %% Repository
     class VoucherRepository {
         <<interface>>
-        insert()
-        findAllVouchers()
     }
     VoucherService --> VoucherRepository
     class MemoryVoucherRepository
-    class FileVoucherRepository
-    FileVoucherRepository --> CsvReader
-    FileVoucherRepository --> CsvWriter
+    class JdbcVoucherRepository
+    JdbcVoucherRepository --> CsvReader
     VoucherRepository <.. MemoryVoucherRepository
-    VoucherRepository <.. FileVoucherRepository
+    VoucherRepository <.. JdbcVoucherRepository
 
     class CustomerRepository
     CustomerRepository --> CsvReader
-    CustomerRepository --> CsvWriter
     CustomerService --> CustomerRepository

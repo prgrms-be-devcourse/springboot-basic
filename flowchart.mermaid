@@ -1,10 +1,24 @@
 flowchart TD
-    startnode[Start] --> menu[Menu Input] --> menuBranch{Menu}
-    menuBranch -- CREATE --> createBranch{Voucher Type}
-    menuBranch -- LIST --> listBranch{List Menu}
-    listBranch -- VOUCHER_LIST --> showVoucher[Show Vouchers]
-    listBranch -- BLACK_CUSTOMER_LIST --> showBlack[Show Black Customers]
-    createBranch --> CreateVoucher[Create Voucher]
-    CreateVoucher -- dev property --> mem[Store Voucher in Memory]
-    CreateVoucher -- default property --> file[Store Voucher in File]
-    menuBranch -- EXIT --> endnode[End]
+    start_node[Start] --> menu[Menu Input] --> menuBranch{Menu}
+
+    menuBranch -- CREATE --> createBranch{Domain Type}
+    menuBranch -- REMOVE --> removeBranch{Domain Type}
+    menuBranch -- LIST --> listBranch{Domain Type}
+    menuBranch -- EXIT --> end_node[end]
+
+    createBranch -- Voucher --> createVoucher[Create Voucher]
+    createBranch -- Customer --> registerCustomer[Register Customer]
+
+    removeBranch -- Voucher --> removeVoucher[Remove Voucher]
+    removeBranch -- Customer --> removeCustomer[Unregister Customer]
+    removeVoucher -- All --> removeAllVouchers[Remove All Vouchers]
+    removeVoucher -- Property --> removeVoucherByProperty[Remove Voucher By Property]
+    removeCustomer -- All --> removeAllCustomers[Remove all Customers]
+    removeCustomer -- Property --> removeCustomerByProperty[Remove Customer by Property]
+
+    listBranch -- Voucher --> listVoucher[List Vouchers]
+    listBranch -- Customer --> listCustomer[List Customers]
+    listVoucher -- All --> listAllVouchers[List All Vouchers]
+    listVoucher -- Property --> listVoucherByProperty[List Voucher By Property]
+    listCustomer -- All --> listAllCustomers[List all Customers]
+    listCustomer -- Property --> listCustomerByProperty[List Customer by Property]
