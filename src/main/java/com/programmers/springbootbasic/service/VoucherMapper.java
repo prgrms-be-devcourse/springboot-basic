@@ -2,6 +2,7 @@ package com.programmers.springbootbasic.service;
 
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherDateTime;
+import com.programmers.springbootbasic.domain.voucher.VoucherType;
 import com.programmers.springbootbasic.service.dto.VoucherRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;

@@ -1,7 +1,5 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import com.programmers.springbootbasic.service.VoucherType;
-
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
