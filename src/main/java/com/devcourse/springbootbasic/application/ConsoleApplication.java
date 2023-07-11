@@ -1,14 +1,19 @@
 package com.devcourse.springbootbasic.application;
 
 import com.devcourse.springbootbasic.application.customer.controller.CustomerController;
+import com.devcourse.springbootbasic.application.customer.controller.CustomerDto;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.io.ConsoleManager;
-import com.devcourse.springbootbasic.application.global.model.ListMenu;
-import com.devcourse.springbootbasic.application.global.model.Menu;
+import com.devcourse.springbootbasic.application.global.model.CommandMenu;
+import com.devcourse.springbootbasic.application.global.model.DomainMenu;
+import com.devcourse.springbootbasic.application.global.model.PropertyMenu;
 import com.devcourse.springbootbasic.application.voucher.controller.VoucherController;
+import com.devcourse.springbootbasic.application.voucher.controller.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ConsoleApplication implements Runnable {
@@ -33,7 +38,7 @@ public class ConsoleApplication implements Runnable {
     public void run() {
         while (true) {
             try {
-                Menu menu = consoleManager.consoleMenu();
+                CommandMenu menu = consoleManager.consoleCommandMenu();
                 if (branchByMenu(menu)) {
                     break;
                 }
@@ -44,29 +49,94 @@ public class ConsoleApplication implements Runnable {
         }
     }
 
-    private boolean branchByMenu(Menu menu) {
+    private boolean branchByMenu(CommandMenu menu) {
         switch (menu) {
             case EXIT -> {
                 consoleManager.consoleClosePlatform();
                 return true;
             }
-            case CREATE -> voucherController.createVoucher(consoleManager.getVoucherDto());
-            case LIST -> branchByListMenu(consoleManager.consoleListMenu());
+            case CREATE -> createTask(consoleManager.consoleDomainMenu());
+            case UPDATE -> updateTask(consoleManager.consoleDomainMenu());
+            case REMOVE -> removeTask(consoleManager.consoleDomainMenu(), menu);
+            case LIST -> listTask(consoleManager.consoleDomainMenu(), menu);
         }
         return false;
     }
 
-    private void branchByListMenu(ListMenu listMenu) {
-        var list = switch (listMenu) {
-            case VOUCHER_LIST -> voucherController.getAllVouchers();
-            case BLACK_CUSTOMER_LIST -> customerController.findBlackCustomers();
+    private void createTask(DomainMenu domainMenu) {
+        var consoleId = false;
+        switch (domainMenu) {
+            case VOUCHER -> {
+                var createdVoucherDto = voucherController.createVoucher(consoleManager.getVoucherDto(consoleId));
+                consoleManager.printVoucherDto(createdVoucherDto);
+            }
+            case CUSTOMER -> {
+                var registedCustomerDto = customerController.registerCustomer(consoleManager.getCustomerDto(consoleId));
+                consoleManager.printCustomerDto(registedCustomerDto);
+            }
+        }
+    }
+
+    private void updateTask(DomainMenu domainMenu) {
+        var consoleId = true;
+        switch (domainMenu) {
+            case VOUCHER -> {
+                var updatedVoucherDto = voucherController.updateVoucher(consoleManager.getVoucherDto(consoleId));
+                consoleManager.printVoucherDto(updatedVoucherDto);
+            }
+            case CUSTOMER -> {
+                var updateCustomerDto = customerController.updateCustomer(consoleManager.getCustomerDto(consoleId));
+                consoleManager.printCustomerDto(updateCustomerDto);
+            }
+        }
+    }
+
+    private void removeTask(DomainMenu domainMenu, CommandMenu commandMenu) {
+        var filterActive = domainMenu == DomainMenu.CUSTOMER && commandMenu == CommandMenu.LIST;
+        switch (domainMenu) {
+            case VOUCHER -> removeVoucherTask(consoleManager.consoleProperty(filterActive));
+            case CUSTOMER -> removeCustomerTask(consoleManager.consoleProperty(filterActive));
+        }
+    }
+
+    private void removeVoucherTask(PropertyMenu propertyMenu) {
+        switch (propertyMenu) {
+            case ALL -> voucherController.deleteVouchers();
+            case ID -> voucherController.deleteVoucherById(consoleManager.consoleId());
+        }
+    }
+
+    private void removeCustomerTask(PropertyMenu propertyMenu) {
+        switch (propertyMenu) {
+            case ALL -> customerController.deleteAllCustomers();
+            case ID -> customerController.deleteCustomerById(consoleManager.consoleId());
+        }
+    }
+
+    private void listTask(DomainMenu domainMenu, CommandMenu commandMenu) {
+        var filterActive = domainMenu == DomainMenu.CUSTOMER && commandMenu == CommandMenu.LIST;
+        switch (domainMenu) {
+            case VOUCHER -> listVoucherTask(consoleManager.consoleProperty(filterActive));
+            case CUSTOMER -> listCustomerTask(consoleManager.consoleProperty(filterActive));
+        }
+    }
+
+    private void listVoucherTask(PropertyMenu propertyMenu) {
+        List<VoucherDto> list = switch (propertyMenu) {
+            case ALL -> voucherController.findAllVouchers();
+            case ID -> List.of(voucherController.findVoucherById(consoleManager.consoleId()));
+            case BLACK_CUSTOMER -> List.of();
         };
-        consoleManager.printList(
-                listMenu,
-                list.stream()
-                        .map(Object::toString)
-                        .toList()
-        );
+        consoleManager.printVoucherList(list);
+    }
+
+    private void listCustomerTask(PropertyMenu propertyMenu) {
+        List<CustomerDto> list = switch (propertyMenu) {
+            case ALL -> customerController.findAllCustomers();
+            case BLACK_CUSTOMER -> customerController.findBlackCustomers();
+            case ID -> List.of(customerController.findCustomerById(consoleManager.consoleId()));
+        };
+        consoleManager.printCustomerList(list);
     }
 
 }

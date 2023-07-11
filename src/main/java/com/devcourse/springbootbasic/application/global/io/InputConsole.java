@@ -1,23 +1,40 @@
 package com.devcourse.springbootbasic.application.global.io;
 
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.global.model.ListMenu;
-import com.devcourse.springbootbasic.application.global.model.Menu;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
+import com.devcourse.springbootbasic.application.global.model.PropertyMenu;
+import com.devcourse.springbootbasic.application.global.model.CommandMenu;
+import com.devcourse.springbootbasic.application.global.model.DomainMenu;
+import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class InputConsole {
 
     private static final TextIO textIO = TextIoFactory.getTextIO();
 
-    public Menu readMenu() {
+    public CommandMenu readCommandMenu() {
         String input = textIO.newStringInputReader()
                 .withInputTrimming(true)
-                .read("Menu Selection: ");
-        return Menu.getMenu(input);
+                .read("CommandMenu Selection: ");
+        return CommandMenu.getCommandMenu(input);
+    }
+
+    public DomainMenu readDomainMenu() {
+        String input = textIO.newStringInputReader()
+                .withInputTrimming(true)
+                .read("DomainMenu Selection: ");
+        return DomainMenu.getDomainMenu(input);
+    }
+
+    public PropertyMenu readPropertyMenu() {
+        String input = textIO.newStringInputReader()
+                .withInputTrimming(true)
+                .read("PropertyMenu Selection: ");
+        return PropertyMenu.getPropertyMenu(input);
     }
 
     public VoucherType readVoucherType() {
@@ -27,18 +44,24 @@ public class InputConsole {
         return VoucherType.getVoucherType(input);
     }
 
-    public ListMenu readListMenu() {
-        String input = textIO.newStringInputReader()
-                .withInputTrimming(true)
-                .read("List Type Selection: ");
-        return ListMenu.getListMenu(input);
-    }
-
     public DiscountValue readDiscountValue(VoucherType voucherType) {
         String inputDiscountValue = textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .read("Discount Value: ");
         return DiscountValue.from(voucherType, inputDiscountValue);
+    }
+
+    public UUID readId() {
+        String input = textIO.newStringInputReader()
+                .withInputTrimming(true)
+                .read("Id: ");
+        return UUID.fromString(input);
+    }
+
+    public String readName() {
+        return textIO.newStringInputReader()
+                .withInputTrimming(true)
+                .read("Name: ");
     }
 
 }

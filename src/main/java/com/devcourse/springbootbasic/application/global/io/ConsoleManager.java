@@ -1,12 +1,16 @@
 package com.devcourse.springbootbasic.application.global.io;
 
-import com.devcourse.springbootbasic.application.global.model.ListMenu;
-import com.devcourse.springbootbasic.application.global.model.Menu;
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
+import com.devcourse.springbootbasic.application.customer.controller.CustomerDto;
+import com.devcourse.springbootbasic.application.global.model.PropertyMenu;
+import com.devcourse.springbootbasic.application.global.model.DomainMenu;
+import com.devcourse.springbootbasic.application.global.model.CommandMenu;
+import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.voucher.controller.VoucherDto;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,18 +33,23 @@ public class ConsoleManager {
         outputConsole.closePlatform();
     }
 
-    public void printList(ListMenu listMenu, List<String> list) {
-        outputConsole.printList(listMenu.getListMenuPrompt(), list);
+    public CommandMenu consoleCommandMenu() {
+        outputConsole.showCommandMenu();
+        return inputConsole.readCommandMenu();
     }
 
-    public Menu consoleMenu() {
-        outputConsole.showMenu();
-        return inputConsole.readMenu();
+    public DomainMenu consoleDomainMenu() {
+        outputConsole.showDomainMenu();
+        return inputConsole.readDomainMenu();
     }
 
-    public ListMenu consoleListMenu() {
-        outputConsole.showListMenu();
-        return inputConsole.readListMenu();
+    public PropertyMenu consoleProperty(boolean filterActive) {
+        var values = Arrays.stream(PropertyMenu.values());
+        if (!filterActive) {
+            values = values.filter(propertyMenu -> propertyMenu != PropertyMenu.BLACK_CUSTOMER);
+        }
+        outputConsole.showPropertyMenu(values);
+        return inputConsole.readPropertyMenu();
     }
 
     private VoucherType consoleVoucherType() {
@@ -52,10 +61,51 @@ public class ConsoleManager {
         return inputConsole.readDiscountValue(voucherType);
     }
 
-    public VoucherDto getVoucherDto() {
+    public VoucherDto getVoucherDto(boolean consoleIdActive) {
+        var voucherId = consoleIdActive ? consoleId() : UUID.randomUUID();
         var voucherType = consoleVoucherType();
         var discountValue = consoleDiscountValue(voucherType);
-        return new VoucherDto(UUID.randomUUID(), voucherType, discountValue);
+        return new VoucherDto(voucherId, voucherType, discountValue);
+    }
+
+    public UUID consoleId() {
+        return inputConsole.readId();
+    }
+
+    public String consoleName() {
+        return inputConsole.readName();
+    }
+
+    public CustomerDto getCustomerDto(boolean consoleIdActive) {
+        var id = consoleIdActive ? consoleId() : UUID.randomUUID();
+        var name = consoleName();
+        return new CustomerDto(id, name);
+    }
+
+    public void printVoucherDto(VoucherDto voucherDto) {
+        outputConsole.printMessage(voucherDto.toString());
+    }
+
+    public void printCustomerDto(CustomerDto customerDto) {
+        outputConsole.printMessage(customerDto.toString());
+    }
+
+    public void printVoucherList(List<VoucherDto> list) {
+        outputConsole.printMessage(OutputMessage.LIST_VOUCHERS.getMessageText());
+        outputConsole.printList(
+                list.stream()
+                        .map(VoucherDto::toString)
+                        .toList()
+        );
+    }
+
+    public void printCustomerList(List<CustomerDto> list) {
+        outputConsole.printMessage(OutputMessage.LIST_CUSTOMERS.getMessageText());
+        outputConsole.printList(
+                list.stream()
+                        .map(CustomerDto::toString)
+                        .toList()
+        );
     }
 
 }
