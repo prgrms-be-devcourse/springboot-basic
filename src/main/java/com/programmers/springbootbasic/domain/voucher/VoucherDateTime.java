@@ -8,6 +8,7 @@ public class VoucherDateTime {
     private final LocalDateTime expiredAt;
 
     public VoucherDateTime(LocalDateTime createdAt, LocalDateTime expiredAt) {
+        checkNullValue(createdAt, expiredAt);
         if (isInvalidExpiredAt(createdAt, expiredAt)) {
             throw new IllegalArgumentException(INVALID_EXPIRED_AT + expiredAt);
         }
@@ -29,6 +30,23 @@ public class VoucherDateTime {
 
     public boolean isExpired(LocalDateTime at) {
         return at.isAfter(expiredAt);
+    }
+
+    private void checkNullValue(LocalDateTime createdAt, LocalDateTime expiredAt) {
+        if (isNullCreatedAt(createdAt)) {
+            throw new IllegalArgumentException();
+        }
+        if (isNullExpiredAt(expiredAt)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean isNullCreatedAt(LocalDateTime createdAt) {
+        return createdAt == null;
+    }
+
+    private boolean isNullExpiredAt(LocalDateTime expiredAt) {
+        return expiredAt == null;
     }
 
     private boolean isInvalidExpiredAt(LocalDateTime createdAt, LocalDateTime expiredAt) {
