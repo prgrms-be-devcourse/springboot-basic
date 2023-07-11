@@ -1,11 +1,9 @@
-package com.devcourse.voucherapp.entity;
+package com.devcourse.voucherapp.entity.voucher;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.entity.voucher.FixDiscountVoucher;
-import com.devcourse.voucherapp.entity.voucher.PercentDiscountVoucher;
-import com.devcourse.voucherapp.entity.voucher.Voucher;
-import com.devcourse.voucherapp.exception.VoucherTypeInputException;
+import com.devcourse.voucherapp.utils.TriFunction;
+import com.devcourse.voucherapp.utils.exception.voucher.VoucherTypeInputException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;

@@ -1,8 +1,8 @@
-package com.devcourse.voucherapp.repository;
+package com.devcourse.voucherapp.repository.customer;
 
-import static com.devcourse.voucherapp.entity.CustomerType.BLACK;
+import static com.devcourse.voucherapp.entity.customer.CustomerType.BLACK;
 
-import com.devcourse.voucherapp.entity.CustomerType;
+import com.devcourse.voucherapp.entity.customer.CustomerType;
 import com.devcourse.voucherapp.entity.customer.Customer;
 import java.util.List;
 import java.util.Map;

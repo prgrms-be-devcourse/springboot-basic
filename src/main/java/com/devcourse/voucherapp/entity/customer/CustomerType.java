@@ -1,8 +1,8 @@
-package com.devcourse.voucherapp.entity;
+package com.devcourse.voucherapp.entity.customer;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.exception.CustomerTypeInputException;
+import com.devcourse.voucherapp.utils.exception.customer.CustomerTypeInputException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;

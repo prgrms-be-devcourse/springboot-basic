@@ -3,7 +3,7 @@ package com.devcourse.voucherapp.entity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.devcourse.voucherapp.exception.MenuInputException;
+import com.devcourse.voucherapp.utils.exception.MenuInputException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

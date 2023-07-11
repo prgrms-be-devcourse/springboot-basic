@@ -1,9 +1,9 @@
 package com.devcourse.voucherapp.controller;
 
-import com.devcourse.voucherapp.entity.dto.CustomerCreateRequestDto;
-import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
-import com.devcourse.voucherapp.entity.dto.CustomerUpdateRequestDto;
-import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
+import com.devcourse.voucherapp.entity.customer.request.CustomerCreateRequestDto;
+import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.customer.request.CustomerUpdateRequestDto;
+import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
 import com.devcourse.voucherapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

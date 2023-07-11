@@ -1,14 +1,14 @@
 package com.devcourse.voucherapp.service;
 
-import com.devcourse.voucherapp.entity.CustomerType;
+import com.devcourse.voucherapp.entity.customer.CustomerType;
 import com.devcourse.voucherapp.entity.customer.Customer;
-import com.devcourse.voucherapp.entity.dto.CustomerCreateRequestDto;
-import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
-import com.devcourse.voucherapp.entity.dto.CustomerUpdateRequestDto;
-import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
-import com.devcourse.voucherapp.exception.ExistedCustomerException;
-import com.devcourse.voucherapp.exception.NotFoundCustomerException;
-import com.devcourse.voucherapp.repository.CustomerRepository;
+import com.devcourse.voucherapp.entity.customer.request.CustomerCreateRequestDto;
+import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.customer.request.CustomerUpdateRequestDto;
+import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
+import com.devcourse.voucherapp.utils.exception.customer.ExistedCustomerException;
+import com.devcourse.voucherapp.utils.exception.customer.NotFoundCustomerException;
+import com.devcourse.voucherapp.repository.customer.CustomerRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

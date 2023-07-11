@@ -1,8 +1,8 @@
-package com.devcourse.voucherapp.entity.dto;
+package com.devcourse.voucherapp.entity.voucher.response;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.UUID;
 import lombok.Getter;

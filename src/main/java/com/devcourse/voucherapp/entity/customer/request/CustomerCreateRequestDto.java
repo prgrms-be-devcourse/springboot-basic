@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.entity.dto;
+package com.devcourse.voucherapp.entity.customer.request;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

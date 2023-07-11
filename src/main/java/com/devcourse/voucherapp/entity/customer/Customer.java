@@ -1,9 +1,8 @@
 package com.devcourse.voucherapp.entity.customer;
 
-import static com.devcourse.voucherapp.entity.CustomerType.NORMAL;
+import static com.devcourse.voucherapp.entity.customer.CustomerType.NORMAL;
 
-import com.devcourse.voucherapp.entity.CustomerType;
-import com.devcourse.voucherapp.exception.CustomerInputException;
+import com.devcourse.voucherapp.utils.exception.customer.CustomerInputException;
 import java.util.UUID;
 import lombok.Getter;
 

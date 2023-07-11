@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.entity.dto;
+package com.devcourse.voucherapp.entity.voucher.response;
 
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.List;

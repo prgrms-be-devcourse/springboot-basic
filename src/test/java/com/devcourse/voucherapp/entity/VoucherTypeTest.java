@@ -3,8 +3,9 @@ package com.devcourse.voucherapp.entity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.devcourse.voucherapp.exception.DiscountAmountException;
-import com.devcourse.voucherapp.exception.VoucherTypeInputException;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
+import com.devcourse.voucherapp.utils.exception.voucher.DiscountAmountException;
+import com.devcourse.voucherapp.utils.exception.voucher.VoucherTypeInputException;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

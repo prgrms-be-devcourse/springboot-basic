@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.entity;
+package com.devcourse.voucherapp.utils;
 
 @FunctionalInterface
 public interface TriFunction<T, U, V, R> {

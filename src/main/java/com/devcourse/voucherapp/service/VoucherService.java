@@ -1,13 +1,13 @@
 package com.devcourse.voucherapp.service;
 
-import com.devcourse.voucherapp.entity.VoucherType;
-import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
-import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
-import com.devcourse.voucherapp.entity.dto.VoucherUpdateRequestDto;
-import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
+import com.devcourse.voucherapp.entity.voucher.request.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.response.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.voucher.request.VoucherUpdateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.response.VouchersResponseDto;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
-import com.devcourse.voucherapp.exception.NotFoundVoucherException;
-import com.devcourse.voucherapp.repository.VoucherRepository;
+import com.devcourse.voucherapp.utils.exception.voucher.NotFoundVoucherException;
+import com.devcourse.voucherapp.repository.voucher.VoucherRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

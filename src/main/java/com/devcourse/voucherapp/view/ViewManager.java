@@ -1,12 +1,12 @@
 package com.devcourse.voucherapp.view;
 
-import com.devcourse.voucherapp.entity.CustomerType;
+import com.devcourse.voucherapp.entity.customer.CustomerType;
 import com.devcourse.voucherapp.entity.Menu;
-import com.devcourse.voucherapp.entity.VoucherType;
-import com.devcourse.voucherapp.entity.dto.CustomerResponseDto;
-import com.devcourse.voucherapp.entity.dto.CustomersResponseDto;
-import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
-import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
+import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
+import com.devcourse.voucherapp.entity.voucher.response.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.voucher.response.VouchersResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

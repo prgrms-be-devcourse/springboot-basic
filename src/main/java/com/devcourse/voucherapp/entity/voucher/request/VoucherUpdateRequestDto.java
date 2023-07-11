@@ -1,6 +1,6 @@
-package com.devcourse.voucherapp.entity.dto;
+package com.devcourse.voucherapp.entity.voucher.request;
 
-import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.devcourse.voucherapp.repository;
+package com.devcourse.voucherapp.repository.voucher;
 
-import com.devcourse.voucherapp.entity.VoucherType;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.List;
 import java.util.Map;
