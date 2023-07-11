@@ -42,7 +42,7 @@ class VoucherJdbcRepositoryTest {
                     .setType(EmbeddedDatabaseType.H2)
                     .setScriptEncoding("UTF-8")
                     .ignoreFailedDrops(true)
-//                    .addScript("schema.sql")
+                    .addScript("schema.sql")
                     .build();
         }
 

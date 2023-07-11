@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.*;
@@ -81,7 +82,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
     }
 
-
     @Override
     public List<VoucherEntity> findByType(String voucherType) {
         List<VoucherEntity> vouchers = jdbcTemplate.query("select * from vouchers WHERE voucher_type = :voucherType",
@@ -95,4 +95,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
     }
+
+    @Override
+    public void deleteById(Long voucherId) {
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId", Collections.singletonMap(VOUCHER_ID, voucherId));
+    }
+
+
 }
