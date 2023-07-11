@@ -1,6 +1,5 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import com.programmers.springbootbasic.service.VoucherType;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
