@@ -14,24 +14,24 @@ public abstract class Voucher {
     private final UUID voucherId;
     private final String name;
     private final Long minimumPriceCondition;
-    private final VoucherDate voucherDate;
+    private final VoucherDateTime voucherDateTime;
 
     private boolean used = false;
 
-    protected Voucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate) {
+    protected Voucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime) {
         checkInvalidValue(voucherId, name);
         this.voucherId = voucherId;
         this.name = name;
         this.minimumPriceCondition = minimumPriceCondition == null ? ZERO : minimumPriceCondition;
-        this.voucherDate = voucherDate;
+        this.voucherDateTime = voucherDateTime;
     }
 
-    public static Voucher createFixedAmount(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int amount) {
-        return new FixedAmountVoucher(voucherId, name, minimumPriceCondition, voucherDate, amount);
+    public static Voucher createFixedAmount(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int amount) {
+        return new FixedAmountVoucher(voucherId, name, minimumPriceCondition, voucherDateTime, amount);
     }
 
-    public static Voucher createPercentDiscount(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int percent) {
-        return new PercentDiscountVoucher(voucherId, name, minimumPriceCondition, voucherDate, percent);
+    public static Voucher createPercentDiscount(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int percent) {
+        return new PercentDiscountVoucher(voucherId, name, minimumPriceCondition, voucherDateTime, percent);
     }
 
     public String getName() {
@@ -42,8 +42,8 @@ public abstract class Voucher {
         return minimumPriceCondition;
     }
 
-    public VoucherDate getVoucherDate() {
-        return voucherDate;
+    public VoucherDateTime getVoucherDate() {
+        return voucherDateTime;
     }
 
     public void use(Long priceBeforeDiscount, LocalDateTime at) {
@@ -70,8 +70,8 @@ public abstract class Voucher {
         if (minimumPriceCondition > priceBeforeDiscount) {
             throw new IllegalStateException(NOT_ENOUGH_MINIMUM_PRICE_CONDITION + minimumPriceCondition + CURRENT_PAYMENT_AMOUNT + priceBeforeDiscount);
         }
-        if (voucherDate.isExpiration(at)) {
-            throw new IllegalStateException(EXPIRED_VOUCHER + voucherDate.getExpirationDate());
+        if (voucherDateTime.isExpired(at)) {
+            throw new IllegalStateException(EXPIRED_VOUCHER + voucherDateTime.getExpiredAt());
         }
     }
 

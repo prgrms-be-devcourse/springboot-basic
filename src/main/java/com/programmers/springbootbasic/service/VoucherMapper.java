@@ -1,7 +1,7 @@
 package com.programmers.springbootbasic.service;
 
 import com.programmers.springbootbasic.domain.voucher.Voucher;
-import com.programmers.springbootbasic.domain.voucher.VoucherDate;
+import com.programmers.springbootbasic.domain.voucher.VoucherDateTime;
 import com.programmers.springbootbasic.service.dto.FixedAmountVoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.PercentDiscountVoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
@@ -17,13 +17,13 @@ public final class VoucherMapper {
     }
 
     public static Voucher toFixedAmountVoucher(FixedAmountVoucherCreationRequest request) {
-        VoucherDate voucherDate = VoucherDate.of(LocalDateTime.now(), request.expirationDate());
-        return Voucher.createFixedAmount(UUID.randomUUID(), request.name(), request.minimumPriceCondition(), voucherDate, request.amount());
+        VoucherDateTime voucherDateTime = VoucherDateTime.of(LocalDateTime.now(), request.expirationDate());
+        return Voucher.createFixedAmount(UUID.randomUUID(), request.name(), request.minimumPriceCondition(), voucherDateTime, request.amount());
     }
 
     public static Voucher toPercentDiscountVoucher(PercentDiscountVoucherCreationRequest request) {
-        VoucherDate voucherDate = VoucherDate.of(LocalDateTime.now(), request.expirationDate());
-        return Voucher.createPercentDiscount(UUID.randomUUID(), request.name(), request.minimumPriceCondition(), voucherDate, request.percent());
+        VoucherDateTime voucherDateTime = VoucherDateTime.of(LocalDateTime.now(), request.expirationDate());
+        return Voucher.createPercentDiscount(UUID.randomUUID(), request.name(), request.minimumPriceCondition(), voucherDateTime, request.percent());
     }
 
     public static VoucherResponses toVoucherResponseList(List<Voucher> vouchers) {
@@ -37,8 +37,8 @@ public final class VoucherMapper {
         return new VoucherResponse(
                 voucher.getName(),
                 voucher.getMinimumPriceCondition(),
-                voucher.getVoucherDate().getCreatedDate(),
-                voucher.getVoucherDate().getExpirationDate()
+                voucher.getVoucherDate().getCreatedAt(),
+                voucher.getVoucherDate().getExpiredAt()
         );
     }
 }

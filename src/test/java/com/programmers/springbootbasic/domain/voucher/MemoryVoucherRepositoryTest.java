@@ -22,17 +22,17 @@ class MemoryVoucherRepositoryTest {
         String name = "회원가입 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDate voucherDate = new VoucherDate(createdDate, expirationDate);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
 
         // when
         Voucher voucher = switch (voucherType) {
             case FIX -> {
                 int amount = 5_000;
-                yield new FixedAmountVoucher(voucherId, name, voucherDate, amount);
+                yield new FixedAmountVoucher(voucherId, name, voucherDateTime, amount);
             }
             case PERCENT -> {
                 int percent = 30;
-                yield new PercentDiscountVoucher(voucherId, name, voucherDate, percent);
+                yield new PercentDiscountVoucher(voucherId, name, voucherDateTime, percent);
             }
         };
         Voucher saved = voucherRepository.save(voucher);
@@ -48,9 +48,9 @@ class MemoryVoucherRepositoryTest {
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDate voucherDate = new VoucherDate(createdDate, expirationDate);
+        VoucherDateTime voucherDateTime = new VoucherDateTime(createdDate, expirationDate);
         int amount = 5_000;
-        Voucher voucher = new FixedAmountVoucher(voucherId, name, voucherDate, amount);
+        Voucher voucher = new FixedAmountVoucher(voucherId, name, voucherDateTime, amount);
         Voucher saved = voucherRepository.save(voucher);
 
         // when

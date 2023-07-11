@@ -13,12 +13,12 @@ public class PercentDiscountVoucher extends Voucher {
     private final int percent;
 
 
-    public PercentDiscountVoucher(UUID voucherId, String name, VoucherDate voucherDate, int percent) {
-        this(voucherId, name, ZERO, voucherDate, percent);
+    public PercentDiscountVoucher(UUID voucherId, String name, VoucherDateTime voucherDateTime, int percent) {
+        this(voucherId, name, ZERO, voucherDateTime, percent);
     }
 
-    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int percent) {
-        super(voucherId, name, minimumPriceCondition, voucherDate);
+    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int percent) {
+        super(voucherId, name, minimumPriceCondition, voucherDateTime);
         if (isInvalidRange(percent)) {
             throw new IllegalArgumentException(INVALID_PERCENT + String.format("%d%%", percent));
         }

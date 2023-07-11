@@ -12,12 +12,12 @@ public class FixedAmountVoucher extends Voucher {
 
     private final int amount;
 
-    public FixedAmountVoucher(UUID voucherId, String name, VoucherDate voucherDate, int amount) {
-        this(voucherId, name, ZERO, voucherDate, amount);
+    public FixedAmountVoucher(UUID voucherId, String name, VoucherDateTime voucherDateTime, int amount) {
+        this(voucherId, name, ZERO, voucherDateTime, amount);
     }
 
-    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int amount) {
-        super(voucherId, name, minimumPriceCondition, voucherDate);
+    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int amount) {
+        super(voucherId, name, minimumPriceCondition, voucherDateTime);
         if (isInvalidAmount(amount)) {
             throw new IllegalArgumentException(INVALID_AMOUNT + String.format("%d원", amount));
         }
