@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    container_name: dev-course-spring-basic
+    restart: always
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: challenge
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1234
+      TZ: Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci

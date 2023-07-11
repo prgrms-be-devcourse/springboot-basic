@@ -1,13 +1,14 @@
-package com.programmers.voucher.domain;
+package com.programmers.voucher.domain.enums;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 public enum CommandType {
-    CREATE("create"),
-    LIST("list"),
-    BLACK("black"),
-    EXIT("exit");
+    BLACKLIST("black"),
+    EXIT("exit"),
+    CUSTOMER("customer"),
+    VOUCHER("voucher")
+    ;
 
     private final String string;
 

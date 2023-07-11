@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain;
 
+import com.programmers.voucher.domain.enums.CommandType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,12 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CommandTypeTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"create", "list", "exit"})
+    @ValueSource(strings = {"voucher", "customer", "black", "exit"})
     void validateInput(String string) {
         Optional<CommandType> optionalCommandType = CommandType.convertStringToCommandType(string);
         switch (string) {
-            case "create" -> assertThat(optionalCommandType.get()).isSameAs(CommandType.CREATE);
-            case "list" -> assertThat(optionalCommandType.get()).isSameAs(CommandType.LIST);
+            case "voucher" -> assertThat(optionalCommandType.get()).isSameAs(CommandType.VOUCHER);
+            case "customer" -> assertThat(optionalCommandType.get()).isSameAs(CommandType.CUSTOMER);
+            case "black" -> assertThat(optionalCommandType.get()).isSameAs(CommandType.BLACKLIST);
             case "exit" -> assertThat(optionalCommandType.get()).isSameAs(CommandType.EXIT);
         }
     }

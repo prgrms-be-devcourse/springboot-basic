@@ -2,33 +2,38 @@ package com.programmers.voucher;
 
 import com.programmers.voucher.console.Console;
 import com.programmers.voucher.console.Printer;
-import com.programmers.voucher.domain.CommandType;
-import com.programmers.voucher.domain.voucher.*;
-import com.programmers.voucher.stream.BlackListStream;
-import com.programmers.voucher.stream.VoucherStream;
+import com.programmers.voucher.domain.enums.CommandType;
+import com.programmers.voucher.operator.BlackListOperator;
+import com.programmers.voucher.operator.CustomerOperator;
+import com.programmers.voucher.operator.VoucherOperator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Profile("dev")
+@Component
 public class CommandLineApplication implements CommandLineRunner {
     private final Console console;
-    private final VoucherStream voucherStream;
-    private final VoucherFactory voucherFactory;
-    private final BlackListStream blackListStream;
+    private final VoucherOperator voucherOperator;
+    private final CustomerOperator customerOperator;
+    private final BlackListOperator blackListOperator;
     private final Printer printer;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory, BlackListStream blackListStream, Printer printer) {
+    public CommandLineApplication(Console console, VoucherOperator voucherOperator, CustomerOperator customerOperator, BlackListOperator blackListOperator, Printer printer) {
         this.console = console;
-        this.voucherStream = voucherStream;
-        this.voucherFactory = voucherFactory;
-        this.blackListStream = blackListStream;
+        this.voucherOperator = voucherOperator;
+        this.customerOperator = customerOperator;
+        this.blackListOperator = blackListOperator;
         this.printer = printer;
     }
+
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         while (true) {
             CommandType commandType;
             try {
@@ -36,7 +41,7 @@ public class CommandLineApplication implements CommandLineRunner {
                 commandType = convertAndValidateInput(inputCondition);
                 doLogic(commandType);
             } catch (Exception e) {
-                log.info("Error Occurred : {}", e.getMessage());
+                log.info("Exception Occurred ", e);
                 printer.printError(e);
                 continue;
             }
@@ -55,35 +60,11 @@ public class CommandLineApplication implements CommandLineRunner {
 
     private void doLogic(CommandType commandType) throws IOException {
         switch (commandType) {
-            case CREATE -> {
-                logicForCommandTypeCreate();
-            }
-            case LIST -> {
-                logicForCommandTypeList();
-            }
-            case BLACK -> {
-                logicForCommandTypeBlack();
-            }
+            case VOUCHER -> voucherOperator.voucherOperation();
+            case CUSTOMER -> customerOperator.customerOperation();
+            case BLACKLIST -> blackListOperator.showBlackList();
         }
     }
 
-    private void logicForCommandTypeCreate() {
-        try {
-            Integer inputVersion = console.getVoucherVersion();
-            VoucherEnum voucherEnum = VoucherEnum.decideVoucherType(inputVersion);
-            voucherFactory.createVoucher(voucherEnum);
-        } catch (IllegalArgumentException e) {
-            printer.printError(e);
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void logicForCommandTypeList() {
-        printer.printListOfVoucher(voucherStream.findAll());
-    }
-
-    private void logicForCommandTypeBlack() throws IOException {
-        printer.printBlackList(blackListStream.findAll());
-    }
 
 }

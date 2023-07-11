@@ -1,7 +1,5 @@
-package com.programmers.voucher.stream;
+package com.programmers.voucher.stream.blacklist;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
@@ -20,20 +18,16 @@ public class CsvBlackListStream implements BlackListStream {
     ResourceLoader resourceLoader = new DefaultResourceLoader();
     @Value("${filepath.blacklist}")
     private String SAMPLE_CSV_FILE_PATH;
-    BufferedReader br;
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     @Override
     public List<String> findAll() throws IOException {
-        String line = "";
         String path = resourceLoader.getResource(SAMPLE_CSV_FILE_PATH).getURI().getPath();
         File file = new File(path);
         List<String> blackList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             loadCSVFile(blackList, br);
         } catch (Exception e) {
-            log.warn("파일을 읽어들이는 도중 error 발생 | [error] : {}", e.getMessage());
-            throw new IllegalStateException("파일을 읽어들이는 도중 에러가 발생했습니다. [Error Message] : " + e.getMessage());
+            throw new IllegalStateException(e);
         }
         return blackList;
     }
@@ -46,14 +40,4 @@ public class CsvBlackListStream implements BlackListStream {
         }
     }
 
-    private void closeBufferedReader() {
-        try {
-            if (br != null) {
-                br.close();
-            }
-        } catch (IOException e) {
-            log.warn("BufferedReader 종료 중 에러 발생 | [error] : {}", e.getMessage());
-            e.printStackTrace();
-        }
-    }
 }
