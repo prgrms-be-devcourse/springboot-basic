@@ -8,8 +8,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
+import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
+import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherServiceImpl;
+
+import java.util.List;
 
 import static org.mockito.BDDMockito.*;
 
@@ -52,5 +56,21 @@ public class VoucherServiceTest {
 
         //then
         Assertions.assertThat(responseDto.getAmount()).isEqualTo(fixedAmountVoucher.getAmount());
+    }
+
+    @Test
+    void 바우처_모두_조회_성공_테스트() {
+        //given
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1000);
+        PercentAmountVoucher percentAmountVoucher = new PercentAmountVoucher(10);
+        List<Voucher> vouchers = List.of(fixedAmountVoucher, percentAmountVoucher);
+        //mocking
+        given(voucherRepository.findAll()).willReturn(vouchers);
+
+        //when
+        List<VoucherResponseDto> responseDtos = voucherService.findAll();
+
+        //then
+        Assertions.assertThat(responseDtos).hasSize(2);
     }
 }
