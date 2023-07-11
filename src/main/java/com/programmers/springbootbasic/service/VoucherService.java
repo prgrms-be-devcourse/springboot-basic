@@ -15,8 +15,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherType toVoucherType(String voucherType) {
-        return VoucherType.from(voucherType);
+    public VoucherType toVoucherType(String description) {
+        return VoucherType.from(description);
     }
 
     public Voucher createFixedAmountVoucher(FixedAmountVoucherCreationRequest request) {

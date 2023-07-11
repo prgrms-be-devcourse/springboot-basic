@@ -8,21 +8,21 @@ public enum VoucherType {
 
     private static final String INVALID_VOUCHER_TYPE = "잘못된 바우처 유형. 현재 입력 값: ";
 
-    private final String voucherType;
+    private final String description;
 
-    VoucherType(String voucherType) {
-        this.voucherType = voucherType;
+    VoucherType(String description) {
+        this.description = description;
     }
 
-    public static VoucherType from(String type) {
+    public static VoucherType from(String description) {
         return Arrays.stream(values())
-                .filter(enumeration -> type.equals(enumeration.voucherType))
+                .filter(enumeration -> description.equals(enumeration.description))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE + type));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE + description));
     }
 
-    public String getVoucherType() {
-        return voucherType;
+    public String getDescription() {
+        return description;
     }
 
 }

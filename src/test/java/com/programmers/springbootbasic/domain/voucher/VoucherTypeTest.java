@@ -10,10 +10,10 @@ class VoucherTypeTest {
     @Test
     void 정률할인_from_성공() {
         // given
-        String type = VoucherType.PERCENT.getVoucherType();
+        String description = VoucherType.PERCENT.getDescription();
 
         // when
-        VoucherType voucherType = VoucherType.from(type);
+        VoucherType voucherType = VoucherType.from(description);
 
         // then
         assertThat(voucherType).isEqualTo(VoucherType.PERCENT);
@@ -22,10 +22,10 @@ class VoucherTypeTest {
     @Test
     void 정액할인_from_성공() {
         // given
-        String type = VoucherType.FIX.getVoucherType();
+        String description = VoucherType.FIX.getDescription();
 
         // when
-        VoucherType voucherType = VoucherType.from(type);
+        VoucherType voucherType = VoucherType.from(description);
 
         // then
         assertThat(voucherType).isEqualTo(VoucherType.FIX);
@@ -34,10 +34,10 @@ class VoucherTypeTest {
     @Test
     void 잘못된값_from_에외발생() {
         // given
-        String type = "뭔지 모름";
+        String description = "뭔지 모름";
 
         // when && then
-        assertThatThrownBy(() -> VoucherType.from(type))
+        assertThatThrownBy(() -> VoucherType.from(description))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
