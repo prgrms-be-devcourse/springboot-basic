@@ -40,11 +40,16 @@ public class CustomerWebController  {
     public String createCustomer(CustomerCreationRequest creationRequest, Model model) {
         try {
             CustomerResponse customerResponse = customerService.createCustomer(creationRequest);
-            model.addAttribute("customer", customerResponse);
+//            model.addAttribute("customer", customerResponse);
         } catch (CustomerException exception) {
             model.addAttribute("exception", new WebExceptionDto(exception));
             return "exception/exception";
         }
-        return "redirect:";
+        return "redirect:/";
+    }
+
+    @GetMapping("/findCustomer")
+    public String findCustomer() {
+        return "customer/findCustomer";
     }
 }

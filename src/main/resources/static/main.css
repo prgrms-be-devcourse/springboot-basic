@@ -1,3 +1,9 @@
 .title-line {
     text-align: center;
 }
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}

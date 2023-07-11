@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head th:insert="~{global/head.html:: head}">
+    <title>Document</title>
+</head>
+<body>
+<div class="container-fluid">
+    <h1 class="title-line">회원 메뉴</h1>
+
+    <div class="container">
+        <ul class="menu-list">
+            <li>
+                <a href="/customer/findCustomer">회원 조회</a>
+            </li>
+            <li>
+                <a href="/customer/findCustomers">회원 전체 조회</a>
+            </li>
+            <li>
+                <a href="/customer/create">회원 생성</a>
+            </li>
+            <li>
+                <a href="/customer/update">회원 정보 수정</a>
+            </li>
+            <li>
+                <a href="/customer/delete">회원 삭제</a>
+            </li>
+            <li>
+                <a href="/customer/deleteAll">회원 전체 삭제</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>
