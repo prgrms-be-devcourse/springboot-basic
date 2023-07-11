@@ -2,9 +2,8 @@ package com.devcourse.springbootbasic.application.voucher.service;
 
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
-import com.devcourse.springbootbasic.application.voucher.vo.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.vo.VoucherType;
-import com.devcourse.springbootbasic.application.voucher.repository.VoucherRepository;
+import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
@@ -14,8 +13,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -26,7 +23,6 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @SpringBootTest
@@ -67,7 +63,7 @@ class VoucherServiceTest {
     @MethodSource("provideVouchers")
     void createVoucher_VoucherParam_InsertAndReturnVoucher(Voucher voucher) {
         voucherService.createVoucher(voucher);
-        var result = voucherService.findVoucherById(voucher);
+        var result = voucherService.findVoucherById(voucher.getVoucherId());
         assertThat(result, notNullValue());
         assertThat(result, instanceOf(Voucher.class));
         assertThat(result.getVoucherId(), is(voucher.getVoucherId()));
@@ -88,7 +84,7 @@ class VoucherServiceTest {
         voucherService.createVoucher(voucher);
         var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 124));
         voucherService.updateVoucher(newVoucher);
-        var result = voucherService.findVoucherById(newVoucher);
+        var result = voucherService.findVoucherById(newVoucher.getVoucherId());
         assertThat(result, samePropertyValuesAs(newVoucher));
     }
 
@@ -115,7 +111,7 @@ class VoucherServiceTest {
     @MethodSource("provideVouchers")
     void findVoucherById_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
         voucherService.createVoucher(voucher);
-        var foundVoucher = voucherService.findVoucherById(voucher);
+        var foundVoucher = voucherService.findVoucherById(voucher.getVoucherId());
         assertThat(foundVoucher, samePropertyValuesAs(voucher));
     }
 
@@ -123,7 +119,7 @@ class VoucherServiceTest {
     @DisplayName("존재하지 않는 바우처를 아이디로 검색하는 경우 실패한다.")
     @MethodSource("provideVouchers")
     void findVoucherById_ParamNotExistVoucher_Exception(Voucher voucher) {
-        Assertions.assertThrows(InvalidDataException.class, () -> voucherService.findVoucherById(voucher));
+        Assertions.assertThrows(InvalidDataException.class, () -> voucherService.findVoucherById(voucher.getVoucherId()));
     }
 
     @Test
@@ -139,7 +135,7 @@ class VoucherServiceTest {
     @MethodSource("provideVouchers")
     void deleteVoucherById_PararmVoucher_DeleteVoucher(Voucher voucher) {
         voucherService.createVoucher(voucher);
-        var deletedVoucher = voucherService.deleteVoucherById(voucher);
+        var deletedVoucher = voucherService.deleteVoucherById(voucher.getVoucherId());
         assertThat(deletedVoucher, samePropertyValuesAs(voucher));
     }
 

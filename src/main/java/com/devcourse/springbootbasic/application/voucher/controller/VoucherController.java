@@ -4,6 +4,7 @@ import com.devcourse.springbootbasic.application.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -25,27 +26,27 @@ public class VoucherController {
     public VoucherDto updateVoucher(VoucherDto voucherDto) {
         return VoucherDto.of(
                 voucherService.updateVoucher(
-                        voucherDto.to(voucherDto)
+                        VoucherDto.to(voucherDto)
                 )
         );
     }
 
-    public List<VoucherDto> getAllVouchers() {
+    public List<VoucherDto> findAllVouchers() {
         return voucherService.getVouchers().stream()
                 .map(VoucherDto::of)
                 .toList();
     }
 
-    public VoucherDto findVoucherById(VoucherDto voucherDto) {
-        return VoucherDto.of(voucherService.findVoucherById(VoucherDto.to(voucherDto)));
+    public VoucherDto findVoucherById(UUID voucherId) {
+        return VoucherDto.of(voucherService.findVoucherById(voucherId));
     }
 
     public void deleteVouchers() {
         voucherService.deleteAllVouchers();
     }
 
-    public VoucherDto deleteVoucherById(VoucherDto voucherDto) {
-        return VoucherDto.of(voucherService.deleteVoucherById(VoucherDto.to(voucherDto)));
+    public VoucherDto deleteVoucherById(UUID voucherId) {
+        return VoucherDto.of(voucherService.deleteVoucherById(voucherId));
     }
 
 }
