@@ -26,7 +26,7 @@ public class VoucherServiceTest {
     private VoucherService voucherService;
 
     @Test
-    @DisplayName("바우처를 저장한다.")
+    @DisplayName("바우처를 저장할 수 있다.")
     void save() {
         // given
         VoucherCreateRequest voucherExpected = new VoucherCreateRequest(3000, VoucherType.FIXED);
@@ -40,7 +40,7 @@ public class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("바우처를 업데이트 한다.")
+    @DisplayName("바우처를 업데이트 할 수 있다.")
     void update() {
         // given
         VoucherCreateRequest voucher = new VoucherCreateRequest(3000, VoucherType.FIXED);
@@ -56,7 +56,7 @@ public class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("바우처 ID를 가지고 바우처를 가져온다.")
+    @DisplayName("바우처 ID를 가지고 바우처를 가져올 수 있다.")
     void findById() {
         // given
         VoucherCreateRequest voucher = new VoucherCreateRequest(3000, VoucherType.FIXED);
@@ -71,7 +71,7 @@ public class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("바우처를 모두 조회한다.")
+    @DisplayName("바우처를 모두 조회할 수 있다.")
     void getVoucherList() {
         // given
         VoucherCreateRequest voucher1 = new VoucherCreateRequest(3000, VoucherType.FIXED);
@@ -88,7 +88,7 @@ public class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("바우처 ID를 가지고 바우처를 삭제한다.")
+    @DisplayName("바우처 ID를 가지고 바우처를 삭제할 수 있다.")
     void deleteById() {
         // given
         VoucherCreateRequest voucher = new VoucherCreateRequest(3000, VoucherType.FIXED);
@@ -104,7 +104,7 @@ public class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("바우처를 모두 삭제한다.")
+    @DisplayName("바우처를 모두 삭제할 수 있다.")
     void deleteAll() {
         // given
         VoucherCreateRequest voucher1 = new VoucherCreateRequest(3000, VoucherType.FIXED);

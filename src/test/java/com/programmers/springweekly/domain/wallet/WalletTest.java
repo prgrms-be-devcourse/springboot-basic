@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class WalletTest {
 
     @Test
-    @DisplayName("바우처 지갑을 생성한다.")
+    @DisplayName("바우처 지갑을 생성할 수 있다.")
     void createWallet() {
         // given && when
         Wallet wallet = new Wallet(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());

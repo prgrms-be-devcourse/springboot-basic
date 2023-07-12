@@ -80,7 +80,7 @@ class WalletServiceTest {
     }
 
     @Test
-    @DisplayName("고객에게 바우처를 할당한다.")
+    @DisplayName("고객에게 바우처를 할당할 수 있다.")
     void save() {
         // given
         WalletCreateRequest walletCreateRequest = WalletCreateRequest.builder()
@@ -97,7 +97,7 @@ class WalletServiceTest {
     }
 
     @Test
-    @DisplayName("고객 아이디로 고객에게 할당된 바우처를 조회한다.")
+    @DisplayName("고객 아이디로 고객에게 할당된 바우처를 조회할 수 있다.")
     void findByCustomerId() {
         // given
         WalletCreateRequest walletCreateRequest = WalletCreateRequest.builder()
@@ -114,7 +114,7 @@ class WalletServiceTest {
     }
 
     @Test
-    @DisplayName("바우처 ID를 조회하여 해당 바우처가 할당된 고객 리스트를 조회한다.")
+    @DisplayName("바우처 ID를 조회하여 해당 바우처가 할당된 고객 리스트를 조회할 수 있다.")
     void findByVoucherId() {
         // given
         WalletCreateRequest walletCreateRequest1 = WalletCreateRequest.builder()
@@ -137,7 +137,7 @@ class WalletServiceTest {
     }
 
     @Test
-    @DisplayName("바우처 지갑 ID로 바우처 지갑을 삭제한다.")
+    @DisplayName("바우처 지갑 ID로 바우처 지갑을 삭제할 수 있다.")
     void deleteByWalletId() {
         // given
         WalletCreateRequest walletCreateRequest = WalletCreateRequest.builder()
@@ -158,7 +158,7 @@ class WalletServiceTest {
     }
 
     @Test
-    @DisplayName("바우처 지갑에 저장된 리스트를 모두 불러온다.")
+    @DisplayName("바우처 지갑에 저장된 리스트를 모두 불러올 수 있다.")
     void findAll() {
         // given
         WalletCreateRequest walletCreateRequest1 = WalletCreateRequest.builder()

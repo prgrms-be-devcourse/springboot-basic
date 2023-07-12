@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class CustomerTest {
 
     @Test
-    @DisplayName("고객을 생성한다.")
+    @DisplayName("고객을 생성할 수 있다.")
     void createCustomer() {
         // given && when
         Customer customer = new Customer(UUID.randomUUID(), "changhyeonh", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);

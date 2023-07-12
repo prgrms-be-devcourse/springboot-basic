@@ -25,7 +25,7 @@ class JdbcTemplateCustomerRepositoryTest {
     private JdbcTemplateCustomerRepository jdbcTemplateCustomerRepository;
 
     @Test
-    @DisplayName("고객을 생성하여 저장한다.")
+    @DisplayName("고객을 생성하여 저장할 수 있다.")
     void save() {
         // given
         Customer customerExpect = Customer.builder()
@@ -43,7 +43,7 @@ class JdbcTemplateCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객을 업데이트 한다.")
+    @DisplayName("고객을 업데이트 할 수 있다.")
     void update() {
         // given
         Customer customer = Customer.builder()
@@ -78,7 +78,7 @@ class JdbcTemplateCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("특정 고객을 조회한다.")
+    @DisplayName("특정 고객을 조회할 수 있다.")
     void findById() {
         // given
         Customer customerExpect = Customer.builder()
@@ -99,7 +99,7 @@ class JdbcTemplateCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("모든 고객을 조회한다.")
+    @DisplayName("모든 고객을 조회할 수 있다.")
     void findAll() {
         // given
         Customer customer1 = Customer.builder()
@@ -134,7 +134,7 @@ class JdbcTemplateCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객중 타입이 블랙리스트인 고객을 조회한다.")
+    @DisplayName("고객중 타입이 블랙리스트인 고객을 조회할 수 있다.")
     void getBlackList() {
         // given
         Customer customer1 = Customer.builder()
@@ -177,7 +177,7 @@ class JdbcTemplateCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객을 찾아 저장소에서 삭제한다.")
+    @DisplayName("고객을 찾아 저장소에서 삭제할 수 있다.")
     void deleteById() {
         // given
         Customer customer1 = Customer.builder()
@@ -198,7 +198,7 @@ class JdbcTemplateCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("저장소에서 모든 고객을 삭제한다")
+    @DisplayName("저장소에서 모든 고객을 삭제할 수 있다.")
     void deleteAll() {
         // given
         Customer customer1 = Customer.builder()

@@ -77,7 +77,7 @@ class JdbcTemplateWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처 지갑을 저장하고 고객 ID로 할당된 바우처 지갑을 가져온다.")
+    @DisplayName("바우처 지갑을 저장하고 고객 ID로 할당된 바우처 지갑을 가져올 수 있다.")
     void saveAndFindByCustomerId() {
         // given
         UUID walletId = UUID.randomUUID();
@@ -93,7 +93,7 @@ class JdbcTemplateWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처 지갑을 여러 개 저장하고 특정 바우처가 할당된 고객들을 조회한다.")
+    @DisplayName("바우처 지갑을 여러 개 저장하고 특정 바우처가 할당된 고객들을 조회할 수 있다.")
     void saveAndFindByVoucherId() {
         // given
         UUID walletId1 = UUID.randomUUID();
@@ -111,7 +111,7 @@ class JdbcTemplateWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("지갑 ID로 바우처 지갑을 삭제한다.")
+    @DisplayName("지갑 ID로 바우처 지갑을 삭제할 수 있다.")
     void deleteByWalletId() {
         // given
         UUID walletId = UUID.randomUUID();
@@ -127,7 +127,7 @@ class JdbcTemplateWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("저장된 바우처 지갑을 모두 조회한다.")
+    @DisplayName("저장된 바우처 지갑을 모두 조회할 수 있다.")
     void findAll() {
         // given
         UUID walletId1 = UUID.randomUUID();

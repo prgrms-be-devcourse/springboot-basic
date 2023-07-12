@@ -25,7 +25,7 @@ class JdbcTemplateVoucherRepositoryTest {
     VoucherRepository voucherRepository;
 
     @Test
-    @DisplayName("바우처를 저장한다.")
+    @DisplayName("바우처를 저장할 수 있다.")
     void save() {
         // given
         UUID voucherId1 = UUID.randomUUID();
@@ -48,7 +48,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처를 업데이트 한다.")
+    @DisplayName("바우처를 업데이트 할 수 있다.")
     void update() {
         // given
         UUID voucherId1 = UUID.randomUUID();
@@ -67,7 +67,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처 ID를 가지고 바우처를 가져온다.")
+    @DisplayName("바우처 ID를 가지고 바우처를 가져올 수 있다.")
     void findById() {
         // given
         UUID voucherId1 = UUID.randomUUID();
@@ -84,7 +84,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("저장된 모든 바우처를 조회한다.")
+    @DisplayName("저장된 모든 바우처를 조회할 수 있다.")
     void findAll() {
         // given
         UUID voucherId1 = UUID.randomUUID();
@@ -106,7 +106,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처 ID를 가지고 바우처를 삭제한다.")
+    @DisplayName("바우처 ID를 가지고 바우처를 삭제할 수 있다.")
     void deleteById() {
         // given
         UUID voucherId = UUID.randomUUID();
@@ -122,7 +122,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처를 모두 삭제한다.")
+    @DisplayName("바우처를 모두 삭제할 수 있다.")
     void deleteAll() {
         // given
         UUID voucherId1 = UUID.randomUUID();

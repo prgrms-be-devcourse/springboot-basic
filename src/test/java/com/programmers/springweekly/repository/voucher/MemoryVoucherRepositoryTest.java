@@ -22,7 +22,7 @@ public class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("메모리 저장소에 고정 할인 바우처가 정상적으로 등록된다.")
+    @DisplayName("메모리 저장소에 고정 할인 바우처를 등록할 수 있다.")
     void saveFixedVoucherToMemoryRepository() {
         // given
         UUID voucherId = UUID.randomUUID();
@@ -39,7 +39,7 @@ public class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("메모리 저장소에 퍼센트 할인 바우처가 정상적으로 등록된다.")
+    @DisplayName("메모리 저장소에 퍼센트 할인 바우처를 등록할 수 있다.")
     void savePercentVoucherToMemoryRepository() {
         // given
         UUID voucherId = UUID.randomUUID();
@@ -56,7 +56,7 @@ public class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("메모리 저장소에 여러 바우처를 등록했을 때 정상적으로 바우처 리스트를 가져온다.")
+    @DisplayName("메모리 저장소에 여러 바우처를 등록했을 때 바우처 리스트를 가져올 수 있다.")
     void getVoucherList() {
         // given
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
