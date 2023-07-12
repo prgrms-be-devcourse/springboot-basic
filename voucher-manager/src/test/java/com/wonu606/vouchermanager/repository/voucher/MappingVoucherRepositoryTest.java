@@ -25,11 +25,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("MappingVoucherRepository 테스트")
-class MappingVoucherVoucherRepositoryTest {
+class MappingVoucherRepositoryTest {
 
     private VoucherResultSetRepository voucherResultSetRepository;
 
-    private MappingVoucherVoucherRepository voucherRepository;
+    private MappingVoucherRepository voucherRepository;
 
     static Stream<Arguments> givenVouchers() {
         Voucher expectedVoucher1 = new PercentageVoucher(
@@ -43,7 +43,7 @@ class MappingVoucherVoucherRepositoryTest {
     @BeforeEach
     void setUp() {
         voucherResultSetRepository = mock(VoucherResultSetRepository.class);
-        voucherRepository = new MappingVoucherVoucherRepository(voucherResultSetRepository);
+        voucherRepository = new MappingVoucherRepository(voucherResultSetRepository);
     }
 
     @Test

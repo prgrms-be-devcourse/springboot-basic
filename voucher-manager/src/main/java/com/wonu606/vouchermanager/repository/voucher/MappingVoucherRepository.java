@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MappingVoucherVoucherRepository implements VoucherRepository {
+public class MappingVoucherRepository implements VoucherRepository {
 
     private final VoucherResultSetRepository voucherResultSetRepository;
 
-    public MappingVoucherVoucherRepository(VoucherResultSetRepository voucherResultSetRepository) {
+    public MappingVoucherRepository(VoucherResultSetRepository voucherResultSetRepository) {
         this.voucherResultSetRepository = voucherResultSetRepository;
     }
 
