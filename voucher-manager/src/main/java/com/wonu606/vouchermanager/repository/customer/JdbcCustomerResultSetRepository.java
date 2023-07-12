@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -79,7 +80,10 @@ public class JdbcCustomerResultSetRepository implements CustomerResultSetReposit
         String selectSql = "SELECT * FROM customer WHERE email_address IN (:email_address)";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("email_address", emailAddresses);
+        parameters.addValue("email_address",
+                emailAddresses.stream()
+                        .map(EmailAddress::getAddress)
+                        .collect(Collectors.toList()));
         return namedParameterJdbcTemplate.query(
                 selectSql, parameters, customerResultSetRowMapper());
     }

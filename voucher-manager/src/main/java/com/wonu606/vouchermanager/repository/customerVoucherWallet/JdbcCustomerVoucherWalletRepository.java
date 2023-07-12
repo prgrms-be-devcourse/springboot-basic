@@ -51,6 +51,6 @@ public class JdbcCustomerVoucherWalletRepository implements CustomerVoucherWalle
         String insertSql = "INSERT INTO customer_voucher_wallet (customer_email_address, voucher_id) VALUES (?, ?)";
         jdbcTemplate.update(insertSql,
                 wallet.getEmailAddress(),
-                wallet.getVoucherId());
+                wallet.getVoucherId().toString());
     }
 }

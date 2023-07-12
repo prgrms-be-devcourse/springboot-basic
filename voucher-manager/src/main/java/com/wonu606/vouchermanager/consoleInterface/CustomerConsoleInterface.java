@@ -31,7 +31,6 @@ public class CustomerConsoleInterface {
                 customerConsoleIO.displayMessage(exception.getMessage());
             }
         }
-        terminal();
     }
 
     private void executeMenuAction(CustomerMenu menu) {
@@ -73,14 +72,5 @@ public class CustomerConsoleInterface {
         String emailAddress = customerConsoleIO.readString("Email Address");
         String nickName = customerConsoleIO.readString("Nickname");
         return new CustomerDto(emailAddress, nickName);
-    }
-
-    private void terminal() {
-        customerConsoleIO.displayMessage("곧 프로그램을 종료합니다.");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException ignored) {
-        }
-        customerConsoleIO.terminal();
     }
 }

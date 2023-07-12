@@ -43,8 +43,9 @@ public class VoucherConsoleInterfaceTest {
         // When
         consoleInterface.run();
 
-        // Then
-        then(voucherConsoleIOMock).should().terminal();
+        // then
+        then(voucherConsoleIOMock).should().selectMenu();
+        then(voucherConsoleIOMock).shouldHaveNoMoreInteractions();
     }
 
     @DisplayName("list가 입력으로 주어지고_run을 하면_Voucher들을 출력한다.")

@@ -33,7 +33,6 @@ public class VoucherConsoleInterface {
                 voucherConsoleIO.displayMessage(exception.getMessage());
             }
         }
-        terminal();
     }
 
     private void executeMenuAction(VoucherMenu menu) {
@@ -76,14 +75,5 @@ public class VoucherConsoleInterface {
         String type = voucherConsoleIO.selectVoucherType();
         double discountValue = voucherConsoleIO.readDouble("discount");
         return new VoucherDto(type, discountValue);
-    }
-
-    private void terminal() {
-        voucherConsoleIO.displayMessage("곧 프로그램을 종료합니다.");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException ignored) {
-        }
-        voucherConsoleIO.terminal();
     }
 }
