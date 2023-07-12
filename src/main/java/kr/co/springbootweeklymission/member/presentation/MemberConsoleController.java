@@ -1,5 +1,7 @@
 package kr.co.springbootweeklymission.member.presentation;
 
+import kr.co.springbootweeklymission.console.InputView;
+import kr.co.springbootweeklymission.console.OutputView;
 import kr.co.springbootweeklymission.member.application.MemberService;
 import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDTO;
 import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
@@ -14,24 +16,37 @@ import java.util.UUID;
 public class MemberConsoleController {
     private final MemberService memberService;
 
-    public void createMember(MemberReqDTO.CREATE create) {
-        memberService.createMember(create);
+    public void createMember() {
+        OutputView.outputCreateMember();
+        OutputView.outputMemberStatus();
+        final MemberReqDTO.CREATE createMember = MemberReqDTO.CREATE.builder()
+                .memberStatus(InputView.inputMemberStatus())
+                .build();
+        memberService.createMember(createMember);
     }
 
-    public MemberResDTO.READ getMemberById(UUID memberId) {
+    public MemberResDTO.READ getMemberById() {
+        UUID memberId = UUID.fromString(InputView.inputMemberId());
         return memberService.getMemberById(memberId);
     }
 
-    public List<MemberResDTO.READ> getMembersByBlack() {
-        return memberService.getMembersByBlack();
+    public List<MemberResDTO.READ> getBlackMembers() {
+        return memberService.getBlackMembers();
     }
 
-    public void updateMemberById(UUID memberId,
-                                 MemberReqDTO.UPDATE update) {
-        memberService.updateMemberById(memberId, update);
+    public void updateMemberById() {
+        OutputView.outputUpdateMember();
+        OutputView.outputMemberStatus();
+        UUID memberId = UUID.fromString(InputView.inputMemberId());
+        final MemberReqDTO.UPDATE updateMember = MemberReqDTO.UPDATE.builder()
+                .memberStatus(InputView.inputMemberStatus())
+                .build();
+        memberService.updateMemberById(memberId, updateMember);
     }
 
-    public void deleteMemberById(UUID memberId) {
+    public void deleteMemberById() {
+        OutputView.outputDeleteMember();
+        UUID memberId = UUID.fromString(InputView.inputMemberId());
         memberService.deleteMemberById(memberId);
     }
 }

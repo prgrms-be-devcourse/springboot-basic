@@ -33,7 +33,7 @@ public class InFileMemberRepository implements MemberRepository {
     }
 
     @Override
-    public List<Member> findAllByBlack() {
+    public List<Member> findBlackMembers() {
         try {
             final BufferedReader reader = new BufferedReader(new FileReader(MEMBER_FILE));
             final List<Member> members = getMembersByBlack(reader);

@@ -1,5 +1,7 @@
 package kr.co.springbootweeklymission.wallet.presentation;
 
+import kr.co.springbootweeklymission.console.InputView;
+import kr.co.springbootweeklymission.console.OutputView;
 import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;
 import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.wallet.application.WalletService;
@@ -15,20 +17,32 @@ import java.util.UUID;
 public class WalletConsoleController {
     private final WalletService walletService;
 
-    public void createVoucherMember(WalletReqDTO.CREATE create) {
-        walletService.createVoucherMember(create);
+    public void createWallet() {
+        OutputView.outputCreateVoucherMember();
+        final WalletReqDTO.CREATE createWallet = WalletReqDTO.CREATE.builder()
+                .voucherId(UUID.fromString(InputView.inputVoucherId()))
+                .memberId(UUID.fromString(InputView.inputMemberId()))
+                .build();
+        walletService.createVoucherMember(createWallet);
     }
 
-    public List<VoucherResDTO.READ> getVouchersByMemberId(UUID memberId) {
+    public List<VoucherResDTO.READ> getVouchersByMemberId() {
+        UUID memberId = UUID.fromString(InputView.inputMemberId());
         return walletService.getVouchersByMemberId(memberId);
     }
 
-    public MemberResDTO.READ getMemberByVoucherId(UUID voucherId) {
+    public MemberResDTO.READ getMemberByVoucherId() {
+        UUID voucherId = UUID.fromString(InputView.inputVoucherId());
         return walletService.getMemberByVoucherId(voucherId);
     }
 
 
-    public void deleteVoucherMemberByVoucherIdAndMemberId(WalletReqDTO.DELETE delete) {
-        walletService.deleteVoucherMemberByVoucherIdAndMemberId(delete);
+    public void deleteByVoucherIdAndMemberId() {
+        OutputView.outputDeleteVoucherMember();
+        final WalletReqDTO.DELETE deleteWallet = WalletReqDTO.DELETE.builder()
+                .voucherId(UUID.fromString(InputView.inputVoucherId()))
+                .memberId(UUID.fromString(InputView.inputMemberId()))
+                .build();
+        walletService.deleteVoucherMemberByVoucherIdAndMemberId(deleteWallet);
     }
 }

@@ -21,7 +21,7 @@ class InFileMemberRepositoryTest {
     @DisplayName("저장된_모든_블랙_회원을_CSV_파일로부터_조회한다 - SUCCESS")
     void 저장된_모든_블랙_회원을_CSV_파일로부터_조회한다() {
         //given & when
-        List<Member> actual = memberRepository.findAllByBlack();
+        List<Member> actual = memberRepository.findBlackMembers();
 
         //then
         assertThat(actual).allMatch(Member::isBlackMember);

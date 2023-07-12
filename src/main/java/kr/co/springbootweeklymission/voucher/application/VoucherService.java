@@ -39,8 +39,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public void updateVoucherById(UUID voucherId,
-                                  VoucherReqDTO.UPDATE update) {
+    public void updateVoucherById(UUID voucherId, VoucherReqDTO.UPDATE update) {
         final Voucher updateVoucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
         updateVoucher.updateVoucherInformation(update);
