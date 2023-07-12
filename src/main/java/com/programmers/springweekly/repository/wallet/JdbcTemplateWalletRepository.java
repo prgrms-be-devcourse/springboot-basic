@@ -97,6 +97,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
         try {
             template.queryForObject(sql, param, walletRowMapper());
+            
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;

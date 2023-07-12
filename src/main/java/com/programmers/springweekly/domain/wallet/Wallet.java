@@ -1,9 +1,8 @@
 package com.programmers.springweekly.domain.wallet;
 
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.UUID;
 
 @Getter
 public class Wallet {
@@ -18,4 +17,5 @@ public class Wallet {
         this.customerId = customerId;
         this.voucherId = voucherId;
     }
+
 }

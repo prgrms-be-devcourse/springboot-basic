@@ -90,4 +90,5 @@ public class ConsoleWallet {
 
         console.outputGetWalletListByVoucher(walletsResponse);
     }
+    
 }

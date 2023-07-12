@@ -29,4 +29,5 @@ public class CustomerResponse {
                 ", customerType=" + customerType +
                 '}';
     }
+    
 }

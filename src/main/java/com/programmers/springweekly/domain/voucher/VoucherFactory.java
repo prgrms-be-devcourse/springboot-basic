@@ -11,4 +11,5 @@ public class VoucherFactory {
             case PERCENT -> new PercentDiscountVoucher(voucherId, discount);
         };
     }
+    
 }

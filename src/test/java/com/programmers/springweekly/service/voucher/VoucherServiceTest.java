@@ -9,11 +9,11 @@ import com.programmers.springweekly.dto.voucher.request.VoucherUpdateRequest;
 import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.service.VoucherService;
+import java.util.NoSuchElementException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,7 +100,7 @@ public class VoucherServiceTest {
 
         // then
         assertThatThrownBy(() -> voucherService.findById(voucherList.getVoucherList().get(0).getVoucherId()))
-                .isInstanceOf(EmptyResultDataAccessException.class);
+                .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test

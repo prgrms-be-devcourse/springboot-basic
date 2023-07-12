@@ -119,6 +119,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
         try {
             template.queryForObject(sql, param, customerRowMapper());
+            
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;

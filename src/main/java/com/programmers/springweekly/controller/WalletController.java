@@ -33,4 +33,5 @@ public class WalletController {
     public WalletsResponse findAll() {
         return walletService.findAll();
     }
+    
 }

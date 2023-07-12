@@ -32,6 +32,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             Voucher voucher = voucherMap.get(voucherId);
+            
             return Optional.of(voucher);
         } catch (NullPointerException e) {
             return Optional.empty();
@@ -57,6 +58,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public boolean existById(UUID voucherId) {
         try {
             voucherMap.get(voucherId);
+
             return true;
         } catch (NullPointerException e) {
             return false;

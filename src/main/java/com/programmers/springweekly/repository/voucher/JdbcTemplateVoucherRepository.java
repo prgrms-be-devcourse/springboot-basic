@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -37,9 +38,13 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 .addValue("discountAmount", voucher.getVoucherAmount())
                 .addValue("voucherType", voucher.getVoucherType().toString());
 
-        template.update(sql, param);
-
-        return voucher;
+        try {
+            template.update(sql, param);
+            return voucher;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        }
     }
 
     @Override
@@ -103,6 +108,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 .addValue("voucherId", voucherId);
         try {
             template.queryForObject(sql, param, voucherRowMapper());
+            
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;

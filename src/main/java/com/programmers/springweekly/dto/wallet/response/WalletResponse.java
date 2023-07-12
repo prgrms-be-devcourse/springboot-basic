@@ -1,12 +1,12 @@
 package com.programmers.springweekly.dto.wallet.response;
 
 import com.programmers.springweekly.domain.wallet.Wallet;
-import lombok.Getter;
-
 import java.util.UUID;
+import lombok.Getter;
 
 @Getter
 public class WalletResponse {
+
     private UUID walletId;
     private UUID customerId;
     private UUID voucherId;
@@ -16,4 +16,5 @@ public class WalletResponse {
         this.customerId = wallet.getCustomerId();
         this.voucherId = wallet.getVoucherId();
     }
+
 }

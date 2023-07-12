@@ -15,6 +15,7 @@ import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 import com.programmers.springweekly.util.Validator;
 import java.util.Scanner;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component

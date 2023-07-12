@@ -22,4 +22,5 @@ public interface CustomerRepository {
     void deleteAll();
 
     boolean existById(UUID customerId);
+    
 }

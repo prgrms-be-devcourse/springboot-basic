@@ -1,12 +1,14 @@
 package com.programmers.springweekly.domain.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class VoucherTest {
 
@@ -66,5 +68,5 @@ public class VoucherTest {
         // then
         assertThat(discountPrice).isEqualTo(expectedDiscount);
     }
-    
+
 }

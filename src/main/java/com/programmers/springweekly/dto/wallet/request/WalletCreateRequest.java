@@ -1,12 +1,12 @@
 package com.programmers.springweekly.dto.wallet.request;
 
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.UUID;
-
 @Getter
 public class WalletCreateRequest {
+
     private UUID customerId;
     private UUID voucherId;
 
@@ -15,4 +15,5 @@ public class WalletCreateRequest {
         this.customerId = customerId;
         this.voucherId = voucherId;
     }
+
 }

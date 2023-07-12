@@ -14,4 +14,5 @@ public enum WalletMenu {
             throw new IllegalArgumentException("Input: " + type + ", 찾으시는 바우처 지갑 메뉴가 없습니다.");
         }
     }
+    
 }

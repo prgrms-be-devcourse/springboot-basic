@@ -1,8 +1,7 @@
 package com.programmers.springweekly.dto.wallet.response;
 
-import lombok.Getter;
-
 import java.util.List;
+import lombok.Getter;
 
 @Getter
 public class WalletsResponse {
@@ -12,4 +11,5 @@ public class WalletsResponse {
     public WalletsResponse(List<WalletResponse> walletList) {
         this.walletList = walletList;
     }
+
 }
