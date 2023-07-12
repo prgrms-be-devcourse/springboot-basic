@@ -8,6 +8,7 @@ import com.programmers.springweekly.view.Console;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class ConsoleCustomer {
     private void selectCustomer() {
         CustomerListResponse customerListResponse = customerController.findAll();
 
-        if (customerListResponse.getCustomerList().isEmpty()) {
+        if (CollectionUtils.isEmpty(customerListResponse.getCustomerList())) {
             console.outputErrorMessage("고객이 저장되어 있지 않습니다.");
             return;
         }
@@ -70,7 +71,7 @@ public class ConsoleCustomer {
     private void getBlackList() {
         CustomerListResponse customerBlacklistResponse = customerController.getBlackList();
 
-        if (customerBlacklistResponse.getCustomerList().isEmpty()) {
+        if (CollectionUtils.isEmpty(customerBlacklistResponse.getCustomerList())) {
             console.outputErrorMessage("블랙 리스트인 고객이 없습니다.");
             return;
         }

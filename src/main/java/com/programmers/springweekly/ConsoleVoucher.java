@@ -10,6 +10,7 @@ import com.programmers.springweekly.view.Console;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -64,7 +65,7 @@ public class ConsoleVoucher {
     private void selectVoucher() {
         VoucherListResponse voucherListResponse = voucherController.findAll();
 
-        if (voucherListResponse.getVoucherList().isEmpty()) {
+        if (CollectionUtils.isEmpty(voucherListResponse.getVoucherList())) {
             console.outputErrorMessage("저장된 바우처가 없습니다.");
             return;
         }

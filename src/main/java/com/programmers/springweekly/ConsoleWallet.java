@@ -11,6 +11,7 @@ import com.programmers.springweekly.view.Console;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -50,13 +51,18 @@ public class ConsoleWallet {
     private void deleteWallet() {
         console.outputWalletUUIDGuide();
         UUID walletId = console.inputUUID();
-        walletController.deleteByWalletId(walletId);
-
+        
         walletController.deleteByWalletId(walletId);
     }
 
     private void findAllWallet() {
         WalletsResponse walletsResponse = walletController.findAll();
+
+        if (CollectionUtils.isEmpty(walletsResponse.getWalletList())) {
+            console.outputErrorMessage("현재 바우처 지갑이 비어있습니다.");
+            return;
+        }
+
         console.outputGetWalletList(walletsResponse);
     }
 
@@ -69,6 +75,12 @@ public class ConsoleWallet {
     private void findWalletByVoucherId() {
         console.outputWalletVoucherUUIDToFind();
         WalletsResponse walletsResponse = walletController.findByVoucherId(console.inputUUID());
+
+        if (CollectionUtils.isEmpty(walletsResponse.getWalletList())) {
+            console.outputErrorMessage("해당 바우처를 사용하는 고객이 없습니다.");
+            return;
+        }
+
         console.outputGetWalletListByVoucher(walletsResponse);
     }
 }
