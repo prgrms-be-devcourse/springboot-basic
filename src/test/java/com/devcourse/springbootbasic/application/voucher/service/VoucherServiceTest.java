@@ -31,26 +31,11 @@ import static org.hamcrest.Matchers.*;
 @ActiveProfiles("default")
 class VoucherServiceTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기")
-    );
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
-    );
     @Autowired
     VoucherService voucherService;
     @Autowired
     CustomerRepository customerRepository;
     EmbeddedMysql embeddedMysql;
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
-    }
 
     @BeforeAll
     void init() {
@@ -117,7 +102,7 @@ class VoucherServiceTest {
     @DisplayName("생성된 바우처가 리스트 형태로 반환되면 성공한다.")
     void getVouchers_VoucherMap_ReturnVouchers() {
         voucherService.createVoucher(vouchers.get(0));
-        var result = voucherService.getVouchers();
+        var result = voucherService.findVouchers();
         assertThat(result, notNullValue());
         assertThat(result, not(empty()));
         assertThat(result, instanceOf(List.class));
@@ -144,7 +129,7 @@ class VoucherServiceTest {
     @DisplayName("모든 바우처를 제거한다.")
     void deleteAllVouchers_ParamVoid_DeleteAllVouchers() {
         voucherService.deleteAllVouchers();
-        var vouchers = voucherService.getVouchers();
+        var vouchers = voucherService.findVouchers();
         assertThat(vouchers.isEmpty(), is(true));
     }
 
@@ -156,5 +141,49 @@ class VoucherServiceTest {
         var deletedVoucher = voucherService.deleteVoucherById(voucher.getVoucherId());
         assertThat(deletedVoucher, samePropertyValuesAs(voucher));
     }
+
+    @ParameterizedTest
+    @DisplayName("고객 아이디로 소유한 바우처를 리스트로 반환한다.")
+    @MethodSource("provideVouchers")
+    void findVouchersByCustomerId_ParamCustomerId_ReturnVoucher(Voucher voucher) {
+        voucherService.createVoucher(voucher);
+        var vouchers = voucherService.findVouchersByCustomerId(voucher.getCustomerId());
+        assertThat(vouchers, instanceOf(List.class));
+        assertThat(vouchers.isEmpty(), is(false));
+        assertThat(vouchers.get(0), samePropertyValuesAs(voucher));
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 고객, 바우처 아이디로 삭제 시 성공한다.")
+    @MethodSource("provideVouchers")
+    void deleteVoucherCustomerByCustomerIdAndVoucherId_ParamIds_DeleteVoucher(Voucher voucher) {
+        voucherService.createVoucher(voucher);
+        var deletedVoucher = voucherService.deleteVoucherCustomerByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(deletedVoucher, samePropertyValuesAs(voucher));
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처를 고객, 바우처 아이디로 삭제 시 실패한다.")
+    @MethodSource("provideVouchers")
+    void deleteVoucherCustomerByCustomerIdAndVoucherId_ParamIds_Exception(Voucher voucher) {
+        Assertions.assertThrows(InvalidDataException.class, () -> voucherService.deleteVoucherCustomerByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId()));
+    }
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
+    }
+
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기")
+    );
+
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
+    );
 
 }
