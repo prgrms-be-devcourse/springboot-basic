@@ -1,4 +1,4 @@
-package com.programmers.application.controller;
+package com.programmers.application.controller.console;
 
 import com.programmers.application.io.IO;
 import org.slf4j.Logger;

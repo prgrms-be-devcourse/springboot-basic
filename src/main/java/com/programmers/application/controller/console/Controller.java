@@ -1,4 +1,4 @@
-package com.programmers.application.controller;
+package com.programmers.application.controller.console;
 
 import java.io.IOException;
 

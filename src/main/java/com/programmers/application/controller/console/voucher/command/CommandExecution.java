@@ -1,6 +1,6 @@
-package com.programmers.application.controller.voucher.command;
+package com.programmers.application.controller.console.voucher.command;
 
-import com.programmers.application.controller.voucher.command.execution.VoucherExecution;
+import com.programmers.application.controller.console.voucher.command.execution.VoucherExecution;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

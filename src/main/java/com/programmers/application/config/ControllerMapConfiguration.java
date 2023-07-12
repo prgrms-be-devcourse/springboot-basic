@@ -1,9 +1,9 @@
 package com.programmers.application.config;
 
-import com.programmers.application.controller.Controller;
-import com.programmers.application.controller.ExitController;
-import com.programmers.application.controller.ServiceCommand;
-import com.programmers.application.controller.VoucherController;
+import com.programmers.application.controller.console.Controller;
+import com.programmers.application.controller.console.ExitController;
+import com.programmers.application.controller.console.ServiceCommand;
+import com.programmers.application.controller.console.VoucherController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
