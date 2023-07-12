@@ -6,8 +6,8 @@ import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.dto.VoucherUpdateRequestDto;
-import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import com.devcourse.voucherapp.view.ViewManager;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -61,7 +61,7 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void readAllVouchers() {
-        VouchersResponseDto response = voucherController.findAllVouchers();
+        List<VoucherResponseDto> response = voucherController.findAllVouchers();
         viewManager.showAllVouchers(response);
     }
 

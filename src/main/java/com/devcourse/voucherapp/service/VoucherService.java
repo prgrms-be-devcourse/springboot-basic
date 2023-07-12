@@ -4,7 +4,6 @@ import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.dto.VoucherUpdateRequestDto;
-import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.exception.NotFoundVoucherException;
 import com.devcourse.voucherapp.repository.VoucherRepository;
@@ -29,10 +28,10 @@ public class VoucherService {
         return VoucherResponseDto.from(voucher);
     }
 
-    public VouchersResponseDto findAllVouchers() {
-        List<Voucher> vouchers = voucherRepository.findAllVouchers();
-
-        return VouchersResponseDto.from(vouchers);
+    public List<VoucherResponseDto> findAllVouchers() {
+        return voucherRepository.findAllVouchers().stream()
+                .map(VoucherResponseDto::from)
+                .toList();
     }
 
     public VoucherResponseDto findVoucherById(String id) {

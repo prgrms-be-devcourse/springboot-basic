@@ -3,7 +3,7 @@ package com.devcourse.voucherapp.view;
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
-import com.devcourse.voucherapp.entity.dto.VouchersResponseDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -83,9 +83,9 @@ public class ViewManager {
         outputView.printWithLineBreak(response);
     }
 
-    public void showAllVouchers(VouchersResponseDto response) {
+    public void showAllVouchers(List<VoucherResponseDto> response) {
         outputView.printWithLineBreak(ALL_VOUCHERS_LIST_MESSAGE);
-        for (VoucherResponseDto voucher : response.getVouchers()) {
+        for (VoucherResponseDto voucher : response) {
             outputView.printWithLineBreak(voucher);
         }
     }
