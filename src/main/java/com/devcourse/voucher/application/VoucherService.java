@@ -37,7 +37,7 @@ public class VoucherService {
 
     private void validateRequest(CreateVoucherRequest request) {
         validateDiscount(request.type(), request.discount());
-        validateExpiration(request.expiredAt(), INVALID_EXPIRATION);
+        validateExpiration(request.expiredAt());
     }
 
     private void validateDiscount(Voucher.Type type, int discount) {
@@ -50,11 +50,11 @@ public class VoucherService {
         }
     }
 
-    private void validateExpiration(LocalDateTime expiredAt, String message) {
+    private void validateExpiration(LocalDateTime expiredAt) {
         LocalDateTime now = LocalDateTime.now();
 
         if (expiredAt.isBefore(now)) {
-            throw new IllegalArgumentException(message + expiredAt);
+            throw new IllegalArgumentException(VoucherService.INVALID_EXPIRATION + expiredAt);
         }
     }
 

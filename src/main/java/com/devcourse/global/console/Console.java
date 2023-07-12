@@ -1,15 +1,13 @@
 package com.devcourse.global.console;
 
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
+import com.devcourse.voucher.application.dto.GetVoucherResponse;
 import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.presentation.Command;
-import com.devcourse.voucher.presentation.dto.ApplicationRequest;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
-
-import static com.devcourse.voucher.presentation.Command.CREATE;
 
 public class Console {
     private static final Scanner scanner = new Scanner(System.in);
@@ -28,33 +26,27 @@ public class Console {
 
     private final IoParser parser = new IoParser();
 
+    public void print(String input) {
+        System.out.println(input);
+    }
+
+    public void print(List<GetVoucherResponse> requests) {
+        for (GetVoucherResponse request : requests) {
+            System.out.println(request);
+        }
+    }
+
     public String read(String message) {
         System.out.print(message);
         return scanner.nextLine();
     }
 
-    public <T> void print(T input) {
-        if (isCollection(input)) {
-            print((Collection<?>) input);
-            return;
-        }
-
-        System.out.print(input);
+    public Command readCommand() {
+        String input = read(GET_COMMAND_GUIDE);
+        return parser.parseCommand(input);
     }
 
-    public ApplicationRequest readRequest() {
-        String inputCommand = read(GET_COMMAND_GUIDE);
-        Command command = parser.parseCommand(inputCommand);
-
-        if (command.isCreation()) {
-            CreateVoucherRequest request = readCreationRequest();
-            return new ApplicationRequest(CREATE, request);
-        }
-
-        return new ApplicationRequest(command, null);
-    }
-
-    private CreateVoucherRequest readCreationRequest() {
+    public CreateVoucherRequest readCreationRequest() {
         String inputType = read(VOUCHER_TYPE_GUIDE);
         Voucher.Type type = parser.parseVoucherType(inputType);
 
@@ -65,15 +57,5 @@ public class Console {
         LocalDateTime expiredAt = parser.parseExpiration(inputExpiredAt);
 
         return new CreateVoucherRequest(discount, expiredAt, type);
-    }
-
-    private <T> void print(Collection<T> input) {
-        for (T content : input) {
-            System.out.println(content.toString());
-        }
-    }
-
-    private <T> boolean isCollection(T input) {
-        return input instanceof Collection<?>;
     }
 }

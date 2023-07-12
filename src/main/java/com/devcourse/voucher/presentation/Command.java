@@ -5,8 +5,4 @@ public enum Command {
     LIST,
     EXIT,
     ;
-
-    public boolean isCreation() {
-        return this == CREATE;
-    }
 }
