@@ -2,6 +2,7 @@ package com.programmers.voucher.service;
 
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherMapper;
+import com.programmers.voucher.dto.ServiceDto;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
@@ -22,8 +23,8 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Transactional
-    public VoucherResponseDto create(VoucherRequestDto requestDto) {
-        Voucher voucher = VoucherMapper.convertRequestDtoToDomain(requestDto);
+    public VoucherResponseDto create(ServiceDto serviceDto) {
+        Voucher voucher = VoucherMapper.convertServiceToDomain(serviceDto);
         voucherRepository.save(voucher);
         return VoucherMapper.convertDomainToResponseDto(voucher);
     }

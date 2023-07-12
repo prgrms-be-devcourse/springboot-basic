@@ -3,6 +3,8 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.domain.FixedDiscount;
+import com.programmers.voucher.domain.VoucherMapper;
+import com.programmers.voucher.dto.ServiceDto;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
@@ -33,8 +35,9 @@ class VoucherServiceTest {
         Discount discount = Discount.of(DiscountType.of(command), value);
         UUID id = UUID.randomUUID();
         VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
+        ServiceDto serviceDto = VoucherMapper.convertRequestDtoToServiceDto(requestDto);
 
-        VoucherResponseDto voucher = voucherService.create(requestDto);
+        VoucherResponseDto voucher = voucherService.create(serviceDto);
 
         assertThat(voucher).isNotNull();
     }
@@ -45,8 +48,9 @@ class VoucherServiceTest {
         Discount discount = new FixedDiscount(123456);
         UUID id = UUID.randomUUID();
         VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
+        ServiceDto serviceDto = VoucherMapper.convertRequestDtoToServiceDto(requestDto);
 
-        VoucherResponseDto expected = voucherService.create(requestDto);
+        VoucherResponseDto expected = voucherService.create(serviceDto);
         VoucherResponseDto actual = voucherService.findVoucherById(id);
 
         assertThat(expected).isEqualTo(actual);
