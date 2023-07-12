@@ -177,8 +177,13 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void outputUUIDGuide() {
+    public void outputCustomerUUIDGuide() {
         System.out.println("고객 UUID를 입력해주세요.");
+    }
+
+    @Override
+    public void outputVoucherUUIDGuide() {
+        System.out.println("바우처v UUID를 입력해주세요.");
     }
 
     @Override
@@ -228,12 +233,12 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void outputCustomerUUIDGuide() {
+    public void outputWalletCustomerUUIDGuide() {
         System.out.println("바우처를 할당하려는 고객의 ID를 입력해주세요");
     }
 
     @Override
-    public void outputVoucherUUIDGuide() {
+    public void outputWalletVoucherUUIDGuide() {
         System.out.println("고객에게 할당하려는 바우처의 ID를 입력해주세요");
     }
 
@@ -243,12 +248,12 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void outputCustomerUUIDToFind() {
+    public void outputWalletCustomerUUIDToFind() {
         System.out.println("고객에게 할당된 바우처를 찾기 위해 고객의 ID를 입력해주세요");
     }
 
     @Override
-    public void outputGetVoucherUUIDToFind() {
+    public void outputWalletVoucherUUIDToFind() {
         System.out.println("해당 바우처를 가진 고객들을 찾기 위해 바우처의 ID를 입력해주세요");
     }
 

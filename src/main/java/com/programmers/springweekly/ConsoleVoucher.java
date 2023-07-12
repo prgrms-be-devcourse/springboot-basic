@@ -43,7 +43,7 @@ public class ConsoleVoucher {
     }
 
     private void updateVoucher() {
-        console.outputUUIDGuide();
+        console.outputVoucherUUIDGuide();
         UUID voucherId = console.inputUUID();
 
         console.outputVoucherUpdateGuide();
@@ -54,13 +54,13 @@ public class ConsoleVoucher {
     }
 
     private void deleteVoucher() {
-        console.outputUUIDGuide();
+        console.outputVoucherUUIDGuide();
         UUID voucherId = console.inputUUID();
 
         voucherController.deleteById(voucherId);
         console.outputCompleteGuide();
     }
-    
+
     private void selectVoucher() {
         VoucherListResponse voucherListResponse = voucherController.findAll();
 

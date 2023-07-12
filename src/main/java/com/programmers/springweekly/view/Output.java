@@ -30,7 +30,9 @@ public interface Output {
 
     void outputErrorMessage(String errorText);
 
-    void outputUUIDGuide();
+    void outputCustomerUUIDGuide();
+
+    void outputVoucherUUIDGuide();
 
     void outputCustomerUpdateGuide();
 
@@ -44,13 +46,13 @@ public interface Output {
 
     void outputWalletMenuGuide();
 
-    void outputCustomerUUIDGuide();
+    void outputWalletCustomerUUIDGuide();
 
-    void outputVoucherUUIDGuide();
+    void outputWalletVoucherUUIDGuide();
 
     void outputWalletUUIDGuide();
 
-    void outputCustomerUUIDToFind();
+    void outputWalletCustomerUUIDToFind();
 
-    void outputGetVoucherUUIDToFind();
+    void outputWalletVoucherUUIDToFind();
 }

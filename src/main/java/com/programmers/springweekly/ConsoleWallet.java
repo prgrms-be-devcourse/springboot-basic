@@ -36,11 +36,11 @@ public class ConsoleWallet {
     }
 
     private void createWallet() {
-        console.outputCustomerUUIDGuide();
+        console.outputWalletCustomerUUIDGuide();
         UUID customerId = console.inputUUID();
         customerController.findById(customerId);
 
-        console.outputVoucherUUIDGuide();
+        console.outputWalletVoucherUUIDGuide();
         UUID voucherId = console.inputUUID();
         voucherController.findById(voucherId);
 
@@ -59,13 +59,13 @@ public class ConsoleWallet {
     }
 
     private void findWalletByCustomerId() {
-        console.outputCustomerUUIDToFind();
+        console.outputWalletCustomerUUIDToFind();
         WalletResponse walletResponse = walletController.findByCustomerId(console.inputUUID());
         console.outputGetWallet(walletResponse);
     }
 
     private void findWalletByVoucherId() {
-        console.outputGetVoucherUUIDToFind();
+        console.outputWalletVoucherUUIDToFind();
         WalletsResponse walletsResponse = walletController.findByVoucherId(console.inputUUID());
         console.outputGetWalletListByVoucher(walletsResponse);
     }
