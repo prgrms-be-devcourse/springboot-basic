@@ -2,9 +2,13 @@ package com.example.demo.util;
 
 public enum CommandType {
     EXIT,
-    CREATE,
-    LIST;
-    
+    CREATE_VOUCHER,
+    PRINT_VOUCHER_LIST,
+    CREATE_CUSTOMER,
+    PRINT_CUSTOMER_LIST,
+    UPDATE_CUSTOMER,
+    DELETE_CUSTOMER;
+
     public static CommandType from(String input) {
         try {
             return valueOf(input.toUpperCase());
