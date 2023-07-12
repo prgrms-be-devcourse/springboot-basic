@@ -58,12 +58,11 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("저장된 모든 고객을 조회할 수 있다.")
     @Test
     void findAllCustomersTest() {
-        Customer testCustomer = new Customer(UUID.randomUUID(), "고객", LocalDateTime.now());
-        Customer testCustomer2 = new Customer(UUID.randomUUID(), "고객", LocalDateTime.now());
-        Customer testCustomer3 = new Customer(UUID.randomUUID(), "고객", LocalDateTime.now());
-        jdbcCustomerRepository.save(testCustomer);
-        jdbcCustomerRepository.save(testCustomer2);
-        jdbcCustomerRepository.save(testCustomer3);
+        for(int i = 0; i < 3; i++) {
+            String name = "고객" + i;
+            Customer testCustomer = new Customer(UUID.randomUUID(), name, LocalDateTime.now());
+            jdbcCustomerRepository.save(testCustomer);
+        }
 
         List<Customer> customers = jdbcCustomerRepository.findAll();
 

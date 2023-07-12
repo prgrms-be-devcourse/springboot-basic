@@ -61,12 +61,10 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("DB에서 모든 바우처를 조회할 수 있다.")
     @Test
     void findAllTest() {
-        Voucher testVoucher = new Voucher(UUID.randomUUID(), new FixedDiscount(100), LocalDateTime.now());
-        Voucher testVoucher2 = new Voucher(UUID.randomUUID(), new FixedDiscount(100), LocalDateTime.now());
-        Voucher testVoucher3 = new Voucher(UUID.randomUUID(), new FixedDiscount(100), LocalDateTime.now());
-        jdbcVoucherRepository.save(testVoucher);
-        jdbcVoucherRepository.save(testVoucher2);
-        jdbcVoucherRepository.save(testVoucher3);
+        for (int i = 0; i < 3; i++) {
+            Voucher testVoucher = new Voucher(UUID.randomUUID(), new FixedDiscount(100), LocalDateTime.now());
+            jdbcVoucherRepository.save(testVoucher);
+        }
 
         List<Voucher> vouchers = jdbcVoucherRepository.findAll();
 
