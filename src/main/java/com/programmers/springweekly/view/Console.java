@@ -12,7 +12,9 @@ import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
-import com.programmers.springweekly.util.Validator;
+import com.programmers.springweekly.util.Validator.CustomerValidator;
+import com.programmers.springweekly.util.Validator.ParseValidator;
+import com.programmers.springweekly.util.Validator.VoucherValidator;
 import java.util.Scanner;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +35,8 @@ public class Console implements Input, Output {
     @Override
     public VoucherCreateRequest inputVoucherCreate(VoucherType voucherType) {
         String inputDiscountAmount = SCANNER.nextLine();
-        Validator.validateDiscountAmount(voucherType, inputDiscountAmount);
+
+        VoucherValidator.validateInputVoucherInfo(voucherType, inputDiscountAmount);
 
         return VoucherCreateRequest.builder()
                 .discountAmount(Long.parseLong(inputDiscountAmount))
@@ -43,9 +46,12 @@ public class Console implements Input, Output {
 
     @Override
     public VoucherUpdateRequest inputVoucherUpdate(UUID voucherId) {
-        String[] voucherInfo = Validator.inputParse(SCANNER.nextLine());
+        String[] voucherInfo = ParseValidator.inputParse(SCANNER.nextLine());
+
+        ParseValidator.validateVoucherUpdateLength(voucherInfo);
+
         VoucherType voucherType = VoucherType.from(voucherInfo[1]);
-        Validator.validateDiscountAmount(voucherType, voucherInfo[0]);
+        VoucherValidator.validateInputVoucherInfo(voucherType, voucherInfo[0]);
 
         return VoucherUpdateRequest.builder()
                 .voucherId(voucherId)
@@ -54,12 +60,13 @@ public class Console implements Input, Output {
                 .build();
     }
 
-
     @Override
     public CustomerCreateRequest inputCustomerCreate() {
-        String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
-        Validator.validateName(customerInfo[0]);
-        Validator.validateEmail(customerInfo[1]);
+        String[] customerInfo = ParseValidator.inputParse(SCANNER.nextLine());
+
+        ParseValidator.validateCustomerLength(customerInfo);
+
+        CustomerValidator.validateInputCustomerInfo(customerInfo[0], customerInfo[1]);
 
         return CustomerCreateRequest.builder()
                 .customerName(customerInfo[0])
@@ -70,9 +77,11 @@ public class Console implements Input, Output {
 
     @Override
     public CustomerUpdateRequest inputCustomerUpdate(UUID customerId) {
-        String[] customerInfo = Validator.inputParse(SCANNER.nextLine());
-        Validator.validateName(customerInfo[0]);
-        Validator.validateEmail(customerInfo[1]);
+        String[] customerInfo = ParseValidator.inputParse(SCANNER.nextLine());
+
+        ParseValidator.validateCustomerLength(customerInfo);
+
+        CustomerValidator.validateInputCustomerInfo(customerInfo[0], customerInfo[1]);
 
         return CustomerUpdateRequest.builder()
                 .customerId(customerId)
@@ -85,11 +94,10 @@ public class Console implements Input, Output {
     @Override
     public UUID inputUUID() {
         try {
-            UUID uuid = UUID.fromString(SCANNER.nextLine());
-            return uuid;
-        } catch (Exception e) {
+            return UUID.fromString(SCANNER.nextLine());
+        } catch (IllegalArgumentException e) {
             log.error("입력된 값은 UUID 형식이 아닐 수 있습니다. 다시 한 번 확인해보세요. {}", e.getMessage());
-            throw e;
+            throw new IllegalArgumentException("입력된 값은 UUID 형식이 아닐 수 있습니다. 다시 한 번 확인해보세요.");
         }
     }
 
