@@ -1,14 +1,14 @@
 package com.programmers.springbootbasic.voucher.controller;
 
 import com.programmers.springbootbasic.voucher.dto.VoucherCreateRequestDto;
+import com.programmers.springbootbasic.voucher.dto.VoucherDto;
 import com.programmers.springbootbasic.voucher.dto.VouchersResponseDto;
 import com.programmers.springbootbasic.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RequestMapping("voucher")
 @Controller
@@ -38,5 +38,13 @@ public class VoucherViewController {
         voucherService.save(voucherCreateRequestDto);
 
         return "redirect:/voucher/list";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") UUID id, Model model) {
+        VoucherDto voucherDto = voucherService.findById(id);
+        model.addAttribute("voucher", voucherDto);
+
+        return "voucher/voucher-detail";
     }
 }
