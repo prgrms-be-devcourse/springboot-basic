@@ -47,4 +47,11 @@ public class VoucherViewController {
 
         return "voucher/voucher-detail";
     }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute VoucherDto voucherDto) {
+        voucherService.update(voucherDto);
+
+        return "redirect:/voucher/list";
+    }
 }
