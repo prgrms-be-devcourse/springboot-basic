@@ -81,17 +81,4 @@ public class JdbcCustomerRepository implements CustomerRepository {
         String sql = "DELETE FROM customers";
         jdbcTemplate.update(sql);
     }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-    private static byte[] toBytes(UUID uuid) {
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-        bb.putLong(uuid.getMostSignificantBits());
-        bb.putLong(uuid.getLeastSignificantBits());
-        return bb.array();
-    }
 }
