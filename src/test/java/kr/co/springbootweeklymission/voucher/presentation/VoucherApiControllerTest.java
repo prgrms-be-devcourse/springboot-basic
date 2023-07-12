@@ -1,8 +1,8 @@
 package kr.co.springbootweeklymission.voucher.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.common.response.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.application.VoucherService;
 import kr.co.springbootweeklymission.voucher.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;

@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.wallet.application;
 
-import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.common.response.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
 import kr.co.springbootweeklymission.member.presentation.dto.response.MemberResDTO;

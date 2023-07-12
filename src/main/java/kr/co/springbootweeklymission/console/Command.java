@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.console;
 
-import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.common.response.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

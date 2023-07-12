@@ -1,8 +1,8 @@
-package kr.co.springbootweeklymission.common.error.handler;
+package kr.co.springbootweeklymission.global.error.handler;
 
-import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.common.response.ResponseError;
-import kr.co.springbootweeklymission.common.response.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.global.response.ResponseError;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

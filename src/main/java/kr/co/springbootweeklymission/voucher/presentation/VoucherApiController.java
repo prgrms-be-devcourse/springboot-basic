@@ -1,6 +1,6 @@
 package kr.co.springbootweeklymission.voucher.presentation;
 
-import kr.co.springbootweeklymission.common.response.ResponseStatus;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.application.VoucherService;
 import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;

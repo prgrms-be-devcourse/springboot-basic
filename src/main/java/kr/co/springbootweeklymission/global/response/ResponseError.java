@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.common.response;
+package kr.co.springbootweeklymission.global.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

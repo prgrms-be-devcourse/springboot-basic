@@ -1,4 +1,4 @@
-package kr.co.springbootweeklymission.common.util;
+package kr.co.springbootweeklymission.global.util;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;

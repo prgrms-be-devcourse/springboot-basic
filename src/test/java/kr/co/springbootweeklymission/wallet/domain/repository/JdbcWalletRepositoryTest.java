@@ -1,8 +1,8 @@
 package kr.co.springbootweeklymission.wallet.domain.repository;
 
-import kr.co.springbootweeklymission.common.error.exception.DuplicatedException;
-import kr.co.springbootweeklymission.common.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.common.response.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.exception.DuplicatedException;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.member.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
