@@ -40,10 +40,10 @@ public class VoucherController {
 
         switch (menuType) {
           case EXIT -> isRunning = false;
-          case VOUCHERLIST -> voucherList();
-          case CREATEVOUCHER -> createVoucher();
-          case CUSTOMERLIST -> customerList();
-          case CREATECUSTOMER -> createCustomer();
+          case VOUCHER_LIST -> printVouchers();
+          case CREATE_VOUCHER -> createVoucher();
+          case CUSTOMER_LIST -> printCustomers();
+          case CREATE_CUSTOMER -> createCustomer();
         }
       } catch (IllegalArgumentException e) {
         logger.error("Error Message => {}", e.getMessage(), e);
@@ -55,7 +55,7 @@ public class VoucherController {
     }
   }
 
-  private void voucherList() {
+  private void printVouchers() {
     List<Voucher> list = voucherService.findAllVouchers();
     console.printAllVouchers(list);
   }
@@ -71,7 +71,7 @@ public class VoucherController {
     console.printCreateVoucherSuccess(voucherType, discountAmount);
   }
 
-  private void customerList() {
+  private void printCustomers() {
     List<Customer> list = customerService.findAllCustomers();
     console.printAllCustomers(list);
   }
