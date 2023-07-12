@@ -29,10 +29,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="voucherDTO: ${allVoucherDTOs}" th:object="${voucherDTO}" >
-        <td th:text="*{voucherId}"></td>
-        <td th:text="*{voucherType}"></td>
-        <td th:text="*{benefit}"></td>
+    <tr th:each="voucherDTO: ${allVoucherDTOs}" >
+        <td><a href="voucher.html" th:href="@{/vouchers/{voucherId}(voucherId=${voucherDTO.voucherId})}" th:text="${voucherDTO.voucherId}"></a></td>
+        <td th:text="${voucherDTO.voucherType}"></td>
+        <td th:text="${voucherDTO.benefit}"></td>
     </tr>
     </tbody>
 </table>
