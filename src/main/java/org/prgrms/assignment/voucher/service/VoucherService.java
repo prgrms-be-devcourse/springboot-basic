@@ -16,8 +16,10 @@ public interface VoucherService {
 
     void updateVoucherEntity(Voucher voucher);
 
-    Voucher createVoucher(VoucherType voucherType, long benefit, long expireDate);
+    Voucher createVoucher(VoucherType voucherType, long benefit, long durationDate);
 
     void delete(UUID voucherId);
+
+    List<VoucherResponseDTO> getVouchersByType(VoucherType voucherType);
 
 }

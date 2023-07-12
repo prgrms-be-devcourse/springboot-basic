@@ -33,10 +33,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String FIND_HISTORY_BY_ID_SQL = "SELECT * FROM voucher_history WHERE history_id = UUID_TO_BIN(:historyId)";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
     private static final String SELECT_ALL_COUNT_SQL = "select count(*) from vouchers";
-
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
-    
+    private static final String FIND_BY_TYPE_SQL = "SELECT * FROM vouchers WHERE voucher_type = :voucherType";
+
     private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, rowNumber) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherType voucherType = VoucherType.of(resultSet.getString("voucher_type"));
@@ -123,6 +123,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void delete(UUID voucherId) {
         jdbcTemplate.update(DELETE_BY_ID_SQL,
             Collections.singletonMap("voucherId", voucherId.toString()));
+    }
+
+    @Override
+    public List<VoucherEntity> findVouchersByType(VoucherType voucherType) {
+        return jdbcTemplate.query(FIND_BY_TYPE_SQL,
+            Collections.singletonMap("voucherType", voucherType.toString()),
+            voucherRowMapper);
     }
 
     public int count() {
