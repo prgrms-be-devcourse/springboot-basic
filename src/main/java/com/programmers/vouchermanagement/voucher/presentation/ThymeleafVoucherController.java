@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ public class ThymeleafVoucherController {
     }
 
     @PostMapping("/add")
-    public String createVoucher(VoucherCreationRequest request, RedirectAttributes redirectAttributes) {
+    public String createVoucher(@Valid VoucherCreationRequest request, RedirectAttributes redirectAttributes) {
         Voucher voucher = voucherService.createVoucher(request);
         redirectAttributes.addAttribute("voucherId", voucher.getId());
         redirectAttributes.addAttribute("status",  true);
@@ -58,7 +59,7 @@ public class ThymeleafVoucherController {
     }
 
     @PostMapping("/{voucherId}/edit")
-    public String updateVoucher(@ModelAttribute("voucher") VoucherUpdateRequest request) {
+    public String updateVoucher(@ModelAttribute("voucher") @Valid VoucherUpdateRequest request) {
         voucherService.updateVoucher(request);
         return "redirect:/v2/vouchers/{voucherId}";
     }
