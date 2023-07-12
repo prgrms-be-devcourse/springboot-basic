@@ -1,7 +1,6 @@
 package com.dev.bootbasic.user.repository;
 
 import com.dev.bootbasic.user.domain.User;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(JdbcUserRepository.class)
 public class JdbcUserRepositoryTest {
 
+    private static final String TEST_USER_NAME = "test-user";
     @Autowired
     private UserRepository userRepository;
 
@@ -27,7 +27,7 @@ public class JdbcUserRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        setUser();
+        user = createUser();
     }
 
     @Test
@@ -52,8 +52,8 @@ public class JdbcUserRepositoryTest {
         assertThat(foundUser).isEmpty();
     }
 
-    private void setUser() {
+    private User createUser() {
         UUID id = UUID.randomUUID();
-        user = User.of(id, "test-user", LocalDateTime.now());
+        return User.of(id, TEST_USER_NAME, LocalDateTime.now());
     }
 }
