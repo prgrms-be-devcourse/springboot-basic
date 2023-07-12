@@ -1,5 +1,6 @@
-package com.wonu606.vouchermanager.domain.customer;
+package com.wonu606.vouchermanager.domain.customer.emailAddress;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class EmailAddress {
@@ -26,6 +27,23 @@ public class EmailAddress {
         if (isNotAddressPattern(address)) {
             throw new IllegalArgumentException("잘못된 이메일 주소입니다: " + address);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        EmailAddress that = (EmailAddress) o;
+        return Objects.equals(getAddress(), that.getAddress());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAddress());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.wonu606.vouchermanager.repository.customer;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -32,11 +33,11 @@ public class JdbcCustomerResultSetRepository implements CustomerResultSetReposit
     }
 
     @Override
-    public Optional<CustomerResultSet> findByEmailAddress(String emailAddress) {
+    public Optional<CustomerResultSet> findByEmailAddress(EmailAddress emailAddress) {
         String selectSql = "SELECT * FROM customer WHERE email_address = ?";
         try {
             CustomerResultSet customerResultSet = jdbcTemplate.queryForObject(selectSql,
-                    customerResultSetRowMapper(), emailAddress);
+                    customerResultSetRowMapper(), emailAddress.getAddress());
             return Optional.ofNullable(customerResultSet);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -50,9 +51,9 @@ public class JdbcCustomerResultSetRepository implements CustomerResultSetReposit
     }
 
     @Override
-    public void deleteByEmailAddress(String emailAddress) {
+    public void deleteByEmailAddress(EmailAddress emailAddress) {
         String deleteSql = "DELETE FROM customer WHERE email_address = ?";
-        jdbcTemplate.update(deleteSql, emailAddress);
+        jdbcTemplate.update(deleteSql, emailAddress.getAddress());
     }
 
     @Override

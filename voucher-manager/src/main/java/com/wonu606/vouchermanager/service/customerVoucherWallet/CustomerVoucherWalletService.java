@@ -2,7 +2,7 @@ package com.wonu606.vouchermanager.service.customerVoucherWallet;
 
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWallet;
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWalletDto;
-import com.wonu606.vouchermanager.domain.customer.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import com.wonu606.vouchermanager.repository.customerVoucherWallet.CustomerVoucherWalletRepository;
 import java.util.List;
 import java.util.UUID;
@@ -25,14 +25,12 @@ public class CustomerVoucherWalletService {
     }
 
     public void deleteByCustomerVoucherWallet(CustomerVoucherWalletDto customerVoucherWalletDto) {
-        CustomerVoucherWallet customerVoucherWallet =
-                createCustomerVoucherWallet(customerVoucherWalletDto);
+        CustomerVoucherWallet customerVoucherWallet = convertDtoToWallet(customerVoucherWalletDto);
         customerVoucherWalletRepository.deleteByWallet(customerVoucherWallet);
     }
 
     public CustomerVoucherWallet save(CustomerVoucherWalletDto customerVoucherWalletDto) {
-        CustomerVoucherWallet customerVoucherWallet =
-                createCustomerVoucherWallet(customerVoucherWalletDto);
+        CustomerVoucherWallet customerVoucherWallet = convertDtoToWallet(customerVoucherWalletDto);
         return customerVoucherWalletRepository.save(customerVoucherWallet);
     }
 
@@ -40,7 +38,8 @@ public class CustomerVoucherWalletService {
         return customerVoucherWalletRepository.findEmailAddressesByVoucherId(voucherId);
     }
 
-    private CustomerVoucherWallet createCustomerVoucherWallet(CustomerVoucherWalletDto customerVoucherWalletDto) {
+    private static CustomerVoucherWallet convertDtoToWallet(
+            CustomerVoucherWalletDto customerVoucherWalletDto) {
         return new CustomerVoucherWallet(
                 customerVoucherWalletDto.getVoucherId(),
                 new EmailAddress(customerVoucherWalletDto.getEmailAddress())

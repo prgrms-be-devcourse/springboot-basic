@@ -1,5 +1,6 @@
 package com.wonu606.vouchermanager.domain.customer;
 
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import java.util.Objects;
 
 public class Customer {

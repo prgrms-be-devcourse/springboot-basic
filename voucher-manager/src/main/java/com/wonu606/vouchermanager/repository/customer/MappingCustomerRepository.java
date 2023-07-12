@@ -2,7 +2,7 @@ package com.wonu606.vouchermanager.repository.customer;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
-import com.wonu606.vouchermanager.domain.customer.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ public class MappingCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByEmailAddress(String emailAddress) {
+    public Optional<Customer> findByEmailAddress(EmailAddress emailAddress) {
         return customerResultSetRepository.findByEmailAddress(emailAddress)
                 .map(this::convertResultSetToEntity);
     }
@@ -36,7 +36,7 @@ public class MappingCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteByEmailAddress(String emailAddress) {
+    public void deleteByEmailAddress(EmailAddress emailAddress) {
         customerResultSetRepository.deleteByEmailAddress(emailAddress);
     }
 

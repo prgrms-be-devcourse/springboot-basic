@@ -1,6 +1,6 @@
 package com.wonu606.vouchermanager.domain.CustomerVoucherWallet;
 
-import com.wonu606.vouchermanager.domain.customer.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import java.util.Objects;
 import java.util.UUID;
 

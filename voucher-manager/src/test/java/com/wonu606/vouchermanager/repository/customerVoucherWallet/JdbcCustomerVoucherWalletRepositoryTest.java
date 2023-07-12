@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWallet;
 import com.wonu606.vouchermanager.domain.customer.Customer;
-import com.wonu606.vouchermanager.domain.customer.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;

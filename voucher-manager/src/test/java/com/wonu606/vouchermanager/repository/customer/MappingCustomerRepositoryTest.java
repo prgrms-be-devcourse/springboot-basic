@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
-import com.wonu606.vouchermanager.domain.customer.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,12 +67,13 @@ class MappingCustomerRepositoryTest {
                 null
         );
 
-        given(customerResultSetRepository.findByEmailAddress(customer.getEmailAddress()))
+        EmailAddress emailAddress = new EmailAddress(customer.getEmailAddress());
+
+        given(customerResultSetRepository.findByEmailAddress(emailAddress))
                 .willReturn(Optional.of(enteredResultSet));
 
         // when
-        Optional<Customer> actualCustomer = customerRepository.findByEmailAddress(
-                customer.getEmailAddress());
+        Optional<Customer> actualCustomer = customerRepository.findByEmailAddress(emailAddress);
 
         // then
         assertThat(actualCustomer.isPresent()).isTrue();
@@ -111,7 +112,7 @@ class MappingCustomerRepositoryTest {
     @DisplayName("deleteByEmailAddress_이메일 주소_같은 이메일 주소를 반환한다.")
     void deleteByEmailAddress_EmailAddress_ReturnsSameEmailAddress() {
         // given
-        String expectedEmailAddress = "Linlin@onepiece.org";
+        EmailAddress expectedEmailAddress = new EmailAddress("Linlin@onepiece.org");
 
         // when
         customerRepository.deleteByEmailAddress(expectedEmailAddress);

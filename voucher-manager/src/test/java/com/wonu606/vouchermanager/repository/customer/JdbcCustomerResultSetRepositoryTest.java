@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
-import com.wonu606.vouchermanager.domain.customer.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -35,10 +35,12 @@ class JdbcCustomerResultSetRepositoryTest {
         Customer customer = new Customer(
                 new EmailAddress("Linlin@onepiece.org"), "Big Mom");
 
+        EmailAddress emailAddress = new EmailAddress(customer.getEmailAddress());
+
         // when
         jdbcCustomerResultSetRepository.save(customer);
         var foundCustomer = jdbcCustomerResultSetRepository.findByEmailAddress(
-                customer.getEmailAddress());
+                emailAddress);
 
         // then
         assertThat(foundCustomer).isPresent();
@@ -54,9 +56,11 @@ class JdbcCustomerResultSetRepositoryTest {
                 new EmailAddress("Linlin@onepiece.org"), "Big Mom");
         jdbcCustomerResultSetRepository.save(customer);
 
+        EmailAddress emailAddress = new EmailAddress(customer.getEmailAddress());
+
         // when
         var foundCustomer =
-                jdbcCustomerResultSetRepository.findByEmailAddress(customer.getEmailAddress());
+                jdbcCustomerResultSetRepository.findByEmailAddress(emailAddress);
 
         // then
         assertThat(foundCustomer).isPresent();
@@ -67,7 +71,7 @@ class JdbcCustomerResultSetRepositoryTest {
     @DisplayName("findByEmailAddress_저장되지 않은 Customer_Empty를 반환한다.")
     void findByEmailAddress_UnsavedCustomer_ReturnsEmpty() {
         // given
-        String unsavedEmailAddress = "unsavedEmailAddress@domain.com";
+        EmailAddress unsavedEmailAddress = new EmailAddress("unsavedEmailAddress@domain.com");
 
         // when
         var foundCustomer =
@@ -105,10 +109,12 @@ class JdbcCustomerResultSetRepositoryTest {
                 new EmailAddress("Linlin@onepiece.org"), "Big Mom");
         jdbcCustomerResultSetRepository.save(customer);
 
+        EmailAddress emailAddress = new EmailAddress(customer.getEmailAddress());
+
         // then
-        jdbcCustomerResultSetRepository.deleteByEmailAddress(customer.getEmailAddress());
+        jdbcCustomerResultSetRepository.deleteByEmailAddress(emailAddress);
         Optional<CustomerResultSet> foundCustomer = jdbcCustomerResultSetRepository
-                .findByEmailAddress(customer.getEmailAddress());
+                .findByEmailAddress(emailAddress);
 
         // when
         assertThat(foundCustomer).isNotPresent();
