@@ -14,14 +14,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class VoucherService {
 
-    private final VoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
 
     //생성(create)
     public Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
