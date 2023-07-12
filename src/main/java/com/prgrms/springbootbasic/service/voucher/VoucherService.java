@@ -3,6 +3,7 @@ package com.prgrms.springbootbasic.service.voucher;
 import com.prgrms.springbootbasic.domain.voucher.FixedDiscountVoucher;
 import com.prgrms.springbootbasic.domain.voucher.PercentDiscountVoucher;
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
+import com.prgrms.springbootbasic.dto.voucher.request.VoucherUpdateRequest;
 import com.prgrms.springbootbasic.enums.VoucherType;
 import com.prgrms.springbootbasic.repository.voucher.VoucherRepository;
 import java.util.Map;
@@ -37,22 +38,23 @@ public class VoucherService {
     }
 
     //조회(Read) - id를 통해서 조회
-    public void findById() {
+    public void findById(UUID voucherId) {
+        Voucher voucher = VoucherRepository.findById(voucherId);
 
     }
 
     //수정(Update)
-    public void updetVoucher() {
+    public void updateVoucher(VoucherUpdateRequest voucherUpdateRequest) {
 
     }
 
     //삭제(Delete) -id
-    public void deleteById() {
-
+    public void deleteById(UUID voucherId) {
+        VoucherRepository.deleteById(voucherId);
     }
 
     //삭제(Delete)
     public void deleteAllVoucher() {
-
+        VoucherRepository.delteAll();
     }
 }
