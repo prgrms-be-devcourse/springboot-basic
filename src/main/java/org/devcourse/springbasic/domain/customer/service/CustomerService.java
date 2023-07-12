@@ -14,11 +14,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    @Transactional
     public UUID save(CustomerDto.SaveRequestDto saveRequestDto) {
         Customer customer = Customer.builder()
                 .customerId(saveRequestDto.getCustomerId())
@@ -29,6 +30,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+    @Transactional
     public UUID update(CustomerDto.UpdateRequestDto updateRequestDto) {
         Customer customer = Customer.builder()
                 .customerId(updateRequestDto.getCustomerId())
@@ -38,6 +40,7 @@ public class CustomerService {
         return customerRepository.update(customer);
     }
 
+    @Transactional
     public void lastLoginUpdate(CustomerDto.LoginRequestDto loginRequestDto) {
         Customer customer = Customer.builder()
                 .customerId(loginRequestDto.getCustomerId())
