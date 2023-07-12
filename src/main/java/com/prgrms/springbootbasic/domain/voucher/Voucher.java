@@ -8,7 +8,7 @@ public interface Voucher {
 
     UUID VoucherId();
 
-    long Discount();
+    long discount();
 
     VoucherType VoucherType();
 
