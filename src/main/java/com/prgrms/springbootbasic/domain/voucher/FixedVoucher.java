@@ -33,6 +33,11 @@ public class FixedVoucher implements Voucher {
     }
 
     @Override
+    public long getDiscount() {
+        return discount;
+    }
+
+    @Override
     public VoucherType getVoucherType() {
         return VoucherType.FIXED;
     }
