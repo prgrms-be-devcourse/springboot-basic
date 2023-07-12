@@ -60,7 +60,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByName(String name) {
-        String sql = "SELECT * FROM customers WHERE name = ?";
+        String sql = "SELECT * FROM customers WHERE name = ? LIMIT 1";
         return jdbcTemplate.query(sql, rowMapper, name).stream().findAny();
     }
 

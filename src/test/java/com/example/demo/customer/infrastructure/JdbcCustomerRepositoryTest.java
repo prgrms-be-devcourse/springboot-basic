@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
 
@@ -62,9 +61,12 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     private DataSource dataSource;
 
+    @AfterEach
+    void tearDown() {
+        customerRepository.deleteAll();
+    }
 
     @Test
-    @Order(1)
     @DisplayName("Hikari 커넥션을 사용하는지 확인하는 테스트")
     @Disabled
     void test_hikari() {
@@ -106,7 +108,6 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("전체 조회 테스트")
-    @Order(2)
     void findAll() {
         // given
         Customer customer1 = new Customer(UUID.randomUUID(), "name1", "email1@test.com", LocalDateTime.now(), LocalDateTime.now());
