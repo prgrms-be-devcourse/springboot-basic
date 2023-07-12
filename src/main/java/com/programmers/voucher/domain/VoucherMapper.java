@@ -16,8 +16,10 @@ public class VoucherMapper {
     }
 
     public static VoucherResponseDto convertDomainToResponseDto(Voucher voucher) {
-        return new VoucherResponseDto(voucher.getVoucherId(), voucher.getDiscount(),
-                voucher.getCreatedAt());
+        return new VoucherResponseDto(voucher.getVoucherId(),
+                voucher.getDiscount(),
+                voucher.getCreatedAt(),
+                voucher.getExpiredAt());
     }
 
     public static VoucherEntity convertDomainToEntity(Voucher voucher) {
