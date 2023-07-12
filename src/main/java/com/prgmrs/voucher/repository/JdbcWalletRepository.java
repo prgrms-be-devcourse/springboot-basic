@@ -2,12 +2,12 @@ package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.model.Wallet;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Repository
 public class JdbcWalletRepository implements WalletRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -17,7 +17,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public void save(Wallet wallet) {
-        String sql = "INSERT INTO wallet (voucher_id, user_id) VALUES (:voucherId, :userId)";
+        String sql = "INSERT INTO `wallet` (voucher_id, user_id) VALUES (:voucherId, :userId)";
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucherId", wallet.voucherId().toString());
@@ -27,7 +27,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public void free(Wallet wallet) {
-        String sql = "UPDATE wallet SET unassigned_time = CURRENT_TIMESTAMP WHERE voucher_id = :voucherId AND user_id = :userId";
+        String sql = "UPDATE `wallet` SET unassigned_time = CURRENT_TIMESTAMP WHERE voucher_id = :voucherId AND user_id = :userId";
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucherId", wallet.voucherId().toString());
