@@ -32,24 +32,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("default")
 class JdbcVoucherRepositoryTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기")
-    );
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
-    );
     @Autowired
     JdbcVoucherRepository voucherRepository;
     @Autowired
     CustomerRepository customerRepository;
     EmbeddedMysql embeddedMysql;
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
-    }
 
     @BeforeAll
     void init() {
@@ -116,7 +103,7 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("모든 바우처 조회한다.")
     void findAllVouchers_ParamVoid_ReturnAllVouchers() {
         vouchers.forEach(voucher -> voucherRepository.insert(voucher));
-        var allVouchers = voucherRepository.findAllVouchers();
+        var allVouchers = voucherRepository.findAll();
         System.out.println(allVouchers);
         assertThat(allVouchers.isEmpty(), is(false));
         assertThat(allVouchers.get(0), instanceOf(Voucher.class));
@@ -144,7 +131,7 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("모든 바우처 삭제한다.")
     void deleteAll_ParamVoid_DeleteAllVouchers() {
         voucherRepository.deleteAll();
-        var vouchers = voucherRepository.findAllVouchers();
+        var vouchers = voucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(true));
     }
 
@@ -156,6 +143,59 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.deleteById(voucher.getVoucherId());
         var maybeNull = voucherRepository.findById(voucher.getVoucherId());
         assertThat(maybeNull.isEmpty(), is(true));
+    }
+
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 고객, 바우처 아이디로 검색하면 성공한다.")
+    @MethodSource("provideVouchers")
+    void findByCustomerIdAndVoucherId_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
+        voucherRepository.insert(voucher);
+        var foundVoucher = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(foundVoucher.isEmpty(), is(false));
+        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처를 고객, 바우처 아이디로 검색하면 실패한다.")
+    @MethodSource("provideVouchers")
+    void findByCustomerIdAndVoucherId_ParamNotExistVoucher_Exception(Voucher voucher) {
+        var maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(maybeNull.isEmpty(), is(true));
+    }
+
+    @ParameterizedTest
+    @DisplayName("고객 아이디로 조회 시 바우처를 반환한다.")
+    @MethodSource("provideVouchers")
+    void findAllByCustomerId_ParamVoid_ReturnVoucherList(Voucher voucher) {
+        voucherRepository.insert(voucher);
+        var list = voucherRepository.findAllByCustomerId(voucher.getCustomerId());
+        assertThat(list.isEmpty(), is(false));
+    }
+
+    @ParameterizedTest
+    @DisplayName("고객, 바우처 아이디로 제거하면 성공한다.")
+    @MethodSource("provideVouchers")
+    void deleteByCustomerIdAndVoucherId_ParamExistVoucher_DeleteVoucher(Voucher voucher) {
+        voucherRepository.insert(voucher);
+        voucherRepository.deleteByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        var maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(maybeNull.isEmpty(), is(true));
+    }
+
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기")
+    );
+
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
+    );
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
     }
 
 }

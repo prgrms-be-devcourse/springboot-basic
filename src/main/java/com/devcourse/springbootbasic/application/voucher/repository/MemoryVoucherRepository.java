@@ -30,7 +30,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAllVouchers() {
+    public List<Voucher> findAll() {
         return voucherMap.getAllVouchers();
     }
 
@@ -44,6 +44,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        return voucherMap.getVoucherByCustomerIdAndVoucherId(customerId, voucherId);
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomerId(UUID customerId) {
+        return voucherMap.getAllVouchersByCustomerId(customerId);
+    }
+
+    @Override
     public void deleteAll() {
         voucherMap.clearVoucherMap();
     }
@@ -51,6 +61,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         voucherMap.removeVoucherById(voucherId);
+    }
+
+    @Override
+    public void deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        voucherMap.removeVoucherByCustomerIdAndVoucherId(customerId, voucherId);
     }
 
 }
