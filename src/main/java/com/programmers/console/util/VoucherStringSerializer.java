@@ -18,22 +18,20 @@ public class VoucherStringSerializer {
     private static final String PERCENT = "%";
     private static final String WON = "₩";
 
-    private static DiscountType discountType;
-    private static UUID voucherId;
-    private static Discount discount;
-    private static LocalDateTime createdAt;
-
     public static String convertVoucherResponseToString(VoucherResponseDto responseDto) {
-        discountType = responseDto.discount().getVoucherType();
-        voucherId = responseDto.voucherId();
-        discount = responseDto.discount();
-        createdAt = responseDto.createdAt();
+        DiscountType discountType = responseDto.discount().getDiscountType();
+        UUID voucherId = responseDto.voucherId();
+        Discount discount = responseDto.discount();
+        LocalDateTime createdAt = responseDto.createdAt();
         return MessageFormat.format(ConsoleMessage.PRINT_VOUCHER_MESSAGE_FORM.getMessage(),
-                discountType, voucherId, discountValueFormat(discount), createdAt);
+                discountType,
+                voucherId,
+                discountValueFormat(discount),
+                createdAt);
     }
 
     private static String discountValueFormat(Discount discount) {
-        switch (discount.getVoucherType()) {
+        switch (discount.getDiscountType()) {
             case FIXED -> {
                 DecimalFormat formatter = new DecimalFormat("###,###,###");
                 return formatter.format(discount.getAmount()) + WON;

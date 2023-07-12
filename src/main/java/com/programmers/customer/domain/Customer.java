@@ -36,8 +36,4 @@ public class Customer {
     public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
-
-//    private void validateCustomerId(UUID customerId) {
-//        if (customerId == null) throw new IllegalArgumentException(CUSTOMER_NULL_MESSAGE);
-//    }
 }

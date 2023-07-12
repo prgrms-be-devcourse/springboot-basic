@@ -2,9 +2,11 @@ package com.programmers.customer.controller;
 
 import com.programmers.customer.dto.CustomerRequestDto;
 import com.programmers.customer.dto.CustomerResponseDto;
+import com.programmers.customer.dto.CustomerUpdateRequest;
 import com.programmers.customer.service.CustomerService;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CustomerController {
 
@@ -18,7 +20,19 @@ public class CustomerController {
         return customerService.create(requestDto);
     }
 
+    public CustomerResponseDto update(CustomerUpdateRequest updateRequest) {
+        return customerService.update(updateRequest);
+    }
+
     public List<CustomerResponseDto> findAll() {
-        return customerService.findCustomers().stream().toList();
+        return customerService.findCustomers();
+    }
+
+    public CustomerResponseDto findById(UUID customerId) {
+        return customerService.findCustomerById(customerId);
+    }
+
+    public void deleteById(UUID customerId) {
+        customerService.deleteCustomerById(customerId);
     }
 }
