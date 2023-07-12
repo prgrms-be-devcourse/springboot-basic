@@ -12,8 +12,10 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     private static final Map<UUID, Voucher> VOUCHERS = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<Voucher> findVoucher(UUID voucherId) {
-        return Optional.ofNullable(VOUCHERS.get(voucherId));
+    public Voucher findVoucher(UUID voucherId) {
+        Optional<Voucher> voucher = Optional.ofNullable(VOUCHERS.get(voucherId));
+
+        return voucher.orElseThrow(() -> new NoSuchElementException());
     }
 
     @Override

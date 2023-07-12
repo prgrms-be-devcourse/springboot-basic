@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static com.dev.bootbasic.voucher.domain.VoucherType.FIXED;
@@ -60,7 +61,7 @@ class VoucherServiceTest {
     @Test
     void findFailTest() {
         assertThatThrownBy(() -> voucherService.findVoucher(UUID.randomUUID()))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NoSuchElementException.class);
     }
 
 }

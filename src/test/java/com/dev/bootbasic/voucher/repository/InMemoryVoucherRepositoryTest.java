@@ -27,7 +27,7 @@ class InMemoryVoucherRepositoryTest {
         Voucher voucher = voucherFactory.create(randomUUID(), type, discountAmount);
         UUID foundVoucherId = voucherRepository.saveVoucher(voucher);
 
-        Voucher foundPercentVoucher = voucherRepository.findVoucher(foundVoucherId).get();
+        Voucher foundPercentVoucher = voucherRepository.findVoucher(foundVoucherId);
 
         assertThat(foundPercentVoucher.getId()).isEqualTo(foundVoucherId);
     }

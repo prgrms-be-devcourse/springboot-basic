@@ -19,7 +19,6 @@ import static java.util.UUID.randomUUID;
 @Transactional(readOnly = true)
 public class VoucherService {
 
-    private static final String NOT_FOUND_VOUCHER_MESSAGE = "찾을 수 없는 바우처입니다.";
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -28,13 +27,12 @@ public class VoucherService {
 
     @Transactional
     public UUID createVoucher(VoucherCreateRequest request) {
-        Voucher createdVoucher = VoucherFactory.create(randomUUID(),request.voucherType(), request.discountAmount());
+        Voucher createdVoucher = VoucherFactory.create(randomUUID(), request.voucherType(), request.discountAmount());
         return voucherRepository.saveVoucher(createdVoucher);
     }
 
     public VoucherDetailsResponse findVoucher(UUID voucherId) {
-        Voucher foundVoucher = voucherRepository.findVoucher(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_VOUCHER_MESSAGE));
+        Voucher foundVoucher = voucherRepository.findVoucher(voucherId);
 
         return VoucherDetailsResponse.from(foundVoucher);
     }

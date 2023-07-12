@@ -10,15 +10,15 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-        private static final String INSERT_VOUCHER_COMMAND = "INSERT INTO vouchers (id, voucher_type, discount_amount) VALUES (:id, :voucherType, :discountAmount)";
-        private static final String SELECT_ALL_VOUCHER_QUERY = "SELECT * FROM vouchers";
-        private static final String SELECT_ONE_VOUCHER_QUERY = "SELECT * FROM vouchers WHERE id = :voucherId";
+    private static final String INSERT_VOUCHER_COMMAND = "INSERT INTO vouchers (id, voucher_type, discount_amount) VALUES (:id, :voucherType, :discountAmount)";
+    private static final String SELECT_ALL_VOUCHER_QUERY = "SELECT * FROM vouchers";
+    private static final String SELECT_ONE_VOUCHER_QUERY = "SELECT * FROM vouchers WHERE id = :voucherId";
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -26,15 +26,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findVoucher(UUID voucherId) {
+    public Voucher findVoucher(UUID voucherId) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("voucherId", voucherId.toString());
 
         try {
             Voucher voucher = namedParameterJdbcTemplate.queryForObject(SELECT_ONE_VOUCHER_QUERY, params, getVoucherRowMapper());
-            return Optional.ofNullable(voucher);
+            return voucher;
         } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+            throw new NoSuchElementException(e);
         }
     }
 
