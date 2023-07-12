@@ -17,7 +17,8 @@
 <form th:action="@{/customer/update}" method="post">
     <div class="mb-3">
         <label for="id" class="form-label">Id</label>
-        <input type="text" class="form-control" id="id" name="id" th:field="${customer.id}" th:readonly="readonly">
+        <input type="text" class="form-control" id="id" name="id" th:field="${customer.id}"
+               th:readonly="readonly">
     </div>
 
     <div class="mb-3">
@@ -27,11 +28,18 @@
 
     <div class="mb-3">
         <label for="type" class="form-label">Type</label>
-        <input type="text" class="form-control" id="type" name="type" th:value="${customer.type}" th:readonly="readonly">
+        <input type="text" class="form-control" id="type" name="type" th:value="${customer.type}"
+               th:readonly="readonly">
     </div>
 
     <div style="display: inline-block; float: left;">
         <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form>
+
+<form th:action="@{/customer/delete/{id}(id=${customer.id})}" method="post">
+    <div style="display: inline-block; float: left; margin-left: 10px";>
+        <button type="submit" class="btn btn-outline-primary">Delete</button>
     </div>
 </form>
 </body>

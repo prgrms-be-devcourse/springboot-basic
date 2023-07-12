@@ -15,8 +15,18 @@
 <h1>Voucher Program</h1>
 <h2>Customer list</h2>
 
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a th:href="@{/customer/create}" class="btn btn-primary me-md-2" type="button">Add Customer</a>
+<div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="display: inline-block; float: right;">
+        <form th:action="@{/customer/deleteAll}" method="post">
+            <div style="display: inline-block; float: left; margin-left: 10px";>
+                <button type="submit" class="btn btn-outline-primary">Delete All Customers</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="display: inline-block; float: right;">
+        <a th:href="@{/customer/create}" class="btn btn-primary me-md-2" type="button">Add Customer</a>
+    </div>
 </div>
 
 <table class="table table-hover table-striped">
@@ -29,8 +39,7 @@
     </thead>
     <tbody>
     <tr th:each="customer : ${customers.customers()}">
-        <td><a th:href="'/customer/detail/'+${customer.customerId}" th:text="${customer.customerId}"
-               style="text-decoration:none; color: inherit;"></a></td>
+        <td><a th:href="'/customer/detail/'+${customer.customerId}" th:text="${customer.customerId}" style="text-decoration:none; color: inherit;"></a></td>
         <td th:text="${customer.customerName}"></td>
         <td th:text="${customer.customerType}"></td>
     </tr>

@@ -55,4 +55,21 @@ public class CustomerViewController {
 
         return "redirect:/customer/list";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deleteById(@PathVariable("id") UUID id) {
+        customerService.deleteById(id);
+
+        return "redirect:/customer/list";
+    }
+<<<<<<< HEAD
+
+    @PostMapping("/deleteAll")
+    public String deleteAll() {
+        customerService.deleteAll();
+
+        return "redirect:/customer/list";
+    }
+=======
+>>>>>>> decb1e19c03e71b7d0fff5e44f3b235e08d93a05
 }
