@@ -2,7 +2,7 @@ package com.programmers.springweekly.repository.voucher;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
-import com.programmers.springweekly.domain.voucher.VoucherType;
+import com.programmers.springweekly.dto.ReadVoucherDto;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,6 +15,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 @Slf4j
 public class FileVoucherRepository {
@@ -57,7 +59,9 @@ public class FileVoucherRepository {
                 voucherMap.put(voucher.getVoucherId(), voucher);
             }
 
-        } catch (IOException e) {
+        } catch (IndexOutOfBoundsException e) {
+            log.error("현재 파일에 저장된 열의 수가 맞지 않습니다. : {}", e.getMessage());
+        } catch (Exception e) {
             log.error("error message: {}", e.getMessage());
             throw new RuntimeException("IO 작업중 에러가 발생하였습니다.");
         }
