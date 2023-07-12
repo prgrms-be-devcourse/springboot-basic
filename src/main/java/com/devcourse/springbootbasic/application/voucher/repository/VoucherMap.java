@@ -1,5 +1,7 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
+import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 
 import java.util.HashMap;
@@ -20,6 +22,14 @@ public class VoucherMap {
     }
 
     public Voucher addVoucher(Voucher voucher) {
+        map.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    public Voucher addIfVoucherExist(Voucher voucher) {
+        if (!map.containsKey(voucher.getVoucherId())) {
+            throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
+        }
         map.put(voucher.getVoucherId(), voucher);
         return voucher;
     }

@@ -1,8 +1,10 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
+import com.devcourse.springbootbasic.application.customer.model.Customer;
+import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
@@ -21,19 +23,33 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("default")
 class JdbcVoucherRepositoryTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기")
+    );
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
+    );
     @Autowired
     JdbcVoucherRepository voucherRepository;
-
+    @Autowired
+    CustomerRepository customerRepository;
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -44,8 +60,9 @@ class JdbcVoucherRepositoryTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         embeddedMysql = EmbeddedMysql.anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", ScriptResolver.classPathScript("test-voucher_schema.sql"))
+                .addSchema("test-voucher_system", ScriptResolver.classPathScript("test-schema.sql"))
                 .start();
+        customers.forEach(customer -> customerRepository.insert(customer));
     }
 
     @BeforeEach
@@ -81,7 +98,7 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void update_ParamExistVoucher_UpdateAndReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
-        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23));
+        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23), voucher.getCustomerId());
         voucherRepository.update(newVoucher);
         var foundVoucher = voucherRepository.findById(voucher.getVoucherId());
         assertThat(foundVoucher.isEmpty(), is(false));
@@ -100,6 +117,7 @@ class JdbcVoucherRepositoryTest {
     void findAllVouchers_ParamVoid_ReturnAllVouchers() {
         vouchers.forEach(voucher -> voucherRepository.insert(voucher));
         var allVouchers = voucherRepository.findAllVouchers();
+        System.out.println(allVouchers);
         assertThat(allVouchers.isEmpty(), is(false));
         assertThat(allVouchers.get(0), instanceOf(Voucher.class));
     }
@@ -139,15 +157,5 @@ class JdbcVoucherRepositoryTest {
         var maybeNull = voucherRepository.findById(voucher.getVoucherId());
         assertThat(maybeNull.isEmpty(), is(true));
     }
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
-    }
-
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100")),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"))
-    );
 
 }

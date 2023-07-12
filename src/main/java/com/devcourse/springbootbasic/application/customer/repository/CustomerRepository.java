@@ -1,7 +1,7 @@
 package com.devcourse.springbootbasic.application.customer.repository;
 
-import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
+import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.io.CsvReader;
 import com.devcourse.springbootbasic.application.global.utils.Utils;
@@ -17,11 +17,15 @@ import java.util.*;
 @Repository
 public class CustomerRepository {
 
-    @Value("${settings.blackCustomerPath}")
-    private String filepath;
-
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
+        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        var name = resultSet.getString("name");
+        return new Customer(customerId, name);
+    };
     private final CsvReader csvReader;
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    @Value("${settings.blackCustomerPath}")
+    private String filepath;
 
     public CustomerRepository(CsvReader csvReader, NamedParameterJdbcTemplate jdbcTemplate) {
         this.csvReader = csvReader;
@@ -137,12 +141,6 @@ public class CustomerRepository {
     public void setFilePath(String filePath) {
         this.filepath = filePath;
     }
-
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        return new Customer(customerId, name);
-    };
 
     private Map<String, Object> toParamMap(Customer customer) {
         var paramMap = new HashMap<String, Object>();

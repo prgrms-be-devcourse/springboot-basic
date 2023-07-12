@@ -3,8 +3,8 @@ package com.devcourse.springbootbasic.application.voucher.repository;
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.utils.Utils;
-import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
@@ -19,6 +19,13 @@ import java.util.*;
 @Profile("default")
 public class JdbcVoucherRepository implements VoucherRepository {
 
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNumber) -> {
+        var voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
+        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        var discountValue = DiscountValue.from(voucherType, resultSet.getDouble("discount_value"));
+        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        return new Voucher(voucherId, voucherType, discountValue, customerId);
+    };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -29,7 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "INSERT INTO vouchers(voucher_id, voucher_type, discount_value) VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discountValue)",
+                    "INSERT INTO vouchers(voucher_id, voucher_type, discount_value, customer_id) VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discountValue, UUID_TO_BIN(:customerId))",
                     toParamMap(voucher)
             );
             if (updateResult != 1) {
@@ -96,18 +103,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         );
     }
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNumber) -> {
-        var voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        var discountValue = DiscountValue.from(voucherType, resultSet.getDouble("discount_value"));
-        return new Voucher(voucherId, voucherType, discountValue);
-    };
-
     private Map<String, Object> toParamMap(Voucher voucher) {
         var paramMap = new HashMap<String, Object>();
         paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         paramMap.put("voucherType", voucher.getVoucherType().toString());
         paramMap.put("discountValue", voucher.getDiscountValue().value());
+        paramMap.put("customerId", voucher.getCustomerId().toString().getBytes());
         return paramMap;
     }
 

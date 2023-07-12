@@ -1,7 +1,5 @@
 package com.devcourse.springbootbasic.application.voucher.controller;
 
-import com.devcourse.springbootbasic.application.customer.controller.CustomerDto;
-import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
@@ -17,9 +15,25 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherDtoTest {
+
+    static List<VoucherDto> voucherDto = List.of(
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23), UUID.randomUUID()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, 41), UUID.randomUUID()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 711), UUID.randomUUID())
+    );
+
+    static Stream<Arguments> provideVoucherDto() {
+        return voucherDto.stream()
+                .map(Arguments::of);
+    }
+
+    static Stream<Arguments> provideVoucher() {
+        return voucherDto.stream()
+                .map(VoucherDto::to)
+                .map(Arguments::of);
+    }
 
     @ParameterizedTest
     @DisplayName("Dto 에서 Domain 으로 변환하면 성공한다.")
@@ -37,23 +51,6 @@ class VoucherDtoTest {
         var entity = VoucherDto.to(voucherDto);
         assertThat(entity, instanceOf(Voucher.class));
         assertThat(entity.getVoucherId(), is(voucherDto.voucherId()));
-    }
-
-    static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23)),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, 41)),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 711))
-    );
-
-    static Stream<Arguments> provideVoucherDto() {
-        return voucherDto.stream()
-                .map(Arguments::of);
-    }
-
-    static Stream<Arguments> provideVoucher() {
-        return voucherDto.stream()
-                .map(VoucherDto::to)
-                .map(Arguments::of);
     }
 
 }

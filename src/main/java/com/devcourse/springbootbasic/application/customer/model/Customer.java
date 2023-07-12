@@ -4,7 +4,6 @@ import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {

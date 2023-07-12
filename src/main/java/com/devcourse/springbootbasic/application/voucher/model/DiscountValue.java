@@ -8,7 +8,7 @@ import java.util.Objects;
 public record DiscountValue(
         double value
 ) {
-    
+
     public static DiscountValue from(VoucherType voucherType, String valueString) {
         var parsedValue = parseDiscountValue(valueString);
         validatePositive(parsedValue);

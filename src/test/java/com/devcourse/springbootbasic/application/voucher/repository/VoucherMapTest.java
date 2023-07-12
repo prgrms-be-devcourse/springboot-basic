@@ -1,8 +1,9 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
-import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,22 @@ class VoucherMapTest {
 
     VoucherMap voucherMap;
 
+    static Stream<Arguments> provideValid() {
+        return Stream.of(
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
+        );
+    }
+
+    static Stream<Arguments> provideInvalids() {
+        return Stream.of(
+                Arguments.of("My name is SuperMan"),
+                Arguments.of(123),
+                Arguments.of(List.of(12, 3))
+        );
+    }
+
     @BeforeEach
     void init() {
         voucherMap = new VoucherMap(new HashMap<>());
@@ -30,7 +47,7 @@ class VoucherMapTest {
 
     @ParameterizedTest
     @DisplayName("정상적인 값(UUID, Voucher) 넣으면 바우처 생성 성공한다.")
-    @MethodSource("provideValids")
+    @MethodSource("provideValid")
     void addVoucher_ParamVoucher_InsertAndReturnVoucher(Voucher voucher) {
         voucherMap.addVoucher(voucher);
         assertThat(voucherMap.getAllVouchers(), not(empty()));
@@ -41,6 +58,17 @@ class VoucherMapTest {
     @MethodSource("provideInvalids")
     void addVoucher_ParamWrongVoucher_Exception(Object input) {
         assertThrows(Exception.class, () -> voucherMap.addVoucher((Voucher) input));
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처 넣으면 바우처 추가 성공한다.")
+    @MethodSource("provideValid")
+    void addIfVoucherExist_ParamExistVoucher_AddVoucher(Voucher voucher) {
+        voucherMap.addVoucher(voucher);
+        var newVoucher = new Voucher(voucher.getVoucherId(), voucher.getVoucherType(), DiscountValue.from(voucher.getVoucherType(), 1), UUID.randomUUID());
+        voucherMap.addIfVoucherExist(newVoucher);
+        var foundVoucher = voucherMap.getVoucherById(voucher.getVoucherId());
+        assertThat(foundVoucher, samePropertyValuesAs(newVoucher));
     }
 
     @Test
@@ -55,7 +83,7 @@ class VoucherMapTest {
     void getVoucherById_ParamExistVoucher_ReturnVoucherOrNull() {
         var voucherId = UUID.randomUUID();
         var voucherId2 = UUID.randomUUID();
-        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 10));
+        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 10), UUID.randomUUID());
         voucherMap.addVoucher(voucher);
         var findedVoucher = voucherMap.getVoucherById(voucherId);
         var maybeNull = voucherMap.getVoucherById(voucherId2);
@@ -75,27 +103,18 @@ class VoucherMapTest {
     @DisplayName("생성된 바우처를 아이디로 제거 시 성공한다.")
     void removeVoucherById_ParamExistVoucher_RemoveVoucher() {
         var voucherId = UUID.randomUUID();
-        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 10));
+        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 10), UUID.randomUUID());
         voucherMap.addVoucher(voucher);
         voucherMap.removeVoucherById(voucherId);
         var maybeNull = voucherMap.getVoucherById(voucherId);
         assertThat(maybeNull, nullValue());
     }
 
-    static Stream<Arguments> provideValids() {
-        return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"))),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "13"))),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "14")))
-        );
-    }
-
-    static Stream<Arguments> provideInvalids() {
-        return Stream.of(
-                Arguments.of("My name is SuperMan"),
-                Arguments.of(123),
-                Arguments.of(List.of(12, 3))
-        );
+    @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처 넣으면 바우처 추가 실패한다.")
+    @MethodSource("provideValid")
+    void addIfVoucherExist_ParamNotExistVoucher_Exception(Voucher voucher) {
+        assertThrows(InvalidDataException.class, () -> voucherMap.addIfVoucherExist(voucher));
     }
 
 }

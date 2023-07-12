@@ -8,11 +8,12 @@ build/
 gradle/
 gradlew
 graldew.bat
-HELP.md
 .idea/
 src/main/resources/voucher_record.csv
 src/main/resources/customer_blacklist.csv
 logs/
+target/
+generated/
 
 ### STS ###
 .apt_generated

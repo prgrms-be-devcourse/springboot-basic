@@ -1,9 +1,9 @@
 package com.devcourse.springbootbasic.application.customer.service;
 
-import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
-import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
+import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

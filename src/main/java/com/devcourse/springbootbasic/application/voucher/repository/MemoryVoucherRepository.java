@@ -26,7 +26,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        return voucherMap.addVoucher(voucher);
+        return voucherMap.addIfVoucherExist(voucher);
     }
 
     @Override

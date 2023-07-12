@@ -17,7 +17,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -34,33 +33,21 @@ import static org.hamcrest.Matchers.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerRepositoryTest {
 
-    @TestConfiguration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:8070/test-voucher_system")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-    }
-
+    static List<Customer> validCustomers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기"),
+            new Customer(UUID.randomUUID(), "포도"),
+            new Customer(UUID.randomUUID(), "배")
+    );
     @Autowired
     CustomerRepository customerRepository;
 
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideValidCustomers() {
+        return validCustomers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -73,7 +60,7 @@ class CustomerRepositoryTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", classPathScript("test-customer_schema.sql"))
+                .addSchema("test-voucher_system", classPathScript("test-schema.sql"))
                 .start();
     }
 
@@ -204,16 +191,27 @@ class CustomerRepositoryTest {
         assertThat(beforeCount, is(afterCount + 1));
     }
 
-    static Stream<Arguments> provideValidCustomers() {
-        return validCustomers.stream()
-                .map(Arguments::of);
-    }
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public DataSource dataSource() {
+            return DataSourceBuilder.create()
+                    .url("jdbc:mysql://localhost:8070/test-voucher_system")
+                    .username("test")
+                    .password("test1234!")
+                    .type(HikariDataSource.class)
+                    .build();
+        }
 
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기"),
-            new Customer(UUID.randomUUID(), "포도"),
-            new Customer(UUID.randomUUID(), "배")
-    );
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
+        }
+
+        @Bean
+        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
+            return new NamedParameterJdbcTemplate(jdbcTemplate);
+        }
+    }
 
 }

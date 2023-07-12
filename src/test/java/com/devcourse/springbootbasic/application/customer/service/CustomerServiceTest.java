@@ -18,8 +18,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -38,33 +36,21 @@ import static org.mockito.Mockito.mock;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerServiceTest {
 
-    @TestConfiguration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:8070/test-voucher_system")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-    }
-
+    static List<Customer> validCustomers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기"),
+            new Customer(UUID.randomUUID(), "포도"),
+            new Customer(UUID.randomUUID(), "배")
+    );
     @Autowired
     CustomerService customerService;
 
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideValidCustomers() {
+        return validCustomers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -75,7 +61,7 @@ class CustomerServiceTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", classPathScript("test-customer_schema.sql"))
+                .addSchema("test-voucher_system", classPathScript("test-schema.sql"))
                 .start();
     }
 
@@ -95,10 +81,10 @@ class CustomerServiceTest {
         var customerRepositoryMock = mock(CustomerRepository.class);
         given(customerRepositoryMock.findAllBlackCustomers()).willReturn(
                 List.of(
-                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"),"사과"),
-                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"),"딸기"),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"),"포도"),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"),"배")
+                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"), "사과"),
+                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"), "딸기"),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"), "포도"),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배")
                 )
         );
         var sut = new CustomerService(customerRepositoryMock);
@@ -171,16 +157,27 @@ class CustomerServiceTest {
                 () -> customerService.findCustomerById(customer.getCustomerId()));
     }
 
-    static Stream<Arguments> provideValidCustomers() {
-        return validCustomers.stream()
-                .map(Arguments::of);
-    }
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public DataSource dataSource() {
+            return DataSourceBuilder.create()
+                    .url("jdbc:mysql://localhost:8070/test-voucher_system")
+                    .username("test")
+                    .password("test1234!")
+                    .type(HikariDataSource.class)
+                    .build();
+        }
 
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기"),
-            new Customer(UUID.randomUUID(), "포도"),
-            new Customer(UUID.randomUUID(), "배")
-    );
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
+        }
+
+        @Bean
+        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
+            return new NamedParameterJdbcTemplate(jdbcTemplate);
+        }
+    }
 
 }

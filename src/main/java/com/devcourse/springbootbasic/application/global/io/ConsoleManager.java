@@ -1,15 +1,14 @@
 package com.devcourse.springbootbasic.application.global.io;
 
 import com.devcourse.springbootbasic.application.customer.controller.CustomerDto;
-import com.devcourse.springbootbasic.application.global.model.PropertyMenu;
-import com.devcourse.springbootbasic.application.global.model.DomainMenu;
 import com.devcourse.springbootbasic.application.global.model.CommandMenu;
+import com.devcourse.springbootbasic.application.global.model.DomainMenu;
+import com.devcourse.springbootbasic.application.global.model.PropertyMenu;
+import com.devcourse.springbootbasic.application.voucher.controller.VoucherDto;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
-import com.devcourse.springbootbasic.application.voucher.controller.VoucherDto;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -65,7 +64,8 @@ public class ConsoleManager {
         var voucherId = consoleIdActive ? consoleId() : UUID.randomUUID();
         var voucherType = consoleVoucherType();
         var discountValue = consoleDiscountValue(voucherType);
-        return new VoucherDto(voucherId, voucherType, discountValue);
+        var customerId = consoleId();
+        return new VoucherDto(voucherId, voucherType, discountValue, customerId);
     }
 
     public UUID consoleId() {

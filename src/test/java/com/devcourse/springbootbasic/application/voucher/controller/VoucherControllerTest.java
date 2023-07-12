@@ -1,5 +1,7 @@
 package com.devcourse.springbootbasic.application.voucher.controller;
 
+import com.devcourse.springbootbasic.application.customer.model.Customer;
+import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
@@ -19,18 +21,34 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherControllerTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기")
+    );
+    static List<VoucherDto> voucherDto = List.of(
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, 41), customers.get(0).getCustomerId()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 711), customers.get(0).getCustomerId())
+    );
     @Autowired
     VoucherController voucherController;
-
+    @Autowired
+    CustomerRepository customerRepository;
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideVoucherDto() {
+        return voucherDto.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -41,8 +59,9 @@ class VoucherControllerTest {
                 .withCharset(Charset.UTF8)
                 .build();
         embeddedMysql = EmbeddedMysql.anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", ScriptResolver.classPathScript("test-voucher_schema.sql"))
+                .addSchema("test-voucher_system", ScriptResolver.classPathScript("test-schema.sql"))
                 .start();
+        customers.forEach(customer -> customerRepository.insert(customer));
     }
 
     @BeforeEach
@@ -80,7 +99,8 @@ class VoucherControllerTest {
         var newVoucherDto = new VoucherDto(
                 voucherDto.voucherId(),
                 voucherDto.voucherType(),
-                DiscountValue.from(voucherDto.voucherType(), 1)
+                DiscountValue.from(voucherDto.voucherType(), 1),
+                UUID.randomUUID()
         );
         voucherController.updateVoucher(newVoucherDto);
         var updatedVoucherDto = voucherController.findVoucherById(voucherDto.voucherId());
@@ -141,17 +161,6 @@ class VoucherControllerTest {
     @MethodSource("provideVoucherDto")
     void deleteVoucherById_ParamNotExistVoucherDto_Exception(VoucherDto voucherDto) {
         assertThrows(InvalidDataException.class, () -> voucherController.deleteVoucherById(voucherDto.voucherId()));
-    }
-
-    static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23)),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, 41)),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 711))
-    );
-
-    static Stream<Arguments> provideVoucherDto() {
-        return voucherDto.stream()
-                .map(Arguments::of);
     }
 
 }

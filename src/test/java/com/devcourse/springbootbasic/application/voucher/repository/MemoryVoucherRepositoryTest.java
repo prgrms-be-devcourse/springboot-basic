@@ -1,7 +1,7 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
-import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,6 +21,13 @@ import static org.hamcrest.Matchers.*;
 class MemoryVoucherRepositoryTest {
 
     MemoryVoucherRepository voucherRepository;
+
+    static Stream<Arguments> provideVouchers() {
+        return Stream.of(
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), UUID.randomUUID()))
+        );
+    }
 
     @BeforeAll
     void init() {
@@ -79,13 +86,6 @@ class MemoryVoucherRepositoryTest {
         var maybeNull2 = voucherRepository.findById(UUID.randomUUID());
         assertThat(maybeNull.isEmpty(), is(true));
         assertThat(maybeNull2.isEmpty(), is(true));
-    }
-
-    static Stream<Arguments> provideVouchers() {
-        return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"))),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2")))
-        );
     }
 
 }

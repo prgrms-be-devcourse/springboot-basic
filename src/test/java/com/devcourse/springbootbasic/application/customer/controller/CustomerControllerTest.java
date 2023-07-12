@@ -4,20 +4,13 @@ import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.customer.service.CustomerService;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.wix.mysql.EmbeddedMysql;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -27,7 +20,7 @@ import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_17;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -36,10 +29,31 @@ import static org.mockito.Mockito.mock;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerControllerTest {
 
+    static List<Customer> validCustomers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기"),
+            new Customer(UUID.randomUUID(), "포도"),
+            new Customer(UUID.randomUUID(), "배")
+    );
+    static List<CustomerDto> validCustomerDto = List.of(
+            new CustomerDto(UUID.randomUUID(), "사과"),
+            new CustomerDto(UUID.randomUUID(), "딸기"),
+            new CustomerDto(UUID.randomUUID(), "포도"),
+            new CustomerDto(UUID.randomUUID(), "배")
+    );
     @Autowired
     CustomerController customerController;
-
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideValidCustomers() {
+        return validCustomers.stream()
+                .map(Arguments::of);
+    }
+
+    static Stream<Arguments> provideValidCustomerDto() {
+        return validCustomerDto.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -50,7 +64,7 @@ class CustomerControllerTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", classPathScript("test-customer_schema.sql"))
+                .addSchema("test-voucher_system", classPathScript("test-schema.sql"))
                 .start();
     }
 
@@ -185,29 +199,5 @@ class CustomerControllerTest {
     void deletCustomerById_ParamNotExistCustomer_Exception(CustomerDto customerDto) {
         Assertions.assertThrows(InvalidDataException.class, () -> customerController.deleteCustomerById(customerDto.customerId()));
     }
-
-    static Stream<Arguments> provideValidCustomers() {
-        return validCustomers.stream()
-                .map(Arguments::of);
-    }
-
-    static Stream<Arguments> provideValidCustomerDto() {
-        return validCustomerDto.stream()
-                .map(Arguments::of);
-    }
-
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기"),
-            new Customer(UUID.randomUUID(), "포도"),
-            new Customer(UUID.randomUUID(), "배")
-    );
-
-    static List<CustomerDto> validCustomerDto = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과"),
-            new CustomerDto(UUID.randomUUID(), "딸기"),
-            new CustomerDto(UUID.randomUUID(), "포도"),
-            new CustomerDto(UUID.randomUUID(), "배")
-    );
 
 }

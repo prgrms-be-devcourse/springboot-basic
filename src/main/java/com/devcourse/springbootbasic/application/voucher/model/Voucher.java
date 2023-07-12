@@ -10,11 +10,13 @@ public class Voucher {
     private final UUID voucherId;
     private final VoucherType voucherType;
     private final DiscountValue discountValue;
+    private final UUID customerId;
 
-    public Voucher(UUID voucherId, VoucherType voucherType, DiscountValue discountAmount) {
+    public Voucher(UUID voucherId, VoucherType voucherType, DiscountValue discountAmount, UUID customerId) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.discountValue = discountAmount;
+        this.customerId = customerId;
     }
 
     public double discountedPrice(long originalPrice) {
@@ -44,7 +46,16 @@ public class Voucher {
         return discountValue;
     }
 
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    @Override
     public String toString() {
-        return MessageFormat.format("{0}(id: {1}, type: {2}, discountValue: {3})", voucherType.name(), voucherId, voucherType.getTypeDescription(), discountValue.value());
+        return MessageFormat.format("Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, customerId={3}'}'",
+                voucherId,
+                voucherType,
+                discountValue.value(),
+                customerId);
     }
 }

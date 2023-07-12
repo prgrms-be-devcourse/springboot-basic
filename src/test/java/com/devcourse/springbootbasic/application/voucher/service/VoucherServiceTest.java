@@ -1,8 +1,10 @@
 package com.devcourse.springbootbasic.application.voucher.service;
 
+import com.devcourse.springbootbasic.application.customer.model.Customer;
+import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
@@ -23,17 +25,32 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.mock;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("default")
 class VoucherServiceTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기")
+    );
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
+    );
     @Autowired
     VoucherService voucherService;
-
+    @Autowired
+    CustomerRepository customerRepository;
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -44,8 +61,9 @@ class VoucherServiceTest {
                 .withPort(8070)
                 .build();
         embeddedMysql = EmbeddedMysql.anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", ScriptResolver.classPathScript("test-voucher_schema.sql"))
+                .addSchema("test-voucher_system", ScriptResolver.classPathScript("test-schema.sql"))
                 .start();
+        customers.forEach(customer -> customerRepository.insert(customer));
     }
 
     @BeforeEach
@@ -82,7 +100,7 @@ class VoucherServiceTest {
     @MethodSource("provideVouchers")
     void updateVoucher_ParamExistVoucher_UpdateAndReturnVoucher(Voucher voucher) {
         voucherService.createVoucher(voucher);
-        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 124));
+        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 124), voucher.getCustomerId());
         voucherService.updateVoucher(newVoucher);
         var result = voucherService.findVoucherById(newVoucher.getVoucherId());
         assertThat(result, samePropertyValuesAs(newVoucher));
@@ -133,22 +151,10 @@ class VoucherServiceTest {
     @ParameterizedTest
     @DisplayName("아이디로 바우처 제거한다.")
     @MethodSource("provideVouchers")
-    void deleteVoucherById_PararmVoucher_DeleteVoucher(Voucher voucher) {
+    void deleteVoucherById_ParamVoucher_DeleteVoucher(Voucher voucher) {
         voucherService.createVoucher(voucher);
         var deletedVoucher = voucherService.deleteVoucherById(voucher.getVoucherId());
         assertThat(deletedVoucher, samePropertyValuesAs(voucher));
-    }
-
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100")),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0")),
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240")),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"))
-    );
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
     }
 
 }
