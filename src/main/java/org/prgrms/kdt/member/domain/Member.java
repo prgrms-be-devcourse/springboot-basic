@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class Member {
     private final UUID memberId;
-    private final MemberName name;
-    private final MemberStatus status;
+    private MemberName name;
+    private MemberStatus status;
 
     public Member(UUID memberId, String name, MemberStatus status) {
         this.memberId = memberId;

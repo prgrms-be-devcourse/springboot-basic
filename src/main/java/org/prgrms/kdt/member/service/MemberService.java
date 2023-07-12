@@ -2,6 +2,7 @@ package org.prgrms.kdt.member.service;
 
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.dao.MemberRepository;
+import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.member.dto.CreateMemberRequest;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class MemberService {
     }
 
     public List<Member> findAllBlackMember() {
-        return memberRepository.findAllBlackMember();
+        return memberRepository.findByStatus(MemberStatus.BLACK);
     }
 
     public List<Member> findAllMember() {

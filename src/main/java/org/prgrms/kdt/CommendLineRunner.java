@@ -44,7 +44,6 @@ public class CommendLineRunner implements CommandLineRunner {
         }
     }
 
-    // handler mapping
     private void executeAction(Menu menu) throws IOException {
         switch (menu) {
             case CREATE -> controllerRequestManager.createVoucher();

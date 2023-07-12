@@ -7,8 +7,6 @@ import org.prgrms.kdt.voucher.domain.DiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.wallet.domain.Wallet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,8 +19,6 @@ import java.util.UUID;
 
 @Repository
 public class JdbcWalletRepository implements WalletRepository {
-    private final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);
-    private final JdbcTemplate jdbcTemplate;
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
         UUID walletId = UUID.fromString(resultSet.getString("id"));
 
@@ -38,6 +34,8 @@ public class JdbcWalletRepository implements WalletRepository {
         Voucher voucher = new Voucher(voucherId, voucherType, discountPolicy);
         return new Wallet(walletId, member, voucher);
     };
+
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcWalletRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -64,7 +62,6 @@ public class JdbcWalletRepository implements WalletRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, walletRowMapper, walletId));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("해당 월렛은 존재하지 않습니다.");
             return Optional.empty();
         }
     }

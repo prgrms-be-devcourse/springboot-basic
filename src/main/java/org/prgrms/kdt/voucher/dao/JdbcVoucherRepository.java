@@ -18,8 +18,6 @@ import java.util.*;
 @Profile({"default", "test"})
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
-
     private final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -41,7 +39,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     voucherRowMapper,
                     voucherId.toString()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result");
             return Optional.empty();
         }
     }
