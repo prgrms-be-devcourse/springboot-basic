@@ -1,4 +1,4 @@
-# SpringBoot Basic Weekly Mission
+# SpringBoot Basic Weekly Mission (Week1)
 
 ### 프로젝트 설계도 및 클래스 역할/책임
 ![image](https://github.com/sujjangOvO/springboot-basic/assets/89267864/24c4370d-a996-4049-aed7-5b93c8536ad3)
