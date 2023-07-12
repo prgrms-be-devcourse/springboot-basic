@@ -92,6 +92,22 @@ public class VoucherServiceTest {
         Assertions.assertThat(responseDto.getVoucherId()).isEqualTo(updatedVoucher.getVoucherId());
         Assertions.assertThat(responseDto.getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
         Assertions.assertThat(responseDto.getAmount()).isEqualTo(updatedVoucher.getAmount());
+    }
 
+    @Test
+    void 바우처_삭제_성공_테스트() {
+        //given
+        Voucher voucher = new FixedAmountVoucher(1000);
+
+        //mocking
+        given(voucherRepository.delete(any())).willReturn(voucher);
+
+        //when
+        VoucherResponseDto responseDto = voucherService.delete(voucher.getVoucherId());
+        List<VoucherResponseDto> memorySize = voucherService.findAll();
+
+        //then
+        Assertions.assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        Assertions.assertThat(memorySize).hasSize(0);
     }
 }
