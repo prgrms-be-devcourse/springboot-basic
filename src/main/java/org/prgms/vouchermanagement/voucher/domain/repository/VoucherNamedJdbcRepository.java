@@ -7,7 +7,6 @@ import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -48,14 +47,9 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
-                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-                    voucherRowMapper));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("Voucher Id Not Found error");
-            return Optional.empty();
-        }
+        return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                voucherRowMapper));
     }
 
     @Override
@@ -63,7 +57,6 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         int updated = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, discount_amount, voucher_type) VALUES(UNHEX(REPLACE(:voucherId, '-', '')), :discountAmount, :voucherType)",
                 toParamMap(voucher));
         if (updated != 1) {
-            logger.error("Voucher insert error");
             throw new VoucherException(ExceptionMessageConstant.VOUCHER_NOT_INSERTED_EXCEPTION);
         }
         return voucher;
@@ -76,12 +69,8 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        int updated = jdbcTemplate.update("UPDATE vouchers SET discount_amount = :discountAmount, voucher_type = :voucherType WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+        jdbcTemplate.update("UPDATE vouchers SET discount_amount = :discountAmount, voucher_type = :voucherType WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 toParamMap(voucher));
-        if (updated != 1) {
-            logger.error("Voucher update error");
-            throw new VoucherException(ExceptionMessageConstant.VOUCHER_NOT_UPDATED_EXCEPTION);
-        }
         return voucher;
     }
 
@@ -91,7 +80,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     }
 
-    public UUID toUUID(byte[] bytes) {
+    private UUID toUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }

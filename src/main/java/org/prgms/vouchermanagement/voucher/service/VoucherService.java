@@ -17,23 +17,21 @@ public class VoucherService {
     private final Console console;
 
     public void createNewVoucher() {
-        VoucherType typeToCreate = selectVoucherType();
+        VoucherType voucherType = selectVoucherType();
+        long amountOrPercent = 0;
 
-        if (typeToCreate == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
-            long amountOrPercent = console.getFixedVoucherAmount();
-            Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
-            voucherRepository.save(voucher);
-        }
-        if (typeToCreate == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
-            long amountOrPercent = console.getPercentDiscount();
-            Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
-            voucherRepository.save(voucher);
+        if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
+            amountOrPercent = console.getFixedVoucherAmount();
+        } else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
+            amountOrPercent = console.getPercentDiscount();
         }
 
+        Voucher voucher = new Voucher(UUID.randomUUID(), amountOrPercent, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
+        voucherRepository.save(voucher);
         console.printSavedFinished();
     }
 
-    public VoucherType selectVoucherType() {
+    private VoucherType selectVoucherType() {
         console.printSelectVoucherType();
         return VoucherType.getVoucherType(console.getVoucherTypeInput());
     }

@@ -35,7 +35,6 @@ class VoucherInputValidatorTest {
         assertThatThrownBy(() -> validator.checkVoucherTypeInput(input3))
                 .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.VOUCHER_TYPE_INPUT_EXCEPTION);
-
     }
 
     @Test
@@ -51,7 +50,6 @@ class VoucherInputValidatorTest {
 
         assertThatCode(() -> validator.checkVoucherTypeInput(input2))
                 .doesNotThrowAnyException();
-
     }
 
     @Test
@@ -74,7 +72,6 @@ class VoucherInputValidatorTest {
         assertThatThrownBy(() -> validator.checkFixedAmount(input3))
                 .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.FIXED_VOUCHER_AMOUNT_INPUT_EXCEPTION);
-
     }
 
     @Test
@@ -94,8 +91,6 @@ class VoucherInputValidatorTest {
 
         assertThatCode(() -> validator.checkFixedAmount(input3))
                 .doesNotThrowAnyException();
-
-
     }
 
     @Test
@@ -123,7 +118,6 @@ class VoucherInputValidatorTest {
         assertThatThrownBy(() -> validator.checkPercent(input4))
                 .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(ExceptionMessageConstant.PERCENT_DISCOUNT_INPUT_EXCEPTION);
-
     }
 
     @Test
@@ -147,6 +141,5 @@ class VoucherInputValidatorTest {
 
         assertThatCode(() -> validator.checkPercent(input4))
                 .doesNotThrowAnyException();
-
     }
 }
