@@ -1,5 +1,7 @@
 package com.programmers.application.repository.sql.builder;
 
+import java.util.Objects;
+
 public class UpdateSqlBuilder {
     private StringBuilder sqlBuilder;
 
@@ -18,6 +20,9 @@ public class UpdateSqlBuilder {
     }
 
     public UpdateSqlBuilder where(String condition) {
+        if (Objects.isNull(condition) || condition.isBlank()) {
+            return this;
+        }
         sqlBuilder.append(" WHERE ").append(condition);
         return this;
     }
