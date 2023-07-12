@@ -33,7 +33,14 @@
             <option value="PercentDiscountVoucher">Percent Discount Voucher</option>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div style="display: inline-block; float: left;">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </form>
+
+<div style="display: inline-block; float: left; margin-left: 10px;">
+    <a th:href="@{/voucher/list}" class="btn btn-outline-success me-md-2" type="button">Back</a>
+</div>
+
 </body>
 </html>

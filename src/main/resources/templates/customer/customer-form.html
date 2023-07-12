@@ -19,7 +19,14 @@
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control" id="name" name="name">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div style="display: inline-block; float: left;">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </form>
+
+<div style="display: inline-block; float: left; margin-left: 10px;">
+    <a th:href="@{/customer/list}" class="btn btn-outline-success me-md-2" type="button">Back</a>
+</div>
+
 </body>
 </html>
