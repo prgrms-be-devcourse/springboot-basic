@@ -90,7 +90,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("2개의 데이터가 디비에 저장되어 있을 때 전체 삭제하면 0개의 데이터가 조회된다.")
     @Test
-    void deleteAll(){
+    void deleteAll() {
         Integer expectedSize = 0;
         jdbcVoucherRepository.save(new FixedAmountVoucher(10L));
         jdbcVoucherRepository.save(new FixedAmountVoucher(20L));
@@ -100,6 +100,17 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> selectedVouchers = jdbcVoucherRepository.findAll();
         Integer actualSize = selectedVouchers.size();
         assertEquals(expectedSize, actualSize);
+    }
+
+    @DisplayName("등록된 데이터의 ID가 있을 때 ID를 통해 삭제하면 해당 ID로 다시 조회하면 EmptyResultDataAccessException 예외가 발생한다")
+    @Test
+    void deleteById() {
+        Voucher voucher = jdbcVoucherRepository.save(new FixedAmountVoucher(10L));
+
+        jdbcVoucherRepository.deleteById(voucher.getVoucherId());
+
+        assertThrows(EmptyResultDataAccessException.class,
+            () -> jdbcVoucherRepository.findById(voucher.getVoucherId()));
     }
 
 }

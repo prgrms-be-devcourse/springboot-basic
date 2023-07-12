@@ -16,6 +16,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final String SAVE_VOUCHER = "INSERT INTO VOUCHER VALUES (:voucherId, :discountValue, :voucherType)";
     private final String FIND_BY_ID = "SELECT * FROM VOUCHER WHERE VOUCHER_ID = :voucherId";
+    private final String DELETE_BY_ID = "DELETE FROM VOUCHER WHERE VOUCHER_ID = :voucherId";
     private final String FIND_ALL_VOUCHERS = "SELECT * FROM VOUCHER";
     private final String DELETE_ALL_VOUCHERS = "DELETE FROM VOUCHER";
 
@@ -46,6 +47,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         RowMapper<Voucher> voucherRowMapper = voucherRowMapper();
 
         return jdbcTemplate.queryForObject(FIND_BY_ID, parameterSource, voucherRowMapper);
+    }
+
+    @Override
+    public void deleteById(UUID voucherID) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("voucherId", voucherID.toString());
+
+        jdbcTemplate.update(DELETE_BY_ID, parameterSource);
     }
 
     @Override
