@@ -1,11 +1,11 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.common.util.Validator;
+
 import java.time.LocalDateTime;
 
 public class VoucherDateTime {
     private static final String INVALID_EXPIRED_AT = "생성일 이전을 만료일로 설정할 수 없습니다. 현재 값: ";
-    private static final String CREATED_AT_IS_NULL = "빈 값이나 공백을 생성일로 지정할 수 없습니다. 현재 값: ";
-    private static final String EXPIRED_AT_IS_NULL = "빈 값이나 공백을 만료일로 지정할 수 없습니다. 현재 값: ";
     private final LocalDateTime createdAt;
     private final LocalDateTime expiredAt;
 
@@ -13,7 +13,7 @@ public class VoucherDateTime {
         checkNullValue(createdAt, expiredAt);
         if (isInvalidExpiredAt(createdAt, expiredAt)) {
             throw new IllegalArgumentException(INVALID_EXPIRED_AT + expiredAt);
-        }
+        }  // 이 부분을 Validator 로 빼려다가 범용성이 떨어지는 것 같아서 그냥 뒀는데, Validator 로 빼주는게 나을까요?
         this.createdAt = createdAt;
         this.expiredAt = expiredAt;
     }
@@ -35,20 +35,8 @@ public class VoucherDateTime {
     }
 
     private void checkNullValue(LocalDateTime createdAt, LocalDateTime expiredAt) {
-        if (isNullCreatedAt(createdAt)) {
-            throw new IllegalArgumentException(CREATED_AT_IS_NULL + createdAt);
-        }
-        if (isNullExpiredAt(expiredAt)) {
-            throw new IllegalArgumentException(EXPIRED_AT_IS_NULL + expiredAt);
-        }
-    }
-
-    private boolean isNullCreatedAt(LocalDateTime createdAt) {
-        return createdAt == null;
-    }
-
-    private boolean isNullExpiredAt(LocalDateTime expiredAt) {
-        return expiredAt == null;
+        Validator.checkInvalidDateTime(createdAt);
+        Validator.checkInvalidDateTime(expiredAt);
     }
 
     private boolean isInvalidExpiredAt(LocalDateTime createdAt, LocalDateTime expiredAt) {
