@@ -14,7 +14,7 @@ public class RateVoucher implements Voucher {
     public RateVoucher(long discount) {
         this.voucherId = UUID.randomUUID();
         this.discount = ValidDiscount(discount);
-        this.createAt = getCreatedAt();
+        this.createAt = LocalDateTime.now();
         this.type = getVoucherType();
     }
 
