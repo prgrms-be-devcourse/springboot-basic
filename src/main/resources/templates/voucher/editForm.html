@@ -18,11 +18,11 @@
             <input type="text" id="id" name="id" class="form-control"
                    th:value="${voucher.id}" readonly>
         </div>
-        <div>
             <label for="type">Type</label>
-            <input type="text" id="type" name="type" class="form-control"
-                   th:value="${voucher.type}">
-        </div>
+            <select id="type" name="type" class="form-select">
+                <option value="FIX">Fix Amount</option>
+                <option value="PERCENT">By Percent</option>
+            </select>
         <div>
             <label for="amount">Amount</label>
             <input type="number" id="amount" name="amount" class="form-control"
