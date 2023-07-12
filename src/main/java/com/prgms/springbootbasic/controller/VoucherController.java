@@ -1,7 +1,11 @@
 package com.prgms.springbootbasic.controller;
 
 import com.prgms.springbootbasic.domain.Voucher;
+import com.prgms.springbootbasic.dto.ModifiedVoucherDto;
+import com.prgms.springbootbasic.dto.NewVoucherDto;
+import com.prgms.springbootbasic.dto.VoucherDto;
 import com.prgms.springbootbasic.persistent.VouchersStorage;
+import com.prgms.springbootbasic.service.VoucherService;
 import com.prgms.springbootbasic.util.VoucherType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,16 +19,16 @@ import java.util.UUID;
 @Controller
 public class VoucherController {
 
-    private final VouchersStorage vouchersStorage;
+    private final VoucherService voucherService;
 
-    public VoucherController(VouchersStorage vouchersStorage) {
-        this.vouchersStorage = vouchersStorage;
+    public VoucherController(VoucherService voucherService) {
+        this.voucherService = voucherService;
     }
 
     @GetMapping("/vouchers")
     public String findVouchers(Model model) {
         try {
-            List<Voucher> vouchers = vouchersStorage.findAll();
+            List<VoucherDto> vouchers = voucherService.findAllVouchers();
             model.addAttribute("vouchers", vouchers);
             return "views/vouchers";
         } catch (Exception e) {
@@ -40,9 +44,7 @@ public class VoucherController {
     @PostMapping("/vouchers/new")
     public String createNewVouchers(NewVoucherDto newVoucherDto) {
         try {
-            VoucherType type = VoucherType.of(newVoucherDto.getType());
-            Voucher voucher =  type.createNewVoucher(newVoucherDto.getAmount());
-            vouchersStorage.save(voucher);
+            voucherService.createVoucher(newVoucherDto);
             return "redirect:/vouchers";
         } catch (Exception e) {
             return "views/403";
@@ -58,9 +60,7 @@ public class VoucherController {
     @PostMapping("/vouchers/update/{voucherId}")
     public String updateVouchers(@PathVariable("voucherId") UUID voucherId, ModifiedVoucherDto modifiedVoucherDto) {
         try {
-            Voucher voucher = vouchersStorage.findById(voucherId);
-            voucher.changeAmount(modifiedVoucherDto.getAmount());
-            vouchersStorage.update(voucher);
+            voucherService.updateVoucher(voucherId, modifiedVoucherDto);
             return "redirect:/vouchers";
         } catch (Exception e) {
             return "views/403";
@@ -70,35 +70,10 @@ public class VoucherController {
     @GetMapping("/vouchers/delete/{voucherId}")
     public String deleteVouchers(@PathVariable("voucherId") UUID voucherId) {
         try {
-            vouchersStorage.deleteOne(voucherId);
+            voucherService.deleteVoucher(voucherId);
             return "redirect:/vouchers";
         } catch (Exception e) {
             return "views/403";
-        }
-    }
-
-    static class NewVoucherDto {
-        private String type;
-        private Long amount;
-
-        public NewVoucherDto(String type, Long amount) {
-            this.type = type;
-            this.amount = amount;
-        }
-
-        public String getType() { return type; }
-        public Long getAmount() { return amount; }
-    }
-
-    static class ModifiedVoucherDto {
-        private Long amount;
-
-        public ModifiedVoucherDto(Long amount) {
-            this.amount = amount;
-        }
-
-        public Long getAmount() {
-            return amount;
         }
     }
 
