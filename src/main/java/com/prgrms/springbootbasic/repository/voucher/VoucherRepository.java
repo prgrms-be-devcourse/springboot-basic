@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface VoucherRepository {
 
     //create
-    Voucher create(Voucher voucher);
+    Voucher save(Voucher voucher);
 
     //read - id
     Optional<Voucher> findById(UUID voucherId);
@@ -18,7 +18,8 @@ public interface VoucherRepository {
     Optional<Voucher> findByCreatedAt(LocalDateTime createAt);
 
     //read - all
-    List<Voucher> findAll(Voucher voucher);
+    List<Voucher> findAll();
+
 
     //update
     Optional<Voucher> update(Voucher voucher);
