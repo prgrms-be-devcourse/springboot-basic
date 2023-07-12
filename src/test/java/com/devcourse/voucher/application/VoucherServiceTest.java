@@ -1,7 +1,6 @@
 package com.devcourse.voucher.application;
 
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
-import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.domain.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -62,37 +61,6 @@ class VoucherServiceTest {
             // when, then
             assertThatThrownBy(() -> voucherService.create(request))
                     .isInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    @Nested
-    @DisplayName("바우처 사용 검증 테스트")
-    class voucherValidateTest {
-        private final int discount = 50;
-
-        @Test
-        @DisplayName("유효기간이 지난 바우처를 사용하면 예외가 발생한다.")
-        void expiredVoucherTest() {
-            // given
-            Voucher voucher = Voucher.of(discount, invalidExpiration, PERCENT);
-
-            // when, then
-            assertThatThrownBy(() -> voucherService.validateUsable(voucher))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        @DisplayName("이미 사용한 바우처를 사용하려고 하면 예외가 발생한다.")
-        void usedVoucherTest() {
-            // given
-            LocalDateTime expiredAt = LocalDateTime.now();
-
-            Voucher voucher = Voucher.of(discount, expiredAt, FIXED);
-            voucher.apply(1000L);
-
-            // when, then
-            assertThatThrownBy(() -> voucherService.validateUsable(voucher))
-                    .isInstanceOf(IllegalStateException.class);
         }
     }
 }

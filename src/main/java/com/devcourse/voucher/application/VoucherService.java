@@ -14,8 +14,6 @@ public class VoucherService {
     private static final String NEGATIVE_DISCOUNT = "[Error] Discount Value MUST Be Positive. Input : ";
     private static final String OUT_RANGED_DISCOUNT = "[Error] Discount Rate MUST Be Smaller Than 100. Input : ";
     private static final String INVALID_EXPIRATION = "[Error] Expiration Time Cannot Be The Past. Input : ";
-    private static final String EXPIRED_VOUCHER = "[Error] This Voucher Is EXPIRED. ExpiredAt : ";
-    private static final String USED_VOUCHER = "[Error] This Voucher Is Already USED";
     private static final int MAX_DISCOUNT_RATE = 100;
     private static final int MIN_DISCOUNT = 0;
 
@@ -32,16 +30,9 @@ public class VoucherService {
     }
 
     public List<GetVoucherResponse> findAll() {
-        List<Voucher> vouchers = voucherRepository.findAll();
-
-        return vouchers.stream()
+        return voucherRepository.findAll().stream()
                 .map(this::toResponse)
                 .toList();
-    }
-
-    public void validateUsable(Voucher voucher) {
-        validateUsed(voucher);
-        validateExpiration(voucher.getExpireAt(), EXPIRED_VOUCHER);
     }
 
     private void validateRequest(CreateVoucherRequest request) {
@@ -64,12 +55,6 @@ public class VoucherService {
 
         if (expiredAt.isBefore(now)) {
             throw new IllegalArgumentException(message + expiredAt);
-        }
-    }
-
-    private void validateUsed(Voucher voucher) {
-        if (voucher.isUsed()) {
-            throw new IllegalStateException(USED_VOUCHER);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.devcourse.voucher.domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -35,11 +34,6 @@ public class Voucher {
 
     public static Voucher of(int discount, LocalDateTime expireAt, Type type) {
         return new Voucher(discount, expireAt, type);
-    }
-
-    public BigDecimal apply(long price) {
-        this.status = USED;
-        return discountPolicy.discount(price, discount);
     }
 
     public boolean isUsed() {
