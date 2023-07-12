@@ -1,5 +1,8 @@
 package kr.co.programmers.springbootbasic.wallet.controller;
 
+import kr.co.programmers.springbootbasic.io.Input;
+import kr.co.programmers.springbootbasic.io.Output;
+import kr.co.programmers.springbootbasic.io.enums.WalletServiceCommand;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletResponse;
@@ -14,20 +17,45 @@ import java.util.UUID;
 @Controller
 @Profile("console")
 public class ConsoleWalletController {
+    private final Input inputConsole;
+    private final Output outputConsole;
     private final WalletService walletService;
 
-    public ConsoleWalletController(WalletService walletService) {
+    public ConsoleWalletController(Input inputConsole, Output outputConsole, WalletService walletService) {
+        this.inputConsole = inputConsole;
+        this.outputConsole = outputConsole;
         this.walletService = walletService;
     }
 
-    public WalletSaveDto saveVoucherInWallet(WalletSaveDto saveRequest) {
-        return walletService.saveVoucherInCustomerWallet(saveRequest);
+    public void doWalletService() {
+        outputConsole.printWalletServiceMenu();
+        WalletServiceCommand command = inputConsole.readWalletServiceCommand();
+        switch (command) {
+            case SAVE_VOUCHER_IN_WALLET -> saveVoucherInWallet();
+            case FIND_WALLET_BY_WALLET_ID -> findWalletById();
+        }
     }
 
-    public WalletResponse findWalletById(String walletId) {
-        List<VoucherResponse> voucherDtos = walletService.findWalletById(walletId);
-        UUID walletUUID = ApplicationUtils.toUUID(walletId.getBytes());
+    public void saveVoucherInWallet() {
+        outputConsole.printVoucherUuidTypeMessage();
+        String voucherId = inputConsole.readUUID();
+        outputConsole.printWalletUuidTypeMessage();
+        String walletId = inputConsole.readUUID();
 
-        return new WalletResponse(walletUUID, voucherDtos);
+        WalletSaveDto requestDto = new WalletSaveDto(voucherId, walletId);
+        WalletSaveDto responseDto = walletService.saveVoucherInCustomerWallet(requestDto);
+
+        outputConsole.printWalletSaveMessage(responseDto);
+    }
+
+    public void findWalletById() {
+        outputConsole.printWalletUuidTypeMessage();
+        String walletId = inputConsole.readUUID();
+
+        List<VoucherResponse> responses = walletService.findWalletById(walletId);
+        UUID walletUUID = ApplicationUtils.toUUID(walletId.getBytes());
+        WalletResponse walletResponse = new WalletResponse(walletUUID, responses);
+
+        outputConsole.printWalletFindMessage(walletResponse);
     }
 }

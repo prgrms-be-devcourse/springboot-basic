@@ -19,12 +19,12 @@ import java.util.UUID;
 
 @Service
 @Profile("web")
-public class JdbcCustomerService {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerService.class);
+public class NormalCustomerService {
+    private static final Logger logger = LoggerFactory.getLogger(NormalCustomerService.class);
 
     private final CustomerRepository customerRepository;
 
-    public JdbcCustomerService(CustomerRepository customerRepository) {
+    public NormalCustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
@@ -80,5 +80,4 @@ public class JdbcCustomerService {
     public void deleteById(String customerId) {
         customerRepository.deleteById(customerId);
     }
-
 }

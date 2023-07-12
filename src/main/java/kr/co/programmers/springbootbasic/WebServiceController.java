@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Profile("web")
 @RequestMapping("/index")
 public class WebServiceController {
-
     @GetMapping
     public String showIndexPage() {
         return "index";

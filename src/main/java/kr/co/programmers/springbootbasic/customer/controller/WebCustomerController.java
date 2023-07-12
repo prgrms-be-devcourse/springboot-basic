@@ -3,8 +3,7 @@ package kr.co.programmers.springbootbasic.customer.controller;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 import kr.co.programmers.springbootbasic.customer.dto.CustomerResponse;
 import kr.co.programmers.springbootbasic.customer.service.BlackCustomerService;
-import kr.co.programmers.springbootbasic.customer.service.JdbcCustomerService;
-import kr.co.programmers.springbootbasic.util.ApplicationUtils;
+import kr.co.programmers.springbootbasic.customer.service.NormalCustomerService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +22,10 @@ import java.util.Optional;
 @Profile("web")
 @RequestMapping("/customers")
 public class WebCustomerController {
-    private final JdbcCustomerService jdbcCustomerService;
+    private final NormalCustomerService jdbcCustomerService;
     private final BlackCustomerService blackCustomerService;
 
-    public WebCustomerController(JdbcCustomerService jdbcCustomerService,
+    public WebCustomerController(NormalCustomerService jdbcCustomerService,
                                  BlackCustomerService blackCustomerService) {
         this.jdbcCustomerService = jdbcCustomerService;
         this.blackCustomerService = blackCustomerService;
@@ -88,7 +87,7 @@ public class WebCustomerController {
     @GetMapping("/list/all")
     public String loadListAllVouchersPage(Model model) {
         List<CustomerResponse> allCustomer = jdbcCustomerService.findAllCustomer();
-        List<CustomerResponse> allBlackCustomer = blackCustomerService.listAllBlackCustomer();
+        List<CustomerResponse> allBlackCustomer = blackCustomerService.findAllBlackCustomer();
 
         model.addAttribute("normalCustomers", allCustomer);
         model.addAttribute("blackCustomers", allBlackCustomer);
