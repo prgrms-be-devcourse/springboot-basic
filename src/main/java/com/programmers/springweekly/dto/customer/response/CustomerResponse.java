@@ -19,4 +19,5 @@ public class CustomerResponse {
         this.customerEmail = customer.getCustomerEmail();
         this.customerType = customer.getCustomerType();
     }
+    
 }

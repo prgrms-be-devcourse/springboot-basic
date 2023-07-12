@@ -48,4 +48,5 @@ public class FileVoucherRepositoryTest {
                 .usingRecursiveComparison()
                 .isEqualTo(voucher);
     }
+
 }

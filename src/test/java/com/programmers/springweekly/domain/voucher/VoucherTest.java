@@ -58,4 +58,5 @@ public class VoucherTest {
         // then
         assertThat(discountPrice).isEqualTo(expectedDiscount);
     }
+    
 }

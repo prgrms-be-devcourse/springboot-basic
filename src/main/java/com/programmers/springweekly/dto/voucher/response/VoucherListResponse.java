@@ -11,4 +11,5 @@ public class VoucherListResponse {
     public VoucherListResponse(List<VoucherResponse> voucherList) {
         this.voucherList = voucherList;
     }
+    
 }

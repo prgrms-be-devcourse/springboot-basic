@@ -192,4 +192,5 @@ public class CustomerServiceTest {
         // then
         assertThat(customerListAfter.getCustomerList().size()).isEqualTo(0);
     }
+
 }

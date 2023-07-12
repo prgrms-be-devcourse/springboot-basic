@@ -233,4 +233,5 @@ class JdbcTemplateCustomerRepositoryTest {
         assertThat(jdbcTemplateCustomerRepository.findAll().size()).isEqualTo(0);
 
     }
+
 }

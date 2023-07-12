@@ -20,4 +20,5 @@ public interface Input {
     CustomerUpdateRequest inputCustomerUpdate(UUID customerId);
 
     UUID inputUUID();
+    
 }

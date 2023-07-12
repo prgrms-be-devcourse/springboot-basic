@@ -15,4 +15,5 @@ public class VoucherCreateRequest {
         this.discountAmount = discountAmount;
         this.voucherType = voucherType;
     }
+    
 }

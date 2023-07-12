@@ -18,4 +18,5 @@ public class CustomerTest {
         // then
         assertThat(customer).isInstanceOf(Customer.class);
     }
+    
 }

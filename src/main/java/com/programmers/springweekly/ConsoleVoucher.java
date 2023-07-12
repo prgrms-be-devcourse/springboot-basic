@@ -77,4 +77,5 @@ public class ConsoleVoucher {
 
         console.outputGetVoucherAll(voucherListResponse);
     }
+
 }

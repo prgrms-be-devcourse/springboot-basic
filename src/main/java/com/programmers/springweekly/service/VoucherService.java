@@ -10,7 +10,6 @@ import com.programmers.springweekly.repository.voucher.VoucherRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +48,7 @@ public class VoucherService {
 
     public VoucherListResponse findAll() {
         List<Voucher> voucherList = voucherRepository.findAll();
-        return new VoucherListResponse(voucherList.stream().map(VoucherResponse::new).collect(Collectors.toList()));
+        return new VoucherListResponse(voucherList.stream().map(VoucherResponse::new).toList());
     }
 
     public void deleteById(UUID voucherId) {

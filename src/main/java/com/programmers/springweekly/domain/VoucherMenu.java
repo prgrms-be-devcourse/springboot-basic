@@ -13,4 +13,5 @@ public enum VoucherMenu {
             throw new IllegalArgumentException("Input: " + type + ", 찾으시는 바우처 메뉴가 없습니다.");
         }
     }
+    
 }

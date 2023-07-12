@@ -53,6 +53,6 @@ class FileCustomerRepositoryTest {
 
         // then
         assertThat(actualBlacklist).usingRecursiveFieldByFieldElementComparator().isEqualTo(expectBlacklist);
-
     }
+
 }

@@ -83,4 +83,5 @@ public class ConsoleCustomer {
 
         console.outputGetCustomerList(customerBlacklistResponse);
     }
+
 }

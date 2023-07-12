@@ -36,4 +36,5 @@ public class EnumTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Input: " + input + ", 찾으시는 고객 타입이 없습니다.");
     }
+
 }

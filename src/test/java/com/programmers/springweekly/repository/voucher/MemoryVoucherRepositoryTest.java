@@ -75,4 +75,5 @@ public class MemoryVoucherRepositoryTest {
         // then
         assertThat(voucherRepository.findAll()).contains(voucher1, voucher2, voucher3, voucher4);
     }
+
 }
