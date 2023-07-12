@@ -3,68 +3,30 @@ package com.programmers.springbootbasic.voucher.repository;
 import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SpringJUnitConfig
+@SpringBootTest
+@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcVoucherRepositoryTest {
 
-    @Configuration
-    @ComponentScan(
-            basePackages = {"com.programmers.springbootbasic.voucher.repository"}
-    )
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            HikariDataSource dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucher_test_db")
-                    .username("admin")
-                    .password("admin1234")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-    }
-
     @Autowired
-    private DataSource dataSource;
-
     private JdbcVoucherRepository jdbcVoucherRepository;
 
-    @BeforeEach
-    void setUp() {
-        jdbcVoucherRepository = new JdbcVoucherRepository(dataSource);
-    }
-
-    @AfterEach
-    void after() {
-        jdbcVoucherRepository.deleteAll();
-    }
-
+    @Transactional
     @DisplayName("바우처를 저장한다")
     @Test
     void save() {
@@ -78,6 +40,7 @@ class JdbcVoucherRepositoryTest {
         assertThat(result.getVoucherId(), is(fixedAmountVoucher.getVoucherId()));
     }
 
+    @Transactional
     @DisplayName("저장된 바우처들을 모두 조회한다")
     @Test
     void findAll() {
@@ -95,6 +58,7 @@ class JdbcVoucherRepositoryTest {
         assertThat(result.size(), is(2));
     }
 
+    @Transactional
     @DisplayName("바우처를 id로 조회한다")
     @Test
     void findById() {
@@ -109,6 +73,7 @@ class JdbcVoucherRepositoryTest {
         assertThat(result.get().getVoucherId(), is(fixedAmountVoucher.getVoucherId()));
     }
 
+    @Transactional
     @DisplayName("바우처를 id로 조회했을 때 존재하지 않으면 예외처리한다")
     @Test
     void findByIdException() {
@@ -121,6 +86,7 @@ class JdbcVoucherRepositoryTest {
                 .isInstanceOf(RuntimeException.class);
     }
 
+    @Transactional
     @DisplayName("바우처를 수정한다")
     @Test
     void update() {
@@ -138,6 +104,7 @@ class JdbcVoucherRepositoryTest {
         assertThat(result.getVoucherValue(), is(20L));
     }
 
+    @Transactional
     @DisplayName("id로 바우처를 삭제한다")
     @Test
     void deleteById() {
@@ -150,9 +117,10 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> result = jdbcVoucherRepository.findAll();
 
         //then
-        org.assertj.core.api.Assertions.assertThat(result).isEmpty();
+        assertThat(result).isEmpty();
     }
 
+    @Transactional
     @DisplayName("저장된 모든 바우처들을 삭제한다")
     @Test
     void deleteAll() {
@@ -168,6 +136,6 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> result = jdbcVoucherRepository.findAll();
 
         //then
-        org.assertj.core.api.Assertions.assertThat(result).isEmpty();
+        assertThat(result).isEmpty();
     }
 }
