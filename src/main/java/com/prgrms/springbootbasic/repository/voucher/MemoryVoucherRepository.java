@@ -1,6 +1,7 @@
 package com.prgrms.springbootbasic.repository.voucher;
 
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
+import com.prgrms.springbootbasic.enums.VoucherType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -33,6 +35,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
                 .filter(voucher -> voucher.getCreatedAt().equals(createAt))
                 .findFirst();
         return findVoucher;
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return storage.values().stream()
+                .filter(voucher -> voucher.getVoucherType().equals(type))
+                .collect(Collectors.toList());
     }
 
     @Override
