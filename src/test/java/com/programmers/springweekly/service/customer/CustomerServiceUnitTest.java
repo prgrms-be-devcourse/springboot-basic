@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
+import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
 import com.programmers.springweekly.service.CustomerService;
 import java.util.List;
@@ -26,6 +27,16 @@ public class CustomerServiceUnitTest {
 
     @InjectMocks
     CustomerService customerService;
+
+    @Test
+    void update() {
+        // given
+        UUID uuid = UUID.randomUUID();
+        Customer customer = new Customer(uuid, "changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+        CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(uuid, "changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+
+        willDoNothing().given(customerRepository).update(customer);
+    }
 
     @Test
     void findById() {
