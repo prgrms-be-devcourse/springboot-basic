@@ -30,28 +30,4 @@ public class VoucherDTO {
 	public VoucherType getVoucherType() {
 		return voucherType;
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-
-		VoucherDTO that = (VoucherDTO)o;
-
-		if (!Objects.equals(voucherId, that.voucherId))
-			return false;
-		if (!amount.equals(that.amount))
-			return false;
-		return voucherType == that.voucherType;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = voucherId != null ? voucherId.hashCode() : 0;
-		result = 31 * result + (amount != null ? amount.hashCode() : 0);
-		result = 31 * result + (voucherType != null ? voucherType.hashCode() : 0);
-		return result;
-	}
 }
