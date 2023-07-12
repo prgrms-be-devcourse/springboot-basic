@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public interface Voucher {
 
-    UUID getVoucherId();
+    UUID VoucherId();
 
-    long getDiscount();
+    long Discount();
 
-    VoucherType getVoucherType();
+    VoucherType VoucherType();
 
-    LocalDateTime getcreatedAt();
+    LocalDateTime createdAt();
 }
