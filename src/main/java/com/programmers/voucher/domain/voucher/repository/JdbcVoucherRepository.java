@@ -3,6 +3,7 @@ package com.programmers.voucher.domain.voucher.repository;
 import com.programmers.voucher.domain.voucher.entity.Voucher;
 import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -40,9 +41,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return jdbcTemplate.query(FIND_BY_ID_SQL, voucherRowMapper(), voucherId.toString())
-                .stream()
-                .findFirst();
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL, voucherRowMapper(), voucherId.toString()));
+        } catch (EmptyResultDataAccessException exception) {
+            return Optional.empty();
+        }
     }
 
     @Override

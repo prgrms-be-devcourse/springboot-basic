@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.customer.repository;
 
 import com.programmers.voucher.domain.customer.entity.Customer;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -40,16 +41,20 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return jdbcTemplate.query(FIND_BY_ID_SQL, customerRowMapper(), customerId.toString())
-                .stream()
-                .findFirst();
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL, customerRowMapper(), customerId.toString()));
+        } catch (EmptyResultDataAccessException exception) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Customer> findByNickname(String nickname) {
-        return jdbcTemplate.query(FIND_BY_NICKNAME_SQL, customerRowMapper(), nickname)
-                .stream()
-                .findFirst();
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_NICKNAME_SQL, customerRowMapper(), nickname));
+        } catch (EmptyResultDataAccessException exception) {
+            return Optional.empty();
+        }
     }
 
     @Override
