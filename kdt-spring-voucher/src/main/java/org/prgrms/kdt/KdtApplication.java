@@ -12,10 +12,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class KdtApplication {
     public static void main(String[] args) {
-        ConfigurableApplicationContext ac = SpringApplication.run(KdtApplication.class, args);
-        Output outputConsole = ac.getBean(Output.class);
-        UserInput userInputMenu = ac.getBean(UserInput.class);
-        VoucherController voucherController = ac.getBean(VoucherController.class);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(KdtApplication.class, args);
+        Output outputConsole = applicationContext.getBean(Output.class);
+        UserInput userInputMenu = applicationContext.getBean(UserInput.class);
+        VoucherController voucherController = applicationContext.getBean(VoucherController.class);
 
         while (true) {
             outputConsole.displayMenu();
