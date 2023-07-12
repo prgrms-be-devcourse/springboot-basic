@@ -37,7 +37,7 @@ public class RateVoucher implements Voucher {
 
     @Override
     public VoucherType getVoucherType() {
-        return VoucherType.PERCENT;
+        return VoucherType.RATE;
     }
 
     @Override
