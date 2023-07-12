@@ -3,7 +3,6 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.domain.FixedDiscount;
-import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
@@ -48,7 +47,7 @@ class VoucherServiceTest {
         VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
 
         VoucherResponseDto expected = voucherService.create(requestDto);
-        VoucherResponseDto actual = voucherService.findVoucher(id);
+        VoucherResponseDto actual = voucherService.findVoucherById(id);
 
         assertThat(expected).isEqualTo(actual);
     }

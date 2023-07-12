@@ -35,7 +35,7 @@ public class VoucherServiceImpl implements VoucherService {
                 .toList();
     }
 
-    public VoucherResponseDto findVoucher(UUID voucherID) {
+    public VoucherResponseDto findVoucherById(UUID voucherID) {
         Voucher voucher = voucherRepository.findById(voucherID);
         return VoucherMapper.convertDomainToResponseDto(voucher);
     }

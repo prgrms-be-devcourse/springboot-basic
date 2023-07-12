@@ -12,5 +12,5 @@ public interface VoucherService {
 
     List<VoucherResponseDto> findVouchers();
 
-    VoucherResponseDto findVoucher(UUID voucherId);
+    VoucherResponseDto findVoucherById(UUID voucherId);
 }
