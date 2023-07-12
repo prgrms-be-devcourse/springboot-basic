@@ -2,7 +2,7 @@ package com.prgrms.springbootbasic.enums;
 
 public enum VoucherType {
     FIXED,
-    PERCENT;
+    RATE;
 
 
     public static VoucherType of(String voucherType) {
