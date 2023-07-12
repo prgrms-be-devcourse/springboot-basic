@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -38,13 +39,36 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     }
 
     @Override
+    public Optional<Wallet> findByWalletId(UUID walletId) {
+        String sql = "select * from wallet where wallet_id = :walletId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("walletId", walletId.toString());
+
+        try {
+            Wallet wallet = template.queryForObject(sql, param, walletRowMapper());
+
+            return Optional.of(wallet);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+
+    @Override
     public Optional<Wallet> findByCustomerId(UUID customerId) {
         String sql = "select * from wallet where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString());
 
-        return Optional.ofNullable(template.queryForObject(sql, param, walletRowMapper()));
+        try {
+            Wallet wallet = template.queryForObject(sql, param, walletRowMapper());
+
+            return Optional.of(wallet);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

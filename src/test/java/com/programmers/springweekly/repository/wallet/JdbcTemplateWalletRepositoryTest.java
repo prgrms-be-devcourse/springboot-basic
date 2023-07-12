@@ -1,7 +1,6 @@
 package com.programmers.springweekly.repository.wallet;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
@@ -13,6 +12,7 @@ import com.programmers.springweekly.repository.customer.CustomerRepository;
 import com.programmers.springweekly.repository.voucher.VoucherRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -85,7 +85,8 @@ class JdbcTemplateWalletRepositoryTest {
         walletRepository.save(wallet);
 
         // when
-        Wallet walletActual = walletRepository.findByCustomerId(customer1.getCustomerId());
+        Wallet walletActual = walletRepository.findByCustomerId(customer1.getCustomerId())
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처 지갑이 없습니다."));
 
         // then
         assertThat(walletActual).usingRecursiveComparison().isEqualTo(wallet);
@@ -119,11 +120,10 @@ class JdbcTemplateWalletRepositoryTest {
 
         // when
         walletRepository.deleteByWalletId(walletId);
-
+        Optional<Wallet> walletActual = walletRepository.findByCustomerId(customer1.getCustomerId());
         // then
-        assertThatThrownBy(() -> walletRepository.findByCustomerId(customer1.getCustomerId()))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("해당 고객에게 할당된 바우처가 없습니다.");
+
+        assertThat(walletActual).isEmpty();
     }
 
     @Test

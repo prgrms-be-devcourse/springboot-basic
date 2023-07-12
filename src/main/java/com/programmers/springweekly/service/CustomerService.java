@@ -7,6 +7,7 @@ import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class CustomerService {
     }
 
     public CustomerResponse findById(UUID customerId) {
-        Customer customer = customerRepository.findById(customerId);
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("찾는 고객이 없습니다."));
         return new CustomerResponse(customer);
     }
 

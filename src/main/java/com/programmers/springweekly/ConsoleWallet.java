@@ -51,6 +51,8 @@ public class ConsoleWallet {
         console.outputWalletUUIDGuide();
         UUID walletId = console.inputUUID();
         walletController.deleteByWalletId(walletId);
+
+        walletController.deleteByWalletId(walletId);
     }
 
     private void findAllWallet() {

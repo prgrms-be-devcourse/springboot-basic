@@ -1,19 +1,19 @@
 package com.programmers.springweekly.repository.customer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -69,7 +69,8 @@ class JdbcTemplateCustomerRepositoryTest {
         // when
         jdbcTemplateCustomerRepository.save(customer);
         jdbcTemplateCustomerRepository.update(customerExpect);
-        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
+        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId())
+                .orElseThrow(() -> new NoSuchElementException("찾는 고객이 없습니다."));
 
         // then
         assertThat(customerActual).usingRecursiveComparison().isEqualTo(customerExpect);
@@ -89,7 +90,8 @@ class JdbcTemplateCustomerRepositoryTest {
         // when
         jdbcTemplateCustomerRepository.save(customerExpect);
 
-        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId());
+        Customer customerActual = jdbcTemplateCustomerRepository.findById(customerExpect.getCustomerId())
+                .orElseThrow(() -> new NoSuchElementException("찾는 고객이 없습니다."));
 
         // then
         assertThat(customerActual).usingRecursiveComparison().isEqualTo(customerExpect);

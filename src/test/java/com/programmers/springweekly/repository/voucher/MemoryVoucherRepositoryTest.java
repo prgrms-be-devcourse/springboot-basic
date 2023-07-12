@@ -1,16 +1,16 @@
 package com.programmers.springweekly.repository.voucher;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
 import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemoryVoucherRepositoryTest {
 
@@ -30,9 +30,11 @@ public class MemoryVoucherRepositoryTest {
 
         // when
         voucherRepository.save(voucher);
+        Voucher voucherActual = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
 
         // then
-        assertThat(voucherRepository.findById(voucherId))
+        assertThat(voucherActual)
                 .usingRecursiveComparison().isEqualTo(voucher);
     }
 
@@ -45,9 +47,11 @@ public class MemoryVoucherRepositoryTest {
 
         // when
         voucherRepository.save(voucher);
+        Voucher voucherActual = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
 
         // then
-        assertThat(voucherRepository.findById(voucherId))
+        assertThat(voucherActual)
                 .usingRecursiveComparison().isEqualTo(voucher);
     }
 

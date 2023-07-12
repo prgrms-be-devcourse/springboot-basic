@@ -1,13 +1,13 @@
 package com.programmers.springweekly.repository.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
 import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,8 +37,10 @@ class JdbcTemplateVoucherRepositoryTest {
         // when
         voucherRepository.save(voucherExpected1);
         voucherRepository.save(voucherExpected2);
-        Voucher voucherActual1 = voucherRepository.findById(voucherId1);
-        Voucher voucherActual2 = voucherRepository.findById(voucherId2);
+        Voucher voucherActual1 = voucherRepository.findById(voucherId1)
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
+        Voucher voucherActual2 = voucherRepository.findById(voucherId2)
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
 
         // then
         assertThat(voucherActual1).usingRecursiveComparison().isEqualTo(voucherExpected1);
@@ -57,7 +59,8 @@ class JdbcTemplateVoucherRepositoryTest {
         voucherRepository.save(voucher);
         voucherRepository.update(voucherExpected1);
 
-        Voucher voucherActual1 = voucherRepository.findById(voucher.getVoucherId());
+        Voucher voucherActual1 = voucherRepository.findById(voucher.getVoucherId())
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
 
         // then
         assertThat(voucherActual1).usingRecursiveComparison().isEqualTo(voucherExpected1);
@@ -73,7 +76,8 @@ class JdbcTemplateVoucherRepositoryTest {
 
         // when
         voucherRepository.save(voucherExpected1);
-        Voucher voucherActual1 = voucherRepository.findById(voucherId1);
+        Voucher voucherActual1 = voucherRepository.findById(voucherId1)
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
 
         // then
         assertThat(voucherActual1).usingRecursiveComparison().isEqualTo(voucherExpected1);
@@ -111,10 +115,10 @@ class JdbcTemplateVoucherRepositoryTest {
         // when
         voucherRepository.save(voucher);
         voucherRepository.deleteById(voucherId);
+        Optional<Voucher> voucherActual = voucherRepository.findById(voucherId);
 
         // then
-        assertThatThrownBy(() -> voucherRepository.findById(voucherId))
-                .isInstanceOf(NoSuchElementException.class);
+        assertThat(voucherActual).isEmpty();
     }
 
     @Test

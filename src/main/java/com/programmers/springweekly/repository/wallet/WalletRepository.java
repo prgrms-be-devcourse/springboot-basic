@@ -9,6 +9,8 @@ public interface WalletRepository {
 
     Wallet save(Wallet wallet);
 
+    Optional<Wallet> findByWalletId(UUID walletId);
+
     Optional<Wallet> findByCustomerId(UUID customerId);
 
     List<Wallet> findByVoucherId(UUID voucherId);
