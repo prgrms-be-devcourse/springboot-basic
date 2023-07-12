@@ -38,9 +38,16 @@ public class VoucherXmlApiController {
         return Response.success(vouchers);
     }
 
-    @GetMapping("/searchPolicy/{policy}")
-    public Response<List<VoucherDto>> specificPolicyVouchers(@PathVariable("policy") VoucherPolicy voucherPolicy) {
-        List<VoucherDto> vouchers = voucherApplication.findAllVouchersByPolicy(voucherPolicy);
+    @GetMapping("/FIXED_AMOUNT_VOUCHER")
+    public Response<List<VoucherDto>> fixedAmountVouchers() {
+        List<VoucherDto> vouchers = voucherApplication.findAllVouchersByPolicy(VoucherPolicy.FIXED_AMOUNT_VOUCHER);
+
+        return Response.success(vouchers);
+    }
+
+    @GetMapping("/PERCENT_DISCOUNT_VOUCHER")
+    public Response<List<VoucherDto>> percentDiscountVouchers() {
+        List<VoucherDto> vouchers = voucherApplication.findAllVouchersByPolicy(VoucherPolicy.PERCENT_DISCOUNT_VOUCHER);
 
         return Response.success(vouchers);
     }
