@@ -1,7 +1,7 @@
-package com.prgms.VoucherApp.controller;
+package com.prgms.VoucherApp.controller.console;
 
-import com.prgms.VoucherApp.domain.customer.controller.CustomerManagementController;
-import com.prgms.VoucherApp.domain.voucher.controller.VoucherManagementController;
+import com.prgms.VoucherApp.domain.customer.controller.console.CustomerManagementController;
+import com.prgms.VoucherApp.domain.voucher.controller.console.VoucherManagementController;
 import com.prgms.VoucherApp.domain.wallet.controller.WalletManagementController;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.ManagementType;

@@ -1,4 +1,4 @@
-package com.prgms.VoucherApp.domain.voucher.controller;
+package com.prgms.VoucherApp.domain.voucher.controller.console;
 
 
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateRequest;
@@ -63,7 +63,7 @@ public class VoucherManagementController implements Runnable {
                         UUID voucherId = UUID.fromString(inputUUID);
 
                         voucherService.findOne(voucherId)
-                            .ifPresent(output::printVoucher);
+                                .ifPresent(output::printVoucher);
                     }
 
                     case FIND_BY_VOUCHER_TYPE -> {
