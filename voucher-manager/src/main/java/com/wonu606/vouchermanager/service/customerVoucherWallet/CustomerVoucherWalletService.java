@@ -21,7 +21,7 @@ public class CustomerVoucherWalletService {
         this.customerVoucherWalletRepository = customerVoucherWalletRepository;
     }
 
-    public List<UUID> findVoucherIdByCustomer(Customer customer) {
+    public List<UUID> findVoucherIdListByCustomer(Customer customer) {
         return customerVoucherWalletRepository.findIdByCustomer(customer);
     }
 

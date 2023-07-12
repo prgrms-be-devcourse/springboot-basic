@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -71,8 +72,14 @@ public class JdbcVoucherResultSetRepository implements VoucherResultSetRepositor
 
     @Override
     public List<VoucherResultSet> findAllByUuids(List<UUID> uuidList) {
+        if (uuidList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<String> uuidStringList = uuidList.stream().map(UUID::toString).collect(Collectors.toList());
+
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("uuidList", uuidList);
+        
+        parameters.addValue("uuidList", uuidStringList);
 
         String selectSql = "SELECT * FROM voucher WHERE voucher_id IN (:uuidList)";
 

@@ -1,5 +1,7 @@
 package com.wonu606.vouchermanager.io;
 
+import com.wonu606.vouchermanager.menu.VoucherMenu;
+
 public abstract class AbstractConsoleIO {
 
     protected final ConsoleInput input;

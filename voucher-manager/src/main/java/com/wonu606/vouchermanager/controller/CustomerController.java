@@ -26,16 +26,17 @@ public class CustomerController {
     }
 
     public Customer createCustomer(CustomerDto customerDto) {
-        return customerService.createCustomer(customerDto);
+        Customer customer = customerService.createCustomer(customerDto);
+        return customerService.saveCustomer(customer);
     }
 
     public List<Customer> getCustomerList() {
         return customerService.getCustomerList();
     }
 
-    List<Voucher> getVouchersOwnedByCustomer(CustomerDto customerDto) {
+    public List<Voucher> getVouchersOwnedByCustomer(CustomerDto customerDto) {
         Customer customer = customerService.createCustomer(customerDto);
-        List<UUID> voucherIdList = walletService.findVoucherIdByCustomer(customer);
+        List<UUID> voucherIdList = walletService.findVoucherIdListByCustomer(customer);
         return voucherService.getVoucherList(voucherIdList);
     }
 
