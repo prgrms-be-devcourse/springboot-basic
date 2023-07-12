@@ -7,14 +7,14 @@ public class PercentDiscountVoucher implements Voucher {
     private static final long MAX_PERCENT = 99;
 
     private final UUID voucherId;
-    private final long percent;
+    private final long discount;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent < MIN_PERCENT || percent > MAX_PERCENT) {
+    public PercentDiscountVoucher(long discount) {
+        if (discount < MIN_PERCENT || discount > MAX_PERCENT) {
             throw new IllegalArgumentException("잘못된 퍼센트 할인 금액입니다.");
         }
-        this.voucherId = voucherId;
-        this.percent = percent;
+        this.voucherId = UUID.randomUUID();
+        this.discount = discount;
     }
 
     @Override
@@ -22,17 +22,19 @@ public class PercentDiscountVoucher implements Voucher {
         return this.voucherId;
     }
 
-    public long getPercent() {
-        return this.percent;
-    }
-
-    public static boolean isPercentDiscountVoucher(Voucher voucher) {
-        return voucher instanceof PercentDiscountVoucher;
+    @Override
+    public long discount(long beforeDiscount) {
+        return beforeDiscount * (this.discount / 100);
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount * (this.percent / 100);
+    public long getDiscount() {
+        return discount;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
     }
 
 }

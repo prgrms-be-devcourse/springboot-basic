@@ -4,16 +4,22 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final static long MIN_AMOUNT = 0;
+    private final static long MAX_AMOUNT = 1000000;
 
     private final UUID voucherId;
-    private final long amount;
+    private final long discount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        if (amount <= MIN_AMOUNT) {
+    public FixedAmountVoucher(long discount) {
+        if (discount <= MIN_AMOUNT || discount >= MAX_AMOUNT) {
             throw new IllegalArgumentException("잘못된 고정 할인 금액입니다.");
         }
-        this.amount = amount;
-        this.voucherId = voucherId;
+        this.discount = discount;
+        this.voucherId = UUID.randomUUID();
+    }
+
+    public long discount(long beforeDiscount) {
+        long discountedAmount = beforeDiscount - this.discount;
+        return discountedAmount < 0 ? 0 : discountedAmount;
     }
 
     @Override
@@ -21,17 +27,14 @@ public class FixedAmountVoucher implements Voucher {
         return this.voucherId;
     }
 
-    public long getAmount() {
-        return this.amount;
+    @Override
+    public long getDiscount() {
+        return discount;
     }
 
-    public static boolean isFixedAmountVoucher(Voucher voucher) {
-        return voucher instanceof FixedAmountVoucher;
-    }
-
-    public long discount(long beforeDiscount) {
-        long discountedAmount = beforeDiscount - this.amount;
-        return discountedAmount < 0 ? 0 : discountedAmount;
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED;
     }
 
 }

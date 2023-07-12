@@ -1,7 +1,6 @@
 package com.prgms.voucher.voucherproject.domain;
 
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public enum VoucherType {
