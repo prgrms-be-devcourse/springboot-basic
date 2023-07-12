@@ -2,6 +2,7 @@ package com.programmers.springbootbasic.customer.controller;
 
 import com.programmers.springbootbasic.customer.dto.CustomerCreateRequestDto;
 import com.programmers.springbootbasic.customer.dto.CustomerResponseDto;
+import com.programmers.springbootbasic.customer.dto.CustomerUpdateRequestDto;
 import com.programmers.springbootbasic.customer.dto.CustomersResponseDto;
 import com.programmers.springbootbasic.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
@@ -46,5 +47,12 @@ public class CustomerViewController {
         model.addAttribute("customer", customerResponseDto);
 
         return "customer/customer-detail";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute CustomerUpdateRequestDto customerUpdateRequestDto) {
+        customerService.update(customerUpdateRequestDto);
+
+        return "redirect:/customer/list";
     }
 }
