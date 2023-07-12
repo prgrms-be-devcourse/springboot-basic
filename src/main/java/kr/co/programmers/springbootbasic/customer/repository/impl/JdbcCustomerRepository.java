@@ -85,13 +85,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteById(String customerId) {
-        Customer customer = jdbcTemplate.queryForObject(FIND_BY_CUSTOMER_ID, custmerRowMapper, customerId);
-        UUID walletId = customer.getWalletId();
+    public void deleteVoucherByWalletId(UUID walletId) {
         jdbcTemplate.update(DELETE_VOUCHER,
                 walletId.toString().getBytes());
+    }
+
+    @Override
+    public void deleteWalletByWalletId(UUID walletId) {
         jdbcTemplate.update(DELETE_WALLET,
                 walletId.toString().getBytes());
+    }
+
+    @Override
+    public void deleteCustomerById(String customerId) {
         jdbcTemplate.update(DELETE_CUSTOMER,
                 customerId.getBytes());
     }

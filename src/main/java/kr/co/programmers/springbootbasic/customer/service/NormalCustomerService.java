@@ -63,7 +63,7 @@ public class NormalCustomerService {
     @Transactional
     public CustomerResponse updateCustomer(String customerId, CustomerStatus customerStatus) {
         Optional<CustomerResponse> response = findByCustomerId(customerId);
-        JdbcCustomer responseCustomer = response.map((customer) -> {
+        Customer responseCustomer = response.map((customer) -> {
                     UUID id = customer.getId();
                     String name = customer.getName();
                     UUID walletId = customer.getWalletId();
@@ -71,13 +71,19 @@ public class NormalCustomerService {
                     return new JdbcCustomer(id, name, customerStatus, walletId);
                 })
                 .orElseThrow(() -> new NoExistCustomerException("업데이트하려는 유저가 존재하지 않습니다."));
-        customerRepository.update(responseCustomer);
+        Customer updatedCustomer = customerRepository.update(responseCustomer);
 
-        return CustomerResponse.convertToCustomerResponse(responseCustomer);
+        return CustomerResponse.convertToCustomerResponse(updatedCustomer);
     }
 
     @Transactional
     public void deleteById(String customerId) {
-        customerRepository.deleteById(customerId);
+        Optional<Customer> customer = customerRepository.findByCustomerId(customerId);
+        UUID walletId = customer.map(Customer::getWalletId)
+                .orElseThrow(() -> new NoExistCustomerException("조회하려는 유저가 존재하지 않습니다."));
+
+        customerRepository.deleteVoucherByWalletId(walletId);
+        customerRepository.deleteWalletByWalletId(walletId);
+        customerRepository.deleteCustomerById(customerId);
     }
 }

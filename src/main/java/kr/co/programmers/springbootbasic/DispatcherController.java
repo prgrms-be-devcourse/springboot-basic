@@ -38,7 +38,10 @@ public class DispatcherController implements ApplicationRunner {
     private final ConsoleWalletController walletController;
     private boolean isExit;
 
-    public DispatcherController(Input inputConsole, Output outputConsole, ConsoleVoucherController voucherController, CustomerController customerController, ConsoleWalletController walletController) {
+    public DispatcherController(Input inputConsole, Output outputConsole,
+                                ConsoleVoucherController voucherController,
+                                CustomerController customerController,
+                                ConsoleWalletController walletController) {
         this.inputConsole = inputConsole;
         this.outputConsole = outputConsole;
         this.voucherController = voucherController;
