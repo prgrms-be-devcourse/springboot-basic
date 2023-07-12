@@ -32,6 +32,7 @@ public class VoucherController {
             model.addAttribute("vouchers", vouchers);
             return "views/vouchers";
         } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "views/403";
         }
     }
@@ -42,11 +43,12 @@ public class VoucherController {
     }
 
     @PostMapping("/vouchers/new")
-    public String createNewVouchers(NewVoucherDto newVoucherDto) {
+    public String createNewVouchers(NewVoucherDto newVoucherDto, Model model) {
         try {
             voucherService.createVoucher(newVoucherDto);
             return "redirect:/vouchers";
         } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "views/403";
         }
     }
@@ -58,21 +60,23 @@ public class VoucherController {
     }
 
     @PostMapping("/vouchers/update/{voucherId}")
-    public String updateVouchers(@PathVariable("voucherId") UUID voucherId, ModifiedVoucherDto modifiedVoucherDto) {
+    public String updateVouchers(@PathVariable("voucherId") UUID voucherId, ModifiedVoucherDto modifiedVoucherDto, Model model) {
         try {
             voucherService.updateVoucher(voucherId, modifiedVoucherDto);
             return "redirect:/vouchers";
         } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "views/403";
         }
     }
 
     @GetMapping("/vouchers/delete/{voucherId}")
-    public String deleteVouchers(@PathVariable("voucherId") UUID voucherId) {
+    public String deleteVouchers(@PathVariable("voucherId") UUID voucherId, Model model) {
         try {
             voucherService.deleteVoucher(voucherId);
             return "redirect:/vouchers";
         } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "views/403";
         }
     }
