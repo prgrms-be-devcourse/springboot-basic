@@ -34,7 +34,7 @@ public final class VoucherMapper {
         return new VoucherResponses(voucherResponses);
     }
 
-    private static VoucherResponse toVoucherResponse(Voucher voucher) {
+    public static VoucherResponse toVoucherResponse(Voucher voucher) {
         return new VoucherResponse(
                 voucher.getName(),
                 voucher.getMinimumPriceCondition(),
