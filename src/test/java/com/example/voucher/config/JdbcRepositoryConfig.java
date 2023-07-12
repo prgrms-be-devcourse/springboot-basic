@@ -1,12 +1,11 @@
-package com.example.voucher.repository;
+package com.example.voucher.config;
 
 import javax.sql.DataSource;
-
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
+import com.example.voucher.repository.JdbcVoucherRepository;
 
 @TestConfiguration
 public class JdbcRepositoryConfig {

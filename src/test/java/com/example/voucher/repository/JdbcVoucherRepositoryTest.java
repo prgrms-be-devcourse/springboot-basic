@@ -14,9 +14,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.example.voucher.config.JdbcRepositoryConfig;
+import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.FixedAmountVoucher;
 import com.example.voucher.domain.PercentDiscountVoucher;
 import com.example.voucher.domain.Voucher;
+import com.example.voucher.domain.VoucherCreator;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = JdbcRepositoryConfig.class)
@@ -50,7 +52,7 @@ class JdbcVoucherRepositoryTest {
 
         Voucher actualVoucher = jdbcVoucherRepository.findById(id);
 
-        assertEquals(expectedVoucher.getVoucherId(), actualVoucher.getVoucherId());
+        assertEquals(expectedVoucher, actualVoucher);
     }
 
     @DisplayName("ID에 대응하는 데이터가 디비에 저장되어 있지 않을 떄 ID를 통해 조회하면 EmptyResultDataAccessException 예외가 발생한다")
@@ -111,6 +113,18 @@ class JdbcVoucherRepositoryTest {
 
         assertThrows(EmptyResultDataAccessException.class,
             () -> jdbcVoucherRepository.findById(voucher.getVoucherId()));
+    }
+
+    @DisplayName("")
+    @Test
+    void update() {
+        Voucher savedVoucher = jdbcVoucherRepository.save(new FixedAmountVoucher(10L));
+        Voucher actualVoucher = VoucherCreator.getVoucher(savedVoucher.getVoucherId(), VoucherType.PERCENT_DISCOUNT,
+            50L);
+
+        Voucher expectedVoucher = jdbcVoucherRepository.update(actualVoucher);
+
+        assertEquals(expectedVoucher, actualVoucher);
     }
 
 }
