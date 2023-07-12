@@ -3,20 +3,18 @@ package com.prgrms.springbootbasic.domain.voucher;
 import com.prgrms.springbootbasic.enums.VoucherType;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import lombok.Getter;
 
-@Getter
-public class PercentDiscountVoucher implements Voucher {
+public class RateVoucher implements Voucher {
 
     private final UUID voucherId;
     private long discount;
     private final LocalDateTime createAt;
     private final VoucherType type;
 
-    public PercentDiscountVoucher(long discount) {
+    public RateVoucher(long discount) {
         this.voucherId = UUID.randomUUID();
         this.discount = ValidDiscount(discount);
-        this.createAt = getcreatedAt();
+        this.createAt = getCreatedAt();
         this.type = getVoucherType();
     }
 
@@ -28,13 +26,17 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT;
     }
 
-
     @Override
-    public LocalDateTime getcreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createAt;
     }
 }
