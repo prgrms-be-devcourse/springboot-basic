@@ -1,8 +1,9 @@
-package com.prgrms.springbootbasic.service;
+package com.prgrms.springbootbasic.service.voucher;
 
 import com.prgrms.springbootbasic.domain.voucher.FixedDiscountVoucher;
 import com.prgrms.springbootbasic.domain.voucher.PercentDiscountVoucher;
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
+import com.prgrms.springbootbasic.dto.voucher.request.VoucherUpdateRequest;
 import com.prgrms.springbootbasic.enums.VoucherType;
 import com.prgrms.springbootbasic.repository.voucher.VoucherRepository;
 import java.util.Map;
@@ -18,9 +19,9 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    //생성(create)
     public Voucher createVoucher(VoucherType type, long discount) {
         try {
-            isValidDiscount(type, discount);
             Voucher voucher = switch (type) {
                 case FIXED -> new FixedDiscountVoucher(discount);
                 case PERCENT -> new PercentDiscountVoucher(discount);
@@ -32,22 +33,28 @@ public class VoucherService {
         }
     }
 
-    public void isValidDiscount(VoucherType type, long discount) {
-        switch (type) {
-            case FIXED:
-                if (discount <= 0) {
-                    throw new IllegalArgumentException("고정 할인 바우처의 입력 금액은 0 이하를 입력할 수 없습니다.");
-                }
-                break;
-            case PERCENT:
-                if (discount < 1 || discount > 99) {
-                    throw new IllegalArgumentException("퍼센트 할인 바우처의 할인 퍼센트는 1 ~ 99까지의 숫자를 입력해야 합니다.  ");
-                }
-                break;
-        }
-    }
-
     public Map<UUID, Voucher> fetchAllVouchers() {
         return voucherRepository.getAllVouchersList();
+    }
+
+    //조회(Read) - id를 통해서 조회
+    public void findById(UUID voucherId) {
+        Voucher voucher = VoucherRepository.findById(voucherId);
+
+    }
+
+    //수정(Update)
+    public void updateVoucher(VoucherUpdateRequest voucherUpdateRequest) {
+
+    }
+
+    //삭제(Delete) -id
+    public void deleteById(UUID voucherId) {
+        VoucherRepository.deleteById(voucherId);
+    }
+
+    //삭제(Delete)
+    public void deleteAllVoucher() {
+        VoucherRepository.delteAll();
     }
 }

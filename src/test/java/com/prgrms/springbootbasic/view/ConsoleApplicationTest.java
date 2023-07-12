@@ -80,7 +80,6 @@ class ConsoleApplicationTest {
     }
 
     private Voucher createDummyVoucher(VoucherType type, long discount) {
-        // Create a dummy voucher object for testing
         return new Voucher() {
             @Override
             public UUID getVoucherId() {

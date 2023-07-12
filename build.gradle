@@ -22,8 +22,6 @@ repositories {
 }
 
 dependencies {
-    //Text.io 설정
-    implementation 'org.beryx:text-io:3.3.0'
 
     implementation 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.projectlombok:lombok'
@@ -32,6 +30,10 @@ dependencies {
     //Logback 설정
     implementation 'ch.qos.logback:logback-classic:1.2.6'
     implementation 'ch.qos.logback:logback-core:1.2.6'
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+        testImplementation 'com.wix:wix-embedded-mysql:4.6.1'
+    }
 }
 
 tasks.named('test') {
