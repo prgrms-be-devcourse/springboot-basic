@@ -40,7 +40,10 @@ public class VoucherApplicationTest {
     public void testRun_CreateCommand() {
         // Arrange
         Command createCommand = Command.CREATE;
-        VoucherDto voucherDto = new VoucherDto(UUID.randomUUID(), 100.0);
+        VoucherDto voucherDto = new VoucherDto.Builder()
+                .withVoucherId(UUID.randomUUID())
+                .withAmount(100)
+                .build();
         when(commandHandler.handleCommand()).thenReturn(createCommand);
         when(commandHandler.handleCreateCommand()).thenReturn(voucherDto);
 
