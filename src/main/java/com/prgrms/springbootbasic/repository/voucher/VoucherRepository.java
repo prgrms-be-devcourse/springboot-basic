@@ -3,6 +3,7 @@ package com.prgrms.springbootbasic.repository.voucher;
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
@@ -10,18 +11,22 @@ public interface VoucherRepository {
     //create
     Voucher create(Voucher voucher);
 
-    //read
-    Voucher findById(UUID voucherId);
+    //read - id
+    Optional<Voucher> findById(UUID voucherId);
 
-    Voucher findByCreatedAt(LocalDateTime createAt);
+    //read - create at
+    Optional<Voucher> findByCreatedAt(LocalDateTime createAt);
 
-    List<Voucher> findAll();
+    //read - all
+    List<Voucher> findAll(Voucher voucher);
 
     //update
-    void update(Voucher voucher);
+    Optional<Voucher> update(Voucher voucher);
 
-    //delete
-    void deleteById(UUID voucherId);
+    //delete - id
 
+    Optional<Voucher> deleteById(UUID voucherId);
+
+    //delete - all
     void deleteAll();
 }
