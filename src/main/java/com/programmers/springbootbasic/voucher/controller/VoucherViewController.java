@@ -61,4 +61,11 @@ public class VoucherViewController {
 
         return "redirect:/voucher/list";
     }
+
+    @PostMapping("/deleteAll")
+    public String deleteAll() {
+        voucherService.deleteAll();
+
+        return "redirect:/voucher/list";
+    }
 }
