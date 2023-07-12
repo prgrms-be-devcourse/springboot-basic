@@ -43,10 +43,10 @@ public class CustomerServiceUnitTest {
     }
 
     @Test
-    void finaAll() {
+    void findAll() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon1", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
-        Customer customer2 = new Customer(UUID.randomUUID(), "changhyeon2", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+        Customer customer2 = new Customer(UUID.randomUUID(), "changhyeonh", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
 
         given(customerRepository.findAll())
                 .willReturn(List.of(customer1, customer2));
@@ -62,8 +62,8 @@ public class CustomerServiceUnitTest {
     @Test
     void getBlackList() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon1", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
-        Customer customer2 = new Customer(UUID.randomUUID(), "changhyeon2", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+        Customer customer1 = new Customer(UUID.randomUUID(), "changhyeon", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+        Customer customer2 = new Customer(UUID.randomUUID(), "changhyeonh", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
 
         given(customerRepository.getBlackList())
                 .willReturn(List.of(customer1, customer2));

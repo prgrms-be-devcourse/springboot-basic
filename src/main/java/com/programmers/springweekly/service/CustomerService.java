@@ -6,7 +6,6 @@ import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
-import com.programmers.springweekly.util.Validator.CustomerValidator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -26,8 +25,6 @@ public class CustomerService {
                 .customerEmail(customerCreateRequest.getCustomerEmail())
                 .customerType(customerCreateRequest.getCustomerType())
                 .build();
-
-        CustomerValidator.validateCustomer(customer);
 
         return new CustomerResponse(customerRepository.save(customer));
     }

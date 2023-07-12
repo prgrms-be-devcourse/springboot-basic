@@ -48,14 +48,14 @@ class JdbcTemplateWalletRepositoryTest {
     void beforeAll() {
         customer1 = Customer.builder()
                 .customerId(UUID.randomUUID())
-                .customerName("changhyeon1")
+                .customerName("changhyeonh")
                 .customerEmail("changhyeon1.h@kakao.com")
                 .customerType(CustomerType.NORMAL)
                 .build();
 
         customer2 = Customer.builder()
                 .customerId(UUID.randomUUID())
-                .customerName("changhyeon2")
+                .customerName("changhyeonhh")
                 .customerEmail("changhyeon2.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();

@@ -36,13 +36,13 @@ class FileCustomerRepositoryTest {
                         .build(),
                 Customer.builder()
                         .customerId(customer2UUID)
-                        .customerName("changhyeon1")
+                        .customerName("changhyeonh")
                         .customerEmail("changhyeon.h@kakao.com")
                         .customerType(CustomerType.BLACKLIST)
                         .build(),
                 Customer.builder()
                         .customerId(customer3UUID)
-                        .customerName("changhyeon2")
+                        .customerName("changhyeonhh")
                         .customerEmail("changhyeon.h@kakao.com")
                         .customerType(CustomerType.BLACKLIST)
                         .build()
