@@ -28,8 +28,8 @@ public class ConsoleApplication implements CommandLineRunner {
                 ProgramMenu selectMenu = ProgramMenu.from(console.inputMessage());
 
                 switch (selectMenu) {
-                    case CUSTOMER -> consoleCustomer.run();
-                    case VOUCHER -> consoleVoucher.run();
+                    case CUSTOMER -> consoleCustomer.menu();
+                    case VOUCHER -> consoleVoucher.menu();
                     case EXIT -> {
                         console.outputExitMessage();
                         running = false;

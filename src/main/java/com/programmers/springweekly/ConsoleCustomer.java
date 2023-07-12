@@ -8,6 +8,7 @@ import com.programmers.springweekly.view.Console;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class ConsoleCustomer {
     private final CustomerController customerController;
     private final Console console;
 
-    public void run() {
+    public void menu() {
         console.outputCustomerMenuGuide();
         CustomerMenu customerMenu = CustomerMenu.from(console.inputMessage());
 
@@ -31,14 +32,14 @@ public class ConsoleCustomer {
     }
 
     private void selectCustomer() {
-        CustomerListResponse customerList = customerController.findAll();
+        CustomerListResponse customerListResponse = customerController.findAll();
 
-        if (customerList.getCustomerList().isEmpty()) {
+        if (CollectionUtils.isEmpty(customerListResponse.getCustomerList())) {
             console.outputErrorMessage("고객이 저장되어 있지 않습니다.");
             return;
         }
 
-        console.outputGetCustomerList(customerList);
+        console.outputGetCustomerList(customerListResponse);
     }
 
     private void deleteCustomer() {
@@ -68,14 +69,14 @@ public class ConsoleCustomer {
     }
 
     private void getBlackList() {
-        CustomerListResponse customerBlacklist = customerController.getBlackList();
+        CustomerListResponse customerBlacklistResponse = customerController.getBlackList();
 
-        if (customerBlacklist.getCustomerList().isEmpty()) {
+        if (CollectionUtils.isEmpty(customerBlacklistResponse.getCustomerList())) {
             console.outputErrorMessage("블랙 리스트인 고객이 없습니다.");
             return;
         }
 
-        console.outputGetCustomerList(customerBlacklist);
+        console.outputGetCustomerList(customerBlacklistResponse);
     }
-    
+
 }
