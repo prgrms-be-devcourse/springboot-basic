@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public final class CsvRepository implements BlackListRepository {
+public class CsvRepository implements BlackListRepository {
     private final Logger logger = LoggerFactory.getLogger(CsvRepository.class);
     private final String csvFilePath;
 
