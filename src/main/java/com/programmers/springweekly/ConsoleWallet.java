@@ -8,6 +8,7 @@ import com.programmers.springweekly.dto.wallet.request.WalletCreateRequest;
 import com.programmers.springweekly.dto.wallet.response.WalletResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 import com.programmers.springweekly.view.Console;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -39,11 +40,17 @@ public class ConsoleWallet {
     private void createWallet() {
         console.outputWalletCustomerUUIDGuide();
         UUID customerId = console.inputUUID();
-        customerController.existById(customerId);
+
+        if (!customerController.existById(customerId)) {
+            throw new NoSuchElementException("고객이 존재하지 않습니다.");
+        }
 
         console.outputWalletVoucherUUIDGuide();
         UUID voucherId = console.inputUUID();
-        voucherController.existById(voucherId);
+
+        if (!voucherController.existById(voucherId)) {
+            throw new NoSuchElementException("바우처가 존재하지 않습니다.");
+        }
 
         walletController.save(new WalletCreateRequest(customerId, voucherId));
     }

@@ -4,7 +4,6 @@ import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
@@ -98,15 +97,16 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void existById(UUID voucherId) {
+    public boolean existById(UUID voucherId) {
         String sql = "select * from vouchers where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId);
         try {
             template.queryForObject(sql, param, voucherRowMapper());
+            return true;
         } catch (EmptyResultDataAccessException e) {
-            throw new NoSuchElementException("바우처가 존재하지 않습니다.");
+            return false;
         }
     }
 

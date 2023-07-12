@@ -89,7 +89,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     }
 
     @Override
-    public void existByWalletId(UUID walletId) {
+    public boolean existByWalletId(UUID walletId) {
         String sql = "select * from wallet where wallet_id = :walletId";
 
         SqlParameterSource param = new MapSqlParameterSource()
@@ -97,8 +97,9 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
         try {
             template.queryForObject(sql, param, walletRowMapper());
+            return true;
         } catch (EmptyResultDataAccessException e) {
-            throw new NoSuchElementException("바우처 지갑이 존재하지 않습니다.");
+            return false;
         }
     }
 

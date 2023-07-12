@@ -43,8 +43,8 @@ public class CustomerController {
         customerService.deleteAll();
     }
 
-    public void existById(UUID voucherId) {
-        customerService.existById(voucherId);
+    public boolean existById(UUID voucherId) {
+        return customerService.existById(voucherId);
     }
 
 }

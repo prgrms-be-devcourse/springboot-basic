@@ -50,7 +50,9 @@ public class WalletService {
     }
 
     public void deleteByWalletId(UUID walletId) {
-        walletRepository.existByWalletId(walletId);
+        if (!walletRepository.existByWalletId(walletId)) {
+            throw new NoSuchElementException("찾는 바우처 지갑이 없습니다.");
+        }
 
         walletRepository.deleteByWalletId(walletId);
     }

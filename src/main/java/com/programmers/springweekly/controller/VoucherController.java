@@ -39,8 +39,8 @@ public class VoucherController {
         voucherService.deleteAll();
     }
 
-    public void existById(UUID voucherId) {
-        voucherService.existById(voucherId);
+    public boolean existById(UUID voucherId) {
+        return voucherService.existById(voucherId);
     }
-    
+
 }

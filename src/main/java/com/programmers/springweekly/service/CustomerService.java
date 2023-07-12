@@ -9,7 +9,6 @@ import com.programmers.springweekly.repository.customer.CustomerRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,17 +47,19 @@ public class CustomerService {
 
     public CustomerListResponse findAll() {
         List<Customer> customerList = customerRepository.findAll();
-        return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).collect(Collectors.toList()));
+        return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).toList());
     }
 
     public CustomerListResponse getBlackList() {
         List<Customer> customerList = customerRepository.getBlackList();
-        return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).collect(Collectors.toList()));
+        return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).toList());
     }
 
     public void deleteById(UUID customerId) {
-        customerRepository.existById(customerId);
-        
+        if (!customerRepository.existById(customerId)) {
+            throw new NoSuchElementException("찾는 유저가 존재하지 않습니다.");
+        }
+
         customerRepository.deleteById(customerId);
     }
 
@@ -66,8 +67,8 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
-    public void existById(UUID customerId) {
-        customerRepository.existById(customerId);
+    public boolean existById(UUID customerId) {
+        return customerRepository.existById(customerId);
     }
 
 }

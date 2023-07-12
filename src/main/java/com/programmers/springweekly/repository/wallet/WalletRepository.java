@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface WalletRepository {
 
     Wallet save(Wallet wallet);
-    
+
     Optional<Wallet> findByCustomerId(UUID customerId);
 
     List<Wallet> findByVoucherId(UUID voucherId);
@@ -17,5 +17,5 @@ public interface WalletRepository {
 
     List<Wallet> findAll();
 
-    void existByWalletId(UUID walletId);
+    boolean existByWalletId(UUID walletId);
 }

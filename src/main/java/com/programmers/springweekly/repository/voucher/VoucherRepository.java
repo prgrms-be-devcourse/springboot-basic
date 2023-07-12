@@ -19,5 +19,5 @@ public interface VoucherRepository {
 
     void deleteAll();
 
-    void existById(UUID voucherId);
+    boolean existById(UUID voucherId);
 }
