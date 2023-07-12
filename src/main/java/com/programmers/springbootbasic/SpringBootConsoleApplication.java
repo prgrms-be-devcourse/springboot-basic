@@ -35,7 +35,7 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
                     case CREATE -> create();
                     case LIST -> list();
                     case EXIT -> {
-                        applicationView.exit();
+                        exit();
                         return;
                     }
                 }
