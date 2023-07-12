@@ -29,7 +29,7 @@ public class PercentAmountVoucher implements Voucher {
 	}
 
 	@Override
-	public Long getNumber() { return percent; }
+	public Long getAmount() { return percent; }
 
 	@Override
 	public void changeAmount(long percent) {

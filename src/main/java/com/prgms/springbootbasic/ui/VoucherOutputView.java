@@ -42,7 +42,7 @@ public class VoucherOutputView {
     private String changeVoucherToString(Voucher voucher) {
         VoucherType voucherType = voucher.getVoucherType();
         UUID voucherId = voucher.getVoucherId();
-        Long number = voucher.getNumber();
+        Long number = voucher.getAmount();
         if (voucherType == VoucherType.FIXED) return String.format(FORMAT_FIXED, voucherType, voucherId, number);
         return String.format(FORMAT_PERCENT, voucherType, voucherId, number);
     }

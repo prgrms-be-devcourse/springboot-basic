@@ -42,7 +42,7 @@ public class VoucherCommand implements Command {
     public void createVoucher() {
         Voucher voucher = inputVoucher();
         vouchersStorage.save(voucher);
-        logger.info("바우처 저장에 성공했습니다. voucherType : {} voucherId : {} number : {}", voucher.getVoucherType(), voucher.getVoucherId(), voucher.getNumber());
+        logger.info("바우처 저장에 성공했습니다. voucherType : {} voucherId : {} number : {}", voucher.getVoucherType(), voucher.getVoucherId(), voucher.getAmount());
     }
 
     public void findVouchers(){

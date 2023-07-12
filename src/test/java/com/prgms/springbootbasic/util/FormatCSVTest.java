@@ -2,7 +2,6 @@ package com.prgms.springbootbasic.util;
 
 import com.prgms.springbootbasic.domain.FixedAmountVoucher;
 import com.prgms.springbootbasic.domain.Voucher;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -21,7 +20,7 @@ class FormatCSVTest {
         String csv = formatCSV.changeVoucherToCSV(voucher);
 
         // then
-        assertThat(csv).isEqualTo(String.format("%s,%s,%d\n", voucher.getVoucherType(), voucher.getVoucherId(), voucher.getNumber()));
+        assertThat(csv).isEqualTo(String.format("%s,%s,%d\n", voucher.getVoucherType(), voucher.getVoucherId(), voucher.getAmount()));
     }
 
 }

@@ -41,7 +41,7 @@ public class VouchersInDB implements VouchersStorage {
     @Override
     public void save(Voucher voucher) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("voucherId", voucher.getVoucherId().toString().getBytes())
-                .addValue("amount", voucher.getNumber())
+                .addValue("amount", voucher.getAmount())
                 .addValue("type", voucher.getVoucherType().getType());
         int result = jdbcTemplate.update(INSERT, sqlParameterSource);
         if (result != 1) {
@@ -63,7 +63,7 @@ public class VouchersInDB implements VouchersStorage {
     @Override
     public void update(Voucher voucher) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("voucherId", voucher.getVoucherId().toString().getBytes())
-                                                            .addValue("amount", voucher.getNumber());
+                                                            .addValue("amount", voucher.getAmount());
         int result = jdbcTemplate.update(UPDATE_AMOUNT, sqlParameterSource);
         if (result != 1) {
             throw new IllegalStateException(ExceptionMessage.FAIL_TO_UPDATE.getMessage());
