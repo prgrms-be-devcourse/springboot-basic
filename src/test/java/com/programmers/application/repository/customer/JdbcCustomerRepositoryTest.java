@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -103,7 +102,7 @@ class JdbcCustomerRepositoryTest {
         assertThat(updatedCustomer.getLastLoginAt()).isEqualTo(customer.getLastLoginAt());
     }
 
-    @DisplayName("Customer 생성 및 저장 시, deleteByCustomerId() 실행하면 Customer가 삭제된다.")
+    @DisplayName("Customer 생성 및 저장 시, deleteByCustomerId() 실행하면 Customer가 조회되지 않는다.")
     @Test
     void deleteByCustomerId() {
         //given
@@ -116,6 +115,23 @@ class JdbcCustomerRepositoryTest {
         //then
         Optional<Customer> deletedCustomer = jdbcCustomerRepository.findByCustomerId(customer.getCustomerId());
         assertThat(deletedCustomer).isEmpty();
+    }
+
+    @DisplayName("Customer를 삭제하고, findDeletedCustomerByCustomerId() 실행하면 삭제된 Customer가 조회된다.")
+    @Test
+    void findDeletedCustomerByCustomerId() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "aCustomer", "mgtmh991013@naver.com");
+        jdbcCustomerRepository.insert(customer);
+        jdbcCustomerRepository.deleteByCustomerId(customer.getCustomerId());
+
+        //when
+        Customer deletedCustomer = jdbcCustomerRepository.findDeletedCustomerByCustomerId(customer.getCustomerId()).get();
+
+        //then
+        assertThat(deletedCustomer)
+                .usingRecursiveComparison()
+                .isEqualTo(customer);
     }
 
     @DisplayName("저장 되지 않은 Customer의 Id로 findByCustomerId() 실행하면 빈 Optional이 반환된다.")

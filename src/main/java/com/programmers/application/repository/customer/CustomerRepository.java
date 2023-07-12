@@ -13,6 +13,8 @@ public interface CustomerRepository {
 
     Optional<Customer> findByCustomerId(UUID customerId);
 
+    Optional<Customer> findDeletedCustomerByCustomerId(UUID customerId);
+
     Optional<Customer> findByEmail(String email);
 
     Customer update(Customer customer);
