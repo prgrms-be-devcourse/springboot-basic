@@ -6,6 +6,7 @@ import com.prgms.VoucherApp.domain.customer.model.CustomerJdbcDao;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,10 +84,9 @@ class CustomerJdbcDaoTest {
 
         // when
         customerJdbcDao.save(customer);
-        Optional<Customer> findCustomer = customerJdbcDao.findById(UUID.randomUUID());
 
         // then
-        MatcherAssert.assertThat(findCustomer.isEmpty(), is(true));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> customerJdbcDao.findById(UUID.randomUUID()));
     }
 
     @Test

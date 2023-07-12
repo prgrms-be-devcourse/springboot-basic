@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS wallet;
 DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS voucher;
 

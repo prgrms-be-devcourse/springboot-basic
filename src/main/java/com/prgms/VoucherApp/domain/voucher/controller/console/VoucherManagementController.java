@@ -2,6 +2,7 @@ package com.prgms.VoucherApp.domain.voucher.controller.console;
 
 
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateRequest;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateRequest;
 import com.prgms.VoucherApp.domain.voucher.dto.VouchersResponse;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherService;
@@ -62,8 +63,8 @@ public class VoucherManagementController implements Runnable {
                         String inputUUID = input.inputUUID();
                         UUID voucherId = UUID.fromString(inputUUID);
 
-                        voucherService.findOne(voucherId)
-                                .ifPresent(output::printVoucher);
+                        VoucherResponse findVoucher = voucherService.findOne(voucherId);
+                        output.printVoucher(findVoucher);
                     }
 
                     case FIND_BY_VOUCHER_TYPE -> {

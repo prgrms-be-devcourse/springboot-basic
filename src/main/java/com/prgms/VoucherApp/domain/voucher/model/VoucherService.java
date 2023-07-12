@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,17 +31,18 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
-    public Optional<VoucherResponse> findOne(UUID id) {
+    public VoucherResponse findOne(UUID id) {
         return voucherDao.findById(id)
-            .map(VoucherResponse::new);
+                .map(VoucherResponse::new)
+                .orElseThrow(() -> new RuntimeException("바우처가 조회되지 않았습니다."));
     }
 
     public VouchersResponse findAll() {
         List<Voucher> findVouchers = voucherDao.findAll();
 
         List<VoucherResponse> convertVoucherResponse = findVouchers.stream()
-            .map(VoucherResponse::new)
-            .toList();
+                .map(VoucherResponse::new)
+                .toList();
 
         return new VouchersResponse(convertVoucherResponse);
     }
@@ -51,8 +51,8 @@ public class VoucherService {
         List<Voucher> findVouchers = voucherDao.findByVoucherType(voucherType);
 
         List<VoucherResponse> convertVoucherResponse = findVouchers.stream()
-            .map(VoucherResponse::new)
-            .toList();
+                .map(VoucherResponse::new)
+                .toList();
 
         return new VouchersResponse(convertVoucherResponse);
     }
@@ -62,7 +62,7 @@ public class VoucherService {
         Voucher voucher = switch (voucherUpdateRequest.voucherType()) {
             case FIXED_VOUCHER -> new FixedAmountVoucher(voucherUpdateRequest.id(), voucherUpdateRequest.amount());
             case PERCENT_VOUCHER ->
-                new PercentDiscountVoucher(voucherUpdateRequest.id(), voucherUpdateRequest.amount());
+                    new PercentDiscountVoucher(voucherUpdateRequest.id(), voucherUpdateRequest.amount());
         };
 
         voucherDao.update(voucher);

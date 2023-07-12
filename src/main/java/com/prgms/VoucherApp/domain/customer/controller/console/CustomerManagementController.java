@@ -1,6 +1,7 @@
 package com.prgms.VoucherApp.domain.customer.controller.console;
 
 import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateRequest;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import com.prgms.VoucherApp.domain.customer.model.CustomerService;
@@ -56,8 +57,8 @@ public class CustomerManagementController implements Runnable {
                         String inputUUID = input.inputUUID();
                         UUID customerId = UUID.fromString(inputUUID);
 
-                        customerService.findOne(customerId)
-                                .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
+                        CustomerResponse findCustomer = customerService.findOne(customerId);
+                        output.printCustomer(findCustomer);
                     }
 
                     case FIND_BY_STATUS -> {

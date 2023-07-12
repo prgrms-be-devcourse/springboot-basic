@@ -32,8 +32,7 @@ public class CustomerController {
     @GetMapping("/{id}")
     public String customer(@PathVariable String id, Model model) {
         UUID inputCustomerId = UUID.fromString(id);
-        CustomerResponse customerResponse = customerService.findOne(inputCustomerId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 id가 입력되었습니다."));
+        CustomerResponse customerResponse = customerService.findOne(inputCustomerId);
         model.addAttribute("customer", customerResponse);
         return "customer/customer";
     }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -36,23 +35,24 @@ public class CustomerService {
         List<Customer> findCustomers = customerDao.findAll();
 
         List<CustomerResponse> convertCustomerResponse = findCustomers.stream()
-            .map(CustomerResponse::new)
-            .toList();
+                .map(CustomerResponse::new)
+                .toList();
 
         return new CustomersResponse(convertCustomerResponse);
     }
 
-    public Optional<CustomerResponse> findOne(UUID id) {
+    public CustomerResponse findOne(UUID id) {
         return customerDao.findById(id)
-            .map(CustomerResponse::new);
+                .map(CustomerResponse::new)
+                .orElseThrow(() -> new RuntimeException("고객이 조회되지 않았습니다."));
     }
 
     public CustomersResponse findByStatus(CustomerCreateRequest requestDto) {
         List<Customer> findCustomers = customerDao.findByCustomerStatus(requestDto.customerStatus());
 
         List<CustomerResponse> convertCustomerResponse = findCustomers.stream()
-            .map(CustomerResponse::new)
-            .toList();
+                .map(CustomerResponse::new)
+                .toList();
 
         return new CustomersResponse(convertCustomerResponse);
     }
@@ -71,8 +71,8 @@ public class CustomerService {
         List<Customer> findBlacklists = blackListStorage.findBlacklist();
 
         List<CustomerResponse> convertCustomerResponse = findBlacklists.stream()
-            .map(CustomerResponse::new)
-            .toList();
+                .map(CustomerResponse::new)
+                .toList();
 
         return new CustomersResponse(convertCustomerResponse);
     }

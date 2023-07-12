@@ -6,6 +6,7 @@ import com.prgms.VoucherApp.domain.voucher.model.Voucher;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherFileDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles(profiles = "dev")
 public class VoucherFileDaoTest {
 
-
+    @Autowired
     VoucherFileDao voucherFileDao;
 
     @Test

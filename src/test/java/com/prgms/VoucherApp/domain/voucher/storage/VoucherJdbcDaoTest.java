@@ -48,7 +48,7 @@ class VoucherJdbcDaoTest {
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
-            .containsExactly(voucher);
+                .containsExactly(voucher);
     }
 
     @Test
@@ -65,7 +65,7 @@ class VoucherJdbcDaoTest {
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
-            .containsExactly(voucherA, voucherB);
+                .containsExactly(voucherA, voucherB);
     }
 
     @Test
@@ -86,12 +86,14 @@ class VoucherJdbcDaoTest {
     @DisplayName("할인권 조회 실패")
     void findVoucherFail() {
         // given
+        UUID randomUUID = UUID.randomUUID();
 
         // when
-        Optional<Voucher> voucherId = voucherJdbcDao.findById(UUID.randomUUID());
 
         // then
-        Assertions.assertThat(voucherId).isEmpty();
+        Assertions.assertThatThrownBy(() -> voucherJdbcDao.findById(randomUUID))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("존재하지 않는 아이디가 입력되었습니다.");
     }
 
     @Test

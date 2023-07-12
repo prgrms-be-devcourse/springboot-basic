@@ -32,8 +32,7 @@ public class VoucherController {
     @GetMapping("/{id}")
     public String voucher(@PathVariable String id, Model model) {
         UUID inputVoucherId = UUID.fromString(id);
-        VoucherResponse voucherResponse = voucherService.findOne(inputVoucherId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 id가 입력되었습니다."));
+        VoucherResponse voucherResponse = voucherService.findOne(inputVoucherId);
         model.addAttribute("voucher", voucherResponse);
         return "voucher/voucher";
     }

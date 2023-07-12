@@ -76,9 +76,9 @@ class WalletJdbcDaoTest {
 
         // then
         Assertions.assertThat(findWallets)
-            .extracting(Wallet::getVoucher)
-            .usingRecursiveFieldByFieldElementComparator()
-            .contains(voucher, addedVoucher);
+                .extracting(Wallet::getVoucher)
+                .usingRecursiveFieldByFieldElementComparator()
+                .contains(voucher, addedVoucher);
     }
 
     @Test
@@ -93,9 +93,9 @@ class WalletJdbcDaoTest {
 
         // then
         Assertions.assertThat(findWallet.get())
-            .extracting(Wallet::getVoucher)
-            .usingRecursiveComparison()
-            .isEqualTo(voucher);
+                .extracting(Wallet::getVoucher)
+                .usingRecursiveComparison()
+                .isEqualTo(voucher);
     }
 
     @Test
@@ -107,9 +107,11 @@ class WalletJdbcDaoTest {
 
         // when
         walletDao.deleteById(wallet.getWalletId());
-        Optional<Wallet> findWallet = walletDao.findById(wallet.getWalletId());
+
 
         // then
-        Assertions.assertThat(findWallet).isEmpty();
+        Assertions.assertThatThrownBy(() -> walletDao.findById(wallet.getWalletId()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("존재하지 않는 아이디가 입력되었습니다.");
     }
 }
