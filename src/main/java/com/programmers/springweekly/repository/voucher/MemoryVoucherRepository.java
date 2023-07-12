@@ -30,9 +30,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        Voucher voucher = voucherMap.get(voucherId);
-
-        return Optional.ofNullable(voucher);
+        try {
+            Voucher voucher = voucherMap.get(voucherId);
+            return Optional.of(voucher);
+        } catch (NullPointerException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
