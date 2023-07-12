@@ -4,6 +4,8 @@ import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import com.devcourse.voucher.application.dto.GetVoucherResponse;
 import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.domain.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,9 +13,10 @@ import java.util.List;
 
 @Service
 public class VoucherService {
-    private static final String NEGATIVE_DISCOUNT = "[Error] Discount Value MUST Be Positive. Input : ";
-    private static final String OUT_RANGED_DISCOUNT = "[Error] Discount Rate MUST Be Smaller Than 100. Input : ";
-    private static final String INVALID_EXPIRATION = "[Error] Expiration Time Cannot Be The Past. Input : ";
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
+    private static final String NEGATIVE_DISCOUNT = "Discount Value MUST Be Positive. Input : ";
+    private static final String OUT_RANGED_DISCOUNT = "Discount Rate MUST Be Smaller Than 100. Input : ";
+    private static final String INVALID_EXPIRATION = "Expiration Time Cannot Be The Past. Input : ";
     private static final int MAX_DISCOUNT_RATE = 100;
     private static final int MIN_DISCOUNT = 0;
 
@@ -42,10 +45,12 @@ public class VoucherService {
 
     private void validateDiscount(Voucher.Type type, int discount) {
         if (isNegative(discount)) {
+            logger.error(NEGATIVE_DISCOUNT + discount);
             throw new IllegalArgumentException(NEGATIVE_DISCOUNT + discount);
         }
 
         if (type.isPercent() && isRateOutRange(discount)) {
+            logger.error(OUT_RANGED_DISCOUNT + discount);
             throw new IllegalArgumentException(OUT_RANGED_DISCOUNT + discount);
         }
     }
@@ -54,7 +59,8 @@ public class VoucherService {
         LocalDateTime now = LocalDateTime.now();
 
         if (expiredAt.isBefore(now)) {
-            throw new IllegalArgumentException(VoucherService.INVALID_EXPIRATION + expiredAt);
+            logger.error(INVALID_EXPIRATION + expiredAt);
+            throw new IllegalArgumentException(INVALID_EXPIRATION + expiredAt);
         }
     }
 

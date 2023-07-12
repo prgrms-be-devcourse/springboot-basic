@@ -13,15 +13,16 @@ import java.time.format.DateTimeFormatter;
 class IoParser {
     private static final Logger logger = LoggerFactory.getLogger(IoParser.class);
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final String NOT_SUPPORT_DATE_FORMAT = "[Error] Your Input is incorrect Date Format : ";
-    private static final String NOT_SUPPORT_COMMAND = "[Error] Your Input Is Not Support. Command : ";
-    private static final String NOT_SUPPORT_TYPE = "[Error] Your Input Is Not Support. Type : ";
-    private static final String NOT_A_NUMBER = "[Error] Your Input is not a Number : ";
+    private static final String NOT_SUPPORT_DATE_FORMAT = "Your Input is incorrect Date Format : ";
+    private static final String NOT_SUPPORT_COMMAND = "Your Input Is Not Support. Command : ";
+    private static final String NOT_SUPPORT_TYPE = "Your Input Is Not Support. Type : ";
+    private static final String NOT_A_NUMBER = "Your Input is not a Number : ";
 
     public Command parseCommand(String command) {
         try {
             return Enum.valueOf(Command.class, command.toUpperCase());
         } catch (IllegalArgumentException e) {
+            logger.error(NOT_SUPPORT_COMMAND + command);
             throw new IllegalArgumentException(NOT_SUPPORT_COMMAND + command);
         }
     }
@@ -30,6 +31,7 @@ class IoParser {
         try {
             return Enum.valueOf(Voucher.Type.class, type.toUpperCase());
         } catch (IllegalArgumentException e) {
+            logger.error(NOT_SUPPORT_TYPE + type);
             throw new IllegalArgumentException(NOT_SUPPORT_TYPE + type);
         }
     }
@@ -39,6 +41,7 @@ class IoParser {
             LocalDate localDate = LocalDate.parse(expiredAt, TIME_FORMAT);
             return LocalDateTime.of(localDate, LocalTime.MIDNIGHT);
         } catch (IllegalArgumentException e) {
+            logger.error(NOT_SUPPORT_DATE_FORMAT + expiredAt);
             throw new IllegalArgumentException(NOT_SUPPORT_DATE_FORMAT + expiredAt);
         }
     }
@@ -47,6 +50,7 @@ class IoParser {
         try {
             return Integer.parseInt(discount);
         } catch (IllegalArgumentException e) {
+            logger.error(NOT_A_NUMBER + discount);
             throw new IllegalArgumentException(NOT_A_NUMBER + discount);
         }
     }
