@@ -24,22 +24,6 @@ class VoucherMapTest {
 
     VoucherMap voucherMap;
 
-    static Stream<Arguments> provideValid() {
-        return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
-        );
-    }
-
-    static Stream<Arguments> provideInvalids() {
-        return Stream.of(
-                Arguments.of("My name is SuperMan"),
-                Arguments.of(123),
-                Arguments.of(List.of(12, 3))
-        );
-    }
-
     @BeforeEach
     void init() {
         voucherMap = new VoucherMap(new HashMap<>());
@@ -115,6 +99,50 @@ class VoucherMapTest {
     @MethodSource("provideValid")
     void addIfVoucherExist_ParamNotExistVoucher_Exception(Voucher voucher) {
         assertThrows(InvalidDataException.class, () -> voucherMap.addIfVoucherExist(voucher));
+    }
+
+    @ParameterizedTest
+    @DisplayName("고객 아이디로 바우처 검색한다.")
+    @MethodSource("provideValid")
+    void getAllVouchersByCustomerId_ParamVoucher_ReturnVoucherList(Voucher voucher) {
+        voucherMap.addVoucher(voucher);
+        var list = voucherMap.getAllVouchersByCustomerId(voucher.getCustomerId());
+        assertThat(list.isEmpty(), is(false));
+    }
+
+    @ParameterizedTest
+    @DisplayName("고객 아이디와 바우처 아이디로 바우처를 찾는다.")
+    @MethodSource("provideValid")
+    void getVoucherByCustomerIdAndVoucherId_ParamIds_ReturnVoucher(Voucher voucher) {
+        voucherMap.addVoucher(voucher);
+        var foundVoucher = voucherMap.getVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(foundVoucher.isEmpty(), is(false));
+        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+    }
+
+    @ParameterizedTest
+    @DisplayName("고객 아이디와 바우처 아이디로 바우처를 제거한다.")
+    @MethodSource("provideValid")
+    void removeVoucherByCustomerIdAndVoucherId_ParamIds_DeleteVoucher(Voucher voucher) {
+        voucherMap.removeVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        var vouchers = voucherMap.getVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(vouchers.isEmpty(), is(true));
+    }
+
+    static Stream<Arguments> provideValid() {
+        return Stream.of(
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
+        );
+    }
+
+    static Stream<Arguments> provideInvalids() {
+        return Stream.of(
+                Arguments.of("My name is SuperMan"),
+                Arguments.of(123),
+                Arguments.of(List.of(12, 3))
+        );
     }
 
 }
