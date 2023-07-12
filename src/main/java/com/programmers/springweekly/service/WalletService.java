@@ -6,6 +6,7 @@ import com.programmers.springweekly.dto.wallet.response.WalletResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 import com.programmers.springweekly.repository.wallet.WalletRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,11 @@ public class WalletService {
     }
 
     public WalletResponse findByCustomerId(UUID customerId) {
-        return new WalletResponse(walletRepository.findByCustomerId(customerId));
+
+        Wallet wallet = walletRepository.findByCustomerId(customerId)
+                .orElseThrow(() -> new NoSuchElementException("해당 고객에게 할당된 바우처가 없습니다."));
+
+        return new WalletResponse(wallet);
     }
 
     public WalletsResponse findByVoucherId(UUID voucherId) {

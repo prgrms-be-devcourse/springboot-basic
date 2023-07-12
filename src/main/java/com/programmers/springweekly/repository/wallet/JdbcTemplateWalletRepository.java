@@ -3,10 +3,10 @@ package com.programmers.springweekly.repository.wallet;
 import com.programmers.springweekly.domain.wallet.Wallet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -38,18 +38,13 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Wallet findByCustomerId(UUID customerId) {
+    public Optional<Wallet> findByCustomerId(UUID customerId) {
         String sql = "select * from wallet where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString());
 
-        try {
-            return template.queryForObject(sql, param, walletRowMapper());
-        } catch (EmptyResultDataAccessException e) {
-            log.error("해당 고객에게 할당된 바우처가 없습니다.");
-            throw new NoSuchElementException("해당 고객에게 할당된 바우처가 없습니다.");
-        }
+        return Optional.ofNullable(template.queryForObject(sql, param, walletRowMapper()));
     }
 
     @Override
@@ -93,4 +88,5 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
                 UUID.fromString(resultSet.getString("voucher_id"))
         ));
     }
+
 }
