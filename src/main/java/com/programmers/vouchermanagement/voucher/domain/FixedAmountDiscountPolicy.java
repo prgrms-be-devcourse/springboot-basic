@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import com.programmers.vouchermanagement.voucher.exception.InvalidDiscountAmountException;
+import com.programmers.vouchermanagement.voucher.exception.VoucherErrorCode;
+import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 
 public class FixedAmountDiscountPolicy extends DiscountPolicy {
 
@@ -13,7 +14,7 @@ public class FixedAmountDiscountPolicy extends DiscountPolicy {
     @Override
     void validateAmount(int amount) {
         if (amount < MIN_AMOUNT) {
-            throw new InvalidDiscountAmountException("고정할인금액은 최소 1원 이상이여야 합니다.");
+            throw new VoucherException(VoucherErrorCode.INVALID_FIX_AMOUNT);
         }
     }
 

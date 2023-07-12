@@ -64,8 +64,13 @@ public class ThymeleafVoucherController {
     }
 
     @GetMapping("/{voucherId}/delete")
-    public String updateVoucher(@PathVariable UUID voucherId) {
+    public String deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
         return "redirect:/v2/vouchers";
+    }
+
+    @RequestMapping("/error")
+    public String handleError() {
+        return "error";
     }
 }

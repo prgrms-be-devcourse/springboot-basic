@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import com.programmers.vouchermanagement.voucher.exception.InvalidDiscountAmountException;
+import com.programmers.vouchermanagement.voucher.exception.VoucherErrorCode;
+import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 
 import java.math.BigDecimal;
 
@@ -16,7 +17,7 @@ public class PercentDiscountPolicy extends DiscountPolicy {
     @Override
     void validateAmount(int amount) {
         if (MIN_PERCENT > amount || amount > MAX_PERCENT) {
-            throw new InvalidDiscountAmountException("할인률은 1에서 100 사이여야 합니다.");
+            throw new VoucherException(VoucherErrorCode.INVALID_PERCENT);
         }
     }
 

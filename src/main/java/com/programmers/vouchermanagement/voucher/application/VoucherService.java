@@ -7,7 +7,8 @@ import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
-import com.programmers.vouchermanagement.voucher.exception.IllegalVoucherIdException;
+import com.programmers.vouchermanagement.voucher.exception.VoucherErrorCode;
+import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class VoucherService {
 
     public VoucherResponse getVoucher(UUID id) {
         Voucher voucher = voucherRepository.findById(id)
-                .orElseThrow(() -> new IllegalVoucherIdException("존재하지 않는 바우처 ID 입니다."));
+                .orElseThrow(() -> new VoucherException(VoucherErrorCode.VOUCHER_NOT_FOUND));
         return new VoucherResponse(voucher);
     }
 
