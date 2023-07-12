@@ -24,7 +24,7 @@
   <tbody class="table-group-divider">
   <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
     <th scope="row" th:text="*{voucherId}"></th>
-    <td th:text="*{voucherType}"></td>
+    <td th:text="*{type}"></td>
     <td th:text="*{amount}"></td>
     <td><a th:href="@{'/vouchers/update/' + *{voucherId}}" class="btn btn-primary" type="button">update</a></td>
     <td><a th:href="@{'/vouchers/delete/' + *{voucherId}}" class="btn btn-primary" type="button">delete</a></td>
