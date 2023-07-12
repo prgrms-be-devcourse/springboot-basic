@@ -28,7 +28,11 @@ public enum CustomerMenuType {
         }
     }
 
+
     public boolean isExit() {
         return this == EXIT;
+    }
+    public boolean isSave() {
+        return this == SAVE;
     }
 }

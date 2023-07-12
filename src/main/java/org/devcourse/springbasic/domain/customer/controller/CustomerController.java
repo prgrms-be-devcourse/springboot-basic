@@ -21,7 +21,7 @@ public class CustomerController {
             try {
                 customerOutput.menus();
                 menu = customerInput.menu();
-                if (menu == CustomerMenuType.SAVE) {
+                if (menu.isSave()) {
                     signUp(customerInput);
                 }
 
