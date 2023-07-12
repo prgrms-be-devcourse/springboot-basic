@@ -52,7 +52,7 @@ public class MemberService {
                                  MemberReqDTO.UPDATE update) {
         final Member updateMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
-        updateMember.updateMemberInformation(update);
+        updateMember.updateMemberStatus(update);
         memberRepository.update(updateMember);
         return memberId;
     }

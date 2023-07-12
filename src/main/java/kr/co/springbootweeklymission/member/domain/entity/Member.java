@@ -31,7 +31,7 @@ public class Member {
         return this.memberStatus == MemberStatus.BLACK;
     }
 
-    public void updateMemberInformation(MemberReqDTO.UPDATE update) {
+    public void updateMemberStatus(MemberReqDTO.UPDATE update) {
         this.memberStatus = MemberStatus.valueOf(update.getMemberStatus());
     }
 }
