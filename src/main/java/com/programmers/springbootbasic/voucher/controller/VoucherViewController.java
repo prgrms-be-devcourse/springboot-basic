@@ -54,4 +54,11 @@ public class VoucherViewController {
 
         return "redirect:/voucher/list";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deleteById(@PathVariable("id") UUID id) {
+        voucherService.deleteById(id);
+
+        return "redirect:/voucher/list";
+    }
 }
