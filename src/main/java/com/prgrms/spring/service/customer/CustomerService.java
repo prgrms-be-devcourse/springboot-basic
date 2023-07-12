@@ -24,13 +24,13 @@ public class CustomerService {
         return newCustomer;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Customer getCustomerById(UUID customerId) {
         return customerRepository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException("고객 조회 실패"));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }

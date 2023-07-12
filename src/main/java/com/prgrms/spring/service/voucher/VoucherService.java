@@ -29,7 +29,7 @@ public class VoucherService {
         return voucher;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Voucher> getAllVoucher() {
         return voucherRepository.findAll();
     }
