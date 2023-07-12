@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @JdbcTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class JdbcVoucherRepositoryTest {
 
     @TestConfiguration
@@ -55,7 +55,7 @@ class JdbcVoucherRepositoryTest {
 
         Voucher storedVoucher = jdbcVoucherRepository.findById(id);
 
-        assertThat(storedVoucher.getVoucherId()).isNotEqualTo(id);
+        assertThat(storedVoucher.getVoucherId()).isEqualTo(id);
     }
 
     @DisplayName("DB에서 모든 바우처를 조회할 수 있다.")
