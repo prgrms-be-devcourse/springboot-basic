@@ -5,6 +5,7 @@ import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.domain.FixedDiscount;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class VoucherServiceTest {
         UUID id = UUID.randomUUID();
         VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
 
-        Voucher voucher = voucherService.create(requestDto);
+        VoucherResponseDto voucher = voucherService.create(requestDto);
 
         assertThat(voucher).isNotNull();
     }
@@ -46,8 +47,8 @@ class VoucherServiceTest {
         UUID id = UUID.randomUUID();
         VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
 
-        Voucher expected = voucherService.create(requestDto);
-        Voucher actual = voucherService.findVoucher(id);
+        VoucherResponseDto expected = voucherService.create(requestDto);
+        VoucherResponseDto actual = voucherService.findVoucher(id);
 
         assertThat(expected).isEqualTo(actual);
     }

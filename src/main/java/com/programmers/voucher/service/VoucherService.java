@@ -1,16 +1,16 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.dto.VoucherResponseDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface VoucherService {
 
-    Voucher create(VoucherRequestDto requestDto);
+    VoucherResponseDto create(VoucherRequestDto requestDto);
 
-    List<Voucher> findVouchers();
+    List<VoucherResponseDto> findVouchers();
 
-    Voucher findVoucher(UUID voucherId);
+    VoucherResponseDto findVoucher(UUID voucherId);
 }

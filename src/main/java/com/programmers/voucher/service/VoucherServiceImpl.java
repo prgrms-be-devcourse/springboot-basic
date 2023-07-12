@@ -3,6 +3,7 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherMapper;
 import com.programmers.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +22,21 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Transactional
-    public Voucher create(VoucherRequestDto requestDto) {
+    public VoucherResponseDto create(VoucherRequestDto requestDto) {
         Voucher voucher = VoucherMapper.convertRequestDtoToDomain(requestDto);
-        return voucherRepository.save(voucher);
+        voucherRepository.save(voucher);
+        return VoucherMapper.convertDomainToResponseDto(voucher);
     }
 
-    public List<Voucher> findVouchers() {
-        return voucherRepository.findAll();
+    public List<VoucherResponseDto> findVouchers() {
+        List<Voucher> vouchers = voucherRepository.findAll();
+        return vouchers.stream()
+                .map(VoucherMapper::convertDomainToResponseDto)
+                .toList();
     }
 
-    public Voucher findVoucher(UUID voucherID) {
-        return voucherRepository.findById(voucherID);
+    public VoucherResponseDto findVoucher(UUID voucherID) {
+        Voucher voucher = voucherRepository.findById(voucherID);
+        return VoucherMapper.convertDomainToResponseDto(voucher);
     }
 }
