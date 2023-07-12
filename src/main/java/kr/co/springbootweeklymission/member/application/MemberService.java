@@ -20,9 +20,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void createMember(MemberReqDTO.CREATE create) {
+    public Member createMember(MemberReqDTO.CREATE create) {
         final Member saveMember = Member.toMember(create);
-        memberRepository.save(saveMember);
+        return memberRepository.save(saveMember);
     }
 
     public MemberResDTO.READ getMemberById(UUID memberId) {
@@ -48,18 +48,20 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMemberById(UUID memberId,
+    public UUID updateMemberById(UUID memberId,
                                  MemberReqDTO.UPDATE update) {
         final Member updateMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
         updateMember.updateMemberInformation(update);
         memberRepository.update(updateMember);
+        return memberId;
     }
 
     @Transactional
-    public void deleteMemberById(UUID memberId) {
+    public UUID deleteMemberById(UUID memberId) {
         final Member deleteMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_MEMBER));
         memberRepository.delete(deleteMember);
+        return memberId;
     }
 }

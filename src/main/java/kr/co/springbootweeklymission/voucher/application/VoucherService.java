@@ -20,9 +20,9 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     @Transactional
-    public void createVoucher(VoucherReqDTO.CREATE create) {
+    public Voucher createVoucher(VoucherReqDTO.CREATE create) {
         final Voucher saveVoucher = Voucher.toVoucher(create);
-        voucherRepository.save(saveVoucher);
+        return voucherRepository.save(saveVoucher);
     }
 
     public VoucherResDTO.READ getVoucherById(UUID voucherId) {
@@ -39,17 +39,19 @@ public class VoucherService {
     }
 
     @Transactional
-    public void updateVoucherById(UUID voucherId, VoucherReqDTO.UPDATE update) {
+    public UUID updateVoucherById(UUID voucherId, VoucherReqDTO.UPDATE update) {
         final Voucher updateVoucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
         updateVoucher.updateVoucherInformation(update);
         voucherRepository.update(updateVoucher);
+        return voucherId;
     }
 
     @Transactional
-    public void deleteVoucherById(UUID voucherId) {
+    public UUID deleteVoucherById(UUID voucherId) {
         final Voucher deleteVoucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER));
         voucherRepository.delete(deleteVoucher);
+        return voucherId;
     }
 }

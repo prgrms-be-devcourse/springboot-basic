@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +44,7 @@ class VoucherApiControllerTest {
         ResponseStatus expected = ResponseStatus.SUCCESS_CREATE_VOUCHER;
 
         //when
-        doNothing().when(voucherService).createVoucher(any());
+        when(voucherService.createVoucher(any(VoucherReqDTO.CREATE.class))).thenReturn(null);
 
         //then
         mockMvc.perform(post("/api/v1/vouchers")
@@ -59,7 +59,7 @@ class VoucherApiControllerTest {
         //given
         UUID id = UUID.randomUUID();
         VoucherResDTO.READ read = VoucherCreators.readFixedDiscountDto(id);
-        given(voucherService.getVoucherById(any())).willReturn(read);
+        given(voucherService.getVoucherById(any(UUID.class))).willReturn(read);
 
         //when & then
         mockMvc.perform(get("/api/v1/vouchers/{id}", id)
@@ -71,7 +71,7 @@ class VoucherApiControllerTest {
     @Test
     void getVoucherById_특정_바우처를_조회_NotFoundException() throws Exception {
         //given
-        given(voucherService.getVoucherById(any())).willThrow(NotFoundException.class);
+        given(voucherService.getVoucherById(any(UUID.class))).willThrow(NotFoundException.class);
 
         //when & then
         mockMvc.perform(get("/api/v1/vouchers/" + UUID.randomUUID())
@@ -101,7 +101,7 @@ class VoucherApiControllerTest {
         ResponseStatus expected = ResponseStatus.SUCCESS_UPDATE_VOUCHER;
 
         //when
-        doNothing().when(voucherService).updateVoucherById(any(), any());
+        when(voucherService.updateVoucherById(any(UUID.class), any(VoucherReqDTO.UPDATE.class))).thenReturn(null);
 
         //then
         mockMvc.perform(put("/api/v1/vouchers/" + UUID.randomUUID())
@@ -117,7 +117,7 @@ class VoucherApiControllerTest {
         ResponseStatus expected = ResponseStatus.SUCCESS_DELETE_VOUCHER;
 
         //when
-        doNothing().when(voucherService).deleteVoucherById(any());
+        when(voucherService.deleteVoucherById(any(UUID.class))).thenReturn(null);
 
         //then
         mockMvc.perform(delete("/api/v1/vouchers/" + UUID.randomUUID())

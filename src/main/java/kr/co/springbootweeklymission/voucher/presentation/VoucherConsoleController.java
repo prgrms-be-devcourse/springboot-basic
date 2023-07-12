@@ -3,6 +3,7 @@ package kr.co.springbootweeklymission.voucher.presentation;
 import kr.co.springbootweeklymission.console.InputView;
 import kr.co.springbootweeklymission.console.OutputView;
 import kr.co.springbootweeklymission.voucher.application.VoucherService;
+import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
 import kr.co.springbootweeklymission.voucher.presentation.dto.response.VoucherResDTO;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +17,14 @@ import java.util.UUID;
 public class VoucherConsoleController {
     private final VoucherService voucherService;
 
-    public void createVoucher() {
+    public Voucher createVoucher() {
         OutputView.outputCreateVoucher();
         OutputView.outputVoucherPolicy();
         final VoucherReqDTO.CREATE createVoucher = VoucherReqDTO.CREATE.builder()
                 .voucherPolicy(InputView.inputVoucherPolicy())
                 .amount(InputView.inputAmount())
                 .build();
-        voucherService.createVoucher(createVoucher);
+        return voucherService.createVoucher(createVoucher);
     }
 
     public VoucherResDTO.READ getVoucherById() {
@@ -35,7 +36,7 @@ public class VoucherConsoleController {
         return voucherService.getVouchersAll();
     }
 
-    public void updateVoucherById() {
+    public UUID updateVoucherById() {
         OutputView.outputUpdateVoucher();
         OutputView.outputVoucherPolicy();
         UUID voucherId = UUID.fromString(InputView.inputVoucherId());
@@ -43,12 +44,12 @@ public class VoucherConsoleController {
                 .voucherPolicy(InputView.inputVoucherPolicy())
                 .amount(InputView.inputAmount())
                 .build();
-        voucherService.updateVoucherById(voucherId, update);
+        return voucherService.updateVoucherById(voucherId, update);
     }
 
-    public void deleteVoucherById() {
+    public UUID deleteVoucherById() {
         OutputView.outputDeleteVoucher();
         UUID voucherId = UUID.fromString(InputView.inputVoucherId());
-        voucherService.deleteVoucherById(voucherId);
+        return voucherService.deleteVoucherById(voucherId);
     }
 }
