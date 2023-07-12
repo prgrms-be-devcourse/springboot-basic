@@ -18,7 +18,7 @@ public class ConsoleVoucher {
     private final VoucherController voucherController;
     private final Console console;
 
-    public void run() {
+    public void menu() {
         console.outputVoucherMenuGuide();
         VoucherMenu voucherMenu = VoucherMenu.from(console.inputMessage());
 

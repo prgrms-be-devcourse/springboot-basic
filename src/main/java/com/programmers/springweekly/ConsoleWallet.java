@@ -21,7 +21,7 @@ public class ConsoleWallet {
     private final VoucherController voucherController;
     private final Console console;
 
-    public void run() {
+    public void menu() {
         console.outputWalletMenuGuide();
         WalletMenu walletMenu = WalletMenu.from(console.inputMessage());
 
