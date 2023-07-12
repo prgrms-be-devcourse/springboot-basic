@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/vouchers", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,15 +33,11 @@ public class VoucherJsonApiController {
     }
 
     @GetMapping
-    public Response<List<VoucherDto>> vouchers() {
-        List<VoucherDto> vouchers = voucherApplication.findAllVouchers();
-
-        return Response.success(vouchers);
-    }
-
-    @GetMapping("/searchPolicy/{policy}")
-    public Response<List<VoucherDto>> specificPolicyVouchers(@PathVariable("policy") VoucherPolicy voucherPolicy) {
-        List<VoucherDto> vouchers = voucherApplication.findAllVouchersByPolicy(voucherPolicy);
+    public Response<List<VoucherDto>> vouchers(@RequestParam("policy") Optional<VoucherPolicy> policy) {
+        List<VoucherDto> vouchers = policy
+                .map(voucherApplication::findAllVouchersByPolicy)
+                .orElse(voucherApplication.findAllVouchers())
+                .stream().toList();
 
         return Response.success(vouchers);
     }
