@@ -39,11 +39,11 @@ public class ConsoleWallet {
     private void createWallet() {
         console.outputWalletCustomerUUIDGuide();
         UUID customerId = console.inputUUID();
-        customerController.findById(customerId);
+        customerController.existById(customerId);
 
         console.outputWalletVoucherUUIDGuide();
         UUID voucherId = console.inputUUID();
-        voucherController.findById(voucherId);
+        voucherController.existById(voucherId);
 
         walletController.save(new WalletCreateRequest(customerId, voucherId));
     }
@@ -51,7 +51,7 @@ public class ConsoleWallet {
     private void deleteWallet() {
         console.outputWalletUUIDGuide();
         UUID walletId = console.inputUUID();
-        
+
         walletController.deleteByWalletId(walletId);
     }
 

@@ -4,6 +4,7 @@ import com.programmers.springweekly.domain.voucher.Voucher;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,9 +31,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        Voucher voucher = voucherMap.get(voucherId);
-
-        return Optional.ofNullable(voucher);
+        try {
+            Voucher voucher = voucherMap.get(voucherId);
+            return Optional.of(voucher);
+        } catch (NullPointerException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -49,4 +53,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         voucherMap.clear();
     }
+
+    @Override
+    public void existById(UUID voucherId) {
+        try {
+            voucherMap.get(voucherId);
+        } catch (NullPointerException e) {
+            throw new NoSuchElementException("찾는 바우처가 없습니다.");
+        }
+    }
+
 }

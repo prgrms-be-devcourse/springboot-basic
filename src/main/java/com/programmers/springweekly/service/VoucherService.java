@@ -53,14 +53,17 @@ public class VoucherService {
     }
 
     public void deleteById(UUID voucherId) {
+        voucherRepository.existById(voucherId);
 
-        voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
-        
         voucherRepository.deleteById(voucherId);
     }
 
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
+
+    public void existById(UUID voucherId) {
+        voucherRepository.existById(voucherId);
+    }
+
 }

@@ -4,6 +4,7 @@ import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
@@ -63,7 +64,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 .addValue("voucherId", voucherId);
         try {
             Voucher voucher = template.queryForObject(sql, param, voucherRowMapper());
-            
+
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -94,6 +95,19 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         SqlParameterSource param = new MapSqlParameterSource();
 
         template.update(sql, param);
+    }
+
+    @Override
+    public void existById(UUID voucherId) {
+        String sql = "select * from vouchers where voucher_id = :voucherId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("voucherId", voucherId);
+        try {
+            template.queryForObject(sql, param, voucherRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new NoSuchElementException("바우처가 존재하지 않습니다.");
+        }
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

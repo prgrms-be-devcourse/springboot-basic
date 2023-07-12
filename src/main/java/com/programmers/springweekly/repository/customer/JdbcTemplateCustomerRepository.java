@@ -3,6 +3,7 @@ package com.programmers.springweekly.repository.customer;
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
@@ -63,7 +64,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
         try {
             Customer customer = template.queryForObject(sql, param, customerRowMapper());
-            
+
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -104,6 +105,20 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         SqlParameterSource param = new MapSqlParameterSource();
 
         template.update(sql, param);
+    }
+
+    @Override
+    public void existById(UUID customerId) {
+        String sql = "select * from customers where customer_id = :customerId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("customerId", customerId.toString());
+
+        try {
+            template.queryForObject(sql, param, customerRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new NoSuchElementException("고객이 존재하지 않습니다.");
+        }
     }
 
     private RowMapper<Customer> customerRowMapper() {

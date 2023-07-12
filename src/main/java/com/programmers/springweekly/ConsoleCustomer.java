@@ -45,6 +45,7 @@ public class ConsoleCustomer {
     private void deleteCustomer() {
         console.outputCustomerUUIDGuide();
         UUID customerId = console.inputUUID();
+        customerController.existById(customerId);
 
         customerController.deleteById(customerId);
         console.outputCompleteGuide();

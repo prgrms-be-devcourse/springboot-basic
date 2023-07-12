@@ -57,6 +57,7 @@ public class ConsoleVoucher {
     private void deleteVoucher() {
         console.outputVoucherUUIDGuide();
         UUID voucherId = console.inputUUID();
+        voucherController.existById(voucherId);
 
         voucherController.deleteById(voucherId);
         console.outputCompleteGuide();

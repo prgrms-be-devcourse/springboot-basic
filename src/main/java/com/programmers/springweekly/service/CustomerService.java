@@ -57,10 +57,17 @@ public class CustomerService {
     }
 
     public void deleteById(UUID customerId) {
+        customerRepository.existById(customerId);
+        
         customerRepository.deleteById(customerId);
     }
 
     public void deleteAll() {
         customerRepository.deleteAll();
     }
+
+    public void existById(UUID customerId) {
+        customerRepository.existById(customerId);
+    }
+
 }

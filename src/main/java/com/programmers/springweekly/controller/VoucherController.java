@@ -38,4 +38,9 @@ public class VoucherController {
     public void deleteAll() {
         voucherService.deleteAll();
     }
+
+    public void existById(UUID voucherId) {
+        voucherService.existById(voucherId);
+    }
+    
 }

@@ -23,11 +23,8 @@ public class WalletService {
 
     public void save(WalletCreateRequest walletCreateRequest) {
 
-        customerRepository.findById(walletCreateRequest.getCustomerId())
-                .orElseThrow(() -> new NoSuchElementException("찾는 고객이 없습니다."));
-
-        voucherRepository.findById(walletCreateRequest.getVoucherId())
-                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
+        customerRepository.existById(walletCreateRequest.getCustomerId());
+        voucherRepository.existById(walletCreateRequest.getVoucherId());
 
         Wallet wallet = Wallet.builder()
                 .walletId(UUID.randomUUID())
@@ -53,9 +50,7 @@ public class WalletService {
     }
 
     public void deleteByWalletId(UUID walletId) {
-
-        walletRepository.findByWalletId(walletId)
-                .orElseThrow(() -> new NoSuchElementException("삭제할 아이디가 저장되어 있지 않습니다."));
+        walletRepository.existByWalletId(walletId);
 
         walletRepository.deleteByWalletId(walletId);
     }

@@ -42,4 +42,9 @@ public class CustomerController {
     public void deleteAll() {
         customerService.deleteAll();
     }
+
+    public void existById(UUID voucherId) {
+        customerService.existById(voucherId);
+    }
+
 }

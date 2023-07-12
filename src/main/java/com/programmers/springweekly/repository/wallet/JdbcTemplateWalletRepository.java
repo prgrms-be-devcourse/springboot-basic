@@ -39,23 +39,6 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Optional<Wallet> findByWalletId(UUID walletId) {
-        String sql = "select * from wallet where wallet_id = :walletId";
-
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("walletId", walletId.toString());
-
-        try {
-            Wallet wallet = template.queryForObject(sql, param, walletRowMapper());
-
-            return Optional.of(wallet);
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
-
-
-    @Override
     public Optional<Wallet> findByCustomerId(UUID customerId) {
         String sql = "select * from wallet where customer_id = :customerId";
 
@@ -103,6 +86,20 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
         String sql = "select * from wallet";
 
         return template.query(sql, walletRowMapper());
+    }
+
+    @Override
+    public void existByWalletId(UUID walletId) {
+        String sql = "select * from wallet where wallet_id = :walletId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("walletId", walletId.toString());
+
+        try {
+            template.queryForObject(sql, param, walletRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new NoSuchElementException("바우처 지갑이 존재하지 않습니다.");
+        }
     }
 
     private RowMapper<Wallet> walletRowMapper() {
