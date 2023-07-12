@@ -21,7 +21,10 @@ public class CustomerService {
     }
 
     public Customer createCustomer(CustomerDto customerDto) {
-        Customer customer = convertDtoToCustomer(customerDto);
+        return convertDtoToCustomer(customerDto);
+    }
+
+    public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 

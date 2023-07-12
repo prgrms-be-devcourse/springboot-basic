@@ -34,6 +34,11 @@ public class LocalMemoryVoucherVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAllByUuIds(List<UUID> uuidList) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void deleteById(UUID uuid) {
         voucherStore.remove(uuid);
     }

@@ -2,6 +2,7 @@ package com.wonu606.vouchermanager.service.customerVoucherWallet;
 
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWallet;
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWalletDto;
+import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import com.wonu606.vouchermanager.repository.customerVoucherWallet.CustomerVoucherWalletRepository;
 import java.util.List;
@@ -20,11 +21,11 @@ public class CustomerVoucherWalletService {
         this.customerVoucherWalletRepository = customerVoucherWalletRepository;
     }
 
-    public List<UUID> findVoucherIdByCustomerEmailAddress(String emailAddress) {
-        return customerVoucherWalletRepository.findIdByCustomerEmailAddress(emailAddress);
+    public List<UUID> findVoucherIdByCustomer(Customer customer) {
+        return customerVoucherWalletRepository.findIdByCustomer(customer);
     }
 
-    public void deleteByCustomerVoucherWallet(CustomerVoucherWalletDto customerVoucherWalletDto) {
+    public void deleteByWallet(CustomerVoucherWalletDto customerVoucherWalletDto) {
         CustomerVoucherWallet customerVoucherWallet = convertDtoToWallet(customerVoucherWalletDto);
         customerVoucherWalletRepository.deleteByWallet(customerVoucherWallet);
     }

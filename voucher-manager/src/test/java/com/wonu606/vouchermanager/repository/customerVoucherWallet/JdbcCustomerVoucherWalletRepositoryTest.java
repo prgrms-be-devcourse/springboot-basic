@@ -62,12 +62,9 @@ class JdbcCustomerVoucherWalletRepositoryTest {
     @DisplayName("findVoucherIdByCustomerEmailAddress_저장된 이메일 주소라면_매핑된 Voucher id를 반환한다.")
     void findVoucherIdByCustomerEmailAddress_SavedEmailAddress_ReturnsVoucherIds(
             Customer customer, Voucher voucher) {
-        // given
-        String emailAddress = customer.getEmailAddress();
-
         // when
         List<UUID> actualUuids =
-                customerVoucherWalletRepository.findIdByCustomerEmailAddress(emailAddress);
+                customerVoucherWalletRepository.findIdByCustomer(customer);
 
         // then
         assertThat(actualUuids).hasSize(1);

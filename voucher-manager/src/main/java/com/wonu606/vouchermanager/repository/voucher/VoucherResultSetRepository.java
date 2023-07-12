@@ -18,4 +18,5 @@ public interface VoucherResultSetRepository {
 
     void deleteAll();
 
+    List<VoucherResultSet> findAllByUuids(List<UUID> uuidList);
 }

@@ -1,13 +1,13 @@
 package com.wonu606.vouchermanager.repository.customerVoucherWallet;
 
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWallet;
-import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWalletResultSet;
+import com.wonu606.vouchermanager.domain.customer.Customer;
 import java.util.List;
 import java.util.UUID;
 
 public interface CustomerVoucherWalletRepository {
 
-    List<UUID> findIdByCustomerEmailAddress(String emailAddress);
+    List<UUID> findIdByCustomer(Customer customer);
 
     void deleteByWallet(CustomerVoucherWallet customerVoucherWallet);
 

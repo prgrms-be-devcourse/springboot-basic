@@ -40,6 +40,14 @@ public class MappingVoucherVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAllByUuIds(List<UUID> uuidList) {
+        List<VoucherResultSet> voucherResultSetList = voucherResultSetRepository.findAllByUuids(uuidList);
+        return voucherResultSetList.stream()
+                .map(this::convertResultSetToEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void deleteById(UUID id) {
         voucherResultSetRepository.deleteById(id);
     }
