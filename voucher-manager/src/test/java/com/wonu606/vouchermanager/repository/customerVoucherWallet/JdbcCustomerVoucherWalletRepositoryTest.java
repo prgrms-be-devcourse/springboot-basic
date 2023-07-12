@@ -48,10 +48,11 @@ class JdbcCustomerVoucherWalletRepositoryTest {
                     Voucher voucher = (Voucher) arguments.get()[1];
                     customerResultSetRepository.save(customer);
                     voucherResultSetRepository.save(voucher);
+
                     customerVoucherWalletRepository.save(
                             new CustomerVoucherWallet(
                                     voucher.getUuid(),
-                                    customer.getEmailAddress()));
+                                    new EmailAddress(customer.getEmailAddress())));
                 }
         );
     }
@@ -66,7 +67,7 @@ class JdbcCustomerVoucherWalletRepositoryTest {
 
         // when
         List<UUID> actualUuids =
-                customerVoucherWalletRepository.findVoucherIdByCustomerEmailAddress(emailAddress);
+                customerVoucherWalletRepository.findIdByCustomerEmailAddress(emailAddress);
 
         // then
         assertThat(actualUuids).hasSize(1);
@@ -79,10 +80,12 @@ class JdbcCustomerVoucherWalletRepositoryTest {
     void deleteByCustomerVoucherWallet_SavedWallet_Deleted(Customer customer, Voucher voucher) {
         // given
         CustomerVoucherWallet customerVoucherWallet =
-                new CustomerVoucherWallet(voucher.getUuid(), customer.getEmailAddress());
+                new CustomerVoucherWallet(
+                        voucher.getUuid(),
+                        new EmailAddress(customer.getEmailAddress()));
 
         // when
-        customerVoucherWalletRepository.deleteByCustomerVoucherWallet(customerVoucherWallet);
+        customerVoucherWalletRepository.deleteByWallet(customerVoucherWallet);
 
         // then
         List<String> emailAddresses =

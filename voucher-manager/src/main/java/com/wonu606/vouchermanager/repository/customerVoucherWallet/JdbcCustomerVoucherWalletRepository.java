@@ -1,12 +1,10 @@
 package com.wonu606.vouchermanager.repository.customerVoucherWallet;
 
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWallet;
-import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWalletResultSet;
 import java.util.List;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +17,7 @@ public class JdbcCustomerVoucherWalletRepository implements CustomerVoucherWalle
     }
 
     @Override
-    public List<UUID> findVoucherIdByCustomerEmailAddress(String emailAddress) {
+    public List<UUID> findIdByCustomerEmailAddress(String emailAddress) {
         String selectSql = "SELECT voucher_id FROM customer_voucher_wallet WHERE customer_email_address = ?";
         return jdbcTemplate.query(selectSql,
                 (rs, rowNum) -> UUID.fromString(rs.getString("voucher_id")),
@@ -27,17 +25,17 @@ public class JdbcCustomerVoucherWalletRepository implements CustomerVoucherWalle
     }
 
     @Override
-    public void deleteByCustomerVoucherWallet(CustomerVoucherWallet customerVoucherWallet) {
+    public void deleteByWallet(CustomerVoucherWallet wallet) {
         String deleteSql = "DELETE FROM customer_voucher_wallet WHERE customer_email_address = ? AND voucher_id = ?";
         jdbcTemplate.update(deleteSql,
-                customerVoucherWallet.getEmailAddress(),
-                customerVoucherWallet.getVoucherId().toString());
+                wallet.getEmailAddress(),
+                wallet.getVoucherId().toString());
     }
 
     @Override
-    public CustomerVoucherWallet save(CustomerVoucherWallet customerVoucherWallet) {
-        insertCustomerVoucherWallet(customerVoucherWallet);
-        return customerVoucherWallet;
+    public CustomerVoucherWallet save(CustomerVoucherWallet wallet) {
+        insertCustomerVoucherWallet(wallet);
+        return wallet;
     }
 
     @Override
@@ -48,19 +46,10 @@ public class JdbcCustomerVoucherWalletRepository implements CustomerVoucherWalle
                 voucherId.toString());
     }
 
-    private void insertCustomerVoucherWallet(CustomerVoucherWallet customerVoucherWallet) {
+    private void insertCustomerVoucherWallet(CustomerVoucherWallet wallet) {
         String insertSql = "INSERT INTO customer_voucher_wallet (customer_email_address, voucher_id) VALUES (?, ?)";
         jdbcTemplate.update(insertSql,
-                customerVoucherWallet.getEmailAddress(),
-                customerVoucherWallet.getVoucherId());
-    }
-
-    private RowMapper<CustomerVoucherWalletResultSet> customerVoucherWalletResultSetRowMapper() {
-        return (resultSet, rowNum) -> {
-            String customerEmailAddress = resultSet.getString("customer_email_address");
-            UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
-
-            return new CustomerVoucherWalletResultSet(voucherId, customerEmailAddress);
-        };
+                wallet.getEmailAddress(),
+                wallet.getVoucherId());
     }
 }
