@@ -56,6 +56,17 @@ public class VoucherService {
         return new VoucherResponse(voucher.getVoucherId(), voucher.getDiscount(), voucher.getVoucherType(), voucher.getCreatedAt());
     }
 
+    //조회(Read) - 바우처 타입별로 조회
+
+    public VoucherListResponse findByType(VoucherType type) {
+        List<Voucher> ListVoucherType = voucherRepository.findByType(type);
+        List<VoucherResponse> voucherResponseList = ListVoucherType.stream()
+                .map(voucher -> new VoucherResponse(voucher.getVoucherId(), voucher.getDiscount(),
+                        voucher.getVoucherType(), voucher.getCreatedAt()))
+                .collect(Collectors.toList());
+        return new VoucherListResponse(voucherResponseList);
+    }
+
     //조회(Read) -모든 바우처의 목록을 조회
     public VoucherListResponse findAllVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
