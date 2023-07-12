@@ -1,7 +1,7 @@
 package com.dev.bootbasic.user.repository;
 
 import com.dev.bootbasic.user.domain.User;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class JdbcUserRepositoryTest {
         userRepository.create(user);
         userRepository.deleteById(user.getId());
         Optional<User> foundUser = userRepository.findById(user.getId());
-        Assertions.assertTrue(foundUser.isEmpty());
+        assertThat(foundUser).isEmpty();
     }
 
     private void setUser() {
