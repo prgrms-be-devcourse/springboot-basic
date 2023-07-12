@@ -1,14 +1,10 @@
 package com.dev.bootbasic.voucher.domain;
 
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
-@Component
 public class VoucherFactory {
 
-    public Voucher create(String type, int discountAmount) {
-        UUID id = UUID.randomUUID();
+    public static Voucher create(UUID id, String type, int discountAmount) {
         VoucherType voucherType = VoucherType.from(type);
 
         return switch (voucherType) {
@@ -16,5 +12,4 @@ public class VoucherFactory {
             case PERCENT -> PercentDiscountVoucher.of(id, discountAmount);
         };
     }
-
 }

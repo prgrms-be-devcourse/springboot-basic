@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static com.dev.bootbasic.voucher.domain.VoucherType.FIXED;
@@ -22,14 +23,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class VoucherServiceTest {
 
-    private VoucherFactory voucherFactory = new VoucherFactory();
     private VoucherService voucherService;
     private VoucherRepository voucherRepository;
 
     @BeforeEach
     public void setUp() {
         voucherRepository = new InMemoryVoucherRepository();
-        voucherService = new VoucherService(voucherRepository, voucherFactory);
+        voucherService = new VoucherService(voucherRepository);
     }
 
     @DisplayName("바우처 유형과 금액으로 바우처를 생성할 수 있고 생성된 바우처의 id를 반환한다.")
@@ -61,7 +61,7 @@ class VoucherServiceTest {
     @Test
     void findFailTest() {
         assertThatThrownBy(() -> voucherService.findVoucher(UUID.randomUUID()))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NoSuchElementException.class);
     }
 
 }

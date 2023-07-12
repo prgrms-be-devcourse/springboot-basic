@@ -4,8 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.UUID;
-
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -20,7 +19,7 @@ class VoucherFactoryTest {
             "percent, 50, PERCENT"
     })
     void createVoucherTest(String type, int amount, VoucherType expectedVoucherType) {
-        Voucher voucher = voucherFactory.create(type, amount);
+        Voucher voucher = voucherFactory.create(randomUUID(), type, amount);
 
         assertThat(voucher)
                 .extracting(Voucher::getVoucherType, Voucher::getDiscountAmount)
@@ -35,7 +34,7 @@ class VoucherFactoryTest {
     })
     void createVoucherFailTest(String type, int amount, RuntimeException exception) {
 
-        assertThatThrownBy(() -> voucherFactory.create(type, amount))
+        assertThatThrownBy(() -> voucherFactory.create(randomUUID(), type, amount))
                 .isInstanceOf(exception.getClass());
     }
 
