@@ -36,12 +36,9 @@ public class WalletService {
     public CustomerResponseDto findCustomerByVoucherId(UUID voucherId) {
         Optional<Customer> customerWrapper = jdbcWalletRepository.findCustomerByVoucherId(voucherId);
 
-        if (customerWrapper.isPresent()) {
-            Customer customer = customerWrapper.get();
-            return new CustomerResponseDto(customer.getCustomerId(), customer.getCustomerName(), customer.getCustomerType());
-        }
-
-        return new CustomerResponseDto(null, null, null);
+        return customerWrapper.map(customer ->
+                        new CustomerResponseDto(customer.getCustomerId(), customer.getCustomerName(), customer.getCustomerType()))
+                .orElse(new CustomerResponseDto(null, null, null));
     }
 
     @Transactional
