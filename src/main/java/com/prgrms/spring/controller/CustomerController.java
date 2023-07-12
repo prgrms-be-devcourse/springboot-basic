@@ -38,9 +38,6 @@ public class CustomerController {
     }
 
     public void getAllCustomers() {
-        List<Customer> customerList = (List<Customer>) customerService.getAllCustomers();
-        List<String> outputList = new ArrayList<>();
-        customerList.forEach(customer -> outputList.add(String.format("Name : %s \nEmail : %s\n", customer.getName(), customer.getEmail())));
-        consoleView.showAllCustomers(outputList);
+        consoleView.showAllCustomers(customerService.getAllCustomers());
     }
 }

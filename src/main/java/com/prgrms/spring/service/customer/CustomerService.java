@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,7 +33,10 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<String> getAllCustomers() {
+        List<Customer> customerList = customerRepository.findAll();
+        List<String> outputList = new ArrayList<>();
+        customerList.forEach(customer -> outputList.add(String.format("Name : %s \nEmail : %s\n", customer.getName(), customer.getEmail())));
+        return outputList;
     }
 }

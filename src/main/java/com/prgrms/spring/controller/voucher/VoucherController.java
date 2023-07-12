@@ -39,10 +39,6 @@ public class VoucherController {
     }
 
     public void getAllVoucher() {
-        List<Voucher> voucherList = (List<Voucher>) voucherService.getAllVoucher();
-        List<String> outputList = new ArrayList<>();
-        voucherList.forEach(voucher -> outputList.add(String.format("%s : %d %s", voucher.getVoucherName(), voucher.getDiscount(), voucher.getDiscountUnit())));
-
-        consoleView.showAllVouchers(outputList);
+        consoleView.showAllVouchers(voucherService.getAllVoucher());
     }
 }

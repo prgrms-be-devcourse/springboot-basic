@@ -30,7 +30,10 @@ public class VoucherService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<Voucher> getAllVoucher() {
-        return voucherRepository.findAll();
+    public List<String> getAllVoucher() {
+        List<Voucher> voucherList =  voucherRepository.findAll();
+        List<String> outputList = new ArrayList<>();
+        voucherList.forEach(voucher -> outputList.add(String.format("%s : %d %s", voucher.getVoucherName(), voucher.getDiscount(), voucher.getDiscountUnit())));
+        return outputList;
     }
 }
