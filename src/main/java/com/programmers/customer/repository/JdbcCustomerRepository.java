@@ -36,9 +36,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer update(Customer customer) {
         String sql = "update customer set name = :name , modified_at = :modifiedAt where id = :id";
         int update = jdbcTemplate.update(sql, converParameterToMap(customer));
-        if (update != 1) {
-            throw new RuntimeException(UPDATE_FAIL_MESSAGE);
-        }
         return customer;
     }
 
@@ -63,10 +60,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteById(UUID customerId) {
         String sql = "delete from customer where id = :id";
-        int update = jdbcTemplate.update(sql, Collections.singletonMap("id", customerId.toString()));
-        if (update != 1) {
-            throw new NoSuchElementException(UPDATE_FAIL_MESSAGE);
-        }
+        jdbcTemplate.update(sql, Collections.singletonMap("id", customerId.toString()));
     }
 
     private Map<String, Object> converParameterToMap (Customer customer) {
