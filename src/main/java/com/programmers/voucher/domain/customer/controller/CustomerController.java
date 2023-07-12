@@ -34,7 +34,7 @@ public class CustomerController {
                 output.displayCustomer(customer);
             }
             case READ_ALL -> {
-                List<CustomerResponse> customers = getAllCustomers();
+                List<CustomerResponse> customers = customerService.getAllCustomers();
                 customers.forEach(output::displayCustomer);
             }
             case READ -> {
@@ -54,10 +54,6 @@ public class CustomerController {
         CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.of(nickname);
 
         return customerService.createCustomer(customerCreateRequest);
-    }
-
-    private List<CustomerResponse> getAllCustomers() {
-        return customerService.getAllCustomers();
     }
 
     private CustomerResponse getCustomer() {
