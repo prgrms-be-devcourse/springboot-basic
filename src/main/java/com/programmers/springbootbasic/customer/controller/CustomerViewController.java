@@ -1,14 +1,14 @@
 package com.programmers.springbootbasic.customer.controller;
 
 import com.programmers.springbootbasic.customer.dto.CustomerCreateRequestDto;
+import com.programmers.springbootbasic.customer.dto.CustomerResponseDto;
 import com.programmers.springbootbasic.customer.dto.CustomersResponseDto;
 import com.programmers.springbootbasic.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RequestMapping("customer")
 @Controller
@@ -38,5 +38,13 @@ public class CustomerViewController {
         customerService.save(customerCreateRequestDto);
 
         return "redirect:/customer/list";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") UUID id, Model model) {
+        CustomerResponseDto customerResponseDto = customerService.findById(id);
+        model.addAttribute("customer", customerResponseDto);
+
+        return "customer/customer-detail";
     }
 }
