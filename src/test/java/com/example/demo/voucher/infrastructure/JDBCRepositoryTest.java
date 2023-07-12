@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JDBCRepositoryTest {
 
@@ -78,6 +77,7 @@ class JDBCRepositoryTest {
     }
 
     @Test
+    @DisplayName("아이디로 조회")
     void findById() {
         // Given
         jdbcRepository.insert(voucher);
@@ -91,6 +91,7 @@ class JDBCRepositoryTest {
     }
 
     @Test
+    @DisplayName("모든 데이터 검색")
     void findAll() {
         // Given
         jdbcRepository.insert(voucher);
@@ -104,6 +105,7 @@ class JDBCRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 삽입")
     void insert() {
         // Given
         // voucher is set up in the BeforeEach block
