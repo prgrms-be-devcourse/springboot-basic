@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.voucher.Service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +14,10 @@ import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherServiceImpl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +41,7 @@ public class VoucherServiceTest {
         VoucherResponseDto responseDto = voucherService.create(fixedAmountVoucher.getVoucherType(), fixedAmountVoucher.getAmount());
 
         //then
-        Assertions.assertThat(responseDto.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
+        assertThat(responseDto.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
     }
 
     @Test
@@ -54,7 +56,21 @@ public class VoucherServiceTest {
         VoucherResponseDto responseDto = voucherService.findById(fixedAmountVoucher.getVoucherId());
 
         //then
-        Assertions.assertThat(responseDto.getAmount()).isEqualTo(fixedAmountVoucher.getAmount());
+        assertThat(responseDto.getAmount()).isEqualTo(fixedAmountVoucher.getAmount());
+    }
+
+    @Test
+    void 바우처_조회_실패_테스트() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+
+        //mocking
+        given(voucherRepository.findById(voucherId)).willReturn(null);
+
+        //when & then
+        assertThatThrownBy(() -> voucherService.findById(voucherId))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("바우처를 찾지 못했습니다.");
     }
 
     @Test
@@ -70,7 +86,7 @@ public class VoucherServiceTest {
         List<VoucherResponseDto> responseDtos = voucherService.findAll();
 
         //then
-        Assertions.assertThat(responseDtos).hasSize(2);
+        assertThat(responseDtos).hasSize(2);
     }
 
     @Test
@@ -88,10 +104,10 @@ public class VoucherServiceTest {
         VoucherResponseDto responseDto = voucherService.update(savedVoucher.getVoucherId(), VoucherType.PERCENT, 10);
 
         //then
-        Assertions.assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
-        Assertions.assertThat(responseDto.getVoucherId()).isEqualTo(updatedVoucher.getVoucherId());
-        Assertions.assertThat(responseDto.getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
-        Assertions.assertThat(responseDto.getAmount()).isEqualTo(updatedVoucher.getAmount());
+        assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(responseDto.getVoucherId()).isEqualTo(updatedVoucher.getVoucherId());
+        assertThat(responseDto.getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
+        assertThat(responseDto.getAmount()).isEqualTo(updatedVoucher.getAmount());
     }
 
     @Test
@@ -107,7 +123,7 @@ public class VoucherServiceTest {
         List<VoucherResponseDto> memorySize = voucherService.findAll();
 
         //then
-        Assertions.assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
-        Assertions.assertThat(memorySize).hasSize(0);
+        assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(memorySize).hasSize(0);
     }
 }
