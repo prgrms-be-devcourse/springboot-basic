@@ -2,7 +2,6 @@ package com.programmers.voucher.service;
 
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherMapper;
-import com.programmers.voucher.dto.ServiceDto;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
@@ -23,8 +22,8 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Transactional
-    public VoucherResponseDto create(ServiceDto serviceDto) {
-        Voucher voucher = VoucherMapper.convertServiceToDomain(serviceDto);
+    public VoucherResponseDto create(VoucherRequestDto requestDto) {
+        Voucher voucher = VoucherMapper.convertRequestDtoToDomain(UUID.randomUUID(), requestDto);
         voucherRepository.save(voucher);
         return VoucherMapper.convertDomainToResponseDto(voucher);
     }
@@ -36,6 +35,7 @@ public class VoucherServiceImpl implements VoucherService {
                 .toList();
     }
 
+    //파라미터의 변경을 예측가능 /변경성이 낮음 /일반적이기 때문
     public VoucherResponseDto findVoucherById(UUID voucherID) {
         Voucher voucher = voucherRepository.findById(voucherID);
         return VoucherMapper.convertDomainToResponseDto(voucher);

@@ -1,10 +1,5 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.voucher.domain.Discount;
-import com.programmers.voucher.domain.DiscountType;
-import com.programmers.voucher.domain.VoucherMapper;
-import com.programmers.voucher.dto.ServiceDto;
-import com.programmers.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.service.VoucherService;
@@ -25,9 +20,8 @@ public class VoucherApiController {
     }
 
     @PostMapping()
-    public ResponseEntity<VoucherResponseDto> create(@RequestBody VoucherCreateRequest requestDto) {
-        ServiceDto serviceDto = VoucherMapper.convertCreateToServiceDto(requestDto);
-        VoucherResponseDto response = voucherService.create(serviceDto);
+    public ResponseEntity<VoucherResponseDto> create(@RequestBody VoucherRequestDto requestDto) {
+        VoucherResponseDto response = voucherService.create(requestDto);
         return ResponseEntity.ok(response);
     }
 

@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain;
 
+import com.programmers.voucher.dto.VoucherRequestDto;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -27,6 +29,11 @@ public class Voucher {
         this.discount = discount;
         this.createdAt = createdAt;
         this.expiredAt = expiration;
+    }
+
+    public static Voucher from(UUID voucherId, VoucherRequestDto requestDto) {
+        Discount discount = Discount.of(requestDto.discountType(), requestDto.value());
+        return new Voucher(voucherId, discount, LocalDateTime.now());
     }
 
     public long discountWith(long itemPrice, LocalDateTime usedAt) {
