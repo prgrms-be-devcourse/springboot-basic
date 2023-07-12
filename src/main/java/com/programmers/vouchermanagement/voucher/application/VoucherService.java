@@ -23,12 +23,13 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public Voucher createVoucher(VoucherCreationRequest request) {
+    public VoucherResponse createVoucher(VoucherCreationRequest request) {
         DiscountType discountType = request.type();
         int amount = request.amount();
         DiscountPolicy discountPolicy = discountType.createDiscountPolicy(amount);
         Voucher voucher = new Voucher(discountPolicy);
-        return voucherRepository.save(voucher);
+        Voucher savedVoucher = voucherRepository.save(voucher);
+        return new VoucherResponse(savedVoucher);
     }
 
     public List<VoucherResponse> getVouchers() {

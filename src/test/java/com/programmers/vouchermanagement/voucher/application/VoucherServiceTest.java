@@ -41,7 +41,7 @@ class VoucherServiceTest {
                 .willReturn(voucher);
 
         // when
-        Voucher result = voucherService.createVoucher(request);
+        VoucherResponse result = voucherService.createVoucher(request);
 
         // then
         assertThat(result).isNotNull();
