@@ -77,11 +77,10 @@ public class JdbcVoucherResultSetRepository implements VoucherResultSetRepositor
         }
         List<String> uuidStringList = uuidList.stream().map(UUID::toString).collect(Collectors.toList());
 
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        
-        parameters.addValue("uuidList", uuidStringList);
-
         String selectSql = "SELECT * FROM voucher WHERE voucher_id IN (:uuidList)";
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("uuidList", uuidStringList);
 
         return namedParameterJdbcTemplate.query(selectSql, parameters, voucherResultSetRowMapper());
     }

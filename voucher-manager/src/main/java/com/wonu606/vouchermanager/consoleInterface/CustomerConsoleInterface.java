@@ -49,9 +49,9 @@ public class CustomerConsoleInterface {
                 return;
 
             case VOUCHER_LIST:
-                CustomerDto customerDtoToSearch = createCustomerDto();
+                String emailAddress = customerConsoleIO.readString("Email Address");
                 List<Voucher> voucherListOwned =
-                        customerController.getVouchersOwnedByCustomer(customerDtoToSearch);
+                        customerController.getVouchersOwnedByCustomer(emailAddress);
                 customerConsoleIO.displayVoucherList(voucherListOwned);
                 return;
 

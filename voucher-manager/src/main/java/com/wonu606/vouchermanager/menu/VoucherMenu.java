@@ -10,7 +10,9 @@ public enum VoucherMenu {
     START,
     EXIT,
     CREATE,
-    LIST;
+    LIST,
+    ASSIGN,
+    CUSTOMER_LIST;
 
     public static VoucherMenu getTypeByName(String name) {
         return Arrays.stream(values())

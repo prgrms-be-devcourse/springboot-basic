@@ -1,5 +1,6 @@
 package com.wonu606.vouchermanager.io;
 
+import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.menu.VoucherMenu;
 import com.wonu606.vouchermanager.service.voucher.VoucherType;
@@ -28,6 +29,11 @@ public class VoucherConsoleIO extends AbstractConsoleIO {
     public void displayVoucherList(List<Voucher> voucherList) {
         printer.displayMessage("=== 바우처 리스트 ===");
         voucherList.forEach(v -> printer.displayMessage(v.toString()));
+    }
+
+    public void displayCustomerList(List<Customer> customerList) {
+        printer.displayMessage("=== 보유한 Customer 리스트 ===");
+        customerList.forEach(c -> printer.displayMessage(c.toString()));
     }
 
     protected void displayMenu() {

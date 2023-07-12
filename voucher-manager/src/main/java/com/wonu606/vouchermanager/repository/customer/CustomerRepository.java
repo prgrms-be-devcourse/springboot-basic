@@ -13,6 +13,8 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
+    List<Customer> findAllByEmailAddresses(List<EmailAddress> emailAddresses);
+
     void deleteByEmailAddress(EmailAddress emailAddress);
 
     void deleteAll();

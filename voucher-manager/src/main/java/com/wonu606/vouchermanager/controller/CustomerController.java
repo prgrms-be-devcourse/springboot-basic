@@ -3,6 +3,7 @@ package com.wonu606.vouchermanager.controller;
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWalletDto;
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerDto;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.service.customer.CustomerService;
 import com.wonu606.vouchermanager.service.customerVoucherWallet.CustomerVoucherWalletService;
@@ -34,9 +35,8 @@ public class CustomerController {
         return customerService.getCustomerList();
     }
 
-    public List<Voucher> getVouchersOwnedByCustomer(CustomerDto customerDto) {
-        Customer customer = customerService.createCustomer(customerDto);
-        List<UUID> voucherIdList = walletService.findVoucherIdListByCustomer(customer);
+    public List<Voucher> getVouchersOwnedByCustomer(String emailAddress) {
+        List<UUID> voucherIdList = walletService.findVoucherIdListByCustomerEmailAddress(new EmailAddress(emailAddress));
         return voucherService.getVoucherList(voucherIdList);
     }
 

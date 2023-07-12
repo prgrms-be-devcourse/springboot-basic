@@ -1,20 +1,20 @@
 package com.wonu606.vouchermanager;
 
+import com.wonu606.vouchermanager.consoleInterface.CustomerConsoleInterface;
 import com.wonu606.vouchermanager.consoleInterface.VoucherConsoleInterface;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherManagerCommandLineRunner implements CommandLineRunner {
+    private final CustomerConsoleInterface customerConsoleInterface;
 
-    private final VoucherConsoleInterface consoleInterface;
-
-    public VoucherManagerCommandLineRunner(VoucherConsoleInterface consoleInterface) {
-        this.consoleInterface = consoleInterface;
+    public VoucherManagerCommandLineRunner(CustomerConsoleInterface customerConsoleInterface) {
+        this.customerConsoleInterface = customerConsoleInterface;
     }
 
     @Override
     public void run(String... args) {
-        consoleInterface.run();
+        customerConsoleInterface.run();
     }
 }

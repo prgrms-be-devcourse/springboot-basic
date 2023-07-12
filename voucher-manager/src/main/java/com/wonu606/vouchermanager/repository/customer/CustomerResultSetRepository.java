@@ -18,4 +18,5 @@ public interface CustomerResultSetRepository {
 
     void deleteAll();
 
+    List<CustomerResultSet> findAllByEmailAddresses(List<EmailAddress> emailAddresses);
 }

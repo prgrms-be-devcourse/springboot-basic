@@ -36,6 +36,15 @@ public class MappingCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findAllByEmailAddresses(List<EmailAddress> emailAddresses) {
+        List<CustomerResultSet> customerResultSets =
+                customerResultSetRepository.findAllByEmailAddresses(emailAddresses);
+        return customerResultSets.stream()
+                .map(this::convertResultSetToEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void deleteByEmailAddress(EmailAddress emailAddress) {
         customerResultSetRepository.deleteByEmailAddress(emailAddress);
     }

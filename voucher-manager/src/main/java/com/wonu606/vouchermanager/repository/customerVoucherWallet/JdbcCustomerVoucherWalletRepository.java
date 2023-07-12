@@ -1,7 +1,7 @@
 package com.wonu606.vouchermanager.repository.customerVoucherWallet;
 
 import com.wonu606.vouchermanager.domain.CustomerVoucherWallet.CustomerVoucherWallet;
-import com.wonu606.vouchermanager.domain.customer.Customer;
+import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
 import java.util.List;
 import java.util.UUID;
 import javax.sql.DataSource;
@@ -18,11 +18,11 @@ public class JdbcCustomerVoucherWalletRepository implements CustomerVoucherWalle
     }
 
     @Override
-    public List<UUID> findIdByCustomer(Customer customer) {
+    public List<UUID> findIdByCustomerEmailAddress(EmailAddress emailAddress) {
         String selectSql = "SELECT voucher_id FROM customer_voucher_wallet WHERE customer_email_address = ?";
         return jdbcTemplate.query(selectSql,
                 (rs, rowNum) -> UUID.fromString(rs.getString("voucher_id")),
-                customer.getEmailAddress());
+                emailAddress.getAddress());
     }
 
     @Override
