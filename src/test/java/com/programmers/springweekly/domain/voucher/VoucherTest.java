@@ -20,6 +20,14 @@ public class VoucherTest {
         assertThat(voucher).isInstanceOf(FixedAmountVoucher.class);
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"accVoucher", "divideVoucher"})
+    @DisplayName("바우처 타입에 없는 타입이 입력되면 예외를 발생시킨다.")
+    void voucherTypeTest(String input) {
+        assertThatThrownBy(() -> VoucherType.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Input: " + input + ", 찾으시는 바우처 타입이 없습니다.");
+    }
 
     @ParameterizedTest
     @CsvSource(value = {"1000:10000:9000", "2000:3000:1000", "10000:20000:10000"}, delimiter = ':')

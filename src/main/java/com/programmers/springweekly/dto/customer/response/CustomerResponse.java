@@ -19,5 +19,14 @@ public class CustomerResponse {
         this.customerEmail = customer.getCustomerEmail();
         this.customerType = customer.getCustomerType();
     }
-    
+
+    @Override
+    public String toString() {
+        return "고객이 생성되었습니다." +
+                "customerId=" + customerId +
+                ", customerName='" + customerName + '\'' +
+                ", customerEmail='" + customerEmail + '\'' +
+                ", customerType=" + customerType +
+                '}';
+    }
 }

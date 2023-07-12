@@ -15,8 +15,8 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    public void save(CustomerCreateRequest customerCreateRequest) {
-        customerService.save(customerCreateRequest);
+    public CustomerResponse save(CustomerCreateRequest customerCreateRequest) {
+        return customerService.save(customerCreateRequest);
     }
 
     public void update(CustomerUpdateRequest customerUpdateRequest) {

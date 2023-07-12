@@ -36,6 +36,8 @@ public interface Output {
 
     void outputCustomerUpdateGuide();
 
+    void outputCompleteGuideContainMsg(String message);
+
     void outputCustomerCreateGuide();
 
     void outputCompleteGuide();

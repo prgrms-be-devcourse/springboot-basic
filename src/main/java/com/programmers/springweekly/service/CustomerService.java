@@ -18,7 +18,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public void save(CustomerCreateRequest customerCreateRequest) {
+    public CustomerResponse save(CustomerCreateRequest customerCreateRequest) {
         Customer customer = Customer.builder()
                 .customerId(UUID.randomUUID())
                 .customerName(customerCreateRequest.getCustomerName())
@@ -26,7 +26,7 @@ public class CustomerService {
                 .customerType(customerCreateRequest.getCustomerType())
                 .build();
 
-        customerRepository.save(customer);
+        return new CustomerResponse(customerRepository.save(customer));
     }
 
     public void update(CustomerUpdateRequest customerUpdateRequest) {

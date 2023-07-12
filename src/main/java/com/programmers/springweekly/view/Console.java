@@ -18,6 +18,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class Console implements Input, Output {
 
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -82,7 +83,13 @@ public class Console implements Input, Output {
 
     @Override
     public UUID inputUUID() {
-        return UUID.fromString(SCANNER.nextLine());
+        try {
+            UUID uuid = UUID.fromString(SCANNER.nextLine());
+            return uuid;
+        } catch (Exception e) {
+            log.error("입력된 값은 UUID 형식이 아닐 수 있습니다. 다시 한 번 확인해보세요. {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
@@ -195,6 +202,11 @@ public class Console implements Input, Output {
     @Override
     public void outputCompleteGuide() {
         System.out.println("작업이 처리되었습니다.");
+    }
+
+    @Override
+    public void outputCompleteGuideContainMsg(String message) {
+        System.out.println(message);
     }
 
     @Override

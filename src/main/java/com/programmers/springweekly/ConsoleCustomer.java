@@ -4,6 +4,7 @@ import com.programmers.springweekly.controller.CustomerController;
 import com.programmers.springweekly.domain.CustomerMenu;
 import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
+import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.view.Console;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -69,8 +70,8 @@ public class ConsoleCustomer {
     private void createCustomer() {
         console.outputCustomerCreateGuide();
 
-        customerController.save(console.inputCustomerCreate());
-        console.outputCompleteGuide();
+        CustomerResponse customerResponse = customerController.save(console.inputCustomerCreate());
+        console.outputCompleteGuideContainMsg(customerResponse.toString());
     }
 
     private void getBlackList() {
