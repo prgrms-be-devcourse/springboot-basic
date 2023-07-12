@@ -19,6 +19,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'com.mysql:mysql-connector-j:8.0.33'
     // https://mvnrepository.com/artifact/org.beryx/text-io
     implementation 'org.beryx:text-io:3.4.1'
