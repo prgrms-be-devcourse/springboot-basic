@@ -3,6 +3,10 @@
 ### 프로젝트 설계도 및 클래스 역할/책임
 ![image](https://github.com/sujjangOvO/springboot-basic/assets/89267864/24c4370d-a996-4049-aed7-5b93c8536ad3)
 
+**1차 리팩토링 이후 설계도**
+![image](https://github.com/sujjangOvO/springboot-basic/assets/89267864/eb6ad9d8-eb98-4fb3-9647-08546f71b90b)
+
+
 ### 구현한 기능
 - [x]  Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 개발PC에 설치해서 명령어들을 사용해보고 프로젝트를 만든다. 그리고 IDE (IntelliJ)에서 실행시켜 본다.
 - [x]  바우처 관리 Command-line Application을  만들어본다.
