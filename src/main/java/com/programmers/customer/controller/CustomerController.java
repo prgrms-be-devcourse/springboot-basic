@@ -2,6 +2,7 @@ package com.programmers.customer.controller;
 
 import com.programmers.customer.dto.CustomerRequestDto;
 import com.programmers.customer.dto.CustomerResponseDto;
+import com.programmers.customer.dto.CustomerUpdateRequest;
 import com.programmers.customer.service.CustomerService;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class CustomerController {
         return customerService.create(requestDto);
     }
 
-    public CustomerResponseDto update(CustomerRequestDto requestDto) {
-        return customerService.update(requestDto);
+    public CustomerResponseDto update(CustomerUpdateRequest updateRequest) {
+        return customerService.update(updateRequest);
     }
 
     public List<CustomerResponseDto> findAll() {

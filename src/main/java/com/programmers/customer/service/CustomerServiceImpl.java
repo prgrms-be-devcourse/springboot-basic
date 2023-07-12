@@ -4,6 +4,7 @@ import com.programmers.customer.domain.Customer;
 import com.programmers.customer.domain.CustomerMapper;
 import com.programmers.customer.dto.CustomerRequestDto;
 import com.programmers.customer.dto.CustomerResponseDto;
+import com.programmers.customer.dto.CustomerUpdateRequest;
 import com.programmers.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,12 +32,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional
     @Override
-    public CustomerResponseDto update(CustomerRequestDto requestDto) {
-        Customer oldCustomer = customerRepository.findById(requestDto.customerId());
+    public CustomerResponseDto update(CustomerUpdateRequest updateRequest) {
+        Customer oldCustomer = customerRepository.findById(updateRequest.customerId());
         UUID id = oldCustomer.getCustomerId();
-        String newName = requestDto.name();
+        String newName = updateRequest.name();
         LocalDateTime createdAt = oldCustomer.getCreatedAt();
-        LocalDateTime modifiedAt = LocalDateTime.now();
+        LocalDateTime modifiedAt = updateRequest.modifiedAt();
         Customer newCustomer = new Customer(id, newName, createdAt, modifiedAt);
         return CustomerMapper.convertDomainToResponseDto(customerRepository.update(newCustomer));
     }

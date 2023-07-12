@@ -2,6 +2,7 @@ package com.programmers.customer.service;
 
 import com.programmers.customer.dto.CustomerRequestDto;
 import com.programmers.customer.dto.CustomerResponseDto;
+import com.programmers.customer.dto.CustomerUpdateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,8 +48,8 @@ class CustomerServiceImplTest {
         CustomerRequestDto requestDto = new CustomerRequestDto(id, "고객");
         CustomerResponseDto createdCustomer = customerService.create(requestDto);
 
-        CustomerRequestDto requestDto2 = new CustomerRequestDto(id, "손님");
-        CustomerResponseDto updatedCustomer = customerService.update(requestDto2);
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(id, "손님", LocalDateTime.now());
+        CustomerResponseDto updatedCustomer = customerService.update(updateRequest);
 
         assertThat(createdCustomer.customerId()).isEqualTo(updatedCustomer.customerId());
         assertThat(createdCustomer.name()).isNotEqualTo(updatedCustomer.name());
