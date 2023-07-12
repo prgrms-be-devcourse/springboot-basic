@@ -12,6 +12,6 @@ public class VoucherResponse {
 
     private final UUID voucherId;
     private long discount;
-    private VoucherType type;
+    private final VoucherType type;
     private final LocalDateTime createAt;
 }
