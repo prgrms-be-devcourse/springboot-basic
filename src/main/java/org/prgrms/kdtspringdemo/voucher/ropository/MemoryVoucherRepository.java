@@ -46,5 +46,4 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher delete(UUID voucherId) {
         return storage.remove(voucherId);
     }
-
 }

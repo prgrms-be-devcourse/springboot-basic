@@ -79,6 +79,7 @@ public class VoucherServiceTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1000);
         PercentAmountVoucher percentAmountVoucher = new PercentAmountVoucher(10);
         List<Voucher> vouchers = List.of(fixedAmountVoucher, percentAmountVoucher);
+
         //mocking
         given(voucherRepository.findAll()).willReturn(vouchers);
 
