@@ -5,7 +5,7 @@ import com.programmers.springbootbasic.customer.dto.CustomerResponseDto;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
 import com.programmers.springbootbasic.voucher.dto.VouchersResponseDto;
 import com.programmers.springbootbasic.wallet.dto.WalletDto;
-import com.programmers.springbootbasic.wallet.repository.WalletRepositoryImpl;
+import com.programmers.springbootbasic.wallet.repository.JdbcWalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +16,10 @@ import java.util.UUID;
 @Service
 public class WalletService {
 
-    private final WalletRepositoryImpl jdbcWalletRepository;
+    private final JdbcWalletRepository jdbcWalletRepository;
 
-    public WalletService(WalletRepositoryImpl walletRepositoryImpl) {
-        this.jdbcWalletRepository = walletRepositoryImpl;
+    public WalletService(JdbcWalletRepository jdbcWalletRepository) {
+        this.jdbcWalletRepository = jdbcWalletRepository;
     }
 
     @Transactional

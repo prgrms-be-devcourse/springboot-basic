@@ -27,7 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WalletRepositoryImplTest {
+class JdbcWalletRepositoryTest {
 
     @Configuration
     @ComponentScan(
@@ -58,13 +58,13 @@ class WalletRepositoryImplTest {
 
     private VoucherRepository voucherRepository;
     private JdbcCustomerRepository jdbcCustomerRepository;
-    private WalletRepositoryImpl walletRepositoryImpl;
+    private JdbcWalletRepository jdbcWalletRepository;
 
     @BeforeEach
     void setUp() {
         voucherRepository = new JdbcVoucherRepository(dataSource);
         jdbcCustomerRepository = new JdbcCustomerRepository(dataSource);
-        walletRepositoryImpl = new WalletRepositoryImpl(dataSource);
+        jdbcWalletRepository = new JdbcWalletRepository(dataSource);
     }
 
     @AfterEach
@@ -84,8 +84,8 @@ class WalletRepositoryImplTest {
         jdbcCustomerRepository.save(customer);
 
         //when
-        walletRepositoryImpl.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
-        UUID assignedCustomerId = walletRepositoryImpl.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId()).get().getCustomerId();
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        UUID assignedCustomerId = jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId()).get().getCustomerId();
         //then
         assertThat(assignedCustomerId, is(customer.getCustomerId()));
     }
@@ -104,11 +104,11 @@ class WalletRepositoryImplTest {
         voucherRepository.save(percentDiscountVoucher2);
         jdbcCustomerRepository.save(customer);
 
-        walletRepositoryImpl.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
-        walletRepositoryImpl.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
 
         //when
-        List<Voucher> vouchers = walletRepositoryImpl.findVouchersByCustomerId(customer.getCustomerId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
 
         //then
         assertThat(vouchers.size(), is(2));
@@ -123,10 +123,10 @@ class WalletRepositoryImplTest {
 
         voucherRepository.save(fixedAmountVoucher);
         jdbcCustomerRepository.save(customer);
-        walletRepositoryImpl.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
 
         //when
-        Optional<Customer> resultCustomer = walletRepositoryImpl.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId());
+        Optional<Customer> resultCustomer = jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId());
 
         //then
         assertThat(resultCustomer.get().getCustomerId(), is(customer.getCustomerId()));
@@ -140,7 +140,7 @@ class WalletRepositoryImplTest {
         voucherRepository.save(fixedAmountVoucher);
 
         //when
-        Optional<Customer> customer = walletRepositoryImpl.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId());
+        Optional<Customer> customer = jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId());
 
         //then
         org.assertj.core.api.Assertions.assertThat(customer).isEmpty();
@@ -159,11 +159,11 @@ class WalletRepositoryImplTest {
         voucherRepository.save(percentDiscountVoucher);
         jdbcCustomerRepository.save(customer);
 
-        walletRepositoryImpl.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
-        walletRepositoryImpl.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
 
         //when
-        walletRepositoryImpl.deleteVoucherByVoucherIdAndCustomerId(fixedAmountVoucher.getVoucherId(), customer.getCustomerId());
+        jdbcWalletRepository.deleteVoucherByVoucherIdAndCustomerId(fixedAmountVoucher.getVoucherId(), customer.getCustomerId());
         List<Voucher> result = voucherRepository.findAll();
 
         //then
@@ -182,12 +182,12 @@ class WalletRepositoryImplTest {
         voucherRepository.save(percentDiscountVoucher);
         jdbcCustomerRepository.save(customer);
 
-        walletRepositoryImpl.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
-        walletRepositoryImpl.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
+        jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), percentDiscountVoucher.getVoucherId());
 
         //when
-        walletRepositoryImpl.deleteAllVouchersByCustomerId(customer.getCustomerId());
-        List<Voucher> result = walletRepositoryImpl.findVouchersByCustomerId(customer.getCustomerId());
+        jdbcWalletRepository.deleteAllVouchersByCustomerId(customer.getCustomerId());
+        List<Voucher> result = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
 
         //then
         org.assertj.core.api.Assertions.assertThat(result).isEmpty();

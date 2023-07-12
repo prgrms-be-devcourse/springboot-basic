@@ -14,11 +14,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class WalletRepositoryImpl implements WalletRepository {
+public class JdbcWalletRepository implements WalletRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public WalletRepositoryImpl(DataSource dataSource) {
+    public JdbcWalletRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

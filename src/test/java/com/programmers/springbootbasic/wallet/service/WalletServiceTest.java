@@ -6,7 +6,7 @@ import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
 import com.programmers.springbootbasic.voucher.dto.VouchersResponseDto;
-import com.programmers.springbootbasic.wallet.repository.WalletRepositoryImpl;
+import com.programmers.springbootbasic.wallet.repository.JdbcWalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,14 +25,14 @@ import static org.mockito.Mockito.when;
 class WalletServiceTest {
 
     @Mock
-    private WalletRepositoryImpl walletRepositoryImpl;
+    private JdbcWalletRepository jdbcWalletRepository;
 
     private WalletService walletService;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        walletService = new WalletService(walletRepositoryImpl);
+        walletService = new WalletService(jdbcWalletRepository);
     }
 
     @DisplayName("고객이 보유하고 있는 바우처를 조회한다")
@@ -45,7 +45,7 @@ class WalletServiceTest {
         vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), "voucher1", 10L));
         vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), "voucher2", 20L));
 
-        when(walletRepositoryImpl.findVouchersByCustomerId(customerId)).thenReturn(vouchers);
+        when(jdbcWalletRepository.findVouchersByCustomerId(customerId)).thenReturn(vouchers);
 
         //when
         VouchersResponseDto vouchersResponseDto = walletService.findVouchersByCustomerId(customerId);
@@ -62,7 +62,7 @@ class WalletServiceTest {
         UUID customerId = UUID.randomUUID();
 
         Customer customer = new Customer(customerId, "customerName");
-        when(walletRepositoryImpl.findCustomerByVoucherId(voucherId)).thenReturn(Optional.of(customer));
+        when(jdbcWalletRepository.findCustomerByVoucherId(voucherId)).thenReturn(Optional.of(customer));
 
         //when
         CustomerResponseDto customerResponseDto = walletService.findCustomerByVoucherId(voucherId);
