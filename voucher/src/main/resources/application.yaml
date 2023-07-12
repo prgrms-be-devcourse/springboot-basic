@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3308/customer
+    username: root
+    password: 1234
+    type: com.zaxxer.hikari.HikariDataSource
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc: debug
+
+name:
+  voucher:
+    fixed-amount-voucher: FixedAmountVoucher
+    percent-discount-voucher: PercentDiscountVoucher
+
+filepath:
+  blacklist: "classpath:/customer_blacklist.csv"
+  voucher: "classpath:/sample.csv"
+
+
