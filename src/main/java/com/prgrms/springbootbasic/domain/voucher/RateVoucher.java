@@ -31,6 +31,11 @@ public class RateVoucher implements Voucher {
     }
 
     @Override
+    public long getDiscount() {
+        return discount;
+    }
+
+    @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT;
     }
