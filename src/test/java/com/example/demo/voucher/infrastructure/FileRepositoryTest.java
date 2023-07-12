@@ -18,88 +18,66 @@ import static org.mockito.Mockito.*;
 class FileRepositoryTest {
 
     @Mock
-    private VoucherSerializer serializer;
+    private VoucherInfo voucherInfo;
+
+    @Mock
+    private VoucherFileWriter writer;
+
     private FileRepository fileRepository;
 
     @BeforeEach
     void setUp() {
-        fileRepository = new FileRepository(serializer);
+        fileRepository = new FileRepository(voucherInfo, writer);
     }
+
     @Test
     @DisplayName("id로 바우처 검색 테스트")
-    void findById() throws IOException {
+    void findById() {
         // Given
         UUID uuid = UUID.randomUUID();
         Voucher voucher = mock(Voucher.class);
 
         // When
         when(voucher.getVoucherId()).thenReturn(uuid);
-        when(serializer.deserialize()).thenReturn(Arrays.asList(voucher));
+        when(voucherInfo.getVoucherList()).thenReturn(Arrays.asList(voucher));
 
         Optional<Voucher> result = fileRepository.findById(uuid);
 
         // Then
         assertEquals(voucher, result.get());
-        verify(serializer, times(1)).deserialize();
+        verify(voucherInfo, times(1)).getVoucherList();
     }
 
     @Test
     @DisplayName("id로 바우처 검색 실패 테스트: not_found")
-    void findById_notFound() throws IOException {
+    void findById_notFound() {
         // Given
         UUID uuid = UUID.randomUUID();
 
         // When
-        when(serializer.deserialize()).thenReturn(Arrays.asList());
+        when(voucherInfo.getVoucherList()).thenReturn(Arrays.asList());
 
         Optional<Voucher> result = fileRepository.findById(uuid);
 
         // Then
         assertEquals(Optional.empty(), result);
-        verify(serializer, times(1)).deserialize();
-    }
-
-    @Test
-    @DisplayName("id로 바우처 검색 실패 테스트: IOException")
-    void findById_throwsException() throws IOException {
-        // Given
-        UUID uuid = UUID.randomUUID();
-
-        // When
-        when(serializer.deserialize()).thenThrow(new IOException());
-
-        // Then
-        assertThrows(RuntimeException.class, () -> fileRepository.findById(uuid));
-        verify(serializer, times(1)).deserialize();
+        verify(voucherInfo, times(1)).getVoucherList();
     }
 
     @Test
     @DisplayName("모든 바우처 검색 테스트")
-    void findAll() throws IOException {
+    void findAll() {
         // Given
         List<Voucher> vouchers = Arrays.asList(mock(Voucher.class));
 
         // When
-        when(serializer.deserialize()).thenReturn(vouchers);
+        when(voucherInfo.getVoucherList()).thenReturn(vouchers);
 
         List<Voucher> result = fileRepository.findAll();
 
         // Then
         assertEquals(vouchers, result);
-        verify(serializer, times(1)).deserialize();
-    }
-
-    @Test
-    @DisplayName("id로 바우처 검색 테스트")
-    void findAll_throwsException() throws IOException {
-        // Given -> BeforeEach
-
-        // When
-        when(serializer.deserialize()).thenThrow(new IOException());
-
-        // Then
-        assertThrows(RuntimeException.class, () -> fileRepository.findAll());
-        verify(serializer, times(1)).deserialize();
+        verify(voucherInfo, times(1)).getVoucherList();
     }
 
     @Test
@@ -109,13 +87,10 @@ class FileRepositoryTest {
         Voucher voucher = mock(Voucher.class);
 
         // When
-        when(serializer.deserialize()).thenReturn(new ArrayList<>(Arrays.asList(voucher)));
-
         fileRepository.insert(voucher);
 
         // Then
-        verify(serializer, times(1)).deserialize();
-        verify(serializer, times(1)).serialize(any());
+        verify(voucherInfo, times(1)).add(voucher);
     }
 
     @Test
@@ -125,10 +100,11 @@ class FileRepositoryTest {
         Voucher voucher = mock(Voucher.class);
 
         // When
-        when(serializer.deserialize()).thenThrow(new IOException());
+        doThrow(new IOException()).when(writer).write(any(Voucher.class), any(String.class));
+
 
         // Then
         assertThrows(RuntimeException.class, () -> fileRepository.insert(voucher));
-        verify(serializer, times(1)).deserialize();
+        verify(writer, times(1)).write(any(), any());
     }
 }
