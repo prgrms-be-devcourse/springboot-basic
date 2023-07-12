@@ -3,7 +3,6 @@ package com.programmers.voucher.repository;
 import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.domain.Voucher;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +14,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Primary
 @Profile("jdbc")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
