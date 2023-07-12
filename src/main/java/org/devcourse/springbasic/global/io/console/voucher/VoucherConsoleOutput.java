@@ -1,15 +1,15 @@
-package org.devcourse.springbasic.global.io.console;
+package org.devcourse.springbasic.global.io.console.voucher;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.devcourse.springbasic.domain.voucher.dto.VoucherDto;
-import org.devcourse.springbasic.global.io.output.Output;
+import org.devcourse.springbasic.global.io.output.voucher.VoucherOutput;
 
 import java.text.MessageFormat;
 import java.util.List;
 
-public class ConsoleOutput implements Output {
+public class VoucherConsoleOutput implements VoucherOutput {
 
     private final TextTerminal<?> terminal = TextIoFactory.getTextIO().getTextTerminal();
 
