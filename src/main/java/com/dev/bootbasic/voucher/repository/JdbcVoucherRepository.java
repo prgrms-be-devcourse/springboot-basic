@@ -1,9 +1,7 @@
 package com.dev.bootbasic.voucher.repository;
 
-import com.dev.bootbasic.voucher.domain.FixedAmountVoucher;
-import com.dev.bootbasic.voucher.domain.PercentDiscountVoucher;
 import com.dev.bootbasic.voucher.domain.Voucher;
-import com.dev.bootbasic.voucher.domain.VoucherType;
+import com.dev.bootbasic.voucher.domain.VoucherFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -59,12 +57,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private RowMapper<Voucher> getVoucherRowMapper() {
         return (rs, rowNum) -> {
             UUID voucherId = UUID.fromString(rs.getString("id"));
+            String voucherType = rs.getString("voucher_type");
             int discountAmount = rs.getInt("discount_amount");
-            VoucherType voucherType = VoucherType.from(rs.getString("voucher_type"));
-            return switch (voucherType) {
-                case FIXED -> FixedAmountVoucher.of(voucherId, discountAmount);
-                case PERCENT -> PercentDiscountVoucher.of(voucherId, discountAmount);
-            };
+            return VoucherFactory.create(voucherId, voucherType, discountAmount);
         };
     }
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.UUID;
 
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class InMemoryVoucherRepositoryTest {
@@ -23,7 +24,7 @@ class InMemoryVoucherRepositoryTest {
     }
     )
     void saveVoucherTest(String type, int discountAmount) {
-        Voucher voucher = voucherFactory.create(type, discountAmount);
+        Voucher voucher = voucherFactory.create(randomUUID(), type, discountAmount);
         UUID foundVoucherId = voucherRepository.saveVoucher(voucher);
 
         Voucher foundPercentVoucher = voucherRepository.findVoucher(foundVoucherId).get();

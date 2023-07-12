@@ -13,22 +13,22 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import static java.util.UUID.randomUUID;
+
 @Service
 @Transactional(readOnly = true)
 public class VoucherService {
 
     private static final String NOT_FOUND_VOUCHER_MESSAGE = "찾을 수 없는 바우처입니다.";
     private final VoucherRepository voucherRepository;
-    private final VoucherFactory voucherFactory;
 
-    public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.voucherFactory = voucherFactory;
     }
 
     @Transactional
     public UUID createVoucher(VoucherCreateRequest request) {
-        Voucher createdVoucher = voucherFactory.create(request.voucherType(), request.discountAmount());
+        Voucher createdVoucher = VoucherFactory.create(randomUUID(),request.voucherType(), request.discountAmount());
         return voucherRepository.saveVoucher(createdVoucher);
     }
 
@@ -45,5 +45,4 @@ public class VoucherService {
         return allVouchers.stream().map(VoucherDetailsResponse::from)
                 .toList();
     }
-
 }
