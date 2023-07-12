@@ -41,6 +41,12 @@ public class VoucherService {
         return new VoucherDto(voucher.getVoucherId(), voucher.getVoucherName(), voucher.getVoucherValue(), voucher.getVoucherType(), voucher.getCustomerId());
     }
 
+    public VouchersResponseDto findByType(VoucherType voucherType) {
+        List<Voucher> vouchers = voucherRepository.findByType(voucherType);
+
+        return new VouchersResponseDto(vouchers);
+    }
+
     @Transactional
     public VoucherDto update(VoucherDto voucherDto) {
         Voucher requestVoucher = VoucherType.createVoucher(voucherDto.type().toString(), voucherDto.id(), voucherDto.name(), voucherDto.value());

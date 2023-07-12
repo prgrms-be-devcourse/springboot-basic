@@ -66,6 +66,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         List<Voucher> vouchers = new ArrayList<>(findAll());
 

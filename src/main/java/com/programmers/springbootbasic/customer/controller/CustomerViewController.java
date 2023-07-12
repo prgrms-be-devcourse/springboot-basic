@@ -62,7 +62,6 @@ public class CustomerViewController {
 
         return "redirect:/customer/list";
     }
-<<<<<<< HEAD
 
     @PostMapping("/deleteAll")
     public String deleteAll() {
@@ -70,6 +69,4 @@ public class CustomerViewController {
 
         return "redirect:/customer/list";
     }
-=======
->>>>>>> decb1e19c03e71b7d0fff5e44f3b235e08d93a05
 }

@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.voucher.repository;
 
 import com.programmers.springbootbasic.voucher.domain.Voucher;
+import com.programmers.springbootbasic.voucher.domain.VoucherType;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,8 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     Optional<Voucher> findById(UUID id);
+
+    List<Voucher> findByType(VoucherType voucherType);
 
     Voucher update(Voucher voucher);
 
