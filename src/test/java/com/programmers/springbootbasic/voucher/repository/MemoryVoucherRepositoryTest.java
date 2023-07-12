@@ -3,6 +3,7 @@ package com.programmers.springbootbasic.voucher.repository;
 import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
+import com.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,6 +76,26 @@ class MemoryVoucherRepositoryTest {
         //then
         assertThatThrownBy(() -> memoryVoucherRepository.findById(fixedAmountVoucher.getVoucherId()))
                 .isInstanceOf(RuntimeException.class);
+    }
+
+    @DisplayName("바우처를 타입으로 조회한다")
+    @Test
+    void findByType() {
+        //given
+        FixedAmountVoucher f1 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName1", 11L);
+        memoryVoucherRepository.save(f1);
+        FixedAmountVoucher f2 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName2", 12L);
+        memoryVoucherRepository.save(f2);
+        PercentDiscountVoucher f3 = new PercentDiscountVoucher(UUID.randomUUID(), "voucherName3", 13L);
+        memoryVoucherRepository.save(f3);
+
+        //when
+        List<Voucher> result = memoryVoucherRepository.findByType(VoucherType.FixedAmountVoucher);
+
+        //then
+        assertThat(result.size(), is(2));
+        assertThat(result, hasItem(f1));
+        assertThat(result, hasItem(f2));
     }
 
     @DisplayName("바우처를 수정한다")

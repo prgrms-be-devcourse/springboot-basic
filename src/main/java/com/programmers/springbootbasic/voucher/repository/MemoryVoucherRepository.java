@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("local")
@@ -41,7 +42,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(VoucherType voucherType) {
-        return null;
+        return findAll().stream()
+                .filter(voucher -> Objects.equals(voucher.getVoucherType(), voucherType))
+                .collect(Collectors.toList());
     }
 
     @Override

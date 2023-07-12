@@ -3,13 +3,16 @@ package com.programmers.springbootbasic.voucher.repository;
 import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
+import com.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -44,7 +47,6 @@ class FileVoucherRepositoryTest {
         assertThat(result.get(0).getVoucherId(), is(expected.getVoucherId()));
     }
 
-
     @DisplayName("바우처를 id로 조회한다")
     @Test
     void findById() {
@@ -69,6 +71,20 @@ class FileVoucherRepositoryTest {
         //then
         assertThatThrownBy(() -> fileVoucherRepository.findById(fixedAmountVoucher.getVoucherId()))
                 .isInstanceOf(RuntimeException.class);
+    }
+
+    @DisplayName("바우처를 타입으로 조회한다")
+    @Test
+    void findByType() {
+        //given
+        FixedAmountVoucher f1 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName1", 11L);
+        fileVoucherRepository.save(f1);
+
+        //when
+        List<Voucher> result = fileVoucherRepository.findByType(VoucherType.FixedAmountVoucher);
+
+        //then
+        assertThat(result.get(0).getVoucherType(), is(VoucherType.FixedAmountVoucher));
     }
 
     @DisplayName("바우처를 수정한다")

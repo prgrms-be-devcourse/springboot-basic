@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("dev")
@@ -67,7 +68,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(VoucherType voucherType) {
-        return null;
+        return findAll().stream()
+                .filter(voucher -> Objects.equals(voucher.getVoucherType(), voucherType))
+                .collect(Collectors.toList());
     }
 
     @Override
