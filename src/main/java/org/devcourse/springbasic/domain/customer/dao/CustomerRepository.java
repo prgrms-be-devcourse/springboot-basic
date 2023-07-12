@@ -1,17 +1,17 @@
 package org.devcourse.springbasic.domain.customer.dao;
 
-import org.devcourse.springbasic.domain.customer.dto.CustomerDto;
+import org.devcourse.springbasic.domain.customer.domain.Customer;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CustomerRepository {
 
-    UUID save(CustomerDto.SaveRequestDto customer);
-    void lastLoginUpdate(CustomerDto.LoginRequestDto customer);
-    UUID update(CustomerDto.UpdateRequestDto customer);
-    List<CustomerDto.ResponseDto> findAll();
-    CustomerDto.ResponseDto findById(UUID customerId);
-    CustomerDto.ResponseDto findByName(String name);
-    CustomerDto.ResponseDto findByEmail(String email);
+    UUID save(Customer customer);
+    void lastLoginUpdate(Customer customer);
+    UUID update(Customer customer);
+    List<Customer> findAll();
+    Customer findById(UUID customerId);
+    Customer findByName(String name);
+    Customer findByEmail(String email);
 }

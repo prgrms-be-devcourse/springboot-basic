@@ -23,6 +23,14 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+        validateName(name);
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
+
     public UUID getCustomerId() {
         return customerId;
     }

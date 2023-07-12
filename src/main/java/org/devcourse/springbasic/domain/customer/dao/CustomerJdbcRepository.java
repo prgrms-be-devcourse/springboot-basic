@@ -2,7 +2,6 @@ package org.devcourse.springbasic.domain.customer.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.devcourse.springbasic.domain.customer.domain.Customer;
-import org.devcourse.springbasic.domain.customer.dto.CustomerDto;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public UUID save(CustomerDto.SaveRequestDto customer) {
+    public UUID save(Customer customer) {
         String QUERY = "insert into customers(customer_id, name, email, created_at) " +
                      "values (UUID_TO_BIN(:customerId), :name, :email, :createdAt)";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
@@ -40,7 +39,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public UUID update(CustomerDto.UpdateRequestDto customer) {
+    public UUID update(Customer customer) {
         String QUERY = "update customers set name = :name, email = :email " +
                      "where customer_id = UUID_TO_BIN(:customerId)";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
@@ -53,7 +52,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public void lastLoginUpdate(CustomerDto.LoginRequestDto customer) {
+    public void lastLoginUpdate(Customer customer) {
         String QUERY = "update customers set last_login_at = :lastLoginAt " +
                      "where customer_id = UUID_TO_BIN(:customer_id)";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
@@ -62,37 +61,32 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public List<CustomerDto.ResponseDto> findAll() {
+    public List<Customer> findAll() {
         String QUERY = "select * from customers";
-        List<Customer> customers = jdbcTemplate.query(QUERY, CUSTOMER_ROW_MAPPER);
-        return customers.stream()
-                .map(customer -> new CustomerDto.ResponseDto(customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt()))
-                .collect(Collectors.toList());
+        return jdbcTemplate.query(QUERY, CUSTOMER_ROW_MAPPER);
+
     }
 
     @Override
-    public CustomerDto.ResponseDto findById(UUID customerId) {
+    public Customer findById(UUID customerId) {
 
         String QUERY = "select * from customers where customer_id = UUID_TO_BIN(:customerId)";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString().getBytes());
         try {
-            Customer customer = jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
-            return new CustomerDto.ResponseDto(customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
+            return jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
         } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
             throw new IllegalArgumentException("해당 ID를 가진 회원이 없습니다.");
         }
-
     }
 
     @Override
-    public CustomerDto.ResponseDto findByName(String name) {
+    public Customer findByName(String name) {
         String QUERY = "select * from customers where name = :name";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("name", name);
         try {
-            Customer customer = jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
-            return new CustomerDto.ResponseDto(customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
+            return jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
         } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
             throw new IllegalArgumentException("해당 이름을 가진 회원이 없습니다.");
         }
@@ -100,13 +94,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 
     @Override
-    public CustomerDto.ResponseDto findByEmail(String email) {
+    public Customer findByEmail(String email) {
         String QUERY = "select * from customers where email = :email";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("email", email);
         try {
-            Customer customer = jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
-            return new CustomerDto.ResponseDto(customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
+            return jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
         } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
             throw new IllegalArgumentException("해당 이메일을 가진 회원이 없습니다.");
         }

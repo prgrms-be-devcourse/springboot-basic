@@ -20,6 +20,7 @@ public class CustomerDto {
     @AllArgsConstructor
     @Getter
     public static class LoginRequestDto {
+        private final UUID customerId;
         private final LocalDateTime lastLoginAt;
     }
 
