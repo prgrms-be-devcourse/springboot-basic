@@ -1,7 +1,7 @@
 package com.programmers.springbootbasic.service;
 
+import com.programmers.springbootbasic.domain.voucher.Duration;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
-import com.programmers.springbootbasic.domain.voucher.VoucherDateTime;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
 import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
@@ -17,13 +17,13 @@ public final class VoucherMapper {
     }
 
     public static Voucher toVoucher(VoucherCreationRequest request) {
-        VoucherDateTime voucherDateTime = VoucherDateTime.of(LocalDateTime.now(), request.expirationDate());
+        Duration duration = Duration.of(LocalDateTime.now(), request.expirationDate());
         VoucherType voucherType = VoucherType.from(request.voucherType());
         return switch (voucherType) {
             case FIX ->
-                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), voucherDateTime, request.amountOrPercent());
+                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent());
             case PERCENT ->
-                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), voucherDateTime, request.amountOrPercent());
+                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent());
         };
     }
 

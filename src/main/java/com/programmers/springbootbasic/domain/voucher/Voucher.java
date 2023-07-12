@@ -15,11 +15,11 @@ public abstract class Voucher {
     private final VoucherType voucherType;
     private final String name;
     private final Long minimumPriceCondition;
-    private final VoucherDateTime voucherDateTime;
+    private final Duration duration;
 
     private boolean used = false;
 
-    protected Voucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime) {
+    protected Voucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration) {
         /*
         null 체크의 기준을 잘 모르겠습니다.
         VoucherType 과 VoucherDateTime 도 null 체크를 해줘야 될까요?
@@ -33,15 +33,15 @@ public abstract class Voucher {
         this.voucherType = voucherType;
         this.name = name;
         this.minimumPriceCondition = minimumPriceCondition != null ? minimumPriceCondition : ZERO;
-        this.voucherDateTime = voucherDateTime;
+        this.duration = duration;
     }
 
-    public static Voucher createFixedAmount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int amount) {
-        return new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, voucherDateTime, amount);
+    public static Voucher createFixedAmount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int amount) {
+        return new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, amount);
     }
 
-    public static Voucher createPercentDiscount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, VoucherDateTime voucherDateTime, int percent) {
-        return new PercentDiscountVoucher(voucherId, voucherType, name, minimumPriceCondition, voucherDateTime, percent);
+    public static Voucher createPercentDiscount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int percent) {
+        return new PercentDiscountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, percent);
     }
 
     public UUID getVoucherId() {
@@ -56,8 +56,8 @@ public abstract class Voucher {
         return minimumPriceCondition;
     }
 
-    public VoucherDateTime getVoucherDate() {
-        return voucherDateTime;
+    public Duration getVoucherDate() {
+        return duration;
     }
 
     public VoucherType getVoucherType() {
@@ -80,8 +80,8 @@ public abstract class Voucher {
         if (minimumPriceCondition > priceBeforeDiscount) {
             throw new IllegalStateException(NOT_ENOUGH_MINIMUM_PRICE_CONDITION + minimumPriceCondition + CURRENT_PAYMENT_AMOUNT + priceBeforeDiscount);
         }
-        if (voucherDateTime.isExpired(at)) {
-            throw new IllegalStateException(EXPIRED_VOUCHER + voucherDateTime.getExpiredAt());
+        if (duration.isExpired(at)) {
+            throw new IllegalStateException(EXPIRED_VOUCHER + duration.getExpiredAt());
         }
     }
 

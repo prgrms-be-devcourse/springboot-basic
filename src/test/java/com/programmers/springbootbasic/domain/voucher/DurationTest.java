@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class VoucherDateTimeTest {
+class DurationTest {
 
     @Test
     void 올바른유효기간_바우처데이트타임생성_예외발생() {
@@ -16,10 +16,10 @@ class VoucherDateTimeTest {
         LocalDateTime expiredAt = createdAt.plusMonths(3);
 
         // when
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
 
         // then
-        assertThat(voucherDateTime).isNotNull();
+        assertThat(duration).isNotNull();
     }
 
     @Test
@@ -29,7 +29,7 @@ class VoucherDateTimeTest {
         LocalDateTime expiredAt = createdAt.minusMonths(3);
 
         // when && then
-        assertThatThrownBy(() -> new VoucherDateTime(createdAt, expiredAt))
+        assertThatThrownBy(() -> new Duration(createdAt, expiredAt))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

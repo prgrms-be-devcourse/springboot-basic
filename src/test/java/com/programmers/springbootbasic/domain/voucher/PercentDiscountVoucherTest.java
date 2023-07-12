@@ -19,11 +19,11 @@ class PercentDiscountVoucherTest {
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         int percent = 30;
 
         // when
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, name, voucherDateTime, percent);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, name, duration, percent);
 
         // then
         assertThat(percentDiscountVoucher.getName()).isEqualTo(name);
@@ -37,12 +37,12 @@ class PercentDiscountVoucherTest {
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int percent = 30;
 
         // when
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, voucherDateTime, percent);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, duration, percent);
 
         // then
         assertThat(percentDiscountVoucher.getName()).isEqualTo(name);
@@ -56,11 +56,11 @@ class PercentDiscountVoucherTest {
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         int percent = 300;
 
         // when && then
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, name, voucherDateTime, percent))
+        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, name, duration, percent))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -72,12 +72,12 @@ class PercentDiscountVoucherTest {
         String name = "회원가입 30% 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int percent = 300;
 
         // when && then
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, voucherDateTime, percent))
+        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, duration, percent))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -85,13 +85,13 @@ class PercentDiscountVoucherTest {
     @CsvSource(value = {"4550,33,3050", "5500,10,4950"})
     void 물건금액할인퍼센트_할인_할인된금액(Long price, int percent, Long expectedPrice) {
         // given
-        VoucherDateTime voucherDateTime = new VoucherDateTime(LocalDateTime.now(), LocalDateTime.MAX);
+        Duration duration = new Duration(LocalDateTime.now(), LocalDateTime.MAX);
         VoucherType voucherType = VoucherType.PERCENT;
         PercentDiscountVoucher voucher = new PercentDiscountVoucher(
                 UUID.randomUUID(),
                 voucherType,
                 percent + "% 할인권",
-                voucherDateTime,
+                duration,
                 percent);
 
         // when

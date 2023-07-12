@@ -17,11 +17,11 @@ class VoucherTest {
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         int amount = 10_000;
 
         // when
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, voucherDateTime, amount);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, duration, amount);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -35,12 +35,12 @@ class VoucherTest {
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int amount = 10_000;
 
         // when
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, voucherDateTime, amount);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, duration, amount);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -54,11 +54,11 @@ class VoucherTest {
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         int amount = 10_000;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, voucherDateTime, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, duration, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -70,12 +70,12 @@ class VoucherTest {
         String name = "회원가입 10000원 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int amount = 10_000;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, voucherDateTime, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -87,11 +87,11 @@ class VoucherTest {
         String name = "";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         int amount = 10_000;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, voucherDateTime, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, duration, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -103,12 +103,12 @@ class VoucherTest {
         String name = "";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        VoucherDateTime voucherDateTime = new VoucherDateTime(createdAt, expiredAt);
+        Duration duration = new Duration(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int amount = 10_000;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, voucherDateTime, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

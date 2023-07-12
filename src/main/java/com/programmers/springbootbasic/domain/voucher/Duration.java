@@ -4,12 +4,12 @@ import com.programmers.springbootbasic.common.util.Validator;
 
 import java.time.LocalDateTime;
 
-public class VoucherDateTime {
+public class Duration {
     private static final String INVALID_EXPIRED_AT = "생성일 이전을 만료일로 설정할 수 없습니다. 현재 값: ";
     private final LocalDateTime createdAt;
     private final LocalDateTime expiredAt;
 
-    public VoucherDateTime(LocalDateTime createdAt, LocalDateTime expiredAt) {
+    public Duration(LocalDateTime createdAt, LocalDateTime expiredAt) {
         checkNullValue(createdAt, expiredAt);
         if (isInvalidExpiredAt(createdAt, expiredAt)) {
             throw new IllegalArgumentException(INVALID_EXPIRED_AT + expiredAt);
@@ -18,8 +18,8 @@ public class VoucherDateTime {
         this.expiredAt = expiredAt;
     }
 
-    public static VoucherDateTime of(LocalDateTime createdAt, LocalDateTime expiredAt) {
-        return new VoucherDateTime(createdAt, expiredAt);
+    public static Duration of(LocalDateTime createdAt, LocalDateTime expiredAt) {
+        return new Duration(createdAt, expiredAt);
     }
 
     public LocalDateTime getCreatedAt() {
