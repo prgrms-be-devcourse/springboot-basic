@@ -10,6 +10,7 @@ import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.Percent;
 import com.prgmrs.voucher.service.WalletService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,6 +23,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
+@DisplayName("지갑 컨트롤러 레이어를 테스트한다.")
 class WalletControllerTest {
 
     @InjectMocks
@@ -36,7 +38,8 @@ class WalletControllerTest {
     }
 
     @Test
-    void testAssignVoucher() {
+    @DisplayName("바우처 할당을 테스트한다.")
+    void AssignVoucher_WalletRequest_SameWalletResponse() {
         // Given
         Percent percent = new Percent(20);
         Amount amount = new Amount(500);
@@ -65,7 +68,8 @@ class WalletControllerTest {
     }
 
     @Test
-    void testFreeVoucher() {
+    @DisplayName("할당된 바우처의 해제를 테스트한다.")
+    void FreeVoucher_WalletRequest_SameWalletResponse() {
         // Given
         Percent percent = new Percent(20);
         Amount amount = new Amount(500);

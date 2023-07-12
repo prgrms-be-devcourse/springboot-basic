@@ -12,6 +12,7 @@ import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.Percent;
 import com.prgmrs.voucher.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,6 +26,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
+@DisplayName("유저 컨트롤러 레이어를 테스트한다.")
 class UserControllerTest {
 
     @InjectMocks
@@ -39,7 +41,8 @@ class UserControllerTest {
     }
 
     @Test
-    void testCreateUser() {
+    @DisplayName("유저 생성 요청을 보낸다.")
+    void CreateUser_UserRequest_SameUserResponse() {
         // Given
         User user = new User(UUID.randomUUID(), "tyler");
         UserRequest userRequest = new UserRequest(user.username());
@@ -54,7 +57,8 @@ class UserControllerTest {
     }
 
     @Test
-    void testGetAllUsers() {
+    @DisplayName("모든 유저를 불러오는 것을 요청한다.")
+    void GetAllUsers_NoParam_SameUserListResponse() {
         // Given
         User user1 = new User(UUID.randomUUID(), "tyler");
         User user2 = new User(UUID.randomUUID(), "john");
@@ -69,7 +73,8 @@ class UserControllerTest {
     }
 
     @Test
-    void testGetUserListWithVoucherAssigned() {
+    @DisplayName("바우처를 핟당 받은 유저들을 불러온다.")
+    void GetUserListWithVoucherAssigned_NoParam_SameUserListResponse() {
         // Given
         User user1 = new User(UUID.randomUUID(), "tyler");
         User user2 = new User(UUID.randomUUID(), "john");
@@ -84,7 +89,8 @@ class UserControllerTest {
     }
 
     @Test
-    void testGetUserByVoucherId() {
+    @DisplayName("바우처 아이디에 해당하는 유저를 불러온다.")
+    void GetUserByVoucherId_userListRequest_SameUserResponse() {
         // Given
         Percent percent = new Percent(20);
         Amount amount = new Amount(500);

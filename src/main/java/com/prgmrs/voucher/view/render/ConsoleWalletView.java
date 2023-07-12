@@ -63,7 +63,7 @@ public class ConsoleWalletView {
             consoleWalletWriter.showNameUser(WalletSelectionType.ASSIGN_VOUCHER);
             String username = consoleReader.read();
 
-            VoucherListResponse voucherListResponse = voucherController.getNotAssignedVoucher();
+            VoucherListResponse voucherListResponse = voucherController.getNotAssignedVoucherList();
             consoleListWriter.showVoucherList(voucherListResponse);
 
             consoleWalletWriter.showNumberVoucher(WalletSelectionType.ASSIGN_VOUCHER);

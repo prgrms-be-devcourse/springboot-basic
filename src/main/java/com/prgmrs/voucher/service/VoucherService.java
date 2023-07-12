@@ -80,7 +80,7 @@ public class VoucherService {
     }
 
     public VoucherListResponse getNotAssignedVoucher() {
-        return new VoucherListResponse(voucherRepository.getNotAssignedVoucher());
+        return new VoucherListResponse(voucherRepository.getNotAssignedVoucherList());
     }
 
     public VoucherListResponse getAssignedVoucherList() {

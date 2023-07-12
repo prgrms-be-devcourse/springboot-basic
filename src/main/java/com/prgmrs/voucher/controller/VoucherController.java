@@ -28,7 +28,7 @@ public class VoucherController {
         return voucherService.getAssignedVoucherListByUsername(username);
     }
 
-    public VoucherListResponse getNotAssignedVoucher() {
+    public VoucherListResponse getNotAssignedVoucherList() {
         return voucherService.getNotAssignedVoucher();
     }
 

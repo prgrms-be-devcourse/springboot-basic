@@ -32,7 +32,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getNotAssignedVoucher() {
+    public List<Voucher> getNotAssignedVoucherList() {
         return Collections.emptyList();
     }
 

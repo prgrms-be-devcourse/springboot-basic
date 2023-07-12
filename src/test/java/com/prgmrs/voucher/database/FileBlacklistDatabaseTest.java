@@ -13,20 +13,27 @@ import static org.hamcrest.Matchers.*;
 class FileBlacklistDatabaseTest {
     @Test
     @DisplayName("정상적으로 블랙리스트 파일을 불러온다.")
-    void FileLoadWithoutExceptionTest() {
+    void Load_Filepath_ResultNotEmpty() {
+        // Given
         final String FILE_PATH = "csv/blacklist.csv";
         FileBlacklistDatabase database = new FileBlacklistDatabase();
+
+        // When
         Map<UUID, String> result = database.load(FILE_PATH);
 
+        // Then
         assertThat(result, not(anEmptyMap()));
     }
 
     @Test
     @DisplayName("정상적으로 블랙리스트 파일을 불러오지 못한다.")
-    void NotExistingFileEmptyReturnTest() {
+    void Load_Filepath_ResultEmptyMap() {
+        // Given
         final String FILE_PATH = "not/existing.csv";
         FileBlacklistDatabase database = new FileBlacklistDatabase();
 
+        // When
+        // Then
         assertThat(database.load(FILE_PATH), is(anEmptyMap()));
     }
 

@@ -11,6 +11,7 @@ import com.prgmrs.voucher.model.validator.VoucherValidator;
 import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.repository.VoucherRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,6 +27,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
+@DisplayName("바우처 서비스 레이어를 테스트한다.")
 
 class VoucherServiceTest {
 
@@ -43,7 +46,8 @@ class VoucherServiceTest {
     }
 
     @Test
-    void createVoucher() {
+    @DisplayName("바우처 생성을 테스트한다.")
+    void CreateVoucher_VoucherRequest_SmaeVoucher() {
         // Given
         String token = "500";
         DiscountValue discountValue = new DiscountValue(500);
@@ -66,7 +70,8 @@ class VoucherServiceTest {
     }
 
     @Test
-    void findAll() {
+    @DisplayName("바우처 리스트를 조회한다.")
+    void FindAll_NoParam_SameVoucherList() {
         // Given
         UUID voucherUuid1 = UUID.randomUUID();
         Amount amount1 = new Amount(300);
@@ -89,13 +94,14 @@ class VoucherServiceTest {
 
         // Then
         List<Voucher> retrievedVoucherList = voucherListResponse.voucherList();
-        assertThat(retrievedVoucherList.size()).isEqualTo(2);
-        assertThat(retrievedVoucherList).containsExactlyInAnyOrder(voucher1, voucher2);
+        assertThat(retrievedVoucherList).hasSize(2)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
         verify(voucherRepository, times(1)).findAll();
     }
 
     @Test
-    void getAssignedVoucherListByUsername() {
+    @DisplayName("유저 이름에 해당하는 할당된 바우처 리스트를 조회한다.")
+    void GetAssignedVoucherListByUsername_Username_SameVoucherListResponse() {
         // Given
         UUID voucherUuid1 = UUID.randomUUID();
         Amount amount1 = new Amount(300);
@@ -122,13 +128,14 @@ class VoucherServiceTest {
 
         // Then
         List<Voucher> retrievedVoucherList = voucherListResponse.voucherList();
-        assertThat(retrievedVoucherList.size()).isEqualTo(2);
-        assertThat(retrievedVoucherList).containsExactlyInAnyOrder(voucher1, voucher2);
+        assertThat(retrievedVoucherList).hasSize(2)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
         verify(voucherRepository, times(1)).getAssignedVoucherListByUsername(username);
     }
 
     @Test
-    void getNotAssignedVoucher() {
+    @DisplayName("할당되지 않은 바우처 리스트를 조회한다.")
+    void GetNotAssignedVoucher_NoParam_VoucherListResponseSameAsGivenVoucher() {
         // Given
         UUID voucherUuid1 = UUID.randomUUID();
         Amount amount1 = new Amount(300);
@@ -144,20 +151,21 @@ class VoucherServiceTest {
         voucherList.add(voucher1);
         voucherList.add(voucher2);
 
-        given(voucherRepository.getNotAssignedVoucher()).willReturn(voucherList);
+        given(voucherRepository.getNotAssignedVoucherList()).willReturn(voucherList);
 
         // When
         VoucherListResponse voucherListResponse = voucherService.getNotAssignedVoucher();
 
         // Then
         List<Voucher> retrievedVoucherList = voucherListResponse.voucherList();
-        assertThat(retrievedVoucherList.size()).isEqualTo(2);
-        assertThat(retrievedVoucherList).containsExactlyInAnyOrder(voucher1, voucher2);
-        verify(voucherRepository, times(1)).getNotAssignedVoucher();
+        assertThat(retrievedVoucherList).hasSize(2)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
+        verify(voucherRepository, times(1)).getNotAssignedVoucherList();
     }
 
     @Test
-    void getAssignedVoucherList() {
+    @DisplayName("할당된 바우처 리스트를 조회한다.")
+    void GetAssignedVoucherList_NoParam_VoucherListResponseSameAsGivenVoucher() {
         // Given
         UUID voucherUuid1 = UUID.randomUUID();
         Amount amount1 = new Amount(300);
@@ -179,9 +187,9 @@ class VoucherServiceTest {
         VoucherListResponse voucherListResponse = voucherService.getAssignedVoucherList();
 
         // Then
-        List<Voucher> retrievedVoucherList = voucherListResponse.voucherList();
-        assertThat(retrievedVoucherList.size()).isEqualTo(2);
-        assertThat(retrievedVoucherList).containsExactlyInAnyOrder(voucher1, voucher2);
+        List<Voucher> assignedVoucherList = voucherListResponse.voucherList();
+        assertThat(assignedVoucherList).hasSize(2)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
         verify(voucherRepository, times(1)).getAssignedVoucherList();
     }
 }

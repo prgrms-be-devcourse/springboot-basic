@@ -12,6 +12,7 @@ import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.repository.UserRepository;
 import com.prgmrs.voucher.repository.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,6 +27,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+@DisplayName("지갑 서비스 레이어를 테스트한다.")
 class WalletServiceTest {
 
     @Mock
@@ -49,7 +51,8 @@ class WalletServiceTest {
     }
 
     @Test
-    void assignVoucher() {
+    @DisplayName("지갑 할당을 테스트한다.")
+    void AssignVoucher_WalletRequest_WalletResponseSameAsGivenWallet() {
         // Given
         UUID userUuid = UUID.randomUUID();
         String username = "tyler";
@@ -87,7 +90,8 @@ class WalletServiceTest {
     }
 
     @Test
-    void freeVoucher() {
+    @DisplayName("지갑 할당 해지를 테스트한다.")
+    void FreeVoucher_WalletRequest_WalletResponseSameAsGivenWallet() {
         // Given
         UUID userUuid = UUID.randomUUID();
         String username = "tyler";

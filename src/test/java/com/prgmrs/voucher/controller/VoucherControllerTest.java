@@ -11,6 +11,7 @@ import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.Percent;
 import com.prgmrs.voucher.service.VoucherService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,6 +23,8 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
+
+@DisplayName("바우처 컨트롤러 레이어를 테스트한다.")
 
 class VoucherControllerTest {
 
@@ -37,7 +40,8 @@ class VoucherControllerTest {
     }
 
     @Test
-    void testCreateVoucher() {
+    @DisplayName("바우처를 생성한다.")
+    void CreateVoucher_VoucherRequest_SameVoucherResponse() {
         // Given
         Percent percent = new Percent(10);
         PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(percent);
@@ -55,7 +59,8 @@ class VoucherControllerTest {
     }
 
     @Test
-    void testGetAssignedVoucherListByUsername() {
+    @DisplayName("유저 이름이 해당하는 할당된 바우처 리스트를 받는다.")
+    void GetAssignedVoucherListByUsername_StringUsername_SameVoucherListResponse() {
         // Given
         Percent percent = new Percent(20);
         Amount amount = new Amount(500);
@@ -79,7 +84,8 @@ class VoucherControllerTest {
     }
 
     @Test
-    void testGetNotAssignedVoucher() {
+    @DisplayName("할당되지 않은 바우처 리스트를 요청한다.")
+    void GetNotAssignedVoucher_NoParam_SameVoucherListResponse() {
         // Given
         Percent percent = new Percent(20);
         Amount amount = new Amount(500);
@@ -96,14 +102,15 @@ class VoucherControllerTest {
         given(voucherService.getNotAssignedVoucher()).willReturn(voucherListResponse);
 
         // When
-        VoucherListResponse response = voucherController.getNotAssignedVoucher();
+        VoucherListResponse response = voucherController.getNotAssignedVoucherList();
 
         // Then
         assertEquals(voucherListResponse, response);
     }
 
     @Test
-    void testgetAssignedVoucherList() {
+    @DisplayName("할당 된 바우처 리스트를 요청한다.")
+    void GetAssignedVoucherList_NoParam_SameVoucherListResponse() {
         // Given
         Percent percent = new Percent(20);
         Amount amount = new Amount(500);

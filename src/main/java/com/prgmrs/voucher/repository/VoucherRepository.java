@@ -11,7 +11,7 @@ public interface VoucherRepository {
 
     List<Voucher> getAssignedVoucherListByUsername(String username);
 
-    List<Voucher> getNotAssignedVoucher();
+    List<Voucher> getNotAssignedVoucherList();
 
     List<Voucher> getAssignedVoucherList();
 }

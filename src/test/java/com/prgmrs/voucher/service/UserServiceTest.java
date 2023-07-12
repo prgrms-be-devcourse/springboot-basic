@@ -11,6 +11,7 @@ import com.prgmrs.voucher.model.validator.OrderValidator;
 import com.prgmrs.voucher.model.validator.UserValidator;
 import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.repository.UserRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+@DisplayName("유저 서비스 레이어를 테스트한다.")
 class UserServiceTest {
 
     @Mock
@@ -47,7 +49,8 @@ class UserServiceTest {
     }
 
     @Test
-    void createUser() {
+    @DisplayName("유저 생성을 테스트한다.")
+    void CreateUser_UserRequest_UserResponseSameAsGivenUser() {
         // Given
         String username = "tyler";
         UserRequest userRequest = new UserRequest(username);
@@ -61,7 +64,8 @@ class UserServiceTest {
     }
 
     @Test
-    void findAll() {
+    @DisplayName("모든 유저를 찾는 조회를 테스트한다.")
+    void FindAll_NoParam_UserListResopnseSameAsGivenUsers() {
         // Given
         UUID userUuid1 = UUID.randomUUID();
         String username1 = "tyler";
@@ -82,14 +86,15 @@ class UserServiceTest {
 
         // Then
         List<User> retrievedUserList = userListResponse.userList();
-        assertThat(retrievedUserList).isNotNull();
-        assertThat(retrievedUserList).hasSize(2);
-        assertThat(retrievedUserList).containsExactlyInAnyOrder(user1, user2);
+        assertThat(retrievedUserList).isNotNull()
+            .hasSize(2)
+            .containsExactlyInAnyOrder(user1, user2);
         verify(userRepository, times(1)).findAll();
     }
 
     @Test
-    void getUserListWithVoucherAssigned() {
+    @DisplayName("할당된 바우처가 있는 유저 리스트 조회를 테스트한다.")
+    void GetUserListWithVoucherAssigned_NoParam_UserListResponseSameAsGivenUsers() {
         // Given
         UUID userUuid1 = UUID.randomUUID();
         String username1 = "tyler";
@@ -110,14 +115,15 @@ class UserServiceTest {
 
         // Then
         List<User> retrievedUserList = userListResponse.userList();
-        assertThat(retrievedUserList).isNotNull();
-        assertThat(retrievedUserList).hasSize(2);
-        assertThat(retrievedUserList).containsExactlyInAnyOrder(user1, user2);
+        assertThat(retrievedUserList).isNotNull()
+            .hasSize(2)
+            .containsExactlyInAnyOrder(user1, user2);
         verify(userRepository, times(1)).getUserListWithVoucherAssigned();
     }
 
     @Test
-    void getUserByVoucherId() {
+    @DisplayName("바우처 번호에 해당하는 유저를 조회한다.")
+    void GetUserByVoucherId_UserListRequest_UserResponseSameAsGivenUser() {
         // Given
         UUID voucherUuid = UUID.randomUUID();
         Amount amount = new Amount(500);

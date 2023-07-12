@@ -19,26 +19,36 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileVoucherDatabaseTest {
     @Test
     @DisplayName("정상적으로 바우처 파일을 로딩 한다.")
-    void FileLoadWithoutExceptionTest() {
+    void Load_Filepath_ResultNotNull() {
+        // Given
         final String FILE_PATH = "csv/vouchers.csv";
         FileVoucherDatabase database = new FileVoucherDatabase();
+
+        // When
         List<Voucher> result = database.load(FILE_PATH);
 
+        // Then
         assertNotNull(result);
     }
 
     @Test
     @DisplayName("없는 바우처 파일에 쓰기를 시도한다.")
-    void NotExistingFileEmptyReturnTest() {
+    void Load_Filepath_Empty() {
+        // Given
         final String FILE_PATH = "not/existing.csv";
         FileVoucherDatabase database = new FileVoucherDatabase();
 
+        // When
+        // Then
         assertThat(database.load(FILE_PATH), is(empty()));
+
+
     }
 
     @Test
     @DisplayName("정상적으로 바우처 파일에 쓴다.")
-    void SuccessfulFileWritingTest() {
+    void Store_VoucherAs1stParam_FilepathAs2ndParam_NotThrowingError() {
+        // Given
         final String FILE_PATH = "csv/vouchers.csv";
         UUID randomVoucherId = UUID.randomUUID();
         Amount amount = new Amount(3000);
@@ -47,12 +57,15 @@ class FileVoucherDatabaseTest {
 
         FileVoucherDatabase database = new FileVoucherDatabase();
 
+        // When
+        // Then
         assertDoesNotThrow(() -> database.store(voucher, FILE_PATH));
     }
 
     @Test
     @DisplayName("없는 바우처 파일에 쓰기를 시도한다.")
-    void NotExistingFileWritingTest() {
+    void Store_VoucherAs1stParam_FilepathAs2ndParam_FileNotReadException() {
+        // Given
         final String FILE_PATH = "not/existing.csv";
         UUID randomVoucherId = UUID.randomUUID();
         Amount amount = new Amount(3000);
@@ -60,6 +73,9 @@ class FileVoucherDatabaseTest {
         Voucher voucher = new Voucher(randomVoucherId, fixedAmountDiscountStrategy);
 
         FileVoucherDatabase database = new FileVoucherDatabase();
+
+        // When
+        // Then
         assertThrows(FileNotReadException.class, () -> database.store(voucher, FILE_PATH));
     }
 

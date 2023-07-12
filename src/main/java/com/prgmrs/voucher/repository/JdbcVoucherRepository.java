@@ -78,7 +78,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getNotAssignedVoucher() {
+    public List<Voucher> getNotAssignedVoucherList() {
         String sql = "SELECT DISTINCT v.voucher_id, v.discount_type, v.discount_value " +
                 "FROM `voucher` v LEFT JOIN `wallet` w ON v.voucher_id = w.voucher_id " +
                 "WHERE w.voucher_id IS NULL " +
