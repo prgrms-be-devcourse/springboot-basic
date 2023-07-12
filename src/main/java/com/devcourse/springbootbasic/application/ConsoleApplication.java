@@ -69,6 +69,10 @@ public class ConsoleApplication implements Runnable {
                 var vouchers = voucherController.voucherListOfCustomer(consoleManager.consoleId());
                 consoleManager.printVoucherList(vouchers);
             }
+            case LIST_BLACK_CUSTOMERS -> {
+                var blackCustomers = customerController.blackCustomerList();
+                consoleManager.printCustomerList(blackCustomers);
+            }
         }
         return false;
     }

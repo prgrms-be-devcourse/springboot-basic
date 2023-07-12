@@ -15,7 +15,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public List<CustomerDto> findBlackCustomers() {
+    public List<CustomerDto> blackCustomerList() {
         return customerService.getBlackCustomers().stream()
                 .map(CustomerDto::of)
                 .toList();
@@ -37,7 +37,7 @@ public class CustomerController {
         );
     }
 
-    public List<CustomerDto> findAllCustomers() {
+    public List<CustomerDto> customerList() {
         return customerService.findAllCustomers()
                 .stream()
                 .map(CustomerDto::of)
@@ -56,7 +56,7 @@ public class CustomerController {
         customerService.deleteAllCustomers();
     }
 
-    public CustomerDto deleteCustomerById(UUID customerId) {
+    public CustomerDto unregisterCustomerById(UUID customerId) {
         return CustomerDto.of(customerService.deleteCustomerById(customerId));
     }
 

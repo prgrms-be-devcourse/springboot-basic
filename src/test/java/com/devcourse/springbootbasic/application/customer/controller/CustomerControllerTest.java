@@ -84,7 +84,7 @@ class CustomerControllerTest {
         var serviceMock = mock(CustomerService.class);
         given(serviceMock.findAllCustomers()).willReturn(validCustomers);
         var sut = new CustomerController(serviceMock);
-        var result = sut.findAllCustomers();
+        var result = sut.customerList();
         assertThat(result, notNullValue());
         assertThat(result.isEmpty(), is(false));
         assertThat(result.get(0), instanceOf(CustomerDto.class));
@@ -138,7 +138,7 @@ class CustomerControllerTest {
         var customerServiceMock = mock(CustomerService.class);
         given(customerServiceMock.findAllCustomers()).willReturn(validCustomers);
         var sut = new CustomerController(customerServiceMock);
-        var list = sut.findAllCustomers();
+        var list = sut.customerList();
         assertThat(list, notNullValue());
         assertThat(list.get(0), instanceOf(CustomerDto.class));
     }
@@ -179,7 +179,7 @@ class CustomerControllerTest {
     @DisplayName("모든 고객을 제거하면 성공한다.")
     void deleteAllCustomers_ParamVoid_DeleteAllCustomers() {
         customerController.deleteAllCustomers();
-        var allCustomers = customerController.findAllCustomers();
+        var allCustomers = customerController.customerList();
         assertThat(allCustomers.isEmpty(), is(true));
     }
 
@@ -188,7 +188,7 @@ class CustomerControllerTest {
     @MethodSource("provideValidCustomerDto")
     void deleteCustomerById_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerDto customerDto) {
         customerController.registerCustomer(customerDto);
-        var deletedCustomer = customerController.deleteCustomerById(customerDto.customerId());
+        var deletedCustomer = customerController.unregisterCustomerById(customerDto.customerId());
         assertThat(deletedCustomer, samePropertyValuesAs(customerDto));
         Assertions.assertThrows(InvalidDataException.class, () -> customerController.findCustomerById(customerDto.customerId()));
     }
@@ -197,7 +197,7 @@ class CustomerControllerTest {
     @DisplayName("존재하지 않는 고객을 아이디로 제거하면 실패한다.")
     @MethodSource("provideValidCustomerDto")
     void deletCustomerById_ParamNotExistCustomer_Exception(CustomerDto customerDto) {
-        Assertions.assertThrows(InvalidDataException.class, () -> customerController.deleteCustomerById(customerDto.customerId()));
+        Assertions.assertThrows(InvalidDataException.class, () -> customerController.unregisterCustomerById(customerDto.customerId()));
     }
 
 }
