@@ -1,16 +1,27 @@
 package com.example.springbootbasic.voucher;
 
 import java.text.MessageFormat;
+import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
+
+    private final UUID voucherId;
     private final long fixedAmount;
 
     public FixedAmountVoucher(String fixedAmount) {
+        this.voucherId = UUID.randomUUID();
         this.fixedAmount = Long.parseLong(fixedAmount);
         validateInput();
     }
 
     public FixedAmountVoucher(long fixedAmount) {
+        this.voucherId = UUID.randomUUID();
+        this.fixedAmount = fixedAmount;
+        validateInput();
+    }
+
+    public FixedAmountVoucher(UUID voucherId, long fixedAmount) {
+        this.voucherId = voucherId;
         this.fixedAmount = fixedAmount;
         validateInput();
     }
@@ -36,5 +47,9 @@ public class FixedAmountVoucher implements Voucher {
 
     public long getFixedAmount() {
         return fixedAmount;
+    }
+
+    public UUID getVoucherId() {
+        return voucherId;
     }
 }
