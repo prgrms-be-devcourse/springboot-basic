@@ -7,6 +7,7 @@ import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -186,26 +187,14 @@ class JdbcTemplateCustomerRepositoryTest {
                 .customerType(CustomerType.NORMAL)
                 .build();
 
-        Customer customer2 = Customer.builder()
-                .customerId(UUID.randomUUID())
-                .customerName("hong")
-                .customerEmail("hong@kakao.com")
-                .customerType(CustomerType.BLACKLIST)
-                .build();
-
-        Customer customer3 = Customer.builder()
-                .customerId(UUID.randomUUID())
-                .customerName("song")
-                .customerEmail("song@kakao.com")
-                .customerType(CustomerType.BLACKLIST)
-                .build();
-        // when
         jdbcTemplateCustomerRepository.save(customer1);
-        jdbcTemplateCustomerRepository.save(customer2);
-        jdbcTemplateCustomerRepository.save(customer3);
+
+        // when
+        jdbcTemplateCustomerRepository.deleteById(customer1.getCustomerId());
+        Optional<Customer> cutomerActual = jdbcTemplateCustomerRepository.findById(customer1.getCustomerId());
 
         // then
-        jdbcTemplateCustomerRepository.deleteById(customer1.getCustomerId());
+        assertThat(cutomerActual).isEmpty();
     }
 
     @Test
@@ -233,13 +222,15 @@ class JdbcTemplateCustomerRepositoryTest {
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-        // when
         jdbcTemplateCustomerRepository.save(customer1);
         jdbcTemplateCustomerRepository.save(customer2);
         jdbcTemplateCustomerRepository.save(customer3);
 
-        // then
+        // when
         jdbcTemplateCustomerRepository.deleteAll();
+
+        // then
+        assertThat(jdbcTemplateCustomerRepository.findAll().size()).isEqualTo(0);
 
     }
 }
