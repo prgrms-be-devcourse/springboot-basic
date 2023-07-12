@@ -1,4 +1,4 @@
-package org.devcourse.springbasic.domain.voucher.dao;
+package org.devcourse.springbasic.domain.voucher.service;
 
 import org.devcourse.springbasic.domain.voucher.domain.Voucher;
 import org.devcourse.springbasic.domain.voucher.domain.VoucherType;
@@ -19,22 +19,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class VoucherJdbcRepositoryTest {
+class VoucherServiceTest {
 
     @Autowired
-    VoucherRepository voucherRepository;
+    VoucherService voucherService;
 
     @Test
     @DisplayName("요청을 통해 바우처를 저장할 수 있다.")
     public void testSave() {
         VoucherDto.SaveRequestDto saveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.FIXED_AMOUNT_VOUCHER);
-        voucherRepository.save(saveRequestDto);
+        voucherService.save(saveRequestDto);
     }
 
     @Test
     @DisplayName("(ResultSet에서 값을 추출해서) Voucher 객체를 만들 수 있다.")
     public void testRowMapper() {
-
         //== given  ==//
         UUID voucherId = UUID.randomUUID();
         Long discountAmount = 50L;
@@ -49,17 +48,16 @@ class VoucherJdbcRepositoryTest {
 
     @Test
     @DisplayName("Id를 통해 바우처를 조회할 수 있다.")
-    public void testFindById() throws Exception {
-
+    public void testFindById() {
         //== given ==//
         VoucherDto.SaveRequestDto fixedVoucherSaveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.FIXED_AMOUNT_VOUCHER);
         VoucherDto.SaveRequestDto percentVoucherSaveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.PERCENT_DISCOUNT_VOUCHER);
-        UUID fixedVoucherId = voucherRepository.save(fixedVoucherSaveRequestDto);
-        UUID percentVoucherId = voucherRepository.save(percentVoucherSaveRequestDto);
+        UUID fixedVoucherId = voucherService.save(fixedVoucherSaveRequestDto);
+        UUID percentVoucherId = voucherService.save(percentVoucherSaveRequestDto);
 
         //== when ==//
-        VoucherDto.ResponseDto fixedVoucherResponseDto = voucherRepository.findById(fixedVoucherId);
-        VoucherDto.ResponseDto percentVoucherResponseDto = voucherRepository.findById(percentVoucherId);
+        VoucherDto.ResponseDto fixedVoucherResponseDto = voucherService.findById(fixedVoucherId);
+        VoucherDto.ResponseDto percentVoucherResponseDto = voucherService.findById(percentVoucherId);
 
         //== then ==//
         assertThat(fixedVoucherResponseDto.getVoucherType()).isEqualTo(fixedVoucherResponseDto.getVoucherType());
@@ -71,16 +69,15 @@ class VoucherJdbcRepositoryTest {
     @Test
     @DisplayName("모든 바우처를 조회할 수 있다.")
     public void testFindAll() {
-
         //== given ==//
         VoucherDto.SaveRequestDto fixedVoucherSaveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.FIXED_AMOUNT_VOUCHER);
         VoucherDto.SaveRequestDto percentVoucherSaveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.PERCENT_DISCOUNT_VOUCHER);
-        UUID fixedVoucherId = voucherRepository.save(fixedVoucherSaveRequestDto);
-        UUID percentVoucherId = voucherRepository.save(percentVoucherSaveRequestDto);
+        UUID fixedVoucherId = voucherService.save(fixedVoucherSaveRequestDto);
+        UUID percentVoucherId = voucherService.save(percentVoucherSaveRequestDto);
         List<UUID> expectVoucherIds = new ArrayList<>(List.of(fixedVoucherId, percentVoucherId));
 
         //== when ==//
-        List<VoucherDto.ResponseDto> Vouchers = voucherRepository.findAll();
+        List<VoucherDto.ResponseDto> Vouchers = voucherService.findAll();
         List<UUID> actualVoucherIds = Vouchers.stream().map(VoucherDto.ResponseDto::getVoucherId).collect(Collectors.toList());
 
         //== then ==//
