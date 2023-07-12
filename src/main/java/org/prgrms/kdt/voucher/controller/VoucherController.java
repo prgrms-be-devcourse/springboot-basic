@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
+import org.prgrms.kdt.voucher.dto.VouchersResponse;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ public class VoucherController {
         voucherService.createVoucher(request);
     }
 
-    public List<Voucher> findAll() {
+    public VouchersResponse findAll() {
         return voucherService.findAll();
     }
 }

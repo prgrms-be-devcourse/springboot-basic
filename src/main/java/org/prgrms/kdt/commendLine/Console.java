@@ -1,8 +1,9 @@
 package org.prgrms.kdt.commendLine;
 
-import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.wallet.dto.WalletResponse;
+import org.prgrms.kdt.member.dto.MembersResponse;
+import org.prgrms.kdt.voucher.dto.VouchersResponse;
+import org.prgrms.kdt.wallet.dto.response.WalletResponse;
+import org.prgrms.kdt.wallet.dto.response.WalletsResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -66,18 +67,18 @@ public class Console {
         System.out.print("번호를 입력하세요: ");
     }
 
-    public void printAllVoucher(List<Voucher> vouchers) {
-        vouchers.forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.getVoucherId(), e.getVoucherType(), e.getDiscountPolicy().getAmount())));
+    public void printAllVoucher(VouchersResponse vouchers) {
+        vouchers.getVouchers().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.voucherId(), e.voucherType(), e.amount())));
         System.out.println();
     }
 
-    public void printAllMember(List<Member> members) {
-        members.forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.getMemberId(), e.getMemberName().getName(), e.getStatus())));
+    public void printAllMember(MembersResponse members) {
+        members.getMembers().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.memberId(), e.memberName(), e.memberStatus())));
         System.out.println();
     }
 
-    public void printAllWallet(List<WalletResponse> response) {
-        response.forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2},{3}",
+    public void printAllWallet(WalletsResponse walletsResponse) {
+        walletsResponse.getWallets().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2},{3}",
                 e.walletId(), e.memberName(), e.voucherType(), e.voucherAmount())));
         System.out.println();
     }

@@ -5,6 +5,8 @@ import org.prgrms.kdt.member.dao.JdbcMemberRepository;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.member.dto.CreateMemberRequest;
+import org.prgrms.kdt.member.dto.MemberResponse;
+import org.prgrms.kdt.member.dto.MembersResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -39,10 +41,10 @@ class MemberServiceTest {
         CreateMemberRequest request = new CreateMemberRequest("james", MemberStatus.COMMON);
 
         //when
-        Member result = memberService.createMember(request);
+        MemberResponse result = memberService.createMember(request);
 
         //then
-        String resultName = result.getMemberName().getName();
+        String resultName = result.memberName();
         assertThat(resultName).isEqualTo("james");
     }
 
@@ -50,19 +52,21 @@ class MemberServiceTest {
     @DisplayName("db에 저장되어있는 2명의 블랙멤버들 잘 찾아오는지 확인")
     void findAllBlackMember_correctSize(){
         //when
-        List<Member> findBlackMembers = memberService.findAllBlackMember();
+        MembersResponse findBlackMembers = memberService.findAllBlackMember();
 
         //then
-        assertThat(findBlackMembers.size()).isEqualTo(2);
+        int findBlackMembersSize = findBlackMembers.getMembers().size();
+        assertThat(findBlackMembersSize).isEqualTo(2);
     }
 
     @Test
     @DisplayName("db에 있는 멤버 3명 잘 찾아오는지 확인")
     void findAllMember_correctAllMember(){
         //when
-        List<Member> findAllMember = memberService.findAllMember();
+        MembersResponse findAllMember = memberService.findAllMember();
 
         //then
-        assertThat(findAllMember.size()).isEqualTo(3);
+        int findAllMembersize = findAllMember.getMembers().size();
+        assertThat(findAllMembersize).isEqualTo(3);
     }
 }

@@ -8,6 +8,8 @@ import org.prgrms.kdt.voucher.dao.JdbcVoucherRepository;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
+import org.prgrms.kdt.voucher.dto.VoucherResponse;
+import org.prgrms.kdt.voucher.dto.VouchersResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -43,10 +45,10 @@ class VoucherServiceTest {
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(VoucherType.FIXED, 50.0);
 
         //when
-        Voucher voucher = voucherService.createVoucher(createVoucherRequest);
+        VoucherResponse voucher = voucherService.createVoucher(createVoucherRequest);
 
         //then
-        double resultAmount = voucher.getDiscountPolicy().getAmount();
+        double resultAmount = voucher.amount();
         assertThat(resultAmount).isEqualTo(50.0);
     }
 
@@ -54,10 +56,10 @@ class VoucherServiceTest {
     @DisplayName("바우처 전체 조회하여 사이즈 검증")
     void findAll_correctSize() {
         //when
-        List<Voucher> vouchers = voucherService.findAll();
+        VouchersResponse vouchers = voucherService.findAll();
 
         //then
-        int resultsize = vouchers.size();
+        int resultsize = vouchers.getVouchers().size();
         assertThat(resultsize).isEqualTo(3);
     }
 }

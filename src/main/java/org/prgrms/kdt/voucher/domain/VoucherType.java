@@ -11,13 +11,13 @@ public enum VoucherType {
     PERCENT(2, "PERCENT", PercentDiscountPolicy::new);
 
     private final int number;
-    private final String name;
+    private final String descripton;
 
     private final Function<Double, DiscountPolicy> function;
 
-    VoucherType(int number, String name, Function<Double, DiscountPolicy> function) {
+    VoucherType(int number, String descripton, Function<Double, DiscountPolicy> function) {
         this.number = number;
-        this.name = name;
+        this.descripton = descripton;
         this.function = function;
     }
 
@@ -31,13 +31,13 @@ public enum VoucherType {
 
     public static VoucherType getTypeByStr(String str) {
         return Arrays.stream(VoucherType.values())
-                .filter((e) -> Objects.equals(e.name, str))
+                .filter((e) -> Objects.equals(e.descripton, str))
                 .findFirst()
                 .orElseThrow(() -> new InvalidInputException("입력한 바우처 타입은 지원하지 않습니다."));
     }
 
-    public String getName() {
-        return name;
+    public String getDescripton() {
+        return descripton;
     }
 
     public DiscountPolicy createPolicy(double amount) {

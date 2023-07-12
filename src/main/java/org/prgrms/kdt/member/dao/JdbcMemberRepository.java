@@ -16,14 +16,14 @@ import java.util.UUID;
 
 @Repository
 public class JdbcMemberRepository implements MemberRepository {
-    private final JdbcTemplate jdbcTemplate;
-
     private final RowMapper<Member> memberRowMapper = (resultSet, i) -> {
         UUID memberId = UUID.fromString(resultSet.getString("id"));
         String name = resultSet.getString("name");
         MemberStatus status = MemberStatus.getStatus(resultSet.getString("status"));
         return new Member(memberId, name, status);
     };
+
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcMemberRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);

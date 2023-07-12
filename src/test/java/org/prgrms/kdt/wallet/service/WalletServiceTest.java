@@ -12,8 +12,9 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.Wallet;
-import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.WalletResponse;
+import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
+import org.prgrms.kdt.wallet.dto.response.WalletResponse;
+import org.prgrms.kdt.wallet.dto.response.WalletsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -56,10 +57,10 @@ class WalletServiceTest {
         CreateWalletRequest createWalletRequest = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
 
         //when
-        Wallet resultWallet = walletService.assignVoucherToCustomer(createWalletRequest);
+        WalletResponse resultWallet = walletService.assignVoucherToCustomer(createWalletRequest);
 
         //then
-        String resultMemberName = resultWallet.getMember().getMemberName().getName();
+        String resultMemberName = resultWallet.memberName();
         assertThat(resultMemberName).isEqualTo("giho");
     }
 
@@ -82,10 +83,10 @@ class WalletServiceTest {
     @DisplayName("setup을 통해 바우처 2개를 할당받은 멤버Id를 조회하여 Response의 size가 2인지 확인")
     void findVouchersByMemberId_correctMemberId_correctResponseSize() {
         //when
-        List<WalletResponse> responseList = walletService.findVouchersByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
+        WalletsResponse responseList = walletService.findVouchersByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
 
         //then
-        int responseSize = responseList.size();
+        int responseSize = responseList.getWallets().size();
         assertThat(responseSize).isEqualTo(2);
     }
 
@@ -104,10 +105,10 @@ class WalletServiceTest {
     @DisplayName("setup을 통해 해당 바우처를 할당받은 james를 voucherId를 통해 찾아서 확인")
     void findMembersByVoucherId_correctVoucherId_correctMemberName() {
         //when
-        List<WalletResponse> response = walletService.findMembersByVoucherId(UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29"));
+        WalletsResponse response = walletService.findMembersByVoucherId(UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29"));
 
         //then
-        String findMemberName = response.get(0).memberName();
+        String findMemberName = response.getWallets().get(0).memberName();
         assertThat(findMemberName).isEqualTo("james");
     }
 

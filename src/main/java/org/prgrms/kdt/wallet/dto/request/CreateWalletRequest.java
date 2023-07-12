@@ -1,4 +1,4 @@
-package org.prgrms.kdt.wallet.dto;
+package org.prgrms.kdt.wallet.dto.request;
 
 import java.util.UUID;
 

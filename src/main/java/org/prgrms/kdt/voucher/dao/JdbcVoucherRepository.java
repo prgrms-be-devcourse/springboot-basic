@@ -4,8 +4,6 @@ import org.prgrms.kdt.exception.NotUpdateException;
 import org.prgrms.kdt.voucher.domain.DiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,14 +16,14 @@ import java.util.*;
 @Profile({"default", "test"})
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
-    private final JdbcTemplate jdbcTemplate;
-
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = UUID.fromString(resultSet.getString("id"));
         VoucherType voucherType = VoucherType.getTypeByStr(resultSet.getString("type"));
         DiscountPolicy discountPolicy = voucherType.createPolicy(resultSet.getDouble("amount"));
         return new Voucher(voucherId, voucherType, discountPolicy);
     };
+
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -48,7 +46,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String sql = "INSERT INTO voucher(id, type, amount) VALUES (?, ?, ?)";
         int update = jdbcTemplate.update(sql,
                 voucher.getVoucherId().toString(),
-                voucher.getVoucherType().getName(),
+                voucher.getVoucherType().getDescripton(),
                 voucher.getDiscountPolicy().getAmount());
         if (update != 1) {
             throw new NotUpdateException("insert가 제대로 이루어지지 않았습니다.");
