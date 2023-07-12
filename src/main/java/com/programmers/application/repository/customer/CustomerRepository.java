@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    Customer save(Customer customer);
+    Customer insert(Customer customer);
 
     List<Customer> findAll();
 
@@ -18,6 +18,4 @@ public interface CustomerRepository {
     Customer update(Customer customer);
 
     void deleteByCustomerId(UUID customerId);
-
-    int countAllCustomers();
 }

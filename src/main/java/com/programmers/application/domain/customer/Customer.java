@@ -14,17 +14,36 @@ public class Customer {
     private String name;
     private LocalDateTime lastLoginAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public Customer(UUID customerId, String name, String email) {
         validateCustomerId(customerId);
+        validateName(name);
         validateEmail(email);
+
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.lastLoginAt = lastLoginAt;
+        this.lastLoginAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
+        this.customerId = customerId;
+        this.email = email;
         this.createdAt = createdAt;
+        this.name = name;
+        this.lastLoginAt = lastLoginAt;
+    }
+
+    private static void validateName(String name) {
+        if (Objects.isNull(name) || name.isBlank()) {
+            throw new IllegalArgumentException("고객 이름이 비어있습니다.");
+        }
     }
 
     private static void validateEmail(String email) {
+        if (Objects.isNull(email) || email.isBlank()) {
+            throw new IllegalArgumentException("고객 이메일이 비어있습니다.");
+        }
         if (!Patterns.EMAIL_PATTERN.matcher(email).matches()) {
             String errorMessage = String.format("옳바른 이메일 형식을 입력해주세요. 입력값: %s", email);
             throw new IllegalArgumentException(errorMessage);
@@ -42,9 +61,7 @@ public class Customer {
     }
 
     public void changeName(String name) {
-        if (Objects.isNull(name) || name.isBlank()) {
-            throw new IllegalArgumentException("고객 이름이 비었습니다.");
-        }
+        validateName(name);
         this.name = name;
     }
 
@@ -54,5 +71,17 @@ public class Customer {
 
     public String getName() {
         return name;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

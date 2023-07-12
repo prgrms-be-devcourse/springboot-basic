@@ -16,4 +16,6 @@ public abstract class Voucher {
     public abstract long discount(long originalPrice);
 
     public abstract long getDiscountAmount();
+
+    public abstract VoucherType getVoucherType();
 }

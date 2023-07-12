@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    include: local
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/ddl.sql
