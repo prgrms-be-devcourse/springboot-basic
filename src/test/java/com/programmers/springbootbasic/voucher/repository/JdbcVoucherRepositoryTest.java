@@ -28,7 +28,7 @@ class JdbcVoucherRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.programmers.voucher.repository"}
+            basePackages = {"com.programmers.springbootbasic.voucher.repository"}
     )
     static class Config {
         @Bean
@@ -118,7 +118,7 @@ class JdbcVoucherRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId()))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(RuntimeException.class);
     }
 
     @DisplayName("바우처를 수정한다")

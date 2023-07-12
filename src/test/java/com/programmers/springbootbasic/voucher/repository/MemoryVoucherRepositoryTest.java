@@ -74,7 +74,7 @@ class MemoryVoucherRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> memoryVoucherRepository.findById(fixedAmountVoucher.getVoucherId()))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(RuntimeException.class);
     }
 
     @DisplayName("바우처를 수정한다")

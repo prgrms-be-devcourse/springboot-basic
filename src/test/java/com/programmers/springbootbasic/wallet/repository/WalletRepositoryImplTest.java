@@ -31,7 +31,7 @@ class WalletRepositoryImplTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.programmers.voucher.repository"}
+            basePackages = {"com.programmers.springbootbasic.voucher.repository"}
     )
     static class Config {
         @Bean

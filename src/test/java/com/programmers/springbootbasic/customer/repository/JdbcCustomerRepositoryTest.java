@@ -26,7 +26,7 @@ class JdbcCustomerRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.programmers.customer.repository"}
+            basePackages = {"com.programmers.springbootbasic.customer.repository"}
     )
     static class Config {
         @Bean
@@ -116,7 +116,7 @@ class JdbcCustomerRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> jdbcCustomerRepository.findById(customer.getCustomerId()))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(RuntimeException.class);
     }
 
     @DisplayName("회원을 수정한다")

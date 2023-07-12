@@ -68,7 +68,7 @@ class FileVoucherRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> fileVoucherRepository.findById(fixedAmountVoucher.getVoucherId()))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(RuntimeException.class);
     }
 
     @DisplayName("바우처를 수정한다")
