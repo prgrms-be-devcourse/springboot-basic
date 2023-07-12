@@ -12,7 +12,7 @@ class CommandMenuTest {
 
     @ParameterizedTest
     @DisplayName("올바른 메뉴 입력하면 성공한다.")
-    @ValueSource(strings = {"0", "1"})
+    @ValueSource(strings = {"0", "1", "2", "3", "4", "5"})
     void getMenu_ParamMenuString_ReturnMenu(String input) {
         assertDoesNotThrow(() -> CommandMenu.getCommandMenu(input));
     }

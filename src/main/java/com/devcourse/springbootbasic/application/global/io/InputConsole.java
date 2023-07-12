@@ -1,8 +1,6 @@
 package com.devcourse.springbootbasic.application.global.io;
 
 import com.devcourse.springbootbasic.application.global.model.CommandMenu;
-import com.devcourse.springbootbasic.application.global.model.DomainMenu;
-import com.devcourse.springbootbasic.application.global.model.PropertyMenu;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.beryx.textio.TextIO;
@@ -21,20 +19,6 @@ public class InputConsole {
                 .withInputTrimming(true)
                 .read("CommandMenu Selection: ");
         return CommandMenu.getCommandMenu(input);
-    }
-
-    public DomainMenu readDomainMenu() {
-        String input = textIO.newStringInputReader()
-                .withInputTrimming(true)
-                .read("DomainMenu Selection: ");
-        return DomainMenu.getDomainMenu(input);
-    }
-
-    public PropertyMenu readPropertyMenu() {
-        String input = textIO.newStringInputReader()
-                .withInputTrimming(true)
-                .read("PropertyMenu Selection: ");
-        return PropertyMenu.getPropertyMenu(input);
     }
 
     public VoucherType readVoucherType() {
