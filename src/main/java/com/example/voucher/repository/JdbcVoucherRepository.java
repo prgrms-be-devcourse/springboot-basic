@@ -25,8 +25,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("voucherId", voucher.getVoucherId().toString())
+        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("voucherId",
+                voucher.getVoucherId().toString())
             .addValue("discountValue", voucher.getValue())
             .addValue("voucherType", voucher.getVoucherType().toString());
 
@@ -38,8 +38,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher findById(UUID voucherID) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("voucherId", voucherID.toString());
+        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("voucherId", voucherID.toString());
 
         RowMapper<Voucher> voucherRowMapper = voucherRowMapper();
 

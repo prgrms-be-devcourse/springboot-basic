@@ -1,6 +1,7 @@
 package com.example.voucher.domain;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
+import java.util.Objects;
 import java.util.UUID;
 import com.example.voucher.constant.VoucherType;
 
@@ -50,6 +51,21 @@ public class FixedAmountVoucher implements Voucher {
             throw new IllegalArgumentException(
                 String.format("{} {}", FORMAT_ERROR_GREATER_THAN_CONSTRAINT, threshold));
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        FixedAmountVoucher that = (FixedAmountVoucher)o;
+        return voucherId.equals(that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId);
     }
 
 }
