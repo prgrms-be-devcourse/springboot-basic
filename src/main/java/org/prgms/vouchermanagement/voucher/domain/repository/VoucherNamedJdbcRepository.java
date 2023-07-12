@@ -4,8 +4,6 @@ import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.exception.VoucherException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,8 +17,11 @@ import java.util.*;
 @Profile("jdbc")
 public class VoucherNamedJdbcRepository implements VoucherRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherNamedJdbcRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    public VoucherNamedJdbcRepository(DataSource dataSource) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
@@ -40,10 +41,6 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
             case PERCENT_DISCOUNT_VOUCHER_TYPE -> new Voucher(voucherId, discountAmount, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
         };
     };
-
-    public VoucherNamedJdbcRepository(DataSource dataSource) {
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

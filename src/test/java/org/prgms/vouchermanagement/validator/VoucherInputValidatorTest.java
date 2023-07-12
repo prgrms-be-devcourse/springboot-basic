@@ -6,8 +6,6 @@ import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 
-import java.util.InputMismatchException;
-
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

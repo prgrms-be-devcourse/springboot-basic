@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 public class VoucherInputValidator {
 
     private static final Pattern INTEGER_ONE_OR_TWO = Pattern.compile("^[1-2]$");
-    private static final Pattern INTEGER_NO_BOUNDARY = Pattern.compile("^[0-9]+$");
-    private static final Pattern INTEGER_ONE_TO_NINETY_NINE = Pattern.compile("^[1-9]$|^[0-9][0-9]$");
+    private static final Pattern INTEGER_NO_BOUNDARY = Pattern.compile("^\\d+$");
+    private static final Pattern INTEGER_ONE_TO_NINETY_NINE = Pattern.compile("^[1-9]$|^\\d\\d$");
 
     public void checkVoucherTypeInput(String input) {
         if (!INTEGER_ONE_OR_TWO.matcher(input).matches()) {

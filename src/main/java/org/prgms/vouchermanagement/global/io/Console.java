@@ -78,6 +78,10 @@ public class Console {
             System.out.println("=== Percent Discount Voucher List ===");
         }
 
+        printEachVoucher(voucherList, listVoucherType);
+    }
+
+    public void printEachVoucher(List<Voucher> voucherList, VoucherType listVoucherType) {
         voucherList.forEach(voucher -> {
             if (voucher.getVoucherType() == listVoucherType) {
                 System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}",

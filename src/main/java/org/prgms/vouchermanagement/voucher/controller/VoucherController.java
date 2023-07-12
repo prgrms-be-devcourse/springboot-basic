@@ -23,20 +23,20 @@ public class VoucherController {
     private static final String REDIRECT_TO_LIST = "redirect:/vouchers/list";
 
     @GetMapping("/list")
-    public String list(Model model) {
+    public String listVouchers(Model model) {
         List<Voucher> allVouchers = voucherService.getVouchers();
         model.addAttribute("allVouchers", allVouchers);
         return "voucher/voucherList";
     }
 
     @GetMapping("/create")
-    public String create(Model model) {
+    public String createVoucher(Model model) {
         model.addAttribute("voucher", new VoucherDto());
         return "voucher/createNewVoucher";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("voucher")VoucherDto voucherDto) {
+    public String createVoucher(@ModelAttribute("voucher")VoucherDto voucherDto) {
         log.info("responseDto type -> {}", voucherDto.getVoucherType());
         log.info("responseDto amount -> {}", voucherDto.getDiscount());
         voucherService.createNewVoucher(voucherDto);
@@ -61,7 +61,7 @@ public class VoucherController {
     }
 
     @PostMapping("/delete")
-    public String deleteById(@ModelAttribute("voucherId") UUID voucherID) {
+    public String deleteVoucherById(@ModelAttribute("voucherId") UUID voucherID) {
         log.info("DELETE ID -> {}", voucherID);
         voucherService.deleteById(voucherID);
         return REDIRECT_TO_LIST;
