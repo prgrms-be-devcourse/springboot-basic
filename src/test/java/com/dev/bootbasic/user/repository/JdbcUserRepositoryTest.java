@@ -34,7 +34,7 @@ public class JdbcUserRepositoryTest {
     public void createTest() {
         userRepository.create(user);
         Optional<User> foundUser = userRepository.findById(user.getId());
-        assertThat(foundUser).isEqualTo(user);
+        assertThat(foundUser.get()).isEqualTo(user);
     }
 
     @Test
