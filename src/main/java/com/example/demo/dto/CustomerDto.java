@@ -16,5 +16,4 @@ public class CustomerDto {
     public static CustomerDto from(Customer customer) {
         return new CustomerDto(customer.getCustomerId(), customer.getName(), customer.getAge());
     }
-
 }

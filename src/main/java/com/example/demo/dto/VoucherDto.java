@@ -25,5 +25,4 @@ public class VoucherDto {
     public static VoucherDto from(Voucher voucher) {
         return new VoucherDto(voucher.getId(), voucher.getDiscountAmount(), voucher.getVoucherType());
     }
-    
 }
