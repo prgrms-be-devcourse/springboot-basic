@@ -17,3 +17,14 @@ file:
 file:
   blacklist:
     file-path: src/main/resources/blacklist.csv
+
+---
+spring:
+  config:
+    activate:
+      on-profile: jdbc
+
+  datasource:
+    url: jdbc:mysql://localhost/voucher_db
+    username: admin
+    password: admin1234
