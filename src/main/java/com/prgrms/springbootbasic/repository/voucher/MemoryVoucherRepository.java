@@ -16,7 +16,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public Voucher create(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
@@ -36,7 +36,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll(Voucher voucher) {
+    public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }
 
