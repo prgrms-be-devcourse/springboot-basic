@@ -1,6 +1,6 @@
-package org.devcourse.springbasic.validator;
+package org.devcourse.springbasic.global.validator;
 
-import org.devcourse.springbasic.util.RegexPattern;
+import org.devcourse.springbasic.global.util.RegexPattern;
 import java.util.regex.Matcher;
 
 public class MenuValidator<T> implements Validator<T> {

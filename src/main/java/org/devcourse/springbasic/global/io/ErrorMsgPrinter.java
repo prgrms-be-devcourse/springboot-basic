@@ -1,4 +1,4 @@
-package org.devcourse.springbasic.io;
+package org.devcourse.springbasic.global.io;
 
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;

@@ -20,7 +20,7 @@ public enum CustomerMenuType {
 
         if (DigitChecker.isDigit(input)) {
             return Arrays.stream(CustomerMenuType.values())
-                    .filter(customerMenuType -> (customerMenuType.inputNum == Integer.parseInt(input)) && customerMenuType.inputNum != 0)
+                    .filter(customerMenuType -> (customerMenuType.inputNum == Integer.parseInt(input)))
                     .findAny()
                     .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
         } else {

@@ -1,4 +1,4 @@
-package org.devcourse.springbasic.util;
+package org.devcourse.springbasic.global.util;
 
 public class DigitChecker {
 
