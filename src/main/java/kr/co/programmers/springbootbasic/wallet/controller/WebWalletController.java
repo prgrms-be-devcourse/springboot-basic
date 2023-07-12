@@ -41,7 +41,7 @@ public class WebWalletController {
     public String saveVoucherInWallet(@ModelAttribute WalletSaveDto saveDto,
                                       RedirectAttributes redirectAttributes) {
         WalletSaveDto responseDto = walletService.saveVoucherInCustomerWallet(saveDto);
-        String message = ApplicationUtils.formatWalletSaveDto(responseDto);
+        String message = responseDto.formatWalletSaveDto();
 
         redirectAttributes.addFlashAttribute("walletResponse", message);
         redirectAttributes.addFlashAttribute("redirectUrl", "/wallets/save");

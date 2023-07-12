@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,14 +39,14 @@ public class VoucherService {
         Voucher createdVoucher = voucherRepository.create(voucher);
         logger.info("바우처 생성에 성공했습니다.");
 
-        return ApplicationUtils.convertToVoucherResponse(createdVoucher);
+        return VoucherResponse.convertToVoucherResponse(createdVoucher);
     }
 
     public List<VoucherResponse> findByType(Integer typeId) {
         List<Voucher> response = voucherRepository.findByType(typeId);
 
         return response.stream()
-                .map(ApplicationUtils::convertToVoucherResponse)
+                .map(VoucherResponse::convertToVoucherResponse)
                 .toList();
     }
 
@@ -55,7 +54,7 @@ public class VoucherService {
         List<Voucher> response = voucherRepository.findByDate(formattedDate);
 
         return response.stream()
-                .map(ApplicationUtils::convertToVoucherResponse)
+                .map(VoucherResponse::convertToVoucherResponse)
                 .toList();
     }
 
@@ -64,7 +63,7 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.listAll();
 
         return vouchers.stream()
-                .map(ApplicationUtils::convertToVoucherResponse)
+                .map(VoucherResponse::convertToVoucherResponse)
                 .toList();
     }
 
@@ -76,7 +75,7 @@ public class VoucherService {
     public VoucherResponse findById(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findVoucherById(voucherId);
 
-        return voucher.map(ApplicationUtils::convertToVoucherResponse)
+        return voucher.map(VoucherResponse::convertToVoucherResponse)
                 .orElseGet(() -> new VoucherResponse(voucherId));
     }
 }

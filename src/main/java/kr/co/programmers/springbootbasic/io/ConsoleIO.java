@@ -36,7 +36,7 @@ public class ConsoleIO implements Input, Output {
         int input = scanner.nextInt();
         scanner.nextLine();
 
-        return VoucherType.resolveCommand(input);
+        return VoucherType.resolveTypeId(input);
     }
 
     @Override
@@ -122,20 +122,20 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public void printVoucherMessage(VoucherResponse dto) {
-        String message = ApplicationUtils.formatVoucherResponseDto(dto);
+        String message = dto.formatVoucherResponseDto();
         System.out.print(message);
     }
 
     @Override
     public void printCustomerMessage(CustomerResponse dto) {
-        String message = ApplicationUtils.formatCustomerResponseDto(dto);
+        String message = dto.formatCustomerResponseDto();
         System.out.print(message);
     }
 
     @Override
     public void printVoucherListMessage(List<VoucherResponse> list) {
         String message = list.stream()
-                .map(ApplicationUtils::formatVoucherResponseDto)
+                .map(VoucherResponse::formatVoucherResponseDto)
                 .collect(Collectors.joining());
         if (message.isEmpty()) {
             System.out.println(ConsoleMessage.EMPTY_LIST_MESSAGE);
@@ -147,7 +147,7 @@ public class ConsoleIO implements Input, Output {
     @Override
     public void printCustomerListMessage(List<CustomerResponse> list) {
         String message = list.stream()
-                .map(ApplicationUtils::formatCustomerResponseDto)
+                .map(CustomerResponse::formatCustomerResponseDto)
                 .collect(Collectors.joining());
         if (message.isEmpty()) {
             System.out.println(ConsoleMessage.EMPTY_LIST_MESSAGE);
@@ -208,13 +208,13 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public void printWalletSaveMessage(WalletSaveDto responseDto) {
-        String message = ApplicationUtils.formatWalletSaveDto(responseDto);
+        String message = responseDto.formatWalletSaveDto();
         System.out.print(message);
     }
 
     @Override
     public void printWalletFindMessage(WalletResponse walletResponse) {
-        String message = ApplicationUtils.formatWalletFindResponse(walletResponse);
+        String message = walletResponse.formatWalletFindResponse();
         System.out.print(message);
     }
 

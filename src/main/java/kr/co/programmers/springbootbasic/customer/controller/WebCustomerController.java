@@ -46,7 +46,7 @@ public class WebCustomerController {
     public String createCustomer(@RequestParam("customerName") String customerName,
                                  RedirectAttributes redirectAttributes) {
         CustomerResponse customerResponse = jdbcCustomerService.createCustomer(customerName);
-        String message = ApplicationUtils.formatCustomerResponseDto(customerResponse);
+        String message = customerResponse.formatCustomerResponseDto();
         redirectAttributes.addFlashAttribute("customerResponse", message);
         redirectAttributes.addFlashAttribute("redirectUrl", "/customers/customer");
 
@@ -62,7 +62,7 @@ public class WebCustomerController {
     public String findByCustomerId(@RequestParam("uuid") String customerId,
                                    RedirectAttributes redirectAttributes) {
         Optional<CustomerResponse> customerResponse = jdbcCustomerService.findByCustomerId(customerId);
-        String message = customerResponse.map(ApplicationUtils::formatCustomerResponseDto)
+        String message = customerResponse.map(CustomerResponse::formatCustomerResponseDto)
                 .orElseGet(() -> MessageFormat.format("유저 아이디 : {0}를 가진 유저가 존재하지 않습니다.",
                         customerId));
         redirectAttributes.addFlashAttribute("customerResponse", message);
@@ -76,7 +76,7 @@ public class WebCustomerController {
                                   RedirectAttributes redirectAttributes) {
 
         Optional<CustomerResponse> customerResponse = jdbcCustomerService.findByVoucherId(voucherId);
-        String message = customerResponse.map(ApplicationUtils::formatCustomerResponseDto)
+        String message = customerResponse.map(CustomerResponse::formatCustomerResponseDto)
                 .orElseGet(() -> MessageFormat.format("바우처 아이디 : {0}를 가진 유저가 존재하지 않습니다.",
                         voucherId));
         redirectAttributes.addFlashAttribute("customerResponse", message);
@@ -106,7 +106,7 @@ public class WebCustomerController {
                                              @RequestParam("customerStatus") CustomerStatus customerStatus,
                                              RedirectAttributes redirectAttributes) {
         CustomerResponse customerResponse = jdbcCustomerService.updateCustomer(customerId, customerStatus);
-        String message = ApplicationUtils.formatCustomerResponseDto(customerResponse);
+        String message = customerResponse.formatCustomerResponseDto();
 
         redirectAttributes.addFlashAttribute("customerResponse", message);
         redirectAttributes.addFlashAttribute("redirectUrl", "/customers/update");

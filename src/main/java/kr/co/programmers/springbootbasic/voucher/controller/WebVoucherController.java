@@ -1,6 +1,5 @@
 package kr.co.programmers.springbootbasic.voucher.controller;
 
-import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
 import kr.co.programmers.springbootbasic.voucher.service.VoucherService;
@@ -43,7 +42,7 @@ public class WebVoucherController {
                                 RedirectAttributes redirectAttributes) {
         try {
             VoucherResponse voucherResponse = voucherService.createVoucher(type, amount);
-            String message = ApplicationUtils.formatVoucherResponseDto(voucherResponse);
+            String message = voucherResponse.formatVoucherResponseDto();
             redirectAttributes.addFlashAttribute("voucherResponse", message);
 
             return "redirect:/vouchers/success";

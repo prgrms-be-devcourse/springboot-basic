@@ -26,7 +26,7 @@ public class BlackCustomerService {
         List<Customer> userList = blackCustomerRepository.listAllBlackCustomer();
 
         return userList.stream()
-                .map(ApplicationUtils::convertToCustomerResponse)
+                .map(CustomerResponse::convertToCustomerResponse)
                 .toList();
     }
 }

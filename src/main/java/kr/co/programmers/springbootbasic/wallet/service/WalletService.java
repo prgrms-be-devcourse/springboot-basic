@@ -1,6 +1,5 @@
 package kr.co.programmers.springbootbasic.wallet.service;
 
-import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
 import kr.co.programmers.springbootbasic.wallet.domain.Wallet;
@@ -40,7 +39,7 @@ public class WalletService {
         List<Voucher> vouchers = wallet.getVouchers();
 
         return vouchers.stream()
-                .map(ApplicationUtils::convertToVoucherResponse)
+                .map(VoucherResponse::convertToVoucherResponse)
                 .toList();
     }
 }

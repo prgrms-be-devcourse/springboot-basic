@@ -36,19 +36,19 @@ public class JdbcCustomerService {
         Customer customer = new JdbcCustomer(customerId, customerName, customerStatus, walletId);
         Customer createdCustomer = customerRepository.createCustomer(customer);
 
-        return ApplicationUtils.convertToCustomerResponse(createdCustomer);
+        return CustomerResponse.convertToCustomerResponse(createdCustomer);
     }
 
     public Optional<CustomerResponse> findByCustomerId(String customerId) {
         Optional<Customer> customer = customerRepository.findByCustomerId(customerId);
 
-        return customer.map(ApplicationUtils::convertToCustomerResponse);
+        return customer.map(CustomerResponse::convertToCustomerResponse);
     }
 
     public Optional<CustomerResponse> findByVoucherId(String voucherId) {
         Optional<Customer> customer = customerRepository.findByVoucherId(voucherId);
 
-        return customer.map(ApplicationUtils::convertToCustomerResponse)
+        return customer.map(CustomerResponse::convertToCustomerResponse)
                 .or(Optional::empty);
     }
 
@@ -56,24 +56,24 @@ public class JdbcCustomerService {
         List<Customer> customers = customerRepository.findAll();
 
         return customers.stream()
-                .map(ApplicationUtils::convertToCustomerResponse)
+                .map(CustomerResponse::convertToCustomerResponse)
                 .toList();
     }
 
     @Transactional
     public CustomerResponse updateCustomer(String customerId, CustomerStatus customerStatus) {
         Optional<CustomerResponse> response = findByCustomerId(customerId);
-
-        return response.map((customer) -> {
+        JdbcCustomer responseCustomer = response.map((customer) -> {
                     UUID id = customer.getId();
                     String name = customer.getName();
-                    CustomerStatus status = customer.getStatus();
                     UUID walletId = customer.getWalletId();
 
-                    return new JdbcCustomer(id, name, status, walletId);
+                    return new JdbcCustomer(id, name, customerStatus, walletId);
                 })
-                .map(ApplicationUtils::convertToCustomerResponse)
                 .orElseThrow(() -> new NoExistCustomerException("업데이트하려는 유저가 존재하지 않습니다."));
+        customerRepository.update(responseCustomer);
+
+        return CustomerResponse.convertToCustomerResponse(responseCustomer);
     }
 
     @Transactional

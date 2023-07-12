@@ -43,12 +43,10 @@ public class CustomerController {
         return blackCustomerService.listAllBlackCustomer();
     }
 
-    @Transactional
     public CustomerResponse updateCustomer(String customerId, CustomerStatus customerStatus) {
         return jdbcCustomerService.updateCustomer(customerId, customerStatus);
     }
 
-    @Transactional
     public void deleteById(String customerId) {
         jdbcCustomerService.deleteById(customerId);
     }
