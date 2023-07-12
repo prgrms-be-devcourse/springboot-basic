@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class VoucherService {
 
-    private static final int ZERO = 0;
-
     private final VoucherRepository voucherRepository;
 
     public VoucherResponseDto create(VoucherCreateRequestDto request) {
@@ -50,10 +48,14 @@ public class VoucherService {
     }
 
     public void deleteById(String id) {
-        int deletionCounts = voucherRepository.deleteById(id);
+        int deleteCounts = voucherRepository.deleteById(id);
 
-        if (deletionCounts == ZERO) {
+        if (isEmptyDeleteResult(deleteCounts)) {
             throw new NotFoundVoucherException(id);
         }
+    }
+
+    private boolean isEmptyDeleteResult(int deleteCounts) {
+        return deleteCounts == 0;
     }
 }
