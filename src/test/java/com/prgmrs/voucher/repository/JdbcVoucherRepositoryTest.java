@@ -5,6 +5,7 @@ import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.model.Wallet;
 import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
 import com.prgmrs.voucher.model.vo.Amount;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:VoucherMgmtDDL-test.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:VoucherMgmtCleanup-test.sql")
 })
+@DisplayName("JDBC 바우처 레포지토리 레이어를 테스트한다.")
 class JdbcVoucherRepositoryTest {
 
     @Autowired
@@ -39,7 +41,8 @@ class JdbcVoucherRepositoryTest {
     private JdbcUserRepository userRepository;
 
     @Test
-    void save() {
+    @DisplayName("바우처를 저장한다.")
+    void Save_NoParam_SameVoucher() {
         // Given
         UUID uuid = UUID.randomUUID();
         Amount amount = new Amount(500);
@@ -53,13 +56,14 @@ class JdbcVoucherRepositoryTest {
         // Then
         List<Voucher> retrievedVoucherList = voucherRepository.findAll();
 
-        assertThat(retrievedVoucherList.size()).isEqualTo(1);
+        assertThat(retrievedVoucherList).hasSize(1);
         assertThat(retrievedVoucherList.get(0).voucherId()).isEqualTo(voucher.voucherId());
-        assertThat(((FixedAmountDiscountStrategy)retrievedVoucherList.get(0).discountStrategy()).amount().value()).isEqualTo(amount.value());
+        assertThat(((FixedAmountDiscountStrategy) retrievedVoucherList.get(0).discountStrategy()).amount().value()).isEqualTo(amount.value());
     }
 
     @Test
-    void getAssignedVoucherListByUsername() {
+    @DisplayName("유저 이름에 해당하는 할당된 바우처를 받는다.")
+    void GetAssignedVoucherListByUsername_Username_SameAssignVoucherList() {
         // Given
         UUID userUuid = UUID.randomUUID();
         String username = "tyler";
@@ -88,14 +92,15 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> assignedVoucherList = voucherRepository.getAssignedVoucherListByUsername(username);
 
         // Then
-        assertThat(assignedVoucherList).isNotNull();
-        assertThat(assignedVoucherList.size()).isEqualTo(2);
-        assertThat(assignedVoucherList).containsExactlyInAnyOrder(voucher1, voucher2);
+        assertThat(assignedVoucherList).isNotNull()
+            .hasSize(2)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
 
     }
 
     @Test
-    void getAssignedVoucherList() {
+    @DisplayName("할당된 바우처들의 리스트를 돌려 받는다.")
+    void GetAssignedVoucherList_NoParam_SameAssignedVoucherList() {
         // Given
         UUID userUuid = UUID.randomUUID();
         String username = "tyler";
@@ -124,13 +129,14 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> assignedVoucherList = voucherRepository.getAssignedVoucherList();
 
         // Then
-        assertThat(assignedVoucherList).isNotNull();
-        assertThat(assignedVoucherList.size()).isEqualTo(2);
-        assertThat(assignedVoucherList).containsExactlyInAnyOrder(voucher1, voucher2);
+        assertThat(assignedVoucherList).isNotNull()
+            .hasSize(2)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
     }
 
     @Test
-    void getNotAssignedVoucher() {
+    @DisplayName("할당되지 않은 바우처를 리스트를 받는다.")
+    void GetNotAssignedVoucher_NoParam_SameNotAssignedVoucherList() {
         // Given
         UUID userUuid = UUID.randomUUID();
         String username = "tyler";
@@ -150,11 +156,11 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher2);
 
         // When
-        List<Voucher> notAssignedVoucherList = voucherRepository.getNotAssignedVoucher();
+        List<Voucher> notAssignedVoucherList = voucherRepository.getNotAssignedVoucherList();
 
         // Then
-        assertThat(notAssignedVoucherList).isNotNull();
-        assertThat(notAssignedVoucherList.size()).isEqualTo(2);
-        assertThat(notAssignedVoucherList).containsExactlyInAnyOrder(voucher1, voucher2);
+        assertThat(notAssignedVoucherList).isNotNull()
+            .hasSize(2)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
     }
 }

@@ -5,6 +5,7 @@ import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.model.Wallet;
 import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
 import com.prgmrs.voucher.model.vo.Amount;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+@DisplayName("JDBC 지갑 레포지토리 레이어를 테스트한다.")
 
 @JdbcTest
 @Import({JdbcWalletRepository.class, JdbcUserRepository.class, JdbcVoucherRepository.class})
@@ -36,7 +38,8 @@ class JdbcWalletRepositoryTest {
     private VoucherRepository voucherRepository;
 
     @Test
-    void save() {
+    @DisplayName("지갑을 저장한다.")
+    void Save_Wallet_NotThrowingException() {
         // Given
         UUID userUuid = UUID.randomUUID();
         String username = "tyler";
@@ -58,27 +61,28 @@ class JdbcWalletRepositoryTest {
         assertDoesNotThrow(executable);
     }
 
-        @Test
-        void free() {
-            // Given
-            UUID userUuid = UUID.randomUUID();
-            String username = "tyler";
-            User user = new User(userUuid, username);
-            userRepository.save(user);
+    @Test
+    @DisplayName("지갑 저장을 해지한다.")
+    void Free_Wallet_NotThrowingException() {
+        // Given
+        UUID userUuid = UUID.randomUUID();
+        String username = "tyler";
+        User user = new User(userUuid, username);
+        userRepository.save(user);
 
-            UUID voucherUuid = UUID.randomUUID();
-            Amount amount = new Amount(500);
-            FixedAmountDiscountStrategy discountStrategy = new FixedAmountDiscountStrategy(amount);
-            Voucher voucher = new Voucher(voucherUuid, discountStrategy);
-            voucherRepository.save(voucher);
+        UUID voucherUuid = UUID.randomUUID();
+        Amount amount = new Amount(500);
+        FixedAmountDiscountStrategy discountStrategy = new FixedAmountDiscountStrategy(amount);
+        Voucher voucher = new Voucher(voucherUuid, discountStrategy);
+        voucherRepository.save(voucher);
 
-            Wallet wallet = new Wallet(userUuid, voucherUuid);
-            walletRepository.save(wallet);
+        Wallet wallet = new Wallet(userUuid, voucherUuid);
+        walletRepository.save(wallet);
 
-            // When
-            Executable executable = () -> walletRepository.free(wallet);
+        // When
+        Executable executable = () -> walletRepository.free(wallet);
 
-            // Then
-            assertDoesNotThrow(executable);
-        }
+        // Then
+        assertDoesNotThrow(executable);
+    }
 }
