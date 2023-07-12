@@ -13,7 +13,7 @@ public interface Console {
 
     Integer getRate();
 
-    Integer readAmount();
+    Integer getAmountOrRate();
 
     String getVoucherId();
 

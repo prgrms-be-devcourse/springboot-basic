@@ -43,7 +43,7 @@ public class JdbcCustomerStream implements CustomerStream {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         } catch (IncorrectResultSizeDataAccessException e) {
-            throw new IllegalStateException("데이터베이스 내 문제가 있습니다.");
+            return Optional.empty();
         }
     }
 
