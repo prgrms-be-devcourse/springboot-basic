@@ -14,7 +14,7 @@ public class FixedVoucher implements Voucher {
     public FixedVoucher(long discount) {
         this.voucherId = UUID.randomUUID();
         this.discount = ValidDiscount(discount);
-        this.createAt = getCreatedAt();
+        this.createAt = LocalDateTime.now();
         this.type = getVoucherType();
     }
 
