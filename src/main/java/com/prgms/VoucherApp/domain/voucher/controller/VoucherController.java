@@ -1,13 +1,12 @@
 package com.prgms.VoucherApp.domain.voucher.controller;
 
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateRequest;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
 import com.prgms.VoucherApp.domain.voucher.dto.VouchersResponse;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,11 +30,23 @@ public class VoucherController {
     }
 
     @GetMapping("/{id}")
-    public String customer(@PathVariable String id, Model model) {
+    public String voucher(@PathVariable String id, Model model) {
         UUID inputVoucherId = UUID.fromString(id);
         VoucherResponse voucherResponse = voucherService.findOne(inputVoucherId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 id가 입력되었습니다."));
         model.addAttribute("voucher", voucherResponse);
         return "voucher/voucher";
+    }
+
+    @GetMapping("/add")
+    public String addVoucherForm(Model model) {
+        model.addAttribute("voucher", new VoucherCreateRequest());
+        return "voucher/add_voucher";
+    }
+
+    @PostMapping("/add")
+    public String addVoucher(@ModelAttribute VoucherCreateRequest voucherCreateRequest) {
+        voucherService.save(voucherCreateRequest);
+        return "redirect:/vouchers";
     }
 }
