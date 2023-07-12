@@ -1,13 +1,12 @@
 package com.prgms.VoucherApp.domain.customer.controller;
 
+import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import com.prgms.VoucherApp.domain.customer.model.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,4 +37,17 @@ public class CustomerController {
         model.addAttribute("customer", customerResponse);
         return "customer/customer";
     }
+
+    @GetMapping("/add")
+    public String addCustomerForm(Model model) {
+        model.addAttribute("customerStatus", new CustomerCreateRequest());
+        return "customer/add_customer";
+    }
+
+    @PostMapping("/add")
+    public String addCustomer(@ModelAttribute CustomerCreateRequest customerCreateRequest) {
+        customerService.save(customerCreateRequest);
+        return "redirect:/customers";
+    }
+
 }
