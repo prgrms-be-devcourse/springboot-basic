@@ -32,18 +32,18 @@ public class VoucherController {
             case FIXED_AMOUNT -> {
                 output.displayFixedAmountInputValue();
                 output.displayUserInputLine();
-                invalidFixedVoucherValueException();
+                validateFixedVoucherValue();
             }
             case PERCENT_DISCOUNT -> {
                 output.displayPercentDiscountInputValue();
                 output.displayUserInputLine();
-                invalidPercentVoucherValueException();
+                validatePercentVoucherValue();
             }
             case WRONG -> output.userInputWrongValue();
         }
     }
 
-    private void invalidFixedVoucherValueException() {
+    private void validateFixedVoucherValue() {
         long amount = 0L;
         try {
             amount = userInput.userInputVoucherValue();
@@ -57,7 +57,7 @@ public class VoucherController {
         }
     }
 
-    private void invalidPercentVoucherValueException() {
+    private void validatePercentVoucherValue() {
         long percent = 0L;
         try {
             percent = userInput.userInputVoucherValue();
