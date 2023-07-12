@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.application.voucher.controller;
 
+import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
@@ -15,7 +16,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public VoucherDto createVoucher(VoucherDto voucherDto) {
+    public VoucherDto registerVoucher(VoucherDto voucherDto) {
         return VoucherDto.of(
                 voucherService.createVoucher(
                         VoucherDto.to(voucherDto)
@@ -31,22 +32,32 @@ public class VoucherController {
         );
     }
 
-    public List<VoucherDto> findAllVouchers() {
-        return voucherService.getVouchers().stream()
+    public List<VoucherDto> voucherList() {
+        return voucherService.findVouchers().stream()
                 .map(VoucherDto::of)
                 .toList();
     }
 
-    public VoucherDto findVoucherById(UUID voucherId) {
+    public VoucherDto getVoucherById(UUID voucherId) {
         return VoucherDto.of(voucherService.findVoucherById(voucherId));
     }
 
-    public void deleteVouchers() {
+    public List<VoucherDto> voucherListOfCustomer(UUID customerId) {
+        return voucherService.findVouchersByCustomerId(customerId).stream()
+                .map(VoucherDto::of)
+                .toList();
+    }
+
+    public void unregisterVouchers() {
         voucherService.deleteAllVouchers();
     }
 
-    public VoucherDto deleteVoucherById(UUID voucherId) {
+    public VoucherDto unregisterVoucherById(UUID voucherId) {
         return VoucherDto.of(voucherService.deleteVoucherById(voucherId));
+    }
+
+    public VoucherDto unregisterVoucherByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        return VoucherDto.of(voucherService.deleteVoucherCustomerByCustomerIdAndVoucherId(customerId, voucherId));
     }
 
 }

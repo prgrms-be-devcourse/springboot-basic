@@ -4,6 +4,7 @@ import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
+import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
@@ -30,25 +31,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherControllerTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기")
-    );
-    static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, 41), customers.get(0).getCustomerId()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 711), customers.get(0).getCustomerId())
-    );
     @Autowired
     VoucherController voucherController;
     @Autowired
     CustomerRepository customerRepository;
     EmbeddedMysql embeddedMysql;
-
-    static Stream<Arguments> provideVoucherDto() {
-        return voucherDto.stream()
-                .map(Arguments::of);
-    }
 
     @BeforeAll
     void init() {
@@ -66,7 +53,7 @@ class VoucherControllerTest {
 
     @BeforeEach
     void cleanup() {
-        voucherController.deleteVouchers();
+        voucherController.unregisterVouchers();
     }
 
     @AfterAll
@@ -78,8 +65,8 @@ class VoucherControllerTest {
     @DisplayName("존재하지 않는 바우처를 생성 시 성공한다.")
     @MethodSource("provideVoucherDto")
     void createVoucher_ParamExistVoucherDto_CreateReturnVoucherDto(VoucherDto voucherDto) {
-        voucherController.createVoucher(voucherDto);
-        var createdVoucher = voucherController.findVoucherById(voucherDto.voucherId());
+        voucherController.registerVoucher(voucherDto);
+        var createdVoucher = voucherController.getVoucherById(voucherDto.voucherId());
         assertThat(createdVoucher, samePropertyValuesAs(voucherDto));
     }
 
@@ -87,15 +74,15 @@ class VoucherControllerTest {
     @DisplayName("존재하는 바우처를 생성 시 실패한다.")
     @MethodSource("provideVoucherDto")
     void createVoucher_ParamNotExistVoucherDto_Exception(VoucherDto voucherDto) {
-        voucherController.createVoucher(voucherDto);
-        assertThrows(InvalidDataException.class, () -> voucherController.createVoucher(voucherDto));
+        voucherController.registerVoucher(voucherDto);
+        assertThrows(InvalidDataException.class, () -> voucherController.registerVoucher(voucherDto));
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 갱신 시 성공한다.")
     @MethodSource("provideVoucherDto")
     void updateVoucher_ParamExistVoucherDto_UpdateAndReturnVoucherDto(VoucherDto voucherDto) {
-        voucherController.createVoucher(voucherDto);
+        voucherController.registerVoucher(voucherDto);
         var newVoucherDto = new VoucherDto(
                 voucherDto.voucherId(),
                 voucherDto.voucherType(),
@@ -103,7 +90,7 @@ class VoucherControllerTest {
                 UUID.randomUUID()
         );
         voucherController.updateVoucher(newVoucherDto);
-        var updatedVoucherDto = voucherController.findVoucherById(voucherDto.voucherId());
+        var updatedVoucherDto = voucherController.getVoucherById(voucherDto.voucherId());
         assertThat(updatedVoucherDto, samePropertyValuesAs(voucherDto));
     }
 
@@ -117,8 +104,8 @@ class VoucherControllerTest {
     @Test
     @DisplayName("모든 바우처 Dto를 리스트로 반환한다.")
     void getAllVouchers_ParamVoid_ReturnVoucherDtos() {
-        voucherController.createVoucher(voucherDto.get(0));
-        var voucherDtos = voucherController.findAllVouchers();
+        voucherController.registerVoucher(voucherDto.get(0));
+        var voucherDtos = voucherController.voucherList();
         assertThat(voucherDtos.isEmpty(), is(false));
     }
 
@@ -126,8 +113,8 @@ class VoucherControllerTest {
     @DisplayName("존재하는 바우처를 아이디로 찾으면 성공한다.")
     @MethodSource("provideVoucherDto")
     void findVoucherById_ParamExistVoucherDto_ReturnVoucherDto(VoucherDto voucherDto) {
-        voucherController.createVoucher(voucherDto);
-        var foundVoucherDto = voucherController.findVoucherById(voucherDto.voucherId());
+        voucherController.registerVoucher(voucherDto);
+        var foundVoucherDto = voucherController.getVoucherById(voucherDto.voucherId());
         assertThat(foundVoucherDto, samePropertyValuesAs(voucherDto));
     }
 
@@ -135,14 +122,14 @@ class VoucherControllerTest {
     @DisplayName("존재하지 않는 바우처를 아이디로 찾으면 실패한다.")
     @MethodSource("provideVoucherDto")
     void findVoucherById_ParamNotExistVoucherDto_Exception(VoucherDto voucherDto) {
-        assertThrows(InvalidDataException.class, () -> voucherController.findVoucherById(voucherDto.voucherId()));
+        assertThrows(InvalidDataException.class, () -> voucherController.getVoucherById(voucherDto.voucherId()));
     }
 
     @Test
     @DisplayName("모든 바우처를 제거한다.")
     void deleteVouchers_ParamVoid_DeleteVoucher() {
-        voucherController.deleteVouchers();
-        var voucherDtos = voucherController.findAllVouchers();
+        voucherController.unregisterVouchers();
+        var voucherDtos = voucherController.voucherList();
         assertThat(voucherDtos.isEmpty(), is(true));
     }
 
@@ -150,17 +137,49 @@ class VoucherControllerTest {
     @DisplayName("존재하는 바우처를 제거하면 성공한다.")
     @MethodSource("provideVoucherDto")
     void deleteVoucherById_ParamExistVoucherDto_DeleteVoucher(VoucherDto voucherDto) {
-        voucherController.createVoucher(voucherDto);
-        var deletedVoucherDto = voucherController.deleteVoucherById(voucherDto.voucherId());
+        voucherController.registerVoucher(voucherDto);
+        var deletedVoucherDto = voucherController.unregisterVoucherById(voucherDto.voucherId());
         assertThat(deletedVoucherDto, samePropertyValuesAs(voucherDto));
-        assertThrows(InvalidDataException.class, () -> voucherController.findVoucherById(voucherDto.voucherId()));
+        assertThrows(InvalidDataException.class, () -> voucherController.getVoucherById(voucherDto.voucherId()));
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 바우처를 제거하면 실패한다.")
     @MethodSource("provideVoucherDto")
     void deleteVoucherById_ParamNotExistVoucherDto_Exception(VoucherDto voucherDto) {
-        assertThrows(InvalidDataException.class, () -> voucherController.deleteVoucherById(voucherDto.voucherId()));
+        assertThrows(InvalidDataException.class, () -> voucherController.unregisterVoucherById(voucherDto.voucherId()));
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 고객, 바우처 아이디로 제거 시 성공한다.")
+    @MethodSource("provideVoucherDto")
+    void unregisterVoucherByCustomerIdAndVoucherId_ParamExistIds_DeleteVoucher(VoucherDto voucherDto) {
+        voucherController.registerVoucher(voucherDto);
+        var deleted = voucherController.unregisterVoucherByCustomerIdAndVoucherId(voucherDto.customerId(), voucherDto.voucherId());
+        assertThat(deleted, samePropertyValuesAs(voucherDto));
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처를 고객, 바우처 아이디로 제거 시 실패한다.")
+    @MethodSource("provideVoucherDto")
+    void unregisterVoucherByCustomerIdAndVoucherId_ParamNotExistIds_Exception(VoucherDto voucherDto) {
+        assertThrows(InvalidDataException.class, () -> voucherController.unregisterVoucherByCustomerIdAndVoucherId(voucherDto.customerId(), voucherDto.voucherId()));
+    }
+
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기")
+    );
+
+    static List<VoucherDto> voucherDto = List.of(
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, 41), customers.get(0).getCustomerId()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 711), customers.get(0).getCustomerId())
+    );
+
+    static Stream<Arguments> provideVoucherDto() {
+        return voucherDto.stream()
+                .map(Arguments::of);
     }
 
 }
