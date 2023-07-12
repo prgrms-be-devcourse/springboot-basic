@@ -11,6 +11,12 @@ import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
+import prgms.spring_week1.menu.VoucherMenu;
+
+import static prgms.spring_week1.menu.VoucherMenu.DELETE;
+import static prgms.spring_week1.menu.VoucherMenu.FIND_ALL;
+import static prgms.spring_week1.menu.VoucherMenu.FIND_BY_ID;
+import static prgms.spring_week1.menu.VoucherMenu.INSERT;
 
 @Component
 public class CommandLine implements CommandLineRunner {
@@ -35,18 +41,30 @@ public class CommandLine implements CommandLineRunner {
             Menu menuName = input.getMenu();
             switch (menuName) {
                 case EXIT -> isRunning = false;
-                case CREATE -> createVoucher();
-                case LIST -> output.printAllVoucher(voucherService.findAll());
-                case BLACK -> output.printBlackConsumerList(customerService.getBlackConsumerList());
+                case VOUCHER -> selectVoucherMenu();
+                case CUSTOMER -> selectCustomerMenu();
             }
         }
     }
 
-    private void insertDiscountValue() {
-        VoucherType voucherType = input.selectVoucherType();
-        int discountValue = input.insertDiscountValue();
-        voucherService.insertNewVoucher(voucherType, discountValue);
-        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+    private void selectVoucherMenu(){
+        VoucherMenu menuName = input.getVoucherMenu();
+        switch (menuName){
+            case INSERT -> createVoucher();
+            case FIND_ALL -> voucherService.findAll();
+            case FIND_BY_ID -> voucherService.findById();
+            case DELETE -> voucherService.deleteAll();
+        }
+    }
+
+    private void selectCustomerMenu(){
+//        Menu menuName = input.getMenu();
+//        switch (menuName){
+//            case EXIT -> ;
+//            case CREATE -> ;
+//            case LIST -> ;
+//            case BLACK -> ;
+//        }
     }
 
     private void createVoucher() {
@@ -58,4 +76,13 @@ public class CommandLine implements CommandLineRunner {
         }
 
     }
+
+    private void insertDiscountValue() {
+        VoucherType voucherType = input.selectVoucherType();
+        int discountValue = input.insertDiscountValue();
+        voucherService.insertNewVoucher(voucherType, discountValue);
+        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+    }
+
+
 }

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
+import prgms.spring_week1.menu.VoucherMenu;
 
 import java.util.Scanner;
 
@@ -41,6 +42,18 @@ public class Input {
         while (menu == null) {
             System.out.println(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
             menu = Menu.findMenuType(sc.nextLine());
+        }
+
+        return menu;
+    }
+
+    public VoucherMenu getVoucherMenu() {
+        System.out.println(ConsoleOutputMessage.MENU_LIST_MESSAGE);
+        VoucherMenu menu = VoucherMenu.findMenuType(sc.nextLine());
+
+        while (menu == null) {
+            System.out.println(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
+            menu = VoucherMenu.findMenuType(sc.nextLine());
         }
 
         return menu;
