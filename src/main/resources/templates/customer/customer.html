@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+    <title>SpringBoot Part3</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>상품 상세</h2>
+    </div>
+
+    <div>
+        <label for="customerId">고객 ID</label>
+        <input type="text" id="customerId" name="customerId" class="form-control"
+               value="1" th:value="${customer.customerId()}" readonly>
+    </div>
+    <div>
+        <label for="customerStatus">상태</label>
+        <input type="text" id="customerStatus" name="customerStatus" class="form-control"
+               value="상품A" th:value="${customer.customerStatus().name()}" readonly>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    th:onclick="|location.href='@{/customers/{customerId}/edit(customerId=${customer.customerId()})}'|"
+                    onclick="location.href='customerEdit.html'"
+                    type="button">고객 수정
+            </button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    th:onclick="|location.href='@{/customers}'|"
+                    onclick="location.href='customers.html'" type="button">목록으로
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

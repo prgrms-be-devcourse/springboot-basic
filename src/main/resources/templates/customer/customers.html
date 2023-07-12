@@ -32,16 +32,29 @@
             <tr>
                 <th>ID</th>
                 <th>고객 상태</th>
+                <th nowrap="true">삭제</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="customer : ${customers}">
-                <td><a href="customer.html" th:href="@{/customers/${customer.id}|}"
-                       th:text="${customer.customerId().toString()}">고객 ID</a></td>
+                <td><a href="customer.html" th:href="@{/customers/{customerId}(customerId=${customer.customerId()})}"
+                       th:text="${customer.customerId()}">고객 ID</a></td>
                 <td th:text="${customer.customerStatus.name()}">status</td>
+                <td>
+                    <button class="btn btn-primary" href="#"
+                            th:href="@{/customers/{customerId}/delete(customerId=${customer.customerId()})}"
+                            th:text="삭제">삭제
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/}'|"
+                onclick="location.href='index.html'" type="button">목록으로
+        </button>
     </div>
 </div>
 </body>

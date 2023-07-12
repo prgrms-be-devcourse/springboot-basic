@@ -33,17 +33,30 @@
                 <th>ID</th>
                 <th nowrap="true">할인 금액</th>
                 <th>할인권 종류</th>
+                <th nowrap="true">삭제</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="voucher : ${vouchers}">
-                <td><a href="voucher.html" th:href="@{/vouchers/${voucher.id}|}"
-                       th:text="${voucher.voucherId().toString()}">할인권 ID</a></td>
-                <td th:text="${voucher.amount().toString()}">할인 가격</td>
+                <td><a href="voucher.html" th:href="@{/vouchers/{voucherId}(voucherId = ${voucher.voucherId()})}"
+                       th:text="${voucher.voucherId()}">할인권 ID</a></td>
+                <td th:text="${voucher.amount()}">할인 가격</td>
                 <td th:text="${voucher.voucherType().name()}">할인권 타입</td>
+                <td nowrap="true">
+                    <button class="btn btn-primary" href="#"
+                            th:href="@{/vouchers/{voucherId}/delete(voucherId=${voucher.voucherId()})}"
+                            th:text="삭제">삭제
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/}'|"
+                onclick="location.href='index.html'" type="button">목록으로
+        </button>
     </div>
 </div>
 </body>
