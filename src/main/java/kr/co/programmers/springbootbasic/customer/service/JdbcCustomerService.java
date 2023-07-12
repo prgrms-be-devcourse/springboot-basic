@@ -9,7 +9,6 @@ import kr.co.programmers.springbootbasic.customer.repository.CustomerRepository;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,12 +48,8 @@ public class JdbcCustomerService {
     public Optional<CustomerResponse> findByVoucherId(String voucherId) {
         Optional<Customer> customer = customerRepository.findByVoucherId(voucherId);
 
-        if (customer.isPresent()) {
-            CustomerResponse responseDto = ApplicationUtils.convertToCustomerResponse(customer.get());
-
-            return Optional.of(responseDto);
-        }
-        return Optional.empty();
+        return customer.map(ApplicationUtils::convertToCustomerResponse)
+                .or(Optional::empty);
     }
 
     public List<CustomerResponse> findAllCustomer() {
@@ -67,21 +62,18 @@ public class JdbcCustomerService {
 
     @Transactional
     public CustomerResponse updateCustomer(String customerId, CustomerStatus customerStatus) {
+        Optional<CustomerResponse> response = findByCustomerId(customerId);
 
-        Optional<CustomerResponse> foundCustomer = findByCustomerId(customerId);
+        return response.map((customer) -> {
+                    UUID id = customer.getId();
+                    String name = customer.getName();
+                    CustomerStatus status = customer.getStatus();
+                    UUID walletId = customer.getWalletId();
 
-        if (foundCustomer.isEmpty()) {
-            throw new NoExistCustomerException("업데이트하려는 유저가 존재하지 않습니다.");
-        }
-
-        CustomerResponse customerResponse = foundCustomer.get();
-        UUID foundCustomerUUID = customerResponse.getId();
-        String customerName = customerResponse.getName();
-        UUID walletId = customerResponse.getWalletId();
-        Customer customerForUpdate = new JdbcCustomer(foundCustomerUUID, customerName, customerStatus, walletId);
-        Customer updatedCustomer = customerRepository.update(customerForUpdate);
-
-        return ApplicationUtils.convertToCustomerResponse(updatedCustomer);
+                    return new JdbcCustomer(id, name, status, walletId);
+                })
+                .map(ApplicationUtils::convertToCustomerResponse)
+                .orElseThrow(() -> new NoExistCustomerException("업데이트하려는 유저가 존재하지 않습니다."));
     }
 
     @Transactional

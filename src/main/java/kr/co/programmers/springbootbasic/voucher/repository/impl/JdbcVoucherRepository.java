@@ -6,7 +6,6 @@ import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.PercentAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.exception.JdbcVoucherRepositoryFailException;
-import kr.co.programmers.springbootbasic.voucher.repository.VoucherQuery;
 import kr.co.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +25,13 @@ import java.util.UUID;
 @Profile("web")
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+    private static final String CREATE_VOUCHER
+            = "INSERT INTO voucher (id, type_id, amount, wallet_id) VALUES (UUID_TO_BIN(?), ?, ?, ?)";
+    private static final String FIND_VOUCHER_BY_ID = "SELECT * FROM voucher WHERE id = UUID_TO_BIN(?)";
+    private static final String FIND_VOUCHER_BY_TYPE_ID = "SELECT * FROM voucher WHERE type_id = ?";
+    private static final String FIND_VOUCHER_BY_CREATED_AT = "SELECT * FROM voucher WHERE created_at LIKE ?";
+    private static final String LIST_ALL = "SELECT * FROM voucher";
+    private static final String DELETE_BY_ID = "DELETE FROM voucher WHERE id = UUID_TO_BIN(?)";
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
@@ -34,7 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher create(Voucher voucher) {
-        jdbcTemplate.update(VoucherQuery.CREATE_VOUCHER,
+        jdbcTemplate.update(CREATE_VOUCHER,
                 voucher.getId().toString().getBytes(),
                 voucher.getType().getTypeId(),
                 voucher.getAmount(),
@@ -47,7 +53,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findVoucherById(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(VoucherQuery.FIND_VOUCHER_BY_ID,
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_VOUCHER_BY_ID,
                     voucherRowMapper(),
                     voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
@@ -59,28 +65,30 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> listAll() {
-        return jdbcTemplate.query(VoucherQuery.LIST_ALL,
+        return jdbcTemplate.query(LIST_ALL,
                 voucherRowMapper());
     }
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(VoucherQuery.DELETE_BY_ID,
+        jdbcTemplate.update(DELETE_BY_ID,
                 voucherId.toString().getBytes());
     }
 
     @Override
     public List<Voucher> findByType(Integer typeId) {
-        return jdbcTemplate.query("SELECT * FROM voucher WHERE type_id = ?",
+        return jdbcTemplate.query(FIND_VOUCHER_BY_TYPE_ID,
                 voucherRowMapper(),
                 typeId);
     }
 
     @Override
     public List<Voucher> findByDate(String formattedDate) {
-        return jdbcTemplate.query("SELECT * FROM voucher WHERE created_at LIKE ?",
+        String condition = "%" + formattedDate + "%";
+
+        return jdbcTemplate.query(FIND_VOUCHER_BY_CREATED_AT,
                 voucherRowMapper(),
-                "%" + formattedDate + "%");
+                condition);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

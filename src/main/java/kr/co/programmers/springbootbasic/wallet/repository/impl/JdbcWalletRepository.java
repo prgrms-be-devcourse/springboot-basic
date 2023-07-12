@@ -6,7 +6,6 @@ import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.PercentAmountVoucher;
 import kr.co.programmers.springbootbasic.wallet.domain.Wallet;
-import kr.co.programmers.springbootbasic.wallet.repository.WalletQuery;
 import kr.co.programmers.springbootbasic.wallet.repository.WalletRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +18,10 @@ import java.util.UUID;
 @Repository
 @Profile("web")
 public class JdbcWalletRepository implements WalletRepository {
+    private static final String SAVE_VOUCHER_IN_WALLET
+            = "UPDATE voucher SET wallet_id = UUID_TO_BIN(?) WHERE id = UUID_TO_BIN(?)";
+    private static final String FIND_ALL_VOUCHERS
+            = "SELECT * FROM voucher WHERE wallet_id = UUID_TO_BIN(?)";
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcWalletRepository(JdbcTemplate jdbcTemplate) {
@@ -27,14 +30,14 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public void saveVoucherInCustomerWallet(String voucherId, String walletId) {
-        jdbcTemplate.update(WalletQuery.SAVE_VOUCHER_IN_WALLET,
+        jdbcTemplate.update(SAVE_VOUCHER_IN_WALLET,
                 walletId,
                 voucherId);
     }
 
     @Override
     public Wallet findAllVouchersById(String walletId) {
-        List<Voucher> vouchers = jdbcTemplate.query(WalletQuery.FIND_ALL_VOUCHERS,
+        List<Voucher> vouchers = jdbcTemplate.query(FIND_ALL_VOUCHERS,
                 voucherRowMapper(),
                 walletId);
         UUID walletUUID = ApplicationUtils.toUUID(walletId.getBytes());
