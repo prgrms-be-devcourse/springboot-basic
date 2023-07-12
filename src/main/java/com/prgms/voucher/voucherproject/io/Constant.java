@@ -11,10 +11,14 @@ public final class Constant {
     public static final String CONSOLE_VOUCHER_MENU = """
                 1 -- 고정 할인 Voucher 생성
                 2 -- 퍼센트 할인 Voucher 생성
-                입력: """;
+                입력:  """;
 
     public static final String CREATE_FIXED_VOUCHER = "고정 할인 금액을 입력하세요. (1이상)";
 
     public static final String CREATE_PERCENT_VOUCHER = "퍼센트 할인 금액을 입력하세요. (1~99)";
+
+    public static final String NOT_EXITS_VOUCHER = "존재하는 바우처가 없습니다.";
+
+    public static final String WRONG_COMMAND = "잘못된 명령어입니다.";
 
 }

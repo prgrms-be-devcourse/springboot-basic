@@ -1,6 +1,7 @@
 package com.prgms.voucher.voucherproject;
 
 import com.prgms.voucher.voucherproject.domain.MenuType;
+import com.prgms.voucher.voucherproject.domain.Voucher;
 import com.prgms.voucher.voucherproject.domain.VoucherType;
 import com.prgms.voucher.voucherproject.io.Console;
 import com.prgms.voucher.voucherproject.io.Constant;
@@ -10,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.InputMismatchException;
+import java.util.List;
 
 @Component
 public class VoucherApp implements CommandLineRunner {
@@ -25,45 +26,51 @@ public class VoucherApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        String menuName;
         boolean isRunning = true;
-        MenuType inputCommand = null;
-        VoucherType voucherType = null;
 
         while (isRunning) {
-            console.printMessage(Constant.CONSOLE_MENU, true);
-            menuName = console.inputCommand().toLowerCase();
+            MenuType menuType = console.inputMenu();
 
-            try {
-                inputCommand = MenuType.getSelectedMenuType(menuName);
-            } catch (InputMismatchException e) {
-                logger.error("MenuType InputMismatchException -> {}", menuName);
-                console.printErrorMsg();
-                continue;
-            }
+            if(menuType == null) continue;
 
-            switch (inputCommand) {
+            switch (menuType) {
+                case CREATE -> createVoucher();
+                case LIST -> list();
                 case EXIT -> {
                     isRunning = false;
                     console.printMessage("프로그램을 종료합니다.", true);
                 }
-                case CREATE -> {
-                    console.printMessage(Constant.CONSOLE_VOUCHER_MENU, false);
-                    int selectedNum = console.inputIntType();
-
-                    try {
-                        voucherType = VoucherType.getSelectedVoucherType(selectedNum);
-                    } catch (Exception e) {
-                        logger.error("VoucherType InputMismatchException -> {}", selectedNum);
-                        System.out.println(e.getLocalizedMessage());
-                        continue;
-                    }
-
-                    voucherService.create(voucherType);
-                }
-                case LIST -> voucherService.list();
             }
-
         }
     }
+
+    private void list() {
+        List<Voucher> voucherList = voucherService.list();
+
+        if (voucherList.isEmpty()) {
+            console.printMessage(Constant.NOT_EXITS_VOUCHER, true);
+        }
+
+        for (Voucher v : voucherList) {
+            console.printVoucherInfo(v);
+        }
+    }
+
+    private void createVoucher() {
+        VoucherType voucherType = console.inputVoucherType();
+
+        if (voucherType == null) return;
+
+        Long discount = console.inputDiscountAmount(voucherType);
+
+        if (discount == null) return;
+
+        try {
+            voucherService.create(voucherType, discount);
+        } catch (IllegalArgumentException e) {
+            logger.error("{}Voucher IllegalArgumentException -> {}", voucherType, discount);
+            console.printMessage(e.getLocalizedMessage(), true);
+        }
+    }
+
 }
