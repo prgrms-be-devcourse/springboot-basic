@@ -2,8 +2,8 @@ package org.devcourse.springbasic;
 
 import lombok.RequiredArgsConstructor;
 import org.devcourse.springbasic.domain.DomainType;
-import org.devcourse.springbasic.domain.customer.presentation.CustomerController;
-import org.devcourse.springbasic.domain.voucher.presentation.VoucherController;
+import org.devcourse.springbasic.domain.customer.controller.CustomerController;
+import org.devcourse.springbasic.domain.voucher.controller.VoucherController;
 import org.devcourse.springbasic.global.io.ErrorMsgPrinter;
 import org.devcourse.springbasic.global.io.input.AppInput;
 import org.devcourse.springbasic.global.io.input.AppInputType;

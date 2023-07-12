@@ -1,4 +1,4 @@
-package org.devcourse.springbasic.domain.voucher.presentation;
+package org.devcourse.springbasic.domain.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.devcourse.springbasic.domain.voucher.domain.VoucherMenuType;

@@ -1,4 +1,4 @@
-package org.devcourse.springbasic.domain.customer.presentation;
+package org.devcourse.springbasic.domain.customer.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.devcourse.springbasic.domain.customer.domain.CustomerMenuType;
