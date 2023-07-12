@@ -11,7 +11,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(storage.get(voucherId)); // null일 경우 empty 반환
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override

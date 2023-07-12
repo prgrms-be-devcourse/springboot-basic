@@ -14,13 +14,13 @@ public class Console {
     private static final Scanner sc = new Scanner(System.in);
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
 
-    public void printMessage(String msg, boolean lnCheck) {
+    public void printMessage(String message, boolean lnCheck) {
         if (lnCheck) {
-            System.out.println(msg);
+            System.out.println(message);
             return;
         }
 
-        System.out.print(msg);
+        System.out.print(message);
     }
 
     public void printVoucherInfo(Voucher voucher) {
