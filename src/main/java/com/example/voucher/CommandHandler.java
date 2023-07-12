@@ -2,35 +2,35 @@ package com.example.voucher;
 
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDto;
-import com.example.voucher.ui.Input;
-import com.example.voucher.ui.Output;
+import com.example.voucher.ui.ConsoleView;
 import com.example.voucher.util.UUIDGenerator;
 import java.util.List;
 
 public class CommandHandler {
-    private Input input;
-    private Output output;
-
+    private ConsoleView consoleView;
     private UUIDGenerator uuidGenerator;
 
-    public CommandHandler(Input input, Output output, UUIDGenerator uuidGenerator) {
-        this.input = input;
-        this.output = output;
+    public CommandHandler(ConsoleView consoleView, UUIDGenerator uuidGenerator) {
+        this.consoleView = consoleView;
         this.uuidGenerator = uuidGenerator;
     }
 
+    public void showStartMessage() {
+        consoleView.printProgramInfo();
+    }
+
     public Command handleCommand() {
-        String command = input.readInput();
+        String command = consoleView.readInput();
         return Command.fromString(command);
     }
 
     public void handleListCommand(List<Voucher> vouchers) {
-        output.printVoucherInfoList(vouchers);
+        consoleView.printVoucherInfoList(vouchers);
     }
 
     public VoucherDto handleCreateCommand() {
-        output.requestVoucherAmount();
-        double amount = input.readVoucherInput();
+        consoleView.requestVoucherAmount();
+        double amount = consoleView.readVoucherInput();
 
         return new VoucherDto.Builder()
                 .withVoucherId(uuidGenerator.generateUUID())

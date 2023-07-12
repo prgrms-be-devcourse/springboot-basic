@@ -3,7 +3,6 @@ package com.example.voucher;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDto;
 import com.example.voucher.service.VoucherService;
-import com.example.voucher.ui.Output;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,7 +24,7 @@ public class VoucherApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Output.printProgramInfo();
+        commandHandler.showStartMessage();
 
         Command command = commandHandler.handleCommand();
         switch (command) {
