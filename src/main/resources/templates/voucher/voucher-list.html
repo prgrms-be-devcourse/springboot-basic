@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>Voucher Program</title>
+</head>
+<body class="container-fluid">
+<h1>Voucher Program</h1>
+<h2>Voucher list</h2>
+
+<div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="display: inline-block; float: right;">
+        <form th:action="@{/voucher/deleteAll}" method="post">
+            <div style="display: inline-block; float: left; margin-left: 10px";>
+                <button type="submit" class="btn btn-outline-primary">Delete All Vouchers</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="display: inline-block; float: right;">
+        <a th:href="@{/voucher/create}" class="btn btn-primary me-md-2" type="button">Add Voucher</a>
+    </div>
+</div>
+
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Value</th>
+        <th scope="col">Type</th>
+        <th scope="col">Customer Id</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="voucher: ${vouchers.vouchers()}">
+            <td><a th:href="'/voucher/detail/'+${voucher.voucherId}" th:text="${voucher.voucherId}" style="text-decoration:none; color: inherit;"></a></td>
+            <td th:text="${voucher.voucherName}"></td>
+            <td th:text="${voucher.getVoucherValue()}"></td>
+            <td th:text="${voucher.voucherType}"></td>
+            <td th:text="${voucher.getCustomerId().orElse(' ')}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
