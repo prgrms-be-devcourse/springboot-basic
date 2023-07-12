@@ -1,24 +1,10 @@
-flowchart TD
-    start_node[Start] --> menu[Menu Input] --> menuBranch{Menu}
-
-    menuBranch -- CREATE --> createBranch{Domain Type}
-    menuBranch -- REMOVE --> removeBranch{Domain Type}
-    menuBranch -- LIST --> listBranch{Domain Type}
-    menuBranch -- EXIT --> end_node[end]
-
-    createBranch -- Voucher --> createVoucher[Create Voucher]
-    createBranch -- Customer --> registerCustomer[Register Customer]
-
-    removeBranch -- Voucher --> removeVoucher[Remove Voucher]
-    removeBranch -- Customer --> removeCustomer[Unregister Customer]
-    removeVoucher -- All --> removeAllVouchers[Remove All Vouchers]
-    removeVoucher -- Property --> removeVoucherByProperty[Remove Voucher By Property]
-    removeCustomer -- All --> removeAllCustomers[Remove all Customers]
-    removeCustomer -- Property --> removeCustomerByProperty[Remove Customer by Property]
-
-    listBranch -- Voucher --> listVoucher[List Vouchers]
-    listBranch -- Customer --> listCustomer[List Customers]
-    listVoucher -- All --> listAllVouchers[List All Vouchers]
-    listVoucher -- Property --> listVoucherByProperty[List Voucher By Property]
-    listCustomer -- All --> listAllCustomers[List all Customers]
-    listCustomer -- Property --> listCustomerByProperty[List Customer by Property]
+flowchart LR
+    start_node[Start] --> menu{Menu}
+    menu -- EXIT --> end_node[End]
+    menu -- REGISTER_CUSTOMER --> RegisterCustomer[Register Customer]
+    menu -- UNREGISTER_CUSTOMER --> UnregisterCustomer[Unregister Customer]
+    menu -- LIST_ALL_CUSTOMERS --> ListCustomer[List Customers]
+    menu -- REGISTER_VOUCHER_TO_CUSTOMER --> RegisterVoucher[Register Voucher]
+    menu -- UNREGISTER_VOUCHER_FROM_CUSTOMER --> UnregisterVoucher[Unregister Voucher]
+    menu -- LIST_VOUCHERS_OF_CUSTOMER --> ListVoucher[List Voucher of Customer]
+    menu -- LIST_BLACK_CUSTOMERS --> ListBlackCustomer[List Black Customers]

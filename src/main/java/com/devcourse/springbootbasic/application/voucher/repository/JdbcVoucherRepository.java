@@ -19,6 +19,13 @@ import java.util.*;
 @Profile("default")
 public class JdbcVoucherRepository implements VoucherRepository {
 
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNumber) -> {
+        var voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
+        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        var discountValue = DiscountValue.from(voucherType, resultSet.getDouble("discount_value"));
+        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        return new Voucher(voucherId, voucherType, discountValue, customerId);
+    };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -137,13 +144,5 @@ public class JdbcVoucherRepository implements VoucherRepository {
         paramMap.put("customerId", voucher.getCustomerId().toString().getBytes());
         return paramMap;
     }
-
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNumber) -> {
-        var voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        var discountValue = DiscountValue.from(voucherType, resultSet.getDouble("discount_value"));
-        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
-        return new Voucher(voucherId, voucherType, discountValue, customerId);
-    };
 
 }

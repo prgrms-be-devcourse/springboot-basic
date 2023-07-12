@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Component
 public class OutputConsole {

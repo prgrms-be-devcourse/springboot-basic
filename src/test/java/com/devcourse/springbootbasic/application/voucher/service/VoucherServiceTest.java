@@ -31,11 +31,26 @@ import static org.hamcrest.Matchers.*;
 @ActiveProfiles("default")
 class VoucherServiceTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기")
+    );
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
+    );
     @Autowired
     VoucherService voucherService;
     @Autowired
     CustomerRepository customerRepository;
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -168,22 +183,5 @@ class VoucherServiceTest {
     void deleteVoucherCustomerByCustomerIdAndVoucherId_ParamIds_Exception(Voucher voucher) {
         Assertions.assertThrows(InvalidDataException.class, () -> voucherService.deleteVoucherCustomerByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId()));
     }
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
-    }
-
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기")
-    );
-
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
-    );
 
 }

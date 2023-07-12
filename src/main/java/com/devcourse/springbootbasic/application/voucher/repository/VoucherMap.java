@@ -5,7 +5,6 @@ import com.devcourse.springbootbasic.application.global.exception.InvalidDataExc
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class VoucherMap {
 

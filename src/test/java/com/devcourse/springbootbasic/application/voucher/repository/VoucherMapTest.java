@@ -24,6 +24,22 @@ class VoucherMapTest {
 
     VoucherMap voucherMap;
 
+    static Stream<Arguments> provideValid() {
+        return Stream.of(
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
+        );
+    }
+
+    static Stream<Arguments> provideInvalids() {
+        return Stream.of(
+                Arguments.of("My name is SuperMan"),
+                Arguments.of(123),
+                Arguments.of(List.of(12, 3))
+        );
+    }
+
     @BeforeEach
     void init() {
         voucherMap = new VoucherMap(new HashMap<>());
@@ -127,22 +143,6 @@ class VoucherMapTest {
         voucherMap.removeVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         var vouchers = voucherMap.getVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         assertThat(vouchers.isEmpty(), is(true));
-    }
-
-    static Stream<Arguments> provideValid() {
-        return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
-        );
-    }
-
-    static Stream<Arguments> provideInvalids() {
-        return Stream.of(
-                Arguments.of("My name is SuperMan"),
-                Arguments.of(123),
-                Arguments.of(List.of(12, 3))
-        );
     }
 
 }

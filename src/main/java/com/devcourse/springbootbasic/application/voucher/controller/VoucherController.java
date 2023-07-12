@@ -1,6 +1,5 @@
 package com.devcourse.springbootbasic.application.voucher.controller;
 
-import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 

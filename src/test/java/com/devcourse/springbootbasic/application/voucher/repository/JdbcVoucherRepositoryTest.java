@@ -32,11 +32,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("default")
 class JdbcVoucherRepositoryTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과"),
+            new Customer(UUID.randomUUID(), "딸기")
+    );
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
+    );
     @Autowired
     JdbcVoucherRepository voucherRepository;
     @Autowired
     CustomerRepository customerRepository;
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -145,7 +158,6 @@ class JdbcVoucherRepositoryTest {
         assertThat(maybeNull.isEmpty(), is(true));
     }
 
-
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 고객, 바우처 아이디로 검색하면 성공한다.")
     @MethodSource("provideVouchers")
@@ -181,21 +193,6 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.deleteByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         var maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         assertThat(maybeNull.isEmpty(), is(true));
-    }
-
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기")
-    );
-
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
-    );
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
     }
 
 }

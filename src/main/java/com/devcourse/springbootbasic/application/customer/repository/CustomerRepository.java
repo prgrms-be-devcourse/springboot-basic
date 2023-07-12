@@ -17,12 +17,16 @@ import java.util.*;
 @Repository
 public class CustomerRepository {
 
-    @Value("${settings.blackCustomerPath}")
-    private String filepath;
-
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
+        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        var name = resultSet.getString("name");
+        return new Customer(customerId, name);
+    };
     private final CsvReader csvReader;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    @Value("${settings.blackCustomerPath}")
+    private String filepath;
 
     public CustomerRepository(CsvReader csvReader, NamedParameterJdbcTemplate jdbcTemplate) {
         this.csvReader = csvReader;
@@ -153,12 +157,6 @@ public class CustomerRepository {
                 customerInfoArray[1]
         );
     }
-
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        return new Customer(customerId, name);
-    };
 
 
 }

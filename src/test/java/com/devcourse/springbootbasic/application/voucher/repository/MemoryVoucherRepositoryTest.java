@@ -22,6 +22,13 @@ class MemoryVoucherRepositoryTest {
 
     MemoryVoucherRepository voucherRepository;
 
+    static Stream<Arguments> provideVouchers() {
+        return Stream.of(
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), UUID.randomUUID()))
+        );
+    }
+
     @BeforeAll
     void init() {
         voucherRepository = new MemoryVoucherRepository();
@@ -116,13 +123,6 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.deleteByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         var maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         assertThat(maybeNull.isEmpty(), is(true));
-    }
-
-    static Stream<Arguments> provideVouchers() {
-        return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), UUID.randomUUID()))
-        );
     }
 
 }
