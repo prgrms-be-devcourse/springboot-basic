@@ -17,6 +17,10 @@ import java.util.Objects;
 
 public class JdbcVoucherStream implements VoucherStream{
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    @Value("${name.voucher.fixed-amount-voucher}")
+    private String fixedAmountVoucher;
+    @Value("${name.voucher.percent-discount-voucher}")
+    private String percentDiscountVoucher;
 
     public JdbcVoucherStream(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -98,15 +102,15 @@ public class JdbcVoucherStream implements VoucherStream{
         String voucherType = resultSet.getString("type");
         Integer amount = resultSet.getInt("amount");
         Integer rate = resultSet.getInt("rate");
-        switch (voucherType) {
-            case "FixedAmountVoucher" ->{
-                return new FixedAmountVoucher(voucherId, amount);
-            }
-            case "PercentDiscountVoucher" -> {
-                return new PercentDiscountVoucher(voucherId, rate);
-            }
-            default -> throw new IllegalStateException("만족하지 않는 데이터가 있습니다.");
+
+        if (Objects.equals(fixedAmountVoucher, voucherType)) {
+            return new FixedAmountVoucher(voucherId, amount);
         }
+
+        if (Objects.equals(percentDiscountVoucher, voucherType) ){
+            return new PercentDiscountVoucher(voucherId, rate);
+        }
+        throw new IllegalStateException("만족하지 않는 데이터가 있습니다.");
     }
 
 }

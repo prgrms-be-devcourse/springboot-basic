@@ -76,7 +76,8 @@ public class VoucherOperator {
     private void updateVoucher() {
         String voucherId = console.getVoucherId();
         Voucher voucher = voucherStream.findById(voucherId);
-        voucher.update(console.readAmount());
+        Integer updateAmount = console.getAmountOrRate();
+        voucher.update(updateAmount);
         voucherStream.update(voucher);
     }
 

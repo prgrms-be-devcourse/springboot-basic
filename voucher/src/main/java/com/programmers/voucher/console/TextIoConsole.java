@@ -50,7 +50,7 @@ public class TextIoConsole implements Console {
     }
 
     @Override
-    public Integer readAmount() {
+    public Integer getAmountOrRate() {
         System.out.println();
         Integer amount = textIO.newIntInputReader()
                 .read("Enter the amount or rate of discount\n" +
