@@ -1,6 +1,7 @@
 package com.prgrms.springbootbasic.repository.voucher;
 
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
+import com.prgrms.springbootbasic.enums.VoucherType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,8 @@ public interface VoucherRepository {
 
     //read - create at
     Optional<Voucher> findByCreatedAt(LocalDateTime createAt);
+
+    List<Voucher> findByType(VoucherType type);
 
     //read - all
     List<Voucher> findAll();
