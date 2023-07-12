@@ -2,16 +2,7 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.commendLine.Console;
 import org.prgrms.kdt.exception.InvalidInputException;
-import org.prgrms.kdt.member.controller.MemberController;
-import org.prgrms.kdt.member.domain.MemberStatus;
-import org.prgrms.kdt.member.dto.CreateMemberRequest;
 import org.prgrms.kdt.util.Menu;
-import org.prgrms.kdt.voucher.controller.VoucherController;
-import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
-import org.prgrms.kdt.wallet.controller.WalletController;
-import org.prgrms.kdt.wallet.dto.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.WalletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -19,23 +10,18 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 
 
 @Profile("!test")
 @Component
 public class CommendLineRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommendLineRunner.class);
-    private final VoucherController voucherController;
-    private final MemberController memberController;
-    private final WalletController walletController;
+
+    private final ControllerRequestManager controllerRequestManager;
     private final Console console;
 
-    public CommendLineRunner(VoucherController voucherController, MemberController memberController, WalletController walletController, Console console) {
-        this.voucherController = voucherController;
-        this.memberController = memberController;
-        this.walletController = walletController;
+    public CommendLineRunner(ControllerRequestManager controllerRequestManager, Console console) {
+        this.controllerRequestManager = controllerRequestManager;
         this.console = console;
     }
 
@@ -61,50 +47,25 @@ public class CommendLineRunner implements CommandLineRunner {
     // handler mapping
     private void executeAction(Menu menu) throws IOException {
         switch (menu) {
-            case CREATE -> createVoucher();
+            case CREATE -> controllerRequestManager.createVoucher();
 
-            case LIST -> console.printAllVoucher(voucherController.findAll());
+            case LIST -> controllerRequestManager.findAllVoucher();
 
-            case BLACK_LIST -> console.printAllMember(memberController.findAllBlackMember());
+            case BLACK_LIST -> controllerRequestManager.findAllBlackMember();
 
-            case CREATE_MEMBER -> createMember();
+            case CREATE_MEMBER -> controllerRequestManager.createMember();
 
-            case MEMBER_LIST -> console.printAllMember(memberController.findAllMember());
+            case MEMBER_LIST -> controllerRequestManager.findAllMember();
 
-            case ASSIGN_VOUCHER -> assignVoucher();
+            case ASSIGN_VOUCHER -> controllerRequestManager.assignVoucher();
 
-            case VOUCHER_LIST_BY_MEMBER -> console.printAllWallet(findVouchersByMember());
+            case VOUCHER_LIST_BY_MEMBER -> controllerRequestManager.findVouchersByMember();
 
-            case DELETE_WALLET -> walletController.deleteWalletById(console.getWalletId());
+            case DELETE_WALLET -> controllerRequestManager.deleteWalletById();
 
-            case MEMBER_LIST_BY_VOUCHER -> console.printAllWallet(findMembersByVoucher());
+            case MEMBER_LIST_BY_VOUCHER -> controllerRequestManager.findMembersByVoucher();
 
-            case WALLET_LIST -> console.printAllWallet(walletController.findAllWallet());
+            case WALLET_LIST -> controllerRequestManager.findAllWallet();
         }
-    }
-
-    private void createMember() throws IOException {
-        String memberName = console.getMemberName();
-        memberController.createMember(new CreateMemberRequest(memberName, MemberStatus.COMMON));
-    }
-
-    private List<WalletResponse> findMembersByVoucher() throws IOException {
-        return walletController.findMembersByVoucherId(console.getVoucherId());
-    }
-
-    private List<WalletResponse> findVouchersByMember() throws IOException {
-        return walletController.findVouchersByMemberId(console.getMemberId());
-    }
-
-    private void assignVoucher() throws IOException {
-        UUID memberUuid = console.getMemberId();
-        UUID voucherUuid = console.getVoucherId();
-        walletController.createWallet(new CreateWalletRequest(memberUuid, voucherUuid));
-    }
-
-    private void createVoucher() throws IOException {
-        VoucherType voucherType = VoucherType.getTypeByNum(console.getVoucherTypes());
-        double discountAmount = Double.parseDouble(console.getDiscountAmount());
-        voucherController.create(new CreateVoucherRequest(voucherType, discountAmount));
     }
 }
