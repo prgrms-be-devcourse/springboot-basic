@@ -6,14 +6,7 @@ import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.service.VoucherService;
 import org.promgrammers.springbootbasic.web.CommonResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -32,7 +25,7 @@ public class VoucherApiController {
     public ResponseEntity<CommonResponse> save(@Valid @RequestBody CreateVoucherRequest request) {
         return new ResponseEntity<>(CommonResponse.builder()
                 .status(CREATED.value())
-                .msg("바우처 생성 성공")
+                .message("바우처 생성 성공")
                 .body(voucherService.create(request))
                 .build()
                 , CREATED);
@@ -42,7 +35,7 @@ public class VoucherApiController {
     public ResponseEntity<CommonResponse> findAll() {
         return new ResponseEntity<>(CommonResponse.builder()
                 .status(OK.value())
-                .msg("전체 조회 성공")
+                .message("전체 조회 성공")
                 .body(voucherService.findAll())
                 .build()
                 , OK);
@@ -52,7 +45,7 @@ public class VoucherApiController {
     public ResponseEntity<CommonResponse> findByType(@RequestParam VoucherType voucherType) {
         return new ResponseEntity<>(CommonResponse.builder()
                 .status(OK.value())
-                .msg("조회 성공")
+                .message("조회 성공")
                 .body(voucherService.findByType(voucherType))
                 .build(), OK);
     }
@@ -61,7 +54,7 @@ public class VoucherApiController {
     public ResponseEntity<CommonResponse> findById(@PathVariable UUID id) {
         return new ResponseEntity<>(CommonResponse.builder()
                 .status(OK.value())
-                .msg("조회 성공")
+                .message("조회 성공")
                 .body(voucherService.findById(id))
                 .build(), OK);
     }
@@ -71,7 +64,7 @@ public class VoucherApiController {
         voucherService.deleteById(id);
         return new ResponseEntity<>(CommonResponse.builder()
                 .status(OK.value())
-                .msg("삭제 완료")
+                .message("삭제 완료")
                 .body(null)
                 .build(), OK);
     }
@@ -81,7 +74,7 @@ public class VoucherApiController {
         voucherService.deleteAll();
         return new ResponseEntity<>(CommonResponse.builder()
                 .status(OK.value())
-                .msg("삭제 완료")
+                .message("삭제 완료")
                 .build(), OK);
     }
 }

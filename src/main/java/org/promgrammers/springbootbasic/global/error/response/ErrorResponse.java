@@ -12,19 +12,19 @@ import java.util.Map;
 public class ErrorResponse {
 
     private int status;
-    private String errorMsg;
+    private String message;
     private Map<String, String> errorMap;
 
     @Builder
-    public ErrorResponse(int status, String errorMsg, Map<String, String> valid) {
+    public ErrorResponse(int status, String message, Map<String, String> valid) {
         this.status = status;
-        this.errorMsg = errorMsg;
+        this.message = message;
         this.errorMap = valid != null ? valid : new HashMap<>();
     }
 
     public static ErrorResponse from(String errorMsg) {
         return ErrorResponse.builder()
-                .errorMsg(errorMsg)
+                .message(errorMsg)
                 .build();
     }
 
@@ -32,7 +32,7 @@ public class ErrorResponse {
         return ResponseEntity.status(errorCode.getStatus())
                 .body(ErrorResponse.builder()
                         .status(errorCode.getStatus())
-                        .errorMsg(errorCode.getMessage())
+                        .message(errorCode.getMessage())
                         .build());
     }
 

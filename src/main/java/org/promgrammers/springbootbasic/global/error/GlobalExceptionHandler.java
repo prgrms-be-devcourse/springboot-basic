@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentNotValidException e) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .status(INVALID_INPUT_VALUE.getStatus())
-                .errorMsg(INVALID_INPUT_VALUE.getMessage())
+                .message(INVALID_INPUT_VALUE.getMessage())
                 .build();
 
         for (FieldError fieldError : e.getFieldErrors()) {
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> invalidFormatException(InvalidFormatException e) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .status(OUT_OF_FORMAT.getStatus())
-                .errorMsg(OUT_OF_FORMAT.getMessage())
+                .message(OUT_OF_FORMAT.getMessage())
                 .build();
 
         return new ResponseEntity<>(errorResponse, BAD_REQUEST);
