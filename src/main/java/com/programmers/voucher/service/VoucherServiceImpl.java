@@ -40,4 +40,15 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher voucher = voucherRepository.findById(voucherID);
         return VoucherMapper.convertDomainToResponseDto(voucher);
     }
+
+    public List<VoucherResponseDto> findVouchersByType(String type) {
+        List<Voucher> vouchers = voucherRepository.findByType(type);
+        return vouchers.stream()
+                .map(VoucherMapper::convertDomainToResponseDto)
+                .toList();
+    }
+
+    public void deleteVoucherById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
 }

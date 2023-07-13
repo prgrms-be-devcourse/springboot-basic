@@ -13,4 +13,8 @@ public interface VoucherService {
     List<VoucherResponseDto> findVouchers();
 
     VoucherResponseDto findVoucherById(UUID voucherId);
+
+    List<VoucherResponseDto> findVouchersByType(String type);
+
+    void deleteVoucherById(UUID voucherId);
 }
