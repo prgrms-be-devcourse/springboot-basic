@@ -4,6 +4,7 @@ import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Output {
@@ -20,7 +21,7 @@ public class Output {
     }
 
     public void printAllVoucher(List<Voucher> voucherList) {
-        if (voucherList.isEmpty()) {
+        if (voucherList.equals(Collections.emptyList())) {
             System.out.println(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
             return;
         }

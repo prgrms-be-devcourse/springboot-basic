@@ -63,6 +63,7 @@ public class Input {
     }
 
     public String inputVoucherType() {
+        System.out.println(ConsoleOutputMessage.FIND_TYPE_SELECT_MESSAGE);
         return String.valueOf(VoucherType.findVoucherType(sc.nextLine()));
     }
 }

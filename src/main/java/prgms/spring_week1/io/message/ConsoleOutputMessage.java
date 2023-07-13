@@ -28,6 +28,13 @@ public final class ConsoleOutputMessage {
                     Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> Percent
                     """;
 
+    public static final String FIND_TYPE_SELECT_MESSAGE =
+            """
+                    === Voucher Select ===
+                    Fixed Amount Voucher 를 바우처를 찾으려면 띄어쓰기 없이 입력하세요. -> Fixed       
+                    Percent Discount Voucher 를 바우처를 찾으려면 띄어쓰기 없이 입력하세요. -> Percent
+                    """;
+
     public static final String NO_VOUCHER_LIST_MESSAGE = "조회된 바우처 리스트가 없습니다.";
 
     public static final String INVALID_MENU_MESSAGE = "해당 메뉴가 존재하지 않습니다.";

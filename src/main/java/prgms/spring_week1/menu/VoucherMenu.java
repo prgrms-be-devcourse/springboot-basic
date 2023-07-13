@@ -16,7 +16,7 @@ public enum VoucherMenu {
 
     public static VoucherMenu findMenuType(String inputText) {
         return Stream.of(values())
-                .filter(menu -> menu.name().equalsIgnoreCase(inputText))
+                .filter(menu -> menu.customerMenuType.equalsIgnoreCase(inputText))
                 .findFirst()
                 .orElse(null);
     }
