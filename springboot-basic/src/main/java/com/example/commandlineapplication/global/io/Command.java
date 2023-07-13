@@ -3,7 +3,7 @@ package com.example.commandlineapplication.global.io;
 import java.util.Arrays;
 
 public enum Command {
-  
+
   EXIT,
   CREATE,
   DELETE,
@@ -13,7 +13,7 @@ public enum Command {
     return Arrays.stream(values())
         .filter(command -> command.getLowerCaseCommand().equals(inputCommand))
         .findFirst()
-        .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어입니다." + inputCommand));
+        .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어입니다. " + inputCommand));
   }
 
   public String getLowerCaseCommand() {

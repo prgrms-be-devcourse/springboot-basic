@@ -1,6 +1,6 @@
 package com.example.commandlineapplication.domain.customer.repository;
 
-import com.example.commandlineapplication.domain.customer.model.Customer;
+import com.example.commandlineapplication.domain.customer.Customer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,5 +18,4 @@ public interface CustomerRepository {
   void deleteById(UUID customerId);
 
   void deleteAll();
-
 }

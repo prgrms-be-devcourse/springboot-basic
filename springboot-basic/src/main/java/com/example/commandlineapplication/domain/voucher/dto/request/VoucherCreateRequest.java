@@ -14,5 +14,4 @@ public class VoucherCreateRequest {
   private final UUID voucherId;
   private final VoucherType voucherType;
   private final long discountAmount;
-
 }

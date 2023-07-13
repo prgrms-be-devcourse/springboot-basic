@@ -1,4 +1,4 @@
-package com.example.commandlineapplication.domain.customer.model;
+package com.example.commandlineapplication.domain.customer;
 
 import java.util.UUID;
 
