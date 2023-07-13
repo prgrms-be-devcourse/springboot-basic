@@ -94,7 +94,7 @@ class VoucherTest {
     static Stream<Arguments> provideInvalidFixedVouchers() {
         return Stream.of(
                 Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "101"), UUID.randomUUID())),
-                Arguments.of(new Price(-1), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0"), UUID.randomUUID()))
+                Arguments.of(new Price(0), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "2"), UUID.randomUUID()))
         );
     }
 }
