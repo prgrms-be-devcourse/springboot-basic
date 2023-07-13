@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
@@ -25,7 +26,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final RowMapper<Voucher> voucherRowMapper = (resultset, i) -> {
         var voucherType = VoucherType.valueOf(resultset.getString("voucher_type"));
         var discount = resultset.getInt("discount");
-        return new Voucher(voucherType,discount);
+        return new Voucher(voucherType, discount);
     };
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -37,9 +38,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("voucherType", String.valueOf(voucher.getVoucherType()));
             put("discount", voucher.getDiscount());
-            put("createdAt",voucher.getCreatedAt());
+            put("createdAt", voucher.getCreatedAt());
         }};
     }
+
     @Override
     public void insert(Voucher voucher) {
         var update = jdbcTemplate.update("INSERT INTO voucher(voucher_id,voucher_type, discount, created_at) VALUES (UUID_TO_BIN(:voucherId),:voucherType, :discount ,:createdAt)",
@@ -48,10 +50,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new RuntimeException("Noting was inserted");
         }
     }
+
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("select * from voucher", voucherRowMapper);
+        try {
+            return jdbcTemplate.query("select * from voucher", voucherRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Collections.emptyList();
+        }
     }
+
     @Override
     public List<Voucher> findByType(String voucherType) {
         try {
@@ -63,6 +72,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return Collections.emptyList();
         }
     }
+
     @Override
     public void delete(VoucherType voucherType) {
         int voucherType1 = jdbcTemplate.update("DELETE FROM voucher WHERE voucher_type = :voucherType ", Collections.singletonMap("voucherType", String.valueOf(voucherType)));

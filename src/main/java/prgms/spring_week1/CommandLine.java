@@ -46,7 +46,7 @@ public class CommandLine implements CommandLineRunner {
         VoucherMenu menuName = input.getVoucherMenu();
         switch (menuName){
             case INSERT -> createVoucher();
-            case FIND_ALL -> voucherService.findAll();
+            case FIND_ALL -> output.printAllVoucher(voucherService.findAll());
             case FIND_BY_TYPE -> output.printAllVoucher(voucherService.findByType(input.inputVoucherType()));
             case DELETE -> voucherService.deleteAll(VoucherType.PERCENT);
         }
