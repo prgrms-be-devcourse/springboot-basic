@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import programmers.org.voucher.constant.Command;
-import programmers.org.voucher.domain.Voucher;
 import programmers.org.voucher.dto.VoucherRequest;
+import programmers.org.voucher.dto.VoucherResponse;
 import programmers.org.voucher.io.VoucherConsole;
 import programmers.org.voucher.service.VoucherService;
 
@@ -57,7 +57,7 @@ public class VoucherController implements CommandLineRunner {
     }
 
     private void printVoucherList() {
-        List<Voucher> voucherList = voucherService.getAllVouchers();
+        List<VoucherResponse> voucherList = voucherService.getAllVouchers();
         voucherConsole.printVoucherList(voucherList);
     }
 }

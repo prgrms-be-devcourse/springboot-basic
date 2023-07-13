@@ -1,6 +1,6 @@
 package programmers.org.voucher.io;
 
-import programmers.org.voucher.domain.Voucher;
+import programmers.org.voucher.dto.VoucherResponse;
 
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +16,7 @@ public class VoucherConsole {
                 "Type list to list all vouchers.");
     }
 
-    public void printVoucherList(List<Voucher> voucherList) {
+    public void printVoucherList(List<VoucherResponse> voucherList) {
         voucherList.forEach(this::printVoucher);
     }
 
@@ -38,9 +38,9 @@ public class VoucherConsole {
         return scanner.nextInt();
     }
 
-    private void printVoucher(Voucher voucher) {
-        System.out.println("VoucherID : " + voucher.getVoucherId()
-                + " Type : " + voucher.getVoucherType()
+    private void printVoucher(VoucherResponse voucher) {
+        System.out.println("VoucherID : " + voucher.getId()
+                + " Type : " + voucher.getType()
                 + " DiscountAmount : " + voucher.getDiscountAmount());
     }
 }
