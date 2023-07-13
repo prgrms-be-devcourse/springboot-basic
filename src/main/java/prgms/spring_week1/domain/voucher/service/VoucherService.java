@@ -10,6 +10,7 @@ import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.io.Input;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -29,4 +30,12 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public void findById() {
+        voucherRepository.findById(UUID.randomUUID());
+    }
+
+    public void deleteAll(VoucherType voucherType) {
+        voucherRepository.delete(voucherType);
+        System.out.println("--");
+    }
 }

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
+@Component
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
@@ -51,7 +52,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from voucher", voucherRowMapper);
     }
-
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
@@ -62,8 +63,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return Optional.empty();
         }
     }
-
-    public void delete(String voucherType) {
-        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_type = :voucherType ", Collections.singletonMap("voucherType",voucherType));
+    @Override
+    public void delete(VoucherType voucherType) {
+        int voucherType1 = jdbcTemplate.update("DELETE FROM voucher WHERE voucher_type = :voucherType ", Collections.singletonMap("voucherType", String.valueOf(voucherType)));
     }
 }

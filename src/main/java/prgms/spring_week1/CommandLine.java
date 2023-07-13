@@ -48,12 +48,13 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void selectVoucherMenu(){
+        System.out.println("----");
         VoucherMenu menuName = input.getVoucherMenu();
         switch (menuName){
             case INSERT -> createVoucher();
             case FIND_ALL -> voucherService.findAll();
             case FIND_BY_ID -> voucherService.findById();
-            case DELETE -> voucherService.deleteAll();
+            case DELETE -> voucherService.deleteAll(VoucherType.PERCENT);
         }
     }
 

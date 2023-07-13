@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> voucherList = new ConcurrentHashMap<>();
