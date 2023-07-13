@@ -22,6 +22,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    private static final int CHK_UPDATE = 1;
+
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var name = resultSet.getString("name");
         var customerId = toUUID(resultSet.getBytes("customer_id"));
@@ -43,7 +45,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer insert(Customer customer) {
         var update = jdbcTemplate.update("INSERT INTO customer(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :cratedAt)",
                 toParamMap(customer));
-        if (update != 1) {
+        if (update != CHK_UPDATE) {
             throw new RuntimeException("Noting was inserted");
         }
         return customer;
@@ -54,7 +56,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         var update = jdbcTemplate.update("UPDATE customer SET name = :name, email = :email WHERE customer_id = UUID_TO_BIN(:customerId)",
                 toParamMap(customer)
         );
-        if (update != 1) {
+        if (update != CHK_UPDATE) {
             throw new RuntimeException("Noting was updated");
         }
         return customer;

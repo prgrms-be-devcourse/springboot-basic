@@ -23,12 +23,9 @@ public class CustomerController {
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     public void createCustomer() {
-        consoleView.showGetName();
-        String name = consoleView.getCustomerName();
-        consoleView.showGetEmail();
-        String email = consoleView.getCustomerEmail();
-        var request = CustomerCreateRequestDto.of(name, email);
-        Customer customer = customerService.createCustomer(request);
+        CustomerCreateRequestDto requestDto = createCustomerIO();
+        Customer customer = customerService.createCustomer(requestDto);
+
         if (customer == null) {
             consoleView.showErrorMsg(Error.CREATE_CUSTOMER_EXCEPTION);
             logger.error("고객 등록 실패");
@@ -39,5 +36,13 @@ public class CustomerController {
 
     public void getAllCustomers() {
         consoleView.showAllCustomers(customerService.getAllCustomers());
+    }
+
+    private CustomerCreateRequestDto createCustomerIO() {
+        consoleView.showGetName();
+        String name = consoleView.getCustomerName();
+        consoleView.showGetEmail();
+        String email = consoleView.getCustomerEmail();
+        return CustomerCreateRequestDto.of(name, email);
     }
 }

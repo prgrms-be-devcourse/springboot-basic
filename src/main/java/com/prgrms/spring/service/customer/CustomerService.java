@@ -23,7 +23,11 @@ public class CustomerService {
 
     @Transactional
     public Customer createCustomer(CustomerCreateRequestDto customerCreateRequestDto) {
-        var newCustomer = Customer.newInstance(UUID.randomUUID(), customerCreateRequestDto.getName(), customerCreateRequestDto.getEmail(), LocalDateTime.now());
+        Customer newCustomer = Customer.newInstance(
+                UUID.randomUUID(),
+                customerCreateRequestDto.getName(),
+                customerCreateRequestDto.getEmail(),
+                LocalDateTime.now());
         customerRepository.insert(newCustomer);
         return newCustomer;
     }

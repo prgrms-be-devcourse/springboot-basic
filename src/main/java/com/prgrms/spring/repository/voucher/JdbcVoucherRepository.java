@@ -25,6 +25,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    private static final int CHK_UPDATE = 1;
+
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherName = resultSet.getString("voucher_name");
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
@@ -63,7 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update("INSERT INTO voucher(voucher_id, voucher_name, discount, discount_unit) VALUES (UUID_TO_BIN(:voucherId), :voucherName, :discount, :discountUnit)",
                 toParamMap(voucher));
-        if (update != 1) {
+        if (update != CHK_UPDATE) {
             throw new RuntimeException("Noting was inserted");
         }
         return voucher;
