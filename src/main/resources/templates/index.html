@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <title>Voucher Program</title>
+    <style>
+        .card {
+            margin: auto;
+            max-width: 950px;
+            width: 90%;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 1rem;
+            border: transparent
+        }
+
+        .row {
+            margin: 0
+        }
+    </style>
+</head>
+<body class="container-fluid">
+<div class="row justify-content-center m-4">
+    <h1 class="text-center">Welcome to Voucher Program</h1>
+</div>
+
+<div class="card">
+    <div class="row">
+        <div class="my-4 d-flex flex-column px-3">
+            <h5 class="flex-grow-0"><b>메뉴 선택</b></h5>
+            <div class="list-group mt-3">
+                <a href="/vouchers" class="list-group-item list-group-item-action">1. 바우처 관리</a>
+                <a href="/customers" class="list-group-item list-group-item-action">2. 고객 관리</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
