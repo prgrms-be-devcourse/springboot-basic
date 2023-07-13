@@ -89,11 +89,9 @@ class VoucherJdbcDaoTest {
         UUID randomUUID = UUID.randomUUID();
 
         // when
-
+        Optional<Voucher> findVoucher = voucherJdbcDao.findById(randomUUID);
         // then
-        Assertions.assertThatThrownBy(() -> voucherJdbcDao.findById(randomUUID))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("존재하지 않는 아이디가 입력되었습니다.");
+        Assertions.assertThat(findVoucher).isEmpty();
     }
 
     @Test

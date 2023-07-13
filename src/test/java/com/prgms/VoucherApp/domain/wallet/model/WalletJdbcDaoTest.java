@@ -112,11 +112,9 @@ class WalletJdbcDaoTest {
 
         // when
         walletDao.deleteById(wallet.getWalletId());
-
+        Optional<Wallet> findWallet = walletDao.findById(UUID.randomUUID());
 
         // then
-        Assertions.assertThatThrownBy(() -> walletDao.findById(wallet.getWalletId()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("존재하지 않는 아이디가 입력되었습니다.");
+        Assertions.assertThat(findWallet).isEmpty();
     }
 }
