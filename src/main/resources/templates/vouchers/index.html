@@ -59,7 +59,7 @@
                     <div class="col">
                         <div class="badge bg-primary text-wrap" style="width: 8rem;"
                              th:text="${voucher.voucherType().getText()}"></div>
-                        <div class="row text-muted fs-6" style="width: 20rem;" th:text="${voucher.voucherId()}"></div>
+                        <div class="row text-muted fs-6" style="width: 21rem;" th:text="${voucher.voucherId()}"></div>
                     </div>
 
                     <div class="col text-center amount"
@@ -104,6 +104,14 @@
                 </div>
                 <button class="btn btn-dark col-12" type="submit">생성하기</button>
             </form>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col">
+            <button class="btn btn-dark col-12" th:onclick="|location.href='@{/}'|">
+                전체 메뉴로
+            </button>
         </div>
     </div>
 </div>
