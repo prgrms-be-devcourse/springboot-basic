@@ -2,6 +2,8 @@ package com.prgrms.spring.service.customer;
 
 import com.prgrms.spring.controller.dto.request.CustomerCreateRequestDto;
 import com.prgrms.spring.domain.customer.Customer;
+import com.prgrms.spring.exception.Error;
+import com.prgrms.spring.exception.model.NotFoundException;
 import com.prgrms.spring.repository.customer.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public Customer getCustomerById(UUID customerId) {
         return customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("고객 조회 실패"));
+                .orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CUSTOMER_EXCEPTION, Error.NOT_FOUND_CUSTOMER_EXCEPTION.getMessage()));
     }
 
     @Transactional(readOnly = true)
