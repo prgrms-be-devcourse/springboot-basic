@@ -29,10 +29,10 @@ public final class Parser {
     }
 
     public LocalDateTime parseToLocalDateTime(String input) {
-        if (Validator.isDate(input)) {
+        if (PatternUtils.isDate(input)) {
             return dateParseToLocalDateTime(input);
         }
-        if (Validator.isDateTime(input)) {
+        if (PatternUtils.isDateTime(input)) {
             return datetimeParseToLocalDateTime(input);
         }
         throw new IllegalArgumentException(INVALID_DATETIME + input);
