@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class VoucherController {
-    VoucherService voucherService;
+    private final VoucherService voucherService;
 
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
