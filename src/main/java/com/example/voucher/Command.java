@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public enum Command {
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    EXIT("exit");
 
     private final String command;
 
@@ -21,5 +22,9 @@ public enum Command {
                 .filter(value -> value.getCommand().equalsIgnoreCase(command))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid command: " + command));
+    }
+
+    public boolean isExit() {
+        return this == EXIT;
     }
 }

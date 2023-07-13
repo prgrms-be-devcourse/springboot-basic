@@ -26,16 +26,22 @@ public class VoucherApplication implements CommandLineRunner {
     public void run(String... args) {
         commandHandler.showStartMessage();
 
-        Command command = commandHandler.handleCommand();
-        switch (command) {
-            case CREATE:
-                VoucherDto voucherDto = commandHandler.handleCreateCommand();
-                voucherService.createVoucher(voucherDto);
+        while (true) {
+            Command command = commandHandler.handleCommand();
+            switch (command) {
+                case CREATE:
+                    VoucherDto voucherDto = commandHandler.handleCreateCommand();
+                    voucherService.createVoucher(voucherDto);
+                    break;
+                case LIST:
+                    List<Voucher> vouchers = voucherService.getAllVouchers();
+                    commandHandler.handleListCommand(vouchers);
+                    break;
+            }
+
+            if (command.isExit()) {
                 break;
-            case LIST:
-                List<Voucher> vouchers = voucherService.getAllVouchers();
-                commandHandler.handleListCommand(vouchers);
-                break;
+            }
         }
     }
 }
