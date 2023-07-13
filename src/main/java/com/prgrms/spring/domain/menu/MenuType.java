@@ -23,6 +23,6 @@ public enum MenuType {
         return Arrays.stream(values())
                 .filter(v -> type.equals(v.name))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException(String.valueOf(Error.VALIDATION_WRONG_TYPE)));
+                .orElseThrow(() -> new IllegalArgumentException(String.valueOf(Error.VALIDATION_WRONG_TYPE)));
     }
 }

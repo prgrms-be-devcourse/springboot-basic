@@ -26,7 +26,6 @@ public class AppRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         boolean isExecute = true;
         while (isExecute) {
-            logger.info("프로그램 시작.");
             consoleView.showMenu();
             MenuType menuType = null;
             try {

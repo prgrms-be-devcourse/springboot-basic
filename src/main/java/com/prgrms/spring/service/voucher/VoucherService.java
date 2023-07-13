@@ -1,5 +1,6 @@
 package com.prgrms.spring.service.voucher;
 
+import com.prgrms.spring.controller.dto.request.VoucherCreateRequestDto;
 import com.prgrms.spring.domain.voucher.FixedAmountVoucher;
 import com.prgrms.spring.domain.voucher.PercentDiscountVoucher;
 import com.prgrms.spring.domain.voucher.Voucher;
@@ -18,22 +19,19 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     @Transactional
-    public Voucher createVoucher(VoucherType type, Long discount) {
+    public Voucher createVoucher(VoucherCreateRequestDto requestDto) {
         Voucher voucher = null;
-        if (type == VoucherType.FIXED_AMOUNT) {
-            voucher = FixedAmountVoucher.newInstance(UUID.randomUUID(), discount);
-        } else if (type == VoucherType.PERCENT_DISCOUNT) {
-            voucher = PercentDiscountVoucher.newInstance(UUID.randomUUID(), discount);
+        if (requestDto.getVoucherType() == VoucherType.FIXED_AMOUNT) {
+            voucher = FixedAmountVoucher.newInstance(UUID.randomUUID(), requestDto.getDiscount());
+        } else if (requestDto.getVoucherType() == VoucherType.PERCENT_DISCOUNT) {
+            voucher = PercentDiscountVoucher.newInstance(UUID.randomUUID(), requestDto.getDiscount());
         }
         voucherRepository.insert(voucher);
         return voucher;
     }
 
     @Transactional(readOnly = true)
-    public List<String> getAllVoucher() {
-        List<Voucher> voucherList =  voucherRepository.findAll();
-        List<String> outputList = new ArrayList<>();
-        voucherList.forEach(voucher -> outputList.add(String.format("%s : %d %s", voucher.getVoucherName(), voucher.getDiscount(), voucher.getDiscountUnit())));
-        return outputList;
+    public List<Voucher> getAllVoucher() {
+        return voucherRepository.findAll();
     }
 }

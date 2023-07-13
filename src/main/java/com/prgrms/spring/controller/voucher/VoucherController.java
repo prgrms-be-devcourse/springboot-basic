@@ -1,5 +1,6 @@
 package com.prgrms.spring.controller.voucher;
 
+import com.prgrms.spring.controller.dto.request.VoucherCreateRequestDto;
 import com.prgrms.spring.domain.voucher.Voucher;
 import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.exception.Error;
@@ -24,16 +25,12 @@ public class VoucherController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public void createVoucher() {
-
-        consoleView.showVoucherTypes();
-        VoucherType type = VoucherType.matchType(consoleView.getVoucherType());
-        consoleView.showVoucherPrompt(type);
-        Long discount = consoleView.getVoucherDiscount();
-        Voucher voucher = voucherService.createVoucher(type, discount);
+        VoucherCreateRequestDto voucherCreateRequestDto = consoleView.getVoucherCreateRequestDto();
+        Voucher voucher = voucherService.createVoucher(voucherCreateRequestDto);
         if (voucher == null) {
             consoleView.showErrorMsg(Error.CREATE_VOUCHER_EXCEPTION);
-            logger.error("바우처 생성 실패");
-            return;
+            logger.error("바우처 생성 실패 -> type: " + voucherCreateRequestDto.getVoucherType() + ", discount :" + voucherCreateRequestDto.getDiscount());
+            throw new RuntimeException("바우처 생성 실패");
         }
         consoleView.showSuccessMsg(Success.CREATE_VOUCHER_SUCCESS);
     }

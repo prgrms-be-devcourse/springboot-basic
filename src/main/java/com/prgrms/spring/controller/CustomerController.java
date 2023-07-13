@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import javax.management.RuntimeErrorException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class CustomerController {
 
         if (customer == null) {
             consoleView.showErrorMsg(Error.CREATE_CUSTOMER_EXCEPTION);
-            logger.error("고객 등록 실패");
-            return;
+            logger.error("고객 등록 실패 -> name : " + requestDto.getName() + ", email : " + requestDto.getEmail());
+            throw new RuntimeException("고객 등록 실패");
         }
         consoleView.showSuccessMsg(Success.CREATE_CUSTOMER_SUCCESS);
     }

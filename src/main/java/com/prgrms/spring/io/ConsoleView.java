@@ -1,13 +1,17 @@
 package com.prgrms.spring.io;
 
 import com.prgrms.spring.controller.dto.request.CustomerCreateRequestDto;
+import com.prgrms.spring.controller.dto.request.VoucherCreateRequestDto;
+import com.prgrms.spring.domain.customer.Customer;
 import com.prgrms.spring.domain.menu.MenuType;
+import com.prgrms.spring.domain.voucher.Voucher;
 import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.exception.Error;
 import com.prgrms.spring.exception.Success;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -53,8 +57,10 @@ public class ConsoleView implements Input, Output {
     }
 
     @Override
-    public void showAllVouchers(List<String> vouchers) {
-        vouchers.forEach(System.out::println);
+    public void showAllVouchers(List<Voucher> vouchers) {
+        List<String> outputList = new ArrayList<>();
+        vouchers.forEach(voucher -> outputList.add(String.format("%s : %d %s", voucher.getVoucherName(), voucher.getDiscount(), voucher.getDiscountUnit())));
+        outputList.forEach(System.out::println);
     }
 
     @Override
@@ -68,8 +74,10 @@ public class ConsoleView implements Input, Output {
     }
 
     @Override
-    public void showAllCustomers(List<String> customers) {
-        customers.forEach(System.out::println);
+    public void showAllCustomers(List<Customer> customers) {
+        List<String> outputList = new ArrayList<>();
+        customers.forEach(customer -> outputList.add(String.format("Name : %s \nEmail : %s\n", customer.getName(), customer.getEmail())));
+        outputList.forEach(System.out::println);
     }
 
     public CustomerCreateRequestDto getCustomerCreateRequestDto() {
@@ -78,5 +86,13 @@ public class ConsoleView implements Input, Output {
         System.out.print("이메일을 입력해주세요 : ");
         String email = scanner.nextLine();
         return CustomerCreateRequestDto.of(name, email);
+    }
+
+    public VoucherCreateRequestDto getVoucherCreateRequestDto() {
+        showVoucherTypes();
+        VoucherType type = VoucherType.matchType(getVoucherType());
+        showVoucherPrompt(type);
+        Long discount = getVoucherDiscount();
+        return VoucherCreateRequestDto.of(type, discount);
     }
 }
