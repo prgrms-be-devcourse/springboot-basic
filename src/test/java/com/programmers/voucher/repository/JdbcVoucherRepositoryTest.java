@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @JdbcTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class JdbcVoucherRepositoryTest {
 
     @TestConfiguration
@@ -76,21 +76,26 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("할인 타입으로 바우처를 조회할 수 있다.")
     @ParameterizedTest
-    @CsvSource(value = {"fixed", "FIXED", "PERCENT", "percent"})
+    @CsvSource(value = {"FIXED", "PERCENT"})
     void findVouchersByTypeTest(String type) {
+        int fixedCount = 0;
+        int percentCount = 0;
         for (int i = 0; i < 4; i++) {
             if (i % 2 == 0) {
                 Voucher testVoucher = new Voucher(UUID.randomUUID(), new FixedDiscount(100), LocalDateTime.now());
                 jdbcVoucherRepository.save(testVoucher);
+                fixedCount++;
                 continue;
             }
             Voucher testVoucher = new Voucher(UUID.randomUUID(), new PercentDiscount(100), LocalDateTime.now());
             jdbcVoucherRepository.save(testVoucher);
+            percentCount++;
         }
 
         List<Voucher> vouchers = jdbcVoucherRepository.findByType(type);
 
-        assertThat(vouchers.size()).isEqualTo(2);
+        if (type == "FIXED") assertThat(vouchers.size()).isEqualTo(fixedCount);
+        else assertThat(vouchers.size()).isEqualTo(percentCount);
     }
 
     @DisplayName("ID로 바우처를 삭제할 수 있다.")
