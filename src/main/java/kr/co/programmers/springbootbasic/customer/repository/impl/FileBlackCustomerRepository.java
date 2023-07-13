@@ -5,8 +5,8 @@ import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 import kr.co.programmers.springbootbasic.customer.domain.impl.BlackCustomer;
 import kr.co.programmers.springbootbasic.customer.repository.BlackCustomerRepository;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
-import kr.co.programmers.springbootbasic.customer.exception.FileReadFailException;
-import kr.co.programmers.springbootbasic.customer.exception.FileWriteFailException;
+import kr.co.programmers.springbootbasic.customer.exception.CustomerReadFailException;
+import kr.co.programmers.springbootbasic.customer.exception.CustomerCreateFailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -48,7 +48,7 @@ public class FileBlackCustomerRepository implements BlackCustomerRepository {
             blackList = createBlackCustomers(bufferedReader);
         } catch (IOException e) {
             logger.error("블랙리스트를 Customer 객체로 만드는데 실패했습니다.");
-            throw new FileReadFailException("블랙리스트를 가져오는 도중 오류가 발생했습니다.");
+            throw new CustomerReadFailException("블랙리스트를 가져오는 도중 오류가 발생했습니다.");
         }
         logger.info("블랙리스트를 Customer 객체로 만드는데 성공했습니다.");
 
@@ -71,7 +71,7 @@ public class FileBlackCustomerRepository implements BlackCustomerRepository {
             Files.createFile(path);
         } catch (IOException e) {
             logger.error("블랙리스트 CSV 파일시스템에 오류가 발생했습니다.");
-            throw new FileWriteFailException("블랙리스트 CSV 파일시스템에 오류가 발생했습니다.\n");
+            throw new CustomerCreateFailException("블랙리스트 CSV 파일시스템에 오류가 발생했습니다.\n");
         }
     }
 

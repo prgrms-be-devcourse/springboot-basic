@@ -5,7 +5,7 @@ import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.FixedAmountVoucher;
 import kr.co.programmers.springbootbasic.voucher.domain.impl.PercentAmountVoucher;
-import kr.co.programmers.springbootbasic.voucher.exception.JdbcVoucherRepositoryFailException;
+import kr.co.programmers.springbootbasic.voucher.exception.VoucherFailException;
 import kr.co.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucher.getWalletId());
 
         return findVoucherById(voucher.getId())
-                .orElseThrow(() -> new JdbcVoucherRepositoryFailException("바우처를 저장하는데 실패했습니다."));
+                .orElseThrow(() -> new VoucherFailException("바우처를 저장하는데 실패했습니다."));
     }
 
     @Override
