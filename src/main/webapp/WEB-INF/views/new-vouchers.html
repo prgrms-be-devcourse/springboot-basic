@@ -9,9 +9,9 @@
 <form th:action="@{/vouchers/new}" method="post">
   <div class="mb-3">
     <select name="type" class="form-select" aria-label="Default select example">
-      <option selected>input voucher type</option>
-      <option value="fixed">Fixed</option>
-      <option value="percent">Percent</option>
+      <option th:each="voucherType : ${voucherTypes}"
+              th:value="${voucherType.type}"
+              th:text="${voucherType.type}">Voucher Type</option>
     </select>
   </div>
   <div class="mb-3">

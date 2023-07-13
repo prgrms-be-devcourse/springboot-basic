@@ -38,7 +38,9 @@ public class VoucherController {
     }
 
     @GetMapping("/vouchers/new")
-    public String viewFormNewVouchers() {
+    public String viewFormNewVouchers(Model model) {
+        VoucherType[] voucherTypes = VoucherType.values();
+        model.addAttribute("voucherTypes", voucherTypes);
         return "views/new-vouchers";
     }
 
