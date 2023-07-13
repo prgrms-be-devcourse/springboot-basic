@@ -2,14 +2,33 @@ package programmers.org.voucher.domain;
 
 import programmers.org.voucher.constant.VoucherType;
 
-import java.util.UUID;
+public class Voucher {
+    private Long id;
 
-public interface Voucher {
-    UUID getVoucherId();
+    private int discountAmount;
 
-    VoucherType getVoucherType();
+    private final VoucherType type;
 
-    int getDiscountAmount();
+    public Voucher(int discountAmount, VoucherType type) {
+        this.discountAmount = discountAmount;
+        this.type = type;
+    }
 
-    void validate(int discount);
+    public Voucher(Long id, int discountAmount, VoucherType type) {
+        this.id = id;
+        this.discountAmount = discountAmount;
+        this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public int getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public VoucherType getType() {
+        return type;
+    }
 }
