@@ -43,12 +43,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void save(Customer customer) {
-        jdbcTemplate.update(
+        int update = jdbcTemplate.update(
                 "INSERT INTO customers (customer_id, name, email, created_at) VALUES (?, ?, ?, ?)",
                 customer.getCustomerId().toString(),
                 customer.getName(),
                 customer.getEmail(),
                 customer.getCreatedAt());
+
+        if (update != 1) {
+            throw new IllegalArgumentException("고객 생성에 실패하였습니다.");
+        }
     }
 
     @Override
@@ -83,7 +87,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Wallet> findCustomerWallet(UUID customerId) {
+    public List<Wallet> findWallet(UUID customerId) {
         return jdbcTemplate.query(
                 "SELECT v.* FROM customers c INNER JOIN vouchers v ON c.customer_id = v.customer_id WHERE v.customer_id = ?",
                 walletRowMapper,
@@ -91,18 +95,26 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void update(Customer customer) {
-        jdbcTemplate.update(
+    public void updateName(Customer customer) {
+        int update = jdbcTemplate.update(
                 "UPDATE customers SET name = ? WHERE customer_id = ?",
                 customer.getName(),
                 customer.getCustomerId().toString());
+
+        if (update != 1) {
+            throw new IllegalArgumentException("고객 이름 수정에 실패하였습니다.");
+        }
     }
 
     @Override
     public void deleteById(UUID customerId) {
-        jdbcTemplate.update(
+        int update = jdbcTemplate.update(
                 "DELETE FROM customers WHERE customer_id = ?",
                 customerId.toString());
+
+        if (update != 1) {
+            throw new IllegalArgumentException("고객 삭제에 실패하였습니다.");
+        }
     }
 
     @Override

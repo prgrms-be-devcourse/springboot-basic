@@ -54,7 +54,7 @@ class JdbcCustomerRepositoryTest {
 
         // when
         customer.updateName("재윤 신");
-        repository.update(customer);
+        repository.updateName(customer);
 
         // then
         List<Customer> all = repository.findAll();

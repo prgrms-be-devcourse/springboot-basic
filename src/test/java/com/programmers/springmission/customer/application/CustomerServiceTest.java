@@ -172,8 +172,8 @@ class CustomerServiceTest {
         CustomerUpdateRequest customerUpdateRequest2 = new CustomerUpdateRequest("이감자");
 
         // when
-        CustomerResponse result1 = service.updateCustomer(customerResponse1.getCustomerId(), customerUpdateRequest1);
-        CustomerResponse result2 = service.updateCustomer(customerResponse2.getCustomerId(), customerUpdateRequest2);
+        CustomerResponse result1 = service.updateName(customerResponse1.getCustomerId(), customerUpdateRequest1);
+        CustomerResponse result2 = service.updateName(customerResponse2.getCustomerId(), customerUpdateRequest2);
 
         // then
         assertThat(result1.getName()).isEqualTo(customerUpdateRequest1.getName());
@@ -254,12 +254,12 @@ class CustomerServiceTest {
         voucherRepository.updateCustomer(voucher2);
 
         // then
-        List<WalletResponse> customerWallet1 = service.findCustomerWallet(customerResponse1.getCustomerId());
+        List<WalletResponse> customerWallet1 = service.findWallet(customerResponse1.getCustomerId());
         assertThat(customerWallet1.size()).isEqualTo(2);
         assertThat(customerWallet1.get(0).getVoucherId()).isEqualTo(voucher1.getVoucherId());
         assertThat(customerWallet1.get(1).getVoucherId()).isEqualTo(voucher2.getVoucherId());
 
-        List<WalletResponse> customerWallet2 = service.findCustomerWallet(customerResponse2.getCustomerId());
+        List<WalletResponse> customerWallet2 = service.findWallet(customerResponse2.getCustomerId());
         assertThat(customerWallet2.size()).isEqualTo(0);
     }
 }

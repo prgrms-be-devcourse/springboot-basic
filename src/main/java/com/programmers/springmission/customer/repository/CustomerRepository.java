@@ -16,9 +16,9 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
-    List<Wallet> findCustomerWallet(UUID customerId);
+    List<Wallet> findWallet(UUID customerId);
 
-    void update(Customer customer);
+    void updateName(Customer customer);
 
     void deleteById(UUID customerId);
 

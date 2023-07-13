@@ -101,7 +101,7 @@ public class Console {
         output.write(newLine + "Delete Success All Voucher !" + newLine);
     }
 
-    public void outputCustomerCrud() {
+    public void outputCustomerMenu() {
         output.write(newLine + """
                 === Input Customer CRUD menu ===
                 Type "1" => Create Customer

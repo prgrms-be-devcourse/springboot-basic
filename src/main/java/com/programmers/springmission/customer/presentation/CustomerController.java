@@ -25,7 +25,7 @@ public class CustomerController {
     }
 
     public void run() {
-        console.outputCustomerCrud();
+        console.outputCustomerMenu();
         CrudType inputValue = CrudType.of(console.input());
 
         switch (inputValue) {
@@ -34,26 +34,26 @@ public class CustomerController {
                 console.outputCustomerCreate(customerResponse);
             }
             case FIND_ONE -> {
-                inputFindOption();
+                findOneCustomer();
             }
             case FIND_ALL -> {
-                List<CustomerResponse> customerResponses = findAllCustomer();
+                List<CustomerResponse> customerResponses = customerService.findAllCustomer();
                 console.outputCustomerFindAll(customerResponses);
             }
             case UPDATE -> {
-                CustomerResponse customerResponse = updateCustomer();
+                CustomerResponse customerResponse = updateName();
                 console.outputCustomerUpdate(customerResponse);
             }
             case DELETE_BY_ID -> {
-                deleteByIdCustomer();
+                deleteCustomer();
                 console.outputCustomerDeleteById();
             }
             case DELETE_ALL ->  {
-                deleteAllCustomer();
+                customerService.deleteAllCustomer();
                 console.outputCustomerDeleteAll();
             }
             case WALLET -> {
-                List<WalletResponse> walletResponses = findCustomerWallet();
+                List<WalletResponse> walletResponses = findWallet();
                 console.outputCustomerWallet(walletResponses);
             }
         }
@@ -67,7 +67,7 @@ public class CustomerController {
         return customerService.createCustomer(customerCreateRequest);
     }
 
-    private void inputFindOption() {
+    private void findOneCustomer() {
         FindType findType = FindType.of(console.inputCustomerFindOption());
 
         switch (findType) {
@@ -92,29 +92,21 @@ public class CustomerController {
         return customerService.findByEmailCustomer(inputCustomerEmail);
     }
 
-    private List<CustomerResponse> findAllCustomer() {
-        return customerService.findAllCustomer();
-    }
-
-    private CustomerResponse updateCustomer() {
+    private CustomerResponse updateName() {
         UUID inputCustomerId = UUID.fromString(console.inputCustomerId());
         String inputCustomerName = console.inputCustomerName();
 
         CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(inputCustomerName);
-        return customerService.updateCustomer(inputCustomerId, customerUpdateRequest);
+        return customerService.updateName(inputCustomerId, customerUpdateRequest);
     }
 
-    private void deleteByIdCustomer() {
+    private void deleteCustomer() {
         UUID inputCustomerId = UUID.fromString(console.inputVoucherId());
-        customerService.deleteByIdCustomer(inputCustomerId);
+        customerService.deleteCustomer(inputCustomerId);
     }
 
-    private void deleteAllCustomer() {
-        customerService.deleteAllCustomer();
-    }
-
-    private List<WalletResponse> findCustomerWallet() {
+    private List<WalletResponse> findWallet() {
         UUID inputCustomerId = UUID.fromString(console.inputCustomerId());
-        return customerService.findCustomerWallet(inputCustomerId);
+        return customerService.findWallet(inputCustomerId);
     }
 }
