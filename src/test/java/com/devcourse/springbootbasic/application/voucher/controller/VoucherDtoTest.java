@@ -19,9 +19,9 @@ import static org.hamcrest.Matchers.is;
 class VoucherDtoTest {
 
     static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23), UUID.randomUUID()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, 41), UUID.randomUUID()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 711), UUID.randomUUID())
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), UUID.randomUUID()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), UUID.randomUUID()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), UUID.randomUUID())
     );
 
     static Stream<Arguments> provideVoucherDto() {

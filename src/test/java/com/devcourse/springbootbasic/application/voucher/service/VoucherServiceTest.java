@@ -36,10 +36,10 @@ class VoucherServiceTest {
             new Customer(UUID.randomUUID(), "딸기")
     );
     static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
     );
     @Autowired
     VoucherService voucherService;
@@ -100,7 +100,7 @@ class VoucherServiceTest {
     @MethodSource("provideVouchers")
     void updateVoucher_ParamExistVoucher_UpdateAndReturnVoucher(Voucher voucher) {
         voucherService.createVoucher(voucher);
-        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 124), voucher.getCustomerId());
+        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 124), voucher.getCustomerId());
         voucherService.updateVoucher(newVoucher);
         var result = voucherService.findVoucherById(newVoucher.getVoucherId());
         assertThat(result, samePropertyValuesAs(newVoucher));

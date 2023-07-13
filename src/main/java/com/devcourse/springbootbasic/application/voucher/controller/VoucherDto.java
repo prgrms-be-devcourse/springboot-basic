@@ -33,7 +33,7 @@ public record VoucherDto(
     public String toString() {
         return MessageFormat.format(
                 "Voucher(id: {0}, voucherType: {1}, discountValue: {2}, customerId: {3})",
-                voucherId, voucherType, discountValue.value(), customerId
+                voucherId, voucherType, discountValue.getValue(), customerId
         );
     }
 }

@@ -32,7 +32,7 @@ public class InputConsole {
         String inputDiscountValue = textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .read("Discount Value: ");
-        return DiscountValue.from(voucherType, inputDiscountValue);
+        return new DiscountValue(voucherType, inputDiscountValue);
     }
 
     public UUID readId() {

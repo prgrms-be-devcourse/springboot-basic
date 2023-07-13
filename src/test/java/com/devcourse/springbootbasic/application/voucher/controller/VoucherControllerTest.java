@@ -35,9 +35,9 @@ class VoucherControllerTest {
             new Customer(UUID.randomUUID(), "딸기")
     );
     static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, 41), customers.get(0).getCustomerId()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 711), customers.get(0).getCustomerId())
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), customers.get(0).getCustomerId()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), customers.get(0).getCustomerId())
     );
     @Autowired
     VoucherController voucherController;
@@ -99,7 +99,7 @@ class VoucherControllerTest {
         var newVoucherDto = new VoucherDto(
                 voucherDto.voucherId(),
                 voucherDto.voucherType(),
-                DiscountValue.from(voucherDto.voucherType(), 1),
+                new DiscountValue(voucherDto.voucherType(), 1),
                 UUID.randomUUID()
         );
         voucherController.updateVoucher(newVoucherDto);

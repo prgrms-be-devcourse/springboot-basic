@@ -26,9 +26,9 @@ class VoucherMapTest {
 
     static Stream<Arguments> provideValid() {
         return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
         );
     }
 
@@ -65,7 +65,7 @@ class VoucherMapTest {
     @MethodSource("provideValid")
     void addIfVoucherExist_ParamExistVoucher_AddVoucher(Voucher voucher) {
         voucherMap.addVoucher(voucher);
-        var newVoucher = new Voucher(voucher.getVoucherId(), voucher.getVoucherType(), DiscountValue.from(voucher.getVoucherType(), 1), UUID.randomUUID());
+        var newVoucher = new Voucher(voucher.getVoucherId(), voucher.getVoucherType(), new DiscountValue(voucher.getVoucherType(), 1), UUID.randomUUID());
         voucherMap.addIfVoucherExist(newVoucher);
         var foundVoucher = voucherMap.getVoucherById(voucher.getVoucherId());
         assertThat(foundVoucher, samePropertyValuesAs(newVoucher));
@@ -83,7 +83,7 @@ class VoucherMapTest {
     void getVoucherById_ParamExistVoucher_ReturnVoucherOrNull() {
         var voucherId = UUID.randomUUID();
         var voucherId2 = UUID.randomUUID();
-        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 10), UUID.randomUUID());
+        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 10), UUID.randomUUID());
         voucherMap.addVoucher(voucher);
         var findedVoucher = voucherMap.getVoucherById(voucherId);
         var maybeNull = voucherMap.getVoucherById(voucherId2);
@@ -103,7 +103,7 @@ class VoucherMapTest {
     @DisplayName("생성된 바우처를 아이디로 제거 시 성공한다.")
     void removeVoucherById_ParamExistVoucher_RemoveVoucher() {
         var voucherId = UUID.randomUUID();
-        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 10), UUID.randomUUID());
+        var voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 10), UUID.randomUUID());
         voucherMap.addVoucher(voucher);
         voucherMap.removeVoucherById(voucherId);
         var maybeNull = voucherMap.getVoucherById(voucherId);

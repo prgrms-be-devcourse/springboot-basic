@@ -37,8 +37,8 @@ class JdbcVoucherRepositoryTest {
             new Customer(UUID.randomUUID(), "딸기")
     );
     static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
     );
     @Autowired
     JdbcVoucherRepository voucherRepository;
@@ -98,7 +98,7 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void update_ParamExistVoucher_UpdateAndReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
-        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, 23), voucher.getCustomerId());
+        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), voucher.getCustomerId());
         voucherRepository.update(newVoucher);
         var foundVoucher = voucherRepository.findById(voucher.getVoucherId());
         assertThat(foundVoucher.isEmpty(), is(false));

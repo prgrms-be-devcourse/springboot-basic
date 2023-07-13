@@ -22,7 +22,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNumber) -> {
         var voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
         var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        var discountValue = DiscountValue.from(voucherType, resultSet.getDouble("discount_value"));
+        var discountValue = new DiscountValue(voucherType, resultSet.getDouble("discount_value"));
         var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
         return new Voucher(voucherId, voucherType, discountValue, customerId);
     };
@@ -140,7 +140,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var paramMap = new HashMap<String, Object>();
         paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         paramMap.put("voucherType", voucher.getVoucherType().toString());
-        paramMap.put("discountValue", voucher.getDiscountValue().value());
+        paramMap.put("discountValue", voucher.getDiscountValue().getValue());
         paramMap.put("customerId", voucher.getCustomerId().toString().getBytes());
         return paramMap;
     }

@@ -19,52 +19,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class VoucherTest {
 
-    static Stream<Arguments> providePercentVouchers() {
-        return Stream.of(
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "10"), UUID.randomUUID())),
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"), UUID.randomUUID()))
-        );
-    }
-
-    static Stream<Arguments> provideFixedVouchers() {
-        return Stream.of(
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "10"), UUID.randomUUID())),
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "0"), UUID.randomUUID()))
-        );
-    }
-
-    static Stream<Arguments> provideInvalidFixedVouchers() {
-        return Stream.of(
-                Arguments.of(100L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "101"), UUID.randomUUID())),
-                Arguments.of(-1L, new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, DiscountValue.from(VoucherType.FIXED_AMOUNT, "0"), UUID.randomUUID()))
-        );
-    }
-
     @ParameterizedTest
     @DisplayName("비율값 바우처 할인 적용된 결과 반환하면 성공한다.")
     @MethodSource("providePercentVouchers")
-    void DiscountPrice_ParamPercentVoucher_ReturnDiscountedPrice(long originalPrice, Voucher voucher) {
-        var result = voucher.discountedPrice(originalPrice);
-        assertThat(result, is(greaterThanOrEqualTo(0.0)));
+    void DiscountPrice_ParamPercentVoucher_ReturnDiscountedValue(Price originalPrice, Voucher voucher) {
+        Price result = voucher.applyVoucher(originalPrice);
+        assertThat(result.getValue(), is(greaterThanOrEqualTo(0.0)));
     }
 
     @Test
     @DisplayName("비율값 바우처 할인 잘못 적용되었을때 예외 던지고 실패한다.")
     void DiscountPrice_ParamWrongPercentVoucher_Exception() {
-        var voucher = new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, DiscountValue.from(VoucherType.PERCENT_DISCOUNT, "0"), UUID.randomUUID());
-        assertThrows(InvalidDataException.class, () -> voucher.discountedPrice(-1L));
+        var voucher = new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), UUID.randomUUID());
+        assertThrows(InvalidDataException.class, () -> voucher.applyVoucher(new Price(-1L)));
     }
 
     @ParameterizedTest
     @DisplayName("비율값 바우처 문자열 반환하면 성공한다.")
     @MethodSource("providePercentVouchers")
-    void ToString_PercentVoucher_ReturnVoucherString(long originalPrice, Voucher voucher) {
+    void ToString_PercentVoucher_ReturnVoucherString(Price originalPrice, Voucher voucher) {
         var expected = MessageFormat.format("Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, customerId={3}'}'",
                 voucher.getVoucherId().toString(),
                 voucher.getVoucherType().toString(),
-                voucher.getDiscountValue().value(),
+                voucher.getDiscountValue().getValue(),
                 voucher.getCustomerId().toString());
         var result = voucher.toString();
         assertEquals(expected, result);
@@ -73,29 +50,51 @@ class VoucherTest {
     @ParameterizedTest
     @DisplayName("고정값 바우처 할인 적용된 결과 반환하면 성공한다.")
     @MethodSource("provideFixedVouchers")
-    void DiscountPrice_ParamFixedVoucher_ReturnDiscountedPrice(long originalPrice, Voucher voucher) {
-        var result = voucher.discountedPrice(originalPrice);
-        assertThat(result, is(greaterThanOrEqualTo(0.0)));
+    void DiscountPrice_ParamFixedVoucher_ReturnapplyVoucher(Price originalPrice, Voucher voucher) {
+        var result = voucher.applyVoucher(originalPrice);
+        assertThat(result.getValue(), is(greaterThanOrEqualTo(0.0)));
     }
 
     @ParameterizedTest
     @DisplayName("고정값 바우처 할인 잘못 적용되었을때 예외 던지고 실패한다.")
     @MethodSource("provideInvalidFixedVouchers")
-    void DiscountPrice_ParamWrongFixedVoucher_Exception(long originalPrice, Voucher voucher) {
-        assertThrows(InvalidDataException.class, () -> voucher.discountedPrice(originalPrice));
+    void DiscountPrice_ParamWrongFixedVoucher_Exception(Price originalPrice, Voucher voucher) {
+        assertThrows(InvalidDataException.class, () -> voucher.applyVoucher(originalPrice));
     }
 
     @ParameterizedTest
     @DisplayName("고정값 바우처 문자열 반환하면 성공한다.")
     @MethodSource("provideFixedVouchers")
-    void toString_FixedVoucher_ReturnVoucherString(long originalPrice, Voucher voucher) {
+    void toString_FixedVoucher_ReturnVoucherString(Price originalPrice, Voucher voucher) {
         var expected = MessageFormat.format("Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, customerId={3}'}'",
                 voucher.getVoucherId(),
                 voucher.getVoucherType(),
-                voucher.getDiscountValue().value(),
+                voucher.getDiscountValue().getValue(),
                 voucher.getCustomerId());
         var result = voucher.toString();
         assertEquals(expected, result);
     }
 
+    static Stream<Arguments> providePercentVouchers() {
+        return Stream.of(
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), UUID.randomUUID())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), UUID.randomUUID()))
+        );
+    }
+
+    static Stream<Arguments> provideFixedVouchers() {
+        return Stream.of(
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), UUID.randomUUID())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0"), UUID.randomUUID()))
+        );
+    }
+
+    static Stream<Arguments> provideInvalidFixedVouchers() {
+        return Stream.of(
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "101"), UUID.randomUUID())),
+                Arguments.of(new Price(-1), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0"), UUID.randomUUID()))
+        );
+    }
 }
