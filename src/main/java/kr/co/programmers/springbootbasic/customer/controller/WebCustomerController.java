@@ -44,10 +44,12 @@ public class WebCustomerController {
     @PostMapping("/customer")
     public String createCustomer(@RequestParam("customerName") String customerName,
                                  RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("redirectUrl", "/customers/customer");
+
         CustomerResponse customerResponse = jdbcCustomerService.createCustomer(customerName);
         String message = customerResponse.formatCustomerResponseDto();
-        redirectAttributes.addFlashAttribute("customerResponse", message);
-        redirectAttributes.addFlashAttribute("redirectUrl", "/customers/customer");
+        redirectAttributes.addFlashAttribute("message", message);
+
 
         return "redirect:/customers/success";
     }
@@ -60,12 +62,14 @@ public class WebCustomerController {
     @PostMapping("/list/customer")
     public String findByCustomerId(@RequestParam("uuid") String customerId,
                                    RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("redirectUrl", "/customers/list");
+
         Optional<CustomerResponse> customerResponse = jdbcCustomerService.findByCustomerId(customerId);
         String message = customerResponse.map(CustomerResponse::formatCustomerResponseDto)
                 .orElseGet(() -> MessageFormat.format("유저 아이디 : {0}를 가진 유저가 존재하지 않습니다.",
                         customerId));
-        redirectAttributes.addFlashAttribute("customerResponse", message);
-        redirectAttributes.addFlashAttribute("redirectUrl", "/customers/list");
+        redirectAttributes.addFlashAttribute("message", message);
+
 
         return "redirect:/customers/success";
     }
@@ -73,13 +77,13 @@ public class WebCustomerController {
     @PostMapping("/list/voucher")
     public String findByVoucherId(@RequestParam("uuid") String voucherId,
                                   RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("redirectUrl", "/customers/list/voucher");
 
         Optional<CustomerResponse> customerResponse = jdbcCustomerService.findByVoucherId(voucherId);
         String message = customerResponse.map(CustomerResponse::formatCustomerResponseDto)
                 .orElseGet(() -> MessageFormat.format("바우처 아이디 : {0}를 가진 유저가 존재하지 않습니다.",
                         voucherId));
-        redirectAttributes.addFlashAttribute("customerResponse", message);
-        redirectAttributes.addFlashAttribute("redirectUrl", "/customers/list");
+        redirectAttributes.addFlashAttribute("message", message);
 
         return "redirect:/customers/success";
     }
@@ -104,22 +108,22 @@ public class WebCustomerController {
     public String updateCustomerByCustomerId(@RequestParam("customerId") String customerId,
                                              @RequestParam("customerStatus") CustomerStatus customerStatus,
                                              RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("redirectUrl", "/customers/update");
+
         CustomerResponse customerResponse = jdbcCustomerService.updateCustomer(customerId, customerStatus);
         String message = customerResponse.formatCustomerResponseDto();
-
-        redirectAttributes.addFlashAttribute("customerResponse", message);
-        redirectAttributes.addFlashAttribute("redirectUrl", "/customers/update");
+        redirectAttributes.addFlashAttribute("message", message);
 
         return "redirect:/customers/success";
     }
 
     @GetMapping("/success")
     public String loadServiceSuccessPage() {
-        return "customerTemplate/success";
+        return "success";
     }
 
     @GetMapping("/fail")
     public String loadServiceFailPage() {
-        return "customerTemplate/fail";
+        return "fail";
     }
 }

@@ -1,8 +1,6 @@
 package kr.co.programmers.springbootbasic.wallet.controller;
 
-import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
-import kr.co.programmers.springbootbasic.wallet.dto.WalletResponse;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletSaveDto;
 import kr.co.programmers.springbootbasic.wallet.service.WalletService;
 import org.springframework.context.annotation.Profile;
@@ -40,11 +38,11 @@ public class WebWalletController {
     @PostMapping("/save")
     public String saveVoucherInWallet(@ModelAttribute WalletSaveDto saveDto,
                                       RedirectAttributes redirectAttributes) {
-        WalletSaveDto responseDto = walletService.saveVoucherInCustomerWallet(saveDto);
-        String message = responseDto.formatWalletSaveDto();
-
-        redirectAttributes.addFlashAttribute("walletResponse", message);
         redirectAttributes.addFlashAttribute("redirectUrl", "/wallets/save");
+
+        WalletSaveDto responseDto = walletService.saveVoucherInCustomerWallet(saveDto);
+        String message = responseDto.formatMessage();
+        redirectAttributes.addFlashAttribute("message", message);
 
         return "redirect:/wallets/success";
     }
@@ -52,7 +50,6 @@ public class WebWalletController {
     @PostMapping("/list")
     public String loadListAllVoucherInWalletPage(@RequestParam("walletId") String walletId, Model model) {
         List<VoucherResponse> responses = walletService.findWalletById(walletId);
-
         model.addAttribute("walletResponse", responses);
 
         return "walletTemplate/list";
@@ -60,11 +57,11 @@ public class WebWalletController {
 
     @GetMapping("/success")
     public String loadServiceSuccessPage() {
-        return "walletTemplate/success";
+        return "success";
     }
 
     @GetMapping("/fail")
     public String loadServiceFailPage() {
-        return "walletTemplate/fail";
+        return "fail";
     }
 }

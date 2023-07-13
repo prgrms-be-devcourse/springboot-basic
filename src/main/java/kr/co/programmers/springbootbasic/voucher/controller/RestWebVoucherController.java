@@ -33,8 +33,8 @@ public class RestWebVoucherController {
 
     @PostMapping
     public ResponseEntity<VoucherResponse> createVoucher(@RequestBody VoucherCreateRequest request) {
-        VoucherType type = request.getType();
-        long amount = request.getAmount();
+        VoucherType type = request.type();
+        long amount = request.amount();
         VoucherResponse voucher = voucherService.createVoucher(type, amount);
 
         return ResponseEntity.ok().body(voucher);
