@@ -33,8 +33,8 @@
                        th:text="${customer.customerId()}">고객 ID</a></td>
                 <td th:text="${customer.customerStatus.name()}">status</td>
                 <td>
-                    <button class="btn btn-primary" href="#"
-                            th:href="@{/customers/{customerId}/delete(customerId=${customer.customerId()})}"
+                    <button class="btn btn-primary" onclick="location.href='customers.html'"
+                            th:onclick="|location.href='@{/customers/{customerId}/delete(customerId=${customer.customerId()})}'|"
                             th:text="삭제">삭제
                     </button>
                 </td>

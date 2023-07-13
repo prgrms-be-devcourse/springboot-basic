@@ -67,4 +67,11 @@ public class CustomerController {
         return "redirect:/customers/{id}";
     }
 
+    @GetMapping("/{id}/delete")
+    public String deleteVoucher(@PathVariable String id) {
+        UUID inputCustomerId = UUID.fromString(id);
+        customerService.deleteById(inputCustomerId);
+        return "redirect:/customers";
+    }
+
 }
