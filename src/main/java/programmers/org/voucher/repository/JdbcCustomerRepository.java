@@ -45,6 +45,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), id);
             return Optional.of(customer);
+
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -57,6 +58,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), email);
             return Optional.of(customer);
+
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

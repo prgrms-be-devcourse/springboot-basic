@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JdbcVoucherRepository implements VoucherRepository {
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(DataSource dataSource) {
@@ -56,6 +57,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             Voucher voucher = jdbcTemplate.queryForObject(sql, voucherRowMapper(), id);
             return Optional.of(voucher);
+
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
