@@ -16,14 +16,14 @@ public class VouchersResponse implements Response {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public String getResult() {
+    public String result() {
         if (result.isEmpty()) {
             return PrintMessageType.NO_VOUCHER_DATAS.getMessage();
         }
 
 
         StringBuilder resultBuilder = new StringBuilder();
-        result.forEach(voucherResponse-> resultBuilder.append(voucherResponse.getResult()).append('\n'));
+        result.forEach(voucherResponse-> resultBuilder.append(voucherResponse.result()).append('\n'));
         return resultBuilder.toString();
     }
 }

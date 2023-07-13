@@ -17,13 +17,13 @@ public class CustomersResponse implements Response {
     }
 
     @Override
-    public String getResult() {
+    public String result() {
         if (result.isEmpty()) {
             return PrintMessageType.NO_VOUCHER_DATAS.getMessage();
         }
 
         StringBuilder resultBuilder = new StringBuilder();
-        result.forEach(customerResponse-> resultBuilder.append(customerResponse.getResult()).append('\n'));
+        result.forEach(customerResponse-> resultBuilder.append(customerResponse.result()).append('\n'));
         return resultBuilder.toString();
     }
 

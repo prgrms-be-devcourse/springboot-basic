@@ -17,8 +17,6 @@ import org.weekly.weekly.voucher.controller.VoucherController;
 import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
 
-import java.util.List;
-
 @Component
 public class VoucherManagementController {
     private final Logger logger = LoggerFactory.getLogger(VoucherManagementController.class);
@@ -83,13 +81,13 @@ public class VoucherManagementController {
     private void handleVoucherCreation() {
         VoucherCreationRequest voucherCreationRequest = commandLineApplication.createVoucherFromInput();
         Response response = voucherController.createVoucher(voucherCreationRequest);
-        logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(),response.getResult());
+        logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(),response.result());
         commandLineApplication.printResult(response);
     }
 
     private void handleVoucherSearch() {
         Response response = voucherController.getVouchers();
-        logger.info("{}{}", PrintMessageType.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.getResult());
+        logger.info("{}{}", PrintMessageType.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.result());
         commandLineApplication.printResult(response);
     }
 

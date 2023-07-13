@@ -16,7 +16,6 @@ import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.dto.request.VoucherInfoRequest;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 @Component
@@ -103,7 +102,7 @@ public class CommandLineApplication {
     }
 
     public void printResult(Response response) {
-        commandWriter.printReuslt(response.getResult());
+        commandWriter.printReuslt(response.result());
     }
 
     public void printDeleteMessage() {

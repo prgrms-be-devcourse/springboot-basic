@@ -34,7 +34,7 @@ public class CustomerResponse implements Response {
     }
 
     @Override
-    public String getResult() {
+    public String result() {
         return MessageFormat.format("[이름: {0}, 이메일: {1}, 생성 시기: {2}]", name, email, createAt);
     }
 }

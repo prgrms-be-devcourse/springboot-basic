@@ -21,7 +21,7 @@ public class VoucherCreationResponse implements Response {
     }
 
     @Override
-    public String getResult() {
+    public String result() {
         return MessageFormat.format("[ID: {0}, 금액: {1}, 등록일자: {2}, 유효기간: {3}]", id, amount, registrationDate, expirationDate);
     }
 }
