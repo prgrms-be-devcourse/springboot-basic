@@ -26,6 +26,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private static final String FAILED_VOUCHER_SAVE_QUERY_MESSAGE = "바우처 저장 쿼리를 실패 하였습니다.";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
     private static final String FIND_ALL_QUERY = "SELECT * FROM voucher";
+    private static final String UPDATE_QUERY = "UPDATE voucher SET voucher_type = :voucher_type, amount = :amount WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+    private static final String FAILED_VOUCHER_UPDATE_QUERY_MESSAGE = "조회된 바우처 ID가 없습니다.";
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -53,7 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher save(Voucher voucher) {
         int update = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher));
-        if (update != SUCCESS_QUERY) {
+        if (update != SUCCESS_SAVE_QUERY) {
             throw new RuntimeException(FAILED_VOUCHER_SAVE_QUERY_MESSAGE);
         }
 
@@ -72,7 +75,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        int update = jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucher));
+        if (update == NOT_FOUND_UPDATE_QUERY) {
+            throw new RuntimeException(FAILED_VOUCHER_UPDATE_QUERY_MESSAGE);
+        }
+
+        return voucher;
     }
 
     @Override
