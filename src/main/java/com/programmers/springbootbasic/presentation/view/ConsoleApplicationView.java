@@ -132,6 +132,7 @@ public class ConsoleApplicationView {
     public void printCreatedVoucher(VoucherResponse response) throws IOException {
         console.printLine(CREATED_VOUCHER_INFO);
         printVoucherResponse(response);
+        printNewLine();
     }
 
     public void listVouchers(VoucherResponses responses) throws IOException {
