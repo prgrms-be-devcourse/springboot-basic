@@ -52,6 +52,25 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+    @Override
+    public List<Voucher> findByType(String type) {
+        String sql = "select * from voucher where type = :type";
+        String discountType = DiscountType.valueOf(type.toUpperCase()).toString();
+        try {
+            return jdbcTemplate.query(sql,
+                    Collections.singletonMap("type", discountType),
+                    voucherRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new NoSuchElementException(NOT_FOUND_ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        String sql = "delete from voucher where id = :voucherId";
+        jdbcTemplate.update(sql, Collections.singletonMap("voucherId", voucherId.toString()));
+    }
+
     private Map<String, Object> converParameterToMap (Voucher voucher) {
         return new HashMap<>() {{
             put("id", voucher.getVoucherId().toString());

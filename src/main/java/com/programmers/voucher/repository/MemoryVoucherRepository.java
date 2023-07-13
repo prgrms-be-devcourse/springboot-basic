@@ -1,5 +1,6 @@
 package com.programmers.voucher.repository;
 
+import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -32,6 +33,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher findById(UUID voucherId) {
         if (!storage.containsKey(voucherId)) throw new NoSuchElementException(NOT_FOUND_ERROR_MESSAGE);
         return storage.get(voucherId);
+    }
 
+    @Override
+    public List<Voucher> findByType(String command) {
+        return storage.values().stream()
+                .filter(voucher -> voucher.getDiscount().getDiscountType().equals(DiscountType.of(command)))
+                .toList();
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        if (storage.containsKey(voucherId)) storage.remove(voucherId);
     }
 }

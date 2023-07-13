@@ -12,4 +12,8 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     Voucher findById(UUID voucherId);
+
+    List<Voucher> findByType(String type);
+
+    void deleteById(UUID voucherId);
 }
