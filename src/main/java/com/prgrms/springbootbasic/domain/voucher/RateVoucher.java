@@ -3,7 +3,9 @@ package com.prgrms.springbootbasic.domain.voucher;
 import com.prgrms.springbootbasic.enums.VoucherType;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import lombok.Setter;
 
+@Setter
 public class RateVoucher implements Voucher {
 
     private final UUID voucherId;
