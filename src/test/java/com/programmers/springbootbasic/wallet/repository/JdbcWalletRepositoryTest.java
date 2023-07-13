@@ -5,10 +5,12 @@ import com.programmers.springbootbasic.customer.repository.JdbcCustomerRepositor
 import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
-import com.programmers.springbootbasic.voucher.repository.VoucherRepository;
+import com.programmers.springbootbasic.voucher.repository.JdbcVoucherRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,12 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SpringBootTest
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import({JdbcWalletRepository.class, JdbcVoucherRepository.class, JdbcCustomerRepository.class})
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcWalletRepositoryTest {
     @Autowired
-    private VoucherRepository voucherRepository;
+    private JdbcVoucherRepository jdbcVoucherRepository;
 
     @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
@@ -41,7 +45,7 @@ class JdbcWalletRepositoryTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "voucherName", 10L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
         jdbcCustomerRepository.save(customer);
 
         //when
@@ -61,9 +65,9 @@ class JdbcWalletRepositoryTest {
         PercentDiscountVoucher percentDiscountVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), "testName3", 40L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
-        voucherRepository.save(percentDiscountVoucher);
-        voucherRepository.save(percentDiscountVoucher2);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher2);
         jdbcCustomerRepository.save(customer);
 
         jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
@@ -84,7 +88,7 @@ class JdbcWalletRepositoryTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
         jdbcCustomerRepository.save(customer);
         jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
 
@@ -101,7 +105,7 @@ class JdbcWalletRepositoryTest {
     void findCustomerByVoucherIdEmpty() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
-        voucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
 
         //when
         Optional<Customer> customer = jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId());
@@ -119,8 +123,8 @@ class JdbcWalletRepositoryTest {
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testName2", 20L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
-        voucherRepository.save(percentDiscountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher);
         jdbcCustomerRepository.save(customer);
 
         jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
@@ -128,7 +132,7 @@ class JdbcWalletRepositoryTest {
 
         //when
         jdbcWalletRepository.deleteVoucherByVoucherIdAndCustomerId(fixedAmountVoucher.getVoucherId(), customer.getCustomerId());
-        List<Voucher> result = voucherRepository.findAll();
+        List<Voucher> result = jdbcVoucherRepository.findAll();
 
         //then
         assertThat(result.size(), is(1));
@@ -143,8 +147,8 @@ class JdbcWalletRepositoryTest {
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testName2", 20L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
-        voucherRepository.save(percentDiscountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher);
         jdbcCustomerRepository.save(customer);
 
         jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
