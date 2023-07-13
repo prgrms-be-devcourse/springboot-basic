@@ -16,9 +16,9 @@ public final class ConsoleOutputMessage {
             """
                     === Voucher Program ===
                     Type insert to create new voucher.
-                    Type findall to find all voucher.
-                    Type findbytype to find a voucher by type.
-                    Type delete to delete all voucher.                
+                    Type findAll to find all voucher.
+                    Type findByType to find a voucher by type.
+                    Type deleteAll to delete all voucher.                
                     """;
 
     public static final String TYPE_SELECT_MESSAGE =

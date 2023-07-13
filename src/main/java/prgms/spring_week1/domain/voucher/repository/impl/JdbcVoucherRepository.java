@@ -75,6 +75,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void delete(VoucherType voucherType) {
-        int voucherType1 = jdbcTemplate.update("DELETE FROM voucher WHERE voucher_type = :voucherType ", Collections.singletonMap("voucherType", String.valueOf(voucherType)));
+        jdbcTemplate.update("DELETE FROM voucher",new HashMap<>());
     }
 }

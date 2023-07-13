@@ -48,7 +48,7 @@ public class CommandLine implements CommandLineRunner {
             case INSERT -> createVoucher();
             case FIND_ALL -> output.printAllVoucher(voucherService.findAll());
             case FIND_BY_TYPE -> output.printAllVoucher(voucherService.findByType(input.inputVoucherType()));
-            case DELETE -> voucherService.deleteAll(VoucherType.PERCENT);
+            case DELETE_ALL -> voucherService.deleteAll(VoucherType.PERCENT);
         }
     }
 

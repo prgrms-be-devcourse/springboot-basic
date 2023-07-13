@@ -6,7 +6,7 @@ public enum VoucherMenu {
     INSERT("insert"),
     FIND_ALL("findall"),
     FIND_BY_TYPE("findbytype"),
-    DELETE("delete");
+    DELETE_ALL("deleteAll");
 
     private final String customerMenuType;
 
