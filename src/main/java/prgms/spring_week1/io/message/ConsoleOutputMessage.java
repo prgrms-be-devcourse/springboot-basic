@@ -17,7 +17,7 @@ public final class ConsoleOutputMessage {
                     === Voucher Program ===
                     Type insert to create new voucher.
                     Type findall to find all voucher.
-                    Type findbyid to find a voucher by id.
+                    Type findbytype to find a voucher by type.
                     Type delete to delete all voucher.                
                     """;
 

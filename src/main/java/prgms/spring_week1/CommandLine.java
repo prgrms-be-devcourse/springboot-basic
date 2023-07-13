@@ -52,7 +52,7 @@ public class CommandLine implements CommandLineRunner {
         switch (menuName){
             case INSERT -> createVoucher();
             case FIND_ALL -> voucherService.findAll();
-            case FIND_BY_ID -> voucherService.findById();
+            case FIND_BY_TYPE -> voucherService.findById();
             case DELETE -> voucherService.deleteAll(VoucherType.PERCENT);
         }
     }
@@ -82,5 +82,9 @@ public class CommandLine implements CommandLineRunner {
         int discountValue = input.insertDiscountValue();
         voucherService.insertNewVoucher(voucherType, discountValue);
         input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+    }
+
+    private void inputVoucherType(){
+        voucherService.findById(input.inputVoucherIdToUUID());
     }
 }

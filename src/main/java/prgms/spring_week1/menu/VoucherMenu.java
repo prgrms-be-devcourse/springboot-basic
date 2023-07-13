@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 public enum VoucherMenu {
     INSERT("insert"),
     FIND_ALL("findall"),
-    FIND_BY_ID("findbyid"),
+    FIND_BY_TYPE("findbytype"),
     DELETE("delete");
 
     private final String customerMenuType;
