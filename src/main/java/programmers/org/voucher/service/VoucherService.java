@@ -43,6 +43,11 @@ public class VoucherService {
         voucherRepository.update(id, request);
     }
 
+    public void delete(Long id) {
+        findVoucherById(id);
+        voucherRepository.deleteById(id);
+    }
+
     private void saveVoucher(Voucher voucher) {
         voucherRepository.save(voucher);
     }

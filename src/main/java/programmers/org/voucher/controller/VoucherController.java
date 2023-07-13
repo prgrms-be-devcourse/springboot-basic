@@ -48,6 +48,9 @@ public class VoucherController implements CommandLineRunner {
                 case UPDATE:
                     updateVoucher();
                     break;
+                case DELETE:
+                    deleteVoucher();
+                    break;
                 case EXIT:
                     isRunning = false;
             }
@@ -79,5 +82,10 @@ public class VoucherController implements CommandLineRunner {
 
         VoucherRequest request = new VoucherRequest(discountAmount, null);
         voucherService.update(voucherId, request);
+    }
+
+    private void deleteVoucher() {
+        long voucherId = voucherConsole.inputVoucherId();
+        voucherService.delete(voucherId);
     }
 }
