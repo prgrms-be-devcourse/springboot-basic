@@ -10,4 +10,6 @@ public interface VoucherService {
     UUID createVoucher(VoucherCreationRequest voucherCreationRequest);
 
     List<VoucherInfoResponse> findVoucherList();
+
+    VoucherInfoResponse findVoucherByVoucherId(UUID voucherId);
 }
