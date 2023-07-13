@@ -1,0 +1,37 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.1'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'org.prgms'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+
+	implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
+
+	implementation 'org.springframework.boot:spring-book-starter-thymeleaf'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

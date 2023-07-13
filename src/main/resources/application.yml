@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: jdbc
+
+---
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost/order_mgmt"
+    username: root
+    password: 1234
