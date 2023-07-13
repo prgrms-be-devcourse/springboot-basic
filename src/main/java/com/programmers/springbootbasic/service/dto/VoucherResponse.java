@@ -1,12 +1,12 @@
 package com.programmers.springbootbasic.service.dto;
 
-import java.time.LocalDateTime;
+
+import com.programmers.springbootbasic.domain.voucher.Duration;
 
 public record VoucherResponse(
         String name,
         Long minimumPriceCondition,
-        LocalDateTime createdDate,
-        LocalDateTime expirationDate
+        Duration duration
 ) {
 
 }

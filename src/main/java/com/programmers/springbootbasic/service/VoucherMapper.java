@@ -38,8 +38,7 @@ public final class VoucherMapper {
         return new VoucherResponse(
                 voucher.getName(),
                 voucher.getMinimumPriceCondition(),
-                voucher.getVoucherDate().getCreatedAt(),
-                voucher.getVoucherDate().getExpiredAt()
+                voucher.getDuration()
         );
     }
 }
