@@ -44,6 +44,10 @@ public class VoucherController implements CommandLineRunner {
                     break;
                 case FIND:
                     printFoundVoucher();
+                    break;
+                case UPDATE:
+                    updateVoucher();
+                    break;
                 case EXIT:
                     isRunning = false;
             }
@@ -67,5 +71,13 @@ public class VoucherController implements CommandLineRunner {
         long voucherId = voucherConsole.inputVoucherId();
         VoucherResponse response = voucherService.getVoucher(voucherId);
         voucherConsole.printVoucher(response);
+    }
+
+    private void updateVoucher() {
+        long voucherId = voucherConsole.inputVoucherId();
+        int discountAmount = voucherConsole.inputVoucherInfo();
+
+        VoucherRequest request = new VoucherRequest(discountAmount, null);
+        voucherService.update(voucherId, request);
     }
 }

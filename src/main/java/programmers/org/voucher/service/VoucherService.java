@@ -38,6 +38,11 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
+    public void update(Long id, VoucherRequest request) {
+        findVoucherById(id);
+        voucherRepository.update(id, request);
+    }
+
     private void saveVoucher(Voucher voucher) {
         voucherRepository.save(voucher);
     }
