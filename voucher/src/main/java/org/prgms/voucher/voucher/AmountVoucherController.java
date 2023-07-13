@@ -3,7 +3,6 @@ package org.prgms.voucher.voucher;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class AmountVoucherController {
@@ -22,11 +21,11 @@ public class AmountVoucherController {
         );
     }
 
-    public String listVoucher() {
+    public List<VoucherPrintDto> listVoucher() {
         List<AmountVoucher> amountVouchers = amountVoucherService.listAmountVoucher();
 
         return amountVouchers.stream()
-                .map(voucher -> new VoucherPrintDto(voucher).getVoucherPrint())
-                .collect(Collectors.joining("\n"));
+                .map(VoucherPrintDto::new)
+                .toList();
     }
 }
