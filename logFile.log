@@ -1712,6 +1712,7 @@ Caused by: java.lang.AssertionError: 생성자를 호출할 수 없습니다
 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
 	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:198)
 	... 74 common frames omitted
+<<<<<<< HEAD
 2023-07-10 23:22:37,903 ERROR [main] o.s.b.SpringApplication [SpringApplication.java:824] Application run failed
 org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'commandLineApplication' defined in file [C:\Project\voucherWeekTwo\build\classes\java\main\com\prgrms\CommandLineApplication.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'commandFactory' defined in file [C:\Project\voucherWeekTwo\build\classes\java\main\com\prgrms\view\command\CommandFactory.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [C:\Project\voucherWeekTwo\build\classes\java\main\com\prgrms\controller\VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherService' defined in file [C:\Project\voucherWeekTwo\build\classes\java\main\com\prgrms\service\voucher\VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'keyGenerator' defined in file [C:\Project\voucherWeekTwo\build\classes\java\main\com\prgrms\util\KeyGenerator.class]: Failed to instantiate [com.prgrms.model.util.KeyGenerator]: Constructor threw exception
 	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800)
@@ -9070,6 +9071,9 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
 	... 104 common frames omitted
 2023-07-12 23:31:43,915 ERROR [Test worker] o.s.b.d.LoggingFailureAnalysisReporter [LoggingFailureAnalysisReporter.java:40] 
+=======
+2023-07-12 21:38:03,258 ERROR [main] o.s.b.d.LoggingFailureAnalysisReporter [LoggingFailureAnalysisReporter.java:40] 
+>>>>>>> 0b9ed6ade55cc7d436aae8d5b2477217b83b9398
 
 ***************************
 APPLICATION FAILED TO START
@@ -9077,6 +9081,7 @@ APPLICATION FAILED TO START
 
 Description:
 
+<<<<<<< HEAD
 The bean 'keyGenerator', defined in com.prgrms.util.KeyGeneratorTest$TestConfig, could not be registered. A bean with that name has already been defined in file [C:\Project\voucherWeekTwo\build\classes\java\main\com\prgrms\util\KeyGenerator.class] and overriding is disabled.
 
 Action:
@@ -9567,3 +9572,16 @@ Caused by: java.lang.IllegalStateException: org.springframework.context.annotati
 	at com.prgrms.CommandLineApplication.run(CommandLineApplication.java:34)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
 	... 5 common frames omitted
+=======
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+>>>>>>> 0b9ed6ade55cc7d436aae8d5b2477217b83b9398
