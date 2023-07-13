@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class VoucherMemoryDaoTest {
 
-    VoucherMemoryDao voucherMemoryDao;
+    private VoucherMemoryDao voucherMemoryDao;
 
     @BeforeEach
     void setUp() {

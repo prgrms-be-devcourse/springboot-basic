@@ -20,7 +20,7 @@ import java.util.UUID;
 class VoucherJdbcDaoTest {
 
     @Autowired
-    VoucherJdbcDao voucherJdbcDao;
+    private VoucherJdbcDao voucherJdbcDao;
 
     @Test
     @DisplayName("고정 비용 할인권을 저장한다.")
@@ -48,7 +48,7 @@ class VoucherJdbcDaoTest {
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
-            .containsExactly(voucher);
+                .containsExactly(voucher);
     }
 
     @Test
@@ -65,7 +65,7 @@ class VoucherJdbcDaoTest {
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
-            .containsExactly(voucherA, voucherB);
+                .containsExactly(voucherA, voucherB);
     }
 
     @Test
