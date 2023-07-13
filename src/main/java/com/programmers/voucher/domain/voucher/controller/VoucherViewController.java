@@ -36,6 +36,14 @@ public class VoucherViewController {
         return "vouchers/index";
     }
 
+    @GetMapping("/{voucherId}")
+    public String getVoucher(@PathVariable UUID voucherId, Model model) {
+        VoucherResponse voucher = voucherService.getVoucher(voucherId);
+        model.addAttribute("voucher", voucher);
+        
+        return "vouchers/detail";
+    }
+
     @PostMapping("/{voucherId}")
     public String deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
