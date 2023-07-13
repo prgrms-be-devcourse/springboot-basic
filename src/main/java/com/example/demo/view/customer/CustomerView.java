@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 public class CustomerView {
 
     public String readCustomerName() {
+        return null;
     }
 
     public int readCustomerAge() {
+        return 0;
     }
 
     public void printCreateMessage(CustomerDto customerDto) {
@@ -21,6 +23,7 @@ public class CustomerView {
     }
 
     public UUID readCustomerId() {
+        return null;
     }
 
     public void printUpdateMessage() {
