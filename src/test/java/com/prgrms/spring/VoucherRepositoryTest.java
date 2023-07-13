@@ -7,8 +7,6 @@ import com.prgrms.spring.domain.voucher.Voucher;
 import com.prgrms.spring.repository.voucher.JdbcVoucherRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +30,6 @@ import static org.hamcrest.Matchers.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class VoucherRepositoryTest {
-
-    private static final Logger logger = LoggerFactory.getLogger(VoucherRepositoryTest.class);
 
     @Configuration
     @ComponentScan(
@@ -98,7 +94,7 @@ public class VoucherRepositoryTest {
             jdbcVoucherRepository.insert(newFixedAmountVoucher);
             jdbcVoucherRepository.insert(newPercentAmountVoucher);
         } catch (BadSqlGrammarException e) {
-            logger.error("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
+            throw new BadSqlGrammarException(e.getMessage(), e.getSql(), e.getSQLException());
         }
 
         var retrievedVoucher = jdbcVoucherRepository.findById(newPercentAmountVoucher.getVoucherId());
