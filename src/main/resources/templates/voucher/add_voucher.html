@@ -18,18 +18,18 @@
         <h2>할인권 등록 폼</h2>
     </div>
     <h4 class="mb-3">할인권 입력</h4>
-    <form th:action="|@{/vouchers/add}|" action="voucher.html" method="post">
+    <form th:action="@{/vouchers/add}" method="post">
         <div>
             <label for="amount">할인가격</label>
-            <input type="text" th:field="*{voucher.amount}" id="amount" name="amount" class="form-control"
+            <input type="number" id="amount" name="amount" class="form-control"
                    placeholder="할인가격을 입력하세요">
         </div>
         <div>
             <div>할인권 종류</div>
-            <select th:field="*{voucher.voucherType}" class="form-select">
+            <select class="form-select" id="voucherType" name="voucherType">
                 <option value="">== 할인권 종류 선택 ==</option>
-                <option th:each="voucherType : ${voucherTypes}"
-                        th:value="${voucherType.name()}"
+                <option th:each="voucherType : ${voucherType}"
+                        th:value="${voucherType}"
                         th:text="${voucherType.getVoucherTypeName()}">
                     value
                 </option>

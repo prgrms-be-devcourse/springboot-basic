@@ -40,9 +40,7 @@ public class CustomerController {
     }
 
     @GetMapping("/add")
-    public String addCustomerForm(Model model) {
-        model.addAttribute("customerStatus", new CustomerCreateRequest());
-        model.addAttribute("customerStatusList", CustomerStatus.values());
+    public String addCustomerForm() {
         return "customer/add_customer";
     }
 
@@ -74,4 +72,8 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
+    @ModelAttribute("customerStatus")
+    public CustomerStatus[] customerStatuses() {
+        return CustomerStatus.values();
+    }
 }

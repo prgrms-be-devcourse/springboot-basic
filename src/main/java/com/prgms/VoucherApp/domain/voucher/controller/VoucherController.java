@@ -41,8 +41,6 @@ public class VoucherController {
 
     @GetMapping("/add")
     public String addVoucherForm(Model model) {
-        model.addAttribute("voucher", new VoucherCreateRequest());
-        model.addAttribute("voucherTypes", VoucherType.values());
         return "voucher/add_voucher";
     }
 
@@ -72,5 +70,10 @@ public class VoucherController {
         UUID inputVoucherId = UUID.fromString(id);
         voucherService.deleteById(inputVoucherId);
         return "redirect:/vouchers";
+    }
+
+    @ModelAttribute("voucherType")
+    public VoucherType[] voucherTypes() {
+        return VoucherType.values();
     }
 }

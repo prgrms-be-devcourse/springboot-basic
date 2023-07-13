@@ -18,18 +18,19 @@
         <h2>고객 등록 폼</h2>
     </div>
     <h4 class="mb-3">고객 등록</h4>
-    <form th:action="@{/customers/{customerId}/edit(customerId = ${customer.customerId})}" action="customer.html"
+    <form th:action="@{/customers/{customerId}/edit(customerId = ${customer.customerId})}" th:object="${customer}"
+          action="customer.html"
           method="post">
         <div>
             <label for="id">id</label>
-            <input type="text" th:field="*{customer.customerId}" id="id" name="id" class="form-control" readonly
+            <input type="text" th:field="*{customerId}" id="id" name="id" class="form-control" readonly
                    disabled>
         </div>
         <div>
             <div>고객 상태</div>
-            <select th:field="*{customer.customerStatus}" class="form-select">
+            <select th:field="*{customerStatus}" class="form-select">
                 <option value="">== 고객 상태 선택 ==</option>
-                <option th:each="customerStatus : ${customerStatusList}"
+                <option th:each="customerStatus : ${customerStatus}"
                         th:value="${customerStatus.name()}"
                         th:text="${customerStatus.getStatusName()}">
                     value

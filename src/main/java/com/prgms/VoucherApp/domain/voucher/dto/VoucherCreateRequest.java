@@ -8,7 +8,5 @@ public record VoucherCreateRequest(
         VoucherType voucherType,
         BigDecimal amount
 ) {
-    public VoucherCreateRequest() {
-        this(null, null);
-    }
+
 }

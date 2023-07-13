@@ -18,21 +18,21 @@
         <h2>할인권 등록 폼</h2>
     </div>
     <h4 class="mb-3">할인권 입력</h4>
-    <form th:action="@{/vouchers/{voucherId}/edit(voucherId = ${voucher.voucherId()})}"
+    <form th:action="@{/vouchers/{voucherId}/edit(voucherId = ${voucher.voucherId()})}" th:object="${voucher}"
           action="voucher.html"
           method="post">
         <div>
             <label for="id">id</label>
-            <input type="text" th:field="*{voucher.voucherId}" id="id" name="id" class="form-control" readonly disabled>
+            <input type="text" th:field="*{voucherId}" id="id" name="id" class="form-control" readonly disabled>
         </div>
         <div>
             <label for="amount">할인가격</label>
-            <input type="text" th:field="*{voucher.amount}" id="amount" name="amount" class="form-control"
+            <input type="text" th:field="*{amount}" id="amount" name="amount" class="form-control"
                    placeholder="할인가격을 입력하세요">
         </div>
         <div>
             <div>할인권 종류</div>
-            <select th:field="*{voucher.voucherType}" class="form-select">
+            <select th:field="${voucherType}" class="form-select">
                 <option value="">== 할인권 종류 선택 ==</option>
                 <option th:each="voucherType : ${voucherTypes}"
                         th:value="${voucherType.name()}"

@@ -18,13 +18,13 @@
         <h2>고객 등록 폼</h2>
     </div>
     <h4 class="mb-3">고객 등록</h4>
-    <form th:action="|@{/customers/add}|" action="customer.html" method="post">
+    <form th:action="@{/customers/add}" method="post">
         <div>
             <div>고객 상태</div>
-            <select th:field="*{customerStatus}" class="form-select">
+            <select id="customerStatus" name="customerStatus" class="form-select">
                 <option value="">== 고객 상태 선택 ==</option>
-                <option th:each="customerStatus : ${customerStatusList}"
-                        th:value="${customerStatus.name()}"
+                <option th:each="customerStatus : ${customerStatus}"
+                        th:value="${customerStatus}"
                         th:text="${customerStatus.getStatusName()}">
                     value
                 </option>
