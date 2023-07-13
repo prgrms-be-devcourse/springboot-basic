@@ -7,7 +7,7 @@ import static com.devcourse.voucher.domain.Voucher.Status.ISSUED;
 import static com.devcourse.voucher.domain.Voucher.Status.USED;
 
 public class Voucher {
-    protected enum Status { USED, ISSUED }
+    public enum Status { USED, ISSUED }
     public enum Type {
         FIXED, PERCENT;
 
@@ -23,17 +23,17 @@ public class Voucher {
     private final Type type;
     private Status status;
 
-    Voucher(int discount, LocalDateTime expireAt, Type type) {
-        this.id = UUID.randomUUID();
+    public Voucher(UUID id, int discount, LocalDateTime expireAt, Type type, Status status) {
+        this.id = id;
         this.discountPolicy = createPolicy(type);
         this.discount = discount;
         this.expireAt = expireAt;
         this.type = type;
-        this.status = ISSUED;
+        this.status = status;
     }
 
     public static Voucher of(int discount, LocalDateTime expireAt, Type type) {
-        return new Voucher(discount, expireAt, type);
+        return new Voucher(UUID.randomUUID(), discount, expireAt, type, ISSUED);
     }
 
     public boolean isUsed() {
@@ -44,20 +44,16 @@ public class Voucher {
         return id;
     }
 
-    public int getDiscount() {
-        return this.discount;
-    }
-
     public LocalDateTime getExpireAt() {
         return expireAt;
     }
 
-    public String getStatus() {
-        return status.name();
-    }
-
-    public Type getType() {
-        return type;
+    public String toText(String delimiter) {
+        return id + delimiter +
+                discount + delimiter +
+                type + delimiter +
+                expireAt + delimiter +
+                status;
     }
 
     private DiscountPolicy createPolicy(Type type) {

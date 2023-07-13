@@ -1,7 +1,6 @@
 package com.devcourse.global.console;
 
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
-import com.devcourse.voucher.application.dto.GetVoucherResponse;
 import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.presentation.Command;
 
@@ -30,8 +29,8 @@ public class Console {
         System.out.println(input);
     }
 
-    public void print(List<GetVoucherResponse> requests) {
-        for (GetVoucherResponse request : requests) {
+    public void print(List<String> requests) {
+        for (String request : requests) {
             System.out.println(request);
         }
     }

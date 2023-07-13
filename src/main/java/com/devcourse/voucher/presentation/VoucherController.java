@@ -3,7 +3,6 @@ package com.devcourse.voucher.presentation;
 import com.devcourse.global.console.Console;
 import com.devcourse.voucher.application.VoucherService;
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
-import com.devcourse.voucher.application.dto.GetVoucherResponse;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -43,7 +42,7 @@ public class VoucherController implements ApplicationRunner {
                     console.print(CREATION_RESPONSE);
                 }
                 case LIST -> {
-                    List<GetVoucherResponse> responses = voucherService.findAll();
+                    List<String> responses = voucherService.findAll();
                     console.print(responses);
                 }
                 case EXIT -> {

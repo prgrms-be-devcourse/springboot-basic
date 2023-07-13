@@ -1,7 +1,6 @@
 package com.devcourse.voucher.application;
 
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
-import com.devcourse.voucher.application.dto.GetVoucherResponse;
 import com.devcourse.voucher.domain.Voucher;
 import com.devcourse.voucher.domain.repository.VoucherRepository;
 import org.slf4j.Logger;
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.devcourse.global.common.Constant.DELIMITER;
 
 @Service
 public class VoucherService {
@@ -32,9 +33,9 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public List<GetVoucherResponse> findAll() {
+    public List<String> findAll() {
         return voucherRepository.findAll().stream()
-                .map(this::toResponse)
+                .map(voucher -> voucher.toText(DELIMITER))
                 .toList();
     }
 
@@ -70,14 +71,5 @@ public class VoucherService {
 
     private boolean isRateOutRange(int discountRate) {
         return MAX_DISCOUNT_RATE < discountRate;
-    }
-
-    private GetVoucherResponse toResponse(Voucher voucher) {
-        return new GetVoucherResponse(
-                voucher.getId(),
-                voucher.getType(),
-                voucher.getDiscount(),
-                voucher.getExpireAt(),
-                voucher.getStatus());
     }
 }
