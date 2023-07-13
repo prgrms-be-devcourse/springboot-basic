@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain.customer.model.strategy;
 
+import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
 import com.prgms.VoucherApp.domain.customer.model.CustomerService;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.Output;
@@ -13,7 +14,8 @@ public class CustomerFindOne implements CustomerCommandStrategy {
         String inputUUID = input.inputUUID();
         UUID customerId = UUID.fromString(inputUUID);
 
-        customerService.findOne(customerId)
-                .ifPresentOrElse(output::printCustomer, output::printFindEmpty);
+
+        CustomerResponse customerResponse = customerService.findOne(customerId);
+        output.printCustomer(customerResponse);
     }
 }
