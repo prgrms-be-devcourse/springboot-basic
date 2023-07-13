@@ -40,6 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         UUID voucherId = toUUID(resultSet.getBytes(VOUCHER_ID));
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString(VOUCHER_TYPE));
         long amount = resultSet.getLong(AMOUNT);
+
         return switch (voucherType) {
             case FIXED -> new FixedAmountVoucher(voucherId, amount);
             case PERCENT -> new PercentAmountVoucher(voucherId, amount);
@@ -56,8 +57,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher save(Voucher voucher) {
-        int update = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher));
-        if (update != SUCCESS_SAVE_QUERY) {
+        int savedVoucher = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher));
+        if (savedVoucher != SUCCESS_SAVE_QUERY) {
             throw new RuntimeException(FAILED_VOUCHER_SAVE_QUERY_MESSAGE);
         }
 
@@ -76,8 +77,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher update(Voucher voucher) {
-        int update = jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucher));
-        if (update == CAN_NOT_FOUND_ID) {
+        int updatedVoucher = jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucher));
+        if (updatedVoucher == CAN_NOT_FOUND_ID) {
             throw new RuntimeException(VOUCHER_ID_LOOKUP_FAILED_MESSAGE);
         }
 
@@ -87,8 +88,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher deleteById(UUID voucherId) {
         Voucher voucher = findById(voucherId);
-        int delete = jdbcTemplate.update(DELETE_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
-        if (delete == CAN_NOT_FOUND_ID) {
+        int deletedVoucher = jdbcTemplate.update(DELETE_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
+        if (deletedVoucher == CAN_NOT_FOUND_ID) {
             throw new RuntimeException(VOUCHER_ID_LOOKUP_FAILED_MESSAGE);
         }
 

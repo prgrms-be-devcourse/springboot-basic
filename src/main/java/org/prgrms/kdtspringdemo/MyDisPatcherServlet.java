@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringdemo;
 
-import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
 import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
+import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;

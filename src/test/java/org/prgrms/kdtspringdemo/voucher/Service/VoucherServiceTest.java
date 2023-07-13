@@ -32,31 +32,31 @@ public class VoucherServiceTest {
     @Test
     void 바우처_생성_성공_테스트() {
         //given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1000);
+        FixedAmountVoucher voucher = new FixedAmountVoucher(1000);
 
         //mocking
-        given(voucherRepository.save(any())).willReturn(fixedAmountVoucher);
+        given(voucherRepository.save(any())).willReturn(voucher);
 
         //when
-        VoucherResponseDto responseDto = voucherService.create(fixedAmountVoucher.getVoucherType(), fixedAmountVoucher.getAmount());
+        VoucherResponseDto responseDto = voucherService.create(voucher.getVoucherType(), voucher.getAmount());
 
         //then
-        assertThat(responseDto.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
+        assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
     }
 
     @Test
     void 바우처_조회_성공_테스트() {
         //given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1000);
+        FixedAmountVoucher voucher = new FixedAmountVoucher(1000);
 
         //mocking
-        given(voucherRepository.findById(any())).willReturn(fixedAmountVoucher);
+        given(voucherRepository.findById(any())).willReturn(voucher);
 
         //when
-        VoucherResponseDto responseDto = voucherService.findById(fixedAmountVoucher.getVoucherId());
+        VoucherResponseDto responseDto = voucherService.findById(voucher.getVoucherId());
 
         //then
-        assertThat(responseDto.getAmount()).isEqualTo(fixedAmountVoucher.getAmount());
+        assertThat(responseDto.getAmount()).isEqualTo(voucher.getAmount());
     }
 
     @Test
@@ -76,9 +76,9 @@ public class VoucherServiceTest {
     @Test
     void 바우처_모두_조회_성공_테스트() {
         //given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1000);
-        PercentAmountVoucher percentAmountVoucher = new PercentAmountVoucher(10);
-        List<Voucher> vouchers = List.of(fixedAmountVoucher, percentAmountVoucher);
+        FixedAmountVoucher voucher1 = new FixedAmountVoucher(1000);
+        PercentAmountVoucher voucher2 = new PercentAmountVoucher(10);
+        List<Voucher> vouchers = List.of(voucher1, voucher2);
 
         //mocking
         given(voucherRepository.findAll()).willReturn(vouchers);
@@ -96,19 +96,19 @@ public class VoucherServiceTest {
         Voucher voucher = new FixedAmountVoucher(1000);
         given(voucherRepository.save(any())).willReturn(voucher);
         VoucherResponseDto savedVoucher = voucherService.create(voucher.getVoucherType(), voucher.getAmount());
-        PercentAmountVoucher updatedVoucher = new PercentAmountVoucher(savedVoucher.getVoucherId(), 10);
+        PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getVoucherId(), 10);
 
         //mocking
-        given(voucherRepository.update(any())).willReturn(updatedVoucher);
+        given(voucherRepository.update(any())).willReturn(updateVoucher);
 
         //when
-        VoucherResponseDto responseDto = voucherService.update(savedVoucher.getVoucherId(), VoucherType.PERCENT, 10);
+        VoucherResponseDto responseDto = voucherService.update(savedVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
 
         //then
         assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
-        assertThat(responseDto.getVoucherId()).isEqualTo(updatedVoucher.getVoucherId());
-        assertThat(responseDto.getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
-        assertThat(responseDto.getAmount()).isEqualTo(updatedVoucher.getAmount());
+        assertThat(responseDto.getVoucherId()).isEqualTo(updateVoucher.getVoucherId());
+        assertThat(responseDto.getVoucherType()).isEqualTo(updateVoucher.getVoucherType());
+        assertThat(responseDto.getAmount()).isEqualTo(updateVoucher.getAmount());
     }
 
     @Test

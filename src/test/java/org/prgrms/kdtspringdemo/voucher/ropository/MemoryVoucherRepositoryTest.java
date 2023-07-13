@@ -8,7 +8,7 @@ import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 
 import java.util.List;
 
-public class VoucherRepositoryTest {
+class MemoryVoucherRepositoryTest {
     VoucherRepository voucherRepository;
 
     @BeforeEach

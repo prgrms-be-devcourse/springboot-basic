@@ -65,15 +65,15 @@ public class VoucherServiceImpl implements VoucherService {
             case PERCENT -> new PercentAmountVoucher(voucherId, amount);
         };
 
-        Voucher updateVoucher = validateExist(voucherRepository.update(voucher));
+        Voucher updatedVoucher = validateExist(voucherRepository.update(voucher));
 
-        return VoucherResponseDto.toDto(updateVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
+        return VoucherResponseDto.toDto(updatedVoucher.getVoucherId(), updatedVoucher.getVoucherType(), updatedVoucher.getAmount());
     }
 
     @Override
     public VoucherResponseDto delete(UUID voucherId) {
-        Voucher deleteVoucher = voucherRepository.deleteById(voucherId);
+        Voucher deletedVoucher = voucherRepository.deleteById(voucherId);
 
-        return VoucherResponseDto.toDto(deleteVoucher.getVoucherId(), deleteVoucher.getVoucherType(), deleteVoucher.getAmount());
+        return VoucherResponseDto.toDto(deletedVoucher.getVoucherId(), deletedVoucher.getVoucherType(), deletedVoucher.getAmount());
     }
 }
