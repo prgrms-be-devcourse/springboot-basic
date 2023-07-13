@@ -4,6 +4,7 @@ import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import com.prgms.VoucherApp.domain.customer.model.CustomerService;
+import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,7 @@ public class CustomerController {
     @GetMapping("/add")
     public String addCustomerForm(Model model) {
         model.addAttribute("customerStatus", new CustomerCreateRequest());
+        model.addAttribute("customerStatusList", CustomerStatus.values());
         return "customer/add_customer";
     }
 

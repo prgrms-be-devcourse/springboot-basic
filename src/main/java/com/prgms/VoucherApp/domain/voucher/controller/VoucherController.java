@@ -4,6 +4,7 @@ import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateRequest;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
 import com.prgms.VoucherApp.domain.voucher.dto.VouchersResponse;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherService;
+import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,7 @@ public class VoucherController {
     @GetMapping("/add")
     public String addVoucherForm(Model model) {
         model.addAttribute("voucher", new VoucherCreateRequest());
+        model.addAttribute("voucherTypes", VoucherType.values());
         return "voucher/add_voucher";
     }
 

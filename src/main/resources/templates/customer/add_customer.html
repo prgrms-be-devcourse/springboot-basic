@@ -23,7 +23,7 @@
             <div>고객 상태</div>
             <select th:field="*{customerStatus}" class="form-select">
                 <option value="">== 고객 상태 선택 ==</option>
-                <option th:each="customerStatus : ${T(com.prgms.VoucherApp.domain.customer.model.CustomerStatus).values()}"
+                <option th:each="customerStatus : ${customerStatusList}"
                         th:value="${customerStatus.name()}"
                         th:text="${customerStatus.getStatusName()}">
                     value

@@ -6,7 +6,7 @@ public record CustomerCreateRequest(
         CustomerStatus customerStatus
 ) {
     public CustomerCreateRequest() {
-        this(CustomerStatus.NORMAL);
+        this(null);
     }
 }
 

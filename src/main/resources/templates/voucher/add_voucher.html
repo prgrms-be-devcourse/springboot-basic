@@ -28,7 +28,7 @@
             <div>할인권 종류</div>
             <select th:field="*{voucher.voucherType}" class="form-select">
                 <option value="">== 할인권 종류 선택 ==</option>
-                <option th:each="voucherType : ${T(com.prgms.VoucherApp.domain.voucher.model.VoucherType).values()}"
+                <option th:each="voucherType : ${voucherTypes}"
                         th:value="${voucherType.name()}"
                         th:text="${voucherType.getVoucherTypeName()}">
                     value

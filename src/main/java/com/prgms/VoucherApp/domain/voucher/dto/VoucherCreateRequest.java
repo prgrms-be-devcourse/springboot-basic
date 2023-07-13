@@ -9,6 +9,6 @@ public record VoucherCreateRequest(
         BigDecimal amount
 ) {
     public VoucherCreateRequest() {
-        this(VoucherType.PERCENT_VOUCHER, BigDecimal.valueOf(0));
+        this(null, null);
     }
 }
