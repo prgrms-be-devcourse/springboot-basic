@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 public class SpringBootConsoleApplication implements CommandLineRunner {
     private final VoucherController voucherController;
-    private final ConsoleApplicationVi햣ew applicationView;
+    private final ConsoleApplicationView applicationView;
 
     public SpringBootConsoleApplication(VoucherController voucherController, ConsoleApplicationView applicationView) {
         this.voucherController = voucherController;
