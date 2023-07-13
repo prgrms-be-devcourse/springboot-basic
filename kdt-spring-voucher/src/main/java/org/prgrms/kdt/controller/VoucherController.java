@@ -30,44 +30,46 @@ public class VoucherController {
     public void createVoucher(VoucherCommand userInputVoucherCommand) {
         switch (userInputVoucherCommand) {
             case FIXED_AMOUNT -> {
+                Long amount = 0L;
                 output.displayFixedAmountInputValue();
                 output.displayUserInputLine();
-                validateFixedVoucherValue();
+                amount = userInput.userInputVoucherValue();
+                validateFixedVoucherValue(amount);
+                voucherStorage.saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), amount));
             }
             case PERCENT_DISCOUNT -> {
+                Long percent = 0L;
                 output.displayPercentDiscountInputValue();
                 output.displayUserInputLine();
-                validatePercentVoucherValue();
+                percent = userInput.userInputVoucherValue();
+                validatePercentVoucherValue(percent);
+                voucherStorage.saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), percent));
             }
             case WRONG -> output.userInputWrongValue();
         }
     }
 
-    private void validateFixedVoucherValue() {
-        long amount = 0L;
+    private void validateFixedVoucherValue(Long amount) {
         try {
-            amount = userInput.userInputVoucherValue();
             if (amount < 0) {
                 throw new IllegalArgumentException("Please enter a positive number");
             }
-            voucherStorage.saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), amount));
         } catch (IllegalArgumentException e) {
             logger.error("Your inputValue:'{}' is negative.", amount);
             output.displayError(e);
+            throw e;
         }
     }
 
-    private void validatePercentVoucherValue() {
-        long percent = 0L;
+    private void validatePercentVoucherValue(Long percent) {
         try {
-            percent = userInput.userInputVoucherValue();
             if (percent < 0 || percent > 100) {
                 throw new IllegalArgumentException("Please enter 0 to 100");
             }
-            voucherStorage.saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), percent));
         } catch (IllegalArgumentException e) {
             logger.error("Your inputValue:'{}' is not between 0 and 100.",percent);
             output.displayError(e);
+            throw e;
         }
     }
 }
