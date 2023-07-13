@@ -18,5 +18,7 @@ public interface ConsoleOutput {
 
     void print(String result);
 
+    void printErrorMessage(RuntimeException ex);
+
     void exit();
 }

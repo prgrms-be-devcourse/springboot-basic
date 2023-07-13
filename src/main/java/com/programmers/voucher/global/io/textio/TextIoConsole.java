@@ -90,6 +90,11 @@ public class TextIoConsole implements Console {
     }
 
     @Override
+    public void printErrorMessage(RuntimeException ex) {
+        textIoOutput.printErrorMessage(ex);
+    }
+
+    @Override
     public void exit() {
         textIoOutput.exit();
     }

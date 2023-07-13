@@ -118,6 +118,11 @@ public class TextIoOutput implements ConsoleOutput {
     }
 
     @Override
+    public void printErrorMessage(RuntimeException ex) {
+        print(ex.getMessage());
+    }
+
+    @Override
     public void exit() {
         TextTerminal<?> textTerminal = textIO.getTextTerminal();
         textTerminal.println(EXIT_CONSOLE);
