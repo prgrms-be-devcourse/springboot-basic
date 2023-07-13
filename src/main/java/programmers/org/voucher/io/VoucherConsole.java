@@ -13,7 +13,10 @@ public class VoucherConsole {
         System.out.println("=== Voucher Program ===\n" +
                 "Type exit to exit the program.\n" +
                 "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.");
+                "Type list to list all vouchers.\n" +
+                "Type find to find a voucher.\n" +
+                "Type update to edit a voucher.\n" +
+                "type delete to remove a voucher");
     }
 
     public void printVoucherList(List<VoucherResponse> voucherList) {
