@@ -24,9 +24,15 @@ public enum CommandMenu {
 
     public static CommandMenu getCommandMenu(String menuString) {
         return Arrays.stream(CommandMenu.values())
-                .filter(menu -> Objects.equals(menuString, menu.name()) || Objects.equals(menuString, String.valueOf(menu.ordinal())))
+                .filter(commandMenu -> isMatched(menuString, commandMenu))
                 .findAny()
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_MENU.getMessageText()));
+    }
+
+    private static boolean isMatched(String menuString, CommandMenu commandMenu) {
+        boolean isMatchedName = Objects.equals(menuString, commandMenu.name());
+        boolean isMatchedOrdinal = Objects.equals(menuString, String.valueOf(commandMenu.ordinal()));
+        return isMatchedName || isMatchedOrdinal;
     }
 
     public String getMenuPrompt() {

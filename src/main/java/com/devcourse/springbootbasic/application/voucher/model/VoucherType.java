@@ -12,9 +12,15 @@ public enum VoucherType {
 
     public static VoucherType getVoucherType(String voucherTypeString) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> Objects.equals(voucherType.name(), voucherTypeString) || Objects.equals(String.valueOf(voucherType.ordinal()), voucherTypeString))
+                .filter(voucherType -> isMatched(voucherTypeString, voucherType))
                 .findAny()
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_MENU.getMessageText()));
+    }
+
+    private static boolean isMatched(String voucherTypeString, VoucherType voucherType) {
+        boolean isMatchedName = Objects.equals(voucherType.name(), voucherTypeString);
+        boolean isMatchedOrdinal = Objects.equals(String.valueOf(voucherType.ordinal()), voucherTypeString);
+        return isMatchedName || isMatchedOrdinal;
     }
 
 }

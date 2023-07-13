@@ -1,6 +1,8 @@
 package com.devcourse.springbootbasic.application.customer.controller;
 
 import com.devcourse.springbootbasic.application.customer.model.Customer;
+import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -17,10 +19,17 @@ public record CustomerDto(
     }
 
     public static Customer to(CustomerDto dto) {
+        validateName(dto.name);
         return new Customer(
                 dto.customerId(),
                 dto.name()
         );
+    }
+
+    private static void validateName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
+        }
     }
 
     public String toString() {

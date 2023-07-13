@@ -13,6 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CustomerTest {
 
+    @ParameterizedTest
+    @DisplayName("고객 정보가 출력되면 성공한다.")
+    @MethodSource("provideCustomers")
+    void ToString_Customer_ReturnCustomerString(UUID customerId, String name, Customer customer) {
+        var expected = MessageFormat.format("Customer(id: {0}, name: {1})", customerId, name);
+        var result = customer.toString();
+        assertEquals(expected, result);
+    }
+
     static Stream<Arguments> provideCustomers() {
         return Stream.of(
                 Arguments.of(
@@ -25,15 +34,6 @@ class CustomerTest {
                 Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배",
                         new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배"))
         );
-    }
-
-    @ParameterizedTest
-    @DisplayName("고객 정보가 출력되면 성공한다.")
-    @MethodSource("provideCustomers")
-    void ToString_Customer_ReturnCustomerString(UUID customerId, String name, Customer customer) {
-        var expected = MessageFormat.format("Customer(id: {0}, name: {1})", customerId, name);
-        var result = customer.toString();
-        assertEquals(expected, result);
     }
 
 }

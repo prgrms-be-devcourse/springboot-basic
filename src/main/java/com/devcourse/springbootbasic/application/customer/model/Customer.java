@@ -20,7 +20,7 @@ public class Customer {
     }
 
     private void validateName(String name) {
-        if (name.isBlank()) {
+        if (name == null || name.isBlank()) {
             throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
         }
     }
