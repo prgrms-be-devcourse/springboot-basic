@@ -1,6 +1,6 @@
 package co.programmers.voucher_management.voucher.repository;
 
-import static co.programmers.voucher_management.common.Status.*;
+import static co.programmers.voucher_management.customer.entity.Status.*;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import co.programmers.voucher_management.voucher.entity.Status;
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.exception.NoSuchDataException;
 import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
@@ -39,15 +40,15 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	public List<Voucher> findAll() {
 		return repository.values()
 				.stream()
-				.filter(v -> v.getStatus().equals("Y"))
+				.filter(v -> v.getStatus().equals(NORMAL))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Optional<Voucher> findById(long id) {
 		Voucher foundVoucher = repository.get(id);
-		String status = foundVoucher.getStatus();
-		if (foundVoucher == null || status.equals(DELETED.getSymbol())) {
+		Status status = foundVoucher.getStatus();
+		if (status.equals(DELETED)) {
 			throw new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id));
 		}
 		return Optional.of(foundVoucher);
@@ -91,7 +92,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
 	private Long assignId() {
 		random.setSeed(System.currentTimeMillis());
-		return Long.parseLong(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"))
+		return Long.parseLong(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmssSS"))
 				+ random.nextInt(VOUCHER_ID_RANDOMNESS));
 	}
 

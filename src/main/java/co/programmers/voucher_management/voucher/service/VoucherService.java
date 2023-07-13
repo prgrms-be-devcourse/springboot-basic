@@ -28,7 +28,7 @@ public class VoucherService {
 	}
 
 	public Response create(VoucherRequestDTO voucherRequestDTO) {
-		Voucher voucher = new Voucher(voucherRequestDTO);
+		Voucher voucher = voucherRequestDTO.mapToVoucher();
 		Voucher created = voucherRepository.create(voucher);
 		return new Response(Response.State.SUCCESS, created);
 	}
@@ -50,7 +50,7 @@ public class VoucherService {
 	}
 
 	public Response update(VoucherUpdateDTO voucherUpdateDTO) {
-		Voucher voucher = new Voucher(voucherUpdateDTO);
+		Voucher voucher = voucherUpdateDTO.mapToVoucher();
 		Voucher updated = voucherRepository.update(voucher);
 		return new Response(Response.State.SUCCESS, updated);
 	}
@@ -64,12 +64,14 @@ public class VoucherService {
 	public Response assignVoucher(VoucherAssignDTO voucherAssignDTO) {
 		long voucherId = voucherAssignDTO.getVoucherId();
 		long customerId = voucherAssignDTO.getCustomerId();
+
 		Voucher voucher = voucherRepository.findById(voucherId)
 				.orElseThrow(
 						() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", voucherId)));
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(
 						() -> new NoSuchDataException(MessageFormat.format("No such customer of id {0}", customerId)));
+
 		voucher.assignCustomer(customerId);
 		Voucher assigned = voucherRepository.assignCustomer(voucher, customer);
 		return new Response(Response.State.SUCCESS, assigned);

@@ -1,13 +1,15 @@
 package co.programmers.voucher_management.customer.repository;
 
+import static co.programmers.voucher_management.customer.entity.Customer.*;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.opencsv.CSVReader;
 
-import co.programmers.voucher_management.common.Status;
+import co.programmers.voucher_management.customer.entity.Status;
 import co.programmers.voucher_management.customer.entity.Customer;
 
 @Repository
@@ -28,21 +30,28 @@ public class CustomerFileRepository implements CustomerRepository {
 	}
 
 	@Override
-	public List<Customer> findByRating(String rating) {
+	public List<Customer> findByRating(String ratingToFind) {
+		int ratingIndex = CustomerProperty.RATING.index;
 		try (Reader reader = Files.newBufferedReader(path);
 			 CSVReader csvReader = new CSVReader(reader)) {
-			List<Customer> foundResult = new ArrayList<>();
 			List<String[]> customers = csvReader.readAll();
-			for (String[] fileLine : customers) {
-				String ratingToCompare = fileLine[CustomerFileRepository.CustomerProperty.RATING.ordinal()];
-				if (rating.equals(ratingToCompare)) {
-					foundResult.add(new Customer(fileLine));
-				}
-			}
-			return foundResult;
+			return customers.stream()
+					.filter(fileLine -> ratingToFind.equals(fileLine[ratingIndex]))
+					.map(this::mapToCustomer)
+					.collect(Collectors.toList());
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("file reading failed");
 		}
+	}
+
+	Customer mapToCustomer(String[] fileLine) {
+		long id = Long.parseLong(fileLine[CustomerProperty.ID.index]);
+		String name = fileLine[CustomerProperty.NAME.index];
+		String phoneNumber = fileLine[CustomerProperty.PHONE_NUMBER.index];
+
+		String ratingExpression = fileLine[CustomerProperty.RATING.index];
+		Rating rating = Rating.valueOf(ratingExpression);
+		return new Customer(id, name, rating, phoneNumber);
 	}
 
 	@Override
@@ -53,13 +62,13 @@ public class CustomerFileRepository implements CustomerRepository {
 			while ((line = csvReader.readNext()) != null) {
 				long id = Long.parseLong(line[CustomerProperty.ID.index]);
 				String status = line[CustomerProperty.STATUS.index];
-				String normalStatus = String.valueOf(Status.NORMAL.getSymbol());
+				String normalStatus = String.valueOf(Status.NORMAL);
 				if ((customerId == id) && (status.equals(normalStatus))) {
-					return Optional.of(new Customer(line));
+					return Optional.of(mapToCustomer(line));
 				}
 			}
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("file reading failed");
 		}
 		return Optional.empty();
 	}
@@ -72,6 +81,10 @@ public class CustomerFileRepository implements CustomerRepository {
 		STATUS(4);
 
 		final int index;
+
+		public int index() {
+			return index;
+		}
 
 		CustomerProperty(int index) {
 			this.index = index;

@@ -18,7 +18,7 @@ public class CustomerResponseDTO {
 		id = customer.getId();
 		name = customer.getName();
 		phoneNumber = customer.getPhoneNumber();
-		rating = customer.getRating();
+		rating = customer.getRating().toString();
 	}
 
 	@Override

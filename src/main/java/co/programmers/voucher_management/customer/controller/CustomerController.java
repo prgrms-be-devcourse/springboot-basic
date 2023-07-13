@@ -22,7 +22,7 @@ public class CustomerController {
 	}
 
 	public Response inquiryBlackList() {
-		String rating = Customer.Rating.BLACKLIST.symbol();
+		String rating = Customer.Rating.BLACKLIST.toString();
 		return customerService.inquireByRating(rating);
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import static co.programmers.voucher_management.customer.entity.Customer.Rating;
 import co.programmers.voucher_management.customer.entity.Customer;
 
 @Repository
@@ -37,7 +38,8 @@ public class CustomerDBRepository implements CustomerRepository {
 			long id = resultSet.getLong("id");
 			String name = resultSet.getString("name");
 			String phoneNumber = resultSet.getString("phone_number");
-			String rating = resultSet.getString("rating");
+			String ratingExpression = resultSet.getString("rating");
+			Rating rating = Rating.valueOf(ratingExpression);
 			return Customer.builder()
 					.id(id)
 					.name(name)
@@ -45,7 +47,7 @@ public class CustomerDBRepository implements CustomerRepository {
 					.rating(rating)
 					.build();
 		} catch (SQLException sqlException) {
-			throw new RuntimeException();
+			throw new RuntimeException("db process failed");
 		}
 	}
 

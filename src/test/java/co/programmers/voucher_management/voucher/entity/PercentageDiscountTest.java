@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import co.programmers.voucher_management.exception.InvalidVoucherAmountException;
+import co.programmers.voucher_management.exception.InvalidDataException;
 
 class PercentageDiscountTest {
 	@Nested
@@ -25,7 +25,7 @@ class PercentageDiscountTest {
 		})
 		@DisplayName("유효하지 않은 경우 Exception을 던진다 : 0 보다 작거나 같고 100보다 큰 경우")
 		void is_invalid(int amount) {
-			assertThrows(InvalidVoucherAmountException.class, () -> new PercentageDiscount(amount));
+			assertThrows(InvalidDataException.class, () -> new PercentageDiscount(amount));
 		}
 
 		@ParameterizedTest
@@ -49,17 +49,14 @@ class PercentageDiscountTest {
 	class discount {
 		@ParameterizedTest
 		@CsvSource(value = {
-				"10000,50:5000",
-				"150000,30:105000",
-				"55000000,10:49500000"
+				"10000,50,5000",
+				"150000,30,105000",
+				"55000000,10,49500000"
 		},
-				delimiter = ':'
+				delimiter = ','
 		)
 		@DisplayName("할인된 금액을 반환한다")
-		void discount(String process, int finalPrice) {
-			String[] parsedData = process.split(",");
-			int originalPrice = Integer.parseInt(parsedData[0]);
-			int discountAmount = Integer.parseInt(parsedData[1]);
+		void discount(int originalPrice, int discountAmount , int finalPrice) {
 			PercentageDiscount percentageDiscount = new PercentageDiscount(discountAmount);
 			assertThat(percentageDiscount.discount(originalPrice), is(equalTo(finalPrice)));
 		}

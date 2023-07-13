@@ -1,6 +1,6 @@
 package co.programmers.voucher_management.voucher.repository;
 
-import static co.programmers.voucher_management.common.Status.*;
+import static co.programmers.voucher_management.customer.entity.Status.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -22,8 +23,11 @@ import org.springframework.stereotype.Repository;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import co.programmers.voucher_management.voucher.entity.Status;
 import co.programmers.voucher_management.customer.entity.Customer;
+import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
 import co.programmers.voucher_management.voucher.entity.Voucher;
+import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 
 @Repository
 @Profile("file")
@@ -38,21 +42,22 @@ public class VoucherFileRepository implements VoucherRepository {
 		voucherCount = getVoucherCount();
 	}
 
+
 	@Override
 	public Voucher create(Voucher voucher) {
 		String id = assignId();
 		String discountType = voucher.getDiscountStrategy().getType();
 		String amount = String.valueOf(voucher.getDiscountStrategy().getAmount());
 		String customerId = "";
-		String status = NORMAL.getSymbol();
+		Status status = Status.NORMAL;
 		String createdAt = LocalDateTime.now().toString();
 		String updatedAt = createdAt;
-		String[] dataToWrite = {id, discountType, amount, customerId, status, createdAt, updatedAt};
+		String[] dataToWrite = {id, discountType, amount, customerId, status.toString(), createdAt, updatedAt};
 		try (CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath, true))) {
 			csvWriter.writeNext(dataToWrite);
 			voucherCount++;
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("file writer failed");
 		}
 		return voucher;
 	}
@@ -69,16 +74,25 @@ public class VoucherFileRepository implements VoucherRepository {
 			 CSVReader csvReader = new CSVReader(reader)) {
 			List<Voucher> vouchers = new ArrayList<>();
 			List<String[]> file = csvReader.readAll();
-			for (String[] fileLine : file) {
-				String status = fileLine[VoucherProperty.STATUS.index];
-				if (NORMAL.getSymbol().equals(status)) {
-					vouchers.add(new Voucher(fileLine));
-				}
-			}
-			return vouchers;
+			return file.stream()
+					.filter(line->line[VoucherProperty.STATUS.index].equals(NORMAL.toString()))
+					.map(this::mapToVoucher)
+					.collect(Collectors.toList());
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("file reader failed");
 		}
+	}
+	Voucher mapToVoucher(String[] fileLine){
+		long id = Long.parseLong(fileLine[VoucherProperty.ID.index()]);
+		String discountType = fileLine[VoucherProperty.DISCOUNT_TYPE.index()];
+		int discountAmount = Integer.parseInt(
+				fileLine[VoucherProperty.DISCOUNT_AMOUNT.index()]);
+		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
+		long customerId = Long.parseLong(fileLine[VoucherProperty.CUSTOMER_ID.index()]);
+		String statusExpression = fileLine[VoucherProperty.STATUS.index()];
+		Status status = Status.valueOf(statusExpression);
+
+		return new Voucher(id, discountStrategy, customerId, status);
 	}
 
 	@Override
@@ -89,11 +103,11 @@ public class VoucherFileRepository implements VoucherRepository {
 			while ((fileLine = csvReader.readNext()) != null) {
 				long idCompared = Long.parseLong(fileLine[VoucherProperty.ID.index]);
 				if (idCompared == id) {
-					return Optional.of(new Voucher(fileLine));
+					return Optional.of(mapToVoucher(fileLine));
 				}
 			}
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("file reader failed");
 		}
 		return Optional.empty();
 	}
@@ -124,7 +138,7 @@ public class VoucherFileRepository implements VoucherRepository {
 			vouchers = csvReader.readAll();
 			return findByCustomerId(vouchers, customerId);
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("file reader failed");
 		}
 	}
 
@@ -133,7 +147,7 @@ public class VoucherFileRepository implements VoucherRepository {
 		for (String[] voucher : vouchers) {
 			long CustomerIdCompared = Long.parseLong(voucher[VoucherProperty.CUSTOMER_ID.index]);
 			if (CustomerIdCompared == customerId) {
-				foundVouchers.add(new Voucher(voucher));
+				foundVouchers.add(mapToVoucher(voucher));
 			}
 		}
 		return foundVouchers;
@@ -154,7 +168,7 @@ public class VoucherFileRepository implements VoucherRepository {
 							String.valueOf(voucher.getCustomerId()), String.valueOf(voucher.getStatus())})
 					.forEach(csvWriter::writeNext);
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("file writer failed");
 		}
 	}
 
@@ -164,7 +178,7 @@ public class VoucherFileRepository implements VoucherRepository {
 			List<String[]> vouchers = csvReader.readAll();
 			return vouchers.size();
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("file reader failed");
 		}
 	}
 
@@ -178,6 +192,10 @@ public class VoucherFileRepository implements VoucherRepository {
 
 		VoucherProperty(int index) {
 			this.index = index;
+		}
+
+		public int index() {
+			return index;
 		}
 	}
 }

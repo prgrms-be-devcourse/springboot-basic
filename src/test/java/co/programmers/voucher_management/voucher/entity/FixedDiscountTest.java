@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import co.programmers.voucher_management.exception.InvalidVoucherAmountException;
+import co.programmers.voucher_management.exception.InvalidDataException;
 
 class FixedDiscountTest {
 	@Nested
@@ -20,19 +20,19 @@ class FixedDiscountTest {
 		@ValueSource(ints = {
 				0,
 				-500,
-				5000000
+				5_000_000
 		})
 		@DisplayName("유효하지 않은 경우 Exception을 던진다 : 0 이하이거나 1,000,000 이상인 경우")
 		void is_invalid(int amount) {
-			assertThrows(InvalidVoucherAmountException.class, () -> new FixedDiscount(amount));
+			assertThrows(InvalidDataException.class, () -> new FixedDiscount(amount));
 		}
 
 		@ParameterizedTest
 		@ValueSource(ints = {
-				5000,
-				10000,
-				250000,
-				990000
+				5_000,
+				10_000,
+				250_000,
+				990_000
 		})
 		@DisplayName("유효한 경우 객체를 생성한다 : 0 과 1,000,000 사이인 경우")
 		void is_valid(int amount) {

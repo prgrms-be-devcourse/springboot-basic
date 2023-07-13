@@ -2,11 +2,7 @@ package co.programmers.voucher_management.customer.entity;
 
 import java.util.regex.Pattern;
 
-import co.programmers.voucher_management.common.Status;
-import co.programmers.voucher_management.customer.repository.CustomerFileRepository;
-import co.programmers.voucher_management.exception.NameFormatException;
-import co.programmers.voucher_management.exception.PhoneNumberFormatException;
-import co.programmers.voucher_management.exception.RatingTypeException;
+import co.programmers.voucher_management.exception.InvalidDataException;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,54 +12,34 @@ public class Customer {
 	private static final Pattern PHONE_NUM_FORMAT = Pattern.compile("^01([0|1|6|7|8|9])-\\d{3,4}-\\d{4}$");
 	long id;
 	String name;
-	String rating;
+	Rating rating;
 	String phoneNumber;
-	String status;
+	Status status;
 
 	@Builder
-	public Customer(long id, String name, String rating, String phoneNumber) {
+	public Customer(long id, String name, Rating rating, String phoneNumber) {
 		validatePhoneNumber(phoneNumber);
 		validateName(name);
-		validateRating(rating);
+		// validateRating(rating);
 
 		this.id = id;
 		this.name = name;
 		this.rating = rating;
 		this.phoneNumber = phoneNumber;
-		status = Status.NORMAL.getSymbol();
-	}
-
-	public Customer(String[] line) {
-		long id = Long.parseLong(line[CustomerFileRepository.CustomerProperty.ID.ordinal()]);
-		String name = line[CustomerFileRepository.CustomerProperty.NAME.ordinal()];
-		String rating = line[CustomerFileRepository.CustomerProperty.RATING.ordinal()];
-		String phoneNumber = line[CustomerFileRepository.CustomerProperty.PHONE_NUMBER.ordinal()];
-		this.id = id;
-		this.name = name;
-		this.rating = rating;
-		this.phoneNumber = phoneNumber;
-		status = Status.NORMAL.getSymbol();
-	}
-
-	private void validateRating(String rating) {
-		try {
-			Rating.valueOf(rating.toUpperCase());
-		} catch (IllegalArgumentException illegalArgumentException) {
-			throw new RatingTypeException();
-		}
+		status = Status.NORMAL;
 	}
 
 	private void validateName(String name) {
 		if (!NAME_FORMAT.matcher(name)
 				.matches()) {
-			throw new NameFormatException();
+			throw new InvalidDataException();
 		}
 	}
 
 	private void validatePhoneNumber(String phoneNumber) {
 		if (!PHONE_NUM_FORMAT.matcher(phoneNumber)
 				.matches()) {
-			throw new PhoneNumberFormatException();
+			throw new InvalidDataException();
 		}
 	}
 
@@ -79,18 +55,7 @@ public class Customer {
 	}
 
 	public enum Rating {
-		NORMAL("normal"),
-		BLACKLIST("blacklist");
-
-		private final String symbol;
-
-		Rating(String symbol) {
-			this.symbol = symbol;
-
-		}
-
-		public String symbol() {
-			return symbol;
-		}
+		NORMAL,
+		BLACKLIST;
 	}
 }

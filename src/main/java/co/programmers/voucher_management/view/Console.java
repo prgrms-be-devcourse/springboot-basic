@@ -23,7 +23,7 @@ public class Console implements InputView, OutputView {
 		try {
 			return bufferedReader.readLine();
 		} catch (IOException ioException) {
-			throw new RuntimeException();
+			throw new RuntimeException("reading of console input failed");
 		}
 	}
 

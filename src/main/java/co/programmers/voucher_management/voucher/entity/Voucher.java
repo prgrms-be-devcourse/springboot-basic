@@ -1,11 +1,6 @@
 package co.programmers.voucher_management.voucher.entity;
 
-import co.programmers.voucher_management.common.Status;
 import co.programmers.voucher_management.exception.VoucherReassignmentException;
-import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
-import co.programmers.voucher_management.voucher.dto.VoucherUpdateDTO;
-import co.programmers.voucher_management.voucher.repository.VoucherFileRepository;
-import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,10 +9,10 @@ public class Voucher {
 	private long id;
 	private DiscountStrategy discountStrategy;
 	private long customerId;
-	private String status;
+	private Status status;
 
 	@Builder
-	public Voucher(long id, DiscountStrategy discountStrategy, long customerId, String status) {
+	public Voucher(long id, DiscountStrategy discountStrategy, long customerId, Status status) {
 		this.id = id;
 		this.discountStrategy = discountStrategy;
 		this.customerId = customerId;
@@ -28,38 +23,12 @@ public class Voucher {
 	public Voucher(long id, DiscountStrategy discountStrategy) {
 		this.id = id;
 		this.discountStrategy = discountStrategy;
-		status = Status.NORMAL.getSymbol();
+		status = Status.NORMAL;
 	}
 
-	public Voucher(VoucherRequestDTO voucherRequestDTO) {
-		String discountType = voucherRequestDTO.getDiscountType();
-		int discountAmount = voucherRequestDTO.getDiscountAmount();
-		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
-		status = Status.NORMAL.getSymbol();
+	public Voucher(DiscountStrategy discountStrategy) {
 		this.discountStrategy = discountStrategy;
-	}
-
-	public Voucher(VoucherUpdateDTO voucherUpdateDTO) {
-		long id = voucherUpdateDTO.getId();
-		String discountType = voucherUpdateDTO.getDiscountType();
-		int discountAmount = voucherUpdateDTO.getDiscountAmount();
-		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
-		this.discountStrategy = discountStrategy;
-		this.id = id;
-	}
-
-	public Voucher(String[] fileLine) {
-		this.id = Long.parseLong(fileLine[VoucherFileRepository.VoucherProperty.ID.ordinal()]);
-		String discountType = fileLine[VoucherFileRepository.VoucherProperty.DISCOUNT_TYPE.ordinal()];
-		int discountAmount = Integer.parseInt(
-				fileLine[VoucherFileRepository.VoucherProperty.DISCOUNT_AMOUNT.ordinal()]);
-		this.discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
-		try {
-			this.customerId = Long.parseLong(fileLine[VoucherFileRepository.VoucherProperty.CUSTOMER_ID.ordinal()]);
-		} catch (NumberFormatException numberFormatException) {
-			customerId = 0;
-		}
-		this.status = fileLine[VoucherFileRepository.VoucherProperty.STATUS.ordinal()];
+		status = Status.NORMAL;
 	}
 
 	public void assignCustomer(long customerId) {
@@ -70,7 +39,7 @@ public class Voucher {
 	}
 
 	public void delete() {
-		this.status = Status.DELETED.getSymbol();
+		this.status = Status.DELETED;
 	}
 
 	public void changeDiscountType(DiscountStrategy discountStrategy) {
@@ -88,7 +57,7 @@ public class Voucher {
 				", discountType=" + discountStrategy.getType() +
 				", discountAmount=" + discountStrategy.getAmount() +
 				", customerId=" + customerId +
-				", status='" + status + '\'' +
+				", status='" + status.toString() + '\'' +
 				'}';
 	}
 }

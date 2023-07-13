@@ -6,9 +6,8 @@ import org.springframework.stereotype.Controller;
 
 import co.programmers.voucher_management.common.Response;
 import co.programmers.voucher_management.customer.service.CustomerService;
-import co.programmers.voucher_management.exception.DiscountTypeException;
 import co.programmers.voucher_management.exception.EmptyAssignerException;
-import co.programmers.voucher_management.exception.InvalidVoucherAmountException;
+import co.programmers.voucher_management.exception.InvalidDataException;
 import co.programmers.voucher_management.exception.NoSuchDataException;
 import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
@@ -60,7 +59,7 @@ public class VoucherController {
 		try {
 			VoucherRequestDTO voucherRequestDTO = requestVoucherCreationData();
 			return voucherService.create(voucherRequestDTO);
-		} catch (InvalidVoucherAmountException | DiscountTypeException | NumberFormatException exception) {
+		} catch (InvalidDataException | NumberFormatException exception) {
 			return new Response<>(Response.State.FAILED, exception.getMessage());
 		}
 	}

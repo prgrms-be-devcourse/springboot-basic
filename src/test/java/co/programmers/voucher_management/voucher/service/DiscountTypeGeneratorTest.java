@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import co.programmers.voucher_management.exception.DiscountTypeException;
+import co.programmers.voucher_management.exception.InvalidDataException;
 import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
 
 class DiscountTypeGeneratorTest {
@@ -37,7 +37,7 @@ class DiscountTypeGeneratorTest {
 		@DisplayName("유효하지 않은 경우 NoSuchTypeException을 던진다")
 		void is_invalid(String discountType) {
 			int discountAmount = 50;
-			assertThrows(DiscountTypeException.class, () -> DiscountTypeGenerator.of(discountType, discountAmount));
+			assertThrows(InvalidDataException.class, () -> DiscountTypeGenerator.of(discountType, discountAmount));
 		}
 	}
 
