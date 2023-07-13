@@ -4,6 +4,7 @@ package com.prgms.VoucherApp.domain.customer.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -62,8 +63,10 @@ public class CustomerJdbcDao implements CustomerDao {
             Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramMap, customerRowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException exception) {
-            logger.warn("존재하지 않는 아이디가 입력되어 조회하지 못하는 예외가 발생 id = {}", id);
-            throw new IllegalArgumentException("존재하지 않는 아이디가 입력되었습니다.", exception);
+            return Optional.empty();
+        } catch (IncorrectResultSizeDataAccessException exception) {
+            logger.warn("쿼리 수행 결과가 2개 이상입니다.", exception);
+            throw new RuntimeException("단 건 조회 시도 결과 쿼리 결과가 2개 이상입니다.", exception);
         }
     }
 

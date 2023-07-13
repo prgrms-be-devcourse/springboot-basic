@@ -44,7 +44,7 @@ public class CustomerService {
     public CustomerResponse findOne(UUID id) {
         return customerDao.findById(id)
                 .map(CustomerResponse::new)
-                .orElseThrow(() -> new RuntimeException("고객이 조회되지 않았습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 customerId가 입력되었습니다."));
     }
 
     public CustomersResponse findByStatus(CustomerCreateRequest customerCreateRequest) {

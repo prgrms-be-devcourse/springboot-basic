@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class VoucherFileDaoTest {
 
     @Autowired
-    VoucherFileDao voucherFileDao;
+    private VoucherFileDao voucherFileDao;
 
     @Test
     @DisplayName("고정 비용 할인권 생성 테스트")

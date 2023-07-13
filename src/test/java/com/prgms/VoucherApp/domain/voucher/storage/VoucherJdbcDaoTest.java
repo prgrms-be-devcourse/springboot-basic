@@ -20,7 +20,7 @@ import java.util.UUID;
 class VoucherJdbcDaoTest {
 
     @Autowired
-    VoucherJdbcDao voucherJdbcDao;
+    private VoucherJdbcDao voucherJdbcDao;
 
     @Test
     @DisplayName("고정 비용 할인권을 저장한다.")

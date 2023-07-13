@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.*;
 class CustomerJdbcDaoTest {
 
     @Autowired
-    CustomerJdbcDao customerJdbcDao;
+    private CustomerJdbcDao customerJdbcDao;
 
     @Test
     @DisplayName("고객를 저장한다.")

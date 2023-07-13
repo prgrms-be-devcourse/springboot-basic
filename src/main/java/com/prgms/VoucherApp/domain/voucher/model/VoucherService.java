@@ -34,7 +34,7 @@ public class VoucherService {
     public VoucherResponse findOne(UUID id) {
         return voucherDao.findById(id)
                 .map(VoucherResponse::new)
-                .orElseThrow(() -> new RuntimeException("바우처가 조회되지 않았습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 voucherId가 입력되었습니다."));
     }
 
     public VouchersResponse findAll() {

@@ -6,9 +6,9 @@ import com.prgms.VoucherApp.domain.voucher.model.Voucher;
 import java.util.UUID;
 
 public class Wallet {
-    UUID walletId;
-    Customer customer;
-    Voucher voucher;
+    private final UUID walletId;
+    private final Customer customer;
+    private final Voucher voucher;
 
     public Wallet(UUID walletId, Customer customer, Voucher voucher) {
         this.walletId = walletId;
@@ -31,9 +31,9 @@ public class Wallet {
     @Override
     public String toString() {
         return "Wallet{" +
-            "walletId=" + walletId +
-            ", customer=" + customer +
-            ", voucher=" + voucher +
-            '}';
+                "walletId=" + walletId +
+                ", customer=" + customer +
+                ", voucher=" + voucher +
+                '}';
     }
 }

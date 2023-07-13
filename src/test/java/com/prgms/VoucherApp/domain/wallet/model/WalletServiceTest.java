@@ -23,21 +23,21 @@ import java.math.BigDecimal;
 public class WalletServiceTest {
 
     @Autowired
-    WalletService walletService;
+    private WalletService walletService;
 
     @Autowired
-    VoucherService voucherService;
+    private VoucherService voucherService;
 
     @Autowired
-    CustomerService customerService;
-
-    private static final VoucherCreateRequest voucherRequest = new VoucherCreateRequest(VoucherType.FIXED_VOUCHER, BigDecimal.valueOf(5000));
-    private static final CustomerCreateRequest customerRequest = new CustomerCreateRequest(CustomerStatus.NORMAL);
+    private CustomerService customerService;
 
     @Test
     @DisplayName("고객이 가진 할인권을 지갑에서 관리하도록 생성한다.")
     void saveWalletTest() {
         // given
+        VoucherCreateRequest voucherRequest = new VoucherCreateRequest(VoucherType.FIXED_VOUCHER, BigDecimal.valueOf(5000));
+        CustomerCreateRequest customerRequest = new CustomerCreateRequest(CustomerStatus.NORMAL);
+
         VoucherResponse voucherResponse = voucherService.save(voucherRequest);
         CustomerResponse customerResponse = customerService.save(customerRequest);
 
@@ -55,6 +55,9 @@ public class WalletServiceTest {
     @DisplayName("고객이 어떤 할인권을 가지고 있는지 조회 할 수 있다.")
     void findAllWalletsByCustomerIdTest() {
         // given
+        VoucherCreateRequest voucherRequest = new VoucherCreateRequest(VoucherType.FIXED_VOUCHER, BigDecimal.valueOf(5000));
+        CustomerCreateRequest customerRequest = new CustomerCreateRequest(CustomerStatus.NORMAL);
+
         VoucherResponse voucherResponseA = voucherService.save(voucherRequest);
         CustomerResponse customerResponse = customerService.save(customerRequest);
 
@@ -75,6 +78,9 @@ public class WalletServiceTest {
     @DisplayName("특정 할인권을 보유하고 있는 고객을 조회 할 수 있다.")
     void findOneWalletByVoucherIdTest() {
         // given
+        VoucherCreateRequest voucherRequest = new VoucherCreateRequest(VoucherType.FIXED_VOUCHER, BigDecimal.valueOf(5000));
+        CustomerCreateRequest customerRequest = new CustomerCreateRequest(CustomerStatus.NORMAL);
+
         VoucherResponse voucherResponse = voucherService.save(voucherRequest);
         CustomerResponse customerResponse = customerService.save(customerRequest);
 
