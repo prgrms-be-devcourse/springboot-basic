@@ -43,7 +43,7 @@ public class ConsoleApplicationView {
             입력:\s""";
 
     private static final String INPUT_EXPIRED_DATETIME = """
-            바우처의 만료기한을 입력하세요. (예시: yyyy-MM-dd, yyyy-MM-dd HH:mm:ss.SSS)
+            바우처의 만료기한을 입력하세요. (예시: yyyy-MM-dd, yyyy-MM-dd HH:mm:ss)
             yyyy-MM-dd 입력 시, yyyy-MM-dd 23:59:59.999로 설정됩니다.
                         
             입력:\s""";
