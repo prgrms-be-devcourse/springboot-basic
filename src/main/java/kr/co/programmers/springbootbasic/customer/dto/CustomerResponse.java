@@ -25,7 +25,7 @@ public class CustomerResponse {
         this.walletId = walletId;
     }
 
-    public static CustomerResponse convertToCustomerResponse(Customer customer) {
+    public static CustomerResponse of(Customer customer) {
         UUID id = customer.getId();
         String name = customer.getName();
         CustomerStatus status = customer.getStatus();

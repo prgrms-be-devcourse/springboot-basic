@@ -39,14 +39,14 @@ public class VoucherService {
         Voucher createdVoucher = voucherRepository.create(voucher);
         logger.info("바우처 생성에 성공했습니다.");
 
-        return VoucherResponse.convertToVoucherResponse(createdVoucher);
+        return VoucherResponse.of(createdVoucher);
     }
 
     public List<VoucherResponse> findByType(Integer typeId) {
         List<Voucher> response = voucherRepository.findByType(typeId);
 
         return response.stream()
-                .map(VoucherResponse::convertToVoucherResponse)
+                .map(VoucherResponse::of)
                 .toList();
     }
 
@@ -54,7 +54,7 @@ public class VoucherService {
         List<Voucher> response = voucherRepository.findByDate(formattedDate);
 
         return response.stream()
-                .map(VoucherResponse::convertToVoucherResponse)
+                .map(VoucherResponse::of)
                 .toList();
     }
 
@@ -63,7 +63,7 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.listAll();
 
         return vouchers.stream()
-                .map(VoucherResponse::convertToVoucherResponse)
+                .map(VoucherResponse::of)
                 .toList();
     }
 
@@ -75,7 +75,7 @@ public class VoucherService {
     public VoucherResponse findById(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findVoucherById(voucherId);
 
-        return voucher.map(VoucherResponse::convertToVoucherResponse)
+        return voucher.map(VoucherResponse::of)
                 .orElseGet(() -> new VoucherResponse(voucherId));
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class WalletResponse {
+public record WalletResponse(UUID walletId, List<VoucherResponse> voucherResponses) {
     private static final String WALLET_FIND_RESPONSE_FORMAT = """
             지갑 아이디 : {0}
                         
@@ -17,25 +17,10 @@ public class WalletResponse {
             {1}
                     
             """;
-    private final UUID walletId;
-    private final List<VoucherResponse> voucherResponses;
 
-    public WalletResponse(UUID walletId, List<VoucherResponse> voucherResponses) {
-        this.walletId = walletId;
-        this.voucherResponses = voucherResponses;
-    }
-
-    public UUID getWalletId() {
-        return walletId;
-    }
-
-    public List<VoucherResponse> getVoucherResponses() {
-        return voucherResponses;
-    }
-
-    public String formatWalletFindResponse() {
+    public String formatMessage() {
         String messages = this.voucherResponses.stream()
-                .map(VoucherResponse::formatVoucherResponseDto)
+                .map(VoucherResponse::formatMessage)
                 .collect(Collectors.joining());
 
         return MessageFormat.format(WALLET_FIND_RESPONSE_FORMAT, this.walletId, messages);

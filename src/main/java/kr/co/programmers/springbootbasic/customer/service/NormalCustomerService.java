@@ -36,19 +36,19 @@ public class NormalCustomerService {
         Customer customer = new JdbcCustomer(customerId, customerName, customerStatus, walletId);
         Customer createdCustomer = customerRepository.createCustomer(customer);
 
-        return CustomerResponse.convertToCustomerResponse(createdCustomer);
+        return CustomerResponse.of(createdCustomer);
     }
 
     public Optional<CustomerResponse> findByCustomerId(String customerId) {
         Optional<Customer> customer = customerRepository.findByCustomerId(customerId);
 
-        return customer.map(CustomerResponse::convertToCustomerResponse);
+        return customer.map(CustomerResponse::of);
     }
 
     public Optional<CustomerResponse> findByVoucherId(String voucherId) {
         Optional<Customer> customer = customerRepository.findByVoucherId(voucherId);
 
-        return customer.map(CustomerResponse::convertToCustomerResponse)
+        return customer.map(CustomerResponse::of)
                 .or(Optional::empty);
     }
 
@@ -56,7 +56,7 @@ public class NormalCustomerService {
         List<Customer> customers = customerRepository.findAll();
 
         return customers.stream()
-                .map(CustomerResponse::convertToCustomerResponse)
+                .map(CustomerResponse::of)
                 .toList();
     }
 
@@ -73,7 +73,7 @@ public class NormalCustomerService {
                 .orElseThrow(() -> new NoExistCustomerException("업데이트하려는 유저가 존재하지 않습니다."));
         Customer updatedCustomer = customerRepository.update(responseCustomer);
 
-        return CustomerResponse.convertToCustomerResponse(updatedCustomer);
+        return CustomerResponse.of(updatedCustomer);
     }
 
     @Transactional

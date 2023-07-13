@@ -65,7 +65,7 @@ public class VoucherResponse {
         return walletId;
     }
 
-    public static VoucherResponse convertToVoucherResponse(Voucher voucher) {
+    public static VoucherResponse of(Voucher voucher) {
         VoucherType type = voucher.getType();
         UUID voucherId = voucher.getId();
         long amount = voucher.getAmount();
@@ -75,7 +75,7 @@ public class VoucherResponse {
         return new VoucherResponse(type, voucherId, amount, createdAt, walletId);
     }
 
-    public String formatVoucherResponseDto() {
+    public String formatMessage() {
         if (this.type == VoucherType.FIXED_AMOUNT) {
             return MessageFormat.format(FIXED_VOUCHER_FORMAT,
                     this.type,

@@ -22,8 +22,8 @@ public class WalletService {
 
     @Transactional
     public WalletSaveDto saveVoucherInCustomerWallet(WalletSaveDto saveRequest) {
-        String voucherId = saveRequest.getVoucherId();
-        String walletId = saveRequest.getWalletId();
+        String voucherId = saveRequest.voucherId();
+        String walletId = saveRequest.walletId();
         repository.saveVoucherInCustomerWallet(voucherId, walletId);
 
         return saveRequest;
@@ -39,7 +39,7 @@ public class WalletService {
         List<Voucher> vouchers = wallet.getVouchers();
 
         return vouchers.stream()
-                .map(VoucherResponse::convertToVoucherResponse)
+                .map(VoucherResponse::of)
                 .toList();
     }
 }

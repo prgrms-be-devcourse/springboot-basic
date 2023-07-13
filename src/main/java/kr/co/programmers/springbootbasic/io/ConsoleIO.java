@@ -3,7 +3,6 @@ package kr.co.programmers.springbootbasic.io;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
 import kr.co.programmers.springbootbasic.customer.dto.CustomerResponse;
 import kr.co.programmers.springbootbasic.io.enums.*;
-import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.dto.VoucherResponse;
 import kr.co.programmers.springbootbasic.wallet.dto.WalletResponse;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -122,7 +120,7 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public void printVoucherMessage(VoucherResponse dto) {
-        String message = dto.formatVoucherResponseDto();
+        String message = dto.formatMessage();
         System.out.print(message);
     }
 
@@ -135,7 +133,7 @@ public class ConsoleIO implements Input, Output {
     @Override
     public void printVoucherListMessage(List<VoucherResponse> list) {
         String message = list.stream()
-                .map(VoucherResponse::formatVoucherResponseDto)
+                .map(VoucherResponse::formatMessage)
                 .collect(Collectors.joining());
         if (message.isEmpty()) {
             System.out.println(ConsoleMessage.EMPTY_LIST_MESSAGE);
@@ -208,13 +206,13 @@ public class ConsoleIO implements Input, Output {
 
     @Override
     public void printWalletSaveMessage(WalletSaveDto responseDto) {
-        String message = responseDto.formatWalletSaveDto();
+        String message = responseDto.formatMessage();
         System.out.print(message);
     }
 
     @Override
     public void printWalletFindMessage(WalletResponse walletResponse) {
-        String message = walletResponse.formatWalletFindResponse();
+        String message = walletResponse.formatMessage();
         System.out.print(message);
     }
 
