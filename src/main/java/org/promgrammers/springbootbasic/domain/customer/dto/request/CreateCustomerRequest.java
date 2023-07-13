@@ -8,7 +8,7 @@ import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.
 
 public record CreateCustomerRequest(String username) {
 
-    private static final java.util.regex.Pattern USERNAME_REGEX_PATTERN = Pattern.compile("^[a-zA-Z0-9가-힣]+$");
+    private static final Pattern USERNAME_REGEX_PATTERN = Pattern.compile("^[a-zA-Z0-9가-힣]+$");
 
     public CreateCustomerRequest {
         validateUsername(username);
