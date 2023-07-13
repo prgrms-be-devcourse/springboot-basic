@@ -15,8 +15,9 @@ public class AmountVoucherService {
 
     public AmountVoucher createAmountVoucher(AmountVoucherCreateVo amountVoucherCreateVo) {
         AmountVoucherCreationType creationType = amountVoucherCreateVo.getAmountVoucherCreationType();
+        AmountVoucher amountVoucher = creationType.createAmountVoucher(amountVoucherCreateVo.getDiscountAmount());
 
-        return amountVoucherRepository.save(creationType.createAmountVoucher(amountVoucherCreateVo.getDiscountAmount()));
+        return amountVoucherRepository.save(amountVoucher);
     }
 
     public List<AmountVoucher> listAmountVoucher() {
