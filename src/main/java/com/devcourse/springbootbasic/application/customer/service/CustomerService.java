@@ -7,6 +7,7 @@ import com.devcourse.springbootbasic.application.global.exception.InvalidDataExc
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,7 +50,7 @@ public class CustomerService {
     }
 
     public Customer deleteCustomerById(UUID customerId) {
-        var deletedCustomer = customerRepository.findById(customerId);
+        Optional<Customer> deletedCustomer = customerRepository.findById(customerId);
         customerRepository.deleteById(customerId);
         return deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }

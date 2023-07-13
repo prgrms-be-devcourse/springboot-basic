@@ -44,10 +44,10 @@ public class ConsoleManager {
     }
 
     public VoucherDto consoleVoucherDto() {
-        var voucherId = UUID.randomUUID();
-        var voucherType = consoleVoucherType();
-        var discountValue = consoleDiscountValue(voucherType);
-        var customerId = consoleId();
+        UUID voucherId = UUID.randomUUID();
+        VoucherType voucherType = consoleVoucherType();
+        DiscountValue discountValue = consoleDiscountValue(voucherType);
+        UUID customerId = consoleId();
         return new VoucherDto(voucherId, voucherType, discountValue, customerId);
     }
 

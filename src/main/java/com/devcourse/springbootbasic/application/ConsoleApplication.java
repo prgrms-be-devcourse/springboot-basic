@@ -1,13 +1,17 @@
 package com.devcourse.springbootbasic.application;
 
 import com.devcourse.springbootbasic.application.customer.controller.CustomerController;
+import com.devcourse.springbootbasic.application.customer.controller.CustomerDto;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.io.ConsoleManager;
 import com.devcourse.springbootbasic.application.global.model.CommandMenu;
 import com.devcourse.springbootbasic.application.voucher.controller.VoucherController;
+import com.devcourse.springbootbasic.application.voucher.controller.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ConsoleApplication implements Runnable {
@@ -46,31 +50,31 @@ public class ConsoleApplication implements Runnable {
                 return true;
             }
             case REGISTER_CUSTOMER -> {
-                var customer = customerController.registerCustomer(consoleManager.consoleCustomerDto());
+                CustomerDto customer = customerController.registerCustomer(consoleManager.consoleCustomerDto());
                 consoleManager.printCustomerDto(customer);
             }
             case UNREGISTER_CUSTOMER -> {
-                var customer = customerController.unregisterCustomerById(consoleManager.consoleId());
+                CustomerDto customer = customerController.unregisterCustomerById(consoleManager.consoleId());
                 consoleManager.printCustomerDto(customer);
             }
             case LIST_ALL_CUSTOMERS -> {
-                var customers = customerController.customerList();
+                List<CustomerDto> customers = customerController.customerList();
                 consoleManager.printCustomerList(customers);
             }
             case REGISTER_VOUCHER_TO_CUSTOMER -> {
-                var voucher = voucherController.registerVoucher(consoleManager.consoleVoucherDto());
+                VoucherDto voucher = voucherController.registerVoucher(consoleManager.consoleVoucherDto());
                 consoleManager.printVoucherDto(voucher);
             }
             case UNREGISTER_VOUCHER_FROM_CUSTOMER -> {
-                var voucher = voucherController.unregisterVoucherByCustomerIdAndVoucherId(consoleManager.consoleId(), consoleManager.consoleId());
+                VoucherDto voucher = voucherController.unregisterVoucherByCustomerIdAndVoucherId(consoleManager.consoleId(), consoleManager.consoleId());
                 consoleManager.printVoucherDto(voucher);
             }
             case LIST_VOUCHERS_OF_CUSTOMER -> {
-                var vouchers = voucherController.voucherListOfCustomer(consoleManager.consoleId());
+                List<VoucherDto> vouchers = voucherController.voucherListOfCustomer(consoleManager.consoleId());
                 consoleManager.printVoucherList(vouchers);
             }
             case LIST_BLACK_CUSTOMERS -> {
-                var blackCustomers = customerController.blackCustomerList();
+                List<CustomerDto> blackCustomers = customerController.blackCustomerList();
                 consoleManager.printCustomerList(blackCustomers);
             }
         }

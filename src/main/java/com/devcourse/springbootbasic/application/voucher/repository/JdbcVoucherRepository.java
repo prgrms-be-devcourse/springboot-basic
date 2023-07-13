@@ -20,12 +20,13 @@ import java.util.*;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNumber) -> {
-        var voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        var discountValue = new DiscountValue(voucherType, resultSet.getDouble("discount_value"));
-        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        UUID voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
+        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        DiscountValue discountValue = new DiscountValue(voucherType, resultSet.getDouble("discount_value"));
+        UUID customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
         return new Voucher(voucherId, voucherType, discountValue, customerId);
     };
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -137,7 +138,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
-        var paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         paramMap.put("voucherType", voucher.getVoucherType().toString());
         paramMap.put("discountValue", voucher.getDiscountValue().getValue());

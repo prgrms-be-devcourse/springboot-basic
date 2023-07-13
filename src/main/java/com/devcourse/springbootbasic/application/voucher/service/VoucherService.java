@@ -7,6 +7,7 @@ import com.devcourse.springbootbasic.application.voucher.repository.VoucherRepos
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -44,13 +45,13 @@ public class VoucherService {
     }
 
     public Voucher deleteVoucherById(UUID voucherId) {
-        var foundVoucher = voucherRepository.findById(voucherId);
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         voucherRepository.deleteById(voucherId);
         return foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
     public Voucher deleteVoucherCustomerByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
-        var foundVoucher = voucherRepository.findByCustomerIdAndVoucherId(customerId, voucherId);
+        Optional<Voucher> foundVoucher = voucherRepository.findByCustomerIdAndVoucherId(customerId, voucherId);
         voucherRepository.deleteByCustomerIdAndVoucherId(customerId, voucherId);
         return foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }

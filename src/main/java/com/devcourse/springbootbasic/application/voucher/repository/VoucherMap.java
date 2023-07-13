@@ -56,7 +56,7 @@ public class VoucherMap {
     }
 
     public void removeVoucherByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
-        var list = map.values().stream()
+        List<Voucher> list = map.values().stream()
                 .filter(voucher -> voucher.getVoucherId() != voucherId || voucher.getCustomerId() != customerId)
                 .toList();
         map.clear();

@@ -11,7 +11,7 @@ public class DiscountValue {
     private final double value;
 
     public DiscountValue(VoucherType voucherType, String valueString) {
-        var parsedValue = parseDiscountValue(valueString);
+        double parsedValue = parseDiscountValue(valueString);
         validatePositive(parsedValue);
         validatePercent(voucherType, parsedValue);
         this.voucherType = voucherType;
@@ -52,4 +52,5 @@ public class DiscountValue {
     public double getValue() {
         return value;
     }
+
 }

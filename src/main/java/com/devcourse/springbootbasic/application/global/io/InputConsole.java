@@ -52,4 +52,5 @@ public class InputConsole {
         return textIO.newBooleanInputReader()
                 .read("Black Customer: ");
     }
+
 }
