@@ -1,6 +1,7 @@
 package com.programmers.springweekly.repository.wallet;
 
 import com.programmers.springweekly.domain.wallet.Wallet;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,7 +14,7 @@ public interface WalletRepository {
 
     List<Wallet> findByVoucherId(UUID voucherId);
 
-    void deleteByWalletId(UUID walletId);
+    int deleteByWalletId(UUID walletId);
 
     List<Wallet> findAll();
 

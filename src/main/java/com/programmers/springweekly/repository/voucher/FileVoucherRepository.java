@@ -40,8 +40,8 @@ public class FileVoucherRepository {
             bufferedWriter.flush();
             return voucher;
         } catch (IOException e) {
-            log.error("error message: {}", e.getMessage());
-            throw new RuntimeException("IO 작업중 에러가 발생하였습니다.");
+            log.error("바우처를 파일에 저장하던 중 알 수 없는 에러가 발생, {}", e.getMessage());
+            throw new RuntimeException("바우처를 파일에 저장하던 중 알 수 없는 에러가 발생하였습니다.");
         }
     }
 
@@ -58,10 +58,11 @@ public class FileVoucherRepository {
             }
 
         } catch (IndexOutOfBoundsException e) {
-            log.error("현재 파일에 저장된 열의 수가 맞지 않습니다. : {}", e.getMessage());
-        } catch (Exception e) {
-            log.error("error message: {}", e.getMessage());
-            throw new RuntimeException("IO 작업중 에러가 발생하였습니다.");
+            log.warn("바우처 파일에 저장된 바우처의 정보 열의 수가 맞지 않아 예외 발생 : {}", e.getMessage());
+            throw new IndexOutOfBoundsException("현재 파일에 저장된 열의 수가 맞지 않습니다. 바우처 파일을 확인해보세요.");
+        } catch (IOException e) {
+            log.error("바우처 파일에서 모든 정보를 읽어오던 중 알 수 없는 에러가 발생, {}", e.getMessage());
+            throw new RuntimeException("바우처 파일에서 모든 정보를 읽어오던 중 알 수 없는 에러가 발생하였습니다.");
         }
 
         return Collections.unmodifiableMap(voucherMap);

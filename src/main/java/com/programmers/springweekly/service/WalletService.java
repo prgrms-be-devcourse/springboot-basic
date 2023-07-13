@@ -49,12 +49,12 @@ public class WalletService {
         return new WalletsResponse(walletList.stream().map(WalletResponse::new).toList());
     }
 
-    public void deleteByWalletId(UUID walletId) {
+    public int deleteByWalletId(UUID walletId) {
         if (!walletRepository.existByWalletId(walletId)) {
-            throw new NoSuchElementException("찾는 바우처 지갑이 없습니다.");
+            throw new NoSuchElementException("찾는 바우처 지갑이 없습니다. 저장되어있는지 확인해보세요.");
         }
 
-        walletRepository.deleteByWalletId(walletId);
+        return walletRepository.deleteByWalletId(walletId);
     }
 
     public WalletsResponse findAll() {

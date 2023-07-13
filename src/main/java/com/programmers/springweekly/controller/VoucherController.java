@@ -6,10 +6,9 @@ import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.service.VoucherService;
 import com.programmers.springweekly.util.Validator.VoucherValidator;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class VoucherController {
                 voucherUpdateRequest.getVoucherType(),
                 String.valueOf(voucherUpdateRequest.getDiscountAmount())
         );
-        
+
         voucherService.update(voucherUpdateRequest);
     }
 
@@ -43,8 +42,8 @@ public class VoucherController {
         return voucherService.findAll();
     }
 
-    public void deleteById(UUID voucherId) {
-        voucherService.deleteById(voucherId);
+    public int deleteById(UUID voucherId) {
+        return voucherService.deleteById(voucherId);
     }
 
     public void deleteAll() {

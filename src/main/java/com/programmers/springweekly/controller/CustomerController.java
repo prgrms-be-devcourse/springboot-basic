@@ -6,10 +6,9 @@ import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
 import com.programmers.springweekly.util.Validator.CustomerValidator;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,8 +48,8 @@ public class CustomerController {
         return customerService.getBlackList();
     }
 
-    public void deleteById(UUID customerId) {
-        customerService.deleteById(customerId);
+    public int deleteById(UUID customerId) {
+        return customerService.deleteById(customerId);
     }
 
     public void deleteAll() {

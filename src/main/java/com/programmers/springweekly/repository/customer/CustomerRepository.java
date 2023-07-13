@@ -17,10 +17,10 @@ public interface CustomerRepository {
 
     List<Customer> getBlackList();
 
-    void deleteById(UUID customerId);
+    int deleteById(UUID customerId);
 
     void deleteAll();
 
     boolean existById(UUID customerId);
-    
+
 }

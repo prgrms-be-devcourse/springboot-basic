@@ -18,6 +18,7 @@ import com.programmers.springweekly.util.Validator.VoucherValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -36,6 +37,7 @@ public class Console implements Input, Output {
     @Override
     public VoucherCreateRequest inputVoucherCreate(VoucherType voucherType) {
         String inputDiscountAmount = SCANNER.nextLine();
+        log.info("사용자가 입력한 할인 양 : {}", inputDiscountAmount);
 
         VoucherValidator.validateVoucher(voucherType, inputDiscountAmount);
 
@@ -48,6 +50,7 @@ public class Console implements Input, Output {
     @Override
     public VoucherUpdateRequest inputVoucherUpdate(UUID voucherId) {
         String[] voucherInfo = ParseValidator.inputParse(SCANNER.nextLine());
+        log.info("사용자가 입력한 업데이트 바우처 정보 : {}", Arrays.toString(voucherInfo));
 
         ParseValidator.validateVoucherUpdateLength(voucherInfo);
 
@@ -64,6 +67,7 @@ public class Console implements Input, Output {
     @Override
     public CustomerCreateRequest inputCustomerCreate() {
         String[] customerInfo = ParseValidator.inputParse(SCANNER.nextLine());
+        log.info("사용자가 입력한 고객 정보 : {}", Arrays.toString(customerInfo));
 
         ParseValidator.validateCustomerLength(customerInfo);
 

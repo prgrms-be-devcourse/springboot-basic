@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -41,9 +42,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         try {
             template.update(sql, param);
             return voucher;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw e;
+        } catch (DuplicateKeyException e) {
+            log.warn("이미 있는 바우처 ID입니다.: {}", e.getMessage());
+            throw new DuplicateKeyException("이미 있는 바우처 ID입니다. 관리자에게 문의해주세요.");
         }
     }
 
@@ -67,9 +68,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 .addValue("voucherId", voucherId);
         try {
             Voucher voucher = template.queryForObject(sql, param, voucherRowMapper());
-
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
+            log.warn("바우처 ID로 바우처를 찾을 수 없어서 예외 발생, Optional Empty로 반환, {}", e.getMessage());
             return Optional.empty();
         }
     }
@@ -82,13 +83,13 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
+    public int deleteById(UUID voucherId) {
         String sql = "delete from vouchers where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId);
 
-        template.update(sql, param);
+        return template.update(sql, param);
     }
 
     @Override
@@ -98,6 +99,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         SqlParameterSource param = new MapSqlParameterSource();
 
         template.update(sql, param);
+        log.warn("주의, voucher 테이블에 있는 데이터 모두 삭제처리 됨.");
     }
 
     @Override
@@ -108,9 +110,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 .addValue("voucherId", voucherId);
         try {
             template.queryForObject(sql, param, voucherRowMapper());
-            
             return true;
         } catch (EmptyResultDataAccessException e) {
+            log.warn("바우처 ID가 존재하는지 체크했으나 없어서 예외 발생 {}", e.getMessage());
             return false;
         }
     }

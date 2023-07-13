@@ -1,19 +1,18 @@
 package com.programmers.springweekly.repository.wallet;
 
 import com.programmers.springweekly.domain.wallet.Wallet;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-
-import javax.sql.DataSource;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @Slf4j
@@ -34,9 +33,13 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
                 .addValue("customerId", wallet.getCustomerId().toString())
                 .addValue("voucherId", wallet.getVoucherId().toString());
 
-        template.update(sql, param);
-
-        return wallet;
+        try {
+            template.update(sql, param);
+            return wallet;
+        } catch (DuplicateKeyException e) {
+            log.warn("이미 있는 바우처 지갑 ID입니다. {}", e.getMessage());
+            throw new DuplicateKeyException("이미 있는 바우처 지갑 ID입니다. 관리자에게 문의해주세요.");
+        }
     }
 
     @Override
@@ -48,9 +51,9 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
         try {
             Wallet wallet = template.queryForObject(sql, param, walletRowMapper());
-
             return Optional.of(wallet);
         } catch (EmptyResultDataAccessException e) {
+            log.warn("고객의 ID로 할당된 바우처가 없을 때 예외 발생, Optional Empty로 반환, {}", e.getMessage());
             return Optional.empty();
         }
     }
@@ -62,31 +65,26 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId.toString());
 
-        List<Wallet> walletList = template.query(sql, param, walletRowMapper());
-
-        if (walletList.isEmpty()) {
-            log.error("이 바우처는 현재 할당된 고객이 없습니다.");
-            throw new NoSuchElementException("이 바우처는 현재 할당된 고객이 없습니다.");
-        }
-
         return template.query(sql, param, walletRowMapper());
     }
 
     @Override
-    public void deleteByWalletId(UUID walletId) {
+    public int deleteByWalletId(UUID walletId) {
         String sql = "delete from wallet where wallet_id = :walletId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("walletId", walletId.toString());
 
-        template.update(sql, param);
+        return template.update(sql, param);
     }
 
     @Override
     public List<Wallet> findAll() {
         String sql = "select * from wallet";
 
-        return template.query(sql, walletRowMapper());
+        List<Wallet> walletList = template.query(sql, walletRowMapper());
+
+        return walletList;
     }
 
     @Override
@@ -98,9 +96,9 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
         try {
             template.queryForObject(sql, param, walletRowMapper());
-
             return true;
         } catch (EmptyResultDataAccessException e) {
+            log.warn("바우처 지갑 ID가 존재하는지 체크했으나 없어서 예외 발생");
             return false;
         }
     }

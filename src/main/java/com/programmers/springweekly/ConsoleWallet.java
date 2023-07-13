@@ -8,7 +8,6 @@ import com.programmers.springweekly.dto.wallet.request.WalletCreateRequest;
 import com.programmers.springweekly.dto.wallet.response.WalletResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 import com.programmers.springweekly.view.Console;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -42,14 +41,16 @@ public class ConsoleWallet {
         UUID customerId = console.inputUUID();
 
         if (!customerController.existById(customerId)) {
-            throw new NoSuchElementException("고객이 존재하지 않습니다.");
+            console.outputErrorMessage("입력하신 고객 아이디 " + customerId.toString() + "가 존재하지 않습니다.");
+            return;
         }
 
         console.outputWalletVoucherUUIDGuide();
         UUID voucherId = console.inputUUID();
 
         if (!voucherController.existById(voucherId)) {
-            throw new NoSuchElementException("바우처가 존재하지 않습니다.");
+            console.outputErrorMessage("입력하신 바우처 아이디 " + voucherId.toString() + "가 존재하지 않습니다.");
+            return;
         }
 
         walletController.save(new WalletCreateRequest(customerId, voucherId));
@@ -59,7 +60,9 @@ public class ConsoleWallet {
         console.outputWalletUUIDGuide();
         UUID walletId = console.inputUUID();
 
-        walletController.deleteByWalletId(walletId);
+        if (walletController.deleteByWalletId(walletId) == 0) {
+            console.outputErrorMessage("삭제하려는 바우처 지갑이 존재하지 않아서 삭제할 수 없습니다.");
+        }
     }
 
     private void findAllWallet() {
@@ -90,5 +93,5 @@ public class ConsoleWallet {
 
         console.outputGetWalletListByVoucher(walletsResponse);
     }
-    
+
 }

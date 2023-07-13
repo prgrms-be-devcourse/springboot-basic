@@ -2,6 +2,7 @@ package com.programmers.springweekly;
 
 import com.programmers.springweekly.domain.ProgramMenu;
 import com.programmers.springweekly.view.Console;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -36,11 +37,14 @@ public class ConsoleApplication implements CommandLineRunner {
                         console.outputExitMessage();
                         running = false;
                     }
-                    default -> throw new IllegalArgumentException("Input :" + selectMenu + "The type you are looking for is not found.");
+                    default -> throw new IllegalArgumentException("Input :" + selectMenu + ", 찾는 프로그램 메뉴가 존재하지 않습니다.");
                 }
             } catch (IllegalArgumentException e) {
-                log.error("잘못된 입력값 입니다 -> " + e.getMessage());
+                console.outputErrorMessage("입력 값이 잘못되었습니다. 자세한 메시지 : " + e.getMessage());
+            } catch (NoSuchElementException e) {
+                console.outputErrorMessage("찾는 값이 존재하지 않습니다. 자세한 메시지 : " + e.getMessage());
             } catch (Exception e) {
+                console.outputErrorMessage("알 수 없는 에러가 발생되었습니다, 에러 메시지 : " + e.getMessage());
                 log.error("알 수 없는 에러입니다 -> " + e.getMessage());
             }
         }

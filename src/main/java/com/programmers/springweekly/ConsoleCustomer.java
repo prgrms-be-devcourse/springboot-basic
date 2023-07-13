@@ -6,7 +6,6 @@ import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.view.Console;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -49,10 +48,15 @@ public class ConsoleCustomer {
         UUID customerId = console.inputUUID();
 
         if (!customerController.existById(customerId)) {
-            throw new NoSuchElementException("찾는 바우처가 존재하지 않습니다.");
+            console.outputErrorMessage(customerId + " 찾는 고객이 존재하지 않습니다.");
+            return;
         }
 
-        customerController.deleteById(customerId);
+        if (customerController.deleteById(customerId) == 0) {
+            console.outputErrorMessage(customerId + " 입력하신 고객은 없는 고객이므로 삭제할 수 없습니다.");
+            return;
+        }
+
         console.outputCompleteGuide();
     }
 

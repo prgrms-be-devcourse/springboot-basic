@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -41,22 +42,27 @@ public class VoucherService {
 
     public VoucherResponse findById(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다, 바우처가 저장되어있는지 확인해보세요."));
 
         return new VoucherResponse(voucher);
     }
 
     public VoucherListResponse findAll() {
         List<Voucher> voucherList = voucherRepository.findAll();
+
+        if (CollectionUtils.isEmpty(voucherList)) {
+            throw new NoSuchElementException("바우처가 저장되어 있지 않습니다.");
+        }
+
         return new VoucherListResponse(voucherList.stream().map(VoucherResponse::new).toList());
     }
 
-    public void deleteById(UUID voucherId) {
+    public int deleteById(UUID voucherId) {
         if (!voucherRepository.existById(voucherId)) {
-            throw new NoSuchElementException("찾는 바우처가 존재하지 않습니다.");
+            throw new NoSuchElementException("삭제하려고 입력한 바우처 ID는 존재하지 않는 ID입니다. 다시 입력해주세요");
         }
 
-        voucherRepository.deleteById(voucherId);
+        return voucherRepository.deleteById(voucherId);
     }
 
     public void deleteAll() {

@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -39,9 +40,9 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         try {
             template.update(sql, param);
             return customer;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw e;
+        } catch (DuplicateKeyException e) {
+            log.warn("이미 있는 고객 ID입니다. {}", e.getMessage());
+            throw new DuplicateKeyException("이미 있는 고객ID입니다. 관리자에게 문의해주세요.");
         }
     }
 
@@ -67,9 +68,9 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
         try {
             Customer customer = template.queryForObject(sql, param, customerRowMapper());
-
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
+            log.warn("고객의 ID로 고객을 찾을 수 없어서 예외 발생, Optional Empty로 반환, {}", e.getMessage());
             return Optional.empty();
         }
     }
@@ -92,13 +93,13 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteById(UUID customerId) {
+    public int deleteById(UUID customerId) {
         String sql = "delete from customers where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString());
 
-        template.update(sql, param);
+        return template.update(sql, param);
     }
 
     @Override
@@ -108,6 +109,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         SqlParameterSource param = new MapSqlParameterSource();
 
         template.update(sql, param);
+        log.warn("주의, customers 테이블에 있는 데이터 모두 삭제처리 됨.");
     }
 
     @Override
@@ -119,9 +121,9 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
         try {
             template.queryForObject(sql, param, customerRowMapper());
-            
             return true;
         } catch (EmptyResultDataAccessException e) {
+            log.warn("고객의 ID가 존재하는지 체크했으나 없어서 예외 발생 {}", e.getMessage());
             return false;
         }
     }

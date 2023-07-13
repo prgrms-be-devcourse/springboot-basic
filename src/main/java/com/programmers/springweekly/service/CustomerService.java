@@ -41,7 +41,9 @@ public class CustomerService {
     }
 
     public CustomerResponse findById(UUID customerId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("찾는 고객이 없습니다."));
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException("찾는 고객이 없습니다, 고객이 저장되어있는지 확인해보세요."));
+
         return new CustomerResponse(customer);
     }
 
@@ -55,12 +57,12 @@ public class CustomerService {
         return new CustomerListResponse(customerList.stream().map(CustomerResponse::new).toList());
     }
 
-    public void deleteById(UUID customerId) {
+    public int deleteById(UUID customerId) {
         if (!customerRepository.existById(customerId)) {
-            throw new NoSuchElementException("찾는 유저가 존재하지 않습니다.");
+            throw new NoSuchElementException("삭제하려고 입력한 고객의 ID는 존재하지 않는 ID입니다. 다시 입력해주세요");
         }
 
-        customerRepository.deleteById(customerId);
+        return customerRepository.deleteById(customerId);
     }
 
     public void deleteAll() {

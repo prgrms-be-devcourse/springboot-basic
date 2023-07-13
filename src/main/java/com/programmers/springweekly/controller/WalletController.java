@@ -26,12 +26,12 @@ public class WalletController {
         return walletService.findByVoucherId(voucherId);
     }
 
-    public void deleteByWalletId(UUID walletId) {
-        walletService.deleteByWalletId(walletId);
+    public int deleteByWalletId(UUID walletId) {
+        return walletService.deleteByWalletId(walletId);
     }
 
     public WalletsResponse findAll() {
         return walletService.findAll();
     }
-    
+
 }

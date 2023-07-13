@@ -1,13 +1,14 @@
 package com.programmers.springweekly.util.Validator;
 
 import com.programmers.springweekly.domain.voucher.VoucherType;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Slf4j
 public final class VoucherValidator {
 
     private static final Pattern numberPattern = Pattern.compile("\\d+");
@@ -26,7 +27,8 @@ public final class VoucherValidator {
         }
 
         if (voucherType != VoucherType.FIXED && voucherType != VoucherType.PERCENT) {
-            throw new IllegalArgumentException("Input : " + voucherType + "입력하신 타입은 없는 타입입니다.");
+            log.warn("고객이 입력한 문자열 {} 이 바우처 타입이 아니어서 예외 발생", voucherType);
+            throw new IllegalArgumentException("Input : " + voucherType + "입력하신 바우처 타입은 없는 타입입니다.");
         }
     }
 
@@ -34,6 +36,7 @@ public final class VoucherValidator {
         Matcher match = numberPattern.matcher(input);
 
         if (!match.matches()) {
+            log.warn("고객이 입력한 문자열 {} 이 숫자 형태가 아니어서 예외 발생", input);
             throw new IllegalArgumentException("Input : " + input + ", 입력하신 것은 숫자가 아닙니다.");
         }
     }
@@ -42,7 +45,8 @@ public final class VoucherValidator {
         int fixed = Integer.parseInt(inputFixed);
 
         if (fixed < PERCENT_AND_FIXED_MIN) {
-            throw new IllegalArgumentException("Input : " + inputFixed + ", 입력하신 숫자는 범위를 벗어납니다.");
+            log.warn("고객이 입력한 고정 할인 금액 {} 이 음수여서 예외 발생", inputFixed);
+            throw new IllegalArgumentException("Input : " + inputFixed + ", 입력하신 숫자는 음수입니다. 양수를 입력해주세요.");
         }
     }
 
@@ -50,7 +54,8 @@ public final class VoucherValidator {
         int percent = Integer.parseInt(inputPercent);
 
         if (percent > PERCENT_MAX || percent < PERCENT_AND_FIXED_MIN) {
-            throw new IllegalArgumentException("Input : " + inputPercent + ", 입력하신 숫자는 범위를 벗어납니다.");
+            log.warn("고객이 입력한 퍼센트 할인 {}% 가 퍼센트 범위를 벗어나서 예외 발생", inputPercent);
+            throw new IllegalArgumentException("Input : " + inputPercent + ", 입력하신 숫자는 퍼센트 범위를 벗어납니다.");
         }
     }
 

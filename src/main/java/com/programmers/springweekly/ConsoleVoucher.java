@@ -7,7 +7,6 @@ import com.programmers.springweekly.dto.voucher.request.VoucherCreateRequest;
 import com.programmers.springweekly.dto.voucher.request.VoucherUpdateRequest;
 import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.view.Console;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -58,12 +57,17 @@ public class ConsoleVoucher {
     private void deleteVoucher() {
         console.outputVoucherUUIDGuide();
         UUID voucherId = console.inputUUID();
-        
+
         if (!voucherController.existById(voucherId)) {
-            throw new NoSuchElementException("찾는 바우처가 존재하지 않습니다.");
+            console.outputErrorMessage(voucherId + " 찾는 바우처가 존재하지 않습니다.");
+            return;
         }
 
-        voucherController.deleteById(voucherId);
+        if (voucherController.deleteById(voucherId) == 0) {
+            console.outputErrorMessage(voucherId + " 삭제하려는 바우처가 저장되어있지 않아 삭제할 수 없습니다.");
+            return;
+        }
+
         console.outputCompleteGuide();
     }
 
