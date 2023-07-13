@@ -5,6 +5,7 @@ import org.prgrms.kdt.input.MenuCommand;
 import org.prgrms.kdt.input.UserInput;
 import org.prgrms.kdt.input.VoucherCommand;
 import org.prgrms.kdt.output.Output;
+import org.prgrms.kdt.storage.VoucherStorage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -16,6 +17,7 @@ public class KdtApplication {
         Output outputConsole = applicationContext.getBean(Output.class);
         UserInput userInputMenu = applicationContext.getBean(UserInput.class);
         VoucherController voucherController = applicationContext.getBean(VoucherController.class);
+        VoucherStorage voucherStorage = applicationContext.getBean(VoucherStorage.class);
 
         while (true) {
             outputConsole.displayMenu();
@@ -31,22 +33,19 @@ public class KdtApplication {
                     outputConsole.displayUserInputLine();
                     String userInputVoucherCreateMenuCommand = userInputMenu.userInputVoucherCreateMenuCommand();
                     VoucherCommand UserInputVoucherCommand = VoucherCommand.findByUserInputVoucherCommand(userInputVoucherCreateMenuCommand);
-                    try {
-                        voucherController.createVoucher(UserInputVoucherCommand);
-                    } catch (IllegalArgumentException e) {
-                        switch (UserInputVoucherCommand) {
-                            case FIXED_AMOUNT -> {
-                                
-                            }
-                            case PERCENT_DISCOUNT -> {
-
-                            }
-                        }
-                    }
+                    createVoucher(outputConsole, voucherController, UserInputVoucherCommand);
                 }
-                case LIST -> outputConsole.displayAllVoucherList();
+                case LIST -> outputConsole.displayAllVoucherList(voucherStorage.findAllVoucher());
                 case WRONG -> outputConsole.userInputWrongValue();
             }
+        }
+    }
+
+    private static void createVoucher(Output outputConsole, VoucherController voucherController, VoucherCommand UserInputVoucherCommand) {
+        try {
+            voucherController.createVoucher(UserInputVoucherCommand);
+        } catch (IllegalArgumentException e) {
+            outputConsole.displayError(e);
         }
     }
 }
