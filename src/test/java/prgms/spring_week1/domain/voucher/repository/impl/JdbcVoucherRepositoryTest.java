@@ -25,12 +25,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JdbcVoucherRepositoryTest {
     private VoucherRepository jdbcVoucherRepository;
+
     @Autowired
     DataSource dataSource;
+
     @BeforeEach
     void setUp() {
         jdbcVoucherRepository = new JdbcVoucherRepository(dataSource);
     }
+
     @Test
     @Order(1)
     void findAll_before() {
