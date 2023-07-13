@@ -15,10 +15,11 @@ import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 import com.programmers.springweekly.util.Validator.CustomerValidator;
 import com.programmers.springweekly.util.Validator.ParseValidator;
 import com.programmers.springweekly.util.Validator.VoucherValidator;
-import java.util.Scanner;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -36,7 +37,7 @@ public class Console implements Input, Output {
     public VoucherCreateRequest inputVoucherCreate(VoucherType voucherType) {
         String inputDiscountAmount = SCANNER.nextLine();
 
-        VoucherValidator.validateInputVoucherInfo(voucherType, inputDiscountAmount);
+        VoucherValidator.validateVoucher(voucherType, inputDiscountAmount);
 
         return VoucherCreateRequest.builder()
                 .discountAmount(Long.parseLong(inputDiscountAmount))
@@ -51,7 +52,7 @@ public class Console implements Input, Output {
         ParseValidator.validateVoucherUpdateLength(voucherInfo);
 
         VoucherType voucherType = VoucherType.from(voucherInfo[1]);
-        VoucherValidator.validateInputVoucherInfo(voucherType, voucherInfo[0]);
+        VoucherValidator.validateVoucher(voucherType, voucherInfo[0]);
 
         return VoucherUpdateRequest.builder()
                 .voucherId(voucherId)

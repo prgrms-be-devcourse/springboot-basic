@@ -1,7 +1,5 @@
 package com.programmers.springweekly.repository.wallet;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.domain.voucher.Voucher;
@@ -10,19 +8,18 @@ import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.domain.wallet.Wallet;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
 import com.programmers.springweekly.repository.voucher.VoucherRepository;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @Transactional
@@ -81,7 +78,12 @@ class JdbcTemplateWalletRepositoryTest {
     void saveAndFindByCustomerId() {
         // given
         UUID walletId = UUID.randomUUID();
-        Wallet wallet = new Wallet(walletId, customer1.getCustomerId(), voucher1.getVoucherId());
+        Wallet wallet = Wallet.builder()
+                .walletId(walletId)
+                .customerId(customer1.getCustomerId())
+                .voucherId(voucher1.getVoucherId())
+                .build();
+
         walletRepository.save(wallet);
 
         // when
@@ -98,8 +100,18 @@ class JdbcTemplateWalletRepositoryTest {
         // given
         UUID walletId1 = UUID.randomUUID();
         UUID walletId2 = UUID.randomUUID();
-        Wallet wallet1 = new Wallet(walletId1, customer1.getCustomerId(), voucher1.getVoucherId());
-        Wallet wallet2 = new Wallet(walletId2, customer2.getCustomerId(), voucher1.getVoucherId());
+        Wallet wallet1 = Wallet.builder()
+                .walletId(walletId1)
+                .customerId(customer1.getCustomerId())
+                .voucherId(voucher1.getVoucherId())
+                .build();
+
+        Wallet wallet2 = Wallet.builder()
+                .walletId(walletId2)
+                .customerId(customer2.getCustomerId())
+                .voucherId(voucher1.getVoucherId())
+                .build();
+
         walletRepository.save(wallet1);
         walletRepository.save(wallet2);
 
@@ -115,7 +127,12 @@ class JdbcTemplateWalletRepositoryTest {
     void deleteByWalletId() {
         // given
         UUID walletId = UUID.randomUUID();
-        Wallet wallet = new Wallet(walletId, customer1.getCustomerId(), voucher1.getVoucherId());
+        Wallet wallet = Wallet.builder()
+                .walletId(walletId)
+                .customerId(customer1.getCustomerId())
+                .voucherId(voucher1.getVoucherId())
+                .build();
+        
         walletRepository.save(wallet);
 
         // when
@@ -132,8 +149,18 @@ class JdbcTemplateWalletRepositoryTest {
         // given
         UUID walletId1 = UUID.randomUUID();
         UUID walletId2 = UUID.randomUUID();
-        Wallet wallet1 = new Wallet(walletId1, customer1.getCustomerId(), voucher1.getVoucherId());
-        Wallet wallet2 = new Wallet(walletId2, customer2.getCustomerId(), voucher1.getVoucherId());
+        Wallet wallet1 = Wallet.builder()
+                .walletId(walletId1)
+                .customerId(customer1.getCustomerId())
+                .voucherId(voucher1.getVoucherId())
+                .build();
+
+        Wallet wallet2 = Wallet.builder()
+                .walletId(walletId2)
+                .customerId(customer2.getCustomerId())
+                .voucherId(voucher1.getVoucherId())
+                .build();
+
         walletRepository.save(wallet1);
         walletRepository.save(wallet2);
 

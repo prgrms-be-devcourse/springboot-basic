@@ -1,21 +1,22 @@
 package com.programmers.springweekly.service.voucher;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.dto.voucher.request.VoucherCreateRequest;
 import com.programmers.springweekly.dto.voucher.request.VoucherUpdateRequest;
 import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.service.VoucherService;
-import java.util.NoSuchElementException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @Transactional
@@ -48,11 +49,11 @@ public class VoucherServiceTest {
         VoucherListResponse voucherList = voucherService.findAll();
 
         // when
-        voucherService.update(new VoucherUpdateRequest(voucherList.getVoucherList().get(0).getVoucherId(), 1000, VoucherType.PERCENT));
+        voucherService.update(new VoucherUpdateRequest(voucherList.getVoucherList().get(0).getVoucherId(), 100, VoucherType.PERCENT));
         VoucherListResponse voucherListUpdated = voucherService.findAll();
 
         // then
-        assertThat(voucherListUpdated.getVoucherList().get(0).getDiscountAmount()).isEqualTo(1000);
+        assertThat(voucherListUpdated.getVoucherList().get(0).getDiscountAmount()).isEqualTo(100);
     }
 
     @Test
@@ -75,7 +76,7 @@ public class VoucherServiceTest {
     void getVoucherList() {
         // given
         VoucherCreateRequest voucher1 = new VoucherCreateRequest(3000, VoucherType.FIXED);
-        VoucherCreateRequest voucher2 = new VoucherCreateRequest(2000, VoucherType.PERCENT);
+        VoucherCreateRequest voucher2 = new VoucherCreateRequest(100, VoucherType.PERCENT);
         voucherService.save(voucher1);
         voucherService.save(voucher2);
 
@@ -84,7 +85,7 @@ public class VoucherServiceTest {
 
         // then
         assertThat(voucherList.getVoucherList().get(0).getDiscountAmount()).isEqualTo(3000);
-        assertThat(voucherList.getVoucherList().get(1).getDiscountAmount()).isEqualTo(2000);
+        assertThat(voucherList.getVoucherList().get(1).getDiscountAmount()).isEqualTo(100);
     }
 
     @Test
@@ -108,7 +109,7 @@ public class VoucherServiceTest {
     void deleteAll() {
         // given
         VoucherCreateRequest voucher1 = new VoucherCreateRequest(3000, VoucherType.FIXED);
-        VoucherCreateRequest voucher2 = new VoucherCreateRequest(2000, VoucherType.PERCENT);
+        VoucherCreateRequest voucher2 = new VoucherCreateRequest(100, VoucherType.PERCENT);
 
         voucherService.save(voucher1);
         voucherService.save(voucher2);

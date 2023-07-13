@@ -1,9 +1,10 @@
 package com.programmers.springweekly.domain.customer;
 
 import com.programmers.springweekly.util.Validator.CustomerValidator;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.UUID;
 
 @Getter
 public class Customer {
@@ -14,7 +15,7 @@ public class Customer {
     private final CustomerType customerType;
 
     @Builder
-    public Customer(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {
+    private Customer(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {
         CustomerValidator.validateCustomer(customerName, customerEmail, customerType);
 
         this.customerId = customerId;

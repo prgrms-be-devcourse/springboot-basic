@@ -5,9 +5,11 @@ import com.programmers.springweekly.dto.voucher.request.VoucherUpdateRequest;
 import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.service.VoucherService;
-import java.util.UUID;
+import com.programmers.springweekly.util.Validator.VoucherValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -16,10 +18,20 @@ public class VoucherController {
     private final VoucherService voucherService;
 
     public void save(VoucherCreateRequest voucherCreateRequest) {
+        VoucherValidator.validateVoucher(
+                voucherCreateRequest.getVoucherType(),
+                String.valueOf(voucherCreateRequest.getDiscountAmount())
+        );
+
         voucherService.save(voucherCreateRequest);
     }
 
     public void update(VoucherUpdateRequest voucherUpdateRequest) {
+        VoucherValidator.validateVoucher(
+                voucherUpdateRequest.getVoucherType(),
+                String.valueOf(voucherUpdateRequest.getDiscountAmount())
+        );
+        
         voucherService.update(voucherUpdateRequest);
     }
 

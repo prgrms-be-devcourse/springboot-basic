@@ -1,10 +1,11 @@
 package com.programmers.springweekly.domain.wallet;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class WalletTest {
 
@@ -12,7 +13,11 @@ public class WalletTest {
     @DisplayName("바우처 지갑을 생성할 수 있다.")
     void createWallet() {
         // given && when
-        Wallet wallet = new Wallet(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
+        Wallet wallet = Wallet.builder()
+                .walletId(UUID.randomUUID())
+                .customerId(UUID.randomUUID())
+                .voucherId(UUID.randomUUID())
+                .build();
 
         // then
         assertThat(wallet).isInstanceOf(Wallet.class);

@@ -5,9 +5,11 @@ import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
-import java.util.UUID;
+import com.programmers.springweekly.util.Validator.CustomerValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -16,10 +18,22 @@ public class CustomerController {
     private final CustomerService customerService;
 
     public CustomerResponse save(CustomerCreateRequest customerCreateRequest) {
+        CustomerValidator.validateCustomer(
+                customerCreateRequest.getCustomerName(),
+                customerCreateRequest.getCustomerEmail(),
+                customerCreateRequest.getCustomerType()
+        );
+
         return customerService.save(customerCreateRequest);
     }
 
     public void update(CustomerUpdateRequest customerUpdateRequest) {
+        CustomerValidator.validateCustomer(
+                customerUpdateRequest.getCustomerName(),
+                customerUpdateRequest.getCustomerEmail(),
+                customerUpdateRequest.getCustomerType()
+        );
+
         customerService.update(customerUpdateRequest);
     }
 

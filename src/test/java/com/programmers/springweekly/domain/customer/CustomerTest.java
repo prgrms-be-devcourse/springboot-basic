@@ -1,13 +1,14 @@
 package com.programmers.springweekly.domain.customer;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 public class CustomerTest {
@@ -16,7 +17,12 @@ public class CustomerTest {
     @DisplayName("고객을 생성할 수 있다.")
     void createCustomer() {
         // given && when
-        Customer customer = new Customer(UUID.randomUUID(), "changhyeonh", "changhyeon.h@kakao.com", CustomerType.BLACKLIST);
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .customerName("changhyeon")
+                .customerEmail("changhyeon.h@kakao.com")
+                .customerType(CustomerType.BLACKLIST)
+                .build();
 
         // then
         assertThat(customer).isInstanceOf(Customer.class);

@@ -1,11 +1,6 @@
 package com.programmers.springweekly.repository.wallet;
 
 import com.programmers.springweekly.domain.wallet.Wallet;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
-import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,6 +8,12 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Slf4j
@@ -97,7 +98,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
         try {
             template.queryForObject(sql, param, walletRowMapper());
-            
+
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;
@@ -105,11 +106,12 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     }
 
     private RowMapper<Wallet> walletRowMapper() {
-        return ((resultSet, rowMap) -> new Wallet(
-                UUID.fromString(resultSet.getString("wallet_id")),
-                UUID.fromString(resultSet.getString("customer_id")),
-                UUID.fromString(resultSet.getString("voucher_id"))
-        ));
+        return ((resultSet, rowMap) -> Wallet.builder()
+                .walletId(UUID.fromString(resultSet.getString("wallet_id")))
+                .customerId(UUID.fromString(resultSet.getString("customer_id")))
+                .voucherId(UUID.fromString(resultSet.getString("voucher_id")))
+                .build()
+        );
     }
 
 }

@@ -1,10 +1,11 @@
 package com.programmers.springweekly.util.Validator;
 
 import com.programmers.springweekly.domain.voucher.VoucherType;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class VoucherValidator {
@@ -13,7 +14,7 @@ public final class VoucherValidator {
     private static final int PERCENT_MAX = 100;
     private static final int PERCENT_AND_FIXED_MIN = 0;
 
-    public static void validateInputVoucherInfo(VoucherType voucherType, String discountAmount) {
+    public static void validateVoucher(VoucherType voucherType, String discountAmount) {
         if (voucherType == VoucherType.FIXED) {
             validateNumber(discountAmount);
             validateFixedRange(discountAmount);
@@ -22,6 +23,10 @@ public final class VoucherValidator {
         if (voucherType == VoucherType.PERCENT) {
             validateNumber(discountAmount);
             validatePercentRange(discountAmount);
+        }
+
+        if (voucherType != VoucherType.FIXED && voucherType != VoucherType.PERCENT) {
+            throw new IllegalArgumentException("Input : " + voucherType + "입력하신 타입은 없는 타입입니다.");
         }
     }
 
