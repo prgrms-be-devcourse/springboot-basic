@@ -4,6 +4,7 @@ import com.example.demo.common.io.Output;
 import com.example.demo.voucher.application.VoucherService;
 import com.example.demo.common.command.Command;
 import org.springframework.stereotype.Component;
+
 @Component("list")
 public class ListCommand implements Command {
 

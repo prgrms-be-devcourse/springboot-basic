@@ -62,14 +62,6 @@ class JDBCRepositoryTest {
     @Autowired
     private JDBCRepository jdbcRepository;
 
-    private Voucher voucher;
-
-    @BeforeEach
-    void setUp() {
-        UUID voucherId = UUID.randomUUID();
-        long value = 100L;
-        voucher = VoucherType.FIXED_AMOUNT_VOUCHER.createVoucher(voucherId, value);
-    }
 
     @AfterEach
     void tearDown() {
@@ -80,6 +72,9 @@ class JDBCRepositoryTest {
     @DisplayName("아이디로 조회")
     void findById() {
         // Given
+        UUID voucherId = UUID.randomUUID();
+        long value = 100L;
+        Voucher voucher = VoucherType.FIXED_AMOUNT_VOUCHER.createVoucher(voucherId, value);
         jdbcRepository.insert(voucher);
 
         // When
@@ -94,6 +89,9 @@ class JDBCRepositoryTest {
     @DisplayName("모든 데이터 검색")
     void findAll() {
         // Given
+        UUID voucherId = UUID.randomUUID();
+        long value = 100L;
+        Voucher voucher = VoucherType.FIXED_AMOUNT_VOUCHER.createVoucher(voucherId, value);
         jdbcRepository.insert(voucher);
 
         // When
@@ -108,7 +106,9 @@ class JDBCRepositoryTest {
     @DisplayName("바우처 삽입")
     void insert() {
         // Given
-        // voucher is set up in the BeforeEach block
+        UUID voucherId = UUID.randomUUID();
+        long value = 100L;
+        Voucher voucher = VoucherType.FIXED_AMOUNT_VOUCHER.createVoucher(voucherId, value);
 
         // When
         jdbcRepository.insert(voucher);
@@ -116,7 +116,5 @@ class JDBCRepositoryTest {
         // Then
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "vouchers");
         assertEquals(count, 1);
-        //assertThat(count).isEqualTo(1);
     }
 }
-

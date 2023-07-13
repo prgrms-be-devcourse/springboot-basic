@@ -51,5 +51,4 @@ public class CreateCommand implements Command {
                 .map(type -> type.getCounter() + " : " + info.toMessage(type))
                 .forEach(output::printLine);
     }
-
 }
