@@ -21,13 +21,13 @@ public class VoucherApiController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<VoucherResponseDto> create(@RequestBody VoucherRequestDto requestDto) {
         VoucherResponseDto response = voucherService.create(requestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<VoucherResponseDto>> findAllByCondition(
             @RequestParam @Nullable String type) {
         if (type != null) {
