@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import static com.programmers.voucher.testutil.VoucherTestUtil.createFixedVoucherDto;
 import static com.programmers.voucher.testutil.VoucherTestUtil.createPercentVoucherDto;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -40,15 +41,13 @@ class VoucherConsoleControllerTest {
         //given
         VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10);
 
-        given(console.inputVoucherCreateInfo()).willReturn(request);
         given(voucherService.createVoucher(any(), anyLong())).willReturn(UUID.randomUUID());
 
         //when
-        voucherController.createVoucher();
+        voucherController.createVoucher(request);
 
         //then
         then(voucherService).should().createVoucher(any(), anyLong());
-        then(console).should().print(any());
 
     }
 
@@ -63,24 +62,23 @@ class VoucherConsoleControllerTest {
         given(voucherService.findVouchers()).willReturn(vouchers);
 
         //when
-        voucherController.findVouchers();
+        List<VoucherDto> result = voucherController.findVouchers();
 
         //then
-        then(voucherService).should().findVouchers();
-        then(console).should().printVouchers(any());
+        assertThat(result).usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(fixedVoucher, percentVoucher);
     }
 
     @Test
     @DisplayName("성공: voucher 단건 삭제 요청")
     void deleteVoucher() {
         //given
-        given(console.inputUUID()).willReturn(UUID.randomUUID());
+        UUID voucherId = UUID.randomUUID();
 
         //when
-        voucherController.deleteVoucher();
+        voucherController.deleteVoucher(voucherId);
 
         //then
         then(voucherService).should().deleteVoucher(any());
-        then(console).should().print(any());
     }
 }
