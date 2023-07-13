@@ -1,13 +1,14 @@
 package com.programmers.springbootbasic.common.util;
 
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public final class Parser {
     private static final Long ZERO = 0L;
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-    private static final String END_OF_DAY = "23:59:59.999";
     private static final String INVALID_DATETIME = "잘못된 날짜/시간입니다. 현재 입력 값: ";
     private static final String INVALID_NUMBER = "잘못된 수입니다. 현재 입력 값: ";
 
@@ -38,7 +39,12 @@ public final class Parser {
     }
 
     private LocalDateTime dateParseToLocalDateTime(String date) {
-        return datetimeParseToLocalDateTime(String.format("%s %s", date, END_OF_DAY));
+        try {
+            return LocalDate.parse(date)
+                    .atTime(LocalTime.MAX);
+        } catch (DateTimeException e) {
+            throw new IllegalArgumentException(INVALID_DATETIME + date);
+        }
     }
 
     private LocalDateTime datetimeParseToLocalDateTime(String datetime) {
