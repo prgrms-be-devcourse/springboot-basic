@@ -30,4 +30,8 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public void deleteVouchers() {
+        voucherRepository.deleteAll();
+    }
+
 }

@@ -34,6 +34,7 @@ public class ApplicationController implements CommandLineRunner {
                 case EXIT -> isRunning = false;
                 case CREATE -> createVoucher();
                 case LIST -> displayVouchers();
+                case DELETE_ALL -> removeVouchers();
             }
         }
     }
@@ -61,6 +62,10 @@ public class ApplicationController implements CommandLineRunner {
     private void displayVouchers() {
         List<VoucherDTO> vouchers = voucherController.getVouchers();
         console.displayVoucherInfo(vouchers);
+    }
+
+    private void removeVouchers() {
+        voucherController.deleteVouchers();
     }
 
 }

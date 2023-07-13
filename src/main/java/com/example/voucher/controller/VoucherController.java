@@ -27,4 +27,8 @@ public class VoucherController {
             .toList();
     }
 
+    public void deleteVouchers() {
+        voucherService.deleteVouchers();
+    }
+
 }

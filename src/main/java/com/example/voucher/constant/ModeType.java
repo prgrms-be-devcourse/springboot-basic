@@ -1,13 +1,15 @@
 package com.example.voucher.constant;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
+
 import java.util.Arrays;
 
 public enum ModeType {
 
     EXIT,
     CREATE,
-    LIST;
+    LIST,
+    DELETE_ALL;
 
     public static ModeType getModeType(String inputTypeName) {
         return Arrays.stream(values())
