@@ -22,16 +22,25 @@ repositories {
 }
 
 dependencies {
-    //spring boot starter
+    //Spring boot starter
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    //lombok
+    //Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    //devtools
+    //Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    //JDBC
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    //MySQL
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    //H2
+    runtimeOnly 'com.h2database:h2'
 
     //Assertj
     testImplementation 'org.assertj:assertj-core:3.22.0'

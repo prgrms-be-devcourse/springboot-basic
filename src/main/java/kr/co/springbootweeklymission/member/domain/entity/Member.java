@@ -1,14 +1,12 @@
 package kr.co.springbootweeklymission.member.domain.entity;
 
-import kr.co.springbootweeklymission.member.api.dto.response.MemberResDTO;
+import kr.co.springbootweeklymission.member.api.dto.request.MemberReqDTO;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
+@Getter
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {
@@ -22,14 +20,18 @@ public class Member {
         this.memberStatus = memberStatus;
     }
 
-    public static MemberResDTO.READ toMemberReadDto(Member member) {
-        return MemberResDTO.READ.builder()
-                .memberId(member.memberId)
-                .memberStatus(member.memberStatus)
+    public static Member toMember(MemberReqDTO.CREATE create) {
+        return Member.builder()
+                .memberId(UUID.randomUUID())
+                .memberStatus(create.getMemberStatus())
                 .build();
     }
 
     public boolean isBlackMember() {
         return this.memberStatus == MemberStatus.BLACK;
+    }
+
+    public void updateMemberInformation(MemberReqDTO.UPDATE update) {
+        this.memberStatus = update.getMemberStatus();
     }
 }

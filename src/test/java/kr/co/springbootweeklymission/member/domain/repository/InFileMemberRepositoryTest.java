@@ -1,7 +1,6 @@
-package kr.co.springbootweeklymission.member.repository;
+package kr.co.springbootweeklymission.member.domain.repository;
 
 import kr.co.springbootweeklymission.member.domain.entity.Member;
-import kr.co.springbootweeklymission.member.domain.repository.InFileMemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ public class InFileMemberRepositoryTest {
     @DisplayName("저장된_모든_블랙_회원을_CSV_파일로부터_조회한다 - SUCCESS")
     void 저장된_모든_블랙_회원을_CSV_파일로부터_조회한다() {
         //given & when
-        List<Member> actual = memberRepository.findMembersByBlack();
+        List<Member> actual = memberRepository.findAllByBlack();
 
         //then
         assertThat(actual).allMatch(Member::isBlackMember);

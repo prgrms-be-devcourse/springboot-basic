@@ -1,6 +1,7 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
 import kr.co.springbootweeklymission.infrastructure.error.exception.FileIOException;
+import kr.co.springbootweeklymission.infrastructure.error.exception.NotSupportedException;
 import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.infrastructure.util.FileConverter;
 import kr.co.springbootweeklymission.voucher.api.dto.response.VoucherResDTO;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Profile("dev")
+@Profile("file")
 @Repository
 public class InFileVoucherRepository implements VoucherRepository {
     private static final File VOUCHER_FILE = new File("src/main/resources/files/voucher_file.txt");
@@ -23,7 +24,7 @@ public class InFileVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         try {
             final Writer writer = new FileWriter(VOUCHER_FILE, true);
-            final VoucherResDTO.FILE file = Voucher.toVoucherFile(voucher);
+            final VoucherResDTO.FILE file = VoucherResDTO.FILE.toVoucherFile(voucher);
             writer.write(FileConverter.toVoucherString(file));
             writer.flush();
             writer.close();
@@ -58,6 +59,21 @@ public class InFileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_VOUCHER);
         }
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
+    }
+
+    @Override
+    public void delete(Voucher voucher) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
+    }
+
+    @Override
+    public void deleteAll() {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
     }
 
     private static Optional<Voucher> getVoucherById(UUID voucherId,

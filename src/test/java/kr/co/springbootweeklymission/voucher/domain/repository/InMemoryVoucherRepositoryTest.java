@@ -26,7 +26,7 @@ public class InMemoryVoucherRepositoryTest {
 
     @AfterEach
     void afterEach() {
-        voucherRepository.clear();
+        voucherRepository.deleteAll();
     }
 
     @Test

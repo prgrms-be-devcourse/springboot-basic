@@ -13,4 +13,13 @@ public class VoucherReqDTO {
         private int amount;
         private VoucherPolicy voucherPolicy;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class UPDATE {
+        private int amount;
+        private VoucherPolicy voucherPolicy;
+    }
 }

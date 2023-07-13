@@ -1,6 +1,9 @@
 package kr.co.springbootweeklymission.voucher.domain.repository;
 
+import kr.co.springbootweeklymission.infrastructure.error.exception.NotSupportedException;
+import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Profile("memory")
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {
     private static final Map<UUID, Voucher> VOUCHER_MEMORY = new ConcurrentHashMap<>();
@@ -31,7 +35,18 @@ public class InMemoryVoucherRepository implements VoucherRepository {
                 .toList();
     }
 
-    public void clear() {
+    @Override
+    public void update(Voucher voucher) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_UPDATE);
+    }
+
+    @Override
+    public void delete(Voucher voucher) {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_DELETE);
+    }
+
+    @Override
+    public void deleteAll() {
         VOUCHER_MEMORY.clear();
     }
 }
