@@ -33,20 +33,26 @@ public class CustomerService {
 
     @Transactional
     public void deleteCustomer(CustomerUpdateRequest updateRequest) {
-        String email = updateRequest.email();
-        customerRepository.deleteByEmail(email);
+        deleteCustomer(updateRequest.email());
+    }
+
+    public void deleteCustomer(String customerEmail) {
+        customerRepository.deleteByEmail(customerEmail);
     }
 
     public void deleteAllCustomers() {
         customerRepository.deleteAll();
     }
 
-
     public CustomerResponse findDetailCustomer(CustomerUpdateRequest updateRequest) {
-        String email = updateRequest.email();
-        Customer customer = validateCustomerExistAndGet(email);
+        return findDetailCustomer(updateRequest.email());
+    }
+
+    public CustomerResponse findDetailCustomer(String customerEmail) {
+        Customer customer = validateCustomerExistAndGet(customerEmail);
         return CustomerResponse.of(customer);
     }
+
 
     public CustomersResponse findAllCustomer() {
         List<Customer> customers = customerRepository.findAll();
