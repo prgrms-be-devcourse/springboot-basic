@@ -47,16 +47,17 @@ class ListCommandTest {
 
     @Test
     public void testExecute() {
+        //given
         List<VoucherResponse> vouchers = new ArrayList<>();
         vouchers.add(new VoucherResponse(fixedVoucher));
         vouchers.add(new VoucherResponse(percentVoucher));
 
-        // voucherService.getAllVoucherList가 호출될 때 반환되는 값을 정의
+        //when
         Mockito.when(voucherService.getAllVoucherList()).thenReturn(vouchers);
 
         listCommand.execute(viewManager);
 
-        // viewManager.viewVoucherList가 정확히 한 번 호출되는지 검증
+        //then
         Mockito.verify(viewManager, times(1)).viewVoucherList(vouchers);
     }
 }
