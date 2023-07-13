@@ -14,5 +14,5 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
-    Voucher delete(UUID voucherId);
+    Voucher deleteById(UUID voucherId);
 }

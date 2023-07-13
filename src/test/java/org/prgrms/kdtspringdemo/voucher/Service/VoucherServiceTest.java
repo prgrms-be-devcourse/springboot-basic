@@ -117,7 +117,7 @@ public class VoucherServiceTest {
         Voucher voucher = new FixedAmountVoucher(1000);
 
         //mocking
-        given(voucherRepository.delete(any())).willReturn(voucher);
+        given(voucherRepository.deleteById(any())).willReturn(voucher);
 
         //when
         VoucherResponseDto responseDto = voucherService.delete(voucher.getVoucherId());

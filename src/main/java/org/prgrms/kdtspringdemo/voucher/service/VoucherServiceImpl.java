@@ -72,7 +72,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherResponseDto delete(UUID voucherId) {
-        Voucher deleteVoucher = voucherRepository.delete(voucherId);
+        Voucher deleteVoucher = voucherRepository.deleteById(voucherId);
 
         return VoucherResponseDto.toDto(deleteVoucher.getVoucherId(), deleteVoucher.getVoucherType(), deleteVoucher.getAmount());
     }
