@@ -1,13 +1,14 @@
 package com.prgms.springbootbasic;
 
-import com.prgms.springbootbasic.global.MenuController;
-import com.prgms.springbootbasic.global.util.Application;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class CommanmdLineApplication {
 	
 	public static void main(String[] args) {
-		MenuController controller = Application.menuController();
-		while (controller.run());
+		ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+		MainController controller = ac.getBean(MainController.class);
+		controller.run();
 	}
 	
 }
