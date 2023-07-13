@@ -9,13 +9,12 @@ import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
+import prgms.spring_week1.domain.voucher.repository.impl.sql.VoucherManageSql;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -44,7 +43,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        var update = jdbcTemplate.update("INSERT INTO voucher(voucher_id,voucher_type, discount, created_at) VALUES (UUID_TO_BIN(:voucherId),:voucherType, :discount ,:createdAt)",
+        var update = jdbcTemplate.update(VoucherManageSql.insertNewVoucherSQL,
                 toParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
@@ -54,7 +53,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         try {
-            return jdbcTemplate.query("select * from voucher", voucherRowMapper);
+            return jdbcTemplate.query(VoucherManageSql.findVoucherByTypeSQL, voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Collections.emptyList();
@@ -64,7 +63,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByType(String voucherType) {
         try {
-            return jdbcTemplate.query("select * from voucher WHERE voucher_type = :voucherType",
+            return jdbcTemplate.query(VoucherManageSql.findVoucherByTypeSQL,
                     Collections.singletonMap("voucherType", voucherType),
                     voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -75,6 +74,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void delete(VoucherType voucherType) {
-        jdbcTemplate.update("DELETE FROM voucher",new HashMap<>());
+        jdbcTemplate.update(VoucherManageSql.deleteAllVoucherSQL, new HashMap<>());
     }
 }
