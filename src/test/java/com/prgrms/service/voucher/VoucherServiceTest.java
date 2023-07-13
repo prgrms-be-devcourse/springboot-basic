@@ -39,7 +39,7 @@ class VoucherServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        voucherService = new VoucherService(voucherRepository,voucherConverter,keyGenerator,voucherCreator);
+        voucherService = new VoucherService(voucherRepository, voucherConverter, keyGenerator, voucherCreator);
     }
 
     @Test

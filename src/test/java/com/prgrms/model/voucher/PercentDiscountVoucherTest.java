@@ -13,9 +13,9 @@ class PercentDiscountVoucherTest {
 
     private final int voucherId = 1;
     private final int orderId = 1;
-    private final int quantity =1;
+    private final int quantity = 1;
     private OrderItem orderItem;
-    private Price productPrice = new Price( 1000);
+    private Price productPrice = new Price(1000);
 
     @BeforeEach
     void setUp() {
@@ -23,7 +23,7 @@ class PercentDiscountVoucherTest {
     }
 
     @Test
-    @DisplayName("할인된 금액이 제대로 나오는지 확인한다.")
+    @DisplayName("할인율 정책이 적용되어 알맞은 할인된 금액으로 나온다.")
     void discountPrice_DiscountedPrice_Equal() {
         //given
         Voucher createdVoucher = new PercentDiscountVoucher(voucherId, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);

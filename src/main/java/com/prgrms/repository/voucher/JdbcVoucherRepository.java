@@ -21,16 +21,17 @@ import java.util.*;
 @Primary
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
+
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final String SELECT_COLUMN = "voucher_id, voucher_type, discount";
 
-    private VoucherCreator voucherFactory;
+    private VoucherCreator voucherCreator;
     private DiscountCreator discountCreator = new DiscountCreator();
 
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate, VoucherCreator voucherFactory) {
+    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate, VoucherCreator voucherCreator) {
         this.jdbcTemplate = jdbcTemplate;
-        this.voucherFactory = voucherFactory;
+        this.voucherCreator = voucherCreator;
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -38,7 +39,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         double discountValue = resultSet.getDouble("discount");
         Discount discount = discountCreator.createDiscount(discountValue, voucherType);
-        return voucherFactory.createVoucher(voucherId, new VoucherRequest(voucherType, discount));
+        return voucherCreator.createVoucher(voucherId, new VoucherRequest(voucherType, discount));
     };
 
     private Map<String, Object> toParamMap(Voucher voucher) {

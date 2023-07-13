@@ -17,7 +17,7 @@ import java.util.*;
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
-    private final String COLUMNS = "customer_id, name, email, created_at";
+    private final String COLUMNS = "last_login_at, customer_id, name, email, created_at";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {

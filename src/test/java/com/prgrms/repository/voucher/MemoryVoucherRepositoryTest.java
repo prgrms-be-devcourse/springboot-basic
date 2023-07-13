@@ -26,8 +26,8 @@ class MemoryVoucherRepositoryTest {
     void findById_InsertVoucher_EqualsReturnVoucher() {
         //given
         Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-
         voucherRepository.insert(voucher);
+
         //when
         Optional<Voucher> result = voucherRepository.findById(voucherId);
 

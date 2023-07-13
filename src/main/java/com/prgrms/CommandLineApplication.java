@@ -1,15 +1,17 @@
 package com.prgrms;
 
 import com.prgrms.presentation.Menu;
-import com.prgrms.presentation.view.ViewManager;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.command.CommandCreator;
 import com.prgrms.presentation.command.Power;
+import com.prgrms.presentation.view.ViewManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("!test")
 @Component
 public class CommandLineApplication implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
