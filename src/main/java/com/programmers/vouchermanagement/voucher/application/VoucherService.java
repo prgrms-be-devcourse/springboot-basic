@@ -48,6 +48,7 @@ public class VoucherService {
 
     public void updateVoucher(VoucherUpdateRequest request) {
         UUID id = request.id();
+        existsVoucher(id);
         DiscountType discountType = request.type();
         int amount = request.amount();
         DiscountPolicy discountPolicy = discountType.createDiscountPolicy(amount);
@@ -56,6 +57,13 @@ public class VoucherService {
     }
 
     public void deleteVoucher(UUID id) {
+        existsVoucher(id);
         voucherRepository.deleteById(id);
+    }
+
+    private void existsVoucher(UUID id) {
+        if (!voucherRepository.existById(id)) {
+            throw new VoucherException(VoucherErrorCode.VOUCHER_NOT_FOUND);
+        }
     }
 }

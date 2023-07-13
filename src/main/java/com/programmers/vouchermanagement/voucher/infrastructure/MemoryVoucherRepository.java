@@ -41,6 +41,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.remove(id);
     }
 
+    @Override
+    public boolean existById(UUID id) {
+        return storage.containsKey(id);
+    }
+
     public void clearStorage() {
         storage.clear();
     }
