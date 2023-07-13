@@ -1,0 +1,65 @@
+package com.prgrms.presentation.view;
+
+import com.prgrms.model.voucher.VoucherType;
+import com.prgrms.dto.voucher.VoucherRequest;
+import com.prgrms.dto.voucher.VoucherResponse;
+import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.discount.DiscountCreator;
+import com.prgrms.presentation.Menu;
+import com.prgrms.presentation.message.GuideMessage;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+
+@Component
+public class ViewManager {
+
+    private final Output output;
+    private final Input input;
+    private final DiscountCreator discountCreator = new DiscountCreator();
+
+    public ViewManager(Output output, Input input) {
+        this.output = output;
+        this.input = input;
+    }
+
+    public Menu guideStartVoucher() {
+        output.write(GuideMessage.START.toString());
+        String option = input.enterOption();
+        return Menu.findByMenu(option);
+    }
+
+    public VoucherRequest guideCreateVoucher() {
+        Arrays.stream(VoucherType.values())
+                .forEach(voucherPolicy -> output.write(voucherPolicy.voucherPolicyOptionGuide()));
+
+        String option = input.enterOption();
+        VoucherType voucherType = VoucherType.findByType(option);
+
+        return guideVoucherPolicy(voucherType);
+    }
+
+    private VoucherRequest guideVoucherPolicy(VoucherType voucherType) {
+        output.write(voucherType.discountGuide());
+        double discountAmount = input.enterDiscount();
+
+        Discount discount = discountCreator.createDiscount(discountAmount, voucherType);
+
+        output.write(GuideMessage.COMPLETE_CREATE.toString());
+
+        return new VoucherRequest(voucherType, discount);
+    }
+
+    public void guideClose() {
+        output.write(GuideMessage.CLOSE.toString());
+    }
+
+    public void viewVoucherList(List<VoucherResponse> vouchers) {
+        vouchers.forEach(v -> output.write(v.toString()));
+    }
+
+    public void viewError(String exceptionMessage) {
+        output.write(exceptionMessage);
+    }
+}

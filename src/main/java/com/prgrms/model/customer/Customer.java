@@ -1,6 +1,6 @@
 package com.prgrms.model.customer;
 
-import com.prgrms.view.message.ErrorMessage;
+import com.prgrms.presentation.message.ErrorMessage;
 
 import java.time.LocalDateTime;
 
@@ -21,10 +21,8 @@ public class Customer {
     }
 
     private void validateName(String name) {
-        try {
-            name.isEmpty();
-        } catch (NullPointerException e) {
-            throw new RuntimeException(ErrorMessage.NULL_ARGUMENT.getMessage());
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(ErrorMessage.NULL_ARGUMENT.getMessage());
         }
     }
 
@@ -42,8 +40,8 @@ public class Customer {
         this.name = name;
     }
 
-    public void login() {
-        this.lastLoginAt = LocalDateTime.now();
+    public void login(LocalDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
     }
 
     public int getCustomerId() {

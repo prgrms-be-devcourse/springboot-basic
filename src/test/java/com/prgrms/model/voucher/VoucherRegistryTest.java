@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class VoucherRegistryTest {
 
     @Test
-    @DisplayName("정책이 등록되어 있지 않다면 true를 반환한다.")
+    @DisplayName("바우처 정책이 등록되어 있지 않다면 true를 반환한다.")
     void isEmpty_True() {
         //given
         List<Voucher> list = new ArrayList<>();

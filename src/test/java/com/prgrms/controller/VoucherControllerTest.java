@@ -1,11 +1,11 @@
 package com.prgrms.controller;
 
 import com.prgrms.model.voucher.*;
-import com.prgrms.model.voucher.dto.VoucherRequest;
-import com.prgrms.model.voucher.dto.VoucherResponse;
-import com.prgrms.model.voucher.dto.discount.FixedDiscount;
-import com.prgrms.model.voucher.dto.discount.PercentDiscount;
-import com.prgrms.model.voucher.dto.mapper.DtoConverter;
+import com.prgrms.dto.voucher.VoucherRequest;
+import com.prgrms.dto.voucher.VoucherResponse;
+import com.prgrms.model.voucher.discount.FixedDiscount;
+import com.prgrms.model.voucher.discount.PercentDiscount;
+import com.prgrms.dto.voucher.VoucherConverter;
 import com.prgrms.service.voucher.VoucherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,22 +18,29 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 public class VoucherControllerTest {
 
     @Mock
     private VoucherService voucherService;
     @Mock
-    private DtoConverter dtoConverter;
+    private VoucherConverter dtoConverter;
+
 
     private VoucherController voucherController;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        voucherController = new VoucherController(voucherService);
+    }
 
     private Voucher createdVoucher1;
     private Voucher createdVoucher2;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
-        voucherController = new VoucherController(voucherService);
         int voucherId1 = 1;
         int voucherId2 = 2;
 
@@ -43,7 +50,7 @@ public class VoucherControllerTest {
 
     @Test
     @DisplayName("바우처 컨트롤러가 할인 정책에 맞는 바우처 정책을 생산하는지 확인한다.")
-    public void createVoucher_CreatedVoucher_Equal() {
+    void createVoucher_CreatedVoucher_Equal() {
         // Given
         VoucherRequest voucherRequest = new VoucherRequest(VoucherType.FIXED_AMOUNT_VOUCHER, new FixedDiscount(20));
         Mockito.when(voucherService.createVoucher(voucherRequest)).thenReturn(createdVoucher1);
@@ -59,7 +66,7 @@ public class VoucherControllerTest {
 
     @Test
     @DisplayName("voucherId 가 다른 두 바우처 정책의 리스트를 잘 만드는지 테스트한다.")
-    public void listVoucher_DifferentVoucherId_Equal() {
+    void listVoucher_DifferentVoucherId_Equal() {
         // Given
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
         Vouchers voucherRegistry = new Vouchers(list);
@@ -77,7 +84,7 @@ public class VoucherControllerTest {
 
     @Test
     @DisplayName("voucherId 가 같은 두 바우처 정책의 리스트를 잘 만드는지 테스트한다. 통과되므로 추후에 중복의 경우를 만들지 못하도록 예외로")
-    public void listVoucher_SameVoucherId_Equal() {
+    void listVoucher_SameVoucherId_Equal() {
         // given
         List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
         Vouchers voucherRegistry = new Vouchers(list);

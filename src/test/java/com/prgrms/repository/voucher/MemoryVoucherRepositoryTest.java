@@ -1,8 +1,8 @@
 package com.prgrms.repository.voucher;
 
 import com.prgrms.model.voucher.*;
-import com.prgrms.model.voucher.dto.discount.FixedDiscount;
-import com.prgrms.model.voucher.dto.discount.PercentDiscount;
+import com.prgrms.model.voucher.discount.FixedDiscount;
+import com.prgrms.model.voucher.discount.PercentDiscount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("새롭게 추가된 바우처를 넣고 이 아이디로 검색한 결과, 새롭게 추가된 바우처와 검색한 결과의 바우처는 같다.")
-    public void findById_InsertVoucher_EqualsReturnVoucher() {
+    void findById_InsertVoucher_EqualsReturnVoucher() {
         //given
         Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
 
@@ -39,7 +39,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("존재하지 않은 바우처를 아이디로 검색했을 때 빈값을 반환한다.")
-    public void findById_NonExistingVoucherId_ReturnsEmptyOptional() {
+    void findById_NonExistingVoucherId_ReturnsEmptyOptional() {
         //when
         Optional<Voucher> result = voucherRepository.findById(voucherId);
 
@@ -49,7 +49,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("추가된 바우처와 추가하면서 반환한 바우처는 같다.")
-    public void insert_InsertedVoucher_EqualsReturnVoucher() {
+    void insert_InsertedVoucher_EqualsReturnVoucher() {
         //given
         Voucher voucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
 
@@ -63,7 +63,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("모든 바우처를 조회했을 때 추가한 바우처의 목록과 같다.")
-    public void getAllVoucher_AllVouchers_SameContents() {
+    void getAllVoucher_AllVouchers_SameContents() {
         //given
         Voucher createdVoucher1 = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
         Voucher createdVoucher2 = new PercentDiscountVoucher(voucherId, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
