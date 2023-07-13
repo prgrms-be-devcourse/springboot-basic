@@ -2,6 +2,7 @@ package com.prgms.VoucherApp.domain.customer.controller;
 
 import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
+import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import com.prgms.VoucherApp.domain.customer.model.CustomerService;
 import com.prgms.VoucherApp.domain.customer.model.CustomerStatus;
@@ -49,6 +50,21 @@ public class CustomerController {
     public String addCustomer(@ModelAttribute CustomerCreateRequest customerCreateRequest) {
         customerService.save(customerCreateRequest);
         return "redirect:/customers";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editCustomerForm(@PathVariable String id, Model model) {
+        UUID inputCustomerId = UUID.fromString(id);
+        CustomerResponse findCustomer = customerService.findOne(inputCustomerId);
+        model.addAttribute("customer", findCustomer);
+        model.addAttribute("customerStatusList", CustomerStatus.values());
+        return "customer/edit_customer";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String editCustomer(@PathVariable String id, @ModelAttribute CustomerUpdateRequest customerUpdateRequest) {
+        customerService.update(customerUpdateRequest);
+        return "redirect:/customers/{id}";
     }
 
 }

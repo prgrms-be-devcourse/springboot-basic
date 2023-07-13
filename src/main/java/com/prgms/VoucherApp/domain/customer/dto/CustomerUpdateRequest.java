@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public record CustomerUpdateRequest(
         UUID id,
-        CustomerStatus status
+        CustomerStatus customerStatus
 ) {
 
     public Customer toEntity() {
-        Customer customer = new Customer(id, status);
+        Customer customer = new Customer(id, customerStatus);
         return customer;
     }
 }

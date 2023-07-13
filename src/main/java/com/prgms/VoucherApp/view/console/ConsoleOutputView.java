@@ -143,14 +143,14 @@ public class ConsoleOutputView implements Output {
             return;
         }
         findVouchers.forEach((
-            voucher -> textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}",
-                voucher.voucherId(), voucher.amount(), voucher.voucherType()))));
+                voucher -> textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}",
+                        voucher.voucherId(), voucher.amount(), voucher.voucherType()))));
     }
 
     @Override
     public void printVoucher(VoucherResponse voucher) {
         textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}",
-            voucher.voucherId(), voucher.amount(), voucher.voucherType()));
+                voucher.voucherId(), voucher.amount(), voucher.voucherType()));
     }
 
     @Override
@@ -162,8 +162,8 @@ public class ConsoleOutputView implements Output {
         }
 
         blacklists.getCustomers()
-            .forEach((blackList -> textTerminal.println(MessageFormat.format("id : {0} status : {1}",
-                blackList.customerId(), blackList.customerStatus()))));
+                .forEach((blackList -> textTerminal.println(MessageFormat.format("id : {0} customerStatus : {1}",
+                        blackList.customerId(), blackList.customerStatus()))));
     }
 
     @Override
@@ -174,20 +174,20 @@ public class ConsoleOutputView implements Output {
         }
 
         customers.getCustomers()
-            .forEach((customer) -> textTerminal.println(MessageFormat.format("id : {0} status : {1}",
-                customer.customerId(), customer.customerStatus())));
+                .forEach((customer) -> textTerminal.println(MessageFormat.format("id : {0} customerStatus : {1}",
+                        customer.customerId(), customer.customerStatus())));
     }
 
     @Override
     public void printCustomer(CustomerResponse customer) {
-        textTerminal.println(MessageFormat.format("id : {0} status : {1}",
-            customer.customerId(), customer.customerStatus()));
+        textTerminal.println(MessageFormat.format("id : {0} customerStatus : {1}",
+                customer.customerId(), customer.customerStatus()));
     }
 
     @Override
     public void printWallet(WalletResponse wallet) {
         textTerminal.println(MessageFormat.format("id : {0} customer : {1} voucher : {2}",
-            wallet.id(), wallet.customerResponse(), wallet.voucherResponse()));
+                wallet.id(), wallet.customerResponse(), wallet.voucherResponse()));
     }
 
     @Override
@@ -198,8 +198,8 @@ public class ConsoleOutputView implements Output {
         }
 
         wallets.wallets()
-            .forEach((wallet) -> textTerminal.println(MessageFormat.format("id : {0} customer : {1} voucher : {2}",
-                wallet.id(), wallet.customerResponse(), wallet.voucherResponse())));
+                .forEach((wallet) -> textTerminal.println(MessageFormat.format("id : {0} customer : {1} voucher : {2}",
+                        wallet.id(), wallet.customerResponse(), wallet.voucherResponse())));
     }
 
     @Override
