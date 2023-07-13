@@ -38,6 +38,10 @@ public abstract class AmountVoucher {
         return expirationDate;
     }
 
+    public int getDiscountAmount() {
+        return discountAmount;
+    }
+
     private void validateDiscountAmount(int discountAmount) {
         if (discountAmount <= 0) {
             throw new IllegalArgumentException("할인 값은 0보다 커야합니다.");

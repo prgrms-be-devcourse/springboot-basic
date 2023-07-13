@@ -17,17 +17,16 @@ public class AmountVoucherController {
         return amountVoucherService.createAmountVoucher(
                 new AmountVoucherVo(
                         amountVoucherCreateDto.getAmountVoucherCreationType(),
-                        amountVoucherCreateDto.getOriginalPrice(),
                         amountVoucherCreateDto.getDiscountAmount()
                 )
         );
     }
 
-    public String listVoucher(int originalPrice) {
+    public String listVoucher() {
         List<AmountVoucher> amountVouchers = amountVoucherService.listAmountVoucher();
 
         return amountVouchers.stream()
-                .map(voucher -> new VoucherPrintDto(voucher).getVoucherPrint(originalPrice))
+                .map(voucher -> new VoucherPrintDto(voucher).getVoucherPrint())
                 .collect(Collectors.joining("\n"));
     }
 }

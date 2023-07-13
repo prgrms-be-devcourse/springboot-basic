@@ -11,9 +11,9 @@ public class VoucherPrintDto {
         this.amountVoucher = amountVoucher;
     }
 
-    public String getVoucherPrint(int originalPrice) {
+    public String getVoucherPrint() {
         return formatVoucherOutput(VOUCHER_TYPE, amountVoucher.getCreationTypeName())
-                + formatVoucherOutput(AFTER_DISCOUNT_VALUE, String.valueOf(amountVoucher.discount(originalPrice)))
+                + formatVoucherOutput(DISCOUNT_AMOUNT, String.valueOf(amountVoucher.getDiscountAmount()))
                 + formatVoucherOutput(PUBLISH_DATE, String.valueOf(amountVoucher.getPublishDate()))
                 + formatVoucherOutput(EXPIRATION_DATE, String.valueOf(amountVoucher.getExpirationDate()));
     }

@@ -2,7 +2,7 @@ package org.prgms.voucher.voucher;
 
 public enum VoucherPrintType {
     VOUCHER_TYPE("voucher_type"),
-    AFTER_DISCOUNT_VALUE("after_discount_value"),
+    DISCOUNT_AMOUNT("discount_amount"),
     PUBLISH_DATE("publish_date"),
     EXPIRATION_DATE("expiration_date");
 
