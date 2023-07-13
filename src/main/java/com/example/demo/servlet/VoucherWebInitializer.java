@@ -1,6 +1,5 @@
 package com.example.demo.servlet;
 
-import ch.qos.logback.core.pattern.PostCompileProcessor;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.slf4j.Logger;
