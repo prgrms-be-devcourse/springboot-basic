@@ -1,20 +1,14 @@
 package com.programmers.springbootbasic.voucher.repository;
 
-import com.programmers.springbootbasic.customer.repository.JdbcCustomerRepository;
 import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

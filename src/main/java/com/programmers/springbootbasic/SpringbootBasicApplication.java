@@ -9,10 +9,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class SpringbootBasicApplication {
 
 	public static void main(String[] args) {
-
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(SpringbootBasicApplication.class, args);
 		MenuController menuController = applicationContext.getBean(MenuController.class);
 		menuController.run();
 	}
-
 }

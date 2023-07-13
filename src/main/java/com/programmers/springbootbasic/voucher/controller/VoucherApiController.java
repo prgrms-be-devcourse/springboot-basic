@@ -29,7 +29,6 @@ public class VoucherApiController {
 
     @PostMapping("/create")
     public ResponseEntity<VoucherDto> save(@RequestBody VoucherCreateRequestDto voucherCreateRequestDto) {
-
         VoucherDto voucherDto = voucherService.save(voucherCreateRequestDto);
 
         return ResponseEntity.ok(voucherDto);

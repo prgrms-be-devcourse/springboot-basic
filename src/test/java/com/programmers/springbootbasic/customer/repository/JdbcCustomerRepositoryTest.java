@@ -1,12 +1,10 @@
 package com.programmers.springbootbasic.customer.repository;
 
 import com.programmers.springbootbasic.customer.domain.Customer;
-import com.programmers.springbootbasic.voucher.repository.JdbcVoucherRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
