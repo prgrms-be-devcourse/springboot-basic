@@ -45,7 +45,7 @@ public class VoucherController {
 
     @GetMapping("/detail/{id}")
     public String voucherDetail(@PathVariable("id")UUID voucherId, Model model) {
-        Optional<VoucherDto> voucherDto = voucherService.findVoucherDtoById(voucherId);
+        Optional<VoucherDto> voucherDto = voucherService.findVoucherById(voucherId);
         if (voucherDto.isEmpty()) {
             return "error";
         }

@@ -21,7 +21,7 @@ public class ThymeleafVoucherService {
         return voucherRepository.findAll();
     }
 
-    public Optional<VoucherDto> findVoucherDtoById(UUID voucherId) {
+    public Optional<VoucherDto> findVoucherById(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
         if (voucher.isPresent()) {
             VoucherDto voucherDto = new VoucherDto();
@@ -34,15 +34,17 @@ public class ThymeleafVoucherService {
     }
 
     @Transactional
-    public Voucher createNewVoucher(VoucherDto voucherDto) {
+    public VoucherDto createNewVoucher(VoucherDto voucherDto) {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), voucherDto.getDiscount(), voucherDto.getVoucherType());
-        return voucherRepository.save(newVoucher);
+        voucherRepository.save(newVoucher);
+        return voucherDto;
     }
 
     @Transactional
-    public Voucher updateVoucher(VoucherDto voucherDto) {
+    public VoucherDto updateVoucher(VoucherDto voucherDto) {
         Voucher updateVoucher =  new Voucher(voucherDto.getVoucherId(), voucherDto.getDiscount(), voucherDto.getVoucherType());
-        return voucherRepository.update(updateVoucher);
+        voucherRepository.update(updateVoucher);
+        return voucherDto;
     }
 
     @Transactional
