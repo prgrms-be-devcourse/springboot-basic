@@ -1,7 +1,8 @@
 package org.prgms.vouchermanagement.voucher.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import org.prgms.vouchermanagement.voucher.domain.dto.VoucherDto;
+import org.prgms.vouchermanagement.voucher.domain.dto.response.VoucherResponseDto;
+import org.prgms.vouchermanagement.voucher.domain.dto.request.VoucherSaveRequestDto;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.prgms.vouchermanagement.voucher.service.ThymeleafVoucherService;
 import org.springframework.web.bind.annotation.*;
@@ -22,18 +23,18 @@ public class VoucherApiController {
     }
 
     @PostMapping("/create")
-    public VoucherDto createVoucher(@RequestBody VoucherDto voucherDto) {
+    public VoucherSaveRequestDto createVoucher(@RequestBody VoucherSaveRequestDto voucherDto) {
         return voucherService.createNewVoucher(voucherDto);
     }
 
     @GetMapping("/detail/{id}")
-    public VoucherDto voucherDetail(@PathVariable("id") UUID voucherId) {
-        Optional<VoucherDto> voucher = voucherService.findVoucherById(voucherId);
-        return voucher.orElseGet(VoucherDto::new);
+    public VoucherResponseDto voucherDetail(@PathVariable("id") UUID voucherId) {
+        Optional<VoucherResponseDto> voucher = voucherService.findVoucherById(voucherId);
+        return voucher.orElseThrow();
     }
 
     @PostMapping("/update")
-    public VoucherDto updateVoucher(@RequestBody VoucherDto voucherDto) {
+    public VoucherResponseDto updateVoucher(@RequestBody VoucherResponseDto voucherDto) {
         return voucherService.updateVoucher(voucherDto);
     }
 }

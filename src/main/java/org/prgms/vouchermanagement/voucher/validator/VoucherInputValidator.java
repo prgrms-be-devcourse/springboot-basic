@@ -1,9 +1,11 @@
 package org.prgms.vouchermanagement.voucher.validator;
 
 import org.prgms.vouchermanagement.global.constant.ExceptionMessageConstant;
+import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Component
@@ -28,6 +30,14 @@ public class VoucherInputValidator {
     public void checkPercent(String percent) {
         if (!INTEGER_ONE_TO_NINETY_NINE.matcher(percent).matches()) {
             throw new VoucherException(ExceptionMessageConstant.PERCENT_DISCOUNT_INPUT_EXCEPTION);
+        }
+    }
+
+    public void checkFixedOrPercentAmount(String input, VoucherType voucherType) {
+        if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
+            checkFixedAmount(input);
+        } else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
+            checkPercent(input);
         }
     }
 }

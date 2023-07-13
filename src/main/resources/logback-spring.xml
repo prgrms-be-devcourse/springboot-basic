@@ -30,6 +30,10 @@
         <appender-ref ref="Error"/>
     </logger>
 
+    <logger name="org.prgms.vouchermanagement.voucher.controller.VoucherController" level="error">
+        <appender-ref ref="Error"/>
+    </logger>
+
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
