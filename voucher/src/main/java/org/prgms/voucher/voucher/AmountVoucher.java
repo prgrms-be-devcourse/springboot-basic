@@ -5,22 +5,16 @@ import java.util.UUID;
 
 public abstract class AmountVoucher {
     private final UUID id;
-    protected final int discountAmount;
     private final LocalDate publishDate;
     private final LocalDate expirationDate;
     private final AmountVoucherCreationType amountVoucherCreationType;
 
-    protected AmountVoucher(int discountAmount, AmountVoucherCreationType amountVoucherCreationType) {
-        validateDiscountAmount(discountAmount);
-
+    protected AmountVoucher(AmountVoucherCreationType amountVoucherCreationType) {
         this.id = UUID.randomUUID();
-        this.discountAmount = discountAmount;
         this.publishDate = LocalDate.now();
         this.expirationDate = publishDate.plusMonths(6);
         this.amountVoucherCreationType = amountVoucherCreationType;
     }
-
-    abstract int discount(int originalPrice);
 
     public UUID getId() {
         return id;
@@ -36,15 +30,5 @@ public abstract class AmountVoucher {
 
     public LocalDate getExpirationDate() {
         return expirationDate;
-    }
-
-    public int getDiscountAmount() {
-        return discountAmount;
-    }
-
-    private void validateDiscountAmount(int discountAmount) {
-        if (discountAmount <= 0) {
-            throw new IllegalArgumentException("할인 값은 0보다 커야합니다.");
-        }
     }
 }
