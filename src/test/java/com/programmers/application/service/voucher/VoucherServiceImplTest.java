@@ -18,7 +18,11 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class VoucherServiceImplTest {
     private static final int FIXED_DISCOUNT_AMOUNT = 100;
@@ -42,7 +46,7 @@ class VoucherServiceImplTest {
         UUID voucherId = voucherService.createVoucher(voucherCreationRequest);
 
         //then
-        Assertions.assertThat(voucherRepository.findByVoucherId(voucherId)).isPresent();
+        assertThat(voucherRepository.findByVoucherId(voucherId)).isPresent();
 
     }
 
@@ -81,7 +85,7 @@ class VoucherServiceImplTest {
         String requestVoucherType = voucherType.name().toLowerCase();
 
         //when, then
-        Assertions.assertThatThrownBy(() -> RequestFactory.createVoucherCreationRequest(requestVoucherType , discountAmount))
+        Assertions.assertThatThrownBy(() -> RequestFactory.createVoucherCreationRequest(requestVoucherType, discountAmount))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("바우처 타입과 할인양을 입력해주세요.");
     }
@@ -100,11 +104,37 @@ class VoucherServiceImplTest {
         List<VoucherInfoResponse> voucherList = voucherService.findVoucherList();
 
         //then
-        Assertions.assertThat(voucherList).hasSize(expectedCount);
+        assertThat(voucherList).hasSize(expectedCount);
     }
 
     private void createAndSaveVoucher(List<VoucherCreationRequest> voucherCreationRequestList) {
         voucherCreationRequestList
                 .forEach(voucherService::createVoucher);
+    }
+
+    @DisplayName("바우처 생성 및 저장 시, 해당 바우처 아이디로 findVoucherByVoucherId() 실행하면 바우처가 조회된다.")
+    @Test
+    void findVoucherByVoucherId() {
+        //given
+        VoucherCreationRequest voucherCreationRequest = RequestFactory.createVoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, FIXED_DISCOUNT_AMOUNT);
+        UUID voucherId = voucherService.createVoucher(voucherCreationRequest);
+
+        //when
+        VoucherInfoResponse voucher = voucherService.findVoucherByVoucherId(voucherId);
+
+        //then
+        assertThat(voucher.voucherId()).isEqualTo(voucherId);
+    }
+
+    @DisplayName("존재하지 않는 바우처의 아이디로 findVoucherByVoucherId() 실행하면 예외가 발생한다.")
+    @Test
+    void throwExceptionWhenVoucherIdIsNonExist() {
+        //given
+        UUID nonExistVoucherId = UUID.randomUUID();
+
+        //when, then
+        assertThatThrownBy(() -> voucherService.findVoucherByVoucherId(nonExistVoucherId))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage(String.format("해당 바우처 아이디로 조회되는 바우처가 없습니다. 입력값: %s", nonExistVoucherId));
     }
 }
