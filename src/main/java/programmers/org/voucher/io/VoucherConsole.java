@@ -38,7 +38,12 @@ public class VoucherConsole {
         return scanner.nextInt();
     }
 
-    private void printVoucher(VoucherResponse voucher) {
+    public long inputVoucherId() {
+        System.out.println("바우처 ID 입력: ");
+        return scanner.nextLong();
+    }
+
+    public void printVoucher(VoucherResponse voucher) {
         System.out.println("VoucherID : " + voucher.getId()
                 + " Type : " + voucher.getType()
                 + " DiscountAmount : " + voucher.getDiscountAmount());

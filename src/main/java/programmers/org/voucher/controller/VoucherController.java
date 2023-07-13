@@ -42,6 +42,8 @@ public class VoucherController implements CommandLineRunner {
                 case LIST:
                     printVoucherList();
                     break;
+                case FIND:
+                    printFoundVoucher();
                 case EXIT:
                     isRunning = false;
             }
@@ -59,5 +61,11 @@ public class VoucherController implements CommandLineRunner {
     private void printVoucherList() {
         List<VoucherResponse> voucherList = voucherService.getAllVouchers();
         voucherConsole.printVoucherList(voucherList);
+    }
+
+    private void printFoundVoucher() {
+        long voucherId = voucherConsole.inputVoucherId();
+        VoucherResponse response = voucherService.getVoucher(voucherId);
+        voucherConsole.printVoucher(response);
     }
 }

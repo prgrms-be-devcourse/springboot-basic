@@ -7,7 +7,10 @@ import programmers.org.voucher.dto.VoucherResponse;
 import programmers.org.voucher.repository.VoucherRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
+import static programmers.org.voucher.exception.ErrorMessage.NOT_FOUND_VOUCHER;
 
 @Service
 public class VoucherService {
@@ -30,7 +33,17 @@ public class VoucherService {
                 .collect(Collectors.toList());
     }
 
+    public VoucherResponse getVoucher(Long id) {
+        Voucher voucher = findVoucherById(id);
+        return new VoucherResponse(voucher);
+    }
+
     private void saveVoucher(Voucher voucher) {
         voucherRepository.save(voucher);
+    }
+
+    private Voucher findVoucherById(Long id) {
+        return voucherRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER.getMessage()));
     }
 }
