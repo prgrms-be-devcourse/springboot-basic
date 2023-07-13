@@ -4,7 +4,4 @@ public interface Input {
     String getMenu();
     int getVoucherType();
     Long getVoucherDiscount();
-
-    String getCustomerName();
-    String getCustomerEmail();
 }

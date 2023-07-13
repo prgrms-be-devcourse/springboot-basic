@@ -23,7 +23,7 @@ public class CustomerController {
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     public void createCustomer() {
-        CustomerCreateRequestDto requestDto = createCustomerIO();
+        CustomerCreateRequestDto requestDto = consoleView.getCustomerCreateRequestDto();
         Customer customer = customerService.createCustomer(requestDto);
 
         if (customer == null) {
@@ -36,13 +36,5 @@ public class CustomerController {
 
     public void getAllCustomers() {
         consoleView.showAllCustomers(customerService.getAllCustomers());
-    }
-
-    private CustomerCreateRequestDto createCustomerIO() {
-        consoleView.showGetName();
-        String name = consoleView.getCustomerName();
-        consoleView.showGetEmail();
-        String email = consoleView.getCustomerEmail();
-        return CustomerCreateRequestDto.of(name, email);
     }
 }

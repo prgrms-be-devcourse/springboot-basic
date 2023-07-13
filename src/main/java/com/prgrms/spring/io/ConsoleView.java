@@ -1,5 +1,6 @@
 package com.prgrms.spring.io;
 
+import com.prgrms.spring.controller.dto.request.CustomerCreateRequestDto;
 import com.prgrms.spring.domain.menu.MenuType;
 import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.exception.Error;
@@ -28,16 +29,6 @@ public class ConsoleView implements Input, Output {
     @Override
     public Long getVoucherDiscount() {
         return Long.parseLong(scanner.nextLine());
-    }
-
-    @Override
-    public String getCustomerName() {
-        return scanner.nextLine();
-    }
-
-    @Override
-    public String getCustomerEmail() {
-        return scanner.nextLine();
     }
 
     @Override
@@ -77,17 +68,15 @@ public class ConsoleView implements Input, Output {
     }
 
     @Override
-    public void showGetName() {
-        System.out.print("이름을 입력해주세요 : ");
-    }
-
-    @Override
-    public void showGetEmail() {
-        System.out.print("이메일을 입력해주세요 : ");
-    }
-
-    @Override
     public void showAllCustomers(List<String> customers) {
         customers.forEach(System.out::println);
+    }
+
+    public CustomerCreateRequestDto getCustomerCreateRequestDto() {
+        System.out.print("이름을 입력해주세요 : ");
+        String name = scanner.nextLine();
+        System.out.print("이메일을 입력해주세요 : ");
+        String email = scanner.nextLine();
+        return CustomerCreateRequestDto.of(name, email);
     }
 }
