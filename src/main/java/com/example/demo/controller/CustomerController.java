@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.CustomerDto;
+import com.example.demo.dto.customer.CustomerResponseDto;
 import com.example.demo.service.CustomerService;
 import java.util.List;
 import java.util.UUID;
@@ -15,15 +15,15 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public CustomerDto create(String name, int age) {
+    public CustomerResponseDto create(String name, int age) {
         return customerService.save(name, age);
     }
 
-    public CustomerDto read(UUID id) {
+    public CustomerResponseDto read(UUID id) {
         return customerService.read(id);
     }
 
-    public List<CustomerDto> readList() {
+    public List<CustomerResponseDto> readList() {
         return customerService.readAll();
     }
 

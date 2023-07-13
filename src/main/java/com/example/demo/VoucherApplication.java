@@ -3,8 +3,8 @@ package com.example.demo;
 
 import com.example.demo.controller.CustomerController;
 import com.example.demo.controller.VoucherController;
-import com.example.demo.dto.CustomerDto;
-import com.example.demo.dto.VoucherDto;
+import com.example.demo.dto.customer.CustomerResponseDto;
+import com.example.demo.dto.voucher.VoucherResponseDto;
 import com.example.demo.util.CommandType;
 import com.example.demo.util.VoucherType;
 import com.example.demo.view.customer.CustomerView;
@@ -31,8 +31,6 @@ public class VoucherApplication implements CommandLineRunner {
     //흐름 제어
     @Override
     public void run(String... args) throws Exception {
-        voucherView.printStartingMessage();
-
         boolean shouldContinue = true;
         while (shouldContinue) {
             try {
@@ -42,22 +40,22 @@ public class VoucherApplication implements CommandLineRunner {
                     case CREATE_VOUCHER -> {
                         VoucherType voucherType = voucherView.readVoucherOption();
                         int amount = voucherView.readVoucherAmount(voucherType);
-                        VoucherDto voucherDto = voucherController.create(voucherType, amount);
-                        voucherView.printCreateMessage(voucherDto);
+                        VoucherResponseDto voucherResponseDto = voucherController.create(voucherType, amount);
+                        voucherView.printCreateMessage(voucherResponseDto);
                     }
                     case PRINT_VOUCHER_LIST -> {
-                        List<VoucherDto> voucherDtoList = voucherController.readList();
-                        voucherView.printVoucherList(voucherDtoList);
+                        List<VoucherResponseDto> voucherResponseDtoList = voucherController.readList();
+                        voucherView.printVoucherList(voucherResponseDtoList);
                     }
                     case CREATE_CUSTOMER -> {
                         String name = customerView.readCustomerName();
                         int age = customerView.readCustomerAge();
-                        CustomerDto customerDto = customerController.create(name, age);
-                        customerView.printCreateMessage(customerDto);
+                        CustomerResponseDto customerResponseDto = customerController.create(name, age);
+                        customerView.printCreateMessage(customerResponseDto);
                     }
                     case PRINT_CUSTOMER_LIST -> {
-                        List<CustomerDto> customerDtoList = customerController.readList();
-                        customerView.printVoucherList(customerDtoList);
+                        List<CustomerResponseDto> customerResponseDtoList = customerController.readList();
+                        customerView.printVoucherList(customerResponseDtoList);
                     }
                     case UPDATE_CUSTOMER -> {
                         UUID id = customerView.readCustomerId();

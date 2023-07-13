@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.voucher;
 
 import com.example.demo.domain.voucher.Voucher;
 import com.example.demo.util.VoucherType;
@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class VoucherDto {
+public class VoucherResponseDto {
 
     private final UUID id;
     private final double discountAmount;
@@ -22,7 +22,7 @@ public class VoucherDto {
         };
     }
 
-    public static VoucherDto from(Voucher voucher) {
-        return new VoucherDto(voucher.getId(), voucher.getDiscountAmount(), voucher.getVoucherType());
+    public static VoucherResponseDto from(Voucher voucher) {
+        return new VoucherResponseDto(voucher.getId(), voucher.getDiscountAmount(), voucher.getVoucherType());
     }
 }

@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.domain.customer.Customer;
 import com.example.demo.domain.customer.CustomerRepository;
-import com.example.demo.dto.CustomerDto;
+import com.example.demo.dto.customer.CustomerResponseDto;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -16,22 +16,22 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public CustomerDto save(String name, int age) {
+    public CustomerResponseDto save(String name, int age) {
         Customer customer = new Customer(name, age);
         customerRepository.save(customer);
-        return CustomerDto.from(customer);
+        return CustomerResponseDto.from(customer);
     }
 
-    public CustomerDto read(UUID id) {
-        return CustomerDto.from(customerRepository.findById(id)
+    public CustomerResponseDto read(UUID id) {
+        return CustomerResponseDto.from(customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("id에 해당하는 customer가 없습니다.")));
     }
 
-    public List<CustomerDto> readAll() {
+    public List<CustomerResponseDto> readAll() {
         List<Customer> customerList = customerRepository.findAll();
 
         return customerList.stream()
-                .map(CustomerDto::from)
+                .map(CustomerResponseDto::from)
                 .toList();
     }
 

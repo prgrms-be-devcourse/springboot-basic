@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.VoucherDto;
+import com.example.demo.dto.voucher.VoucherResponseDto;
 import com.example.demo.service.VoucherService;
 import com.example.demo.util.VoucherType;
 import java.util.List;
@@ -16,15 +16,15 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public VoucherDto create(VoucherType voucherType, int amount) {
+    public VoucherResponseDto create(VoucherType voucherType, int amount) {
         return voucherService.save(voucherType, amount);
     }
 
-    public List<VoucherDto> readList() {
+    public List<VoucherResponseDto> readList() {
         return voucherService.readVoucherList();
     }
 
-    public VoucherDto read(UUID id) {
+    public VoucherResponseDto read(UUID id) {
         return voucherService.read(id);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.view.voucher;
 
-import com.example.demo.dto.VoucherDto;
+import com.example.demo.dto.voucher.VoucherResponseDto;
 import com.example.demo.util.CommandType;
 import com.example.demo.util.VoucherType;
 import java.util.List;
@@ -15,10 +15,6 @@ public class VoucherView {
     public VoucherView() {
         this.inputView = new InputView();
         this.outputView = new OutputView();
-    }
-
-    public void printStartingMessage() {
-        outputView.printStartingMessage();
     }
 
     public CommandType readCommandOption() {
@@ -36,11 +32,11 @@ public class VoucherView {
         return inputView.readVoucherAmount(voucherType);
     }
 
-    public void printCreateMessage(VoucherDto voucherDto) {
-        outputView.printCreateMessage(voucherDto);
+    public void printCreateMessage(VoucherResponseDto voucherResponseDto) {
+        outputView.printCreateMessage(voucherResponseDto);
     }
 
-    public void printVoucherList(List<VoucherDto> list) {
+    public void printVoucherList(List<VoucherResponseDto> list) {
         outputView.printVoucherList(list);
     }
 }

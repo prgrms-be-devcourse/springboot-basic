@@ -4,7 +4,7 @@ import com.example.demo.domain.voucher.FixedAmountVoucher;
 import com.example.demo.domain.voucher.PercentDiscountVoucher;
 import com.example.demo.domain.voucher.Voucher;
 import com.example.demo.domain.voucher.VoucherRepository;
-import com.example.demo.dto.VoucherDto;
+import com.example.demo.dto.voucher.VoucherResponseDto;
 import com.example.demo.util.VoucherType;
 import java.util.List;
 import java.util.UUID;
@@ -19,25 +19,25 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherDto save(VoucherType voucherType, int amount) {
+    public VoucherResponseDto save(VoucherType voucherType, int amount) {
         Voucher voucher = switch (voucherType) {
             case FIX -> new FixedAmountVoucher(amount);
             case PERCENT -> new PercentDiscountVoucher(amount);
         };
         voucherRepository.save(voucher);
-        return VoucherDto.from(voucher);
+        return VoucherResponseDto.from(voucher);
     }
 
-    public VoucherDto read(UUID id) {
-        return VoucherDto.from(voucherRepository.findById(id)
+    public VoucherResponseDto read(UUID id) {
+        return VoucherResponseDto.from(voucherRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("id에 해당하는 바우처가 없습니다.")));
     }
 
-    public List<VoucherDto> readVoucherList() {
+    public List<VoucherResponseDto> readVoucherList() {
         List<Voucher> voucherList = voucherRepository.findAll();
 
         return voucherList.stream()
-                .map(VoucherDto::from)
+                .map(VoucherResponseDto::from)
                 .toList();
     }
 }

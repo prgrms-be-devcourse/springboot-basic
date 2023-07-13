@@ -2,7 +2,7 @@ package com.example.demo.view.voucher;
 
 import com.example.demo.util.CommandType;
 import com.example.demo.util.VoucherType;
-import com.example.demo.view.validate.VoucherAmountValidator;
+import com.example.demo.view.validate.NumberValidator;
 import java.util.Scanner;
 
 public class InputView {
@@ -10,7 +10,9 @@ public class InputView {
     public static Scanner sc = new Scanner(System.in);
 
     public CommandType readCommandOption() {
-        return CommandType.from(sc.nextLine());
+        String input = sc.nextLine();
+        NumberValidator.validateCommandNumber(input);
+        return CommandType.from(Integer.parseInt(input));
     }
 
     public VoucherType readVoucherOption() {
@@ -19,7 +21,7 @@ public class InputView {
 
     public int readVoucherAmount(VoucherType voucherType) {
         String input = sc.nextLine();
-        VoucherAmountValidator.validateAmount(voucherType, input);
+        NumberValidator.validateAmount(voucherType, input);
 
         return Integer.parseInt(input);
     }
