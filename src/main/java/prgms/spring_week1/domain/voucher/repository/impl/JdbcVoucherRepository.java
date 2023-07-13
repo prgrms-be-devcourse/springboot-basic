@@ -53,7 +53,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         try {
-            return jdbcTemplate.query(VoucherManageSql.findVoucherByTypeSQL, voucherRowMapper);
+            return jdbcTemplate.query(VoucherManageSql.findAllVoucherSQL, voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Collections.emptyList();

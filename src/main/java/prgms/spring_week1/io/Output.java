@@ -28,7 +28,7 @@ public class Output {
 
         for (Voucher voucher : voucherList) {
             System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
-                    "할인 가격 :" + voucher.getDiscount() + "정보");
+                    "할인 정보 :" + voucher.getDiscount());
         }
     }
 }
