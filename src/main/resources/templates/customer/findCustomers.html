@@ -6,25 +6,20 @@
 </head>
 <body>
     <div class="container-fluid">
-        <h1>고객 리스트</h1>
-        <table class="table mb-0">
-            <thead class="table-light">
-            <tr>
-                <th>번호</th>
-                <th>이름</th>
-                <th>이에밀</th>
-                <th>생성일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="customer, i : ${customers.customerResponses}">
-                <td th:text="${i.index+1}"></td>
-                <td th:text="${customer.name}"></td>
-                <td th:text="${customer.email}"></td>
-                <td th:text="${customer.createAt}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="container title-line text">
+            <h1>고객 리스트</h1>
+            <a href="/">Home</a>
+        </div>
+        <div class="container">
+            <table class="table mb-0">
+                <th:block th:replace="global/customer::customer-head(1)"></th:block>
+                <tbody>
+                <tr th:each="customer, i : ${customers.customerResponses}">
+                    <th:block th:replace="global/customer::customer-row(${customer}, ${i.index+1})"></th:block>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

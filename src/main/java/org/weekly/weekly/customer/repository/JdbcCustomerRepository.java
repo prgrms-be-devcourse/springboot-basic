@@ -1,23 +1,18 @@
 package org.weekly.weekly.customer.repository;
 
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.util.ExceptionMsg;
-import org.weekly.weekly.voucher.domain.DiscountType;
-import org.weekly.weekly.voucher.domain.Voucher;
-import org.weekly.weekly.voucher.exception.VoucherException;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

@@ -2,12 +2,13 @@ package org.weekly.weekly.web.customer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
+import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
 import org.weekly.weekly.customer.dto.response.CustomerResponse;
 import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.customer.exception.CustomerException;
@@ -24,6 +25,11 @@ public class CustomerWebController  {
         this.customerService = customerService;
     }
 
+    @GetMapping("/menu")
+    public String menu() {
+        return "customer/menu";
+    }
+
     @GetMapping("/findCustomers")
     public String findCustomers(Model model) {
         CustomersResponse customersResponse = customerService.findAllCustomer();
@@ -37,19 +43,31 @@ public class CustomerWebController  {
     }
 
     @PostMapping("/create")
-    public String createCustomer(CustomerCreationRequest creationRequest, Model model) {
+    public String createCustomer( CustomerCreationRequest creationRequest, Model model) {
         try {
             CustomerResponse customerResponse = customerService.createCustomer(creationRequest);
-//            model.addAttribute("customer", customerResponse);
+            model.addAttribute("customer", customerResponse);
         } catch (CustomerException exception) {
             model.addAttribute("exception", new WebExceptionDto(exception));
             return "exception/exception";
         }
-        return "redirect:/";
+        return "customer/customerInfo";
     }
+
 
     @GetMapping("/findCustomer")
     public String findCustomer() {
         return "customer/findCustomer";
+    }
+
+    @PostMapping("/findCustomer")
+    public String findCustomer(CustomerUpdateRequest updateRequest, Model model) {
+        try {
+            CustomerResponse customerResponse = customerService.findDetailCustomer(updateRequest);
+            model.addAttribute("customer", customerResponse);
+        } catch(CustomerException | EmptyResultDataAccessException exception) {
+           return "redirect:/customer/findCustomer";
+        }
+        return "customer/customerInfo";
     }
 }
