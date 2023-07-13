@@ -1,5 +1,7 @@
 package com.programmers.springweekly.repository.wallet;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.domain.voucher.Voucher;
@@ -8,18 +10,19 @@ import com.programmers.springweekly.domain.voucher.VoucherType;
 import com.programmers.springweekly.domain.wallet.Wallet;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
 import com.programmers.springweekly.repository.voucher.VoucherRepository;
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 @ActiveProfiles("test")
 @Transactional
@@ -42,6 +45,7 @@ class JdbcTemplateWalletRepositoryTest {
     Voucher voucher2;
 
     @BeforeAll
+    @DisplayName("매 테스트 메서드 시작 전 고객과 바우처를 각 테이블에 저장해둔다.")
     void beforeAll() {
         customer1 = Customer.builder()
                 .customerId(UUID.randomUUID())
@@ -68,6 +72,7 @@ class JdbcTemplateWalletRepositoryTest {
     }
 
     @AfterAll
+    @DisplayName("매 테스트 메서드 종료 후 데이터베이스에서 데이터를 삭제한다.")
     void afterAll() {
         customerRepository.deleteAll();
         voucherRepository.deleteAll();
@@ -123,7 +128,7 @@ class JdbcTemplateWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("지갑 ID로 바우처 지갑을 삭제할 수 있다.")
+    @DisplayName("바우처 지갑을 저장하고 해당 지갑 ID로 바우처 지갑을 삭제할 수 있다.")
     void deleteByWalletId() {
         // given
         UUID walletId = UUID.randomUUID();
@@ -132,7 +137,7 @@ class JdbcTemplateWalletRepositoryTest {
                 .customerId(customer1.getCustomerId())
                 .voucherId(voucher1.getVoucherId())
                 .build();
-        
+
         walletRepository.save(wallet);
 
         // when
@@ -144,7 +149,7 @@ class JdbcTemplateWalletRepositoryTest {
     }
 
     @Test
-    @DisplayName("저장된 바우처 지갑을 모두 조회할 수 있다.")
+    @DisplayName("여러개의 바우처 지갑을 저장하고 저장된 바우처 지갑을 모두 조회할 수 있다.")
     void findAll() {
         // given
         UUID walletId1 = UUID.randomUUID();

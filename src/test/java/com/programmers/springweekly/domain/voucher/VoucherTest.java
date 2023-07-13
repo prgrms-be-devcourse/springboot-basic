@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class VoucherTest {
 
     @Test
-    @DisplayName("팩토리에서 고정 할인 클래스를 생성 할 수 있다.")
+    @DisplayName("바우처 팩토리를 통해 고정 할인 객체를 생성 할 수 있다.")
     void createFixedDiscountOfFactory() {
         // given && when
         Voucher voucher = VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.FIXED, 1000L);
@@ -33,7 +33,7 @@ public class VoucherTest {
 
     @ParameterizedTest
     @CsvSource(value = {"1000:10000:9000", "2000:3000:1000", "10000:20000:10000"}, delimiter = ':')
-    @DisplayName("고정 할인을 진행할 수 있다.")
+    @DisplayName("고정된 값을 입력하여 고정 할인을 진행할 수 있다.")
     void proceedFixedDiscount(long discountAmount, long inputPrice, long expectedDiscount) {
         // given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
@@ -46,7 +46,7 @@ public class VoucherTest {
     }
 
     @Test
-    @DisplayName("팩토리에서 퍼센트 할인 클래스를 생성 할 수 있다.")
+    @DisplayName("바우처 팩토리를 통해 퍼센트 할인 객체를 생성 할 수 있다.")
     void createPercentDiscountOfFactory() {
         // given && when
         Voucher voucher = VoucherFactory.createVoucher(UUID.randomUUID(), VoucherType.PERCENT, 100L);
@@ -57,7 +57,7 @@ public class VoucherTest {
 
     @ParameterizedTest
     @CsvSource(value = {"30:9000:6300", "10:10000:9000", "50:20000:10000"}, delimiter = ':')
-    @DisplayName("퍼센트 할인을 진행 할 수 있다.")
+    @DisplayName("0~100퍼센트 사이의 값을 받아 퍼센트 할인을 진행 할 수 있다.")
     void proceedPercentDiscount(long discountAmount, long inputPrice, long expectedDiscount) {
         // given
         Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), discountAmount);

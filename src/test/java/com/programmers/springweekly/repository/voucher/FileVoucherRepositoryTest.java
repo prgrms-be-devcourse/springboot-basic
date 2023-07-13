@@ -20,7 +20,7 @@ public class FileVoucherRepositoryTest {
     private FileVoucherRepository voucherRepository;
 
     @Test
-    @DisplayName("파일 저장소에 고정 할인 바우처를 정상적으로 등록할 수 있다.")
+    @DisplayName("바우처 파일에 고정 할인 바우처를 저장할 수 있다.")
     void saveFixedVoucherToFileRepository() {
         // given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
@@ -35,7 +35,7 @@ public class FileVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("파일 저장소에 퍼센트 할인 바우처를 정상적으로 등록할 수 있다.")
+    @DisplayName("바우처 파일에 퍼센트 할인 바우처를 저장할 수 있다.")
     void savePercentVoucherToFileRepository() {
         // given
         Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 100);

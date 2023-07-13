@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
 import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +21,7 @@ public class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("메모리 저장소에 고정 할인 바우처를 등록할 수 있다.")
+    @DisplayName("메모리 저장소에 고정 할인 바우처를 생성하여 저장할 수 있다.")
     void saveFixedVoucherToMemoryRepository() {
         // given
         UUID voucherId = UUID.randomUUID();
@@ -39,7 +38,7 @@ public class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("메모리 저장소에 퍼센트 할인 바우처를 등록할 수 있다.")
+    @DisplayName("메모리 저장소에 퍼센트 할인 바우처를 샹송허요 저장할 수 있다.")
     void savePercentVoucherToMemoryRepository() {
         // given
         UUID voucherId = UUID.randomUUID();
@@ -56,15 +55,13 @@ public class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("메모리 저장소에 여러 바우처를 등록했을 때 바우처 리스트를 가져올 수 있다.")
+    @DisplayName("메모리 저장소에 여러 바우처를 생성하여 저장했을 때 저장된 모든 바우처를 가져올 수 있다.")
     void getVoucherList() {
         // given
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 500);
         Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 50);
         Voucher voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 30);
-
-        List<Voucher> vouchers = List.of(voucher1, voucher2, voucher3, voucher4);
 
         // when
         voucherRepository.save(voucher1);

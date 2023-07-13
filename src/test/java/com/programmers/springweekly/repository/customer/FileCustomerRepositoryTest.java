@@ -20,7 +20,7 @@ class FileCustomerRepositoryTest {
     private FileCustomerRepository customerRepository;
 
     @Test
-    @DisplayName("블랙 리스트 명단을 가져올 수 있다.")
+    @DisplayName("블랙리스트 파일에 저장된 블랙 리스트 명단을 가져올 수 있다.")
     void getBlacklistOfFileRepository() {
         // given
         UUID customer1UUID = UUID.fromString("1927f6b6-55bf-4f1f-d6e2-043198833df7");

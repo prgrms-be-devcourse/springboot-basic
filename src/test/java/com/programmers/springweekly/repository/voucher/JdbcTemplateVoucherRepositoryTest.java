@@ -13,7 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +25,7 @@ class JdbcTemplateVoucherRepositoryTest {
     VoucherRepository voucherRepository;
 
     @Test
-    @DisplayName("바우처를 저장할 수 있다.")
+    @DisplayName("바우처(고정, 퍼센트)를 생성하여 데이터베이스에 저장할 수 있다.")
     void save() {
         // given
         UUID voucherId1 = UUID.randomUUID();
@@ -49,7 +48,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처를 업데이트 할 수 있다.")
+    @DisplayName("고정 바우처를 생성하여 저장하고 퍼센트 바우처를 생성하여 퍼센트 바우처로 업데이트 할 수 있다.")
     void update() {
         // given
         UUID voucherId1 = UUID.randomUUID();
@@ -68,7 +67,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처 ID를 가지고 바우처를 가져올 수 있다.")
+    @DisplayName("바우처를 생성하여 저장하고 해당 바우처 ID를 가지고 바우처를 가져올 수 있다.")
     void findById() {
         // given
         UUID voucherId1 = UUID.randomUUID();
@@ -85,7 +84,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("저장된 모든 바우처를 조회할 수 있다.")
+    @DisplayName("바우처를 생성하여 저장하고 저장된 모든 바우처를 조회할 수 있다.")
     void findAll() {
         // given
         UUID voucherId1 = UUID.randomUUID();
@@ -107,7 +106,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처 ID를 가지고 바우처를 삭제할 수 있다.")
+    @DisplayName("바우처를 생성하여 저장하고 저장한 바우처 ID를 가지고 바우처를 삭제할 수 있다.")
     void deleteById() {
         // given
         UUID voucherId = UUID.randomUUID();
@@ -123,7 +122,7 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처를 모두 삭제할 수 있다.")
+    @DisplayName("여러 바우처를 생성하여 저장하고 저장된 바우처를 모두 삭제할 수 있다.")
     void deleteAll() {
         // given
         UUID voucherId1 = UUID.randomUUID();
