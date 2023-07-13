@@ -1,40 +1,64 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.view.dto.Command;
-import com.programmers.voucher.view.dto.DiscountAmount;
-import com.programmers.voucher.view.dto.VoucherType;
+import com.programmers.voucher.domain.voucher.entity.VoucherType;
+import com.programmers.voucher.view.command.Command;
+import com.programmers.voucher.view.command.CustomerCommand;
+import com.programmers.voucher.view.command.VoucherCommand;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class ConsoleInput implements Input {
-    private static final TextIO textIO = TextIoFactory.getTextIO();
+    private static final TextIO TEXT_IO = TextIoFactory.getTextIO();
 
     @Override
     public Command readCommand() {
-        String input = textIO.newStringInputReader()
-                .withInputTrimming(true)
-                .read(">>");
+        return Command.findByNumber(readIntInput(">>"));
+    }
 
-        return Command.findByName(input);
+    @Override
+    public VoucherCommand readVoucherCommand() {
+        return VoucherCommand.findByNumber(readIntInput(">>"));
+    }
+
+    @Override
+    public CustomerCommand readCustomerCommand() {
+        return CustomerCommand.findByNumber(readIntInput(">>"));
     }
 
     @Override
     public VoucherType readVoucherType() {
-        String input = textIO.newStringInputReader()
-                .withInputTrimming(true)
-                .read(">>");
-
-        return VoucherType.findByName(input);
+        return VoucherType.findByNumber(readIntInput(">>"));
     }
 
     @Override
-    public DiscountAmount readDiscountAmount(VoucherType voucherType) {
-        Long input = textIO.newLongInputReader()
-                .withInputTrimming(true)
-                .read("discount amount >>");
+    public int readDiscountAmount() {
+        return readIntInput("discount amount >>");
+    }
 
-        return new DiscountAmount(voucherType, input);
+    @Override
+    public String readNickname() {
+        return readStringInput("nickname >>");
+    }
+
+    @Override
+    public UUID readUUID() {
+        String input = readStringInput("UUID >>");
+        return UUID.fromString(input);
+    }
+
+    private int readIntInput(String prompt) {
+        return TEXT_IO.newIntInputReader()
+                .withInputTrimming(true)
+                .read(prompt);
+    }
+
+    private String readStringInput(String prompt) {
+        return TEXT_IO.newStringInputReader()
+                .withInputTrimming(true)
+                .read(prompt);
     }
 }
