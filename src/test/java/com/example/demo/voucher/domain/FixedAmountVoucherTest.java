@@ -1,5 +1,6 @@
 package com.example.demo.voucher.domain;
 
+import com.example.demo.voucher.application.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ class FixedAmountVoucherTest {
         // Then
         assertEquals(id, voucher.getVoucherId());
         assertEquals(amount, voucher.getValue());
-        assertEquals("FixedAmountVoucher", voucher.getName());
+        assertEquals(VoucherType.FIXED_AMOUNT_VOUCHER.name(), voucher.getName());
     }
 
     @Test

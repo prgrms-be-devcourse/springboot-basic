@@ -48,8 +48,8 @@ public class VoucherController {
 
     @DeleteMapping
     @ResponseBody
-    public ResponseEntity deleteAll() {
+    public ResponseEntity<Void> deleteAll() {
         voucherService.deleteAll();
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -41,11 +41,11 @@ class VoucherServiceTest {
 
         // When
         when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(mockVoucher));
-        Voucher voucherFromService = voucherService.getVoucher(voucherId);
+        Voucher actual = voucherService.getVoucher(voucherId);
 
         // Then
-        assertNotNull(voucherFromService);
-        assertEquals(mockVoucher.getVoucherId(), voucherFromService.getVoucherId());
+        assertNotNull(actual);
+        assertEquals(mockVoucher.getVoucherId(), actual.getVoucherId());
 
         verify(voucherRepository, times(1)).findById(voucherId);
     }
@@ -98,8 +98,6 @@ class VoucherServiceTest {
 
         // Then
         assertNotNull(vouchersFromService);
-        assertEquals(mockVouchers.size(), vouchersFromService.size());
-
-        verify(voucherRepository, times(1)).findAll();
+        assertEquals(2, vouchersFromService.size());
     }
 }

@@ -20,5 +20,4 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
 
     void deleteAll();
-
 }

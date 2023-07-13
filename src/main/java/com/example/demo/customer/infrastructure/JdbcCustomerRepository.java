@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,6 @@ import static com.example.demo.common.utils.UUIDParser.toUUID;
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
@@ -66,7 +66,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByName(String name) {
-        String sql = "SELECT * FROM customers WHERE name = ?";
+        String sql = "SELECT * FROM customers WHERE name = ? LIMIT 1";
         return jdbcTemplate.query(sql, rowMapper, name).stream().findAny();
     }
 
@@ -81,5 +81,4 @@ public class JdbcCustomerRepository implements CustomerRepository {
         String sql = "DELETE FROM customers";
         jdbcTemplate.update(sql);
     }
-
 }
