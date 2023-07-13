@@ -34,7 +34,7 @@ public class VoucherService {
 
             Voucher voucher = switch (type) {
                 case FIXED -> new FixedVoucher(discount);
-                case PERCENT -> new RateVoucher(discount);
+                case RATE -> new RateVoucher(discount);
             };
             return voucherRepository.save(voucher);
         } catch (IllegalArgumentException e) {
@@ -87,9 +87,15 @@ public class VoucherService {
 
         Voucher voucher = storegedVoucher.orElseThrow(() -> new IllegalArgumentException("해당 바우처는 존재하지 않습니다."));
 
+        if (voucher.getVoucherType() == VoucherType.FIXED) {
+            FixedVoucher fixedVoucher = (FixedVoucher) voucher;
+            fixedVoucher.setDiscount(voucherUpdateRequest.getDiscount());
+        } else if (voucher.getVoucherType() == VoucherType.RATE) {
+            RateVoucher rateVoucher = (RateVoucher) voucher;
+            rateVoucher.setDiscount(voucherUpdateRequest.getDiscount());
+        }
+
         voucherRepository.update(voucher);
-
-
     }
 
     //삭제(Delete) -id
