@@ -29,7 +29,7 @@ public class VoucherApiController {
 
     @GetMapping
     public ResponseEntity<List<VoucherResponseDto>> findAllByCondition(
-            @RequestParam @Nullable String type) {
+            @RequestParam(required = false) String type) {
         if (type != null) {
             List<VoucherResponseDto> response = voucherService.findVouchersByType(type);
             return ResponseEntity.ok(response);
