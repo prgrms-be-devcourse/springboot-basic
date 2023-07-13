@@ -7,23 +7,18 @@ import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@SpringBootApplication
+@Component
 public class SpringBootConsoleApplication implements CommandLineRunner {
     private final VoucherController voucherController;
-    private final ConsoleApplicationView applicationView;
+    private final ConsoleApplicationVi햣ew applicationView;
 
     public SpringBootConsoleApplication(VoucherController voucherController, ConsoleApplicationView applicationView) {
         this.voucherController = voucherController;
         this.applicationView = applicationView;
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBootConsoleApplication.class, args);
     }
 
     @Override
