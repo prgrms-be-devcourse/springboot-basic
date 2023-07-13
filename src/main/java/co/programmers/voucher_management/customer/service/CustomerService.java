@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher_management.common.Response;
 import co.programmers.voucher_management.customer.dto.CustomerResponseDTO;
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.customer.repository.CustomerRepository;
@@ -25,18 +24,14 @@ public class CustomerService {
 		this.voucherRepository = voucherRepository;
 	}
 
-	public Response inquireByRating(String rating) {
+	public List<CustomerResponseDTO> inquireByRating(String rating) {
 		List<Customer> inquiredData = customerRepository.findByRating(rating);
-		List<CustomerResponseDTO> customerResponseDTOS = inquiredData.stream()
+		return inquiredData.stream()
 				.map(CustomerResponseDTO::new)
 				.collect(Collectors.toList());
-		return Response.builder()
-				.state(Response.State.SUCCESS)
-				.responseData(customerResponseDTOS)
-				.build();
 	}
 
-	public Response inquiryCustomerByVoucher(long voucherId) {
+	public CustomerResponseDTO inquiryCustomerByVoucher(long voucherId) {
 		Voucher voucher = voucherRepository.findById(voucherId)
 				.orElseThrow(
 						() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", voucherId)));
@@ -44,7 +39,6 @@ public class CustomerService {
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new EmptyAssignerException(
 						MessageFormat.format("No customer assigned to voucher of id {0}", voucherId)));
-		CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO(customer);
-		return new Response(Response.State.SUCCESS, customerResponseDTO);
+		return new CustomerResponseDTO(customer);
 	}
 }

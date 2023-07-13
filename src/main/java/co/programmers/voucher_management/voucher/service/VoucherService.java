@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher_management.common.Response;
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.customer.repository.CustomerRepository;
 import co.programmers.voucher_management.exception.NoSuchDataException;
@@ -27,41 +26,36 @@ public class VoucherService {
 		this.customerRepository = customerRepository;
 	}
 
-	public Response create(VoucherRequestDTO voucherRequestDTO) {
+	public VoucherResponseDTO create(VoucherRequestDTO voucherRequestDTO) {
 		Voucher voucher = voucherRequestDTO.mapToVoucher();
 		Voucher created = voucherRepository.create(voucher);
-		return new Response(Response.State.SUCCESS, created);
+		return new VoucherResponseDTO(created);
 	}
-
-	public Response inquiryVoucherOf() {
+	public List<VoucherResponseDTO> inquiryVoucherOf() {
 		List<Voucher> inquiredData = voucherRepository.findAll();
-		List<VoucherResponseDTO> voucherResponseDTOs = inquiredData.stream()
+		return inquiredData.stream()
 				.map(VoucherResponseDTO::new)
 				.collect(Collectors.toList());
-		return new Response(Response.State.SUCCESS, voucherResponseDTOs);
 	}
 
-	public Response inquiryVoucherOf(long customerId) {
+	public List<VoucherResponseDTO> inquiryVoucherOf(long customerId) {
 		List<Voucher> inquiredData = voucherRepository.findByCustomerId(customerId);
-		List<VoucherResponseDTO> voucherResponseDTOs = inquiredData.stream()
+		return inquiredData.stream()
 				.map(VoucherResponseDTO::new)
 				.collect(Collectors.toList());
-		return new Response(Response.State.SUCCESS, voucherResponseDTOs);
 	}
 
-	public Response update(VoucherUpdateDTO voucherUpdateDTO) {
+	public VoucherResponseDTO update(VoucherUpdateDTO voucherUpdateDTO) {
 		Voucher voucher = voucherUpdateDTO.mapToVoucher();
 		Voucher updated = voucherRepository.update(voucher);
-		return new Response(Response.State.SUCCESS, updated);
+		return new VoucherResponseDTO(updated);
 	}
 
-	public Response deleteById(Long id) {
+	public void deleteById(Long id) {
 		voucherRepository.deleteById(id);
-		return new Response(Response.State.SUCCESS, List.of());
-
 	}
 
-	public Response assignVoucher(VoucherAssignDTO voucherAssignDTO) {
+	public VoucherResponseDTO assignVoucher(VoucherAssignDTO voucherAssignDTO) {
 		long voucherId = voucherAssignDTO.getVoucherId();
 		long customerId = voucherAssignDTO.getCustomerId();
 
@@ -74,7 +68,6 @@ public class VoucherService {
 
 		voucher.assignCustomer(customerId);
 		Voucher assigned = voucherRepository.assignCustomer(voucher, customer);
-		return new Response(Response.State.SUCCESS, assigned);
+		return new VoucherResponseDTO(assigned);
 	}
-
 }
