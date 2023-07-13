@@ -66,4 +66,11 @@ public class VoucherController {
         voucherService.update(voucherUpdateRequest);
         return "redirect:/vouchers/{id}";
     }
+
+    @GetMapping("/{id}/delete")
+    public String deleteVoucher(@PathVariable String id) {
+        UUID inputVoucherId = UUID.fromString(id);
+        voucherService.deleteById(inputVoucherId);
+        return "redirect:/vouchers";
+    }
 }

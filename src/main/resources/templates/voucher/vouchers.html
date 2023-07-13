@@ -35,8 +35,8 @@
                 <td th:text="${voucher.amount()}">할인 가격</td>
                 <td th:text="${voucher.voucherType().name()}">할인권 타입</td>
                 <td nowrap="true">
-                    <button class="btn btn-primary" href="#"
-                            th:href="@{/vouchers/{voucherId}/delete(voucherId=${voucher.voucherId()})}"
+                    <button class="btn btn-primary" onclick="location.href='vouchers.html'"
+                            th:onclick="|location.href='@{/vouchers/{voucherId}/delete(voucherId=${voucher.voucherId()})}'|"
                             th:text="삭제">삭제
                     </button>
                 </td>
