@@ -14,13 +14,12 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(value = {NoSuchElementException.class})
     public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException e) {
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ApiException apiException = new ApiException(
                 e.getMessage(),
-                httpStatus,
+                HttpStatus.BAD_REQUEST,
                 ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
         );
-        return new ResponseEntity<>(apiException, httpStatus);
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
 
     @ExceptionHandler(value = {IllegalArgumentException.class})
