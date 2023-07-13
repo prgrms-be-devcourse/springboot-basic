@@ -1,4 +1,4 @@
-package com.example.demo.view;
+package com.example.demo.view.voucher;
 
 import com.example.demo.dto.VoucherDto;
 import com.example.demo.util.VoucherType;
