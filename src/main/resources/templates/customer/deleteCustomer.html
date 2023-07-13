@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head th:insert="~{global/head.html:: head}">
+    <title>Document</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="container title-line text">
+        <h1 >고객 삭제</h1>
+        <a href="/">Home</a>
+    </div>
+
+    <div th:replace="~{/global/form.html :: data(action='/customer/delete', method='post', status='customer-search')}"></div>
+</div>
+</body>
+</html>

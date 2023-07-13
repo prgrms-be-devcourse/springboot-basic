@@ -30,7 +30,7 @@ public class CustomerWebController  {
         return "customer/menu";
     }
 
-    @GetMapping("/findCustomers")
+    @GetMapping("/findAll")
     public String findCustomers(Model model) {
         CustomersResponse customersResponse = customerService.findAllCustomer();
         model.addAttribute("customers", customersResponse);
@@ -55,12 +55,12 @@ public class CustomerWebController  {
     }
 
 
-    @GetMapping("/findCustomer")
+    @GetMapping("/find")
     public String findCustomer() {
         return "customer/findCustomer";
     }
 
-    @PostMapping("/findCustomer")
+    @PostMapping("/find")
     public String findCustomer(CustomerUpdateRequest updateRequest, Model model) {
         try {
             CustomerResponse customerResponse = customerService.findDetailCustomer(updateRequest);
@@ -69,5 +69,35 @@ public class CustomerWebController  {
            return "redirect:/customer/findCustomer";
         }
         return "customer/customerInfo";
+    }
+
+    @GetMapping("/delete")
+    public String deleteCustomer() {
+        return "customer/deleteCustomer";
+    }
+
+    @PostMapping("/delete")
+    public String deleteCustomer(CustomerUpdateRequest updateRequest, Model model) {
+        try {
+            customerService.deleteCustomer(updateRequest);
+        } catch(CustomerException | EmptyResultDataAccessException exception) {
+            return "redirect:/customer/delete";
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/deleteAll")
+    public String deleteAllCustomer() {
+        return "customer/deleteAll";
+    }
+
+    @PostMapping("/deleteAll")
+    public String deleteAllCustomers() {
+        try {
+            customerService.deleteAllCustomers();
+        } catch(CustomerException | EmptyResultDataAccessException exception) {
+            return "redirect:/customer/deleteAll";
+        }
+        return "redirect:/";
     }
 }

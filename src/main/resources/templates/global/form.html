@@ -39,3 +39,15 @@
     </div>
 </div>
 
+
+<div th:fragment="deleteAll (action, method)" class="container">
+    <form th:action="${action}", th:method="${method}">
+        <div class="form-row submit-btn">
+            <div class="input-data">
+                <div class="inner"></div>
+                <input type="submit" value="전체 삭제">
+            </div>
+        </div>
+    </form>
+</div>
+
