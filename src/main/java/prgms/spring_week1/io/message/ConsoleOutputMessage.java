@@ -8,9 +8,17 @@ public final class ConsoleOutputMessage {
             """
                     === Voucher Program ===
                     Type exit to exit the program.
-                    Type create to create a new voucher.
-                    Type list to list all vouchers.
-                    Type black to list all blackList
+                    Type voucher to manage voucher.
+                    Type customer to manage customer.                
+                    """;
+
+    public static final String VOUCHER_MENU_LIST_MESSAGE =
+            """
+                    === Voucher Program ===
+                    Type insert to create new voucher.
+                    Type findall to find all voucher.
+                    Type findbyid to find a voucher by id.
+                    Type delete to delete all voucher.                
                     """;
 
     public static final String TYPE_SELECT_MESSAGE =

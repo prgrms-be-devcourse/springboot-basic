@@ -83,6 +83,4 @@ public class CommandLine implements CommandLineRunner {
         voucherService.insertNewVoucher(voucherType, discountValue);
         input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
-
-
 }
