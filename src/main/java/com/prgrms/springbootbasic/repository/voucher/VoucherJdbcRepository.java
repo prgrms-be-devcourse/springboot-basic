@@ -87,9 +87,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         String sql = "update vouchers set discount_amount = :discountAmount, voucher_type = :voucherType where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("discountAmount", voucher.getDiscount())
-                .addValue("voucherType", voucher.getVoucherType().toString())
-                .addValue("voucherId", voucher.getVoucherId());
+                .addValue("discountAmount", voucher.getDiscount());
 
         int rows = template.update(sql, param);
         if (rows == 1) {
@@ -152,7 +150,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 }
             };
         };
-
         return voucherRowMapper;
     }
 }
