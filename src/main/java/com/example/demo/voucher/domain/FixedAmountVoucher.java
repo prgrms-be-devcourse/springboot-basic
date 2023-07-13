@@ -32,4 +32,9 @@ public class FixedAmountVoucher implements Voucher {
     public long getValue() {
         return amount;
     }
+
+    @Override
+    public VoucherType getType() {
+        return VoucherType.FIXED_AMOUNT_VOUCHER;
+    }
 }

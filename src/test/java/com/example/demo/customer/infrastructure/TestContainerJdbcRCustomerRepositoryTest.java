@@ -4,7 +4,6 @@ import com.example.demo.customer.domain.Customer;
 import com.example.demo.customer.domain.repostiory.CustomerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -104,7 +103,6 @@ public class TestContainerJdbcRCustomerRepositoryTest {
 
     @Test
     @DisplayName("전체 조회 테스트")
-    @Order(2)
     void findAll() {
         // given
         Customer customer1 = new Customer(UUID.randomUUID(), "name1", "email1@test.com", LocalDateTime.now(), LocalDateTime.now());

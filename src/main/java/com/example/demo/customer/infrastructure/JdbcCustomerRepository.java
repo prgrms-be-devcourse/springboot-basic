@@ -4,8 +4,12 @@ import com.example.demo.customer.domain.Customer;
 import com.example.demo.customer.domain.repostiory.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.MapPropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
@@ -14,10 +18,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.example.demo.common.utils.UUIDParser.toBytes;
+import static com.example.demo.common.utils.UUIDParser.toUUID;
+
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
@@ -60,7 +66,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByName(String name) {
-        String sql = "SELECT * FROM customers WHERE name = ?";
+        String sql = "SELECT * FROM customers WHERE name = ? LIMIT 1";
         return jdbcTemplate.query(sql, rowMapper, name).stream().findAny();
     }
 
@@ -74,18 +80,5 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteAll() {
         String sql = "DELETE FROM customers";
         jdbcTemplate.update(sql);
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-    private static byte[] toBytes(UUID uuid) {
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-        bb.putLong(uuid.getMostSignificantBits());
-        bb.putLong(uuid.getLeastSignificantBits());
-        return bb.array();
     }
 }
