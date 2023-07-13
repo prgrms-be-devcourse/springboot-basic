@@ -8,6 +8,9 @@ import java.util.NoSuchElementException;
 public enum Command {
     CREATE,
     LIST,
+    FIND,
+    UPDATE,
+    DELETE,
     EXIT;
 
     public static Command find(String type) {
