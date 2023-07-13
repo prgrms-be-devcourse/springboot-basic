@@ -20,10 +20,6 @@ public class VoucherConsole {
         voucherList.forEach(this::printVoucher);
     }
 
-    public void printError(String error) {
-        System.out.println(error);
-    }
-
     public String inputCommand() {
         return scanner.next();
     }
