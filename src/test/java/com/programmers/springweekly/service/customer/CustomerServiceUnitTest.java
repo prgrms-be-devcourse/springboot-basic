@@ -1,21 +1,22 @@
 package com.programmers.springweekly.service.customer;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
+
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
 import com.programmers.springweekly.repository.customer.CustomerRepository;
 import com.programmers.springweekly.service.CustomerService;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceUnitTest {
@@ -91,7 +92,6 @@ public class CustomerServiceUnitTest {
                 .customerType(CustomerType.BLACKLIST)
                 .build();
 
-
         given(customerRepository.getBlackList())
                 .willReturn(List.of(customer1, customer2));
 
@@ -111,8 +111,8 @@ public class CustomerServiceUnitTest {
                 .customerEmail("changhyeon.h@kakao.com")
                 .customerType(CustomerType.BLACKLIST)
                 .build();
-        
-        willDoNothing().given(customerRepository).deleteById(customer.getCustomerId());
+
+        given(customerRepository.deleteById(customer.getCustomerId())).willReturn(1);
         given(customerRepository.existById(customer.getCustomerId())).willReturn(true);
 
         // when
