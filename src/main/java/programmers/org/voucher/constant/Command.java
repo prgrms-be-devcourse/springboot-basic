@@ -15,7 +15,7 @@ public enum Command {
 
     public static Command find(String type) {
         return Arrays.stream(Command.values())
-                .filter(command -> command.name().equals(type))
+                .filter(command -> command.name().equals(type.toUpperCase()))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessage.COMMAND_ERROR_MESSAGE.getMessage()));
     }
