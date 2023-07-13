@@ -61,7 +61,7 @@ class JdbcVoucherRepositoryTest {
 
         // when
         voucher1.updateAmount(50L);
-        repository.update(voucher1);
+        repository.updateAmount(voucher1);
 
         // then
         List<Voucher> all = repository.findAll();
@@ -115,8 +115,8 @@ class JdbcVoucherRepositoryTest {
 
         // when
         repository.save(voucher);
-        voucher.assignVoucherToCustomer(customer.getCustomerId());
-        repository.assign(voucher);
+        voucher.updateCustomer(customer.getCustomerId());
+        repository.updateCustomer(voucher);
 
         // then
         List<Voucher> all = repository.findAll();

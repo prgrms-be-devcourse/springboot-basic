@@ -38,8 +38,8 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
-    public VoucherResponse findByIdVoucher(UUID voucherId) {
-        Voucher voucher = validVoucherExist(voucherId);
+    public VoucherResponse findOneVoucher(UUID voucherId) {
+        Voucher voucher = findVoucher(voucherId);
 
         return new VoucherResponse(voucher);
     }
@@ -52,17 +52,17 @@ public class VoucherService {
     }
 
     @Transactional
-    public VoucherResponse updateVoucher(UUID inputVoucherId, VoucherUpdateRequest voucherUpdateRequest) {
-        Voucher voucher = validVoucherExist(inputVoucherId);
+    public VoucherResponse updateAmount(UUID inputVoucherId, VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher voucher = findVoucher(inputVoucherId);
+        
         voucher.updateAmount(voucherUpdateRequest.getAmount());
-
-        voucherRepository.update(voucher);
+        voucherRepository.updateAmount(voucher);
         return new VoucherResponse(voucher);
     }
 
     @Transactional
-    public void deleteByIdVoucher(UUID voucherId) {
-        Voucher voucher = validVoucherExist(voucherId);
+    public void deleteVoucher(UUID voucherId) {
+        Voucher voucher = findVoucher(voucherId);
 
         voucherRepository.deleteById(voucher.getVoucherId());
     }
@@ -72,26 +72,26 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    private Voucher validVoucherExist(UUID voucherId) {
+    @Transactional
+    public VoucherResponse updateCustomer(UUID inputVoucherId, UUID inputCustomerId) {
+        Voucher voucher = findVoucher(inputVoucherId);
+        validateAssignCustomer(inputCustomerId, voucher);
+
+        voucherRepository.updateCustomer(voucher);
+        return new VoucherResponse(voucher);
+    }
+
+    private Voucher findVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER));
     }
 
-    @Transactional
-    public VoucherResponse assignVoucherToCustomer(UUID inputVoucherId, UUID inputCustomerId) {
-        Voucher voucher = validVoucherExist(inputVoucherId);
-        validateVoucherAssignCustomer(inputCustomerId, voucher);
-
-        voucherRepository.assign(voucher);
-        return new VoucherResponse(voucher);
-    }
-
-    private void validateVoucherAssignCustomer(UUID inputCustomerId, Voucher voucher) {
+    private void validateAssignCustomer(UUID inputCustomerId, Voucher voucher) {
         if (voucher.getCustomerId() != null) {
             throw new InvalidInputException(ErrorMessage.DUPLICATE_ASSIGN_VOUCHER);
         }
 
-        voucher.assignVoucherToCustomer(inputCustomerId);
+        voucher.updateCustomer(inputCustomerId);
     }
 }
 

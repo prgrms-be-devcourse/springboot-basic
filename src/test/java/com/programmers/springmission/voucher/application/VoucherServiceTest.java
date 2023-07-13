@@ -90,7 +90,7 @@ class VoucherServiceTest {
 
         // when
         VoucherResponse voucherResponse = service.createVoucher(voucherCreateRequest);
-        VoucherResponse result = service.findByIdVoucher(voucherResponse.getVoucherId());
+        VoucherResponse result = service.findOneVoucher(voucherResponse.getVoucherId());
 
         // then
         assertThat(result.getVoucherId()).isEqualTo(voucherResponse.getVoucherId());
@@ -126,8 +126,8 @@ class VoucherServiceTest {
         VoucherUpdateRequest voucherUpdateRequest2 = new VoucherUpdateRequest(50L);
 
         // when
-        VoucherResponse result1 = service.updateVoucher(voucherResponse1.getVoucherId(), voucherUpdateRequest1);
-        VoucherResponse result2 = service.updateVoucher(voucherResponse2.getVoucherId(), voucherUpdateRequest2);
+        VoucherResponse result1 = service.updateAmount(voucherResponse1.getVoucherId(), voucherUpdateRequest1);
+        VoucherResponse result2 = service.updateAmount(voucherResponse2.getVoucherId(), voucherUpdateRequest2);
 
         // then
         assertThat(result1.getVoucherAmount()).isEqualTo(500L);
@@ -147,11 +147,11 @@ class VoucherServiceTest {
         VoucherUpdateRequest voucherUpdateRequest2 = new VoucherUpdateRequest(200L);
 
         // then
-        assertThatThrownBy(() -> service.updateVoucher(voucherResponse1.getVoucherId(), voucherUpdateRequest1))
+        assertThatThrownBy(() -> service.updateAmount(voucherResponse1.getVoucherId(), voucherUpdateRequest1))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
 
-        assertThatThrownBy(() -> service.updateVoucher(voucherResponse2.getVoucherId(), voucherUpdateRequest2))
+        assertThatThrownBy(() -> service.updateAmount(voucherResponse2.getVoucherId(), voucherUpdateRequest2))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }
@@ -204,7 +204,7 @@ class VoucherServiceTest {
         service.createVoucher(voucherCreateRequest);
 
         // then
-        assertThatThrownBy(() -> service.findByIdVoucher(UUID.randomUUID()))
+        assertThatThrownBy(() -> service.findOneVoucher(UUID.randomUUID()))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.NOT_EXIST_VOUCHER.getMessage());
     }
@@ -223,8 +223,8 @@ class VoucherServiceTest {
         customerRepository.save(customer);
 
         // when
-        service.assignVoucherToCustomer(voucherResponse1.getVoucherId(), customer.getCustomerId());
-        service.assignVoucherToCustomer(voucherResponse2.getVoucherId(), customer.getCustomerId());
+        service.updateCustomer(voucherResponse1.getVoucherId(), customer.getCustomerId());
+        service.updateCustomer(voucherResponse2.getVoucherId(), customer.getCustomerId());
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();

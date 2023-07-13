@@ -36,7 +36,7 @@ public class Voucher {
         this.voucherAmount = voucherAmount;
     }
 
-    public void assignVoucherToCustomer(UUID customerId) {
+    public void updateCustomer(UUID customerId) {
         this.customerId = customerId;
     }
 

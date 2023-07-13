@@ -51,7 +51,7 @@ class InMemoryVoucherRepositoryTest {
 
         // when
         voucher1.updateAmount(50L);
-        repository.update(voucher1);
+        repository.updateAmount(voucher1);
 
         // then
         List<Voucher> all = repository.findAll();
@@ -69,7 +69,7 @@ class InMemoryVoucherRepositoryTest {
         repository.save(voucher1);
 
         // then
-        assertThatThrownBy(() -> repository.update(voucher2))
+        assertThatThrownBy(() -> repository.updateAmount(voucher2))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.NOT_EXIST_VOUCHER.getMessage());
     }

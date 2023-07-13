@@ -38,7 +38,7 @@ public class Console {
         output.write("Voucher Program exit !");
     }
 
-    public void outputVoucherCrud() {
+    public void outputVoucherMenu() {
         output.write(newLine + """
                 === Input Voucher CRUD menu ===
                 Type "1" => Create voucher
@@ -81,11 +81,11 @@ public class Console {
         return input.read();
     }
 
-    public void outputVoucherFindById(VoucherResponse voucherResponse) {
+    public void outputOneVoucher(VoucherResponse voucherResponse) {
         output.write(voucherResponse.toString() + newLine);
     }
 
-    public void outputVoucherFindAll(List<VoucherResponse> voucherResponses) {
+    public void outputAllVoucher(List<VoucherResponse> voucherResponses) {
         output.write(voucherResponses);
     }
 
@@ -93,7 +93,7 @@ public class Console {
         output.write(newLine + "Success Update Voucher !" + newLine + voucherResponse + newLine);
     }
 
-    public void outputVoucherDeleteById() {
+    public void outputVoucherDelete() {
         output.write(newLine + "Delete Success Voucher !" + newLine);
     }
 

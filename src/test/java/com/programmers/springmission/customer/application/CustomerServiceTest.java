@@ -248,10 +248,10 @@ class CustomerServiceTest {
         voucherRepository.save(voucher2);
 
         // when
-        voucher1.assignVoucherToCustomer(customerResponse1.getCustomerId());
-        voucher2.assignVoucherToCustomer(customerResponse1.getCustomerId());
-        voucherRepository.assign(voucher1);
-        voucherRepository.assign(voucher2);
+        voucher1.updateCustomer(customerResponse1.getCustomerId());
+        voucher2.updateCustomer(customerResponse1.getCustomerId());
+        voucherRepository.updateCustomer(voucher1);
+        voucherRepository.updateCustomer(voucher2);
 
         // then
         List<WalletResponse> customerWallet1 = service.findCustomerWallet(customerResponse1.getCustomerId());

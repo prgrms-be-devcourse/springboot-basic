@@ -36,7 +36,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher) {
+    public void updateAmount(Voucher voucher) {
         if (!storage.containsKey(voucher.getVoucherId())) {
             throw new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER);
         }
@@ -44,7 +44,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void assign(Voucher voucher) {
+    public void updateCustomer(Voucher voucher) {
         if (!storage.containsKey(voucher.getVoucherId())) {
             throw new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER);
         }

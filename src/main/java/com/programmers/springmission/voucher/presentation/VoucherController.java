@@ -24,7 +24,7 @@ public class VoucherController {
     }
 
     public void run() {
-        console.outputVoucherCrud();
+        console.outputVoucherMenu();
         CrudType inputValue = CrudType.of(console.input());
 
         switch (inputValue) {
@@ -33,27 +33,27 @@ public class VoucherController {
                 console.outputVoucherCreate(voucherResponse);
             }
             case FIND_ONE -> {
-                VoucherResponse voucherResponse = findByIdVoucher();
-                console.outputVoucherFindById(voucherResponse);
+                VoucherResponse voucherResponse = findOneVoucher();
+                console.outputOneVoucher(voucherResponse);
             }
             case FIND_ALL -> {
-                List<VoucherResponse> voucherResponse = findAllVoucher();
-                console.outputVoucherFindAll(voucherResponse);
+                List<VoucherResponse> voucherResponse = voucherService.findAllVoucher();
+                console.outputAllVoucher(voucherResponse);
             }
             case UPDATE -> {
-                VoucherResponse voucherResponse = updateVoucher();
+                VoucherResponse voucherResponse = updateAmount();
                 console.outputVoucherUpdate(voucherResponse);
             }
             case DELETE_BY_ID -> {
-                deleteByIdVoucher();
-                console.outputVoucherDeleteById();
+                deleteVoucher();
+                console.outputVoucherDelete();
             }
             case DELETE_ALL ->  {
-                deleteAllVoucher();
+                voucherService.deleteAllVoucher();
                 console.outputVoucherDeleteAll();
             }
             case WALLET -> {
-                VoucherResponse voucherResponse = assignVoucherToCustomer();
+                VoucherResponse voucherResponse = updateCustomer();
                 console.outputVoucherAssign(voucherResponse);
             }
         }
@@ -67,36 +67,28 @@ public class VoucherController {
         return voucherService.createVoucher(voucherCreateRequest);
     }
 
-    private VoucherResponse findByIdVoucher() {
+    private VoucherResponse findOneVoucher() {
         UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
-        return voucherService.findByIdVoucher(inputVoucherId);
+        return voucherService.findOneVoucher(inputVoucherId);
     }
 
-    private List<VoucherResponse> findAllVoucher() {
-        return voucherService.findAllVoucher();
-    }
-
-    private VoucherResponse updateVoucher() {
+    private VoucherResponse updateAmount() {
         UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
         long inputAmount = Long.parseLong(console.inputVoucherAmount());
 
         VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(inputAmount);
-        return voucherService.updateVoucher(inputVoucherId, voucherUpdateRequest);
+        return voucherService.updateAmount(inputVoucherId, voucherUpdateRequest);
     }
 
-    private void deleteByIdVoucher() {
+    private void deleteVoucher() {
         UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
-        voucherService.deleteByIdVoucher(inputVoucherId);
+        voucherService.deleteVoucher(inputVoucherId);
     }
 
-    private void deleteAllVoucher() {
-        voucherService.deleteAllVoucher();
-    }
-
-    private VoucherResponse assignVoucherToCustomer() {
+    private VoucherResponse updateCustomer() {
         UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
         UUID inputCustomerId = UUID.fromString(console.inputCustomerId());
-        return voucherService.assignVoucherToCustomer(inputVoucherId, inputCustomerId);
+        return voucherService.updateCustomer(inputVoucherId, inputCustomerId);
     }
 }
 
