@@ -23,8 +23,8 @@ public class CustomerService {
     }
 
     @Transactional
-    public CustomerResponse save(CustomerCreateRequest requestDto) {
-        Customer customer = new Customer(UUID.randomUUID(), requestDto.customerStatus());
+    public CustomerResponse save(CustomerCreateRequest customerCreateRequest) {
+        Customer customer = new Customer(UUID.randomUUID(), customerCreateRequest.customerStatus());
 
         customerDao.save(customer);
 
@@ -47,8 +47,8 @@ public class CustomerService {
                 .orElseThrow(() -> new RuntimeException("고객이 조회되지 않았습니다."));
     }
 
-    public CustomersResponse findByStatus(CustomerCreateRequest requestDto) {
-        List<Customer> findCustomers = customerDao.findByCustomerStatus(requestDto.customerStatus());
+    public CustomersResponse findByStatus(CustomerCreateRequest customerCreateRequest) {
+        List<Customer> findCustomers = customerDao.findByCustomerStatus(customerCreateRequest.customerStatus());
 
         List<CustomerResponse> convertCustomerResponse = findCustomers.stream()
                 .map(CustomerResponse::new)
@@ -58,8 +58,8 @@ public class CustomerService {
     }
 
     @Transactional
-    public void update(CustomerUpdateRequest requestDto) {
-        customerDao.updateStatus(requestDto);
+    public void update(CustomerUpdateRequest customerUpdateRequest) {
+        customerDao.updateStatus(customerUpdateRequest);
     }
 
     @Transactional
