@@ -13,10 +13,7 @@ public class AmountVoucherService {
         this.amountVoucherRepository = amountVoucherRepository;
     }
 
-    public AmountVoucher createAmountVoucher(AmountVoucherVo amountVoucherVo) {
-        AmountVoucherCreationType creationType = amountVoucherVo.getAmountVoucherCreationType();
-        AmountVoucher amountVoucher = creationType.createAmountVoucher(amountVoucherVo.getDiscountAmount());
-
+    public AmountVoucher createAmountVoucher(AmountVoucher amountVoucher) {
         return amountVoucherRepository.save(amountVoucher);
     }
 
