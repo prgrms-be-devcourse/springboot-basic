@@ -47,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var update = jdbcTemplate.update(VoucherManageSql.insertNewVoucherSQL,
                 toParamMap(voucher));
         if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+            throw new RuntimeException("추가된 바우처가 없습니다.");
         }
     }
 
@@ -56,8 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return jdbcTemplate.query(VoucherManageSql.findAllVoucherSQL, voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("---");
-            logger.error("Got empty result", e);
+            logger.error("조회된 바우처 리스트가 없습니다.", e);
             return Collections.emptyList();
         }
     }
@@ -69,7 +68,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     Collections.singletonMap("voucherType", voucherType),
                     voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.error("조회된 바우처 리스트가 없습니다.", e);
             return Collections.emptyList();
         }
     }
