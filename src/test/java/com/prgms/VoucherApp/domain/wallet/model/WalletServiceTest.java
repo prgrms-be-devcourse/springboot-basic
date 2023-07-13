@@ -84,6 +84,6 @@ public class WalletServiceTest {
         WalletResponse walletResponse = walletService.findByVoucherId(voucherResponse.voucherId());
 
         // then
-        Assertions.assertThat(walletResponse.customerResDto()).usingRecursiveComparison().isEqualTo(customerResponse);
+        Assertions.assertThat(walletResponse.customerResponse()).usingRecursiveComparison().isEqualTo(customerResponse);
     }
 }
