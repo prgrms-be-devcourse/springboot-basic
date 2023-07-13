@@ -25,6 +25,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private static final String SAVE_QUERY = "INSERT INTO voucher(voucher_id, voucher_type, amount) VALUES(UUID_TO_BIN(:voucher_id), :voucher_type, :amount)";
     private static final String FAILED_VOUCHER_SAVE_QUERY_MESSAGE = "바우처 저장 쿼리를 실패 하였습니다.";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM voucher";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -61,14 +62,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher findById(UUID voucherId) {
-        Voucher voucher = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper);
-
-        return voucher;
+        return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper);
     }
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        return jdbcTemplate.query(FIND_ALL_QUERY, voucherRowMapper);
     }
 
     @Override
