@@ -25,10 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -151,7 +148,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("특정 바우처로 조회")
+    @DisplayName("특정 바우처 타입으로 조회")
     void findAllByVouchersTypeTest() {
 
         //given
@@ -162,8 +159,6 @@ class VoucherServiceTest {
         VoucherListResponse voucherList = voucherService.findByType(VoucherType.FIXED);
         // then
         assertThat(voucherList.voucherResponseList()).hasSize(2);
-//        assertThat(voucherList.voucherResponseList().get(0).voucherId()).isEqualTo(voucher.getVoucherId());
-//        assertThat(voucherList.voucherResponseList().get(1).voucherId()).isEqualTo(voucher2.getVoucherId());
     }
 
     @Test
