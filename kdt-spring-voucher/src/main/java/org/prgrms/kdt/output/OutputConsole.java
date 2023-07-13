@@ -1,20 +1,12 @@
 package org.prgrms.kdt.output;
 
-import org.prgrms.kdt.storage.VoucherStorage;
 import org.prgrms.kdt.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class OutputConsole implements Output {
-    private final VoucherStorage voucherStorage;
-
-    @Autowired
-    public OutputConsole(VoucherStorage voucherStorage) {
-        this.voucherStorage = voucherStorage;
-    }
 
     @Override
     public void displayMenu() {
@@ -59,10 +51,9 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void displayAllVoucherList() {
-        List<Voucher> voucherList = voucherStorage.findAllVoucher();
+    public void displayAllVoucherList(List<Voucher> voucherList) {
         voucherList.stream()
-                .forEach(voucher -> System.out.println(String.format(VOUCHER_PRINT_FORMAT, voucher.getVoucherName(), voucher.getVoucherId(), voucher.getVoucherDiscountValue())));
+            .forEach(voucher -> System.out.println(String.format(VOUCHER_PRINT_FORMAT, voucher.getVoucherName(), voucher.getVoucherId(), voucher.getVoucherDiscountValue())));
     }
 
     private void printMenuLine(String userInput, String inputExplanation) {

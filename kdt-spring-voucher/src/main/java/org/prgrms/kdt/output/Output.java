@@ -1,5 +1,9 @@
 package org.prgrms.kdt.output;
 
+import org.prgrms.kdt.voucher.Voucher;
+
+import java.util.List;
+
 public interface Output {
     String VOUCHER_PRINT_FORMAT = "[%-25s] id: %s discountValue: %d";
 
@@ -17,5 +21,5 @@ public interface Output {
 
     void displayError(Exception e);
 
-    void displayAllVoucherList();
+    void displayAllVoucherList(List<Voucher>voucherList);
 }

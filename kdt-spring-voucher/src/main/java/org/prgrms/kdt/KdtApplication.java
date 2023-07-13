@@ -31,7 +31,18 @@ public class KdtApplication {
                     outputConsole.displayUserInputLine();
                     String userInputVoucherCreateMenuCommand = userInputMenu.userInputVoucherCreateMenuCommand();
                     VoucherCommand UserInputVoucherCommand = VoucherCommand.findByUserInputVoucherCommand(userInputVoucherCreateMenuCommand);
-                    voucherController.createVoucher(UserInputVoucherCommand);
+                    try {
+                        voucherController.createVoucher(UserInputVoucherCommand);
+                    } catch (IllegalArgumentException e) {
+                        switch (UserInputVoucherCommand) {
+                            case FIXED_AMOUNT -> {
+                                
+                            }
+                            case PERCENT_DISCOUNT -> {
+
+                            }
+                        }
+                    }
                 }
                 case LIST -> outputConsole.displayAllVoucherList();
                 case WRONG -> outputConsole.userInputWrongValue();
