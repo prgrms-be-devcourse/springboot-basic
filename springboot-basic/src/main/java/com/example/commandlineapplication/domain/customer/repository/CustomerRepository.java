@@ -9,13 +9,11 @@ public interface CustomerRepository {
 
   void save(Customer customer);
 
-  void update(UUID customerId);
+  void update(Customer customer);
 
   Optional<Customer> findById(UUID customerId);
 
   List<Customer> findAll();
 
   void deleteById(UUID customerId);
-
-  void deleteAll();
 }

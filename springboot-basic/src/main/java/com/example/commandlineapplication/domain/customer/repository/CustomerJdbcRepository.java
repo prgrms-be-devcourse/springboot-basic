@@ -54,14 +54,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
   }
 
   @Override
-  public void update(UUID customerId) {
+  public void update(Customer customer) {
     String sql = "update customer set customer_name = :customerName, customer_email = :customerEmail where customer_id = :customerId";
-    Customer foundCustomer = findById(customerId).orElseThrow(IllegalArgumentException::new);
 
     SqlParameterSource param = new MapSqlParameterSource()
-        .addValue("customerId", foundCustomer.getCustomerId().toString())
-        .addValue("customerName", foundCustomer.getName())
-        .addValue("customerEmail", foundCustomer.getEmail());
+        .addValue("customerId", customer.getCustomerId().toString())
+        .addValue("customerName", customer.getName())
+        .addValue("customerEmail", customer.getEmail());
 
     int updated = template.update(sql, param);
 
@@ -108,11 +107,5 @@ public class CustomerJdbcRepository implements CustomerRepository {
       LOG.error("customer가 삭제되지 않았습니다.");
       throw new RuntimeException("customer가 삭제되지 않았습니다.");
     }
-  }
-
-  @Override
-  public void deleteAll() {
-    String sql = "delete from customer";
-    template.query(sql, rowMapper());
   }
 }
