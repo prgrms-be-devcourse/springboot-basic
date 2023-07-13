@@ -18,13 +18,15 @@ import org.springframework.test.context.ActiveProfiles;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @JdbcTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class JdbcVoucherRepositoryTest {
 
     @TestConfiguration
@@ -107,7 +109,7 @@ class JdbcVoucherRepositoryTest {
 
         jdbcVoucherRepository.deleteById(id);
 
-        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
-        assertThat(vouchers.size()).isEqualTo(0);
+        assertThatThrownBy(() -> jdbcVoucherRepository.findById(id))
+                .isInstanceOf(NoSuchElementException.class);
     }
 }
