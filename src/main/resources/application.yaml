@@ -1,3 +1,8 @@
 file:
-  blacklist: member_blacklist.csv
-  voucher: voucher.csv
+  blacklist: /Users/user/github/springboot-basic/src/main/resources/customer_blacklist.csv
+  voucher: /Users/user/github/springboot-basic/src/main/resources/voucher.csv
+
+database:
+  url: jdbc:mysql://nextconnect.ceus91dlztiw.ap-northeast-2.rds.amazonaws.com/order_mgmt
+  hostname: admin
+  password: asdf1234
