@@ -56,7 +56,7 @@ public abstract class Voucher {
         return minimumPriceCondition;
     }
 
-    public Duration getVoucherDate() {
+    public Duration getDuration() {
         return duration;
     }
 
