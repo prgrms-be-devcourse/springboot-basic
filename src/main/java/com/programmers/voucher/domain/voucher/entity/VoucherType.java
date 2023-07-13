@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.voucher.entity;
 
 import com.programmers.voucher.exception.InvalidCommandException;
 import com.programmers.voucher.view.command.VoucherCommand;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +11,7 @@ import java.util.function.BiFunction;
 
 import static com.programmers.voucher.constant.ErrorMessage.INVALID_COMMAND;
 
+@Getter
 public enum VoucherType {
     FIXED(1, "금액 할인", (price, amount) -> Math.max(0L, price - amount)),
     PERCENT(2, "퍼센트 할인", (price, percent) -> Math.max(0L, price * (percent / 100)));
