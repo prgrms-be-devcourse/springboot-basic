@@ -135,8 +135,9 @@ class CustomerJdbcDaoTest {
         customerJdbcDao.save(customer);
 
         // when
-        CustomerUpdateRequest updateReqDto = new CustomerUpdateRequest(customer.getCustomerId(), CustomerStatus.BLACKLIST);
-        customerJdbcDao.updateStatus(updateReqDto);
+        CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(customer.getCustomerId(), CustomerStatus.BLACKLIST);
+        Customer toCustomer = customerUpdateRequest.toEntity();
+        customerJdbcDao.updateStatus(toCustomer);
         Optional<Customer> findCustomer = customerJdbcDao.findById(customer.getCustomerId());
 
         // then

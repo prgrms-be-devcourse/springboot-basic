@@ -59,7 +59,8 @@ public class CustomerService {
 
     @Transactional
     public void update(CustomerUpdateRequest customerUpdateRequest) {
-        customerDao.updateStatus(customerUpdateRequest);
+        Customer customer = customerUpdateRequest.toEntity();
+        customerDao.updateStatus(customer);
     }
 
     @Transactional
