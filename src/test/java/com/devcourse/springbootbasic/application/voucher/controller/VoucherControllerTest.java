@@ -41,8 +41,10 @@ class VoucherControllerTest {
     );
     @Autowired
     VoucherController voucherController;
+
     @Autowired
     CustomerRepository customerRepository;
+
     EmbeddedMysql embeddedMysql;
 
     static Stream<Arguments> provideVoucherDto() {

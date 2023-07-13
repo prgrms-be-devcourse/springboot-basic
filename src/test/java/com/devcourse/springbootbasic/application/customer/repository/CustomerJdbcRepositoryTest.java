@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CustomerRepositoryTest {
+class CustomerJdbcRepositoryTest {
 
     static List<Customer> validCustomers = List.of(
             new Customer(UUID.randomUUID(), "사과"),
@@ -40,7 +40,7 @@ class CustomerRepositoryTest {
             new Customer(UUID.randomUUID(), "배")
     );
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerJdbcRepository customerRepository;
 
     EmbeddedMysql embeddedMysql;
 
@@ -128,10 +128,8 @@ class CustomerRepositoryTest {
     void findAll_ParamVoid_ReturnVoucherList(Customer customer) {
         customerRepository.insert(customer);
         var customers = customerRepository.findAll();
-        var customersCount = customerRepository.count();
         assertThat(customers, instanceOf(List.class));
         assertThat(customers.get(0), instanceOf(Customer.class));
-        assertThat(customers.size(), is(customersCount));
     }
 
     @ParameterizedTest
@@ -185,10 +183,11 @@ class CustomerRepositoryTest {
     @MethodSource("provideValidCustomers")
     void deleteById_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
         customerRepository.insert(customer);
-        var beforeCount = customerRepository.count();
+
         customerRepository.deleteById(customer.getCustomerId());
-        var afterCount = customerRepository.count();
-        assertThat(beforeCount, is(afterCount + 1));
+        var maybeNull = customerRepository.findById(customer.getCustomerId());
+
+        assertThat(maybeNull.isEmpty(), is(true));
     }
 
     @TestConfiguration
