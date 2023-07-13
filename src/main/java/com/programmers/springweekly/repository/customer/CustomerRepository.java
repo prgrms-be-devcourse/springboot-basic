@@ -1,10 +1,24 @@
 package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
-import java.util.Map;
+
+import java.util.List;
 import java.util.UUID;
 
 public interface CustomerRepository {
 
-    Map<UUID, Customer> getBlackList();
+    Customer save(Customer customer);
+
+    void update(Customer customer);
+
+    Customer findById(UUID customerId);
+
+    List<Customer> findAll();
+
+    List<Customer> getBlackList();
+
+    void deleteById(UUID customerId);
+
+    void deleteAll();
+
 }

@@ -4,11 +4,11 @@ public enum VoucherType {
     FIXED,
     PERCENT;
 
-    public static VoucherType findVoucherMenu(String type) {
+    public static VoucherType from(String type) {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Input: " + type + ", The type you are looking for is not found.");
+            throw new IllegalArgumentException("Input: " + type + ", 찾으시는 바우처 타입이 없습니다.");
         }
     }
 }

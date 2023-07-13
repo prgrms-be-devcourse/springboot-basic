@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("dev")
+@Profile({"dev", "test"})
 @Slf4j
 public class FileVoucherRepository implements VoucherRepository {
 
@@ -58,11 +58,13 @@ public class FileVoucherRepository implements VoucherRepository {
 
                 ReadVoucherDto readVoucherDto = new ReadVoucherDto(readLine[0], readLine[1], readLine[2]);
 
-                Voucher voucher = VoucherFactory.createVoucher(readVoucherDto.getVoucherType(), readVoucherDto.getDiscountAmount());
+                Voucher voucher = VoucherFactory.createVoucherOfFile(readVoucherDto.getVoucherId(), readVoucherDto.getVoucherType(), readVoucherDto.getDiscountAmount());
 
-                voucherMap.put(readVoucherDto.getVoucherId(), voucher);
+                voucherMap.put(voucher.getVoucherId(), voucher);
             }
 
+        } catch (IndexOutOfBoundsException e) {
+            log.error("현재 파일에 저장된 열의 수가 맞지 않습니다. : {}", e.getMessage());
         } catch (Exception e) {
             log.error("error message: {}", e.getMessage());
         }

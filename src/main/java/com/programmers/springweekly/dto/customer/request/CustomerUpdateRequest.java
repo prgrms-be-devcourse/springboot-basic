@@ -1,12 +1,13 @@
-package com.programmers.springweekly.domain.customer;
+package com.programmers.springweekly.dto.customer.request;
 
+import com.programmers.springweekly.domain.customer.CustomerType;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
-public class Customer {
+public class CustomerUpdateRequest {
 
     private final UUID customerId;
     private final String customerName;
@@ -14,7 +15,7 @@ public class Customer {
     private final CustomerType customerType;
 
     @Builder
-    public Customer(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {
+    public CustomerUpdateRequest(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerEmail = customerEmail;

@@ -12,6 +12,11 @@ public class FixedAmountVoucher implements Voucher {
         this.fixedDiscountAmount = fixedDiscountAmount;
     }
 
+    public FixedAmountVoucher(UUID voucherId, long fixedDiscountAmount) {
+        this.voucherId = voucherId;
+        this.fixedDiscountAmount = fixedDiscountAmount;
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
