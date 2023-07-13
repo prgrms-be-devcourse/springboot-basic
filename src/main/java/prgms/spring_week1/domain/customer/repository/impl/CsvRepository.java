@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
 import prgms.spring_week1.domain.customer.repository.BlackListRepository;
-import prgms.spring_week1.domain.voucher.service.VoucherService;
 
 import java.io.BufferedReader;
 import java.io.File;

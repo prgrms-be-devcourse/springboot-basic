@@ -7,10 +7,8 @@ import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
 import prgms.spring_week1.menu.VoucherMenu;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Scanner;
-import java.util.UUID;
+
 
 public class Input {
     private final Logger logger = LoggerFactory.getLogger(Input.class);

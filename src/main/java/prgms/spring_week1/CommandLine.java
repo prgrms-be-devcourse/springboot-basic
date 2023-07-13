@@ -52,6 +52,22 @@ public class CommandLine implements CommandLineRunner {
         }
     }
 
+    private void createVoucher() {
+        try {
+            insertDiscountValue();
+        } catch (RuntimeException e) {
+            logger.warn(e.getMessage());
+            input.printConsoleMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
+        }
+    }
+
+    private void insertDiscountValue() {
+        VoucherType voucherType = input.selectVoucherType();
+        int discountValue = input.insertDiscountValue();
+        voucherService.insertNewVoucher(voucherType, discountValue);
+        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+    }
+
     private void selectCustomerMenu(){
 //        Menu menuName = input.getMenu();
 //        switch (menuName){
@@ -60,22 +76,5 @@ public class CommandLine implements CommandLineRunner {
 //            case LIST -> ;
 //            case BLACK -> ;
 //        }
-    }
-
-    private void createVoucher() {
-        try {
-            insertDiscountValue();
-        } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
-            input.printConsoleMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
-        }
-
-    }
-
-    private void insertDiscountValue() {
-        VoucherType voucherType = input.selectVoucherType();
-        int discountValue = input.insertDiscountValue();
-        voucherService.insertNewVoucher(voucherType, discountValue);
-        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 }

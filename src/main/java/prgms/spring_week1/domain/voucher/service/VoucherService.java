@@ -7,10 +7,8 @@ import prgms.spring_week1.domain.voucher.model.Voucher;
 
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import prgms.spring_week1.io.Input;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
