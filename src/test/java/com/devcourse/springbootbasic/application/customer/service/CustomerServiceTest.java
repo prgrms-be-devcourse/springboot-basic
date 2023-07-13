@@ -37,10 +37,10 @@ import static org.mockito.Mockito.mock;
 class CustomerServiceTest {
 
     static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기"),
-            new Customer(UUID.randomUUID(), "포도"),
-            new Customer(UUID.randomUUID(), "배")
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true),
+            new Customer(UUID.randomUUID(), "포도", false),
+            new Customer(UUID.randomUUID(), "배", false)
     );
     @Autowired
     CustomerService customerService;
@@ -81,10 +81,10 @@ class CustomerServiceTest {
         var customerRepositoryMock = mock(CustomerRepository.class);
         given(customerRepositoryMock.findAllBlackCustomers()).willReturn(
                 List.of(
-                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"), "사과"),
-                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"), "딸기"),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"), "포도"),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배")
+                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"), "사과", false),
+                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"), "딸기", true),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"), "포도", false),
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배", false)
                 )
         );
         var sut = new CustomerService(customerRepositoryMock);

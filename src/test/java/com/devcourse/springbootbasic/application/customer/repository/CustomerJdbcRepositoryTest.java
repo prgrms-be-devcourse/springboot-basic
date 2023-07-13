@@ -33,26 +33,13 @@ import static org.hamcrest.Matchers.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerJdbcRepositoryTest {
 
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기"),
-            new Customer(UUID.randomUUID(), "포도"),
-            new Customer(UUID.randomUUID(), "배")
-    );
     @Autowired
     CustomerJdbcRepository customerRepository;
 
     EmbeddedMysql embeddedMysql;
 
-    static Stream<Arguments> provideValidCustomers() {
-        return validCustomers.stream()
-                .map(Arguments::of);
-    }
-
     @BeforeAll
     void init() {
-        customerRepository.setFilePath("storage/customers/customer_blacklist.csv");
-
         var mysqlConfig = aMysqldConfig(v8_0_17)
                 .withCharset(UTF8)
                 .withPort(8070)
@@ -77,6 +64,7 @@ class CustomerJdbcRepositoryTest {
     @Test
     @DisplayName("블랙고객 리스트를 반환하면 성공한다.")
     void FindAllBlackCustomers_Normal_ReturnBlackCustomers() {
+        validCustomers.forEach(customer -> customerRepository.insert(customer));
         var result = customerRepository.findAllBlackCustomers();
         assertThat(result, notNullValue());
         assertThat(result, instanceOf(List.class));
@@ -211,6 +199,18 @@ class CustomerJdbcRepositoryTest {
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
             return new NamedParameterJdbcTemplate(jdbcTemplate);
         }
+    }
+
+    static List<Customer> validCustomers = List.of(
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true),
+            new Customer(UUID.randomUUID(), "포도", false),
+            new Customer(UUID.randomUUID(), "배", false)
+    );
+
+    static Stream<Arguments> provideValidCustomers() {
+        return validCustomers.stream()
+                .map(Arguments::of);
     }
 
 }

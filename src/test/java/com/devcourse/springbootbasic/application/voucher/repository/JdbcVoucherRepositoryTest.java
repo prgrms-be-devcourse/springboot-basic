@@ -33,8 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class JdbcVoucherRepositoryTest {
 
     static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기")
+            new Customer(UUID.randomUUID(), "사과", true),
+            new Customer(UUID.randomUUID(), "딸기", false)
     );
     static List<Voucher> vouchers = List.of(
             new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),

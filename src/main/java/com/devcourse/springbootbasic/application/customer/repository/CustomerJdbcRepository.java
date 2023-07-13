@@ -3,9 +3,7 @@ package com.devcourse.springbootbasic.application.customer.repository;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import com.devcourse.springbootbasic.application.global.io.CsvReader;
 import com.devcourse.springbootbasic.application.global.utils.Utils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,36 +16,23 @@ import java.util.*;
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        return new Customer(customerId, name);
+        UUID customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        String name = resultSet.getString("name");
+        boolean isBlack = resultSet.getBoolean("black");
+        return new Customer(customerId, name, isBlack);
     };
-
-    @Value("${settings.blackCustomerPath}")
-    private String filepath;
-
-    private final CsvReader csvReader;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public CustomerJdbcRepository(CsvReader csvReader, NamedParameterJdbcTemplate jdbcTemplate) {
-        this.csvReader = csvReader;
+    public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Override
-    public List<Customer> findAllBlackCustomers() {
-        return csvReader.readFile(filepath)
-                .stream()
-                .map(this::convertCsvToCustomer)
-                .toList();
     }
 
     @Override
     public Customer insert(Customer customer) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "INSERT INTO customers(customer_id, name) VALUES (UUID_TO_BIN(:customerId), :name)",
+                    "INSERT INTO customers(customer_id, name, black) VALUES (UUID_TO_BIN(:customerId), :name, :black)",
                     toParamMap(customer)
             );
             if (updateResult != 1) {
@@ -63,7 +48,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Customer update(Customer customer) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "UPDATE customers SET name = :name WHERE customer_id = UUID_TO_BIN(:customerId)",
+                    "UPDATE customers SET name = :name, black = :black WHERE customer_id = UUID_TO_BIN(:customerId)",
                     toParamMap(customer)
             );
             if (updateResult != 1) {
@@ -79,7 +64,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public List<Customer> findAll() {
         try {
             return jdbcTemplate.query(
-                    "SELECT * FROM customers",
+                    "SELECT customer_id, name, black FROM customers",
                     customerRowMapper
             );
         } catch (DataAccessException exception) {
@@ -88,11 +73,23 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findAllBlackCustomers() {
+        try {
+            return jdbcTemplate.query(
+                    "SELECT customer_id, name, black FROM customers WHERE black = TRUE",
+                    customerRowMapper
+            );
+        } catch (DataAccessException e) {
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
+        }
+    }
+
+    @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                            "SELECT customer_id, name, black FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
                             Collections.singletonMap("customerId", customerId.toString().getBytes()),
                             customerRowMapper
                     )
@@ -107,7 +104,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT * FROM customers WHERE name = :name",
+                            "SELECT customer_id, name, black FROM customers WHERE name = :name",
                             Collections.singletonMap("name", name),
                             customerRowMapper
                     )
@@ -141,24 +138,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
         }
     }
 
-    public void setFilePath(String filePath) {
-        this.filepath = filePath;
-    }
-
     private Map<String, Object> toParamMap(Customer customer) {
         var paramMap = new HashMap<String, Object>();
         paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
         paramMap.put("name", customer.getName());
+        paramMap.put("black", customer.isBlack());
         return paramMap;
     }
-
-    private Customer convertCsvToCustomer(String blackCustomerInfo) {
-        String[] customerInfoArray = blackCustomerInfo.split(",");
-        return new Customer(
-                UUID.fromString(customerInfoArray[0]),
-                customerInfoArray[1]
-        );
-    }
-
 
 }

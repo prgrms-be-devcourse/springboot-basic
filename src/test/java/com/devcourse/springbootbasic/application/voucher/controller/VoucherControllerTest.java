@@ -31,8 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class VoucherControllerTest {
 
     static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기")
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true)
     );
     static List<VoucherDto> voucherDto = List.of(
             new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),

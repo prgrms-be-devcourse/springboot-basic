@@ -55,14 +55,19 @@ public class ConsoleManager {
         return inputConsole.readId();
     }
 
-    public String consoleName() {
+    private String consoleName() {
         return inputConsole.readName();
     }
 
+    private boolean consoleBlack() {
+        return inputConsole.readBlack();
+    }
+
     public CustomerDto consoleCustomerDto() {
-        var id = UUID.randomUUID();
-        var name = consoleName();
-        return new CustomerDto(id, name);
+        UUID id = UUID.randomUUID();
+        String name = consoleName();
+        boolean isBlack = consoleBlack();
+        return new CustomerDto(id, name, isBlack);
     }
 
     public void printVoucherDto(VoucherDto voucherDto) {

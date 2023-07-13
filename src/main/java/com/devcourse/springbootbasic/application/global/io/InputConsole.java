@@ -48,4 +48,8 @@ public class InputConsole {
                 .read("Name: ");
     }
 
+    public boolean readBlack() {
+        return textIO.newBooleanInputReader()
+                .read("Black Customer: ");
+    }
 }

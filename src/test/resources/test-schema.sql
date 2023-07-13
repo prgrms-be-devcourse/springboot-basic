@@ -11,15 +11,16 @@ create table vouchers
 CREATE TABLE customers
 (
     customer_id BINARY(16)  not null PRIMARY KEY,
-    name        varchar(20) NOT NULL
+    name        varchar(20) NOT NULL,
+    black       tinyint(1)  not null
 );
 
 set @customer_id1 = UUID_TO_BIN(UUID());
 set @customer_id2 = UUID_TO_BIN(UUID());
-insert into customers(customer_id, name)
-VALUES (@customer_id1, '사과');
-insert into customers(customer_id, name)
-VALUES (@customer_id2, '딸기');
+insert into customers(customer_id, name, black)
+VALUES (@customer_id1, '사과', false);
+insert into customers(customer_id, name, black)
+VALUES (@customer_id2, '딸기', true);
 
 insert into vouchers(voucher_id, voucher_type, discount_value, customer_id)
 VALUES (UUID_TO_BIN(UUID()), 'FIXED_AMOUNT', 223.41, @customer_id1);

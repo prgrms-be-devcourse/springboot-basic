@@ -32,8 +32,8 @@ import static org.hamcrest.Matchers.*;
 class VoucherServiceTest {
 
     static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기")
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true)
     );
     static List<Voucher> vouchers = List.of(
             new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),

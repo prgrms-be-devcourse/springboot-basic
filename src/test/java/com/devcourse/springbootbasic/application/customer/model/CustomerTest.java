@@ -16,8 +16,8 @@ class CustomerTest {
     @ParameterizedTest
     @DisplayName("고객 정보가 출력되면 성공한다.")
     @MethodSource("provideCustomers")
-    void ToString_Customer_ReturnCustomerString(UUID customerId, String name, Customer customer) {
-        var expected = MessageFormat.format("Customer(id: {0}, name: {1})", customerId, name);
+    void ToString_Customer_ReturnCustomerString(UUID customerId, String name, boolean isBlack, Customer customer) {
+        var expected = MessageFormat.format("Customer(id: {0}, name: {1}, isBlack: {2})", customerId, name, isBlack);
         var result = customer.toString();
         assertEquals(expected, result);
     }
@@ -25,14 +25,14 @@ class CustomerTest {
     static Stream<Arguments> provideCustomers() {
         return Stream.of(
                 Arguments.of(
-                        UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"), "사과",
-                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"), "사과")),
-                Arguments.of(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"), "딸기",
-                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"), "딸기")),
-                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"), "포도",
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"), "포도")),
-                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배",
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배"))
+                        UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"), "사과", false,
+                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"), "사과", false)),
+                Arguments.of(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"), "딸기",true,
+                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"), "딸기", true)),
+                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"), "포도",false,
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"), "포도", false)),
+                Arguments.of(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배",false,
+                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배", false))
         );
     }
 

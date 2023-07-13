@@ -10,13 +10,13 @@ public class Customer {
 
     private final UUID customerId;
     private final String name;
+    private final boolean isBlack;
 
-    public Customer(
-            UUID customerId, String name
-    ) {
+    public Customer(UUID customerId, String name, boolean isBlack) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
+        this.isBlack = isBlack;
     }
 
     private void validateName(String name) {
@@ -27,7 +27,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return MessageFormat.format("Customer(id: {0}, name: {1})", customerId, name);
+        return MessageFormat.format("Customer(id: {0}, name: {1}, isBlack: {2})", customerId, name, isBlack);
     }
 
     public UUID getCustomerId() {
@@ -36,6 +36,10 @@ public class Customer {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isBlack() {
+        return isBlack;
     }
 
 }

@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    List<Customer> findAllBlackCustomers();
-
     Customer insert(Customer customer);
 
     Customer update(Customer customer);
 
     List<Customer> findAll();
+
+    List<Customer> findAllBlackCustomers();
 
     Optional<Customer> findById(UUID customerId);
 

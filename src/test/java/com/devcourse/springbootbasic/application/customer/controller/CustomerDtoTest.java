@@ -16,29 +16,6 @@ import static org.hamcrest.Matchers.is;
 
 class CustomerDtoTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기"),
-            new Customer(UUID.randomUUID(), "포도"),
-            new Customer(UUID.randomUUID(), "배")
-    );
-    static List<CustomerDto> customerDto = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과"),
-            new CustomerDto(UUID.randomUUID(), "딸기"),
-            new CustomerDto(UUID.randomUUID(), "포도"),
-            new CustomerDto(UUID.randomUUID(), "배")
-    );
-
-    static Stream<Arguments> provideValidCustomers() {
-        return customers.stream()
-                .map(Arguments::of);
-    }
-
-    static Stream<Arguments> provideValidCustomerDtos() {
-        return customerDto.stream()
-                .map(Arguments::of);
-    }
-
     @ParameterizedTest
     @DisplayName("Dto에서 Domain으로 변환하면 성공한다.")
     @MethodSource("provideValidCustomers")
@@ -50,10 +27,33 @@ class CustomerDtoTest {
 
     @ParameterizedTest
     @DisplayName("Domain에서 Dto로 변환하면 성공한다.")
-    @MethodSource("provideValidCustomerDtos")
+    @MethodSource("provideValidCustomerDto")
     void to(CustomerDto customerDto) {
         var entity = CustomerDto.to(customerDto);
         assertThat(entity, instanceOf(Customer.class));
+    }
+
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true),
+            new Customer(UUID.randomUUID(), "포도", false),
+            new Customer(UUID.randomUUID(), "배", false)
+    );
+    static List<CustomerDto> customerDto = List.of(
+            new CustomerDto(UUID.randomUUID(), "사과", false),
+            new CustomerDto(UUID.randomUUID(), "딸기", true),
+            new CustomerDto(UUID.randomUUID(), "포도", false),
+            new CustomerDto(UUID.randomUUID(), "배", false)
+    );
+
+    static Stream<Arguments> provideValidCustomers() {
+        return customers.stream()
+                .map(Arguments::of);
+    }
+
+    static Stream<Arguments> provideValidCustomerDto() {
+        return customerDto.stream()
+                .map(Arguments::of);
     }
 
 }

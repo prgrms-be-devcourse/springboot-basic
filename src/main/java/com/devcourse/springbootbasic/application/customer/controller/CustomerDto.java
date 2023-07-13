@@ -9,12 +9,14 @@ import java.util.UUID;
 
 public record CustomerDto(
         UUID customerId,
-        String name
+        String name,
+        boolean isBlack
 ) {
     public static CustomerDto of(Customer entity) {
         return new CustomerDto(
                 entity.getCustomerId(),
-                entity.getName()
+                entity.getName(),
+                entity.isBlack()
         );
     }
 
@@ -22,8 +24,8 @@ public record CustomerDto(
         validateName(dto.name);
         return new Customer(
                 dto.customerId(),
-                dto.name()
-        );
+                dto.name(),
+                dto.isBlack());
     }
 
     private static void validateName(String name) {
@@ -34,8 +36,8 @@ public record CustomerDto(
 
     public String toString() {
         return MessageFormat.format(
-                "Customer(id: {0}, name: {1})",
-                customerId, name
+                "Customer(id: {0}, name: {1}, isBlack: {2})",
+                customerId, name, isBlack
         );
     }
 }

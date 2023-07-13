@@ -30,16 +30,16 @@ import static org.mockito.Mockito.mock;
 class CustomerControllerTest {
 
     static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과"),
-            new Customer(UUID.randomUUID(), "딸기"),
-            new Customer(UUID.randomUUID(), "포도"),
-            new Customer(UUID.randomUUID(), "배")
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true),
+            new Customer(UUID.randomUUID(), "포도", false),
+            new Customer(UUID.randomUUID(), "배", false)
     );
     static List<CustomerDto> validCustomerDto = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과"),
-            new CustomerDto(UUID.randomUUID(), "딸기"),
-            new CustomerDto(UUID.randomUUID(), "포도"),
-            new CustomerDto(UUID.randomUUID(), "배")
+            new CustomerDto(UUID.randomUUID(), "사과", false),
+            new CustomerDto(UUID.randomUUID(), "딸기", true),
+            new CustomerDto(UUID.randomUUID(), "포도", false),
+            new CustomerDto(UUID.randomUUID(), "배", false)
     );
     @Autowired
     CustomerController customerController;
@@ -116,7 +116,7 @@ class CustomerControllerTest {
     void updateCustomer_ParamExistCustomerDto_UpdateCustomerDto(Customer customer) {
         var dto = CustomerDto.of(customer);
         customerController.registerCustomer(dto);
-        var otherCustomer = new Customer(customer.getCustomerId(), "토끼");
+        var otherCustomer = new Customer(customer.getCustomerId(), "토끼", false);
         var otherDto = CustomerDto.of(otherCustomer);
         customerController.updateCustomer(otherDto);
         var updatedDto = customerController.findCustomerById(otherDto.customerId());
@@ -127,7 +127,7 @@ class CustomerControllerTest {
     @DisplayName("존재하지 않는 고객을 업데이트하면 실패한다.")
     @MethodSource("provideValidCustomers")
     void updateCustomer_ParamNotExistCustomerDto_Exception(Customer customer) {
-        var otherCustomer = new Customer(customer.getCustomerId(), "토끼");
+        var otherCustomer = new Customer(customer.getCustomerId(), "토끼", false);
         var otherDto = CustomerDto.of(otherCustomer);
         Assertions.assertThrows(InvalidDataException.class, () -> customerController.updateCustomer(otherDto));
     }
