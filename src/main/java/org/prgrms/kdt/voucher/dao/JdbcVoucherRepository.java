@@ -31,7 +31,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String sql = "select * from voucher WHERE id = ?";
+        String sql = "select id, type, amount from voucher WHERE id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     voucherRowMapper,
@@ -56,6 +56,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("select * from voucher", voucherRowMapper);
+        return jdbcTemplate.query("select id, type, amount from voucher", voucherRowMapper);
     }
 }

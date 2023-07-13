@@ -35,9 +35,8 @@ public class WalletService {
         voucherRepository.findById(request.voucherId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 바우처 입니다."));
 
-        Wallet wallet = new Wallet(UUID.randomUUID(), request.memberId(), request.voucherId());
-        Wallet insertedWallet = walletRepository.insert(wallet);
-        return new WalletResponse(insertedWallet);
+        Wallet wallet = new Wallet(request.walletId(), request.memberId(), request.voucherId());
+        return new WalletResponse(walletRepository.insert(wallet));
     }
 
     public JoinedWalletsResponse findVouchersByMemberId(UUID memberId) {
@@ -45,6 +44,7 @@ public class WalletService {
         return JoinedWalletsResponse.of(joinedWallets);
     }
 
+    @Transactional
     public void deleteWalletById(UUID walletId) {
         walletRepository.deleteById(walletId);
     }

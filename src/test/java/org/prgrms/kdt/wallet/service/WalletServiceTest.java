@@ -1,7 +1,6 @@
 package org.prgrms.kdt.wallet.service;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.exception.EntityNotFoundException;
@@ -30,7 +29,7 @@ import static org.assertj.core.api.Assertions.catchException;
 
 
 @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Transactional
 class WalletServiceTest {
 
@@ -44,18 +43,18 @@ class WalletServiceTest {
     VoucherRepository voucherRepository;
 
     @BeforeEach
-    void setup(){
+    void setup() {
 //         멤버 두명, 바우처 두개를 각각의 db테이블에 넣어놓고
 //         멤버1에게 바우처 두개를 할당한 상태 셋팅
         setupInsertWallets();
     }
 
     @Test
-    @DisplayName("올바른 멤버와 바우처가 담긴 request객체를 통해 월렛 할당 후 반환된 월렛안의 멤버네임 비교")
-    @Disabled
-    void assignVoucherToCustomer_correctRequest_correctWallet() {
+    @DisplayName("올바른 멤버와 바우처가 담긴 request객체를 통해 월렛 할당 후 반환된 월렛안의 멤버Id 비교")
+    void assignVoucherToCustomer_correctRequest_correctWalletResponse() {
         //given
-        Member member = memberRepository.insert(new Member("giho", MemberStatus.COMMON));
+        UUID expectMemberId = UUID.fromString("9a3d5b3e-2d12-4958-9ef3-52d424485895");
+        Member member = memberRepository.insert(new Member(expectMemberId, "giho", MemberStatus.COMMON));
         Voucher voucher = voucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
         CreateWalletRequest createWalletRequest = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
 
@@ -63,8 +62,8 @@ class WalletServiceTest {
         WalletResponse resultWallet = walletService.assignVoucherToCustomer(createWalletRequest);
 
         //then
-//        String resultMemberName = resultWallet.memberName();
-//        assertThat(resultMemberName).isEqualTo("giho");
+        UUID resultMemberId = resultWallet.memberId();
+        assertThat(resultMemberId).isEqualTo(expectMemberId);
     }
 
     @Test
@@ -125,11 +124,11 @@ class WalletServiceTest {
         assertThat(joinedWallets.size()).isEqualTo(2);
     }
 
-    void setupInsertWallets(){
+    void setupInsertWallets() {
         UUID memberId1 = UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895");
         UUID memberId2 = UUID.fromString("3a3d3a3e-2d12-4958-9ef3-52d424485895");
-        Member member1 = new Member(memberId1,"james", MemberStatus.COMMON);
-        Member member2 = new Member(memberId2,"lala", MemberStatus.COMMON);
+        Member member1 = new Member(memberId1, "james", MemberStatus.COMMON);
+        Member member2 = new Member(memberId2, "lala", MemberStatus.COMMON);
 
         UUID voucherId1 = UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29");
         UUID voucherId2 = UUID.fromString("5c3aba5e-eb09-4b21-b57f-d9ef54bacd29");

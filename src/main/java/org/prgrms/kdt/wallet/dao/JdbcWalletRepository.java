@@ -21,15 +21,15 @@ import java.util.UUID;
 @Repository
 public class JdbcWalletRepository implements WalletRepository {
     private static final RowMapper<JoinedWallet> joinedWalletRowMapper = (resultSet, i) -> {
-        UUID walletId = UUID.fromString(resultSet.getString("id"));
+        UUID walletId = UUID.fromString(resultSet.getString("A.id"));
 
-        UUID memberId = UUID.fromString(resultSet.getString("member_id"));
-        String memberName = resultSet.getString("name");
-        MemberStatus memberStatus = MemberStatus.getStatus(resultSet.getString("status"));
+        UUID memberId = UUID.fromString(resultSet.getString("A.member_id"));
+        String memberName = resultSet.getString("B.name");
+        MemberStatus memberStatus = MemberStatus.getStatus(resultSet.getString("B.status"));
 
-        UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
-        VoucherType voucherType = VoucherType.getTypeByStr(resultSet.getString("type"));
-        DiscountPolicy discountPolicy = voucherType.createPolicy(resultSet.getDouble("amount"));
+        UUID voucherId = UUID.fromString(resultSet.getString("A.voucher_id"));
+        VoucherType voucherType = VoucherType.getTypeByStr(resultSet.getString("C.type"));
+        DiscountPolicy discountPolicy = voucherType.createPolicy(resultSet.getDouble("C.amount"));
 
         Member member = new Member(memberId, memberName, memberStatus);
         Voucher voucher = new Voucher(voucherId, voucherType, discountPolicy);
@@ -56,7 +56,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public Optional<JoinedWallet> findWithMemeberAndVoucherById(UUID walletId) {
-        String sql = "select * from wallet A " +
+        String sql = "select A.id, A.member_id, B.name, B.status, A.voucher_id, C.type, C.amount from wallet A " +
                 "LEFT JOIN member B ON A.member_id = B.id " +
                 "LEFT JOIN voucher C ON A.voucher_id = C.id " +
                 "WHERE A.id = ?";
@@ -69,7 +69,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherByMemberId(UUID memberId) {
-        String sql = "select * from wallet A " +
+        String sql = "select A.id, A.member_id, B.name, B.status, A.voucher_id, C.type, C.amount from wallet A " +
                 "LEFT JOIN member B ON A.member_id = B.id " +
                 "LEFT JOIN voucher C ON A.voucher_id = C.id " +
                 "WHERE A.member_id = ?";
@@ -78,7 +78,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherByVoucherId(UUID voucherId) {
-        String sql = "select * from wallet A " +
+        String sql = "select A.id, A.member_id, B.name, B.status, A.voucher_id, C.type, C.amount from wallet A " +
                 "LEFT JOIN member B ON A.member_id = B.id " +
                 "LEFT JOIN voucher C ON A.voucher_id = C.id " +
                 "WHERE A.voucher_id = ?";
@@ -93,7 +93,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherAll() {
-        String sql = "select * from wallet A " +
+        String sql = "select A.id, A.member_id, B.name, B.status, A.voucher_id, C.type, C.amount from wallet A " +
                 "LEFT JOIN member B ON A.member_id = B.id " +
                 "LEFT JOIN voucher C ON A.voucher_id = C.id";
         return jdbcTemplate.query(sql, joinedWalletRowMapper);

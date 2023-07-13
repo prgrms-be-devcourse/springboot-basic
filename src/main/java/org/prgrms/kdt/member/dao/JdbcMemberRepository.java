@@ -2,7 +2,6 @@ package org.prgrms.kdt.member.dao;
 
 import org.prgrms.kdt.exception.NotUpdateException;
 import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.member.domain.MemberName;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,13 +42,13 @@ public class JdbcMemberRepository implements MemberRepository {
 
     @Override
     public List<Member> findAll() {
-        String sql = "select * from member";
+        String sql = "select id, name, status from member";
         return jdbcTemplate.query(sql, memberRowMapper);
     }
 
     @Override
     public Optional<Member> findById(UUID memberId) {
-        String sql = "select * from member WHERE id = ?";
+        String sql = "select id, name, status from member WHERE id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     memberRowMapper,
@@ -61,7 +60,7 @@ public class JdbcMemberRepository implements MemberRepository {
 
     @Override
     public List<Member> findByStatus(MemberStatus status) {
-        String sql = "select * from member WHERE status = ?";
+        String sql = "select id, name, status from member WHERE status = ?";
         return jdbcTemplate.query(sql, memberRowMapper, status.getDescripton());
     }
 }

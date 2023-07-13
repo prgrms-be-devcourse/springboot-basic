@@ -1,6 +1,7 @@
 package org.prgrms.kdt.member.dao;
 
 import org.prgrms.kdt.member.domain.Member;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Profile("file")
 @Component
 public class BlackListRepository {
     private final Map<UUID, Member> storage;
