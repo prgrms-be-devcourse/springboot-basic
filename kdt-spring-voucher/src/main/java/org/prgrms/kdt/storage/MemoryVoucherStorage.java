@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -19,6 +20,6 @@ public class MemoryVoucherStorage implements VoucherStorage {
 
     @Override
     public List<Voucher> findAllVoucher() {
-        return memoryVoucherList;
+        return Collections.unmodifiableList(memoryVoucherList);
     }
 }
