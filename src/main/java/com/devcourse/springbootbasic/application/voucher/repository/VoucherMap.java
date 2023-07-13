@@ -4,10 +4,7 @@ import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class VoucherMap {
 
@@ -50,5 +47,25 @@ public class VoucherMap {
 
     public void removeVoucherById(UUID voucherId) {
         map.remove(voucherId);
+    }
+
+    public List<Voucher> getAllVouchersByCustomerId(UUID customerId) {
+        return map.values().stream()
+                .filter(voucher -> voucher.getCustomerId() == customerId)
+                .toList();
+    }
+
+    public void removeVoucherByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        var list = map.values().stream()
+                .filter(voucher -> voucher.getVoucherId() != voucherId || voucher.getCustomerId() != customerId)
+                .toList();
+        map.clear();
+        list.forEach(voucher -> map.put(voucher.getVoucherId(), voucher));
+    }
+
+    public Optional<Voucher> getVoucherByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        return map.values().stream()
+                .filter(voucher -> voucher.getVoucherId() == voucherId && voucher.getCustomerId() == customerId)
+                .findAny();
     }
 }

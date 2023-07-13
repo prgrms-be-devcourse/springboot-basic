@@ -2,14 +2,11 @@ package com.devcourse.springbootbasic.application.global.io;
 
 import com.devcourse.springbootbasic.application.customer.controller.CustomerDto;
 import com.devcourse.springbootbasic.application.global.model.CommandMenu;
-import com.devcourse.springbootbasic.application.global.model.DomainMenu;
-import com.devcourse.springbootbasic.application.global.model.PropertyMenu;
 import com.devcourse.springbootbasic.application.voucher.controller.VoucherDto;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,20 +34,6 @@ public class ConsoleManager {
         return inputConsole.readCommandMenu();
     }
 
-    public DomainMenu consoleDomainMenu() {
-        outputConsole.showDomainMenu();
-        return inputConsole.readDomainMenu();
-    }
-
-    public PropertyMenu consoleProperty(boolean filterActive) {
-        var values = Arrays.stream(PropertyMenu.values());
-        if (!filterActive) {
-            values = values.filter(propertyMenu -> propertyMenu != PropertyMenu.BLACK_CUSTOMER);
-        }
-        outputConsole.showPropertyMenu(values);
-        return inputConsole.readPropertyMenu();
-    }
-
     private VoucherType consoleVoucherType() {
         outputConsole.showVoucherType();
         return inputConsole.readVoucherType();
@@ -60,8 +43,8 @@ public class ConsoleManager {
         return inputConsole.readDiscountValue(voucherType);
     }
 
-    public VoucherDto getVoucherDto(boolean consoleIdActive) {
-        var voucherId = consoleIdActive ? consoleId() : UUID.randomUUID();
+    public VoucherDto consoleVoucherDto() {
+        var voucherId = UUID.randomUUID();
         var voucherType = consoleVoucherType();
         var discountValue = consoleDiscountValue(voucherType);
         var customerId = consoleId();
@@ -76,8 +59,8 @@ public class ConsoleManager {
         return inputConsole.readName();
     }
 
-    public CustomerDto getCustomerDto(boolean consoleIdActive) {
-        var id = consoleIdActive ? consoleId() : UUID.randomUUID();
+    public CustomerDto consoleCustomerDto() {
+        var id = UUID.randomUUID();
         var name = consoleName();
         return new CustomerDto(id, name);
     }

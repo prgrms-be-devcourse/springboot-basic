@@ -12,12 +12,18 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
-    List<Voucher> findAllVouchers();
+    List<Voucher> findAll();
+
+    List<Voucher> findAllByCustomerId(UUID customerId);
 
     Optional<Voucher> findById(UUID voucherId);
+
+    Optional<Voucher> findByCustomerIdAndVoucherId(UUID customerId, UUID voucherId);
 
     void deleteAll();
 
     void deleteById(UUID voucherId);
+
+    void deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId);
 
 }

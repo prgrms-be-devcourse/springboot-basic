@@ -117,4 +117,32 @@ class VoucherMapTest {
         assertThrows(InvalidDataException.class, () -> voucherMap.addIfVoucherExist(voucher));
     }
 
+    @ParameterizedTest
+    @DisplayName("고객 아이디로 바우처 검색한다.")
+    @MethodSource("provideValid")
+    void getAllVouchersByCustomerId_ParamVoucher_ReturnVoucherList(Voucher voucher) {
+        voucherMap.addVoucher(voucher);
+        var list = voucherMap.getAllVouchersByCustomerId(voucher.getCustomerId());
+        assertThat(list.isEmpty(), is(false));
+    }
+
+    @ParameterizedTest
+    @DisplayName("고객 아이디와 바우처 아이디로 바우처를 찾는다.")
+    @MethodSource("provideValid")
+    void getVoucherByCustomerIdAndVoucherId_ParamIds_ReturnVoucher(Voucher voucher) {
+        voucherMap.addVoucher(voucher);
+        var foundVoucher = voucherMap.getVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(foundVoucher.isEmpty(), is(false));
+        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+    }
+
+    @ParameterizedTest
+    @DisplayName("고객 아이디와 바우처 아이디로 바우처를 제거한다.")
+    @MethodSource("provideValid")
+    void removeVoucherByCustomerIdAndVoucherId_ParamIds_DeleteVoucher(Voucher voucher) {
+        voucherMap.removeVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        var vouchers = voucherMap.getVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(vouchers.isEmpty(), is(true));
+    }
+
 }
