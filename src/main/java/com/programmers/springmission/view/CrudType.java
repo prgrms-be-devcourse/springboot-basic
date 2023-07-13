@@ -2,9 +2,17 @@ package com.programmers.springmission.view;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.InvalidInputException;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+@Getter
+@RequiredArgsConstructor
 public enum CrudType {
     CREATE("1"),
     FIND_ONE("2"),
@@ -14,22 +22,13 @@ public enum CrudType {
     DELETE_ALL("6"),
     WALLET("7");
 
-    private static final CrudType[] CRUD_TYPES = CrudType.values();
-
     private final String inputOption;
 
-    CrudType(String inputOption) {
-        this.inputOption = inputOption;
-    }
-
-    public String getInputOption() {
-        return inputOption;
-    }
+    private static final Map<String, CrudType> CRUD_TYPE_MAP = Arrays.stream(CrudType.values())
+            .collect(Collectors.toMap(CrudType::getInputOption, Function.identity()));
 
     public static CrudType of(String inputOption) {
-        return Arrays.stream(CRUD_TYPES)
-                .filter(crudType -> crudType.inputOption.equals(inputOption))
-                .findFirst()
+        return Optional.ofNullable(CRUD_TYPE_MAP.get(inputOption))
                 .orElseThrow(() -> new InvalidInputException(ErrorMessage.INVALID_OPTION_TYPE));
     }
 }

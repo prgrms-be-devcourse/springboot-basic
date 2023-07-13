@@ -2,31 +2,30 @@ package com.programmers.springmission.view;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.InvalidInputException;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+@Getter
+@RequiredArgsConstructor
 public enum OptionType {
 
     EXIT("exit"),
     VOUCHER("voucher"),
     CUSTOMER("customer");
 
-    private static final OptionType[] OPTION_TYPES = OptionType.values();
-
     private final String inputOption;
 
-    OptionType(String inputOption) {
-        this.inputOption = inputOption;
-    }
-
-    public String getInputOption() {
-        return inputOption;
-    }
+    private static final Map<String, OptionType> OPTION_TYPE_MAP = Arrays.stream(OptionType.values())
+            .collect(Collectors.toMap(OptionType::getInputOption, Function.identity()));
 
     public static OptionType of(String inputOption) {
-        return Arrays.stream(OPTION_TYPES)
-                .filter(optionType -> optionType.inputOption.equals(inputOption))
-                .findFirst()
+        return Optional.ofNullable(OPTION_TYPE_MAP.get(inputOption))
                 .orElseThrow(() -> new InvalidInputException(ErrorMessage.INVALID_OPTION_TYPE));
     }
 }

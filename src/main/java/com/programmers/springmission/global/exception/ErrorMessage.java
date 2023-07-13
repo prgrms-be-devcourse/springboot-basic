@@ -1,8 +1,10 @@
 package com.programmers.springmission.global.exception;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum ErrorMessage {
 
     INVALID_OPTION_TYPE("유효하지 않은 메뉴입니다.\n"),
@@ -18,9 +20,5 @@ public enum ErrorMessage {
     DUPLICATE_CUSTOMER_EMAIL("이미 존재하는 이메일입니다.\n");
 
     private final String message;
-
-    ErrorMessage(String message) {
-        this.message = message;
-    }
 }
 
