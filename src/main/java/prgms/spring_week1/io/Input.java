@@ -51,7 +51,7 @@ public class Input {
     }
 
     public VoucherMenu getVoucherMenu() {
-        System.out.println(ConsoleOutputMessage.MENU_LIST_MESSAGE);
+        System.out.println(ConsoleOutputMessage.VOUCHER_MENU_LIST_MESSAGE);
         VoucherMenu menu = VoucherMenu.findMenuType(sc.nextLine());
 
         while (menu == null) {
@@ -62,15 +62,7 @@ public class Input {
         return menu;
     }
 
-    public UUID inputVoucherIdToUUID() {
-        UUID uuid = UUID.randomUUID();
-
-        byte[] uuidBytes = new byte[16];
-        ByteBuffer.wrap(uuidBytes)
-                .order(ByteOrder.BIG_ENDIAN)
-                .putLong(uuid.getMostSignificantBits())
-                .putLong(uuid.getLeastSignificantBits());
-
-        return uuid;
+    public String inputVoucherType() {
+        return String.valueOf(VoucherType.findVoucherType(sc.nextLine()));
     }
 }

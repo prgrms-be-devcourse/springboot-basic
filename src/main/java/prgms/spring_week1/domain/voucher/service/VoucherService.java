@@ -30,8 +30,8 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public void findById() {
-        voucherRepository.findById(UUID.randomUUID());
+    public void findByType(String voucherType) {
+        voucherRepository.findByType(voucherType);
     }
 
     public void deleteAll(VoucherType voucherType) {

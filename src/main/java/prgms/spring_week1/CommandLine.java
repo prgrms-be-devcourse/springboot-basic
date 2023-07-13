@@ -13,11 +13,6 @@ import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.Menu;
 import prgms.spring_week1.menu.VoucherMenu;
 
-import static prgms.spring_week1.menu.VoucherMenu.DELETE;
-import static prgms.spring_week1.menu.VoucherMenu.FIND_ALL;
-import static prgms.spring_week1.menu.VoucherMenu.FIND_BY_ID;
-import static prgms.spring_week1.menu.VoucherMenu.INSERT;
-
 @Component
 public class CommandLine implements CommandLineRunner {
 
@@ -52,7 +47,7 @@ public class CommandLine implements CommandLineRunner {
         switch (menuName){
             case INSERT -> createVoucher();
             case FIND_ALL -> voucherService.findAll();
-            case FIND_BY_TYPE -> voucherService.findById();
+            case FIND_BY_TYPE -> inputVoucherType();
             case DELETE -> voucherService.deleteAll(VoucherType.PERCENT);
         }
     }
@@ -85,6 +80,6 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void inputVoucherType(){
-        voucherService.findById(input.inputVoucherIdToUUID());
+        voucherService.findByType(input.inputVoucherType());
     }
 }

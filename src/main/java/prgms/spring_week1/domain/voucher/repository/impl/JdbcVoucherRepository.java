@@ -53,10 +53,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query("select * from voucher", voucherRowMapper);
     }
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findByType(String voucherType) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
-                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                    Collections.singletonMap("voucherId", voucherType),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
