@@ -12,6 +12,5 @@ public interface MemberRepository {
     Member insert(Member member);
     List<Member> findAll();
     Optional<Member> findById(UUID memberId);
-    Optional<Member> findByName(MemberName memberName);
     List<Member> findByStatus(MemberStatus status);
 }

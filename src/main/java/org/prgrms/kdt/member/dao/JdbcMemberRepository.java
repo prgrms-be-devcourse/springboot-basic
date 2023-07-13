@@ -60,18 +60,6 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findByName(MemberName memberName) {
-        String sql = "select * from member WHERE name = ?";
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
-                    memberRowMapper,
-                    memberName.getName()));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
-
-    @Override
     public List<Member> findByStatus(MemberStatus status) {
         String sql = "select * from member WHERE status = ?";
         return jdbcTemplate.query(sql, memberRowMapper, status.getDescripton());

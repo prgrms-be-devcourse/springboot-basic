@@ -9,12 +9,10 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
 import org.prgrms.kdt.wallet.controller.WalletController;
 import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.WalletResponse;
-import org.prgrms.kdt.wallet.dto.response.WalletsResponse;
+import org.prgrms.kdt.wallet.dto.response.JoinedWalletsResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -61,7 +59,7 @@ public class ControllerRequestManager {
     }
 
     public void findVouchersByMember() throws IOException {
-        WalletsResponse walletResponse = walletController.findVouchersByMemberId(console.getMemberId());
+        JoinedWalletsResponse walletResponse = walletController.findVouchersByMemberId(console.getMemberId());
         console.printAllWallet(walletResponse);
     }
 
@@ -70,7 +68,7 @@ public class ControllerRequestManager {
     }
 
     public void findMembersByVoucher() throws IOException {
-        WalletsResponse walletResponse = walletController.findMembersByVoucherId(console.getVoucherId());
+        JoinedWalletsResponse walletResponse = walletController.findMembersByVoucherId(console.getVoucherId());
         console.printAllWallet(walletResponse);
     }
 

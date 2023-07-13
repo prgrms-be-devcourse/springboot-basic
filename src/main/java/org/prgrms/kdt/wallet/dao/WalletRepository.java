@@ -1,5 +1,6 @@
 package org.prgrms.kdt.wallet.dao;
 
+import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
 
 import java.util.List;
@@ -9,13 +10,13 @@ import java.util.UUID;
 public interface WalletRepository {
     Wallet insert(Wallet wallet);
 
-    Optional<Wallet> findById(UUID walletId);
+    Optional<JoinedWallet> findWithMemeberAndVoucherById(UUID walletId);
 
-    List<Wallet> findByMemberId(UUID memberId);
+    List<JoinedWallet> findWithMemeberAndVoucherByMemberId(UUID memberId);
 
-    List<Wallet> findByVoucherId(UUID voucherId);
+    List<JoinedWallet> findWithMemeberAndVoucherByVoucherId(UUID voucherId);
 
     void deleteById(UUID walletId);
 
-    List<Wallet> findAll();
+    List<JoinedWallet> findWithMemeberAndVoucherAll();
 }

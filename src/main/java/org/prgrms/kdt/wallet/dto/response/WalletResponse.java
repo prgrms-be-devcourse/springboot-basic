@@ -4,11 +4,8 @@ import org.prgrms.kdt.wallet.domain.Wallet;
 
 import java.util.UUID;
 
-public record WalletResponse(UUID walletId, String memberName, String voucherType, double voucherAmount) {
+public record WalletResponse(UUID walletId, UUID memberId, UUID voucherId) {
     public WalletResponse(Wallet wallet) {
-        this(wallet.getWalletId(),
-                wallet.getMember().getMemberName().getName(),
-                wallet.getVoucher().getVoucherType().getDescripton(),
-                wallet.getVoucher().getDiscountPolicy().getAmount());
+        this(wallet.getWalletId(), wallet.getMemberId(), wallet.getVoucherId());
     }
 }
