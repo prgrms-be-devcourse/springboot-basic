@@ -42,8 +42,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("customerId", customer.getCustomerId().toString())
-        .addValue("customerName", customer.getName())
-        .addValue("customerEmail", customer.getEmail());
+        .addValue("customer_name", customer.getCustomerName())
+        .addValue("customer_email", customer.getCustomerEmail());
 
     int saved = template.update(sql, param);
 
@@ -58,9 +58,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     String sql = "update customer set customer_name = :customerName, customer_email = :customerEmail where customer_id = :customerId";
 
     SqlParameterSource param = new MapSqlParameterSource()
-        .addValue("customerId", customer.getCustomerId().toString())
-        .addValue("customerName", customer.getName())
-        .addValue("customerEmail", customer.getEmail());
+        .addValue("customer_id", customer.getCustomerId().toString())
+        .addValue("customerName", customer.getCustomerName())
+        .addValue("customerEmail", customer.getCustomerEmail());
 
     int updated = template.update(sql, param);
 

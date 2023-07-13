@@ -5,34 +5,29 @@ import java.util.UUID;
 public class Customer {
 
   private final UUID customerId;
-  private String name;
-  private String email;
+  private String customerName;
+  private String customerEmail;
 
-  public Customer(UUID customerId, String name, String email) {
+  public Customer(UUID customerId, String customerName, String customerEmail) {
     this.customerId = customerId;
-    this.name = name;
-    this.email = email;
+    this.customerName = customerName;
+    this.customerEmail = customerEmail;
   }
 
   public UUID getCustomerId() {
     return this.customerId;
   }
 
-  public String getName() {
-    return this.name;
+  public String getCustomerName() {
+    return this.customerName;
   }
 
-  public String getEmail() {
-    return this.email;
+  public String getCustomerEmail() {
+    return this.customerEmail;
   }
 
-  public String updateName(String newName) {
-    this.name = newName;
-    return newName;
-  }
-
-  private void checkName(String name) {
-    if (name.isBlank()) {
+  private void checkCustomerName() {
+    if (this.customerName.isBlank()) {
       throw new RuntimeException("이름은 빈칸이 될 수 없습니다.");
     }
   }
