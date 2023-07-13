@@ -6,5 +6,5 @@ import java.util.List;
 
 @Repository
 public interface UserRepository {
-    List<String> findAll();
+    List<String> findAllBlack();
 }

@@ -4,5 +4,6 @@ public enum Command {
     CREATE,
     LIST,
     EXIT,
+    BLACKLIST
     ;
 }

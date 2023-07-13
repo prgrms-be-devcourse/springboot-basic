@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Console {
     private static final Scanner scanner = new Scanner(System.in);
     private static final String GET_COMMAND_GUIDE = """
-            \n:: Support Command(CREATE, LIST, EXIT) ::
+            \n:: Support Command(CREATE, LIST, BLACKLIST, EXIT) ::
             Type Command :\s""";
     private static final String VOUCHER_TYPE_GUIDE = """
             \n:: Support Type(fixed, percent) ::

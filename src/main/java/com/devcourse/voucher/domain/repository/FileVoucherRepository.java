@@ -16,6 +16,7 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 
 import static com.devcourse.global.common.Constant.DELIMITER;
+import static com.devcourse.global.common.Constant.FILE_READ_FAIL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
@@ -23,7 +24,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 class FileVoucherRepository implements VoucherRepository {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
     private static final String SAVE_FAIL = "Voucher Save Failed.";
-    private static final String READ_FAIL = "Read Text File Failed.";
 
     private final File vouchers = new File("src/main/resources/file/vouchers.txt");
 
@@ -33,7 +33,6 @@ class FileVoucherRepository implements VoucherRepository {
             writer.write(voucher.toText());
             return voucher;
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException(SAVE_FAIL);
         }
     }
@@ -45,8 +44,7 @@ class FileVoucherRepository implements VoucherRepository {
                     .map(this::toVoucher)
                     .toList();
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(READ_FAIL);
+            throw new RuntimeException(FILE_READ_FAIL);
         }
     }
 
