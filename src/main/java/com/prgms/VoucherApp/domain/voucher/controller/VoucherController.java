@@ -2,6 +2,7 @@ package com.prgms.VoucherApp.domain.voucher.controller;
 
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateRequest;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
+import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateRequest;
 import com.prgms.VoucherApp.domain.voucher.dto.VouchersResponse;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherService;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
@@ -49,5 +50,20 @@ public class VoucherController {
     public String addVoucher(@ModelAttribute VoucherCreateRequest voucherCreateRequest) {
         voucherService.save(voucherCreateRequest);
         return "redirect:/vouchers";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editVoucherForm(@PathVariable String id, Model model) {
+        UUID inputVoucherId = UUID.fromString(id);
+        VoucherResponse voucherResponse = voucherService.findOne(inputVoucherId);
+        model.addAttribute("voucher", voucherResponse);
+        model.addAttribute("voucherTypes", VoucherType.values());
+        return "voucher/edit_voucher";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String editVoucher(@PathVariable String id, @ModelAttribute VoucherUpdateRequest voucherUpdateRequest) {
+        voucherService.update(voucherUpdateRequest);
+        return "redirect:/vouchers/{id}";
     }
 }
