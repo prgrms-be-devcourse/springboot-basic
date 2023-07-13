@@ -39,14 +39,14 @@ public class WalletService {
     public List<VoucherResDTO.READ> getVouchersByMemberId(UUID memberId) {
         final List<Wallet> wallets = walletRepository.findAllByMemberId(memberId);
         return wallets.stream()
-                .map(VoucherResDTO.READ::toVoucherReadDto)
+                .map((Wallet wallet) -> VoucherResDTO.READ.toVoucherReadDto(wallet.getVoucher()))
                 .toList();
     }
 
     public MemberResDTO.READ getMemberByVoucherId(UUID voucherId) {
         final Wallet wallet = walletRepository.findByVoucherId(voucherId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_WALLET));
-        return MemberResDTO.READ.toMemberReadDto(wallet);
+        return MemberResDTO.READ.toMemberReadDto(wallet.getMember());
     }
 
     @Transactional

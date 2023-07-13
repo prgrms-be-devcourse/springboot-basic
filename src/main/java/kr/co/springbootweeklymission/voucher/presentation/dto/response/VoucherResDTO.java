@@ -2,7 +2,6 @@ package kr.co.springbootweeklymission.voucher.presentation.dto.response;
 
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
-import kr.co.springbootweeklymission.wallet.domain.entity.Wallet;
 import lombok.*;
 
 import java.util.UUID;
@@ -23,14 +22,6 @@ public class VoucherResDTO {
                     .voucherId(voucher.getVoucherId())
                     .amount(voucher.getAmount())
                     .voucherPolicy(voucher.getVoucherPolicy())
-                    .build();
-        }
-
-        public static VoucherResDTO.READ toVoucherReadDto(Wallet wallet) {
-            return VoucherResDTO.READ.builder()
-                    .voucherId(wallet.getVoucher().getVoucherId())
-                    .amount(wallet.getVoucher().getAmount())
-                    .voucherPolicy(wallet.getVoucher().getVoucherPolicy())
                     .build();
         }
     }
