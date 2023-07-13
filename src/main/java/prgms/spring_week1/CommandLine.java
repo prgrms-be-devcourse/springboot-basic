@@ -48,7 +48,6 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void selectVoucherMenu(){
-        System.out.println("----");
         VoucherMenu menuName = input.getVoucherMenu();
         switch (menuName){
             case INSERT -> createVoucher();
