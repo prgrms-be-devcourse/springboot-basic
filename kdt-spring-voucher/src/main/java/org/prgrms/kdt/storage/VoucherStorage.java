@@ -8,4 +8,6 @@ public interface VoucherStorage {
     void saveVoucher(Voucher newVoucher);
 
     List<Voucher> findAllVoucher();
+
+    void clearStorage();
 }

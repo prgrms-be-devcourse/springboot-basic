@@ -38,6 +38,12 @@ public class FileVoucherStorage implements VoucherStorage {
         return voucherList;
     }
 
+    @Override
+    public void clearStorage() {
+        File file = new File(filePath);
+        file.delete();
+    }
+
     private static void readVoucherListFromFile(File file, List<Voucher> voucherList) {
         try (FileReader fileReader = new FileReader(file);
              BufferedReader bufferedReader = new BufferedReader(fileReader);) {
