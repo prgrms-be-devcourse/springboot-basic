@@ -11,6 +11,7 @@ import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
 import prgms.spring_week1.domain.voucher.repository.impl.sql.VoucherManageSql;
 
+import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +29,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return new Voucher(voucherType, discount);
     };
 
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcVoucherRepository(DataSource dataSource) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
@@ -55,6 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return jdbcTemplate.query(VoucherManageSql.findAllVoucherSQL, voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
+            System.out.println("---");
             logger.error("Got empty result", e);
             return Collections.emptyList();
         }
@@ -73,7 +75,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void delete(VoucherType voucherType) {
+    public void delete() {
         jdbcTemplate.update(VoucherManageSql.deleteAllVoucherSQL, new HashMap<>());
     }
 }

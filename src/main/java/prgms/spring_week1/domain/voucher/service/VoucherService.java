@@ -35,6 +35,6 @@ public class VoucherService {
     }
 
     public void deleteAll(VoucherType voucherType) {
-        voucherRepository.delete(voucherType);
+        voucherRepository.delete();
     }
 }
