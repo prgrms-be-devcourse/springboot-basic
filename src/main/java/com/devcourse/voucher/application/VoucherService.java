@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.devcourse.global.common.Constant.DELIMITER;
-
 @Service
 public class VoucherService {
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
@@ -35,7 +33,7 @@ public class VoucherService {
 
     public List<String> findAll() {
         return voucherRepository.findAll().stream()
-                .map(voucher -> voucher.toText(DELIMITER))
+                .map(Voucher::toText)
                 .toList();
     }
 

@@ -15,25 +15,26 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
-import static com.devcourse.global.common.Constant.*;
+import static com.devcourse.global.common.Constant.DELIMITER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
 @Profile("file")
 class FileVoucherRepository implements VoucherRepository {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+    private static final String SAVE_FAIL = "Voucher Save Failed.";
+    private static final String READ_FAIL = "Read Text File Failed.";
 
     private final File vouchers = new File("src/main/resources/file/vouchers.txt");
 
     @Override
     public Voucher save(Voucher voucher) {
         try (FileWriter writer = new FileWriter(vouchers, true)) {
-            String fileForm = voucher.toText(DELIMITER);
-            writer.write(fileForm);
-
+            writer.write(voucher.toText());
             return voucher;
         } catch (IOException e) {
-            throw new RuntimeException("Save Fail");
+            e.printStackTrace();
+            throw new RuntimeException(SAVE_FAIL);
         }
     }
 
@@ -44,7 +45,8 @@ class FileVoucherRepository implements VoucherRepository {
                     .map(this::toVoucher)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException("Read Fail");
+            e.printStackTrace();
+            throw new RuntimeException(READ_FAIL);
         }
     }
 

@@ -3,6 +3,7 @@ package com.devcourse.voucher.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.devcourse.global.common.Constant.DELIMITER;
 import static com.devcourse.voucher.domain.Voucher.Status.ISSUED;
 import static com.devcourse.voucher.domain.Voucher.Status.USED;
 
@@ -48,11 +49,11 @@ public class Voucher {
         return expireAt;
     }
 
-    public String toText(String delimiter) {
-        return id + delimiter +
-                discount + delimiter +
-                type + delimiter +
-                expireAt + delimiter +
+    public String toText() {
+        return id + DELIMITER +
+                discount + DELIMITER +
+                type + DELIMITER +
+                expireAt + DELIMITER +
                 status;
     }
 
