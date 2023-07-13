@@ -42,7 +42,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
     @Override
     public void insert(Voucher voucher) {
-        var update = jdbcTemplate.update("INSERT INTO voucher(voucher_type, discount, created_at) VALUES (:voucherType, :discount ,:createdAt)",
+        var update = jdbcTemplate.update("INSERT INTO voucher(voucher_id,voucher_type, discount, created_at) VALUES (UUID_TO_BIN(:voucherId),:voucherType, :discount ,:createdAt)",
                 toParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
