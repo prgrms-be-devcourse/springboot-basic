@@ -5,7 +5,6 @@ import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Component
