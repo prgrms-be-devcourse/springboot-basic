@@ -43,6 +43,6 @@ public class LoggerAspect {
 
         LocalDateTime invokeTime = LocalDateTime.now();
 
-        logger.warn("throw method : {} - {} - / current thread : {} / timeTaken : {} s", className, methodName, threadName, invokeTime);
+        logger.warn("throw method : {} - {} - / current thread : {} / timeTaken : {} s", className, methodName, threadName, invokeTime, invalidInputException);
     }
 }
