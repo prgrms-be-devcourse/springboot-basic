@@ -66,7 +66,8 @@ public class CustomerWebController  {
             CustomerResponse customerResponse = customerService.findDetailCustomer(updateRequest);
             model.addAttribute("customer", customerResponse);
         } catch(CustomerException | EmptyResultDataAccessException exception) {
-           return "redirect:/customer/findCustomer";
+            model.addAttribute("exception", new WebExceptionDto(exception));
+            return "exception/exception";
         }
         return "customer/customerInfo";
     }
@@ -81,7 +82,8 @@ public class CustomerWebController  {
         try {
             customerService.deleteCustomer(updateRequest);
         } catch(CustomerException | EmptyResultDataAccessException exception) {
-            return "redirect:/customer/delete";
+            model.addAttribute("exception", new WebExceptionDto(exception));
+            return "exception/exception";
         }
         return "redirect:/";
     }
@@ -92,12 +94,30 @@ public class CustomerWebController  {
     }
 
     @PostMapping("/deleteAll")
-    public String deleteAllCustomers() {
+    public String deleteAllCustomers(Model model) {
         try {
             customerService.deleteAllCustomers();
         } catch(CustomerException | EmptyResultDataAccessException exception) {
-            return "redirect:/customer/deleteAll";
+            model.addAttribute("exception", new WebExceptionDto(exception));
+            return "exception/exception";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/update")
+    public String updateCustomer() {
+        return "customer/updateCustomer";
+    }
+
+    @PostMapping("/update")
+    public String updateCustomer(CustomerUpdateRequest updateRequest, Model model) {
+        try {
+            CustomerResponse customerResponse = customerService.updateCustomer(updateRequest);
+            model.addAttribute("customer", customerResponse);
+        } catch(CustomerException | EmptyResultDataAccessException exception) {
+            model.addAttribute("exception", new WebExceptionDto(exception));
+            return "exception/exception";
+        }
+        return "customer/customerInfo";
     }
 }

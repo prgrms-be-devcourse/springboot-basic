@@ -38,4 +38,8 @@ public class CustomerUpdateRequest {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setNewEmail(String newEmail) {
+        this.newEmail = newEmail;
+    }
 }
