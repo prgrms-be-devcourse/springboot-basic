@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <title>Voucher Program</title>
+    <style>
+        .card {
+            margin: auto;
+            padding: 10px;
+            max-width: 950px;
+            width: 90%;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 1rem;
+            border: transparent
+        }
+
+        .row {
+            margin: 0
+        }
+    </style>
+</head>
+<body class="container-fluid">
+<div class="row justify-content-center m-4">
+    <h1 class="text-center">바우처 상세 정보</h1>
+</div>
+
+<div class="card">
+    <div class="row">
+        <div class="form-floating mb-3">
+            <input type="text" readonly class="form-control-plaintext" id="voucherId" th:value="${voucher.voucherId()}">
+            <label for="voucherId">ID</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" readonly class="form-control-plaintext" id="type"
+                   th:value="${voucher.voucherType().getText()}">
+            <label for="type">Type</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="number" readonly class="form-control-plaintext" id="amount" th:value="${voucher.amount()}">
+            <label for="amount">Amount</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark col-12" th:onclick="|location.href='@{/vouchers}'|">
+                목록으로
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
