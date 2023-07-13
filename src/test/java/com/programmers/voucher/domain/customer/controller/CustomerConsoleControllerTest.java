@@ -4,7 +4,6 @@ import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.customer.service.CustomerService;
-import com.programmers.voucher.global.io.Console;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +15,9 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.programmers.voucher.testutil.CustomerTestUtil.createCustomerDto;
-import static org.mockito.ArgumentMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -25,9 +26,6 @@ class CustomerConsoleControllerTest {
 
     @InjectMocks
     private CustomerConsoleController customerController;
-
-    @Mock
-    private Console console;
 
     @Mock
     private CustomerService customerService;
@@ -39,14 +37,13 @@ class CustomerConsoleControllerTest {
         CustomerCreateRequest request = new CustomerCreateRequest("customer@gmail.com", "customer");
         UUID customerId = UUID.randomUUID();
 
-        given(console.inputCustomerCreateInfo()).willReturn(request);
         given(customerService.createCustomer(any(), any())).willReturn(customerId);
 
         //when
-        customerController.createCustomer();
+        customerController.createCustomer(request);
 
         //then
-        then(console).should().print(anyString());
+        then(customerService).should().createCustomer(any(), any());
     }
 
     @Test
@@ -54,28 +51,25 @@ class CustomerConsoleControllerTest {
     void updateCustomer() {
         //given
         CustomerUpdateRequest request = new CustomerUpdateRequest(UUID.randomUUID(), "updatedName", false);
-        given(console.inputCustomerUpdateInfo()).willReturn(request);
 
         //when
-        customerController.updateCustomer();
+        customerController.updateCustomer(request);
 
         //then
         then(customerService).should().updateCustomer(any(), any(), anyBoolean());
-        then(console).should().print(anyString());
     }
 
     @Test
     @DisplayName("성공: Customer 삭제 요청")
     void deleteCustomer() {
         //given
-        given(console.inputUUID()).willReturn(UUID.randomUUID());
+        UUID customerId = UUID.randomUUID();
 
         //when
-        customerController.deleteCustomer();
+        customerController.deleteCustomer(customerId);
 
         //then
         then(customerService).should().deleteCustomer(any());
-        then(console).should().print(anyString());
     }
 
     @Test
@@ -86,16 +80,16 @@ class CustomerConsoleControllerTest {
                 = createCustomerDto(UUID.randomUUID(), "customerA@gmail.com", "customerA", false);
         CustomerDto customerB
                 = createCustomerDto(UUID.randomUUID(), "customerB@gmail.com", "customerB", false);
-
         List<CustomerDto> customers = List.of(customerA, customerB);
 
         given(customerService.findCustomers()).willReturn(customers);
 
         //when
-        customerController.findCustomers();
+        List<CustomerDto> result = customerController.findCustomers();
 
         //then
-        then(console).should().printCustomers(anyList());
+        assertThat(result).usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(customerA, customerB);
     }
 
 }
