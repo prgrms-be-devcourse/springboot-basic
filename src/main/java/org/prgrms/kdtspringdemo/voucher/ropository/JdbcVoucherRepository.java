@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private static final String AMOUNT = "amount";
     private static final String SAVE_QUERY = "INSERT INTO voucher(voucher_id, voucher_type, amount) VALUES(UUID_TO_BIN(:voucher_id), :voucher_type, :amount)";
     private static final String FAILED_VOUCHER_SAVE_QUERY_MESSAGE = "바우처 저장 쿼리를 실패 하였습니다.";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -59,7 +61,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher findById(UUID voucherId) {
-        return null;
+        Voucher voucher = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper);
+
+        return voucher;
     }
 
     @Override
