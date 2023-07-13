@@ -67,8 +67,7 @@ public class VoucherApiController {
     public ResponseEntity deleteAll() {
         voucherService.deleteAll();
 
-        return ResponseEntity.ok("All vouchers deleted");
+        return ResponseEntity.ok("All vouchers have been deleted.");
     }
 }
-
 
