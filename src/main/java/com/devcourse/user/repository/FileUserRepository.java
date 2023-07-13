@@ -1,4 +1,4 @@
-package com.devcourse.user.domain.repository;
+package com.devcourse.user.repository;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import static com.devcourse.global.common.Constant.FILE_READ_FAIL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
-@Profile({"dev", "file"})
+@Profile({"dev"})
 class FileUserRepository implements UserRepository {
     private static final String DEFAULT_DELIMITER = ", ";
     private final File blackList = new File("src/main/resources/file/customer_blackList.csv");

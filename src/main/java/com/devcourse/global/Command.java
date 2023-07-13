@@ -1,4 +1,4 @@
-package com.devcourse.voucher.presentation;
+package com.devcourse.global;
 
 public enum Command {
     CREATE,

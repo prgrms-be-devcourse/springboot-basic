@@ -1,7 +1,7 @@
 package com.devcourse.global.console;
 
 import com.devcourse.voucher.domain.Voucher;
-import com.devcourse.voucher.presentation.Command;
+import com.devcourse.global.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

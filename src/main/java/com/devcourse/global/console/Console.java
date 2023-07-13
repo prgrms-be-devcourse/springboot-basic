@@ -2,7 +2,7 @@ package com.devcourse.global.console;
 
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import com.devcourse.voucher.domain.Voucher;
-import com.devcourse.voucher.presentation.Command;
+import com.devcourse.global.Command;
 
 import java.time.LocalDateTime;
 import java.util.List;

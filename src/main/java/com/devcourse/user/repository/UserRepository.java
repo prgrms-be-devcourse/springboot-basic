@@ -1,4 +1,4 @@
-package com.devcourse.user.domain.repository;
+package com.devcourse.user.repository;
 
 import org.springframework.stereotype.Repository;
 

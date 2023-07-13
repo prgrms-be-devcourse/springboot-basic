@@ -1,7 +1,7 @@
-package com.devcourse.voucher.presentation;
+package com.devcourse.global;
 
 import com.devcourse.global.console.Console;
-import com.devcourse.user.domain.repository.UserRepository;
+import com.devcourse.user.repository.UserRepository;
 import com.devcourse.voucher.application.VoucherService;
 import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import org.springframework.boot.ApplicationArguments;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class VoucherController implements ApplicationRunner {
+public class ApplicationController implements ApplicationRunner {
     private static final String GREETING = """
             === Voucher Program ===
            Type <EXIT> to exit the program.
@@ -25,7 +25,7 @@ public class VoucherController implements ApplicationRunner {
     private final VoucherService voucherService;
     private final UserRepository userRepository;
 
-    public VoucherController(VoucherService voucherService, UserRepository userRepository) {
+    public ApplicationController(VoucherService voucherService, UserRepository userRepository) {
         this.voucherService = voucherService;
         this.userRepository = userRepository;
     }
