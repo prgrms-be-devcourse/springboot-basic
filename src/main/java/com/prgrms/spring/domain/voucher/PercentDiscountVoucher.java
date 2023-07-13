@@ -13,7 +13,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final String discountUnit = "%";
 
     public static PercentDiscountVoucher newInstance(UUID voucherId, long discount) {
-        if (discount <= 0 || discount >= 100) throw new IllegalArgumentException("유효하지 않은 할인 금액");
+        chkDiscountValue(discount);
         return new PercentDiscountVoucher(voucherId, discount);
     }
 
@@ -35,5 +35,9 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String getVoucherName() {
         return voucherName;
+    }
+
+    private static void chkDiscountValue(long discount) {
+        if (discount <= 0 || discount >= 100) throw new IllegalArgumentException("유효하지 않은 할인 금액");
     }
 }

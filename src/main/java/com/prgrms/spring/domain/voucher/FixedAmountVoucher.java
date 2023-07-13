@@ -13,7 +13,7 @@ public class FixedAmountVoucher implements Voucher {
     private final String discountUnit = "$";
 
     public static FixedAmountVoucher newInstance(UUID voucherId, long discount) {
-        if (discount <= 0) throw new IllegalArgumentException("유효하지 않은 할인 금액");
+        chkDiscountValue(discount);
         return new FixedAmountVoucher(voucherId, discount);
     }
 
@@ -35,5 +35,9 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public String getVoucherName() {
         return voucherName;
+    }
+
+    private static void chkDiscountValue(long discount) {
+        if (discount <= 0) throw new IllegalArgumentException("유효하지 않은 할인 금액");
     }
 }
