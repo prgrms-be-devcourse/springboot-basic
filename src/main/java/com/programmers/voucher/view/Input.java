@@ -1,13 +1,24 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.view.dto.Command;
-import com.programmers.voucher.view.dto.DiscountAmount;
-import com.programmers.voucher.view.dto.VoucherType;
+import com.programmers.voucher.domain.voucher.entity.VoucherType;
+import com.programmers.voucher.view.command.Command;
+import com.programmers.voucher.view.command.CustomerCommand;
+import com.programmers.voucher.view.command.VoucherCommand;
+
+import java.util.UUID;
 
 public interface Input {
     Command readCommand();
 
+    VoucherCommand readVoucherCommand();
+
+    CustomerCommand readCustomerCommand();
+
     VoucherType readVoucherType();
 
-    DiscountAmount readDiscountAmount(VoucherType voucherType);
+    int readDiscountAmount();
+
+    String readNickname();
+
+    UUID readUUID();
 }
