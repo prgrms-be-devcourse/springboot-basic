@@ -51,7 +51,7 @@ class CustomerApiControllerTest {
 
         //when
         ResultActions resultActions = mvc.perform(get("/api/v1/customers")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         //then
@@ -71,7 +71,7 @@ class CustomerApiControllerTest {
 
         //when
         ResultActions resultActions = mvc.perform(get("/api/v1/customers/" + customer.getCustomerId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         //then
@@ -92,7 +92,8 @@ class CustomerApiControllerTest {
         //when
         ResultActions resultActions = mvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(request)))
+                        .content(mapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         //then
@@ -111,7 +112,8 @@ class CustomerApiControllerTest {
         //when
         ResultActions resultActions = mvc.perform(patch("/api/v1/customers/" + customerId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(request)))
+                        .content(mapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         //then

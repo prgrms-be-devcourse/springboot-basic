@@ -56,7 +56,8 @@ class VoucherApiControllerTest {
         //when
         ResultActions resultActions = mvc.perform(get("/api/v1/vouchers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequestPayload))
+                        .content(jsonRequestPayload)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         //then
@@ -76,7 +77,8 @@ class VoucherApiControllerTest {
         String jsonResponsePayload = mapper.writeValueAsString(fixedVoucher);
 
         //when
-        ResultActions resultActions = mvc.perform(get("/api/v1/vouchers/" + voucherId))
+        ResultActions resultActions = mvc.perform(get("/api/v1/vouchers/" + voucherId)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         //then
@@ -99,7 +101,8 @@ class VoucherApiControllerTest {
         //when
         ResultActions resultActions = mvc.perform(post("/api/v1/vouchers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequestPayload))
+                        .content(jsonRequestPayload)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         //then
