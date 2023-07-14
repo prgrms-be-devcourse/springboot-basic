@@ -6,7 +6,7 @@ public record VoucherUpdateRequest(
         VoucherType voucherType,
         int discountAmount
 ) {
-    public static VoucherUpdateRequest of(VoucherType voucherType, int discountAmount) {
-        return new VoucherUpdateRequest(voucherType, discountAmount);
+    public static VoucherUpdateRequest of(String type, int discountAmount) {
+        return new VoucherUpdateRequest(VoucherType.valueOf(type), discountAmount);
     }
 }

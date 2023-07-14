@@ -1,6 +1,5 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.view.command.Command;
 import com.programmers.voucher.view.command.CustomerCommand;
 import com.programmers.voucher.view.command.VoucherCommand;
@@ -14,7 +13,7 @@ public interface Input {
 
     CustomerCommand readCustomerCommand();
 
-    VoucherType readVoucherType();
+    String readVoucherType();
 
     int readDiscountAmount();
 

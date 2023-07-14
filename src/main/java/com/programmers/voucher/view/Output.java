@@ -10,8 +10,6 @@ public interface Output {
 
     void displayCustomerCommands();
 
-    void displayVoucherType();
-
     void displayVoucher(VoucherResponse voucher);
 
     void displayCustomer(CustomerResponse customer);

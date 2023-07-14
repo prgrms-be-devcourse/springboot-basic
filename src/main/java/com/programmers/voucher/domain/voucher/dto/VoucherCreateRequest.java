@@ -7,8 +7,8 @@ public record VoucherCreateRequest(
         VoucherType voucherType,
         int discountAmount
 ) {
-    public static VoucherCreateRequest of(VoucherType voucherType, int discountAmount) {
-        return new VoucherCreateRequest(voucherType, discountAmount);
+    public static VoucherCreateRequest of(String type, int discountAmount) {
+        return new VoucherCreateRequest(VoucherType.valueOf(type), discountAmount);
     }
 
     public Voucher toEntity() {

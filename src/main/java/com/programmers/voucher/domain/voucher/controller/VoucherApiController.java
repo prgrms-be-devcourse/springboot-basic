@@ -37,14 +37,14 @@ public class VoucherApiController {
         return BaseResponse.ok(voucher);
     }
 
-    @GetMapping("type/{voucherType}")
-    public BaseResponse<List<VoucherResponse>> getVouchersByType(@PathVariable VoucherType voucherType) {
-        List<VoucherResponse> vouchers = voucherService.getVouchersByType(voucherType);
+    @GetMapping(params = "type")
+    public BaseResponse<List<VoucherResponse>> getVouchersByType(@RequestParam String type) {
+        List<VoucherResponse> vouchers = voucherService.getVouchersByType(VoucherType.valueOf(type));
         return BaseResponse.ok(vouchers);
     }
 
     @PostMapping("/{voucherId}")
-    public BaseResponse deleteVoucher(@PathVariable UUID voucherId) {
+    public BaseResponse<Object> deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
         return BaseResponse.ok();
     }

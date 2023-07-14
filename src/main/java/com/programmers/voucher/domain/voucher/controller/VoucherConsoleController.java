@@ -3,7 +3,6 @@ package com.programmers.voucher.domain.voucher.controller;
 import com.programmers.voucher.domain.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
 import com.programmers.voucher.domain.voucher.dto.VoucherUpdateRequest;
-import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
@@ -31,12 +30,11 @@ public class VoucherConsoleController {
 
         switch (command) {
             case CREATE -> {
-                output.displayVoucherType();
                 VoucherResponse voucher = createVoucher();
                 output.displayVoucher(voucher);
             }
             case READ_ALL -> {
-                List<VoucherResponse> vouchers = getAllVouchers();
+                List<VoucherResponse> vouchers = voucherService.getAllVouchers();
                 vouchers.forEach(output::displayVoucher);
             }
             case READ -> {
@@ -52,15 +50,11 @@ public class VoucherConsoleController {
     }
 
     private VoucherResponse createVoucher() {
-        VoucherType voucherType = input.readVoucherType();
+        String voucherType = input.readVoucherType();
         int discountAmount = input.readDiscountAmount();
         VoucherCreateRequest voucherCreateRequest = VoucherCreateRequest.of(voucherType, discountAmount);
 
         return voucherService.createVoucher(voucherCreateRequest);
-    }
-
-    private List<VoucherResponse> getAllVouchers() {
-        return voucherService.getAllVouchers();
     }
 
     private VoucherResponse getVoucher() {
@@ -70,8 +64,7 @@ public class VoucherConsoleController {
 
     private VoucherResponse updateVoucher() {
         UUID voucherId = input.readUUID();
-        output.displayVoucherType();
-        VoucherType voucherType = input.readVoucherType();
+        String voucherType = input.readVoucherType();
         int discountAmount = input.readDiscountAmount();
         VoucherUpdateRequest voucherUpdateRequest = VoucherUpdateRequest.of(voucherType, discountAmount);
 
