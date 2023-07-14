@@ -3,8 +3,8 @@ package com.programmers.springbootbasic;
 import com.programmers.springbootbasic.presentation.Command;
 import com.programmers.springbootbasic.presentation.controller.VoucherController;
 import com.programmers.springbootbasic.presentation.view.ConsoleApplicationView;
-import com.programmers.springbootbasic.service.dto.VoucherResponse;
-import com.programmers.springbootbasic.service.dto.VoucherResponses;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponse;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
