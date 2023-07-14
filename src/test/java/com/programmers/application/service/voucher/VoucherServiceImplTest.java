@@ -4,6 +4,7 @@ import com.programmers.application.domain.voucher.VoucherType;
 import com.programmers.application.dto.reponse.VoucherInfoResponse;
 import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
+import com.programmers.application.exception.NotFoundResourceException;
 import com.programmers.application.repository.voucher.MemoryVoucherRepository;
 import com.programmers.application.repository.voucher.VoucherRepository;
 import com.programmers.application.service.VoucherService;
@@ -18,7 +19,6 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -134,7 +134,7 @@ class VoucherServiceImplTest {
 
         //when, then
         assertThatThrownBy(() -> voucherService.findVoucherByVoucherId(nonExistVoucherId))
-                .isInstanceOf(NoSuchElementException.class)
+                .isInstanceOf(NotFoundResourceException.class)
                 .hasMessage(String.format("해당 바우처 아이디로 조회되는 바우처가 없습니다. 입력값: %s", nonExistVoucherId));
     }
 }

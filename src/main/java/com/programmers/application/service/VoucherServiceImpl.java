@@ -5,11 +5,11 @@ import com.programmers.application.domain.voucher.VoucherFactory;
 import com.programmers.application.dto.reponse.ResponseFactory;
 import com.programmers.application.dto.reponse.VoucherInfoResponse;
 import com.programmers.application.dto.request.VoucherCreationRequest;
+import com.programmers.application.exception.NotFoundResourceException;
 import com.programmers.application.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -39,6 +39,6 @@ public class VoucherServiceImpl implements VoucherService {
     public VoucherInfoResponse findVoucherByVoucherId(UUID voucherId) {
         return voucherRepository.findByVoucherId(voucherId)
                 .map(ResponseFactory::createVoucherInfoResponse)
-                .orElseThrow(() -> new NoSuchElementException(String.format("해당 바우처 아이디로 조회되는 바우처가 없습니다. 입력값: %s", voucherId)));
+                .orElseThrow(() -> new NotFoundResourceException(String.format("해당 바우처 아이디로 조회되는 바우처가 없습니다. 입력값: %s", voucherId)));
     }
 }
