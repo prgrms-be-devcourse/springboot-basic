@@ -1,67 +1,327 @@
 # SpringBoot Basic Weekly Mission 2
 > 바우처 관리 애플리케이션 만들기 2 - 김영주
 
-# 1. 설계
-## 프로그램 구조도
+# 1. 프로젝트 개요
 
-![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/1b4f4d03-b56b-4c2a-9cf6-410db2bdffb7)
+## 1-1. 구조도
+![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/c2cedbc8-7bff-4a49-9b64-60a15278208f)
 
+<br>
 
+## 1-2. 설명
+> 할인권과 고객 정보를 관리(생성, 조회, 수정, 삭제)하는 콘솔 애플리케이션 만들기
+1. **할인권(Voucher)**
+    - 메뉴
+      - `생성` : 새 고정 금액 할인권 또는 퍼센트 비율 할인권 생성
+      - `조회` : 전체 할인권 목록 조회
+      - `수정` : 할인권의 고정 금액 또는 퍼센트 비율 수치 수정
+      - `삭제` : 특정 할인권 삭제
+    - 속성
+      - `id` : UUID 기반의 할인권 고유 번호 
+      - `type` : 할인 방식(고정 금액 or 퍼센트 비율)
+      - `discountAmount` : 할인 금액 또는 비율
+    - 방식
+      - `고정 금액 할인(Fix Discount)`
+        - 물건의 가격을 특정 고정 금액만큼 할인하는 방식
+        - 1이상의 자연수, 단위 원
+      - `퍼센트 비율 할인(Percent Discount)`
+        - 물건의 가격의 일정 비율만큼 할인하는 방식
+        - 1이상 100이하의 자연수, 단위 %
 
-## 패키지 구조
+2. **고객(Customer)**
+   - 메뉴
+     - `생성` : 새 일반 고객 생성
+     - `조회` : 전체 고객 목록 조회, 블랙리스트 고객 목록 조회
+     - `수정` : 고객 타입 수정 (일반 <-> 블랙리스트)
+     - `삭제` : 특정 고객 삭제
+   - 속성
+     - `id` : UUID 기반의 고객 고유 번호
+     - `type` : 고객 타입(일반 or 블랙리스트)
+     - `nickname` : 고객 닉네임(중복 x)
+   - 타입
+     - `일반 고객`
+     - `블랙리스트 고객`
 
-```markdown
-src/main/java/com.devcourse.voucherapp/
+<br>
 
-- controller/
-  - VoucherController.java
+## 1-3. 예외처리
+1. **홈(Home)**
+   - 홈 메뉴 목록에 없는 메뉴를 선택한 경우 -> `MenuInputException`
 
-- entity/
-  - dto/
-    - VoucherCreateRequestDto.java
-    - VoucherUpdateRequestDto.java
-    - VoucherResponseDto.java
-    - VouchersResponseDto.java
-  - voucher/
-    - Voucher.java
-    - FixDiscountVoucher.java
-    - PercentDiscountVoucher.java
-  - Menu.java
-  - VoucherType.java
-  - TriFunction.java
-  
-- exception/
-  - MenuInputException.java
-  - NotFoundVoucherException.java
-  - DiscountAmountException.java
-  - VoucherTypeInputException.java
+2. **할인권(Voucher)**
+   - 할인권 메뉴 목록에 없는 메뉴를 선택한 경우 -> `MenuInputException`
+   - 할인권 생성 시, 할인권 방식 목록에 없는 방식을 선택한 경우 -> `VoucherTypeInputException`
+   - 할인권 생성 또는 수정 시, 조건에 맞지 않는 금액 또는 비율을 입력한 경우 -> `DiscountAmountException`
+   - 할인권 수정 또는 삭제 시, 존재하지 않는 할인권 ID를 입력한 경우 -> `NotFoundVoucherException`
 
-- repository/
-  - VoucherRepository.java
-  - MemoryVoucherRepository.java
-  - JdbcVoucherRepository.java
-
-- service/
-  - VoucherService.java
-
-- view/
-  - InputView.java
-  - OutputView.java
-  - ConsoleInputView.java
-  - ConsoleOutputView.java
-  - ViewManager.java
-
-- CommandLineApplication.java
-- VoucherappApplication.java
-```
-
-
+3. **고객(Customer)**
+   - 고객 메뉴 목록에 없는 메뉴를 선택한 경우 -> `MenuInputException`
+   - 고객 생성 시, 조건에 맞지 않는 닉네임을 입력한 경우 -> `CustomerInputException`
+   - 고객 생성 시, 이미 있는 닉네임을 입력한 경우 -> `ExistedCustomerException`
+   - 고객 수정 시, 고객 타입 목록에 없는 타입을 선택한 경우 -> `CustomerTypeInputException`
+   - 고객 수정 또는 삭제 시, 존재하지 않는 닉네임을 입력한 경우 -> `NotFoundCustomerException`
 
 ------
 
-# 2. 컨벤션
+# 2. 기능 구현 및 실행 화면
 
-## Git commit convention
+## 2-1. 요구사항
+### 1주차
+- [x]  메뉴 선택
+- [x]  프로그램 종료
+- [x]  고정 할인권 생성
+- [x]  비율 할인권 생성
+- [x]  전체 할인권 조회
+- [x]  logback 이용한 로그 파일 생성
+- [x]  실행 가능한 jar 파일 생성
+
+### 2주차
+- [x]  할인권 수정
+- [x]  할인권 삭제
+- [x]  H2 데이터베이스 적용
+- [x]  프로필을 이용한 local, dev 환경 구분
+- [x]  고객 정보 생성
+- [x]  고객 정보 조회
+    - [x]  전체 고객 목록 조회
+    - [x]  상세 고객 정보 조회
+    - [x]  블랙리스트 고객 목록 조회
+- [x]  고객 정보 수정
+- [x]  고객 정보 삭제
+
+<br>
+
+## 2-2. 실행 화면
+
+### 할인권(Voucher)
+> 새 할인권 생성
+```text
+[할인권 메뉴]
+1. 새 할인권 생성
+2. 전체 할인권 조회
+3. 할인권 수정
+4. 할인권 삭제
+home. 홈으로 이동
+입력 : 1
+
+할인 방식을 선택하세요.
+1. 고정 할인
+2. 비율 할인
+입력 : 1
+
+고정 할인 수치를 입력하세요. (1이상의 자연수, 단위: 원)
+입력 : 4000
+
+할인권 생성이 완료되었습니다.
+7beef458-e9df-4298-95ae-337e4ddeacc4 | 고정 할인 | 4,000원
+```
+
+<br>
+
+> 전체 할인권 조회
+
+```text
+[할인권 메뉴]
+1. 새 할인권 생성
+2. 전체 할인권 조회
+3. 할인권 수정
+4. 할인권 삭제
+home. 홈으로 이동
+입력 : 2
+
+현재까지 생성된 할인권 목록입니다.
+7beef458-e9df-4298-95ae-337e4ddeacc4 | 고정 할인 | 4,000원
+f019b469-eeb6-4c41-afe5-8c0a0e205077 | 비율 할인 | 30%
+```
+
+<br>
+
+> 할인권 수정
+
+```text
+[할인권 메뉴]
+1. 새 할인권 생성
+2. 전체 할인권 조회
+3. 할인권 수정
+4. 할인권 삭제
+home. 홈으로 이동
+입력 : 3
+
+현재까지 생성된 할인권 목록입니다.
+7beef458-e9df-4298-95ae-337e4ddeacc4 | 고정 할인 | 4,000원
+f019b469-eeb6-4c41-afe5-8c0a0e205077 | 비율 할인 | 30%
+
+수정할 할인권의 ID를 입력하세요.
+입력 : 7beef458-e9df-4298-95ae-337e4ddeacc4
+
+선택하신 할인권의 정보를 수정합니다.
+7beef458-e9df-4298-95ae-337e4ddeacc4 | 고정 할인 | 4,000원
+
+고정 할인 수치를 입력하세요. (1이상의 자연수, 단위: 원)
+입력 : 10000
+
+할인권 수정이 완료되었습니다.
+7beef458-e9df-4298-95ae-337e4ddeacc4 | 고정 할인 | 10,000원
+```
+
+<br>
+
+> 할인권 삭제
+
+```text
+[할인권 메뉴]
+1. 새 할인권 생성
+2. 전체 할인권 조회
+3. 할인권 수정
+4. 할인권 삭제
+home. 홈으로 이동
+입력 : 4
+
+현재까지 생성된 할인권 목록입니다.
+da965f76-cd6f-48e6-a365-1b4de408eaeb | 고정 할인 | 10,000원
+39c7a8df-d338-4ea7-8f6f-1ea523a1f5bb | 비율 할인 | 30%
+
+삭제할 할인권의 ID를 입력하세요.
+입력 : da965f76-cd6f-48e6-a365-1b4de408eaeb
+
+할인권이 정상적으로 삭제되었습니다.e-337e4ddeacc4
+
+선택하신 할인권의 정보를 수정합니다.
+7beef458-e9df-4298-95ae-337e4ddeacc4 | 고정 할인 | 4,000원
+
+고정 할인 수치를 입력하세요. (1이상의 자연수, 단위: 원)
+입력 : 10000
+
+할인권 수정이 완료되었습니다.
+7beef458-e9df-4298-95ae-337e4ddeacc4 | 고정 할인 | 10,000원
+```
+
+<br>
+
+
+### 고객(Customer)
+> 새 고객 생성
+```text
+[고객 메뉴]
+1. 새 고객 생성
+2. 전체 고객 조회
+3. 고객 수정
+4. 고객 삭제
+5. 블랙리스트 고객 조회
+home. 홈으로 이동
+입력 : 1
+
+닉네임을 입력하세요.(공백이 없는 소문자 알파벳과 숫자 조합만 가능)
+입력 : kyle
+
+고객 생성이 완료되었습니다.
+2fa019f0-5da4-49cd-a18d-a72f175111c5 | 일반 고객 | kyle
+```
+
+<br>
+
+> 전체 고객 조회
+
+```text
+[고객 메뉴]
+1. 새 고객 생성
+2. 전체 고객 조회
+3. 고객 수정
+4. 고객 삭제
+5. 블랙리스트 고객 조회
+home. 홈으로 이동
+입력 : 2
+
+조회된 고객 목록입니다.
+dd745a04-9684-4f06-b846-09c357e80f8d | 블랙리스트 고객 | alex
+c24b3960-8c2d-44c1-bfcd-8391772549c7 | 블랙리스트 고객 | ken
+de5a04fe-6492-4aee-aa74-acf7b0f5e044 | 일반 고객 | haley
+ac209ee8-a7d8-4346-bf17-ebfc1c2909ce | 일반 고객 | justin
+2fa019f0-5da4-49cd-a18d-a72f175111c5 | 일반 고객 | kyle
+```
+
+<br>
+
+> 고객 수정
+
+```text
+[고객 메뉴]
+1. 새 고객 생성
+2. 전체 고객 조회
+3. 고객 수정
+4. 고객 삭제
+5. 블랙리스트 고객 조회
+home. 홈으로 이동
+입력 : 3
+
+조회된 고객 목록입니다.
+dd745a04-9684-4f06-b846-09c357e80f8d | 블랙리스트 고객 | alex
+c24b3960-8c2d-44c1-bfcd-8391772549c7 | 블랙리스트 고객 | ken
+de5a04fe-6492-4aee-aa74-acf7b0f5e044 | 일반 고객 | haley
+ac209ee8-a7d8-4346-bf17-ebfc1c2909ce | 일반 고객 | justin
+2fa019f0-5da4-49cd-a18d-a72f175111c5 | 일반 고객 | kyle
+
+변경을 원하는 고객의 닉네임을 입력하세요.
+입력 : kyle
+
+어떤 고객 타입으로 변경하시겠습니까?
+1. 일반 고객
+2. 블랙리스트 고객
+입력 : 2
+
+고객 수정이 완료되었습니다.
+2fa019f0-5da4-49cd-a18d-a72f175111c5 | 블랙리스트 고객 | kyle
+```
+
+<br>
+
+> 고객 삭제
+
+```text
+[고객 메뉴]
+1. 새 고객 생성
+2. 전체 고객 조회
+3. 고객 수정
+4. 고객 삭제
+5. 블랙리스트 고객 조회
+home. 홈으로 이동
+입력 : 4
+
+조회된 고객 목록입니다.
+dd745a04-9684-4f06-b846-09c357e80f8d | 블랙리스트 고객 | alex
+c24b3960-8c2d-44c1-bfcd-8391772549c7 | 블랙리스트 고객 | ken
+de5a04fe-6492-4aee-aa74-acf7b0f5e044 | 일반 고객 | haley
+ac209ee8-a7d8-4346-bf17-ebfc1c2909ce | 일반 고객 | justin
+2fa019f0-5da4-49cd-a18d-a72f175111c5 | 블랙리스트 고객 | kyle
+
+삭제할 고객의 닉네임을 입력하세요.
+입력 : haley
+
+해당 고객 정보가 정상적으로 삭제되었습니다.
+```
+
+<br>
+
+> 블랙리스트 고객 조회
+
+```text
+[고객 메뉴]
+1. 새 고객 생성
+2. 전체 고객 조회
+3. 고객 수정
+4. 고객 삭제
+5. 블랙리스트 고객 조회
+home. 홈으로 이동
+입력 : 5
+
+조회된 고객 목록입니다.
+dd745a04-9684-4f06-b846-09c357e80f8d | 블랙리스트 고객 | alex
+c24b3960-8c2d-44c1-bfcd-8391772549c7 | 블랙리스트 고객 | ken
+2fa019f0-5da4-49cd-a18d-a72f175111c5 | 블랙리스트 고객 | kyle
+```
+
+------
+
+# 4. Git commit convention
 
 > [Angular JS commit convention](https://velog.io/@outstandingboy/Git-커밋-메시지-규약-정리-the-AngularJS-commit-conventions)를 참고
 
@@ -87,76 +347,3 @@ src/main/java/com.devcourse.voucherapp/
 - `refactor` : 코드 리팩토링
 - `test` : 테스트 관련 코드
 - `build` : 빌드 관련 파일 수정
-
-
-
-------
-
-# 3. 기능 구현 및 실행 화면
-
-## 구현 사항
-
-- [x]  H2 데이터베이스를 적용한다.
-- [x]  프로필을 이용해 개발과 로컬 환경을 구분한다.
-- [x]  할인권 수정 기능을 추가한다.
-- [x]  할인권 삭제 기능을 추가한다.
-
-
-
-## 실행 화면
-
-> 할인권 수정, 삭제 기능 추가
-
-```
-[할인권 프로그램 v1.0]
-1. 새 할인권 생성
-2. 할인권 조회
-3. 할인권 수정
-4. 할인권 삭제
-5. 프로그램 종료
-입력 : 3
-
-현재까지 생성된 할인권 목록입니다.
-62f590c0-61c0-461d-90ce-ebafd031a4d8 | 고정 할인 | 1,000원
-38de7fec-e170-49ee-b5bd-30d768a11fd5 | 비율 할인 | 20%
-
-수정할 할인권의 ID를 입력하세요.
-입력 : 62f590c0-61c0-461d-90ce-ebafd031a4d8
-
-선택하신 할인권의 정보를 수정합니다.
-62f590c0-61c0-461d-90ce-ebafd031a4d8 | 고정 할인 | 1,000원
-
-고정 할인 금액을 입력하세요. (1이상의 자연수, 단위: 원)
-입력 : 3000
-
-할인권 수정이 완료되었습니다.
-62f590c0-61c0-461d-90ce-ebafd031a4d8 | 고정 할인 | 3,000원
-
-[할인권 프로그램 v1.0]
-1. 새 할인권 생성
-2. 할인권 조회
-3. 할인권 수정
-4. 할인권 삭제
-5. 프로그램 종료
-입력 : 4
-
-현재까지 생성된 할인권 목록입니다.
-62f590c0-61c0-461d-90ce-ebafd031a4d8 | 고정 할인 | 3,000원
-38de7fec-e170-49ee-b5bd-30d768a11fd5 | 비율 할인 | 20%
-
-삭제할 할인권의 ID를 입력하세요.
-입력 : 62f590c0-61c0-461d-90ce-ebafd031a4d8
-
-할인권이 정상적으로 삭제되었습니다.
-
-[할인권 프로그램 v1.0]
-1. 새 할인권 생성
-2. 할인권 조회
-3. 할인권 수정
-4. 할인권 삭제
-5. 프로그램 종료
-입력 : 2
-
-현재까지 생성된 할인권 목록입니다.
-38de7fec-e170-49ee-b5bd-30d768a11fd5 | 비율 할인 | 20%
-```
