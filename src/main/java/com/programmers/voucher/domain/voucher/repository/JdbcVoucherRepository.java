@@ -65,9 +65,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
-        return (rs, rowNum) -> new Voucher(
-                UUID.fromString(rs.getString("id")),
-                VoucherType.valueOf(rs.getString("type")),
-                rs.getInt("amount"));
+        return (rs, rowNum) -> Voucher.builder()
+                .id(UUID.fromString(rs.getString("id")))
+                .type(VoucherType.valueOf(rs.getString("type")))
+                .amount(rs.getInt("amount"))
+                .build();
     }
 }

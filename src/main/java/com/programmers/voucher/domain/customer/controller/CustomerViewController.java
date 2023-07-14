@@ -3,6 +3,7 @@ package com.programmers.voucher.domain.customer.controller;
 import com.programmers.voucher.domain.customer.dto.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.CustomerResponse;
 import com.programmers.voucher.domain.customer.service.CustomerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +15,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/customers")
 public class CustomerViewController {
     private final CustomerService customerService;
-
-    public CustomerViewController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @PostMapping
     public String createCustomer(CustomerCreateRequest request) {

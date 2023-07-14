@@ -7,6 +7,7 @@ import com.programmers.voucher.domain.voucher.entity.Voucher;
 import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import com.programmers.voucher.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +18,10 @@ import java.util.UUID;
 import static com.programmers.voucher.constant.ErrorCode.NOT_FOUND_VOUCHER;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-
-    public VoucherService(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }
 
     @Transactional
     public VoucherResponse createVoucher(VoucherCreateRequest request) {

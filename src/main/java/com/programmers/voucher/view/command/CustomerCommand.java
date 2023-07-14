@@ -23,13 +23,9 @@ public enum CustomerCommand {
 
     public static CustomerCommand findByNumber(int number) {
         return Arrays.stream(CustomerCommand.values())
-                .filter(command -> command.isEqualTo(number))
+                .filter(command -> command.number == number)
                 .findFirst()
                 .orElseThrow(() -> new BadRequestException(INVALID_COMMAND));
-    }
-
-    private boolean isEqualTo(int number) {
-        return this.number == number;
     }
 
     @Override

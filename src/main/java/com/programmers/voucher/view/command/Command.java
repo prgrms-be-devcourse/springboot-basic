@@ -21,13 +21,9 @@ public enum Command {
 
     public static Command findByNumber(int number) {
         return Arrays.stream(Command.values())
-                .filter(command -> command.isEqualTo(number))
+                .filter(command -> command.number == number)
                 .findFirst()
                 .orElseThrow(() -> new BadRequestException(INVALID_COMMAND));
-    }
-
-    private boolean isEqualTo(int number) {
-        return this.number == number;
     }
 
     @Override

@@ -1,18 +1,22 @@
 package com.programmers.voucher.domain.voucher.entity;
 
 import com.programmers.voucher.exception.BadRequestException;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.util.UUID;
 
 import static com.programmers.voucher.constant.ErrorCode.INVALID_DISCOUNT_AMOUNT;
 import static com.programmers.voucher.constant.ErrorCode.INVALID_DISCOUNT_PERCENT;
 
+@Getter
 public class Voucher {
     private final UUID id;
     private VoucherType type;
     private int amount;
 
-    public Voucher(UUID id, VoucherType type, int amount) {
+    @Builder
+    private Voucher(UUID id, VoucherType type, int amount) {
         this.id = id;
         this.type = type;
         this.amount = amount;
@@ -47,17 +51,5 @@ public class Voucher {
         if (type == VoucherType.PERCENT && amount > 100) {
             throw new BadRequestException(INVALID_DISCOUNT_PERCENT);
         }
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public VoucherType getType() {
-        return type;
-    }
-
-    public int getAmount() {
-        return amount;
     }
 }

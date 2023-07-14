@@ -7,6 +7,7 @@ import com.programmers.voucher.domain.customer.entity.Customer;
 import com.programmers.voucher.domain.customer.repository.CustomerRepository;
 import com.programmers.voucher.exception.ConflictException;
 import com.programmers.voucher.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +19,10 @@ import static com.programmers.voucher.constant.ErrorCode.EXISTED_NICKNAME;
 import static com.programmers.voucher.constant.ErrorCode.NOT_FOUND_CUSTOMER;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CustomerService {
     private final CustomerRepository customerRepository;
-
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     @Transactional
     public CustomerResponse createCustomer(CustomerCreateRequest request) {

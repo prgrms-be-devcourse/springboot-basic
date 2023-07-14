@@ -4,19 +4,17 @@ import com.programmers.voucher.constant.BaseResponse;
 import com.programmers.voucher.domain.customer.dto.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.CustomerResponse;
 import com.programmers.voucher.domain.customer.service.CustomerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/customers")
 public class CustomerApiController {
     private final CustomerService customerService;
-
-    public CustomerApiController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @PostMapping
     public BaseResponse<CustomerResponse> createCustomer(@RequestBody CustomerCreateRequest request) {
@@ -37,7 +35,7 @@ public class CustomerApiController {
     }
 
     @PostMapping("/{customerId}")
-    public BaseResponse deleteCustomer(@PathVariable UUID customerId) {
+    public BaseResponse<Object> deleteCustomer(@PathVariable UUID customerId) {
         customerService.deleteCustomer(customerId);
         return BaseResponse.ok();
     }

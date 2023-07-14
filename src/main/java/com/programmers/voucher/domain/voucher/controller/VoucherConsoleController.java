@@ -7,22 +7,18 @@ import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.command.VoucherCommand;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
 public class VoucherConsoleController {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
-
-    public VoucherConsoleController(Input input, Output output, VoucherService voucherService) {
-        this.input = input;
-        this.output = output;
-        this.voucherService = voucherService;
-    }
 
     public void run() {
         output.displayVoucherCommands();

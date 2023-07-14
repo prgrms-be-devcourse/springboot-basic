@@ -5,19 +5,17 @@ import com.programmers.voucher.domain.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
 import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/vouchers")
 public class VoucherApiController {
     private final VoucherService voucherService;
-
-    public VoucherApiController(VoucherService voucherService) {
-        this.voucherService = voucherService;
-    }
 
     @PostMapping
     public BaseResponse<VoucherResponse> createVoucher(@RequestBody VoucherCreateRequest request) {
