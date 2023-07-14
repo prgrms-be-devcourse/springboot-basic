@@ -35,11 +35,11 @@ public class ViewManager {
         voucherController.create(new CreateVoucherRequest(voucherType, discountAmount));
     }
 
-    public void findAllVoucher(){
+    public void findAllVoucher() {
         console.printAllVoucher(voucherController.findAll());
     }
 
-    public void findAllBlackMember(){
+    public void findAllBlackMember() {
         console.printAllMember(memberController.findAllBlackMember());
     }
 
@@ -48,7 +48,7 @@ public class ViewManager {
         memberController.createMember(new CreateMemberRequest(memberName, MemberStatus.COMMON));
     }
 
-    public void findAllMember(){
+    public void findAllMember() {
         console.printAllMember(memberController.findAllMember());
     }
 
@@ -72,7 +72,7 @@ public class ViewManager {
         console.printAllWallet(walletResponse);
     }
 
-    public void findAllWallet(){
+    public void findAllWallet() {
         console.printAllWallet(walletController.findAllWallet());
     }
 }

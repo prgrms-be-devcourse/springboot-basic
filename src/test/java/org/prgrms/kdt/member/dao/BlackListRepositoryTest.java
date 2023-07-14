@@ -7,15 +7,11 @@ import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,10 +26,10 @@ class BlackListRepositoryTest {
     static MemberLoader mockMemberLoader;
 
     @Configuration
-    static class TestConfig{
+    static class TestConfig {
 
         @Bean
-        BlackListRepository blackListRepository(){
+        BlackListRepository blackListRepository() {
             mockMemberLoader = Mockito.mock(MemberLoader.class);
             return new BlackListRepository(mockMemberLoader);
         }
@@ -63,8 +59,8 @@ class BlackListRepositoryTest {
     }
 
     @Test
-    @DisplayName("tetContext를 close하며 blackListRepository의 빈이 소멸할 때 fileWrite를 호출하는지 확인")
-    void fileWrite(){
+    @DisplayName("BlackListRepository의 빈이 소멸할 때 fileWrite를 호출하는지 확인")
+    void fileWrite() {
         //when
         testContext.close();
 

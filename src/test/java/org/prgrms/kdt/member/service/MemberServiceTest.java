@@ -54,7 +54,7 @@ class MemberServiceTest {
         MembersResponse findBlackMembers = memberService.findAllBlackMember();
 
         //then
-        int findBlackMembersSize = findBlackMembers.getMembers().size();
+        int findBlackMembersSize = findBlackMembers.members().size();
         assertThat(findBlackMembersSize).isEqualTo(2);
     }
 
@@ -65,7 +65,7 @@ class MemberServiceTest {
         MembersResponse findAllMember = memberService.findAllMember();
 
         //then
-        int findAllMembersize = findAllMember.getMembers().size();
+        int findAllMembersize = findAllMember.members().size();
         assertThat(findAllMembersize).isEqualTo(3);
     }
 }

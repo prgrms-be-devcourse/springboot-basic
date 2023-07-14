@@ -1,6 +1,5 @@
 package org.prgrms.kdt.util;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.exception.EntityNotFoundException;
@@ -50,7 +49,7 @@ class ConverterTest {
 
     @Test
     @DisplayName("필드에 null이 포함된 올바르지 않은 멤버 객체를 인자로 전해주는 경우 EntityNotFoundException 확인")
-    void memberToString_incorrectMember_EntityNotFoundException(){
+    void memberToString_incorrectMember_EntityNotFoundException() {
         //given
         UUID uuid = UUID.randomUUID();
         Member member = new Member(uuid, "abc", MemberStatus.BLACK);

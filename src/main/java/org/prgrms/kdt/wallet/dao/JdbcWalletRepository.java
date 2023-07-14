@@ -8,14 +8,12 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -52,19 +50,6 @@ public class JdbcWalletRepository implements WalletRepository {
             throw new NotUpdateException("db에 insert가 수행되지 못했습니다.");
         }
         return wallet;
-    }
-
-    @Override
-    public Optional<JoinedWallet> findWithMemeberAndVoucherById(UUID walletId) {
-        String sql = "select A.id, A.member_id, B.name, B.status, A.voucher_id, C.type, C.amount from wallet A " +
-                "LEFT JOIN member B ON A.member_id = B.id " +
-                "LEFT JOIN voucher C ON A.voucher_id = C.id " +
-                "WHERE A.id = ?";
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, joinedWalletRowMapper, walletId));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
     }
 
     @Override

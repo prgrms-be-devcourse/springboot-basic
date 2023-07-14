@@ -11,7 +11,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 
 @Profile({"default", "test"})
 @Repository

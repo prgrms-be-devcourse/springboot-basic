@@ -5,19 +5,15 @@ import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JoinedWalletsResponse {
-    private final List<JoinedWalletResponse> wallets;
-
-    public JoinedWalletsResponse(List<JoinedWalletResponse> wallets) {
-        this.wallets = wallets;
-    }
+public record JoinedWalletsResponse(List<JoinedWalletResponse> wallets) {
 
     public static JoinedWalletsResponse of(List<JoinedWallet> joinedWallets) {
         List<JoinedWalletResponse> walletsResponse = joinedWallets.stream().map(JoinedWalletResponse::new).collect(Collectors.toList());
         return new JoinedWalletsResponse(walletsResponse);
     }
 
-    public List<JoinedWalletResponse> getWallets(){
+    @Override
+    public List<JoinedWalletResponse> wallets() {
         return List.copyOf(wallets);
     }
 }

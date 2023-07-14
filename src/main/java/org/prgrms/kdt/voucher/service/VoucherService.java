@@ -8,7 +8,6 @@ import org.prgrms.kdt.voucher.dto.VoucherResponse;
 import org.prgrms.kdt.voucher.dto.VouchersResponse;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;

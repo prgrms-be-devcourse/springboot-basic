@@ -1,12 +1,9 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
 import org.prgrms.kdt.voucher.dto.VouchersResponse;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class VoucherController {

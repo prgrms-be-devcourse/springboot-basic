@@ -34,8 +34,4 @@ public class Member {
     public void setName(MemberName name) {
         this.name = name;
     }
-
-    public void setStatus(MemberStatus status) {
-        this.status = status;
-    }
 }

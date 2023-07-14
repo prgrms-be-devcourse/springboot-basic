@@ -66,17 +66,17 @@ public class Console {
     }
 
     public void printAllVoucher(VouchersResponse vouchers) {
-        vouchers.getVouchers().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.voucherId(), e.voucherType(), e.amount())));
+        vouchers.vouchers().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.voucherId(), e.voucherType(), e.amount())));
         System.out.println();
     }
 
     public void printAllMember(MembersResponse members) {
-        members.getMembers().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.memberId(), e.memberName(), e.memberStatus())));
+        members.members().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2}", e.memberId(), e.memberName(), e.memberStatus())));
         System.out.println();
     }
 
     public void printAllWallet(JoinedWalletsResponse joinedWalletsResponse) {
-        joinedWalletsResponse.getWallets().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2},{3}",
+        joinedWalletsResponse.wallets().forEach(e -> System.out.println(MessageFormat.format("{0},{1},{2},{3}",
                 e.walletId(), e.memberName(), e.voucherType(), e.voucherAmount())));
         System.out.println();
     }

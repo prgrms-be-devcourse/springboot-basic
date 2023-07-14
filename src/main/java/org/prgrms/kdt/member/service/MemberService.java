@@ -8,7 +8,6 @@ import org.prgrms.kdt.member.dto.MemberResponse;
 import org.prgrms.kdt.member.dto.MembersResponse;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;

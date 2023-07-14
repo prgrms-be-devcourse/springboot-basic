@@ -14,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -58,7 +56,7 @@ class VoucherServiceTest {
         VouchersResponse vouchers = voucherService.findAll();
 
         //then
-        int resultsize = vouchers.getVouchers().size();
+        int resultsize = vouchers.vouchers().size();
         assertThat(resultsize).isEqualTo(3);
     }
 }

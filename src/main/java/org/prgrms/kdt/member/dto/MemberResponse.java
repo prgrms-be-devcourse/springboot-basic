@@ -1,6 +1,5 @@
 package org.prgrms.kdt.member.dto;
 
-
 import org.prgrms.kdt.member.domain.Member;
 
 import java.util.UUID;

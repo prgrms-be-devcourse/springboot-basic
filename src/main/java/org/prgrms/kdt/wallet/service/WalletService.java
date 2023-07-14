@@ -7,7 +7,6 @@ import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponse;
 import org.prgrms.kdt.wallet.dto.response.JoinedWalletsResponse;
 import org.prgrms.kdt.wallet.dto.response.WalletResponse;
 import org.springframework.stereotype.Component;

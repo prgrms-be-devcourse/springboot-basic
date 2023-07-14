@@ -88,7 +88,7 @@ class WalletServiceTest {
         JoinedWalletsResponse responseList = walletService.findVouchersByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
 
         //then
-        int responseSize = responseList.getWallets().size();
+        int responseSize = responseList.wallets().size();
         assertThat(responseSize).isEqualTo(2);
     }
 
@@ -110,7 +110,7 @@ class WalletServiceTest {
         JoinedWalletsResponse response = walletService.findMembersByVoucherId(UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29"));
 
         //then
-        String findMemberName = response.getWallets().get(0).memberName();
+        String findMemberName = response.wallets().get(0).memberName();
         assertThat(findMemberName).isEqualTo("james");
     }
 
