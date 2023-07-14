@@ -3,6 +3,7 @@ package com.programmers.voucher.domain.voucher.controller;
 import com.programmers.voucher.constant.BaseResponse;
 import com.programmers.voucher.domain.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
+import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,12 @@ public class VoucherApiController {
     public BaseResponse<VoucherResponse> getVoucher(@PathVariable UUID voucherId) {
         VoucherResponse voucher = voucherService.getVoucher(voucherId);
         return BaseResponse.ok(voucher);
+    }
+
+    @GetMapping("type/{voucherType}")
+    public BaseResponse<List<VoucherResponse>> getVouchersByType(@PathVariable VoucherType voucherType) {
+        List<VoucherResponse> vouchers = voucherService.getVouchersByType(voucherType);
+        return BaseResponse.ok(vouchers);
     }
 
     @PostMapping("/{voucherId}")

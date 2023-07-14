@@ -4,6 +4,7 @@ import com.programmers.voucher.domain.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
 import com.programmers.voucher.domain.voucher.dto.VoucherUpdateRequest;
 import com.programmers.voucher.domain.voucher.entity.Voucher;
+import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import com.programmers.voucher.exception.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,13 @@ public class VoucherService {
     public VoucherResponse getVoucher(UUID voucherId) {
         Voucher voucher = validateExist(voucherRepository.findById(voucherId));
         return VoucherResponse.from(voucher);
+    }
+
+    public List<VoucherResponse> getVouchersByType(VoucherType voucherType) {
+        return voucherRepository.findByType(voucherType)
+                .stream()
+                .map(VoucherResponse::from)
+                .toList();
     }
 
     @Transactional

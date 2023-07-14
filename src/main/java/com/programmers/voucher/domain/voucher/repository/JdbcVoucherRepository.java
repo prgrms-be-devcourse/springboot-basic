@@ -19,6 +19,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String INSERT_SQL = "INSERT INTO voucher(id, type, amount) VALUES(?, ?, ?)";
     private static final String FIND_ALL_SQL = "SELECT * FROM voucher";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM voucher WHERE id = ?";
+    private static final String FIND_BY_TYPE_SQL = "SELECT * FROM voucher WHERE type = ?";
     private static final String UPDATE_SQL = "UPDATE voucher SET type = ?, amount = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM voucher WHERE id = ?";
 
@@ -46,6 +47,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         } catch (EmptyResultDataAccessException exception) {
             return Optional.empty();
         }
+    }
+
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return jdbcTemplate.query(FIND_BY_TYPE_SQL, voucherRowMapper(), voucherType.name());
     }
 
     @Override
