@@ -1,7 +1,8 @@
 package com.programmers.springbootbasic.presentation.view;
 
 import com.programmers.springbootbasic.common.Console;
-import com.programmers.springbootbasic.common.util.Parser;
+import com.programmers.springbootbasic.common.util.LocalDateTimeParser;
+import com.programmers.springbootbasic.common.util.NumberParser;
 import com.programmers.springbootbasic.common.util.Validator;
 import com.programmers.springbootbasic.presentation.Command;
 import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
@@ -58,7 +59,6 @@ public class ConsoleApplicationView {
     private static final String CREATED_VOUCHER_INFO = "=== 바우처 생성완료 ===";
 
     private final Console console;
-    private final Parser parser = new Parser();
 
     public ConsoleApplicationView(Console consoleView) {
         this.console = consoleView;
@@ -112,21 +112,21 @@ public class ConsoleApplicationView {
         // 최소 금액 입력
         console.print(INPUT_MINIMUM_PRICE_CONDITION);
         String minimumPriceConditionInput = console.inputLine();
-        return parser.parseToMinimumPriceCondition(minimumPriceConditionInput);
+        return NumberParser.parseToMinimumPriceCondition(minimumPriceConditionInput);
     }
 
     private LocalDateTime inputExpiredAt() throws IOException {
         // 만료기한 입력
         console.print(INPUT_EXPIRED_DATETIME);
         String expiredAtInput = console.inputLine();
-        return parser.parseToLocalDateTime(expiredAtInput);
+        return LocalDateTimeParser.parseToLocalDateTime(expiredAtInput);
     }
 
     private int inputAmountOrPercent() throws IOException {
         // 할인액 or 할인율 입력
         console.print(INPUT_AMOUNT_OR_PERCENT);
         String amountOrPercentInput = console.inputLine();
-        return parser.parseToAmountOrPercent(amountOrPercentInput);
+        return NumberParser.parseToAmountOrPercent(amountOrPercentInput);
     }
 
     public void printCreatedVoucher(VoucherResponse response) throws IOException {
