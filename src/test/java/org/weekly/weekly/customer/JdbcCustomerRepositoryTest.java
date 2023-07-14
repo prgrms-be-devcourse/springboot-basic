@@ -3,7 +3,9 @@ package org.weekly.weekly.customer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.repository.JdbcCustomerRepository;
 
@@ -22,6 +24,9 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     Customer customer;
 
     @BeforeEach
@@ -31,7 +36,7 @@ class JdbcCustomerRepositoryTest {
 
     @AfterEach
     void deleteCustomer() {
-        assertThatCode(() -> jdbcCustomerRepository.deleteByEmail(customer.getEmail()));
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "customers");
     }
 
     @Test

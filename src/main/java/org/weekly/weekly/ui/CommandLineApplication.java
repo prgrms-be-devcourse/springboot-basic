@@ -81,7 +81,7 @@ public class CommandLineApplication {
         while (true) {
             try {
                 String email = processEmail();
-                return CustomerUpdateRequest.of(email);
+                return new CustomerUpdateRequest(email);
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
             }
@@ -93,7 +93,7 @@ public class CommandLineApplication {
             try {
                 String email = processEmail();
                 String newEmail = processNewEmail();
-                return CustomerUpdateRequest.of(email, newEmail);
+                return new CustomerUpdateRequest(email, newEmail);
             } catch (Exception exception) {
                 printErrorMsg(exception.getMessage());
             }

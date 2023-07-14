@@ -44,6 +44,7 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
+    @Transactional(readOnly = true)
     public CustomerResponse findDetailCustomer(CustomerUpdateRequest updateRequest) {
         return findDetailCustomer(updateRequest.email());
     }

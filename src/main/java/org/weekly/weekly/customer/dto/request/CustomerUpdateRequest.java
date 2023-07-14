@@ -9,24 +9,16 @@ public class CustomerUpdateRequest {
     private CustomerUpdateRequest() {
     }
 
-    private CustomerUpdateRequest(String email, String afterEmail) {
+    public CustomerUpdateRequest(String email, String afterEmail) {
+        InputValidator.isEmpty(email);
+        InputValidator.isEmpty(afterEmail);
         this.email = email;
         this.newEmail = afterEmail;
     }
 
-    private CustomerUpdateRequest(String email) {
+    public CustomerUpdateRequest(String email) {
+        InputValidator.isEmpty(email);
         this.email = email;
-    }
-
-    public static CustomerUpdateRequest of(String email) {
-        InputValidator.isEmpty(email);
-        return new CustomerUpdateRequest(email);
-    }
-
-    public static CustomerUpdateRequest of(String email, String afterEmail) {
-        InputValidator.isEmpty(email);
-        InputValidator.isEmpty(afterEmail);
-        return new CustomerUpdateRequest(email, afterEmail);
     }
 
     public String email() {
