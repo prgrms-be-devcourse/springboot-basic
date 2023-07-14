@@ -24,20 +24,13 @@ public class VoucherController {
     @GetMapping
     public String voucherList(Model model) {
         Map<String, Voucher> voucherMap = voucherStream.findAll();
-        ArrayList<FixedAmountVoucher> fixedVoucherList = new ArrayList<>();
-        ArrayList<PercentDiscountVoucher> percentDiscountList = new ArrayList<>();
+        ArrayList<Voucher> voucherArrayList = new ArrayList<>();
         voucherMap.forEach(
                 (k, v) -> {
-                    if (v instanceof FixedAmountVoucher) {
-                        fixedVoucherList.add((FixedAmountVoucher) v);
-                    }
-                    if (v instanceof PercentDiscountVoucher) {
-                        percentDiscountList.add((PercentDiscountVoucher) v);
-                    }
+                    voucherArrayList.add(v);
                 }
         );
-        model.addAttribute("fixedAmountVouchers", fixedVoucherList);
-        model.addAttribute("percentDiscountVouchers", percentDiscountList);
+        model.addAttribute("voucherArrayList", voucherArrayList);
         return "/voucher/list";
     }
 

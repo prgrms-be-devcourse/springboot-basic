@@ -37,18 +37,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="voucher: ${fixedAmountVouchers}">
-                        <td><a href="information/fixed-information.html" th:href="@{/vouchers/fixed/{voucherId}(voucherId = ${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a></td>
-                        <td>FixedAmountVoucher</a></td>
-                        <td th:text="${voucher.amount}">10000</td>
-                        <td>-</td>
+                    <tr th:each="voucher: ${voucherArrayList}">
+                        <td>
+                            <a th:if ="${voucher.getType()} eq 'FixedAmountVoucher'" href="information/fixed-information.html" th:href="@{/vouchers/fixed/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a>
+                            <a th:if ="${voucher.getType()} eq 'PercentDiscountVoucher'" href="information/fixed-information.html" th:href="@{/vouchers/rate/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a>
+                        </td>
+                        <td th:text="${voucher.getType()}">PercentDiscountVoucher</a></td>
+                        <td>
+                            <span th:if = "${voucher.getType()} eq 'FixedAmountVoucher'" th:text="${voucher.getDiscount()}"> </span>
+                            <span th:unless = "${voucher.getType()} eq 'FixedAmountVoucher'" >-</span>
+                        </td>
+                        <td>
+                            <span th:if= "${voucher.getType()} eq 'PercentDiscountVoucher'" th:text="${voucher.getDiscount()}"> </span>
+                            <span th:unless = "${voucher.getType()} eq 'PercentDiscountVoucher'" >-</span>
+                        </td>
                     </tr>
-                    <tr th:each="voucher: ${percentDiscountVouchers}">
-                        <td><a href="information/fixed-information.html" th:href="@{/vouchers/rate/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a></td>
-                        <td>PercentDiscountVoucher</a></td>
-                        <td>-</td>
-                        <td th:text="${voucher.rate}">10</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>

@@ -43,6 +43,16 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = updateAmount;
     }
 
+    @Override
+    public long getDiscount() {
+        return this.amount;
+    }
+
+    @Override
+    public String getType() {
+        return "FixedAmountVoucher";
+    }
+
     private void validateUpdateAmount(long updateAmount) {
         if (updateAmount <= 0) {
             throw new IllegalArgumentException("할인금액은 0보다 작거나 같을 수 없습니다.");
