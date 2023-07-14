@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/1f943b0307.js" crossorigin="anonymous"></script>
+    <title>Voucher Modify Page</title>
+</head>
+<body class="d-flex flex-column align-items-center" style="height: 100vh;">
+<div class="d-flex flex-column container-fluid align-items-center">
+    <h1 class="mt-5 mb-3">Voucher Modify Page</h1>
+    <img th:src="@{/img/bg.png}" class="img-fluid w-50">
+</div>
+
+<div class="w-75">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+        <a th:href="@{/voucher}" class="btn btn-dark" type="button">Back</a>
+    </div>
+
+    <div class="mb-3">
+        <h3>선택된 바우처 정보</h3>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">바우처 정책</th>
+                <th scope="col">할인 적용률</th>
+                <th scope="col">등록한 고객</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher: ${voucher}" th:object="${voucher}">
+                <td th:text="${voucherId}"></td>
+                <td th:text="${voucher.voucherType}"></td>
+                <td th:text="${voucher.voucherAmount}"></td>
+                <td th:text="${voucher.customerId}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form th:action="@{/voucher/viewModifyPage/amount/{voucherId}(voucherId=${voucher.voucherId})}" method="post"
+          class="mt-5">
+        <fieldset>
+            <legend>바우처 할인율 수정</legend>
+            <div class="mb-3">
+                <label for="amount" name="amount" class="form-label">수정할 할인율을 입력하세요</label>
+                <input id="amount" name="amount" type="text" class="form-control"
+                       placeholder="0 < 고정 바우처, 0 < 퍼센트 바우처 <= 100">
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+                <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </div>
+        </fieldset>
+    </form>
+
+    <form th:action="@{/voucher/viewModifyPage/newRegistration/{voucherId}(voucherId=${voucher.voucherId})}"
+          method="post">
+        <fieldset>
+            <legend>바우처를 고객에게 등록</legend>
+            <div class="mb-3">
+                <label for="customerId" name="customerId" class="form-label">등록할 고객 ID를 입력하세요</label>
+                <input id="customerId" name="customerId" type="text" class="form-control"
+                       placeholder="고객이 할당되어있으면 할당할 수 없습니다">
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+<script>
+    function validateSpace(object) {
+        let space = /\s/;
+        if (space.exec(object.value)) {
+            object.value = object.value.replace(/\s| /gi, '');
+            return false;
+        }
+    }
+</script>
+</html>
