@@ -1,9 +1,10 @@
 package com.programmers.console;
 
+import com.programmers.console.controller.VoucherController;
 import com.programmers.console.util.Command;
 import com.programmers.console.util.VoucherStringSerializer;
 import com.programmers.console.view.Console;
-import com.programmers.voucher.controller.VoucherController;
+
 import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;

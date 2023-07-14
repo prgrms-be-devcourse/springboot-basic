@@ -1,4 +1,4 @@
-package com.programmers.voucher.controller;
+package com.programmers.console.controller;
 
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
