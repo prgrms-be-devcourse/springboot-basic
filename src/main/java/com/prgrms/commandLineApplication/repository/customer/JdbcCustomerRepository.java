@@ -40,7 +40,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
   @Override
   public void deleteAll() {
-    jdbcTemplate.update("DELETE FROM customers", Map.of());
+    jdbcTemplate.update(DELETE_ALL_QUERY, Collections.emptyMap());
   }
 
   @Override
