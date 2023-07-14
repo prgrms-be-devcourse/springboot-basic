@@ -47,7 +47,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처 생성을 테스트한다.")
-    void CreateVoucher_VoucherRequest_SmaeVoucher() {
+    void CreateVoucher_VoucherRequest_SameVoucher() {
         // Given
         String token = "500";
         DiscountValue discountValue = new DiscountValue(500);

@@ -30,14 +30,14 @@ public class WalletService {
     }
 
     public WalletResponse assignVoucher(WalletRequest walletRequest) throws WrongRangeFormatException {
-        return getWalletResponse(walletRequest, WalletAssignmentSelectionType.ASSIGN_VOUCHER);
+        return performAssignmentOrRemoval(walletRequest, WalletAssignmentSelectionType.ASSIGN_VOUCHER);
     }
 
     public WalletResponse removeVoucher(WalletRequest walletRequest) {
-        return getWalletResponse(walletRequest, WalletAssignmentSelectionType.REMOVE_VOUCHER);
+        return performAssignmentOrRemoval(walletRequest, WalletAssignmentSelectionType.REMOVE_VOUCHER);
     }
 
-    private WalletResponse getWalletResponse(WalletRequest walletRequest, WalletAssignmentSelectionType walletAssignmentSelectionType) {
+    private WalletResponse performAssignmentOrRemoval(WalletRequest walletRequest, WalletAssignmentSelectionType walletAssignmentSelectionType) {
         String username = walletRequest.username();
         String order = walletRequest.order();
         List<Voucher> voucherList = walletRequest.voucherList();
