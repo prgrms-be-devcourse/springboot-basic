@@ -76,28 +76,34 @@ class JdbcVoucherRepositoryTest {
         assertThat(vouchers.size()).isEqualTo(3);
     }
 
-    @DisplayName("할인 타입으로 바우처를 조회할 수 있다.")
+    @DisplayName("FIXED 타입으로 바우처를 조회할 수 있다.")
     @ParameterizedTest
-    @CsvSource(value = {"FIXED", "PERCENT"})
-    void findVouchersByTypeTest(String type) {
-        int fixedCount = 0;
-        int percentCount = 0;
-        for (int i = 0; i < 4; i++) {
-            if (i % 2 == 0) {
-                Voucher testVoucher = new Voucher(UUID.randomUUID(), new FixedDiscount(100), LocalDateTime.now());
-                jdbcVoucherRepository.save(testVoucher);
-                fixedCount++;
-                continue;
-            }
-            Voucher testVoucher = new Voucher(UUID.randomUUID(), new PercentDiscount(100), LocalDateTime.now());
-            jdbcVoucherRepository.save(testVoucher);
-            percentCount++;
-        }
+    @CsvSource(value = "FIXED")
+    void findFixedVouchersByTypeTest(String type) {
+        Voucher testVoucher = new Voucher(UUID.randomUUID(), new FixedDiscount(100), LocalDateTime.now());
+        Voucher testVoucher2 = new Voucher(UUID.randomUUID(), new FixedDiscount(100), LocalDateTime.now());
+        jdbcVoucherRepository.save(testVoucher);
+        jdbcVoucherRepository.save(testVoucher2);
 
-        List<Voucher> vouchers = jdbcVoucherRepository.findByType(type);
+        List<Voucher> fixedVouchers = jdbcVoucherRepository.findByType(type);
+        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
 
-        if (type == "FIXED") assertThat(vouchers.size()).isEqualTo(fixedCount);
-        else assertThat(vouchers.size()).isEqualTo(percentCount);
+        assertThat(vouchers.size()).isEqualTo(fixedVouchers.size());
+    }
+
+    @DisplayName("PERCENT 타입으로 바우처를 조회할 수 있다.")
+    @ParameterizedTest
+    @CsvSource(value = "PERCENT")
+    void findPercentVouchersByTypeTest(String type) {
+        Voucher testVoucher = new Voucher(UUID.randomUUID(), new PercentDiscount(100), LocalDateTime.now());
+        Voucher testVoucher2 = new Voucher(UUID.randomUUID(), new PercentDiscount(100), LocalDateTime.now());
+        jdbcVoucherRepository.save(testVoucher);
+        jdbcVoucherRepository.save(testVoucher2);
+
+        List<Voucher> percentVouchers = jdbcVoucherRepository.findByType(type);
+        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+
+        assertThat(vouchers.size()).isEqualTo(percentVouchers.size());
     }
 
     @DisplayName("ID로 바우처를 삭제할 수 있다.")
