@@ -2,9 +2,9 @@ package com.programmers.springbootbasic.presentation.controller;
 
 import com.programmers.springbootbasic.common.util.Validator;
 import com.programmers.springbootbasic.service.VoucherService;
-import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
-import com.programmers.springbootbasic.service.dto.VoucherResponse;
-import com.programmers.springbootbasic.service.dto.VoucherResponses;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherCreationRequest;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponse;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;

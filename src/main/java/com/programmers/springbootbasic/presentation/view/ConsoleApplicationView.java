@@ -4,8 +4,8 @@ import com.programmers.springbootbasic.common.util.LocalDateTimeParser;
 import com.programmers.springbootbasic.common.util.NumberParser;
 import com.programmers.springbootbasic.common.util.Validator;
 import com.programmers.springbootbasic.presentation.Command;
-import com.programmers.springbootbasic.service.dto.VoucherResponse;
-import com.programmers.springbootbasic.service.dto.VoucherResponses;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponse;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
