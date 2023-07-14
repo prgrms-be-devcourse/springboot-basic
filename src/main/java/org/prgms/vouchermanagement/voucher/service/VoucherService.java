@@ -38,7 +38,7 @@ public class VoucherService {
 
     public void showVoucherList() {
         console.printSelectVoucherListType();
-        VoucherType typeToShow  = VoucherType.getVoucherType(console.getVoucherTypeInput());
+        VoucherType typeToShow = VoucherType.getVoucherType(console.getVoucherTypeInput());
         List<Voucher> voucherList = voucherRepository.findAll();
         console.printVoucherList(voucherList, typeToShow);
     }

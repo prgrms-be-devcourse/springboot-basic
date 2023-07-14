@@ -37,8 +37,10 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         VoucherType voucherType = VoucherType.getVoucherType(resultSet.getInt("voucher_type"));
 
         return switch (voucherType) {
-            case FIXED_AMOUNT_VOUCHER_TYPE -> new Voucher(voucherId, discountAmount, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
-            case PERCENT_DISCOUNT_VOUCHER_TYPE -> new Voucher(voucherId, discountAmount, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
+            case FIXED_AMOUNT_VOUCHER_TYPE ->
+                    new Voucher(voucherId, discountAmount, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
+            case PERCENT_DISCOUNT_VOUCHER_TYPE ->
+                    new Voucher(voucherId, discountAmount, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
         };
     };
 

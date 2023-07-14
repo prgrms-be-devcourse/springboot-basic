@@ -101,7 +101,7 @@ public class Console {
             records.add(Arrays.asList(values));
         }
 
-        for (List<String> eachRecord: records) {
+        for (List<String> eachRecord : records) {
             System.out.println(eachRecord.toString());
         }
         br.close();

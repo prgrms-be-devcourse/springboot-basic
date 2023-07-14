@@ -47,7 +47,7 @@ public class ThymeleafVoucherService {
 
     @Transactional
     public VoucherResponseDto updateVoucher(VoucherResponseDto voucherDto) {
-        Voucher updateVoucher =  new Voucher(voucherDto.voucherId(), voucherDto.discount(), voucherDto.voucherType());
+        Voucher updateVoucher = new Voucher(voucherDto.voucherId(), voucherDto.discount(), voucherDto.voucherType());
         validator.checkFixedOrPercentAmount(String.valueOf(updateVoucher.getDiscount()), updateVoucher.getVoucherType());
         voucherRepository.update(updateVoucher);
         return voucherDto;

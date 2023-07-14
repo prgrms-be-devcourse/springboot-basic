@@ -1,7 +1,8 @@
 package org.prgms.vouchermanagement.global.constant;
 
 public final class ExceptionMessageConstant {
-    private ExceptionMessageConstant() {}
+    private ExceptionMessageConstant() {
+    }
 
     public static final String COMMAND_INPUT_EXCEPTION = "[ERROR] 지원되지 않는 Command 입니다.";
     public static final String VOUCHER_TYPE_INPUT_EXCEPTION = "[ERROR] 1 또는 2를 입력해주세요.";
@@ -11,6 +12,6 @@ public final class ExceptionMessageConstant {
 
     public static final String EMPTY_CUSTOMER_INSERT_EXCEPTION = "[ERROR] 고객정보가 저장되지 않았습니다.";
     public static final String BLANK_CUSTOMER_NAME_EXCEPTION = "[ERROR] 이름을 입력해주세요.";
-    
+
     public static final String VOUCHER_NOT_INSERTED_EXCEPTION = "[ERROR] 바우처가 저장되지 않았습니다.";
 }

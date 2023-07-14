@@ -8,11 +8,11 @@ import java.util.*;
 
 @Repository
 @Profile("memory")
-public class MemoryVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository {
     private final List<Voucher> voucherStorage = new ArrayList<>();
 
     @Override
-    public Optional<Voucher> findById (UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         return voucherStorage.stream()
                 .filter(voucher -> voucher.getVoucherId() == voucherId)
                 .findAny();
