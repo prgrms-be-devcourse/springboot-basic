@@ -23,7 +23,7 @@ public enum DiscountType {
     }
   }
 
-  public static String getUnit(DiscountType discountType) {
+  public String getUnit(DiscountType discountType) {
     try {
       return DiscountType.valueOf(discountType.name().toUpperCase()).unit;
     } catch (Exception e) {
