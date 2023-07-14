@@ -7,11 +7,12 @@ public class VoucherInfoRequest {
     private static final int AMOUNT_NO = 0;
     private static final int EXPIRATION = 1;
 
-    private final long amount;
-    private final long expiration;
+    private long amount;
+    private long expiration;
 
+    public VoucherInfoRequest() {}
 
-    private VoucherInfoRequest(long amount, long expiration) {
+    public VoucherInfoRequest(long amount, long expiration) {
         this.amount = amount;
         this.expiration = expiration;
     }
@@ -31,6 +32,14 @@ public class VoucherInfoRequest {
 
     public long getExpiration() {
         return expiration;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
+
+    public void setExpiration(long expiration) {
+        this.expiration = expiration;
     }
 
     private static void checkReadVoucherException(String[] inputs) {

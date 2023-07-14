@@ -27,7 +27,7 @@ public class VoucherValidator {
             return;
         }
 
-        notRange(amount, input -> input < RANGE_START || input > RANGE_END);
+        notRange(amount, input -> input <= RANGE_START || input > RANGE_END);
     }
 
     private static void notRange(long userInput, LongPredicate ifCase) {

@@ -13,7 +13,11 @@ public class VouchersResponse implements Response {
     public VouchersResponse(List<Voucher> vouchers) {
         this.result = vouchers.stream()
                 .map(VoucherCreationResponse::new)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
+    }
+
+    public List<VoucherCreationResponse> getResult() {
+        return result;
     }
 
     public String result() {

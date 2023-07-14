@@ -12,12 +12,35 @@ public class VoucherCreationResponse implements Response {
     private final LocalDate registrationDate;
     private final LocalDate expirationDate;
     private final long amount;
+    private final String voucherType;
 
     public VoucherCreationResponse(Voucher voucher) {
         this.id = voucher.getVoucherId();
         this.registrationDate = voucher.getRegistrationDate();
         this.expirationDate = voucher.getExpirationDate();
         this.amount = voucher.getAmount();
+        this.voucherType = voucher.getDiscountType().name();
+
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public LocalDate getExpirationDate() {
+        return expirationDate;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public String getVoucherType() {
+        return voucherType;
     }
 
     @Override

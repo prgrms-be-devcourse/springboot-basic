@@ -23,6 +23,11 @@ public class VoucherWebController {
         this.voucherService = voucherService;
     }
 
+    @GetMapping("/menu")
+    public String menu() {
+        return "voucher/menu";
+    }
+
     @PostMapping("/create")
     public String createVoucher(@ModelAttribute VoucherCreationRequest voucherCreationRequest, Model model) {
         try {
@@ -30,17 +35,25 @@ public class VoucherWebController {
             model.addAttribute("voucher", voucherCreationResponse);
         } catch( VoucherException voucherException) {
             model.addAttribute("exception", new WebExceptionDto(voucherException));
+            return "exception/exception";
         }
+        return "redirect:/";
+    }
+
+    @GetMapping("/create")
+    public String createVoucher(Model model) {
+        model.addAttribute("voucherCreationRequest", new VoucherCreationRequest(null, null));
         return "voucher/create";
     }
 
     @GetMapping("/vouchers")
-    public String createVoucher(Model model) {
+    public String getVouchers(Model model) {
         try {
             VouchersResponse vouchersResponse = voucherService.getVouchers();
             model.addAttribute("vouchers", vouchersResponse);
         } catch( VoucherException voucherException) {
             model.addAttribute("exception", new WebExceptionDto(voucherException));
+            return "exception/exception";
         }
         return "voucher/vouchers";
     }

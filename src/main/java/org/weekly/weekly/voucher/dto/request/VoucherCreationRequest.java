@@ -8,12 +8,24 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class VoucherCreationRequest {
-    private final VoucherInfoRequest voucherInfoRequest;
-    private final DiscountType discountType;
+    private VoucherInfoRequest voucherInfoRequest;
+    private DiscountType discountType;
 
     public VoucherCreationRequest(VoucherInfoRequest voucherInfoRequest, DiscountType discountType) {
         this.voucherInfoRequest = voucherInfoRequest;
         this.discountType = discountType;
+    }
+
+    public VoucherInfoRequest getVoucherInfoRequest() {
+        return voucherInfoRequest;
+    }
+
+    public void setVoucherInfoRequest(VoucherInfoRequest voucherInfoRequest) {
+        this.voucherInfoRequest = voucherInfoRequest;
+    }
+
+    public DiscountType getDiscountType() {
+        return discountType;
     }
 
     public Voucher toVoucher()  {

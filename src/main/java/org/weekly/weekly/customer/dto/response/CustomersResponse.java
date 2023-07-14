@@ -13,7 +13,7 @@ public class CustomersResponse implements Response {
     public CustomersResponse(List<Customer> customers) {
         result = customers.stream()
                 .map(CustomerResponse::of)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 
     @Override

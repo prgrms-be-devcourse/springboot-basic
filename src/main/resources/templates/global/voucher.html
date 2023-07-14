@@ -1,0 +1,23 @@
+<div th:fragment="voucher-head(index)">
+    <thead class="table-light">
+    <tr>
+        <th th:if="${index != 0}">번호</th>
+        <th>바우처 아이디</th>
+        <th>할인가</th>
+        <th>바우처 타입</th>
+        <th>등록일</th>
+        <th>만료일</th>
+    </tr>
+    </thead>
+</div>
+
+
+<th:block th:fragment="voucher-row(voucher, index)">
+    <td th:if="${index != 0}" th:text="${index}"></td>
+    <td th:text="${voucher.id}"></td>
+    <td th:text="${voucher.amount}"></td>
+    <td th:text="${voucher.voucherType}"></td>
+    <td th:text="${voucher.registrationDate}"></td>
+    <td th:text="${voucher.expirationDate}"></td>
+</th:block>
+
