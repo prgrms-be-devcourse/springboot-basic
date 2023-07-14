@@ -53,4 +53,3 @@ public class Voucher {
         return Objects.hash(voucherId);
     }
 }
-

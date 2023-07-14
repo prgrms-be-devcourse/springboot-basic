@@ -1,12 +1,10 @@
 package com.programmers.springmission.customer.repository;
 
-import com.programmers.springmission.ManagementConsoleController;
 import com.programmers.springmission.customer.domain.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -22,10 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JdbcCustomerRepositoryTest {
 
     @Autowired
-    private JdbcCustomerRepository repository;
-
-    @MockBean
-    private ManagementConsoleController managementConsoleController;
+    JdbcCustomerRepository repository;
 
     @DisplayName("Customer 가 repository 에 저장 성공하는지 테스트")
     @Test
@@ -41,8 +36,8 @@ class JdbcCustomerRepositoryTest {
         // then
         List<Customer> all = repository.findAll();
 
-        assertThat(all.size()).isEqualTo(2);
-        assertThat(all).contains(customer1, customer2);
+        assertThat(all).hasSize(2)
+                .contains(customer1, customer2);
     }
 
     @DisplayName("Customer 수정 성공하는지 테스트")
@@ -75,7 +70,7 @@ class JdbcCustomerRepositoryTest {
 
         // then
         List<Customer> all = repository.findAll();
-        assertThat(all.size()).isEqualTo(1);
+        assertThat(all).hasSize(1);
         assertThat(all.get(0).getCustomerId()).isEqualTo(customer1.getCustomerId());
     }
 
@@ -93,6 +88,6 @@ class JdbcCustomerRepositoryTest {
 
         // then
         List<Customer> all = repository.findAll();
-        assertThat(all.size()).isEqualTo(0);
+        assertThat(all).isEmpty();
     }
 }

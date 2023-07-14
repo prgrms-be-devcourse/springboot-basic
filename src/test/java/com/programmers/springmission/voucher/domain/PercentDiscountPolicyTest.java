@@ -41,4 +41,3 @@ class PercentDiscountPolicyTest {
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }
 }
-

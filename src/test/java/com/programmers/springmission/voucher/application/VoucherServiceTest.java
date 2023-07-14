@@ -59,7 +59,7 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(1);
+        assertThat(voucherResponses).hasSize(1);
         assertThat(voucherResponses.get(0).getVoucherAmount()).isEqualTo(10L);
         assertThat(voucherResponses.get(0).getVoucherType()).isEqualTo(VoucherType.FIXED_AMOUNT);
     }
@@ -76,7 +76,7 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(1);
+        assertThat(voucherResponses).hasSize(1);
         assertThat(voucherResponses.get(0).getVoucherAmount()).isEqualTo(10L);
         assertThat(voucherResponses.get(0).getVoucherType()).isEqualTo(VoucherType.PERCENT_DISCOUNT);
     }
@@ -110,7 +110,7 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(2);
+        assertThat(voucherResponses).hasSize(2);
     }
 
     @DisplayName("updateVoucher 바우처 수정 성공 테스트")
@@ -171,7 +171,7 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(1);
+        assertThat(voucherResponses).hasSize(1);
         assertThat(voucherResponses.get(0).getVoucherId()).isEqualTo(voucherResponse1.getVoucherId());
     }
 
@@ -190,7 +190,7 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(0);
+        assertThat(voucherResponses).isEmpty();
     }
 
     @DisplayName("메모리에 바우처가 존재하지 않을 때 예외 던지는지 테스트")
@@ -232,4 +232,3 @@ class VoucherServiceTest {
         assertThat(voucherResponses.get(1).getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 }
-

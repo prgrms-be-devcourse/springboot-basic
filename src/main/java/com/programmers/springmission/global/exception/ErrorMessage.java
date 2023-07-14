@@ -21,4 +21,3 @@ public enum ErrorMessage {
 
     private final String message;
 }
-

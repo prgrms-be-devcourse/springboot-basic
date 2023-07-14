@@ -23,7 +23,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+    private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
@@ -32,7 +32,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return new Customer(customerId, name, email, createdAt);
     };
 
-    private RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
+    private final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
         UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
         UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
         String voucherPolicy = resultSet.getString("policy");

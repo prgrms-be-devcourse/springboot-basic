@@ -38,8 +38,8 @@ class InMemoryVoucherRepositoryTest {
         // then
         List<Voucher> all = repository.findAll();
 
-        assertThat(all.size()).isEqualTo(2);
-        assertThat(all).contains(voucher1, voucher2);
+        assertThat(all).hasSize(2)
+                .contains(voucher1, voucher2);
     }
 
     @DisplayName("Voucher 수정 성공하는지 테스트")
@@ -88,7 +88,7 @@ class InMemoryVoucherRepositoryTest {
 
         // then
         List<Voucher> all = repository.findAll();
-        assertThat(all.size()).isEqualTo(1);
+        assertThat(all).hasSize(1);
         assertThat(all.get(0).getVoucherId()).isEqualTo(voucher1.getVoucherId());
     }
 
@@ -122,7 +122,6 @@ class InMemoryVoucherRepositoryTest {
 
         // then
         List<Voucher> all = repository.findAll();
-        assertThat(all.size()).isEqualTo(0);
+        assertThat(all).isEmpty();
     }
 }
-

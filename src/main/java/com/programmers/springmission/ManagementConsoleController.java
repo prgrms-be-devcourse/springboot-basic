@@ -17,7 +17,6 @@ import org.springframework.dao.DataAccessException;
  */
 
 @Slf4j
-//@Component
 public class ManagementConsoleController implements CommandLineRunner {
 
     private final Console console;
@@ -57,4 +56,3 @@ public class ManagementConsoleController implements CommandLineRunner {
         power = false;
     }
 }
-

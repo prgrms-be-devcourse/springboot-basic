@@ -54,7 +54,7 @@ public class VoucherService {
     @Transactional
     public VoucherResponse updateAmount(UUID inputVoucherId, VoucherUpdateRequest voucherUpdateRequest) {
         Voucher voucher = findVoucher(inputVoucherId);
-        
+
         voucher.updateAmount(voucherUpdateRequest.getAmount());
         voucherRepository.updateAmount(voucher);
         return new VoucherResponse(voucher);
@@ -75,8 +75,9 @@ public class VoucherService {
     @Transactional
     public VoucherResponse updateCustomer(UUID inputVoucherId, UUID inputCustomerId) {
         Voucher voucher = findVoucher(inputVoucherId);
-        validateAssignCustomer(inputCustomerId, voucher);
+        validateAssignedCustomer(voucher);
 
+        voucher.updateCustomer(inputCustomerId);
         voucherRepository.updateCustomer(voucher);
         return new VoucherResponse(voucher);
     }
@@ -86,12 +87,9 @@ public class VoucherService {
                 .orElseThrow(() -> new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER));
     }
 
-    private void validateAssignCustomer(UUID inputCustomerId, Voucher voucher) {
+    private void validateAssignedCustomer(Voucher voucher) {
         if (voucher.getCustomerId() != null) {
             throw new InvalidInputException(ErrorMessage.DUPLICATE_ASSIGN_VOUCHER);
         }
-
-        voucher.updateCustomer(inputCustomerId);
     }
 }
-

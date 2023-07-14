@@ -2,6 +2,8 @@ package com.programmers.springmission.view;
 
 import com.programmers.springmission.customer.presentation.response.CustomerResponse;
 import com.programmers.springmission.customer.presentation.response.WalletResponse;
+import com.programmers.springmission.view.input.Input;
+import com.programmers.springmission.view.output.Output;
 import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
 
 import java.util.List;
@@ -179,4 +181,3 @@ public class Console {
         output.write(newLine + "Success Assign Customer to Voucher !" + newLine + voucherResponse + newLine);
     }
 }
-

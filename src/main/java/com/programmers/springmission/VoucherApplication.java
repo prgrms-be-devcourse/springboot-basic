@@ -10,4 +10,3 @@ public class VoucherApplication {
         SpringApplication.run(VoucherApplication.class, args);
     }
 }
-

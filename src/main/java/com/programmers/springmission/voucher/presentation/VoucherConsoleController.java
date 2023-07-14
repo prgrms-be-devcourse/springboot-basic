@@ -91,4 +91,3 @@ public class VoucherConsoleController {
         return voucherService.updateCustomer(inputVoucherId, inputCustomerId);
     }
 }
-

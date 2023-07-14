@@ -11,4 +11,3 @@ public class VoucherCreateRequest {
     private final VoucherType voucherType;
     private final long amount;
 }
-

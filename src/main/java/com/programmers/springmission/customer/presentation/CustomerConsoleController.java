@@ -48,7 +48,7 @@ public class CustomerConsoleController {
                 deleteCustomer();
                 console.outputCustomerDeleteById();
             }
-            case DELETE_ALL ->  {
+            case DELETE_ALL -> {
                 customerService.deleteAllCustomer();
                 console.outputCustomerDeleteAll();
             }
@@ -79,7 +79,7 @@ public class CustomerConsoleController {
                 CustomerResponse customerResponse = findByEmailCustomer();
                 console.outputCustomerFindOne(customerResponse);
             }
-        };
+        }
     }
 
     private CustomerResponse findByIdCustomer() {

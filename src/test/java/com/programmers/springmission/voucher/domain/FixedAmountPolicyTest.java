@@ -42,4 +42,3 @@ class FixedAmountPolicyTest {
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }
 }
-

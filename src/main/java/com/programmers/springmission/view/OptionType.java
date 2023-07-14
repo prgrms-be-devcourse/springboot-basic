@@ -32,4 +32,3 @@ public enum OptionType {
         return optionType;
     }
 }
-

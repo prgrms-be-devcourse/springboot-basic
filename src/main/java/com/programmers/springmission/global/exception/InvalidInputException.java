@@ -12,4 +12,3 @@ public class InvalidInputException extends RuntimeException {
         super(errorMessage.getMessage());
     }
 }
-

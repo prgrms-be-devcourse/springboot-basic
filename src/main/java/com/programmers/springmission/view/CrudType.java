@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Getter
 @RequiredArgsConstructor
 public enum CrudType {
+
     CREATE("1"),
     FIND_ONE("2"),
     FIND_ALL("3"),

@@ -1,6 +1,5 @@
 package com.programmers.springmission.voucher.repository;
 
-import com.programmers.springmission.ManagementConsoleController;
 import com.programmers.springmission.customer.domain.Customer;
 import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
 import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
@@ -31,9 +29,6 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    @MockBean
-    ManagementConsoleController managementConsoleController;
-
     @DisplayName("Voucher 가 repository 에 저장 성공하는지 테스트")
     @Test
     void repository_save_success() {
@@ -48,8 +43,8 @@ class JdbcVoucherRepositoryTest {
         // then
         List<Voucher> all = repository.findAll();
 
-        assertThat(all.size()).isEqualTo(2);
-        assertThat(all).contains(voucher1, voucher2);
+        assertThat(all).hasSize(2)
+                .contains(voucher1, voucher2);
     }
 
     @DisplayName("Voucher 수정 성공하는지 테스트")
@@ -82,7 +77,7 @@ class JdbcVoucherRepositoryTest {
 
         // then
         List<Voucher> all = repository.findAll();
-        assertThat(all.size()).isEqualTo(1);
+        assertThat(all).hasSize(1);
         assertThat(all.get(0).getVoucherId()).isEqualTo(voucher1.getVoucherId());
     }
 
@@ -100,7 +95,7 @@ class JdbcVoucherRepositoryTest {
 
         // then
         List<Voucher> all = repository.findAll();
-        assertThat(all.size()).isEqualTo(0);
+        assertThat(all).isEmpty();
     }
 
     @DisplayName("바우처에 고객 할당 성공하는지 테스트")
