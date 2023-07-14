@@ -1,10 +1,8 @@
 package prgms.spring_week1.menu;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import prgms.spring_week1.exception.NoSuchOptionValueException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

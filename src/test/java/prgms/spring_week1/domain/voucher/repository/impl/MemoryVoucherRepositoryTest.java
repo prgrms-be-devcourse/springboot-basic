@@ -8,7 +8,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import static org.mockito.Mockito.*;
 
 import java.util.List;
 
