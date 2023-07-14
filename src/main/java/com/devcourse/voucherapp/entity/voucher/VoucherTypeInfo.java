@@ -1,7 +1,5 @@
 package com.devcourse.voucherapp.entity.voucher;
 
-import com.devcourse.voucherapp.entity.voucher.Voucher;
-import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;

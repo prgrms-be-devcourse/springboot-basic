@@ -6,7 +6,6 @@ import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
-import com.devcourse.voucherapp.view.CommonView;
 import com.devcourse.voucherapp.view.VoucherView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,23 +17,22 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class VoucherCommand {
 
-    private final CommonView commonView;
     private final VoucherView voucherView;
     private final VoucherController voucherController;
     private boolean isRunning = true;
 
     public void run() {
         while (isRunning) {
-            voucherView.showVoucherMenu();
+            voucherView.showMenu();
 
             try {
-                String menuOption = commonView.readUserInput();
+                String menuOption = voucherView.readUserInput();
                 VoucherMenu selectedMenu = VoucherMenu.from(menuOption);
                 executeMenu(selectedMenu);
             } catch (Exception e) {
                 String message = e.getMessage();
                 log.error(message);
-                commonView.showExceptionMessage(message);
+                voucherView.showExceptionMessage(message);
             }
         }
     }

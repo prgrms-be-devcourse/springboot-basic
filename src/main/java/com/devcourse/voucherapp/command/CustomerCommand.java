@@ -5,7 +5,6 @@ import com.devcourse.voucherapp.entity.customer.CustomerMenu;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerUpdateRequestDto;
-import com.devcourse.voucherapp.view.CommonView;
 import com.devcourse.voucherapp.view.CustomerView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,23 +16,22 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomerCommand {
 
-    private final CommonView commonView;
     private final CustomerView customerView;
     private final CustomerController customerController;
     private boolean isRunning = true;
 
     public void run() {
         while (isRunning) {
-            customerView.showCustomerMenu();
+            customerView.showMenu();
 
             try {
-                String menuOption = commonView.readUserInput();
+                String menuOption = customerView.readUserInput();
                 CustomerMenu selectedMenu = CustomerMenu.from(menuOption);
                 executeMenu(selectedMenu);
             } catch (Exception e) {
                 String message = e.getMessage();
                 log.error(message);
-                commonView.showExceptionMessage(message);
+                customerView.showExceptionMessage(message);
             }
         }
     }

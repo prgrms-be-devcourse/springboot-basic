@@ -2,8 +2,8 @@ package com.devcourse.voucherapp.entity.customer.dto;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.entity.customer.CustomerType;
 import com.devcourse.voucherapp.entity.customer.Customer;
+import com.devcourse.voucherapp.entity.customer.CustomerType;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

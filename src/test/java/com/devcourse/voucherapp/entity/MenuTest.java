@@ -11,17 +11,17 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class MenuTest {
 
-    @DisplayName("존재하는 메뉴 입력 시, 해당 메뉴 객체가 반환된다.")
+    @DisplayName("존재하는 홈 메뉴 입력 시, 해당 메뉴 객체가 반환된다.")
     @ParameterizedTest
     @CsvSource(value = {"1,VOUCHER", "2,CUSTOMER", "quit,QUIT"})
-    void selectExistedMenuTest(String menuNumber, Menu menu) {
-        assertEquals(menu, Menu.from(menuNumber));
+    void selectExistedMenuTest(String menuNumber, HomeMenu menu) {
+        assertEquals(menu, HomeMenu.from(menuNumber));
     }
 
-    @DisplayName("존재하지 않는 메뉴 입력 시, MenuInputException 예외가 발생한다.")
+    @DisplayName("존재하지 않는 홈 메뉴 입력 시, MenuInputException 예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = {"10000", "string"})
     void selectNotExistedMenuTest(String invalidMenuNumber) {
-        assertThrows(MenuInputException.class, () -> Menu.from(invalidMenuNumber));
+        assertThrows(MenuInputException.class, () -> HomeMenu.from(invalidMenuNumber));
     }
 }

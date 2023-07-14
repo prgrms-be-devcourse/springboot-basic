@@ -1,15 +1,14 @@
 package com.devcourse.voucherapp.view;
 
-import com.devcourse.voucherapp.entity.Menu;
+import com.devcourse.voucherapp.entity.HomeMenu;
 import com.devcourse.voucherapp.view.io.Input;
 import com.devcourse.voucherapp.view.io.Output;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CommonView {
+public class HomeView {
 
     private static final String MENU_TITLE = "\n[할인권 프로그램 v1.0]";
     private static final String INPUT_MESSAGE = "입력 : ";
@@ -24,9 +23,9 @@ public class CommonView {
         return input.inputWithTrimming();
     }
 
-    public void showHomeMenu() {
+    public void showMenu() {
         output.printWithLineBreak(MENU_TITLE);
-        showElementsInArray(Menu.values());
+        output.printElementsInArray(HomeMenu.values());
     }
 
     public void showExceptionMessage(String message) {
@@ -35,17 +34,5 @@ public class CommonView {
 
     public void showQuitMessage() {
         output.printWithLineBreak(QUIT_MESSAGE);
-    }
-
-    <T> void showElementsInArray(T[] elements) {
-        for (T element : elements) {
-            output.printWithLineBreak(element);
-        }
-    }
-
-    <T> void showElementsInList(List<T> elements) {
-        for (T element : elements) {
-            output.printWithLineBreak(element);
-        }
     }
 }
