@@ -1,4 +1,4 @@
-package com.programmers.advice;
+package com.programmers.voucher.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +25,17 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {IllegalArgumentException.class})
     public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                httpStatus,
+                ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
+        );
+        return new ResponseEntity<>(apiException, httpStatus);
+    }
+
+    @ExceptionHandler(value = {RuntimeException.class})
+    public ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 httpStatus,

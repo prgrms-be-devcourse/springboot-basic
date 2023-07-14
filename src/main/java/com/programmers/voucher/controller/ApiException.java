@@ -1,4 +1,4 @@
-package com.programmers.advice;
+package com.programmers.voucher.controller;
 
 import org.springframework.http.HttpStatus;
 
