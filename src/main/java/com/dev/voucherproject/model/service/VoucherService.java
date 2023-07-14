@@ -1,8 +1,11 @@
-package com.dev.voucherproject.model.voucher;
+package com.dev.voucherproject.model.service;
 
 
 import com.dev.voucherproject.controller.web.request.VoucherCreateRequest;
 import com.dev.voucherproject.model.storage.voucher.VoucherDao;
+import com.dev.voucherproject.model.voucher.Voucher;
+import com.dev.voucherproject.model.voucher.VoucherDto;
+import com.dev.voucherproject.model.voucher.VoucherPolicy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,10 +16,10 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
-public class VoucherApplication {
+public class VoucherService {
     private final VoucherDao voucherDao;
 
-    public VoucherApplication(VoucherDao voucherDao) {
+    public VoucherService(VoucherDao voucherDao) {
         this.voucherDao = voucherDao;
     }
 
