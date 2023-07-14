@@ -14,8 +14,9 @@ import org.weekly.weekly.util.ManageMenu;
 import org.weekly.weekly.util.PrintMessageType;
 import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.controller.VoucherController;
-import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
+import org.weekly.weekly.voucher.dto.response.VoucherCreationResponse;
+import org.weekly.weekly.voucher.dto.response.VouchersResponse;
 
 @Component
 public class VoucherManagementController {
@@ -68,13 +69,13 @@ public class VoucherManagementController {
 
     private void handleVoucherCreation() {
         VoucherCreationRequest voucherCreationRequest = commandLineApplication.createVoucherFromInput();
-        Response response = voucherController.createVoucher(voucherCreationRequest);
+        VoucherCreationResponse response = voucherController.createVoucher(voucherCreationRequest);
         logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(),response.result());
         commandLineApplication.printResult(response);
     }
 
     private void handleVoucherSearch() {
-        Response response = voucherController.getVouchers();
+        VouchersResponse response = voucherController.getVouchers();
         logger.info("{}{}", PrintMessageType.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.result());
         commandLineApplication.printResult(response);
     }

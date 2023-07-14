@@ -1,7 +1,8 @@
 package org.weekly.weekly.web.exception;
 
 public class WebExceptionDto {
-    private String message;
+    private final String message;
+
     public WebExceptionDto(RuntimeException error) {
         this.message = error.getMessage();
     }

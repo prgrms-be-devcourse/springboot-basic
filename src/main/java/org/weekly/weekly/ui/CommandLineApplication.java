@@ -4,17 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
 import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
+import org.weekly.weekly.customer.dto.response.CustomerResponse;
+import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.ui.exception.InputValidator;
 import org.weekly.weekly.ui.reader.CommandReader;
 import org.weekly.weekly.ui.writer.SystemWriter;
 import org.weekly.weekly.util.CustomerMenu;
 import org.weekly.weekly.util.ManageMenu;
 import org.weekly.weekly.util.Menu;
-import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.util.VoucherMenu;
-import org.weekly.weekly.voucher.dto.Response;
-import org.weekly.weekly.voucher.dto.request.VoucherInfoRequest;
+import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
+import org.weekly.weekly.voucher.dto.request.VoucherInfoRequest;
+import org.weekly.weekly.voucher.dto.response.VoucherCreationResponse;
+import org.weekly.weekly.voucher.dto.response.VouchersResponse;
 
 import java.util.function.Supplier;
 
@@ -30,28 +33,28 @@ public class CommandLineApplication {
     }
 
     public ManageMenu readManageMenu() {
-        return readMenu(()-> {
+        return readMenu(() -> {
             commandWriter.printMangeProgram();
             return ManageMenu.getMenu(readMenuInput());
         });
     }
 
     public VoucherMenu readVoucherMenu() {
-        return readMenu(()-> {
+        return readMenu(() -> {
             commandWriter.printVoucherProgram();
             return VoucherMenu.getMenu(readMenuInput());
         });
     }
 
     public CustomerMenu readCustomerMenu() {
-        return readMenu(()-> {
+        return readMenu(() -> {
             commandWriter.printCustomerProgram();
             return CustomerMenu.getMenu(readMenuInput());
         });
     }
 
     public VoucherCreationRequest createVoucherFromInput() {
-        while(true) {
+        while (true) {
             try {
                 DiscountType discountType = readDiscountType();
                 VoucherInfoRequest voucherInfoRequest = readVoucherInfo(discountType);
@@ -63,7 +66,7 @@ public class CommandLineApplication {
     }
 
     public CustomerCreationRequest createCustomerFromInput() {
-        while(true) {
+        while (true) {
             try {
                 String email = processEmail();
                 String name = processName();
@@ -75,7 +78,7 @@ public class CommandLineApplication {
     }
 
     public CustomerUpdateRequest customerDetailFromInput() {
-        while(true) {
+        while (true) {
             try {
                 String email = processEmail();
                 return CustomerUpdateRequest.of(email);
@@ -85,8 +88,8 @@ public class CommandLineApplication {
         }
     }
 
-    public CustomerUpdateRequest customerUpdateRequest(){
-        while(true) {
+    public CustomerUpdateRequest customerUpdateRequest() {
+        while (true) {
             try {
                 String email = processEmail();
                 String newEmail = processNewEmail();
@@ -101,14 +104,25 @@ public class CommandLineApplication {
         commandWriter.printErrorMessage(errorMsg);
     }
 
-    public void printResult(Response response) {
-        commandWriter.printResult(response.result());
+    public void printResult(VoucherCreationResponse voucherCreationResponse) {
+        commandWriter.printResult(voucherCreationResponse.result());
+    }
+
+    public void printResult(VouchersResponse vouchersResponse) {
+        commandWriter.printResult(vouchersResponse.result());
+    }
+
+    public void printResult(CustomerResponse customerResponse) {
+        commandWriter.printResult(customerResponse.result());
+    }
+
+    public void printResult(CustomersResponse customerResponse) {
+        commandWriter.printResult(customerResponse.result());
     }
 
     public void printDeleteMessage() {
         commandWriter.printDeleteMessage();
     }
-
 
     private String readMenuInput() {
         String userInput = commandReader.readLine();
@@ -123,7 +137,7 @@ public class CommandLineApplication {
     }
 
     private <T extends Menu> T readMenu(Supplier<T> menuSupplier) {
-        while(true) {
+        while (true) {
             try {
                 return menuSupplier.get();
             } catch (Exception exception) {
@@ -138,7 +152,7 @@ public class CommandLineApplication {
         return DiscountType.getDiscountTypeByNumber(no);
     }
 
-    private VoucherInfoRequest readVoucherInfo(DiscountType discountType){
+    private VoucherInfoRequest readVoucherInfo(DiscountType discountType) {
         commandWriter.printCreateVoucher(discountType);
         String voucherInfo = readUserInput();
         return VoucherInfoRequest.of(voucherInfo);

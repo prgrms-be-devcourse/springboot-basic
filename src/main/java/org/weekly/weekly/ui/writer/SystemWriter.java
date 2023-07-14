@@ -10,13 +10,17 @@ import org.weekly.weekly.voucher.domain.DiscountType;
 import java.util.Arrays;
 
 @Component
-@ConditionalOnProperty(value="command.write", havingValue = "system")
+@ConditionalOnProperty(value = "command.write", havingValue = "system")
 public class SystemWriter {
     private final Logger logger = LoggerFactory.getLogger(SystemWriter.class);
+
     private void println(String msg) {
         System.out.println(msg);
     }
-    private void print(String msg) {System.out.print(msg);}
+
+    private void print(String msg) {
+        System.out.print(msg);
+    }
 
     public void printMangeProgram() {
         printMenu(ManageMenu.values(), PrintMessageType.MANAGE_PROGRAM);

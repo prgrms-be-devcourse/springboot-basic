@@ -33,7 +33,7 @@ public class VoucherWebController {
         try {
             VoucherCreationResponse voucherCreationResponse = voucherService.insertVoucher(voucherCreationRequest);
             model.addAttribute("voucher", voucherCreationResponse);
-        } catch( VoucherException voucherException) {
+        } catch (VoucherException voucherException) {
             model.addAttribute("exception", new WebExceptionDto(voucherException));
             return "exception/exception";
         }
@@ -51,7 +51,7 @@ public class VoucherWebController {
         try {
             VouchersResponse vouchersResponse = voucherService.getVouchers();
             model.addAttribute("vouchers", vouchersResponse);
-        } catch( VoucherException voucherException) {
+        } catch (VoucherException voucherException) {
             model.addAttribute("exception", new WebExceptionDto(voucherException));
             return "exception/exception";
         }

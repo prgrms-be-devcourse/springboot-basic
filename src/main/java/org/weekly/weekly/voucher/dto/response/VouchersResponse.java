@@ -2,11 +2,10 @@ package org.weekly.weekly.voucher.dto.response;
 
 import org.weekly.weekly.util.PrintMessageType;
 import org.weekly.weekly.voucher.domain.Voucher;
-import org.weekly.weekly.voucher.dto.Response;
 
 import java.util.List;
 
-public class VouchersResponse implements Response {
+public class VouchersResponse  {
     private final List<VoucherCreationResponse> result;
 
     public VouchersResponse(List<Voucher> vouchers) {
@@ -23,7 +22,6 @@ public class VouchersResponse implements Response {
         if (result.isEmpty()) {
             return PrintMessageType.NO_VOUCHER_DATAS.getMessage();
         }
-
 
         StringBuilder resultBuilder = new StringBuilder();
         result.forEach(voucherResponse-> resultBuilder.append(voucherResponse.result()).append('\n'));

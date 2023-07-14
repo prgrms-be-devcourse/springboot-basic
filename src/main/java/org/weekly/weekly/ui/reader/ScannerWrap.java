@@ -7,8 +7,8 @@ import org.weekly.weekly.ui.exception.InputValidator;
 import java.util.Scanner;
 
 @Component
-@ConditionalOnProperty(value="command.read", havingValue = "scanner")
-public class ScannerWrap implements CommandReader{
+@ConditionalOnProperty(value = "command.read", havingValue = "scanner")
+public class ScannerWrap implements CommandReader {
     private final Scanner scanner;
 
     public ScannerWrap() {

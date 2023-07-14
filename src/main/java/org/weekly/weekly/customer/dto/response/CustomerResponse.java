@@ -1,12 +1,11 @@
 package org.weekly.weekly.customer.dto.response;
 
 import org.weekly.weekly.customer.domain.Customer;
-import org.weekly.weekly.voucher.dto.Response;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 
-public class CustomerResponse implements Response {
+public class CustomerResponse {
     String name;
     String email;
     LocalDateTime createAt;
@@ -33,7 +32,6 @@ public class CustomerResponse implements Response {
         return name;
     }
 
-    @Override
     public String result() {
         return MessageFormat.format("[이름: {0}, 이메일: {1}, 생성 시기: {2}]", name, email, createAt);
     }

@@ -2,11 +2,10 @@ package org.weekly.weekly.customer.dto.response;
 
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.util.PrintMessageType;
-import org.weekly.weekly.voucher.dto.Response;
 
 import java.util.List;
 
-public class CustomersResponse implements Response {
+public class CustomersResponse {
     List<CustomerResponse> result;
 
     public CustomersResponse(List<Customer> customers) {
@@ -15,7 +14,6 @@ public class CustomersResponse implements Response {
                 .toList();
     }
 
-    @Override
     public String result() {
         if (result.isEmpty()) {
             return PrintMessageType.NO_VOUCHER_DATAS.getMessage();
