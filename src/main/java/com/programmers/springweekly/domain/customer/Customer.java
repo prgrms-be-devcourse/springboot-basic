@@ -1,10 +1,9 @@
 package com.programmers.springweekly.domain.customer;
 
-import com.programmers.springweekly.util.Validator.CustomerValidator;
+import com.programmers.springweekly.util.validator.CustomerValidator;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.UUID;
 
 @Getter
 public class Customer {

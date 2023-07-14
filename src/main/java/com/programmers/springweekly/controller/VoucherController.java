@@ -5,7 +5,7 @@ import com.programmers.springweekly.dto.voucher.request.VoucherUpdateRequest;
 import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.service.VoucherService;
-import com.programmers.springweekly.util.Validator.VoucherValidator;
+import com.programmers.springweekly.util.validator.VoucherValidator;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

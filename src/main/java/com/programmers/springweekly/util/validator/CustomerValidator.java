@@ -1,4 +1,4 @@
-package com.programmers.springweekly.util.Validator;
+package com.programmers.springweekly.util.validator;
 
 import com.programmers.springweekly.domain.customer.CustomerType;
 import java.util.Arrays;

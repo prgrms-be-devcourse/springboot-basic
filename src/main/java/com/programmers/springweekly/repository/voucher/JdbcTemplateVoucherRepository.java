@@ -43,7 +43,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             template.update(sql, param);
             return voucher;
         } catch (DuplicateKeyException e) {
-            log.warn("바우처를 데이터베이스에 저장하던 중 이미 테이블안에 동일한 ID를 가진 키가 있어서 예외 발생 ", e);
+            log.warn("바우처를 데이터베이스에 저장하던 중 이미 테이블안에 동일한 ID를 가진 키가 있어서 예외 발생 {}", voucher.getVoucherId(), e);
             throw new DuplicateKeyException("이미 있는 바우처 ID입니다. 관리자에게 문의해주세요.");
         }
     }
@@ -70,7 +70,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             Voucher voucher = template.queryForObject(sql, param, voucherRowMapper());
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
-            log.warn("바우처 ID로 바우처를 찾을 수 없어서 예외 발생, Optional Empty로 반환 ", e);
+            log.warn("바우처 ID로 바우처를 찾을 수 없어서 예외 발생, Optional Empty로 반환 {}", voucherId, e);
             return Optional.empty();
         }
     }
@@ -112,7 +112,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             template.queryForObject(sql, param, voucherRowMapper());
             return true;
         } catch (EmptyResultDataAccessException e) {
-            log.warn("바우처 ID가 존재하는지 체크했으나 없어서 예외 발생", e);
+            log.warn("바우처 ID가 존재하는지 체크했으나 없어서 예외 발생 {}", voucherId, e);
             return false;
         }
     }

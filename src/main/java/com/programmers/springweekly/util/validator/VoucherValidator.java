@@ -1,4 +1,4 @@
-package com.programmers.springweekly.util.Validator;
+package com.programmers.springweekly.util.validator;
 
 import com.programmers.springweekly.domain.voucher.VoucherType;
 import java.util.regex.Matcher;
@@ -16,19 +16,20 @@ public final class VoucherValidator {
     private static final int PERCENT_AND_FIXED_MIN = 0;
 
     public static void validateVoucher(VoucherType voucherType, String discountAmount) {
-        if (voucherType == VoucherType.FIXED) {
-            validateNumber(discountAmount);
-            validateFixedRange(discountAmount);
-        }
 
-        if (voucherType == VoucherType.PERCENT) {
-            validateNumber(discountAmount);
-            validatePercentRange(discountAmount);
-        }
-
-        if (voucherType != VoucherType.FIXED && voucherType != VoucherType.PERCENT) {
-            log.warn("고객이 입력한 문자열 {} 이 바우처 타입이 아니어서 예외 발생", voucherType);
-            throw new IllegalArgumentException("Input : " + voucherType + "입력하신 바우처 타입은 없는 타입입니다.");
+        switch (voucherType) {
+            case FIXED -> {
+                validateNumber(discountAmount);
+                validateFixedRange(discountAmount);
+            }
+            case PERCENT -> {
+                validateNumber(discountAmount);
+                validatePercentRange(discountAmount);
+            }
+            default -> {
+                log.warn("고객이 입력한 문자열 {} 이 바우처 타입이 아니어서 예외 발생", voucherType);
+                throw new IllegalArgumentException("Input : " + voucherType + "입력하신 바우처 타입은 없는 타입입니다.");
+            }
         }
     }
 

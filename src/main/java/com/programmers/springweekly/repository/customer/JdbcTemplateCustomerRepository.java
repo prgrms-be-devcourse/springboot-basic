@@ -41,7 +41,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
             template.update(sql, param);
             return customer;
         } catch (DuplicateKeyException e) {
-            log.warn("이미 있는 고객 ID입니다.", e);
+            log.warn("이미 있는 고객 ID입니다. {}", customer.getCustomerId(), e);
             throw new DuplicateKeyException("이미 있는 고객ID입니다. 관리자에게 문의해주세요.");
         }
     }
@@ -70,7 +70,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
             Customer customer = template.queryForObject(sql, param, customerRowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            log.warn("고객의 ID로 고객을 찾을 수 없어서 예외 발생, Optional Empty로 반환", e);
+            log.warn("고객의 ID로 고객을 찾을 수 없어서 예외 발생, Optional Empty로 반환, {}", customerId, e);
             return Optional.empty();
         }
     }
@@ -123,7 +123,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
             template.queryForObject(sql, param, customerRowMapper());
             return true;
         } catch (EmptyResultDataAccessException e) {
-            log.warn("고객의 ID가 존재하는지 체크했으나 없어서 예외 발생", e);
+            log.warn("고객의 ID가 존재하는지 체크했으나 없어서 예외 발생. {}", customerId, e);
             return false;
         }
     }

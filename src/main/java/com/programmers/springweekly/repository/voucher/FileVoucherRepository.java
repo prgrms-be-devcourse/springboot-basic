@@ -3,7 +3,7 @@ package com.programmers.springweekly.repository.voucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
 import com.programmers.springweekly.domain.voucher.VoucherType;
-import com.programmers.springweekly.util.Validator.ParseValidator;
+import com.programmers.springweekly.util.validator.ParseValidator;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;

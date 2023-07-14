@@ -1,7 +1,6 @@
 package com.programmers.springweekly.domain.voucher;
 
-import com.programmers.springweekly.util.Validator.VoucherValidator;
-
+import com.programmers.springweekly.util.validator.VoucherValidator;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {

@@ -1,7 +1,6 @@
 package com.programmers.springweekly.domain.voucher;
 
-import com.programmers.springweekly.util.Validator.VoucherValidator;
-
+import com.programmers.springweekly.util.validator.VoucherValidator;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -14,7 +13,7 @@ public class FixedAmountVoucher implements Voucher {
                 VoucherType.FIXED,
                 String.valueOf(discountAmount)
         );
-        
+
         this.voucherId = voucherId;
         this.discountAmount = discountAmount;
     }

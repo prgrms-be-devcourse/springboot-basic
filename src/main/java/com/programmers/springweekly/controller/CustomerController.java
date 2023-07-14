@@ -5,7 +5,7 @@ import com.programmers.springweekly.dto.customer.request.CustomerUpdateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
-import com.programmers.springweekly.util.Validator.CustomerValidator;
+import com.programmers.springweekly.util.validator.CustomerValidator;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

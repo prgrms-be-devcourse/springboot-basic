@@ -1,4 +1,4 @@
-package com.programmers.springweekly.util.Validator;
+package com.programmers.springweekly.util.validator;
 
 import java.util.Arrays;
 import lombok.AccessLevel;

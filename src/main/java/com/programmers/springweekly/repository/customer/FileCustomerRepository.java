@@ -2,7 +2,7 @@ package com.programmers.springweekly.repository.customer;
 
 import com.programmers.springweekly.domain.customer.Customer;
 import com.programmers.springweekly.domain.customer.CustomerType;
-import com.programmers.springweekly.util.Validator.ParseValidator;
+import com.programmers.springweekly.util.validator.ParseValidator;
 import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class FileCustomerRepository {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] readLine = line.split(",");
                 ParseValidator.validateBlacklistFileLineLength(readLine);
-                
+
                 saveIfBlacklistedCustomer(UUID.fromString(readLine[0]), readLine[1], readLine[2], readLine[3]);
             }
 

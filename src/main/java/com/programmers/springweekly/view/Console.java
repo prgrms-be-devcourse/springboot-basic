@@ -12,15 +12,14 @@ import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletResponse;
 import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
-import com.programmers.springweekly.util.Validator.CustomerValidator;
-import com.programmers.springweekly.util.Validator.ParseValidator;
-import com.programmers.springweekly.util.Validator.VoucherValidator;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
+import com.programmers.springweekly.util.validator.CustomerValidator;
+import com.programmers.springweekly.util.validator.ParseValidator;
+import com.programmers.springweekly.util.validator.VoucherValidator;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
