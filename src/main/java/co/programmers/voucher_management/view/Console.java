@@ -7,16 +7,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import co.programmers.voucher_management.common.Response;
-
 @Component
 public class Console implements InputView, OutputView {
 	private static final String STARTER_MESSAGE =
 			"=== Voucher Program ===\n"
-					+ "Type exit or 'x' to exit  the program.\n"
-					+ "Type create or 'c' to create a new voucher.\n"
-					+ "Type list or 'l' to list all vouchers.\n"
-					+ "Type blacklist or 'b' to list customer blackLists";
+					+ "Type '0' or 'x' to exit the program.\n"
+					+ "Type '1' to execute 'Voucher menu'.\n"
+					+ "Type '2' to execute 'Customer menu'.\n";
 	private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	@Override
@@ -24,7 +21,7 @@ public class Console implements InputView, OutputView {
 		try {
 			return bufferedReader.readLine();
 		} catch (IOException ioException) {
-			throw new RuntimeException("BufferedReader Failed");
+			throw new RuntimeException("reading of console input failed");
 		}
 	}
 
@@ -34,33 +31,13 @@ public class Console implements InputView, OutputView {
 	}
 
 	@Override
-	public void println(Object content) {
-		System.out.println(content);
-	}
-
-	@Override
 	public void print(Object content) {
 		if (content instanceof List) {
 			for (var c : (List)content) {
-				print(c);
+				print(c+"\n");
 			}
 			return;
 		}
-		System.out.print(content);
-	}
-
-	@Override
-	public void print(Response contents) {
-		if (contents.getState() == Response.State.FAILED) {
-			System.out.println(contents.getResponseData());
-			return;
-		}
-		if (contents.getResponseData() == null) {
-			return;
-		}
-		Object responseData = contents.getResponseData();
-		for (var content : (List)responseData) {
-			System.out.println(content.toString());
-		}
+		System.out.println(content);
 	}
 }

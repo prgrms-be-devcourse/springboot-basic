@@ -6,21 +6,17 @@ import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class VoucherRequestDTO {
+public class VoucherUpdateDTO {
+	private long id;
 	private String discountType;
 	private Integer discountAmount;
+
 	public Voucher mapToVoucher(){
-		String discountType = getDiscountType();
-		int discountAmount = getDiscountAmount();
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
-		return new Voucher(discountStrategy);
+		return new Voucher(id, discountStrategy);
 	}
 }
