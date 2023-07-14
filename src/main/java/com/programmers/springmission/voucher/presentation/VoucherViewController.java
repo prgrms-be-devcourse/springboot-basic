@@ -29,7 +29,7 @@ public class VoucherViewController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public String viewVoucherPage(Model model) {
         List<VoucherResponse> allVoucher = voucherService.findAllVoucher();
         model.addAttribute("serverTime", LocalDateTime.now());

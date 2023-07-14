@@ -29,7 +29,7 @@ public class CustomerViewController {
         this.customerService = customerService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public String viewCustomerPage(Model model) {
         List<CustomerResponse> allCustomer = customerService.findAllCustomer();
         model.addAttribute("serverTime", LocalDateTime.now());
