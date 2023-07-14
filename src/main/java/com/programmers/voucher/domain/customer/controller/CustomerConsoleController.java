@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class CustomerController {
+public class CustomerConsoleController {
     private final Input input;
     private final Output output;
     private final CustomerService customerService;
 
-    public CustomerController(Input input, Output output, CustomerService customerService) {
+    public CustomerConsoleController(Input input, Output output, CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.customerService = customerService;
