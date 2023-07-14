@@ -18,7 +18,7 @@
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %F, method:%M, %L line - %m%n</pattern>
         </encoder>
     </appender>
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
     <logger name="co.programmers.voucher" level="debug">

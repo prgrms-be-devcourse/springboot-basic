@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import co.programmers.voucher_management.common.Response;
 import co.programmers.voucher_management.customer.dto.CustomerResponseDTO;
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.customer.repository.CustomerRepository;
 import co.programmers.voucher_management.exception.EmptyAssignerException;
 import co.programmers.voucher_management.exception.NoSuchDataException;
+import co.programmers.voucher_management.view.OutputView;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 
@@ -19,24 +19,23 @@ import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 public class CustomerService {
 	private final CustomerRepository customerRepository;
 	private final VoucherRepository voucherRepository;
+	private final OutputView outputView;
 
-	public CustomerService(CustomerRepository customerRepository, VoucherRepository voucherRepository) {
+	public CustomerService(CustomerRepository customerRepository, VoucherRepository voucherRepository,
+			OutputView outputView) {
 		this.customerRepository = customerRepository;
 		this.voucherRepository = voucherRepository;
+		this.outputView = outputView;
 	}
 
-	public Response inquireByRating(String rating) {
+	public List<CustomerResponseDTO> inquireByRating(String rating) {
 		List<Customer> inquiredData = customerRepository.findByRating(rating);
-		List<CustomerResponseDTO> customerResponseDTOS = inquiredData.stream()
+		return inquiredData.stream()
 				.map(CustomerResponseDTO::new)
 				.collect(Collectors.toList());
-		return Response.builder()
-				.state(Response.State.SUCCESS)
-				.responseData(customerResponseDTOS)
-				.build();
 	}
 
-	public Response inquiryCustomerByVoucher(long voucherId) {
+	public void inquiryCustomerByVoucher(long voucherId) {
 		Voucher voucher = voucherRepository.findById(voucherId)
 				.orElseThrow(
 						() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", voucherId)));
@@ -45,6 +44,7 @@ public class CustomerService {
 				.orElseThrow(() -> new EmptyAssignerException(
 						MessageFormat.format("No customer assigned to voucher of id {0}", voucherId)));
 		CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO(customer);
-		return new Response(Response.State.SUCCESS, customerResponseDTO);
+		outputView.print(customerResponseDTO);
+		
 	}
 }

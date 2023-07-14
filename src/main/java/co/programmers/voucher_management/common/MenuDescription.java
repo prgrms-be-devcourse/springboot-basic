@@ -2,7 +2,7 @@ package co.programmers.voucher_management.common;
 
 import java.util.Arrays;
 
-import co.programmers.voucher_management.exception.MenuTypeMismatchException;
+import co.programmers.voucher_management.exception.InvalidDataException;
 
 public enum MenuDescription {
 	VOUCHER("1",
@@ -13,9 +13,9 @@ public enum MenuDescription {
 					+ "Type '5' to assign a voucher to the customer.\n"
 					+ "Type '6' to list vouchers of certain customer.\n"
 					+ "Type '7' to delete a voucher of a certain customer.\n"
-					+ "Type '8' to find a customer of certain voucher.\n"
 	),
-	CUSTOMER("2", "Type '1' to list customer blacklists.\n");
+	CUSTOMER("2", "Type '1' to list customer blacklists.\n"
+			+ "Type '2' to find a customer of the voucher\n");
 	private final String expression;
 	private final String commandDescription;
 
@@ -28,7 +28,7 @@ public enum MenuDescription {
 		return Arrays.stream(MenuDescription.values())
 				.filter(m -> m.expression.equals(expression))
 				.findAny()
-				.orElseThrow(() -> new MenuTypeMismatchException("Unsupported menu"))
+				.orElseThrow(() -> new InvalidDataException("Unsupported menu"))
 				.description();
 	}
 

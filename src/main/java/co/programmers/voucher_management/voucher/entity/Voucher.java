@@ -1,6 +1,7 @@
 package co.programmers.voucher_management.voucher.entity;
 
 import co.programmers.voucher_management.exception.VoucherReassignmentException;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<form th:action="@{/vouchers/new}" method="post"><!-- th:object="${voucher}" -->
+    <div>
+        <label for="discountType">Discount Type : </label>
+        <input type="text" id="discountType" name="discountType"
+               class="form-control" placeholder="바우처 타입을 입력하세요">
+    </div>
+    <div>
+        <label for="discountAmount">Discount Amount :</label>
+        <input type="number" id="discountAmount" name="discountAmount"
+               class="form-control" placeholder="바우처 값을 입력하세요">
+    </div>
+    <div>
+        <button type="submit">Save</button>
+    </div>
+</form>
+</body>
+</html>
