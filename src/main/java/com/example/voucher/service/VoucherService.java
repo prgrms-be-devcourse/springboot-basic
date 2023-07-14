@@ -31,8 +31,11 @@ public class VoucherService {
         return toDTO(savedVoucher);
     }
 
-    public List<Voucher> getVouchers() {
-        return voucherRepository.findAll();
+    public List<VoucherDTO> getVouchers() {
+        return voucherRepository.findAll()
+            .stream()
+            .map(v -> toDTO(v))
+            .toList();
     }
 
     public void deleteVouchers() {
@@ -53,10 +56,11 @@ public class VoucherService {
     }
 
     private VoucherDTO toDTO(Voucher voucher) {
+        UUID voucherId = voucher.getVoucherId();
         VoucherType voucherType = voucher.getVoucherType();
         long discountValue = voucher.getValue();
 
-        return new VoucherDTO(discountValue, voucherType);
+        return new VoucherDTO(voucherId, discountValue, voucherType);
     }
 
 }

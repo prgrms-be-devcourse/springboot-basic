@@ -23,8 +23,7 @@ public class Console {
     }
 
     public void displayVoucherInfo(VoucherDTO voucher) {
-        writer.writeMessage(voucher.voucherType(), voucher.value());
-
+        writer.writeMessage(voucher.voucherId(), voucher.voucherType(), voucher.value());
     }
 
     public void displayVoucherInfo(List<VoucherDTO> vouchers) {
@@ -32,7 +31,7 @@ public class Console {
             VoucherType voucherType = voucher.voucherType();
             long value = voucher.value();
 
-            writer.writeMessage(voucherType, value);
+            writer.writeMessage(voucher.voucherId(), voucherType, value);
         }
     }
 

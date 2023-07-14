@@ -21,10 +21,7 @@ public class VoucherController {
     }
 
     public List<VoucherDTO> getVouchers() {
-        return voucherService.getVouchers()
-            .stream()
-            .map(o -> new VoucherDTO(o.getValue(), o.getVoucherType()))
-            .toList();
+        return voucherService.getVouchers();
     }
 
     public void deleteVouchers() {

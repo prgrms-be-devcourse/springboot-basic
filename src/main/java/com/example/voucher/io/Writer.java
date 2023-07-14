@@ -1,5 +1,6 @@
 package com.example.voucher.io;
 
+import java.util.UUID;
 import com.example.voucher.constant.VoucherType;
 
 class Writer {
@@ -49,10 +50,10 @@ class Writer {
     public Writer() {
     }
 
-    public static final String VOUCHER_INFO_TEMPLATE = "VoucherType : %s, discountValue : %d";
+    public static final String VOUCHER_INFO_TEMPLATE = "voucherId : %s, VoucherType : %s, discountValue : %d";
 
-    public void writeMessage(VoucherType voucherType, long discountValue) {
-        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherType, discountValue));
+    public void writeMessage(UUID voucherId, VoucherType voucherType, long discountValue) {
+        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherId.toString(), voucherType, discountValue));
     }
 
     public void writeMessage(Message message) {
