@@ -2,7 +2,7 @@ package org.weekly.weekly.voucher.repository;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.util.ExceptionCode;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.exception.VoucherException;
@@ -56,7 +56,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private void validateUUID(UUID uuid) {
         Optional<Voucher> voucherOptional = findById(uuid);
         if (voucherOptional.isPresent()) {
-            throw new VoucherException(ExceptionMsg.VOUCHER_EXIST);
+            throw new VoucherException(ExceptionCode.VOUCHER_EXIST);
         }
     }
 }

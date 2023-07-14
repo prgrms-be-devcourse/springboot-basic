@@ -1,6 +1,6 @@
 package org.weekly.weekly.voucher.domain;
 
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.util.ExceptionCode;
 import org.weekly.weekly.voucher.exception.VoucherException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +38,7 @@ public enum DiscountType {
         if (discuontTypeMap.containsKey(no)) {
             return discuontTypeMap.get(no);
         }
-        throw new VoucherException(ExceptionMsg.NOT_DISCOUNT);
+        throw new VoucherException(ExceptionCode.NOT_DISCOUNT);
     }
 
     public static DiscountType getDiscountTypeByName(String name) {
@@ -47,7 +47,7 @@ public enum DiscountType {
                 return discount;
             }
         }
-        throw new VoucherException(ExceptionMsg.NOT_DISCOUNT);
+        throw new VoucherException(ExceptionCode.NOT_DISCOUNT);
     }
 
     public Discount getNewInstance() {
@@ -55,7 +55,7 @@ public enum DiscountType {
             return this.cls.getDeclaredConstructor().newInstance();
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException exception) {
-            throw new VoucherException(ExceptionMsg.NOT_FOUND);
+            throw new VoucherException(ExceptionCode.NOT_FOUND);
         }
     }
 

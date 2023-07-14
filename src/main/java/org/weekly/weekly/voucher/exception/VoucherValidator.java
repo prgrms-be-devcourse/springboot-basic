@@ -1,6 +1,6 @@
 package org.weekly.weekly.voucher.exception;
 
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.util.ExceptionCode;
 import org.weekly.weekly.voucher.domain.DiscountType;
 
 import java.time.LocalDate;
@@ -11,14 +11,14 @@ public class VoucherValidator {
     private static final int RANGE_END = 100;
 
     private VoucherValidator() {
-        throw new VoucherException(ExceptionMsg.UTIL_CLASS);
+        throw new VoucherException(ExceptionCode.UTIL_CLASS);
     }
 
     public static void validateExpiration(LocalDate registrationDate, long expirationMonth) {
         LocalDate expirationDate = registrationDate.plusMonths(expirationMonth);
 
         if (registrationDate.isEqual(expirationDate) || registrationDate.isAfter(expirationDate)) {
-            throw new VoucherException(ExceptionMsg.EXPIRATION_ERROR);
+            throw new VoucherException(ExceptionCode.EXPIRATION_ERROR);
         }
     }
 
@@ -33,7 +33,7 @@ public class VoucherValidator {
 
     private static void notRange(long userInput, LongPredicate ifCase) {
         if (ifCase.test(userInput)) {
-            throw new VoucherException(ExceptionMsg.NOT_NUMBER_FORMAT);
+            throw new VoucherException(ExceptionCode.NOT_NUMBER_FORMAT);
         }
     }
 }

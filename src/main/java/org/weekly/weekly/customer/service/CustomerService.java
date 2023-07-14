@@ -9,7 +9,7 @@ import org.weekly.weekly.customer.dto.response.CustomerResponse;
 import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.customer.repository.CustomerRepository;
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.util.ExceptionCode;
 
 import java.util.List;
 import java.util.Optional;
@@ -73,14 +73,14 @@ public class CustomerService {
     private void validateCustomerNotExist(String email) {
         Optional<Customer> findCustomer = customerRepository.findByEmail(email);
         if (findCustomer.isPresent()) {
-            throw new CustomerException(ExceptionMsg.SQL_EXIST);
+            throw new CustomerException(ExceptionCode.SQL_EXIST);
         }
     }
 
     private Customer validateCustomerExistAndGet(String email) {
         Optional<Customer> customer = customerRepository.findByEmail(email);
         if (customer.isEmpty()) {
-            throw new CustomerException(ExceptionMsg.SQL_ERROR);
+            throw new CustomerException(ExceptionCode.SQL_ERROR);
         }
         return customer.get();
     }

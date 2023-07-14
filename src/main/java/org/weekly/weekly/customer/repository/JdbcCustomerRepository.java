@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.exception.CustomerException;
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.util.ExceptionCode;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
@@ -42,7 +42,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 Timestamp.valueOf(customer.getCreateAt()));
 
         if (insert != 1) {
-            throw new CustomerException(ExceptionMsg.SQL_INSERT_ERROR);
+            throw new CustomerException(ExceptionCode.SQL_INSERT_ERROR);
         }
         return customer;
     }
@@ -88,7 +88,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 beforeEmail);
 
         if (update != 1) {
-            throw new CustomerException(ExceptionMsg.SQL_ERROR);
+            throw new CustomerException(ExceptionCode.SQL_ERROR);
         }
         return customer;
     }

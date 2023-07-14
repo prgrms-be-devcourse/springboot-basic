@@ -5,7 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.util.ExceptionCode;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.exception.VoucherException;
@@ -72,11 +72,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     Timestamp.valueOf(voucher.getRegistrationDate().atStartOfDay()),
                     Timestamp.valueOf(voucher.getExpirationDate().atStartOfDay()));
         } catch (DataAccessException dataAccessException) {
-            throw new VoucherException(ExceptionMsg.SQL_INSERT_ERROR);
+            throw new VoucherException(ExceptionCode.SQL_INSERT_ERROR);
         }
 
         if (update != 1) {
-            throw new VoucherException(ExceptionMsg.SQL_ERROR);
+            throw new VoucherException(ExceptionCode.SQL_ERROR);
         }
         return voucher;
     }
@@ -91,7 +91,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 Timestamp.valueOf(voucher.getExpirationDate().atStartOfDay()),
                 uuidToBytes(voucher.getVoucherId()));
         if (update != 1) {
-            throw new VoucherException(ExceptionMsg.SQL_ERROR);
+            throw new VoucherException(ExceptionCode.SQL_ERROR);
         }
         return voucher;
     }

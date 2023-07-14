@@ -28,7 +28,7 @@ public enum VoucherMenu implements Menu {
         if (VOUCHER_MENU_MAP.containsKey(userInput)) {
             return VOUCHER_MENU_MAP.get(userInput);
         }
-        throw new VoucherException(ExceptionMsg.NOT_MENU);
+        throw new VoucherException(ExceptionCode.NOT_MENU);
     }
 
     @Override

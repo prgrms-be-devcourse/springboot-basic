@@ -32,7 +32,7 @@ public enum CustomerMenu implements Menu {
         if (CUSTOMER_MENU_MAP.containsKey(userInput)) {
             return CUSTOMER_MENU_MAP.get(userInput);
         }
-        throw new CustomerException(ExceptionMsg.NOT_MENU);
+        throw new CustomerException(ExceptionCode.NOT_MENU);
     }
 
     @Override
