@@ -1,6 +1,6 @@
 package com.programmers.voucher.view.command;
 
-import com.programmers.voucher.exception.InvalidCommandException;
+import com.programmers.voucher.exception.BadRequestException;
 
 import java.util.Arrays;
 
@@ -23,7 +23,7 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(command -> command.isEqualTo(number))
                 .findFirst()
-                .orElseThrow(() -> new InvalidCommandException(INVALID_COMMAND));
+                .orElseThrow(() -> new BadRequestException(INVALID_COMMAND));
     }
 
     private boolean isEqualTo(int number) {
