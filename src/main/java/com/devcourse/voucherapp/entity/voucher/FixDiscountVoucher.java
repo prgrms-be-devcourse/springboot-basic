@@ -21,7 +21,7 @@ public class FixDiscountVoucher implements Voucher {
 
     private int getValidPrice(String discountAmount) {
         if (isNotValid(discountAmount)) {
-            throw new DiscountAmountException(discountAmount);
+            throw new DiscountAmountException(type.getCondition(), discountAmount);
         }
 
         return Integer.parseInt(discountAmount);

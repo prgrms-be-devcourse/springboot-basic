@@ -21,7 +21,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private int getValidRate(String discountAmount) {
         if (isNotValid(discountAmount)) {
-            throw new DiscountAmountException(discountAmount);
+            throw new DiscountAmountException(type.getCondition(), discountAmount);
         }
 
         return Integer.parseInt(discountAmount);

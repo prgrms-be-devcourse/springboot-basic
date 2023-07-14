@@ -4,9 +4,7 @@ import static java.text.MessageFormat.format;
 
 public class DiscountAmountException extends RuntimeException {
 
-    private static final String INVALID_DISCOUNT_AMOUNT_MESSAGE = "입력하신 수치가 조건에 맞지 않습니다.";
-
-    public DiscountAmountException(String discountAmount) {
-        super(format("{0} | 입력 : {1}", INVALID_DISCOUNT_AMOUNT_MESSAGE, discountAmount));
+    public DiscountAmountException(String condition, String discountAmount) {
+        super(format("입력하신 수치가 해당 할인권 방식의 조건({0})에 맞지 않습니다. 다시 입력해주세요. | 현재 입력 : {1}", condition, discountAmount));
     }
 }

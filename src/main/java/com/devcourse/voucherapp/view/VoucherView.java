@@ -1,5 +1,7 @@
 package com.devcourse.voucherapp.view;
 
+import static java.text.MessageFormat.format;
+
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.view.io.Output;
@@ -13,6 +15,7 @@ public class VoucherView {
 
     private static final String VOUCHER_TITLE = "\n[할인권 메뉴]";
     private static final String VOUCHER_TYPE_SELECTION_MESSAGE = "\n할인 방식을 선택하세요.";
+    private static final String DISCOUNT_AMOUNT_INPUT_FORMAT = "\n{0} 수치를 입력하세요. ({1}, 단위: {2})";
     private static final String VOUCHER_CREATION_SUCCESS_MESSAGE = "\n할인권 생성이 완료되었습니다.";
     private static final String ALL_VOUCHERS_LIST_MESSAGE = "\n현재까지 생성된 할인권 목록입니다.";
     private static final String UPDATE_VOUCHER_ID_INPUT_MESSAGE = "\n수정할 할인권의 ID를 입력하세요.";
@@ -31,8 +34,13 @@ public class VoucherView {
         return commonView.readUserInput();
     }
 
-    public String readDiscountAmount(String message) {
-        output.printWithLineBreak(message);
+    public String readDiscountAmount(VoucherType voucherType) {
+        String name = voucherType.getName();
+        String condition = voucherType.getCondition();
+        String unit = voucherType.getUnit();
+
+        String discountInputMessage = format(DISCOUNT_AMOUNT_INPUT_FORMAT, name, condition, unit);
+        output.printWithLineBreak(discountInputMessage);
 
         return commonView.readUserInput();
     }
@@ -49,7 +57,7 @@ public class VoucherView {
 
         VoucherType voucherType = findResponse.getType();
 
-        return readDiscountAmount(voucherType.getMessage());
+        return readDiscountAmount(voucherType);
     }
 
     public String readVoucherIdToDelete() {

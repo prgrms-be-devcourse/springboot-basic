@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class CustomerView {
 
     private static final String CUSTOMER_TITLE = "\n[고객 메뉴]";
-    private static final String CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n닉네임을 입력하세요.(공백 없는 소문자 알파벳과 숫자만 가능)";
+    private static final String CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n닉네임을 입력하세요.(공백이 없는 소문자 알파벳과 숫자 조합만 가능)";
     private static final String CUSTOMER_CREATION_SUCCESS_MESSAGE = "\n고객 생성이 완료되었습니다.";
     private static final String ALL_CUSTOMERS_LIST_MESSAGE = "\n조회된 고객 목록입니다.";
     private static final String UPDATE_CUSTOMER_NICKNAME_INPUT_MESSAGE = "\n변경을 원하는 고객의 닉네임을 입력하세요.";

@@ -42,8 +42,7 @@ public class VoucherCommand {
         String typeNumber = voucherView.readVoucherTypeNumber();
         VoucherType voucherType = VoucherType.from(typeNumber);
 
-        String message = voucherType.getMessage();
-        String discountAmount = voucherView.readDiscountAmount(message);
+        String discountAmount = voucherView.readDiscountAmount(voucherType);
 
         VoucherCreateRequestDto request = new VoucherCreateRequestDto(voucherType, discountAmount);
         VoucherResponseDto response = voucherController.create(request);

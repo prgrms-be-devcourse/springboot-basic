@@ -13,7 +13,7 @@ public class VoucherTypeInfo {
 
     private final String number;
     private final String name;
-    private final String message;
+    private final String condition;
     private final String unit;
     private final TriFunction<UUID, VoucherType, String, Voucher> voucherGenerator;
 }
