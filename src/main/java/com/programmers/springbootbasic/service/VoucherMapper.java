@@ -1,9 +1,9 @@
 package com.programmers.springbootbasic.service;
 
+import com.programmers.springbootbasic.domain.voucher.Duration;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
-import com.programmers.springbootbasic.domain.voucher.VoucherDate;
-import com.programmers.springbootbasic.service.dto.FixedAmountVoucherCreationRequest;
-import com.programmers.springbootbasic.service.dto.PercentDiscountVoucherCreationRequest;
+import com.programmers.springbootbasic.domain.voucher.VoucherType;
+import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;
 
@@ -16,14 +16,15 @@ public final class VoucherMapper {
 
     }
 
-    public static Voucher toFixedAmountVoucher(FixedAmountVoucherCreationRequest request) {
-        VoucherDate voucherDate = VoucherDate.of(LocalDateTime.now(), request.expirationDate());
-        return Voucher.createFixedAmount(UUID.randomUUID(), request.name(), request.minimumPriceCondition(), voucherDate, request.amount());
-    }
-
-    public static Voucher toPercentDiscountVoucher(PercentDiscountVoucherCreationRequest request) {
-        VoucherDate voucherDate = VoucherDate.of(LocalDateTime.now(), request.expirationDate());
-        return Voucher.createPercentDiscount(UUID.randomUUID(), request.name(), request.minimumPriceCondition(), voucherDate, request.percent());
+    public static Voucher toVoucher(VoucherCreationRequest request) {
+        Duration duration = Duration.of(LocalDateTime.now(), request.expirationDate());
+        VoucherType voucherType = VoucherType.from(request.voucherType());
+        return switch (voucherType) {
+            case FIX ->
+                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent());
+            case PERCENT ->
+                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent());
+        };
     }
 
     public static VoucherResponses toVoucherResponseList(List<Voucher> vouchers) {
@@ -33,12 +34,11 @@ public final class VoucherMapper {
         return new VoucherResponses(voucherResponses);
     }
 
-    private static VoucherResponse toVoucherResponse(Voucher voucher) {
+    public static VoucherResponse toVoucherResponse(Voucher voucher) {
         return new VoucherResponse(
                 voucher.getName(),
                 voucher.getMinimumPriceCondition(),
-                voucher.getVoucherDate().getCreatedDate(),
-                voucher.getVoucherDate().getExpirationDate()
+                voucher.getDuration()
         );
     }
 }

@@ -1,6 +1,5 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import com.programmers.springbootbasic.service.VoucherType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -16,23 +15,23 @@ class MemoryVoucherRepositoryTest {
 
     @ParameterizedTest
     @EnumSource(VoucherType.class)
-    void Voucher생성_save_성공(VoucherType voucherType) {
+    void 바우처생성_바우처저장_성공(VoucherType voucherType) {
         // given
         UUID voucherId = UUID.randomUUID();
         String name = "회원가입 쿠폰";
-        LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDate voucherDate = new VoucherDate(createdDate, expirationDate);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiredAt = createdAt.plusMonths(3);
+        Duration duration = new Duration(createdAt, expiredAt);
 
         // when
         Voucher voucher = switch (voucherType) {
             case FIX -> {
                 int amount = 5_000;
-                yield new FixedAmountVoucher(voucherId, name, voucherDate, amount);
+                yield new FixedAmountVoucher(voucherId, voucherType, name, duration, amount);
             }
             case PERCENT -> {
                 int percent = 30;
-                yield new PercentDiscountVoucher(voucherId, name, voucherDate, percent);
+                yield new PercentDiscountVoucher(voucherId, voucherType, name, duration, percent);
             }
         };
         Voucher saved = voucherRepository.save(voucher);
@@ -42,15 +41,16 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    void Voucher생성및저장_findAll_성공() {
+    void 바우처생성및저장_모든바우처가져오기_성공() {
         // given
         UUID voucherId = UUID.randomUUID();
+        VoucherType voucherType = VoucherType.FIX;
         String name = "회원가입 5000원 할인 쿠폰";
-        LocalDateTime createdDate = LocalDateTime.now();
-        LocalDateTime expirationDate = createdDate.plusMonths(3);
-        VoucherDate voucherDate = new VoucherDate(createdDate, expirationDate);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiredAt = createdAt.plusMonths(3);
+        Duration duration = new Duration(createdAt, expiredAt);
         int amount = 5_000;
-        Voucher voucher = new FixedAmountVoucher(voucherId, name, voucherDate, amount);
+        Voucher voucher = new FixedAmountVoucher(voucherId, voucherType, name, duration, amount);
         Voucher saved = voucherRepository.save(voucher);
 
         // when

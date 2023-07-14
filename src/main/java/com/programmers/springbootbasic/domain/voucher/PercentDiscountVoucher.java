@@ -12,14 +12,13 @@ public class PercentDiscountVoucher extends Voucher {
 
     private final int percent;
 
-
-    public PercentDiscountVoucher(UUID voucherId, String name, VoucherDate voucherDate, int percent) {
-        this(voucherId, name, ZERO, voucherDate, percent);
+    public PercentDiscountVoucher(UUID voucherId, VoucherType voucherType, String name, Duration duration, int percent) {
+        this(voucherId, voucherType, name, ZERO, duration, percent);
     }
 
-    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPriceCondition, VoucherDate voucherDate, int percent) {
-        super(voucherId, name, minimumPriceCondition, voucherDate);
-        if (isInvalidRange(percent)) {
+    public PercentDiscountVoucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int percent) {
+        super(voucherId, voucherType, name, minimumPriceCondition, duration);
+        if (isInvalidPercent(percent)) {
             throw new IllegalArgumentException(INVALID_PERCENT + String.format("%d%%", percent));
         }
         this.percent = percent;
@@ -33,7 +32,7 @@ public class PercentDiscountVoucher extends Voucher {
         return Math.round((discountedPrice) / tenForRound) * tenForRound;
     }
 
-    private boolean isInvalidRange(int percent) {
+    private boolean isInvalidPercent(int percent) {
         return percent < MIN_PERCENT || MAX_PERCENT < percent;
     }
 }

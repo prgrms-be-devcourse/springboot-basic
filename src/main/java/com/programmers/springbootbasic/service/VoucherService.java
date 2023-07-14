@@ -2,8 +2,8 @@ package com.programmers.springbootbasic.service;
 
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherRepository;
-import com.programmers.springbootbasic.service.dto.FixedAmountVoucherCreationRequest;
-import com.programmers.springbootbasic.service.dto.PercentDiscountVoucherCreationRequest;
+import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
+import com.programmers.springbootbasic.service.dto.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +15,10 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherType toVoucherType(String voucherType) {
-        return VoucherType.from(voucherType);
-    }
-
-    public Voucher createFixedAmountVoucher(FixedAmountVoucherCreationRequest request) {
-        Voucher fixedAmountVoucher = VoucherMapper.toFixedAmountVoucher(request);
-        voucherRepository.save(fixedAmountVoucher);
-        return fixedAmountVoucher;
-    }
-
-    public Voucher createPercentDiscountVoucher(PercentDiscountVoucherCreationRequest request) {
-        Voucher percentDiscountVoucher = VoucherMapper.toPercentDiscountVoucher(request);
-        voucherRepository.save(percentDiscountVoucher);
-        return percentDiscountVoucher;
+    public VoucherResponse createVoucher(VoucherCreationRequest request) {
+        Voucher fixedAmountVoucher = VoucherMapper.toVoucher(request);
+        Voucher saved = voucherRepository.save(fixedAmountVoucher);
+        return VoucherMapper.toVoucherResponse(saved);
     }
 
     public VoucherResponses list() {
