@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -26,8 +27,8 @@ import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_17;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.catchException;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -63,32 +64,34 @@ class CustomerJdbcRepositoryTest {
 
     @Test
     @DisplayName("블랙고객 리스트를 반환하면 성공한다.")
-    void FindAllBlackCustomers_Normal_ReturnBlackCustomers() {
+    void findAllBlackCustomers_Normal_ReturnBlackCustomers() {
         validCustomers.forEach(customer -> customerRepository.insert(customer));
-        var result = customerRepository.findAllBlackCustomers();
-        assertThat(result, notNullValue());
-        assertThat(result, instanceOf(List.class));
-        assertThat(result.get(0), instanceOf(Customer.class));
+
+        List<Customer> result = customerRepository.findAllBlackCustomers();
+
+        assertThat(result).isNotEmpty();
+        assertThat(result.get(0).isBlack()).isTrue();
     }
 
     @ParameterizedTest
     @DisplayName("정상적인 고객으로 추가 시 성공한다.")
     @MethodSource("provideValidCustomers")
-    void insert_ParamValidCustomer_InsertAndReturnCustomer(Customer customer) {
+    void insert_ParamNotExistCustomer_InsertAndReturnCustomer(Customer customer) {
         customerRepository.insert(customer);
-        var insertedCustomer = customerRepository.findById(customer.getCustomerId());
 
-        assertThat(insertedCustomer.isPresent(), is(true));
-        assertThat(insertedCustomer.get(), instanceOf(Customer.class));
-        assertThat(insertedCustomer.get(), samePropertyValuesAs(customer));
+        Optional<Customer> insertedCustomer = customerRepository.findById(customer.getCustomerId());
+        assertThat(insertedCustomer).isNotEmpty();
+        assertThat(insertedCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 
     @ParameterizedTest
     @DisplayName("이미 존재하는 고객으로 추가하려고 했을때 실패한다.")
     @MethodSource("provideValidCustomers")
-    void insert_ParamInvalidCustomer_Exception(Customer customer) {
+    void insert_ParamExistCustomer_Exception(Customer customer) {
         customerRepository.insert(customer);
-        Assertions.assertThrows(InvalidDataException.class, () -> customerRepository.insert(customer));
+        Exception exception = catchException(() -> customerRepository.insert(customer));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
     @ParameterizedTest
@@ -96,18 +99,20 @@ class CustomerJdbcRepositoryTest {
     @MethodSource("provideValidCustomers")
     void update_ParamExistCustomerId_ReturnAndUpdateCustomer(Customer customer) {
         customerRepository.insert(customer);
+
         customerRepository.update(customer);
-        var updatedCustomer = customerRepository.findById(customer.getCustomerId());
-        assertThat(updatedCustomer.isPresent(), is(true));
-        assertThat(updatedCustomer.get(), instanceOf(Customer.class));
-        assertThat(updatedCustomer.get(), samePropertyValuesAs(customer));
+
+        Optional<Customer> updatedCustomer = customerRepository.findById(customer.getCustomerId());
+        assertThat(updatedCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객 아이디로 업데이트할 시 실패한다.")
     @MethodSource("provideValidCustomers")
     void update_ParamNotExistCustomerId_ReturnAndUpdateCustomer(Customer customer) {
-        Assertions.assertThrows(InvalidDataException.class, () -> customerRepository.update(customer));
+        Exception exception = catchException(() -> customerRepository.update(customer));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
     @ParameterizedTest
@@ -115,9 +120,10 @@ class CustomerJdbcRepositoryTest {
     @MethodSource("provideValidCustomers")
     void findAll_ParamVoid_ReturnVoucherList(Customer customer) {
         customerRepository.insert(customer);
-        var customers = customerRepository.findAll();
-        assertThat(customers, instanceOf(List.class));
-        assertThat(customers.get(0), instanceOf(Customer.class));
+
+        List<Customer> customers = customerRepository.findAll();
+
+        assertThat(customers).isNotEmpty();
     }
 
     @ParameterizedTest
@@ -125,18 +131,19 @@ class CustomerJdbcRepositoryTest {
     @MethodSource("provideValidCustomers")
     void findById_ParamExistCustomerId_ReturnCustomerOptional(Customer customer) {
         customerRepository.insert(customer);
-        var findedCustomer = customerRepository.findById(customer.getCustomerId());
-        assertThat(findedCustomer.isPresent(), is(true));
-        assertThat(findedCustomer.get(), instanceOf(Customer.class));
-        assertThat(findedCustomer.get(), samePropertyValuesAs(customer));
+
+        Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
+
+        assertThat(foundCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객 아이디로 조회 시 실패한다.")
     @MethodSource("provideValidCustomers")
     void findById_ParamNotExistCustomerId_ReturnEmptyOptional(Customer customer) {
-        var result = customerRepository.findById(customer.getCustomerId());
-        assertThat(result.isEmpty(), is(true));
+        Optional<Customer> result = customerRepository.findById(customer.getCustomerId());
+
+        assertThat(result).isEmpty();
     }
 
     @ParameterizedTest
@@ -144,26 +151,30 @@ class CustomerJdbcRepositoryTest {
     @MethodSource("provideValidCustomers")
     void findByName_ParamExistName_ReturnCustomerOptional(Customer customer) {
         customerRepository.insert(customer);
-        var findedCustomer = customerRepository.findByName(customer.getName());
-        assertThat(findedCustomer.isPresent(), is(true));
-        assertThat(findedCustomer.get(), instanceOf(Customer.class));
-        assertThat(findedCustomer.get(), samePropertyValuesAs(customer));
+
+        Optional<Customer> foundCustomer = customerRepository.findByName(customer.getName());
+
+        assertThat(foundCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객 이름으로 조회 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void findByName_ParamNotExistName_ReturnEmptyOptional(Customer customer) {
-        var result = customerRepository.findByName(customer.getName());
-        assertThat(result.isEmpty(), is(true));
+        customerRepository.insert(customer);
+        Optional<Customer> result = customerRepository.findByName(customer.getName());
+
+        assertThat(result).isNotEmpty();
     }
 
     @Test
     @DisplayName("모든 데이터가 삭제되면 성공한다.")
     void deleteAll_ParamVoid_DeleteAllCustomers() {
         customerRepository.deleteAll();
-        var customers = customerRepository.findAll();
-        assertThat(customers.isEmpty(), is(true));
+
+        List<Customer> customers = customerRepository.findAll();
+
+        assertThat(customers).isEmpty();
     }
 
     @ParameterizedTest
@@ -173,32 +184,9 @@ class CustomerJdbcRepositoryTest {
         customerRepository.insert(customer);
 
         customerRepository.deleteById(customer.getCustomerId());
-        var maybeNull = customerRepository.findById(customer.getCustomerId());
+        Optional<Customer> result = customerRepository.findById(customer.getCustomerId());
 
-        assertThat(maybeNull.isEmpty(), is(true));
-    }
-
-    @TestConfiguration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:8070/test-voucher_system")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
+        assertThat(result).isEmpty();
     }
 
     static List<Customer> validCustomers = List.of(

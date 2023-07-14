@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CustomerDtoTest {
 
@@ -20,17 +18,18 @@ class CustomerDtoTest {
     @DisplayName("Dto에서 Domain으로 변환하면 성공한다.")
     @MethodSource("provideValidCustomers")
     void of_ParamCustomer_ReturnCustomerDto(Customer customer) {
-        var dto = CustomerDto.of(customer);
-        assertThat(dto, instanceOf(CustomerDto.class));
-        assertThat(dto.name(), is(customer.getName()));
+        CustomerDto dto = CustomerDto.of(customer);
+
+        assertThat(dto.name()).isSameAs(customer.getName());
     }
 
     @ParameterizedTest
-    @DisplayName("Domain에서 Dto로 변환하면 성공한다.")
+    @DisplayName("도메인에서 디티오로 변환하면 성공한다.")
     @MethodSource("provideValidCustomerDto")
     void to(CustomerDto customerDto) {
-        var entity = CustomerDto.to(customerDto);
-        assertThat(entity, instanceOf(Customer.class));
+        Customer entity = CustomerDto.to(customerDto);
+
+        assertThat(entity.getCustomerId()).isSameAs(customerDto.customerId());
     }
 
     static List<Customer> customers = List.of(

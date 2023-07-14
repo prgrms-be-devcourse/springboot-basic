@@ -12,11 +12,30 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 class VoucherDtoTest {
+
+    @ParameterizedTest
+    @DisplayName("Dto 에서 Domain 으로 변환하면 성공한다.")
+    @MethodSource("provideVoucher")
+    void of_ParamVoucher_ReturnVoucherDto(Voucher voucher) {
+        VoucherDto dto = VoucherDto.of(voucher);
+
+        assertThat(dto).isInstanceOf(VoucherDto.class);
+        assertThat(dto.voucherType()).isEqualTo(voucher.getVoucherType());
+    }
+
+    @ParameterizedTest
+    @DisplayName("Domain 에서 Dto 로 변환하면 성공한다.")
+    @MethodSource("provideVoucherDto")
+    void to_ParamVoucherDto_ReturnVoucher(VoucherDto voucherDto) {
+        Voucher entity = VoucherDto.to(voucherDto);
+
+        assertThat(entity).isInstanceOf(Voucher.class);
+        assertThat(entity.getVoucherId()).isEqualTo(voucherDto.voucherId());
+    }
 
     static List<VoucherDto> voucherDto = List.of(
             new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), UUID.randomUUID()),
@@ -33,24 +52,6 @@ class VoucherDtoTest {
         return voucherDto.stream()
                 .map(VoucherDto::to)
                 .map(Arguments::of);
-    }
-
-    @ParameterizedTest
-    @DisplayName("Dto 에서 Domain 으로 변환하면 성공한다.")
-    @MethodSource("provideVoucher")
-    void of_ParamVoucher_ReturnVoucherDto(Voucher voucher) {
-        var dto = VoucherDto.of(voucher);
-        assertThat(dto, instanceOf(VoucherDto.class));
-        assertThat(dto.voucherType(), is(voucher.getVoucherType()));
-    }
-
-    @ParameterizedTest
-    @DisplayName("Domain 에서 Dto 로 변환하면 성공한다.")
-    @MethodSource("provideVoucherDto")
-    void to_ParamVoucherDto_ReturnVoucher(VoucherDto voucherDto) {
-        var entity = VoucherDto.to(voucherDto);
-        assertThat(entity, instanceOf(Voucher.class));
-        assertThat(entity.getVoucherId(), is(voucherDto.voucherId()));
     }
 
 }

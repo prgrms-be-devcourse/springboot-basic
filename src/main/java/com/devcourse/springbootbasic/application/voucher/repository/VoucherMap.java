@@ -3,9 +3,11 @@ package com.devcourse.springbootbasic.application.voucher.repository;
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class VoucherMap {
 
     private final Map<UUID, Voucher> map;

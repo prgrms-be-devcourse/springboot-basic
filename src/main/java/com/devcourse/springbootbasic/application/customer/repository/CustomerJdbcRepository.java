@@ -4,6 +4,7 @@ import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.global.utils.Utils;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
+@Profile({"default", "test"})
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {

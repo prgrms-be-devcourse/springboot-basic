@@ -16,9 +16,11 @@ class CustomerTest {
     @ParameterizedTest
     @DisplayName("고객 정보가 출력되면 성공한다.")
     @MethodSource("provideCustomers")
-    void ToString_Customer_ReturnCustomerString(UUID customerId, String name, boolean isBlack, Customer customer) {
-        var expected = MessageFormat.format("Customer(id: {0}, name: {1}, isBlack: {2})", customerId, name, isBlack);
-        var result = customer.toString();
+    void toString_Customer_ReturnCustomerString(UUID customerId, String name, boolean isBlack, Customer customer) {
+        String expected = MessageFormat.format("Customer(id: {0}, name: {1}, isBlack: {2})", customerId, name, isBlack);
+
+        String result = customer.toString();
+
         assertEquals(expected, result);
     }
 

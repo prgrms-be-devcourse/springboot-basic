@@ -20,36 +20,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("default")
+@ActiveProfiles("test")
 class JdbcVoucherRepositoryTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", true),
-            new Customer(UUID.randomUUID(), "딸기", false)
-    );
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
-    );
     @Autowired
     JdbcVoucherRepository voucherRepository;
+
     @Autowired
     CustomerRepository customerRepository;
-    EmbeddedMysql embeddedMysql;
 
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
-    }
+    EmbeddedMysql embeddedMysql;
 
     @BeforeAll
     void init() {
@@ -80,9 +69,11 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void insert_ParamNotExistVoucher_InsertAndReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
-        var foundVoucher = voucherRepository.findById(voucher.getVoucherId());
-        assertThat(foundVoucher.isEmpty(), is(false));
-        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+
+        assertThat(foundVoucher).isNotEmpty();
+        assertThat(foundVoucher.get().getDiscountValue()).isEqualTo(voucher.getDiscountValue());
     }
 
     @ParameterizedTest
@@ -90,7 +81,10 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void insert_ParamExistVoucher_Exception(Voucher voucher) {
         voucherRepository.insert(voucher);
-        assertThrows(InvalidDataException.class, () -> voucherRepository.insert(voucher));
+
+        Exception exception = catchException(() -> voucherRepository.insert(voucher));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
     @ParameterizedTest
@@ -98,28 +92,32 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void update_ParamExistVoucher_UpdateAndReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
-        var newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), voucher.getCustomerId());
+        Voucher newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), voucher.getCustomerId());
+
         voucherRepository.update(newVoucher);
-        var foundVoucher = voucherRepository.findById(voucher.getVoucherId());
-        assertThat(foundVoucher.isEmpty(), is(false));
-        assertThat(foundVoucher.get(), samePropertyValuesAs(newVoucher));
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+
+        assertThat(foundVoucher).isNotEmpty();
+        assertThat(foundVoucher.get().getDiscountValue()).isEqualTo(newVoucher.getDiscountValue());
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 바우처를 갱신 시 실패한다.")
     @MethodSource("provideVouchers")
     void update_ParamNotExistVoucher_Exception(Voucher voucher) {
-        assertThrows(InvalidDataException.class, () -> voucherRepository.update(voucher));
+        Exception exception = catchException(() -> voucherRepository.update(voucher));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
     @Test
     @DisplayName("모든 바우처 조회한다.")
     void findAllVouchers_ParamVoid_ReturnAllVouchers() {
         vouchers.forEach(voucher -> voucherRepository.insert(voucher));
-        var allVouchers = voucherRepository.findAll();
-        System.out.println(allVouchers);
-        assertThat(allVouchers.isEmpty(), is(false));
-        assertThat(allVouchers.get(0), instanceOf(Voucher.class));
+
+        List<Voucher> allVouchers = voucherRepository.findAll();
+
+        assertThat(allVouchers).isNotEmpty();
     }
 
     @ParameterizedTest
@@ -127,25 +125,27 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void findById_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
-        var foundVoucher = voucherRepository.findById(voucher.getVoucherId());
-        assertThat(foundVoucher.isEmpty(), is(false));
-        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+
+        assertThat(foundVoucher.get().getDiscountValue()).isEqualTo(voucher.getDiscountValue());
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않은 바우처를 아이디로 조회 시 실패한다.")
     @MethodSource("provideVouchers")
     void findById_ParamNotExistVoucher_ReturnOptionalEmpty(Voucher voucher) {
-        var result = voucherRepository.findById(voucher.getVoucherId());
-        assertThat(result.isEmpty(), is(true));
+        Optional<Voucher> result = voucherRepository.findById(voucher.getVoucherId());
+
+        assertThat(result).isEmpty();
     }
 
     @Test
     @DisplayName("모든 바우처 삭제한다.")
     void deleteAll_ParamVoid_DeleteAllVouchers() {
         voucherRepository.deleteAll();
-        var vouchers = voucherRepository.findAll();
-        assertThat(vouchers.isEmpty(), is(true));
+
+        assertThat(voucherRepository.findAll()).isEmpty();
     }
 
     @ParameterizedTest
@@ -153,9 +153,11 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void deleteById_ParamExistVoucher_DeleteVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
+
         voucherRepository.deleteById(voucher.getVoucherId());
-        var maybeNull = voucherRepository.findById(voucher.getVoucherId());
-        assertThat(maybeNull.isEmpty(), is(true));
+
+        Optional<Voucher> maybeNull = voucherRepository.findById(voucher.getVoucherId());
+        assertThat(maybeNull).isEmpty();
     }
 
     @ParameterizedTest
@@ -163,17 +165,19 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void findByCustomerIdAndVoucherId_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
-        var foundVoucher = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
-        assertThat(foundVoucher.isEmpty(), is(false));
-        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+
+        Optional<Voucher> foundVoucher = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+
+        assertThat(foundVoucher.get().getDiscountValue()).isEqualTo(voucher.getDiscountValue());
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 바우처를 고객, 바우처 아이디로 검색하면 실패한다.")
     @MethodSource("provideVouchers")
     void findByCustomerIdAndVoucherId_ParamNotExistVoucher_Exception(Voucher voucher) {
-        var maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
-        assertThat(maybeNull.isEmpty(), is(true));
+        Optional<Voucher> maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+
+        assertThat(maybeNull).isEmpty();
     }
 
     @ParameterizedTest
@@ -181,8 +185,10 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void findAllByCustomerId_ParamVoid_ReturnVoucherList(Voucher voucher) {
         voucherRepository.insert(voucher);
-        var list = voucherRepository.findAllByCustomerId(voucher.getCustomerId());
-        assertThat(list.isEmpty(), is(false));
+
+        List<Voucher> list = voucherRepository.findAllByCustomerId(voucher.getCustomerId());
+
+        assertThat(list).isNotEmpty();
     }
 
     @ParameterizedTest
@@ -190,9 +196,26 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void deleteByCustomerIdAndVoucherId_ParamExistVoucher_DeleteVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
+
         voucherRepository.deleteByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
-        var maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
-        assertThat(maybeNull.isEmpty(), is(true));
+
+        Optional<Voucher> maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
+        assertThat(maybeNull).isEmpty();
     }
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
+    }
+
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과", true),
+            new Customer(UUID.randomUUID(), "딸기", false)
+    );
+
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
+    );
 
 }

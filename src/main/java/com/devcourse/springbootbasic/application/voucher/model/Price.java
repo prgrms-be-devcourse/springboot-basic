@@ -3,6 +3,8 @@ package com.devcourse.springbootbasic.application.voucher.model;
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 
+import java.util.Objects;
+
 public class Price {
 
     private final double value;
@@ -26,7 +28,21 @@ public class Price {
         return new Price(result);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Price price = (Price) o;
+        return Double.compare(price.value, value) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
     public double getValue() {
         return value;
     }
+
 }

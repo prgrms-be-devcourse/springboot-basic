@@ -1,18 +1,19 @@
-create table vouchers
-(
-    voucher_id     binary(16)  not null primary key,
-    voucher_type   varchar(20) not null,
-    discount_value double      not null,
-    customer_id    binary(16)  not null
-#     constraint fk_customer_customerId
-#         foreign key (customer_id) references voucher_system.customers (customer_id)
-);
-
 CREATE TABLE customers
 (
-    customer_id BINARY(16)  not null PRIMARY KEY,
+    customer_id binary(16)  not null PRIMARY KEY,
     name        varchar(20) NOT NULL,
-    black       tinyint(1)  not null
+    black       boolean     not null
+);
+
+create table vouchers
+(
+    voucher_id     binary(16)  not null,
+    voucher_type   varchar(20) not null,
+    discount_value double      not null,
+    customer_id    binary(16)  not null,
+
+    primary key (voucher_id),
+    foreign key (customer_id) references customers (customer_id)
 );
 
 set @customer_id1 = UUID_TO_BIN(UUID());

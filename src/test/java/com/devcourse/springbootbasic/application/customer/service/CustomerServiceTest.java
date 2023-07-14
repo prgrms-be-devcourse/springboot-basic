@@ -3,181 +3,137 @@ package com.devcourse.springbootbasic.application.customer.service;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import com.wix.mysql.EmbeddedMysql;
-import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_17;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringJUnitConfig
 class CustomerServiceTest {
 
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "포도", false),
-            new Customer(UUID.randomUUID(), "배", false)
-    );
-    @Autowired
-    CustomerService customerService;
+    CustomerService sut;
 
-    EmbeddedMysql embeddedMysql;
-
-    static Stream<Arguments> provideValidCustomers() {
-        return validCustomers.stream()
-                .map(Arguments::of);
-    }
-
-    @BeforeAll
-    void init() {
-        var mysqlConfig = aMysqldConfig(v8_0_17)
-                .withCharset(UTF8)
-                .withPort(8070)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", classPathScript("test-schema.sql"))
-                .start();
-    }
+    @Mock
+    CustomerRepository customerRepositoryMock;
 
     @BeforeEach
     void cleanup() {
-        customerService.deleteAllCustomers();
-    }
-
-    @AfterAll
-    void destroy() {
-        embeddedMysql.stop();
+        sut = new CustomerService(customerRepositoryMock);
     }
 
     @Test
     @DisplayName("블랙고객 리스트 반환 시 성공한다.")
-    void GetBlackCustomers_VoidParam_ReturnVoucherList() {
-        var customerRepositoryMock = mock(CustomerRepository.class);
-        given(customerRepositoryMock.findAllBlackCustomers()).willReturn(
-                List.of(
-                        new Customer(UUID.fromString("061d89ad-1a6a-11ee-aed4-0242ac110002"), "사과", false),
-                        new Customer(UUID.fromString("06201b27-1a6a-11ee-aed4-0242ac110002"), "딸기", true),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110002"), "포도", false),
-                        new Customer(UUID.fromString("06223606-1a6a-11ee-aed4-0242ac110003"), "배", false)
-                )
-        );
-        var sut = new CustomerService(customerRepositoryMock);
-        var blackCustomers = sut.getBlackCustomers();
-        assertThat(blackCustomers, notNullValue());
-        assertThat(blackCustomers, not(empty()));
-        assertThat(blackCustomers, instanceOf(List.class));
-        assertThat(blackCustomers.get(0), instanceOf(Customer.class));
+    void getBlackCustomers_VoidParam_ReturnVoucherList() {
+        given(customerRepositoryMock.findAllBlackCustomers()).willReturn(customers);
+
+        List<Customer> blackCustomers = sut.getBlackCustomers();
+
+        assertThat(blackCustomers).isNotNull();
+        assertThat(blackCustomers).isNotEmpty();
+        assertThat(blackCustomers).isInstanceOf(List.class);
+        assertThat(blackCustomers.get(0)).isInstanceOf(Customer.class);
     }
 
     @ParameterizedTest
     @DisplayName("정상적인 고객 정보 추가 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void registerCustomer_ParamValidCustomer_InsertAndReturnCustomer(Customer customer) {
-        customerService.registCustomer(customer);
-        var registeredCustomer = customerService.findCustomerById(customer.getCustomerId());
-        assertThat(registeredCustomer, samePropertyValuesAs(customer));
+        given(customerRepositoryMock.insert(customer)).willReturn(customer);
+
+        Customer registeredCustomer = sut.registCustomer(customer);
+
+        assertThat(registeredCustomer).isSameAs(customer);
     }
 
     @ParameterizedTest
     @DisplayName("정상적인 고객 정보 아이디로 조회 시 해당 고객 반환하면 성공한다.")
     @MethodSource("provideValidCustomers")
     void findCustomerById_ParamValidCustomer_ReturnCustomer(Customer customer) {
-        customerService.registCustomer(customer);
-        var findedCustomer = customerService.findCustomerById(customer.getCustomerId());
-        assertThat(findedCustomer, samePropertyValuesAs(customer));
+        given(customerRepositoryMock.findById(customer.getCustomerId())).willReturn(Optional.of(customer));
+
+        Customer foundCustomer = sut.findCustomerById(customer.getCustomerId());
+
+        assertThat(foundCustomer).isSameAs(customer);
     }
 
     @ParameterizedTest
     @DisplayName("정상적인 고객 정보 이름으로 조회 시 해당 고객 반환하면 성공한다.")
     @MethodSource("provideValidCustomers")
     void findCustomerByName_ParamValidCustomer_ReturnCustomer(Customer customer) {
-        customerService.registCustomer(customer);
-        var result = customerService.findCustomerByName(customer.getName());
-        assertThat(result, samePropertyValuesAs(customer));
+        given(customerRepositoryMock.findByName(customer.getName())).willReturn(Optional.of(customer));
+
+        Customer foundCustomer = sut.findCustomerByName(customer.getName());
+
+        assertThat(foundCustomer).isSameAs(customer);
     }
 
     @ParameterizedTest
     @DisplayName("비정상적인 고객 정보 아이디로 조회 시 해당 고객 반환하면 성공한다.")
     @MethodSource("provideValidCustomers")
     void findCustomerById_ParamNotExistCustomer_Exception(Customer customer) {
-        Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerById(customer.getCustomerId()));
+        given(customerRepositoryMock.findById(customer.getCustomerId())).willReturn(Optional.empty());
+
+        Exception exception = catchException(() -> sut.findCustomerById(customer.getCustomerId()));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
     @ParameterizedTest
     @DisplayName("비정상적인 고객 정보 이름으로 조회 시 해당 고객 반환하면 성공한다.")
     @MethodSource("provideValidCustomers")
     void findCustomerByName_ParamNotExistCustomer_Exception(Customer customer) {
-        Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerByName(customer.getName()));
+        given(customerRepositoryMock.findByName(customer.getName())).willReturn(Optional.empty());
+
+        Exception exception = catchException(() -> sut.findCustomerByName(customer.getName()));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 고객을 아이디로 삭제하면 성공한다.")
     @MethodSource("provideValidCustomers")
     void deleteCustomerById_ParamValidCustomer_ReturnCustomer(Customer customer) {
-        customerService.registCustomer(customer);
-        var findedCustomer = customerService.deleteCustomerById(customer.getCustomerId());
-        var allCustomers = customerService.findAllCustomers();
-        assertThat(findedCustomer, samePropertyValuesAs(customer));
-        assertThat(allCustomers.isEmpty(), is(true));
+        given(customerRepositoryMock.findById(customer.getCustomerId())).willReturn(Optional.of(customer));
+
+        Customer deletedCustomer = sut.deleteCustomerById(customer.getCustomerId());
+
+        assertThat(deletedCustomer).isSameAs(customer);
     }
 
     @ParameterizedTest
-    @DisplayName("부재인 고객을 아이디로 삭제하면 실패한다.")
+    @DisplayName("존재하지 않는 고객을 아이디로 삭제하면 성공한다.")
     @MethodSource("provideValidCustomers")
     void deleteCustomerById_ParamNotExistCustomer_Exception(Customer customer) {
-        Assertions.assertThrows(InvalidDataException.class,
-                () -> customerService.findCustomerById(customer.getCustomerId()));
+        given(customerRepositoryMock.findById(customer.getCustomerId())).willReturn(Optional.empty());
+
+        Exception exception = catchException(() -> sut.deleteCustomerById(customer.getCustomerId()));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
-    @TestConfiguration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:8070/test-voucher_system")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true),
+            new Customer(UUID.randomUUID(), "포도", false),
+            new Customer(UUID.randomUUID(), "배", false)
+    );
 
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
+    static Stream<Arguments> provideValidCustomers() {
+        return customers.stream()
+                .map(Arguments::of);
     }
 
 }

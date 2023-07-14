@@ -53,4 +53,16 @@ public class DiscountValue {
         return value;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DiscountValue that = (DiscountValue) o;
+        return Double.compare(that.value, value) == 0 && voucherType == that.voucherType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherType, value);
+    }
 }
