@@ -39,8 +39,7 @@
                 <tbody>
                     <tr th:each="voucher: ${voucherArrayList}">
                         <td>
-                            <a href="information/fixed-information.html" th:href="@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a>
-<!--                            <a th:if ="${voucher.getType()} eq 'PercentDiscountVoucher'" href="information/fixed-information.html" th:href="@{/vouchers/rate/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a>-->
+                            <a href="voucher-information.html" th:href="@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a>
                         </td>
                         <td th:text="${voucher.getType()}">PercentDiscountVoucher</a></td>
                         <td>

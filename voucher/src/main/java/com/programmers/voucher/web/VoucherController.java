@@ -36,7 +36,7 @@ public class VoucherController {
 
     @GetMapping("/add")
     public String createVoucher() {
-        return "/voucher/create/voucher";
+        return "voucher/voucher-addForm";
     }
 
     @PostMapping("/add")
@@ -63,42 +63,24 @@ public class VoucherController {
     public String voucherInformation(@PathVariable String voucherId, Model model) {
         Voucher voucher = voucherStream.findById(voucherId);
         model.addAttribute("voucher", voucher);
-        return "/voucher/information/voucher-information";
+        return "/voucher/voucher-information";
     }
 
-    @GetMapping("/fixed/{voucherId}/edit")
-    public String editFixedAmountVoucher(@PathVariable String voucherId, Model model) {
-        FixedAmountVoucher voucher = (FixedAmountVoucher) voucherStream.findById(voucherId);
-        model.addAttribute("voucher", voucher);
-        return "/voucher/edit/fixed-editForm";
-    }
-
-    @PostMapping("/fixed/{voucherId}/edit")
-    public String editFixedAmountVoucher(@PathVariable String voucherId,
-                                         @RequestParam Integer amount,
-                                         Model model) {
+    @GetMapping("/{voucherId}/edit")
+    public String editVoucher(@PathVariable String voucherId, Model model) {
         Voucher voucher = voucherStream.findById(voucherId);
-        voucher.update(amount);
+        model.addAttribute("voucher", voucher);
+        return "/voucher/voucher-editForm";
+    }
+
+    @PostMapping("/{voucherId}/edit")
+    public String editVoucher(@PathVariable String voucherId,
+                              @RequestParam Integer discount,
+                              Model model) {
+        Voucher voucher = voucherStream.findById(voucherId);
+        voucher.update(discount);
         voucherStream.update(voucher);
         model.addAttribute("voucher", voucher);
-        return "redirect:/vouchers/fixed/" + voucherId;
-    }
-
-    @GetMapping("/rate/{voucherId}/edit")
-    public String editPercentDiscountVoucher(@PathVariable String voucherId, Model model) {
-        PercentDiscountVoucher voucher = (PercentDiscountVoucher) voucherStream.findById(voucherId);
-        model.addAttribute("voucher", voucher);
-        return "/voucher/edit/rate-editForm";
-    }
-
-    @PostMapping("/rate/{voucherId}/edit")
-    public String editPercentDiscountVoucher(@PathVariable String voucherId,
-                                             @RequestParam Integer rate,
-                                             Model model) {
-        Voucher voucher = voucherStream.findById(voucherId);
-        voucher.update(rate);
-        voucherStream.update(voucher);
-        model.addAttribute("voucher", voucher);
-        return "redirect:/vouchers/rate/" + voucherId;
+        return "redirect:/vouchers/" + voucherId;
     }
 }
