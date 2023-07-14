@@ -23,10 +23,13 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 생성에 성공한다.")
     void 바우처_생성() {
         // given
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, 100);
+        Voucher voucher = Voucher.builder().id(UUID.randomUUID()).type(VoucherType.FIXED).amount(100).build();
+
         // when
-        Voucher result = voucherRepository.insert(voucher);
+        voucherRepository.insert(voucher);
+        
         // then
+        Voucher result = voucherRepository.findById(voucher.getId()).orElseThrow();
         assertThat(result.getId()).isEqualTo(voucher.getId());
     }
 
@@ -34,9 +37,9 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("모든 바우처 조회에 성공한다.")
     void 모든_바우처_조회() {
         // given
-        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, 100);
+        Voucher voucher1 = Voucher.builder().id(UUID.randomUUID()).type(VoucherType.FIXED).amount(100).build();
         voucherRepository.insert(voucher1);
-        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, 20);
+        Voucher voucher2 = Voucher.builder().id(UUID.randomUUID()).type(VoucherType.PERCENT).amount(20).build();
         voucherRepository.insert(voucher2);
 
         // when

@@ -1,6 +1,6 @@
 package com.programmers.voucher.view.command;
 
-import com.programmers.voucher.exception.InvalidCommandException;
+import com.programmers.voucher.exception.BadRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -22,7 +22,7 @@ class CommandTest {
     @ValueSource(ints = {0, 999, -10})
     void 잘못된_명령어_메뉴(int number) {
         assertThatThrownBy(() -> Command.findByNumber(number))
-                .isInstanceOf(InvalidCommandException.class)
+                .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 명령어입니다.");
     }
 }

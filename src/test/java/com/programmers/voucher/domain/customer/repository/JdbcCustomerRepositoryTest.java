@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @Transactional
@@ -25,10 +24,13 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("고객 생성에 성공한다.")
     void 고객_생성() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "test");
+        Customer customer = Customer.builder().id(UUID.randomUUID()).nickname("test").build();
+
         // when
-        Customer result = customerRepository.insert(customer);
+        customerRepository.insert(customer);
+
         // then
+        Customer result = customerRepository.findById(customer.getId()).orElseThrow();
         assertThat(result.getId()).isEqualTo(customer.getId());
     }
 
@@ -36,9 +38,9 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("모든 고객 조회에 성공한다.")
     void 모든_고객_조회() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "test1");
+        Customer customer1 = Customer.builder().id(UUID.randomUUID()).nickname("test1").build();
         customerRepository.insert(customer1);
-        Customer customer2 = new Customer(UUID.randomUUID(), "test2");
+        Customer customer2 = Customer.builder().id(UUID.randomUUID()).nickname("test2").build();
         customerRepository.insert(customer2);
 
         // when
@@ -51,14 +53,13 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("고객 조회에 성공한다.")
     void 고객_조회() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "test");
+        Customer customer = Customer.builder().id(UUID.randomUUID()).nickname("test").build();
         customerRepository.insert(customer);
 
         // when
-        Customer result = customerRepository.findById(customer.getId()).orElse(null);
+        Customer result = customerRepository.findById(customer.getId()).orElseThrow();
 
         // then
-        assertNotNull(result);
         assertThat(result.getId()).isEqualTo(customer.getId());
     }
 
@@ -66,21 +67,23 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("고객 수정에 성공한다.")
     void 고객_수정() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "test");
+        Customer customer = Customer.builder().id(UUID.randomUUID()).nickname("test").build();
         customerRepository.insert(customer);
 
         // when
-        Customer result = customerRepository.update(new Customer(customer.getId(), "new"));
+        Customer expected = Customer.builder().id(customer.getId()).nickname("new").build();
+        customerRepository.update(expected);
 
         // then
-        assertThat(result.getNickname()).isEqualTo("new");
+        Customer result = customerRepository.findById(customer.getId()).orElseThrow();
+        assertThat(result.getNickname()).isEqualTo(expected.getNickname());
     }
 
     @Test
     @DisplayName("고객 삭제에 성공한다.")
     void 고객_삭제() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "test");
+        Customer customer = Customer.builder().id(UUID.randomUUID()).nickname("test").build();
         customerRepository.insert(customer);
 
         // when

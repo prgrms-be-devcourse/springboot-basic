@@ -35,7 +35,7 @@ class CustomerServiceTest {
     void 고객_생성_성공() {
         // given
         CustomerCreateRequest request = new CustomerCreateRequest("test");
-        Customer customer = new Customer(UUID.randomUUID(), "test");
+        Customer customer = Customer.builder().id(UUID.randomUUID()).nickname("test").build();
         given(customerRepository.insert(any(Customer.class))).willReturn(customer);
 
         // when
@@ -50,7 +50,7 @@ class CustomerServiceTest {
     void 고객_생성_예외() {
         // given
         CustomerCreateRequest request = new CustomerCreateRequest("test");
-        Customer customer = new Customer(UUID.randomUUID(), "test");
+        Customer customer = Customer.builder().id(UUID.randomUUID()).nickname("test").build();
         given(customerRepository.findByNickname("test")).willReturn(Optional.of(customer));
 
         // when & then
@@ -63,8 +63,8 @@ class CustomerServiceTest {
     @DisplayName("모든 고객 조회에 성공한다.")
     void 모든_고객_조회_성공() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "test1");
-        Customer customer2 = new Customer(UUID.randomUUID(), "test2");
+        Customer customer1 = Customer.builder().id(UUID.randomUUID()).nickname("test1").build();
+        Customer customer2 = Customer.builder().id(UUID.randomUUID()).nickname("test2").build();
         List<Customer> customers = List.of(customer1, customer2);
         given(customerRepository.findAll()).willReturn(customers);
 
@@ -79,7 +79,7 @@ class CustomerServiceTest {
     @DisplayName("고객 조회에 성공한다.")
     void 고객_조회_성공() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "test");
+        Customer customer = Customer.builder().id(UUID.randomUUID()).nickname("test").build();
         given(customerRepository.findById(customer.getId())).willReturn(Optional.of(customer));
 
         // when
@@ -107,7 +107,7 @@ class CustomerServiceTest {
     void 고객_수정_성공() {
         // given
         CustomerUpdateRequest request = new CustomerUpdateRequest("new");
-        Customer customer = new Customer(UUID.randomUUID(), "test");
+        Customer customer = Customer.builder().id(UUID.randomUUID()).nickname("test").build();
         given(customerRepository.findById(customer.getId())).willReturn(Optional.of(customer));
         given(customerRepository.update(customer)).willReturn(customer);
 
