@@ -1,10 +1,10 @@
 package com.programmers.voucher.domain.voucher.domain;
 
-import com.programmers.voucher.domain.voucher.dto.VoucherDto;
-import com.programmers.voucher.global.util.CommonErrorMessages;
+import com.programmers.voucher.domain.voucher.pattern.VoucherVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.PERCENT_DISCOUNT_MAX;
@@ -23,11 +23,16 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     private void validatePercent(long percent) {
-        if (percent <= PERCENT_DISCOUNT_MIN || percent >= PERCENT_DISCOUNT_MAX) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_PERCENT_DISCOUNT, percent);
+        if (noneMatchPercentDiscount(percent)) {
+            String errorMessage = MessageFormat.format(INVALID_PERCENT_DISCOUNT, percent);
+
             LOG.warn(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
+    }
+
+    private boolean noneMatchPercentDiscount(long percent) {
+        return percent <= PERCENT_DISCOUNT_MIN || percent >= PERCENT_DISCOUNT_MAX;
     }
 
     @Override
@@ -36,18 +41,8 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public VoucherDto toDto() {
-        return new VoucherDto(super.voucherId, VoucherType.PERCENT, percent);
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
-    public String fullInfoString() {
-        return "VoucherID: " + voucherId + ", discount: " + percent + "%";
+    public void accept(VoucherVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -56,5 +51,9 @@ public class PercentDiscountVoucher extends Voucher {
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
                 '}';
+    }
+
+    public long getPercent() {
+        return percent;
     }
 }

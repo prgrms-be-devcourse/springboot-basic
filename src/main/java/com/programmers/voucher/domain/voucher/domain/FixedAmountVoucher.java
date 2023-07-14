@@ -1,10 +1,10 @@
 package com.programmers.voucher.domain.voucher.domain;
 
-import com.programmers.voucher.domain.voucher.dto.VoucherDto;
-import com.programmers.voucher.global.util.CommonErrorMessages;
+import com.programmers.voucher.domain.voucher.pattern.VoucherVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.FIXED_AMOUNT_MIN;
@@ -22,16 +22,16 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     private void validateAmount(long amount) {
-        if (amount <= FIXED_AMOUNT_MIN) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_FIXED_AMOUNT, amount);
+        if (noneMatchFixedAmount(amount)) {
+            String errorMessage = MessageFormat.format(INVALID_FIXED_AMOUNT, amount);
+
             LOG.warn(errorMessage);
-            throw new IllegalStateException(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
         }
     }
 
-    @Override
-    public VoucherDto toDto() {
-        return new VoucherDto(super.voucherId, VoucherType.FIXED_AMOUNT, amount);
+    private boolean noneMatchFixedAmount(long amount) {
+        return amount <= FIXED_AMOUNT_MIN;
     }
 
     @Override
@@ -40,8 +40,8 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public String fullInfoString() {
-        return "VoucherID: " + voucherId + ", discount: " + amount + "$";
+    public void accept(VoucherVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -50,5 +50,9 @@ public class FixedAmountVoucher extends Voucher {
                 "voucherId=" + voucherId +
                 ", amount=" + amount +
                 '}';
+    }
+
+    public long getAmount() {
+        return amount;
     }
 }

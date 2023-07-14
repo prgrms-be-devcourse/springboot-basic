@@ -1,21 +1,27 @@
 package com.programmers.voucher.global.io.textio;
 
+import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
+import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
+import com.programmers.voucher.domain.customer.util.CustomerFieldRegex;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.util.VoucherErrorMessages;
-import com.programmers.voucher.global.io.ConsoleCommandType;
 import com.programmers.voucher.global.io.ConsoleInput;
-import com.programmers.voucher.global.util.CommonErrorMessages;
+import com.programmers.voucher.global.io.command.ConsoleCommandType;
+import com.programmers.voucher.global.io.command.CustomerCommandType;
+import com.programmers.voucher.global.io.command.VoucherCommandType;
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static com.programmers.voucher.domain.customer.util.CustomerErrorMessages.INVALID_EMAIL;
+import static com.programmers.voucher.domain.customer.util.CustomerErrorMessages.INVALID_NAME;
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.*;
 import static com.programmers.voucher.domain.voucher.util.VoucherErrorMessages.*;
 import static com.programmers.voucher.global.util.ConsoleMessages.*;
@@ -51,7 +57,6 @@ public class TextIoInput implements ConsoleInput {
                 return new VoucherCreateRequest(voucherType, percent);
             }
         }
-
         throw new IllegalStateException(VoucherErrorMessages.UNHANDLED_VOUCHER_TYPE);
     }
 
@@ -63,14 +68,14 @@ public class TextIoInput implements ConsoleInput {
         return VoucherType.getValue(rawVoucherType);
     }
 
-    private List<String> voucherTypeValidateErrorMessages(String val) {
+    private List<String> voucherTypeValidateErrorMessages(String rawVoucherType) {
         boolean invalidVoucherType = Arrays.stream(VoucherType.values())
                 .map(VoucherType::getType)
-                .noneMatch(rawType -> Objects.equals(rawType, val));
+                .noneMatch(rawType -> Objects.equals(rawType, rawVoucherType));
 
         List<String> messages = new ArrayList<>();
         if (invalidVoucherType) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_VOUCHER_TYPE, val);
+            String errorMessage = MessageFormat.format(INVALID_VOUCHER_TYPE, rawVoucherType);
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
@@ -83,16 +88,19 @@ public class TextIoInput implements ConsoleInput {
                 .read(AMOUNT);
     }
 
-    private List<String> fixedAmountValidateErrorMessages(Long val) {
+    private List<String> fixedAmountValidateErrorMessages(Long amount) {
         List<String> messages = new ArrayList<>();
-        if (val <= FIXED_AMOUNT_MIN) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_FIXED_AMOUNT, val);
+        if (noneMatchFixedAmount(amount)) {
+            String errorMessage = MessageFormat.format(INVALID_FIXED_AMOUNT, amount);
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
         return messages;
     }
 
+    private boolean noneMatchFixedAmount(Long amount) {
+        return amount <= FIXED_AMOUNT_MIN;
+    }
 
     private long inputPercentDiscount() {
         return textIO.newLongInputReader()
@@ -100,13 +108,79 @@ public class TextIoInput implements ConsoleInput {
                 .read(PERCENT);
     }
 
-    private List<String> percentDiscountValidateErrorMessages(Long val) {
+    private List<String> percentDiscountValidateErrorMessages(Long percent) {
         List<String> messages = new ArrayList<>();
-        if (val <= PERCENT_DISCOUNT_MIN || val >= PERCENT_DISCOUNT_MAX) {
-            String errorMessage = CommonErrorMessages.addCurrentInput(INVALID_PERCENT_DISCOUNT, val);
+        if (noneMatchPercentDiscount(percent)) {
+            String errorMessage = MessageFormat.format(INVALID_PERCENT_DISCOUNT, percent);
             LOG.warn(errorMessage);
             messages.add(errorMessage);
         }
         return messages;
+    }
+
+    private boolean noneMatchPercentDiscount(Long percent) {
+        return percent <= PERCENT_DISCOUNT_MIN || percent >= PERCENT_DISCOUNT_MAX;
+    }
+
+    @Override
+    public CustomerCreateRequest inputCustomerCreateInfo() {
+        String email = textIO.newStringInputReader()
+                .withValueChecker((val, itemName) -> {
+                    return regexValidate(val, CustomerFieldRegex.EMAIL_PATTERN, INVALID_EMAIL);
+                })
+                .read(ENTER_EMAIL);
+        String name = textIO.newStringInputReader()
+                .withValueChecker(((val, itemName) -> {
+                    return regexValidate(val, CustomerFieldRegex.NAME_PATTERN, INVALID_NAME);
+                }))
+                .read(ENTER_NAME);
+
+        return new CustomerCreateRequest(email, name);
+    }
+
+    private List<String> regexValidate(String field, Pattern fieldPattern, String invalidEmailRange) {
+        List<String> messages = new ArrayList<>();
+        Matcher fieldMatcher = fieldPattern.matcher(field);
+        if (!fieldMatcher.matches()) {
+            messages.add(invalidEmailRange);
+        }
+        return messages;
+    }
+
+    @Override
+    public CustomerUpdateRequest inputCustomerUpdateInfo() {
+        UUID customerId = inputUUID();
+        String newName = textIO.newStringInputReader()
+                .read(ENTER_NEW_NAME);
+        boolean banned = textIO.newBooleanInputReader()
+                .withTrueInput(BAN)
+                .withFalseInput(UNBAN)
+                .read(CHOOSE_BAN);
+
+        return new CustomerUpdateRequest(customerId, newName, banned);
+    }
+
+    @Override
+    public UUID inputUUID() {
+        String uuid = textIO.newStringInputReader()
+                .read(ENTER_ID);
+
+        return UUID.fromString(uuid);
+    }
+
+    @Override
+    public VoucherCommandType inputVoucherCommandType() {
+        String command = textIO.newStringInputReader()
+                .read();
+
+        return VoucherCommandType.getValue(command);
+    }
+
+    @Override
+    public CustomerCommandType inputCustomerCommandType() {
+        String command = textIO.newStringInputReader()
+                .read();
+
+        return CustomerCommandType.getValue(command);
     }
 }
