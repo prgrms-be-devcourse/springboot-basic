@@ -20,11 +20,12 @@ class JdbcUserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+    private final String name = "hejow";
+
     @Test
     @DisplayName("지정한 이름으로 유저가 저장된다.")
     void saveTest() {
         // given
-        String name = "hejow";
 
         // when
         userRepository.save(name);
@@ -40,10 +41,9 @@ class JdbcUserRepositoryTest {
     void findAllTest() {
         // given
         int size = 10;
-        String basicName = "hejow";
         IntStream.rangeClosed(1, size)
-                .mapToObj(i -> basicName + i)
-                .forEach(name -> userRepository.save(name));
+                .mapToObj(i -> name + i)
+                .forEach(newName -> userRepository.save(newName));
 
         // when
         List<User> users = userRepository.findAll();
@@ -51,14 +51,13 @@ class JdbcUserRepositoryTest {
         // then
         assertThat(users).isNotEmpty();
         assertThat(users).hasSize(size);
-        assertThat(users).allMatch(user -> user.name().contains(basicName));
+        assertThat(users).allMatch(user -> user.name().contains(name));
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("id를 통해서 저장된 유저를 조회하면 이름과 아이디가 동일해야 한다.")
     void findByIdSuccessTest() {
         // given
-        String name = "hejow";
         UUID id = userRepository.save(name);
 
         // when
@@ -72,4 +71,17 @@ class JdbcUserRepositoryTest {
         assertThat(user.name()).isEqualTo(name);
     }
 
+    @Test
+    @DisplayName("id로 저장된 유저를 지우면 아무것도 조회되지 않아야 한다.")
+    void deleteByIdTest() {
+        // given
+        UUID id = userRepository.save(name);
+
+        // when
+        userRepository.deleteById(id);
+
+        // then
+        List<User> users = userRepository.findAll();
+        assertThat(users).isEmpty();
+    }
 }

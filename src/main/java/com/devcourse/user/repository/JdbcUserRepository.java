@@ -46,4 +46,9 @@ class JdbcUserRepository implements UserRepository {
             return Optional.empty();
         }
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        jdbcTemplate.update("DELETE FROM users WHERE id = ?", id.toString());
+    }
 }
