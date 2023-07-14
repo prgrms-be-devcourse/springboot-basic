@@ -3,9 +3,9 @@ package com.programmers.springbootbasic.service;
 import com.programmers.springbootbasic.domain.voucher.Duration;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
-import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
-import com.programmers.springbootbasic.service.dto.VoucherResponse;
-import com.programmers.springbootbasic.service.dto.VoucherResponses;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherCreationRequest;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponse;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 
 import java.time.LocalDateTime;
 import java.util.List;
