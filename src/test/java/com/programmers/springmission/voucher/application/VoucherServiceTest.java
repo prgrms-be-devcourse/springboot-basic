@@ -1,6 +1,6 @@
 package com.programmers.springmission.voucher.application;
 
-import com.programmers.springmission.ManagementController;
+import com.programmers.springmission.ManagementConsoleController;
 import com.programmers.springmission.customer.domain.Customer;
 import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
 import com.programmers.springmission.global.exception.ErrorMessage;
@@ -45,7 +45,7 @@ class VoucherServiceTest {
     VoucherService service;
 
     @MockBean
-    ManagementController managementController;
+    ManagementConsoleController managementConsoleController;
 
     @DisplayName("FixedAmountVoucher create 성공 테스트")
     @Test

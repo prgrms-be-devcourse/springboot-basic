@@ -1,6 +1,6 @@
 package com.programmers.springmission.customer.application;
 
-import com.programmers.springmission.ManagementController;
+import com.programmers.springmission.ManagementConsoleController;
 import com.programmers.springmission.customer.presentation.request.CustomerCreateRequest;
 import com.programmers.springmission.customer.presentation.request.CustomerUpdateRequest;
 import com.programmers.springmission.customer.presentation.response.CustomerResponse;
@@ -48,7 +48,7 @@ class CustomerServiceTest {
     CustomerService service;
 
     @MockBean
-    ManagementController managementController;
+    ManagementConsoleController managementConsoleController;
 
     @DisplayName("Customer create 성공 테스트")
     @Test

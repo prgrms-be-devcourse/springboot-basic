@@ -1,6 +1,6 @@
 package com.programmers.springmission.voucher.repository;
 
-import com.programmers.springmission.ManagementController;
+import com.programmers.springmission.ManagementConsoleController;
 import com.programmers.springmission.customer.domain.Customer;
 import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
 import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
@@ -32,7 +32,7 @@ class JdbcVoucherRepositoryTest {
     JdbcTemplate jdbcTemplate;
 
     @MockBean
-    ManagementController managementController;
+    ManagementConsoleController managementConsoleController;
 
     @DisplayName("Voucher 가 repository 에 저장 성공하는지 테스트")
     @Test

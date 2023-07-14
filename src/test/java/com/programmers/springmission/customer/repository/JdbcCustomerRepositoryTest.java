@@ -1,6 +1,6 @@
 package com.programmers.springmission.customer.repository;
 
-import com.programmers.springmission.ManagementController;
+import com.programmers.springmission.ManagementConsoleController;
 import com.programmers.springmission.customer.domain.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class JdbcCustomerRepositoryTest {
     private JdbcCustomerRepository repository;
 
     @MockBean
-    private ManagementController managementController;
+    private ManagementConsoleController managementConsoleController;
 
     @DisplayName("Customer 가 repository 에 저장 성공하는지 테스트")
     @Test
