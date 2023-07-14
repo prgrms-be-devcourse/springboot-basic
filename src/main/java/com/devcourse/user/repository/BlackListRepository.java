@@ -1,5 +1,6 @@
 package com.devcourse.user.repository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -16,7 +17,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class BlackListRepository {
     private static final String DEFAULT_DELIMITER = ", ";
 
-    private final File blackList = new File("src/main/resources/file/customer_blackList.csv");
+    private final File blackList;
+
+    public BlackListRepository(@Value("${path.csv}") String path) {
+        blackList = new File(path);
+    }
 
     public List<String> findAllBlack() {
         try (BufferedReader reader = new BufferedReader(new FileReader(blackList, UTF_8))) {

@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users(
+    id   VARCHAR(50) NOT NULL UNIQUE ,
+    name VARCHAR(50) NOT NULL ,
+
+    PRIMARY KEY (id)
+);
+
