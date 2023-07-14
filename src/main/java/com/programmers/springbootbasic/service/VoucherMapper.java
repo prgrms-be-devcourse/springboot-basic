@@ -1,6 +1,6 @@
 package com.programmers.springbootbasic.service;
 
-import com.programmers.springbootbasic.domain.voucher.Duration;
+import com.programmers.springbootbasic.domain.model.Duration;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
 import com.programmers.springbootbasic.service.dto.Voucher.VoucherCreationRequest;

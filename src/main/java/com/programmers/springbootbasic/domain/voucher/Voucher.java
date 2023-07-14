@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher;
 
 import com.programmers.springbootbasic.common.util.Validator;
+import com.programmers.springbootbasic.domain.model.Duration;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

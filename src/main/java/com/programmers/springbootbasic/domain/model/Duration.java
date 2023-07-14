@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.domain.voucher;
+package com.programmers.springbootbasic.domain.model;
 
 import com.programmers.springbootbasic.common.util.Validator;
 
