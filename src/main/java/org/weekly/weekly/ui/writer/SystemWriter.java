@@ -61,7 +61,7 @@ public class SystemWriter {
         println(PrintMessageType.NAME_INPUT.getMessage());
     }
 
-    public void printReuslt(String result) {
+    public void printResult(String result) {
         println(PrintMessageType.EMPTY.getMessage());
         println(result);
     }

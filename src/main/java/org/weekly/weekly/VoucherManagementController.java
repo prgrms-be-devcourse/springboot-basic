@@ -31,12 +31,12 @@ public class VoucherManagementController {
     }
 
     public void start() {
-        boolean isExit = false;
+        boolean isRunning = true;
 
-        while(!isExit) {
+        while(isRunning) {
             try {
                 ManageMenu manageMenu = commandLineApplication.readManageMenu();
-                isExit = processManageMenuSelection(manageMenu);
+                isRunning = processManageMenuSelection(manageMenu);
             } catch (RuntimeException runtimeException) {
                 commandLineApplication.printErrorMsg(runtimeException.getMessage());
             }

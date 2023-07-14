@@ -102,7 +102,7 @@ public class CommandLineApplication {
     }
 
     public void printResult(Response response) {
-        commandWriter.printReuslt(response.result());
+        commandWriter.printResult(response.result());
     }
 
     public void printDeleteMessage() {

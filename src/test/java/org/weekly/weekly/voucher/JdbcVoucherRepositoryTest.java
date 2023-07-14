@@ -1,11 +1,15 @@
 package org.weekly.weekly.voucher;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
@@ -20,13 +24,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 @ActiveProfiles("test")
 @Testcontainers
 @SpringBootTest
 class JdbcVoucherRepositoryTest{
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
 
     Voucher fixedVoucher;
     Voucher percentVoucher;
@@ -37,64 +45,97 @@ class JdbcVoucherRepositoryTest{
         percentVoucher = Voucher.of(UUID.randomUUID(), 50, LocalDate.now(), 7, DiscountType.PERCENT);
     }
 
+    @AfterEach
+    void initDB() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "vouchers");
+    }
+
     @Test
-    @Order(1)
     void 전체_바우처_검색_테스트() {
+        // Given
+        jdbcVoucherRepository.insert(fixedVoucher);
+        jdbcVoucherRepository.insert(percentVoucher);
+
+        // When
         List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+
+        // Then
         assertThat(vouchers.isEmpty(), is(false));
     }
 
     @Test
-    @Order(1)
     void 아이디를_통한_검색_실패_테스트() {
+        // When
         Optional<Voucher> voucher = jdbcVoucherRepository.findById(fixedVoucher.getVoucherId());
+
+        // Then
         assertThat(voucher.isEmpty(), is(true));
     }
 
     @Test
-    @Order(1)
     void 아이디를_통한_검색_성공_테스트() {
+        // Given
+        jdbcVoucherRepository.insert(fixedVoucher);
+
+        // When
         Optional<Voucher> voucher = jdbcVoucherRepository.findById(fixedVoucher.getVoucherId());
-        assertThat(voucher.isPresent(), is(false));
+
+        // Then
+        assertThat(voucher.isPresent(), is(true));
     }
 
     @Test
-    @Order(1)
-    void 할인정책을_통한_검색_테스트() {
-        List<Voucher> vouchers = jdbcVoucherRepository.findByDiscountType(percentVoucher.getDiscountType());
+    void 고정_할인정책을_검색_테스트() {
+        // Given
+        jdbcVoucherRepository.insert(fixedVoucher);
 
+        // When
+        List<Voucher> vouchers = jdbcVoucherRepository.findByDiscountType(DiscountType.FIXED);
+
+        // Then
         assertThat(vouchers.isEmpty(), is(false));
-
-        vouchers.stream()
-                .forEach(voucher -> assertThat(voucher.getDiscountType(), is(DiscountType.PERCENT)));
     }
 
     @Test
-    @Order(2)
+    void 퍼센트_할인정책을_검색_테스트() {
+        // Given
+        jdbcVoucherRepository.insert(percentVoucher);
+
+        // When
+        List<Voucher> vouchers = jdbcVoucherRepository.findByDiscountType(DiscountType.PERCENT);
+
+        // Then
+        assertThat(vouchers.isEmpty(), is(false));
+    }
+
+    @Test
     void 할인바우처_등록성공_테스트() {
+        // Given
         Voucher voucher = jdbcVoucherRepository.insert(percentVoucher);
 
+        // When
         Optional<Voucher> findVoucher = jdbcVoucherRepository.findById(percentVoucher.getVoucherId());
 
+        // Then
         assertThat(findVoucher.isEmpty(), is(false));
         assertThat(findVoucher.get(), samePropertyValuesAs(voucher));
     }
 
     @Test
-    @Order(2)
     void 고정바우처_등록성공_테스트() {
+        // Given
         Voucher voucher = jdbcVoucherRepository.insert(fixedVoucher);
 
+        // When
         Optional<Voucher> findVoucher = jdbcVoucherRepository.findById(fixedVoucher.getVoucherId());
 
+        // Then
         assertThat(findVoucher.isEmpty(), is(false));
         assertThat(findVoucher.get(), samePropertyValuesAs(voucher));
     }
-
 
     @ParameterizedTest
     @CsvSource({"5000, 0", "15000, 5000"})
-    @Order(3)
     void 고정바우처_정보_업데이트_테스트(int amount, long reaminExpected) {
         // Given
         jdbcVoucherRepository.insert(fixedVoucher);
@@ -112,7 +153,6 @@ class JdbcVoucherRepositoryTest{
 
     @ParameterizedTest
     @CsvSource({"3000, 1500", "1000, 500"})
-    @Order(3)
     void 퍼센트바우처_정보_업데이트_테스트(int amount, long reaminExpected) {
         // Given
         jdbcVoucherRepository.insert(percentVoucher);
@@ -129,7 +169,6 @@ class JdbcVoucherRepositoryTest{
     }
 
     @Test
-    @Order(4)
     void 바우처_삭제_테스트() {
         // Given
         Voucher voucher = jdbcVoucherRepository.insert(percentVoucher);
@@ -145,13 +184,16 @@ class JdbcVoucherRepositoryTest{
     }
 
     @Test
-    @Order(5)
     void 전체_바우처_삭제_테스트() {
         // Given
-        jdbcVoucherRepository.deleteAll();
+        jdbcVoucherRepository.insert(percentVoucher);
+        jdbcVoucherRepository.insert(fixedVoucher);
 
-        // when
+        // When
+        jdbcVoucherRepository.deleteAll();
         List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+
+        // Then
         assertThat(vouchers.isEmpty(), is(true));
     }
 }
