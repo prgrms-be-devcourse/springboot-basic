@@ -3,7 +3,9 @@ package com.devcourse.voucherapp;
 import com.devcourse.voucherapp.controller.VoucherController;
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
-import com.devcourse.voucherapp.entity.voucher.Voucher;
+import com.devcourse.voucherapp.entity.dto.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.dto.VoucherUpdateRequestDto;
 import com.devcourse.voucherapp.view.ViewManager;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class CommandLineApplication implements CommandLineRunner {
         while (isRunning) {
             try {
                 String menuNumber = viewManager.readMenuNumber();
-                Menu selectedMenu = Menu.of(menuNumber);
+                Menu selectedMenu = Menu.from(menuNumber);
                 executeMenu(selectedMenu);
             } catch (Exception e) {
                 String message = e.getMessage();
@@ -38,25 +40,51 @@ public class CommandLineApplication implements CommandLineRunner {
     private void executeMenu(Menu selectedMenu) {
         switch (selectedMenu) {
             case CREATE -> createVoucher();
-            case LIST -> listAllVouchers();
+            case READ -> readAllVouchers();
+            case UPDATE -> updateVoucher();
+            case DELETE -> deleteVoucher();
             case QUIT -> quitApplication();
         }
     }
 
     private void createVoucher() {
-        String voucherTypeNumber = viewManager.readVoucherTypeNumber();
-        VoucherType voucherType = VoucherType.of(voucherTypeNumber);
+        String typeNumber = viewManager.readVoucherTypeNumber();
+        VoucherType voucherType = VoucherType.from(typeNumber);
 
         String message = voucherType.getMessage();
         String discountAmount = viewManager.readDiscountAmount(message);
 
-        Voucher voucher = voucherController.createVoucher(voucherType, discountAmount);
-        viewManager.showVoucherCreationSuccessMessage(voucher);
+        VoucherCreateRequestDto request = new VoucherCreateRequestDto(voucherType, discountAmount);
+        VoucherResponseDto response = voucherController.create(request);
+
+        viewManager.showVoucherCreationSuccessMessage(response);
     }
 
-    private void listAllVouchers() {
-        List<Voucher> vouchers = voucherController.findAllVouchers();
-        viewManager.showAllVouchers(vouchers);
+    private void readAllVouchers() {
+        List<VoucherResponseDto> response = voucherController.findAllVouchers();
+        viewManager.showAllVouchers(response);
+    }
+
+    private void updateVoucher() {
+        readAllVouchers();
+
+        String id = viewManager.readVoucherIdToUpdate();
+        VoucherResponseDto findResponse = voucherController.findVoucherById(id);
+
+        String discountAmount = viewManager.readVoucherDiscountAmountToUpdate(findResponse);
+        VoucherUpdateRequestDto request = new VoucherUpdateRequestDto(findResponse.getId(), findResponse.getType(), discountAmount);
+        VoucherResponseDto response = voucherController.update(request);
+
+        viewManager.showVoucherUpdateSuccessMessage(response);
+    }
+
+    private void deleteVoucher() {
+        readAllVouchers();
+
+        String id = viewManager.readVoucherIdToDelete();
+        voucherController.deleteById(id);
+
+        viewManager.showVoucherDeleteSuccessMessage();
     }
 
     private void quitApplication() {

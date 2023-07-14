@@ -1,163 +1,10 @@
-# SpringBoot Basic Weekly Mission 1
-> 바우처 관리 애플리케이션 만들기 1 - 김영주
+# SpringBoot Basic Weekly Mission 2
+> 바우처 관리 애플리케이션 만들기 2 - 김영주
 
-
-
-# 1. 요구사항
-
-## 프로젝트 요구사항
-
-1. Gradle로 프로젝트를 빌드하고, SpringBoot 프로젝트 환경을 설정한다.
-2. Web 기능 없이 Command-line Application으로 만든다.
-3. logback을 통해 로그를 띄우고, 특히 에러는 별도의 파일로 기록한다.
-4. 실행 가능한 jar 파일을 생성한다.
-
-
-
-## 기능 요구사항
-
-### 1. 프로그램 시작(랜딩 화면)
-
-   ```
-   [할인권 프로그램 v1.0]
-   1. 새 할인권 생성
-   2. 할인권 조회
-   3. 프로그램 종료
-   
-   입력 : 1
-   ```
-
-사용자는 숫자를 입력해서 원하는 메뉴를 선택할 수 있다.
-- `1` → 새 할인권 생성 메뉴 실행
-- `2` → 저장된 할인권 조회 메뉴 실행
-- `3` → 프로그램 종료
-
-
-
-### 2. 새 할인권 생성
-
-사용자는 숫자를 입력해서 원하는 할인 방식을 선택할 수 있다.
-
-- `1` → 고정 할인 방식
-- `2` → 비율 할인 방식
-
-
-
-할인권 생성이 완료되면 생성된 할인권의 `UUID, 할인 방식, 금액/비율` 내용을 보여준다.
-
-   - `고정 할인 방식`
-
-     ```
-     할인 방식을 선택하세요.
-     1. 고정 할인
-     2. 비율 할인
-     입력 : 1
-     
-     고정 할인 금액을 입력하세요.
-     1이상의 자연수만 입력하세요. 단위는 원입니다.
-     입력 : 1000
-     
-     할인권 생성이 완료되었습니다.
-     sf5e8400-53m2-nn53-me09-456292156231 | 고정 할인 | 1,000원
-     ```
-
-     - 사용자는 1 이상의 자연수를 입력하여, 고정 할인 금액을 설정할 수 있다.
-
-   - `비율 할인 방식`
-
-     ```
-     할인 방식을 선택하세요.
-     1. 고정 할인
-     2. 비율 할인
-     입력 : 2
-     
-     비율 할인 퍼센트를 입력하세요.
-     1이상 100이하의 자연수만 입력하세요. 단위는 %입니다.
-     입력 : 40
-     
-     할인권 생성이 완료되었습니다.
-     550e8400-e29b-41d4-a716-446655440000 | 비율 할인 | 40%
-     ```
-
-     - 사용자는 1 이상 100 이하의 자연수를 입력하여, 비율 할인 퍼센트를 설정할 수 있다.
-
-
-
-### 3. 할인권 조회
-
-   ```
-   현재까지 생성된 할인권 목록입니다.
-   550e8400-e29b-41d4-a716-446655440000 | 비율 할인 | 40%
-   sf5e8400-53m2-nn53-me09-456292156231 | 고정 할인 | 1,000원
-   ```
-
-저장된 할인권들의 `UUID, 할인 방식, 금액/비율` 목록을 조회한다.
-
-
-
-### 4. 프로그램 종료
-
-   ```
-   [할인권 프로그램 v1.0]
-   1. 새 할인권 생성
-   2. 할인권 조회
-   3. 프로그램 종료
-   
-   입력 : 3
-   
-   프로그램을 종료합니다.
-   ```
-
-실행 중인 프로그램을 종료한다.
-
-
-
-------
-
-# 2. 설계
-
-## 주요 객체 목록
-
-1. **클라이언트**
-   - 입력(InputView.java) : 각종 메뉴, 할인 금액/비율에 대해 사용자 입력을 받는다.
-   - 출력(OutputView.java) : 각종 결과 및 예외메시지를 출력한다.
-2. **컨트롤러(VoucherController.java)**
-   - 사용자의 메뉴 입력에 따라 각 메뉴를 실행한다.
-3. **서비스(VoucherService.java)**
-   - 할인권과 관련된 기능을 수행한다.
-   - 새로운 할인권(고정, 비율)을 생성한다.
-   - 저장된 모든 할인권 목록을 조회한다.
-4. **할인권(Voucher.java)**
-   - 실제 발행되는 할인권 객체
-   - 할인권의 UUID, 할인 금액/비율 수치 정보를 갖는다.
-   - 고정 할인 방식(FixDiscountVoucher)과 비율 할인 방식(PercentDiscountVoucher)이 존재한다.
-5. **저장소(VoucherRepository.java)**
-   - 할인권 정보를 저장한다.
-   - 저장된 할인권 목록을 조회하여 전달한다.
-6. **메뉴(Menu.java)**
-   - 사용자가 실행할 수 있는 메뉴 정보를 가진다.
-7. **할인권 종류(VoucherType.java)**
-   - 발행할 수 있는 할인권의 종류 정보를 가진다.
-   - 각 종류에 맞는 실제 할인권을 발행한다.
-
-
-
-## 예외처리
-
-1. 메뉴 입력 예외
-   - 없는 메뉴 번호인 경우
-2. 할인권 생성 예외
-   - 할인 방식을 선택할 때, 없는 방식 번호를 선택한 경우
-   - 고정 할인권 생성할 때, 금액의 범위를 벗어난 경우
-   - 고정 할인권 생성할 때, 자연수 이외의 숫자나 문자를 입력한 경우
-   - 비율 할인권 생성할 때, 퍼센트 범위를 벗어난 경우
-   - 비율 할인권 생성할 때, 자연수 이외의 숫자나 문자를 입력한 경우
-
-
-
+# 1. 설계
 ## 프로그램 구조도
 
-![](https://github.com/prgrms-be-devcourse/java-calculator/assets/49775540/6d4e6aba-824e-4e8e-b5fe-9c05589cdce7)
+![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/1b4f4d03-b56b-4c2a-9cf6-410db2bdffb7)
 
 
 
@@ -170,20 +17,29 @@ src/main/java/com.devcourse.voucherapp/
   - VoucherController.java
 
 - entity/
+  - dto/
+    - VoucherCreateRequestDto.java
+    - VoucherUpdateRequestDto.java
+    - VoucherResponseDto.java
+    - VouchersResponseDto.java
   - voucher/
     - Voucher.java
     - FixDiscountVoucher.java
     - PercentDiscountVoucher.java
   - Menu.java
   - VoucherType.java
+  - TriFunction.java
   
 - exception/
   - MenuInputException.java
-  - VoucherInputException.java
+  - NotFoundVoucherException.java
+  - DiscountAmountException.java
+  - VoucherTypeInputException.java
 
 - repository/
   - VoucherRepository.java
   - MemoryVoucherRepository.java
+  - JdbcVoucherRepository.java
 
 - service/
   - VoucherService.java
@@ -193,7 +49,9 @@ src/main/java/com.devcourse.voucherapp/
   - OutputView.java
   - ConsoleInputView.java
   - ConsoleOutputView.java
+  - ViewManager.java
 
+- CommandLineApplication.java
 - VoucherappApplication.java
 ```
 
@@ -201,9 +59,9 @@ src/main/java/com.devcourse.voucherapp/
 
 ------
 
-## 3. 컨벤션
+# 2. 컨벤션
 
-### Git commit convention
+## Git commit convention
 
 > [Angular JS commit convention](https://velog.io/@outstandingboy/Git-커밋-메시지-규약-정리-the-AngularJS-commit-conventions)를 참고
 
@@ -234,79 +92,71 @@ src/main/java/com.devcourse.voucherapp/
 
 ------
 
-# 4. 기능 구현 및 실행 화면
+# 3. 기능 구현 및 실행 화면
 
-## 기능 구현
+## 구현 사항
 
-- [x]  메뉴 선택 화면
-- [x]  메뉴 입력 및 예외처리
-- [x]  프로그램 종료
-- [x]  고정 할인권 생성
-- [x]  비율 할인권 생성
-- [x]  할인권 조회
-- [x]  logback 이용한 로그 파일 생성
-- [x]  실행 가능한 jar 파일 생성
+- [x]  H2 데이터베이스를 적용한다.
+- [x]  프로필을 이용해 개발과 로컬 환경을 구분한다.
+- [x]  할인권 수정 기능을 추가한다.
+- [x]  할인권 삭제 기능을 추가한다.
 
 
 
 ## 실행 화면
 
+> 할인권 수정, 삭제 기능 추가
+
 ```
 [할인권 프로그램 v1.0]
 1. 새 할인권 생성
 2. 할인권 조회
-3. 프로그램 종료
+3. 할인권 수정
+4. 할인권 삭제
+5. 프로그램 종료
+입력 : 3
 
-입력 : 1
+현재까지 생성된 할인권 목록입니다.
+62f590c0-61c0-461d-90ce-ebafd031a4d8 | 고정 할인 | 1,000원
+38de7fec-e170-49ee-b5bd-30d768a11fd5 | 비율 할인 | 20%
 
-할인 방식을 선택하세요.
-1. 고정 할인
-2. 비율 할인
-입력 : 1
+수정할 할인권의 ID를 입력하세요.
+입력 : 62f590c0-61c0-461d-90ce-ebafd031a4d8
 
-고정 할인 금액을 입력하세요.
-1이상의 자연수만 입력하세요. 단위는 원입니다.
-입력 : 1000
+선택하신 할인권의 정보를 수정합니다.
+62f590c0-61c0-461d-90ce-ebafd031a4d8 | 고정 할인 | 1,000원
 
-할인권 생성이 완료되었습니다.
-0437e68e-7fc1-4136-9090-e8a4c3f50ed1 | 고정 할인 | 1,000원
+고정 할인 금액을 입력하세요. (1이상의 자연수, 단위: 원)
+입력 : 3000
 
-[할인권 프로그램 v1.0]
-1. 새 할인권 생성
-2. 할인권 조회
-3. 프로그램 종료
-
-입력 : 1
-
-할인 방식을 선택하세요.
-1. 고정 할인
-2. 비율 할인
-입력 : 2
-
-비율 할인 퍼센트를 입력하세요.
-1이상 100이하의 자연수만 입력하세요. 단위는 %입니다.
-입력 : 40
-
-할인권 생성이 완료되었습니다.
-71a70469-3e03-49a6-ad53-e8ec37531dce | 비율 할인 | 40%
+할인권 수정이 완료되었습니다.
+62f590c0-61c0-461d-90ce-ebafd031a4d8 | 고정 할인 | 3,000원
 
 [할인권 프로그램 v1.0]
 1. 새 할인권 생성
 2. 할인권 조회
-3. 프로그램 종료
+3. 할인권 수정
+4. 할인권 삭제
+5. 프로그램 종료
+입력 : 4
 
+현재까지 생성된 할인권 목록입니다.
+62f590c0-61c0-461d-90ce-ebafd031a4d8 | 고정 할인 | 3,000원
+38de7fec-e170-49ee-b5bd-30d768a11fd5 | 비율 할인 | 20%
+
+삭제할 할인권의 ID를 입력하세요.
+입력 : 62f590c0-61c0-461d-90ce-ebafd031a4d8
+
+할인권이 정상적으로 삭제되었습니다.
+
+[할인권 프로그램 v1.0]
+1. 새 할인권 생성
+2. 할인권 조회
+3. 할인권 수정
+4. 할인권 삭제
+5. 프로그램 종료
 입력 : 2
 
 현재까지 생성된 할인권 목록입니다.
-71a70469-3e03-49a6-ad53-e8ec37531dce | 비율 할인 | 40%
-0437e68e-7fc1-4136-9090-e8a4c3f50ed1 | 고정 할인 | 1,000원
-
-[할인권 프로그램 v1.0]
-1. 새 할인권 생성
-2. 할인권 조회
-3. 프로그램 종료
-
-입력 : 3
-
-프로그램을 종료합니다.
+38de7fec-e170-49ee-b5bd-30d768a11fd5 | 비율 할인 | 20%
 ```

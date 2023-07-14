@@ -8,24 +8,30 @@ import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.exception.VoucherTypeInputException;
 import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
+import org.apache.commons.lang3.function.TriFunction;
 
 @Getter
 public enum VoucherType {
-    FIX(
-            "1",
-            "고정 할인",
-            "\n고정 할인 금액을 입력하세요. (1이상의 자연수, 단위: 원)",
-            FixDiscountVoucher::new
+    FIX(VoucherTypeInfo.builder()
+            .number("1")
+            .name("고정 할인")
+            .message("\n고정 할인 금액을 입력하세요. (1이상의 자연수, 단위: 원)")
+            .unit("원")
+            .voucherGenerator(FixDiscountVoucher::new)
+            .build()
     ),
-    PERCENT(
-            "2",
-            "비율 할인",
-            "\n비율 할인 퍼센트를 입력하세요. (1이상 100이하의 자연수, 단위: %)",
-            PercentDiscountVoucher::new
+    PERCENT(VoucherTypeInfo.builder()
+            .number("2")
+            .name("비율 할인")
+            .message("\n비율 할인 퍼센트를 입력하세요. (1이상 100이하의 자연수, 단위: %)")
+            .unit("%")
+            .voucherGenerator(PercentDiscountVoucher::new)
+            .build()
     );
 
     private static final Map<String, VoucherType> VOUCHER_TYPES = Collections.unmodifiableMap(Stream.of(values())
@@ -34,16 +40,18 @@ public enum VoucherType {
     private final String number;
     private final String name;
     private final String message;
-    private final Function<String, Voucher> voucherGenerator;
+    private final String unit;
+    private final TriFunction<UUID, VoucherType, String, Voucher> voucherGenerator;
 
-    VoucherType(String number, String name, String message, Function<String, Voucher> voucherGenerator) {
-        this.number = number;
-        this.name = name;
-        this.message = message;
-        this.voucherGenerator = voucherGenerator;
+    VoucherType(VoucherTypeInfo voucherTypeInfo) {
+        this.number = voucherTypeInfo.getNumber();
+        this.name = voucherTypeInfo.getName();
+        this.message = voucherTypeInfo.getMessage();
+        this.unit = voucherTypeInfo.getUnit();
+        this.voucherGenerator = voucherTypeInfo.getVoucherGenerator();
     }
 
-    public static VoucherType of(String voucherTypeNumber) {
+    public static VoucherType from(String voucherTypeNumber) {
         if (VOUCHER_TYPES.containsKey(voucherTypeNumber)) {
             return VOUCHER_TYPES.get(voucherTypeNumber);
         }
@@ -51,8 +59,8 @@ public enum VoucherType {
         throw new VoucherTypeInputException(voucherTypeNumber);
     }
 
-    public Voucher makeVoucher(String discountAmount) {
-        return voucherGenerator.apply(discountAmount);
+    public Voucher makeVoucher(UUID id, String discountAmount) {
+        return voucherGenerator.apply(id, this, discountAmount);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.devcourse.voucherapp.view;
 
 import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.entity.VoucherType;
-import com.devcourse.voucherapp.entity.voucher.Voucher;
+import com.devcourse.voucherapp.entity.dto.VoucherResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +17,11 @@ public class ViewManager {
     private static final String VOUCHER_TYPE_SELECTION_MESSAGE = "\n할인 방식을 선택하세요.";
     private static final String VOUCHER_CREATION_SUCCESS_MESSAGE = "\n할인권 생성이 완료되었습니다.";
     private static final String ALL_VOUCHERS_LIST_MESSAGE = "\n현재까지 생성된 할인권 목록입니다.";
+    private static final String UPDATE_VOUCHER_ID_INPUT_MESSAGE = "\n수정할 할인권의 ID를 입력하세요.";
+    private static final String UPDATE_VOUCHER_INFORMATION_MESSAGE = "\n선택하신 할인권의 정보를 수정합니다.";
+    private static final String VOUCHER_UPDATE_SUCCESS_MESSAGE = "\n할인권 수정이 완료되었습니다.";
+    private static final String DELETE_VOUCHER_ID_INPUT_MESSAGE = "\n삭제할 할인권의 ID를 입력하세요.";
+    private static final String VOUCHER_DELETE_SUCCESS_MESSAGE = "\n할인권이 정상적으로 삭제되었습니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -26,9 +31,8 @@ public class ViewManager {
         for (Menu menu : Menu.values()) {
             outputView.printWithLineBreak(menu);
         }
-        outputView.printWithoutLineBreak(INPUT_MESSAGE);
 
-        return inputView.inputWithTrimming();
+        return readUserInput();
     }
 
     public String readVoucherTypeNumber() {
@@ -36,16 +40,34 @@ public class ViewManager {
         for (VoucherType voucherType : VoucherType.values()) {
             outputView.printWithLineBreak(voucherType);
         }
-        outputView.printWithoutLineBreak(INPUT_MESSAGE);
 
-        return inputView.inputWithTrimming();
+        return readUserInput();
     }
 
     public String readDiscountAmount(String message) {
         outputView.printWithLineBreak(message);
-        outputView.printWithoutLineBreak(INPUT_MESSAGE);
 
-        return inputView.inputWithTrimming();
+        return readUserInput();
+    }
+
+    public String readVoucherIdToUpdate() {
+        outputView.printWithLineBreak(UPDATE_VOUCHER_ID_INPUT_MESSAGE);
+
+        return readUserInput();
+    }
+
+    public String readVoucherDiscountAmountToUpdate(VoucherResponseDto findResponse) {
+        outputView.printWithLineBreak(UPDATE_VOUCHER_INFORMATION_MESSAGE);
+        outputView.printWithLineBreak(findResponse);
+        VoucherType voucherType = findResponse.getType();
+
+        return readDiscountAmount(voucherType.getMessage());
+    }
+
+    public String readVoucherIdToDelete() {
+        outputView.printWithLineBreak(DELETE_VOUCHER_ID_INPUT_MESSAGE);
+
+        return readUserInput();
     }
 
     public void showExceptionMessage(String message) {
@@ -56,15 +78,30 @@ public class ViewManager {
         outputView.printWithLineBreak(QUIT_MESSAGE);
     }
 
-    public void showVoucherCreationSuccessMessage(Voucher voucher) {
+    public void showVoucherCreationSuccessMessage(VoucherResponseDto response) {
         outputView.printWithLineBreak(VOUCHER_CREATION_SUCCESS_MESSAGE);
-        outputView.printWithLineBreak(voucher);
+        outputView.printWithLineBreak(response);
     }
 
-    public void showAllVouchers(List<Voucher> vouchers) {
+    public void showAllVouchers(List<VoucherResponseDto> response) {
         outputView.printWithLineBreak(ALL_VOUCHERS_LIST_MESSAGE);
-        for (Voucher voucher : vouchers) {
+        for (VoucherResponseDto voucher : response) {
             outputView.printWithLineBreak(voucher);
         }
+    }
+
+    public void showVoucherUpdateSuccessMessage(VoucherResponseDto response) {
+        outputView.printWithLineBreak(VOUCHER_UPDATE_SUCCESS_MESSAGE);
+        outputView.printWithLineBreak(response);
+    }
+
+    public void showVoucherDeleteSuccessMessage() {
+        outputView.printWithLineBreak(VOUCHER_DELETE_SUCCESS_MESSAGE);
+    }
+
+    private String readUserInput() {
+        outputView.printWithoutLineBreak(INPUT_MESSAGE);
+
+        return inputView.inputWithTrimming();
     }
 }

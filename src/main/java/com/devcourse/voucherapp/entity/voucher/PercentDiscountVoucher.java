@@ -2,38 +2,35 @@ package com.devcourse.voucherapp.entity.voucher;
 
 import static java.text.MessageFormat.format;
 
+import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.exception.DiscountAmountException;
 import java.util.UUID;
 import lombok.Getter;
 
+@Getter
 public class PercentDiscountVoucher implements Voucher {
 
     private static final String PERCENT_DISCOUNT_RATE_REGEX = "^[1-9]|[1-9][0-9]|100$";
 
-    @Getter
-    private final UUID voucherId;
+    private final UUID id;
+    private final VoucherType type;
+    private final int discountAmount;
 
-    private final int discountRate;
-
-    public PercentDiscountVoucher(String discountRate) {
-        this.voucherId = UUID.randomUUID();
-        this.discountRate = getValidRate(discountRate);
+    public PercentDiscountVoucher(UUID id, VoucherType type, String discountAmount) {
+        this.id = id;
+        this.type = type;
+        this.discountAmount = getValidRate(discountAmount);
     }
 
-    @Override
-    public String toString() {
-        return format("{0} | 비율 할인 | {1}%", voucherId, discountRate);
-    }
-
-    private int getValidRate(String discountRate) {
-        if (isNotValid(discountRate)) {
-            throw new DiscountAmountException(discountRate);
+    private int getValidRate(String discountAmount) {
+        if (isNotValid(discountAmount)) {
+            throw new DiscountAmountException(discountAmount);
         }
 
-        return Integer.parseInt(discountRate);
+        return Integer.parseInt(discountAmount);
     }
 
-    private boolean isNotValid(String discountRate) {
-        return !discountRate.matches(PERCENT_DISCOUNT_RATE_REGEX);
+    private boolean isNotValid(String discountAmount) {
+        return !discountAmount.matches(PERCENT_DISCOUNT_RATE_REGEX);
     }
 }
