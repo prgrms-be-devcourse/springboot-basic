@@ -30,6 +30,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public void deleteAll() {
         map.clear();
     }
