@@ -2,14 +2,8 @@ package co.programmers.voucher_management;
 
 import java.util.List;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +17,6 @@ import co.programmers.voucher_management.voucher.service.VoucherService;
 @RequestMapping("/vouchers")
 @Controller
 public class VoucherViewController {
-	private static final Logger logger = LoggerFactory.getLogger(VoucherViewController.class);
 	private final VoucherService voucherService;
 
 	public VoucherViewController(VoucherService voucherService) {
@@ -59,17 +52,8 @@ public class VoucherViewController {
 	}
 
 	@PostMapping("/new")
-	public String create(@Validated @NotEmpty @NotNull @ModelAttribute("voucher") VoucherRequestDTO voucherRequestDTO) {
-		// ,BindingResult bindingResult,
-		// 	RedirectAttributes redirectAttributes) {
-		// if (bindingResult.hasErrors()) {
-		// 	return "vouchers/saveVoucher";
-		// }
-
-		// VoucherResponseDTO voucherResponseDTO =
+	public String create(@ModelAttribute("voucher") VoucherRequestDTO voucherRequestDTO) {
 		voucherService.create(voucherRequestDTO);
-		// long createdVoucherId = voucherResponseDTO.getId();
-		// redirectAttributes.addAttribute("voucherId", createdVoucherId);
 		return "redirect:/vouchers"; //경로
 
 	}

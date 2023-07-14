@@ -3,6 +3,7 @@ package co.programmers.voucher_management.voucher.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,8 @@ public class VoucherDBRepository implements VoucherRepository {
 	private static final String SELECT_BY_CUSTOMER_QUERY = "SELECT id,discount_type, discount_amount, customer_id FROM voucher WHERE status='Y' AND customer_id=:customer_id";
 	private static final String DELETE_QUERY = "UPDATE voucher SET status='N', updated_at=:updated_at WHERE id=:id";
 	private static final String UPDATE_CUSTOMER_QUERY = "UPDATE voucher SET customer_id=:customer_id, updated_at=:updated_at WHERE id=:id";
+	private static final String SELECT_BY_TYPE_QUERY = "SELECT id,discount_type, discount_amount, customer_id FROM voucher WHERE status='Y' AND discount_type =:discount_type";
+	private static final String SELECT_BY_DATE_QUERY = "SELECT id,discount_type, discount_amount, customer_id FROM voucher WHERE status='Y' AND (:start_date <= updated_at AND updated_at <= :end_date)";
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 	private final RowMapper<Voucher> voucherRowMapper = (rs, i) -> mapToVoucher(rs);
 
@@ -65,6 +68,20 @@ public class VoucherDBRepository implements VoucherRepository {
 	public List<Voucher> findByCustomerId(long customerId) {
 		MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource().addValue("customer_id", customerId);
 		return jdbcTemplate.query(SELECT_BY_CUSTOMER_QUERY, mapSqlParameterSource, voucherRowMapper);
+	}
+
+	@Override
+	public List<Voucher> findByType(String discountType) {
+		MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource().addValue("discount_type", discountType);
+		return jdbcTemplate.query(SELECT_BY_TYPE_QUERY, mapSqlParameterSource, voucherRowMapper);
+	}
+
+	@Override
+	public List<Voucher> findByDate(LocalDate startDate, LocalDate endDate) {
+		MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+				.addValue("start_date", startDate)
+				.addValue("end_date", endDate);
+		return jdbcTemplate.query(SELECT_BY_DATE_QUERY, mapSqlParameterSource, voucherRowMapper);
 	}
 
 	@Override

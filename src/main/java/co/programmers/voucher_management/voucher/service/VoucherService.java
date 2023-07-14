@@ -1,6 +1,7 @@
 package co.programmers.voucher_management.voucher.service;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import co.programmers.voucher_management.exception.NoSuchDataException;
 import co.programmers.voucher_management.voucher.dto.VoucherAssignDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
+import co.programmers.voucher_management.voucher.dto.VoucherSearchDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherUpdateDTO;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;
@@ -31,18 +33,19 @@ public class VoucherService {
 		Voucher created = voucherRepository.create(voucher);
 		return new VoucherResponseDTO(created);
 	}
+
 	public List<VoucherResponseDTO> inquiryVoucherOf() {
 		List<Voucher> inquiredData = voucherRepository.findAll();
 		return inquiredData.stream()
 				.map(VoucherResponseDTO::new)
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public List<VoucherResponseDTO> inquiryVoucherOf(long customerId) {
 		List<Voucher> inquiredData = voucherRepository.findByCustomerId(customerId);
 		return inquiredData.stream()
 				.map(VoucherResponseDTO::new)
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public VoucherResponseDTO update(VoucherUpdateDTO voucherUpdateDTO) {
@@ -69,5 +72,26 @@ public class VoucherService {
 		voucher.assignCustomer(customerId);
 		Voucher assigned = voucherRepository.assignCustomer(voucher, customer);
 		return new VoucherResponseDTO(assigned);
+	}
+
+	public VoucherResponseDTO findById(long id) {
+		Voucher voucher = voucherRepository.findById(id)
+				.orElseThrow(() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id)));
+		return new VoucherResponseDTO(voucher);
+	}
+
+	public List<VoucherResponseDTO> findByType(String discountType) {
+		List<Voucher> vouchers = voucherRepository.findByType(discountType);
+		return vouchers.stream()
+				.map(VoucherResponseDTO::new)
+				.collect(Collectors.toList());
+	}
+
+	public List<VoucherResponseDTO> findByDate(LocalDate startDate, LocalDate endDate) {
+		List<Voucher> vouchers = voucherRepository.findByDate(startDate, endDate);
+		return vouchers.stream()
+				.map(VoucherResponseDTO::new)
+				.collect(Collectors.toList());
+
 	}
 }
