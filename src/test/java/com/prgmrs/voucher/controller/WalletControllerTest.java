@@ -1,5 +1,6 @@
 package com.prgmrs.voucher.controller;
 
+import com.prgmrs.voucher.dto.ResponseDTO;
 import com.prgmrs.voucher.dto.request.WalletRequest;
 import com.prgmrs.voucher.dto.response.WalletResponse;
 import com.prgmrs.voucher.model.Voucher;
@@ -58,18 +59,18 @@ class WalletControllerTest {
         Wallet wallet = new Wallet(userUuid, voucherUuid1);
         WalletRequest walletRequest = new WalletRequest(username, order, voucherList);
         WalletResponse walletResponse = new WalletResponse(wallet, username);
-        given(walletController.assignVoucher(walletRequest)).willReturn(walletResponse);
+        given(walletService.assignVoucher(walletRequest)).willReturn(walletResponse);
 
         // When
-        WalletResponse response = walletController.assignVoucher(walletRequest);
+        ResponseDTO response = walletController.assignVoucher(walletRequest);
 
         // Then
-        assertEquals(walletResponse, response);
+        assertEquals(response.getData(), walletResponse);
     }
 
     @Test
     @DisplayName("할당된 바우처의 해제를 테스트한다.")
-    void FreeVoucher_WalletRequest_SameWalletResponse() {
+    void RemoveVoucher_WalletRequest_SameWalletResponse() {
         // Given
         Percent percent = new Percent(20);
         Amount amount = new Amount(500);
@@ -88,12 +89,11 @@ class WalletControllerTest {
         Wallet wallet = new Wallet(userUuid, voucherUuid1);
         WalletRequest walletRequest = new WalletRequest(username, order, voucherList);
         WalletResponse walletResponse = new WalletResponse(wallet, username);
-        given(walletController.freeVoucher(walletRequest)).willReturn(walletResponse);
+        given(walletService.removeVoucher(walletRequest)).willReturn(walletResponse);
 
         // When
-        WalletResponse response = walletController.freeVoucher(walletRequest);
-
+        ResponseDTO response = walletController.removeVoucher(walletRequest);
         // Then
-        assertEquals(walletResponse, response);
+        assertEquals(response.getData(), walletResponse);
     }
 }

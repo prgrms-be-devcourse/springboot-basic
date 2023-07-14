@@ -1,7 +1,9 @@
 package com.prgmrs.voucher.controller;
 
+import com.prgmrs.voucher.dto.ResponseDTO;
 import com.prgmrs.voucher.dto.request.WalletRequest;
 import com.prgmrs.voucher.dto.response.WalletResponse;
+import com.prgmrs.voucher.enums.ErrorCode;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.service.WalletService;
 import org.springframework.stereotype.Component;
@@ -15,11 +17,19 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    public WalletResponse assignVoucher(WalletRequest walletRequest) throws WrongRangeFormatException {
-        return walletService.assignVoucher(walletRequest);
+    public ResponseDTO<WalletResponse> assignVoucher(WalletRequest walletRequest)  {
+        try {
+            return new ResponseDTO<WalletResponse>(walletService.assignVoucher(walletRequest), ErrorCode.REQUEST_SUCCESS);
+        } catch (WrongRangeFormatException e) {
+            return new ResponseDTO<WalletResponse>(walletService.assignVoucher(walletRequest), ErrorCode.BAD_REQUEST);
+        }
     }
 
-    public WalletResponse freeVoucher(WalletRequest walletRequest) throws WrongRangeFormatException {
-        return walletService.freeVoucher(walletRequest);
+    public ResponseDTO<WalletResponse> removeVoucher(WalletRequest walletRequest) {
+        try {
+            return new ResponseDTO<WalletResponse>(walletService.removeVoucher(walletRequest), ErrorCode.REQUEST_SUCCESS);
+        } catch (WrongRangeFormatException e) {
+            return new ResponseDTO<WalletResponse>(walletService.removeVoucher(walletRequest), ErrorCode.BAD_REQUEST);
+        }
     }
 }

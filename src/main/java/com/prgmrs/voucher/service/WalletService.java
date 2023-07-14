@@ -33,7 +33,7 @@ public class WalletService {
         return getWalletResponse(walletRequest, WalletAssignmentSelectionType.ASSIGN_VOUCHER);
     }
 
-    public WalletResponse freeVoucher(WalletRequest walletRequest) {
+    public WalletResponse removeVoucher(WalletRequest walletRequest) {
         return getWalletResponse(walletRequest, WalletAssignmentSelectionType.REMOVE_VOUCHER);
     }
 

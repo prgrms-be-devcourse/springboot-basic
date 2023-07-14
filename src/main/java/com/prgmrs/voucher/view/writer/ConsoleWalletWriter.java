@@ -41,8 +41,8 @@ public class ConsoleWalletWriter {
                 write("Type row number of the voucher you want to assign");
             }
             case REMOVE_VOUCHER -> {
-                write("=== Selecting a voucher to free ===");
-                write("Type row number of the voucher you want to free");
+                write("=== Selecting a voucher to remove ===");
+                write("Type row number of the voucher you want to remove");
             }
         }
     }
@@ -52,7 +52,7 @@ public class ConsoleWalletWriter {
 
         switch (walletAssignmentSelectionType) {
             case ASSIGN_VOUCHER -> write("=== Successfully assigned the voucher to the user ===");
-            case REMOVE_VOUCHER -> write("=== Successfully freed the voucher from user ===");
+            case REMOVE_VOUCHER -> write("=== Successfully remove the voucher from user ===");
 
         }
 

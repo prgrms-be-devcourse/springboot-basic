@@ -119,7 +119,7 @@ class WalletServiceTest {
         given(userRepository.findByUsername(user.username())).willReturn(user);
 
         // When
-        WalletResponse walletResponse = walletService.freeVoucher(walletRequest);
+        WalletResponse walletResponse = walletService.removeVoucher(walletRequest);
 
         // Then
         Wallet retrievedWallet = walletResponse.wallet();

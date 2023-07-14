@@ -3,13 +3,13 @@ package com.prgmrs.voucher.view.render;
 import com.prgmrs.voucher.controller.UserController;
 import com.prgmrs.voucher.controller.VoucherController;
 import com.prgmrs.voucher.controller.WalletController;
+import com.prgmrs.voucher.dto.ResponseDTO;
 import com.prgmrs.voucher.dto.request.WalletRequest;
 import com.prgmrs.voucher.dto.response.UserListResponse;
 import com.prgmrs.voucher.dto.response.VoucherListResponse;
 import com.prgmrs.voucher.dto.response.WalletResponse;
 import com.prgmrs.voucher.enums.WalletAssignmentSelectionType;
 import com.prgmrs.voucher.exception.NoSuchChoiceException;
-import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.view.ConsoleReader;
 import com.prgmrs.voucher.view.writer.ConsoleListWriter;
 import com.prgmrs.voucher.view.writer.ConsoleWalletWriter;
@@ -70,12 +70,14 @@ public class ConsoleWalletView {
             String order = consoleReader.read();
 
             WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.voucherList());
-            try {
-                WalletResponse walletResponse = walletController.assignVoucher(walletRequest);
+
+            ResponseDTO<WalletResponse> walletResponseDTO = walletController.assignVoucher(walletRequest);
+            WalletResponse walletResponse = walletResponseDTO.getData();
+            if(walletResponseDTO.isError()) {
+                consoleWalletWriter.write("incorrect format or value out of range");
+            } else {
                 consoleWalletWriter.showWalletResult(walletResponse, WalletAssignmentSelectionType.ASSIGN_VOUCHER);
                 continueRunning = false;
-            } catch (WrongRangeFormatException e) {
-                consoleWalletWriter.write("incorrect format or value out of range");
             }
         }
     }
@@ -95,12 +97,14 @@ public class ConsoleWalletView {
             String order = consoleReader.read();
 
             WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.voucherList());
-            try {
-                WalletResponse walletResponse = walletController.freeVoucher(walletRequest);
+
+            ResponseDTO<WalletResponse> walletResponseDTO = walletController.removeVoucher(walletRequest);
+            WalletResponse walletResponse = walletResponseDTO.getData();
+            if(walletResponseDTO.isError()) {
+                consoleWalletWriter.write("incorrect format or value out of range");
+            } else {
                 consoleWalletWriter.showWalletResult(walletResponse, WalletAssignmentSelectionType.REMOVE_VOUCHER);
                 continueRunning = false;
-            } catch (WrongRangeFormatException e) {
-                consoleWalletWriter.write("incorrect format or value out of range");
             }
         }
     }
