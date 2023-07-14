@@ -16,6 +16,6 @@ services:
     volumes:
       - ./mysql-init.d:/docker-entrypoint-initdb.d
       - ./database/datadir/:/var/lib/mysql
-    platform: linux/x86_64
+    platform: linux/arm64/v8
     ports:
       - 3306:3306
