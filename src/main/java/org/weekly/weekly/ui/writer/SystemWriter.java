@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @Component
 @ConditionalOnProperty(value = "command.write", havingValue = "system")
-public class SystemWriter implements CommandWriter{
+public class SystemWriter implements CommandWriter {
     private final Logger logger = LoggerFactory.getLogger(SystemWriter.class);
 
     private void println(String msg) {
@@ -73,7 +73,6 @@ public class SystemWriter implements CommandWriter{
     public void printDeleteMessage() {
         println(PrintMessageType.DELETE.getMessage());
     }
-
 
     private void printMenu(Menu[] menus, PrintMessageType programMessage) {
         println(PrintMessageType.EMPTY.getMessage());
