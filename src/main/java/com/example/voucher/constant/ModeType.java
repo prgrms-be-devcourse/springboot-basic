@@ -11,7 +11,8 @@ public enum ModeType {
     LIST,
     DELETE_ALL,
     SEARCH,
-    UPDATE;
+    UPDATE,
+    DELETE;
 
     public static ModeType getModeType(String inputTypeName) {
         return Arrays.stream(values())

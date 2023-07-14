@@ -38,6 +38,7 @@ public class ApplicationController implements CommandLineRunner {
                 case DELETE_ALL -> removeVouchers();
                 case SEARCH -> searchVoucher();
                 case UPDATE -> updateVoucher();
+                case DELETE -> removeVoucher();
             }
         }
     }
@@ -110,6 +111,20 @@ public class ApplicationController implements CommandLineRunner {
         try {
             VoucherDTO updatedVoucher = voucherController.update(voucherId, voucherType, discountValue);
             console.displayVoucherInfo(updatedVoucher);
+        } catch (Exception e) {
+            console.displayVoucherServiceError(e.getMessage());
+        }
+    }
+
+    private void removeVoucher() {
+        UUID voucherId = console.getVoucherId();
+
+        if (voucherId == null) {
+            return;
+        }
+
+        try {
+            voucherController.deleteVoucher(voucherId);
         } catch (Exception e) {
             console.displayVoucherServiceError(e.getMessage());
         }

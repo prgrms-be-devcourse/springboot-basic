@@ -55,6 +55,10 @@ public class VoucherService {
         return toDTO(updatedVoucher);
     }
 
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
     private VoucherDTO toDTO(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         VoucherType voucherType = voucher.getVoucherType();
