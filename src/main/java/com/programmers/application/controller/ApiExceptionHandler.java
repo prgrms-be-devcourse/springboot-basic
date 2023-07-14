@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice(basePackages = "com.programmers.application.controller.api")
-public class ExceptionHandler {
+public class ApiExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler
     public ResponseEntity<ErrorResult> handleIllegalArgumentException(IllegalArgumentException e) {
