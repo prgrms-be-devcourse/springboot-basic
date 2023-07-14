@@ -1,6 +1,7 @@
 package com.example.voucher.controller;
 
 import java.util.List;
+import java.util.UUID;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
@@ -34,6 +35,10 @@ public class ApplicationController implements CommandLineRunner {
                 case EXIT -> isRunning = false;
                 case CREATE -> createVoucher();
                 case LIST -> displayVouchers();
+                case DELETE_ALL -> removeVouchers();
+                case SEARCH -> searchVoucher();
+                case UPDATE -> updateVoucher();
+                case DELETE -> removeVoucher();
             }
         }
     }
@@ -52,15 +57,77 @@ public class ApplicationController implements CommandLineRunner {
         }
 
         try {
-            voucherController.createVoucher(voucherType, discountValue);
+            VoucherDTO createdVoucher = voucherController.createVoucher(voucherType, discountValue);
+            console.displayVoucherInfo(createdVoucher);
         } catch (Exception e) {
-            console.displayVoucherCreationError();
+            console.displayVoucherServiceError(e.getMessage());
         }
     }
 
     private void displayVouchers() {
         List<VoucherDTO> vouchers = voucherController.getVouchers();
         console.displayVoucherInfo(vouchers);
+    }
+
+    private void removeVouchers() {
+        voucherController.deleteVouchers();
+    }
+
+    private void searchVoucher() {
+        UUID voucherId = console.getVoucherId();
+
+        if (voucherId == null) {
+            return;
+        }
+
+        try {
+            VoucherDTO selectedVoucher = voucherController.searchById(voucherId);
+            console.displayVoucherInfo(selectedVoucher);
+
+        } catch (Exception e) {
+            console.displayVoucherServiceError(e.getMessage());
+        }
+    }
+
+    private void updateVoucher() {
+        UUID voucherId = console.getVoucherId();
+
+        if (voucherId == null) {
+            return;
+        }
+
+        VoucherType voucherType = console.getVoucherType();
+
+        if (voucherType == null) {
+            return;
+        }
+
+        Long discountValue = console.getDiscountValue();
+
+        if (discountValue == null) {
+            return;
+        }
+
+        try {
+            VoucherDTO updatedVoucher = voucherController.update(voucherId, voucherType, discountValue);
+            console.displayVoucherInfo(updatedVoucher);
+        } catch (Exception e) {
+            console.displayVoucherServiceError(e.getMessage());
+        }
+    }
+
+    private void removeVoucher() {
+        UUID voucherId = console.getVoucherId();
+
+        if (voucherId == null) {
+            return;
+        }
+
+        try {
+            voucherController.deleteVoucher(voucherId);
+        } catch (Exception e) {
+            console.displayVoucherServiceError(e.getMessage());
+        }
     }
 
 }
