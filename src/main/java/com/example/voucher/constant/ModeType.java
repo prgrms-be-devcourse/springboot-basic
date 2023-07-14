@@ -10,7 +10,8 @@ public enum ModeType {
     CREATE,
     LIST,
     DELETE_ALL,
-    SEARCH;
+    SEARCH,
+    UPDATE;
 
     public static ModeType getModeType(String inputTypeName) {
         return Arrays.stream(values())

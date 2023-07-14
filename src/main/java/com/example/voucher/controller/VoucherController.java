@@ -35,4 +35,7 @@ public class VoucherController {
         return voucherService.searchById(voucherId);
     }
 
+    public VoucherDTO update(UUID voucherId, VoucherType voucherType, long discountValue) {
+        return voucherService.update(voucherId, voucherType, discountValue);
+    }
 }

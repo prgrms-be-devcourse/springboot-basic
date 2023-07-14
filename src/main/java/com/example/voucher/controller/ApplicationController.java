@@ -37,6 +37,7 @@ public class ApplicationController implements CommandLineRunner {
                 case LIST -> displayVouchers();
                 case DELETE_ALL -> removeVouchers();
                 case SEARCH -> searchVoucher();
+                case UPDATE -> updateVoucher();
             }
         }
     }
@@ -55,7 +56,7 @@ public class ApplicationController implements CommandLineRunner {
         }
 
         try {
-            VoucherDTO createdVoucher =voucherController.createVoucher(voucherType, discountValue);
+            VoucherDTO createdVoucher = voucherController.createVoucher(voucherType, discountValue);
             console.displayVoucherInfo(createdVoucher);
         } catch (Exception e) {
             console.displayVoucherServiceError(e.getMessage());
@@ -82,6 +83,33 @@ public class ApplicationController implements CommandLineRunner {
             VoucherDTO selectedVoucher = voucherController.searchById(voucherId);
             console.displayVoucherInfo(selectedVoucher);
 
+        } catch (Exception e) {
+            console.displayVoucherServiceError(e.getMessage());
+        }
+    }
+
+    private void updateVoucher() {
+        UUID voucherId = console.getVoucherId();
+
+        if (voucherId == null) {
+            return;
+        }
+
+        VoucherType voucherType = console.getVoucherType();
+
+        if (voucherType == null) {
+            return;
+        }
+
+        Long discountValue = console.getDiscountValue();
+
+        if (discountValue == null) {
+            return;
+        }
+
+        try {
+            VoucherDTO updatedVoucher = voucherController.update(voucherId, voucherType, discountValue);
+            console.displayVoucherInfo(updatedVoucher);
         } catch (Exception e) {
             console.displayVoucherServiceError(e.getMessage());
         }

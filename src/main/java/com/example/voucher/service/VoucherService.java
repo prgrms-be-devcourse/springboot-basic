@@ -7,6 +7,7 @@ import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.FixedAmountVoucher;
 import com.example.voucher.domain.PercentDiscountVoucher;
 import com.example.voucher.domain.Voucher;
+import com.example.voucher.domain.VoucherCreator;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.repository.VoucherRepository;
 
@@ -42,6 +43,13 @@ public class VoucherService {
         Voucher selectedVoucher = voucherRepository.findById(voucherId);
 
         return toDTO(selectedVoucher);
+    }
+
+    public VoucherDTO update(UUID voucherId, VoucherType voucherType, long discountValue) {
+        Voucher voucher = VoucherCreator.getVoucher(voucherId, voucherType, discountValue);
+        Voucher updatedVoucher = voucherRepository.update(voucher);
+
+        return toDTO(updatedVoucher);
     }
 
     private VoucherDTO toDTO(Voucher voucher) {

@@ -12,6 +12,7 @@ class Writer {
             Type list to list all vouchers.
             Type delete_all to delete all vouchers.
             Type search to search voucher by id.
+            Type update to update voucher by id.
             """),
         VOUCHER_INFO_INPUT_REQUEST("""
             Select VoucherType And Info
