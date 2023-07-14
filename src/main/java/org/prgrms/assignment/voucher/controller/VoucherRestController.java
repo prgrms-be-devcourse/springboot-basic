@@ -16,19 +16,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/vouchers")
 @RestController
 @RequiredArgsConstructor
 public class VoucherRestController {
 
     private final VoucherService voucherService;
 
-    @GetMapping("vouchers")
+    @GetMapping("")
     public List<VoucherResponseDTO> getAllVouchers() {
         return voucherService.getAllVoucherDTOs();
     }
 
-    @GetMapping("/id/{voucherId}")
+    @GetMapping("/{voucherId}")
     public ResponseEntity<VoucherResponseDTO> getVoucherById(@PathVariable("voucherId") UUID voucherId) {
         Optional<VoucherResponseDTO> voucher = voucherService.getVoucherById(voucherId);
         return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
@@ -46,8 +46,8 @@ public class VoucherRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/type/{voucherType}")
-    public List<VoucherResponseDTO> getVouchersByType(@PathVariable String voucherType) {
+    @GetMapping("/")
+    public List<VoucherResponseDTO> getVouchersByType(@RequestParam("voucherType") String voucherType) {
         return voucherService.getVouchersByType(VoucherType.of(voucherType));
     }
 
