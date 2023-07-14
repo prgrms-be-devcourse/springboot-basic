@@ -13,7 +13,7 @@ public class Duration {
         checkNullValue(createdAt, expiredAt);
         if (isInvalidExpiredAt(createdAt, expiredAt)) {
             throw new IllegalArgumentException(INVALID_EXPIRED_AT + expiredAt);
-        }  // 이 부분을 Validator 로 빼려다가 범용성이 떨어지는 것 같아서 그냥 뒀는데, Validator 로 빼주는게 나을까요?
+        }
         this.createdAt = createdAt;
         this.expiredAt = expiredAt;
     }

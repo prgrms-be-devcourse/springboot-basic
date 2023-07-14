@@ -20,14 +20,6 @@ public abstract class Voucher {
     private boolean used = false;
 
     protected Voucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration) {
-        /*
-        null 체크의 기준을 잘 모르겠습니다.
-        VoucherType 과 VoucherDateTime 도 null 체크를 해줘야 될까요?
-        voucherId 는 생성 시에 UUID.randomUUID() 생성해서 바로 대입하기 때문에
-        null 값이 들어올 일이 없다고 생각했는데 멘토님들의 피드백으로 null 체크를 했습니다.
-        위와 같은 맥락이면 voucherType, voucherDateTime 도 해줘야 한다고 생각하는데 해주는게 맞을까요??
-        또, null 체크에 대한 기준을 듣고 싶습니다!
-        */
         checkNullValue(voucherId, name);
         this.voucherId = voucherId;
         this.voucherType = voucherType;
