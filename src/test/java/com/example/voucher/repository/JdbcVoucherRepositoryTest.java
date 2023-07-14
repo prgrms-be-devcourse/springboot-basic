@@ -5,34 +5,26 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import com.example.voucher.config.JdbcRepositoryConfig;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.FixedAmountVoucher;
 import com.example.voucher.domain.PercentDiscountVoucher;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.VoucherCreator;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = JdbcRepositoryConfig.class)
+@JdbcTest
+@ContextConfiguration(classes = JdbcVoucherRepository.class)
 class JdbcVoucherRepositoryTest {
 
     public static String FAILED = "test failed";
 
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
-
-    @BeforeEach
-    void setup() {
-        jdbcVoucherRepository.deleteAll();
-    }
 
     @DisplayName("바우처 객체가 있을 때 저장하면 디비에서 동일한 ID의 데이터를 객체로 반환한다.")
     @Test
@@ -115,7 +107,7 @@ class JdbcVoucherRepositoryTest {
             () -> jdbcVoucherRepository.findById(voucher.getVoucherId()));
     }
 
-    @DisplayName("")
+    @DisplayName("동일한 아이디의 바우처 타입과 할인정보를 변경할 떄 update 명령을 수행하면 해당 데이턴의 정보가 저당된다.")
     @Test
     void update() {
         Voucher savedVoucher = jdbcVoucherRepository.save(new FixedAmountVoucher(10L));
