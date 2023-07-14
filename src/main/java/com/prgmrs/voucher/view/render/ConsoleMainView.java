@@ -45,7 +45,7 @@ public class ConsoleMainView implements CommandLineRunner {
         switch (managementType) {
             case CREATE_MODE -> consoleCreationView.selectCreationType();
             case LIST_MODE -> consoleListView.selectListType();
-            case WALLET_MODE -> consoleWalletView.selectWalletType();
+            case WALLET_MODE -> consoleWalletView.selectWalletAssignmentType();
             case EXIT_THE_LOOP -> continueRunning = false;
         }
         return continueRunning;

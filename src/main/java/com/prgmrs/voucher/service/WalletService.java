@@ -2,7 +2,7 @@ package com.prgmrs.voucher.service;
 
 import com.prgmrs.voucher.dto.request.WalletRequest;
 import com.prgmrs.voucher.dto.response.WalletResponse;
-import com.prgmrs.voucher.enums.WalletSelectionType;
+import com.prgmrs.voucher.enums.WalletAssignmentSelectionType;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;
@@ -30,14 +30,14 @@ public class WalletService {
     }
 
     public WalletResponse assignVoucher(WalletRequest walletRequest) throws WrongRangeFormatException {
-        return getWalletResponse(walletRequest, WalletSelectionType.ASSIGN_VOUCHER);
+        return getWalletResponse(walletRequest, WalletAssignmentSelectionType.ASSIGN_VOUCHER);
     }
 
     public WalletResponse freeVoucher(WalletRequest walletRequest) {
-        return getWalletResponse(walletRequest, WalletSelectionType.FREE_VOUCHER);
+        return getWalletResponse(walletRequest, WalletAssignmentSelectionType.REMOVE_VOUCHER);
     }
 
-    private WalletResponse getWalletResponse(WalletRequest walletRequest, WalletSelectionType walletSelectionType) {
+    private WalletResponse getWalletResponse(WalletRequest walletRequest, WalletAssignmentSelectionType walletAssignmentSelectionType) {
         String username = walletRequest.username();
         String order = walletRequest.order();
         List<Voucher> voucherList = walletRequest.voucherList();
@@ -57,9 +57,9 @@ public class WalletService {
 
         Wallet wallet = new Wallet(user.userId(), voucher.voucherId());
 
-        switch (walletSelectionType) {
+        switch (walletAssignmentSelectionType) {
             case ASSIGN_VOUCHER -> walletRepository.save(wallet);
-            case FREE_VOUCHER -> walletRepository.free(wallet);
+            case REMOVE_VOUCHER -> walletRepository.free(wallet);
         }
 
         return new WalletResponse(wallet, username);

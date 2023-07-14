@@ -7,7 +7,7 @@ import com.prgmrs.voucher.dto.request.WalletRequest;
 import com.prgmrs.voucher.dto.response.UserListResponse;
 import com.prgmrs.voucher.dto.response.VoucherListResponse;
 import com.prgmrs.voucher.dto.response.WalletResponse;
-import com.prgmrs.voucher.enums.WalletSelectionType;
+import com.prgmrs.voucher.enums.WalletAssignmentSelectionType;
 import com.prgmrs.voucher.exception.NoSuchChoiceException;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.view.ConsoleReader;
@@ -33,13 +33,13 @@ public class ConsoleWalletView {
         this.walletController = walletController;
     }
 
-    void selectWalletType() {
+    void selectWalletAssignmentType() {
         boolean continueRunning = true;
         while (continueRunning) {
-            consoleWalletWriter.showWalletType();
+            consoleWalletWriter.showVoucherAssignmentSelectionType();
             try {
-                WalletSelectionType walletSelectionType = WalletSelectionType.of(consoleReader.read());
-                redirectWallet(walletSelectionType);
+                WalletAssignmentSelectionType walletAssignmentSelectionType = WalletAssignmentSelectionType.of(consoleReader.read());
+                redirectWallet(walletAssignmentSelectionType);
                 continueRunning = false;
             } catch (NoSuchChoiceException e) {
                 consoleWalletWriter.write("such wallet type not exist");
@@ -47,32 +47,32 @@ public class ConsoleWalletView {
         }
     }
 
-    private void redirectWallet(WalletSelectionType walletSelectionType) {
-        switch (walletSelectionType) {
-            case ASSIGN_VOUCHER -> selectUser();
-            case FREE_VOUCHER -> selectUserWithVoucher();
+    private void redirectWallet(WalletAssignmentSelectionType walletAssignmentSelectionType) {
+        switch (walletAssignmentSelectionType) {
+            case ASSIGN_VOUCHER -> assignVoucher();
+            case REMOVE_VOUCHER -> removeVoucher();
             case BACK -> {}
         }
     }
 
-    private void selectUser() {
+    private void assignVoucher() {
         boolean continueRunning = true;
         while (continueRunning) {
             UserListResponse userListResponse = userController.getAllUsers();
             consoleListWriter.showUserList(userListResponse);
-            consoleWalletWriter.showNameUser(WalletSelectionType.ASSIGN_VOUCHER);
+            consoleWalletWriter.showNameUser(WalletAssignmentSelectionType.ASSIGN_VOUCHER);
             String username = consoleReader.read();
 
             VoucherListResponse voucherListResponse = voucherController.getNotAssignedVoucherList();
             consoleListWriter.showVoucherList(voucherListResponse);
 
-            consoleWalletWriter.showNumberVoucher(WalletSelectionType.ASSIGN_VOUCHER);
+            consoleWalletWriter.showNumberVoucher(WalletAssignmentSelectionType.ASSIGN_VOUCHER);
             String order = consoleReader.read();
 
             WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.voucherList());
             try {
                 WalletResponse walletResponse = walletController.assignVoucher(walletRequest);
-                consoleWalletWriter.showWalletResult(walletResponse, WalletSelectionType.ASSIGN_VOUCHER);
+                consoleWalletWriter.showWalletResult(walletResponse, WalletAssignmentSelectionType.ASSIGN_VOUCHER);
                 continueRunning = false;
             } catch (WrongRangeFormatException e) {
                 consoleWalletWriter.write("incorrect format or value out of range");
@@ -80,24 +80,24 @@ public class ConsoleWalletView {
         }
     }
 
-    private void selectUserWithVoucher() {
+    private void removeVoucher() {
         boolean continueRunning = true;
         while (continueRunning) {
             UserListResponse userListResponse = userController.getUserListWithVoucherAssigned();
             consoleListWriter.showUserList(userListResponse);
-            consoleWalletWriter.showNameUser(WalletSelectionType.FREE_VOUCHER);
+            consoleWalletWriter.showNameUser(WalletAssignmentSelectionType.REMOVE_VOUCHER);
             String username = consoleReader.read();
 
             VoucherListResponse voucherListResponse = voucherController.getAssignedVoucherListByUsername(username);
             consoleListWriter.showVoucherList(voucherListResponse);
 
-            consoleWalletWriter.showNumberVoucher(WalletSelectionType.FREE_VOUCHER);
+            consoleWalletWriter.showNumberVoucher(WalletAssignmentSelectionType.REMOVE_VOUCHER);
             String order = consoleReader.read();
 
             WalletRequest walletRequest = new WalletRequest(username, order, voucherListResponse.voucherList());
             try {
                 WalletResponse walletResponse = walletController.freeVoucher(walletRequest);
-                consoleWalletWriter.showWalletResult(walletResponse, WalletSelectionType.FREE_VOUCHER);
+                consoleWalletWriter.showWalletResult(walletResponse, WalletAssignmentSelectionType.REMOVE_VOUCHER);
                 continueRunning = false;
             } catch (WrongRangeFormatException e) {
                 consoleWalletWriter.write("incorrect format or value out of range");

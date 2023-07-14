@@ -2,14 +2,14 @@ package com.prgmrs.voucher.enums;
 
 import com.prgmrs.voucher.exception.NoSuchChoiceException;
 
-public enum WalletSelectionType {
+public enum WalletAssignmentSelectionType {
     ASSIGN_VOUCHER("assign"),
-    FREE_VOUCHER("free"),
+    REMOVE_VOUCHER("remove"),
     BACK("back");
 
     private final String value;
 
-    WalletSelectionType(String value) {
+    WalletAssignmentSelectionType(String value) {
         this.value = value;
     }
 
@@ -17,8 +17,8 @@ public enum WalletSelectionType {
         return value;
     }
 
-    public static WalletSelectionType of(String value) throws NoSuchChoiceException {
-        for (WalletSelectionType enumValue : WalletSelectionType.values()) {
+    public static WalletAssignmentSelectionType of(String value) throws NoSuchChoiceException {
+        for (WalletAssignmentSelectionType enumValue : WalletAssignmentSelectionType.values()) {
             if (enumValue.getValue().equalsIgnoreCase(value)) {
                 return enumValue;
             }
