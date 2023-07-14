@@ -1,17 +1,13 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.Discount;
 import com.programmers.voucher.domain.DiscountType;
-import com.programmers.voucher.domain.FixedDiscount;
-import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,11 +26,10 @@ class VoucherServiceTest {
             , "1, 30"
     })
     void createVoucherTest(String command, long value) {
-        Discount discount = Discount.of(DiscountType.of(command), value);
-        UUID id = UUID.randomUUID();
-        VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
+        DiscountType discountType = DiscountType.of(command);
+        VoucherRequestDto requestDto = new VoucherRequestDto(discountType, value);
 
-        Voucher voucher = voucherService.create(requestDto);
+        VoucherResponseDto voucher = voucherService.create(requestDto);
 
         assertThat(voucher).isNotNull();
     }
@@ -42,12 +37,11 @@ class VoucherServiceTest {
     @DisplayName("바우처를 생성했던 ID로 바우처 조회가 가능한지")
     @Test
     void findByIdTest() {
-        Discount discount = new FixedDiscount(123456);
-        UUID id = UUID.randomUUID();
-        VoucherRequestDto requestDto = new VoucherRequestDto(id, discount);
+        DiscountType discountType = DiscountType.FIXED;
+        VoucherRequestDto requestDto = new VoucherRequestDto(discountType, 100);
+        VoucherResponseDto expected = voucherService.create(requestDto);
 
-        Voucher expected = voucherService.create(requestDto);
-        Voucher actual = voucherService.findVoucher(id);
+        VoucherResponseDto actual = voucherService.findVoucherById(expected.voucherId());
 
         assertThat(expected).isEqualTo(actual);
     }

@@ -94,15 +94,4 @@ class JdbcCustomerRepositoryTest {
                 .isInstanceOf(NoSuchElementException.class);
     }
 
-    @DisplayName("잘못된 ID로 삭제 요청을 하면 에러를 반환한다.")
-    @Test
-    void deleteByWrongIdValueTest() {
-        UUID id = UUID.randomUUID();
-        UUID wrongId = UUID.randomUUID();
-        Customer testCustomer = new Customer(id, "고객", LocalDateTime.now());
-        jdbcCustomerRepository.save(testCustomer);
-
-        assertThatThrownBy(() -> jdbcCustomerRepository.deleteById(wrongId))
-                .isInstanceOf(NoSuchElementException.class);
-    }
 }

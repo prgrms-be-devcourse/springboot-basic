@@ -1,22 +1,25 @@
 package com.programmers.console;
 
+import com.programmers.console.controller.VoucherController;
 import com.programmers.console.util.Command;
 import com.programmers.console.util.VoucherStringSerializer;
 import com.programmers.console.view.Console;
-import com.programmers.voucher.controller.VoucherController;
-import com.programmers.voucher.domain.Discount;
+
 import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
+@Profile("dev")
 @Component
-public class CommandLineApplication {
+public class CommandLineApplication implements ApplicationRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
     private static final String WRONG_INPUT_MESSAGE_FOR_VALUE = "[ERROR] 숫자를 입력해 주세요.";
@@ -32,7 +35,8 @@ public class CommandLineApplication {
         this.voucherController = voucherController;
     }
 
-    public void run() {
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
         while (isRunning) {
             try {
                 String inputMenuText = console.inputMenu();
@@ -61,9 +65,8 @@ public class CommandLineApplication {
 
     private VoucherRequestDto createRequestDtoByUserInput() {
         DiscountType discountType = inputDiscountTypeInfo();
-        long discountInfo = inputDiscountValueInfo();
-        Discount discount = Discount.of(discountType, discountInfo);
-        return new VoucherRequestDto(UUID.randomUUID(), discount);
+        long discountValue = inputDiscountValueInfo();
+        return new VoucherRequestDto(discountType, discountValue);
     }
 
     private DiscountType inputDiscountTypeInfo() {

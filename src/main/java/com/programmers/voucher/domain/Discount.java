@@ -12,6 +12,7 @@ public abstract class Discount {
         return switch (discountType) {
             case FIXED -> new FixedDiscount(value);
             case PERCENT -> new PercentDiscount(value);
+            default -> throw new IllegalArgumentException();
         };
     }
 

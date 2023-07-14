@@ -1,7 +1,5 @@
-package com.programmers.voucher.controller;
+package com.programmers.console.controller;
 
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.VoucherMapper;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.service.VoucherService;
@@ -19,13 +17,10 @@ public class VoucherController {
     }
 
     public VoucherResponseDto create (VoucherRequestDto requestDto) {
-        Voucher voucher = voucherService.create(requestDto);
-        return VoucherMapper.convertDomainToResponseDto(voucher);
+        return voucherService.create(requestDto);
     }
 
     public List<VoucherResponseDto> findAll() {
-        return voucherService.findVouchers().stream()
-                .map(VoucherMapper::convertDomainToResponseDto)
-                .toList();
+        return voucherService.findVouchers();
     }
 }

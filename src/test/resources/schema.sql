@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS voucher;
 DROP TABLE IF EXISTS customer;
 
 CREATE TABLE voucher (
-    id VARCHAR(36),
+    id CHAR(36),
     type VARCHAR(20) NOT NULL,
     discount_value int NOT NULL,
     created_at timestamp default current_timestamp,
@@ -12,7 +12,7 @@ CREATE TABLE voucher (
 );
 
 CREATE TABLE customer (
-    id VARCHAR(36),
+    id CHAR(36),
     name VARCHAR(10),
     created_at timestamp default current_timestamp,
     modified_at timestamp,
@@ -20,7 +20,7 @@ CREATE TABLE customer (
 );
 
 CREATE TABLE wallet (
-    id VARCHAR(36),
+    id CHAR(36),
     voucher_id VARCHAR(36),
     customer_id VARCHAR(36),
     foreign key (voucher_id) references voucher (id)
