@@ -1,11 +1,12 @@
 package co.programmers.voucher_management.voucher.controller;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import java.text.MessageFormat;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 
-import co.programmers.voucher_management.customer.service.CustomerService;
 import co.programmers.voucher_management.exception.InvalidDataException;
 import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
@@ -17,49 +18,30 @@ import co.programmers.voucher_management.voucher.service.VoucherService;
 
 @Controller
 public class VoucherController {
-	private final String requestMessageFormat = "Input {0} >> ";
 	private final VoucherService voucherService;
-	private final CustomerService customerService;
 	private final OutputView outputView;
 	private final InputView<String> inputView;
 
-	public VoucherController(VoucherService voucherService, CustomerService customerService, OutputView outputView,
+	public VoucherController(VoucherService voucherService, OutputView outputView,
 			InputView<String> inputView) {
 		this.voucherService = voucherService;
-		this.customerService = customerService;
 		this.outputView = outputView;
 		this.inputView = inputView;
 	}
 
 	public void executeVoucherMenu(String commandNum) {
 		switch (commandNum) {
-			case "1":
-				createVoucher();
-				break;
-			case "2":
-				inquiryVoucherOf();
-				break;
-			case "3":
-				updateVoucher();
-				break;
-			case "4":
-				deleteVoucher();
-				break;
-			case "5":
-				assignVoucher();
-				break;
-			case "6":
-				listVoucherOfCustomer();
-				break;
-			case "7":
-				deleteVoucherOfCustomer();
-				break;
-			default:
-				throw new InvalidDataException("Unsupported Menu");
+			case "1" -> createVoucher();
+			case "2" -> inquiryVoucherOf();
+			case "3" -> updateVoucher();
+			case "4" -> deleteVoucher();
+			case "5" -> assignVoucher();
+			case "6" -> listVoucherOfCustomer();
+			case "7" -> deleteVoucherOfCustomer();
+			default -> throw new InvalidDataException(INVALID_MENU);
 		}
 	}
 
-	//InvalidDataException | NumberFormatException |NoSuchDataException |EmptyAssignerException|RuntimeException
 	public void createVoucher() {
 		VoucherRequestDTO voucherRequestDTO = requestVoucherCreationData();
 		VoucherResponseDTO voucherResponseDTO = voucherService.create(voucherRequestDTO);
@@ -67,10 +49,10 @@ public class VoucherController {
 	}
 
 	private VoucherRequestDTO requestVoucherCreationData() {
-		outputView.print(MessageFormat.format(requestMessageFormat, "amount"));
+		outputView.print(MessageFormat.format("Input {0} >> ", "amount"));
 		int amount = Integer.parseInt(inputView.input());
 
-		outputView.print(MessageFormat.format(requestMessageFormat,
+		outputView.print(MessageFormat.format("Input {0} >> ",
 				"discount type. Fixed(for FixedAmountVoucher) or Percent(for PercentDiscountVoucher)"));
 		String type = inputView.input();
 
@@ -92,13 +74,13 @@ public class VoucherController {
 	}
 
 	private VoucherUpdateDTO requestVoucherUpdateData() {
-		outputView.print(MessageFormat.format(requestMessageFormat, "id"));
+		outputView.print(MessageFormat.format("Input {0} >> ", "id"));
 		long id = Long.parseLong(inputView.input());
 
-		outputView.print(MessageFormat.format(requestMessageFormat, "amount"));
+		outputView.print(MessageFormat.format("Input {0} >> ", "amount"));
 		int amount = Integer.parseInt(inputView.input());
 
-		outputView.print(MessageFormat.format(requestMessageFormat,
+		outputView.print(MessageFormat.format("Input {0} >> ",
 				"discount type. Fixed(for FixedAmountVoucher) or Percent(for PercentDiscountVoucher)"));
 		String type = inputView.input();
 
@@ -110,7 +92,7 @@ public class VoucherController {
 	}
 
 	public void deleteVoucher() {
-		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a voucher"));
+		outputView.print(MessageFormat.format("Input {0} >> ", "ID of a voucher"));
 		Long id = Long.parseLong(inputView.input());
 		voucherService.deleteById(id);
 	}
@@ -123,10 +105,10 @@ public class VoucherController {
 
 	VoucherAssignDTO requestVoucherAssignData() {
 
-		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a customer"));
+		outputView.print(MessageFormat.format("Input {0} >> ", "ID of a customer"));
 		long customerId = Long.parseLong(inputView.input());
 
-		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a voucher"));
+		outputView.print(MessageFormat.format("Input {0} >> ", "ID of a voucher"));
 		long voucherId = Long.parseLong(inputView.input());
 
 		return new VoucherAssignDTO(customerId, voucherId);
@@ -138,7 +120,7 @@ public class VoucherController {
 	}
 
 	public void listVoucherOfCustomer() {
-		outputView.print(MessageFormat.format(requestMessageFormat, "customer id"));
+		outputView.print(MessageFormat.format("Input {0} >> ", "customer id"));
 		long customerId = Long.parseLong(inputView.input());
 		List<VoucherResponseDTO> voucherResponseDTOS = voucherService.inquiryVoucherOf(customerId);
 		outputView.print(voucherResponseDTOS);

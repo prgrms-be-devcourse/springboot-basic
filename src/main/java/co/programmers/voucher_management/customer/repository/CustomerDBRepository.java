@@ -39,8 +39,10 @@ public class CustomerDBRepository implements CustomerRepository {
 			long id = resultSet.getLong("id");
 			String name = resultSet.getString("name");
 			String phoneNumber = resultSet.getString("phone_number");
+
 			String ratingExpression = resultSet.getString("rating");
 			Rating rating = Rating.valueOf(ratingExpression);
+
 			return Customer.builder()
 					.id(id)
 					.name(name)

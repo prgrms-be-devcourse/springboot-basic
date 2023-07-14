@@ -48,6 +48,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	public Optional<Voucher> findById(long id) {
 		Voucher foundVoucher = repository.get(id);
 		Status status = foundVoucher.getStatus();
+
 		if (status.equals(DELETED)) {
 			throw new NoSuchDataException(VOUCHER_NOT_FOUND);
 		}
@@ -72,9 +73,11 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	public Voucher update(Voucher voucher) {
 		long id = voucher.getId();
 		findById(id);
+
 		String discountType = voucher.getDiscountStrategy().getType();
 		Integer discountAmount = voucher.getDiscountStrategy().getAmount();
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
+
 		repository.get(id).changeDiscountType(discountStrategy);
 		return findById(id).orElseThrow(() -> new NoSuchDataException(VOUCHER_NOT_FOUND));
 	}

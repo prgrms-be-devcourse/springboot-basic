@@ -99,8 +99,10 @@ public class VoucherDBRepository implements VoucherRepository {
 	public Voucher update(Voucher voucher) {
 		long id = voucher.getId();
 		findById(id).orElseThrow(() -> new NoSuchDataException(VOUCHER_NOT_FOUND));
+
 		String discountType = voucher.getDiscountStrategy().getType();
 		int discountAmount = voucher.getDiscountStrategy().getAmount();
+
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 				.addValue("id", id)
 				.addValue("discount_type", discountType)
@@ -114,6 +116,7 @@ public class VoucherDBRepository implements VoucherRepository {
 	public Voucher assignCustomer(Voucher voucher, Customer customer) {
 		long voucherId = voucher.getId();
 		long customerId = customer.getId();
+
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 				.addValue("id", voucherId)
 				.addValue("updated_at", LocalDateTime.now())
@@ -127,6 +130,7 @@ public class VoucherDBRepository implements VoucherRepository {
 			long id = resultSet.getLong("id");
 			int amount = resultSet.getInt("discount_amount");
 			String discountType = resultSet.getString("discount_type");
+
 			DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, amount);
 			long customerId = resultSet.getLong("customer_id");
 			return Voucher.builder()

@@ -34,7 +34,9 @@ public class CustomerService {
 	public CustomerResponseDTO inquiryCustomerByVoucher(long voucherId) {
 		Voucher voucher = voucherRepository.findById(voucherId)
 				.orElseThrow(() -> new NoSuchDataException(VOUCHER_NOT_FOUND));
+
 		long customerId = voucher.getCustomerId();
+
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new EmptyAssignerException(CUSTOMER_NOT_FOUND));
 		return new CustomerResponseDTO(customer);

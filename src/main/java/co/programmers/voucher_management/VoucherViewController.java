@@ -47,14 +47,13 @@ public class VoucherViewController {
 	@GetMapping("/new")
 	public String create(Model model) {
 		model.addAttribute("voucher", new VoucherRequestDTO());
-		return "vouchers-new"; //html
-		//viewResolver
+		return "vouchers-new";
 	}
 
 	@PostMapping("/new")
 	public String create(@ModelAttribute("voucher") VoucherRequestDTO voucherRequestDTO) {
 		voucherService.create(voucherRequestDTO);
-		return "redirect:/vouchers"; //경로
+		return "redirect:/vouchers";
 
 	}
 }

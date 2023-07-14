@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.customer.service.CustomerService;
+import co.programmers.voucher_management.exception.ErrorCode;
 import co.programmers.voucher_management.exception.InvalidDataException;
 import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
@@ -24,14 +25,9 @@ public class CustomerController {
 
 	public void executeCustomerMenu(String commandNum) {
 		switch (commandNum) {
-			case "1":
-				inquiryBlackList();
-				break;
-			case "2":
-				inquiryCustomerByVoucher();
-				break;
-			default:
-				throw new InvalidDataException("Unsupported command");
+			case "1" -> inquiryBlackList();
+			case "2" -> inquiryCustomerByVoucher();
+			default -> throw new InvalidDataException(ErrorCode.INVALID_COMMAND);
 		}
 	}
 

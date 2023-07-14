@@ -52,6 +52,7 @@ public class VoucherApiController {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate startLocalDate = LocalDate.parse(startDate, dateTimeFormatter);
 		LocalDate endLocalDate = LocalDate.parse(endDate, dateTimeFormatter);
+
 		List<VoucherResponseDTO> response = voucherService.findByDate(startLocalDate, endLocalDate);
 		return ResponseEntity.ok(response);
 	}
