@@ -23,7 +23,6 @@ import co.programmers.voucher_management.voucher.repository.VoucherMemoryReposit
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 
 @ActiveProfiles("test")
-		//TODO
 class VoucherServiceTest {
 	VoucherRepository voucherRepository = new VoucherMemoryRepository();
 	CustomerRepository customerRepository = new CustomerFileRepository("src/main/resources/customer.csv");
