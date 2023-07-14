@@ -6,14 +6,15 @@ import org.weekly.weekly.voucher.exception.VoucherException;
 import java.util.Arrays;
 
 public class InputValidator {
-    public InputValidator() {
+
+    private InputValidator() {
         throw new InputException(ExceptionMsg.UTIL_CLASS);
     }
 
     private static final int VOUCHER_INPUT_SIZE = 2;
     public static void isEmpty(String userInput) {
         if (userInput == null || userInput.isBlank()) {
-            throw new RuntimeException(ExceptionMsg.EMPTY.getMsg());
+            throw new InputException(ExceptionMsg.EMPTY);
         }
     }
 

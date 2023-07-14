@@ -29,6 +29,15 @@ public class JdbcVoucherRepository implements VoucherRepository{
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    public static UUID toUUID(byte[] bytes) {
+        var buffer = ByteBuffer.wrap(bytes);
+        return new UUID(buffer.getLong(), buffer.getLong());
+    }
+
+    private byte[] uuidToBytes(UUID voucherId) {
+        return voucherId.toString().getBytes();
+    }
+
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         String sql = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
@@ -99,15 +108,6 @@ public class JdbcVoucherRepository implements VoucherRepository{
         jdbcTemplate.update(sql);
     }
 
-    public static UUID toUUID(byte[] bytes) {
-        var buffer = ByteBuffer.wrap(bytes);
-        return new UUID(buffer.getLong(), buffer.getLong());
-    }
-    
-    private byte[] uuidToBytes(UUID voucherId) {
-        return voucherId.toString().getBytes();
-    }
-
     private Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         long amount = resultSet.getLong("amount");
@@ -117,7 +117,4 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
         return new Voucher(voucherId,amount, registrationDate, expirationDate, discountType.getNewInstance());
     }
-
-    
-
 }

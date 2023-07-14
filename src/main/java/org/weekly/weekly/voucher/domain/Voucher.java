@@ -1,10 +1,7 @@
 package org.weekly.weekly.voucher.domain;
 
-import org.weekly.weekly.util.ExceptionMsg;
-import org.weekly.weekly.voucher.exception.VoucherException;
 import org.weekly.weekly.voucher.exception.VoucherValidator;
 
-import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -17,7 +14,7 @@ public class Voucher {
 
     private long amount;
 
-    private Discount discount;
+    private final Discount discount;
 
 
     public Voucher(UUID voucherId, long amount, LocalDate registrationDate, LocalDate expirationDate, Discount discount) {

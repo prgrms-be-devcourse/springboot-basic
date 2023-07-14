@@ -20,7 +20,6 @@ public class VoucherCreationResponse implements Response {
         this.expirationDate = voucher.getExpirationDate();
         this.amount = voucher.getAmount();
         this.voucherType = voucher.getDiscountType().name();
-
     }
 
     public UUID getId() {

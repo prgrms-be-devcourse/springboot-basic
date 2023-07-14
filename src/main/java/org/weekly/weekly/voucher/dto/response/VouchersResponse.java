@@ -5,7 +5,6 @@ import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.dto.Response;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class VouchersResponse implements Response {
     private final List<VoucherCreationResponse> result;

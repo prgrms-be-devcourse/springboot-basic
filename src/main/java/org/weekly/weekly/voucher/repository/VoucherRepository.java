@@ -11,12 +11,8 @@ public interface VoucherRepository {
     Voucher insert(Voucher voucher);
     Optional<Voucher> findById(UUID voucherId);
     List<Voucher> findAll();
-
     List<Voucher> findByDiscountType(DiscountType discountType);
-
     Voucher update(Voucher voucher);
-
     void deleteById(UUID voucherId);
-
     void deleteAll();
 }

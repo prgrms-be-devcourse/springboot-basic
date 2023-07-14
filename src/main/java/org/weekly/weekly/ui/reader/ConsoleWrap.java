@@ -8,14 +8,14 @@ import java.io.Console;
 @Component
 @ConditionalOnProperty(value="command.read", havingValue = "console")
 public class ConsoleWrap implements CommandReader{
-    private final Console consoleWrap;
+    private final Console console;
 
     public ConsoleWrap() {
-        consoleWrap = System.console();
+        console = System.console();
     }
 
     @Override
     public String readLine()  {
-        return consoleWrap.readLine();
+        return console.readLine();
     }
 }

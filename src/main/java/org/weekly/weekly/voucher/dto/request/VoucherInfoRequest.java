@@ -26,6 +26,11 @@ public class VoucherInfoRequest {
                 Long.parseLong(inputs[EXPIRATION].trim()));
     }
 
+    private static void checkReadVoucherException(String[] inputs) {
+        InputValidator.notVoucherInputSize(inputs);
+        InputValidator.notNumber(inputs);
+    }
+
     public long getAmount() {
         return amount;
     }
@@ -40,10 +45,5 @@ public class VoucherInfoRequest {
 
     public void setExpiration(long expiration) {
         this.expiration = expiration;
-    }
-
-    private static void checkReadVoucherException(String[] inputs) {
-        InputValidator.notVoucherInputSize(inputs);
-        InputValidator.notNumber(inputs);
     }
 }

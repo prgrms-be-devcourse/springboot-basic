@@ -7,8 +7,6 @@ import org.weekly.weekly.customer.dto.response.CustomerResponse;
 import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.customer.service.CustomerService;
 
-import java.util.List;
-
 @Controller
 public class CustomerController {
 

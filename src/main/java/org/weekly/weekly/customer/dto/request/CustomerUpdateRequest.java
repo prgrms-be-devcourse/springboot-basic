@@ -1,6 +1,5 @@
 package org.weekly.weekly.customer.dto.request;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.weekly.weekly.ui.exception.InputValidator;
 
 public class CustomerUpdateRequest {
@@ -13,16 +12,15 @@ public class CustomerUpdateRequest {
         this.email = email;
         this.newEmail = afterEmail;
     }
+
     private CustomerUpdateRequest(String email) {
         this.email = email;
     }
-
 
     public static CustomerUpdateRequest of(String email) {
         InputValidator.isEmpty(email);
         return new CustomerUpdateRequest(email);
     }
-
 
     public static CustomerUpdateRequest of(String email, String afterEmail) {
         InputValidator.isEmpty(email);
@@ -33,6 +31,7 @@ public class CustomerUpdateRequest {
     public String email() {
         return email;
     }
+
     public String newEmail() {return newEmail;}
 
     public void setEmail(String email) {

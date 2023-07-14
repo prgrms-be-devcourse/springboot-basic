@@ -27,6 +27,4 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAll();
         return new VouchersResponse(vouchers);
     }
-
-
 }

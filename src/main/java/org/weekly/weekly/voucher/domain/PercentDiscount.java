@@ -1,7 +1,7 @@
 package org.weekly.weekly.voucher.domain;
 
 public class PercentDiscount implements Discount{
-    private final int PERCENT = 100;
+    private static final int PERCENT = 100;
     @Override
     public long applyDiscount(long beforeAmount, long discountAmount) {
         return beforeAmount - beforeAmount * discountAmount / PERCENT;

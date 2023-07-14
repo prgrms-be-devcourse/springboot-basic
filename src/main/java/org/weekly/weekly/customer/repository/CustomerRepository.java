@@ -11,7 +11,6 @@ public interface CustomerRepository {
     void deleteAll();
     Optional<Customer> findByEmail(String email);
     List<Customer> findAll();
-
     Customer update(Customer customer, String newEmail);
 }
 

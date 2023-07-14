@@ -27,6 +27,10 @@ public class JdbcCustomerRepository implements CustomerRepository{
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    private static UUID toUUID(byte[] bytes) {
+        var buffer = ByteBuffer.wrap(bytes);
+        return new UUID(buffer.getLong(), buffer.getLong());
+    }
 
     @Override
     public Customer insert(Customer customer) {
@@ -89,12 +93,6 @@ public class JdbcCustomerRepository implements CustomerRepository{
         return customer;
     }
 
-
-    private static UUID toUUID(byte[] bytes) {
-        var buffer = ByteBuffer.wrap(bytes);
-        return new UUID(buffer.getLong(), buffer.getLong());
-    }
-
     private Customer mapToCustomer(ResultSet resultSet) throws SQLException {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
@@ -103,7 +101,6 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
         return new Customer(customerId, name, email, createAt);
     }
-
 
     private byte[] uuidToBytes(UUID voucherId) {
         return voucherId.toString().getBytes();

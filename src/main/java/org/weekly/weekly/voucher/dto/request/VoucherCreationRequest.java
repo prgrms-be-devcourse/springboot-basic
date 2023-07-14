@@ -2,14 +2,13 @@ package org.weekly.weekly.voucher.dto.request;
 
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
-import org.weekly.weekly.voucher.exception.VoucherException;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class VoucherCreationRequest {
     private VoucherInfoRequest voucherInfoRequest;
-    private DiscountType discountType;
+    private final DiscountType discountType;
 
     public VoucherCreationRequest(VoucherInfoRequest voucherInfoRequest, DiscountType discountType) {
         this.voucherInfoRequest = voucherInfoRequest;

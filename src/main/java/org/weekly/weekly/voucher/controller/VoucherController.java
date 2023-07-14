@@ -9,14 +9,11 @@ import org.weekly.weekly.voucher.service.VoucherService;
 
 @Controller
 public class VoucherController {
-    private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
-
 
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
-
 
     public Response createVoucher(VoucherCreationRequest voucherCreationRequest) {
         return voucherService.insertVoucher(voucherCreationRequest);

@@ -56,9 +56,7 @@ public enum DiscountType {
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException exception) {
             throw new VoucherException(ExceptionMsg.NOT_FOUND);
         }
-
     }
-
 
     public String getSelectMessage() {
         return selectMessage;

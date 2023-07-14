@@ -5,7 +5,6 @@ import org.weekly.weekly.util.PrintMessageType;
 import org.weekly.weekly.voucher.dto.Response;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CustomersResponse implements Response {
     List<CustomerResponse> result;
