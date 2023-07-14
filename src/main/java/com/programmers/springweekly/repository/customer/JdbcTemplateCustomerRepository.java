@@ -29,7 +29,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        String sql = "insert into customers values (:customerId, :customerName, :customerEmail, :customerType)";
+        String sql = "insert into customer values (:customerId, :customerName, :customerEmail, :customerType)";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customer.getCustomerId().toString())
@@ -48,7 +48,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public void update(Customer customer) {
-        String sql = "update customers set customer_name = :customerName, customer_email = :customerEmail, customer_type = :customerType where customer_id = :customerId";
+        String sql = "update customer set customer_name = :customerName, customer_email = :customerEmail, customer_type = :customerType where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerName", customer.getCustomerName())
@@ -61,7 +61,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        String sql = "select * from customers where customer_id = :customerId";
+        String sql = "select * from customer where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString());
@@ -77,14 +77,14 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        String sql = "select * from customers";
+        String sql = "select * from customer";
 
         return template.query(sql, customerRowMapper());
     }
 
     @Override
     public List<Customer> getBlackList() {
-        String sql = "select * from customers where customer_type = :customerType";
+        String sql = "select * from customer where customer_type = :customerType";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerType", CustomerType.BLACKLIST.toString());
@@ -94,7 +94,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public int deleteById(UUID customerId) {
-        String sql = "delete from customers where customer_id = :customerId";
+        String sql = "delete from customer where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString());
@@ -104,7 +104,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        String sql = "delete from customers";
+        String sql = "delete from customer";
 
         SqlParameterSource param = new MapSqlParameterSource();
 
@@ -114,7 +114,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public boolean existById(UUID customerId) {
-        String sql = "select * from customers where customer_id = :customerId";
+        String sql = "select * from customer where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString());

@@ -32,7 +32,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "insert into vouchers values(:voucherId, :discountAmount, :voucherType)";
+        String sql = "insert into voucher values(:voucherId, :discountAmount, :voucherType)";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucher.getVoucherId())
@@ -50,7 +50,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        String sql = "update vouchers set voucher_discount_amount = :discountAmount, voucher_type = :voucherType where voucher_id = :voucherId";
+        String sql = "update voucher set voucher_discount_amount = :discountAmount, voucher_type = :voucherType where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucher.getVoucherId())
@@ -62,7 +62,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String sql = "select * from vouchers where voucher_id = :voucherId";
+        String sql = "select * from voucher where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId);
@@ -77,14 +77,14 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String sql = "select * from vouchers";
+        String sql = "select * from voucher";
 
         return template.query(sql, voucherRowMapper());
     }
 
     @Override
     public int deleteById(UUID voucherId) {
-        String sql = "delete from vouchers where voucher_id = :voucherId";
+        String sql = "delete from voucher where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId);
@@ -94,7 +94,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        String sql = "delete from vouchers";
+        String sql = "delete from voucher";
 
         SqlParameterSource param = new MapSqlParameterSource();
 
@@ -104,7 +104,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public boolean existById(UUID voucherId) {
-        String sql = "select * from vouchers where voucher_id = :voucherId";
+        String sql = "select * from voucher where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherId", voucherId);
