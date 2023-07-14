@@ -84,4 +84,22 @@ class JdbcUserRepositoryTest {
         List<User> users = userRepository.findAll();
         assertThat(users).isEmpty();
     }
+
+    @Test
+    @DisplayName("아이디를 통해서 새로운 이름으로 변경할 수 있고 조회 시 문제가 없어야 한다.")
+    void updateTest() {
+        // given
+        String newName = "Jo-hejow";
+        UUID id = userRepository.save(name);
+
+        // when
+        userRepository.update(id, newName);
+
+        // then
+        Optional<User> optionalUser = userRepository.findById(id);
+        assertThat(optionalUser).isNotEmpty();
+
+        User user = optionalUser.get();
+        assertThat(user.name()).isEqualTo(newName);
+    }
 }

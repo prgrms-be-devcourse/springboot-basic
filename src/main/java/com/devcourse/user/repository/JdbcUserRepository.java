@@ -28,7 +28,10 @@ class JdbcUserRepository implements UserRepository {
     @Override
     public UUID save(String name) {
         UUID id = UUID.randomUUID();
-        jdbcTemplate.update("INSERT INTO users(id, name) VALUES (?, ?)", id.toString(), name);
+        jdbcTemplate.update("INSERT INTO users(id, name) VALUES (?, ?)",
+                id.toString(),
+                name);
+        
         return id;
     }
 
@@ -40,7 +43,10 @@ class JdbcUserRepository implements UserRepository {
     @Override
     public Optional<User> findById(UUID id) {
         try {
-            User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?", userMapper, id.toString());
+            User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?",
+                    userMapper,
+                    id.toString());
+
             return Optional.of(user);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -49,6 +55,14 @@ class JdbcUserRepository implements UserRepository {
 
     @Override
     public void deleteById(UUID id) {
-        jdbcTemplate.update("DELETE FROM users WHERE id = ?", id.toString());
+        jdbcTemplate.update("DELETE FROM users WHERE id = ?",
+                id.toString());
+    }
+
+    @Override
+    public void update(UUID id, String name) {
+        jdbcTemplate.update("UPDATE users SET name = ? WHERE id = ?",
+                name,
+                id.toString());
     }
 }
