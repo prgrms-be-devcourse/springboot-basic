@@ -37,7 +37,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
             template.update(sql, param);
             return wallet;
         } catch (DuplicateKeyException e) {
-            log.warn("이미 있는 바우처 지갑 ID입니다. {}", e.getMessage());
+            log.warn("이미 있는 바우처 지갑 ID입니다.", e);
             throw new DuplicateKeyException("이미 있는 바우처 지갑 ID입니다. 관리자에게 문의해주세요.");
         }
     }
@@ -53,7 +53,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
             Wallet wallet = template.queryForObject(sql, param, walletRowMapper());
             return Optional.of(wallet);
         } catch (EmptyResultDataAccessException e) {
-            log.warn("고객의 ID로 할당된 바우처가 없을 때 예외 발생, Optional Empty로 반환, {}", e.getMessage());
+            log.warn("고객의 ID로 할당된 바우처가 없을 때 예외 발생, Optional Empty로 반환", e);
             return Optional.empty();
         }
     }
@@ -98,7 +98,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
             template.queryForObject(sql, param, walletRowMapper());
             return true;
         } catch (EmptyResultDataAccessException e) {
-            log.warn("바우처 지갑 ID가 존재하는지 체크했으나 없어서 예외 발생");
+            log.warn("바우처 지갑 ID가 존재하는지 체크했으나 없어서 예외 발생", e);
             return false;
         }
     }

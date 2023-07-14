@@ -13,7 +13,7 @@ public enum ProgramMenu {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
-            log.error("Input : {}, 사용자가 입력한 프로그램 메뉴가 존재하지 않아서 발생한 예외, {} ", type, e.getMessage());
+            log.warn("Input : {}, 사용자가 입력한 프로그램 메뉴가 존재하지 않아서 발생한 예외 ", type, e);
             throw new IllegalArgumentException("Input: " + type + ", 찾으시는 프로그램 메뉴가 없습니다.");
         }
     }

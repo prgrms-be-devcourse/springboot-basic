@@ -45,7 +45,7 @@ public class ConsoleApplication implements CommandLineRunner {
                 console.outputErrorMessage("찾는 값이 존재하지 않습니다. 자세한 메시지 : " + e.getMessage());
             } catch (Exception e) {
                 console.outputErrorMessage("알 수 없는 에러가 발생되었습니다, 에러 메시지 : " + e.getMessage());
-                log.error("알 수 없는 에러입니다 -> " + e.getMessage());
+                log.error("콘솔에서 알 수 없는 에러를 잡았습니다." + e);
             }
         }
     }

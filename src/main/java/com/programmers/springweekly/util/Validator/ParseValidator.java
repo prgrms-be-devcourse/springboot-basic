@@ -24,14 +24,14 @@ public final class ParseValidator {
 
     private static void validateLengthTwo(String[] inputInfo) {
         if (inputInfo.length != 2) {
-            log.error(INPUT_SPLIT_LENGTH_ERROR);
+            log.warn(INPUT_SPLIT_LENGTH_ERROR);
             throw new IllegalArgumentException(INPUT_SPLIT_LENGTH_ERROR);
         }
     }
 
     private static void validateLengthThree(String[] inputInfo) {
         if (inputInfo.length != 3) {
-            log.error(INPUT_SPLIT_LENGTH_ERROR);
+            log.warn(INPUT_SPLIT_LENGTH_ERROR);
             throw new IllegalArgumentException(INPUT_SPLIT_LENGTH_ERROR);
         }
     }

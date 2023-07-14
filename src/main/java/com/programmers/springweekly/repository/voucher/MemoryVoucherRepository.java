@@ -36,7 +36,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
             Voucher voucher = voucherMap.get(voucherId);
             return Optional.of(voucher);
         } catch (NullPointerException e) {
-            log.warn("바우처 ID로 바우처를 찾을 수 없어서 예외 발생, Optional Empty로 반환, {}", e.getMessage());
+            log.warn("바우처 ID로 바우처를 찾을 수 없어서 예외 발생, Optional Empty로 반환 ", e);
             return Optional.empty();
         }
     }
@@ -68,7 +68,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
             voucherMap.get(voucherId);
             return true;
         } catch (NullPointerException e) {
-            log.warn("[existById] 바우처 ID가 메모리 저장소에 없어서 예외 발생");
+            log.warn("[existById] 바우처 ID가 메모리 저장소에 없어서 예외 발생", e);
             return false;
         }
     }

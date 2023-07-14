@@ -32,7 +32,7 @@ public class FileCustomerRepository {
         try {
             UUID.fromString(uuid);
         } catch (IllegalArgumentException e) {
-            log.warn("사용자가 입력한 {} 문자열이 UUID 형식에 알맞지 않는 예외 발생, {}", uuid, e.getMessage());
+            log.warn("사용자가 입력한 {} 문자열이 UUID 형식에 알맞지 않는 예외 발생 ", uuid, e);
             throw new IllegalArgumentException("입력하신 " + uuid + " 문자열은 UUID 형식에 알맞지 않습니다. 다시 입력 해주세요");
         }
 
@@ -60,10 +60,10 @@ public class FileCustomerRepository {
             }
 
         } catch (IndexOutOfBoundsException e) {
-            log.warn("블랙리스트 파일에 저장된 열의 수가 맞지 않아 발생된 예외, {}", e.getMessage());
+            log.warn("블랙리스트 파일에 저장된 열의 수가 맞지 않아 발생된 예외 ", e);
             throw new IllegalArgumentException("현재 파일에 저장된 열의 수가 맞지않아 발생된 예외입니다. 파일을 다시 한 번 확인해주세요");
         } catch (IOException e) {
-            log.error("블랙리스트 파일에 저장된 블랙리스트를 불러오던 중 알 수 없는 이유로 발생된 에러 {}", e.getMessage());
+            log.error("블랙리스트 파일에 저장된 블랙리스트를 불러오던 중 알 수 없는 이유로 발생된 에러", e);
             throw new RuntimeException("파일에 저장된 블랙리스트를 불러오던 중 알 수 없는 에러가 발생되었습니다.");
         }
     }
