@@ -10,10 +10,9 @@ public class VoucherCommandValidator {
 
     private String inputCommand;
 
-    public VoucherCommandValidator(String inputCommand) {
+    public static void validateCommand(String inputCommand) {
         if (!inputCommand.matches(VALID_COMMAND_REGEXP)) {
             throw new IllegalArgumentException(INVALID_COMMAND_MESSAGE);
         }
-        this.inputCommand = inputCommand;
     }
 }

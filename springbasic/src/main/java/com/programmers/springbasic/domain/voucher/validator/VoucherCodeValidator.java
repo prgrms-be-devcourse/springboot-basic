@@ -8,13 +8,9 @@ public class VoucherCodeValidator {
 
     private static final String INVALID_VOUCHER_CODE_MESSAGE = "uuid 형식이 아닙니다.";
 
-    private String inputVoucherCode;
-
-    public VoucherCodeValidator(String inputVoucherCode) {
+    public static void validateVoucherCode(String inputVoucherCode) {
         if (!inputVoucherCode.matches(VALID_VOUCHER_CODE_REGEXP)) {
             throw new IllegalArgumentException(INVALID_VOUCHER_CODE_MESSAGE);
         }
-
-        this.inputVoucherCode = inputVoucherCode;
     }
 }
