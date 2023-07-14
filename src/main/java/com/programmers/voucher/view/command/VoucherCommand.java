@@ -1,17 +1,25 @@
 package com.programmers.voucher.view.command;
 
 import com.programmers.voucher.exception.BadRequestException;
+import lombok.Getter;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.programmers.voucher.constant.ErrorCode.INVALID_COMMAND;
 
+@Getter
 public enum VoucherCommand {
     CREATE(1, "바우처 생성"),
     READ_ALL(2, "모든 바우처 조회"),
     READ(3, "바우처 조회"),
     UPDATE(4, "바우처 수정"),
     DELETE(5, "바우처 삭제");
+
+    private static final Map<Integer, VoucherCommand> VOUCHER_COMMANDS = Arrays.stream(VoucherCommand.values())
+            .collect(Collectors.toMap(VoucherCommand::getNumber, Function.identity()));
 
     private final int number;
     private final String text;
@@ -22,10 +30,12 @@ public enum VoucherCommand {
     }
 
     public static VoucherCommand findByNumber(int number) {
-        return Arrays.stream(VoucherCommand.values())
-                .filter(command -> command.number == number)
-                .findFirst()
-                .orElseThrow(() -> new BadRequestException(INVALID_COMMAND));
+        VoucherCommand command = VOUCHER_COMMANDS.get(number);
+
+        if (command == null) {
+            throw new BadRequestException(INVALID_COMMAND);
+        }
+        return command;
     }
 
     @Override
