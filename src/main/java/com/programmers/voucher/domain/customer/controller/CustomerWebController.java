@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class CustomerController {
+public class CustomerWebController {
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerWebController(CustomerService customerService) {
         this.customerService = customerService;
     }
 

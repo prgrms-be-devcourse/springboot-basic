@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+public class VoucherWebController {
     private final VoucherService voucherService;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherWebController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
