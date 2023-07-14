@@ -5,6 +5,7 @@ import com.programmers.springmission.customer.presentation.request.CustomerCreat
 import com.programmers.springmission.customer.presentation.request.CustomerUpdateRequest;
 import com.programmers.springmission.customer.presentation.response.CustomerResponse;
 import com.programmers.springmission.customer.presentation.response.WalletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +20,12 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/customer")
+@RequiredArgsConstructor
 public class CustomerViewController {
 
     private static final String REDIRECT_CUSTOMER = "redirect:/customer";
 
     private final CustomerService customerService;
-
-    public CustomerViewController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @GetMapping
     public String viewCustomerPage(Model model) {

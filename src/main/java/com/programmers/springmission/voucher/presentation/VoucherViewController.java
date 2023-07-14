@@ -5,6 +5,7 @@ import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
 import com.programmers.springmission.voucher.presentation.request.VoucherUpdateRequest;
 import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +20,12 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/voucher")
+@RequiredArgsConstructor
 public class VoucherViewController {
 
     private static final String REDIRECT_VOUCHER = "redirect:/voucher";
 
     private final VoucherService voucherService;
-
-    public VoucherViewController(VoucherService voucherService) {
-        this.voucherService = voucherService;
-    }
 
     @GetMapping
     public String viewVoucherPage(Model model) {
