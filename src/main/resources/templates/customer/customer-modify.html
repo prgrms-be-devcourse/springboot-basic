@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/1f943b0307.js" crossorigin="anonymous"></script>
+    <title>Customer Modify Page</title>
+</head>
+<body class="d-flex flex-column align-items-center" style="height: 100vh;">
+<div class="d-flex flex-column container-fluid align-items-center">
+    <h1 class="mt-5 mb-3">Customer Modify Page</h1>
+    <img th:src="@{/img/bg.png}" class="img-fluid w-50">
+</div>
+
+<div class="w-75">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+        <a th:href="@{/customer}" class="btn btn-dark" type="button">Back</a>
+    </div>
+
+    <div class="mb-3">
+        <h3>선택된 고객 정보</h3>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">이름</th>
+                <th scope="col">이메일</th>
+                <th scope="col">생성날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer: ${customer}" th:object="${customer}">
+                <td th:text="${customerId}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.createdAt}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form th:action="@{/customer/viewModifyPage/name/{customerId}(customerId=${customer.customerId})}" method="post"
+          class="mt-5">
+        <fieldset>
+            <legend>고객 이름 수정</legend>
+            <div class="mb-3">
+                <label for="name" name="name" class="form-label">수정할 이름을 입력하세요</label>
+                <input id="name" name="name" type="text" class="form-control" placeholder="홍길동">
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+                <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

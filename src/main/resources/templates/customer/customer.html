@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Customer Management Page</title>
+</head>
+<body class="d-flex flex-column align-items-center" style="height: 100vh;">
+<div class="d-flex flex-column container-fluid align-items-center">
+    <h1 class="mt-5 mb-3">Customer Management Page</h1>
+    <img th:src="@{/img/bg.png}" class="img-fluid w-50">
+    <p th:text="'The time on the server is' + ${serverTime}">----</p>
+</div>
+<div class="w-75">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+        <a th:href="@{/}" class="btn btn-outline-dark" type="button">Home</a>
+        <a th:href="@{/customer/viewNewPage}" class="btn btn-dark" type="button">Create Customer</a>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">전체 고객 ID (고객 클릭 시 상세페이지 이동)</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer: ${customers}" th:object="${customer}">
+            <td th:text="${customer.customerId}"
+                th:onclick="|location.href='@{customer/{customerId}(customerId=${customer.customerId})}'|"
+                style="cursor: pointer">
+            </td>
+            <td>
+                <button th:onclick="|location.href='@{customer/viewModifyPage/{customerId}(customerId=${customer.customerId})}'|"
+                        style="cursor: pointer" class="btn btn-outline-dark" type="submit">수정
+                </button>
+            </td>
+            <td>
+                <form th:action="@{/customer/{customerId}(customerId=${customer.customerId})}" method="post">
+                    <button class="btn btn-outline-dark" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
