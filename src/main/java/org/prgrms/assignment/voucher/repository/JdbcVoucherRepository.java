@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -63,25 +64,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherEntity insertVoucherEntity(VoucherEntity voucherEntity) {
-        int update = jdbcTemplate.update(INSERT_SQL,
+    public void insert(VoucherEntity voucherEntity, VoucherHistoryEntity voucherHistoryEntity) {
+        int entityUpdate = jdbcTemplate.update(INSERT_SQL,
             toMapSqlParams(voucherEntity));
-        if(update != 1) {
-            logger.error("insert error");
-            throw new RuntimeException("Nothing was inserted!");
-        }
-        return voucherEntity;
-    }
-
-    @Override
-    public VoucherHistoryEntity insertVoucherHistoryEntity(VoucherHistoryEntity voucherHistoryEntity) {
-        int update = jdbcTemplate.update(INSERT_HISTORY_SQL,
+        int historyUpdate = jdbcTemplate.update(INSERT_HISTORY_SQL,
             toMapSqlParams(voucherHistoryEntity));
-        if(update != 1) {
+        if (entityUpdate != 1 || historyUpdate != 1) {
             logger.error("insert error");
             throw new RuntimeException("Nothing was inserted!");
         }
-        return voucherHistoryEntity;
     }
 
     @Override
@@ -104,10 +95,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherEntity update(VoucherEntity voucherEntity) {
-        int update = jdbcTemplate.update(UPDATE_SQL,
+    public VoucherEntity update(VoucherEntity voucherEntity, VoucherHistoryEntity voucherHistoryEntity) {
+        int entityUpdate = jdbcTemplate.update(UPDATE_SQL,
             toMapSqlParams(voucherEntity));
-        if(update != 1) {
+        int historyUpdate = jdbcTemplate.update(INSERT_HISTORY_SQL,
+            toMapSqlParams(voucherHistoryEntity));
+        if(entityUpdate != 1 || historyUpdate != 1) {
             logger.error("update error");
             throw new RuntimeException("Nothing was updated!");
         }
@@ -127,9 +120,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<VoucherEntity> findVouchersByType(VoucherType voucherType) {
-        return jdbcTemplate.query(FIND_BY_TYPE_SQL,
+        return jdbcTemplate.query(
+            FIND_BY_TYPE_SQL,
             Collections.singletonMap("voucherType", voucherType.toString()),
-            voucherRowMapper);
+            voucherRowMapper
+        );
     }
 
     public int count() {

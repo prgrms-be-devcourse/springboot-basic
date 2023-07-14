@@ -1,6 +1,7 @@
 package org.prgrms.assignment.voucher.service;
 
 import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
+import org.prgrms.assignment.voucher.dto.VoucherServiceRequestDTO;
 import org.prgrms.assignment.voucher.entity.VoucherEntity;
 import org.prgrms.assignment.voucher.entity.VoucherHistoryEntity;
 import org.prgrms.assignment.voucher.model.Voucher;
@@ -30,12 +31,11 @@ public class VoucherServiceImpl implements VoucherService{
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<VoucherResponseDTO> getVoucherById(UUID voucherId) {
         if(voucherRepository.findVoucherEntityById(voucherId).isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(convertToVoucherResponseDTO(voucherRepository.
+        return Optional.of(VoucherResponseDTO.of(voucherRepository.
             findVoucherEntityById(voucherId).get()));
     }
 
@@ -52,38 +52,40 @@ public class VoucherServiceImpl implements VoucherService{
                 .toList();
     }
 
+    // repo에서 한번에 해주기
     @Override
     @Transactional
-    public void updateVoucherEntity(Voucher voucher) {
-        voucherRepository.update(convertToVoucherEntity(voucher));
-        voucherRepository.insertVoucherHistoryEntity(convertToVoucherHistoryEntity(voucher, VoucherStatus.UPDATED));
+    public void updateVoucherEntity(VoucherServiceRequestDTO voucher) {
+        voucherRepository.update(VoucherEntity.of(voucher), VoucherHistoryEntity.of(voucher, VoucherStatus.UPDATED));
     }
 
+
+    // repo에서 한번에 해주기
     @Override
     @Transactional
-    public Voucher createVoucher(VoucherType voucherType, long benefit, long durationDate) {
-        Voucher voucher = voucherFactory.createVoucher(voucherType, UUID.randomUUID(), benefit, durationDate);
-        voucherRepository.insertVoucherEntity(convertToVoucherEntity(voucher));
-        voucherRepository.insertVoucherHistoryEntity(convertToVoucherHistoryEntity(voucher, VoucherStatus.UNUSED));
+    public Voucher createVoucher(VoucherServiceRequestDTO voucherServiceRequestDTO) {
+        Voucher voucher = voucherFactory.createVoucher(voucherServiceRequestDTO);
+        voucherRepository.insert(VoucherEntity.of(voucherServiceRequestDTO), VoucherHistoryEntity.of(voucherServiceRequestDTO, VoucherStatus.UNUSED));
         return voucher;
     }
 
     @Override
+    @Transactional
     public void delete(UUID voucherId) {
         voucherRepository.delete(voucherId);
     }
 
-    private VoucherEntity convertToVoucherEntity(Voucher voucher) {
-        return new VoucherEntity(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getCreatedAt(),
-            voucher.getBenefit(), voucher.getExpireDate());
+    @Override
+    public List<VoucherResponseDTO> getVouchersByType(VoucherType voucherType) {
+        return voucherRepository.findVouchersByType(voucherType)
+            .stream()
+            .map(voucherEntity -> new VoucherResponseDTO(voucherEntity.voucherId(),
+                voucherEntity.voucherType(),
+                voucherEntity.benefit(),
+                voucherEntity.createdAt(),
+                voucherEntity.expireDate())
+            )
+            .toList();
     }
 
-    private VoucherHistoryEntity convertToVoucherHistoryEntity(Voucher voucher, VoucherStatus voucherStatus) {
-        return new VoucherHistoryEntity(voucher.getVoucherId(), UUID.randomUUID(), voucherStatus, LocalDateTime.now());
-    }
-
-    private VoucherResponseDTO convertToVoucherResponseDTO(VoucherEntity voucherEntity) {
-        return new VoucherResponseDTO(voucherEntity.voucherId(), voucherEntity.voucherType(), voucherEntity.benefit(),
-            voucherEntity.createdAt(), voucherEntity.expireDate());
-    }
 }

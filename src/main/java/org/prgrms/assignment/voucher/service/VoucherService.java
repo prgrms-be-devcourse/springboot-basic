@@ -1,6 +1,7 @@
 package org.prgrms.assignment.voucher.service;
 
 import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
+import org.prgrms.assignment.voucher.dto.VoucherServiceRequestDTO;
 import org.prgrms.assignment.voucher.model.Voucher;
 import org.prgrms.assignment.voucher.model.VoucherType;
 
@@ -14,9 +15,9 @@ public interface VoucherService {
 
     List<VoucherResponseDTO> getAllVoucherDTOs();
 
-    void updateVoucherEntity(Voucher voucher);
+    void updateVoucherEntity(VoucherServiceRequestDTO voucher);
 
-    Voucher createVoucher(VoucherType voucherType, long benefit, long durationDate);
+    Voucher createVoucher(VoucherServiceRequestDTO voucher);
 
     void delete(UUID voucherId);
 
