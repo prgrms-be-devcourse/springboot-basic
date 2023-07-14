@@ -51,10 +51,9 @@ class ListCommandTest {
         List<VoucherResponse> vouchers = new ArrayList<>();
         vouchers.add(new VoucherResponse(fixedVoucher));
         vouchers.add(new VoucherResponse(percentVoucher));
-
-        //when
         Mockito.when(voucherService.getAllVoucherList()).thenReturn(vouchers);
 
+        //when
         listCommand.execute(viewManager);
 
         //then

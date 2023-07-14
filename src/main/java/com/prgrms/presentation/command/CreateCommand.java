@@ -6,7 +6,7 @@ import com.prgrms.presentation.view.ViewManager;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateCommand implements Command {
+public class  CreateCommand implements Command {
 
     private VoucherService voucherService;
 

@@ -89,4 +89,5 @@ class VoucherServiceTest {
                 .containsOnly(voucherResponse1, voucherResponse2);
         verify(voucherRepository, times(1)).getAllVoucher();
     }
+
 }
