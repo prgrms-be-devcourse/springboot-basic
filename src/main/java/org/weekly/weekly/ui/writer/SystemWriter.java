@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @Component
 @ConditionalOnProperty(value = "command.write", havingValue = "system")
-public class SystemWriter {
+public class SystemWriter implements CommandWriter{
     private final Logger logger = LoggerFactory.getLogger(SystemWriter.class);
 
     private void println(String msg) {
