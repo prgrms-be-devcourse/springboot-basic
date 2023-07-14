@@ -1,7 +1,6 @@
-package com.devcourse.voucher.domain;
+package com.devcourse.voucher.domain.repository;
 
-import com.devcourse.voucher.domain.repository.MemoryVoucherRepository;
-import com.devcourse.voucher.domain.repository.VoucherRepository;
+import com.devcourse.voucher.domain.Voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import static com.devcourse.voucher.domain.Voucher.Type.FIXED;
 import static com.devcourse.voucher.domain.Voucher.Type.PERCENT;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class VoucherRepositoryTest {
+class MemoryVoucherRepositoryTest {
     private VoucherRepository voucherRepository;
 
     private final LocalDateTime expiredAt = LocalDateTime.now();
@@ -30,7 +29,7 @@ class VoucherRepositoryTest {
         // given
         int discountAmount = 50;
 
-        Voucher voucher = Voucher.of(discountAmount, expiredAt, FIXED);
+        Voucher voucher = new Voucher(discountAmount, expiredAt, FIXED);
 
         // when
         Voucher saved = voucherRepository.save(voucher);
@@ -50,7 +49,7 @@ class VoucherRepositoryTest {
         int step = 10;
 
         IntStream.iterate(start, seed -> seed < end, seed -> seed + step)
-                .mapToObj(discount -> Voucher.of(discount, expiredAt, PERCENT))
+                .mapToObj(discount -> new Voucher(discount, expiredAt, PERCENT))
                 .forEach(voucherRepository::save);
 
         // when
