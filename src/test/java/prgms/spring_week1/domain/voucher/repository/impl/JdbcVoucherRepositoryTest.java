@@ -5,6 +5,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.mockito.internal.hamcrest.HamcrestArgumentMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,13 +15,18 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
+import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 
 import javax.sql.DataSource;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+
+
 @JdbcTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JdbcVoucherRepositoryTest {
@@ -37,22 +43,22 @@ class JdbcVoucherRepositoryTest {
     @Test
     @Order(1)
     void findAll_before() {
-        assertEquals(2,jdbcVoucherRepository.findAll().size());
+        assertThat(jdbcVoucherRepository.findAll(),hasSize(2));
     }
 
     @Test
     @Order(2)
     void findByType() {
         List<Voucher> fixedVoucherList = jdbcVoucherRepository.findByType("FIXED");
-        assertEquals(1,fixedVoucherList.size());
+        assertThat(fixedVoucherList,hasSize(1));
         List<Voucher> percentVoucherList = jdbcVoucherRepository.findByType("PERCENT");
-        assertEquals(1,percentVoucherList.size());
+        assertThat(percentVoucherList,hasSize(1));
     }
 
     @Test
     @Order(3)
     void delete() {
         jdbcVoucherRepository.delete();
-        assertEquals(0,jdbcVoucherRepository.findAll().size());
+        assertThat(jdbcVoucherRepository.findAll(),hasSize(0));
     }
 }

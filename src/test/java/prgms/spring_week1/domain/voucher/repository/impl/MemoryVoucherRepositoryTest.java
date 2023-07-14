@@ -3,14 +3,20 @@ package prgms.spring_week1.domain.voucher.repository.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
+
+@ExtendWith(MockitoExtension.class)
 class MemoryVoucherRepositoryTest {
     private VoucherRepository voucherRepository;
 
@@ -29,7 +35,7 @@ class MemoryVoucherRepositoryTest {
         //when
         int voucherListSize = voucherList.size();
         //then
-        assertEquals(2, voucherListSize);
+        assertThat(2, is(voucherListSize));
     }
 
     @Test
@@ -40,6 +46,6 @@ class MemoryVoucherRepositoryTest {
         //when
         voucherRepository.insert(newVoucher);
         //then
-        assertEquals(3, voucherRepository.findAll().size());
+        assertThat(3, is(voucherRepository.findAll().size()));
     }
 }
