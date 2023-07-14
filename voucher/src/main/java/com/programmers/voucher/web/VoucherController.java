@@ -48,29 +48,22 @@ public class VoucherController {
             FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID().toString().substring(0, 7), discount);
             voucherStream.save(voucher);
             model.addAttribute("voucher", voucher);
-            return "redirect:/vouchers/fixed/" + voucher.getVoucherId();
+            return "redirect:/vouchers/" + voucher.getVoucherId();
         } else if ("PercentDiscountVoucher".equals(type)) {
             PercentDiscountVoucher voucher = new PercentDiscountVoucher(UUID.randomUUID().toString().substring(0, 7), discount);
             voucherStream.save(voucher);
             model.addAttribute("voucher", voucher);
-            return "redirect:/vouchers/rate/" + voucher.getVoucherId();
+            return "redirect:/vouchers/" + voucher.getVoucherId();
         } else {
             return "redirect:/vouchers";
         }
     }
 
-    @GetMapping("/fixed/{voucherId}")
-    public String fixedVoucherInformation(@PathVariable String voucherId, Model model) {
-        FixedAmountVoucher voucher = (FixedAmountVoucher) voucherStream.findById(voucherId);
+    @GetMapping("/{voucherId}")
+    public String voucherInformation(@PathVariable String voucherId, Model model) {
+        Voucher voucher = voucherStream.findById(voucherId);
         model.addAttribute("voucher", voucher);
-        return "/voucher/information/fixed-information";
-    }
-
-    @GetMapping("/rate/{voucherId}")
-    public String rateVoucherInformation(@PathVariable String voucherId, Model model) {
-        PercentDiscountVoucher voucher = (PercentDiscountVoucher) voucherStream.findById(voucherId);
-        model.addAttribute("voucher", voucher);
-        return "/voucher/information/rate-information";
+        return "/voucher/information/voucher-information";
     }
 
     @GetMapping("/fixed/{voucherId}/edit")
