@@ -30,7 +30,7 @@ class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         try (FileWriter writer = new FileWriter(vouchers, true)) {
-            writer.write(voucher.toText());
+            writer.write(voucher.toText() + "\n");
             return voucher;
         } catch (IOException e) {
             throw new RuntimeException(SAVE_FAIL);
