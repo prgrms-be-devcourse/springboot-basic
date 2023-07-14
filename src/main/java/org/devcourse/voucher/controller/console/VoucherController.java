@@ -27,9 +27,7 @@ public class VoucherController {
     }
 
     public List<VoucherInfoResponse> listVoucher() {
-        List<Voucher> vouchers = voucherService.findAll();
-
-        return vouchers.stream()
+        return voucherService.findAll().stream()
                 .map(Voucher::values)
                 .map(VoucherInfoResponse::new)
                 .toList();
