@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
@@ -27,7 +28,7 @@ class ConsoleCustomerMenuTest {
     private CustomerConsoleController customerController;
 
     @Test
-    @DisplayName("성공: blacklist 명령 입력 - exit 명령 입력")
+    @DisplayName("성공: blacklist 명령 실행 - exit 명령 실행")
     void customerCommandTypeBlacklist() {
         //given
         given(console.inputCustomerCommandType())
@@ -37,12 +38,12 @@ class ConsoleCustomerMenuTest {
         consoleCustomerMenu.runningCustomerService();
 
         //then
-        then(console).should(times(2)).inputCustomerCommandType();
         then(customerController).should().findBlacklistCustomers();
+        then(console).should().printCustomers(any());
     }
 
     @Test
-    @DisplayName("성공: create 명령 입력 - exit 명령 입력")
+    @DisplayName("성공: create 명령 실행 - exit 명령 실행")
     void customerCommandTypeCreate() {
         //given
         given(console.inputCustomerCommandType())
@@ -52,12 +53,13 @@ class ConsoleCustomerMenuTest {
         consoleCustomerMenu.runningCustomerService();
 
         //then
-        then(console).should(times(2)).inputCustomerCommandType();
-        then(customerController).should().createCustomer();
+        then(console).should().inputCustomerCreateInfo();
+        then(customerController).should().createCustomer(any());
+        then(console).should().print(any());
     }
 
     @Test
-    @DisplayName("성공: list 명령 입력 - exit 명령 입력")
+    @DisplayName("성공: list 명령 실행 - exit 명령 실행")
     void customerCommandTypeList() {
         //given
         given(console.inputCustomerCommandType())
@@ -67,12 +69,12 @@ class ConsoleCustomerMenuTest {
         consoleCustomerMenu.runningCustomerService();
 
         //then
-        then(console).should(times(2)).inputCustomerCommandType();
         then(customerController).should().findCustomers();
+        then(console).should().printCustomers(any());
     }
 
     @Test
-    @DisplayName("성공: update 명령 입력 - exit 명령 입력")
+    @DisplayName("성공: update 명령 실행 - exit 명령 실행")
     void customerCommandTypeUpdate() {
         //given
         given(console.inputCustomerCommandType())
@@ -82,12 +84,13 @@ class ConsoleCustomerMenuTest {
         consoleCustomerMenu.runningCustomerService();
 
         //then
-        then(console).should(times(2)).inputCustomerCommandType();
-        then(customerController).should().updateCustomer();
+        then(console).should().inputCustomerUpdateInfo();
+        then(customerController).should().updateCustomer(any());
+        then(console).should().print(any());
     }
 
     @Test
-    @DisplayName("성공: delete 명령 입력 - exit 명령 입력")
+    @DisplayName("성공: delete 명령 실행 - exit 명령 실행")
     void customerCommandTypeDelete() {
         //given
         given(console.inputCustomerCommandType())
@@ -97,12 +100,13 @@ class ConsoleCustomerMenuTest {
         consoleCustomerMenu.runningCustomerService();
 
         //then
-        then(console).should(times(2)).inputCustomerCommandType();
-        then(customerController).should().deleteCustomer();
+        then(console).should().inputUUID();
+        then(customerController).should().deleteCustomer(any());
+        then(console).should().print(any());
     }
 
     @Test
-    @DisplayName("성공: help 명령 입력 - exit 명령 입력")
+    @DisplayName("성공: help 명령 실행 - exit 명령 실행")
     void customerCommandTypeHelp() {
         //given
         given(console.inputCustomerCommandType())
@@ -112,7 +116,6 @@ class ConsoleCustomerMenuTest {
         consoleCustomerMenu.runningCustomerService();
 
         //then
-        then(console).should(times(2)).inputCustomerCommandType();
         then(console).should(times(2)).printCustomerCommandSet();
     }
 }

@@ -1,18 +1,12 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.menu.ConsoleMenu;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.dao.DuplicateKeyException;
-
-import java.util.NoSuchElementException;
 
 public class ConsoleRunner implements CommandLineRunner {
-    private final Console console;
     private final ConsoleMenu consoleMenu;
 
-    public ConsoleRunner(Console console, ConsoleMenu consoleMenu) {
-        this.console = console;
+    public ConsoleRunner(ConsoleMenu consoleMenu) {
         this.consoleMenu = consoleMenu;
     }
 
@@ -20,23 +14,7 @@ public class ConsoleRunner implements CommandLineRunner {
     public void run(String... args) {
         boolean keepRunningClient = true;
         while (keepRunningClient) {
-            keepRunningClient = runAndProcessClient();
+            keepRunningClient = consoleMenu.runAndProcessClient();
         }
-    }
-
-    private boolean runAndProcessClient() {
-        boolean keepRunningClient = true;
-        try {
-            keepRunningClient = consoleMenu.runClient();
-
-        } catch (IllegalArgumentException | NoSuchElementException | DuplicateKeyException ex) {
-            console.print(ex.getMessage());
-
-        } catch (RuntimeException ex) {
-            console.print(ex.getMessage());
-
-            keepRunningClient = false;
-        }
-        return keepRunningClient;
     }
 }

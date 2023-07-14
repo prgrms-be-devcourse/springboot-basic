@@ -2,7 +2,10 @@ package com.programmers.voucher.global.io.menu;
 
 import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.command.ConsoleCommandType;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
+
+import java.util.NoSuchElementException;
 
 @Component
 public class ConsoleMenu {
@@ -16,7 +19,21 @@ public class ConsoleMenu {
         this.consoleVoucherMenu = consoleVoucherMenu;
     }
 
-    public boolean runClient() {
+    public boolean runAndProcessClient() {
+        boolean keepRunningClient = true;
+        try {
+            keepRunningClient = runClient();
+
+        } catch (IllegalArgumentException | NoSuchElementException | DuplicateKeyException ex) {
+            console.printErrorMessage(ex);
+        } catch (RuntimeException ex) {
+            console.printErrorMessage(ex);
+            keepRunningClient = false;
+        }
+        return keepRunningClient;
+    }
+
+    private boolean runClient() {
         console.printCommandSet();
 
         ConsoleCommandType commandType = console.inputInitialCommand();
