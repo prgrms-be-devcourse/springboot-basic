@@ -5,7 +5,6 @@ import com.programmers.springbootbasic.common.util.LocalDateTimeParser;
 import com.programmers.springbootbasic.common.util.NumberParser;
 import com.programmers.springbootbasic.common.util.Validator;
 import com.programmers.springbootbasic.presentation.Command;
-import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;
 import org.springframework.stereotype.Component;
@@ -16,6 +15,8 @@ import java.time.LocalDateTime;
 @Component
 public class ConsoleApplicationView {
     private static final String BLANK = "";
+    private static final String PERCENT = "정률 할인";
+    private static final String FIX = "정액 할인";
     private static final String OPENING_MESSAGE = """
             === 바우처 프로그램 ===
             프로그램을 종료하려면 "나가기" 를 입력하세요.
@@ -28,8 +29,8 @@ public class ConsoleApplicationView {
     private static final String EXIT_MESSAGE = "어플리케이션을 종료합니다.";
     private static final String INPUT_TYPE = """
             바우처의 타입을 입력해주세요.
-            정률 할인 쿠폰을 생성하려면 "정률 할인" 을 입력하세요.
-            정액 할인 쿠폰을 생성하려면 "정액 할인" 을 입력하세요.
+            정률 할인 쿠폰을 생성하려면 "%s" 을 입력하세요.
+            정액 할인 쿠폰을 생성하려면 "%s" 을 입력하세요.
                         
             입력:\s""";
     private static final String INPUT_NAME = """
@@ -55,8 +56,8 @@ public class ConsoleApplicationView {
             정액 할인 시: 10 ~ 10,000,000원 (원 제외)
                         
             입력:\s""";
-
     private static final String CREATED_VOUCHER_INFO = "=== 바우처 생성완료 ===";
+    private static final String INVALID_VOUCHER_TYPE = "잘못된 바우처 유형입니다. 현재 입력 값: ";
 
     private final Console console;
 
@@ -71,36 +72,20 @@ public class ConsoleApplicationView {
         return Command.from(inputCommand);
     }
 
-    public VoucherCreationRequest createVoucherCreationRequestFromInput() throws IOException {
+    public void startCreation() throws IOException {
         console.printLine(CREATE_MESSAGE);
-
-        String voucherType = inputType();
-        printNewLine();
-
-        String name = inputName();
-        printNewLine();
-
-        Long minimumPriceCondition = inputMinimumPriceCondition();
-        printNewLine();
-
-        LocalDateTime expiredAt = inputExpiredAt();
-        printNewLine();
-
-        int amountOrPercent = inputAmountOrPercent();
-        printNewLine();
-
-        return new VoucherCreationRequest(voucherType, name, minimumPriceCondition, expiredAt, amountOrPercent);
     }
 
-    private String inputType() throws IOException {
+    public String inputType() throws IOException {
         // 타입 입력
-        console.print(INPUT_TYPE);
+        console.print(String.format(INPUT_TYPE, PERCENT, FIX));
         String voucherType = console.inputLine();
-        Validator.checkInvalidType(voucherType);
+        Validator.checkNullOrBlank(voucherType);
+        checkInvalidType(voucherType);
         return voucherType;
     }
 
-    private String inputName() throws IOException {
+    public String inputName() throws IOException {
         // 이름 입력
         console.print(INPUT_NAME);
         String name = console.inputLine();
@@ -108,21 +93,21 @@ public class ConsoleApplicationView {
         return name;
     }
 
-    private Long inputMinimumPriceCondition() throws IOException {
+    public long inputMinimumPriceCondition() throws IOException {
         // 최소 금액 입력
         console.print(INPUT_MINIMUM_PRICE_CONDITION);
         String minimumPriceConditionInput = console.inputLine();
         return NumberParser.parseToMinimumPriceCondition(minimumPriceConditionInput);
     }
 
-    private LocalDateTime inputExpiredAt() throws IOException {
+    public LocalDateTime inputExpiredAt() throws IOException {
         // 만료기한 입력
         console.print(INPUT_EXPIRED_DATETIME);
         String expiredAtInput = console.inputLine();
         return LocalDateTimeParser.parseToLocalDateTime(expiredAtInput);
     }
 
-    private int inputAmountOrPercent() throws IOException {
+    public int inputAmountOrPercent() throws IOException {
         // 할인액 or 할인율 입력
         console.print(INPUT_AMOUNT_OR_PERCENT);
         String amountOrPercentInput = console.inputLine();
@@ -156,7 +141,14 @@ public class ConsoleApplicationView {
         printNewLine();
     }
 
-    private void printNewLine() throws IOException {
+    public void printNewLine() throws IOException {
         console.printLine(BLANK);
+    }
+
+    private void checkInvalidType(String input) {
+        if (input.equals(PERCENT) || input.equals(FIX)) {
+            return;
+        }
+        throw new IllegalArgumentException(INVALID_VOUCHER_TYPE + input);
     }
 }

@@ -3,13 +3,13 @@ package com.programmers.springbootbasic;
 import com.programmers.springbootbasic.presentation.Command;
 import com.programmers.springbootbasic.presentation.controller.VoucherController;
 import com.programmers.springbootbasic.presentation.view.ConsoleApplicationView;
-import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.VoucherResponses;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Component
 public class SpringBootConsoleApplication implements CommandLineRunner {
@@ -41,8 +41,20 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
     }
 
     private void create() throws IOException {
-        VoucherCreationRequest request = applicationView.createVoucherCreationRequestFromInput();
-        VoucherResponse response = voucherController.createVoucher(request);
+        applicationView.startCreation();
+
+        String voucherType = applicationView.inputType();
+        applicationView.printNewLine();
+        String name = applicationView.inputName();
+        applicationView.printNewLine();
+        long minimumPriceCondition = applicationView.inputMinimumPriceCondition();
+        applicationView.printNewLine();
+        LocalDateTime expiredAt = applicationView.inputExpiredAt();
+        applicationView.printNewLine();
+        int amountOrPercent = applicationView.inputAmountOrPercent();
+        applicationView.printNewLine();
+
+        VoucherResponse response = voucherController.createVoucher(voucherType, name, minimumPriceCondition, expiredAt, amountOrPercent);
         applicationView.printCreatedVoucher(response);
     }
 
