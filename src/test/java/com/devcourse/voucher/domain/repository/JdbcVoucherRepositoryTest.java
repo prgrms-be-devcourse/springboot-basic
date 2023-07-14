@@ -1,6 +1,7 @@
 package com.devcourse.voucher.domain.repository;
 
 import com.devcourse.voucher.domain.Voucher;
+import com.devcourse.voucher.domain.Voucher.Type;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.devcourse.voucher.domain.Voucher.Type.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("dev")
@@ -29,8 +31,8 @@ class JdbcVoucherRepositoryTest {
 
     @ParameterizedTest
     @DisplayName("바우처를 저장하면 생성 시 입력한 값들이 온전히 저장되어야 한다.")
-    @EnumSource(Voucher.Type.class)
-    void saveTest(Voucher.Type type) {
+    @EnumSource(Type.class)
+    void saveTest(Type type) {
         // given
         int discount = 500;
         Voucher voucher = new Voucher(discount, expiredAt, type);
@@ -53,7 +55,7 @@ class JdbcVoucherRepositoryTest {
     @Nested
     class findByIdTest {
         private final int discount = 50;
-        private final Voucher.Type percent = Voucher.Type.PERCENT;
+        private final Type percent = PERCENT;
         private final Voucher saved = voucherRepository.save(new Voucher(discount, expiredAt, percent));
 
         @Test
@@ -85,5 +87,20 @@ class JdbcVoucherRepositoryTest {
             // then
             assertThat(optionalVoucher).isEmpty();
         }
+    }
+
+    @Test
+    @DisplayName("저장된 바우처를 id로 지우면 아무것도 조회되지 않아야 한다.")
+    void deleteByIdTest() {
+        // given
+        Voucher voucher = new Voucher(100, expiredAt, PERCENT);
+        voucherRepository.save(voucher);
+
+        // when
+        voucherRepository.deleteById(voucher.id());
+
+        // then
+        List<Voucher> vouchers = voucherRepository.findAll();
+        assertThat(vouchers).isEmpty();
     }
 }

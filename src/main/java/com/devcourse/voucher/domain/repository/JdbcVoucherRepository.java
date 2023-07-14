@@ -57,4 +57,10 @@ class JdbcVoucherRepository implements VoucherRepository {
             return Optional.empty();
         }
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        jdbcTemplate.update("DELETE FROM vouchers WHERE id = ?",
+                id.toString());
+    }
 }

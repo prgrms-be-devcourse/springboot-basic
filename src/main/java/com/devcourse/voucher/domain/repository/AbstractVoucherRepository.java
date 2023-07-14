@@ -21,4 +21,7 @@ class AbstractVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID id) {
         return Optional.empty();
     }
+
+    @Override
+    public void deleteById(UUID id) { }
 }
