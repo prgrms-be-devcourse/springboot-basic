@@ -28,9 +28,6 @@ dependencies {
 	// mysql connector
 	implementation 'mysql:mysql-connector-java:8.0.33'
 
-	// wix embedded mysql database -> for test
-	testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
-
 	// jdbc
 	implementation "org.springframework.boot:spring-boot-starter-jdbc"
 

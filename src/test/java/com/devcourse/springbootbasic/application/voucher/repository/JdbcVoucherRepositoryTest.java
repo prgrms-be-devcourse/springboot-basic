@@ -2,21 +2,22 @@ package com.devcourse.springbootbasic.application.voucher.repository;
 
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.customer.repository.CustomerRepository;
+import com.devcourse.springbootbasic.application.customer.repository.JdbcCustomerRepository;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.ScriptResolver;
-import com.wix.mysql.config.Charset;
-import com.wix.mysql.config.MysqldConfig;
-import com.wix.mysql.distribution.Version;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -27,9 +28,11 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@JdbcTest
 @ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Import({JdbcVoucherRepository.class, JdbcCustomerRepository.class})
 class JdbcVoucherRepositoryTest {
 
     static List<Customer> customers = List.of(
@@ -40,39 +43,22 @@ class JdbcVoucherRepositoryTest {
             new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
             new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
     );
+
     @Autowired
     JdbcVoucherRepository voucherRepository;
+
     @Autowired
     CustomerRepository customerRepository;
-    EmbeddedMysql embeddedMysql;
 
     static Stream<Arguments> provideVouchers() {
         return vouchers.stream()
                 .map(Arguments::of);
     }
 
-    @BeforeAll
-    void init() {
-        var mysqlConfig = MysqldConfig.aMysqldConfig(Version.v8_0_17)
-                .withCharset(Charset.UTF8)
-                .withPort(8070)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = EmbeddedMysql.anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", ScriptResolver.classPathScript("test-schema.sql"))
-                .start();
-        customers.forEach(customer -> customerRepository.insert(customer));
-    }
-
     @BeforeEach
     void cleanup() {
+        customers.forEach(customer -> customerRepository.insert(customer));
         voucherRepository.deleteAll();
-    }
-
-    @AfterAll
-    void destroy() {
-        embeddedMysql.stop();
     }
 
     @ParameterizedTest

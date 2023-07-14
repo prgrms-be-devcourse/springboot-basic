@@ -2,7 +2,6 @@ package com.devcourse.springbootbasic.application.global.config;
 
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;

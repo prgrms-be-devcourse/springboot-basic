@@ -15,7 +15,7 @@ import java.util.*;
 
 @Repository
 @Profile({"default", "test"})
-public class CustomerJdbcRepository implements CustomerRepository {
+public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
         UUID customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
@@ -26,7 +26,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

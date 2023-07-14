@@ -2,30 +2,33 @@ package com.devcourse.springbootbasic.application.customer.repository;
 
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import com.wix.mysql.EmbeddedMysql;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_17;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchException;
 
-@SpringBootTest
+@JdbcTest
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CustomerJdbcRepositoryTest {
+@Import(JdbcCustomerRepository.class)
+class JdbcCustomerRepositoryTest {
 
     static List<Customer> validCustomers = List.of(
             new Customer(UUID.randomUUID(), "사과", false),
@@ -33,36 +36,18 @@ class CustomerJdbcRepositoryTest {
             new Customer(UUID.randomUUID(), "포도", false),
             new Customer(UUID.randomUUID(), "배", false)
     );
+
     @Autowired
-    CustomerJdbcRepository customerRepository;
-    EmbeddedMysql embeddedMysql;
+    JdbcCustomerRepository customerRepository;
 
     static Stream<Arguments> provideValidCustomers() {
         return validCustomers.stream()
                 .map(Arguments::of);
     }
 
-    @BeforeAll
-    void init() {
-        var mysqlConfig = aMysqldConfig(v8_0_17)
-                .withCharset(UTF8)
-                .withPort(8070)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-voucher_system", classPathScript("test-schema.sql"))
-                .start();
-    }
-
     @BeforeEach
     void cleanup() {
         customerRepository.deleteAll();
-    }
-
-    @AfterAll
-    void destroy() {
-        embeddedMysql.stop();
     }
 
     @Test
@@ -191,5 +176,4 @@ class CustomerJdbcRepositoryTest {
 
         assertThat(result).isEmpty();
     }
-
 }
