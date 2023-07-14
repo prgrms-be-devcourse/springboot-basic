@@ -1,6 +1,7 @@
 package com.prgrms.commandLineApplication.execute;
 
-import com.prgrms.commandLineApplication.customer.Customer;
+import com.prgrms.commandLineApplication.customer.dto.CustomerCreateDto;
+import com.prgrms.commandLineApplication.customer.dto.CustomerResponseDto;
 import com.prgrms.commandLineApplication.io.Console;
 import com.prgrms.commandLineApplication.service.CustomerService;
 import org.springframework.stereotype.Component;
@@ -8,20 +9,19 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class CustomerExecute implements Execute {
+public class CustomerExecution implements Execution {
 
   private final Console console;
   private final CustomerService customerService;
 
-  public CustomerExecute(Console console, CustomerService customerService) {
+  public CustomerExecution(Console console, CustomerService customerService) {
     this.console = console;
-
     this.customerService = customerService;
   }
 
   @Override
   public void printList() {
-    List<Customer> list = customerService.findAllCustomers();
+    List<CustomerResponseDto> list = customerService.findAllCustomers();
     console.printAllCustomers(list);
   }
 
@@ -33,7 +33,8 @@ public class CustomerExecute implements Execute {
     console.requestCustomerEmail();
     String email = console.readCustomer();
 
-    customerService.create(customerName, email);
+    CustomerCreateDto requestDto = new CustomerCreateDto(customerName, email);
+    customerService.create(requestDto);
     console.printCreateCustomerSuccess(customerName, email);
   }
 
