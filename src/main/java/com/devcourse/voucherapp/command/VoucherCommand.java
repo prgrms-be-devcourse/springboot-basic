@@ -3,12 +3,12 @@ package com.devcourse.voucherapp.command;
 import com.devcourse.voucherapp.controller.VoucherController;
 import com.devcourse.voucherapp.entity.voucher.VoucherMenu;
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
-import com.devcourse.voucherapp.entity.voucher.request.VoucherCreateRequestDto;
-import com.devcourse.voucherapp.entity.voucher.request.VoucherUpdateRequestDto;
-import com.devcourse.voucherapp.entity.voucher.response.VoucherResponseDto;
-import com.devcourse.voucherapp.entity.voucher.response.VouchersResponseDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.view.CommonView;
 import com.devcourse.voucherapp.view.VoucherView;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +52,7 @@ public class VoucherCommand {
     }
 
     private void readAllVouchers() {
-        VouchersResponseDto response = voucherController.findAllVouchers();
+        List<VoucherResponseDto> response = voucherController.findAllVouchers();
         voucherView.showAllVouchers(response);
     }
 

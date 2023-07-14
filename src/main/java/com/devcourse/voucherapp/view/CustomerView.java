@@ -1,9 +1,9 @@
 package com.devcourse.voucherapp.view;
 
 import com.devcourse.voucherapp.entity.customer.CustomerType;
-import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
-import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.view.io.Output;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -58,9 +58,9 @@ public class CustomerView {
         output.printWithLineBreak(response);
     }
 
-    public void showAllCustomers(CustomersResponseDto response) {
+    public void showAllCustomers(List<CustomerResponseDto> response) {
         output.printWithLineBreak(ALL_CUSTOMERS_LIST_MESSAGE);
-        commonView.showElementsInList(response.getCustomers());
+        commonView.showElementsInList(response);
     }
 
     public void showCustomerUpdateSuccessMessage(CustomerResponseDto response) {

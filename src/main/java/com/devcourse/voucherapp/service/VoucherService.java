@@ -1,13 +1,12 @@
 package com.devcourse.voucherapp.service;
 
-import com.devcourse.voucherapp.entity.voucher.VoucherType;
-import com.devcourse.voucherapp.entity.voucher.request.VoucherCreateRequestDto;
-import com.devcourse.voucherapp.entity.voucher.response.VoucherResponseDto;
-import com.devcourse.voucherapp.entity.voucher.request.VoucherUpdateRequestDto;
-import com.devcourse.voucherapp.entity.voucher.response.VouchersResponseDto;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
-import com.devcourse.voucherapp.utils.exception.voucher.NotFoundVoucherException;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.repository.voucher.VoucherRepository;
+import com.devcourse.voucherapp.exception.voucher.NotFoundVoucherException;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class VoucherService {
-
-    private static final int ZERO = 0;
 
     private final VoucherRepository voucherRepository;
 
@@ -29,10 +26,10 @@ public class VoucherService {
         return VoucherResponseDto.from(voucher);
     }
 
-    public VouchersResponseDto findAllVouchers() {
-        List<Voucher> vouchers = voucherRepository.findAllVouchers();
-
-        return VouchersResponseDto.from(vouchers);
+    public List<VoucherResponseDto> findAllVouchers() {
+        return voucherRepository.findAllVouchers().stream()
+                .map(VoucherResponseDto::from)
+                .toList();
     }
 
     public VoucherResponseDto findVoucherById(String id) {
@@ -51,10 +48,14 @@ public class VoucherService {
     }
 
     public void deleteById(String id) {
-        int deletionCounts = voucherRepository.deleteById(id);
+        int deleteCounts = voucherRepository.deleteById(id);
 
-        if (deletionCounts == ZERO) {
+        if (isEmptyDeleteResult(deleteCounts)) {
             throw new NotFoundVoucherException(id);
         }
+    }
+
+    private boolean isEmptyDeleteResult(int deleteCounts) {
+        return deleteCounts == 0;
     }
 }

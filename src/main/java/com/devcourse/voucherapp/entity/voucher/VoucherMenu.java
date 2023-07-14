@@ -2,7 +2,7 @@ package com.devcourse.voucherapp.entity.voucher;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.utils.exception.MenuInputException;
+import com.devcourse.voucherapp.exception.MenuInputException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;

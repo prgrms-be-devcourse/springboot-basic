@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.utils.exception.voucher;
+package com.devcourse.voucherapp.exception.voucher;
 
 import static java.text.MessageFormat.format;
 

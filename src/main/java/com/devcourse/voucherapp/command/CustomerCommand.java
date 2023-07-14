@@ -2,12 +2,12 @@ package com.devcourse.voucherapp.command;
 
 import com.devcourse.voucherapp.controller.CustomerController;
 import com.devcourse.voucherapp.entity.customer.CustomerMenu;
-import com.devcourse.voucherapp.entity.customer.request.CustomerCreateRequestDto;
-import com.devcourse.voucherapp.entity.customer.request.CustomerUpdateRequestDto;
-import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
-import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerCreateRequestDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerUpdateRequestDto;
 import com.devcourse.voucherapp.view.CommonView;
 import com.devcourse.voucherapp.view.CustomerView;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -48,7 +48,7 @@ public class CustomerCommand {
     }
 
     private void readAllCustomers() {
-        CustomersResponseDto response = customerController.findAllCustomers();
+        List<CustomerResponseDto> response = customerController.findAllCustomers();
         customerView.showAllCustomers(response);
     }
 
@@ -74,7 +74,7 @@ public class CustomerCommand {
     }
 
     private void readBlackListCustomers() {
-        CustomersResponseDto response = customerController.findBlackListCustomers();
+        List<CustomerResponseDto> response = customerController.findBlackListCustomers();
         customerView.showAllCustomers(response);
     }
 }

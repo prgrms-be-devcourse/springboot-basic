@@ -1,7 +1,7 @@
 package com.devcourse.voucherapp.repository.voucher;
 
 import com.devcourse.voucherapp.entity.voucher.Voucher;
-import com.devcourse.voucherapp.utils.exception.voucher.NotFoundVoucherException;
+import com.devcourse.voucherapp.exception.voucher.NotFoundVoucherException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

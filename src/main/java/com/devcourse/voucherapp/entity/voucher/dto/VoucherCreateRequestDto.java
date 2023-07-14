@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.entity.voucher.request;
+package com.devcourse.voucherapp.entity.voucher.dto;
 
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.devcourse.voucherapp.entity.voucher;
 
-import com.devcourse.voucherapp.utils.exception.voucher.DiscountAmountException;
+import com.devcourse.voucherapp.exception.voucher.DiscountAmountException;
 import java.util.UUID;
 import lombok.Getter;
 

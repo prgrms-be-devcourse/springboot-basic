@@ -1,10 +1,10 @@
 package com.devcourse.voucherapp.controller;
 
-import com.devcourse.voucherapp.entity.customer.request.CustomerCreateRequestDto;
-import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
-import com.devcourse.voucherapp.entity.customer.request.CustomerUpdateRequestDto;
-import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerCreateRequestDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerUpdateRequestDto;
 import com.devcourse.voucherapp.service.CustomerService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -18,7 +18,7 @@ public class CustomerController {
         return customerService.create(request);
     }
 
-    public CustomersResponseDto findAllCustomers() {
+    public List<CustomerResponseDto> findAllCustomers() {
         return customerService.findAllCustomers();
     }
 
@@ -30,7 +30,7 @@ public class CustomerController {
         customerService.deleteByNickname(nickname);
     }
 
-    public CustomersResponseDto findBlackListCustomers() {
+    public List<CustomerResponseDto> findBlackListCustomers() {
         return customerService.findBlackListCustomers();
     }
 }

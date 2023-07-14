@@ -1,13 +1,12 @@
 package com.devcourse.voucherapp.service;
 
-import com.devcourse.voucherapp.entity.customer.CustomerType;
 import com.devcourse.voucherapp.entity.customer.Customer;
-import com.devcourse.voucherapp.entity.customer.request.CustomerCreateRequestDto;
-import com.devcourse.voucherapp.entity.customer.response.CustomerResponseDto;
-import com.devcourse.voucherapp.entity.customer.request.CustomerUpdateRequestDto;
-import com.devcourse.voucherapp.entity.customer.response.CustomersResponseDto;
-import com.devcourse.voucherapp.utils.exception.customer.ExistedCustomerException;
-import com.devcourse.voucherapp.utils.exception.customer.NotFoundCustomerException;
+import com.devcourse.voucherapp.entity.customer.CustomerType;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerCreateRequestDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
+import com.devcourse.voucherapp.entity.customer.dto.CustomerUpdateRequestDto;
+import com.devcourse.voucherapp.exception.customer.ExistedCustomerException;
+import com.devcourse.voucherapp.exception.customer.NotFoundCustomerException;
 import com.devcourse.voucherapp.repository.customer.CustomerRepository;
 import java.util.List;
 import java.util.UUID;
@@ -17,8 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
-
-    private static final int ZERO = 0;
 
     private final CustomerRepository customerRepository;
 
@@ -36,10 +33,10 @@ public class CustomerService {
         return CustomerResponseDto.from(customer);
     }
 
-    public CustomersResponseDto findAllCustomers() {
-        List<Customer> customers = customerRepository.findAllCustomers();
-
-        return CustomersResponseDto.from(customers);
+    public List<CustomerResponseDto> findAllCustomers() {
+        return customerRepository.findAllCustomers().stream()
+                .map(CustomerResponseDto::from)
+                .toList();
     }
 
     public CustomerResponseDto update(CustomerUpdateRequestDto request) {
@@ -59,16 +56,20 @@ public class CustomerService {
     }
 
     public void deleteByNickname(String nickname) {
-        int deletionCounts = customerRepository.deleteByNickname(nickname);
+        int deleteCounts = customerRepository.deleteByNickname(nickname);
 
-        if (deletionCounts == ZERO) {
+        if (isEmptyDeleteResult(deleteCounts)) {
             throw new NotFoundCustomerException(nickname);
         }
     }
 
-    public CustomersResponseDto findBlackListCustomers() {
-        List<Customer> blackListCustomers = customerRepository.findBlackListCustomers();
+    public List<CustomerResponseDto> findBlackListCustomers() {
+        return customerRepository.findBlackListCustomers().stream()
+                .map(CustomerResponseDto::from)
+                .toList();
+    }
 
-        return CustomersResponseDto.from(blackListCustomers);
+    private boolean isEmptyDeleteResult(int deleteCounts) {
+        return deleteCounts == 0;
     }
 }

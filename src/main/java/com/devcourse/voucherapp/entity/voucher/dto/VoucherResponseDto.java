@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.entity.voucher.response;
+package com.devcourse.voucherapp.entity.voucher.dto;
 
 import static java.text.MessageFormat.format;
 

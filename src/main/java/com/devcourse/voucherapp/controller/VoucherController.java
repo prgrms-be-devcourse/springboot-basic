@@ -1,10 +1,10 @@
 package com.devcourse.voucherapp.controller;
 
-import com.devcourse.voucherapp.entity.voucher.request.VoucherCreateRequestDto;
-import com.devcourse.voucherapp.entity.voucher.response.VoucherResponseDto;
-import com.devcourse.voucherapp.entity.voucher.request.VoucherUpdateRequestDto;
-import com.devcourse.voucherapp.entity.voucher.response.VouchersResponseDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.service.VoucherService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -18,7 +18,7 @@ public class VoucherController {
         return voucherService.create(request);
     }
 
-    public VouchersResponseDto findAllVouchers() {
+    public List<VoucherResponseDto> findAllVouchers() {
         return voucherService.findAllVouchers();
     }
 
