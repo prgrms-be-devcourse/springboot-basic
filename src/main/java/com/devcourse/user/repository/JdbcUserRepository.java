@@ -1,12 +1,14 @@
 package com.devcourse.user.repository;
 
 import com.devcourse.user.User;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -24,14 +26,24 @@ class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public void save(String name) {
-        jdbcTemplate.update("INSERT INTO users(id, name) VALUES (?, ?)",
-                UUID.randomUUID().toString(),
-                name);
+    public UUID save(String name) {
+        UUID id = UUID.randomUUID();
+        jdbcTemplate.update("INSERT INTO users(id, name) VALUES (?, ?)", id.toString(), name);
+        return id;
     }
 
     @Override
     public List<User> findAll() {
         return jdbcTemplate.query("SELECT * FROM users", userMapper);
+    }
+
+    @Override
+    public Optional<User> findById(UUID id) {
+        try {
+            User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?", userMapper, id.toString());
+            return Optional.of(user);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,15 +24,15 @@ class JdbcUserRepositoryTest {
     @DisplayName("지정한 이름으로 유저가 저장된다.")
     void saveTest() {
         // given
-        String hejow = "hejow";
+        String name = "hejow";
 
         // when
-        userRepository.save(hejow);
+        userRepository.save(name);
 
         // then
         List<User> users = userRepository.findAll();
         assertThat(users).isNotEmpty();
-        assertThat(users.get(0).name()).isEqualTo(hejow);
+        assertThat(users.get(0).name()).isEqualTo(name);
     }
 
     @Test
@@ -50,6 +52,24 @@ class JdbcUserRepositoryTest {
         assertThat(users).isNotEmpty();
         assertThat(users).hasSize(size);
         assertThat(users).allMatch(user -> user.name().contains(basicName));
+    }
+
+    @Test
+    @DisplayName("")
+    void findByIdSuccessTest() {
+        // given
+        String name = "hejow";
+        UUID id = userRepository.save(name);
+
+        // when
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        // then
+        assertThat(optionalUser).isNotEmpty();
+
+        User user = optionalUser.get();
+        assertThat(user.id()).isEqualTo(id);
+        assertThat(user.name()).isEqualTo(name);
     }
 
 }

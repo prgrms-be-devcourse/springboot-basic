@@ -11,6 +11,10 @@ public class User {
         this.name = name;
     }
 
+    public UUID id() {
+        return id;
+    }
+
     public String name() {
         return name;
     }
