@@ -15,9 +15,9 @@ public enum ExceptionCode {
     EXPIRATION_ERROR(HttpStatus.BAD_REQUEST, "유효기간이 등록기간보다 빠릅니다."),
     VOUCHER_EXIST(HttpStatus.CONFLICT, "이미 존재하는 바우처입니다."),
     NOT_FOUND(HttpStatus.BAD_REQUEST, "해당 종류의 할인정보를 찾을 수 없습니다."),
-    NOT_SAME_PARAM_SIZE(HttpStatus.BAD_REQUEST,"입력 파라미터 개수가 맞지 않습니다."),
+    NOT_SAME_PARAM_SIZE(HttpStatus.BAD_REQUEST, "입력 파라미터 개수가 맞지 않습니다."),
     NOT_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "이메일형식이 아닙니다."),
-    SQL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"값을 가져오기 실패"),
+    SQL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "값을 가져오기 실패"),
     SQL_INSERT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "값 추가 실패"),
     SQL_EXIST(HttpStatus.CONFLICT, "이미 존재합니다."),
     SQL_DELETE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "삭제 실패");

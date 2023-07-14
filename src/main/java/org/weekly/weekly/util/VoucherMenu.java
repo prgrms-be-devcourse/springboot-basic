@@ -10,6 +10,7 @@ public enum VoucherMenu implements Menu {
     EXIT("Type exit to exit the program."),
     CREATE("Type create to create a new voucher."),
     LIST("Type list to list all vouchers.");
+
     private final String printMessage;
 
     private final static Map<String, VoucherMenu> VOUCHER_MENU_MAP;

@@ -1,8 +1,8 @@
 package org.weekly.weekly.api.dto;
 
 public class ErrorResponse {
-    private String code;
-    private String message;
+    private final String code;
+    private final String message;
 
     public ErrorResponse(String code, String message) {
         this.code = code;
