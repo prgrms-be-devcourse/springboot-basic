@@ -35,8 +35,8 @@ public class Duration {
     }
 
     private void checkNullValue(LocalDateTime createdAt, LocalDateTime expiredAt) {
-        Validator.checkInvalidDateTime(createdAt);
-        Validator.checkInvalidDateTime(expiredAt);
+        Validator.checkNullDateTime(createdAt);
+        Validator.checkNullDateTime(expiredAt);
     }
 
     private boolean isInvalidExpiredAt(LocalDateTime createdAt, LocalDateTime expiredAt) {

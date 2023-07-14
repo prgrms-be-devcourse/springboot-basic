@@ -33,7 +33,7 @@ public final class Validator {
         }
     }
 
-    public static void checkInvalidDateTime(LocalDateTime input) {
+    public static void checkNullDateTime(LocalDateTime input) {
         if (input == null) {
             throw new IllegalArgumentException(DATETIME_IS_NULL + input);
         }
