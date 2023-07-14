@@ -28,11 +28,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
   @Override
   public Voucher findById(UUID id) {
-    try {
+    if (voucherStorage.get(id) != null) {
       return voucherStorage.get(id);
-    } catch (Exception e) {
-      throw new NoSuchElementException(NO_EXIST_VOUCHER + " -> " + id);
     }
+    throw new NoSuchElementException(NO_EXIST_VOUCHER + " -> " + id);
   }
 
 }
