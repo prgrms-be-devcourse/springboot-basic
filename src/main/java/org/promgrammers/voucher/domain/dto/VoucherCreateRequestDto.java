@@ -1,17 +1,24 @@
 package org.promgrammers.voucher.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.promgrammers.voucher.domain.VoucherType;
 
+import java.util.UUID;
 
-@RequiredArgsConstructor
+
+@AllArgsConstructor
 @Getter
+@NoArgsConstructor
 public class VoucherCreateRequestDto {
 
+    private UUID id;
 
-    private final VoucherType voucherType;
+    private long amount;
 
-    private final long amount;
+    private VoucherType voucherType;
+
 
 }

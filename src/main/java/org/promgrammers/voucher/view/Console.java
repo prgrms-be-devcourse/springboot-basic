@@ -5,13 +5,13 @@ import org.promgrammers.voucher.domain.VoucherType;
 import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
 
 public class Console {
     private final Scanner scanner;
-
 
 
     public void print(String message) {
@@ -37,7 +37,7 @@ public class Console {
         VoucherType voucherType = VoucherType.fromType(type);
         long amount = askDiscount();
 
-        return new VoucherCreateRequestDto(voucherType, amount);
+        return new VoucherCreateRequestDto(UUID.randomUUID(), amount, voucherType);
     }
 
     public void display() {

@@ -1,5 +1,6 @@
 package org.promgrammers.voucher.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -7,11 +8,11 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class VoucherListResponseDto {
 
-    private final List<VoucherResponseDto> voucherResponseDtoList;
+    private List<VoucherResponseDto> voucherResponseDtoList;
 
 
     @Override

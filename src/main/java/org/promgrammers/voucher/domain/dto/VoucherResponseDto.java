@@ -1,5 +1,6 @@
 package org.promgrammers.voucher.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -8,16 +9,16 @@ import org.promgrammers.voucher.domain.VoucherType;
 import java.util.UUID;
 
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 @ToString
 public class VoucherResponseDto {
 
-    private final UUID id;
+    private UUID id;
 
-    private final long amount;
+    private long amount;
 
-    private final VoucherType voucherType;
+    private VoucherType voucherType;
 
 
 }
