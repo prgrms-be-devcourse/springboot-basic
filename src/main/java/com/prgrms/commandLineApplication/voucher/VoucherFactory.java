@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class VoucherFactory {
 
-  public static Voucher of(UUID voucherId, String voucherType, int discountAmount) {
-    Discount discount = DiscountFactory.of(voucherType, discountAmount);
+  public static Voucher of(UUID voucherId, String discountType, int discountAmount) {
+    Discount discount = DiscountFactory.of(discountType, discountAmount);
     return new Voucher(voucherId, discount);
   }
 

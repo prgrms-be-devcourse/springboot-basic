@@ -2,25 +2,26 @@ package com.prgrms.commandLineApplication.execute;
 
 import com.prgrms.commandLineApplication.io.Console;
 import com.prgrms.commandLineApplication.service.VoucherService;
-import com.prgrms.commandLineApplication.voucher.Voucher;
+import com.prgrms.commandLineApplication.voucher.dto.VoucherCreateDto;
+import com.prgrms.commandLineApplication.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class VoucherExecute implements Execute {
+public class VoucherExecution implements Execution {
 
   private final Console console;
   private final VoucherService voucherService;
 
-  public VoucherExecute(Console console, VoucherService voucherService) {
+  public VoucherExecution(Console console, VoucherService voucherService) {
     this.console = console;
     this.voucherService = voucherService;
   }
 
   @Override
   public void printList() {
-    List<Voucher> list = voucherService.findAllVouchers();
+    List<VoucherResponseDto> list = voucherService.findAllVouchers();
     console.printAllVouchers(list);
   }
 
@@ -32,7 +33,9 @@ public class VoucherExecute implements Execute {
     console.requestDiscountAmount();
     int discountAmount = console.readVoucherAmount();
 
-    voucherService.create(voucherType, discountAmount);
+    VoucherCreateDto requestDto = new VoucherCreateDto(voucherType, discountAmount);
+    voucherService.create(requestDto);
     console.printCreateVoucherSuccess(voucherType, discountAmount);
   }
+
 }

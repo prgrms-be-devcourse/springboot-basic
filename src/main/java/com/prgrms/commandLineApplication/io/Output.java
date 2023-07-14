@@ -1,7 +1,7 @@
 package com.prgrms.commandLineApplication.io;
 
-import com.prgrms.commandLineApplication.customer.Customer;
-import com.prgrms.commandLineApplication.voucher.Voucher;
+import com.prgrms.commandLineApplication.customer.dto.CustomerResponseDto;
+import com.prgrms.commandLineApplication.voucher.dto.VoucherResponseDto;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface Output {
 
   void requestDiscountAmount();
 
-  void printAllVouchers(List<Voucher> vouchers);
+  void printAllVouchers(List<VoucherResponseDto> vouchers);
 
   void printCreateVoucherSuccess(String voucherType, int discountAmount);
 
@@ -21,7 +21,7 @@ public interface Output {
 
   void requestCustomerEmail();
 
-  void printAllCustomers(List<Customer> customers);
+  void printAllCustomers(List<CustomerResponseDto> customers);
 
   void printCreateCustomerSuccess(String customerName, String email);
 
