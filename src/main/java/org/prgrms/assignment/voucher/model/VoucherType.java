@@ -1,7 +1,7 @@
 package org.prgrms.assignment.voucher.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.prgrms.assignment.voucher.exception.ErrorCode;
+import org.prgrms.assignment.voucher.exception.GlobalCustomException;
 
 public enum VoucherType {
 
@@ -16,7 +16,11 @@ public enum VoucherType {
     private final String voucherTypeName;
 
     public static VoucherType of(String voucherTypeName) {
-        return VoucherType.valueOf(voucherTypeName.toUpperCase());
+        try {
+            return VoucherType.valueOf(voucherTypeName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new GlobalCustomException(ErrorCode.NO_VOUCHER_TYPE_ERROR);
+        }
     }
 
 }
