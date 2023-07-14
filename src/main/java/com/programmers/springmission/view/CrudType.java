@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,11 @@ public enum CrudType {
             .collect(Collectors.toMap(CrudType::getInputOption, Function.identity()));
 
     public static CrudType of(String inputOption) {
-        return Optional.ofNullable(CRUD_TYPE_MAP.get(inputOption))
-                .orElseThrow(() -> new InvalidInputException(ErrorMessage.INVALID_OPTION_TYPE));
+        CrudType crudType = CRUD_TYPE_MAP.get(inputOption);
+        if (crudType == null) {
+            throw new InvalidInputException(ErrorMessage.INVALID_OPTION_TYPE);
+        }
+
+        return crudType;
     }
 }

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,12 @@ public enum OptionType {
             .collect(Collectors.toMap(OptionType::getInputOption, Function.identity()));
 
     public static OptionType of(String inputOption) {
-        return Optional.ofNullable(OPTION_TYPE_MAP.get(inputOption))
-                .orElseThrow(() -> new InvalidInputException(ErrorMessage.INVALID_OPTION_TYPE));
+        OptionType optionType = OPTION_TYPE_MAP.get(inputOption);
+        if (optionType == null) {
+            throw new InvalidInputException(ErrorMessage.INVALID_OPTION_TYPE);
+        }
+
+        return optionType;
     }
 }
 

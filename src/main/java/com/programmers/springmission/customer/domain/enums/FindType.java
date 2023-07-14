@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,7 +23,11 @@ public enum FindType {
             .collect(Collectors.toMap(FindType::getInputOption, Function.identity()));
 
     public static FindType of(String inputOption) {
-        return Optional.ofNullable(FIND_TYPE_MAP.get(inputOption))
-                .orElseThrow(() -> new InvalidInputException(ErrorMessage.INVALID_CUSTOMER_FIND_TYPE));
+        FindType findType = FIND_TYPE_MAP.get(inputOption);
+        if (findType == null) {
+            throw new InvalidInputException(ErrorMessage.INVALID_OPTION_TYPE);
+        }
+
+        return findType;
     }
 }
