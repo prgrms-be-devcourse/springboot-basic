@@ -6,6 +6,8 @@ import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
 import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +20,8 @@ public class VoucherApiController {
     private final VoucherService voucherService;
 
     @PostMapping
-    public BaseResponse<VoucherResponse> createVoucher(@RequestBody VoucherCreateRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public BaseResponse<VoucherResponse> createVoucher(@Validated @RequestBody VoucherCreateRequest request) {
         VoucherResponse voucher = voucherService.createVoucher(request);
         return BaseResponse.created(voucher);
     }

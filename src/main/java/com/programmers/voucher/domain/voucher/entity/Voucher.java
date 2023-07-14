@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-import static com.programmers.voucher.constant.ErrorCode.INVALID_DISCOUNT_AMOUNT;
 import static com.programmers.voucher.constant.ErrorCode.INVALID_DISCOUNT_PERCENT;
 
 @Getter
@@ -23,14 +22,11 @@ public class Voucher {
     }
 
     public static Voucher create(VoucherType type, int amount) {
-        validatePositive(amount);
         validatePercent(type, amount);
-
         return new Voucher(UUID.randomUUID(), type, amount);
     }
 
     public void update(VoucherType type, int amount) {
-        validatePositive(amount);
         validatePercent(type, amount);
 
         this.type = type;
@@ -39,12 +35,6 @@ public class Voucher {
 
     public long discount(long price) {
         return type.discount(price, amount);
-    }
-
-    private static void validatePositive(int amount) {
-        if (amount <= 0) {
-            throw new BadRequestException(INVALID_DISCOUNT_AMOUNT);
-        }
     }
 
     private static void validatePercent(VoucherType type, int amount) {

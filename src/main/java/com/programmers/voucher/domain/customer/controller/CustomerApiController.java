@@ -5,6 +5,8 @@ import com.programmers.voucher.domain.customer.dto.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.CustomerResponse;
 import com.programmers.voucher.domain.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +19,8 @@ public class CustomerApiController {
     private final CustomerService customerService;
 
     @PostMapping
-    public BaseResponse<CustomerResponse> createCustomer(@RequestBody CustomerCreateRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public BaseResponse<CustomerResponse> createCustomer(@Validated @RequestBody CustomerCreateRequest request) {
         CustomerResponse customer = customerService.createCustomer(request);
         return BaseResponse.created(customer);
     }

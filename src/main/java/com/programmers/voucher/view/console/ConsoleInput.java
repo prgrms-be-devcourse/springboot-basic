@@ -1,5 +1,6 @@
 package com.programmers.voucher.view.console;
 
+import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.command.Command;
 import com.programmers.voucher.view.command.CustomerCommand;
@@ -30,8 +31,8 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public String readVoucherType() {
-        return readStringInput("type (FIXED / PERCENT) >>");
+    public VoucherType readVoucherType() {
+        return VoucherType.valueOf(readStringInput("type (FIXED / PERCENT) >>"));
     }
 
     @Override

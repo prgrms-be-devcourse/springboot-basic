@@ -3,6 +3,7 @@ package com.programmers.voucher.domain.voucher.controller;
 import com.programmers.voucher.domain.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
 import com.programmers.voucher.domain.voucher.dto.VoucherUpdateRequest;
+import com.programmers.voucher.domain.voucher.entity.VoucherType;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
@@ -46,7 +47,7 @@ public class VoucherConsoleController {
     }
 
     private VoucherResponse createVoucher() {
-        String voucherType = input.readVoucherType();
+        VoucherType voucherType = input.readVoucherType();
         int discountAmount = input.readDiscountAmount();
         VoucherCreateRequest voucherCreateRequest = VoucherCreateRequest.of(voucherType, discountAmount);
 
@@ -60,7 +61,7 @@ public class VoucherConsoleController {
 
     private VoucherResponse updateVoucher() {
         UUID voucherId = input.readUUID();
-        String voucherType = input.readVoucherType();
+        VoucherType voucherType = input.readVoucherType();
         int discountAmount = input.readDiscountAmount();
         VoucherUpdateRequest voucherUpdateRequest = VoucherUpdateRequest.of(voucherType, discountAmount);
 

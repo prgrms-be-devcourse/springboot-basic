@@ -1,9 +1,10 @@
 package com.programmers.voucher.domain.customer.dto;
 
 import com.programmers.voucher.domain.customer.entity.Customer;
+import jakarta.validation.constraints.NotBlank;
 
 public record CustomerCreateRequest(
-        String nickname
+        @NotBlank String nickname
 ) {
     public static CustomerCreateRequest of(String nickname) {
         return new CustomerCreateRequest(nickname);

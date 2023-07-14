@@ -1,6 +1,8 @@
 package com.programmers.voucher.view.command;
 
 import com.programmers.voucher.exception.BadRequestException;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 import static com.programmers.voucher.constant.ErrorCode.INVALID_COMMAND;
 
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Command {
     EXIT(1, "프로그램 종료"),
     VOUCHER(2, "바우처 관리"),
@@ -21,11 +24,6 @@ public enum Command {
 
     private final int number;
     private final String text;
-
-    Command(int number, String text) {
-        this.number = number;
-        this.text = text;
-    }
 
     public static Command findByNumber(int number) {
         Command command = COMMANDS.get(number);

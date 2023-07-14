@@ -6,6 +6,7 @@ import com.programmers.voucher.domain.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class VoucherViewController {
     private final VoucherService voucherService;
 
     @PostMapping
-    public String createVoucher(VoucherCreateRequest request) {
+    public String createVoucher(@Validated VoucherCreateRequest request) {
         voucherService.createVoucher(request);
         return "redirect:/vouchers";
     }
@@ -38,7 +39,7 @@ public class VoucherViewController {
     public String getVoucher(@PathVariable UUID voucherId, Model model) {
         VoucherResponse voucher = voucherService.getVoucher(voucherId);
         model.addAttribute("voucher", voucher);
-        
+
         return "vouchers/detail";
     }
 
