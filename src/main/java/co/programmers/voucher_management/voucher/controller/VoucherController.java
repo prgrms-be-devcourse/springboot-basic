@@ -1,18 +1,17 @@
 package co.programmers.voucher_management.voucher.controller;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 
-import co.programmers.voucher_management.common.Response;
 import co.programmers.voucher_management.customer.service.CustomerService;
-import co.programmers.voucher_management.exception.EmptyAssignerException;
 import co.programmers.voucher_management.exception.InvalidDataException;
-import co.programmers.voucher_management.exception.NoSuchDataException;
 import co.programmers.voucher_management.view.InputView;
 import co.programmers.voucher_management.view.OutputView;
 import co.programmers.voucher_management.voucher.dto.VoucherAssignDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
+import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherUpdateDTO;
 import co.programmers.voucher_management.voucher.service.VoucherService;
 
@@ -32,36 +31,38 @@ public class VoucherController {
 		this.inputView = inputView;
 	}
 
-	public Response executeVoucherMenu(String commandNum) {
+	public void executeVoucherMenu(String commandNum) {
 		switch (commandNum) {
 			case "1":
-				return createVoucher();
+				createVoucher();
+				break;
 			case "2":
-				return inquiryVoucherOf();
+				inquiryVoucherOf();
+				break;
 			case "3":
-				return updateVoucher();
+				updateVoucher();
+				break;
 			case "4":
-				return deleteVoucher();
+				deleteVoucher();
+				break;
 			case "5":
-				return assignVoucher();
+				assignVoucher();
+				break;
 			case "6":
-				return listVoucherOfCustomer();
+				listVoucherOfCustomer();
+				break;
 			case "7":
-				return deleteVoucherOfCustomer();
-			case "8":
-				return inquiryByVoucherId();
+				deleteVoucherOfCustomer();
+				break;
 			default:
-				return new Response(Response.State.FAILED, "Unsupported menu");
+				throw new InvalidDataException("Unsupported Menu");
 		}
 	}
-
-	public Response<String> createVoucher() {
-		try {
-			VoucherRequestDTO voucherRequestDTO = requestVoucherCreationData();
-			return voucherService.create(voucherRequestDTO);
-		} catch (InvalidDataException | NumberFormatException exception) {
-			return new Response<>(Response.State.FAILED, exception.getMessage());
-		}
+	//InvalidDataException | NumberFormatException |NoSuchDataException |EmptyAssignerException|RuntimeException
+	public void createVoucher() {
+		VoucherRequestDTO voucherRequestDTO = requestVoucherCreationData();
+		VoucherResponseDTO voucherResponseDTO = voucherService.create(voucherRequestDTO);
+		outputView.print(voucherResponseDTO);
 	}
 
 	private VoucherRequestDTO requestVoucherCreationData() {
@@ -78,21 +79,15 @@ public class VoucherController {
 				.build();
 	}
 
-	public Response inquiryVoucherOf() {
-		try {
-			return voucherService.inquiryVoucherOf();
-		} catch (RuntimeException runtimeException) {
-			return new Response(Response.State.FAILED, runtimeException.getMessage());
-		}
+	public void inquiryVoucherOf() {
+		List<VoucherResponseDTO> voucherResponseDTOS = voucherService.inquiryVoucherOf();
+		outputView.print(voucherResponseDTOS);
 	}
 
-	public Response updateVoucher() {
-		try {
-			VoucherUpdateDTO voucherUpdateDTO = requestVoucherUpdateData();
-			return voucherService.update(voucherUpdateDTO);
-		} catch (RuntimeException exception) {
-			return new Response<>(Response.State.FAILED, exception.getMessage());
-		}
+	public void updateVoucher() {
+		VoucherUpdateDTO voucherUpdateDTO = requestVoucherUpdateData();
+		VoucherResponseDTO voucherResponseDTO = voucherService.update(voucherUpdateDTO);
+		outputView.print(voucherResponseDTO);
 	}
 
 	private VoucherUpdateDTO requestVoucherUpdateData() {
@@ -113,23 +108,16 @@ public class VoucherController {
 				.build();
 	}
 
-	public Response deleteVoucher() {
+	public void deleteVoucher() {
 		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a voucher"));
-		try {
-			Long id = Long.parseLong(inputView.input());
-			return voucherService.deleteById(id);
-		} catch (NoSuchDataException exception) {
-			return new Response<>(Response.State.FAILED, exception.getMessage());
-		}
+		Long id = Long.parseLong(inputView.input());
+		voucherService.deleteById(id);
 	}
 
-	public Response assignVoucher() {
-		try {
-			VoucherAssignDTO voucherAssignDTO = requestVoucherAssignData();
-			return voucherService.assignVoucher(voucherAssignDTO);
-		} catch (RuntimeException exception) {
-			return new Response(Response.State.FAILED, exception.getMessage());
-		}
+	public void assignVoucher() {
+		VoucherAssignDTO voucherAssignDTO = requestVoucherAssignData();
+		VoucherResponseDTO voucherResponseDTO = voucherService.assignVoucher(voucherAssignDTO);
+		outputView.print(voucherResponseDTO);
 	}
 
 	VoucherAssignDTO requestVoucherAssignData() {
@@ -143,27 +131,16 @@ public class VoucherController {
 		return new VoucherAssignDTO(customerId, voucherId);
 	}
 
-	public Response inquiryByVoucherId() {
-		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a voucher"));
-		long voucherId = Long.parseLong(inputView.input());
-		try {
-			return customerService.inquiryCustomerByVoucher(voucherId);
-		} catch (EmptyAssignerException | NoSuchDataException exception) {
-			return new Response(Response.State.FAILED, exception.getMessage());
-		}
+	public void deleteVoucherOfCustomer() {
+		listVoucherOfCustomer();
+		deleteVoucher();
 	}
 
-	public Response deleteVoucherOfCustomer() {
-		Response listedVoucher = listVoucherOfCustomer();
-		outputView.print(listedVoucher);
-
-		return deleteVoucher();
-	}
-
-	public Response listVoucherOfCustomer() {
+	public void listVoucherOfCustomer() {
 		outputView.print(MessageFormat.format(requestMessageFormat, "customer id"));
 		long customerId = Long.parseLong(inputView.input());
-		return voucherService.inquiryVoucherOf(customerId);
+		List<VoucherResponseDTO> voucherResponseDTOS = voucherService.inquiryVoucherOf(customerId);
+		outputView.print(voucherResponseDTOS);
 	}
 
 }
