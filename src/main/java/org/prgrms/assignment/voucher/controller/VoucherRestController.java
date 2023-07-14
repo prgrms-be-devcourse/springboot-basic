@@ -1,6 +1,5 @@
 package org.prgrms.assignment.voucher.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import org.prgrms.assignment.voucher.dto.VoucherCreateRequestDTO;
 import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
@@ -29,9 +28,9 @@ public class VoucherRestController {
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity<VoucherResponseDTO> getVoucherById(@PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity getVoucherById(@PathVariable("voucherId") UUID voucherId) {
         Optional<VoucherResponseDTO> voucher = voucherService.getVoucherById(voucherId);
-        return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(voucher);
     }
 
     @PostMapping("/new")
