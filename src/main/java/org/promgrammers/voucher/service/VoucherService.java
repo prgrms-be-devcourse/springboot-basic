@@ -3,9 +3,9 @@ package org.promgrammers.voucher.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.promgrammers.voucher.domain.Voucher;
-import org.promgrammers.voucher.domain.dto.VoucherListResponseDto;
-import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
-import org.promgrammers.voucher.domain.dto.VoucherResponseDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherListResponseDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherCreateRequestDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherResponseDto;
 import org.promgrammers.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 

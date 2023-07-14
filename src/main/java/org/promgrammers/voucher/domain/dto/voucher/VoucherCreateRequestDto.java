@@ -1,9 +1,9 @@
-package org.promgrammers.voucher.domain.dto;
+package org.promgrammers.voucher.domain.dto.voucher;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import org.promgrammers.voucher.domain.VoucherType;
 
 import java.util.UUID;
@@ -11,8 +11,8 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
-@ToString
-public class VoucherResponseDto {
+@NoArgsConstructor
+public class VoucherCreateRequestDto {
 
     private UUID id;
 

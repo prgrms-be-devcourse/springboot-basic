@@ -2,7 +2,7 @@ package org.promgrammers.voucher.view;
 
 import lombok.RequiredArgsConstructor;
 import org.promgrammers.voucher.domain.VoucherType;
-import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherCreateRequestDto;
 
 import java.util.Scanner;
 import java.util.UUID;

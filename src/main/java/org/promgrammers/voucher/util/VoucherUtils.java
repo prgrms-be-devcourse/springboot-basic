@@ -2,7 +2,7 @@ package org.promgrammers.voucher.util;
 
 import org.promgrammers.voucher.domain.Voucher;
 import org.promgrammers.voucher.domain.VoucherType;
-import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherCreateRequestDto;
 import org.promgrammers.voucher.service.VoucherFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

@@ -5,7 +5,7 @@ import org.promgrammers.voucher.domain.FixedAmountVoucher;
 import org.promgrammers.voucher.domain.PercentDiscountVoucher;
 import org.promgrammers.voucher.domain.Voucher;
 import org.promgrammers.voucher.domain.VoucherType;
-import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherCreateRequestDto;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;

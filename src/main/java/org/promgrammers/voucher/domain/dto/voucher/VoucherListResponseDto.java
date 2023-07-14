@@ -1,8 +1,7 @@
-package org.promgrammers.voucher.domain.dto;
+package org.promgrammers.voucher.domain.dto.voucher;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 
 import java.util.List;

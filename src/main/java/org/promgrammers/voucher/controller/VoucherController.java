@@ -1,9 +1,9 @@
 package org.promgrammers.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.promgrammers.voucher.domain.dto.VoucherListResponseDto;
-import org.promgrammers.voucher.domain.dto.VoucherCreateRequestDto;
-import org.promgrammers.voucher.domain.dto.VoucherResponseDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherListResponseDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherCreateRequestDto;
+import org.promgrammers.voucher.domain.dto.voucher.VoucherResponseDto;
 import org.promgrammers.voucher.service.VoucherService;
 import org.promgrammers.voucher.view.Console;
 import org.promgrammers.voucher.view.Option;
