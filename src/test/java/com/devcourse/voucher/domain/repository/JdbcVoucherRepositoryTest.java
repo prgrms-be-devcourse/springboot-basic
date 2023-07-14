@@ -90,7 +90,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("저장된 바우처를 id로 지우면 아무것도 조회되지 않아야 한다.")
+    @DisplayName("삭제한 바우처는 아무것도 조회되지 않아야 한다.")
     void deleteByIdTest() {
         // given
         Voucher voucher = new Voucher(100, expiredAt, PERCENT);
@@ -100,7 +100,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.deleteById(voucher.id());
 
         // then
-        List<Voucher> vouchers = voucherRepository.findAll();
-        assertThat(vouchers).isEmpty();
+        Optional<Voucher> optionalVoucher = voucherRepository.findById(voucher.id());
+        assertThat(optionalVoucher).isEmpty();
     }
 }

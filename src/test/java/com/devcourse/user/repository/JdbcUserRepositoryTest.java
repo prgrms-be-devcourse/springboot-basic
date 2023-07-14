@@ -2,6 +2,7 @@ package com.devcourse.user.repository;
 
 import com.devcourse.user.User;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -40,7 +41,7 @@ class JdbcUserRepositoryTest {
     }
 
     @Test
-    @DisplayName("저장된 유저들의 수만큼 반횐하고 유저들의 이름이 기본 이름을 포함해야 한다.")
+    @DisplayName("저장한 유저들의 수만큼 반횐하고 이름에 기본값이 포함되어야 한다.")
     void findAllTest() {
         // given
         int size = 10;
@@ -57,25 +58,42 @@ class JdbcUserRepositoryTest {
         assertThat(users).allMatch(user -> user.name().contains(name));
     }
 
-    @Test
-    @DisplayName("id를 통해서 저장된 유저를 조회하면 이름과 아이디가 동일해야 한다.")
-    void findByIdSuccessTest() {
-        // given
-        UUID id = userRepository.save(name);
+    @Nested
+    class findByIdTest {
+        private final UUID id = userRepository.save(name);
 
-        // when
-        Optional<User> optionalUser = userRepository.findById(id);
+        @Test
+        @DisplayName("id로 조회한 유저는 저장된 아이디와 이름이 동일해야 한다.")
+        void findByIdSuccessTest() {
+            // given
 
-        // then
-        assertThat(optionalUser).isNotEmpty();
+            // when
+            Optional<User> optionalUser = userRepository.findById(id);
 
-        User user = optionalUser.get();
-        assertThat(user.id()).isEqualTo(id);
-        assertThat(user.name()).isEqualTo(name);
+            // then
+            assertThat(optionalUser).isNotEmpty();
+
+            User user = optionalUser.get();
+            assertThat(user.id()).isEqualTo(id);
+            assertThat(user.name()).isEqualTo(name);
+        }
+
+        @Test
+        @DisplayName("저장되지 않은 id로 조회하면 빈값이 반환된다.")
+        void findByIdFailTest() {
+            // given
+            UUID noneId = UUID.randomUUID();
+
+            // when
+            Optional<User> optionalUser = userRepository.findById(noneId);
+
+            // then
+            assertThat(optionalUser).isEmpty();
+        }
     }
 
     @Test
-    @DisplayName("id로 저장된 유저를 지우면 아무것도 조회되지 않아야 한다.")
+    @DisplayName("id로 저장된 유저를 지우면 삭제된 유저는 조회되지 않아야 한다.")
     void deleteByIdTest() {
         // given
         UUID id = userRepository.save(name);
@@ -84,12 +102,12 @@ class JdbcUserRepositoryTest {
         userRepository.deleteById(id);
 
         // then
-        List<User> users = userRepository.findAll();
-        assertThat(users).isEmpty();
+        Optional<User> optionalUser = userRepository.findById(id);
+        assertThat(optionalUser).isEmpty();
     }
 
     @Test
-    @DisplayName("아이디를 통해서 새로운 이름으로 변경할 수 있고 조회 시 문제가 없어야 한다.")
+    @DisplayName("유저의 이름을 변경한 후 id로 문제 없이 조회되고 변경내용이 반영되어야 한다.")
     void updateTest() {
         // given
         String newName = "Jo-hejow";

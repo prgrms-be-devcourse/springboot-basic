@@ -76,14 +76,13 @@ class VoucherServiceTest {
                 "50, PERCENT"})
     void createTest(int discount, Voucher.Type type) {
         // given
-        Voucher any = any(Voucher.class);
         CreateVoucherRequest request = new CreateVoucherRequest(discount, expiredAt, type);
-        given(voucherRepository.save(any)).willReturn(any);
+        given(voucherRepository.save(any(Voucher.class))).willReturn(any(Voucher.class));
 
         // when
         voucherService.create(request);
 
         // then
-        then(voucherRepository).should(times(1)).save(any);
+        then(voucherRepository).should(times(1)).save(any());
     }
 }
