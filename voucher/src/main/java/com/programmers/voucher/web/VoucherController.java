@@ -34,35 +34,29 @@ public class VoucherController {
         return "/voucher/list";
     }
 
-    @GetMapping("/version")
-    public String chooseVoucherType() {
-        return "/voucher/version";
+    @GetMapping("/add")
+    public String createVoucher() {
+        return "/voucher/create/voucher";
     }
 
-    @GetMapping("/fixed/add")
-    public String createFixedAmountVoucher() {
-        return "/voucher/create/fixed";
-    }
+    @PostMapping("/add")
+    public String createVoucher(@RequestParam Integer discount,
+                                @RequestParam String type,
+                                Model model) {
 
-    @PostMapping("/fixed/add")
-    public String createFixedAmountVoucher(@RequestParam Integer amount, Model model) {
-        FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID().toString().substring(0, 7), amount);
-        voucherStream.save(voucher);
-        model.addAttribute("voucher", voucher);
-        return "redirect:/vouchers/fixed/" + voucher.getVoucherId();
-    }
-
-    @GetMapping("/rate/add")
-    public String createPercentDiscountVoucher() {
-        return "/voucher/create/rate";
-    }
-
-    @PostMapping("/rate/add")
-    public String createPercentDiscountVoucher(@RequestParam Integer rate, Model model) {
-        PercentDiscountVoucher voucher = new PercentDiscountVoucher(UUID.randomUUID().toString().substring(0, 7), rate);
-        voucherStream.save(voucher);
-        model.addAttribute("voucher", voucher);
-        return "redirect:/vouchers/rate/" + voucher.getVoucherId();
+        if ("FixedAmountVoucher".equals(type)) {
+            FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID().toString().substring(0, 7), discount);
+            voucherStream.save(voucher);
+            model.addAttribute("voucher", voucher);
+            return "redirect:/vouchers/fixed/" + voucher.getVoucherId();
+        } else if ("PercentDiscountVoucher".equals(type)) {
+            PercentDiscountVoucher voucher = new PercentDiscountVoucher(UUID.randomUUID().toString().substring(0, 7), discount);
+            voucherStream.save(voucher);
+            model.addAttribute("voucher", voucher);
+            return "redirect:/vouchers/rate/" + voucher.getVoucherId();
+        } else {
+            return "redirect:/vouchers";
+        }
     }
 
     @GetMapping("/fixed/{voucherId}")

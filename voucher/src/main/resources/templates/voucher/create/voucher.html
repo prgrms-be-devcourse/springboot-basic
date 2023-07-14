@@ -19,8 +19,15 @@
   <form action="../list.html" th:action method="post">
     <div>
       <label for="itemPrice">Rate of Discount</label>
-      <input type="text" id="itemPrice" name="rate" class="form-control" placeholder="할인 하고자 하는 금액을 입력해주세요. ">
+      <input type="text" id="itemPrice" name="discount" class="form-control" placeholder="할인 하고자 하는 금액을 입력해주세요. ">
     </div>
+
+    <select class="form-select" aria-label="Default select example" name="type">
+      <option selected>Open this select menu</option>
+      <option value="FixedAmountVoucher">Fixed Amount Voucher</option>
+      <option value="PercentDiscountVoucher">Percent Discount Voucher</option>
+    </select>
+
     <hr class="my-4">
     <div class="row">
       <div class="col">
