@@ -15,7 +15,6 @@ import java.util.*;
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final String NOT_FOUND_ERROR_MESSAGE = "[ERROR] 해당 요청에 대한 결과를 찾을 수 없습니다.";
-    private static final String UPDATE_FAIL_MESSAGE = "[ERROR] 수정 요청에 대한 값을 찾지 못했습니다..";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
