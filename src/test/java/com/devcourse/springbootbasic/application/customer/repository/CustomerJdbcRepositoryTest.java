@@ -3,20 +3,13 @@ package com.devcourse.springbootbasic.application.customer.repository;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.wix.mysql.EmbeddedMysql;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,10 +27,20 @@ import static org.assertj.core.api.BDDAssertions.catchException;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerJdbcRepositoryTest {
 
+    static List<Customer> validCustomers = List.of(
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true),
+            new Customer(UUID.randomUUID(), "포도", false),
+            new Customer(UUID.randomUUID(), "배", false)
+    );
     @Autowired
     CustomerJdbcRepository customerRepository;
-
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideValidCustomers() {
+        return validCustomers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -187,18 +190,6 @@ class CustomerJdbcRepositoryTest {
         Optional<Customer> result = customerRepository.findById(customer.getCustomerId());
 
         assertThat(result).isEmpty();
-    }
-
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "포도", false),
-            new Customer(UUID.randomUUID(), "배", false)
-    );
-
-    static Stream<Arguments> provideValidCustomers() {
-        return validCustomers.stream()
-                .map(Arguments::of);
     }
 
 }

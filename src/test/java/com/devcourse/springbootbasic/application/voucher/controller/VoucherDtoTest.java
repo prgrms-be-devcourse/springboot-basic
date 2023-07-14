@@ -17,6 +17,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class VoucherDtoTest {
 
+    static List<VoucherDto> voucherDto = List.of(
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), UUID.randomUUID()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), UUID.randomUUID()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), UUID.randomUUID())
+    );
+
+    static Stream<Arguments> provideVoucherDto() {
+        return voucherDto.stream()
+                .map(Arguments::of);
+    }
+
+    static Stream<Arguments> provideVoucher() {
+        return voucherDto.stream()
+                .map(VoucherDto::to)
+                .map(Arguments::of);
+    }
+
     @ParameterizedTest
     @DisplayName("Dto 에서 Domain 으로 변환하면 성공한다.")
     @MethodSource("provideVoucher")
@@ -35,23 +52,6 @@ class VoucherDtoTest {
 
         assertThat(entity).isInstanceOf(Voucher.class);
         assertThat(entity.getVoucherId()).isEqualTo(voucherDto.voucherId());
-    }
-
-    static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), UUID.randomUUID()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), UUID.randomUUID()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), UUID.randomUUID())
-    );
-
-    static Stream<Arguments> provideVoucherDto() {
-        return voucherDto.stream()
-                .map(Arguments::of);
-    }
-
-    static Stream<Arguments> provideVoucher() {
-        return voucherDto.stream()
-                .map(VoucherDto::to)
-                .map(Arguments::of);
     }
 
 }

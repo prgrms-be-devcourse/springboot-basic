@@ -33,6 +33,9 @@ dependencies {
 
 	// jdbc
 	implementation "org.springframework.boot:spring-boot-starter-jdbc"
+
+	// jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 }
 
 test {

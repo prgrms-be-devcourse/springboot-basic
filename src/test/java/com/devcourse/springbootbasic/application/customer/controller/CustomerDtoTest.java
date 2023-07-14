@@ -14,24 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CustomerDtoTest {
 
-    @ParameterizedTest
-    @DisplayName("Dto에서 Domain으로 변환하면 성공한다.")
-    @MethodSource("provideValidCustomers")
-    void of_ParamCustomer_ReturnCustomerDto(Customer customer) {
-        CustomerDto dto = CustomerDto.of(customer);
-
-        assertThat(dto.name()).isSameAs(customer.getName());
-    }
-
-    @ParameterizedTest
-    @DisplayName("도메인에서 디티오로 변환하면 성공한다.")
-    @MethodSource("provideValidCustomerDto")
-    void to(CustomerDto customerDto) {
-        Customer entity = CustomerDto.to(customerDto);
-
-        assertThat(entity.getCustomerId()).isSameAs(customerDto.customerId());
-    }
-
     static List<Customer> customers = List.of(
             new Customer(UUID.randomUUID(), "사과", false),
             new Customer(UUID.randomUUID(), "딸기", true),
@@ -53,6 +35,24 @@ class CustomerDtoTest {
     static Stream<Arguments> provideValidCustomerDto() {
         return customerDto.stream()
                 .map(Arguments::of);
+    }
+
+    @ParameterizedTest
+    @DisplayName("Dto에서 Domain으로 변환하면 성공한다.")
+    @MethodSource("provideValidCustomers")
+    void of_ParamCustomer_ReturnCustomerDto(Customer customer) {
+        CustomerDto dto = CustomerDto.of(customer);
+
+        assertThat(dto.name()).isSameAs(customer.getName());
+    }
+
+    @ParameterizedTest
+    @DisplayName("도메인에서 디티오로 변환하면 성공한다.")
+    @MethodSource("provideValidCustomerDto")
+    void to(CustomerDto customerDto) {
+        Customer entity = CustomerDto.to(customerDto);
+
+        assertThat(entity.getCustomerId()).isSameAs(customerDto.customerId());
     }
 
 }

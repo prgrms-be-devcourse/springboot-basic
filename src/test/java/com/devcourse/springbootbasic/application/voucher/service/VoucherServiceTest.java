@@ -6,7 +6,9 @@ import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.voucher.repository.VoucherRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -28,10 +30,24 @@ import static org.mockito.Mockito.mock;
 @ActiveProfiles("test")
 class VoucherServiceTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true)
+    );
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
+    );
     VoucherService sut;
-    
     VoucherRepository repository;
-    
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
+    }
+
     @BeforeEach
     void init() {
         repository = mock(VoucherRepository.class);
@@ -143,22 +159,5 @@ class VoucherServiceTest {
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
-    }
-
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true)
-    );
-
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
-    );
 
 }

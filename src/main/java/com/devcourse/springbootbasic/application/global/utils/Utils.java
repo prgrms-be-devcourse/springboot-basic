@@ -5,7 +5,8 @@ import java.util.UUID;
 
 public class Utils {
 
-    private Utils() {}
+    private Utils() {
+    }
 
     public static UUID toUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);

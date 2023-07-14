@@ -3,13 +3,14 @@ package com.devcourse.springbootbasic.application.voucher.repository;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MemoryVoucherRepositoryTest {
 
     MemoryVoucherRepository voucherRepository;
+
+    static Stream<Arguments> provideVouchers() {
+        return Stream.of(
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), UUID.randomUUID()))
+        );
+    }
 
     @BeforeEach
     void init() {
@@ -134,14 +142,6 @@ class MemoryVoucherRepositoryTest {
 
         Optional<Voucher> maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         assertThat(maybeNull).isEmpty();
-    }
-
-
-    static Stream<Arguments> provideVouchers() {
-        return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), UUID.randomUUID()))
-        );
     }
 
 }

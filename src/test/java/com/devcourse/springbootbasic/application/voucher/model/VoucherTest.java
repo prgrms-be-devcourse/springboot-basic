@@ -16,6 +16,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VoucherTest {
 
+    static Stream<Arguments> providePercentVouchers() {
+        return Stream.of(
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), UUID.randomUUID())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), UUID.randomUUID()))
+        );
+    }
+
+    static Stream<Arguments> provideFixedVouchers() {
+        return Stream.of(
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), UUID.randomUUID())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0"), UUID.randomUUID()))
+        );
+    }
+
+    static Stream<Arguments> provideMakeWrongFixedVouchers() {
+        return Stream.of(
+                Arguments.of(new Price(2), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), UUID.randomUUID())),
+                Arguments.of(new Price(4), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID()))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("비율값 바우처 할인 적용된 결과 반환하면 성공한다.")
     @MethodSource("providePercentVouchers")
@@ -73,29 +96,6 @@ class VoucherTest {
         String result = voucher.toString();
 
         assertEquals(expected, result);
-    }
-
-    static Stream<Arguments> providePercentVouchers() {
-        return Stream.of(
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), UUID.randomUUID())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), UUID.randomUUID()))
-        );
-    }
-
-    static Stream<Arguments> provideFixedVouchers() {
-        return Stream.of(
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), UUID.randomUUID())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0"), UUID.randomUUID()))
-        );
-    }
-
-    static Stream<Arguments> provideMakeWrongFixedVouchers() {
-        return Stream.of(
-                Arguments.of(new Price(2), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), UUID.randomUUID())),
-                Arguments.of(new Price(4), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID()))
-        );
     }
 
 }

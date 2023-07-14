@@ -19,11 +19,26 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class VoucherMapTest {
 
     VoucherMap voucherMap;
+
+    static Stream<Arguments> provideValid() {
+        return Stream.of(
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
+        );
+    }
+
+    static Stream<Arguments> provideInvalids() {
+        return Stream.of(
+                Arguments.of("My name is SuperMan"),
+                Arguments.of(123),
+                Arguments.of(List.of(12, 3))
+        );
+    }
 
     @BeforeEach
     void init() {
@@ -146,22 +161,6 @@ class VoucherMapTest {
 
         Optional<Voucher> result = voucherMap.getVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         assertThat(result).isEmpty();
-    }
-
-    static Stream<Arguments> provideValid() {
-        return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
-        );
-    }
-
-    static Stream<Arguments> provideInvalids() {
-        return Stream.of(
-                Arguments.of("My name is SuperMan"),
-                Arguments.of(123),
-                Arguments.of(List.of(12, 3))
-        );
     }
 
 }

@@ -24,10 +24,20 @@ import static org.mockito.BDDMockito.given;
 @SpringJUnitConfig
 class CustomerServiceTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true),
+            new Customer(UUID.randomUUID(), "포도", false),
+            new Customer(UUID.randomUUID(), "배", false)
+    );
     CustomerService sut;
-
     @Mock
     CustomerRepository customerRepositoryMock;
+
+    static Stream<Arguments> provideValidCustomers() {
+        return customers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeEach
     void cleanup() {
@@ -122,18 +132,6 @@ class CustomerServiceTest {
         Exception exception = catchException(() -> sut.deleteCustomerById(customer.getCustomerId()));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
-    }
-
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "포도", false),
-            new Customer(UUID.randomUUID(), "배", false)
-    );
-
-    static Stream<Arguments> provideValidCustomers() {
-        return customers.stream()
-                .map(Arguments::of);
     }
 
 }

@@ -32,13 +32,24 @@ import static org.assertj.core.api.Assertions.catchException;
 @ActiveProfiles("test")
 class JdbcVoucherRepositoryTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과", true),
+            new Customer(UUID.randomUUID(), "딸기", false)
+    );
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
+    );
     @Autowired
     JdbcVoucherRepository voucherRepository;
-
     @Autowired
     CustomerRepository customerRepository;
-
     EmbeddedMysql embeddedMysql;
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeAll
     void init() {
@@ -202,20 +213,5 @@ class JdbcVoucherRepositoryTest {
         Optional<Voucher> maybeNull = voucherRepository.findByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
         assertThat(maybeNull).isEmpty();
     }
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
-    }
-
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", true),
-            new Customer(UUID.randomUUID(), "딸기", false)
-    );
-
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), customers.get(0).getCustomerId())
-    );
 
 }

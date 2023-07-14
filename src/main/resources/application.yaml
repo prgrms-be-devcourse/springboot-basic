@@ -2,9 +2,17 @@ settings:
   version: "v2.1"
   description: "어려워잌ㅋ"
 
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    bean: jasyptStringEncryptor
+    pool-size: 2
+    string-output-type: base64
+    key-obtention-iterations: 100
+    password: key
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/voucher_system
-    username: root
-    password: root1234!
+    url: ENC(KBi96fDBlKO88/0u9oXdy4h+x62xSRaJBusVGHjRrJE01k7AC1SHpVDR40fKl9WewlOLEgETCk8=)
+    username: ENC(Kf740YACixzwkRIbGr8JBA==)
+    password: ENC(2u4//847O6daPzNU7gwfevf59GACpm2A)
     driver-class-name: com.mysql.cj.jdbc.Driver

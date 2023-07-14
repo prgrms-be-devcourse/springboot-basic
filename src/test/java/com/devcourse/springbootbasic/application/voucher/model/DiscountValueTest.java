@@ -14,6 +14,22 @@ import static org.assertj.core.api.BDDAssertions.catchException;
 
 class DiscountValueTest {
 
+    public static Stream<Arguments> provideNegativeDiscountValues() {
+        return Stream.of(
+                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "-2.9"),
+                Arguments.arguments(VoucherType.FIXED_AMOUNT, "-0.1"),
+                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "-10000")
+        );
+    }
+
+    public static Stream<Arguments> provideUpper100DiscountValues() {
+        return Stream.of(
+                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "100.1"),
+                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "101"),
+                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "230230")
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("할인값이 음수면 실패한다.")
     @MethodSource("provideNegativeDiscountValues")
@@ -30,22 +46,6 @@ class DiscountValueTest {
         Exception exception = catchException(() -> new DiscountValue(voucherType, input));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
-    }
-
-    public static Stream<Arguments> provideNegativeDiscountValues() {
-        return Stream.of(
-                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "-2.9"),
-                Arguments.arguments(VoucherType.FIXED_AMOUNT, "-0.1"),
-                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "-10000")
-        );
-    }
-
-    public static Stream<Arguments> provideUpper100DiscountValues() {
-        return Stream.of(
-                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "100.1"),
-                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "101"),
-                Arguments.arguments(VoucherType.PERCENT_DISCOUNT, "230230")
-        );
     }
 
 }

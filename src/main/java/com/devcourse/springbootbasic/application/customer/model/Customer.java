@@ -4,6 +4,7 @@ import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -23,6 +24,19 @@ public class Customer {
         if (name == null || name.isBlank()) {
             throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return isBlack == customer.isBlack && Objects.equals(customerId, customer.customerId) && Objects.equals(name, customer.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, name, isBlack);
     }
 
     @Override

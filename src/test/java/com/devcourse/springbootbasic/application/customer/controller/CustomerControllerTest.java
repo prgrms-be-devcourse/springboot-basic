@@ -2,8 +2,6 @@ package com.devcourse.springbootbasic.application.customer.controller;
 
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.customer.service.CustomerService;
-import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,9 +22,30 @@ import static org.mockito.Mockito.mock;
 @SpringJUnitConfig
 class CustomerControllerTest {
 
+    static List<Customer> validCustomers = List.of(
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true),
+            new Customer(UUID.randomUUID(), "포도", false),
+            new Customer(UUID.randomUUID(), "배", false)
+    );
+    static List<CustomerDto> validCustomerDto = List.of(
+            new CustomerDto(UUID.randomUUID(), "사과", false),
+            new CustomerDto(UUID.randomUUID(), "딸기", true),
+            new CustomerDto(UUID.randomUUID(), "포도", false),
+            new CustomerDto(UUID.randomUUID(), "배", false)
+    );
     CustomerController controller;
-
     CustomerService service;
+
+    static Stream<Arguments> provideValidCustomers() {
+        return validCustomers.stream()
+                .map(Arguments::of);
+    }
+
+    static Stream<Arguments> provideValidCustomerDto() {
+        return validCustomerDto.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeEach
     void init() {
@@ -112,30 +131,6 @@ class CustomerControllerTest {
         CustomerDto deletedCustomer = controller.unregisterCustomerById(customerDto.customerId());
 
         assertThat(deletedCustomer.customerId()).isEqualTo(customerDto.customerId());
-    }
-
-    static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "포도", false),
-            new Customer(UUID.randomUUID(), "배", false)
-    );
-
-    static List<CustomerDto> validCustomerDto = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과", false),
-            new CustomerDto(UUID.randomUUID(), "딸기", true),
-            new CustomerDto(UUID.randomUUID(), "포도", false),
-            new CustomerDto(UUID.randomUUID(), "배", false)
-    );
-
-    static Stream<Arguments> provideValidCustomers() {
-        return validCustomers.stream()
-                .map(Arguments::of);
-    }
-
-    static Stream<Arguments> provideValidCustomerDto() {
-        return validCustomerDto.stream()
-                .map(Arguments::of);
     }
 
 }

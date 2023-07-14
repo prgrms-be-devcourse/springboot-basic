@@ -26,9 +26,25 @@ import static org.mockito.Mockito.mock;
 @SpringJUnitConfig
 class VoucherControllerTest {
 
+    static List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "사과", false),
+            new Customer(UUID.randomUUID(), "딸기", true)
+    );
+    static List<VoucherDto> voucherDto = List.of(
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), customers.get(0).getCustomerId()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), customers.get(0).getCustomerId())
+    );
+    static List<Voucher> vouchers = voucherDto.stream()
+            .map(VoucherDto::to)
+            .toList();
     VoucherController controller;
-
     VoucherService service;
+
+    static Stream<Arguments> provideVoucherDto() {
+        return voucherDto.stream()
+                .map(Arguments::of);
+    }
 
     @BeforeEach
     void init() {
@@ -108,26 +124,6 @@ class VoucherControllerTest {
         VoucherDto deleted = controller.unregisterVoucherByCustomerIdAndVoucherId(voucherDto.customerId(), voucherDto.voucherId());
 
         assertThat(deleted.voucherId()).isEqualTo(voucherDto.voucherId());
-    }
-
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true)
-    );
-
-    static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), customers.get(0).getCustomerId()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), customers.get(0).getCustomerId())
-    );
-
-    static List<Voucher> vouchers = voucherDto.stream()
-            .map(VoucherDto::to)
-            .toList();
-
-    static Stream<Arguments> provideVoucherDto() {
-        return voucherDto.stream()
-                .map(Arguments::of);
     }
 
 }

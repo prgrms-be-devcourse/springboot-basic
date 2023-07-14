@@ -14,6 +14,13 @@ import static org.assertj.core.api.BDDAssertions.catchException;
 
 class PriceTest {
 
+    static Stream<Arguments> provideDiscountValues() {
+        return Stream.of(
+                Arguments.of(new DiscountValue(VoucherType.FIXED_AMOUNT, 100)),
+                Arguments.of(new DiscountValue(VoucherType.PERCENT_DISCOUNT, 23))
+        );
+    }
+
     @ParameterizedTest
     @DisplayName("정상적인 결과가 나오는 값과 바우처 적용 시 결과 반환된다.")
     @MethodSource("provideDiscountValues")
@@ -34,13 +41,6 @@ class PriceTest {
         Exception exception = catchException(() -> originPrice.applyDiscount(fixedDiscountValue));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
-    }
-
-    static Stream<Arguments> provideDiscountValues() {
-        return Stream.of(
-                Arguments.of(new DiscountValue(VoucherType.FIXED_AMOUNT, 100)),
-                Arguments.of(new DiscountValue(VoucherType.PERCENT_DISCOUNT, 23))
-        );
     }
 
 }
