@@ -20,7 +20,7 @@ class VoucherLoaderTest {
 
     @BeforeEach
     void setup() {
-        voucherLoader = new VoucherLoader("src/test/TestVoucher.csv");
+        voucherLoader = new VoucherLoader("src/test/resources/TestVoucher.csv");
     }
 
     @ParameterizedTest

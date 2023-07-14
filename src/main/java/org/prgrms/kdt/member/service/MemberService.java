@@ -2,10 +2,11 @@ package org.prgrms.kdt.member.service;
 
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.dao.MemberRepository;
+import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.member.dto.CreateMemberRequest;
+import org.prgrms.kdt.member.dto.MemberResponse;
+import org.prgrms.kdt.member.dto.MembersResponse;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class MemberService {
@@ -15,16 +16,16 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member createMember(CreateMemberRequest request) {
+    public MemberResponse createMember(CreateMemberRequest request) {
         Member member = new Member(request.name(), request.status());
-        return memberRepository.insert(member);
+        return new MemberResponse(memberRepository.insert(member));
     }
 
-    public List<Member> findAllBlackMember() {
-        return memberRepository.findAllBlackMember();
+    public MembersResponse findAllBlackMember() {
+        return MembersResponse.of(memberRepository.findByStatus(MemberStatus.BLACK));
     }
 
-    public List<Member> findAllMember() {
-        return memberRepository.findAll();
+    public MembersResponse findAllMember() {
+        return MembersResponse.of(memberRepository.findAll());
     }
 }

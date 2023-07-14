@@ -1,5 +1,6 @@
 package org.prgrms.kdt.util;
 
+import org.prgrms.kdt.exception.EntityNotFoundException;
 import org.prgrms.kdt.exception.InvalidInputException;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
@@ -21,7 +22,11 @@ public final class Converter {
     }
 
     public static String memberToString(Member member) {
-        return MessageFormat.format("{0},{1}", member.getMemberId(), member.getMemberName().getName());
+        try {
+            return MessageFormat.format("{0},{1}", member.getMemberId(), member.getMemberName().getName());
+        } catch (NullPointerException e) {
+            throw new EntityNotFoundException("멤버 엔티티의 필드값에 null이 포함되어 있습니다", e);
+        }
     }
 
     public static String[] stringToArray(String originalString, String delimiter) {

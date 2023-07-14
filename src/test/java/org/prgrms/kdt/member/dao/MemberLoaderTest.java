@@ -20,7 +20,7 @@ class MemberLoaderTest {
 
     @BeforeEach
     void setup() {
-        memberLoader = new MemberLoader("src/test/test_customer_blacklist.csv");
+        memberLoader = new MemberLoader("src/test/resources/test_customer_blacklist.csv");
     }
 
 

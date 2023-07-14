@@ -1,3 +1,7 @@
+filePath:
+  voucher: "src/test/resources/TestVoucher.csv"
+  blackList: "src/test/resources/test_customer_blacklist.csv"
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

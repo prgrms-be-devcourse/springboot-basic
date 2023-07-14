@@ -4,9 +4,9 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
+import org.prgrms.kdt.voucher.dto.VoucherResponse;
+import org.prgrms.kdt.voucher.dto.VouchersResponse;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class VoucherService {
@@ -16,14 +16,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(CreateVoucherRequest request) {
-        VoucherType voucherType = request.getVoucherType();
-        double discountAmount = request.getDiscountAmount();
+    public VoucherResponse createVoucher(CreateVoucherRequest request) {
+        VoucherType voucherType = request.voucherType();
+        double discountAmount = request.discountAmount();
 
-        return voucherRepository.insert(new Voucher(voucherType, voucherType.createPolicy(discountAmount)));
+        Voucher voucher = voucherRepository.insert(new Voucher(voucherType, voucherType.createPolicy(discountAmount)));
+        return new VoucherResponse(voucher);
     }
 
-    public List<Voucher> findAll() {
-        return voucherRepository.findAll();
+    public VouchersResponse findAll() {
+        return VouchersResponse.of(voucherRepository.findAll());
     }
 }
