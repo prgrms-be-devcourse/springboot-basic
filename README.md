@@ -31,12 +31,18 @@
 - 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
 
 ## 작업 순서 목록
-- [ ] 바우처 추가 기능(삭제, 수정) 구현
-- [ ] JdbcVoucherRepository 구현
-- [ ] 바우처 Test 코드 구현
-- [ ] 소비자 생성 기능 구현
-- [ ] 소비자 조회 기능 구현
-- [ ] 소비자 삭제 기능 구현
-- [ ] 소비자 수정 기능 구현
-- [ ] 소비자 Test 코드 구현
+- [x] CommandLineApplication 분리
+- [x] MemoryVoucher 삭제 기능 구현 & 테스트
+- [x] MemoryVoucher 수정 기능 구현 & 테스트
+- [x] Jdbc Connect 구현
+- [x] JdbcVoucher 생성 기능 구현
+- [x] JdbcVoucher 조회 기능 구현
+- [x] JdbcVoucher 삭제 기능 구현
+- [x] JdbcVoucher 수정 기능 구현
+- [ ] jdbcVoucher 테스트 코드 구현
+- [ ] Customer 객체 구현 & 테스트
+- [ ] JdbcCustomer 생성 기능 구현 & 테스트
+- [ ] JdbcCustomer 조회 기능 구현 & 테스트
+- [ ] JdbcCustomer 수정 기능 구현 & 테스트
+- [ ] JdbcCustomer 삭제 기능 구현 & 테스트
 - [ ] 중간 점검(Wallet 구현 전 멘토님 승인)
