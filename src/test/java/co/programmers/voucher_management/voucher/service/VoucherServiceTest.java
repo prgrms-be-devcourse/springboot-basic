@@ -11,9 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
-import co.programmers.voucher_management.common.Response;
 import co.programmers.voucher_management.customer.repository.CustomerFileRepository;
 import co.programmers.voucher_management.customer.repository.CustomerRepository;
 import co.programmers.voucher_management.exception.NoSuchDataException;
@@ -21,11 +19,11 @@ import co.programmers.voucher_management.voucher.dto.VoucherAssignDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherUpdateDTO;
-import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.repository.VoucherMemoryRepository;
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;
 
 @ActiveProfiles("test")
+		//TODO
 class VoucherServiceTest {
 	VoucherRepository voucherRepository = new VoucherMemoryRepository();
 	CustomerRepository customerRepository = new CustomerFileRepository("src/main/resources/customer.csv");
@@ -42,12 +40,10 @@ class VoucherServiceTest {
 		// given
 		VoucherRequestDTO voucherRequestDTO = new VoucherRequestDTO(discountType, discountAmount);
 		// when
-		Response response = voucherService.create(voucherRequestDTO);
-		Voucher createdVoucher = (Voucher)(response.getResponseData());
+		VoucherResponseDTO response = voucherService.create(voucherRequestDTO);
 		// then
-		assertThat(response.getState(), is(equalTo(Response.State.SUCCESS)));
-		assertThat(createdVoucher.getDiscountStrategy().getType(), is(equalTo(discountType)));
-		assertThat(createdVoucher.getDiscountStrategy().getAmount(), is(equalTo(discountAmount)));
+		assertThat(response.getDiscountType(), is(equalTo(discountType)));
+		assertThat(response.getDiscountAmount(), is(equalTo(discountAmount)));
 	}
 
 	@ParameterizedTest
@@ -63,8 +59,7 @@ class VoucherServiceTest {
 		VoucherRequestDTO voucherRequestDTO = new VoucherRequestDTO(discountType, discountAmount);
 		voucherService.create(voucherRequestDTO);
 		// when
-		List<VoucherResponseDTO> response = (List<VoucherResponseDTO>)(voucherService.inquiryVoucherOf()
-				.getResponseData());
+		List<VoucherResponseDTO> response = voucherService.inquiryVoucherOf();
 		// then
 		assertThat(discountType, is(equalTo(response.get(0).getDiscountType())));
 		assertThat(discountAmount, is(equalTo(response.get(0).getDiscountAmount())));
@@ -78,14 +73,11 @@ class VoucherServiceTest {
 		int discountAmount = 50000;
 		long customerId = 1L;
 		VoucherRequestDTO voucherRequestDTO = new VoucherRequestDTO(discountType, discountAmount);
-		Voucher voucher = (Voucher)voucherService.create(voucherRequestDTO)
-				.getResponseData();
+		VoucherResponseDTO voucher = voucherService.create(voucherRequestDTO);
 		long voucherId = voucher.getId();
 		// when
 		voucherService.assignVoucher(new VoucherAssignDTO(customerId, voucherId));
-		List<VoucherResponseDTO> voucherResponseDTOs = (List<VoucherResponseDTO>)voucherService.inquiryVoucherOf(
-						customerId)
-				.getResponseData();
+		List<VoucherResponseDTO> voucherResponseDTOs = voucherService.inquiryVoucherOf(customerId);
 		// then
 		assertThat(voucherResponseDTOs.stream().
 						filter(v -> v.getId() == voucherId).
@@ -104,14 +96,14 @@ class VoucherServiceTest {
 	void update(String prevType, int prevAmount, String updatedType, int updatedAmount) {
 		// given
 		VoucherRequestDTO voucherRequestDTO = new VoucherRequestDTO(prevType, prevAmount);
-		Voucher voucher = (Voucher)(voucherService.create(voucherRequestDTO)).getResponseData();
+		VoucherResponseDTO voucher = voucherService.create(voucherRequestDTO);
 		long id = voucher.getId();
 		// when
 		VoucherUpdateDTO voucherUpdateDTO = new VoucherUpdateDTO(id, updatedType, updatedAmount);
 		// then
-		Voucher updated = (Voucher)voucherService.update(voucherUpdateDTO).getResponseData();
-		assertThat(updated.getDiscountStrategy().getType(), is(equalTo(updatedType)));
-		assertThat(updated.getDiscountStrategy().getAmount(), is(equalTo(updatedAmount)));
+		VoucherResponseDTO updated = voucherService.update(voucherUpdateDTO);
+		assertThat(updated.getDiscountType(), is(equalTo(updatedType)));
+		assertThat(updated.getDiscountAmount(), is(equalTo(updatedAmount)));
 	}
 
 	@ParameterizedTest
@@ -125,7 +117,7 @@ class VoucherServiceTest {
 	void deleteById(String discountType, int discountAmount) {
 		//given
 		VoucherRequestDTO voucherRequestDTO = new VoucherRequestDTO(discountType, discountAmount);
-		Voucher voucher = (Voucher)(voucherService.create(voucherRequestDTO)).getResponseData();
+		VoucherResponseDTO voucher = voucherService.create(voucherRequestDTO);
 		long id = voucher.getId();
 
 		// when
@@ -142,15 +134,13 @@ class VoucherServiceTest {
 		String discountType = "fixed";
 		int discountAmount = 50000;
 		VoucherRequestDTO voucherRequestDTO = new VoucherRequestDTO(discountType, discountAmount);
-		Voucher voucher = (Voucher)(voucherService.create(voucherRequestDTO)).getResponseData();
+		VoucherResponseDTO voucher = voucherService.create(voucherRequestDTO);
 		long voucherId = voucher.getId();
 		long customerId = 1L;
 
 		// when
 		voucherService.assignVoucher(new VoucherAssignDTO(customerId, voucherId));
-		List<VoucherResponseDTO> voucherResponseDTOs = (List<VoucherResponseDTO>)voucherService.inquiryVoucherOf(
-						customerId)
-				.getResponseData();
+		List<VoucherResponseDTO> voucherResponseDTOs = voucherService.inquiryVoucherOf(customerId);
 
 		// then
 		assertThat(voucherResponseDTOs.stream().
