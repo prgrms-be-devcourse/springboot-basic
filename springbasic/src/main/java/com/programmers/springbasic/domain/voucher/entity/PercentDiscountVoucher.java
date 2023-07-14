@@ -1,32 +1,51 @@
 package com.programmers.springbasic.domain.voucher.entity;
 
-import com.programmers.springbasic.domain.voucher.view.VoucherOption;
-import lombok.Getter;
+import com.programmers.springbasic.domain.voucher.model.VoucherType;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
 public class PercentDiscountVoucher extends Voucher {
-    public PercentDiscountVoucher(double percent) {
-        super();
-        this.value = percent;
-        this.voucherType = VoucherOption.PERCENT_DISCOUNT_VOUCHER;
-    }
+    private static final long DEFAULT_EXPIRE_DURATION = 7;
 
-    public PercentDiscountVoucher(double percent, UUID customerId) {
-        super();
-        this.value = percent;
-        this.voucherType = VoucherOption.PERCENT_DISCOUNT_VOUCHER;
+    private VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
+
+    public PercentDiscountVoucher(double value, UUID customerId) {
+        this.code = UUID.randomUUID();
+        this.value = value;
+        this.expirationDate = setDefaultExpirationDate();
+        this.isActive = true;
         this.customerId = customerId;
     }
 
+    // DB row to Entity Mapping
     public PercentDiscountVoucher(UUID voucherCode, double value, LocalDate expirationDate, boolean isActive, UUID customerId) {
         this.code = voucherCode;
         this.value = value;
-        this.voucherType = VoucherOption.PERCENT_DISCOUNT_VOUCHER;
         this.expirationDate = expirationDate;
         this.isActive = isActive;
         this.customerId = customerId;
+    }
+
+    private LocalDate setDefaultExpirationDate() {
+        LocalDate date = LocalDate.now();
+        date.plusDays(DEFAULT_EXPIRE_DURATION);
+
+        return date;
+    }
+
+    @Override
+    public double discount(double inputAmount) {
+        return inputAmount * (this.value / 100);
+    }
+
+    @Override
+    public void updateValue(double value) {
+        this.value = value;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return this.voucherType;
     }
 }
