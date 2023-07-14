@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class HomeCommand implements CommandLineRunner {
 
-    private final HomeView commonView;
+    private final HomeView homeView;
     private final VoucherCommand voucherCommand;
     private final CustomerCommand customerCommand;
     private boolean isRunning = true;
@@ -20,16 +20,16 @@ public class HomeCommand implements CommandLineRunner {
     @Override
     public void run(String... args) {
         while (isRunning) {
-            commonView.showMenu();
+            homeView.showMenu();
 
             try {
-                String menuOption = commonView.readUserInput();
+                String menuOption = homeView.readUserInput();
                 HomeMenu selectedMenu = HomeMenu.from(menuOption);
                 executeMenu(selectedMenu);
             } catch (Exception e) {
                 String message = e.getMessage();
                 log.error(message);
-                commonView.showExceptionMessage(message);
+                homeView.showExceptionMessage(message);
             }
         }
     }
@@ -44,6 +44,6 @@ public class HomeCommand implements CommandLineRunner {
 
     private void quitApplication() {
         isRunning = false;
-        commonView.showQuitMessage();
+        homeView.showQuitMessage();
     }
 }
