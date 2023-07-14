@@ -3,6 +3,8 @@ package com.programmers.voucher.repository;
 import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +29,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return storage.values().stream().toList();
+    }
+
+    @Override
+    public Page<Map<String, Object>> findAllByPage(Pageable pageable) {
+        return null;
     }
 
     @Override

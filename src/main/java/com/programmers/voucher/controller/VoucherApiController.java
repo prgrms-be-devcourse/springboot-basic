@@ -3,12 +3,16 @@ package com.programmers.voucher.controller;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.service.VoucherService;
-import jakarta.annotation.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -48,5 +52,13 @@ public class VoucherApiController {
     public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
         voucherService.deleteVoucherById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping({"/pages", "/pages/{pageNum}"})
+    public Page<Map<String, Object>> findAllByPage(@PathVariable(required = false) Optional<Integer> pageNum) {
+        int page = pageNum.orElseGet(() -> 0);
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Map<String, Object>> response = voucherService.findVouchserWithPagination(pageable);
+        return response;
     }
 }

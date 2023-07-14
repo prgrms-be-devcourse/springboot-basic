@@ -5,8 +5,13 @@ import com.programmers.voucher.domain.DiscountType;
 import com.programmers.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -52,6 +57,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+
     @Override
     public List<Voucher> findByType(String type) {
         String sql = "select * from voucher where type = :type";
@@ -69,6 +75,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         String sql = "delete from voucher where id = :voucherId";
         jdbcTemplate.update(sql, Collections.singletonMap("voucherId", voucherId.toString()));
+    }
+
+    public Page<Map<String, Object>> findAllByPage(Pageable pageable) {
+        String sql = "select * from voucher limit :start offset :end";
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("start", pageable.getPageSize())
+                .addValue("end", pageable.getOffset());
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, paramMap);
+        long total = findAll().size();
+        return new PageImpl<>(rows, pageable, total);
     }
 
     private Map<String, Object> converParameterToMap (Voucher voucher) {

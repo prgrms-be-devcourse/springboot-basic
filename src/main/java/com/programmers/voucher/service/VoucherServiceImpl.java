@@ -5,10 +5,13 @@ import com.programmers.voucher.domain.VoucherMapper;
 import com.programmers.voucher.dto.VoucherRequestDto;
 import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Transactional(readOnly = true)
@@ -50,5 +53,9 @@ public class VoucherServiceImpl implements VoucherService {
 
     public void deleteVoucherById(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
+    }
+
+    public Page<Map<String, Object>> findVouchserWithPagination(Pageable pageable) {
+        return voucherRepository.findAllByPage(pageable);
     }
 }
