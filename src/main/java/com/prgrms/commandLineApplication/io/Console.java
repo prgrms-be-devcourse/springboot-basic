@@ -1,8 +1,11 @@
 package com.prgrms.commandLineApplication.io;
 
 import com.prgrms.commandLineApplication.customer.Customer;
+import com.prgrms.commandLineApplication.customer.dto.CustomerResponseDto;
 import com.prgrms.commandLineApplication.voucher.Voucher;
 import com.prgrms.commandLineApplication.voucher.discount.DiscountType;
+import com.prgrms.commandLineApplication.voucher.dto.VoucherCreateDto;
+import com.prgrms.commandLineApplication.voucher.dto.VoucherResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,10 +29,10 @@ public class Console implements Input, Output {
   public static final String PRINT_MENU = """
           === Voucher Program ===
           Type exit to exit the program.
-          Type createCustomer to create a new customer.
-          Type customerList to list all customers.
-          Type createVoucher to create a new voucher.
-          Type voucherList to list all vouchers.
+          Type create_Customer to create a new customer.
+          Type customer_List to list all customers.
+          Type create_Voucher to create a new voucher.
+          Type voucher_List to list all vouchers.
           """;
 
   private String userInput() {
@@ -52,12 +55,7 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public String readCustomerName() {
-    return userInput();
-  }
-
-  @Override
-  public String readCustomerEmail() {
+  public String readCustomer() {
     return userInput();
   }
 
@@ -77,11 +75,11 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public void printAllVouchers(List<Voucher> vouchers) {
-    for (Voucher voucher : vouchers) {
-      DiscountType discountType = voucher.supplyDiscountType();
-      System.out.println(String.format("- VOUCHER_ID : %s", voucher.getVoucherId()));
-      System.out.println(String.format("- %s VOUCHER : %s%s", discountType, voucher.supplyDiscountAmount(), DiscountType.getUnit(discountType)));
+  public void printAllVouchers(List<VoucherResponseDto> vouchers) {
+    for (VoucherResponseDto voucher : vouchers) {
+      DiscountType discountType = voucher.discountType();
+      System.out.println(String.format("- VOUCHER_ID : %s \n- %s VOUCHER : %s%s",
+              voucher.voucherId(), discountType, voucher.discountAmount(), discountType.getUnit(discountType)));
     }
   }
 
@@ -96,10 +94,10 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public void printAllCustomers(List<Customer> customers) {
-    for (Customer customer : customers) {
-      System.out.println(String.format("- CUSTOMER_ID : %s", customer.getCustomerId()));
-      System.out.println(String.format("- NAME : %s, EMAIL : %s", customer.getCustomerName(), customer.getEmail()));
+  public void printAllCustomers(List<CustomerResponseDto> customers) {
+    for (CustomerResponseDto customer : customers) {
+      System.out.println(String.format("- CUSTOMER_ID : %s \n- NAME : %s, EMAIL : %s",
+              customer.customerId(), customer.customerName(), customer.email()));
     }
   }
 
