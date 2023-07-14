@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.common;
+package com.programmers.springbootbasic.presentation.view;
 
 import org.springframework.stereotype.Component;
 

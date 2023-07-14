@@ -1,6 +1,5 @@
 package com.programmers.springbootbasic.presentation.view;
 
-import com.programmers.springbootbasic.common.Console;
 import com.programmers.springbootbasic.common.util.LocalDateTimeParser;
 import com.programmers.springbootbasic.common.util.NumberParser;
 import com.programmers.springbootbasic.common.util.Validator;
