@@ -1,8 +1,8 @@
 package co.programmers.voucher_management.customer.service;
 
-import java.text.MessageFormat;
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -28,17 +28,15 @@ public class CustomerService {
 		List<Customer> inquiredData = customerRepository.findByRating(rating);
 		return inquiredData.stream()
 				.map(CustomerResponseDTO::new)
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public CustomerResponseDTO inquiryCustomerByVoucher(long voucherId) {
 		Voucher voucher = voucherRepository.findById(voucherId)
-				.orElseThrow(
-						() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", voucherId)));
+				.orElseThrow(() -> new NoSuchDataException(VOUCHER_NOT_FOUND));
 		long customerId = voucher.getCustomerId();
 		Customer customer = customerRepository.findById(customerId)
-				.orElseThrow(() -> new EmptyAssignerException(
-						MessageFormat.format("No customer assigned to voucher of id {0}", voucherId)));
+				.orElseThrow(() -> new EmptyAssignerException(CUSTOMER_NOT_FOUND));
 		return new CustomerResponseDTO(customer);
 	}
 }

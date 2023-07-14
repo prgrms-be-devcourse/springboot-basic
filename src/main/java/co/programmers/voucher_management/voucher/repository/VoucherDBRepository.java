@@ -1,8 +1,9 @@
 package co.programmers.voucher_management.voucher.repository;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -87,8 +88,7 @@ public class VoucherDBRepository implements VoucherRepository {
 
 	@Override
 	public void deleteById(long id) {
-		findById(id).orElseThrow(
-				() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id)));
+		findById(id).orElseThrow(() -> new NoSuchDataException(VOUCHER_NOT_FOUND));
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 				.addValue("updated_at", LocalDateTime.now())
 				.addValue("id", id);
@@ -98,8 +98,7 @@ public class VoucherDBRepository implements VoucherRepository {
 	@Override
 	public Voucher update(Voucher voucher) {
 		long id = voucher.getId();
-		findById(id).orElseThrow(
-				() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id)));
+		findById(id).orElseThrow(() -> new NoSuchDataException(VOUCHER_NOT_FOUND));
 		String discountType = voucher.getDiscountStrategy().getType();
 		int discountAmount = voucher.getDiscountStrategy().getAmount();
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()

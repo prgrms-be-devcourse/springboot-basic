@@ -1,10 +1,14 @@
 package co.programmers.voucher_management.exception;
 
-public class InvalidDataException extends RuntimeException {
-	public InvalidDataException() {
-	}
+import lombok.Getter;
 
-	public InvalidDataException(String message) {
-		super(message);
+@Getter
+
+public class InvalidDataException extends RuntimeException {
+	private final ErrorCode errorCode;
+
+	public InvalidDataException(ErrorCode errorCode) {
+		super(errorCode.getMessage());
+		this.errorCode = errorCode;
 	}
 }

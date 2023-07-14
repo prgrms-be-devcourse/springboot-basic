@@ -1,5 +1,7 @@
 package co.programmers.voucher_management.common;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import java.util.Arrays;
 
 import co.programmers.voucher_management.exception.InvalidDataException;
@@ -28,7 +30,7 @@ public enum MenuDescription {
 		return Arrays.stream(MenuDescription.values())
 				.filter(m -> m.expression.equals(expression))
 				.findAny()
-				.orElseThrow(() -> new InvalidDataException("Unsupported menu"))
+				.orElseThrow(() -> new InvalidDataException(INVALID_MENU))
 				.description();
 	}
 

@@ -1,10 +1,13 @@
 package co.programmers.voucher_management.exception;
 
-public class NoSuchDataException extends RuntimeException {
-	public NoSuchDataException() {
-	}
+import lombok.Getter;
 
-	public NoSuchDataException(String message) {
-		super(message);
+@Getter
+public class NoSuchDataException extends RuntimeException {
+	private final ErrorCode errorCode;
+
+	public NoSuchDataException(ErrorCode errorCode) {
+		super(errorCode.getMessage());
+		this.errorCode = errorCode;
 	}
 }

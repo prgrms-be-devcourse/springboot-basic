@@ -1,5 +1,7 @@
 package co.programmers.voucher_management.voucher.service;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,15 +20,12 @@ public class DiscountTypeGenerator {
 
 	public static DiscountStrategy of(String type, Integer amount) {
 		switch (type.toLowerCase()) {
-			case ("fixed"):
-				discountStrategy = new FixedDiscount(amount);
-				break;
-			case ("percent"):
-				discountStrategy = new PercentageDiscount(amount);
-				break;
-			default:
+			case ("fixed") -> discountStrategy = new FixedDiscount(amount);
+			case ("percent") -> discountStrategy = new PercentageDiscount(amount);
+			default -> {
 				logger.debug("User Input - Discount Type : {}", type);
-				throw new InvalidDataException("Invalid type of discount");
+				throw new InvalidDataException(INVALID_DISCOUNT_TYPE);
+			}
 		}
 		return discountStrategy;
 	}
