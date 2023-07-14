@@ -3,7 +3,7 @@ package com.programmers.springbasic.domain.voucher.repository;
 import com.programmers.springbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.programmers.springbasic.domain.voucher.entity.Voucher;
-import com.programmers.springbasic.domain.voucher.view.VoucherOption;
+import com.programmers.springbasic.domain.voucher.model.VoucherType;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +27,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final String VOUCHER_SELECT_ALL_QUERY = "SELECT * FROM vouchers";
     private static final String VOUCHER_SELECT_BY_TYPE_QUERY = "SELECT * FROM vouchers WHERE type = ?";
-    private static final String VOUCHER_SELECT_BY_CODE_QUERY = "SELECT * FROM vouchers WHERE voucher_code = ?";
+    private static final String VOUCHER_SELECT_BY_CODE_QUERY = "SELECT * FROM vouchers WHERE voucher_code = UUID_TO_BIN(?)";
     private static final String VOUCHER_SELECT_BY_CUSTOMER_ID_QUERY = "SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(?)";
     private static final String VOUCHER_SELECT_CUSTOMER_ID_BY_VOUCHER_TYPE_QUERY = "SELECT DISTINCT customer_id FROM vouchers WHERE type = ?";
 
-    private static final String VOUCHER_UPDATE_QUERY = "UPDATE vouchers SET value = ? WHERE voucher_code = UUID_TO_BIN(?)"; // TODO: update voucher
+    private static final String VOUCHER_UPDATE_QUERY = "UPDATE vouchers SET value = ? WHERE voucher_code = UUID_TO_BIN(?)";
 
     private static final String VOUCHER_DELETE_QUERY = "DELETE FROM vouchers WHERE voucher_code = UUID_TO_BIN(?)";
 
@@ -44,14 +44,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
 
         switch (voucherType) {
-            case "FIXED": {
+            case "FIXED_AMOUNT_VOUCHER": {
                 return new FixedAmountVoucher(voucherCode, value, expirationDate, isActive, customerId);
             }
-            case "PERCENT": {
+            case "PERCENT_DISCOUNT_VOUCHER": {
                 return new PercentDiscountVoucher(voucherCode, value, expirationDate, isActive, customerId);
             }
             default: {
-                return null;
+                throw new RuntimeException("조회할 voucher가 없습니다.");
             }
         }
     };
@@ -67,12 +67,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public void save(Voucher voucher) {
         try {
-            System.out.println(voucher.getCustomerId());
-
             jdbcTemplate.update(VOUCHER_INSERT_QUERY,
                     voucher.getCode().toString().getBytes(),
                     voucher.getValue(),
-                    voucher.getVoucherType().getVoucherOption(),
+                    voucher.getVoucherType().getVoucherType(),
                     voucher.getExpirationDate(),
                     voucher.isActive(),
                     voucher.getCustomerId().toString().getBytes());
@@ -107,8 +105,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAllByVoucherType(VoucherOption voucherOption) {
-        String voucherType = voucherOption.getVoucherOption();
+    public List<Voucher> findAllByVoucherType(VoucherType voucherOption) {
+        String voucherType = voucherOption.getVoucherType();
 
         return jdbcTemplate.query(VOUCHER_SELECT_BY_TYPE_QUERY,
                 voucherRowMapper,
@@ -129,7 +127,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public void update(Voucher voucher) {
         try {
-            jdbcTemplate.update(VOUCHER_UPDATE_QUERY);
+            jdbcTemplate.update(VOUCHER_UPDATE_QUERY,
+                    voucher.getValue(),
+                    voucher.getCode().toString().getBytes());
         } catch (DataAccessException e) {
             logger.error(e.getMessage());
         }
