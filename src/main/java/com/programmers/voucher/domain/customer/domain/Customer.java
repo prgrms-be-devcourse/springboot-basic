@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.regex.Matcher;
 
@@ -16,6 +17,7 @@ public class Customer {
     private final String email;
     private String name;
     private boolean banned = false;
+    private final LocalDateTime createdAt;
 
     public Customer(UUID customerId, String email, String name) {
         validateEmail(email);
@@ -23,6 +25,17 @@ public class Customer {
         this.customerId = customerId;
         this.email = email;
         this.name = name;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Customer(UUID customerId, String email, String name, boolean banned, LocalDateTime createdAt) {
+        validateEmail(email);
+        validateName(name);
+        this.customerId = customerId;
+        this.email = email;
+        this.name = name;
+        this.banned = banned;
+        this.createdAt = createdAt;
     }
 
     private void validateEmail(String email) {
@@ -72,5 +85,9 @@ public class Customer {
 
     public boolean isBanned() {
         return banned;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

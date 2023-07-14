@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.FIXED_AMOUNT_MIN;
@@ -17,6 +18,12 @@ public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         super(voucherId);
+        validateAmount(amount);
+        this.amount = amount;
+    }
+
+    public FixedAmountVoucher(UUID voucherId, LocalDateTime createdAt, long amount) {
+        super(voucherId, createdAt);
         validateAmount(amount);
         this.amount = amount;
     }

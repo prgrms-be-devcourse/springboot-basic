@@ -1,10 +1,12 @@
 package com.programmers.voucher.domain.voucher.repository;
 
 import com.programmers.voucher.domain.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
@@ -34,6 +36,11 @@ public class VoucherMemoryRepository implements VoucherRepository {
         } catch (NullPointerException ex) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Voucher> findAll(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
+        return null;
     }
 
     @Override

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.voucher.global.util.CommonErrorMessages.CANNOT_ACCESS_FILE;
@@ -82,6 +83,11 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAll(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
+        return null;
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
         List<Voucher> vouchers = findAll();
         boolean removed = vouchers.removeIf(v -> Objects.equals(v.getVoucherId(), voucherId));
@@ -123,6 +129,6 @@ public class VoucherFileRepository implements VoucherRepository {
         VoucherType voucherType = VoucherType.valueOf(voucherInfo[1]);
         long amount = Long.parseLong(voucherInfo[2]);
 
-        return voucherType.createVoucher(voucherId, amount);
+        return voucherType.publishVoucher(voucherId, amount);
     }
 }

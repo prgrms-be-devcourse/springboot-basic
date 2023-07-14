@@ -75,6 +75,18 @@ public class CustomerService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public CustomerDto findCustomer(UUID customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> {
+                    String errorMessage = MessageFormat.format(CustomerErrorMessages.NO_SUCH_CUSTOMER, customerId);
+                    LOG.warn(errorMessage);
+                    return new NoSuchElementException(errorMessage);
+                });
+
+        return CustomerDto.from(customer);
+    }
+
     @Transactional
     public void deleteCustomer(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)

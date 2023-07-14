@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -33,13 +34,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public void save(Customer customer) {
         CustomerDto customerDto = CustomerDto.from(customer);
 
-        String sql = "insert into customer(customer_id, email, name, banned)" +
-                " values(:customerId, :email, :name, :banned)";
+        String sql = "insert into customer(customer_id, email, name, banned, created_at)" +
+                " values(:customerId, :email, :name, :banned, :createdAt)";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("customerId", customerDto.getCustomerId())
                 .addValue("email", customerDto.getEmail())
                 .addValue("name", customerDto.getName())
-                .addValue("banned", customerDto.isBanned());
+                .addValue("banned", customerDto.isBanned())
+                .addValue("createdAt", customerDto.getCreatedAt());
 
         int saved = template.update(sql, param);
         if (saved != UPDATE_ONE) {
@@ -127,11 +129,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
             String email = rs.getString("email");
             String name = rs.getString("name");
             boolean banned = rs.getBoolean("banned");
+            LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
-            Customer customer = new Customer(customerId, email, name);
-            customer.update(name, banned);
-
-            return customer;
+            return new Customer(customerId, email, name, banned, createdAt);
         };
     }
 }

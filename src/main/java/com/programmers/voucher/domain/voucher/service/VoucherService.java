@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -31,7 +32,7 @@ public class VoucherService {
     @Transactional
     public UUID createVoucher(VoucherType voucherType, long amount) {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = voucherType.createVoucher(voucherId, amount);
+        Voucher voucher = voucherType.publishVoucher(voucherId, amount);
         voucherRepository.save(voucher);
 
         LOG.info(CREATED_NEW_VOUCHER, voucher.toString());
@@ -44,6 +45,27 @@ public class VoucherService {
         return vouchers.stream()
                 .map(VoucherDto::from)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<VoucherDto> findVouchers(VoucherType voucherType,
+                                         LocalDateTime startTime, LocalDateTime endTime) {
+        List<Voucher> vouchers = voucherRepository.findAll(voucherType, startTime, endTime);
+        return vouchers.stream()
+                .map(VoucherDto::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public VoucherDto findVoucher(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> {
+                    String errorMessage = MessageFormat.format(VoucherErrorMessages.NO_SUCH_VOUCHER, voucherId);
+                    LOG.warn(errorMessage);
+                    return new NoSuchElementException(errorMessage);
+                });
+
+        return VoucherDto.from(voucher);
     }
 
     @Transactional
