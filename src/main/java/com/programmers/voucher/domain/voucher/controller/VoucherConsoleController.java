@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+public class VoucherConsoleController {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
 
-    public VoucherController(Input input, Output output, VoucherService voucherService) {
+    public VoucherConsoleController(Input input, Output output, VoucherService voucherService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;

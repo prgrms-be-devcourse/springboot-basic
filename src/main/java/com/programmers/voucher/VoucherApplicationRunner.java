@@ -1,7 +1,7 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.domain.customer.controller.CustomerController;
-import com.programmers.voucher.domain.voucher.controller.VoucherController;
+import com.programmers.voucher.domain.customer.controller.CustomerConsoleController;
+import com.programmers.voucher.domain.voucher.controller.VoucherConsoleController;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.command.Command;
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 public class VoucherApplicationRunner implements CommandLineRunner {
     private final Input input;
     private final Output output;
-    private final VoucherController voucherController;
-    private final CustomerController customerController;
+    private final VoucherConsoleController voucherController;
+    private final CustomerConsoleController customerController;
 
     public VoucherApplicationRunner(Input input,
                                     Output output,
-                                    VoucherController voucherController,
-                                    CustomerController customerController) {
+                                    VoucherConsoleController voucherController,
+                                    CustomerConsoleController customerController) {
         this.input = input;
         this.output = output;
         this.voucherController = voucherController;
