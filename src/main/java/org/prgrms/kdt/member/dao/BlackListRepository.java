@@ -1,6 +1,7 @@
 package org.prgrms.kdt.member.dao;
 
 import org.prgrms.kdt.member.domain.Member;
+import org.prgrms.kdt.member.dto.MembersResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

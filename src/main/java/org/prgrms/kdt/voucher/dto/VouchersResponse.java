@@ -1,8 +1,5 @@
 package org.prgrms.kdt.voucher.dto;
 
-import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.member.dto.MemberResponse;
-import org.prgrms.kdt.member.dto.MembersResponse;
 import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;

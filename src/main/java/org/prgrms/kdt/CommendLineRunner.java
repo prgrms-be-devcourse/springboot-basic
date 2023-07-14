@@ -17,11 +17,11 @@ import java.io.IOException;
 public class CommendLineRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommendLineRunner.class);
 
-    private final ControllerRequestManager controllerRequestManager;
+    private final ViewManager viewManager;
     private final Console console;
 
-    public CommendLineRunner(ControllerRequestManager controllerRequestManager, Console console) {
-        this.controllerRequestManager = controllerRequestManager;
+    public CommendLineRunner(ViewManager viewManager, Console console) {
+        this.viewManager = viewManager;
         this.console = console;
     }
 
@@ -46,25 +46,25 @@ public class CommendLineRunner implements CommandLineRunner {
 
     private void executeAction(Menu menu) throws IOException {
         switch (menu) {
-            case CREATE -> controllerRequestManager.createVoucher();
+            case CREATE -> viewManager.createVoucher();
 
-            case LIST -> controllerRequestManager.findAllVoucher();
+            case LIST -> viewManager.findAllVoucher();
 
-            case BLACK_LIST -> controllerRequestManager.findAllBlackMember();
+            case BLACK_LIST -> viewManager.findAllBlackMember();
 
-            case CREATE_MEMBER -> controllerRequestManager.createMember();
+            case CREATE_MEMBER -> viewManager.createMember();
 
-            case MEMBER_LIST -> controllerRequestManager.findAllMember();
+            case MEMBER_LIST -> viewManager.findAllMember();
 
-            case ASSIGN_VOUCHER -> controllerRequestManager.assignVoucher();
+            case ASSIGN_VOUCHER -> viewManager.assignVoucher();
 
-            case VOUCHER_LIST_BY_MEMBER -> controllerRequestManager.findVouchersByMember();
+            case VOUCHER_LIST_BY_MEMBER -> viewManager.findVouchersByMember();
 
-            case DELETE_WALLET -> controllerRequestManager.deleteWalletById();
+            case DELETE_WALLET -> viewManager.deleteWalletById();
 
-            case MEMBER_LIST_BY_VOUCHER -> controllerRequestManager.findMembersByVoucher();
+            case MEMBER_LIST_BY_VOUCHER -> viewManager.findMembersByVoucher();
 
-            case WALLET_LIST -> controllerRequestManager.findAllWallet();
+            case WALLET_LIST -> viewManager.findAllWallet();
         }
     }
 }

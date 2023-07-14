@@ -16,13 +16,13 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Component
-public class ControllerRequestManager {
+public class ViewManager {
     private final VoucherController voucherController;
     private final MemberController memberController;
     private final WalletController walletController;
     private final Console console;
 
-    public ControllerRequestManager(VoucherController voucherController, MemberController memberController, WalletController walletController, Console console) {
+    public ViewManager(VoucherController voucherController, MemberController memberController, WalletController walletController, Console console) {
         this.voucherController = voucherController;
         this.memberController = memberController;
         this.walletController = walletController;

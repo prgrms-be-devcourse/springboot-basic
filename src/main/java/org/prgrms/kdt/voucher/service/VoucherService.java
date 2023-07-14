@@ -18,8 +18,8 @@ public class VoucherService {
     }
 
     public VoucherResponse createVoucher(CreateVoucherRequest request) {
-        VoucherType voucherType = request.getVoucherType();
-        double discountAmount = request.getDiscountAmount();
+        VoucherType voucherType = request.voucherType();
+        double discountAmount = request.discountAmount();
 
         Voucher voucher = voucherRepository.insert(new Voucher(voucherType, voucherType.createPolicy(discountAmount)));
         return new VoucherResponse(voucher);
