@@ -4,11 +4,9 @@ import com.programmers.voucher.global.io.Console;
 import com.programmers.voucher.global.io.menu.ConsoleMenu;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
-@Component
 public class ConsoleRunner implements CommandLineRunner {
     private final Console console;
     private final ConsoleMenu consoleMenu;
