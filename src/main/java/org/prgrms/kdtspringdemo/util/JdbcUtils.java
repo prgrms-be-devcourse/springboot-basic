@@ -8,7 +8,7 @@ public class JdbcUtils {
     public static final int CAN_NOT_FOUND_ID = 0;
 
     public static UUID toUUID(byte[] bytes) {
-      var byteBuffer = ByteBuffer.wrap(bytes);
-      return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

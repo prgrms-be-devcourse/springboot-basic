@@ -57,12 +57,16 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher save(Voucher voucher) {
-        int savedVoucher = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher));
-        if (savedVoucher != SUCCESS_SAVE_QUERY) {
+        int savedVoucherRow = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher));
+        if (isSaveFailed(savedVoucherRow)) {
             throw new RuntimeException(FAILED_VOUCHER_SAVE_QUERY_MESSAGE);
         }
 
         return voucher;
+    }
+
+    private boolean isSaveFailed(int voucherRow) {
+        return voucherRow != SUCCESS_SAVE_QUERY;
     }
 
     @Override
@@ -77,19 +81,23 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher update(Voucher voucher) {
-        int updatedVoucher = jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucher));
-        if (updatedVoucher == CAN_NOT_FOUND_ID) {
+        int updatedVoucherRow = jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucher));
+        if (isNotFoundVoucher(updatedVoucherRow)) {
             throw new RuntimeException(VOUCHER_ID_LOOKUP_FAILED_MESSAGE);
         }
 
         return voucher;
     }
 
+    private boolean isNotFoundVoucher(int voucherRow) {
+        return voucherRow == CAN_NOT_FOUND_ID;
+    }
+
     @Override
     public Voucher deleteById(UUID voucherId) {
         Voucher voucher = findById(voucherId);
-        int deletedVoucher = jdbcTemplate.update(DELETE_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
-        if (deletedVoucher == CAN_NOT_FOUND_ID) {
+        int deletedVoucherRow = jdbcTemplate.update(DELETE_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
+        if (isNotFoundVoucher(deletedVoucherRow)) {
             throw new RuntimeException(VOUCHER_ID_LOOKUP_FAILED_MESSAGE);
         }
 

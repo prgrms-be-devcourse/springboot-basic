@@ -38,8 +38,8 @@ public class VoucherConsole {
         return VoucherType.findVoucherType(scanner.nextLine());
     }
 
-    public Long inputAmountByVoucher(String mountVoucherMessage) {
-        printMessage(mountVoucherMessage);
+    public Long inputAmountByVoucher(String amountVoucherMessage) {
+        printMessage(amountVoucherMessage);
         String inputAmount = scanner.nextLine();
         validateAmountIsNumeric(inputAmount);
 
