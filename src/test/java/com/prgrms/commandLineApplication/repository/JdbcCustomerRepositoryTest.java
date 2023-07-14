@@ -9,14 +9,12 @@ import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Import(JdbcCustomerRepository.class)
-@ActiveProfiles("test")
 @JdbcTest
 class JdbcCustomerRepositoryTest {
 
@@ -36,7 +34,7 @@ class JdbcCustomerRepositoryTest {
 
     Customer findCustomer = jdbcCustomerRepository.findById(savedCustomer.getCustomerId());
 
-    Assertions.assertThat(customer.getCustomerName()).isEqualTo(findCustomer.getCustomerName());
+    Assertions.assertThat(savedCustomer.getCustomerName()).isEqualTo(findCustomer.getCustomerName());
   }
 
   @Test
