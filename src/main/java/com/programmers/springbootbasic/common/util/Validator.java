@@ -8,6 +8,7 @@ public final class Validator {
     private static final String AMOUNT_OR_DISCOUNT_IS_NULL = "빈 값이나 공백을 할인률/할인액으로 지정할 수 없습니다. 현재 값: ";
     private static final String DATETIME_IS_NULL = "빈 값이나 공백을 날짜/시간으로 지정할 수 없습니다. 현재 값: ";
     private static final String NULL_OR_BLANK = "빈 값이나 공백을 사용할 수 없습니다. 현재 값: ";
+    private static final String EMAIL_IS_WRONG_OR_NULL = "빈 값이나 유효하지 않은 이메일입니다. 현재 값: ";
 
 
     private Validator() {
@@ -34,6 +35,12 @@ public final class Validator {
     public static void checkNullNumber(Number number) {
         if (number == null) {
             throw new IllegalArgumentException(AMOUNT_OR_DISCOUNT_IS_NULL + number);
+        }
+    }
+
+    public static void checkNullOrWrongEmail(String input) {
+        if (input == null || !PatternUtils.isEmail(input)) {
+            throw new IllegalArgumentException(EMAIL_IS_WRONG_OR_NULL + input);
         }
     }
 }
