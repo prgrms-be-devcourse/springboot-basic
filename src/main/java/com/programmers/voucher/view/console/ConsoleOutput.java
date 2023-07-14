@@ -1,7 +1,8 @@
-package com.programmers.voucher.view;
+package com.programmers.voucher.view.console;
 
 import com.programmers.voucher.domain.customer.dto.CustomerResponse;
 import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
+import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.command.Command;
 import com.programmers.voucher.view.command.CustomerCommand;
 import com.programmers.voucher.view.command.VoucherCommand;

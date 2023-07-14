@@ -1,5 +1,6 @@
-package com.programmers.voucher.view;
+package com.programmers.voucher.view.console;
 
+import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.command.Command;
 import com.programmers.voucher.view.command.CustomerCommand;
 import com.programmers.voucher.view.command.VoucherCommand;
