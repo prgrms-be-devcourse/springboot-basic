@@ -1,7 +1,7 @@
 package com.prgrms.commandLineApplication.controller;
 
-import com.prgrms.commandLineApplication.execute.CustomerExecute;
-import com.prgrms.commandLineApplication.execute.VoucherExecute;
+import com.prgrms.commandLineApplication.execute.CustomerExecution;
+import com.prgrms.commandLineApplication.execute.VoucherExecution;
 import com.prgrms.commandLineApplication.io.Console;
 import com.prgrms.commandLineApplication.io.MenuType;
 import org.slf4j.Logger;
@@ -14,13 +14,13 @@ import java.util.NoSuchElementException;
 public class VoucherController {
 
   private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
-  private final VoucherExecute voucherExecute;
-  private final CustomerExecute customerExecute;
+  private final VoucherExecution voucherExecution;
+  private final CustomerExecution customerExecution;
   private final Console console;
 
-  public VoucherController(VoucherExecute voucherExecute, CustomerExecute customerExecute, Console console) {
-    this.voucherExecute = voucherExecute;
-    this.customerExecute = customerExecute;
+  public VoucherController(VoucherExecution voucherExecution, CustomerExecution customerExecution, Console console) {
+    this.voucherExecution = voucherExecution;
+    this.customerExecution = customerExecution;
     this.console = console;
   }
 
@@ -36,10 +36,10 @@ public class VoucherController {
 
         switch (menuType) {
           case EXIT -> isRunning = false;
-          case VOUCHER_LIST -> voucherExecute.printList();
-          case CREATE_VOUCHER -> voucherExecute.create();
-          case CUSTOMER_LIST -> customerExecute.printList();
-          case CREATE_CUSTOMER -> customerExecute.create();
+          case VOUCHER_LIST -> voucherExecution.printList();
+          case CREATE_VOUCHER -> voucherExecution.create();
+          case CUSTOMER_LIST -> customerExecution.printList();
+          case CREATE_CUSTOMER -> customerExecution.create();
         }
       } catch (IllegalArgumentException e) {
         logger.error("Error Message => {}", e.getMessage(), e);
