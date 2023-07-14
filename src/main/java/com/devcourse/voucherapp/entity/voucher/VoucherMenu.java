@@ -14,7 +14,8 @@ public enum VoucherMenu {
     CREATE("1", "새 할인권 생성"),
     READ_ALL("2", "전체 할인권 조회"),
     UPDATE("3", "할인권 수정"),
-    DELETE("4", "할인권 삭제");
+    DELETE("4", "할인권 삭제"),
+    HOME("home", "홈으로 이동");
 
     private static final Map<String, VoucherMenu> VOUCHER_MENUS = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(VoucherMenu::getOption, Function.identity())));
@@ -41,4 +42,4 @@ public enum VoucherMenu {
     public String toString() {
         return format("{0}. {1}", option, name);
     }
-    }
+}

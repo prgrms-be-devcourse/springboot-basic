@@ -15,7 +15,8 @@ public enum CustomerMenu {
     READ_ALL("2", "전체 고객 조회"),
     UPDATE("3", "고객 수정"),
     DELETE("4", "고객 삭제"),
-    READ_BLACK_LIST("5", "블랙리스트 고객 조회");
+    READ_BLACK_LIST("5", "블랙리스트 고객 조회"),
+    HOME("home", "홈으로 이동");
 
     private static final Map<String, CustomerMenu> CUSTOMER_MENUS = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(CustomerMenu::getOption, Function.identity())));

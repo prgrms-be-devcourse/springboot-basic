@@ -2,6 +2,7 @@ package com.devcourse.voucherapp.view;
 
 import static java.text.MessageFormat.format;
 
+import com.devcourse.voucherapp.entity.voucher.VoucherMenu;
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.view.io.Output;
@@ -66,8 +67,9 @@ public class VoucherView {
         return commonView.readUserInput();
     }
 
-    public void showTitle() {
+    public void showVoucherMenu() {
         output.printWithLineBreak(VOUCHER_TITLE);
+        commonView.showElementsInArray(VoucherMenu.values());
     }
 
     public void showVoucherCreationSuccessMessage(VoucherResponseDto response) {

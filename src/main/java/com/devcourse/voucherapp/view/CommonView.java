@@ -1,5 +1,6 @@
 package com.devcourse.voucherapp.view;
 
+import com.devcourse.voucherapp.entity.Menu;
 import com.devcourse.voucherapp.view.io.Input;
 import com.devcourse.voucherapp.view.io.Output;
 import java.util.List;
@@ -17,14 +18,15 @@ public class CommonView {
     private final Input input;
     private final Output output;
 
-    public <T> String readMenuOption(T[] menus) {
-        showElementsInArray(menus);
+    public String readUserInput() {
+        output.printWithoutLineBreak(INPUT_MESSAGE);
 
-        return readUserInput();
+        return input.inputWithTrimming();
     }
 
-    public void showTitle() {
+    public void showHomeMenu() {
         output.printWithLineBreak(MENU_TITLE);
+        showElementsInArray(Menu.values());
     }
 
     public void showExceptionMessage(String message) {
@@ -33,12 +35,6 @@ public class CommonView {
 
     public void showQuitMessage() {
         output.printWithLineBreak(QUIT_MESSAGE);
-    }
-
-    String readUserInput() {
-        output.printWithoutLineBreak(INPUT_MESSAGE);
-
-        return input.inputWithTrimming();
     }
 
     <T> void showElementsInArray(T[] elements) {

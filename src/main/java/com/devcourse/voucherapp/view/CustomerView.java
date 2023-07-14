@@ -1,5 +1,6 @@
 package com.devcourse.voucherapp.view;
 
+import com.devcourse.voucherapp.entity.customer.CustomerMenu;
 import com.devcourse.voucherapp.entity.customer.CustomerType;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.view.io.Output;
@@ -49,8 +50,9 @@ public class CustomerView {
         return commonView.readUserInput();
     }
 
-    public void showTitle() {
+    public void showCustomerMenu() {
         output.printWithLineBreak(CUSTOMER_TITLE);
+        commonView.showElementsInArray(CustomerMenu.values());
     }
 
     public void showCustomerCreationSuccessMessage(CustomerResponseDto response) {

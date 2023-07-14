@@ -9,8 +9,10 @@ import com.devcourse.voucherapp.view.CommonView;
 import com.devcourse.voucherapp.view.CustomerView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomerCommand {
@@ -18,14 +20,22 @@ public class CustomerCommand {
     private final CommonView commonView;
     private final CustomerView customerView;
     private final CustomerController customerController;
+    private boolean isRunning = true;
 
     public void run() {
-        customerView.showTitle();
+        while (isRunning) {
+            customerView.showCustomerMenu();
 
-        String menuOption = commonView.readMenuOption(CustomerMenu.values());
-        CustomerMenu selectedMenu = CustomerMenu.from(menuOption);
-
-        executeMenu(selectedMenu);
+            try {
+                String menuOption = commonView.readUserInput();
+                CustomerMenu selectedMenu = CustomerMenu.from(menuOption);
+                executeMenu(selectedMenu);
+            } catch (Exception e) {
+                String message = e.getMessage();
+                log.error(message);
+                commonView.showExceptionMessage(message);
+            }
+        }
     }
 
     private void executeMenu(CustomerMenu selectedMenu) {
@@ -35,6 +45,7 @@ public class CustomerCommand {
             case UPDATE -> updateCustomer();
             case DELETE -> deleteCustomer();
             case READ_BLACK_LIST -> readBlackListCustomers();
+            case HOME -> isRunning = false;
         }
     }
 

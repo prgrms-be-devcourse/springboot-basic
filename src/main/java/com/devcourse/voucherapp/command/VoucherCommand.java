@@ -4,14 +4,16 @@ import com.devcourse.voucherapp.controller.VoucherController;
 import com.devcourse.voucherapp.entity.voucher.VoucherMenu;
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
-import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
 import com.devcourse.voucherapp.view.CommonView;
 import com.devcourse.voucherapp.view.VoucherView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class VoucherCommand {
@@ -19,14 +21,22 @@ public class VoucherCommand {
     private final CommonView commonView;
     private final VoucherView voucherView;
     private final VoucherController voucherController;
+    private boolean isRunning = true;
 
     public void run() {
-        voucherView.showTitle();
+        while (isRunning) {
+            voucherView.showVoucherMenu();
 
-        String menuOption = commonView.readMenuOption(VoucherMenu.values());
-        VoucherMenu selectedMenu = VoucherMenu.from(menuOption);
-
-        executeMenu(selectedMenu);
+            try {
+                String menuOption = commonView.readUserInput();
+                VoucherMenu selectedMenu = VoucherMenu.from(menuOption);
+                executeMenu(selectedMenu);
+            } catch (Exception e) {
+                String message = e.getMessage();
+                log.error(message);
+                commonView.showExceptionMessage(message);
+            }
+        }
     }
 
     private void executeMenu(VoucherMenu selectedMenu) {
@@ -35,6 +45,7 @@ public class VoucherCommand {
             case READ_ALL -> readAllVouchers();
             case UPDATE -> updateVoucher();
             case DELETE -> deleteVoucher();
+            case HOME -> isRunning = false;
         }
     }
 
