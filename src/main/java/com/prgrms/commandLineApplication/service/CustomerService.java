@@ -1,6 +1,10 @@
 package com.prgrms.commandLineApplication.service;
 
 import com.prgrms.commandLineApplication.customer.Customer;
+import com.prgrms.commandLineApplication.customer.dto.CustomerCreateDto;
+import com.prgrms.commandLineApplication.customer.dto.CustomerMapper;
+import com.prgrms.commandLineApplication.customer.dto.CustomerResponseDto;
+import com.prgrms.commandLineApplication.customer.dto.CustomerUpdateDto;
 import com.prgrms.commandLineApplication.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,31 +15,42 @@ import java.util.UUID;
 public class CustomerService {
 
   private final CustomerRepository customerRepository;
+  private final CustomerMapper customerMapper;
 
-  public CustomerService(CustomerRepository customerRepository) {
+  public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper) {
     this.customerRepository = customerRepository;
+    this.customerMapper = customerMapper;
   }
 
-  public void create(String customerName, String email) {
-    Customer createdCustomer = Customer.of(UUID.randomUUID(), customerName, email);
+  public UUID create(CustomerCreateDto customerCreateDto) {
+    Customer createdCustomer = Customer.of(UUID.randomUUID(), customerCreateDto.customerName(), customerCreateDto.email());
     customerRepository.save(createdCustomer);
+    return createdCustomer.getCustomerId();
   }
 
-  public UUID update(UUID customerId, String customerName) {
+  public String update(CustomerUpdateDto customerUpdateDto) {
+    customerRepository.findByEmail(customerUpdateDto.email());
+    customerRepository.update(customerUpdateDto.email(), customerUpdateDto.customerNewName());
+    return customerUpdateDto.email();
+  }
+
+  public List<CustomerResponseDto> findAllCustomers() {
+    return customerRepository.findAll()
+            .stream()
+            .map(customerMapper::mapToResponse)
+            .toList();
+  }
+
+  public CustomerResponseDto findById(UUID customerId) {
     Customer customer = customerRepository.findById(customerId);
-    return customerRepository.update(customerId, customerName);
+    CustomerResponseDto customerResponseDto = customerMapper.mapToResponse(customer);
+    return customerResponseDto;
   }
 
-  public List<Customer> findAllCustomers() {
-    return customerRepository.findAll();
-  }
-
-  public Customer findById(UUID customerId) {
-    return customerRepository.findById(customerId);
-  }
-
-  public Customer findByEmail(String email) {
-    return customerRepository.findByEmail(email);
+  public CustomerResponseDto findByEmail(String email) {
+    Customer customer = customerRepository.findByEmail(email);
+    CustomerResponseDto customerResponseDto = customerMapper.mapToResponse(customer);
+    return customerResponseDto;
   }
 
   public void deleteAll() {
