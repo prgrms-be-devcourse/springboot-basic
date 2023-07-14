@@ -22,7 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
 @Profile("file")
-class FileVoucherRepository implements VoucherRepository {
+class FileVoucherRepository extends AbstractVoucherRepository {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
     private static final String SAVE_FAIL = "Voucher Save Failed.";
 

@@ -21,7 +21,7 @@ class VoucherTest {
         Voucher voucher = new Voucher(discountAmount, expiredAt, Type.FIXED);
 
         // then
-        assertThat(voucher.getPolicy()).isInstanceOf(FixedAmountPolicy.class);
+        assertThat(voucher.policy()).isInstanceOf(FixedAmountPolicy.class);
         assertThat(voucher.isUsed()).isFalse();
     }
 
@@ -35,7 +35,7 @@ class VoucherTest {
         Voucher voucher = new Voucher(discountRate, expiredAt, Type.PERCENT);
 
         // then
-        assertThat(voucher.getPolicy()).isInstanceOf(PercentDiscountPolicy.class);
+        assertThat(voucher.policy()).isInstanceOf(PercentDiscountPolicy.class);
         assertThat(voucher.isUsed()).isFalse();
     }
 }

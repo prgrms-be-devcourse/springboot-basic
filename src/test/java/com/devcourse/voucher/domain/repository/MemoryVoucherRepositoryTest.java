@@ -35,8 +35,8 @@ class MemoryVoucherRepositoryTest {
         Voucher saved = voucherRepository.save(voucher);
 
         // then
-        assertThat(saved.getId()).isEqualTo(voucher.getId());
-        assertThat(saved.getExpireAt()).isEqualTo(voucher.getExpireAt());
+        assertThat(saved.id()).isEqualTo(voucher.id());
+        assertThat(saved.expireAt()).isEqualTo(voucher.expireAt());
         assertThat(saved.isUsed()).isFalse();
     }
 

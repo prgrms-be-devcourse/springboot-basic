@@ -11,11 +11,6 @@ spring:
     username: root
     password: root1234!
 
-  sql:
-    init:
-      platform: mysql
-      mode: always
-
 path:
   csv: src/main/resources/file/customer_blackList.csv
   txt: src/main/resources/file/vouchers.txt

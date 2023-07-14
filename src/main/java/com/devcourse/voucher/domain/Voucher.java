@@ -46,15 +46,27 @@ public class Voucher {
         return this.status == USED;
     }
 
-    public UUID getId() {
+    public UUID id() {
         return id;
     }
 
-    public LocalDateTime getExpireAt() {
+    public int discount() {
+        return discount;
+    }
+
+    public LocalDateTime expireAt() {
         return expireAt;
     }
 
-    public DiscountPolicy getPolicy() {
+    public Type type() {
+        return type;
+    }
+
+    public Status status() {
+        return status;
+    }
+
+    public DiscountPolicy policy() {
         return discountPolicy;
     }
 

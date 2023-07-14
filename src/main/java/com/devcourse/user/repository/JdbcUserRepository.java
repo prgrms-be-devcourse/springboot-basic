@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,8 +20,8 @@ class JdbcUserRepository implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcUserRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -31,7 +30,7 @@ class JdbcUserRepository implements UserRepository {
         jdbcTemplate.update("INSERT INTO users(id, name) VALUES (?, ?)",
                 id.toString(),
                 name);
-        
+
         return id;
     }
 
@@ -43,11 +42,9 @@ class JdbcUserRepository implements UserRepository {
     @Override
     public Optional<User> findById(UUID id) {
         try {
-            User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?",
+            return Optional.of(jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?",
                     userMapper,
-                    id.toString());
-
-            return Optional.of(user);
+                    id.toString()));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

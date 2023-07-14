@@ -23,7 +23,7 @@ class JdbcUserRepositoryTest {
     private final String name = "hejow";
 
     @Test
-    @DisplayName("지정한 이름으로 유저가 저장된다.")
+    @DisplayName("지정한 이름으로 유저가 잘 저장되고 id가 잘 부여되어야 한다.")
     void saveTest() {
         // given
 
@@ -33,7 +33,10 @@ class JdbcUserRepositoryTest {
         // then
         List<User> users = userRepository.findAll();
         assertThat(users).isNotEmpty();
-        assertThat(users.get(0).name()).isEqualTo(name);
+
+        User user = users.get(0);
+        assertThat(user.id()).isNotNull();
+        assertThat(user.name()).isEqualTo(name);
     }
 
     @Test
@@ -98,8 +101,6 @@ class JdbcUserRepositoryTest {
         // then
         Optional<User> optionalUser = userRepository.findById(id);
         assertThat(optionalUser).isNotEmpty();
-
-        User user = optionalUser.get();
-        assertThat(user.name()).isEqualTo(newName);
+        assertThat(optionalUser.get().name()).isEqualTo(newName);
     }
 }

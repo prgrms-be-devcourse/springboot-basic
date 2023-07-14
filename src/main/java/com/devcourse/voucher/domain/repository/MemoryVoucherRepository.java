@@ -10,13 +10,13 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@Profile({"memory", "dev"})
-class MemoryVoucherRepository implements VoucherRepository {
+@Profile("memory")
+class MemoryVoucherRepository extends AbstractVoucherRepository {
     private final Map<UUID, Voucher> memoryStorage = new ConcurrentHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
-        memoryStorage.put(voucher.getId(), voucher);
+        memoryStorage.put(voucher.id(), voucher);
         return voucher;
     }
 
