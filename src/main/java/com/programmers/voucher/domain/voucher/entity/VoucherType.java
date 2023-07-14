@@ -1,22 +1,18 @@
 package com.programmers.voucher.domain.voucher.entity;
 
 import com.programmers.voucher.exception.InvalidCommandException;
-import com.programmers.voucher.view.command.VoucherCommand;
 import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
-import static com.programmers.voucher.constant.ErrorMessage.INVALID_COMMAND;
+import static com.programmers.voucher.constant.ErrorCode.INVALID_COMMAND;
 
 @Getter
 public enum VoucherType {
     FIXED(1, "금액 할인", (price, amount) -> Math.max(0L, price - amount)),
     PERCENT(2, "퍼센트 할인", (price, percent) -> Math.max(0L, price * (percent / 100)));
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VoucherCommand.class);
     private final int number;
     private final String text;
     private final BiFunction<Long, Integer, Long> discount;
@@ -31,10 +27,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(voucher -> voucher.isEqualTo(number))
                 .findFirst()
-                .orElseThrow(() -> {
-                    LOGGER.error("{} => {}", INVALID_COMMAND, number);
-                    return new InvalidCommandException(INVALID_COMMAND);
-                });
+                .orElseThrow(() -> new InvalidCommandException(INVALID_COMMAND));
     }
 
     public long discount(long price, int amount) {

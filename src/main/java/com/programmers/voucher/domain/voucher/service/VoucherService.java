@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.constant.ErrorMessage.NOT_FOUND_VOUCHER;
+import static com.programmers.voucher.constant.ErrorCode.NOT_FOUND_VOUCHER;
 
 @Service
 @Transactional(readOnly = true)

@@ -1,16 +1,13 @@
 package com.programmers.voucher.domain.voucher.entity;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.programmers.voucher.exception.BadRequestException;
 
 import java.util.UUID;
 
-import static com.programmers.voucher.constant.ErrorMessage.INVALID_DISCOUNT_AMOUNT;
-import static com.programmers.voucher.constant.ErrorMessage.INVALID_DISCOUNT_PERCENT;
+import static com.programmers.voucher.constant.ErrorCode.INVALID_DISCOUNT_AMOUNT;
+import static com.programmers.voucher.constant.ErrorCode.INVALID_DISCOUNT_PERCENT;
 
 public class Voucher {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Voucher.class);
-
     private final UUID id;
     private VoucherType type;
     private int amount;
@@ -42,15 +39,13 @@ public class Voucher {
 
     private static void validatePositive(int amount) {
         if (amount <= 0) {
-            LOGGER.error("{} => {}", INVALID_DISCOUNT_AMOUNT, amount);
-            throw new IllegalArgumentException(INVALID_DISCOUNT_AMOUNT);
+            throw new BadRequestException(INVALID_DISCOUNT_AMOUNT);
         }
     }
 
     private static void validatePercent(VoucherType type, int amount) {
         if (type == VoucherType.PERCENT && amount > 100) {
-            LOGGER.error("{} => {}", INVALID_DISCOUNT_PERCENT, amount);
-            throw new IllegalArgumentException(INVALID_DISCOUNT_PERCENT);
+            throw new BadRequestException(INVALID_DISCOUNT_PERCENT);
         }
     }
 

@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.constant.ErrorMessage.EXISTED_NICKNAME;
-import static com.programmers.voucher.constant.ErrorMessage.NOT_FOUND_CUSTOMER;
+import static com.programmers.voucher.constant.ErrorCode.EXISTED_NICKNAME;
+import static com.programmers.voucher.constant.ErrorCode.NOT_FOUND_CUSTOMER;
 
 @Service
 @Transactional(readOnly = true)

@@ -1,12 +1,10 @@
 package com.programmers.voucher.view.command;
 
 import com.programmers.voucher.exception.InvalidCommandException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
-import static com.programmers.voucher.constant.ErrorMessage.INVALID_COMMAND;
+import static com.programmers.voucher.constant.ErrorCode.INVALID_COMMAND;
 
 public enum VoucherCommand {
     CREATE(1, "바우처 생성"),
@@ -15,7 +13,6 @@ public enum VoucherCommand {
     UPDATE(4, "바우처 수정"),
     DELETE(5, "바우처 삭제");
 
-    private static final Logger LOG = LoggerFactory.getLogger(VoucherCommand.class);
     private final int number;
     private final String text;
 
@@ -28,10 +25,7 @@ public enum VoucherCommand {
         return Arrays.stream(VoucherCommand.values())
                 .filter(command -> command.isEqualTo(number))
                 .findFirst()
-                .orElseThrow(() -> {
-                    LOG.error("{} => {}", INVALID_COMMAND, number);
-                    return new InvalidCommandException(INVALID_COMMAND);
-                });
+                .orElseThrow(() -> new InvalidCommandException(INVALID_COMMAND));
     }
 
     private boolean isEqualTo(int number) {
