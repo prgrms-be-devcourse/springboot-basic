@@ -1,6 +1,6 @@
 package com.prgrms.commandLineApplication.execute;
 
-public interface Execute {
+public interface Execution {
   void printList();
 
   void create();

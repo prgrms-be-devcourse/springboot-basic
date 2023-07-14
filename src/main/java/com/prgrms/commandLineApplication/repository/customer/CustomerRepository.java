@@ -9,7 +9,7 @@ public interface CustomerRepository {
 
   Customer save(Customer customer);
 
-  UUID update(UUID customerId, String name);
+  String update(String email, String customerName);
 
   void deleteAll();
 

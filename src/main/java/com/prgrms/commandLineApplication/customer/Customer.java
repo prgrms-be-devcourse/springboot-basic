@@ -26,8 +26,9 @@ public class Customer {
     return new Customer(customerId, customerName, email);
   }
 
-  public void update(String newName) {
+  public String updateName(String newName) {
     this.customerName = newName;
+    return newName;
   }
 
   public UUID getCustomerId() {
