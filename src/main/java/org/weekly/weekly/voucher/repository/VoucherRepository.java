@@ -1,26 +1,22 @@
 package org.weekly.weekly.voucher.repository;
 
-import org.springframework.stereotype.Repository;
+import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@Repository
-public class VoucherRepository {
-    private final Map<UUID, Voucher> storages = new ConcurrentHashMap<>();
+public interface VoucherRepository {
+    Voucher insert(Voucher voucher);
+    Optional<Voucher> findById(UUID voucherId);
+    List<Voucher> findAll();
 
-    public Voucher insert(Voucher voucher) {
-        storages.put(voucher.getVoucherId(), voucher);
-        return voucher;
-    }
+    List<Voucher> findByDiscountType(DiscountType discountType);
 
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(storages.get(voucherId));
-    }
+    Voucher update(Voucher voucher);
 
-    public List<Voucher> findAll() {
-        return storages.values().stream()
-                .toList();
-    }
+    void deleteById(UUID voucherId);
+
+    void deleteAll();
 }

@@ -5,14 +5,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.weekly.weekly.util.DiscountType;
-import org.weekly.weekly.voucher.domain.Discount;
-import org.weekly.weekly.voucher.domain.FixedDiscount;
-import org.weekly.weekly.voucher.domain.PercentDiscount;
+import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
-import org.weekly.weekly.voucher.dto.VoucherDto;
-import org.weekly.weekly.voucher.dto.VoucherInfoRequest;
-import org.weekly.weekly.voucher.repository.VoucherRepository;
+import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
+import org.weekly.weekly.voucher.dto.request.VoucherInfoRequest;
+import org.weekly.weekly.voucher.repository.MemoryVoucherRepository;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -20,11 +17,11 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.*;
 
 public class VoucherTest {
-    private VoucherRepository voucherRepository;
+    private MemoryVoucherRepository voucherRepository;
 
     @BeforeEach
     void setVoucherRepository() {
-        voucherRepository = new VoucherRepository();
+        voucherRepository = new MemoryVoucherRepository();
     }
 
     @ParameterizedTest
@@ -33,20 +30,18 @@ public class VoucherTest {
             "10,1: 1"
     }, delimiter = ':')
     void 바우처가_이미_존재하면_예외발생(String userInput, String no)  {
-        assertThatCode(()-> {
-            // Given
-            UUID voucherId = UUID.randomUUID();
-            VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
-            Discount discount = DiscountType.getDiscountMap(no).getCls().getDeclaredConstructor().newInstance();
-            LocalDate localDate = LocalDate.now();
+        // Given
+        UUID voucherId = UUID.randomUUID();
+        VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
+        DiscountType discount = DiscountType.getDiscountTypeByNumber(no);
+        LocalDate now = LocalDate.now();
+        Voucher voucher = Voucher.of(voucherId, voucherInfo.getAmount(), now, voucherInfo.getExpiration(), discount);
 
-            // when
-            VoucherDto voucherDto = VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate);
-            voucherRepository.insert(voucherDto.parseToVoucher());
+        // when
+        voucherRepository.insert(voucher);
 
-            // then
-            assertThat(voucherRepository.findById(voucherId).isPresent()).isTrue();
-        }).doesNotThrowAnyException();
+        // then
+        assertThat(voucherRepository.findById(voucherId).isPresent()).isTrue();
     }
 
     @ParameterizedTest
@@ -57,13 +52,15 @@ public class VoucherTest {
     })
     void 바우처_발행시간이_유효시간보다_느리면_예외발생(String userInput) {
         // Given
-        UUID voucherId = UUID.randomUUID();
-        LocalDate localDate = LocalDate.now();
-        Discount discount = new FixedDiscount();
+//        UUID voucherId = UUID.randomUUID();
+//        LocalDate localDate = LocalDate.now();
+        DiscountType discount = DiscountType.FIXED;
         VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
 
+        VoucherCreationRequest request = new VoucherCreationRequest(voucherInfo, discount);
+
         // when + then
-        assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))
+        assertThatThrownBy(()->request.toVoucher())
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -72,17 +69,19 @@ public class VoucherTest {
         @ParameterizedTest
         @ValueSource(strings = {
                 "-1,12",
-                " asfd, 1"
+                " -50, 1"
         })
         void 바우처_금액이_자연수가_아니면_예외발생(String userInput) {
             // Given
-            UUID voucherId = UUID.randomUUID();
-            LocalDate localDate = LocalDate.now();
-            Discount discount = new FixedDiscount();
-            VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
+            DiscountType discountType = DiscountType.FIXED;
 
-            // when + then
-            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))
+            VoucherInfoRequest voucherInfoRequest =  VoucherInfoRequest.of(userInput);
+
+            // when
+            VoucherCreationRequest request = new VoucherCreationRequest(voucherInfoRequest, discountType);
+
+            // then
+            assertThatThrownBy(()-> request.toVoucher())
                     .isInstanceOf(RuntimeException.class);
         }
 
@@ -93,10 +92,8 @@ public class VoucherTest {
         })
         void 고정_할인금액_적용하여_결과확인(int userInput, int discountMoney, int result) {
             // Given
-            Discount discount = new FixedDiscount();
             LocalDate current = LocalDate.now();
-            LocalDate next = current.plusMonths(1);
-            Voucher voucher = new Voucher(UUID.randomUUID(), discountMoney, current, next, discount);
+            Voucher voucher = Voucher.of(UUID.randomUUID(), discountMoney, current, 1, DiscountType.FIXED);
 
             // when
             long afterApply = voucher.applyDiscount(userInput);
@@ -116,12 +113,12 @@ public class VoucherTest {
         void 바우처_퍼센트값이_자연수가_아니면_예외발생(String userInput) {
             // Given
             UUID voucherId = UUID.randomUUID();
-            LocalDate localDate = LocalDate.now();
-            Discount discount = new PercentDiscount();
+            LocalDate now = LocalDate.now();
             VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
 
+
             // when + then
-            assertThatThrownBy(()->VoucherDto.parseDto(voucherId, voucherInfo, discount, localDate))
+            assertThatThrownBy(()->Voucher.of(voucherId, voucherInfo.getAmount(), now, 1, DiscountType.PERCENT))
                     .isInstanceOf(RuntimeException.class);
         }
 
@@ -134,9 +131,7 @@ public class VoucherTest {
         void 퍼센트_할인금액_적용하여_결과확인(int userInput, int discountMoney, int result) {
             // Given
             LocalDate current = LocalDate.now();
-            LocalDate next = current.plusMonths(1);
-            Discount discount = new PercentDiscount();
-            Voucher voucher = new Voucher(UUID.randomUUID(), discountMoney, current, next, discount);
+            Voucher voucher = Voucher.of(UUID.randomUUID(), discountMoney, current, 1, DiscountType.PERCENT);
 
             // when
             long afterApply = voucher.applyDiscount(userInput);

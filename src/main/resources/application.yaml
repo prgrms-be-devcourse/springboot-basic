@@ -1,0 +1,46 @@
+spring.config.activate.on-profile: default
+command:
+  write: system
+  read: scanner
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher_mgmt?createDatabaseIfNotExist=true
+    username: "root"
+    password: "qwe123"
+
+  sql:
+    init:
+      mode: always
+
+---
+
+spring.config.activate.on-profile: dev
+command:
+  write: system
+  read: console
+
+---
+
+spring.config.activate.on-profile: local
+command:
+  write: system
+  read: buffer
+
+---
+
+spring.config.activate.on-profile: test
+command:
+  write: system
+  read: scanner
+
+spring:
+  datasource:
+    url: jdbc:tc:mysql:8://test
+
+  sql:
+    init:
+      mode: always
+
+
