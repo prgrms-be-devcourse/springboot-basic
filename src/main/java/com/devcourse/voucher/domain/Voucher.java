@@ -54,6 +54,10 @@ public class Voucher {
         return expireAt;
     }
 
+    public DiscountPolicy getPolicy() {
+        return discountPolicy;
+    }
+
     public String toText() {
         return id + DELIMITER +
                 discount + DELIMITER +

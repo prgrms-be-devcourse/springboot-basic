@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 class IoParser {
     private static final Logger logger = LoggerFactory.getLogger(IoParser.class);
@@ -40,7 +41,7 @@ class IoParser {
         try {
             LocalDate localDate = LocalDate.parse(expiredAt, TIME_FORMAT);
             return LocalDateTime.of(localDate, LocalTime.MIDNIGHT);
-        } catch (IllegalArgumentException e) {
+        } catch (DateTimeParseException e) {
             logger.error(NOT_SUPPORT_DATE_FORMAT + expiredAt);
             throw new IllegalArgumentException(NOT_SUPPORT_DATE_FORMAT + expiredAt);
         }
