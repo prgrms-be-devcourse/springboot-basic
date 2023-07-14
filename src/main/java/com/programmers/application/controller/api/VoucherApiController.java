@@ -3,6 +3,7 @@ package com.programmers.application.controller.api;
 import com.programmers.application.dto.reponse.VoucherInfoResponse;
 import com.programmers.application.dto.request.VoucherCreationRequest;
 import com.programmers.application.service.VoucherService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +32,9 @@ public class VoucherApiController {
     }
 
     @PostMapping("/api/v1/voucher")
-    public ResponseEntity<Void> createVoucher(@RequestBody VoucherCreationRequest voucherCreationRequest) {
-        voucherService.createVoucher(voucherCreationRequest);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<VoucherInfoResponse> createVoucher(@RequestBody VoucherCreationRequest voucherCreationRequest) {
+        UUID voucherId = voucherService.createVoucher(voucherCreationRequest);
+        VoucherInfoResponse voucher = voucherService.findVoucherByVoucherId(voucherId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(voucher);
     }
 }
