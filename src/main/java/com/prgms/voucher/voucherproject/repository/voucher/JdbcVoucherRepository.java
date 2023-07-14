@@ -3,8 +3,10 @@ package com.prgms.voucher.voucherproject.repository.voucher;
 import com.prgms.voucher.voucherproject.domain.voucher.FixedAmountVoucher;
 import com.prgms.voucher.voucherproject.domain.voucher.PercentDiscountVoucher;
 import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
+import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -25,44 +27,47 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        try{
+            return Optional.of(jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)",
+                    voucherRowMapper, voucherId.toString()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public void save(Voucher voucher) {
+        int save = jdbcTemplate.update("INSERT INTO voucher(voucher_id, voucher_type, discount) VALUES (UUID_TO_BIN(?), ? ,?)",
+                voucher.getId().toString().getBytes(), voucher.getVoucherType().toString(), voucher.getDiscount());
 
+        if(save != 1) {
+            throw new IllegalArgumentException("바우처 저장에 실패하였습니다.");
+        }
     }
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("SELECT * FROM voucher", voucherRowMapper);
+        List<Voucher> vouchers = jdbcTemplate.query("SELECT * FROM voucher", voucherRowMapper);
+        return vouchers;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = ?", voucherId);
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var vocuherType = resultSet.getString("voucher_type");
+        var voucherType = resultSet.getString("voucher_type");
         var discount = resultSet.getLong("discount");
+        VoucherType createVoucherType = VoucherType.valueOf(voucherType);
 
-        switch (vocuherType) {
-            case "fixed" -> {
-                return new FixedAmountVoucher(voucherId, discount);
-            }
-            case "percent" -> {
-                return new PercentDiscountVoucher(voucherId, discount);
-            }
-        }
-        return null;
+        Voucher voucher = switch (createVoucherType) {
+            case FIXED -> new FixedAmountVoucher(discount);
+            case PERCENT -> new PercentDiscountVoucher(discount);
+        };
+
+        return voucher;
     };
 
-//    private Map<String, Object> toParamMap(Product product) {
-//        var paramMap = new HashMap<String, Object>();
-//        paramMap.put("productId", product.getProductId().toString().getBytes());
-//        paramMap.put("productName", product.getProductName());
-//        paramMap.put("category", product.getCategory().toString());
-//        paramMap.put("price", product.getPrice());
-//        paramMap.put("description", product.getDescription());
-//        paramMap.put("createdAt", product.getCreatedAt());
-//        paramMap.put("updatedAt", product.getUpdatedAt());
-//        return paramMap;
-//    }
 }

@@ -12,8 +12,10 @@ import java.util.UUID;
 public interface VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId);
 
-    void save(Voucher voucher);
+    public void save(Voucher voucher);
 
-    List<Voucher> findAll();
+    public List<Voucher> findAll();
+
+    public void deleteById(UUID voucherId);
 
 }
