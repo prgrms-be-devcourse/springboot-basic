@@ -13,6 +13,10 @@ spring:
   sql:
     init:
       mode: always
+      schema-locations:
+        - classpath:db-init/schema.sql
+      data-locations:
+        - classpath:db-init/data.sql
 
 ---
 
@@ -39,8 +43,12 @@ spring:
   datasource:
     url: jdbc:tc:mysql:8://test
 
+
   sql:
     init:
       mode: always
-
+      schema-locations:
+        - classpath:db-init/schema.sql
+      data-locations:
+        - classpath:db-init/data.sql
 

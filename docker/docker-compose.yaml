@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  voucher-db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "qwe123"
+      MYSQL_DATABASE: "voucher_mgmt"
+      MYSQL_USER: "test"
+      MYSQL_PASSWORD: "test"
+      TZ: Asia/Seoul
+
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+    volumes:
+      - .db-init:/docker-entrypoint-initdb.d
+      - ./db/datadir/:/var/lib/mysql
+
+    ports:
+      - 3306:3306

@@ -35,7 +35,6 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     Voucher fixedVoucher;
     Voucher percentVoucher;
 
