@@ -58,6 +58,7 @@ public class VoucherController {
 				throw new InvalidDataException("Unsupported Menu");
 		}
 	}
+
 	//InvalidDataException | NumberFormatException |NoSuchDataException |EmptyAssignerException|RuntimeException
 	public void createVoucher() {
 		VoucherRequestDTO voucherRequestDTO = requestVoucherCreationData();

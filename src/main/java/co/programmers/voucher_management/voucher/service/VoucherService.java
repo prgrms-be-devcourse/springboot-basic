@@ -13,7 +13,6 @@ import co.programmers.voucher_management.exception.NoSuchDataException;
 import co.programmers.voucher_management.voucher.dto.VoucherAssignDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
-import co.programmers.voucher_management.voucher.dto.VoucherSearchDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherUpdateDTO;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.repository.VoucherRepository;

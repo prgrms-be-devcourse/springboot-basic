@@ -23,7 +23,7 @@ public class CustomerController {
 	}
 
 	public void executeCustomerMenu(String commandNum) {
-		switch (commandNum){
+		switch (commandNum) {
 			case "1":
 				inquiryBlackList();
 				break;
@@ -40,7 +40,7 @@ public class CustomerController {
 		customerService.inquireByRating(rating);
 	}
 
-	public void inquiryCustomerByVoucher(){
+	public void inquiryCustomerByVoucher() {
 		String requestMessageFormat = "Input {0} >> ";
 		outputView.print(MessageFormat.format(requestMessageFormat, "ID of a voucher"));
 		long voucherId = Long.parseLong(inputView.input());

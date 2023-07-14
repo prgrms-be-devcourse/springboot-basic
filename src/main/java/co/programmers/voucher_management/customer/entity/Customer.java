@@ -56,6 +56,6 @@ public class Customer {
 
 	public enum Rating {
 		NORMAL,
-		BLACKLIST;
+		BLACKLIST
 	}
 }

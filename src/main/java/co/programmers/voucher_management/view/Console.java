@@ -34,7 +34,7 @@ public class Console implements InputView, OutputView {
 	public void print(Object content) {
 		if (content instanceof List) {
 			for (var c : (List)content) {
-				print(c+"\n");
+				print(c + "\n");
 			}
 			return;
 		}

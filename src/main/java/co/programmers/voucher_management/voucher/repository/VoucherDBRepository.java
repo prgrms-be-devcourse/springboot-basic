@@ -72,7 +72,8 @@ public class VoucherDBRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findByType(String discountType) {
-		MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource().addValue("discount_type", discountType);
+		MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource().addValue("discount_type",
+				discountType);
 		return jdbcTemplate.query(SELECT_BY_TYPE_QUERY, mapSqlParameterSource, voucherRowMapper);
 	}
 

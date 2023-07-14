@@ -17,8 +17,8 @@ import org.springframework.stereotype.Repository;
 
 import com.opencsv.CSVReader;
 
-import co.programmers.voucher_management.customer.entity.Status;
 import co.programmers.voucher_management.customer.entity.Customer;
+import co.programmers.voucher_management.customer.entity.Status;
 
 @Repository
 @Profile("file")
@@ -82,12 +82,12 @@ public class CustomerFileRepository implements CustomerRepository {
 
 		final int index;
 
-		public int index() {
-			return index;
-		}
-
 		CustomerProperty(int index) {
 			this.index = index;
+		}
+
+		public int index() {
+			return index;
 		}
 
 	}

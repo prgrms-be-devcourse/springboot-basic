@@ -1,7 +1,6 @@
 package co.programmers.voucher_management;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.programmers.voucher_management.voucher.dto.VoucherRequestDTO;
 import co.programmers.voucher_management.voucher.dto.VoucherResponseDTO;
-import co.programmers.voucher_management.voucher.dto.VoucherSearchDTO;
 import co.programmers.voucher_management.voucher.service.VoucherService;
 
 @RequestMapping("/api/v1/vouchers")
