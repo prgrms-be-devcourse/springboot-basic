@@ -3,6 +3,7 @@ package com.programmers.springweekly.repository.voucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.domain.voucher.VoucherFactory;
 import com.programmers.springweekly.domain.voucher.VoucherType;
+import com.programmers.springweekly.util.Validator.ParseValidator;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -51,15 +52,16 @@ public class FileVoucherRepository {
 
             while ((line = bufferedReader.readLine()) != null) {
                 String[] readLine = line.split(",");
+                ParseValidator.validateVoucherFileLineLength(readLine);
 
                 Voucher voucher = VoucherFactory.createVoucher(UUID.fromString(readLine[0]), VoucherType.valueOf(readLine[2]), Long.parseLong(readLine[1]));
 
                 voucherMap.put(voucher.getVoucherId(), voucher);
             }
 
-        } catch (IndexOutOfBoundsException e) {
-            log.warn("바우처 파일에 저장된 바우처의 정보 열의 수가 맞지 않아 예외 발생 ", e);
-            throw new IndexOutOfBoundsException("현재 파일에 저장된 열의 수가 맞지 않습니다. 바우처 파일을 확인해보세요.");
+        } catch (IllegalArgumentException e) {
+            log.warn("바우처 파일에 있는 값을 읽어오던 중 바우처 필드와 타입이 다르거나 형식이 맞지 않아 예외 발생", e);
+            throw new IllegalArgumentException("바우처 파일에 있는 값을 읽어오던 중 바우처 필드와 타입이 다르거나 형식이 맞지 않아 예외 발생, 파일을 다시 한 번 확인해보세요");
         } catch (IOException e) {
             log.error("바우처 파일에서 모든 정보를 읽어오던 중 알 수 없는 에러가 발생 ", e);
             throw new RuntimeException("바우처 파일에서 모든 정보를 읽어오던 중 알 수 없는 에러가 발생하였습니다.");
