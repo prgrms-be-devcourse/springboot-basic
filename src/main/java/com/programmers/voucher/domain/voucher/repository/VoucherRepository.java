@@ -1,6 +1,7 @@
 package com.programmers.voucher.domain.voucher.repository;
 
 import com.programmers.voucher.domain.voucher.entity.Voucher;
+import com.programmers.voucher.domain.voucher.entity.VoucherType;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,8 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     Optional<Voucher> findById(UUID voucherId);
+
+    List<Voucher> findByType(VoucherType voucherType);
 
     Voucher update(Voucher voucher);
 

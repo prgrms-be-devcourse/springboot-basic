@@ -1,13 +1,19 @@
 package com.programmers.voucher.view.command;
 
-import com.programmers.voucher.exception.InvalidCommandException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.programmers.voucher.exception.BadRequestException;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import static com.programmers.voucher.constant.ErrorMessage.INVALID_COMMAND;
+import static com.programmers.voucher.constant.ErrorCode.INVALID_COMMAND;
 
+@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum CustomerCommand {
     CREATE(1, "고객 생성"),
     READ_ALL(2, "모든 고객 조회"),
@@ -15,27 +21,19 @@ public enum CustomerCommand {
     UPDATE(4, "고객 수정"),
     DELETE(5, "고객 삭제");
 
-    private static final Logger LOG = LoggerFactory.getLogger(CustomerCommand.class);
+    private static final Map<Integer, CustomerCommand> CUSTOMER_COMMANDS = Arrays.stream(CustomerCommand.values())
+            .collect(Collectors.toMap(CustomerCommand::getNumber, Function.identity()));
+
     private final int number;
     private final String text;
 
-    CustomerCommand(int number, String text) {
-        this.number = number;
-        this.text = text;
-    }
-
     public static CustomerCommand findByNumber(int number) {
-        return Arrays.stream(CustomerCommand.values())
-                .filter(command -> command.isEqualTo(number))
-                .findFirst()
-                .orElseThrow(() -> {
-                    LOG.error("{} => {}", INVALID_COMMAND, number);
-                    return new InvalidCommandException(INVALID_COMMAND);
-                });
-    }
+        CustomerCommand command = CUSTOMER_COMMANDS.get(number);
 
-    private boolean isEqualTo(int number) {
-        return this.number == number;
+        if (command == null) {
+            throw new BadRequestException(INVALID_COMMAND);
+        }
+        return command;
     }
 
     @Override

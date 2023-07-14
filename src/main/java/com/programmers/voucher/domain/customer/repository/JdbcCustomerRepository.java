@@ -69,8 +69,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private RowMapper<Customer> customerRowMapper() {
-        return (rs, rowNum) -> new Customer(
-                UUID.fromString(rs.getString("id")),
-                rs.getString("nickname"));
+        return (rs, rowNum) -> Customer.builder()
+                .id(UUID.fromString(rs.getString("id")))
+                .nickname(rs.getString("nickname"))
+                .build();
     }
 }

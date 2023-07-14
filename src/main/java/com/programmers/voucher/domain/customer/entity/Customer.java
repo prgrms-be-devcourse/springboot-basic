@@ -1,12 +1,17 @@
 package com.programmers.voucher.domain.customer.entity;
 
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.UUID;
 
+@Getter
 public class Customer {
     private final UUID id;
     private String nickname;
 
-    public Customer(UUID id, String nickname) {
+    @Builder
+    private Customer(UUID id, String nickname) {
         this.id = id;
         this.nickname = nickname;
     }
@@ -17,13 +22,5 @@ public class Customer {
 
     public void update(String nickname) {
         this.nickname = nickname;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getNickname() {
-        return nickname;
     }
 }

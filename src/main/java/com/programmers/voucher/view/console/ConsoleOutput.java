@@ -1,8 +1,8 @@
-package com.programmers.voucher.view;
+package com.programmers.voucher.view.console;
 
 import com.programmers.voucher.domain.customer.dto.CustomerResponse;
 import com.programmers.voucher.domain.voucher.dto.VoucherResponse;
-import com.programmers.voucher.domain.voucher.entity.VoucherType;
+import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.command.Command;
 import com.programmers.voucher.view.command.CustomerCommand;
 import com.programmers.voucher.view.command.VoucherCommand;
@@ -31,11 +31,6 @@ public class ConsoleOutput implements Output {
     @Override
     public void displayCustomerCommands() {
         displayMenu("=== Customer Menu ===", CustomerCommand.values());
-    }
-
-    @Override
-    public void displayVoucherType() {
-        displayMenu("=== Voucher Type ===", VoucherType.values());
     }
 
     @Override

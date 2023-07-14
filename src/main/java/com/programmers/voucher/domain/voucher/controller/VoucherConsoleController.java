@@ -8,22 +8,18 @@ import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.view.Input;
 import com.programmers.voucher.view.Output;
 import com.programmers.voucher.view.command.VoucherCommand;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+@RequiredArgsConstructor
+public class VoucherConsoleController {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
-
-    public VoucherController(Input input, Output output, VoucherService voucherService) {
-        this.input = input;
-        this.output = output;
-        this.voucherService = voucherService;
-    }
 
     public void run() {
         output.displayVoucherCommands();
@@ -31,12 +27,11 @@ public class VoucherController {
 
         switch (command) {
             case CREATE -> {
-                output.displayVoucherType();
                 VoucherResponse voucher = createVoucher();
                 output.displayVoucher(voucher);
             }
             case READ_ALL -> {
-                List<VoucherResponse> vouchers = getAllVouchers();
+                List<VoucherResponse> vouchers = voucherService.getAllVouchers();
                 vouchers.forEach(output::displayVoucher);
             }
             case READ -> {
@@ -59,10 +54,6 @@ public class VoucherController {
         return voucherService.createVoucher(voucherCreateRequest);
     }
 
-    private List<VoucherResponse> getAllVouchers() {
-        return voucherService.getAllVouchers();
-    }
-
     private VoucherResponse getVoucher() {
         UUID voucherId = input.readUUID();
         return voucherService.getVoucher(voucherId);
@@ -70,7 +61,6 @@ public class VoucherController {
 
     private VoucherResponse updateVoucher() {
         UUID voucherId = input.readUUID();
-        output.displayVoucherType();
         VoucherType voucherType = input.readVoucherType();
         int discountAmount = input.readDiscountAmount();
         VoucherUpdateRequest voucherUpdateRequest = VoucherUpdateRequest.of(voucherType, discountAmount);

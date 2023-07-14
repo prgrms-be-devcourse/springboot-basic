@@ -2,8 +2,8 @@ package com.programmers.voucher.exception;
 
 import com.programmers.voucher.constant.ErrorCode;
 
-public class ConflictException extends IllegalArgumentException {
-    public ConflictException(ErrorCode errorCode) {
+public class BadRequestException extends IllegalArgumentException {
+    public BadRequestException(ErrorCode errorCode) {
         super(errorCode.getMessage());
     }
 }

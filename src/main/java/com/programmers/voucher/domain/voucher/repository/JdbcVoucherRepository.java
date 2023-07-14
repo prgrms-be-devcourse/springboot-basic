@@ -19,6 +19,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String INSERT_SQL = "INSERT INTO voucher(id, type, amount) VALUES(?, ?, ?)";
     private static final String FIND_ALL_SQL = "SELECT * FROM voucher";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM voucher WHERE id = ?";
+    private static final String FIND_BY_TYPE_SQL = "SELECT * FROM voucher WHERE type = ?";
     private static final String UPDATE_SQL = "UPDATE voucher SET type = ?, amount = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM voucher WHERE id = ?";
 
@@ -48,6 +49,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return jdbcTemplate.query(FIND_BY_TYPE_SQL, voucherRowMapper(), voucherType.name());
+    }
+
     @Override
     public Voucher update(Voucher voucher) {
         jdbcTemplate.update(UPDATE_SQL, voucher.getType().name(), voucher.getAmount(), voucher.getId().toString());
@@ -60,9 +65,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
-        return (rs, rowNum) -> new Voucher(
-                UUID.fromString(rs.getString("id")),
-                VoucherType.valueOf(rs.getString("type")),
-                rs.getInt("amount"));
+        return (rs, rowNum) -> Voucher.builder()
+                .id(UUID.fromString(rs.getString("id")))
+                .type(VoucherType.valueOf(rs.getString("type")))
+                .amount(rs.getInt("amount"))
+                .build();
     }
 }
