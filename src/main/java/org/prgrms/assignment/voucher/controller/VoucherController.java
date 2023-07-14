@@ -1,7 +1,8 @@
 package org.prgrms.assignment.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.prgrms.assignment.voucher.dto.VoucherRequestDTO;
+import org.prgrms.assignment.voucher.dto.VoucherServiceRequestDTO;
+import org.prgrms.assignment.voucher.dto.VoucherCreateRequestDTO;
 import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
 import org.prgrms.assignment.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -13,13 +14,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequestMapping("vouchers")
 @Controller
 @RequiredArgsConstructor
 public class VoucherController {
 
     private final VoucherService voucherService;
 
-    @GetMapping("/vouchers")
+    @GetMapping()
     public String getAllVoucherDTOs(Model model) {
         List<VoucherResponseDTO> allVoucherDTOs = voucherService.getAllVoucherDTOs();
         model.addAttribute("serverTime", LocalDateTime.now());
@@ -27,13 +29,13 @@ public class VoucherController {
         return "views/vouchers";
     }
 
-    @PostMapping("/vouchers/new")
-    public String createVoucher(VoucherRequestDTO voucherDTO) {
-        voucherService.createVoucher(voucherDTO.voucherType(), voucherDTO.benefit(), voucherDTO.durationDate());
+    @PostMapping("/new")
+    public String createVoucher(VoucherCreateRequestDTO voucherDTO) {
+        voucherService.createVoucher(VoucherServiceRequestDTO.of(voucherDTO));
         return "redirect:/vouchers";
     }
 
-    @GetMapping("/vouchers/{voucherId}")
+    @GetMapping("/{voucherId}")
     public String getVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
         Optional<VoucherResponseDTO> voucher = voucherService.getVoucherById(voucherId);
         model.addAttribute("serverTime", LocalDateTime.now());
@@ -44,18 +46,18 @@ public class VoucherController {
         return "views/404";
     }
 
-    @PostMapping("/vouchers/delete")
+    @DeleteMapping("/delete")
     public String deleteVoucher(String voucherId) {
         voucherService.delete(UUID.fromString(voucherId));
         return "redirect:/vouchers";
     }
 
-    @GetMapping("/vouchers/new")
+    @GetMapping("/new")
     public String viewNewVoucherPage() {
         return "views/new-voucher";
     }
 
-    @GetMapping("/vouchers/delete")
+    @GetMapping("/delete")
     public String viewDeletePage() {
         return "views/voucher-delete";
     }
