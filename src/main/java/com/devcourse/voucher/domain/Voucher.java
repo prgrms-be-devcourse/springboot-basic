@@ -33,8 +33,13 @@ public class Voucher {
         this.status = status;
     }
 
-    public static Voucher of(int discount, LocalDateTime expireAt, Type type) {
-        return new Voucher(UUID.randomUUID(), discount, expireAt, type, ISSUED);
+    public Voucher(int discount, LocalDateTime expireAt, Type type) {
+        this.id = UUID.randomUUID();
+        this.discountPolicy = createPolicy(type);
+        this.discount = discount;
+        this.expireAt = expireAt;
+        this.type = type;
+        this.status = ISSUED;
     }
 
     public boolean isUsed() {

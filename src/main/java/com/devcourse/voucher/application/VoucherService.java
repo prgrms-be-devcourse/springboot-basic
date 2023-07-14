@@ -27,7 +27,7 @@ public class VoucherService {
 
     public void create(CreateVoucherRequest request) {
         validateRequest(request);
-        Voucher voucher = Voucher.of(request.discount(), request.expiredAt(), request.type());
+        Voucher voucher = new Voucher(request.discount(), request.expiredAt(), request.type());
         voucherRepository.save(voucher);
     }
 
