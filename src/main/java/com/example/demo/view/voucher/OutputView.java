@@ -1,6 +1,6 @@
 package com.example.demo.view.voucher;
 
-import com.example.demo.dto.voucher.VoucherResponseDto;
+import com.example.demo.dto.VoucherDto;
 import com.example.demo.util.VoucherType;
 import java.util.List;
 
@@ -25,15 +25,15 @@ public class OutputView {
         System.out.print(voucherType.getVoucherAmountInfoMessage());
     }
 
-    public void printCreateMessage(VoucherResponseDto voucherResponseDto) {
-        switch (voucherResponseDto.getVoucherType()) {
-            case FIX -> System.out.println(String.format(FIXED_VOUCHER_CREATE_MESSAGE, voucherResponseDto.getDiscountAmount(), voucherResponseDto.getId().toString()));
-            case PERCENT -> System.out.println(String.format(PERCENT_VOUCHER_CREATE_MESSAGE, voucherResponseDto.getDiscountAmount(), voucherResponseDto.getId().toString()));
+    public void printCreateMessage(VoucherDto voucherDto) {
+        switch (voucherDto.getVoucherType()) {
+            case FIX -> System.out.println(String.format(FIXED_VOUCHER_CREATE_MESSAGE, voucherDto.getDiscountAmount(), voucherDto.getId().toString()));
+            case PERCENT -> System.out.println(String.format(PERCENT_VOUCHER_CREATE_MESSAGE, voucherDto.getDiscountAmount(), voucherDto.getId().toString()));
             default -> throw new IllegalArgumentException("올바르지 않은 바우처 타입입니다. fix혹은 percent로 입력해주세요.");
         }
     }
 
-    public void printVoucherList(List<VoucherResponseDto> list) {
+    public void printVoucherList(List<VoucherDto> list) {
         if (list.isEmpty()) {
             System.out.println(VOUCHER_LIST_EMPTY_MESSAGE);
             return;

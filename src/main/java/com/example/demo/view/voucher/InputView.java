@@ -2,6 +2,7 @@ package com.example.demo.view.voucher;
 
 import com.example.demo.util.CommandType;
 import com.example.demo.util.VoucherType;
+import com.example.demo.view.validate.CommandValidator;
 import com.example.demo.view.validate.NumberValidator;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ public class InputView {
 
     public CommandType readCommandOption() {
         String input = sc.nextLine();
-        NumberValidator.validateCommandNumber(input);
+        CommandValidator.validateCommandNumber(input);
         return CommandType.from(Integer.parseInt(input));
     }
 

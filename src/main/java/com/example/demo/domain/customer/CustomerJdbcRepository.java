@@ -32,7 +32,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count != 1) {
-            logger.warn("고객이 save되지 않았음. 잘 못된 입력 {}", customer);
+            logger.error("고객이 save되지 않았음. 잘 못된 입력 {}", customer);
             throw new IllegalArgumentException(String.format("고객이 save되지 않았음. 잘 못된 입력 : %s", customer));
         }
 
@@ -50,7 +50,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramSource, rowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            logger.warn("존재하지 않는 아이디가 입력되어 조회할 수 없음. 존재하지 않는 id = {}", id, e);
+            logger.error("존재하지 않는 아이디가 입력되어 조회할 수 없음. 존재하지 않는 id = {}", id, e);
             throw new IllegalArgumentException(String.format("존재하지 않는 아이디가 입력되어 조회할 수 없습니다. 존재하지 않는 id = %s", id), e);
         }
     }
@@ -75,7 +75,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
-            logger.warn("존재하지 않는 아이디가 입력되어 customer 정보를 업데이트 할 수 없었음. 존재하지 않는 id = {}", id);
+            logger.error("존재하지 않는 아이디가 입력되어 customer 정보를 업데이트 할 수 없었음. 존재하지 않는 id = {}", id);
             throw new IllegalArgumentException(String.format("존재하지 않는 아이디가 입력되어 customer 정보를 업데이트 할 수 없었음. 존재하지 않는 id = %s", id));
         }
     }
@@ -90,7 +90,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
-            logger.warn("존재하지 않는 아이디가 입력되어 customer 정보를 삭제 할 수 없었음. 존재하지 않는 id = {}", id);
+            logger.error("존재하지 않는 아이디가 입력되어 customer 정보를 삭제 할 수 없었음. 존재하지 않는 id = {}", id);
             throw new IllegalArgumentException(String.format("존재하지 않는 아이디가 입력되어 customer 정보를 삭제 할 수 없었음. 존재하지 않는 id = %s", id));
         }
     }

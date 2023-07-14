@@ -1,6 +1,6 @@
 package com.example.demo.view.customer;
 
-import com.example.demo.dto.customer.CustomerResponseDto;
+import com.example.demo.dto.CustomerDto;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
@@ -8,18 +8,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerView {
 
+    private final InputView inputView;
+    private final OutputView outputView;
+
+    public CustomerView() {
+        this.inputView = new InputView();
+        this.outputView = new OutputView();
+    }
+
     public String readCustomerName() {
-        return null;
+        outputView.printCustomerNameMessage();
+        return inputView.readCustomerName();
     }
 
     public int readCustomerAge() {
-        return 0;
+        outputView.printCustomerAgeMessage();
+        return inputView.readCustomerAge();
     }
 
-    public void printCreateMessage(CustomerResponseDto customerResponseDto) {
+    public void printCreateMessage(CustomerDto customerDto) {
+        outputView.printCreateMessage(customerDto);
     }
 
-    public void printVoucherList(List<CustomerResponseDto> customerResponseDtoList) {
+    public void printVoucherList(List<CustomerDto> list) {
+        outputView.printCustomerList(list);
     }
 
     public UUID readCustomerId() {
@@ -27,8 +39,10 @@ public class CustomerView {
     }
 
     public void printUpdateMessage() {
+        outputView.printUpdateMessage();
     }
 
     public void printDeleteMessage() {
+        outputView.printDeleteMessage();
     }
 }

@@ -7,7 +7,6 @@ public final class NumberValidator {
 
     private static final Pattern IS_NUMERIC_REGEX = Pattern.compile("^[1-9]\\d*$");
     private static final Pattern IS_PERCENT_REGEX = Pattern.compile("^([1-9]|[1-9][0-9]|100)$");
-    private static final Pattern IS_COMMAND_NUMBER = Pattern.compile("^[1-7]{1}$");
 
 
     private NumberValidator() {
@@ -21,12 +20,6 @@ public final class NumberValidator {
                 NumberValidator.validatePercentageNumber(input);
             }
             default -> throw new IllegalArgumentException(String.format("입력하신 %s는 유효한 바우처 타입이 아닙니다.", voucherType.name()));
-        }
-    }
-
-    public static void validateCommandNumber(String input) {
-        if (!IS_COMMAND_NUMBER.matcher(input).matches()) {
-            throw new IllegalArgumentException("[ERROR] 1~7 사이의 숫자를 입력해주세요.");
         }
     }
 
