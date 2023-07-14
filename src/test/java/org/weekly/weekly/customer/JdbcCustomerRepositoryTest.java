@@ -4,7 +4,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.repository.JdbcCustomerRepository;
 
@@ -116,7 +115,7 @@ class JdbcCustomerRepositoryTest {
         Customer insertCusomter = jdbcCustomerRepository.insert(customer);
 
         // When
-        jdbcCustomerRepository.update(insertCusomter,newName);
+        jdbcCustomerRepository.update(insertCusomter, newName);
 
         // Then
         Optional<Customer> updateCustomer = jdbcCustomerRepository.findByEmail(newName);

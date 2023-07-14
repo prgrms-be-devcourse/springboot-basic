@@ -18,7 +18,7 @@ public class DiscountMapTest {
     })
     void 사용자_입력이_할인_맵에_없으면_예외발생(String userInput) {
         // when + then
-        assertThatThrownBy(()-> DiscountType.getDiscountTypeByNumber(userInput))
+        assertThatThrownBy(() -> DiscountType.getDiscountTypeByNumber(userInput))
                 .isInstanceOf(RuntimeException.class);
 
     }

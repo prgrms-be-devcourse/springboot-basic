@@ -5,7 +5,7 @@ import org.weekly.weekly.voucher.domain.Voucher;
 
 import java.util.List;
 
-public class VouchersResponse  {
+public class VouchersResponse {
     private final List<VoucherCreationResponse> result;
 
     public VouchersResponse(List<Voucher> vouchers) {
@@ -24,7 +24,7 @@ public class VouchersResponse  {
         }
 
         StringBuilder resultBuilder = new StringBuilder();
-        result.forEach(voucherResponse-> resultBuilder.append(voucherResponse.result()).append('\n'));
+        result.forEach(voucherResponse -> resultBuilder.append(voucherResponse.result()).append('\n'));
         return resultBuilder.toString();
     }
 }

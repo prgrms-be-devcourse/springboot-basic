@@ -53,7 +53,8 @@ public enum DiscountType {
     public Discount getNewInstance() {
         try {
             return this.cls.getDeclaredConstructor().newInstance();
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException exception) {
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
+                 InvocationTargetException exception) {
             throw new VoucherException(ExceptionMsg.NOT_FOUND);
         }
     }

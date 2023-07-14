@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @Profile("!dev")
 @Repository
-public class JdbcVoucherRepository implements VoucherRepository{
+public class JdbcVoucherRepository implements VoucherRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(DataSource dataSource) {
@@ -71,7 +71,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                     voucher.getDiscountType().name(),
                     Timestamp.valueOf(voucher.getRegistrationDate().atStartOfDay()),
                     Timestamp.valueOf(voucher.getExpirationDate().atStartOfDay()));
-        } catch(DataAccessException dataAccessException) {
+        } catch (DataAccessException dataAccessException) {
             throw new VoucherException(ExceptionMsg.SQL_INSERT_ERROR);
         }
 
@@ -115,6 +115,6 @@ public class JdbcVoucherRepository implements VoucherRepository{
         LocalDate registrationDate = resultSet.getTimestamp("registration_date") == null ? null : resultSet.getTimestamp("registration_date").toLocalDateTime().toLocalDate();
         LocalDate expirationDate = resultSet.getTimestamp("expiration_date") == null ? null : resultSet.getTimestamp("expiration_date").toLocalDateTime().toLocalDate();
 
-        return new Voucher(voucherId,amount, registrationDate, expirationDate, discountType.getNewInstance());
+        return new Voucher(voucherId, amount, registrationDate, expirationDate, discountType.getNewInstance());
     }
 }

@@ -1,10 +1,11 @@
 DROP TABLE IF EXISTS customers;
-CREATE TABLE customers (
-                           customer_id BINARY(16) PRIMARY KEY,
-                           name varchar(20) NOT NULL,
-                           email varchar(50) NOT NULL,
-                           create_at datetime(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-                           CONSTRAINT unq_user_email UNIQUE (email)
+CREATE TABLE customers
+(
+    customer_id BINARY(16) PRIMARY KEY,
+    name        varchar(20) NOT NULL,
+    email       varchar(50) NOT NULL,
+    create_at   datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6),
+    CONSTRAINT unq_user_email UNIQUE (email)
 );
 
 INSERT INTO customers(customer_id, name, email)
@@ -15,12 +16,13 @@ VALUES (uuid_to_bin(UUID()), 'tester00', 'test00@gmail.com'),
 
 
 DROP TABLE IF EXISTS vouchers;
-CREATE TABLE vouchers (
-                          voucher_id BINARY(16) PRIMARY KEY,
-                          amount bigint NOT NULL,
-                          discount enum('FIXED', 'PERCENT') NOT NULL,
-                          registration_date datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-                          expiration_date datetime(6) NOT NULL
+CREATE TABLE vouchers
+(
+    voucher_id        BINARY(16) PRIMARY KEY,
+    amount            bigint NOT NULL,
+    discount          enum('FIXED', 'PERCENT') NOT NULL,
+    registration_date datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6),
+    expiration_date   datetime(6) NOT NULL
 );
 
 INSERT INTO vouchers (voucher_id, amount, discount, expiration_date)

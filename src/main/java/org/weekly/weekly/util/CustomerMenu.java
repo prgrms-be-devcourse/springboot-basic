@@ -17,6 +17,7 @@ public enum CustomerMenu implements Menu {
 
     private final String printMessage;
     private static final Map<String, CustomerMenu> CUSTOMER_MENU_MAP;
+
     static {
         CUSTOMER_MENU_MAP = new ConcurrentHashMap<>();
         Arrays.stream(CustomerMenu.values())

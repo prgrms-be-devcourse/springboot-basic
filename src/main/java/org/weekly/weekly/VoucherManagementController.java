@@ -34,7 +34,7 @@ public class VoucherManagementController {
     public void start() {
         boolean isRunning = true;
 
-        while(isRunning) {
+        while (isRunning) {
             try {
                 ManageMenu manageMenu = commandLineApplication.readManageMenu();
                 isRunning = processManageMenuSelection(manageMenu);
@@ -45,16 +45,16 @@ public class VoucherManagementController {
     }
 
     private boolean processManageMenuSelection(ManageMenu manageMenu) {
-        return switch(manageMenu) {
+        return switch (manageMenu) {
             case VOUCHER -> {
                 VoucherMenu voucherMenu = commandLineApplication.readVoucherMenu();
                 processVoucherMenuSelection(voucherMenu);
-                yield  false;
+                yield false;
             }
             case CUSTOMER -> {
                 CustomerMenu customerMenu = commandLineApplication.readCustomerMenu();
                 processCustomerMenuSelection(customerMenu);
-                yield  false;
+                yield false;
             }
             default -> true;
         };
@@ -70,7 +70,7 @@ public class VoucherManagementController {
     private void handleVoucherCreation() {
         VoucherCreationRequest voucherCreationRequest = commandLineApplication.createVoucherFromInput();
         VoucherCreationResponse response = voucherController.createVoucher(voucherCreationRequest);
-        logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(),response.result());
+        logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(), response.result());
         commandLineApplication.printResult(response);
     }
 
@@ -81,7 +81,7 @@ public class VoucherManagementController {
     }
 
     private void processCustomerMenuSelection(CustomerMenu selectMenu) {
-        switch(selectMenu) {
+        switch (selectMenu) {
             case CREATE -> handleCustomerCreation();
             case DELETE -> handleCustomerDelete();
             case DELETE_ALL -> handleCustomerDeleteAll();
@@ -124,5 +124,4 @@ public class VoucherManagementController {
         CustomerResponse customerResponse = customerController.updateCustomer(customerUpdateRequest);
         commandLineApplication.printResult(customerResponse);
     }
-
 }

@@ -10,7 +10,8 @@ public class VoucherInfoRequest {
     private long amount;
     private long expiration;
 
-    public VoucherInfoRequest() {}
+    public VoucherInfoRequest() {
+    }
 
     public VoucherInfoRequest(long amount, long expiration) {
         this.amount = amount;

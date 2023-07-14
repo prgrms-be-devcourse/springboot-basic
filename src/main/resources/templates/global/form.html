@@ -1,6 +1,5 @@
-
 <div id="form" th:fragment="data (action, method, status)" class="container">
-    <form th:action="${action}", th:method="${method}">
+    <form th:action="${action}" , th:method="${method}">
         <div th:insert="~{ :: ${status}}">
 
         </div>
@@ -57,7 +56,7 @@
 
 
 <div th:fragment="deleteAll (action, method)" class="container">
-    <form th:action="${action}", th:method="${method}">
+    <form th:action="${action}" , th:method="${method}">
         <div class="form-row submit-btn">
             <div class="input-data">
                 <div class="inner"></div>
@@ -69,7 +68,7 @@
 
 
 <div th:fragment="voucher-form (action, method, status)" class="container">
-    <form th:action="${action}", th:method="${method}" th:object="${voucherCreationRequest}">
+    <form th:action="${action}" , th:method="${method}" th:object="${voucherCreationRequest}">
         <div th:insert="~{ :: ${status}}">
 
         </div>

@@ -13,6 +13,7 @@ public enum VoucherMenu implements Menu {
     private final String printMessage;
 
     private final static Map<String, VoucherMenu> VOUCHER_MENU_MAP;
+
     static {
         VOUCHER_MENU_MAP = new ConcurrentHashMap<>();
         Arrays.stream(VoucherMenu.values())

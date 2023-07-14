@@ -4,19 +4,19 @@
     <title>Customer Info</title>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="container title-line text">
-            <h1>고객 정보</h1>
-            <a href="/">Home</a>
-        </div>
-        <div class="container">
-            <table class="table mb-0">
-                <th:block th:replace="global/customer::customer-head(0)"></th:block>
-                <th:block th:replace="global/customer::customer-row(${customer},0)"></th:block>
-                </tbody>
-            </table>
-        </div>
+<div class="container-fluid">
+    <div class="container title-line text">
+        <h1>고객 정보</h1>
+        <a href="/">Home</a>
     </div>
+    <div class="container">
+        <table class="table mb-0">
+            <th:block th:replace="global/customer::customer-head(0)"></th:block>
+            <th:block th:replace="global/customer::customer-row(${customer},0)"></th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
 

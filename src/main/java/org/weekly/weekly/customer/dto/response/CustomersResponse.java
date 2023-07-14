@@ -20,7 +20,7 @@ public class CustomersResponse {
         }
 
         StringBuilder resultBuilder = new StringBuilder();
-        result.forEach(customerResponse-> resultBuilder.append(customerResponse.result()).append('\n'));
+        result.forEach(customerResponse -> resultBuilder.append(customerResponse.result()).append('\n'));
         return resultBuilder.toString();
     }
 

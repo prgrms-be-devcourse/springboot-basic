@@ -8,9 +8,9 @@ import org.weekly.weekly.customer.exception.CustomerException;
 
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 
 public class CustomerTest {
 
@@ -22,6 +22,6 @@ public class CustomerTest {
     @ParameterizedTest
     @ValueSource(strings = {"123", "123@", "213@n", "abc@naver.", "abc@naver.c", "abc@naver.comc"})
     void 회원생성_실패_테스트(String email) {
-        assertThatThrownBy(()-> Customer.of(UUID.randomUUID(), "hello", email)).isInstanceOf(CustomerException.class);
+        assertThatThrownBy(() -> Customer.of(UUID.randomUUID(), "hello", email)).isInstanceOf(CustomerException.class);
     }
 }

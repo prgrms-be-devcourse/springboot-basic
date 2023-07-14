@@ -26,6 +26,6 @@ public enum ExceptionMsg {
     }
 
     public String getMsg() {
-        return ERROR.msg+msg;
+        return ERROR.msg + msg;
     }
 }

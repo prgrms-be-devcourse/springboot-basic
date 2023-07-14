@@ -1,10 +1,8 @@
 package org.weekly.weekly.util;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class VoucherMenuTest {
@@ -17,7 +15,7 @@ public class VoucherMenuTest {
 
         // then
 
-        assertThatThrownBy(()->VoucherMenu.getMenu(testValue))
+        assertThatThrownBy(() -> VoucherMenu.getMenu(testValue))
                 .isInstanceOf(RuntimeException.class);
     }
 }

@@ -5,13 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="container title-line text">
-            <h1 >고객 정보 찾기</h1>
-            <a href="/">Home</a>
-        </div>
-
-        <div th:replace="~{/global/form.html :: data(action='/customer/find', method='post', status='customer-search')}"></div>
+<div class="container-fluid">
+    <div class="container title-line text">
+        <h1>고객 정보 찾기</h1>
+        <a href="/">Home</a>
     </div>
+
+    <div th:replace="~{/global/form.html :: data(action='/customer/find', method='post', status='customer-search')}"></div>
+</div>
 </body>
 </html>

@@ -6,7 +6,8 @@ public class CustomerUpdateRequest {
     private String email;
     private String newEmail;
 
-    private CustomerUpdateRequest(){}
+    private CustomerUpdateRequest() {
+    }
 
     private CustomerUpdateRequest(String email, String afterEmail) {
         this.email = email;
@@ -32,7 +33,9 @@ public class CustomerUpdateRequest {
         return email;
     }
 
-    public String newEmail() {return newEmail;}
+    public String newEmail() {
+        return newEmail;
+    }
 
     public void setEmail(String email) {
         this.email = email;

@@ -27,7 +27,7 @@ public class VoucherCreationRequest {
         return discountType;
     }
 
-    public Voucher toVoucher()  {
+    public Voucher toVoucher() {
         UUID id = UUID.randomUUID();
         long amount = voucherInfoRequest.getAmount();
         LocalDate now = LocalDate.now();

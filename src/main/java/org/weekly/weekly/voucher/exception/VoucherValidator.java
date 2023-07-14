@@ -21,6 +21,7 @@ public class VoucherValidator {
             throw new VoucherException(ExceptionMsg.EXPIRATION_ERROR);
         }
     }
+
     public static void validateAmount(DiscountType discountType, long amount) {
         if (DiscountType.FIXED.equals(discountType)) {
             notRange(amount, input -> input < RANGE_START);

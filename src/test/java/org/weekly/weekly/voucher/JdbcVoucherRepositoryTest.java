@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 @ActiveProfiles("test")
 @Testcontainers
 @SpringBootTest
-class JdbcVoucherRepositoryTest{
+class JdbcVoucherRepositoryTest {
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
 

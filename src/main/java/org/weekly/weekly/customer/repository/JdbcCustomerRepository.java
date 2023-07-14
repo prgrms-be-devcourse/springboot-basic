@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Profile("!dev")
 @Repository
-public class JdbcCustomerRepository implements CustomerRepository{
+public class JdbcCustomerRepository implements CustomerRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(DataSource dataSource) {
@@ -97,7 +97,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
-        LocalDateTime createAt = resultSet.getTimestamp("create_at") == null? null : resultSet.getTimestamp("create_at").toLocalDateTime();
+        LocalDateTime createAt = resultSet.getTimestamp("create_at") == null ? null : resultSet.getTimestamp("create_at").toLocalDateTime();
 
         return new Customer(customerId, name, email, createAt);
     }
