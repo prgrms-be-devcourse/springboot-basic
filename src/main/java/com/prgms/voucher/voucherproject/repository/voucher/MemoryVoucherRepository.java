@@ -1,6 +1,6 @@
-package com.prgms.voucher.voucherproject.repository;
+package com.prgms.voucher.voucherproject.repository.voucher;
 
-import com.prgms.voucher.voucherproject.domain.Voucher;
+import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -11,7 +11,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(storage.get(voucherId)); // null일 경우 empty 반환
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override

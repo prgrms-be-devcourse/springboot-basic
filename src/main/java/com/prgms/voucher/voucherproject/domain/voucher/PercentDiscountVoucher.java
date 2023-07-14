@@ -1,4 +1,4 @@
-package com.prgms.voucher.voucherproject.domain;
+package com.prgms.voucher.voucherproject.domain.voucher;
 
 import java.util.UUID;
 
@@ -14,6 +14,11 @@ public class PercentDiscountVoucher implements Voucher {
             throw new IllegalArgumentException("잘못된 퍼센트 할인 금액입니다.");
         }
         this.voucherId = UUID.randomUUID();
+        this.discount = discount;
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long discount) {
+        this.voucherId = voucherId;
         this.discount = discount;
     }
 

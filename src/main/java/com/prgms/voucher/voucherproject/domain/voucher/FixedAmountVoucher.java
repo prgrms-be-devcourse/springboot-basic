@@ -1,4 +1,4 @@
-package com.prgms.voucher.voucherproject.domain;
+package com.prgms.voucher.voucherproject.domain.voucher;
 
 import java.util.UUID;
 
@@ -9,6 +9,7 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long discount;
 
+
     public FixedAmountVoucher(long discount) {
         if (discount <= MIN_AMOUNT || discount >= MAX_AMOUNT) {
             throw new IllegalArgumentException("잘못된 고정 할인 금액입니다.");
@@ -16,6 +17,12 @@ public class FixedAmountVoucher implements Voucher {
         this.discount = discount;
         this.voucherId = UUID.randomUUID();
     }
+
+    public FixedAmountVoucher(UUID voucherId, long discount) {
+        this.voucherId = voucherId;
+        this.discount = discount;
+    }
+
 
     public long discount(long beforeDiscount) {
         long discountedAmount = beforeDiscount - this.discount;

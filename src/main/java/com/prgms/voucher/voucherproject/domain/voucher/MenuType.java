@@ -1,7 +1,8 @@
-package com.prgms.voucher.voucherproject.domain;
+package com.prgms.voucher.voucherproject.domain.voucher;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
+
 public enum MenuType {
 
     EXIT,

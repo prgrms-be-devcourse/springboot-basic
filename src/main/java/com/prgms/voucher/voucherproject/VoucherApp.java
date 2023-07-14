@@ -1,8 +1,8 @@
 package com.prgms.voucher.voucherproject;
 
-import com.prgms.voucher.voucherproject.domain.MenuType;
-import com.prgms.voucher.voucherproject.domain.Voucher;
-import com.prgms.voucher.voucherproject.domain.VoucherType;
+import com.prgms.voucher.voucherproject.domain.voucher.MenuType;
+import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
+import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
 import com.prgms.voucher.voucherproject.io.Console;
 import com.prgms.voucher.voucherproject.io.Constant;
 import com.prgms.voucher.voucherproject.service.VoucherService;

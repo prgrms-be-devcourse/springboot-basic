@@ -1,6 +1,6 @@
-package com.prgms.voucher.voucherproject.repository;
+package com.prgms.voucher.voucherproject.repository.voucher;
 
-import com.prgms.voucher.voucherproject.domain.Voucher;
+import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

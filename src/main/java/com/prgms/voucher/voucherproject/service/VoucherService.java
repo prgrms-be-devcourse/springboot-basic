@@ -1,10 +1,10 @@
 package com.prgms.voucher.voucherproject.service;
 
-import com.prgms.voucher.voucherproject.domain.FixedAmountVoucher;
-import com.prgms.voucher.voucherproject.domain.PercentDiscountVoucher;
-import com.prgms.voucher.voucherproject.domain.Voucher;
-import com.prgms.voucher.voucherproject.domain.VoucherType;
-import com.prgms.voucher.voucherproject.repository.VoucherRepository;
+import com.prgms.voucher.voucherproject.domain.voucher.FixedAmountVoucher;
+import com.prgms.voucher.voucherproject.domain.voucher.PercentDiscountVoucher;
+import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
+import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
+import com.prgms.voucher.voucherproject.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
