@@ -2,12 +2,14 @@ package com.devcourse.voucher.domain.repository;
 
 import com.devcourse.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -43,5 +45,16 @@ class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers", voucherMapper);
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        try {
+            return Optional.of(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE id = ?",
+                    voucherMapper,
+                    id.toString()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }
