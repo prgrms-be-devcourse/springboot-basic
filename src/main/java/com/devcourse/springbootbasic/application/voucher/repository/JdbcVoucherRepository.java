@@ -79,7 +79,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                            "SELECT voucher_id, voucher_type, discount_value, customer_id FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                             Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                             voucherRowMapper
                     )
@@ -94,7 +94,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId) AND customer_id = UUID_TO_BIN(:customerId)",
+                            "SELECT voucher_id, voucher_type, discount_value, customer_id FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId) AND customer_id = UUID_TO_BIN(:customerId)",
                             Map.of("voucherId", voucherId.toString().getBytes(), "customerId", customerId.toString().getBytes()),
                             voucherRowMapper
                     )
@@ -107,7 +107,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAllByCustomerId(UUID customerId) {
         return jdbcTemplate.query(
-                "SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                "SELECT voucher_id, voucher_type, discount_value, customer_id FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)",
                 Map.of("customerId", customerId.toString().getBytes()),
                 voucherRowMapper
         );
