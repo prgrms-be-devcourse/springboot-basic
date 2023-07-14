@@ -32,7 +32,7 @@ public class VoucherService {
         return voucherRepository.findByType(voucherType);
     }
 
-    public void deleteAll(VoucherType voucherType) {
+    public void deleteAll() {
         voucherRepository.delete();
     }
 }
