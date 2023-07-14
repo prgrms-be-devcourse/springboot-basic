@@ -3,35 +3,32 @@ package com.prgrms.commandLineApplication.repository;
 import com.prgrms.commandLineApplication.customer.Customer;
 import com.prgrms.commandLineApplication.repository.customer.JdbcCustomerRepository;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-@SpringBootTest
-@Rollback(value = false)
+@Import(JdbcCustomerRepository.class)
+@ActiveProfiles("test")
+@JdbcTest
 class JdbcCustomerRepositoryTest {
 
   private static final int EMPTY = 0;
-
-  private JdbcCustomerRepository jdbcCustomerRepository;
+  private static final int FIND_ALL_TEST_RESULT_SIZE = 2;
 
   @Autowired
-  JdbcCustomerRepositoryTest(JdbcCustomerRepository jdbcCustomerRepository) {
-    this.jdbcCustomerRepository = jdbcCustomerRepository;
-  }
+  private JdbcCustomerRepository jdbcCustomerRepository;
 
   @Test
-  @Order(1)
   @DisplayName("Id로 customer를 찾을 수 있다.")
-  void findById() {
+  void findCustomerById_Success() {
     String customerName = "ImIdTest";
     String email = "testId@gmail.com";
     Customer customer = Customer.of(UUID.randomUUID(), customerName, email);
@@ -39,13 +36,12 @@ class JdbcCustomerRepositoryTest {
 
     Customer findCustomer = jdbcCustomerRepository.findById(savedCustomer.getCustomerId());
 
-    assertEquals(customer.getCustomerName(), findCustomer.getCustomerName());
+    Assertions.assertThat(customer.getCustomerName()).isEqualTo(findCustomer.getCustomerName());
   }
 
   @Test
-  @Order(2)
   @DisplayName("Email로 customer를 찾을 수 있다.")
-  void findByEmail() {
+  void findCustomerByEmail_Success() {
     String customerName = "ImEmailTest";
     String email = "testEmail@gmail.com";
     Customer customer = Customer.of(UUID.randomUUID(), customerName, email);
@@ -53,13 +49,12 @@ class JdbcCustomerRepositoryTest {
 
     Customer findCustomer = jdbcCustomerRepository.findByEmail(savedCustomer.getEmail());
 
-    assertEquals(customer.getCustomerName(), findCustomer.getCustomerName());
+    Assertions.assertThat(savedCustomer.getCustomerName()).isEqualTo(findCustomer.getCustomerName());
   }
 
   @Test
-  @Order(3)
   @DisplayName("customer의 name을 변경할 수 있다.")
-  void updateName() {
+  void updateCustomerName_Success() {
     String customerName = "ImUpdateTest";
     String email = "testUpdate@gmail.com";
     Customer customer = Customer.of(UUID.randomUUID(), customerName, email);
@@ -67,15 +62,31 @@ class JdbcCustomerRepositoryTest {
 
     Customer findCustomer = jdbcCustomerRepository.findById(savedCustomer.getCustomerId());
     String newName = "ImNewTestName";
-    findCustomer.update(newName);
+    findCustomer.updateName(newName);
 
-    assertNotEquals(customer.getCustomerName(), newName);
+    Assertions.assertThat(savedCustomer.getCustomerName()).isNotEqualTo(newName);
   }
 
   @Test
-  @Order(4)
+  @DisplayName("전체 customer를 조회할 수 있다.")
+  void findAllCustomers_Success() {
+    String customerName1 = "ImCustomer1";
+    String customerName2 = "ImCustomer2";
+    String email1 = "ImCustomer1@gmail.com";
+    String email2 = "ImCustomer2@gmail.com";
+    Customer customer1 = Customer.of(UUID.randomUUID(), customerName1, email1);
+    Customer customer2 = Customer.of(UUID.randomUUID(), customerName2, email2);
+    jdbcCustomerRepository.save(customer1);
+    jdbcCustomerRepository.save(customer2);
+
+    List<Customer> customers = jdbcCustomerRepository.findAll();
+    System.out.println("customers.size() -> " + customers.size());
+    Assertions.assertThat(customers.size()).isEqualTo(FIND_ALL_TEST_RESULT_SIZE);
+  }
+
+  @Test
   @DisplayName("Id로 삭제한 customer를 조회하면 예외가 발생한다.")
-  void deleteById() {
+  void findNoExistCustomers_ThrowException() {
     String customerName = "ImDeleteTest1";
     String email = "testDelete1@gmail.com";
     Customer customer = Customer.of(UUID.randomUUID(), customerName, email);
@@ -88,9 +99,8 @@ class JdbcCustomerRepositoryTest {
   }
 
   @Test
-  @Order(5)
   @DisplayName("전체 customer를 삭제할 수 있다.")
-  void deleteAll() {
+  void deleteAllCustomers_Success() {
     String customerName = "ImDeleteAllTest";
     String email = "ImDeleteAllTest@gmail.com";
     Customer customer = Customer.of(UUID.randomUUID(), customerName, email);
@@ -98,7 +108,7 @@ class JdbcCustomerRepositoryTest {
 
     jdbcCustomerRepository.deleteAll();
 
-    assertEquals(jdbcCustomerRepository.findAll().size(), EMPTY);
+    Assertions.assertThat(jdbcCustomerRepository.findAll().size()).isEqualTo(EMPTY);
   }
 
 }
