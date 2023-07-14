@@ -1,9 +1,15 @@
 # SpringBoot Basic Weekly Mission
 
 ### 프로젝트 설계도 및 클래스 역할/책임
-![image](https://github.com/sujjangOvO/springboot-basic/assets/89267864/a809b214-0ac2-42aa-be37-b62fb27e9645)
+![image](https://github.com/sujjangOvO/springboot-basic/assets/89267864/901eac2e-ea62-444d-895d-724a05da51a5)
 
 
+
+<수정>
+
+Voucher와 Customer는 관련 없다고 생각
+
+차라리 추후 Wallet이 추가될 떄 Customer의 FK가 등록되어야 한다고 생각해서 Voucher와 Customer의 연관 관계를 삭제
 
 ---
 **(기본)** **바우처 관리 애플리케이션**
