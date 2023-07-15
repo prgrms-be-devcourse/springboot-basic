@@ -48,4 +48,10 @@ public class CustomerService {
         Customer updatedCustomer = customerRepository.update(customer);
         return CustomerResponseDto.toDto(updatedCustomer.getCustomerId(), updatedCustomer.getNickname());
     }
+
+    public CustomerResponseDto delete(UUID customerId) {
+        Customer customer = customerRepository.deleteById(customerId);
+
+        return CustomerResponseDto.toDto(customer.getCustomerId(), customer.getNickname());
+    }
 }

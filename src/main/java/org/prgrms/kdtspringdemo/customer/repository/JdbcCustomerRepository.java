@@ -97,6 +97,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer deleteById(UUID customerId) {
-        return null;
+        Customer customer = findById(customerId);
+        int deletedCustomerRow = jdbcTemplate.update(CustomerQuery.DELETE.getQuery(),
+                Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()));
+        if (isNotFoundCustomer(deletedCustomerRow)) {
+            throw new RuntimeException(CUSTOMER_ID_LOOKUP_FAILED.getMessage());
+        }
+
+        return customer;
     }
 }

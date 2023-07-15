@@ -142,6 +142,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case FIND_NICKNAME -> findByNicknameCustomer();
             case FIND_ALL -> findAllCustomer();
             case UPDATE -> updateCustomer();
+            case DELETE -> deleteCustomer();
         }
     }
 
@@ -178,6 +179,13 @@ public class CommandLineApplication implements CommandLineRunner {
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME_MESSAGE);
 
         CustomerResponseDto customerResponseDto = customerService.update(userCustomerId, userNickname);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
+    }
+
+    private void deleteCustomer() {
+        UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID_MESSAGE);
+
+        CustomerResponseDto customerResponseDto = customerService.delete(userCustomerId);
         voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
     }
 }

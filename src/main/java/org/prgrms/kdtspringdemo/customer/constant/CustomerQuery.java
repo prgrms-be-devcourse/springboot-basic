@@ -13,7 +13,7 @@ public enum CustomerQuery {
     FIND_NICKNAME("SELECT * FROM customer WHERE nickname = :nickname"),
     FIND_ALL("SELECT * FROM customer"),
     UPDATE("UPDATE customer SET nickname = :nickname WHERE customer_id = UUID_TO_BIN(:customer_id)"),
-    ;
+    DELETE("DELETE FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)");
     private static final Logger logger = LoggerFactory.getLogger(CustomerQuery.class);
 
     private final String query;
