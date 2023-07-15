@@ -15,7 +15,6 @@ import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.FixedAmountVoucher;
 import com.example.voucher.domain.PercentDiscountVoucher;
 import com.example.voucher.domain.Voucher;
-import com.example.voucher.domain.VoucherCreator;
 
 @JdbcTest
 @ContextConfiguration(classes = JdbcVoucherRepository.class)
@@ -111,8 +110,7 @@ class JdbcVoucherRepositoryTest {
     @Test
     void update() {
         Voucher savedVoucher = jdbcVoucherRepository.save(new FixedAmountVoucher(10L));
-        Voucher actualVoucher = VoucherCreator.getVoucher(savedVoucher.getVoucherId(), VoucherType.PERCENT_DISCOUNT,
-            50L);
+        Voucher actualVoucher = VoucherType.PERCENT_DISCOUNT.createVoucher(savedVoucher.getVoucherId(), 50L);
 
         Voucher expectedVoucher = jdbcVoucherRepository.update(actualVoucher);
 

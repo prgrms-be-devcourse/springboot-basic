@@ -20,7 +20,6 @@ import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.FixedAmountVoucher;
 import com.example.voucher.domain.PercentDiscountVoucher;
 import com.example.voucher.domain.Voucher;
-import com.example.voucher.domain.VoucherCreator;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.repository.VoucherRepository;
 
@@ -37,7 +36,7 @@ class VoucherServiceTest {
     @ParameterizedTest
     @MethodSource("voucherData")
     void createVoucher(UUID voucherId, VoucherType voucherType, long discountValue) {
-        Voucher voucher = VoucherCreator.getVoucher(voucherId, voucherType, discountValue);
+        Voucher voucher = voucherType.createVoucher(voucherId, discountValue);
         when(voucherRepository.save(any(Voucher.class))).thenReturn(voucher);
 
         VoucherDTO result = voucherService.createVoucher(voucherType, discountValue);
@@ -70,7 +69,7 @@ class VoucherServiceTest {
     @ParameterizedTest
     @MethodSource("voucherData")
     void searchById(UUID voucherId, VoucherType voucherType, long discountValue) {
-        Voucher voucher = VoucherCreator.getVoucher(voucherId, voucherType, discountValue);
+        Voucher voucher = voucherType.createVoucher(voucherId, discountValue);
         when(voucherRepository.findById(voucherId)).thenReturn(voucher);
 
         VoucherDTO result = voucherService.searchById(voucherId);
@@ -115,7 +114,7 @@ class VoucherServiceTest {
     @ParameterizedTest
     @MethodSource("voucherData")
     void update(UUID voucherId, VoucherType voucherType, long discountValue) {
-        Voucher voucher = VoucherCreator.getVoucher(voucherId, voucherType, discountValue);
+        Voucher voucher = voucherType.createVoucher(voucherId, discountValue);
         when(voucherRepository.update(any(Voucher.class))).thenReturn(voucher);
 
         VoucherDTO result = voucherService.update(voucherId, voucherType, discountValue);
@@ -133,11 +132,4 @@ class VoucherServiceTest {
         );
     }
 
-    private static Stream<Arguments> illegalVoucherData() {
-        return Stream.of(
-            Arguments.of(UUID.randomUUID(), VoucherType.FIXED_AMOUNT_DISCOUNT, -1L),
-            Arguments.of(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, -1L),
-            Arguments.of(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 1000L)
-        );
-    }
 }
