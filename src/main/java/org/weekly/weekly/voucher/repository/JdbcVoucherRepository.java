@@ -23,6 +23,7 @@ import java.util.UUID;
 @Profile("!dev")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(DataSource dataSource) {

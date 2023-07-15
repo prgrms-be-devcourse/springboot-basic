@@ -3,6 +3,7 @@ package org.weekly.weekly.customer.exception;
 import org.weekly.weekly.util.ExceptionCode;
 
 public class CustomerException extends RuntimeException {
+
     private final ExceptionCode exceptionCode;
 
     public CustomerException(ExceptionCode exceptionMsg) {

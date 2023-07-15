@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class VoucherCreationRequest {
+
     private VoucherInfoRequest voucherInfoRequest;
     private final DiscountType discountType;
 

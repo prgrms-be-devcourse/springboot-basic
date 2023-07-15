@@ -20,6 +20,7 @@ import org.weekly.weekly.voucher.dto.response.VouchersResponse;
 
 @Component
 public class VoucherManagementController {
+    
     private final Logger logger = LoggerFactory.getLogger(VoucherManagementController.class);
     private final CommandLineApplication commandLineApplication;
     private final VoucherController voucherController;

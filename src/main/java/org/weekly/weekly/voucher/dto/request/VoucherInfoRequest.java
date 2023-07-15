@@ -3,6 +3,7 @@ package org.weekly.weekly.voucher.dto.request;
 import org.weekly.weekly.ui.exception.InputValidator;
 
 public class VoucherInfoRequest {
+
     private static final String SPLIT_FORMAT = ",";
     private static final int AMOUNT_NO = 0;
     private static final int EXPIRATION = 1;

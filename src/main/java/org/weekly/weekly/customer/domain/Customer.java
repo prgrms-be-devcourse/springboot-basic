@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
+
     UUID customerId;
     String name;
     String email;

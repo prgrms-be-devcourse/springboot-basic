@@ -21,6 +21,7 @@ import java.util.UUID;
 @Profile("!dev")
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(DataSource dataSource) {

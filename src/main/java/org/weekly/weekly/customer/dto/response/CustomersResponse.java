@@ -6,6 +6,7 @@ import org.weekly.weekly.util.PrintMessageType;
 import java.util.List;
 
 public class CustomersResponse {
+
     List<CustomerResponse> result;
 
     public CustomersResponse(List<Customer> customers) {

@@ -8,6 +8,7 @@ import org.weekly.weekly.voucher.service.VoucherService;
 
 @Controller
 public class VoucherController {
+
     private final VoucherService voucherService;
 
     public VoucherController(VoucherService voucherService) {

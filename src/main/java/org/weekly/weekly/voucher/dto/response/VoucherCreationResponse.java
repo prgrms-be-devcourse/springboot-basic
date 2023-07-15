@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class VoucherCreationResponse {
+
     private final UUID id;
     private final LocalDate registrationDate;
     private final LocalDate expirationDate;

@@ -8,6 +8,7 @@ import java.io.Console;
 @Component
 @ConditionalOnProperty(value = "command.read", havingValue = "console")
 public class ConsoleWrap implements CommandReader {
+
     private final Console console;
 
     public ConsoleWrap() {

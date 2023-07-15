@@ -3,6 +3,7 @@ package org.weekly.weekly.customer.dto.request;
 import org.weekly.weekly.ui.exception.InputValidator;
 
 public class CustomerUpdateRequest {
+
     private String email;
     private String newEmail;
 

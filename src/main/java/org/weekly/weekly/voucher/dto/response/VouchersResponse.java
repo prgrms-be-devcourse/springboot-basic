@@ -6,6 +6,7 @@ import org.weekly.weekly.voucher.domain.Voucher;
 import java.util.List;
 
 public class VouchersResponse {
+
     private final List<VoucherCreationResponse> result;
 
     public VouchersResponse(List<Voucher> vouchers) {

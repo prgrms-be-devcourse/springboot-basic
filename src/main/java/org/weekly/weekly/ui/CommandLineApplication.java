@@ -23,6 +23,7 @@ import java.util.function.Supplier;
 
 @Component
 public class CommandLineApplication {
+
     private final CommandReader commandReader;
     private final SystemWriter commandWriter;
 

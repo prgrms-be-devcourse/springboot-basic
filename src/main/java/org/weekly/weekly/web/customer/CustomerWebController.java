@@ -19,7 +19,7 @@ import org.weekly.weekly.web.exception.WebExceptionDto;
 @Controller
 @RequestMapping("/customer")
 public class CustomerWebController {
-    private final Logger logger = LoggerFactory.getLogger(CustomerWebController.class);
+
     private final CustomerService customerService;
 
     public CustomerWebController(CustomerService customerService) {

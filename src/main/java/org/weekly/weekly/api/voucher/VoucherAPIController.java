@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 public class VoucherAPIController {
+
     private final VoucherService voucherService;
 
     public VoucherAPIController(VoucherService voucherService) {

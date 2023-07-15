@@ -16,8 +16,8 @@ import org.weekly.weekly.web.exception.WebExceptionDto;
 @Controller
 @RequestMapping("/voucher")
 public class VoucherWebController {
-    private final VoucherService voucherService;
 
+    private final VoucherService voucherService;
 
     public VoucherWebController(VoucherService voucherService) {
         this.voucherService = voucherService;

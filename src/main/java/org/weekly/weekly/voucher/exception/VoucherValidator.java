@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.function.LongPredicate;
 
 public class VoucherValidator {
+
     private static final int RANGE_START = 0;
     private static final int RANGE_END = 100;
 

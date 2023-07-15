@@ -1,6 +1,7 @@
 package org.weekly.weekly.api.dto;
 
 public class ErrorResponse {
+
     private final String code;
     private final String message;
 

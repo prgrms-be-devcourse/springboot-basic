@@ -27,7 +27,7 @@ public class InputValidator {
     public static void notNumber(String[] userInputs) {
         try {
             Arrays.stream(userInputs)
-                    .peek(Long::parseLong);
+                    .forEach(Long::parseLong);
         } catch (NumberFormatException exception) {
             throw new InputException(ExceptionCode.NOT_INPUT_FORMAT);
         }

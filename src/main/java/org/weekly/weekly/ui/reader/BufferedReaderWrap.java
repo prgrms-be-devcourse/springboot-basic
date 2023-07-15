@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 @Component
 @ConditionalOnProperty(value = "command.read", havingValue = "buffer")
 public class BufferedReaderWrap implements CommandReader {
+
     private final BufferedReader bufferedReader;
 
     public BufferedReaderWrap() {

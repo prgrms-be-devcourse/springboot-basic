@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 
 public class CustomerResponse {
+
     String name;
     String email;
     LocalDateTime createAt;
