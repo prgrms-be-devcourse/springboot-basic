@@ -139,6 +139,7 @@ public class CommandLineApplication implements CommandLineRunner {
         switch (userCommand) {
             case CREATE -> createCustomer();
             case FIND_ID -> findByIdCustomer();
+            case FIND_NICKNAME -> findByNicknameCustomer();
         }
     }
 
@@ -154,5 +155,13 @@ public class CommandLineApplication implements CommandLineRunner {
 
         CustomerResponseDto customerResponseDto = customerService.findById(userCustomerId);
         voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
+    }
+
+    private void findByNicknameCustomer() {
+        String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME_MESSAGE);
+
+        CustomerResponseDto customerResponseDto = customerService.findByNickname(userNickname);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
+
     }
 }

@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.customer.repository;
 
 import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -23,7 +24,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private final RowMapper<Customer> customerRowMapper = (resultSet, i)
-            -> new Customer(toUUID(resultSet.getBytes(CUSTOMER_ID)), NICKNAME);
+            -> new Customer(toUUID(resultSet.getBytes(CUSTOMER_ID)), resultSet.getString(NICKNAME));
 
     private Map<String, Object> toParamMap(Customer customer) {
         return Map.of(
@@ -34,9 +35,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        int savedCustomerRow = jdbcTemplate.update(CustomerQuery.CREATE.getQuery(), toParamMap(customer));
-        if (savedCustomerRow != SUCCESS_SAVE_QUERY) {
-            throw new RuntimeException(FAILED_CUSTOMER_SAVE_QUERY.getMessage());
+        int savedCustomer;
+        try {
+            savedCustomer = jdbcTemplate.update(CustomerQuery.CREATE.getQuery(), toParamMap(customer));
+            if (savedCustomer != SUCCESS_SAVE_QUERY) {
+                throw new RuntimeException(FAILED_CUSTOMER_SAVE_QUERY.getMessage());
+            }
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateKeyException(DUPLICATE_NICKNAME.getMessage());
         }
 
         return customer;
@@ -57,8 +63,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByNickname(String nickname) {
-        return Optional.empty();
+    public Customer findByNickname(String nickname) {
+        Customer customer;
+        try {
+            customer = jdbcTemplate.queryForObject(CustomerQuery.FIND_NICKNAME.getQuery(),
+                    Collections.singletonMap(NICKNAME, nickname),
+                    customerRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            throw new RuntimeException(CUSTOMER_NICKNAME_LOOKUP_FAILED.getMessage());
+        }
+
+        return customer;
     }
 
     @Override

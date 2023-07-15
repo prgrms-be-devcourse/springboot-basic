@@ -10,6 +10,7 @@ import static org.prgrms.kdtspringdemo.customer.exception.CustomerExceptionMessa
 public enum CustomerQuery {
     CREATE("INSERT INTO customer(customer_id, nickname) VALUES(UUID_TO_BIN(:customer_id), :nickname)"),
     FIND_ID("SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)"),
+    FIND_NICKNAME("SELECT * FROM customer WHERE nickname = :nickname"),
     ;
     private static final Logger logger = LoggerFactory.getLogger(CustomerQuery.class);
 

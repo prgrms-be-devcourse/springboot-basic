@@ -3,7 +3,6 @@ package org.prgrms.kdtspringdemo.customer.repository;
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
@@ -11,7 +10,7 @@ public interface CustomerRepository {
 
     Customer findById(UUID customerId);
 
-    Optional<Customer> findByNickname(String nickname);
+    Customer findByNickname(String nickname);
 
     List<Customer> findAll();
 

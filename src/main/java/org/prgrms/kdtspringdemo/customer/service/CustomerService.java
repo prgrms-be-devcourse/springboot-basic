@@ -5,6 +5,7 @@ import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,6 +24,11 @@ public class CustomerService {
 
     public CustomerResponseDto findById(UUID customerID) {
         Customer customer = customerRepository.findById(customerID);
+        return CustomerResponseDto.toDto(customer.getCustomerId(), customer.getNickname());
+    }
+
+    public CustomerResponseDto findByNickname(String nickname) {
+        Customer customer = customerRepository.findByNickname(nickname);
         return CustomerResponseDto.toDto(customer.getCustomerId(), customer.getNickname());
     }
 }
