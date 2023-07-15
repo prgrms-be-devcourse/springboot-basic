@@ -1,5 +1,6 @@
 package com.devcourse.voucher.domain.repository;
 
+import com.devcourse.global.util.Query;
 import com.devcourse.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,10 +13,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.devcourse.global.util.Query.Table.*;
+
 @Component
 @Profile("dev")
 class JdbcVoucherRepository implements VoucherRepository {
-    private static final RowMapper<Voucher> voucherMapper = (resultSet, resultNumber) -> {
+    private final RowMapper<Voucher> voucherMapper = (resultSet, resultNumber) -> {
         UUID id = UUID.fromString(resultSet.getString("id"));
         int discount = Integer.parseInt(resultSet.getString("discount"));
         LocalDateTime expiredAt = resultSet.getTimestamp("expired_at").toLocalDateTime();
@@ -32,7 +35,12 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        jdbcTemplate.update("INSERT INTO vouchers(id, discount, expired_at, type, status) VALUES (?, ?, ?, ?, ?)",
+        String sql = Query.builder()
+                .insertInto(VOUCHERS)
+                .values("id", "discount", "expired_at", "type", "status")
+                .build();
+
+        jdbcTemplate.update(sql,
                 voucher.id(),
                 voucher.discount(),
                 voucher.expireAt(),
@@ -44,15 +52,24 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("SELECT * FROM vouchers", voucherMapper);
+        String sql = Query.builder()
+                .select("*")
+                .from(VOUCHERS)
+                .build();
+
+        return jdbcTemplate.query(sql, voucherMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
+        String sql = Query.builder()
+                .select("*")
+                .from(VOUCHERS)
+                .where("id")
+                .build();
+
         try {
-            return Optional.of(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE id = ?",
-                    voucherMapper,
-                    id.toString()));
+            return Optional.of(jdbcTemplate.queryForObject(sql, voucherMapper, id.toString()));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -60,7 +77,11 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID id) {
-        jdbcTemplate.update("DELETE FROM vouchers WHERE id = ?",
-                id.toString());
+        String sql = Query.builder()
+                .deleteFrom(VOUCHERS)
+                .where("id")
+                .build();
+
+        jdbcTemplate.update(sql, id.toString());
     }
 }
