@@ -23,10 +23,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String SAVE = "INSERT INTO customers(id, username, customer_type) VALUES(:id, :username, " +
             ":customerType)";
     private static final String FIND_BY_ID = "SELECT * FROM customers WHERE id = :id";
+
+    private static final String FIND_BY_USERNAME = "SELECT * FROM customers WHERE username = :username";
+
+    private static final String FIND_BY_VOUCHER_ID = "SELECT c.* FROM customers c INNER JOIN vouchers v ON c" +
+            ".id = v.id WHERE v.id = :id";
+
     private static final String FIND_ALL = "SELECT * FROM customers";
     private static final String UPDATE = "UPDATE customers SET username = :username, customer_type = :customerType " +
             "WHERE id = :id";
     private static final String DELETE_ALL = "DELETE FROM customers";
+
+    private static final String DELETE_BY_ID = "DELETE FROM customers WHERE id = :id";
+
 
     @Override
     public Customer save(Customer customer) {
@@ -47,7 +56,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            Map<String, Object> param = Map.of("customerId", customerId);
+            //MySQL db에서 UUID 타입을 지원하지 않아 VARCHAR(36)으로 지정했기 때문에 id값을 못찾는 경우 발생
+            //String.valueOf를 사용
+            Map<String, Object> param = Map.of("id", String.valueOf(customerId));
             Customer customer = JdbcTemplate.queryForObject(FIND_BY_ID, param, CustomerUtils.customerRowMapper);
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
@@ -71,5 +82,35 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteAll() {
         JdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
 
+    }
+
+    @Override
+    public Optional<Customer> findByUsername(String username) {
+        try {
+            Map<String, Object> param = Map.of("username", username);
+            Customer customer = JdbcTemplate.queryForObject(FIND_BY_USERNAME, param, CustomerUtils.customerRowMapper);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            log.error("해당 유저이름을 찾을 수 없습니다. " + username);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> findByVoucherId(UUID voucherId) {
+        try {
+            Map<String, Object> param = Map.of("id", String.valueOf(voucherId));
+            Customer customer = JdbcTemplate.queryForObject(FIND_BY_VOUCHER_ID, param, CustomerUtils.customerRowMapper);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            log.error("해당 바우처를 가진 고객을 찾을 수 없습니다. => voucherId: " + voucherId);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        Map<String, Object> param = Map.of("id", String.valueOf(customerId));
+        JdbcTemplate.update(DELETE_BY_ID, param);
     }
 }
