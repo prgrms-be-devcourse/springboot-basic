@@ -48,11 +48,9 @@ class JdbcWalletRepositoryTest {
 
     @BeforeEach
     void clean() {
-        newWallet = new Wallet(WALLET_ID,CUSTOMER_ID,VOUCHER_ID);
-
+        newWallet = new Wallet(WALLET_ID, CUSTOMER_ID, VOUCHER_ID);
         newCustomer = new Customer(CUSTOMER_ID, TEST_USER_NAME, TEST_USER_EMAIL, LocalDateTime.now());
         newCustomer.login(LocalDateTime.now());
-
         newFixVoucher = new FixedAmountVoucher(VOUCHER_ID, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
 
         jdbcWalletRepository.insert(newWallet);
@@ -120,7 +118,7 @@ class JdbcWalletRepositoryTest {
         when(dataRowMapper.getWalletRowMapper()).thenReturn((ResultSet rs, int rowNum) -> newWallet);
 
         //when
-        Wallet wallet = jdbcWalletRepository.deleteWithVoucherIdAndCustomerId(VOUCHER_ID,CUSTOMER_ID);
+        Wallet wallet = jdbcWalletRepository.deleteWithVoucherIdAndCustomerId(VOUCHER_ID, CUSTOMER_ID);
 
         //then
         assertThat(wallet.isDeleted(), is(true));

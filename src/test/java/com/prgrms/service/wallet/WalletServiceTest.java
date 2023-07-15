@@ -58,7 +58,7 @@ class WalletServiceTest {
     void setup() {
         MockitoAnnotations.openMocks(this);
         walletRequest = new WalletRequest(CUSTOMER_ID, VOUCHER_ID);
-        wallet = new Wallet(WALLET_ID,CUSTOMER_ID,VOUCHER_ID);
+        wallet = new Wallet(WALLET_ID, CUSTOMER_ID, VOUCHER_ID);
     }
 
     @Test
@@ -80,7 +80,7 @@ class WalletServiceTest {
     @DisplayName("사용자가 삭제하고자 하는 지갑 정보와 바우처를 삭제헤주는 서비스를 통해 삭제된 지갑 정보는 같다.")
     void takeVoucher_DeleteWallet_Equals() {
         //given
-        when(walletRepository.deleteWithVoucherIdAndCustomerId(VOUCHER_ID,CUSTOMER_ID)).thenReturn(wallet);
+        when(walletRepository.deleteWithVoucherIdAndCustomerId(VOUCHER_ID, CUSTOMER_ID)).thenReturn(wallet);
 
         //when
         Wallet result = walletService.takeVoucher(walletRequest);
@@ -95,9 +95,9 @@ class WalletServiceTest {
     void customerList_CustomerResponseList_Contains() {
         //given
         List<Customer> customers = new ArrayList<>();
-        Customer customer = new Customer(CUSTOMER_ID,TEST_USER_NAME,TEST_USER_EMAIL,CREATE_AT);
+        Customer customer = new Customer(CUSTOMER_ID, TEST_USER_NAME, TEST_USER_EMAIL, CREATE_AT);
         customers.add(customer);
-        List<CustomerResponse> customerResponses = List.of( new CustomerResponse(customer));
+        List<CustomerResponse> customerResponses = List.of(new CustomerResponse(customer));
 
 
         when(walletRepository.findAllCustomersByVoucher(VOUCHER_ID)).thenReturn(customers);

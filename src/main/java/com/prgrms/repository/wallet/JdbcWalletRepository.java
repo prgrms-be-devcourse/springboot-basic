@@ -1,5 +1,6 @@
 package com.prgrms.repository.wallet;
 
+import com.prgrms.exception.NotUpdateException;
 import com.prgrms.model.customer.Customer;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.Vouchers;
@@ -43,7 +44,7 @@ public class JdbcWalletRepository implements WalletRepository {
                 toParamMap(wallet));
 
         if (update != 1) {
-            throw new RuntimeException(ErrorMessage.NOT_UPDATE.getMessage());
+            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
         }
 
         return wallet;
@@ -56,7 +57,7 @@ public class JdbcWalletRepository implements WalletRepository {
                     Collections.singletonMap("walletId", walletId),
                     dataRowMapper.getWalletRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("데이터를 찾을 수 없습니다.", e);
+            logger.debug("데이터를 찾을 수 없습니다.", e);
             return Optional.empty();
         }
     }
@@ -69,13 +70,13 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<Customer> findAllCustomersByVoucher(int voucherId) {
-        List<Customer> customers = jdbcTemplate.query(FIND_ALL_WALLET_BY_VOUCHER_ID,Collections.singletonMap("voucherId", voucherId), dataRowMapper.getCustomerRowMapper());
+        List<Customer> customers = jdbcTemplate.query(FIND_ALL_WALLET_BY_VOUCHER_ID, Collections.singletonMap("voucherId", voucherId), dataRowMapper.getCustomerRowMapper());
         return customers;
     }
 
     @Override
     public Vouchers findAllVouchersByCustomer(int customerId) {
-        List<Voucher> vouchers = jdbcTemplate.query(FIND_ALL_WALLET_BY_CUSTOMER_ID,Collections.singletonMap("customerId", customerId), dataRowMapper.getVoucherRowMapper());
+        List<Voucher> vouchers = jdbcTemplate.query(FIND_ALL_WALLET_BY_CUSTOMER_ID, Collections.singletonMap("customerId", customerId), dataRowMapper.getVoucherRowMapper());
         return new Vouchers(vouchers);
     }
 
@@ -96,10 +97,10 @@ public class JdbcWalletRepository implements WalletRepository {
             );
 
             if (update != 1) {
-                throw new RuntimeException(ErrorMessage.NOT_UPDATE.getMessage());
+                throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
             }
         }
-        wallet.deleted();
+        wallet.markAsDeleted();
 
         return wallet;
     }

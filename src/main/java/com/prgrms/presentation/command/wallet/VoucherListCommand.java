@@ -24,7 +24,6 @@ public class VoucherListCommand implements Command {
 
     @Override
     public Power execute() {
-
         output.write(GuideMessage.WALLET_LIST.toString());
         int customerId = input.enterID();
 

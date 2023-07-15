@@ -13,7 +13,7 @@ public class Wallet {
         this.voucherId = voucherId;
     }
 
-    public boolean deleted() {
+    public boolean markAsDeleted() {
         return deleted = true;
     }
 

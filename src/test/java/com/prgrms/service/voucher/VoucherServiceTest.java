@@ -12,17 +12,20 @@ import com.prgrms.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 class VoucherServiceTest {
 
-    private final int ID = 1;
+    private final static int ID = 1;
     private final double DISCOUNT_AMOUNT = 20;
 
     @Mock
@@ -32,13 +35,10 @@ class VoucherServiceTest {
     @Mock
     private KeyGenerator keyGenerator;
     @Mock
-    VoucherCreator voucherCreator;
+    private VoucherCreator voucherCreator;
     @Mock
-    DiscountCreator discountCreator;
-
+    private DiscountCreator discountCreator;
     private VoucherService voucherService;
-
-
 
     @BeforeEach
     void setUp() {
@@ -61,7 +61,7 @@ class VoucherServiceTest {
 
 
         //when
-        Voucher result = voucherService.createVoucher(voucherType,DISCOUNT_AMOUNT);
+        Voucher result = voucherService.createVoucher(voucherType, DISCOUNT_AMOUNT);
 
         //then
         assertThat(result)
@@ -73,19 +73,14 @@ class VoucherServiceTest {
         verify(voucherRepository, times(1)).insert(createdVoucher);
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("몇 개의 바우처 정책을 List로 만들어 저장소에 저장한 결과와 getAllVocherList의 결과는 같다.")
-    void getAllVoucherList_RepositoryListVoucherList_Equals() {
+    @MethodSource("voucherProvider")
+    void getAllVoucherList_RepositoryListVoucherList_Equals(List<Voucher> list) {
         //given
-        Voucher createdVoucher1 = new FixedAmountVoucher(ID, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(ID, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
-
-        VoucherResponse voucherResponse1 = new VoucherResponse(createdVoucher1);
-        VoucherResponse voucherResponse2 = new VoucherResponse(createdVoucher2);
-
+        VoucherResponse voucherResponse1 = new VoucherResponse(list.get(0));
+        VoucherResponse voucherResponse2 = new VoucherResponse(list.get(1));
         List<VoucherResponse> expected = List.of(voucherResponse1, voucherResponse2);
-        List<Voucher> list = List.of(createdVoucher1, createdVoucher2);
-
         Vouchers voucherRegistry = new Vouchers(list);
 
         when(voucherRepository.getAllVoucher()).thenReturn(voucherRegistry);
@@ -99,6 +94,14 @@ class VoucherServiceTest {
                 .isNotNull()
                 .containsOnly(voucherResponse1, voucherResponse2);
         verify(voucherRepository, times(1)).getAllVoucher();
+    }
+
+    private static Stream<List<Voucher>> voucherProvider() {
+        Voucher createdVoucher1 = new FixedAmountVoucher(ID, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(ID, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        return Stream.of(
+                List.of(createdVoucher1, createdVoucher2)
+        );
     }
 
 }

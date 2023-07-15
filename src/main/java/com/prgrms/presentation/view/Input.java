@@ -2,26 +2,51 @@ package com.prgrms.presentation.view;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Component
-public class Input {
+public class Input implements AutoCloseable {
 
-    private final Scanner sc = new Scanner(System.in);
+    private final BufferedReader bufferedReader;
+
+    public Input() {
+        bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    }
 
     public String enterOption() {
-        String option = sc.nextLine();
-        sc.nextLine();
-        return option;
+        try {
+            return bufferedReader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int enterID() {
-        int option = sc.nextInt();
-        sc.nextLine();
-        return option;
+        try {
+            String input = bufferedReader.readLine();
+            return Integer.parseInt(input);
+        } catch (IOException | NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Double enterDiscount() {
-        return sc.nextDouble();
+        try {
+            String input = bufferedReader.readLine();
+            return Double.parseDouble(input);
+        } catch (IOException | NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void close() {
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

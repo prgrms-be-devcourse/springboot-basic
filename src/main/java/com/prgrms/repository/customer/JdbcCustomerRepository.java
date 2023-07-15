@@ -1,5 +1,6 @@
 package com.prgrms.repository.customer;
 
+import com.prgrms.exception.NotUpdateException;
 import com.prgrms.model.customer.Customer;
 import com.prgrms.presentation.message.ErrorMessage;
 import com.prgrms.repository.DataRowMapper;
@@ -49,7 +50,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :last_login_at WHERE customer_id = :customer_id",
                 toParamMap(customer));
         if (update != 1) {
-            throw new RuntimeException(ErrorMessage.NOT_UPDATE.getMessage());
+            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
         }
         return customer;
     }
@@ -65,7 +66,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     Collections.singletonMap("customer_id", customerId),
                     dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
+            logger.debug(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -77,7 +78,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     Collections.singletonMap("name", name),
                     dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
+            logger.debug(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -89,14 +90,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     Collections.singletonMap("email", email),
                     dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
+            logger.info(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
         }
-    }
-
-    @Override
-    public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
     }
 
     @Override
@@ -105,6 +101,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.queryForObject("SELECT 1 EXISTS(SELECT FROM vouchers WHERE voucher_id = :voucher_id)"
                 , Collections.singletonMap("voucher_id"
                         , voucher_id), Boolean.class);
+    }
+
+    private void deleteAll() {
+        jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
     }
 
 }

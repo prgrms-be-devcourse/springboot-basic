@@ -16,10 +16,8 @@ public interface WalletRepository {
     List<Customer> findAllCustomersByVoucher(int voucherId);
     Vouchers findAllVouchersByCustomer(int customerId);
 
-
     Wallet insert(Wallet wallet);
 
     Wallet deleteWithVoucherIdAndCustomerId(int voucherId, int customerId);
-
 
 }

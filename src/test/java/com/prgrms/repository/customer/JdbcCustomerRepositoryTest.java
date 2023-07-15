@@ -41,7 +41,6 @@ class JdbcCustomerRepositoryTest {
     void clean() {
         newCustomer = new Customer(ID, TEST_USER_NAME, TEST_USER_EMAIL, LocalDateTime.now());
         newCustomer.login(LocalDateTime.now());
-        jdbcCustomerRepository.deleteAll();
         jdbcCustomerRepository.insert(newCustomer);
     }
 
@@ -62,7 +61,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("데이터베이스에 몇 개의 데이터를 저장한 후 전체 고객을 조회한 결과는 빈 값을 반환하지 않는다.")
     void findAll_Customer_NotEmpty() {
-        // given
+        //given
         when(dataRowMapper.getCustomerRowMapper()).thenReturn((ResultSet rs, int rowNum) -> newCustomer);
 
         //when

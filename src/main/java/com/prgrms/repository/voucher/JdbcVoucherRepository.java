@@ -1,5 +1,6 @@
 package com.prgrms.repository.voucher;
 
+import com.prgrms.exception.NotUpdateException;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.Vouchers;
 import com.prgrms.presentation.message.ErrorMessage;
@@ -43,7 +44,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 toParamMap(voucher));
 
         if (update != 1) {
-            throw new RuntimeException(ErrorMessage.NOT_UPDATE.getMessage());
+            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
         }
 
         return voucher;
@@ -62,7 +63,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     Collections.singletonMap("voucher_id", voucher_id),
                     dataRowMapper.getVoucherRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
+            logger.debug(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
         }
     }

@@ -16847,3 +16847,4 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:711)
 	... 91 common frames omitted
+2023-07-15 20:50:53,646 ERROR [main] c.p.CommandLineApplication [CommandLineApplication.java:40] 사용자의 잘못된 입력이 발생하였습니다.

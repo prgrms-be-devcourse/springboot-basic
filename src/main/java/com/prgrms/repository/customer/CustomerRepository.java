@@ -19,8 +19,6 @@ public interface CustomerRepository {
 
     Optional<Customer> findByEmail(String email);
 
-    void deleteAll();
-
     boolean existsById(int voucher_id);
 
 }

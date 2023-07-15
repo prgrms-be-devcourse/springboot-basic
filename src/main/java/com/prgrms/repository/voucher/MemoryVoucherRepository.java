@@ -22,8 +22,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
-
-    @Override
     public Vouchers getAllVoucher() {
         return new Vouchers(storage.values()
                 .stream()
