@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetMemberListResponse {
-    private final List<GetMemberResponse> getMemberResponseList;
+    private final List<GetMemberResponse> memberResponses;
 
     public GetMemberListResponse(List<Member> members) {
-        this.getMemberResponseList = members
+        this.memberResponses = members
                 .stream()
                 .map(GetMemberResponse::toDto).collect(Collectors.toList());
     }
 
     public List<GetMemberResponse> getGetMemberListRes() {
-        return Collections.unmodifiableList(getMemberResponseList);
+        return Collections.unmodifiableList(memberResponses);
     }
 }

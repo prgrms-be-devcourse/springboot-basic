@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetVoucherListResponse {
-    private final List<GetVoucherResponse> getVoucherListRes;
+    private final List<GetVoucherResponse> voucherResponses;
 
     public GetVoucherListResponse(List<Voucher> vouchers) {
-       this.getVoucherListRes = vouchers
+        this.voucherResponses = vouchers
                 .stream()
                 .map(GetVoucherResponse::toDto)
                 .collect(Collectors.toList());
@@ -18,6 +18,6 @@ public class GetVoucherListResponse {
 
 
     public List<GetVoucherResponse> getGetVoucherListRes() {
-        return Collections.unmodifiableList(getVoucherListRes);
+        return Collections.unmodifiableList(voucherResponses);
     }
 }
