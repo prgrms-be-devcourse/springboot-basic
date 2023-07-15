@@ -1,6 +1,6 @@
 package com.example.demo.domain.voucher;
 
-import com.example.demo.util.VoucherType;
+import com.example.demo.util.VoucherDiscountType;
 import java.util.UUID;
 import lombok.Getter;
 
@@ -23,7 +23,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return VoucherType.FIX;
+    public VoucherDiscountType getVoucherType() {
+        return VoucherDiscountType.FIX;
     }
 }

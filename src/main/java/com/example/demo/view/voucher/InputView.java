@@ -1,29 +1,43 @@
 package com.example.demo.view.voucher;
 
-import com.example.demo.util.CommandType;
-import com.example.demo.util.VoucherType;
+import com.example.demo.util.VoucherCommandType;
+import com.example.demo.util.VoucherDiscountType;
 import com.example.demo.view.validate.CommandValidator;
 import com.example.demo.view.validate.NumberValidator;
 import java.util.Scanner;
+import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InputView {
 
+    private static final Logger logger = LoggerFactory.getLogger(InputView.class);
     public static Scanner sc = new Scanner(System.in);
 
-    public CommandType readCommandOption() {
+    public VoucherCommandType readVoucherCommandOption() {
         String input = sc.nextLine();
-        CommandValidator.validateCommandNumber(input);
-        return CommandType.from(Integer.parseInt(input));
+        CommandValidator.validateCommandNumberOneToFour(input);
+        return VoucherCommandType.from(Integer.parseInt(input));
     }
 
-    public VoucherType readVoucherOption() {
-        return VoucherType.from(sc.nextLine());
+    public VoucherDiscountType readVoucherDiscountOption() {
+        return VoucherDiscountType.from(sc.nextLine());
     }
 
-    public int readVoucherAmount(VoucherType voucherType) {
+    public int readVoucherAmount(VoucherDiscountType voucherDiscountType) {
         String input = sc.nextLine();
-        NumberValidator.validateAmount(voucherType, input);
+        NumberValidator.validateAmount(voucherDiscountType, input);
 
         return Integer.parseInt(input);
+    }
+
+    public UUID readVoucherId() {
+        String input = sc.nextLine();
+        try {
+            return UUID.fromString(input);
+        } catch (IllegalArgumentException e) {
+            logger.error("View 에러 : 올바르지 않은 포맷의 UUID를 입력 받았습니다. 입력 값 {} 를 UUID 포맷에 맞추어 고쳐주세요.", input);
+            throw new IllegalArgumentException(String.format("올바르지 않은 포맷의 UUID를 입력 받았습니다. 입력 값 %s 를 UUID 포맷에 맞추어 고쳐주세요.", input));
+        }
     }
 }

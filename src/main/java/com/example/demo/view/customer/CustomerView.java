@@ -1,6 +1,7 @@
 package com.example.demo.view.customer;
 
 import com.example.demo.dto.CustomerDto;
+import com.example.demo.util.CustomerCommandType;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,11 @@ public class CustomerView {
     public CustomerView() {
         this.inputView = new InputView();
         this.outputView = new OutputView();
+    }
+
+    public CustomerCommandType readCommandOption() {
+        outputView.printCommandOptionMessage();
+        return inputView.readCommandOption();
     }
 
     public UUID readCustomerId() {

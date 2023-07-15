@@ -1,6 +1,6 @@
 package com.example.demo.domain.voucher;
 
-import com.example.demo.util.VoucherType;
+import com.example.demo.util.VoucherDiscountType;
 import java.util.UUID;
 
 public interface Voucher {
@@ -11,5 +11,5 @@ public interface Voucher {
 
     double getDiscountAmount();
 
-    VoucherType getVoucherType();
+    VoucherDiscountType getVoucherType();
 }

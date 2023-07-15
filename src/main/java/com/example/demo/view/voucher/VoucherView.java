@@ -1,9 +1,10 @@
 package com.example.demo.view.voucher;
 
 import com.example.demo.dto.VoucherDto;
-import com.example.demo.util.CommandType;
-import com.example.demo.util.VoucherType;
+import com.example.demo.util.VoucherCommandType;
+import com.example.demo.util.VoucherDiscountType;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,19 +18,24 @@ public class VoucherView {
         this.outputView = new OutputView();
     }
 
-    public CommandType readCommandOption() {
-        outputView.printCommandOptionMessage();
-        return inputView.readCommandOption();
+    public VoucherCommandType readVoucherCommandOption() {
+        outputView.printVoucherCommandOptionMessage();
+        return inputView.readVoucherCommandOption();
     }
 
-    public VoucherType readVoucherOption() {
+    public UUID readVoucherId() {
+        outputView.printVoucherIdMessage();
+        return inputView.readVoucherId();
+    }
+
+    public VoucherDiscountType readVoucherDiscountOption() {
         outputView.printVoucherOptionMessage();
-        return inputView.readVoucherOption();
+        return inputView.readVoucherDiscountOption();
     }
 
-    public int readVoucherAmount(VoucherType voucherType) {
-        outputView.printVoucherAmountInfoMessage(voucherType);
-        return inputView.readVoucherAmount(voucherType);
+    public int readVoucherAmount(VoucherDiscountType voucherDiscountType) {
+        outputView.printVoucherAmountInfoMessage(voucherDiscountType);
+        return inputView.readVoucherAmount(voucherDiscountType);
     }
 
     public void printCreateMessage(VoucherDto voucherDto) {
@@ -38,5 +44,13 @@ public class VoucherView {
 
     public void printVoucherList(List<VoucherDto> list) {
         outputView.printVoucherList(list);
+    }
+
+    public void printUpdateMessage() {
+        outputView.printUpdateMessage();
+    }
+
+    public void printDeleteMessage() {
+        outputView.printDeleteMessage();
     }
 }

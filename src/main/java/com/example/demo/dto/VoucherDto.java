@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.domain.voucher.Voucher;
-import com.example.demo.util.VoucherType;
+import com.example.demo.util.VoucherDiscountType;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +12,10 @@ public class VoucherDto {
 
     private final UUID id;
     private final double discountAmount;
-    private final VoucherType voucherType;
+    private final VoucherDiscountType voucherDiscountType;
 
     public String formatAsString() {
-        return switch (voucherType) {
+        return switch (voucherDiscountType) {
             case FIX -> String.format("    Fixed Voucher, Discount Amount: %.0f (바우처 ID : %s)", discountAmount, id.toString());
             case PERCENT -> String.format("    Percent Voucher, Discount percent Amount: %.0f (바우처 ID : %s)", discountAmount, id.toString());
             default -> throw new IllegalArgumentException("잘 못된 바우처 타입입니다.");

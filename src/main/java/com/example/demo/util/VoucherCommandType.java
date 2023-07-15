@@ -6,24 +6,19 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum CommandType {
-
+public enum VoucherCommandType {
     CREATE_VOUCHER(1),
     PRINT_VOUCHER_LIST(2),
-    CREATE_CUSTOMER(3),
-    PRINT_CUSTOMER_LIST(4),
-    UPDATE_CUSTOMER(5),
-    DELETE_CUSTOMER(6),
-    EXIT(7);
-
+    UPDATE_VOUCHER_AMOUNT(3),
+    DELETE_VOUCHER(4);
 
     private final int commandNum;
 
-    private static final Map<Integer, CommandType> COMMAND_TYPE_MAP =
+    private static final Map<Integer, VoucherCommandType> COMMAND_TYPE_MAP =
             Collections.unmodifiableMap(Stream.of(values())
-                    .collect(Collectors.toMap(CommandType::getCommandNum, Function.identity())));
+                    .collect(Collectors.toMap(VoucherCommandType::getCommandNum, Function.identity())));
 
-    CommandType(int commandNum) {
+    VoucherCommandType(int commandNum) {
         this.commandNum = commandNum;
     }
 
@@ -31,10 +26,11 @@ public enum CommandType {
         return commandNum;
     }
 
-    public static CommandType from(Integer input) {
+    public static VoucherCommandType from(Integer input) {
         if (COMMAND_TYPE_MAP.containsKey(input)) {
             return COMMAND_TYPE_MAP.get(input);
         }
-        throw new IllegalArgumentException("입력하신 " + input + "는 유효한 커멘드가 아닙니다. \n 1 ~ 7 사이 숫자를 입력하세요.\n");
+        throw new IllegalArgumentException("입력하신 " + input + "는 유효한 커멘드가 아닙니다. \n 1 ~ 4 사이 숫자를 입력하세요.\n");
     }
+
 }

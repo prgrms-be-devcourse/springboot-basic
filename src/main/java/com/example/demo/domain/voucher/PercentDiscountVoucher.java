@@ -1,6 +1,6 @@
 package com.example.demo.domain.voucher;
 
-import com.example.demo.util.VoucherType;
+import com.example.demo.util.VoucherDiscountType;
 import java.util.UUID;
 import lombok.Getter;
 
@@ -21,7 +21,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return VoucherType.PERCENT;
+    public VoucherDiscountType getVoucherType() {
+        return VoucherDiscountType.PERCENT;
     }
 }

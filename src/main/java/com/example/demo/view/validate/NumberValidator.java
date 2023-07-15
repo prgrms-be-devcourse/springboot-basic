@@ -1,6 +1,6 @@
 package com.example.demo.view.validate;
 
-import com.example.demo.util.VoucherType;
+import com.example.demo.util.VoucherDiscountType;
 import java.util.regex.Pattern;
 
 public final class NumberValidator {
@@ -12,14 +12,14 @@ public final class NumberValidator {
     private NumberValidator() {
     }
 
-    public static void validateAmount(VoucherType voucherType, String input) {
-        switch (voucherType) {
+    public static void validateAmount(VoucherDiscountType voucherDiscountType, String input) {
+        switch (voucherDiscountType) {
             case FIX -> NumberValidator.validatePositiveNumber(input);
             case PERCENT -> {
                 NumberValidator.validatePositiveNumber(input);
                 NumberValidator.validatePercentageNumber(input);
             }
-            default -> throw new IllegalArgumentException(String.format("입력하신 %s는 유효한 바우처 타입이 아닙니다.", voucherType.name()));
+            default -> throw new IllegalArgumentException(String.format("입력하신 %s는 유효한 바우처 타입이 아닙니다.", voucherDiscountType.name()));
         }
     }
 

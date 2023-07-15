@@ -20,12 +20,12 @@ public class CustomerController {
         return customerService.save(name, age);
     }
 
-    public CustomerDto read(UUID id) {
-        return customerService.read(id);
-    }
-
     public List<CustomerDto> readList() {
         return customerService.readAll();
+    }
+
+    public CustomerDto read(UUID id) {
+        return customerService.read(id);
     }
 
     public void updateName(UUID id, String name) {
@@ -33,7 +33,7 @@ public class CustomerController {
         customerService.updateName(id, name);
     }
 
-    public void deleteById(UUID id) {
+    public void delete(UUID id) {
         customerService.deleteById(id);
     }
 }

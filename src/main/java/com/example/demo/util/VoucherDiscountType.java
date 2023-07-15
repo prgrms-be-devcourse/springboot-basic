@@ -1,13 +1,13 @@
 package com.example.demo.util;
 
-public enum VoucherType {
+public enum VoucherDiscountType {
     FIX("    할인 금액을 입력해주세요 >> "),
     PERCENT("    1 이상 100 이하로 입력해주세요.\n    할인 비율을 입력해주세요 >> ");
 
 
     private final String voucherAmountInfoMessage;
 
-    VoucherType(String voucherAmountInfoMessage) {
+    VoucherDiscountType(String voucherAmountInfoMessage) {
         this.voucherAmountInfoMessage = voucherAmountInfoMessage;
     }
 
@@ -15,7 +15,7 @@ public enum VoucherType {
         return voucherAmountInfoMessage;
     }
 
-    public static VoucherType from(String input) {
+    public static VoucherDiscountType from(String input) {
         try {
             return valueOf(input.toUpperCase());
         } catch (IllegalArgumentException e) {
