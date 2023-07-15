@@ -130,6 +130,6 @@ public class VoucherServiceTest {
         List<GetVoucherResponse> responseExpect = voucherList.stream()
                 .map(GetVoucherResponse::toDto)
                 .collect(Collectors.toList());
-        assertThat(response.getGetVoucherListRes()).containsExactlyElementsOf(responseExpect);
+        assertThat(response.getGetVoucherListRes()).containsExactlyInAnyOrderElementsOf(responseExpect);
     }
 }

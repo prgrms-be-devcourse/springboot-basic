@@ -46,7 +46,7 @@ public class JdbcMemberRepositoryTest {
         Member memberExpect = memberRepository.findById(blackMember.getMemberUUID()).get();
 
         //then
-        assertThat(memberExpect).isEqualTo(blackMember);
+        assertThat(memberExpect).usingRecursiveComparison().isEqualTo(blackMember);
     }
 
     @Order(2)
@@ -61,7 +61,7 @@ public class JdbcMemberRepositoryTest {
         Member memberExpect = memberRepository.findById(whiteMember.getMemberUUID()).get();
 
         //then
-        assertThat(memberExpect).isEqualTo(whiteMember);
+        assertThat(memberExpect).usingRecursiveComparison().isEqualTo(whiteMember);
     }
 
     @Order(3)
@@ -77,7 +77,7 @@ public class JdbcMemberRepositoryTest {
         Member memberExpect = memberRepository.findById(whiteMember.getMemberUUID()).get();
 
         //then
-        assertThat(memberExpect).isEqualTo(whiteMember);
+        assertThat(memberExpect).usingRecursiveComparison().isEqualTo(whiteMember);
     }
 
     @Order(4)
@@ -107,7 +107,7 @@ public class JdbcMemberRepositoryTest {
         Member memberExpect = memberRepository.findById(findMemberId).get();
 
         //then
-        assertThat(memberExpect).isEqualTo(blackMember);
+        assertThat(memberExpect).usingRecursiveComparison().isEqualTo(blackMember);
     }
 
     @Order(7)

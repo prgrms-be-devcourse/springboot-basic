@@ -45,7 +45,7 @@ public class JdbcVoucherRepositoryTest {
         Voucher voucherExpect = voucherRepository.findById(percentVoucher.getVoucherId()).get();
 
         //then
-        assertThat(voucherExpect).isEqualTo(percentVoucher);
+        assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(percentVoucher);
     }
 
     @Order(2)
@@ -60,7 +60,7 @@ public class JdbcVoucherRepositoryTest {
         Voucher voucherExpect = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
 
         //then
-        assertThat(voucherExpect).isEqualTo(fixedVoucher);
+        assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(fixedVoucher);
     }
 
     @Order(3)
@@ -76,7 +76,7 @@ public class JdbcVoucherRepositoryTest {
         Voucher voucherExpect = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
 
         //then
-        assertThat(voucherExpect).isEqualTo(fixedVoucher);
+        assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(fixedVoucher);
     }
 
     @Order(4)
@@ -92,7 +92,7 @@ public class JdbcVoucherRepositoryTest {
         Voucher voucherExpect = voucherRepository.findById(percentVoucher.getVoucherId()).get();
 
         //then
-        assertThat(voucherExpect).isEqualTo(percentVoucher);
+        assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(percentVoucher);
     }
 
 
@@ -107,7 +107,7 @@ public class JdbcVoucherRepositoryTest {
         Voucher voucherExpect = voucherRepository.findById(findVoucherId).get();
 
         //then
-        assertThat(voucherExpect).isEqualTo(percentVoucher);
+        assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(percentVoucher);
     }
 
     @Order(6)
@@ -140,7 +140,7 @@ public class JdbcVoucherRepositoryTest {
 
         //2. 데이터베이스에 없는 값인지 확인
         Optional<Voucher> optionalVoucher = voucherRepository.findById(deleteVoucherId);
-        assertThat(optionalVoucher).isEqualTo(Optional.empty());
+        assertThat(optionalVoucher).usingRecursiveComparison().isEqualTo(Optional.empty());
 
     }
 }

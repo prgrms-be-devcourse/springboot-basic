@@ -93,7 +93,7 @@ public class MemberServiceTest {
                 .collect(Collectors.toList());
 
         assertThat(response).isNotNull();
-        assertThat(response.getGetMemberListRes()).containsExactlyElementsOf(responseExpect);
+        assertThat(response.getGetMemberListRes()).usingRecursiveComparison().isEqualTo(responseExpect);
     }
 
     @Test
@@ -120,6 +120,6 @@ public class MemberServiceTest {
                 .collect(Collectors.toList());
 
         assertThat(response).isNotNull();
-        assertThat(response.getGetMemberListRes()).containsExactlyElementsOf(responseExpect);
+        assertThat(response.getGetMemberListRes()).usingRecursiveComparison().isEqualTo(responseExpect);
     }
 }
