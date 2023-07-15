@@ -8,4 +8,6 @@ public interface Input {
 
   int readVoucherAmount();
 
+  String readCustomer();
+
 }

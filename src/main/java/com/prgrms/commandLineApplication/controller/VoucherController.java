@@ -1,27 +1,26 @@
 package com.prgrms.commandLineApplication.controller;
 
+import com.prgrms.commandLineApplication.execute.CustomerExecution;
+import com.prgrms.commandLineApplication.execute.VoucherExecution;
 import com.prgrms.commandLineApplication.io.Console;
 import com.prgrms.commandLineApplication.io.MenuType;
-import com.prgrms.commandLineApplication.service.VoucherService;
-import com.prgrms.commandLineApplication.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
 public class VoucherController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(VoucherController.class);
-
-  private final VoucherService voucherService;
+  private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+  private final VoucherExecution voucherExecution;
+  private final CustomerExecution customerExecution;
   private final Console console;
 
-  public VoucherController(VoucherService voucherService, Console console) {
-    this.voucherService = voucherService;
+  public VoucherController(VoucherExecution voucherExecution, CustomerExecution customerExecution, Console console) {
+    this.voucherExecution = voucherExecution;
+    this.customerExecution = customerExecution;
     this.console = console;
   }
 
@@ -37,33 +36,19 @@ public class VoucherController {
 
         switch (menuType) {
           case EXIT -> isRunning = false;
-          case LIST -> list();
-          case CREATE -> create();
+          case VOUCHER_LIST -> voucherExecution.printList();
+          case CREATE_VOUCHER -> voucherExecution.create();
+          case CUSTOMER_LIST -> customerExecution.printList();
+          case CREATE_CUSTOMER -> customerExecution.create();
         }
       } catch (IllegalArgumentException e) {
-        LOGGER.error("Error Message => {}", e.getMessage());
+        logger.error("Error Message => {}", e.getMessage(), e);
         console.printErrorMessage(e);
       } catch (NoSuchElementException e) {
-        LOGGER.warn("Warn Message => {}", e.getMessage());
+        logger.warn("Warn Message => {}", e.getMessage(), e);
         console.printErrorMessage(e);
       }
     }
-  }
-
-  private void list() {
-    List<Voucher> list = voucherService.findAllVouchers();
-    console.printAllVoucher(list);
-  }
-
-  private void create() {
-    console.requestVoucherType();
-    String voucherType = console.readVoucherType();
-
-    console.requestDiscountAmount();
-    int discountAmount = console.readVoucherAmount();
-
-    voucherService.create(voucherType, discountAmount);
-    console.printCreateSuccess(voucherType, discountAmount);
   }
 
 }

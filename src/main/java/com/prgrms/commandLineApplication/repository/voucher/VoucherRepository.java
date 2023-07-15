@@ -1,4 +1,4 @@
-package com.prgrms.commandLineApplication.repository;
+package com.prgrms.commandLineApplication.repository.voucher;
 
 import com.prgrms.commandLineApplication.voucher.Voucher;
 
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-  void save(Voucher voucher);
+  Voucher save(Voucher voucher);
 
   List<Voucher> findAll();
 

@@ -22,7 +22,7 @@ class CustomerTest {
   @ParameterizedTest
   @CsvSource(value = {"qkrdmswl1018naver.com|박은지", "test@gma@$il.com|사용자1", "em!$ail@navercom|사용자2"}, delimiter = '|')
   @DisplayName("이메일 형식이 맞지 않을 경우 예외가 발생한다.")
-  void emailFormat_ErrorSuccess(String email, String name) {
+  void emailFormat_ThrowException(String email, String name) {
     Assertions.assertThatThrownBy(() -> Customer.of(UUID.randomUUID(), email, name))
             .isInstanceOf(IllegalArgumentException.class);
 
