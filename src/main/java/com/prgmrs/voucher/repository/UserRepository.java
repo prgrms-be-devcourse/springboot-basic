@@ -1,9 +1,9 @@
 package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.model.User;
-import com.prgmrs.voucher.model.Voucher;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserRepository {
     void save(User user);
@@ -14,5 +14,5 @@ public interface UserRepository {
 
     List<User> getUserListWithVoucherAssigned();
 
-    User getUserByVoucherId(Voucher voucher);
+    User getUserByVoucherId(UUID voucherId);
 }

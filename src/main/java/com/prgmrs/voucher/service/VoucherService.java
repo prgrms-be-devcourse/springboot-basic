@@ -83,6 +83,5 @@ public class VoucherService {
 
     public VoucherListResponse getAssignedVoucherList() {
         return new VoucherListResponse(voucherRepository.getAssignedVoucherList());
-
     }
 }

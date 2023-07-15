@@ -62,8 +62,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String sql = """
                          SELECT
                            v.voucher_id, v.discount_type, v.discount_value
-                         FROM `voucher` v 
-                           INNER JOIN `wallet` w ON v.voucher_id = w.voucher_id 
+                         FROM `voucher` v
+                           INNER JOIN `wallet` w ON v.voucher_id = w.voucher_id
                                INNER JOIN `user` u ON w.user_id = u.user_id
                          WHERE  u.username = :username
                            AND w.unassigned_time IS NULL
@@ -115,7 +115,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static RowMapper<Voucher> toRowMapper() {
         return (rs, rowNum) -> {
-            UUID voucherId = UUID.fromString(rs.getString("voucher_id").toString());
+            UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
             long discountValue = rs.getLong("discount_value");
 
             DiscountStrategy discountStrategy;

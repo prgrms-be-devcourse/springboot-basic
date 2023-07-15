@@ -58,7 +58,7 @@ public class UserService {
         int convertedOrder = Integer.parseInt(order);
         Voucher voucher = voucherList.get(convertedOrder - 1);
 
-        User user = userRepository.getUserByVoucherId(voucher);
+        User user = userRepository.getUserByVoucherId(voucher.voucherId());
 
         return new UserResponse(user);
     }

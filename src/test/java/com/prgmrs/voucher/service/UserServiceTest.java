@@ -134,7 +134,7 @@ class UserServiceTest {
         String username = "tyler";
         User user = new User(userUuid, username);
         UserListRequest userListRequest = new UserListRequest("1", Arrays.asList(voucher));
-        given(userRepository.getUserByVoucherId(voucher)).willReturn(user);
+        given(userRepository.getUserByVoucherId(voucher.voucherId())).willReturn(user);
 
         // When
         UserResponse userResponse = userService.getUserByVoucherId(userListRequest);
@@ -143,6 +143,6 @@ class UserServiceTest {
         User retrievedUser = userResponse.user();
         assertThat(retrievedUser.userId()).isEqualTo(user.userId());
         assertThat(retrievedUser.username()).isEqualTo(user.username());
-        verify(userRepository, times(1)).getUserByVoucherId(voucher);
+        verify(userRepository, times(1)).getUserByVoucherId(voucher.voucherId());
     }
 }

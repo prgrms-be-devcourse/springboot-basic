@@ -178,8 +178,8 @@ class JdbcUserRepositoryTest {
         walletRepository.save(wallet2);
 
         // When
-        User userWithVoucher1 = userRepository.getUserByVoucherId(voucher1);
-        User userWithVoucher2 = userRepository.getUserByVoucherId(voucher2);
+        User userWithVoucher1 = userRepository.getUserByVoucherId(voucher1.voucherId());
+        User userWithVoucher2 = userRepository.getUserByVoucherId(voucher2.voucherId());
 
 
         // Then

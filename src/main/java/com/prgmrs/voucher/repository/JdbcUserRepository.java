@@ -1,7 +1,6 @@
 package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.model.User;
-import com.prgmrs.voucher.model.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -63,17 +62,18 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public User getUserByVoucherId(Voucher voucher) {
+    public User getUserByVoucherId(UUID voucherId) {
         String sql = """
                     SELECT
                         u.user_id, u.username
                     FROM `user` u
                         INNER JOIN `wallet` w ON u.user_id = w.user_id
                     WHERE w.voucher_id = :voucher_id
+                        AND w.unassigned_time IS NULL
                 """;
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucher_id", voucher.voucherId().toString());
+        paramMap.put("voucher_id", voucherId.toString());
 
         return jdbcTemplate.queryForObject(sql, paramMap, toRowMapper());
     }
