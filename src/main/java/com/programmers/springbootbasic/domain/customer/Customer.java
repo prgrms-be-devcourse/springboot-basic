@@ -11,7 +11,7 @@ public class Customer {
     private String name;
 
     public Customer(UUID customerId, String email, String name) {
-        checkInvalidValue();
+        checkInvalidValue(customerId, email, name);
         this.customerId = customerId;
         this.email = email;
         this.name = name;
@@ -29,7 +29,7 @@ public class Customer {
         return name;
     }
 
-    private void checkInvalidValue() {
+    private void checkInvalidValue(UUID customerId, String email, String name) {
         Validator.checkNullUuid(customerId);
         Validator.checkNullOrBlank(email);
         Validator.checkNullOrBlank(name);
