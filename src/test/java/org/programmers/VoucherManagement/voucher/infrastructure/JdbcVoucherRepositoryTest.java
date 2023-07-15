@@ -4,9 +4,9 @@ import org.junit.jupiter.api.*;
 import org.programmers.VoucherManagement.voucher.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,19 +16,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @JdbcTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import(JdbcVoucherRepository.class)
 public class JdbcVoucherRepositoryTest {
 
+    @Autowired
     private JdbcVoucherRepository voucherRepository;
-
-    JdbcVoucherRepositoryTest(@Autowired DataSource dataSource) {
-        voucherRepository = new JdbcVoucherRepository(dataSource);
-    }
 
     private Voucher fixedVoucher;
     private Voucher percentVoucher;
 
     @BeforeAll
     void initVoucher() {
+        System.out.println(voucherRepository.getClass());
         fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000));
         percentVoucher = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
         voucherRepository.deleteAll();
