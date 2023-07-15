@@ -16,7 +16,7 @@ public class Output {
         }
 
         for (BlackConsumer blackConsumer : blackConsumerList) {
-            System.out.println(blackConsumer.name() + " " + blackConsumer.age());
+            System.out.println(blackConsumer.name() + " " + blackConsumer.email());
         }
     }
 
@@ -30,5 +30,9 @@ public class Output {
             System.out.println("상품권 종류 : 고정 가격 할인 상품권 " +
                     "할인 정보 :" + voucher.getDiscount());
         }
+    }
+
+    public void printAllCustomer(String name , String age) {
+        System.out.println("회원 이름 " + name + " 회원 이메일 " + age);
     }
 }
