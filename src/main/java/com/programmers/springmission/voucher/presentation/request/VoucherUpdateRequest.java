@@ -1,11 +1,15 @@
 package com.programmers.springmission.voucher.presentation.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@RequiredArgsConstructor
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class VoucherUpdateRequest {
 
-    private final long amount;
+    private long amount;
 }
