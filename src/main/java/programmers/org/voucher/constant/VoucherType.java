@@ -18,7 +18,7 @@ public enum VoucherType {
 
     public static VoucherType find(String type) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.name().equals(type.toUpperCase()))
+                .filter(voucherType -> voucherType.name().equalsIgnoreCase(type))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException(VOUCHER_ERROR_MESSAGE.getMessage()));
     }
