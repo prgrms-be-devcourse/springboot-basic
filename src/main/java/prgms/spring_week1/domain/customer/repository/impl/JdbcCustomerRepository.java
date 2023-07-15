@@ -42,6 +42,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }};
     }
 
+    private Map<String, Object> toEmailParamMap(String beforeUpdateEmail,String afterUpdateEmail) {
+        return new HashMap<>() {{
+            put("beforeUpdateEmail", beforeUpdateEmail);
+            put("afterUpdateEmail", afterUpdateEmail);
+        }};
+    }
+
     @Override
     public void insert(Customer customer) {
         var update = jdbcTemplate.update(CustomerManageSql.insertNewCustomerSQL,
@@ -74,4 +81,26 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }
     }
 
+    @Override
+    public void updateInfo(String beforeUpdateEmail,String afterUpdateEmail) {
+        var update = jdbcTemplate.update(CustomerManageSql.updateCustomerInfoSQL, toEmailParamMap(beforeUpdateEmail,afterUpdateEmail));
+
+        if (update != 1) {
+            logger.error("회원 정보를 찾을 수 없습니다.");
+        }
+    }
+
+    @Override
+    public void deleteByEmail(String email) {
+        var update = jdbcTemplate.update(CustomerManageSql.deleteByEmailSQL, Collections.singletonMap("Email", email));
+
+        if (update != 1) {
+            logger.error("회원 정보를 찾을 수 없습니다.");
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update(CustomerManageSql.deleteAllSQL, new HashMap<>());
+    }
 }
