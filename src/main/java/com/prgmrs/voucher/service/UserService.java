@@ -4,7 +4,6 @@ import com.prgmrs.voucher.dto.request.UserListRequest;
 import com.prgmrs.voucher.dto.request.UserRequest;
 import com.prgmrs.voucher.dto.response.UserListResponse;
 import com.prgmrs.voucher.dto.response.UserResponse;
-import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.model.validator.OrderValidator;
@@ -27,7 +26,7 @@ public class UserService {
         this.orderValidator = orderValidator;
     }
 
-    public UserResponse createUser(UserRequest userRequest) throws WrongRangeFormatException {
+    public UserResponse createUser(UserRequest userRequest) {
         String name = userRequest.username();
 
         userValidator.isValidNameFormat(name);

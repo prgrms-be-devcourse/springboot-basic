@@ -30,7 +30,7 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        String sql = "SELECT user_id, username FROM `user` ORDER BY created_at ASC";
+        String sql = "SELECT user_id, username FROM `user` ORDER BY created_at";
 
         return getUsers(sql);
     }
@@ -52,14 +52,28 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> getUserListWithVoucherAssigned() {
-        String sql = "SELECT DISTINCT u.user_id, u.username FROM `user` u JOIN wallet w ON u.user_id = w.user_id WHERE w.assigned_time IS NOT NULL AND w.unassigned_time IS NULL";
+        String sql = """
+                       SELECT
+                           DISTINCT u.user_id, u.username
+                       FROM `user` u
+                           JOIN `wallet` w ON u.user_id = w.user_id
+                       WHERE w.assigned_time IS NOT NULL
+                           AND w.unassigned_time IS NULL
+                """;
 
         return getUsers(sql);
     }
 
     @Override
     public User getUserByVoucherId(Voucher voucher) {
-        String sql = "SELECT u.user_id, u.username FROM `user` u JOIN wallet w ON u.user_id = w.user_id WHERE w.voucher_id = :voucher_id";
+        String sql = """
+                    SELECT
+                        u.user_id, u.username
+                    FROM `user` u
+                        JOIN `wallet` w ON u.user_id = w.user_id
+                    WHERE w.voucher_id = :voucher_id
+                """;
+
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucher_id", voucher.voucherId().toString());
@@ -76,6 +90,7 @@ public class JdbcUserRepository implements UserRepository {
         List<User> userList = new ArrayList<>();
 
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
+
         for (Map<String, Object> row : rows) {
             UUID userId = UUID.fromString(row.get("user_id").toString());
             String username = (String) row.get("username");

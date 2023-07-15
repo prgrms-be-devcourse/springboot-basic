@@ -57,7 +57,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAssignedVoucherListByUsername(String username) {
-        String sql = "SELECT v.voucher_id, v.discount_type, v.discount_value FROM `voucher` v JOIN `wallet` w ON v.voucher_id = w.voucher_id JOIN `user` u ON w.user_id = u.user_id WHERE  u.username = :username AND w.unassigned_time IS NULL ORDER BY v.created_at";
+        String sql = """
+                         SELECT
+                           v.voucher_id, v.discount_type, v.discount_value
+                         FROM `voucher` v 
+                           JOIN `wallet` w ON v.voucher_id = w.voucher_id 
+                               JOIN `user` u ON w.user_id = u.user_id
+                         WHERE  u.username = :username
+                           AND w.unassigned_time IS NULL
+                               ORDER BY v.created_at
+                """;
 
         Map<String, Object> paramMap = new HashMap<>();
 
@@ -70,7 +79,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAssignedVoucherList() {
-        String sql = "SELECT v.voucher_id, v.discount_type, v.discount_value FROM `voucher` v JOIN `wallet` w ON v.voucher_id = w.voucher_id WHERE w.unassigned_time IS NULL ORDER BY v.created_at";
+        String sql = """
+                        SELECT
+                            v.voucher_id, v.discount_type, v.discount_value
+                        FROM `voucher` v
+                            JOIN `wallet` w ON v.voucher_id = w.voucher_id
+                        WHERE w.unassigned_time IS NULL
+                            ORDER BY v.created_at
+                 """;
 
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
 
@@ -79,17 +95,22 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getNotAssignedVoucherList() {
-        String sql = "SELECT DISTINCT v.voucher_id, v.discount_type, v.discount_value " +
-                "FROM `voucher` v LEFT JOIN `wallet` w ON v.voucher_id = w.voucher_id " +
-                "WHERE w.voucher_id IS NULL " +
-                "OR (" +
-                "  v.voucher_id IN (" +
-                "    SELECT w.voucher_id" +
-                "    FROM `wallet` w " +
-                "    GROUP BY w.voucher_id" +
-                "    HAVING MAX(w.is_used) = 0 AND MAX(CASE WHEN w.unassigned_time IS NULL THEN 1 ELSE 0 END) = 0 " +
-        "  )" +
-                ")";
+        String sql = """
+                    SELECT
+                        DISTINCT v.voucher_id, v.discount_type, v.discount_value
+                    FROM `voucher` v
+                        LEFT JOIN `wallet` w ON v.voucher_id = w.voucher_id
+                    WHERE w.voucher_id IS NULL
+                        OR (v.voucher_id IN (SELECT
+                                                w.voucher_id
+                                             FROM `wallet` w
+                                                GROUP BY w.voucher_id
+                                                HAVING MAX(w.is_used) = 0
+                                                    AND MAX(CASE WHEN w.unassigned_time
+                                                                IS NULL THEN 1 ELSE 0 END) = 0
+                                            )
+                            )
+                """;
 
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
 

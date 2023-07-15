@@ -3,7 +3,6 @@ package com.prgmrs.voucher.service;
 import com.prgmrs.voucher.dto.request.WalletRequest;
 import com.prgmrs.voucher.dto.response.WalletResponse;
 import com.prgmrs.voucher.enums.WalletAssignmentSelectionType;
-import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.model.Wallet;
@@ -29,7 +28,7 @@ public class WalletService {
         this.walletRepository = walletRepository;
     }
 
-    public WalletResponse assignVoucher(WalletRequest walletRequest) throws WrongRangeFormatException {
+    public WalletResponse assignVoucher(WalletRequest walletRequest) {
         return performAssignmentOrRemoval(walletRequest, WalletAssignmentSelectionType.ASSIGN_VOUCHER);
     }
 

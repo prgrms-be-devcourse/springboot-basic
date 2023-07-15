@@ -32,7 +32,7 @@ public class VoucherService {
         this.voucherValidator = voucherValidator;
     }
 
-    public VoucherResponse createVoucher(VoucherRequest voucherRequest) throws WrongRangeFormatException {
+    public VoucherResponse createVoucher(VoucherRequest voucherRequest) {
         String token = voucherRequest.token();
         Optional<Long> convertedValue = voucherValidator.stringToLongConverter(token);
         VoucherSelectionType voucherSelectionType = voucherRequest.voucherSelectionType();
