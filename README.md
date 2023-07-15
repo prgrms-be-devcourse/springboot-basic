@@ -37,11 +37,10 @@
 - [ ] customer entity 추가
 - [ ] 신규 customer 등록 코드 구현
 - [ ] customer 추가 기능에 대한 테스트 코드 구현
-- [ ] customer findById 코드 구현
 - [ ] customer findByEmail 코드 구현
 - [ ] custoemr read 작업에 대한 테스트 코드 작성
 - [ ] customer update 코드 구현
 - [ ] customer update 기능에 대한 테스트 코드 작성
-- [ ] custromer delete 코드 구현
+- [ ] custromer deleteByEmail 코드 구현
 - [ ] customer deleteAll 코드 구현
 - [ ] customer delete 작업에 대한 테스트 코드 작성
