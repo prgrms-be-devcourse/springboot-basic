@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -64,12 +63,12 @@ public class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(null);
+        given(voucherRepository.findById(voucherId)).willThrow(NoSuchElementException.class);
 
         //when & then
         assertThatThrownBy(() -> voucherService.findById(voucherId))
                 .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("바우처를 찾지 못했습니다.");
+                .hasMessage("조회된 바우처 ID가 없습니다.");
     }
 
     @Test
