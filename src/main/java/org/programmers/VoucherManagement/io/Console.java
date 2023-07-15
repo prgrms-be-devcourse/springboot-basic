@@ -49,7 +49,6 @@ public class Console implements Input, Output {
     private void printMemberList(GetMemberListResponse memberList) {
         memberList
                 .getGetMemberListRes()
-                .stream()
                 .forEach(response -> {
                     System.out.println(MessageFormat.format("{0} : {1} -> {2}"
                             , response.getMemberID()

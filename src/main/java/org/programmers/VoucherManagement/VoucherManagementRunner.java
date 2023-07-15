@@ -39,5 +39,4 @@ public class VoucherManagementRunner implements CommandLineRunner {
             }
         }
     }
-
 }
