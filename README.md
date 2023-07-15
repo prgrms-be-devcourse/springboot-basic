@@ -52,3 +52,55 @@
 - 코드의 가독성과 유지보수성을 개선하기 위한 추가적인 개선 사항이 있는지 궁굼합니다.
 - 멘토님의 코드리뷰를 통해 리팩토링한 코드가 적절한지 궁굼합니다.
 
+
+## 📌 과제 설명 2주차
+###  바우처 관리 Application
+- week 2
+
+  ```bash
+  === Voucher Program ===
+  Type **exit** to exit the program.
+  Type **create** to create a new voucher.
+  Type **list** to list all vouchers.
+
+  === Service Program ===
+  Type 'create' to Create a customer
+  Type 'assign' to Delete a customer
+  Type 'list' to View all customers
+  Type 'findOne' to Find customers by type
+  Type 'update' to Find customers by type
+  Type 'delete' to Delete a customer
+  Type 'exit' to Find customers by type
+
+## 👩‍💻 요구 사항과 구현 내용
+## 도메인
+### Voucher (JDBC MYSQL 연동)
+
+- [x] 바우처 생성/저장 기능 구현
+- [x]  바우처 조회 기능 구현
+     - [x] 전체 조회
+   
+
+
+### Customer (JDBC MYSQL 연동)
+
+- [x]  고객 생성/저장 기능 구현
+- [x]  고객에게 바우처 할당 기능 구현
+- [x]  고객 조회 기능 구현
+     - [x]  전체 고객 조회
+     - 타입별 고객 조회 (고객 ID, 고객 이름, 보유한 바우처 ID)
+- [x]  고객 이름 수정 기능 구현
+- [x] 고객 삭제 기능 구현
+     - [x] ID로 단건 삭제 가능
+     - [x] 전체 삭제 가능
+  
+
+
+## ✅ PR 포인트 & 궁금한 점
+- JDBC를 사용해서 CRUD를 구현하는데 익숙하지 않지만 최대한 노력하였습니다.
+- 바우처와 고객이 적절하게 매핑이 되었는지 정확하게 구현했는지 궁굼합니다.
+- MYSQL에서 UUID 타입을 지원하지 않아 VARCHAR 타입으로 테이블을 생성하여
+- UUID인 id값을 String.valueOf를 통해 데이터베이스에 저장하였는데 이로인한 문제가 생기는지 궁굼합니다.
+- 전체적으로 코드의 일관성과 가독성이 괜찮은지 여쭤보고 싶습니다.
+
+
