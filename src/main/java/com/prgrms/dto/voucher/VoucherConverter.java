@@ -12,7 +12,7 @@ public class VoucherConverter {
     }
 
     public List<VoucherResponse> convertVoucherResponse(Vouchers vouchers) {
-        return vouchers.getVouchers()
+        return vouchers.vouchers()
                 .stream()
                 .map(VoucherResponse::new)
                 .toList();

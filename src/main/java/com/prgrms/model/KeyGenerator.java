@@ -7,7 +7,8 @@ import java.util.Random;
 @Component
 public class KeyGenerator {
 
-    private KeyGenerator() {}
+    private KeyGenerator() {
+    }
 
     private static Random rand = new Random();
 

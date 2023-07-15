@@ -1,11 +1,8 @@
 package com.prgrms.dto.voucher;
 
-import com.prgrms.model.voucher.Vouchers;
-import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherType;
-
-import java.util.List;
+import com.prgrms.model.voucher.discount.Discount;
 
 public class VoucherResponse {
     private final VoucherType voucherType;
@@ -31,12 +28,5 @@ public class VoucherResponse {
 
     public Discount getDiscount() {
         return discount;
-    }
-
-    public List<VoucherResponse> convertVoucherResponse(Vouchers vouchers) {
-        return vouchers.getVouchers()
-                .stream()
-                .map(VoucherResponse::new)
-                .toList();
     }
 }
