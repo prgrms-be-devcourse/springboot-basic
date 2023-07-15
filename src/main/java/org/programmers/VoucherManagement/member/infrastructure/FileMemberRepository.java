@@ -31,9 +31,7 @@ public class FileMemberRepository {
             }
 
             return MemberConverter.toMembers(lines);
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException("해당하는 파일을 찾을 수 없습니다.", e);
+
         } catch (IOException e) {
             logger.error(e.getMessage());
             throw new RuntimeException("파일을 읽을 수 없습니다.", e);
