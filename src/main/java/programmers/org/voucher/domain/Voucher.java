@@ -5,6 +5,7 @@ import programmers.org.voucher.constant.VoucherType;
 import static programmers.org.voucher.exception.ErrorMessage.DISCOUNT_ERROR_MESSAGE;
 
 public class Voucher {
+
     private Long id;
 
     private int discountAmount;
