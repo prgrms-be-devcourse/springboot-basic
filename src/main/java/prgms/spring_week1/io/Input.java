@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
+import prgms.spring_week1.menu.CustomerMenu;
 import prgms.spring_week1.menu.Menu;
 import prgms.spring_week1.menu.VoucherMenu;
 
@@ -48,6 +49,11 @@ public class Input {
         return menu;
     }
 
+    public String inputVoucherType() {
+        System.out.println(ConsoleOutputMessage.FIND_TYPE_SELECT_MESSAGE);
+        return String.valueOf(VoucherType.findVoucherType(sc.nextLine()));
+    }
+
     public VoucherMenu getVoucherMenu() {
         System.out.println(ConsoleOutputMessage.VOUCHER_MENU_LIST_MESSAGE);
         VoucherMenu menu = VoucherMenu.findMenuType(sc.nextLine());
@@ -60,8 +66,30 @@ public class Input {
         return menu;
     }
 
-    public String inputVoucherType() {
-        System.out.println(ConsoleOutputMessage.FIND_TYPE_SELECT_MESSAGE);
-        return String.valueOf(VoucherType.findVoucherType(sc.nextLine()));
+    public CustomerMenu getCustomerMenu() {
+        System.out.println(ConsoleOutputMessage.CUSTOMER_MENU_LIST_MESSAGE);
+        CustomerMenu menu = CustomerMenu.findMenuType(sc.nextLine());
+
+        while (menu == null) {
+            System.out.println(ConsoleOutputMessage.INVALID_MENU_MESSAGE);
+            menu = CustomerMenu.findMenuType(sc.nextLine());
+        }
+
+        return menu;
+    }
+
+    public String inputEmail() {
+        System.out.println(ConsoleOutputMessage.INPUT_EMAIL_MESSAGE);
+        return sc.nextLine();
+    }
+
+    public String[] inputCustomerInfo() {
+        System.out.println(ConsoleOutputMessage.INPUT_NAME_AND_EMAIL_MESSAGE);
+        return sc.nextLine().split(" ");
+    }
+
+    public String[] inputUpdateEmailInfo() {
+        System.out.println(ConsoleOutputMessage.INPUT_BEFORE_EMAIL_AND_AFTER_EMAIL_MESSAGE);
+        return sc.nextLine().split(" ");
     }
 }

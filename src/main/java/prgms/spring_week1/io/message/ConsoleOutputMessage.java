@@ -21,6 +21,17 @@ public final class ConsoleOutputMessage {
                     Type deleteAll to delete all voucher.                
                     """;
 
+    public static final String CUSTOMER_MENU_LIST_MESSAGE =
+            """
+                    === Voucher Program ===
+                    Type insert to create new customer.
+                    Type findAll to find all customer.
+                    Type findbyemail to find a voucher by type.
+                    Type update to update customer information.
+                    Type deleteall to delete all voucher.                
+                    """;
+
+
     public static final String TYPE_SELECT_MESSAGE =
             """
                     === Voucher Select ===
@@ -50,4 +61,10 @@ public final class ConsoleOutputMessage {
     public static final String COMPLETE_VOUCHER_INSERT_MESSAGE = "상품권 등록이 완료되었습니다.";
 
     public static final String EMPTY_BLACK_LIST_MESSAGE = "블랙리스트 목록이 없습니다.";
+
+    public static final String INPUT_EMAIL_MESSAGE = "이메일을 입력해주세요.";
+
+    public static final String INPUT_NAME_AND_EMAIL_MESSAGE = "이름과 이메일을 한칸 띄고 입력해주세요";
+
+    public static final String INPUT_BEFORE_EMAIL_AND_AFTER_EMAIL_MESSAGE = "현재 이메일과 변경할 이메일을 한 칸 띄고 입력해주세요";
 }
