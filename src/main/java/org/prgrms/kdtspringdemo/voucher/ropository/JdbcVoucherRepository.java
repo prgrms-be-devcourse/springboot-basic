@@ -24,6 +24,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String SAVE_QUERY = "INSERT INTO voucher(voucher_id, voucher_type, amount) VALUES(UUID_TO_BIN(:voucher_id), :voucher_type, :amount)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
     private static final String FIND_ALL_QUERY = "SELECT * FROM voucher";
+    private static final String UPDATE_QUERY = "UPDATE voucher SET voucher_type = :voucher_type, amount = :amount WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -79,7 +80,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        int updatedVoucherRow = jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucher));
+        if (isNotFoundVoucher(updatedVoucherRow)) {
+            save(voucher);
+        }
+
+        return voucher;
+    }
+
+    private boolean isNotFoundVoucher(int voucherRow) {
+        return voucherRow == NOT_FOUND_ID;
     }
 
     @Override
