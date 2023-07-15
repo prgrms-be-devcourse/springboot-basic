@@ -17,6 +17,12 @@ import java.util.Optional;
 
 public class JdbcVoucherRepository implements VoucherRepository {
 
+    private static final String INSERT = "INSERT INTO vouchers(discount_amount, type) VALUES (?, ?)";
+    private static final String SELECT_ALL = "SELECT * FROM vouchers";
+    private static final String UPDATE = "UPDATE vouchers SET discount_amount=? WHERE voucher_id=?";
+    private static final String SELECT_BY_ID = "SELECT * FROM vouchers WHERE voucher_id=?";
+    private static final String DELETE_BY_ID = "DELETE FROM vouchers WHERE voucher_id=?";
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(DataSource dataSource) {
@@ -25,11 +31,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        String sql = "insert into vouchers(discount_amount, type) values(?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
-            PreparedStatement statement = connection.prepareStatement(sql, new String[]{"id"});
+            PreparedStatement statement = connection.prepareStatement(INSERT, new String[]{"id"});
             statement.setInt(1, voucher.getDiscountAmount());
             statement.setString(2, voucher.getType().toString());
             return statement;
@@ -38,24 +43,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAll() {
-        String sql = "select * from vouchers";
         List<Voucher> voucherList = new ArrayList<>();
-
-        return jdbcTemplate.query(sql, voucherRowMapper(), voucherList.toArray());
+        return jdbcTemplate.query(SELECT_ALL, voucherRowMapper(), voucherList.toArray());
     }
 
     @Override
     public void update(Long id, VoucherRequest request) {
-        String sql = "update vouchers set discount_amount=? where voucher_id=?";
-        jdbcTemplate.update(sql, request.getDiscountAmount(), id);
+        jdbcTemplate.update(UPDATE, request.getDiscountAmount(), id);
     }
 
     @Override
     public Optional<Voucher> findById(Long id) {
-        String sql = "select * from vouchers where voucher_id = ?";
-
         try {
-            Voucher voucher = jdbcTemplate.queryForObject(sql, voucherRowMapper(), id);
+            Voucher voucher = jdbcTemplate.queryForObject(SELECT_BY_ID, voucherRowMapper(), id);
             return Optional.of(voucher);
 
         } catch (EmptyResultDataAccessException e) {
@@ -65,8 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(Long id) {
-        String sql = "delete from vouchers where voucher_id=?";
-        jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(DELETE_BY_ID, id);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
