@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.Voucher;
-import com.example.voucher.domain.VoucherCreator;
 
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -84,7 +83,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             VoucherType voucherType = VoucherType.valueOf(rs.getString("voucher_type"));
             Long discountValue = rs.getLong("discount_value");
 
-            return VoucherCreator.getVoucher(voucherID, voucherType, discountValue);
+            return voucherType.createVoucher(voucherID, discountValue);
         };
     }
 
