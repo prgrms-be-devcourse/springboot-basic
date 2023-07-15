@@ -38,7 +38,24 @@ public class Voucher {
     }
 
     private void validateVoucher(int discountAmount, VoucherType type) {
-        if (type.isInvalidAmount(discountAmount)) {
+        switch (type) {
+            case FIXED:
+                validateFixedAmount(discountAmount);
+                break;
+            case PERCENT:
+                validatePercentAmount(discountAmount);
+                break;
+        }
+    }
+
+    private void validateFixedAmount(int discountAmount) {
+        if (discountAmount <= 0 || discountAmount > 100000) {
+            throw new IllegalArgumentException(INVALID_DISCOUNT_RANGE.getMessage());
+        }
+    }
+
+    private void validatePercentAmount(int discountAmount) {
+        if (discountAmount <= 0 || discountAmount > 100) {
             throw new IllegalArgumentException(INVALID_DISCOUNT_RANGE.getMessage());
         }
     }
