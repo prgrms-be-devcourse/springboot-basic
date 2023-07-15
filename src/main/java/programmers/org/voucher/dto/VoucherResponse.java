@@ -1,6 +1,6 @@
 package programmers.org.voucher.dto;
 
-import programmers.org.voucher.domain.Voucher;
+import programmers.org.voucher.domain.constant.VoucherType;
 
 public class VoucherResponse {
 
@@ -8,12 +8,12 @@ public class VoucherResponse {
 
     private int discountAmount;
 
-    private String type;
+    private VoucherType type;
 
-    public VoucherResponse(Voucher voucher) {
-        this.id = voucher.getId();
-        this.discountAmount = voucher.getDiscountAmount();
-        this.type = voucher.getType().toString();
+    public VoucherResponse(Long id, int discountAmount, VoucherType type) {
+        this.id = id;
+        this.discountAmount = discountAmount;
+        this.type = type;
     }
 
     public Long getId() {
@@ -24,7 +24,7 @@ public class VoucherResponse {
         return discountAmount;
     }
 
-    public String getType() {
+    public VoucherType getType() {
         return type;
     }
 }

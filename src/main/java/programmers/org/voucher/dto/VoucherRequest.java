@@ -1,8 +1,5 @@
 package programmers.org.voucher.dto;
 
-import programmers.org.voucher.domain.constant.VoucherType;
-import programmers.org.voucher.domain.Voucher;
-
 public class VoucherRequest {
 
     private int discountAmount;
@@ -22,7 +19,7 @@ public class VoucherRequest {
         return discountAmount;
     }
 
-    public Voucher toEntity() {
-        return new Voucher(discountAmount, VoucherType.find(type));
+    public String getType() {
+        return type;
     }
 }

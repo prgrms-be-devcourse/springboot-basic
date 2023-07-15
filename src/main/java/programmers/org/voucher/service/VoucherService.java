@@ -2,6 +2,7 @@ package programmers.org.voucher.service;
 
 import org.springframework.stereotype.Service;
 import programmers.org.voucher.domain.Voucher;
+import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.dto.VoucherRequest;
 import programmers.org.voucher.dto.VoucherResponse;
 import programmers.org.voucher.repository.VoucherRepository;
@@ -22,20 +23,20 @@ public class VoucherService {
     }
 
     public void create(VoucherRequest request) {
-        Voucher voucher = request.toEntity();
+        Voucher voucher = toEntity(request);
         saveVoucher(voucher);
     }
 
     public List<VoucherResponse> getAllVouchers() {
         return voucherRepository.getAll()
                 .stream()
-                .map(VoucherResponse::new)
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     public VoucherResponse getVoucher(Long id) {
         Voucher voucher = findVoucherById(id);
-        return new VoucherResponse(voucher);
+        return toDto(voucher);
     }
 
     public void update(Long id, VoucherRequest request) {
@@ -55,5 +56,13 @@ public class VoucherService {
     private Voucher findVoucherById(Long id) {
         return voucherRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER.getMessage()));
+    }
+
+    private Voucher toEntity(VoucherRequest request) {
+        return new Voucher(request.getDiscountAmount(), VoucherType.find(request.getType()));
+    }
+
+    private VoucherResponse toDto(Voucher voucher) {
+        return new VoucherResponse(voucher.getId(), voucher.getDiscountAmount(), voucher.getType());
     }
 }
