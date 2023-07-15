@@ -18,6 +18,8 @@
 <div class="w-75">
     <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
         <a th:href="@{/}" class="btn btn-outline-dark" type="button">Home</a>
+        <a th:href="@{/voucher/policy?voucherType=FIXED_AMOUNT}" class="btn btn-dark" type="button">고정 할인</a>
+        <a th:href="@{/voucher/policy?voucherType=PERCENT_DISCOUNT}" class="btn btn-dark" type="button">퍼센트 할인</a>
         <a th:href="@{/voucher/viewNewPage}" class="btn btn-dark" type="button">Create Voucher</a>
     </div>
     <table class="table table-striped table-hover">

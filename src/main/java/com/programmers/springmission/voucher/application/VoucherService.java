@@ -45,6 +45,13 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
+    public List<VoucherResponse> findByPolicyVoucher(VoucherType voucherType) {
+        List<Voucher> voucherList = voucherRepository.findByPolicy(voucherType);
+        return voucherList.stream()
+                .map(VoucherResponse::new)
+                .toList();
+    }
+
     public List<VoucherResponse> findAllVoucher() {
         List<Voucher> voucherList = voucherRepository.findAll();
         return voucherList.stream()

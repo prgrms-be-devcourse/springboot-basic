@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,6 +53,13 @@ public class VoucherController {
         } else {
             return "global/error";
         }
+    }
+
+    @GetMapping("/policy")
+    public String viewPolicyPage(Model model, @RequestParam VoucherType voucherType) {
+        List<VoucherResponse> policyVoucher = voucherService.findByPolicyVoucher(voucherType);
+        model.addAttribute("vouchers", policyVoucher);
+        return "voucher/voucher-policy";
     }
 
     @PostMapping("/{voucherId}")

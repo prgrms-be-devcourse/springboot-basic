@@ -62,6 +62,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByPolicy(VoucherType voucherType) {
+        return jdbcTemplate.query(
+                "SELECT * FROM vouchers WHERE policy = ?",
+                voucherRowMapper,
+                voucherType.toString());
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query(
                 "SELECT * FROM vouchers",

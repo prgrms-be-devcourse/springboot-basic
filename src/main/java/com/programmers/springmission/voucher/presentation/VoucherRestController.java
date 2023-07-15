@@ -1,6 +1,7 @@
 package com.programmers.springmission.voucher.presentation;
 
 import com.programmers.springmission.voucher.application.VoucherService;
+import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
 import com.programmers.springmission.voucher.presentation.request.VoucherUpdateRequest;
 import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -57,6 +59,11 @@ public class VoucherRestController {
     public ResponseEntity<VoucherResponse> updateCustomer(@PathVariable("voucherId") UUID voucherId,
                                                           @PathVariable("customerId") UUID customerId) {
         return ResponseEntity.ok(voucherService.updateCustomer(voucherId, customerId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<VoucherResponse>> findByPolicyVoucher(@RequestParam VoucherType voucherType) {
+        return ResponseEntity.ok(voucherService.findByPolicyVoucher(voucherType));
     }
 
     @DeleteMapping("/{voucherId}")

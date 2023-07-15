@@ -3,6 +3,7 @@ package com.programmers.springmission.voucher.repository;
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.Voucher;
+import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,14 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByPolicy(VoucherType voucherType) {
+        return storage.values()
+                .stream()
+                .filter(voucher -> voucher.getVoucherPolicy().getVoucherType() == voucherType)
+                .toList();
     }
 
     @Override
