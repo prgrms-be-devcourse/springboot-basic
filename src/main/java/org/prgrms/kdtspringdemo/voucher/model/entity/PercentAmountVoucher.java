@@ -6,11 +6,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
+import static org.prgrms.kdtspringdemo.voucher.exception.ExceptionMessage.OUT_OF_RANGE_AMOUNT;
+
 public class PercentAmountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentAmountVoucher.class);
     private static final long MIN_AMOUNT = 0;
     private static final long MAX_AMOUNT = 100;
-    private static final String OUT_OF_RANGE_AMOUNT = "할인 범위가 아닙니다.";
 
     private final UUID voucherId;
     private final VoucherType voucherType;
@@ -51,8 +52,8 @@ public class PercentAmountVoucher implements Voucher {
     @Override
     public long validateAmount(long amount) {
         if (amount <= MIN_AMOUNT || amount > MAX_AMOUNT) {
-            logger.warn("원인 : {} -> 에러 메시지 : {}", amount, OUT_OF_RANGE_AMOUNT);
-            throw new IllegalArgumentException(OUT_OF_RANGE_AMOUNT);
+            logger.warn("원인 : {} -> 에러 메시지 : {}", amount, OUT_OF_RANGE_AMOUNT.getMessage());
+            throw new IllegalArgumentException(OUT_OF_RANGE_AMOUNT.getMessage());
         }
 
         return amount;
