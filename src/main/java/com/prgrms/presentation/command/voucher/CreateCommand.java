@@ -1,6 +1,7 @@
 package com.prgrms.presentation.command;
 
 import com.prgrms.dto.voucher.VoucherRequest;
+import com.prgrms.presentation.Power;
 import com.prgrms.service.voucher.VoucherService;
 import com.prgrms.presentation.view.ViewManager;
 import org.springframework.stereotype.Component;
