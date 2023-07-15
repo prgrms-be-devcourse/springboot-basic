@@ -83,7 +83,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        int updatedCustomerRow = jdbcTemplate.update(CustomerQuery.UPDATE.getQuery(), toParamMap(customer));
+        if (isNotFoundCustomer(updatedCustomerRow)) {
+            throw new RuntimeException(CUSTOMER_ID_LOOKUP_FAILED.getMessage());
+        }
+
+        return customer;
+    }
+
+    private boolean isNotFoundCustomer(int customerRow) {
+        return customerRow == NOT_FOUND_ID;
     }
 
     @Override

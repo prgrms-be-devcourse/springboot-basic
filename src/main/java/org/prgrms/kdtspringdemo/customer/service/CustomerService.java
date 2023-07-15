@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo.customer.service;
 import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponseDto;
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +39,13 @@ public class CustomerService {
                 .stream()
                 .map(v -> new CustomerResponseDto(v.getCustomerId(), v.getNickname()))
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    public CustomerResponseDto update(UUID customerId, String nickname) {
+        Customer customer = customerRepository.findById(customerId);
+        customer.update(nickname);
+
+        Customer updatedCustomer = customerRepository.update(customer);
+        return CustomerResponseDto.toDto(updatedCustomer.getCustomerId(), updatedCustomer.getNickname());
     }
 }

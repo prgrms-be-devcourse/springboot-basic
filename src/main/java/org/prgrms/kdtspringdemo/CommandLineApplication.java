@@ -141,6 +141,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case FIND_ID -> findByIdCustomer();
             case FIND_NICKNAME -> findByNicknameCustomer();
             case FIND_ALL -> findAllCustomer();
+            case UPDATE -> updateCustomer();
         }
     }
 
@@ -170,5 +171,13 @@ public class CommandLineApplication implements CommandLineRunner {
         for (CustomerResponseDto customerResponseDto : customers) {
             voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
         }
+    }
+
+    private void updateCustomer() {
+        UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID_MESSAGE);
+        String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME_MESSAGE);
+
+        CustomerResponseDto customerResponseDto = customerService.update(userCustomerId, userNickname);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
     }
 }

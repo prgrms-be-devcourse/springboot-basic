@@ -23,4 +23,8 @@ public class Customer {
     public String getNickname() {
         return nickname;
     }
+
+    public void update(String nickname) {
+        this.nickname = nickname;
+    }
 }
