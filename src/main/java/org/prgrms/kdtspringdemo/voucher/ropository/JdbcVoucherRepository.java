@@ -23,6 +23,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String AMOUNT = "amount";
     private static final String SAVE_QUERY = "INSERT INTO voucher(voucher_id, voucher_type, amount) VALUES(UUID_TO_BIN(:voucher_id), :voucher_type, :amount)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM voucher";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -73,7 +74,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        return jdbcTemplate.query(FIND_ALL_QUERY, voucherRowMapper);
     }
 
     @Override
