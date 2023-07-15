@@ -29,19 +29,17 @@ public class VoucherValidator {
         return Optional.empty();
     }
 
-    public boolean isAmountValid(VoucherSelectionType type, DiscountValue discountValue) throws WrongRangeFormatException {
-        boolean isValid = true;
+    public void isAmountValid(VoucherSelectionType type, DiscountValue discountValue) throws WrongRangeFormatException {
 
         if (type == VoucherSelectionType.FIXED_AMOUNT_VOUCHER
                 && (0 >= discountValue.value() || discountValue.value() > voucherProperties.getMaximumFixedAmount())) {
-            isValid = false;
+            throw new WrongRangeFormatException("amount should be between 0 to defined limit");
         }
 
         if (type == VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER
                 && (0 >= discountValue.value() || discountValue.value() > 100)) {
-            isValid = false;
+            throw new WrongRangeFormatException("percent should be between 1-100");
         }
 
-        return isValid;
     }
 }

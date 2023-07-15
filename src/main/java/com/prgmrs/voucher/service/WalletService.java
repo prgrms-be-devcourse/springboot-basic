@@ -42,13 +42,9 @@ public class WalletService {
         String order = walletRequest.order();
         List<Voucher> voucherList = walletRequest.voucherList();
 
-        if (!userValidator.isValidNameFormat(username)) {
-            throw new WrongRangeFormatException("incorrect token format");
-        }
+        userValidator.isValidNameFormat(username);
 
-        if (!orderValidator.isValidOrder(order, voucherList)) {
-            throw new WrongRangeFormatException("possible value out of range");
-        }
+        orderValidator.isValidOrder(order, voucherList);
 
         int convertedOrder = Integer.parseInt(order);
         Voucher voucher = voucherList.get(convertedOrder - 1);
@@ -59,7 +55,7 @@ public class WalletService {
 
         switch (walletAssignmentSelectionType) {
             case ASSIGN_VOUCHER -> walletRepository.save(wallet);
-            case REMOVE_VOUCHER -> walletRepository.free(wallet);
+            case REMOVE_VOUCHER -> walletRepository.remove(wallet);
         }
 
         return new WalletResponse(wallet, username);

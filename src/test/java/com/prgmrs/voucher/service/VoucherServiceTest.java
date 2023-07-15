@@ -54,7 +54,6 @@ class VoucherServiceTest {
         long value = 500;
         Optional<Long> optionalLong = Optional.of(value);
         VoucherRequest voucherRequest = new VoucherRequest(VoucherSelectionType.FIXED_AMOUNT_VOUCHER, token);
-        given(voucherValidator.isAmountValid(VoucherSelectionType.FIXED_AMOUNT_VOUCHER, discountValue)).willReturn(true);
         given(voucherValidator.stringToLongConverter(token)).willReturn(optionalLong);
         given(voucherValidator.isValidIntegerString(token)).willReturn(true);
 

@@ -26,7 +26,7 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public void free(Wallet wallet) {
+    public void remove(Wallet wallet) {
         String sql = "UPDATE `wallet` SET unassigned_time = CURRENT_TIMESTAMP WHERE voucher_id = :voucherId AND user_id = :userId";
 
         Map<String, Object> paramMap = new HashMap<>();

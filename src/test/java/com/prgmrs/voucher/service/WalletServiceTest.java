@@ -75,8 +75,6 @@ class WalletServiceTest {
         Wallet wallet1 = new Wallet(userUuid, voucherUuid1);
 
         WalletRequest walletRequest = new WalletRequest(user.username(), "1", voucherList);
-        given(userValidator.isValidNameFormat(user.username())).willReturn(true);
-        given(orderValidator.isValidOrder("1", voucherList)).willReturn(true);
         given(userRepository.findByUsername(user.username())).willReturn(user);
 
         // When
@@ -114,8 +112,6 @@ class WalletServiceTest {
         Wallet wallet1 = new Wallet(userUuid, voucherUuid1);
 
         WalletRequest walletRequest = new WalletRequest(user.username(), "1", voucherList);
-        given(userValidator.isValidNameFormat(user.username())).willReturn(true);
-        given(orderValidator.isValidOrder("1", voucherList)).willReturn(true);
         given(userRepository.findByUsername(user.username())).willReturn(user);
 
         // When
@@ -125,6 +121,6 @@ class WalletServiceTest {
         Wallet retrievedWallet = walletResponse.wallet();
         assertThat(retrievedWallet.voucherId()).isEqualTo(voucher1.voucherId());
         assertThat(retrievedWallet.userId()).isEqualTo(user.userId());
-        verify(walletRepository, times(1)).free(wallet1);
+        verify(walletRepository, times(1)).remove(wallet1);
     }
 }

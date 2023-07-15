@@ -30,9 +30,7 @@ public class UserService {
     public UserResponse createUser(UserRequest userRequest) throws WrongRangeFormatException {
         String name = userRequest.username();
 
-        if (!userValidator.isValidNameFormat(name)) {
-            throw new WrongRangeFormatException("incorrect name format");
-        }
+        userValidator.isValidNameFormat(name);
 
         UUID uuid = UUID.randomUUID();
         User user = new User(uuid, name);
@@ -56,9 +54,7 @@ public class UserService {
         String order = userListRequest.order();
         List<Voucher> voucherList = userListRequest.voucherList();
 
-        if (!orderValidator.isValidOrder(order, voucherList)) {
-            throw new WrongRangeFormatException("possible value out of range");
-        }
+        orderValidator.isValidOrder(order, voucherList);
 
         int convertedOrder = Integer.parseInt(order);
         Voucher voucher = voucherList.get(convertedOrder - 1);

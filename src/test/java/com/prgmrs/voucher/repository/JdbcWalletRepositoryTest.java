@@ -80,7 +80,7 @@ class JdbcWalletRepositoryTest {
         walletRepository.save(wallet);
 
         // When
-        Executable executable = () -> walletRepository.free(wallet);
+        Executable executable = () -> walletRepository.remove(wallet);
 
         // Then
         assertDoesNotThrow(executable);

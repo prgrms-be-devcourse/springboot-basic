@@ -1,5 +1,6 @@
 package com.prgmrs.voucher.model.validator;
 
+import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
@@ -7,13 +8,16 @@ import java.util.regex.Pattern;
 
 @Component
 public class UserValidator {
-    public boolean isValidNameFormat(String name) {
+    public void isValidNameFormat(String name) {
         Pattern pattern = Pattern.compile("^[a-zA-Z]+$");
         Matcher matcher = pattern.matcher(name);
 
-        boolean isValidFormat = matcher.matches();
-        boolean isValidLength = name.length() <= 255;
+        if(!matcher.matches()) {
+            throw new WrongRangeFormatException("only alphabet is allowed");
+        }
 
-        return isValidFormat && isValidLength;
+        if (name.length() > 255) {
+            throw new WrongRangeFormatException("length must be equal to or less than 255");
+        }
     }
 }

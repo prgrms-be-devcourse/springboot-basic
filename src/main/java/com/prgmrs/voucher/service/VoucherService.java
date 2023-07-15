@@ -45,9 +45,7 @@ public class VoucherService {
 
         DiscountValue discountValue = new DiscountValue(convertedValue.get());
 
-        if (!voucherValidator.isAmountValid(voucherSelectionType, discountValue)) {
-            throw new WrongRangeFormatException("possible value out of range");
-        }
+        voucherValidator.isAmountValid(voucherSelectionType, discountValue);
 
         switch (voucherSelectionType) {
             case FIXED_AMOUNT_VOUCHER -> {
