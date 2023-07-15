@@ -7,8 +7,8 @@ import java.util.UUID;
 public class Customer {
     private final UUID customerId;
     private final String email;
-    private final LocalDateTime createdAt;
     private String name;
+    private final LocalDateTime createdAt;
 
     public Customer(String email, String name) {
         this.validateName(name);
@@ -18,17 +18,33 @@ public class Customer {
         this.name = name;
     }
 
-    public Customer(UUID customerId, String email, LocalDateTime createdAt, String name) {
+    public Customer(UUID customerId, String email, String name, LocalDateTime createdAt) {
         this.validateName(name);
         this.customerId = customerId;
         this.email = email;
-        this.createdAt = createdAt;
         this.name = name;
+        this.createdAt = createdAt;
     }
 
     public void changeName(String name) {
         this.validateName(name);
         this.name = name;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getName() {
+        return name;
     }
 
     private void validateName(String name) {
