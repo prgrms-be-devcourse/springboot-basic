@@ -9,9 +9,9 @@ public enum MenuType {
     CREATE,
     LIST;
 
-    public static MenuType getSelectedMenuType(String menuName) {
+    public static MenuType getSelectedMenuType(String selectedMenu) {
         return Arrays.stream(MenuType.values())
-                .filter(menuType -> menuType.name().equalsIgnoreCase(menuName))
+                .filter(menuType -> menuType.name().equalsIgnoreCase(selectedMenu))
                 .findAny()
                 .orElseThrow(() -> new InputMismatchException("잘못된 메뉴 명령어입니다."));
     }
