@@ -1,5 +1,6 @@
 package com.prgms.voucher.voucherproject.io;
 
+import com.prgms.voucher.voucherproject.AppType;
 import com.prgms.voucher.voucherproject.domain.voucher.MenuType;
 import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
 import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
@@ -43,6 +44,19 @@ public class Console {
         if (discount == null) return null;
 
         return discount;
+    }
+
+    public AppType inputAppService() {
+        this.printMessage(Constant.CONSOLE_APP_MENU, true);
+        String appType = sc.nextLine();
+
+        try {
+            return AppType.getSelectedAppType(appType);
+        } catch (InputMismatchException e) {
+            logger.error("MenuType InputMismatchException -> {}", appType);
+            this.printMessage(Constant.WRONG_COMMAND, true);
+            return null;
+        }
     }
 
     public MenuType inputMenu() {

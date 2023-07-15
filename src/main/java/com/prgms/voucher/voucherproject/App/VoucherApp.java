@@ -1,4 +1,4 @@
-package com.prgms.voucher.voucherproject;
+package com.prgms.voucher.voucherproject.App;
 
 import com.prgms.voucher.voucherproject.domain.voucher.MenuType;
 import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
@@ -8,13 +8,12 @@ import com.prgms.voucher.voucherproject.io.Constant;
 import com.prgms.voucher.voucherproject.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class VoucherApp implements CommandLineRunner {
+public class VoucherApp  {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
 
     private final Console console = new Console();
@@ -24,8 +23,7 @@ public class VoucherApp implements CommandLineRunner {
         this.voucherService = voucherService;
     }
 
-    @Override
-    public void run(String... args) throws Exception {
+    public void voucherRun() throws Exception {
         boolean isRunning = true;
 
         while (isRunning) {
@@ -38,7 +36,7 @@ public class VoucherApp implements CommandLineRunner {
                 case LIST -> list();
                 case EXIT -> {
                     isRunning = false;
-                    console.printMessage("프로그램을 종료합니다.", true);
+                    console.printMessage(Constant.PROGRAM_END, true);
                 }
             }
         }
