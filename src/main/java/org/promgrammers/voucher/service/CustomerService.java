@@ -42,6 +42,25 @@ public class CustomerService {
         return new CustomerResponseDto(customer);
     }
 
+    @Transactional(readOnly = true)
+    public CustomerResponseDto findCustomerByUsername(String username) {
+        Customer customer = customerRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("해당 고객을 찾을수 없습니다"));
+
+        return new CustomerResponseDto(customer);
+    }
+
+    @Transactional(readOnly = true)
+    public CustomerResponseDto findByVoucherId(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("해당 바우처를 찾을수 없습니다"));
+
+        Customer customer = customerRepository.findByVoucherId(voucher.getId())
+                .orElseThrow(() -> new NoSuchElementException("해당 바우처를 가진 고객을 찾을수 없습니다"));
+
+        return new CustomerResponseDto(customer);
+    }
+
 
     @Transactional(readOnly = true)
     public CustomerListResponseDto findAllCustomers() {
@@ -71,12 +90,20 @@ public class CustomerService {
 
 
         customer.updateUsername(updateCustomerRequest.getUsername());
-        customer.updateCustomerType(updateCustomerRequest.getCustomerType());
         customerRepository.update(customer);
 
         CustomerResponseDto customerResponse = new CustomerResponseDto(customer);
         return customerResponse;
     }
 
+
+    @Transactional
+    public void deleteById(UUID customerId) {
+        customerRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException("해당 고객을 찾을수 없습니다"));
+        log.info("컨트롤러 실행");
+
+        customerRepository.deleteById(customerId);
+    }
 }
 
