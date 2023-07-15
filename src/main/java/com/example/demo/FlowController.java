@@ -70,8 +70,9 @@ public class FlowController implements CommandLineRunner {
                     case EXIT -> shouldContinue = false;
                     default -> throw new IllegalArgumentException(String.format("입력하신 %s은 올바르지 않은 커맨드입니다.", commandType.name()));
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 logger.error(e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
     }

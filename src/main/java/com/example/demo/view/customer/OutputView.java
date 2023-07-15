@@ -5,6 +5,7 @@ import java.util.List;
 
 public class OutputView {
 
+    public static final String CUSTOMER_ID_MESSAGE = "    고객 ID를 입력해주세요 >> ";
     public static final String CUSTOMER_NAME_MESSAGE = "    고객 이름을 입력해주세요 >> ";
     public static final String CUSTOMER_AGE_MESSAGE = "    고객 나이를 입력해주세요 >> ";
     public static final String CUSTOMER_CREATE_MESSAGE = "    고객이 가입되었습니다.(고객 ID : %s)";
@@ -15,6 +16,10 @@ public class OutputView {
 
     public void printCreateMessage(CustomerDto customerDto) {
         System.out.println(String.format(CUSTOMER_CREATE_MESSAGE, customerDto.getId()));
+    }
+
+    public void printCustomerIdMessage() {
+        System.out.print(CUSTOMER_ID_MESSAGE);
     }
 
     public void printCustomerNameMessage() {

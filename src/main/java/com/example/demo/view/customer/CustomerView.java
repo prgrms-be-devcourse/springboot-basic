@@ -16,6 +16,11 @@ public class CustomerView {
         this.outputView = new OutputView();
     }
 
+    public UUID readCustomerId() {
+        outputView.printCustomerIdMessage();
+        return inputView.readCustomerId();
+    }
+
     public String readCustomerName() {
         outputView.printCustomerNameMessage();
         return inputView.readCustomerName();
@@ -32,10 +37,6 @@ public class CustomerView {
 
     public void printVoucherList(List<CustomerDto> list) {
         outputView.printCustomerList(list);
-    }
-
-    public UUID readCustomerId() {
-        return null;
     }
 
     public void printUpdateMessage() {
