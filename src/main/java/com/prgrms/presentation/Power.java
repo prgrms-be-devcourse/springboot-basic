@@ -1,4 +1,4 @@
-package com.prgrms.presentation.command;
+package com.prgrms.presentation;
 
 public enum Power {
     ON,
