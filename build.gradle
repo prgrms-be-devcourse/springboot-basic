@@ -31,6 +31,9 @@ dependencies {
 	// H2
 	runtimeOnly 'com.h2database:h2'
 
+	// MySQL
+	implementation 'mysql:mysql-connector-java:8.0.33'
+
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
