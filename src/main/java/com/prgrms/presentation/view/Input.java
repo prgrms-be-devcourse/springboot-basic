@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Component
-public class Input implements AutoCloseable {
+public class Input {
 
     private final BufferedReader bufferedReader;
 
@@ -41,12 +41,4 @@ public class Input implements AutoCloseable {
         }
     }
 
-    @Override
-    public void close() {
-        try {
-            bufferedReader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
