@@ -21,7 +21,7 @@ public class VoucherService {
 	private final VoucherRepository voucherRepository;
 
 	@Autowired
-	public VoucherService(@Qualifier("FileVoucherRepository") VoucherRepository voucherRepository) {
+	public VoucherService(@Qualifier("JdbcVoucherRepository") VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
 	}
 

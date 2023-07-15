@@ -8,10 +8,14 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.prgrms.kdt.model.entity.CustomerEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Qualifier("JdbcCustomerRepository")
 public class CustomerJdbcRepository implements CustomerRepository{
 
 	private final DataSource dataSource;
@@ -34,7 +38,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
 	@Override
 	public CustomerEntity create(CustomerEntity customer) {
 		int update = jdbcTemplate.update(
-			"INSERT INTO customers(customer_id, name, email, created_at) VALUES (UNHEX(REPLACE(?, '-', '')), ?, ?, ?)",
+			"INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)",
 			customer.getCustomerId().toString(),
 			customer.getName(),
 			customer.getEmail(),
