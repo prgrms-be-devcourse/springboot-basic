@@ -1,8 +1,8 @@
 package com.prgrms.presentation.command;
 
 
-import com.prgrms.presentation.view.ViewManager;
+import com.prgrms.presentation.Power;
 
 public interface Command {
-    Power execute(ViewManager viewManager);
+    Power execute();
 }
