@@ -2,7 +2,7 @@
 스프링부트 basic 위클리미션을 코드리뷰하는 Repository입니다.
 
 # 📌 그림 그리기 & 설명하기
-![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/102570281/f2ddd269-0470-4b3a-9bf0-8b46ccb09ba5)
+![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/102570281/4f049393-7bc6-42a1-9613-f21b8b7d4a01)
 
 # 📌 요구 사항
 
