@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProjectApp implements CommandLineRunner {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
-
     private final Console console = new Console();
     private final VoucherApp voucherApp;
     private final CustomerApp customerApp;
