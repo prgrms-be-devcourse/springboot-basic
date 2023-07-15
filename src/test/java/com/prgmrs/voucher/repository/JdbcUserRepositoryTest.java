@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
@@ -30,9 +29,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 })
 @DisplayName("JDBC 유저 레포지토리 레이어를 테스트한다.")
 class JdbcUserRepositoryTest {
-
-    @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
     private UserRepository userRepository;

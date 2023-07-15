@@ -7,8 +7,6 @@ import com.prgmrs.voucher.dto.response.UserResponse;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
-import com.prgmrs.voucher.model.validator.OrderValidator;
-import com.prgmrs.voucher.model.validator.UserValidator;
 import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,12 +31,6 @@ class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @Spy
-    private UserValidator userValidator;
-
-    @Spy
-    private OrderValidator orderValidator;
 
     @InjectMocks
     private UserService userService;
