@@ -1,5 +1,8 @@
 package org.prgrms.kdtspringdemo;
 
+import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
+import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponseDto;
+import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
@@ -37,12 +40,28 @@ public class CommandLineApplication implements CommandLineRunner {
             discount amount : %s
             """;
     private static final String VOUCHER_ID_MESSAGE = "바우처 Id를 입력하세요.\n";
+    private static final String CUSTOMER_SERVICE_INIT_MESSAGE = """
+            === Voucher Program ===
+            CREATE -> 소비자 생성
+            FIND_ID -> 특정 소비자 ID로 조회
+            FIND_NICKNAME -> 특정 소비자 닉네임으로 조회
+            FIND_ALL -> 소비자 전체 조회
+            UPDATE -> 특정 소비자 업데이트
+            DELETE -> 특정 소비자 삭제
+            """;
+    private static final String INPUT_CUSTOMER_NICKNAME_MESSAGE = "닉네임을 입력해주세요.\n";
+    private static final String PRINT_CUSTOMER_INFO_MESSAGE = """
+            id : %s
+            nickname : %s
+            """;
 
     private final VoucherConsole voucherConsole = new VoucherConsole();
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public CommandLineApplication(VoucherService voucherService) {
+    public CommandLineApplication(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @Override
@@ -59,6 +78,7 @@ public class CommandLineApplication implements CommandLineRunner {
         switch (commandtype) {
             case EXIT -> voucherConsole.printMessage(SYSTEM_SHUTDOWN_MESSAGE);
             case VOUCHER -> runVoucherService();
+            case CUSTOMER -> runCustomerService();
         }
     }
 
@@ -110,5 +130,20 @@ public class CommandLineApplication implements CommandLineRunner {
 
         VoucherResponseDto voucherResponseDto = voucherService.delete(userVoucherId);
         voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+    }
+
+    private void runCustomerService() {
+        CustomerQuery userCommand = voucherConsole.inputCustomerCommand(CUSTOMER_SERVICE_INIT_MESSAGE);
+
+        switch (userCommand) {
+            case CREATE -> createCustomer();
+        }
+    }
+
+    private void createCustomer() {
+        String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME_MESSAGE);
+
+        CustomerResponseDto responseDto = customerService.create(userNickname);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, responseDto.getCustomerId(), responseDto.getNickname());
     }
 }

@@ -11,6 +11,11 @@ public class Customer {
         this.nickname = nickname;
     }
 
+    public Customer(UUID customerId, String nickname) {
+        this.customerId = customerId;
+        this.nickname = nickname;
+    }
+
     public UUID getCustomerId() {
         return customerId;
     }
