@@ -16,8 +16,9 @@
     <form action="item.html" th:action method="post">
 
         <div>
-            <label for="itemName">Voucher Type</label>
-            <input type="text" id="itemName" name="itemName" class="form- control" value="Fixed Amount Voucher" readonly>
+            <label >Voucher Type</label>
+            <input th:if="${voucher.getType()} eq 'FixedAmountVoucher'" type="text"  name="itemName" class="form- control" value="Fixed Amount Voucher" readonly>
+            <input th:if="${voucher.getType()} eq 'PercentDiscountVoucher'" type="text"  name="itemName" class="form- control" value="Percent Discount Voucher" readonly>
         </div>
 
         <div>
@@ -25,9 +26,14 @@
             <input type="text" id="id" name="id" class="form-control" value="1" th:value = "${voucher.voucherId}"readonly>
         </div>
 
-        <div>
-            <label for="price">Amount</label>
-            <input type="text" id="price" name="amount" class="form-control" value="10000" th:value="${voucher.amount}">
+        <div th:if ="${voucher.getType()} eq 'FixedAmountVoucher'">
+            <label>Discount Price</label>
+            <input type="text" name="discount" class="form-control" value="10000" th:value="${voucher.getDiscount()}">
+        </div>
+
+        <div th:if ="${voucher.getType()} eq 'PercentDiscountVoucher'">
+            <label>Discount Percent(%)</label>
+            <input type="text" name="discount" class="form-control" value="10000" th:value="${voucher.getDiscount()}">
         </div>
 
         <hr class="my-4">
@@ -38,7 +44,7 @@
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='item.html'"
-                        th:onclick="|location.href='@{/vouchers/fixed/{voucherId}(voucherId=${voucher.voucherId})}'|"
+                        th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
                         type="button">취소 </button>
             </div>
         </div>
