@@ -43,6 +43,9 @@ dependencies {
 
     //h2
     implementation 'com.h2database:h2:2.1.214'
+
+    //configuration
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {

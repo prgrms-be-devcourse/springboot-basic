@@ -1,11 +1,11 @@
 package org.programmers.VoucherManagement.member.infrastructure;
 
 
+import org.programmers.VoucherManagement.global.file.FileInfo;
 import org.programmers.VoucherManagement.global.util.MemberConverter;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -17,10 +17,10 @@ public class FileMemberRepository {
     private final File file;
     private final Logger logger = LoggerFactory.getLogger(Console.class);
 
-    private FileMemberRepository(@Value("${app.path.file}") String filePath) {
-        this.file = new File(filePath);
+    public FileMemberRepository(FileInfo fileInfo) {
+        this.file = new File(fileInfo.getFilePath());
     }
-    
+
     public List<Member> findAllByMemberStatus() {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;

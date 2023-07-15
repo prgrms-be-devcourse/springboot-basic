@@ -1,6 +1,6 @@
 app:
   path:
-    file: file/customer-blacklist.csv
+    filepath: file/customer-blacklist.csv
 
 spring:
   datasource:
