@@ -1,8 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
-import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
-import static org.prgrms.kdtspringdemo.voucher.exception.ExceptionMessage.*;
+import static org.prgrms.kdtspringdemo.voucher.exception.VoucherExceptionMessage.*;
 
 @Repository
 @Primary

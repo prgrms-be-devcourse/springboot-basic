@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-import static org.prgrms.kdtspringdemo.voucher.exception.ExceptionMessage.OUT_OF_RANGE_AMOUNT;
+import static org.prgrms.kdtspringdemo.voucher.exception.VoucherExceptionMessage.OUT_OF_RANGE_AMOUNT;
 
 public class PercentAmountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentAmountVoucher.class);

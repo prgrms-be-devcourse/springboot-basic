@@ -1,6 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.exception;
 
-public enum ExceptionMessage {
+public enum VoucherExceptionMessage {
     OUT_OF_RANGE_AMOUNT("할인 범위가 아닙니다."),
     NOT_FOUND_VOUCHER_COMMAND_TYPE("알맞는 바우처 기능이 없습니다."),
     NOT_FOUND_VOUCHER_TYPE("알맞는 바우처 할인 유형이 없습니다."),
@@ -10,7 +10,7 @@ public enum ExceptionMessage {
 
     private String message;
 
-    ExceptionMessage(String message) {
+    VoucherExceptionMessage(String message) {
         this.message = message;
     }
 

@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.customer.model;
+package org.prgrms.kdtspringdemo.customer.model.entity;
 
 import java.util.UUID;
 

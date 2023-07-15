@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
-import static org.prgrms.kdtspringdemo.voucher.exception.ExceptionMessage.NOT_FOUND_VOUCHER_TYPE;
+import static org.prgrms.kdtspringdemo.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER_TYPE;
 
 public enum VoucherType {
     FIXED,

@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.prgrms.kdtspringdemo.voucher.exception.ExceptionMessage.NOT_FOUND_VOUCHER;
+import static org.prgrms.kdtspringdemo.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
