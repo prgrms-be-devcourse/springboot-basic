@@ -14,6 +14,10 @@ public class VoucherRequest {
         this.type = type;
     }
 
+    public VoucherRequest(int discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
     public int getDiscountAmount() {
         return discountAmount;
     }

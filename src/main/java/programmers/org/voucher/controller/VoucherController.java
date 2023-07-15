@@ -80,7 +80,7 @@ public class VoucherController implements CommandLineRunner {
         long voucherId = voucherConsole.inputVoucherId();
         int discountAmount = voucherConsole.inputVoucherInfo();
 
-        VoucherRequest request = new VoucherRequest(discountAmount, null);
+        VoucherRequest request = new VoucherRequest(discountAmount);
         voucherService.update(voucherId, request);
     }
 
