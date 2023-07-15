@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo;
 
 import org.prgrms.kdtspringdemo.voucher.constant.CommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherDto;
+import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
 import org.springframework.boot.CommandLineRunner;
@@ -47,9 +47,9 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void getAllVoucher() {
-        List<VoucherDto> vouchers = voucherService.getAllVoucher();
-        for (VoucherDto voucherDto : vouchers) {
-            voucherConsole.printCreatedVoucher(voucherDto.getVoucherType(), voucherDto.getAmount());
+        List<VoucherResponseDto> vouchers = voucherService.getAllVoucher();
+        for (VoucherResponseDto voucherResponseDto : vouchers) {
+            voucherConsole.printCreatedVoucher(voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
         }
     }
 
@@ -57,7 +57,7 @@ public class CommandLineApplication implements CommandLineRunner {
         VoucherType userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE_MESSAGE);
         Long amount = voucherConsole.inputAmountByVoucher();
 
-        VoucherDto voucherDto = voucherService.create(userVoucherType, amount);
-        voucherConsole.printCreatedVoucher(voucherDto.getVoucherType(), voucherDto.getAmount());
+        VoucherResponseDto voucherResponseDto = voucherService.create(userVoucherType, amount);
+        voucherConsole.printCreatedVoucher(voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
     }
 }
