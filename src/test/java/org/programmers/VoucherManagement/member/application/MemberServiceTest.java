@@ -44,7 +44,7 @@ public class MemberServiceTest {
         UpdateMemberRequest updateRequestDto = new UpdateMemberRequest(MemberStatus.BLACK);
 
         //mocking
-        given(memberRepository.findById(memberId)).willReturn(Optional.ofNullable(saveMember));
+        given(memberRepository.findById(memberId)).willReturn(Optional.of(saveMember));
 
         //when
         memberService.updateMember(memberId, updateRequestDto);
@@ -63,7 +63,7 @@ public class MemberServiceTest {
         memberRepository.insert(saveMember);
 
         //mocking
-        given(memberRepository.findById(saveMember.getMemberUUID())).willReturn(Optional.ofNullable(saveMember));
+        given(memberRepository.findById(saveMember.getMemberUUID())).willReturn(Optional.of(saveMember));
 
         //when
         memberService.deleteMember(saveMember.getMemberUUID());
@@ -88,10 +88,11 @@ public class MemberServiceTest {
         GetMemberListResponse response = memberService.getAllMembers();
 
         //then
-        assertThat(response).isNotNull();
         List<GetMemberResponse> responseExpect = memberList.stream()
                 .map(GetMemberResponse::toDto)
                 .collect(Collectors.toList());
+
+        assertThat(response).isNotNull();
         assertThat(response.getGetMemberListRes()).containsExactlyElementsOf(responseExpect);
     }
 
@@ -114,10 +115,11 @@ public class MemberServiceTest {
         GetMemberListResponse response = memberService.getAllBlackMembers();
 
         //then
-        assertThat(response).isNotNull();
         List<GetMemberResponse> responseExpect = blackMemberList.stream()
                 .map(GetMemberResponse::toDto)
                 .collect(Collectors.toList());
+
+        assertThat(response).isNotNull();
         assertThat(response.getGetMemberListRes()).containsExactlyElementsOf(responseExpect);
     }
 }

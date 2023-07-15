@@ -45,7 +45,7 @@ public class VoucherServiceTest {
         UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(1000);
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.ofNullable(saveVoucher));
+        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
 
         //when
         voucherService.updateVoucher(voucherId, updateRequestDto);
@@ -65,7 +65,7 @@ public class VoucherServiceTest {
         UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(40);
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.ofNullable(saveVoucher));
+        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
 
         //when
         voucherService.updateVoucher(voucherId, updateRequestDto);
@@ -85,7 +85,7 @@ public class VoucherServiceTest {
         UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(-1);
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.ofNullable(saveVoucher));
+        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
 
         //then
         assertThatThrownBy(() -> voucherService.updateVoucher(voucherId, updateRequestDto))
@@ -101,7 +101,7 @@ public class VoucherServiceTest {
         voucherRepository.insert(saveVoucher);
 
         //mocking
-        given(voucherRepository.findById(saveVoucher.getVoucherId())).willReturn(Optional.ofNullable(saveVoucher));
+        given(voucherRepository.findById(saveVoucher.getVoucherId())).willReturn(Optional.of(saveVoucher));
 
         //when
         voucherService.deleteVoucher(saveVoucher.getVoucherId());
