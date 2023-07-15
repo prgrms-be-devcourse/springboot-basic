@@ -18,7 +18,6 @@ class PercentDiscountPolicyTest {
             "100, 10, 90", "15000, 50, 7500"
     })
     void percent_policy_success_discount(long beforeDiscount, long amount, long expected) {
-
         // given
         Voucher voucher = new Voucher(new PercentDiscountPolicy(VoucherType.PERCENT_DISCOUNT), amount);
 
