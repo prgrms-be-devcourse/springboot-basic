@@ -130,7 +130,7 @@ public class JdbcVoucherRepositoryTest {
         Voucher deleteVoucher = voucherRepository.findById(deleteVoucherId).get();
 
         //when
-        voucherRepository.delete(deleteVoucher);
+        voucherRepository.delete(deleteVoucherId);
 
         //then
         //1. 사이즈 비교
@@ -138,7 +138,7 @@ public class JdbcVoucherRepositoryTest {
         assertThat(sizeExpect).isEqualTo(1);
 
         //2. 데이터베이스에 없는 값인지 확인
-        Optional<Voucher> optionalVoucher = voucherRepository.findById(deleteVoucherId);
+        Optional<Voucher> optionalVoucher = Optional.of(voucherRepository.findById(deleteVoucherId).get());
         assertThat(optionalVoucher).usingRecursiveComparison().isEqualTo(Optional.empty());
 
     }

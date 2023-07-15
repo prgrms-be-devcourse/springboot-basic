@@ -47,7 +47,7 @@ public interface MemberRepository {
     /**
      * db에 저장된 회원 삭제
      *
-     * @param member
+     * @param memberId
      */
-    void delete(Member member); //삭제
+    void delete(UUID memberId); //삭제
 }

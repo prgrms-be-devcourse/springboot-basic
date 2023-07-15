@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -63,15 +62,11 @@ public class MemberServiceTest {
         Member saveMember = new Member(memberId, "Kim", MemberStatus.BLACK);
         memberRepository.insert(saveMember);
 
-        //mocking
-        given(memberRepository.findById(saveMember.getMemberUUID())).willReturn(Optional.of(saveMember));
-
         //when
         memberService.deleteMember(saveMember.getMemberUUID());
 
         //then
-        verify(memberRepository, times(1)).findById(memberId);
-        verify(memberRepository, times(1)).delete(any(Member.class));
+        verify(memberRepository, times(1)).delete(memberId);
     }
 
     @Test

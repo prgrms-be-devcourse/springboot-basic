@@ -25,8 +25,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void delete(Voucher voucher) {
-        map.remove(voucher.getVoucherId());
+    public void delete(UUID voucherId) {
+        map.remove(voucherId);
     }
 
     @Override

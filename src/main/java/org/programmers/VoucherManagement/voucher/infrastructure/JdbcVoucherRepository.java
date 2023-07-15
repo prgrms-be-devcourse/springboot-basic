@@ -58,10 +58,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void delete(Voucher voucher) {
+    public void delete(UUID voucherId) {
         String sql = "delete from voucher_table where voucher_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
-                voucher.getVoucherId().toString());
+                voucherId.toString());
         if (deleteCount != 1) {
             throw new VoucherException(FAIL_TO_DELETE);
         }

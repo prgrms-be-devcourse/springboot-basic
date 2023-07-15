@@ -42,7 +42,6 @@ public class VoucherService {
     }
 
     public void deleteVoucher(UUID voucherId) {
-        Voucher voucher = repository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
-        repository.delete(voucher);
+        repository.delete(voucherId);
     }
 }

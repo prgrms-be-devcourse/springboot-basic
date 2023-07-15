@@ -42,7 +42,6 @@ public class MemberService {
     }
 
     public void deleteMember(UUID memberId) {
-        Member member = repository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
-        repository.delete(member);
+        repository.delete(memberId);
     }
 }

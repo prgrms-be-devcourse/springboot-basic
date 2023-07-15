@@ -117,7 +117,7 @@ public class JdbcMemberRepositoryTest {
         Member deleteMember = memberRepository.findById(deleteMemberId).get();
 
         //when
-        memberRepository.delete(deleteMember);
+        memberRepository.delete(deleteMemberId);
 
         //then
         int sizeExpect = memberRepository.findAll().size(); //1. 사이즈 비교

@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -100,15 +99,11 @@ public class VoucherServiceTest {
         Voucher saveVoucher = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000));
         voucherRepository.insert(saveVoucher);
 
-        //mocking
-        given(voucherRepository.findById(saveVoucher.getVoucherId())).willReturn(Optional.of(saveVoucher));
-
         //when
         voucherService.deleteVoucher(saveVoucher.getVoucherId());
 
         //then
-        verify(voucherRepository, times(1)).findById(saveVoucher.getVoucherId());
-        verify(voucherRepository, times(1)).delete(any(Voucher.class));
+        verify(voucherRepository, times(1)).delete(saveVoucher.getVoucherId());
     }
 
     @Test

@@ -76,10 +76,10 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void delete(Member member) {
+    public void delete(UUID memberId) {
         String sql = "delete from member_table where member_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
-                member.getMemberUUID().toString());
+                memberId.toString());
         if (deleteCount != 1) {
             throw new MemberException(FAIL_TO_DELETE);
         }

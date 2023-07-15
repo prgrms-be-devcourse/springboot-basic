@@ -5,6 +5,7 @@ import org.programmers.VoucherManagement.io.CommandExecutor;
 import org.programmers.VoucherManagement.io.Console;
 import org.programmers.VoucherManagement.io.ConsoleMessage;
 import org.programmers.VoucherManagement.io.MenuType;
+import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class VoucherManagementRunner implements CommandLineRunner {
                 }
                 commandExecutor.execute(menuType);
 
-            } catch (VoucherException | IllegalArgumentException e) {
+            } catch (VoucherException | IllegalArgumentException | MemberException e) {
                 logger.info(e.getMessage());
             }
         }

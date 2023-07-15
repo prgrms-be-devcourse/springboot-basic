@@ -25,9 +25,9 @@ public interface VoucherRepository {
     /**
      * db에 저장된 바우처 삭제
      *
-     * @param voucher
+     * @param voucherId
      */
-    void delete(Voucher voucher); //삭제
+    void delete(UUID voucherId); //삭제
 
     /**
      * db에 저장된 전체 바우처 조회
