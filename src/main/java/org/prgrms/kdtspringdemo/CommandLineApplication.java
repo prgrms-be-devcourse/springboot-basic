@@ -70,6 +70,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case LIST -> getVoucher();
             case LIST_ALL -> getAllVoucher();
             case UPDATE -> updateVoucher();
+            case DELETE -> deleteVoucher();
         }
     }
 
@@ -104,4 +105,10 @@ public class CommandLineApplication implements CommandLineRunner {
         voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
     }
 
+    private void deleteVoucher() {
+        UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID_MESSAGE);
+
+        VoucherResponseDto voucherResponseDto = voucherService.delete(userVoucherId);
+        voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+    }
 }

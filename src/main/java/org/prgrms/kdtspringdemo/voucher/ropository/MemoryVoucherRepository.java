@@ -38,4 +38,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
         Voucher updatedVoucher = storage.putIfAbsent(voucher.getVoucherId(), voucher);
         return updatedVoucher == null ? voucher : updatedVoucher;
     }
+
+    @Override
+    public Voucher deleteById(UUID voucherId) {
+        return storage.remove(voucherId);
+    }
 }
