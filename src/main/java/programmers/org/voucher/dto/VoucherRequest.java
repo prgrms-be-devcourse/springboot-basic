@@ -1,6 +1,6 @@
 package programmers.org.voucher.dto;
 
-import programmers.org.voucher.constant.VoucherType;
+import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
 
 public class VoucherRequest {

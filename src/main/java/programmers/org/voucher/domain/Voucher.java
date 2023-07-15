@@ -1,6 +1,6 @@
 package programmers.org.voucher.domain;
 
-import programmers.org.voucher.constant.VoucherType;
+import programmers.org.voucher.domain.constant.VoucherType;
 
 import static programmers.org.voucher.exception.ErrorMessage.INVALID_DISCOUNT_RANGE;
 

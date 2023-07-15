@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import programmers.org.voucher.constant.VoucherType;
+import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
 import programmers.org.voucher.dto.VoucherRequest;
 

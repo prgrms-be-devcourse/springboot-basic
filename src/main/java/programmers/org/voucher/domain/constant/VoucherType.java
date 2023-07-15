@@ -1,4 +1,4 @@
-package programmers.org.voucher.constant;
+package programmers.org.voucher.domain.constant;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
