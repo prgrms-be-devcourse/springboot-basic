@@ -31,7 +31,7 @@ public class VoucherService {
 	}
 
 	public List<VoucherDTO> getVouchers() {
-		return voucherRepository.readAll()
+		return voucherRepository.findAll()
 			.stream()
 			.map(VoucherMapper::toVoucherDTO)
 			.collect(Collectors.toList());

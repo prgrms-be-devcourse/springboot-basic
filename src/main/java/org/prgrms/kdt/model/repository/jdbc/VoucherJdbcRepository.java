@@ -2,6 +2,7 @@ package org.prgrms.kdt.model.repository.jdbc;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -10,6 +11,7 @@ import org.prgrms.kdt.model.entity.CustomerEntity;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -52,12 +54,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public List<VoucherEntity> readAll() {
+	public List<VoucherEntity> findAll() {
 		return jdbcTemplate.query("select * from vouchers", voucherEntityRowMapper);
 	}
 
 	@Override
-	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
+	public VoucherEntity updateVoucher(VoucherEntity voucherEntity) {
 		int update = jdbcTemplate.update("UPDATE  vouchers SET amount = ?, voucher_type = ? WHERE voucher_id = ?",
 			voucherEntity.getAmount(),
 			voucherEntity.getVoucherType().toString(),
@@ -67,5 +69,29 @@ public class VoucherJdbcRepository implements VoucherRepository {
 			throw new RuntimeException("Nothing was updated");
 		}
 		return voucherEntity;
+	}
+
+	@Override
+	public Optional<VoucherEntity> findById(Long vouherId) {
+		try{
+			return Optional.ofNullable(jdbcTemplate.queryForObject(
+				"select * from customers WHERE customer_id = ?",
+				voucherEntityRowMapper,
+				vouherId)
+			);
+		}catch (EmptyResultDataAccessException e) {
+			return Optional.empty();
+		}
+	}
+
+	@Override
+	public boolean deleteById(Long voucherId) {
+		int update = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", voucherId);
+
+		if (update != 1) {
+			return false;
+		}
+
+		return true;
 	}
 }

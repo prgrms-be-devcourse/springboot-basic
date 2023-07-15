@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.model.repository.file;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.VoucherEntity;
-import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
+import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.util.FileIO;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +35,7 @@ class FileVoucherRepositoryTest {
 		//when
 		voucherEntities.stream()
 			.forEach(voucher -> voucherRepository.createVoucher(voucher));
-		List<VoucherEntity> expectedVoucherEntities = voucherRepository.readAll()
+		List<VoucherEntity> expectedVoucherEntities = voucherRepository.findAll()
 			.stream()
 			.collect(Collectors.toList());
 

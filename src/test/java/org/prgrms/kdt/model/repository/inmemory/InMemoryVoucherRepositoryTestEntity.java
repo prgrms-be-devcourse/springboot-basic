@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.model.repository.inmemory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.VoucherEntity;
-import org.prgrms.kdt.model.repository.inmemory.InMemoryVoucherRepository;
+import org.prgrms.kdt.model.repository.VoucherRepository;
 
 class InMemoryVoucherRepositoryTestEntity {
 
@@ -55,7 +55,7 @@ class InMemoryVoucherRepositoryTestEntity {
 		//when
 		voucherEntities.stream()
 			.forEach(voucher -> voucherRepository.createVoucher(voucher));
-		List<VoucherEntity> expectedVoucherEntities = voucherRepository.readAll()
+		List<VoucherEntity> expectedVoucherEntities = voucherRepository.findAll()
 			.stream()
 			.collect(Collectors.toList());
 
