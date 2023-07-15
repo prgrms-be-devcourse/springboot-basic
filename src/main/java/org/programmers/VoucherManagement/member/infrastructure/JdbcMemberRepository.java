@@ -85,12 +85,6 @@ public class JdbcMemberRepository implements MemberRepository {
         }
     }
 
-    @Override
-    public void deleteAll() {
-        String sql = "delete from member_table";
-        jdbcTemplate.update(sql);
-    }
-
     public static RowMapper<Member> memberRowMapper() {
         return (result, rowNum) -> new Member(
                 UUID.fromString(result.getString("member_id")),
