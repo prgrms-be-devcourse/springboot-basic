@@ -21,7 +21,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/voucher")
 @RequiredArgsConstructor
-public class VoucherViewController {
+public class VoucherController {
 
     private static final String REDIRECT_VOUCHER = "redirect:/voucher";
 

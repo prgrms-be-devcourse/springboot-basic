@@ -21,7 +21,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/customer")
 @RequiredArgsConstructor
-public class CustomerViewController {
+public class CustomerController {
 
     private static final String REDIRECT_CUSTOMER = "redirect:/customer";
 

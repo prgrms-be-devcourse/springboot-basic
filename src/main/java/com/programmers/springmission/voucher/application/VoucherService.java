@@ -61,6 +61,16 @@ public class VoucherService {
     }
 
     @Transactional
+    public VoucherResponse updateCustomer(UUID inputVoucherId, UUID inputCustomerId) {
+        Voucher voucher = findVoucher(inputVoucherId);
+        validateAssignedCustomer(voucher);
+
+        voucher.updateCustomer(inputCustomerId);
+        voucherRepository.updateCustomer(voucher);
+        return new VoucherResponse(voucher);
+    }
+
+    @Transactional
     public void deleteVoucher(UUID voucherId) {
         Voucher voucher = findVoucher(voucherId);
 
@@ -70,16 +80,6 @@ public class VoucherService {
     @Transactional
     public void deleteAllVoucher() {
         voucherRepository.deleteAll();
-    }
-
-    @Transactional
-    public VoucherResponse updateCustomer(UUID inputVoucherId, UUID inputCustomerId) {
-        Voucher voucher = findVoucher(inputVoucherId);
-        validateAssignedCustomer(voucher);
-
-        voucher.updateCustomer(inputCustomerId);
-        voucherRepository.updateCustomer(voucher);
-        return new VoucherResponse(voucher);
     }
 
     private Voucher findVoucher(UUID voucherId) {
