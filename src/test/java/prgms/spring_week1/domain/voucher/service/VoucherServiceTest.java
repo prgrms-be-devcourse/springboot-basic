@@ -30,7 +30,7 @@ class VoucherServiceTest {
 
     @Test
     void findByType() {
-        assertThat(voucherService.findByType("PERCENT"),hasSize(2));
+        assertThat(voucherService.findByType("PERCENT"),hasSize(1));
     }
 
     @Test

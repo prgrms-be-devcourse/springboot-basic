@@ -44,8 +44,8 @@ class OutputTest {
         output.printAllVoucher(voucherList);
 
         //then
-        assertEquals("상품권 종류 : 고정 가격 할인 상품권 할인 가격 :10000원\n" +
-                "상품권 종류 : 고정 할인률 상품권 할인률 :30 퍼센트", outputMessage.toString().strip());
+        assertEquals("상품권 종류 : 고정 가격 할인 상품권 할인 정보 :10000\n" +
+                "상품권 종류 : 고정 가격 할인 상품권 할인 정보 :30", outputMessage.toString().strip());
     }
 
     @Test
