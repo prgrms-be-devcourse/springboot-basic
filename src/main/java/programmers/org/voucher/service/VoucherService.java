@@ -35,17 +35,17 @@ public class VoucherService {
     }
 
     public VoucherResponse getVoucher(Long id) {
-        Voucher voucher = findVoucherById(id);
+        Voucher voucher = validateVoucherExist(id);
         return toDto(voucher);
     }
 
     public void update(Long id, VoucherRequest request) {
-        findVoucherById(id);
+        validateVoucherExist(id);
         voucherRepository.update(id, request);
     }
 
     public void delete(Long id) {
-        findVoucherById(id);
+        validateVoucherExist(id);
         voucherRepository.deleteById(id);
     }
 
@@ -53,7 +53,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    private Voucher findVoucherById(Long id) {
+    private Voucher validateVoucherExist(Long id) {
         return voucherRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER.getMessage()));
     }
