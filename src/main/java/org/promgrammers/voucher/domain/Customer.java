@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -15,6 +16,9 @@ public class Customer {
     private final UUID id;
     private String username;
     private CustomerType customerType;
+
+    private List<Voucher> vouchers; // 바우처 목록
+
 
     public Customer(UUID id, String username) {
         validateUsername(username);
@@ -31,9 +35,5 @@ public class Customer {
 
     public void updateUsername(String username) {
         this.username = username;
-    }
-
-    public void updateCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
     }
 }

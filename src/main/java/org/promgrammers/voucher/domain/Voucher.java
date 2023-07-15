@@ -12,6 +12,7 @@ public abstract class Voucher {
     private final UUID id;
 
 
+
     public abstract VoucherType getVoucherType();
 
     public abstract long calculateDiscount(long price);
