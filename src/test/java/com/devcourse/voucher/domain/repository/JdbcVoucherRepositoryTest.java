@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.devcourse.voucher.domain.Voucher.Status.*;
 import static com.devcourse.voucher.domain.Voucher.Type.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -103,4 +104,21 @@ class JdbcVoucherRepositoryTest {
         Optional<Voucher> optionalVoucher = voucherRepository.findById(voucher.id());
         assertThat(optionalVoucher).isEmpty();
     }
+
+    @Test
+    @DisplayName("바우처의 상태를 수정하면 수정된 상태가 잘 반영되어야 한다.")
+    void updateStatusTest() {
+        // given
+        Voucher voucher = new Voucher(100, expiredAt, PERCENT);
+        voucherRepository.save(voucher);
+
+        // when
+        voucherRepository.updateStatus(voucher.id(), USED.name());
+
+        // then
+        Optional<Voucher> optionalVoucher = voucherRepository.findById(voucher.id());
+        assertThat(optionalVoucher).isNotEmpty();
+        assertThat(optionalVoucher.get().isUsed()).isTrue();
+    }
+
 }

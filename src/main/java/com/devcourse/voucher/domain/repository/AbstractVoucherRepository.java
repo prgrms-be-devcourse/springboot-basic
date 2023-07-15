@@ -24,4 +24,7 @@ class AbstractVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID id) { }
+
+    @Override
+    public void updateStatus(UUID id, String status) { }
 }

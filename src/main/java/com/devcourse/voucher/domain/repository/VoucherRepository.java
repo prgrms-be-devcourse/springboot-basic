@@ -16,4 +16,6 @@ public interface VoucherRepository {
     Optional<Voucher> findById(UUID id);
 
     void deleteById(UUID id);
+
+    void updateStatus(UUID id, String status);
 }

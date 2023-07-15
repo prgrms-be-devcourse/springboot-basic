@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.devcourse.global.util.Query.Table.*;
+import static com.devcourse.global.util.Query.Table.VOUCHERS;
 
 @Component
 @Profile("dev")
@@ -83,5 +83,16 @@ class JdbcVoucherRepository implements VoucherRepository {
                 .build();
 
         jdbcTemplate.update(sql, id.toString());
+    }
+
+    @Override
+    public void updateStatus(UUID id, String status) {
+        String sql = Query.builder()
+                .update(VOUCHERS)
+                .set("status")
+                .where("id")
+                .build();
+
+        jdbcTemplate.update(sql, status, id.toString());
     }
 }
