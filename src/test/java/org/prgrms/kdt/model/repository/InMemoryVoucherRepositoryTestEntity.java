@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.model.repository.inmemory.InMemoryVoucherRepository;
 
 class InMemoryVoucherRepositoryTestEntity {
 

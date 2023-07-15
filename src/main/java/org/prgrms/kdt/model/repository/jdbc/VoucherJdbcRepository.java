@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.model.repository.jdbc;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.CustomerEntity;
 import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Qualifier("JdbcVoucherRepository")
-public class VoucherJdbcRepository implements VoucherRepository{
+public class VoucherJdbcRepository implements VoucherRepository {
 
 	private final DataSource dataSource;
 
@@ -37,7 +38,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 	@Override
 	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
 		int update = jdbcTemplate.update(
-			"INSERT INTO customers(voucher_id, amount, voucherType)VALUES (?, ?, ?)",
+			"INSERT INTO vouchers(voucher_id, amount, voucher_type) VALUES (?, ?, ?)",
 			voucherEntity.getVoucherId(),
 			voucherEntity.getAmount(),
 			voucherEntity.getVoucherType().toString()
@@ -52,14 +53,15 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
 	@Override
 	public List<VoucherEntity> readAll() {
-		return jdbcTemplate.query("select * from customers", voucherEntityRowMapper);
+		return jdbcTemplate.query("select * from vouchers", voucherEntityRowMapper);
 	}
 
 	@Override
 	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
-		int update = jdbcTemplate.update("UPDATE  vouchers SET amount = ?, voucher_type = ? WHERE customer_id = ?)",
+		int update = jdbcTemplate.update("UPDATE  vouchers SET amount = ?, voucher_type = ? WHERE voucher_id = ?",
 			voucherEntity.getAmount(),
-			voucherEntity.getVoucherType().toString()
+			voucherEntity.getVoucherType().toString(),
+			voucherEntity.getVoucherId()
 		);
 		if (update != 1) {
 			throw new RuntimeException("Nothing was updated");

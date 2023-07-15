@@ -1,10 +1,12 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.model.repository.file;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.util.FileIO;
+import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

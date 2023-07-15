@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.model.repository.jdbc;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.prgrms.kdt.model.entity.CustomerEntity;
+import org.prgrms.kdt.model.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Qualifier("JdbcCustomerRepository")
-public class CustomerJdbcRepository implements CustomerRepository{
+public class CustomerJdbcRepository implements CustomerRepository {
 
 	private final DataSource dataSource;
 
@@ -53,10 +54,10 @@ public class CustomerJdbcRepository implements CustomerRepository{
 
 	@Override
 	public CustomerEntity update(CustomerEntity updatedCustomer) {
-		int update = jdbcTemplate.update("UPDATE  customers SET name = ?, email = ?, last_login_at = ? WHERE customer_id = ?)",
+		int update = jdbcTemplate.update("UPDATE customers SET name = ?, email = ? WHERE customer_id = ?",
 			updatedCustomer.getName(),
 			updatedCustomer.getEmail(),
-			updatedCustomer.getCustomerId().toString().getBytes()
+			updatedCustomer.getCustomerId()
 		);
 		if (update != 1) {
 			throw new RuntimeException("Nothing was updated");

@@ -1,10 +1,11 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.model.repository.inmemory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
