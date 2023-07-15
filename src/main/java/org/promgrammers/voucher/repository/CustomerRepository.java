@@ -1,6 +1,7 @@
 package org.promgrammers.voucher.repository;
 
 import org.promgrammers.voucher.domain.Customer;
+import org.promgrammers.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,4 +25,6 @@ public interface CustomerRepository {
     Optional<Customer> findByVoucherId(UUID voucherId);
 
     void deleteById(UUID customerId);
+
+    void assignVoucherToCustomer(UUID customerId, Voucher voucher);
 }

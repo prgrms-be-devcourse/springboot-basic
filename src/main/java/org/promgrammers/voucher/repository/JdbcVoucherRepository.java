@@ -25,15 +25,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
             ":amount, :voucherType)";
     private static final String FIND_BY_ID = "SELECT * FROM vouchers WHERE id = :id";
     private static final String FIND_ALL = "SELECT * FROM vouchers";
-    private static final String UPDATE = "UPDATE vouchers SET amount = :amount, voucher_type = :voucherType WHERE " +
-            "id = :id";
     private static final String DELETE_ALL = "DELETE FROM vouchers";
 
 
     @Override
     public Optional<Voucher> findById(UUID id) {
         try {
-            Map<String, UUID> param = Map.of("id", id);
+            Map<String, Object> param = Map.of("id", String.valueOf(id));
             Voucher voucher = jdbcTemplate.queryForObject(FIND_BY_ID, param, VoucherUtils.voucherRowMapper);
             return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
@@ -60,12 +58,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 }
             };
         }
-        return voucher;
-    }
-
-    @Override
-    public Voucher update(Voucher voucher) {
-        jdbcTemplate.update(UPDATE, VoucherUtils.createParameterSource(voucher));
         return voucher;
     }
 

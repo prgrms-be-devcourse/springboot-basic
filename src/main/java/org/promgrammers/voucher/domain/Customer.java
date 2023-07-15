@@ -36,4 +36,8 @@ public class Customer {
     public void updateUsername(String username) {
         this.username = username;
     }
+
+    public void addVoucher(Voucher voucher) {
+        vouchers.add(voucher);
+    }
 }

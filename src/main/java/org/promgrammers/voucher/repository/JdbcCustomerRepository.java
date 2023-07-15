@@ -3,6 +3,7 @@ package org.promgrammers.voucher.repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.promgrammers.voucher.domain.Customer;
+import org.promgrammers.voucher.domain.Voucher;
 import org.promgrammers.voucher.util.CustomerUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -113,4 +114,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
         Map<String, Object> param = Map.of("id", String.valueOf(customerId));
         JdbcTemplate.update(DELETE_BY_ID, param);
     }
+
+    @Override
+    public void assignVoucherToCustomer(UUID customerId, Voucher voucher) {
+        Optional<Customer> optionalCustomer = findById(customerId);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            customer.addVoucher(voucher);
+            update(customer);
+        } else {
+            log.error("해당 고객을 찾을 수 없습니다. => customerId: {}", customerId);
+            throw new IllegalArgumentException("해당 고객을 찾을 수 없습니다.");
+        }
+    }
 }
+

@@ -34,6 +34,15 @@ public class CustomerService {
         return new CustomerResponseDto(customer);
     }
 
+    @Transactional
+    public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("해당 바우처를 찾을수 없습니다"));
+
+        customerRepository.assignVoucherToCustomer(customerId, voucher);
+    }
+
+
     @Transactional(readOnly = true)
     public CustomerResponseDto findCustomerById(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
