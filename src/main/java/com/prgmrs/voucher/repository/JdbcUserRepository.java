@@ -3,10 +3,14 @@ package com.prgmrs.voucher.repository;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class JdbcUserRepository implements UserRepository {
@@ -20,8 +24,8 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public void save(User user) {
         String sql = "INSERT INTO `user` (user_id, username) VALUES (:userId, :username)";
-
         Map<String, Object> paramMap = new HashMap<>();
+
         paramMap.put("userId", user.userId().toString());
         paramMap.put("username", user.username());
 
@@ -32,22 +36,16 @@ public class JdbcUserRepository implements UserRepository {
     public List<User> findAll() {
         String sql = "SELECT user_id, username FROM `user` ORDER BY created_at";
 
-        return getUsers(sql);
+        return jdbcTemplate.query(sql, toRowMapper());
     }
 
     @Override
     public User findByUsername(String username) {
         String sql = "SELECT user_id, username FROM `user` WHERE username = :username";
-
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("username", username);
 
-        return jdbcTemplate.queryForObject(sql, paramMap, (rs, rowNum) -> {
-            UUID userId = UUID.fromString(rs.getString("user_id"));
-            String receivedUsername = rs.getString("username");
-
-            return new User(userId, receivedUsername);
-        });
+        return jdbcTemplate.queryForObject(sql, paramMap, toRowMapper());
     }
 
     @Override
@@ -61,7 +59,7 @@ public class JdbcUserRepository implements UserRepository {
                            AND w.unassigned_time IS NULL
                 """;
 
-        return getUsers(sql);
+        return jdbcTemplate.query(sql, toRowMapper());
     }
 
     @Override
@@ -74,30 +72,18 @@ public class JdbcUserRepository implements UserRepository {
                     WHERE w.voucher_id = :voucher_id
                 """;
 
-
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucher_id", voucher.voucherId().toString());
 
-        return jdbcTemplate.queryForObject(sql, paramMap, (rs, rowNum) -> {
+        return jdbcTemplate.queryForObject(sql, paramMap, toRowMapper());
+    }
+
+    private static RowMapper<User> toRowMapper() {
+        return (rs, rowNum) -> {
             UUID userId = UUID.fromString(rs.getString("user_id"));
             String receivedUsername = rs.getString("username");
 
             return new User(userId, receivedUsername);
-        });
-    }
-
-    private List<User> getUsers(String sql) {
-        List<User> userList = new ArrayList<>();
-
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
-
-        for (Map<String, Object> row : rows) {
-            UUID userId = UUID.fromString(row.get("user_id").toString());
-            String username = (String) row.get("username");
-            User user = new User(userId, username);
-            userList.add(user);
-        }
-
-        return userList;
+        };
     }
 }

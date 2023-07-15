@@ -9,10 +9,14 @@ import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.model.vo.Amount;
 import com.prgmrs.voucher.model.vo.Percent;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Repository
 @Primary
@@ -50,9 +54,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         String sql = "SELECT voucher_id, discount_type, discount_value FROM voucher ORDER BY created_at";
 
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
-
-        return getVouchers(rows);
+        return jdbcTemplate.query(sql, toRowMapper());
     }
 
     @Override
@@ -72,25 +74,21 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         paramMap.put("username", username);
 
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, paramMap);
-
-        return getVouchers(rows);
+        return jdbcTemplate.query(sql, paramMap, toRowMapper());
     }
 
     @Override
     public List<Voucher> getAssignedVoucherList() {
         String sql = """
-                        SELECT
-                            v.voucher_id, v.discount_type, v.discount_value
-                        FROM `voucher` v
-                            INNER JOIN `wallet` w ON v.voucher_id = w.voucher_id
-                        WHERE w.unassigned_time IS NULL
-                            ORDER BY v.created_at
-                 """;
+                       SELECT
+                           v.voucher_id, v.discount_type, v.discount_value
+                       FROM `voucher` v
+                           INNER JOIN `wallet` w ON v.voucher_id = w.voucher_id
+                       WHERE w.unassigned_time IS NULL
+                           ORDER BY v.created_at
+                """;
 
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
-
-        return getVouchers(rows);
+        return jdbcTemplate.query(sql, toRowMapper());
     }
 
     @Override
@@ -112,22 +110,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
                             )
                 """;
 
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, Collections.emptyMap());
-
-        return getVouchers(rows);
+        return jdbcTemplate.query(sql, toRowMapper());
     }
 
+    private static RowMapper<Voucher> toRowMapper() {
+        return (rs, rowNum) -> {
+            UUID voucherId = UUID.fromString(rs.getString("voucher_id").toString());
+            long discountValue = rs.getLong("discount_value");
 
-    private List<Voucher> getVouchers(List<Map<String, Object>> rows) {
-        List<Voucher> voucherList = new ArrayList<>();
-
-        for (Map<String, Object> row : rows) {
-            UUID voucherId = UUID.fromString(row.get("voucher_id").toString());
-            Number discountTypeNumber = (Number) row.get("discount_type");
-            short discountTypeShort = discountTypeNumber.shortValue();
-            DiscountType discountTypeEnum = DiscountType.fromValue(discountTypeShort);
-            long discountValue = (long) row.get("discount_value");
             DiscountStrategy discountStrategy;
+            short discountTypeShort = rs.getShort("discount_type");
+            DiscountType discountTypeEnum = DiscountType.fromValue(discountTypeShort);
 
             switch (discountTypeEnum) {
                 case FIXED_AMOUNT_DISCOUNT -> {
@@ -141,11 +134,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 default -> throw new NoSuchVoucherTypeException("no such discount type");
             }
 
-            Voucher voucher = new Voucher(voucherId, discountStrategy);
-
-            voucherList.add(voucher);
-        }
-
-        return voucherList;
+            return new Voucher(voucherId, discountStrategy);
+        };
     }
 }
