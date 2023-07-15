@@ -5,9 +5,9 @@ import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,12 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @JdbcTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import({JdbcMemberRepository.class})
 public class JdbcMemberRepositoryTest {
-    private final JdbcMemberRepository memberRepository;
-
-    JdbcMemberRepositoryTest(@Autowired DataSource dataSource) {
-        memberRepository = new JdbcMemberRepository(dataSource);
-    }
+    @Autowired
+    private JdbcMemberRepository memberRepository;
 
     private Member blackMember = new Member(UUID.randomUUID(), "kim", MemberStatus.BLACK);
     private Member whiteMember = new Member(UUID.randomUUID(), "park", MemberStatus.WHITE);

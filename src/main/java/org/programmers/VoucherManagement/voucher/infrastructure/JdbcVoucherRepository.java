@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,8 +21,8 @@ import static org.programmers.VoucherManagement.voucher.exception.VoucherExcepti
 public class JdbcVoucherRepository implements VoucherRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcVoucherRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
