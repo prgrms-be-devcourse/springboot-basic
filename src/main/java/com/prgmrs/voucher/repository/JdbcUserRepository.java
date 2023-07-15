@@ -70,7 +70,7 @@ public class JdbcUserRepository implements UserRepository {
                     SELECT
                         u.user_id, u.username
                     FROM `user` u
-                        JOIN `wallet` w ON u.user_id = w.user_id
+                        INNER JOIN `wallet` w ON u.user_id = w.user_id
                     WHERE w.voucher_id = :voucher_id
                 """;
 

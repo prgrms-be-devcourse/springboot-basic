@@ -61,8 +61,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
                          SELECT
                            v.voucher_id, v.discount_type, v.discount_value
                          FROM `voucher` v 
-                           JOIN `wallet` w ON v.voucher_id = w.voucher_id 
-                               JOIN `user` u ON w.user_id = u.user_id
+                           INNER JOIN `wallet` w ON v.voucher_id = w.voucher_id 
+                               INNER JOIN `user` u ON w.user_id = u.user_id
                          WHERE  u.username = :username
                            AND w.unassigned_time IS NULL
                                ORDER BY v.created_at
@@ -83,7 +83,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                         SELECT
                             v.voucher_id, v.discount_type, v.discount_value
                         FROM `voucher` v
-                            JOIN `wallet` w ON v.voucher_id = w.voucher_id
+                            INNER JOIN `wallet` w ON v.voucher_id = w.voucher_id
                         WHERE w.unassigned_time IS NULL
                             ORDER BY v.created_at
                  """;
