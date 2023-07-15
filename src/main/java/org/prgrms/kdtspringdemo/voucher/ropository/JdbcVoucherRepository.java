@@ -25,6 +25,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
     private static final String FIND_ALL_QUERY = "SELECT * FROM voucher";
     private static final String UPDATE_QUERY = "UPDATE voucher SET voucher_type = :voucher_type, amount = :amount WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+    private static final String DELETE_QUERY = "DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -94,6 +95,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher deleteById(UUID voucherId) {
-        return null;
+        Voucher voucher = findById(voucherId);
+        int deletedVoucherRow = jdbcTemplate.update(DELETE_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
+        if (isNotFoundVoucher(deletedVoucherRow)) {
+            throw new RuntimeException(VOUCHER_ID_LOOKUP_FAILED.getMessage());
+        }
+
+        return voucher;
     }
 }
