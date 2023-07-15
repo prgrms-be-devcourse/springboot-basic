@@ -57,9 +57,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = resultSet.getString("voucher_type");
-        var discount = resultSet.getLong("discount");
+        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        String voucherType = resultSet.getString("voucher_type");
+        long discount = resultSet.getLong("discount");
         VoucherType createVoucherType = VoucherType.valueOf(voucherType);
 
         Voucher voucher = switch (createVoucherType) {
