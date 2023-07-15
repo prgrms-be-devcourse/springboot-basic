@@ -1,4 +1,4 @@
-package com.programmers.springmission.view;
+package com.programmers.springmission.view.input;
 
 import java.util.Scanner;
 
@@ -15,4 +15,3 @@ public class InputReader implements Input {
         return scanner.nextLine();
     }
 }
-

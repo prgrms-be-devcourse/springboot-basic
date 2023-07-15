@@ -1,10 +1,11 @@
 package com.programmers.springmission.voucher.application;
 
-import com.programmers.springmission.ManagementController;
+import com.programmers.springmission.ManagementConsoleController;
 import com.programmers.springmission.customer.domain.Customer;
 import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
 import com.programmers.springmission.voucher.presentation.request.VoucherUpdateRequest;
@@ -45,12 +46,11 @@ class VoucherServiceTest {
     VoucherService service;
 
     @MockBean
-    ManagementController managementController;
+    ManagementConsoleController managementConsoleController;
 
     @DisplayName("FixedAmountVoucher create 성공 테스트")
     @Test
     void fixed_voucher_create_success() {
-
         // given
         VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
 
@@ -59,7 +59,7 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(1);
+        assertThat(voucherResponses).hasSize(1);
         assertThat(voucherResponses.get(0).getVoucherAmount()).isEqualTo(10L);
         assertThat(voucherResponses.get(0).getVoucherType()).isEqualTo(VoucherType.FIXED_AMOUNT);
     }
@@ -67,7 +67,6 @@ class VoucherServiceTest {
     @DisplayName("PercentDiscountVoucher create 성공 테스트")
     @Test
     void percent_voucher_create_success() {
-
         // given
         VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
 
@@ -76,7 +75,7 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(1);
+        assertThat(voucherResponses).hasSize(1);
         assertThat(voucherResponses.get(0).getVoucherAmount()).isEqualTo(10L);
         assertThat(voucherResponses.get(0).getVoucherType()).isEqualTo(VoucherType.PERCENT_DISCOUNT);
     }
@@ -84,13 +83,12 @@ class VoucherServiceTest {
     @DisplayName("findByIdVoucher 바우처 단건 조회 성공 테스트")
     @Test
     void find_voucher_by_id_success() {
-
         // given
         VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
 
         // when
         VoucherResponse voucherResponse = service.createVoucher(voucherCreateRequest);
-        VoucherResponse result = service.findByIdVoucher(voucherResponse.getVoucherId());
+        VoucherResponse result = service.findOneVoucher(voucherResponse.getVoucherId());
 
         // then
         assertThat(result.getVoucherId()).isEqualTo(voucherResponse.getVoucherId());
@@ -99,7 +97,6 @@ class VoucherServiceTest {
     @DisplayName("findAllVoucher 바우처 전체 조회 성공 테스트")
     @Test
     void find_voucher_all_success() {
-
         // given
         VoucherCreateRequest voucherCreateRequest1 = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
         VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
@@ -110,13 +107,12 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(2);
+        assertThat(voucherResponses).hasSize(2);
     }
 
     @DisplayName("updateVoucher 바우처 수정 성공 테스트")
     @Test
     void update_voucher_success() {
-
         // given
         VoucherCreateRequest voucherCreateRequest1 = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
         VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
@@ -126,8 +122,8 @@ class VoucherServiceTest {
         VoucherUpdateRequest voucherUpdateRequest2 = new VoucherUpdateRequest(50L);
 
         // when
-        VoucherResponse result1 = service.updateVoucher(voucherResponse1.getVoucherId(), voucherUpdateRequest1);
-        VoucherResponse result2 = service.updateVoucher(voucherResponse2.getVoucherId(), voucherUpdateRequest2);
+        VoucherResponse result1 = service.updateAmount(voucherResponse1.getVoucherId(), voucherUpdateRequest1);
+        VoucherResponse result2 = service.updateAmount(voucherResponse2.getVoucherId(), voucherUpdateRequest2);
 
         // then
         assertThat(result1.getVoucherAmount()).isEqualTo(500L);
@@ -137,7 +133,6 @@ class VoucherServiceTest {
     @DisplayName("updateVoucher 바우처 수정 실패 테스트")
     @Test
     void update_voucher_fail() {
-
         // given
         VoucherCreateRequest voucherCreateRequest1 = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
         VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
@@ -147,11 +142,11 @@ class VoucherServiceTest {
         VoucherUpdateRequest voucherUpdateRequest2 = new VoucherUpdateRequest(200L);
 
         // then
-        assertThatThrownBy(() -> service.updateVoucher(voucherResponse1.getVoucherId(), voucherUpdateRequest1))
+        assertThatThrownBy(() -> service.updateAmount(voucherResponse1.getVoucherId(), voucherUpdateRequest1))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
 
-        assertThatThrownBy(() -> service.updateVoucher(voucherResponse2.getVoucherId(), voucherUpdateRequest2))
+        assertThatThrownBy(() -> service.updateAmount(voucherResponse2.getVoucherId(), voucherUpdateRequest2))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }
@@ -159,7 +154,6 @@ class VoucherServiceTest {
     @DisplayName("deleteByIdVoucher 바우처 단건 삭제 성공 테스트")
     @Test
     void delete_voucher_by_id_success() {
-
         // given
         VoucherCreateRequest voucherCreateRequest1 = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
         VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
@@ -171,14 +165,13 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(1);
+        assertThat(voucherResponses).hasSize(1);
         assertThat(voucherResponses.get(0).getVoucherId()).isEqualTo(voucherResponse1.getVoucherId());
     }
 
     @DisplayName("deleteAllVoucher 바우처 전체 삭제 성공 테스트")
     @Test
     void delete_voucher_all_success() {
-
         // given
         VoucherCreateRequest voucherCreateRequest1 = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
         VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
@@ -190,13 +183,12 @@ class VoucherServiceTest {
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
-        assertThat(voucherResponses.size()).isEqualTo(0);
+        assertThat(voucherResponses).isEmpty();
     }
 
     @DisplayName("메모리에 바우처가 존재하지 않을 때 예외 던지는지 테스트")
     @Test
     void valid_voucher_exist() {
-
         // given
         VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
 
@@ -204,15 +196,14 @@ class VoucherServiceTest {
         service.createVoucher(voucherCreateRequest);
 
         // then
-        assertThatThrownBy(() -> service.findByIdVoucher(UUID.randomUUID()))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_VOUCHER.getMessage());
+        assertThatThrownBy(() -> service.findOneVoucher(UUID.randomUUID()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_VOUCHER.getMessage());
     }
 
     @DisplayName("바우처에 고객 할당 성공하는지 테스트")
     @Test
     void assign_voucher_to_customer() {
-
         // given
         VoucherCreateRequest voucherCreateRequest1 = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
         VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
@@ -223,13 +214,33 @@ class VoucherServiceTest {
         customerRepository.save(customer);
 
         // when
-        service.assignVoucherToCustomer(voucherResponse1.getVoucherId(), customer.getCustomerId());
-        service.assignVoucherToCustomer(voucherResponse2.getVoucherId(), customer.getCustomerId());
+        service.updateCustomer(voucherResponse1.getVoucherId(), customer.getCustomerId());
+        service.updateCustomer(voucherResponse2.getVoucherId(), customer.getCustomerId());
 
         // then
         List<VoucherResponse> voucherResponses = service.findAllVoucher();
         assertThat(voucherResponses.get(0).getCustomerId()).isEqualTo(customer.getCustomerId());
         assertThat(voucherResponses.get(1).getCustomerId()).isEqualTo(customer.getCustomerId());
     }
-}
 
+    @DisplayName("바우처 정책별 조회 성공하는지 테스트")
+    @Test
+    void find_by_policy_voucher() {
+        // given
+        VoucherCreateRequest voucherCreateRequest1 = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10L);
+        VoucherCreateRequest voucherCreateRequest2 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 10L);
+        VoucherCreateRequest voucherCreateRequest3 = new VoucherCreateRequest(VoucherType.PERCENT_DISCOUNT, 20L);
+
+        // when
+        service.createVoucher(voucherCreateRequest1);
+        service.createVoucher(voucherCreateRequest2);
+        service.createVoucher(voucherCreateRequest3);
+
+        // then
+        List<VoucherResponse> fixed = service.findByPolicyVoucher(VoucherType.FIXED_AMOUNT);
+        assertThat(fixed).hasSize(1);
+
+        List<VoucherResponse> percent = service.findByPolicyVoucher(VoucherType.PERCENT_DISCOUNT);
+        assertThat(percent).hasSize(2);
+    }
+}

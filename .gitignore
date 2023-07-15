@@ -55,3 +55,6 @@ gradle-app.setting
 
 # log file
 logs/
+
+# docker
+docker/database

@@ -1,102 +1,107 @@
 package com.programmers.springmission.voucher.presentation;
 
-import com.programmers.springmission.view.Console;
-import com.programmers.springmission.view.CrudType;
 import com.programmers.springmission.voucher.application.VoucherService;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
 import com.programmers.springmission.voucher.presentation.request.VoucherUpdateRequest;
 import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 최상위 단인 컨트롤러에서 내부적으로 동작이 실행될 때
+ * 실행된 클래스, 메서드 이름, 발생 시각을 로그로 남긴다.
+ *
+ * @see com.programmers.springmission.global.aop.LoggerAspect
+ */
+
 @Controller
+@RequestMapping("/voucher")
+@RequiredArgsConstructor
 public class VoucherController {
 
-    private final Console console;
+    private static final String REDIRECT_VOUCHER = "redirect:/voucher";
+
     private final VoucherService voucherService;
 
-    public VoucherController(Console console, VoucherService voucherService) {
-        this.console = console;
-        this.voucherService = voucherService;
+    @GetMapping
+    public String viewVoucherPage(Model model) {
+        List<VoucherResponse> allVoucher = voucherService.findAllVoucher();
+        model.addAttribute("serverTime", LocalDateTime.now());
+        model.addAttribute("vouchers", allVoucher);
+        return "voucher/voucher";
     }
 
-    public void run() {
-        console.outputVoucherCrud();
-        CrudType inputValue = CrudType.of(console.input());
+    @GetMapping("/{voucherId}")
+    public String findVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
+        VoucherResponse voucherResponse = voucherService.findOneVoucher(voucherId);
 
-        switch (inputValue) {
-            case CREATE -> {
-                VoucherResponse voucherResponse = createVoucher();
-                console.outputVoucherCreate(voucherResponse);
-            }
-            case FIND_ONE -> {
-                VoucherResponse voucherResponse = findByIdVoucher();
-                console.outputVoucherFindById(voucherResponse);
-            }
-            case FIND_ALL -> {
-                List<VoucherResponse> voucherResponse = findAllVoucher();
-                console.outputVoucherFindAll(voucherResponse);
-            }
-            case UPDATE -> {
-                VoucherResponse voucherResponse = updateVoucher();
-                console.outputVoucherUpdate(voucherResponse);
-            }
-            case DELETE_BY_ID -> {
-                deleteByIdVoucher();
-                console.outputVoucherDeleteById();
-            }
-            case DELETE_ALL ->  {
-                deleteAllVoucher();
-                console.outputVoucherDeleteAll();
-            }
-            case WALLET -> {
-                VoucherResponse voucherResponse = assignVoucherToCustomer();
-                console.outputVoucherAssign(voucherResponse);
-            }
+        if (voucherResponse != null) {
+            model.addAttribute("voucher", voucherResponse);
+            return "voucher/voucher-details";
+        } else {
+            return "global/error";
         }
     }
 
-    private VoucherResponse createVoucher() {
-        VoucherType inputType = VoucherType.of(console.inputVoucherPolicy());
-        long inputAmount = Long.parseLong(console.inputVoucherAmount());
-
-        VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(inputType, inputAmount);
-        return voucherService.createVoucher(voucherCreateRequest);
+    @GetMapping("/policy")
+    public String viewPolicyPage(Model model, @RequestParam VoucherType voucherType) {
+        List<VoucherResponse> policyVoucher = voucherService.findByPolicyVoucher(voucherType);
+        model.addAttribute("vouchers", policyVoucher);
+        return "voucher/voucher-policy";
     }
 
-    private VoucherResponse findByIdVoucher() {
-        UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
-        return voucherService.findByIdVoucher(inputVoucherId);
+    @PostMapping("/{voucherId}")
+    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        voucherService.deleteVoucher(voucherId);
+        return REDIRECT_VOUCHER;
     }
 
-    private List<VoucherResponse> findAllVoucher() {
-        return voucherService.findAllVoucher();
+    @GetMapping("/viewNewPage")
+    public String viewNewPage(Model model) {
+        model.addAttribute("voucherTypes", VoucherType.values());
+        return "voucher/voucher-new";
     }
 
-    private VoucherResponse updateVoucher() {
-        UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
-        long inputAmount = Long.parseLong(console.inputVoucherAmount());
-
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(inputAmount);
-        return voucherService.updateVoucher(inputVoucherId, voucherUpdateRequest);
+    @PostMapping("/viewNewPage")
+    public String addNewVoucher(@ModelAttribute("voucher") VoucherCreateRequest voucherCreateRequest) {
+        voucherService.createVoucher(voucherCreateRequest);
+        return REDIRECT_VOUCHER;
     }
 
-    private void deleteByIdVoucher() {
-        UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
-        voucherService.deleteByIdVoucher(inputVoucherId);
+    @GetMapping("/viewModifyPage/{voucherId}")
+    public String viewModifyPage(@PathVariable("voucherId") UUID voucherId, Model model) {
+        VoucherResponse voucherResponse = voucherService.findOneVoucher(voucherId);
+
+        if (voucherResponse != null) {
+            model.addAttribute("voucher", voucherResponse);
+            return "voucher/voucher-modify";
+        } else {
+            return "global/error";
+        }
     }
 
-    private void deleteAllVoucher() {
-        voucherService.deleteAllVoucher();
+    @PostMapping("/viewModifyPage/amount/{voucherId}")
+    public String modifyAmount(@PathVariable("voucherId") UUID voucherId,
+                               @ModelAttribute("voucher") VoucherUpdateRequest voucherUpdateRequest) {
+        voucherService.updateAmount(voucherId, voucherUpdateRequest);
+        return REDIRECT_VOUCHER;
     }
 
-    private VoucherResponse assignVoucherToCustomer() {
-        UUID inputVoucherId = UUID.fromString(console.inputVoucherId());
-        UUID inputCustomerId = UUID.fromString(console.inputCustomerId());
-        return voucherService.assignVoucherToCustomer(inputVoucherId, inputCustomerId);
+    @PostMapping("/viewModifyPage/newRegistration/{voucherId}")
+    public String modifyCustomer(@PathVariable("voucherId") UUID voucherId, String customerId) {
+        voucherService.updateCustomer(voucherId, UUID.fromString(customerId.trim()));
+        return REDIRECT_VOUCHER;
     }
 }
-

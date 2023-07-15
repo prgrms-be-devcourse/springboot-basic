@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Getter
 public class Customer {
+
     private final UUID customerId;
     private String name;
     private final String email;

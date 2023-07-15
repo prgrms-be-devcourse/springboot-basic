@@ -23,14 +23,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
         VoucherPolicy voucherPolicy = VoucherType.mapperVoucherPolicy(VoucherType.valueOf(resultSet.getString("policy")));
         long voucherAmount = resultSet.getLong("amount");
 
         Voucher voucher = new Voucher(voucherId, voucherPolicy, voucherAmount);
         if (resultSet.getString("customer_id") != null) {
-            voucher.assignVoucherToCustomer(UUID.fromString(resultSet.getString("customer_id")));
+            voucher.updateCustomer(UUID.fromString(resultSet.getString("customer_id")));
         }
 
         return voucher;
@@ -38,11 +38,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        jdbcTemplate.update(
+        int update = jdbcTemplate.update(
                 "INSERT INTO vouchers (voucher_id, policy, amount) VALUES (?, ?, ?)",
                 voucher.getVoucherId().toString(),
                 voucher.getVoucherPolicy().getVoucherType().toString(),
                 voucher.getVoucherAmount());
+
+        if (update != 1) {
+            throw new IllegalArgumentException("바우처 생성에 실패하였습니다.");
+        }
     }
 
     @Override
@@ -58,6 +62,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByPolicy(VoucherType voucherType) {
+        return jdbcTemplate.query(
+                "SELECT * FROM vouchers WHERE policy = ?",
+                voucherRowMapper,
+                voucherType.toString());
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query(
                 "SELECT * FROM vouchers",
@@ -65,26 +77,38 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher) {
-        jdbcTemplate.update(
+    public void updateAmount(Voucher voucher) {
+        int update = jdbcTemplate.update(
                 "UPDATE vouchers SET amount = ? WHERE voucher_id = ?",
                 voucher.getVoucherAmount(),
                 voucher.getVoucherId().toString());
+
+        if (update != 1) {
+            throw new IllegalArgumentException("바우처 가격 수정에 실패하였습니다.");
+        }
     }
 
     @Override
-    public void assign(Voucher voucher) {
-        jdbcTemplate.update(
+    public void updateCustomer(Voucher voucher) {
+        int update = jdbcTemplate.update(
                 "UPDATE vouchers SET customer_id = ? WHERE voucher_id = ?",
                 voucher.getCustomerId().toString(),
                 voucher.getVoucherId().toString());
+
+        if (update != 1) {
+            throw new IllegalArgumentException("바우처 고객 할당에 실패하였습니다.");
+        }
     }
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(
+        int update = jdbcTemplate.update(
                 "DELETE FROM vouchers WHERE voucher_id = ?",
                 voucherId.toString());
+
+        if (update != 1) {
+            throw new IllegalArgumentException("바우처 삭제를 실패하였습니다.");
+        }
     }
 
     @Override

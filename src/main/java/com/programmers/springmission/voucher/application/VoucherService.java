@@ -1,7 +1,8 @@
 package com.programmers.springmission.voucher.application;
 
+import com.programmers.springmission.global.exception.DuplicateException;
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
 import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
 import com.programmers.springmission.voucher.domain.Voucher;
@@ -38,10 +39,17 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
-    public VoucherResponse findByIdVoucher(UUID voucherId) {
-        Voucher voucher = validVoucherExist(voucherId);
+    public VoucherResponse findOneVoucher(UUID voucherId) {
+        Voucher voucher = findVoucher(voucherId);
 
         return new VoucherResponse(voucher);
+    }
+
+    public List<VoucherResponse> findByPolicyVoucher(VoucherType voucherType) {
+        List<Voucher> voucherList = voucherRepository.findByPolicy(voucherType);
+        return voucherList.stream()
+                .map(VoucherResponse::new)
+                .toList();
     }
 
     public List<VoucherResponse> findAllVoucher() {
@@ -52,17 +60,27 @@ public class VoucherService {
     }
 
     @Transactional
-    public VoucherResponse updateVoucher(UUID inputVoucherId, VoucherUpdateRequest voucherUpdateRequest) {
-        Voucher voucher = validVoucherExist(inputVoucherId);
-        voucher.updateAmount(voucherUpdateRequest.getAmount());
+    public VoucherResponse updateAmount(UUID inputVoucherId, VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher voucher = findVoucher(inputVoucherId);
 
-        voucherRepository.update(voucher);
+        voucher.updateAmount(voucherUpdateRequest.getAmount());
+        voucherRepository.updateAmount(voucher);
         return new VoucherResponse(voucher);
     }
 
     @Transactional
-    public void deleteByIdVoucher(UUID voucherId) {
-        Voucher voucher = validVoucherExist(voucherId);
+    public VoucherResponse updateCustomer(UUID inputVoucherId, UUID inputCustomerId) {
+        Voucher voucher = findVoucher(inputVoucherId);
+        validateAssignedCustomer(voucher);
+
+        voucher.updateCustomer(inputCustomerId);
+        voucherRepository.updateCustomer(voucher);
+        return new VoucherResponse(voucher);
+    }
+
+    @Transactional
+    public void deleteVoucher(UUID voucherId) {
+        Voucher voucher = findVoucher(voucherId);
 
         voucherRepository.deleteById(voucher.getVoucherId());
     }
@@ -72,26 +90,14 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    private Voucher validVoucherExist(UUID voucherId) {
+    private Voucher findVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND_VOUCHER));
     }
 
-    @Transactional
-    public VoucherResponse assignVoucherToCustomer(UUID inputVoucherId, UUID inputCustomerId) {
-        Voucher voucher = validVoucherExist(inputVoucherId);
-        validateVoucherAssignCustomer(inputCustomerId, voucher);
-
-        voucherRepository.assign(voucher);
-        return new VoucherResponse(voucher);
-    }
-
-    private void validateVoucherAssignCustomer(UUID inputCustomerId, Voucher voucher) {
+    private void validateAssignedCustomer(Voucher voucher) {
         if (voucher.getCustomerId() != null) {
-            throw new InvalidInputException(ErrorMessage.DUPLICATE_ASSIGN_VOUCHER);
+            throw new DuplicateException(ErrorMessage.DUPLICATE_ASSIGN_VOUCHER);
         }
-
-        voucher.assignVoucherToCustomer(inputCustomerId);
     }
 }
-

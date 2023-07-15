@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
+
     void save(Customer customer);
 
     Optional<Customer> findById(UUID customerId);
@@ -16,9 +17,9 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
-    List<Wallet> findCustomerWallet(UUID customerId);
+    List<Wallet> findWallet(UUID customerId);
 
-    void update(Customer customer);
+    void updateName(Customer customer);
 
     void deleteById(UUID customerId);
 

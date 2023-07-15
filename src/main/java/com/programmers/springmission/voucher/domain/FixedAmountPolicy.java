@@ -36,4 +36,3 @@ public class FixedAmountPolicy implements VoucherPolicy {
         }
     }
 }
-

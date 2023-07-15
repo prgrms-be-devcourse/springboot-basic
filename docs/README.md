@@ -17,7 +17,9 @@
   - 바우처 수정에 필요한 VoucherUpdateRequest
   - 생성된 바우처 반환에 필요한 VoucherResponse
 - presentation
-  - ManagementController 와 연결되는 VoucherController
+  - ManagementConsoleController 와 연결되는 VoucherConsoleController
+  - 타임리프와 연결되는 VoucherController
+  - api 통신하는 VoucherRestController
 
 <br>
 
@@ -37,11 +39,13 @@
   - 생성된 고객 반환에 필요한 CustomerResponse
   - 보유한 바우처 반환에 필요한 WalletResponse
 - presentation
-  - ManagementController 와 연결되는 CustomerController
+  - ManagementConsoleController 와 연결되는 CustomerConsoleController
+  - 타임리프와 연결되는 VoucherController
+  - api 통신하는 CustomerRestController
 
 <br>
 
-### ManagementController
+### ManagementConsoleController
 
 - CommandLineRunner 이용하여 스프링부트 애플리케이션으로 생성
 
@@ -58,3 +62,4 @@
 - AppConfig 에서 view 주입
 - exception 에서 커스텀 익셉션 관리
 - LoggerAspect 에서 aop 활용한 로깅
+- GlobalExceptionHandler 에서 전역적으로 핸들링

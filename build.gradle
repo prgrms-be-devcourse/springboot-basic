@@ -25,9 +25,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 	// H2
 	runtimeOnly 'com.h2database:h2'
+
+	// MySQL
+	implementation 'mysql:mysql-connector-java:8.0.33'
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'

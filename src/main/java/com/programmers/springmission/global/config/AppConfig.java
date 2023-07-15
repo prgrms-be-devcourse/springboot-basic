@@ -1,10 +1,10 @@
 package com.programmers.springmission.global.config;
 
 import com.programmers.springmission.view.Console;
-import com.programmers.springmission.view.Input;
-import com.programmers.springmission.view.InputReader;
-import com.programmers.springmission.view.Output;
-import com.programmers.springmission.view.OutputWriter;
+import com.programmers.springmission.view.input.Input;
+import com.programmers.springmission.view.input.InputReader;
+import com.programmers.springmission.view.output.Output;
+import com.programmers.springmission.view.output.OutputWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,4 +26,3 @@ public class AppConfig {
         return new OutputWriter();
     }
 }
-

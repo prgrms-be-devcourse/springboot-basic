@@ -1,7 +1,7 @@
 package com.programmers.springmission.voucher.repository;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
 import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
 import com.programmers.springmission.voucher.domain.Voucher;
@@ -38,8 +38,8 @@ class InMemoryVoucherRepositoryTest {
         // then
         List<Voucher> all = repository.findAll();
 
-        assertThat(all.size()).isEqualTo(2);
-        assertThat(all).contains(voucher1, voucher2);
+        assertThat(all).hasSize(2)
+                .contains(voucher1, voucher2);
     }
 
     @DisplayName("Voucher 수정 성공하는지 테스트")
@@ -51,7 +51,7 @@ class InMemoryVoucherRepositoryTest {
 
         // when
         voucher1.updateAmount(50L);
-        repository.update(voucher1);
+        repository.updateAmount(voucher1);
 
         // then
         List<Voucher> all = repository.findAll();
@@ -69,9 +69,9 @@ class InMemoryVoucherRepositoryTest {
         repository.save(voucher1);
 
         // then
-        assertThatThrownBy(() -> repository.update(voucher2))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_VOUCHER.getMessage());
+        assertThatThrownBy(() -> repository.updateAmount(voucher2))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_VOUCHER.getMessage());
     }
 
     @DisplayName("Voucher 단건 삭제 성공하는지 테스트")
@@ -88,7 +88,7 @@ class InMemoryVoucherRepositoryTest {
 
         // then
         List<Voucher> all = repository.findAll();
-        assertThat(all.size()).isEqualTo(1);
+        assertThat(all).hasSize(1);
         assertThat(all.get(0).getVoucherId()).isEqualTo(voucher1.getVoucherId());
     }
 
@@ -104,8 +104,8 @@ class InMemoryVoucherRepositoryTest {
 
         // then
         assertThatThrownBy(() -> repository.deleteById(voucher2.getVoucherId()))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_VOUCHER.getMessage());
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_VOUCHER.getMessage());
     }
 
     @DisplayName("Voucher 전부 삭제 성공하는지 테스트")
@@ -122,7 +122,6 @@ class InMemoryVoucherRepositoryTest {
 
         // then
         List<Voucher> all = repository.findAll();
-        assertThat(all.size()).isEqualTo(0);
+        assertThat(all).isEmpty();
     }
 }
-

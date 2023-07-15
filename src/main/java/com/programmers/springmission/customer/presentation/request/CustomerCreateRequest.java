@@ -1,12 +1,19 @@
 package com.programmers.springmission.customer.presentation.request;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@RequiredArgsConstructor
+@Setter
+@NoArgsConstructor
 public class CustomerCreateRequest {
 
-    private final String name;
-    private final String email;
+    private String name;
+    private String email;
+
+    public CustomerCreateRequest(String name, String email) {
+        this.name = name.trim();
+        this.email = email.trim();
+    }
 }

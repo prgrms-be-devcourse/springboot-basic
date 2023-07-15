@@ -1,8 +1,9 @@
 package com.programmers.springmission.voucher.repository;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.Voucher;
+import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,14 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByPolicy(VoucherType voucherType) {
+        return storage.values()
+                .stream()
+                .filter(voucher -> voucher.getVoucherPolicy().getVoucherType() == voucherType)
+                .toList();
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return storage.values()
                 .stream()
@@ -36,17 +45,18 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher) {
-        if (!storage.containsKey(voucher.getVoucherId())) {
-            throw new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER);
-        }
-        storage.put(voucher.getVoucherId(), voucher);
+    public void updateAmount(Voucher voucher) {
+        update(voucher);
     }
 
     @Override
-    public void assign(Voucher voucher) {
+    public void updateCustomer(Voucher voucher) {
+        update(voucher);
+    }
+
+    private void update(Voucher voucher) {
         if (!storage.containsKey(voucher.getVoucherId())) {
-            throw new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER);
+            throw new NotFoundException(ErrorMessage.NOT_FOUND_VOUCHER);
         }
         storage.put(voucher.getVoucherId(), voucher);
     }
@@ -54,7 +64,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         if (!storage.containsKey(voucherId)) {
-            throw new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER);
+            throw new NotFoundException(ErrorMessage.NOT_FOUND_VOUCHER);
         }
         storage.remove(voucherId);
     }
@@ -64,4 +74,3 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         storage.clear();
     }
 }
-

@@ -2,6 +2,8 @@ package com.programmers.springmission.view;
 
 import com.programmers.springmission.customer.presentation.response.CustomerResponse;
 import com.programmers.springmission.customer.presentation.response.WalletResponse;
+import com.programmers.springmission.view.input.Input;
+import com.programmers.springmission.view.output.Output;
 import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class Console {
         output.write("Voucher Program exit !");
     }
 
-    public void outputVoucherCrud() {
+    public void outputVoucherMenu() {
         output.write(newLine + """
                 === Input Voucher CRUD menu ===
                 Type "1" => Create voucher
@@ -81,11 +83,11 @@ public class Console {
         return input.read();
     }
 
-    public void outputVoucherFindById(VoucherResponse voucherResponse) {
+    public void outputOneVoucher(VoucherResponse voucherResponse) {
         output.write(voucherResponse.toString() + newLine);
     }
 
-    public void outputVoucherFindAll(List<VoucherResponse> voucherResponses) {
+    public void outputAllVoucher(List<VoucherResponse> voucherResponses) {
         output.write(voucherResponses);
     }
 
@@ -93,7 +95,7 @@ public class Console {
         output.write(newLine + "Success Update Voucher !" + newLine + voucherResponse + newLine);
     }
 
-    public void outputVoucherDeleteById() {
+    public void outputVoucherDelete() {
         output.write(newLine + "Delete Success Voucher !" + newLine);
     }
 
@@ -101,7 +103,7 @@ public class Console {
         output.write(newLine + "Delete Success All Voucher !" + newLine);
     }
 
-    public void outputCustomerCrud() {
+    public void outputCustomerMenu() {
         output.write(newLine + """
                 === Input Customer CRUD menu ===
                 Type "1" => Create Customer
@@ -179,4 +181,3 @@ public class Console {
         output.write(newLine + "Success Assign Customer to Voucher !" + newLine + voucherResponse + newLine);
     }
 }
-

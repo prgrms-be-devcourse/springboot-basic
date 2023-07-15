@@ -1,6 +1,8 @@
 package com.programmers.springmission.global.aop;
 
+import com.programmers.springmission.global.exception.DuplicateException;
 import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -9,8 +11,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Aspect
 @Component
@@ -36,13 +36,16 @@ public class LoggerAspect {
 
     @AfterThrowing(pointcut = "execution (* com.programmers.springmission..*(..))", throwing = "invalidInputException")
     public void invalidInputExceptionThrowing(JoinPoint joinPoint, InvalidInputException invalidInputException) {
+        logger.warn("invalidInputException 발생 위치 추적 \n", invalidInputException);
+    }
 
-        String className = joinPoint.getSignature().getDeclaringTypeName();
-        String methodName = joinPoint.getSignature().getName();
-        String threadName = Thread.currentThread().getName();
+    @AfterThrowing(pointcut = "execution (* com.programmers.springmission..*(..))", throwing = "notFoundException")
+    public void notFoundException(JoinPoint joinPoint, NotFoundException notFoundException) {
+        logger.warn("NotFoundException 발생 위치 추적 \n", notFoundException);
+    }
 
-        LocalDateTime invokeTime = LocalDateTime.now();
-
-        logger.warn("throw method : {} - {} - / current thread : {} / timeTaken : {} s", className, methodName, threadName, invokeTime);
+    @AfterThrowing(pointcut = "execution (* com.programmers.springmission..*(..))", throwing = "duplicateException")
+    public void duplicateException(JoinPoint joinPoint, DuplicateException duplicateException) {
+        logger.warn("duplicateException 발생 위치 추적 \n", duplicateException);
     }
 }

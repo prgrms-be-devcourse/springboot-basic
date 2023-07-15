@@ -19,6 +19,7 @@ spring:
     activate:
       on-profile: jdbc
   datasource:
-    url: jdbc:h2:tcp://localhost/~/voucherMission;MODE=MYSQL
-    driver-class-name: org.h2.Driver
-    username: sa
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/voucher_mgmt
+    username: localhost
+    password: root

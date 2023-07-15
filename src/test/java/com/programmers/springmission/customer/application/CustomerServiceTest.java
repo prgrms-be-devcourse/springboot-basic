@@ -1,13 +1,14 @@
 package com.programmers.springmission.customer.application;
 
-import com.programmers.springmission.ManagementController;
+import com.programmers.springmission.ManagementConsoleController;
 import com.programmers.springmission.customer.presentation.request.CustomerCreateRequest;
 import com.programmers.springmission.customer.presentation.request.CustomerUpdateRequest;
 import com.programmers.springmission.customer.presentation.response.CustomerResponse;
 import com.programmers.springmission.customer.presentation.response.WalletResponse;
 import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
+import com.programmers.springmission.global.exception.DuplicateException;
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
 import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
 import com.programmers.springmission.voucher.domain.Voucher;
@@ -48,12 +49,11 @@ class CustomerServiceTest {
     CustomerService service;
 
     @MockBean
-    ManagementController managementController;
+    ManagementConsoleController managementConsoleController;
 
     @DisplayName("Customer create 성공 테스트")
     @Test
     void customer_create_success() {
-
         // given
         CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
 
@@ -62,7 +62,7 @@ class CustomerServiceTest {
 
         // then
         List<CustomerResponse> customerResponses = service.findAllCustomer();
-        assertThat(customerResponses.size()).isEqualTo(1);
+        assertThat(customerResponses).hasSize(1);
         assertThat(customerResponses.get(0).getName()).isEqualTo(customerCreateRequest.getName());
         assertThat(customerResponses.get(0).getEmail()).isEqualTo(customerCreateRequest.getEmail());
     }
@@ -70,7 +70,6 @@ class CustomerServiceTest {
     @DisplayName("Customer create 실패 테스트 - 중복 이메일")
     @Test
     void customer_create_fail() {
-
         // given
         CustomerCreateRequest customerCreateRequest1 = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
         CustomerCreateRequest customerCreateRequest2 = new CustomerCreateRequest("김철수", "aaa@gmail.com");
@@ -80,14 +79,13 @@ class CustomerServiceTest {
 
         // then
         assertThatThrownBy(() -> service.createCustomer(customerCreateRequest2))
-                .isInstanceOf(InvalidInputException.class)
+                .isInstanceOf(DuplicateException.class)
                 .hasMessage(ErrorMessage.DUPLICATE_CUSTOMER_EMAIL.getMessage());
     }
 
     @DisplayName("findByIdCustomer 고객 단건 조회 성공 테스트 - id 기반")
     @Test
     void find_customer_by_id_success() {
-
         // given
         CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
 
@@ -102,7 +100,6 @@ class CustomerServiceTest {
     @DisplayName("findByEmailCustomer 고객 단건 조회 성공 테스트 - email 기반")
     @Test
     void find_customer_by_email_success() {
-
         // given
         CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
 
@@ -117,35 +114,30 @@ class CustomerServiceTest {
     @DisplayName("findByEmailCustomer 고객 단건 조회 실패 테스트 - id 기반")
     @Test
     void find_customer_by_id_fail() {
-
         // given
-        CustomerCreateRequest customerCreateRequest1 = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
-        CustomerResponse customerResponse1 = service.createCustomer(customerCreateRequest1);
+        service.createCustomer(new CustomerCreateRequest("신재윤", "aaa@gmail.com"));
 
         // then
         assertThatThrownBy(() -> service.findByIdCustomer(UUID.randomUUID()))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_CUSTOMER.getMessage());
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_CUSTOMER.getMessage());
     }
 
     @DisplayName("findByEmailCustomer 고객 단건 조회 실패 테스트 - email 기반")
     @Test
     void find_customer_by_email_fail() {
-
         // given
-        CustomerCreateRequest customerCreateRequest1 = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
-        CustomerResponse customerResponse1 = service.createCustomer(customerCreateRequest1);
+        service.createCustomer(new CustomerCreateRequest("신재윤", "aaa@gmail.com"));
 
         // then
         assertThatThrownBy(() -> service.findByEmailCustomer("abc@gmail.com"))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_CUSTOMER.getMessage());
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_CUSTOMER.getMessage());
     }
 
     @DisplayName("findAllCustomer 고객 전체 조회 성공 테스트")
     @Test
     void find_customer_all_success() {
-
         // given
         CustomerCreateRequest customerCreateRequest1 = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
         CustomerCreateRequest customerCreateRequest2 = new CustomerCreateRequest("김철수", "abc@gmail.com");
@@ -156,13 +148,12 @@ class CustomerServiceTest {
 
         // then
         List<CustomerResponse> customerResponses = service.findAllCustomer();
-        assertThat(customerResponses.size()).isEqualTo(2);
+        assertThat(customerResponses).hasSize(2);
     }
 
     @DisplayName("updateCustomer 고객 이름 수정 성공 테스트")
     @Test
     void update_customer_success() {
-
         // given
         CustomerCreateRequest customerCreateRequest1 = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
         CustomerCreateRequest customerCreateRequest2 = new CustomerCreateRequest("김철수", "abc@gmail.com");
@@ -172,8 +163,8 @@ class CustomerServiceTest {
         CustomerUpdateRequest customerUpdateRequest2 = new CustomerUpdateRequest("이감자");
 
         // when
-        CustomerResponse result1 = service.updateCustomer(customerResponse1.getCustomerId(), customerUpdateRequest1);
-        CustomerResponse result2 = service.updateCustomer(customerResponse2.getCustomerId(), customerUpdateRequest2);
+        CustomerResponse result1 = service.updateName(customerResponse1.getCustomerId(), customerUpdateRequest1);
+        CustomerResponse result2 = service.updateName(customerResponse2.getCustomerId(), customerUpdateRequest2);
 
         // then
         assertThat(result1.getName()).isEqualTo(customerUpdateRequest1.getName());
@@ -183,7 +174,6 @@ class CustomerServiceTest {
     @DisplayName("deleteByIdCustomer 고객 단건 삭제 성공 테스트")
     @Test
     void delete_customer_by_id_success() {
-
         // given
         CustomerCreateRequest customerCreateRequest1 = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
         CustomerCreateRequest customerCreateRequest2 = new CustomerCreateRequest("김철수", "abc@gmail.com");
@@ -195,14 +185,13 @@ class CustomerServiceTest {
 
         // then
         List<CustomerResponse> customerResponses = service.findAllCustomer();
-        assertThat(customerResponses.size()).isEqualTo(1);
+        assertThat(customerResponses).hasSize(1);
         assertThat(customerResponses.get(0).getCustomerId()).isEqualTo(customerResponse1.getCustomerId());
     }
 
     @DisplayName("deleteAllCustomer 고객 전체 삭제 성공 테스트")
     @Test
     void delete_customer_all_success() {
-
         // given
         CustomerCreateRequest customerCreateRequest1 = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
         CustomerCreateRequest customerCreateRequest2 = new CustomerCreateRequest("김철수", "abc@gmail.com");
@@ -214,13 +203,12 @@ class CustomerServiceTest {
 
         // then
         List<CustomerResponse> customerResponses = service.findAllCustomer();
-        assertThat(customerResponses.size()).isEqualTo(0);
+        assertThat(customerResponses).isEmpty();
     }
 
     @DisplayName("메모리에 고객이 존재하지 않을 때 예외 던지는지 테스트")
     @Test
     void valid_voucher_exist() {
-
         // given
         CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
 
@@ -229,14 +217,13 @@ class CustomerServiceTest {
 
         // then
         assertThatThrownBy(() -> service.findByIdCustomer(UUID.randomUUID()))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_CUSTOMER.getMessage());
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_CUSTOMER.getMessage());
     }
 
     @DisplayName("findCustomerWallet 지갑 조회 테스트")
     @Test
     void find_customer_wallet() {
-
         // given
         CustomerCreateRequest customerCreateRequest1 = new CustomerCreateRequest("신재윤", "aaa@gmail.com");
         CustomerCreateRequest customerCreateRequest2 = new CustomerCreateRequest("김철수", "abc@gmail.com");
@@ -248,18 +235,18 @@ class CustomerServiceTest {
         voucherRepository.save(voucher2);
 
         // when
-        voucher1.assignVoucherToCustomer(customerResponse1.getCustomerId());
-        voucher2.assignVoucherToCustomer(customerResponse1.getCustomerId());
-        voucherRepository.assign(voucher1);
-        voucherRepository.assign(voucher2);
+        voucher1.updateCustomer(customerResponse1.getCustomerId());
+        voucher2.updateCustomer(customerResponse1.getCustomerId());
+        voucherRepository.updateCustomer(voucher1);
+        voucherRepository.updateCustomer(voucher2);
 
         // then
-        List<WalletResponse> customerWallet1 = service.findCustomerWallet(customerResponse1.getCustomerId());
-        assertThat(customerWallet1.size()).isEqualTo(2);
+        List<WalletResponse> customerWallet1 = service.findWallet(customerResponse1.getCustomerId());
+        assertThat(customerWallet1).hasSize(2);
         assertThat(customerWallet1.get(0).getVoucherId()).isEqualTo(voucher1.getVoucherId());
         assertThat(customerWallet1.get(1).getVoucherId()).isEqualTo(voucher2.getVoucherId());
 
-        List<WalletResponse> customerWallet2 = service.findCustomerWallet(customerResponse2.getCustomerId());
-        assertThat(customerWallet2.size()).isEqualTo(0);
+        List<WalletResponse> customerWallet2 = service.findWallet(customerResponse2.getCustomerId());
+        assertThat(customerWallet2).isEmpty();
     }
 }
