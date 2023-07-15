@@ -4,6 +4,7 @@ import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,10 +29,6 @@ public class VoucherController {
         );
     }
 
-    public VoucherDto deleteVoucherById(UUID voucherId) {
-        return VoucherDto.of(voucherService.deleteVoucherById(voucherId));
-    }
-
     public List<VoucherDto> voucherList() {
         return voucherService.findVouchers().stream()
                 .map(VoucherDto::of)
@@ -44,6 +41,14 @@ public class VoucherController {
 
     public VoucherDto voucherByType(VoucherType voucherType) {
         return VoucherDto.of(voucherService.findVoucherByVoucherType(voucherType));
+    }
+
+    public VoucherDto voucherByCreatedAt(LocalDateTime createdAt) {
+        return VoucherDto.of(voucherService.findVoucherByCreatedAt(createdAt));
+    }
+
+    public VoucherDto deleteVoucherById(UUID voucherId) {
+        return VoucherDto.of(voucherService.deleteVoucherById(voucherId));
     }
 
 }

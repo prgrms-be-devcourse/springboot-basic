@@ -15,11 +15,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,13 +34,9 @@ import static org.assertj.core.api.Assertions.catchException;
 @Import({JdbcVoucherRepository.class, JdbcCustomerRepository.class})
 class JdbcVoucherRepositoryTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", true),
-            new Customer(UUID.randomUUID(), "딸기", false)
-    );
     static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), Optional.empty()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), Optional.empty())
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.empty()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDateTime.now(), Optional.empty())
     );
 
     @Autowired
@@ -56,7 +52,6 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeEach
     void cleanup() {
-//        customers.forEach(customer -> customerRepository.insert(customer));
         voucherRepository.deleteAll();
     }
 
@@ -88,7 +83,7 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void update_ParamExistVoucher_UpdateAndReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
-        Voucher newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), voucher.getCustomerId());
+        Voucher newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), LocalDateTime.now(), voucher.getCustomerId());
 
         voucherRepository.update(newVoucher);
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
@@ -124,6 +119,7 @@ class JdbcVoucherRepositoryTest {
 
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
 
+        assertThat(foundVoucher).isNotEmpty();
         assertThat(foundVoucher.get().getDiscountValue()).isEqualTo(voucher.getDiscountValue());
     }
 
@@ -144,6 +140,7 @@ class JdbcVoucherRepositoryTest {
 
         Optional<Voucher> foundVoucher = voucherRepository.findByVoucherType(voucher.getVoucherType());
 
+        assertThat(foundVoucher).isNotEmpty();
         assertThat(foundVoucher.get().getVoucherType()).isEqualTo(voucher.getVoucherType());
     }
 
@@ -151,9 +148,30 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("존재하지 않은 바우처를 바우처 타입으로 조회 시 실패한다.")
     @MethodSource("provideVouchers")
     void findByVoucherType_ParamNotExistVoucher_ReturnOptionalEmpty(Voucher voucher) {
+
         Optional<Voucher> result = voucherRepository.findByVoucherType(voucher.getVoucherType());
 
-        System.out.println(result.isEmpty());
+        assertThat(result).isEmpty();
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 생성일자로 조회 시 실패한다.")
+    @MethodSource("provideVouchers")
+    void findByCreatedAt_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
+        voucherRepository.insert(voucher);
+
+        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.getCreatedAt());
+
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getVoucherId()).isEqualTo(voucher.getVoucherId());
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하지 않은 바우처를 생성일자로 조회 시 실패한다.")
+    @MethodSource("provideVouchers")
+    void findByCreatedAt_ParamNotExistVoucher_ReturnOptionalEmpty(Voucher voucher) {
+
+        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.getCreatedAt());
 
         assertThat(result).isEmpty();
     }

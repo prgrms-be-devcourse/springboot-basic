@@ -43,11 +43,11 @@
 
 - Null 방어
 
-    ```java
-    if (name == null || name.isBlank()) {
-        throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
-    }
-    ```
+```java
+if (name == null || name.isBlank()) {
+    throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
+}
+```
 
 - 유효 조건을 메소드로 분리
 
@@ -124,103 +124,104 @@ private static boolean isMatched(String menuString, CommandMenu commandMenu) {
 
 - 설정 클래스
 
-  ```java
-  @Configuration
-  public class JasyptConfiguration {
+```java
+@Configuration
+public class JasyptConfiguration {
 
-      @Value("${jasypt.encryptor.algorithm}")
-      private String algorithm;
+    @Value("${jasypt.encryptor.algorithm}")
+    private String algorithm;
 
-      @Value("${jasypt.encryptor.pool-size}")
-      private int poolSize;
+    @Value("${jasypt.encryptor.pool-size}")
+    private int poolSize;
 
-      @Value("${jasypt.encryptor.string-output-type}")
-      private String stringOutputType;
+    @Value("${jasypt.encryptor.string-output-type}")
+    private String stringOutputType;
 
-      @Value("${jasypt.encryptor.key-obtention-iterations}")
-      private int keyObtentionIterations;
+    @Value("${jasypt.encryptor.key-obtention-iterations}")
+    private int keyObtentionIterations;
 
-      @Bean
-      public StringEncryptor jasyptStringEncryptor() {
-          PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-          SimpleStringPBEConfig configuration = new SimpleStringPBEConfig();
-          configuration.setAlgorithm(algorithm);
-          configuration.setPoolSize(poolSize);
-          configuration.setStringOutputType(stringOutputType);
-          configuration.setKeyObtentionIterations(keyObtentionIterations);
-          configuration.setPassword(getJasyptEncryptorPassword());
-          encryptor.setConfig(configuration);
-          return encryptor;
-      }
+    @Bean
+    public StringEncryptor jasyptStringEncryptor() {
+        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+        SimpleStringPBEConfig configuration = new SimpleStringPBEConfig();
+        configuration.setAlgorithm(algorithm);
+        configuration.setPoolSize(poolSize);
+        configuration.setStringOutputType(stringOutputType);
+        configuration.setKeyObtentionIterations(keyObtentionIterations);
+        configuration.setPassword(getJasyptEncryptorPassword());
+        encryptor.setConfig(configuration);
+        return encryptor;
+    }
 
-      private String getJasyptEncryptorPassword() {
-          try {
-              ClassPathResource resource = new ClassPathResource("src/main/resources/jasypt-encryptor-password.txt");
-              return String.join("", Files.readAllLines(Paths.get(resource.getPath())));
-          } catch (IOException e) {
-              throw new InvalidDataException(ErrorMessage.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
-          }
-  	}
+    private String getJasyptEncryptorPassword() {
+        try {
+            ClassPathResource resource = new ClassPathResource("src/main/resources/jasypt-encryptor-password.txt");
+            return String.join("", Files.readAllLines(Paths.get(resource.getPath())));
+        } catch (IOException e) {
+            throw new InvalidDataException(ErrorMessage.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
+        }
   }
-  ```
+}
+```
+
 - 테스트 클래스
 
-    ```java
-    class JasyptConfigurationTest {
-    
-        @Test
-        void jasypt() {
-            String url = "jdbc:mysql://localhost:/";
-            String username = "";
-            String password = "!";
-    
-            String encryptUrl = jasyptEncrypt(url);
-            String encryptUsername = jasyptEncrypt(username);
-            String encryptPassword = jasyptEncrypt(password);
-    
-            System.out.println("encrypt url : " + encryptUrl);
-            System.out.println("encrypt username: " + encryptUsername);
-            System.out.println("encrypt password: " + encryptPassword);
-    
-            assertThat(url).isEqualTo(jasyptDecrypt(encryptUrl));
-        }
-    
-        private String jasyptEncrypt(String input) {
-            String key = "!";
-            StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-            encryptor.setAlgorithm("PBEWithMD5AndDES");
-            encryptor.setPassword(key);
-            return encryptor.encrypt(input);
-        }
-    
-        private String jasyptDecrypt(String input) {
-            String key = "!";
-            StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-            encryptor.setAlgorithm("PBEWithMD5AndDES");
-            encryptor.setPassword(key);
-            return encryptor.decrypt(input);
-        }
-    
+```java
+class JasyptConfigurationTest {
+
+    @Test
+    void jasypt() {
+        String url = "jdbc:mysql://localhost:/";
+        String username = "";
+        String password = "!";
+
+        String encryptUrl = jasyptEncrypt(url);
+        String encryptUsername = jasyptEncrypt(username);
+        String encryptPassword = jasyptEncrypt(password);
+
+        System.out.println("encrypt url : " + encryptUrl);
+        System.out.println("encrypt username: " + encryptUsername);
+        System.out.println("encrypt password: " + encryptPassword);
+
+        assertThat(url).isEqualTo(jasyptDecrypt(encryptUrl));
     }
-    ```
+
+    private String jasyptEncrypt(String input) {
+        String key = "!";
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        encryptor.setAlgorithm("PBEWithMD5AndDES");
+        encryptor.setPassword(key);
+        return encryptor.encrypt(input);
+    }
+
+    private String jasyptDecrypt(String input) {
+        String key = "!";
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        encryptor.setAlgorithm("PBEWithMD5AndDES");
+        encryptor.setPassword(key);
+        return encryptor.decrypt(input);
+    }
+
+}
+```
 
 - yaml 파일
 
-   ```java
-   jasypt:
-     encryptor:
-       algorithm: PBEWithMD5AndDES
-       bean: jasyptStringEncryptor
-       pool-size: 2
-       string-output-type: base64
-       key-obtention-iterations: 100
-   spring:
-     datasource:
-       url: ENC(암호화된 url 스트링)
-       username: ENC(암호화된 유저이름)
-       password: ENC(암호화된 패스워드)
-       driver-class-name: com.mysql.cj.jdbc.Driver
-   ```
+```java
+jasypt:
+ encryptor:
+   algorithm: PBEWithMD5AndDES
+   bean: jasyptStringEncryptor
+   pool-size: 2
+   string-output-type: base64
+   key-obtention-iterations: 100
+spring:
+ datasource:
+   url: ENC(암호화된 url 스트링)
+   username: ENC(암호화된 유저이름)
+   password: ENC(암호화된 패스워드)
+   driver-class-name: com.mysql.cj.jdbc.Driver
+```
 
 </div>
 </details>

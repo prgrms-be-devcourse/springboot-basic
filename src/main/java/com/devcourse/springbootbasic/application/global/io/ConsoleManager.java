@@ -10,6 +10,7 @@ import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.wallet.controller.WalletMenu;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -66,7 +67,8 @@ public class ConsoleManager {
         UUID voucherId = UUID.randomUUID();
         VoucherType voucherType = consoleVoucherType();
         DiscountValue discountValue = consoleDiscountValue(voucherType);
-        return new VoucherDto(voucherId, voucherType, discountValue, Optional.empty());
+        LocalDateTime createdAt = LocalDateTime.now();
+        return new VoucherDto(voucherId, voucherType, discountValue, createdAt, Optional.empty());
     }
 
     public UUID consoleId() {

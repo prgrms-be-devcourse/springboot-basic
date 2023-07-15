@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -23,11 +24,12 @@ public class JdbcWalletRepository implements WalletRepository {
         UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         DiscountValue discountValue = new DiscountValue(voucherType, resultSet.getDouble("discount_value"));
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         String customerId = resultSet.getString("customer_id");
         if (customerId == null) {
-            return new Voucher(voucherId, voucherType, discountValue, Optional.empty());
+            return new Voucher(voucherId, voucherType, discountValue, createdAt, Optional.empty());
         }
-        return new Voucher(voucherId, voucherType, discountValue, Optional.of(UUID.fromString(customerId)));
+        return new Voucher(voucherId, voucherType, discountValue, createdAt, Optional.of(UUID.fromString(customerId)));
     };
 
     static RowMapper<Customer> customerRowMapper = (resultSet, rowNumber) -> {
@@ -82,7 +84,7 @@ public class JdbcWalletRepository implements WalletRepository {
     public List<Voucher> findAllVouchersByCustomerId(UUID customerId) {
         try {
             return jdbcTemplate.query(
-                    "SELECT voucher_id, voucher_type, discount_value, customer_id FROM vouchers WHERE customer_id = :customerId",
+                    "SELECT voucher_id, voucher_type, discount_value, created_at, customer_id FROM vouchers WHERE customer_id = :customerId",
                     Collections.singletonMap("customerId", customerId.toString()),
                     voucherRowMapper
             );

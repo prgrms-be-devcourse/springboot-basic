@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,15 +31,11 @@ import static org.mockito.Mockito.mock;
 @ActiveProfiles("test")
 class VoucherServiceTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true)
-    );
     static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), Optional.empty()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), Optional.empty()),
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "1240"), Optional.empty()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), Optional.empty())
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.empty()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), LocalDateTime.now(), Optional.empty()),
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "1240"), LocalDateTime.now(), Optional.empty()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), LocalDateTime.now(), Optional.empty())
     );
     VoucherService sut;
     VoucherRepository repository;
@@ -98,7 +95,7 @@ class VoucherServiceTest {
     }
 
     @ParameterizedTest
-    @DisplayName("존재하는 바우처를 아이디로 검색하는 경우 성공한다.")
+    @DisplayName("존재하는 바우처를 바우처 타입으로 검색하는 경우 성공한다.")
     @MethodSource("provideVouchers")
     void findVoucherByVoucherType_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
         given(repository.findByVoucherType(any(VoucherType.class))).willReturn(Optional.of(voucher));
@@ -109,12 +106,34 @@ class VoucherServiceTest {
     }
 
     @ParameterizedTest
-    @DisplayName("존재하지 않는 바우처를 아이디로 검색하는 경우 실패한다.")
+    @DisplayName("존재하지 않는 바우처를 바우처 타입으로 검색하는 경우 실패한다.")
     @MethodSource("provideVouchers")
     void findVoucherByVoucherType_ParamNotExistVoucher_Exception(Voucher voucher) {
         given(repository.findByVoucherType(any(VoucherType.class))).willReturn(Optional.empty());
 
         Exception exception = catchException(() -> sut.findVoucherByVoucherType(voucher.getVoucherType()));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 생성일자로 검색하는 경우 성공한다.")
+    @MethodSource("provideVouchers")
+    void findVoucherByCreatedAt_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
+        given(repository.findByCreatedAt(any())).willReturn(Optional.of(voucher));
+
+        Voucher foundVoucher = sut.findVoucherByCreatedAt(voucher.getCreatedAt());
+
+        assertThat(foundVoucher).isSameAs(voucher);
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처를 생성일자로 검색하는 경우 실패한다.")
+    @MethodSource("provideVouchers")
+    void findVoucherByCreatedAt_ParamNotExistVoucher_Exception(Voucher voucher) {
+        given(repository.findByCreatedAt(any())).willReturn(Optional.empty());
+
+        Exception exception = catchException(() -> sut.findVoucherByCreatedAt(voucher.getCreatedAt()));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
     }

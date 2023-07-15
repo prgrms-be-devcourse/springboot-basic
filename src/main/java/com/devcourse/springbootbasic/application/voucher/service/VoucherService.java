@@ -7,6 +7,7 @@ import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,6 +40,11 @@ public class VoucherService {
 
     public Voucher findVoucherByVoucherType(VoucherType voucherType) {
         return voucherRepository.findByVoucherType(voucherType)
+                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
+    }
+
+    public Voucher findVoucherByCreatedAt(LocalDateTime createdAt) {
+        return voucherRepository.findByCreatedAt(createdAt)
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 

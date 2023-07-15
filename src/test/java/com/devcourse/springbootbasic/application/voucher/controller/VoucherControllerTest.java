@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.application.voucher.controller;
 
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
@@ -12,6 +13,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,9 +29,9 @@ import static org.mockito.Mockito.mock;
 class VoucherControllerTest {
 
     static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), Optional.empty()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), Optional.empty()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), Optional.empty())
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), LocalDateTime.now(), Optional.empty()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), LocalDateTime.now(), Optional.empty()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), LocalDateTime.now(), Optional.empty())
     );
     static List<Voucher> vouchers = voucherDto.stream()
             .map(VoucherDto::to)
@@ -92,6 +94,15 @@ class VoucherControllerTest {
     }
 
     @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처를 아이디로 찾으면 실패한다.")
+    @MethodSource("provideVoucherDto")
+    void voucherId_ParamNotExistVoucherId_Exception(VoucherDto voucherDto) {
+        Exception exception = catchException(() -> controller.voucherById(voucherDto.voucherId()));
+
+        assertThat(exception).isInstanceOf(NullPointerException.class);
+    }
+
+    @ParameterizedTest
     @DisplayName("존재하는 바우처를 바우처 타입으로 찾으면 성공한다.")
     @MethodSource("provideVoucherDto")
     void voucherByType_ParamExistVoucherId_ReturnVoucherDto(VoucherDto voucherDto) {
@@ -103,12 +114,14 @@ class VoucherControllerTest {
     }
 
     @ParameterizedTest
-    @DisplayName("존재하지 않는 바우처를 아이디로 찾으면 실패한다.")
+    @DisplayName("존재하는 바우처를 생성일자로 찾으면 성공한다.")
     @MethodSource("provideVoucherDto")
-    void voucherId_ParamNotExistVoucherId_Exception(VoucherDto voucherDto) {
-        Exception exception = catchException(() -> controller.voucherById(voucherDto.voucherId()));
+    void voucherByCreatedAt_ParamExistVoucherId_ReturnVoucherDto(VoucherDto voucherDto) {
+        given(service.findVoucherByCreatedAt(any())).willReturn(voucherDto.to());
 
-        assertThat(exception).isInstanceOf(NullPointerException.class);
+        VoucherDto foundVoucherDto = controller.voucherByCreatedAt(voucherDto.createdAt());
+
+        assertThat(foundVoucherDto.voucherId()).isEqualTo(voucherDto.voucherId());
     }
 
     @ParameterizedTest

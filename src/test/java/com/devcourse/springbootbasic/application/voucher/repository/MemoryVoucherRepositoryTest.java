@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
+import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
@@ -12,12 +13,14 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
 
 @ActiveProfiles("dev")
 class MemoryVoucherRepositoryTest {
@@ -26,8 +29,8 @@ class MemoryVoucherRepositoryTest {
 
     static Stream<Arguments> provideVouchers() {
         return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), Optional.of(UUID.randomUUID()))),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), Optional.of(UUID.randomUUID())))
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.of(UUID.randomUUID()))),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDateTime.now(), Optional.of(UUID.randomUUID())))
         );
     }
 
@@ -44,6 +47,27 @@ class MemoryVoucherRepositoryTest {
 
         assertThat(result).isNotNull();
         assertThat(result).isSameAs(voucher);
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 갱신 시 성공한다.")
+    @MethodSource("provideVouchers")
+    void update_ParamExistVoucher_UpdateAndReturnVoucher(Voucher voucher) {
+        voucherRepository.insert(voucher);
+
+        Voucher result = voucherRepository.update(voucher);
+
+        assertThat(result.getVoucherId()).isSameAs(voucher.getVoucherId());
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처를 갱신 시 실패한다.")
+    @MethodSource("provideVouchers")
+    void update_ParamNotExistVoucher_Exception(Voucher voucher) {
+
+        Exception exception = catchException(() -> voucherRepository.update(voucher));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
     @ParameterizedTest
@@ -66,16 +90,39 @@ class MemoryVoucherRepositoryTest {
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
 
         assertThat(foundVoucher).isNotEmpty();
-        assertThat(foundVoucher.get()).isSameAs(voucher);
+        assertThat(foundVoucher).containsSame(voucher);
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 바우처를 아이디로 조회하는 경우 실패한다.")
     @MethodSource("provideVouchers")
     void findById_ParamNotExistVoucher_EmptyOptional(Voucher voucher) {
+
         Optional<Voucher> maybeNull = voucherRepository.findById(voucher.getVoucherId());
 
         assertThat(maybeNull).isEmpty();
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 생성일자로 조회하는 경우 성공한다.")
+    @MethodSource("provideVouchers")
+    void findByCreated_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
+        voucherRepository.insert(voucher);
+
+        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.getCreatedAt());
+
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getCreatedAt()).isSameAs(voucher.getCreatedAt());
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처를 생성일자로 조회하는 경우 성공한다.")
+    @MethodSource("provideVouchers")
+    void findByCreated_ParamNotExistVoucher_ReturnVoucher(Voucher voucher) {
+
+        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.getCreatedAt());
+
+        assertThat(result).isEmpty();
     }
 
     @Order(4)

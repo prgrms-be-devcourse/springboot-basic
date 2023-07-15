@@ -12,6 +12,7 @@ create table vouchers
     voucher_id     varchar(50) not null,
     voucher_type   varchar(20) not null,
     discount_value double      not null,
+    created_at     datetime(6) not null,
     customer_id    varchar(50) default null,
 
     primary key (voucher_id),
