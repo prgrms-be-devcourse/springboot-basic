@@ -4,14 +4,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import prgms.spring_week1.domain.customer.model.Customer;
 import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
+import prgms.spring_week1.menu.CustomerMenu;
 import prgms.spring_week1.menu.Menu;
 import prgms.spring_week1.menu.VoucherMenu;
+
+import java.util.List;
 
 @Component
 public class CommandLine implements CommandLineRunner {
@@ -68,13 +72,33 @@ public class CommandLine implements CommandLineRunner {
         input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
-    private void selectCustomerMenu(){
-//        Menu menuName = input.getMenu();
-//        switch (menuName){
-//            case EXIT -> ;
-//            case CREATE -> ;
-//            case LIST -> ;
-//            case BLACK -> ;
-//        }
+    private void selectCustomerMenu() {
+        CustomerMenu menuName = input.getCustomerMenu();
+        try{
+            switch (menuName) {
+                case INSERT -> customerService.insert(input.inputCustomerInfo());
+                case FIND_ALL -> printAllCustomer(customerService.findAll());
+                case FIND_BY_EMAIL -> {
+                    Customer customerInfo = customerService.findByEmail(input.inputEmail());
+                    output.printAllCustomer(customerInfo.getName(), customerInfo.getEmail());
+                }
+                case BLACK -> customerService.getBlackConsumerList();
+                case UPDATE_INFO -> updateCustomerInfo();
+                case DELETE_BY_EMAIL -> customerService.deleteByEmail(input.inputEmail());
+                case DELETE_ALL -> customerService.deleteAll();
+            }
+        }catch (RuntimeException e){
+            logger.error("입력값을 확인해주세요.",e);
+        }
+    }
+
+    private void printAllCustomer(List<Customer> customerInfo) {
+        for (Customer info : customerInfo) {
+            output.printAllCustomer(info.getName(), info.getEmail());
+        }
+    }
+
+    private void updateCustomerInfo(){
+        customerService.updateInfo(input.inputUpdateEmailInfo());
     }
 }
