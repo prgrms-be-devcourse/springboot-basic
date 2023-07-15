@@ -1,6 +1,5 @@
 package org.programmers.VoucherManagement.voucher.application;
 
-import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.voucher.domain.DiscountValue;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.domain.VoucherFactory;
@@ -17,10 +16,12 @@ import static org.programmers.VoucherManagement.voucher.exception.VoucherExcepti
 
 
 @Component
-@RequiredArgsConstructor
 public class VoucherService {
-
     private final VoucherRepository repository;
+
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.repository = voucherRepository;
+    }
 
     public void updateVoucher(UUID voucherId, UpdateVoucherRequest updateVoucherRequest) {
         Voucher voucher = repository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));

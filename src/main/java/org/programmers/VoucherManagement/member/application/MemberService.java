@@ -1,6 +1,5 @@
 package org.programmers.VoucherManagement.member.application;
 
-import lombok.RequiredArgsConstructor;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.dto.CreateMemberRequest;
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
@@ -14,9 +13,12 @@ import java.util.UUID;
 import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
 
 @Component
-@RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository repository;
+
+    public MemberService(MemberRepository memberRepository) {
+        this.repository = memberRepository;
+    }
 
     public GetMemberListResponse getAllMembers() {
         return new GetMemberListResponse(repository.findAll());
