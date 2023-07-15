@@ -2,16 +2,14 @@ package com.prgrms.repository.customer;
 
 import com.prgrms.model.customer.Customer;
 import com.prgrms.presentation.message.ErrorMessage;
+import com.prgrms.repository.DataRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -19,20 +17,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final String COLUMNS = "last_login_at, customer_id, name, email, created_at";
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final DataRowMapper dataRowMapper;
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate, DataRowMapper dataRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.dataRowMapper = dataRowMapper;
     }
-
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        int customerId = resultSet.getInt("customer_id");
-        String customerName = resultSet.getString("name");
-        String email = resultSet.getString("email");
-        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
-    };
 
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
@@ -66,14 +56,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("select " + COLUMNS + " from customers", customerRowMapper);
+        return jdbcTemplate.query("select " + COLUMNS + " from customers", dataRowMapper.getCustomerRowMapper());
     }
 
     public Optional<Customer> findById(int customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select " + COLUMNS + " from customers WHERE customer_id = :customer_id",
                     Collections.singletonMap("customer_id", customerId),
-                    customerRowMapper));
+                    dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             logger.error(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
@@ -85,7 +75,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select " + COLUMNS + " from customers WHERE name = :name",
                     Collections.singletonMap("name", name),
-                    customerRowMapper));
+                    dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             logger.error(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
@@ -97,7 +87,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select " + COLUMNS + " from customers WHERE email = :email",
                     Collections.singletonMap("email", email),
-                    customerRowMapper));
+                    dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             logger.error(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();

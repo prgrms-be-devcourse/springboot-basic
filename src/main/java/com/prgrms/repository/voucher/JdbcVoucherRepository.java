@@ -1,18 +1,13 @@
 package com.prgrms.repository.voucher;
 
 import com.prgrms.model.voucher.Voucher;
-import com.prgrms.model.voucher.VoucherCreator;
-import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.model.voucher.Vouchers;
-import com.prgrms.dto.voucher.VoucherRequest;
-import com.prgrms.model.voucher.discount.Discount;
-import com.prgrms.model.voucher.discount.DiscountCreator;
 import com.prgrms.presentation.message.ErrorMessage;
+import com.prgrms.repository.DataRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -24,23 +19,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final String SELECT_COLUMN = "voucher_id, voucher_type, discount";
+    private final String COLUMN = "voucher_id, voucher_type, discount";
+    private final DataRowMapper dataRowMapper;
 
-    private VoucherCreator voucherCreator;
-    private DiscountCreator discountCreator = new DiscountCreator();
 
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate, VoucherCreator voucherCreator) {
+    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate, DataRowMapper dataRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
-        this.voucherCreator = voucherCreator;
+        this.dataRowMapper = dataRowMapper;
     }
 
-    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        int voucherId = resultSet.getInt("voucher_id");
-        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        double discountValue = resultSet.getDouble("discount");
-        Discount discount = discountCreator.createDiscount(discountValue, voucherType);
-        return voucherCreator.createVoucher(voucherId, new VoucherRequest(voucherType, discount));
-    };
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
@@ -64,18 +51,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Vouchers getAllVoucher() {
-        List<Voucher> vouchers = jdbcTemplate.query("select " + SELECT_COLUMN + " from vouchers", voucherRowMapper);
+        List<Voucher> vouchers = jdbcTemplate.query("select " + COLUMN + " from vouchers", dataRowMapper.getVoucherRowMapper());
         return new Vouchers(vouchers);
     }
 
     @Override
-    public Optional<Voucher> findById(int voucherId) {
+    public Optional<Voucher> findById(int voucher_id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select " + SELECT_COLUMN + " from vouchers WHERE voucher_id = :voucher_id",
-                    Collections.singletonMap("voucher_id", voucherId),
-                    voucherRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select " + COLUMN + " from vouchers where voucher_id = :voucher_id",
+                    Collections.singletonMap("voucher_id", voucher_id),
+                    dataRowMapper.getVoucherRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("데이터를 찾을 수 없습니다.", e);
+            logger.error(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
         }
     }

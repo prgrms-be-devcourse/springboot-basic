@@ -74,7 +74,7 @@ class MemoryVoucherRepositoryTest {
         Vouchers result = voucherRepository.getAllVoucher();
 
         //then
-        assertThat(result.getVouchers())
+        assertThat(result.vouchers())
                 .isNotNull()
                 .containsOnly(createdVoucher1, createdVoucher2);
     }
