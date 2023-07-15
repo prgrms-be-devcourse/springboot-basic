@@ -24,7 +24,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Long id, VoucherRequest request) {
-        voucherStorage.put(id, request.toEntity());
+        Voucher voucher = voucherStorage.get(id);
+        voucher.updateVoucher(request.getDiscountAmount());
+        voucherStorage.put(id, voucher);
     }
 
     @Override

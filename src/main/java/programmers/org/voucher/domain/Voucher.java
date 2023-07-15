@@ -37,6 +37,11 @@ public class Voucher {
         return type;
     }
 
+    public void updateVoucher(int discountAmount) {
+        validateVoucher(discountAmount, type);
+        this.discountAmount = discountAmount;
+    }
+
     private void validateVoucher(int discountAmount, VoucherType type) {
         switch (type) {
             case FIXED:
