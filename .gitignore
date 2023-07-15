@@ -25,6 +25,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+application-secret.yaml
 
 ### NetBeans ###
 /nbproject/private/
