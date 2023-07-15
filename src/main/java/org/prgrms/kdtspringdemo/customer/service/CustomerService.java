@@ -3,7 +3,6 @@ package org.prgrms.kdtspringdemo.customer.service;
 import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponseDto;
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
-import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,11 +25,13 @@ public class CustomerService {
 
     public CustomerResponseDto findById(UUID customerID) {
         Customer customer = customerRepository.findById(customerID);
+
         return CustomerResponseDto.toDto(customer.getCustomerId(), customer.getNickname());
     }
 
     public CustomerResponseDto findByNickname(String nickname) {
         Customer customer = customerRepository.findByNickname(nickname);
+
         return CustomerResponseDto.toDto(customer.getCustomerId(), customer.getNickname());
     }
 
@@ -46,6 +47,7 @@ public class CustomerService {
         customer.update(nickname);
 
         Customer updatedCustomer = customerRepository.update(customer);
+
         return CustomerResponseDto.toDto(updatedCustomer.getCustomerId(), updatedCustomer.getNickname());
     }
 

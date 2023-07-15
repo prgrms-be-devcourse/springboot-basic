@@ -21,7 +21,6 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public VoucherResponseDto create(VoucherType userVoucherType, long amount) {
         Voucher voucher = Voucher.create(userVoucherType, amount);
-
         Voucher savedVoucher = voucherRepository.save(voucher);
 
         return VoucherResponseDto.toDto(savedVoucher.getVoucherId(), savedVoucher.getVoucherType(), savedVoucher.getAmount());
@@ -30,6 +29,7 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public VoucherResponseDto findById(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId);
+
         return VoucherResponseDto.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
@@ -44,8 +44,8 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount) {
         Voucher voucher = Voucher.create(voucherType, amount);
-
         Voucher updatedVoucher = voucherRepository.update(voucher);
+
         return VoucherResponseDto.toDto(updatedVoucher.getVoucherId(), updatedVoucher.getVoucherType(), updatedVoucher.getAmount());
     }
 
