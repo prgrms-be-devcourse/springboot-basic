@@ -17,7 +17,7 @@ public class CustomerListResponseDto {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("바우처 리스트 : \n");
+        sb.append("고객 리스트 : \n");
         for (CustomerResponseDto dto : CustomerResponseDtoList) {
             sb.append(dto.toString()).append("\n");
         }
