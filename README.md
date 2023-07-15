@@ -1,12 +1,5 @@
 # SpringBoot Basic Weekly Mission
 
-## 📌 과제 설명 <!-- 어떤 걸 만들었는지 대략적으로 설명해주세요 -->
-
-### 흐름도
-![img_2.png](flowchar.png)
-
-### 클래스 다이어그램
-![img.png](classdiagram.png)
 
 ## ✅ PR 포인트 & 궁금한 점 <!-- 리뷰어 분들이 집중적으로 보셨으면 하는 내용을 적어주세요 -->
 wallet 기능 구현에 대해서 봐주셨으면 좋겠습니다.
@@ -41,7 +34,16 @@ wallet 기능 구현에 대해서 봐주셨으면 좋겠습니다.
   - FIRST 속성
   - @JdbcTest
 - SQL
-  - * 키워드 지양
+  - all(*) 키워드 지양
+
+
+## 📌 과제 설명 <!-- 어떤 걸 만들었는지 대략적으로 설명해주세요 -->
+
+### 흐름도
+![img_2.png](flowchar.png)
+
+### 클래스 다이어그램
+![img.png](classdiagram.png)
 
 ### Git Commit Convention
 * feat : 기능
