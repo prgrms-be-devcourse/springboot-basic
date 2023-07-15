@@ -23,7 +23,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
         VoucherPolicy voucherPolicy = VoucherType.mapperVoucherPolicy(VoucherType.valueOf(resultSet.getString("policy")));
         long voucherAmount = resultSet.getLong("amount");
