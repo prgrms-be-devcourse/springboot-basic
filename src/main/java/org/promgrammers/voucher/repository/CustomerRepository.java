@@ -19,4 +19,9 @@ public interface CustomerRepository {
     void deleteAll();
 
 
+    Optional<Customer> findByUsername(String username);
+
+    Optional<Customer> findByVoucherId(UUID voucherId);
+
+    void deleteById(UUID customerId);
 }
