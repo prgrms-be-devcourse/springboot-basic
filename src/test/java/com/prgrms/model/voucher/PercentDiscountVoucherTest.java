@@ -23,7 +23,7 @@ class PercentDiscountVoucherTest {
     }
 
     @Test
-    @DisplayName("할인율 정책이 적용되어 알맞은 할인된 금액으로 나온다.")
+    @DisplayName("할인율 바우처가 적용된 할인된 금액이 예상값과 같게 나온다.")
     void discountPrice_DiscountedPrice_Equal() {
         //given
         Voucher createdVoucher = new PercentDiscountVoucher(voucherId, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);

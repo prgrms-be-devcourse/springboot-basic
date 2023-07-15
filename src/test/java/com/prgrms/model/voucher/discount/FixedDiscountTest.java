@@ -19,7 +19,7 @@ class FixedDiscountTest {
     }
 
     @Test
-    @DisplayName("설정한 할인 금액의 값보다 큰 경우 할인 금액을 입력한 경우 예외를 던진다.")
+    @DisplayName("설정한 할인 금액의 값보다 큰 경우 할인 금액을 입력하면 예외를 던진다.")
     void validLimit_AboveLimit_ExceptionThrown() {
         //given
         int value = 20_000;

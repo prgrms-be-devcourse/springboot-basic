@@ -24,7 +24,7 @@ class FixedAmountVoucherTest {
     }
 
     @Test
-    @DisplayName("고정 할인 정책에 대해 알맞은 할인된 금액으로 나온다.")
+    @DisplayName("고정 할인 바우처가 적용된 할인된 금액이 예상값과 같게 나온다.")
     void discountPrice_DiscountedPrice_Equal() {
         //given
         Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
@@ -37,7 +37,7 @@ class FixedAmountVoucherTest {
     }
 
     @Test
-    @DisplayName("할인금액이 원가보다 커 할인된 금액이 음수가 나오는 경우 예외를 던진다.")
+    @DisplayName("할인ㄷ된 금액이 원가보다 커서 할인된 금액이 음수가 나오는 경우 예외를 던진다.")
     void discountPrice_NegativeDiscountedPrice_ThrowsException() {
         //given
         Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(2000), VoucherType.FIXED_AMOUNT_VOUCHER);
