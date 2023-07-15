@@ -32,6 +32,27 @@ public class Console {
         return Long.parseLong(input());
     }
 
+    public String askCustomerAction() {
+        System.out.println("=== Service Program ===");
+        System.out.println("Type 'create' to Create a customer");
+        System.out.println("Type 'assign' to Delete a customer");
+        System.out.println("Type 'list' to View all customers");
+        System.out.println("Type 'findOne' to Find customers by type");
+        System.out.println("Type 'update' to Find customers by type");
+        System.out.println("Type 'delete' to Delete a customer");
+        System.out.println("Type 'exit' to Find customers by type");
+
+        return input();
+    }
+
+    public String askRemoveCustomerFindType() {
+        System.out.println("=== Please select a service to use. ===");
+        System.out.println("Type 'id' to remove a customer");
+        System.out.println("Type 'all' to remove all customer");
+        return input();
+    }
+
+
     public VoucherCreateRequestDto createVoucherDto() {
         String type = askType();
         VoucherType voucherType = VoucherType.fromType(type);
@@ -47,4 +68,12 @@ public class Console {
         System.out.println("Type 'list' to list all vouchers.");
     }
 
+
+    public String askForCustomerFindType() {
+        System.out.println("=== Please select the customer search type. ===");
+        System.out.println("Type 'id' to Customer ID");
+        System.out.println("Type 'name' to Customer name");
+        System.out.println("Type 'voucherId' to Voucher ID owned by the customer");
+        return input();
+    }
 }
