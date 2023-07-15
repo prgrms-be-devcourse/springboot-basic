@@ -4,7 +4,7 @@ import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
 import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponseDto;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
-import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommandType;
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherQuery;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
@@ -27,8 +27,8 @@ public class CommandLineApplication implements CommandLineRunner {
     private static final String VOUCHER_SERVICE_INIT_MESSAGE = """
             === Voucher Program ===
             CREATE -> 바우처 생성
-            LIST -> 특정 바우처 조회
-            LIST_ALL -> 바우처 전체 조회
+            FIND_ID -> 특정 바우처 조회
+            FIND_ALL -> 바우처 전체 조회
             UPDATE -> 특정 바우처 업데이트
             DELETE -> 특정 바우처 삭제
             """;
@@ -84,12 +84,12 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void runVoucherService() {
-        VoucherCommandType userCommand = voucherConsole.inputVoucherCommand(VOUCHER_SERVICE_INIT_MESSAGE);
+        VoucherQuery userCommand = voucherConsole.inputVoucherCommand(VOUCHER_SERVICE_INIT_MESSAGE);
 
         switch (userCommand) {
             case CREATE -> createVoucher();
-            case LIST -> getVoucher();
-            case LIST_ALL -> getAllVoucher();
+            case FIND_ID -> getVoucher();
+            case FIND_ALL -> getAllVoucher();
             case UPDATE -> updateVoucher();
             case DELETE -> deleteVoucher();
         }

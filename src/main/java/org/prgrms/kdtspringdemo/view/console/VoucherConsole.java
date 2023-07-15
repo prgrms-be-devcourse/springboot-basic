@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.view.console;
 
 import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
 import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
-import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommandType;
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherQuery;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +27,10 @@ public class VoucherConsole {
         return MainCommandType.findCommandType(scanner.nextLine());
     }
 
-    public VoucherCommandType inputVoucherCommand(String initMessage) {
+    public VoucherQuery inputVoucherCommand(String initMessage) {
         printMessage(initMessage);
 
-        return VoucherCommandType.findCommandType(scanner.nextLine());
+        return VoucherQuery.findVoucherCommand(scanner.nextLine());
     }
 
     public VoucherType chooseVoucherType(String voucherChooseMessage) {
@@ -80,7 +80,7 @@ public class VoucherConsole {
     public CustomerQuery inputCustomerCommand(String initMessage) {
         printMessage(initMessage);
 
-        return CustomerQuery.findCustomCommand(scanner.nextLine());
+        return CustomerQuery.findCustomerCommand(scanner.nextLine());
     }
 
     public String inputCustomerNickname(String inputCustomerNicknameMessage) {

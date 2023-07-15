@@ -14,6 +14,7 @@ public enum CustomerQuery {
     FIND_ALL("SELECT * FROM customer"),
     UPDATE("UPDATE customer SET nickname = :nickname WHERE customer_id = UUID_TO_BIN(:customer_id)"),
     DELETE("DELETE FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)");
+
     private static final Logger logger = LoggerFactory.getLogger(CustomerQuery.class);
 
     private final String query;
@@ -26,9 +27,9 @@ public enum CustomerQuery {
         return query;
     }
 
-    public static CustomerQuery findCustomCommand(String userCommand) {
+    public static CustomerQuery findCustomerCommand(String userCommand) {
         return Arrays.stream(CustomerQuery.values())
-                .filter(customSymbol -> customSymbol.name().equals(userCommand.toUpperCase()))
+                .filter(customerSymbol -> customerSymbol.name().equals(userCommand.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.error("원인 : {} -> 에러 메시지 : {}", userCommand, NOT_FOUND_CUSTOMER_COMMAND_TYPE.getMessage());
