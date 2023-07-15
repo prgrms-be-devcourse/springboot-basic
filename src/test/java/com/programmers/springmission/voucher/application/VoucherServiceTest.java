@@ -5,6 +5,7 @@ import com.programmers.springmission.customer.domain.Customer;
 import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
 import com.programmers.springmission.global.exception.ErrorMessage;
 import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.enums.VoucherType;
 import com.programmers.springmission.voucher.presentation.request.VoucherCreateRequest;
 import com.programmers.springmission.voucher.presentation.request.VoucherUpdateRequest;
@@ -205,8 +206,8 @@ class VoucherServiceTest {
 
         // then
         assertThatThrownBy(() -> service.findOneVoucher(UUID.randomUUID()))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_VOUCHER.getMessage());
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_VOUCHER.getMessage());
     }
 
     @DisplayName("바우처에 고객 할당 성공하는지 테스트")

@@ -1,7 +1,8 @@
 package com.programmers.springmission.voucher.application;
 
+import com.programmers.springmission.global.exception.DuplicateException;
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
 import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
 import com.programmers.springmission.voucher.domain.Voucher;
@@ -84,12 +85,12 @@ public class VoucherService {
 
     private Voucher findVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND_VOUCHER));
     }
 
     private void validateAssignedCustomer(Voucher voucher) {
         if (voucher.getCustomerId() != null) {
-            throw new InvalidInputException(ErrorMessage.DUPLICATE_ASSIGN_VOUCHER);
+            throw new DuplicateException(ErrorMessage.DUPLICATE_ASSIGN_VOUCHER);
         }
     }
 }

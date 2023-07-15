@@ -6,8 +6,9 @@ import com.programmers.springmission.customer.presentation.request.CustomerUpdat
 import com.programmers.springmission.customer.presentation.response.CustomerResponse;
 import com.programmers.springmission.customer.presentation.response.WalletResponse;
 import com.programmers.springmission.customer.repository.JdbcCustomerRepository;
+import com.programmers.springmission.global.exception.DuplicateException;
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.FixedAmountPolicy;
 import com.programmers.springmission.voucher.domain.PercentDiscountPolicy;
 import com.programmers.springmission.voucher.domain.Voucher;
@@ -78,7 +79,7 @@ class CustomerServiceTest {
 
         // then
         assertThatThrownBy(() -> service.createCustomer(customerCreateRequest2))
-                .isInstanceOf(InvalidInputException.class)
+                .isInstanceOf(DuplicateException.class)
                 .hasMessage(ErrorMessage.DUPLICATE_CUSTOMER_EMAIL.getMessage());
     }
 
@@ -118,8 +119,8 @@ class CustomerServiceTest {
 
         // then
         assertThatThrownBy(() -> service.findByIdCustomer(UUID.randomUUID()))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_CUSTOMER.getMessage());
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_CUSTOMER.getMessage());
     }
 
     @DisplayName("findByEmailCustomer 고객 단건 조회 실패 테스트 - email 기반")
@@ -130,8 +131,8 @@ class CustomerServiceTest {
 
         // then
         assertThatThrownBy(() -> service.findByEmailCustomer("abc@gmail.com"))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_CUSTOMER.getMessage());
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_CUSTOMER.getMessage());
     }
 
     @DisplayName("findAllCustomer 고객 전체 조회 성공 테스트")
@@ -216,8 +217,8 @@ class CustomerServiceTest {
 
         // then
         assertThatThrownBy(() -> service.findByIdCustomer(UUID.randomUUID()))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage(ErrorMessage.NOT_EXIST_CUSTOMER.getMessage());
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(ErrorMessage.NOT_FOUND_CUSTOMER.getMessage());
     }
 
     @DisplayName("findCustomerWallet 지갑 조회 테스트")

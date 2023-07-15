@@ -1,7 +1,7 @@
 package com.programmers.springmission.voucher.repository;
 
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import com.programmers.springmission.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -47,7 +47,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
     private void update(Voucher voucher) {
         if (!storage.containsKey(voucher.getVoucherId())) {
-            throw new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER);
+            throw new NotFoundException(ErrorMessage.NOT_FOUND_VOUCHER);
         }
         storage.put(voucher.getVoucherId(), voucher);
     }
@@ -55,7 +55,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         if (!storage.containsKey(voucherId)) {
-            throw new InvalidInputException(ErrorMessage.NOT_EXIST_VOUCHER);
+            throw new NotFoundException(ErrorMessage.NOT_FOUND_VOUCHER);
         }
         storage.remove(voucherId);
     }

@@ -7,8 +7,9 @@ import com.programmers.springmission.customer.presentation.request.CustomerUpdat
 import com.programmers.springmission.customer.presentation.response.CustomerResponse;
 import com.programmers.springmission.customer.presentation.response.WalletResponse;
 import com.programmers.springmission.customer.repository.CustomerRepository;
+import com.programmers.springmission.global.exception.DuplicateException;
 import com.programmers.springmission.global.exception.ErrorMessage;
-import com.programmers.springmission.global.exception.InvalidInputException;
+import com.programmers.springmission.global.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,17 +86,17 @@ public class CustomerService {
 
     private Customer validateCustomerExistById(UUID customerId) {
         return customerRepository.findById(customerId)
-                .orElseThrow(() -> new InvalidInputException(ErrorMessage.NOT_EXIST_CUSTOMER));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND_CUSTOMER));
     }
 
     private Customer validateCustomerExistByEmail(String email) {
         return customerRepository.findByEmail(email)
-                .orElseThrow(() -> new InvalidInputException(ErrorMessage.NOT_EXIST_CUSTOMER));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND_CUSTOMER));
     }
 
     private void duplicatedCustomerEmail(String email) {
         customerRepository.findByEmail(email).ifPresent(customer -> {
-            throw new InvalidInputException(ErrorMessage.DUPLICATE_CUSTOMER_EMAIL);
+            throw new DuplicateException(ErrorMessage.DUPLICATE_CUSTOMER_EMAIL);
         });
     }
 }
