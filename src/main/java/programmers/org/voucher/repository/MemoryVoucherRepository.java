@@ -29,10 +29,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(Long id) {
-        if (voucherStorage.get(id) == null) {
-            return Optional.empty();
-        }
-        return Optional.of(voucherStorage.get(id));
+        return Optional.ofNullable(voucherStorage.get(id));
     }
 
     @Override
