@@ -38,10 +38,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString(VOUCHER_TYPE));
         long amount = resultSet.getLong(AMOUNT);
 
-        return switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(voucherId, amount);
-            case PERCENT -> new PercentAmountVoucher(voucherId, amount);
-        };
+        return Voucher.update(voucherId, voucherType, amount);
     };
 
     private Map<String, Object> toParamMap(Voucher voucher) {

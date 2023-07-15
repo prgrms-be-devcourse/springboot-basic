@@ -2,8 +2,6 @@ package org.prgrms.kdtspringdemo.voucher.service;
 
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
-import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
-import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -22,11 +20,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherResponseDto create(VoucherType userVoucherType, long amount) {
-        VoucherType voucherType = VoucherType.findVoucherType(userVoucherType);
-        Voucher voucher = switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(amount);
-            case PERCENT -> new PercentAmountVoucher(amount);
-        };
+        Voucher voucher = Voucher.create(userVoucherType, amount);
 
         Voucher savedVoucher = voucherRepository.save(voucher);
 
@@ -49,10 +43,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount) {
-        Voucher voucher = switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(voucherId, amount);
-            case PERCENT -> new PercentAmountVoucher(voucherId, amount);
-        };
+        Voucher voucher = Voucher.create(voucherType, amount);
 
         Voucher updatedVoucher = voucherRepository.update(voucher);
         return VoucherResponseDto.toDto(updatedVoucher.getVoucherId(), updatedVoucher.getVoucherType(), updatedVoucher.getAmount());
