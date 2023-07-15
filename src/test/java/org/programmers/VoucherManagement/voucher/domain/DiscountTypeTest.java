@@ -29,6 +29,4 @@ public class DiscountTypeTest {
                 .isInstanceOf(VoucherException.class)
                 .hasMessage("해당하는 유형의 바우처가 존재하지 않습니다.");
     }
-
 }
-

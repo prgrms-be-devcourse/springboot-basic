@@ -29,6 +29,4 @@ public class MemberConverterTest {
         assertThat(member.getName()).isEqualTo(expectedName);
         assertThat(member.getMemberStatus()).isEqualTo(expectedStatus);
     }
-
 }
-

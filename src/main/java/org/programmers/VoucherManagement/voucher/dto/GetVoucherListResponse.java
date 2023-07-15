@@ -16,7 +16,6 @@ public class GetVoucherListResponse {
                 .collect(Collectors.toList());
     }
 
-
     public List<GetVoucherResponse> getGetVoucherListRes() {
         return Collections.unmodifiableList(voucherResponses);
     }

@@ -69,5 +69,4 @@ public class MemoryVoucherRepositoryTest {
         voucherList.add(new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(20)));
         return Stream.of(Arguments.of(voucherList));
     }
-
 }

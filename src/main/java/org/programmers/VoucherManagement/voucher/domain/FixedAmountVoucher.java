@@ -8,5 +8,4 @@ public class FixedAmountVoucher extends Voucher {
         this.discountType = discountType;
         this.discountValue = discountValue;
     }
-
 }

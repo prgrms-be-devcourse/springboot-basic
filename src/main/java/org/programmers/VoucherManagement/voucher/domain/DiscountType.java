@@ -36,7 +36,7 @@ public enum DiscountType {
     }
 
     public static DiscountType from(String key) {
-        if(!DISCOUNT_TYPE_MAP.containsKey(key)){
+        if (!DISCOUNT_TYPE_MAP.containsKey(key)) {
             throw new VoucherException(NOT_EXIST_DISCOUNT_TYPE);
         }
         return DISCOUNT_TYPE_MAP.get(key);

@@ -14,11 +14,9 @@ public class PercentAmountVoucher extends Voucher {
         this.discountValue = discountValue;
     }
 
-
     private void validatePercentDiscountValue(DiscountValue discountValue) {
         if (discountValue.getValue() < 0 || discountValue.getValue() > 100) {
             throw new VoucherException(NOT_INCLUDE_1_TO_100);
         }
     }
-
 }

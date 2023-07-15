@@ -18,6 +18,3 @@ create table voucher_table
 
     primary key (voucher_id)
 );
-
-
-

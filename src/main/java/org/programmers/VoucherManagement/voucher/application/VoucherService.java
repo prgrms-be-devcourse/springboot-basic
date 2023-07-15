@@ -45,5 +45,4 @@ public class VoucherService {
         Voucher voucher = repository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
         repository.delete(voucher);
     }
-
 }

@@ -36,4 +36,3 @@ public class MemberController {
         memberService.deleteMember(memberId);
     }
 }
-

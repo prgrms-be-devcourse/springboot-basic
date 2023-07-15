@@ -94,5 +94,4 @@ public class CommandExecutor {
 
         return new CreateMemberRequest(name, memberStatus);
     }
-
 }

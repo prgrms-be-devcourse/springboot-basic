@@ -33,5 +33,4 @@ public class MenuTypeTest {
                 .isInstanceOf(VoucherException.class)
                 .hasMessage("해당하는 Command가 존재하지 않습니다.");
     }
-
 }
