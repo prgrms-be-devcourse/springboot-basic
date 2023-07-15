@@ -6,17 +6,17 @@ public enum VoucherMenu {
     INSERT("insert"),
     FIND_ALL("findall"),
     FIND_BY_TYPE("findbytype"),
-    DELETE_ALL("deleteAll");
+    DELETE_ALL("deleteall");
 
-    private final String customerMenuType;
+    private final String voucherMenuType;
 
-    VoucherMenu(String customerMenuType) {
-        this.customerMenuType = customerMenuType;
+    VoucherMenu(String voucherMenuType) {
+        this.voucherMenuType = voucherMenuType;
     }
 
     public static VoucherMenu findMenuType(String inputText) {
         return Stream.of(values())
-                .filter(menu -> menu.customerMenuType.equalsIgnoreCase(inputText))
+                .filter(menu -> menu.voucherMenuType.equalsIgnoreCase(inputText))
                 .findFirst()
                 .orElse(null);
     }
