@@ -29,7 +29,6 @@ public class JdbcMemberRepositoryTest {
     void initMember() {
         blackMember = new Member(UUID.randomUUID(), "kim", MemberStatus.BLACK);
         whiteMember = new Member(UUID.randomUUID(), "park", MemberStatus.WHITE);
-        memberRepository.deleteAll();
     }
 
     @Order(1)

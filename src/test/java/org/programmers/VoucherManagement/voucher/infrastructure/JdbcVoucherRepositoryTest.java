@@ -30,7 +30,6 @@ public class JdbcVoucherRepositoryTest {
         System.out.println(voucherRepository.getClass());
         fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000));
         percentVoucher = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
-        voucherRepository.deleteAll();
     }
 
     @Order(1)

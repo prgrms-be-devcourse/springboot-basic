@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,7 +36,7 @@ public class MemberServiceTest {
     MemberRepository memberRepository;
 
     @Test
-    @DisplayName("회원 정보(status)를 수정할 수 있다. - 성공")
+    @DisplayName("회원 정보(status)를 BLACK으로 수정한다. - 성공")
     void updateMember_IdAndDto_Success() {
         //given
         UUID memberId = UUID.randomUUID();
@@ -103,8 +104,7 @@ public class MemberServiceTest {
         Member member1 = new Member(UUID.randomUUID(), "Kim", MemberStatus.BLACK);
         Member member2 = new Member(UUID.randomUUID(), "Park", MemberStatus.BLACK);
         Member member3 = new Member(UUID.randomUUID(), "Lee", MemberStatus.WHITE);
-        List<Member> blackMemberList = Arrays.asList(member1, member2, member3)
-                .stream()
+        List<Member> blackMemberList = Stream.of(member1, member2, member3)
                 .filter(m -> m.getMemberStatus() == MemberStatus.BLACK)
                 .collect(Collectors.toList());
 
