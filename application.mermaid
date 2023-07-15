@@ -13,16 +13,20 @@ classDiagram
     ConsoleManager --> InputConsole
     ConsoleManager --> OutputConsole
 
+    %% Controller
     class VoucherController
     class CustomerController
+    class WalletController
     ConsoleApplication --> VoucherController : VoucherDto
     ConsoleApplication --> CustomerController : CustomerDto
+    ConsoleApplication --> WalletController
 
     %% Service
     class VoucherService
     class CustomerService
     VoucherController --> VoucherService : Voucher
     CustomerController --> CustomerService : Customer
+    WalletController --> WalletService
 
     %% Repository
     class VoucherRepository {
@@ -30,11 +34,24 @@ classDiagram
     }
     VoucherService --> VoucherRepository
     class MemoryVoucherRepository
+    MemoryVoucherRepository --> VoucherMap
     class JdbcVoucherRepository
-    JdbcVoucherRepository --> CsvReader
+    JdbcVoucherRepository --> vouchers
     VoucherRepository <.. MemoryVoucherRepository
     VoucherRepository <.. JdbcVoucherRepository
 
-    class CustomerRepository
-    CustomerRepository --> CsvReader
+    class WalletRepository {
+        <<interface>>
+    }
+    WalletService --> WalletRepository
+    WalletRepository <.. JdbcWalletRepository
+    JdbcWalletRepository --> vouchers
+    JdbcWalletRepository --> customers
+
+    class CustomerRepository {
+        <<interface>>
+    }
     CustomerService --> CustomerRepository
+    class JdbcCustomerRepository
+    CustomerRepository <.. JdbcCustomerRepository
+    JdbcCustomerRepository --> customers

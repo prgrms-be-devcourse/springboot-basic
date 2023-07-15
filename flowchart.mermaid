@@ -1,10 +1,27 @@
 flowchart LR
     start_node[Start] --> menu{Menu}
     menu -- EXIT --> end_node[End]
-    menu -- REGISTER_CUSTOMER --> RegisterCustomer[Register Customer]
-    menu -- UNREGISTER_CUSTOMER --> UnregisterCustomer[Unregister Customer]
-    menu -- LIST_ALL_CUSTOMERS --> ListCustomer[List Customers]
-    menu -- REGISTER_VOUCHER_TO_CUSTOMER --> RegisterVoucher[Register Voucher]
-    menu -- UNREGISTER_VOUCHER_FROM_CUSTOMER --> UnregisterVoucher[Unregister Voucher]
-    menu -- LIST_VOUCHERS_OF_CUSTOMER --> ListVoucher[List Voucher of Customer]
-    menu -- LIST_BLACK_CUSTOMERS --> ListBlackCustomer[List Black Customers]
+    menu -- CUSTOMER --> customerDomain{Customer Domain }
+    menu -- VOUCHER --> voucherDomain{Voucher Domain}
+    menu -- WALLET --> walletDomain{Wallet Domain}
+
+    customerDomain -- REGISTER --> registerCustomer[Register Customer]
+    customerDomain -- UPDATE --> updateCustomer[Update Customer]
+    customerDomain -- UNREGISTER --> unregisterCustomer[Unregister Customer]
+    customerDomain -- LIST_ALL --> listCustomer[List All Customers]
+    customerDomain -- LIST_BY_ID --> listCustomerById[Find Customer By Id]
+    customerDomain -- LIST_BY_NAME --> listCustomerName[Find Customer By Name]
+    customerDomain -- LIST_BLACK --> listBlack[List All Black Customers]
+
+    voucherDomain -- CREATE --> createVoucher[Create Voucher]
+    voucherDomain -- UPDATE --> updateVoucher[Update Voucher]
+    voucherDomain -- DELETE --> deleteVoucher[Delete Voucher]
+    voucherDomain -- LIST_ALL --> listVoucher[List All Voucher]
+    voucherDomain -- LIST_BY_ID --> listVoucherById[Find Voucher By Id]
+    voucherDomain -- LIST_BY_TYPE --> listVoucherByType[Find Voucher By Type]
+
+    walletDomain -- ASSIGN_VOUCHER_TO_CUSTOMER --> assign[Assign Voucher To Customer]
+    walletDomain -- WITHDRAW_VOUCHER_FROM_CUSTOMER --> withdraw[Withdraw Voucher From Customer]
+    walletDomain -- LIST_VOUCHERS_OF_CUSTOMER --> listvoc[List Vouchers of Customer]
+    walletDomain -- LIST_CUSTOMER_BY_VOUCHER_ID --> listcbb[List Customer has Voucher Id]
+    walletDomain -- LIST_CUSTOMER_BY_VOUCHER_TYPE --> listcbt[List Customer has Voucher Type]
