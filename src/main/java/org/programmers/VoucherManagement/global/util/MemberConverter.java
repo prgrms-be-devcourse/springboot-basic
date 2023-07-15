@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 public class MemberConverter {
     private static final String SEPARATOR = ",";
 
+    private MemberConverter() {
+    }
+
     public static Member toMember(String line) {
         String[] chunks = line.split(SEPARATOR);
 

@@ -6,6 +6,9 @@ import java.util.UUID;
 
 
 public class VoucherFactory {
+    private VoucherFactory() {
+    }
+
     public static Voucher createVoucher(CreateVoucherRequest createVoucherRequest) {
         DiscountType discountType = createVoucherRequest.getDiscountType();
 
