@@ -8,7 +8,9 @@ import java.util.Arrays;
 import static org.prgrms.kdtspringdemo.customer.exception.CustomerExceptionMessage.*;
 
 public enum CustomerQuery {
-    CREATE("INSERT INTO customer(customer_id, nickname) VALUES(UUID_TO_BIN(:customer_id), :nickname)");
+    CREATE("INSERT INTO customer(customer_id, nickname) VALUES(UUID_TO_BIN(:customer_id), :nickname)"),
+    FIND_ID("SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)"),
+    ;
     private static final Logger logger = LoggerFactory.getLogger(CustomerQuery.class);
 
     private final String query;

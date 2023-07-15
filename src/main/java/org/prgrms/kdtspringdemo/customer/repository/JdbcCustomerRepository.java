@@ -2,14 +2,12 @@ package org.prgrms.kdtspringdemo.customer.repository;
 
 import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.prgrms.kdtspringdemo.customer.exception.CustomerExceptionMessage.*;
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
@@ -23,6 +21,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    private final RowMapper<Customer> customerRowMapper = (resultSet, i)
+            -> new Customer(toUUID(resultSet.getBytes(CUSTOMER_ID)), NICKNAME);
 
     private Map<String, Object> toParamMap(Customer customer) {
         return Map.of(
@@ -43,7 +44,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer findById(UUID customerId) {
-        return null;
+        Customer customer;
+        try {
+            customer = jdbcTemplate.queryForObject(CustomerQuery.FIND_ID.getQuery(),
+                    Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
+                    customerRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            throw new RuntimeException(CUSTOMER_ID_LOOKUP_FAILED.getMessage());
+        }
+
+        return customer;
     }
 
     @Override

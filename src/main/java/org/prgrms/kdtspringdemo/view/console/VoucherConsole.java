@@ -92,4 +92,21 @@ public class VoucherConsole {
     public void printCustomer(String successMessage, UUID customerId, String nickname) {
         System.out.printf(successMessage, customerId.toString(), nickname);
     }
+
+    public UUID inputCustomerId(String inputCustomerIdMessage) {
+        printMessage(inputCustomerIdMessage);
+        String userCustomerId = scanner.nextLine();
+        validateCustomerId(userCustomerId);
+
+        return UUID.fromString(userCustomerId);
+    }
+
+    private void validateCustomerId(String userCustomerId) {
+        try {
+            UUID.fromString(userCustomerId);
+        } catch (IllegalArgumentException e) {
+            logger.error("원인 : {} -> 에러 메시지 : {}", userCustomerId, IS_NUMERIC_EXCEPTION_MESSAGE);
+            throw new IllegalArgumentException(UUID_FORMAT_EXCEPTION_MESSAGE);
+        }
+    }
 }

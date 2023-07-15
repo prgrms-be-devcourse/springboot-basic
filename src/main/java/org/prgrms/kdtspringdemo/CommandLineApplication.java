@@ -54,6 +54,7 @@ public class CommandLineApplication implements CommandLineRunner {
             id : %s
             nickname : %s
             """;
+    private static final String CUSTOMER_ID_MESSAGE = "소비자 Id를 입력하세요.\n";
 
     private final VoucherConsole voucherConsole = new VoucherConsole();
     private final VoucherService voucherService;
@@ -137,6 +138,7 @@ public class CommandLineApplication implements CommandLineRunner {
 
         switch (userCommand) {
             case CREATE -> createCustomer();
+            case FIND_ID -> findByIdCustomer();
         }
     }
 
@@ -145,5 +147,12 @@ public class CommandLineApplication implements CommandLineRunner {
 
         CustomerResponseDto responseDto = customerService.create(userNickname);
         voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, responseDto.getCustomerId(), responseDto.getNickname());
+    }
+
+    private void findByIdCustomer() {
+        UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID_MESSAGE);
+
+        CustomerResponseDto customerResponseDto = customerService.findById(userCustomerId);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
     }
 }
