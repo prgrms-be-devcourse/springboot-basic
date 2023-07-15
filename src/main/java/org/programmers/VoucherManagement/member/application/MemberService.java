@@ -1,6 +1,7 @@
 package org.programmers.VoucherManagement.member.application;
 
 import org.programmers.VoucherManagement.member.domain.Member;
+import org.programmers.VoucherManagement.member.domain.MemberStatus;
 import org.programmers.VoucherManagement.member.dto.CreateMemberRequest;
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
 import org.programmers.VoucherManagement.member.dto.UpdateMemberRequest;
@@ -25,7 +26,7 @@ public class MemberService {
     }
 
     public GetMemberListResponse getAllBlackMembers() {
-        return new GetMemberListResponse(repository.findAllByMemberStatus());
+        return new GetMemberListResponse(repository.findAllByMemberStatus(MemberStatus.BLACK));
     }
 
     public void createMember(CreateMemberRequest createMemberRequest) {

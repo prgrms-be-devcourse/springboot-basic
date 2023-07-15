@@ -104,7 +104,7 @@ public class MemberServiceTest {
                 .collect(Collectors.toList());
 
         //mocking
-        given(memberRepository.findAllByMemberStatus()).willReturn(blackMemberList);
+        given(memberRepository.findAllByMemberStatus(MemberStatus.BLACK)).willReturn(blackMemberList);
 
         //when
         GetMemberListResponse response = memberService.getAllBlackMembers();

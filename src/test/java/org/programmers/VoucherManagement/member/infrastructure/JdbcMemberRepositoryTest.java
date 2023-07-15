@@ -89,7 +89,7 @@ public class JdbcMemberRepositoryTest {
         memberRepository.insert(blackMember);
 
         //when
-        List<Member> blackMemberList = memberRepository.findAllByMemberStatus();
+        List<Member> blackMemberList = memberRepository.findAllByMemberStatus(MemberStatus.BLACK);
 
         //then
         assertThat(blackMemberList.size()).isEqualTo(1);

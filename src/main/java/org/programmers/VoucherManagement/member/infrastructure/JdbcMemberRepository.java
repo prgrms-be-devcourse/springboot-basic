@@ -28,13 +28,15 @@ public class JdbcMemberRepository implements MemberRepository {
     @Override
     public List<Member> findAll() {
         String sql = "select member_id, member_status, name from member_table";
+
         return jdbcTemplate.query(sql, memberRowMapper());
     }
 
     @Override
-    public List<Member> findAllByMemberStatus() {
-        String sql = "select member_id, member_status, name from member_table where member_status = 'BLACK'";
-        return jdbcTemplate.query(sql, memberRowMapper());
+    public List<Member> findAllByMemberStatus(MemberStatus memberStatus) {
+        String sql = "select member_id, member_status, name from member_table where member_status = ?";
+
+        return jdbcTemplate.query(sql, memberRowMapper(), memberStatus.toString());
     }
 
     @Override

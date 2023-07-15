@@ -1,6 +1,7 @@
 package org.programmers.VoucherManagement.member.infrastructure;
 
 import org.programmers.VoucherManagement.member.domain.Member;
+import org.programmers.VoucherManagement.member.domain.MemberStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public interface MemberRepository {
      *
      * @return List<Member> - status에 해당하는 전체 회원
      */
-    List<Member> findAllByMemberStatus();
+    List<Member> findAllByMemberStatus(MemberStatus memberStatus);
 
     /**
      * 회원 ID를 이용해 회원 조회
