@@ -2,7 +2,7 @@ package programmers.org.voucher.domain;
 
 import programmers.org.voucher.constant.VoucherType;
 
-import static programmers.org.voucher.exception.ErrorMessage.DISCOUNT_ERROR_MESSAGE;
+import static programmers.org.voucher.exception.ErrorMessage.INVALID_DISCOUNT_RANGE;
 
 public class Voucher {
 
@@ -39,7 +39,7 @@ public class Voucher {
 
     private void validateVoucher(int discountAmount, VoucherType type) {
         if (type.isInvalidAmount(discountAmount)) {
-            throw new IllegalArgumentException(DISCOUNT_ERROR_MESSAGE.getMessage());
+            throw new IllegalArgumentException(INVALID_DISCOUNT_RANGE.getMessage());
         }
     }
 }

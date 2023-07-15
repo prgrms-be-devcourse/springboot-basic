@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-import static programmers.org.voucher.exception.ErrorMessage.VOUCHER_ERROR_MESSAGE;
+import static programmers.org.voucher.exception.ErrorMessage.INVALID_VOUCHER_TYPE;
 
 public enum VoucherType {
     FIXED((amount) -> amount > 0),
@@ -20,7 +20,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> voucherType.name().equalsIgnoreCase(type))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException(VOUCHER_ERROR_MESSAGE.getMessage()));
+                .orElseThrow(() -> new NoSuchElementException(INVALID_VOUCHER_TYPE.getMessage()));
     }
 
     public boolean isInvalidAmount(int amount) {

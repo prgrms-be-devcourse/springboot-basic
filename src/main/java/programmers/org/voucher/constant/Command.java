@@ -1,9 +1,9 @@
 package programmers.org.voucher.constant;
 
-import programmers.org.voucher.exception.ErrorMessage;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+
+import static programmers.org.voucher.exception.ErrorMessage.INVALID_COMMAND;
 
 public enum Command {
     CREATE,
@@ -17,6 +17,6 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(command -> command.name().equalsIgnoreCase(type))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException(ErrorMessage.COMMAND_ERROR_MESSAGE.getMessage()));
+                .orElseThrow(() -> new NoSuchElementException(INVALID_COMMAND.getMessage()));
     }
 }
