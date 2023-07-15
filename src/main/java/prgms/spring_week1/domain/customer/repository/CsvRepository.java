@@ -23,7 +23,7 @@ public class CsvRepository{
     public CsvRepository(@Value("${file.blackList}") String csvFilePath) {
         this.csvFilePath = csvFilePath;
     }
-    
+
     public List<BlackConsumer> getBlackConsumerList() {
         List<String> csvList = null;
         List<BlackConsumer> blackConsumerList = new ArrayList<>();
