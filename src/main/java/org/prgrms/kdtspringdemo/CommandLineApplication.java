@@ -69,6 +69,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case CREATE -> createVoucher();
             case LIST -> getVoucher();
             case LIST_ALL -> getAllVoucher();
+            case UPDATE -> updateVoucher();
         }
     }
 
@@ -93,4 +94,14 @@ public class CommandLineApplication implements CommandLineRunner {
             voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
         }
     }
+
+    private void updateVoucher() {
+        UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID_MESSAGE);
+        VoucherType userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE_MESSAGE);
+        Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER_MESSAGE);
+
+        VoucherResponseDto voucherResponseDto = voucherService.update(userVoucherId, userVoucherType, userAmount);
+        voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+    }
+
 }

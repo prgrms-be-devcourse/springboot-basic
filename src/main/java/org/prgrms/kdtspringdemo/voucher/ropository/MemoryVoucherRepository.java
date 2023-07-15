@@ -32,4 +32,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return Collections.unmodifiableList(new ArrayList<>(storage.values()));
     }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        Voucher updatedVoucher = storage.putIfAbsent(voucher.getVoucherId(), voucher);
+        return updatedVoucher == null ? voucher : updatedVoucher;
+    }
 }

@@ -46,4 +46,15 @@ public class VoucherServiceImpl implements VoucherService {
                 .map(v -> new VoucherResponseDto(v.getVoucherId(), v.getVoucherType(), v.getAmount()))
                 .collect(Collectors.toUnmodifiableList());
     }
+
+    @Override
+    public VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount) {
+        Voucher voucher = switch (voucherType) {
+            case FIXED -> new FixedAmountVoucher(voucherId, amount);
+            case PERCENT -> new PercentAmountVoucher(voucherId, amount);
+        };
+
+        Voucher updatedVoucher = voucherRepository.update(voucher);
+        return VoucherResponseDto.toDto(updatedVoucher.getVoucherId(), updatedVoucher.getVoucherType(), updatedVoucher.getAmount());
+    }
 }

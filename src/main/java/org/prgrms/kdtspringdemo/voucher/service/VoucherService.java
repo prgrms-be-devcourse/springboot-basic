@@ -12,4 +12,6 @@ public interface VoucherService {
     VoucherResponseDto findById(UUID voucherId);
 
     List<VoucherResponseDto> findAll();
+
+    VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount);
 }
