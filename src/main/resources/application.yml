@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active: jdbc
+  output:
+    ansi:
+      enabled: always
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: memory
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: jdbc
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/voucherMission;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username: sa

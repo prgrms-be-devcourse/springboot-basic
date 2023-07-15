@@ -20,7 +20,7 @@ class FixedAmountPolicyTest {
     void fixed_policy_success_discount(long beforeDiscount, long amount, long expected) {
 
         // given
-        Voucher voucher = new Voucher(new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT);
+        Voucher voucher = new Voucher(new FixedAmountPolicy(VoucherType.FIXED_AMOUNT), amount);
 
         // when
         long result = voucher.discount(beforeDiscount);
@@ -37,7 +37,7 @@ class FixedAmountPolicyTest {
     void fixed_policy_throw_wrong(long amount) {
 
         // then
-        assertThatThrownBy(() -> new Voucher(new FixedAmountPolicy(amount), VoucherType.FIXED_AMOUNT))
+        assertThatThrownBy(() -> new Voucher(new FixedAmountPolicy(VoucherType.FIXED_AMOUNT), amount))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }

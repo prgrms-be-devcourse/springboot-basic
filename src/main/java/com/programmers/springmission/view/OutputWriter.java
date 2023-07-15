@@ -1,7 +1,5 @@
 package com.programmers.springmission.view;
 
-import com.programmers.springmission.voucher.presentation.response.VoucherResponse;
-
 import java.util.List;
 
 public class OutputWriter implements Output {
@@ -12,9 +10,9 @@ public class OutputWriter implements Output {
     }
 
     @Override
-    public void write(List<VoucherResponse> voucherResponses) {
-        for (VoucherResponse voucherResponse : voucherResponses) {
-            System.out.println(voucherResponse.toString());
+    public void write(List<?> responses) {
+        for (Object response : responses) {
+            System.out.println(response);
         }
     }
 }

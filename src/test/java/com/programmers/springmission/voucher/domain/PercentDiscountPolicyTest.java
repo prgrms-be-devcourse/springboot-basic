@@ -20,7 +20,7 @@ class PercentDiscountPolicyTest {
     void percent_policy_success_discount(long beforeDiscount, long amount, long expected) {
 
         // given
-        Voucher voucher = new Voucher(new PercentDiscountPolicy(amount), VoucherType.PERCENT_DISCOUNT);
+        Voucher voucher = new Voucher(new PercentDiscountPolicy(VoucherType.PERCENT_DISCOUNT), amount);
 
         // when
         long result = voucher.discount(beforeDiscount);
@@ -36,7 +36,7 @@ class PercentDiscountPolicyTest {
     })
     void percent_policy_throw_wrong(long amount) {
         // then
-        assertThatThrownBy(() -> new Voucher(new PercentDiscountPolicy(amount), VoucherType.PERCENT_DISCOUNT))
+        assertThatThrownBy(() -> new Voucher(new PercentDiscountPolicy(VoucherType.PERCENT_DISCOUNT), amount))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage(ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage());
     }
