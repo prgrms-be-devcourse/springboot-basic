@@ -27,19 +27,19 @@ public class JdbcMemberRepository implements MemberRepository {
 
     @Override
     public List<Member> findAll() {
-        String sql = "select * from member_table";
+        String sql = "select member_id, member_status, name from member_table";
         return jdbcTemplate.query(sql, memberRowMapper());
     }
 
     @Override
     public List<Member> findAllByMemberStatus() {
-        String sql = "select * from member_table where member_status = 'BLACK'";
+        String sql = "select member_id, member_status, name from member_table where member_status = 'BLACK'";
         return jdbcTemplate.query(sql, memberRowMapper());
     }
 
     @Override
     public Optional<Member> findById(UUID memberId) {
-        String sql = "select * from member_table where member_id = ?";
+        String sql = "select member_id, member_status, name from member_table where member_id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     memberRowMapper(),

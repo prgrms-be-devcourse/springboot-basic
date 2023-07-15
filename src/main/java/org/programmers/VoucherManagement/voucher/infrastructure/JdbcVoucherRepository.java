@@ -41,13 +41,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String sql = "select * from voucher_table";
+        String sql = "select voucher_id, voucher_value, voucher_type from voucher_table";
         return jdbcTemplate.query(sql, voucherRowMapper());
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String sql = "select * from voucher_table where voucher_id = ?";
+        String sql = "select voucher_id, voucher_value, voucher_type from voucher_table where voucher_id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     voucherRowMapper(),
