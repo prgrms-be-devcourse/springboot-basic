@@ -9,6 +9,7 @@ import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +34,13 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public List<VoucherResponseDto> getAllVoucher() {
+    public VoucherResponseDto findById(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId);
+        return VoucherResponseDto.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+    }
+
+    @Override
+    public List<VoucherResponseDto> findAll() {
         return voucherRepository.findAll()
                 .stream()
                 .map(v -> new VoucherResponseDto(v.getVoucherId(), v.getVoucherType(), v.getAmount()))
