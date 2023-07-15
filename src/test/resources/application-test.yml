@@ -9,3 +9,4 @@ spring:
     init:
       platform: h2
       mode: always
+      schema-locations: classpath:sql/*.sql

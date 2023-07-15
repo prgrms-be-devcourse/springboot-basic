@@ -1,12 +1,13 @@
 package org.programmers.VoucherManagement.member.infrastructure;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +16,6 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import({JdbcMemberRepository.class})
 public class JdbcMemberRepositoryTest {
     @Autowired
@@ -25,79 +24,82 @@ public class JdbcMemberRepositoryTest {
     private Member blackMember = new Member(UUID.randomUUID(), "kim", MemberStatus.BLACK);
     private Member whiteMember = new Member(UUID.randomUUID(), "park", MemberStatus.WHITE);
 
-    @BeforeAll
+    @BeforeEach
     void initMember() {
         blackMember = new Member(UUID.randomUUID(), "kim", MemberStatus.BLACK);
         whiteMember = new Member(UUID.randomUUID(), "park", MemberStatus.WHITE);
     }
 
-    @Order(1)
     @Test
-    @Rollback(value = false)
     @DisplayName("블랙리스트 등급의 멤버를 새로 등록할 수 있다. - 성공")
     void insert_BlackMember_EqualsNewMember() {
-        //given
+        //when
         memberRepository.insert(blackMember);
 
-        //when
-        Member memberExpect = memberRepository.findById(blackMember.getMemberUUID()).get();
-
         //then
+        Member memberExpect = memberRepository.findById(blackMember.getMemberUUID()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(blackMember);
     }
 
-    @Order(2)
     @Test
-    @Rollback(value = false)
     @DisplayName("일반 등급(white)의 멤버를 새로 등록할 수 있다. - 성공")
     void insert_WhiteMember_EqualsNewMember() {
-        //given
+        //when
         memberRepository.insert(whiteMember);
 
-        //when
-        Member memberExpect = memberRepository.findById(whiteMember.getMemberUUID()).get();
-
         //then
+        Member memberExpect = memberRepository.findById(whiteMember.getMemberUUID()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(whiteMember);
     }
 
-    @Order(3)
     @Test
-    @Rollback(value = false)
     @DisplayName("멤버 정보(등급)을 수정할 수 있다. - 성공")
     void update_Member_EqualsUpdateMember() {
         //given
+        memberRepository.insert(whiteMember);
         whiteMember.changeMemberStatus(MemberStatus.BLACK);
-        memberRepository.update(whiteMember);
 
         //when
-        Member memberExpect = memberRepository.findById(whiteMember.getMemberUUID()).get();
+        memberRepository.update(whiteMember);
 
         //then
+        Member memberExpect = memberRepository.findById(whiteMember.getMemberUUID()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(whiteMember);
     }
 
-    @Order(4)
     @Test
     @DisplayName("등록된 모든 멤버를 조회할 수 있다. - 성공")
     void findAll_Success() {
+        //given
+        memberRepository.insert(whiteMember);
+        memberRepository.insert(blackMember);
+
+        //when
         List<Member> memberList = memberRepository.findAll();
+
+        //then
         assertThat(memberList.size()).isEqualTo(2);
     }
 
-    @Order(5)
     @Test
     @DisplayName("블랙리스트로 등록된 모든 멤버를 조회할 수 있다. - 성공")
     void findAllByMemberStatus_Success() {
-        List<Member> blackMemberList = memberRepository.findAll();
-        assertThat(blackMemberList.size()).isEqualTo(2);
+        //given
+        memberRepository.insert(whiteMember);
+        memberRepository.insert(blackMember);
+
+        //when
+        List<Member> blackMemberList = memberRepository.findAllByMemberStatus();
+
+        //then
+        assertThat(blackMemberList.size()).isEqualTo(1);
     }
 
-    @Order(6)
     @Test
     @DisplayName("memberId를 이용해 회원을 조회할 수 있다. - 성공")
     void findById_MemberId_EqualsFindMember() {
         //given
+        memberRepository.insert(blackMember);
         UUID findMemberId = blackMember.getMemberUUID();
 
         //when
@@ -107,21 +109,19 @@ public class JdbcMemberRepositoryTest {
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(blackMember);
     }
 
-    @Order(7)
     @Test
-    @Rollback(value = false)
     @DisplayName("memberId를 이용해 회원을 삭제할 수 있다. - 성공")
     void delete_MemberId_Success() {
         //given
+        memberRepository.insert(blackMember);
         UUID deleteMemberId = blackMember.getMemberUUID();
-        Member deleteMember = memberRepository.findById(deleteMemberId).get();
 
         //when
         memberRepository.delete(deleteMemberId);
 
         //then
         int sizeExpect = memberRepository.findAll().size(); //1. 사이즈 비교
-        assertThat(sizeExpect).isEqualTo(1);
+        assertThat(sizeExpect).isEqualTo(0);
 
         Optional<Member> optionalMember = memberRepository.findById(deleteMemberId); //2. 데이터베이스에 없는 값 확인
         assertThat(optionalMember).isEqualTo(Optional.empty());
