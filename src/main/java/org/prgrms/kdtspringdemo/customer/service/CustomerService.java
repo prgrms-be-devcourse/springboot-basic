@@ -5,8 +5,9 @@ import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -30,5 +31,12 @@ public class CustomerService {
     public CustomerResponseDto findByNickname(String nickname) {
         Customer customer = customerRepository.findByNickname(nickname);
         return CustomerResponseDto.toDto(customer.getCustomerId(), customer.getNickname());
+    }
+
+    public List<CustomerResponseDto> findAll() {
+        return customerRepository.findAll()
+                .stream()
+                .map(v -> new CustomerResponseDto(v.getCustomerId(), v.getNickname()))
+                .collect(Collectors.toUnmodifiableList());
     }
 }

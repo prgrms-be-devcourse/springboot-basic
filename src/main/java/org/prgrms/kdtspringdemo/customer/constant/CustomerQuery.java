@@ -11,6 +11,7 @@ public enum CustomerQuery {
     CREATE("INSERT INTO customer(customer_id, nickname) VALUES(UUID_TO_BIN(:customer_id), :nickname)"),
     FIND_ID("SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)"),
     FIND_NICKNAME("SELECT * FROM customer WHERE nickname = :nickname"),
+    FIND_ALL("SELECT * FROM customer"),
     ;
     private static final Logger logger = LoggerFactory.getLogger(CustomerQuery.class);
 
