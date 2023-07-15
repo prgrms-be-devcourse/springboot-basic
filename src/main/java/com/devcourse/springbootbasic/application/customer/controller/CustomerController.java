@@ -16,25 +16,17 @@ public class CustomerController {
     }
 
     public List<CustomerDto> blackCustomerList() {
-        return customerService.getBlackCustomers().stream()
+        return customerService.findBlackCustomers().stream()
                 .map(CustomerDto::of)
                 .toList();
     }
 
     public CustomerDto registerCustomer(CustomerDto customerDto) {
-        return CustomerDto.of(
-                customerService.registCustomer(
-                        CustomerDto.to(customerDto)
-                )
-        );
+        return CustomerDto.of(customerService.registCustomer(customerDto.to()));
     }
 
     public CustomerDto updateCustomer(CustomerDto customerDto) {
-        return CustomerDto.of(
-                customerService.updateCustomer(
-                        CustomerDto.to(customerDto)
-                )
-        );
+        return CustomerDto.of(customerService.updateCustomer(customerDto.to()));
     }
 
     public List<CustomerDto> customerList() {
@@ -44,16 +36,12 @@ public class CustomerController {
                 .toList();
     }
 
-    public CustomerDto findCustomerById(UUID customerId) {
+    public CustomerDto customerById(UUID customerId) {
         return CustomerDto.of(customerService.findCustomerById(customerId));
     }
 
-    public CustomerDto findCustomerByName(String name) {
+    public CustomerDto customerByName(String name) {
         return CustomerDto.of(customerService.findCustomerByName(name));
-    }
-
-    public void deleteAllCustomers() {
-        customerService.deleteAllCustomers();
     }
 
     public CustomerDto unregisterCustomerById(UUID customerId) {

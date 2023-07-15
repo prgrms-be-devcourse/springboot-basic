@@ -1,6 +1,7 @@
 package com.devcourse.springbootbasic.application.voucher.repository;
 
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -44,13 +45,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
-        return voucherMap.getVoucherByCustomerIdAndVoucherId(customerId, voucherId);
-    }
-
-    @Override
-    public List<Voucher> findAllByCustomerId(UUID customerId) {
-        return voucherMap.getAllVouchersByCustomerId(customerId);
+    public Optional<Voucher> findByVoucherType(VoucherType voucherType) {
+        return findAll().stream()
+                .filter(voucher -> voucher.getVoucherType() == voucherType)
+                .findAny();
     }
 
     @Override
@@ -61,11 +59,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         voucherMap.removeVoucherById(voucherId);
-    }
-
-    @Override
-    public void deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
-        voucherMap.removeVoucherByCustomerIdAndVoucherId(customerId, voucherId);
     }
 
 }

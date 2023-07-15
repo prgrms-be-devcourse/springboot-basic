@@ -20,12 +20,9 @@ public record CustomerDto(
         );
     }
 
-    public static Customer to(CustomerDto dto) {
-        validateName(dto.name);
-        return new Customer(
-                dto.customerId(),
-                dto.name(),
-                dto.isBlack());
+    public Customer to() {
+        validateName(name());
+        return new Customer(customerId(), name(), isBlack());
     }
 
     private static void validateName(String name) {

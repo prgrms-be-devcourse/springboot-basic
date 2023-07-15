@@ -1,8 +1,11 @@
 package com.devcourse.springbootbasic.application.global.io;
 
+import com.devcourse.springbootbasic.application.customer.controller.CustomerMenu;
 import com.devcourse.springbootbasic.application.global.model.CommandMenu;
+import com.devcourse.springbootbasic.application.voucher.controller.VoucherMenu;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
+import com.devcourse.springbootbasic.application.wallet.controller.WalletMenu;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
@@ -19,6 +22,21 @@ public class InputConsole {
                 .withInputTrimming(true)
                 .read("CommandMenu Selection: ");
         return CommandMenu.getCommandMenu(input);
+    }
+
+    public CustomerMenu readCustomerMenu() {
+        return textIO.newEnumInputReader(CustomerMenu.class)
+                .read("CustomerMenu Selection: ");
+    }
+
+    public VoucherMenu readVoucherMenu() {
+        return textIO.newEnumInputReader(VoucherMenu.class)
+                .read("VoucherMenu Selection: ");
+    }
+
+    public WalletMenu readWalletMenu() {
+        return textIO.newEnumInputReader(WalletMenu.class)
+                .read("WalletMenu Selection: ");
     }
 
     public VoucherType readVoucherType() {

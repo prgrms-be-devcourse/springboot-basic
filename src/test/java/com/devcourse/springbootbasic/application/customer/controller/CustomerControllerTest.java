@@ -22,6 +22,10 @@ import static org.mockito.Mockito.mock;
 @SpringJUnitConfig
 class CustomerControllerTest {
 
+    static List<Customer> blackCustomers = List.of(
+            new Customer(UUID.randomUUID(), "상한사과", true),
+            new Customer(UUID.randomUUID(), "맛없는딸기", true)
+    );
     static List<Customer> validCustomers = List.of(
             new Customer(UUID.randomUUID(), "사과", false),
             new Customer(UUID.randomUUID(), "딸기", true),
@@ -55,25 +59,24 @@ class CustomerControllerTest {
 
     @Test
     @DisplayName("진상고객 정보를 리스트로 반환하면 성공한다.")
-    void findBlackCustomers_ParamVoid_ReturnCustomerDtoList() {
-        given(service.findAllCustomers()).willReturn(validCustomers);
+    void blackCustomerList_ParamVoid_ReturnCustomerDtoList() {
+        given(service.findBlackCustomers()).willReturn(blackCustomers);
 
-        List<CustomerDto> result = controller.customerList();
+        List<CustomerDto> result = controller.blackCustomerList();
 
         assertThat(result).isNotEmpty();
         assertThat(result.get(0)).isInstanceOf(CustomerDto.class);
-        assertThat(result.get(0).customerId()).isSameAs(validCustomers.get(0).getCustomerId());
+        assertThat(result.get(0).customerId()).isSameAs(blackCustomers.get(0).getCustomerId());
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객을 추가하면 성공한다.")
     @MethodSource("provideValidCustomerDto")
-    void registerCustomer_ParamCustomer_InsertAndReturnCustomerDto(CustomerDto customerDto) {
-        given(service.registCustomer(any())).willReturn(CustomerDto.to(customerDto));
+    void registerCustomer_ParamCustomerDto_InsertAndReturnCustomerDto(CustomerDto customerDto) {
+        given(service.registCustomer(any())).willReturn(customerDto.to());
 
         CustomerDto insertedCustomer = controller.registerCustomer(customerDto);
 
-        assertThat(insertedCustomer).isNotNull();
         assertThat(insertedCustomer).isInstanceOf(CustomerDto.class);
         assertThat(insertedCustomer.name()).isEqualTo(customerDto.name());
     }
@@ -91,7 +94,7 @@ class CustomerControllerTest {
 
     @Test
     @DisplayName("모든 고객을 반환하면 성공한다.")
-    void findAllCustomers_ParamVoid_ReturnCustomerDtoList() {
+    void customerList_ParamVoid_ReturnCustomerDtoList() {
         given(service.findAllCustomers()).willReturn(validCustomers);
 
         List<CustomerDto> list = controller.customerList();
@@ -103,10 +106,10 @@ class CustomerControllerTest {
     @ParameterizedTest
     @DisplayName("존재하는 고객을 아이디로 조회 시 성공한다.")
     @MethodSource("provideValidCustomerDto")
-    void findCustomerById_ParamExistCustomerDto_ReturnCustomerDto(CustomerDto customerDto) {
-        given(service.findCustomerById(any())).willReturn(CustomerDto.to(customerDto));
+    void customerById_ParamExistCustomerDto_ReturnCustomerDto(CustomerDto customerDto) {
+        given(service.findCustomerById(any())).willReturn(customerDto.to());
 
-        CustomerDto foundCustomer = controller.findCustomerById(customerDto.customerId());
+        CustomerDto foundCustomer = controller.customerById(customerDto.customerId());
 
         assertThat(foundCustomer.customerId()).isEqualTo(customerDto.customerId());
     }
@@ -114,10 +117,10 @@ class CustomerControllerTest {
     @ParameterizedTest
     @DisplayName("존재하는 고객을 이름으로 조회 시 성공한다.")
     @MethodSource("provideValidCustomerDto")
-    void findCustomerByName_ParamExistCustomerDto_ReturnCustomerDto(CustomerDto customerDto) {
-        given(service.findCustomerByName(any())).willReturn(CustomerDto.to(customerDto));
+    void customerByName_ParamExistCustomerDto_ReturnCustomerDto(CustomerDto customerDto) {
+        given(service.findCustomerByName(any())).willReturn(customerDto.to());
 
-        CustomerDto foundCustomer = controller.findCustomerByName(customerDto.name());
+        CustomerDto foundCustomer = controller.customerByName(customerDto.name());
 
         assertThat(foundCustomer.customerId()).isEqualTo(customerDto.customerId());
     }
@@ -125,8 +128,8 @@ class CustomerControllerTest {
     @ParameterizedTest
     @DisplayName("존재하는 고객을 아이디로 제거하면 성공한다.")
     @MethodSource("provideValidCustomerDto")
-    void deleteCustomerById_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerDto customerDto) {
-        given(service.deleteCustomerById(any())).willReturn(CustomerDto.to(customerDto));
+    void unregisterCustomerById_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerDto customerDto) {
+        given(service.deleteCustomerById(any())).willReturn(customerDto.to());
 
         CustomerDto deletedCustomer = controller.unregisterCustomerById(customerDto.customerId());
 

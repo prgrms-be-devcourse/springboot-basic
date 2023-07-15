@@ -35,10 +35,10 @@ class VoucherServiceTest {
             new Customer(UUID.randomUUID(), "딸기", true)
     );
     static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), customers.get(0).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "1240"), customers.get(1).getCustomerId()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), customers.get(1).getCustomerId())
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), Optional.empty()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), Optional.empty()),
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "1240"), Optional.empty()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), Optional.empty())
     );
     VoucherService sut;
     VoucherRepository repository;
@@ -97,6 +97,28 @@ class VoucherServiceTest {
         assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 아이디로 검색하는 경우 성공한다.")
+    @MethodSource("provideVouchers")
+    void findVoucherByVoucherType_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
+        given(repository.findByVoucherType(any(VoucherType.class))).willReturn(Optional.of(voucher));
+
+        Voucher foundVoucher = sut.findVoucherByVoucherType(voucher.getVoucherType());
+
+        assertThat(foundVoucher).isSameAs(voucher);
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하지 않는 바우처를 아이디로 검색하는 경우 실패한다.")
+    @MethodSource("provideVouchers")
+    void findVoucherByVoucherType_ParamNotExistVoucher_Exception(Voucher voucher) {
+        given(repository.findByVoucherType(any(VoucherType.class))).willReturn(Optional.empty());
+
+        Exception exception = catchException(() -> sut.findVoucherByVoucherType(voucher.getVoucherType()));
+
+        assertThat(exception).isInstanceOf(InvalidDataException.class);
+    }
+
     @Test
     @DisplayName("모든 바우처를 제거한다.")
     void deleteAllVouchers_ParamVoid_DeleteAllVouchers() {
@@ -123,39 +145,6 @@ class VoucherServiceTest {
         given(repository.findById(any(UUID.class))).willReturn(Optional.empty());
 
         Exception exception = catchException(() -> sut.deleteVoucherById(voucher.getVoucherId()));
-
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
-    }
-
-    @ParameterizedTest
-    @DisplayName("고객 아이디로 소유한 바우처를 리스트로 반환한다.")
-    @MethodSource("provideVouchers")
-    void findVouchersByCustomerId_ParamCustomerId_ReturnVoucher(Voucher voucher) {
-        given(repository.findAllByCustomerId(any())).willReturn(vouchers);
-
-        List<Voucher> vouchers = sut.findVouchersByCustomerId(voucher.getCustomerId());
-
-        assertThat(vouchers).isNotEmpty();
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하는 바우처를 고객, 바우처 아이디로 삭제 시 성공한다.")
-    @MethodSource("provideVouchers")
-    void deleteVoucherCustomerByCustomerIdAndVoucherId_ParamIds_DeleteVoucher(Voucher voucher) {
-        given(repository.findByCustomerIdAndVoucherId(any(), any())).willReturn(Optional.of(voucher));
-
-        Voucher deletedVoucher = sut.deleteVoucherCustomerByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
-
-        assertThat(deletedVoucher).isSameAs(voucher);
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하지 않는 바우처를 고객, 바우처 아이디로 삭제 시 실패한다.")
-    @MethodSource("provideVouchers")
-    void deleteVoucherCustomerByCustomerIdAndVoucherId_ParamIds_Exception(Voucher voucher) {
-        given(repository.findByCustomerIdAndVoucherId(any(), any())).willReturn(Optional.empty());
-
-        Exception exception = catchException(() -> sut.deleteVoucherCustomerByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId()));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
     }

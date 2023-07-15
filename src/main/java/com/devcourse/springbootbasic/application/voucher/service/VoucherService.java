@@ -3,6 +3,7 @@ package com.devcourse.springbootbasic.application.voucher.service;
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +37,9 @@ public class VoucherService {
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
-    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-        return voucherRepository.findAllByCustomerId(customerId);
+    public Voucher findVoucherByVoucherType(VoucherType voucherType) {
+        return voucherRepository.findByVoucherType(voucherType)
+                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
     public void deleteAllVouchers() {
@@ -47,12 +49,6 @@ public class VoucherService {
     public Voucher deleteVoucherById(UUID voucherId) {
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         voucherRepository.deleteById(voucherId);
-        return foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
-    }
-
-    public Voucher deleteVoucherCustomerByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
-        Optional<Voucher> foundVoucher = voucherRepository.findByCustomerIdAndVoucherId(customerId, voucherId);
-        voucherRepository.deleteByCustomerIdAndVoucherId(customerId, voucherId);
         return foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 

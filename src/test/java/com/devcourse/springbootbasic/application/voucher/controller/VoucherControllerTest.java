@@ -1,6 +1,5 @@
 package com.devcourse.springbootbasic.application.voucher.controller;
 
-import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
@@ -14,6 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -26,14 +26,10 @@ import static org.mockito.Mockito.mock;
 @SpringJUnitConfig
 class VoucherControllerTest {
 
-    static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true)
-    );
     static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), customers.get(0).getCustomerId()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), customers.get(0).getCustomerId()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), customers.get(0).getCustomerId())
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), Optional.empty()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), Optional.empty()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), Optional.empty())
     );
     static List<Voucher> vouchers = voucherDto.stream()
             .map(VoucherDto::to)
@@ -55,10 +51,10 @@ class VoucherControllerTest {
     @ParameterizedTest
     @DisplayName("존재하지 않는 바우처를 생성 시 성공한다.")
     @MethodSource("provideVoucherDto")
-    void registerVoucher_ParamNotExistVoucherDto_RegisterAndReturnVoucherDto(VoucherDto voucherDto) {
-        given(service.createVoucher(any())).willReturn(VoucherDto.to(voucherDto));
+    void createVoucher_ParamNotExistVoucherDto_RegisterAndReturnVoucherDto(VoucherDto voucherDto) {
+        given(service.createVoucher(any())).willReturn(voucherDto.to());
 
-        VoucherDto createdVoucher = controller.registerVoucher(voucherDto);
+        VoucherDto createdVoucher = controller.createVoucher(voucherDto);
 
         assertThat(createdVoucher.voucherId()).isEqualTo(voucherDto.voucherId());
     }
@@ -67,7 +63,7 @@ class VoucherControllerTest {
     @DisplayName("존재하는 바우처를 갱신 시 성공한다.")
     @MethodSource("provideVoucherDto")
     void updateVoucher_ParamExistVoucherDto_UpdateAndReturnVoucherDto(VoucherDto voucherDto) {
-        given(service.updateVoucher(any())).willReturn(VoucherDto.to(voucherDto));
+        given(service.updateVoucher(any())).willReturn(voucherDto.to());
 
         VoucherDto updatedVoucher = controller.updateVoucher(voucherDto);
 
@@ -87,10 +83,21 @@ class VoucherControllerTest {
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 아이디로 찾으면 성공한다.")
     @MethodSource("provideVoucherDto")
-    void getVoucherById_ParamExistVoucherId_ReturnVoucherDto(VoucherDto voucherDto) {
-        given(service.findVoucherById(any())).willReturn(VoucherDto.to(voucherDto));
+    void voucherById_ParamExistVoucherId_ReturnVoucherDto(VoucherDto voucherDto) {
+        given(service.findVoucherById(any())).willReturn(voucherDto.to());
 
-        VoucherDto foundVoucherDto = controller.getVoucherById(voucherDto.voucherId());
+        VoucherDto foundVoucherDto = controller.voucherById(voucherDto.voucherId());
+
+        assertThat(foundVoucherDto.voucherId()).isEqualTo(voucherDto.voucherId());
+    }
+
+    @ParameterizedTest
+    @DisplayName("존재하는 바우처를 바우처 타입으로 찾으면 성공한다.")
+    @MethodSource("provideVoucherDto")
+    void voucherByType_ParamExistVoucherId_ReturnVoucherDto(VoucherDto voucherDto) {
+        given(service.findVoucherByVoucherType(any())).willReturn(voucherDto.to());
+
+        VoucherDto foundVoucherDto = controller.voucherByType(voucherDto.voucherType());
 
         assertThat(foundVoucherDto.voucherId()).isEqualTo(voucherDto.voucherId());
     }
@@ -98,8 +105,8 @@ class VoucherControllerTest {
     @ParameterizedTest
     @DisplayName("존재하지 않는 바우처를 아이디로 찾으면 실패한다.")
     @MethodSource("provideVoucherDto")
-    void getVoucherId_ParamNotExistVoucherId_Exception(VoucherDto voucherDto) {
-        Exception exception = catchException(() -> controller.getVoucherById(voucherDto.voucherId()));
+    void voucherId_ParamNotExistVoucherId_Exception(VoucherDto voucherDto) {
+        Exception exception = catchException(() -> controller.voucherById(voucherDto.voucherId()));
 
         assertThat(exception).isInstanceOf(NullPointerException.class);
     }
@@ -107,23 +114,12 @@ class VoucherControllerTest {
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 제거하면 성공한다.")
     @MethodSource("provideVoucherDto")
-    void unregisterVoucherById_ParamExistVoucherId_DeleteAndReturnVoucherDto(VoucherDto voucherDto) {
-        given(service.deleteVoucherById(any())).willReturn(VoucherDto.to(voucherDto));
+    void deleteVoucherById_ParamExistVoucherId_DeleteAndReturnVoucherDto(VoucherDto voucherDto) {
+        given(service.deleteVoucherById(any())).willReturn(voucherDto.to());
 
-        VoucherDto deletedVoucherDto = controller.unregisterVoucherById(voucherDto.voucherId());
+        VoucherDto deletedVoucherDto = controller.deleteVoucherById(voucherDto.voucherId());
 
         assertThat(deletedVoucherDto.voucherId()).isEqualTo(voucherDto.voucherId());
-    }
-
-    @ParameterizedTest
-    @DisplayName("존재하는 바우처를 고객, 바우처 아이디로 제거 시 성공한다.")
-    @MethodSource("provideVoucherDto")
-    void unregisterVoucherByCustomerIdAndVoucherId_ParamIds_ReturnVoucherDto(VoucherDto voucherDto) {
-        given(service.deleteVoucherCustomerByCustomerIdAndVoucherId(any(), any())).willReturn(VoucherDto.to(voucherDto));
-
-        VoucherDto deleted = controller.unregisterVoucherByCustomerIdAndVoucherId(voucherDto.customerId(), voucherDto.voucherId());
-
-        assertThat(deleted.voucherId()).isEqualTo(voucherDto.voucherId());
     }
 
 }

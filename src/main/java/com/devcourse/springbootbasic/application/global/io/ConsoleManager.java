@@ -1,13 +1,17 @@
 package com.devcourse.springbootbasic.application.global.io;
 
 import com.devcourse.springbootbasic.application.customer.controller.CustomerDto;
+import com.devcourse.springbootbasic.application.customer.controller.CustomerMenu;
 import com.devcourse.springbootbasic.application.global.model.CommandMenu;
 import com.devcourse.springbootbasic.application.voucher.controller.VoucherDto;
+import com.devcourse.springbootbasic.application.voucher.controller.VoucherMenu;
 import com.devcourse.springbootbasic.application.voucher.model.DiscountValue;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
+import com.devcourse.springbootbasic.application.wallet.controller.WalletMenu;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -34,7 +38,22 @@ public class ConsoleManager {
         return inputConsole.readCommandMenu();
     }
 
-    private VoucherType consoleVoucherType() {
+    public CustomerMenu consoleCustomerMenu() {
+        outputConsole.showCustomerMenu();
+        return inputConsole.readCustomerMenu();
+    }
+
+    public VoucherMenu consoleVoucherMenu() {
+        outputConsole.showVoucherMenu();
+        return inputConsole.readVoucherMenu();
+    }
+
+    public WalletMenu consoleWalletMenu() {
+        outputConsole.showWalletMenu();
+        return inputConsole.readWalletMenu();
+    }
+
+    public VoucherType consoleVoucherType() {
         outputConsole.showVoucherType();
         return inputConsole.readVoucherType();
     }
@@ -47,15 +66,14 @@ public class ConsoleManager {
         UUID voucherId = UUID.randomUUID();
         VoucherType voucherType = consoleVoucherType();
         DiscountValue discountValue = consoleDiscountValue(voucherType);
-        UUID customerId = consoleId();
-        return new VoucherDto(voucherId, voucherType, discountValue, customerId);
+        return new VoucherDto(voucherId, voucherType, discountValue, Optional.empty());
     }
 
     public UUID consoleId() {
         return inputConsole.readId();
     }
 
-    private String consoleName() {
+    public String consoleName() {
         return inputConsole.readName();
     }
 

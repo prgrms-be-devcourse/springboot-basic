@@ -31,6 +31,9 @@ dependencies {
 	// jdbc
 	implementation "org.springframework.boot:spring-boot-starter-jdbc"
 
+	// h2
+	testImplementation 'com.h2database:h2'
+
 	// jasypt
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 }

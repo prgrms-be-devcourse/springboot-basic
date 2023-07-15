@@ -5,10 +5,11 @@ import com.devcourse.springbootbasic.application.voucher.model.Voucher;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 
 import java.text.MessageFormat;
+import java.util.Optional;
 import java.util.UUID;
 
 public record VoucherDto(
-        UUID voucherId, VoucherType voucherType, DiscountValue discountValue, UUID customerId
+        UUID voucherId, VoucherType voucherType, DiscountValue discountValue, Optional<UUID> customerId
 ) {
 
     public static VoucherDto of(Voucher voucher) {
@@ -20,13 +21,8 @@ public record VoucherDto(
         );
     }
 
-    public static Voucher to(VoucherDto voucherDto) {
-        return new Voucher(
-                voucherDto.voucherId(),
-                voucherDto.voucherType(),
-                voucherDto.discountValue(),
-                voucherDto.customerId()
-        );
+    public Voucher to() {
+        return new Voucher(voucherId(), voucherType(), discountValue(), customerId());
     }
 
     @Override

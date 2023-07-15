@@ -41,6 +41,7 @@ class CustomerDtoTest {
     @DisplayName("Dto에서 Domain으로 변환하면 성공한다.")
     @MethodSource("provideValidCustomers")
     void of_ParamCustomer_ReturnCustomerDto(Customer customer) {
+
         CustomerDto dto = CustomerDto.of(customer);
 
         assertThat(dto.name()).isSameAs(customer.getName());
@@ -50,7 +51,8 @@ class CustomerDtoTest {
     @DisplayName("도메인에서 디티오로 변환하면 성공한다.")
     @MethodSource("provideValidCustomerDto")
     void to(CustomerDto customerDto) {
-        Customer entity = CustomerDto.to(customerDto);
+
+        Customer entity = customerDto.to();
 
         assertThat(entity.getCustomerId()).isSameAs(customerDto.customerId());
     }

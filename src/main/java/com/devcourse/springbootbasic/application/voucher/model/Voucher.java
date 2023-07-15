@@ -2,15 +2,16 @@ package com.devcourse.springbootbasic.application.voucher.model;
 
 import java.text.MessageFormat;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Voucher {
     private final UUID voucherId;
     private final VoucherType voucherType;
     private final DiscountValue discountValue;
-    private final UUID customerId;
+    private final Optional<UUID> customerId;
 
-    public Voucher(UUID voucherId, VoucherType voucherType, DiscountValue discountAmount, UUID customerId) {
+    public Voucher(UUID voucherId, VoucherType voucherType, DiscountValue discountAmount, Optional<UUID> customerId) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.discountValue = discountAmount;
@@ -33,7 +34,7 @@ public class Voucher {
         return discountValue;
     }
 
-    public UUID getCustomerId() {
+    public Optional<UUID> getCustomerId() {
         return customerId;
     }
 
@@ -52,6 +53,12 @@ public class Voucher {
 
     @Override
     public String toString() {
+        if (customerId.isEmpty()) {
+            return MessageFormat.format("Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}'}'",
+                    voucherId,
+                    voucherType,
+                    discountValue.getValue());
+        }
         return MessageFormat.format("Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, customerId={3}'}'",
                 voucherId,
                 voucherType,

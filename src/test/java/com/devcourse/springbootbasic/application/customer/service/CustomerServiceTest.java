@@ -49,7 +49,7 @@ class CustomerServiceTest {
     void getBlackCustomers_VoidParam_ReturnVoucherList() {
         given(customerRepositoryMock.findAllBlackCustomers()).willReturn(customers);
 
-        List<Customer> blackCustomers = sut.getBlackCustomers();
+        List<Customer> blackCustomers = sut.findBlackCustomers();
 
         assertThat(blackCustomers).isNotNull();
         assertThat(blackCustomers).isNotEmpty();

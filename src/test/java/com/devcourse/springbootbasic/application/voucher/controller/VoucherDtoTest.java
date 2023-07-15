@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -18,9 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class VoucherDtoTest {
 
     static List<VoucherDto> voucherDto = List.of(
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), UUID.randomUUID()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), UUID.randomUUID()),
-            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), UUID.randomUUID())
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), Optional.empty()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 41), Optional.empty()),
+            new VoucherDto(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 711), Optional.empty())
     );
 
     static Stream<Arguments> provideVoucherDto() {
@@ -48,7 +49,7 @@ class VoucherDtoTest {
     @DisplayName("Domain 에서 Dto 로 변환하면 성공한다.")
     @MethodSource("provideVoucherDto")
     void to_ParamVoucherDto_ReturnVoucher(VoucherDto voucherDto) {
-        Voucher entity = VoucherDto.to(voucherDto);
+        Voucher entity = voucherDto.to();
 
         assertThat(entity).isInstanceOf(Voucher.class);
         assertThat(entity.getVoucherId()).isEqualTo(voucherDto.voucherId());

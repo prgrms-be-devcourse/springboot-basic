@@ -26,9 +26,9 @@ class VoucherMapTest {
 
     static Stream<Arguments> provideValid() {
         return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"), UUID.randomUUID())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14"), UUID.randomUUID()))
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), Optional.of(UUID.randomUUID()))),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"), Optional.of(UUID.randomUUID()))),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14"), Optional.of(UUID.randomUUID())))
         );
     }
 
@@ -68,7 +68,7 @@ class VoucherMapTest {
     @DisplayName("존재하는 바우처 넣으면 바우처 추가 성공한다.")
     @MethodSource("provideValid")
     void addIfVoucherExist_ParamExistVoucher_AddVoucher(Voucher voucher) {
-        Voucher newVoucher = new Voucher(voucher.getVoucherId(), voucher.getVoucherType(), new DiscountValue(voucher.getVoucherType(), 1), UUID.randomUUID());
+        Voucher newVoucher = new Voucher(voucher.getVoucherId(), voucher.getVoucherType(), new DiscountValue(voucher.getVoucherType(), 1), Optional.of(UUID.randomUUID()));
         voucherMap.addVoucher(voucher);
 
         Voucher foundVoucher = voucherMap.addIfVoucherExist(newVoucher);
@@ -92,7 +92,7 @@ class VoucherMapTest {
     void getVoucherById_ParamExistVoucher_ReturnVoucherOrNull() {
         UUID voucherId = UUID.randomUUID();
         UUID voucherId2 = UUID.randomUUID();
-        Voucher voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 10), UUID.randomUUID());
+        Voucher voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 10), Optional.of(UUID.randomUUID()));
         voucherMap.addVoucher(voucher);
 
         Voucher findedVoucher = voucherMap.getVoucherById(voucherId);
@@ -128,39 +128,6 @@ class VoucherMapTest {
         Exception exception = catchException(() -> voucherMap.addIfVoucherExist(voucher));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
-    }
-
-    @ParameterizedTest
-    @DisplayName("고객 아이디로 바우처 검색한다.")
-    @MethodSource("provideValid")
-    void getAllVouchersByCustomerId_ParamVoucher_ReturnVoucherList(Voucher voucher) {
-        voucherMap.addVoucher(voucher);
-
-        List<Voucher> list = voucherMap.getAllVouchersByCustomerId(voucher.getCustomerId());
-
-        assertThat(list).isNotEmpty();
-    }
-
-    @ParameterizedTest
-    @DisplayName("고객 아이디와 바우처 아이디로 바우처를 찾는다.")
-    @MethodSource("provideValid")
-    void getVoucherByCustomerIdAndVoucherId_ParamIds_ReturnVoucher(Voucher voucher) {
-        voucherMap.addVoucher(voucher);
-
-        Optional<Voucher> foundVoucher = voucherMap.getVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
-
-        assertThat(foundVoucher).isNotEmpty();
-        assertThat(foundVoucher.get()).isSameAs(voucher);
-    }
-
-    @ParameterizedTest
-    @DisplayName("고객 아이디와 바우처 아이디로 바우처를 제거한다.")
-    @MethodSource("provideValid")
-    void removeVoucherByCustomerIdAndVoucherId_ParamIds_DeleteVoucher(Voucher voucher) {
-        voucherMap.removeVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
-
-        Optional<Voucher> result = voucherMap.getVoucherByCustomerIdAndVoucherId(voucher.getCustomerId(), voucher.getVoucherId());
-        assertThat(result).isEmpty();
     }
 
 }

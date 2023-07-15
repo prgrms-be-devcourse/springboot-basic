@@ -29,9 +29,6 @@ public class JasyptConfiguration {
     @Value("${jasypt.encryptor.key-obtention-iterations}")
     private int keyObtentionIterations;
 
-    @Value("${jasypt.encryptor.password")
-    private String password;
-
     @Bean
     public StringEncryptor jasyptStringEncryptor() {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();

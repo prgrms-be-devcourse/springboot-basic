@@ -19,7 +19,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getBlackCustomers() {
+    public List<Customer> findBlackCustomers() {
         return customerRepository.findAllBlackCustomers();
     }
 
@@ -43,10 +43,6 @@ public class CustomerService {
     public Customer findCustomerByName(String name) {
         return customerRepository.findByName(name)
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
-    }
-
-    public void deleteAllCustomers() {
-        customerRepository.deleteAll();
     }
 
     public Customer deleteCustomerById(UUID customerId) {

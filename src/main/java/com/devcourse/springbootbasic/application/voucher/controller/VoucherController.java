@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.application.voucher.controller;
 
+import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
 import com.devcourse.springbootbasic.application.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
@@ -15,20 +16,20 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public VoucherDto registerVoucher(VoucherDto voucherDto) {
+    public VoucherDto createVoucher(VoucherDto voucherDto) {
         return VoucherDto.of(
-                voucherService.createVoucher(
-                        VoucherDto.to(voucherDto)
-                )
+                voucherService.createVoucher(voucherDto.to())
         );
     }
 
     public VoucherDto updateVoucher(VoucherDto voucherDto) {
         return VoucherDto.of(
-                voucherService.updateVoucher(
-                        VoucherDto.to(voucherDto)
-                )
+                voucherService.updateVoucher(voucherDto.to())
         );
+    }
+
+    public VoucherDto deleteVoucherById(UUID voucherId) {
+        return VoucherDto.of(voucherService.deleteVoucherById(voucherId));
     }
 
     public List<VoucherDto> voucherList() {
@@ -37,26 +38,12 @@ public class VoucherController {
                 .toList();
     }
 
-    public VoucherDto getVoucherById(UUID voucherId) {
+    public VoucherDto voucherById(UUID voucherId) {
         return VoucherDto.of(voucherService.findVoucherById(voucherId));
     }
 
-    public List<VoucherDto> voucherListOfCustomer(UUID customerId) {
-        return voucherService.findVouchersByCustomerId(customerId).stream()
-                .map(VoucherDto::of)
-                .toList();
-    }
-
-    public void unregisterVouchers() {
-        voucherService.deleteAllVouchers();
-    }
-
-    public VoucherDto unregisterVoucherById(UUID voucherId) {
-        return VoucherDto.of(voucherService.deleteVoucherById(voucherId));
-    }
-
-    public VoucherDto unregisterVoucherByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
-        return VoucherDto.of(voucherService.deleteVoucherCustomerByCustomerIdAndVoucherId(customerId, voucherId));
+    public VoucherDto voucherByType(VoucherType voucherType) {
+        return VoucherDto.of(voucherService.findVoucherByVoucherType(voucherType));
     }
 
 }

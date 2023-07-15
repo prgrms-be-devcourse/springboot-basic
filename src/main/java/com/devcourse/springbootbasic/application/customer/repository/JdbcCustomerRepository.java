@@ -3,7 +3,6 @@ package com.devcourse.springbootbasic.application.customer.repository;
 import com.devcourse.springbootbasic.application.customer.model.Customer;
 import com.devcourse.springbootbasic.application.global.exception.ErrorMessage;
 import com.devcourse.springbootbasic.application.global.exception.InvalidDataException;
-import com.devcourse.springbootbasic.application.global.utils.Utils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,7 +17,7 @@ import java.util.*;
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        UUID customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
         String name = resultSet.getString("name");
         boolean isBlack = resultSet.getBoolean("black");
         return new Customer(customerId, name, isBlack);
@@ -34,7 +33,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer insert(Customer customer) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "INSERT INTO customers(customer_id, name, black) VALUES (UUID_TO_BIN(:customerId), :name, :black)",
+                    "INSERT INTO customers(customer_id, name, black) VALUES (:customerId, :name, :black)",
                     toParamMap(customer)
             );
             if (updateResult != 1) {
@@ -50,7 +49,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer update(Customer customer) {
         try {
             var updateResult = jdbcTemplate.update(
-                    "UPDATE customers SET name = :name, black = :black WHERE customer_id = UUID_TO_BIN(:customerId)",
+                    "UPDATE customers SET name = :name, black = :black WHERE customer_id = :customerId",
                     toParamMap(customer)
             );
             if (updateResult != 1) {
@@ -70,7 +69,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper
             );
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
+            return List.of();
         }
     }
 
@@ -82,7 +81,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper
             );
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
+            return List.of();
         }
     }
 
@@ -91,12 +90,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT customer_id, name, black FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-                            Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                            "SELECT customer_id, name, black FROM customers WHERE customer_id = :customerId",
+                            Collections.singletonMap("customerId", customerId.toString()),
                             customerRowMapper
                     )
             );
-        } catch (EmptyResultDataAccessException e) {
+        } catch (DataAccessException e) {
             return Optional.empty();
         }
     }
@@ -111,7 +110,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                             customerRowMapper
                     )
             );
-        } catch (EmptyResultDataAccessException e) {
+        } catch (DataAccessException e) {
             return Optional.empty();
         }
     }
@@ -132,8 +131,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteById(UUID customerId) {
         try {
             jdbcTemplate.update(
-                    "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-                    Map.of("customerId", customerId.toString().getBytes())
+                    "DELETE FROM customers WHERE customer_id = :customerId",
+                    Map.of("customerId", customerId.toString())
             );
         } catch (DataAccessException e) {
             throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
@@ -142,7 +141,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
+        paramMap.put("customerId", customer.getCustomerId().toString());
         paramMap.put("name", customer.getName());
         paramMap.put("black", customer.isBlack());
         return paramMap;

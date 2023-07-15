@@ -1,7 +1,10 @@
 package com.devcourse.springbootbasic.application.global.io;
 
+import com.devcourse.springbootbasic.application.customer.controller.CustomerMenu;
 import com.devcourse.springbootbasic.application.global.model.CommandMenu;
+import com.devcourse.springbootbasic.application.voucher.controller.VoucherMenu;
 import com.devcourse.springbootbasic.application.voucher.model.VoucherType;
+import com.devcourse.springbootbasic.application.wallet.controller.WalletMenu;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -22,6 +25,27 @@ public class OutputConsole {
 
         Arrays.stream(CommandMenu.values())
                 .forEach(menu -> textTerminal.println(menu.getMenuPrompt()));
+    }
+
+    public void showCustomerMenu() {
+        textTerminal.println(OutputMessage.CUSTOMER_MENU.getMessageText());
+
+        Arrays.stream(CustomerMenu.values())
+                .forEach(menu -> textTerminal.println(menu.name()));
+    }
+
+    public void showVoucherMenu() {
+        textTerminal.println(OutputMessage.VOUCHER_MENU.getMessageText());
+
+        Arrays.stream(VoucherMenu.values())
+                .forEach(menu -> textTerminal.println(menu.name()));
+    }
+
+    public void showWalletMenu() {
+        textTerminal.println(OutputMessage.WALLET_MENU.getMessageText());
+
+        Arrays.stream(WalletMenu.values())
+                .forEach(menu -> textTerminal.println(menu.name()));
     }
 
     public void showVoucherType() {

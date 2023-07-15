@@ -22,10 +22,10 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchException;
+import static org.assertj.core.api.InstanceOfAssertFactories.atomicReferenceArray;
 
 @JdbcTest
 @ActiveProfiles("test")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import(JdbcCustomerRepository.class)
 class JdbcCustomerRepositoryTest {
@@ -65,6 +65,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("정상적인 고객으로 추가 시 성공한다.")
     @MethodSource("provideValidCustomers")
     void insert_ParamNotExistCustomer_InsertAndReturnCustomer(Customer customer) {
+
         customerRepository.insert(customer);
 
         Optional<Customer> insertedCustomer = customerRepository.findById(customer.getCustomerId());
@@ -77,6 +78,7 @@ class JdbcCustomerRepositoryTest {
     @MethodSource("provideValidCustomers")
     void insert_ParamExistCustomer_Exception(Customer customer) {
         customerRepository.insert(customer);
+
         Exception exception = catchException(() -> customerRepository.insert(customer));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
@@ -91,6 +93,7 @@ class JdbcCustomerRepositoryTest {
         customerRepository.update(customer);
 
         Optional<Customer> updatedCustomer = customerRepository.findById(customer.getCustomerId());
+        assertThat(updatedCustomer).isNotEmpty();
         assertThat(updatedCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 
@@ -98,6 +101,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("존재하지 않는 고객 아이디로 업데이트할 시 실패한다.")
     @MethodSource("provideValidCustomers")
     void update_ParamNotExistCustomerId_ReturnAndUpdateCustomer(Customer customer) {
+
         Exception exception = catchException(() -> customerRepository.update(customer));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
@@ -122,6 +126,7 @@ class JdbcCustomerRepositoryTest {
 
         Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
 
+        assertThat(foundCustomer).isNotEmpty();
         assertThat(foundCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 
@@ -129,6 +134,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("존재하지 않는 고객 아이디로 조회 시 실패한다.")
     @MethodSource("provideValidCustomers")
     void findById_ParamNotExistCustomerId_ReturnEmptyOptional(Customer customer) {
+
         Optional<Customer> result = customerRepository.findById(customer.getCustomerId());
 
         assertThat(result).isEmpty();
@@ -142,6 +148,7 @@ class JdbcCustomerRepositoryTest {
 
         Optional<Customer> foundCustomer = customerRepository.findByName(customer.getName());
 
+        assertThat(foundCustomer).isNotEmpty();
         assertThat(foundCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 
@@ -150,6 +157,7 @@ class JdbcCustomerRepositoryTest {
     @MethodSource("provideValidCustomers")
     void findByName_ParamNotExistName_ReturnEmptyOptional(Customer customer) {
         customerRepository.insert(customer);
+
         Optional<Customer> result = customerRepository.findByName(customer.getName());
 
         assertThat(result).isNotEmpty();
@@ -158,10 +166,10 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("모든 데이터가 삭제되면 성공한다.")
     void deleteAll_ParamVoid_DeleteAllCustomers() {
+
         customerRepository.deleteAll();
 
         List<Customer> customers = customerRepository.findAll();
-
         assertThat(customers).isEmpty();
     }
 
@@ -172,8 +180,8 @@ class JdbcCustomerRepositoryTest {
         customerRepository.insert(customer);
 
         customerRepository.deleteById(customer.getCustomerId());
-        Optional<Customer> result = customerRepository.findById(customer.getCustomerId());
 
+        Optional<Customer> result = customerRepository.findById(customer.getCustomerId());
         assertThat(result).isEmpty();
     }
 }

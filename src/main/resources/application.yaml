@@ -9,7 +9,6 @@ jasypt:
     pool-size: 2
     string-output-type: base64
     key-obtention-iterations: 100
-    password: key
 spring:
   datasource:
     url: ENC(KBi96fDBlKO88/0u9oXdy4h+x62xSRaJBusVGHjRrJE01k7AC1SHpVDR40fKl9WewlOLEgETCk8=)
