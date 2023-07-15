@@ -1,11 +1,11 @@
 package com.prgrms.service.voucher;
 
 import com.prgrms.dto.voucher.VoucherConverter;
-import com.prgrms.dto.voucher.VoucherRequest;
 import com.prgrms.dto.voucher.VoucherResponse;
 import com.prgrms.model.KeyGenerator;
 import com.prgrms.model.voucher.*;
 import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.discount.DiscountCreator;
 import com.prgrms.model.voucher.discount.FixedDiscount;
 import com.prgrms.model.voucher.discount.PercentDiscount;
 import com.prgrms.repository.voucher.VoucherRepository;
@@ -22,52 +22,63 @@ import static org.mockito.Mockito.*;
 
 class VoucherServiceTest {
 
+    private final int ID = 1;
+    private final double DISCOUNT_AMOUNT = 20;
+
     @Mock
     private VoucherRepository voucherRepository;
-
     @Mock
     private VoucherConverter voucherConverter;
     @Mock
     private KeyGenerator keyGenerator;
     @Mock
     VoucherCreator voucherCreator;
+    @Mock
+    DiscountCreator discountCreator;
 
     private VoucherService voucherService;
-    private int id = 1;
+
 
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        voucherService = new VoucherService(voucherRepository, voucherConverter, keyGenerator, voucherCreator);
+        voucherService = new VoucherService(voucherRepository, voucherConverter, keyGenerator, voucherCreator, discountCreator);
     }
 
     @Test
-    @DisplayName("전달받은 바우처를 레파지토리에 잘 전달하여 저장소에 저장되는지 확인한다.")
+    @DisplayName("만들고자 하는 바우처를 createVoucher()로 만들었을 때 기대값과 같은 바우처를 반환한다.")
     void createVoucher_RepositoryInsertVoucher_Equals() {
         //given
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
-        Discount discount = new FixedDiscount(10);
-        VoucherRequest voucherRequest = new VoucherRequest(voucherType, discount);
-        Voucher createdVoucher = new FixedAmountVoucher(id, discount, voucherType);
-        when(voucherRepository.insert(any(Voucher.class))).thenReturn(createdVoucher);
+        Discount discount = new FixedDiscount(DISCOUNT_AMOUNT);
+        Voucher createdVoucher = new FixedAmountVoucher(ID, discount, voucherType);
+
+        when(keyGenerator.make()).thenReturn(ID);
+        when(discountCreator.createDiscount(voucherType, DISCOUNT_AMOUNT)).thenReturn(discount);
+        when(voucherCreator.createVoucher(ID, voucherType, discount)).thenReturn(createdVoucher);
+        when(voucherRepository.insert(createdVoucher)).thenReturn(createdVoucher);
+
 
         //when
-        Voucher result = voucherService.createVoucher(voucherRequest);
+        Voucher result = voucherService.createVoucher(voucherType,DISCOUNT_AMOUNT);
 
         //then
         assertThat(result)
                 .isNotNull()
                 .isEqualTo(createdVoucher);
-        verify(voucherRepository, times(1)).insert(any(Voucher.class));
+        verify(keyGenerator, times(1)).make();
+        verify(discountCreator, times(1)).createDiscount(voucherType, DISCOUNT_AMOUNT);
+        verify(voucherCreator, times(1)).createVoucher(ID, voucherType, discount);
+        verify(voucherRepository, times(1)).insert(createdVoucher);
     }
 
     @Test
-    @DisplayName("저장된 바우처 정책을 잘 출력하는지 확인한다.")
+    @DisplayName("몇 개의 바우처 정책을 List로 만들어 저장소에 저장한 결과와 getAllVocherList의 결과는 같다.")
     void getAllVoucherList_RepositoryListVoucherList_Equals() {
         //given
-        Voucher createdVoucher1 = new FixedAmountVoucher(id, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(id, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(ID, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(ID, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
 
         VoucherResponse voucherResponse1 = new VoucherResponse(createdVoucher1);
         VoucherResponse voucherResponse2 = new VoucherResponse(createdVoucher2);

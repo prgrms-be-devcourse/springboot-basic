@@ -2,30 +2,30 @@ package com.prgrms.model.voucher.discount;
 
 
 import com.prgrms.model.voucher.VoucherType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class DiscountCreatorTest {
 
+    @Autowired
     private DiscountCreator discountCreator;
-    private double value = 10;
-
-    @BeforeEach
-    void setUp() {
-        discountCreator = new DiscountCreator();
-    }
+    private final double VALUE = 10;
 
     @Test
-    @DisplayName("고정금액 할인 인자를 잘 만드는지 값과 타입을 확인한다.")
+    @DisplayName("고정금액을 나타내는 값 객체를 잘 만드는지 값과 타입을 확인한다.")
     void givenFixVoucherType_WhenCreateDiscount_ThenEqualValue_And_Type() {
         // given
         VoucherType fixedVoucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
 
         // when
-        Discount fixCreatedDiscount = discountCreator.createDiscount(value, fixedVoucherType);
+        Discount fixCreatedDiscount = discountCreator.createDiscount(fixedVoucherType,VALUE);
 
         // then
         assertThat(fixCreatedDiscount.getDiscountAmount()).isEqualTo(10);
@@ -33,13 +33,13 @@ class DiscountCreatorTest {
     }
 
     @Test
-    @DisplayName("할인 인자를 잘 만드는지 값과 타입을 확인한다.")
+    @DisplayName("할인율을 나타내는 값 객체를 잘 만드는지 값과 타입을 확인한다.")
     void givenPercentVoucherType_WhenCreateDiscount_ThenEqualValue_And_Type() {
         // given
         VoucherType percentVoucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
 
         // when
-        Discount percentCreatedDiscount = discountCreator.createDiscount(value, percentVoucherType);
+        Discount percentCreatedDiscount = discountCreator.createDiscount(percentVoucherType,VALUE);
 
         // then
         assertThat(percentCreatedDiscount.getDiscountAmount()).isEqualTo(10);
