@@ -3,7 +3,7 @@ drop table if exists voucher_table;
 
 create table member_table
 (
-    member_id     varchar(60) not null,
+    member_id     varchar(60),
     member_status varchar(10) not null,
     name          varchar(20) not null,
 
@@ -12,7 +12,7 @@ create table member_table
 
 create table voucher_table
 (
-    voucher_id    varchar(60) not null,
+    voucher_id    varchar(60),
     voucher_value int         not null,
     voucher_type  varchar(20) not null,
 
