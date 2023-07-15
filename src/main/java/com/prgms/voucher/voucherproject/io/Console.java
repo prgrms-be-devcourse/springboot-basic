@@ -1,6 +1,8 @@
 package com.prgms.voucher.voucherproject.io;
 
 import com.prgms.voucher.voucherproject.AppType;
+import com.prgms.voucher.voucherproject.domain.customer.Customer;
+import com.prgms.voucher.voucherproject.domain.customer.CustomerType;
 import com.prgms.voucher.voucherproject.domain.voucher.MenuType;
 import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
 import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
@@ -59,8 +61,21 @@ public class Console {
         }
     }
 
-    public MenuType inputMenu() {
-        this.printMessage(Constant.CONSOLE_MENU, true);
+    public CustomerType inputCustomerMenu() {
+        this.printMessage(Constant.CONSOLE_CUSTOMER_MENU, true);
+        String customerType = sc.nextLine();
+
+        try {
+            return CustomerType.getSelectedCustomerType(customerType);
+        } catch (InputMismatchException e) {
+            logger.error("MenuType InputMismatchException -> {}", customerType);
+            this.printMessage(Constant.WRONG_COMMAND, true);
+            return null;
+        }
+    }
+
+    public MenuType inputVoucherMenu() {
+        this.printMessage(Constant.CONSOLE_VOUCHER_MENU, true);
         String menuType = sc.nextLine();
 
         try {
@@ -73,7 +88,7 @@ public class Console {
     }
 
     public VoucherType inputVoucherType() {
-        this.printMessage(Constant.CONSOLE_VOUCHER_MENU, false);
+        this.printMessage(Constant.CONSOLE_VOUCHER_TYPE, false);
         Integer selectedNum = getNumber();
 
         if (selectedNum == null) return null;
@@ -97,5 +112,33 @@ public class Console {
         }
         sc.nextLine();
         return selectedNum;
+    }
+
+    /* Customer */
+    public Customer inputCreateCustomer() {
+        this.printMessage("등록할 email을 입력: ", false);
+        String email = sc.nextLine().trim();
+
+        // TODO - email 예외 처리 방법 + email 유효성 검사 필요
+       // if (jdbcCustomerRepository.findByEmail(email) == null) {
+       //     throw new DuplicateCustomerException("이미 존재하는 email입니다.");
+       // }
+
+        this.printMessage("등록할 name을 입력: ", false);
+        String name = sc.nextLine().trim();
+
+        try {
+            return new Customer(email, name);
+        } catch (InputMismatchException e) {
+            this.printMessage(e.getLocalizedMessage(), true);
+            return null;
+        }
+
+    }
+
+    public void printCustomerInfo(Customer customer) {
+        String message = MessageFormat.format("|email:{0} | name: {1} | createdDate:{2}|",
+                customer.getEmail(), customer.getName(), customer.getCreatedAt().toString());
+        System.out.println(message);
     }
 }

@@ -14,8 +14,8 @@ public class Customer {
         this.validateName(name);
         this.customerId = UUID.randomUUID();
         this.email = email;
-        this.createdAt = LocalDateTime.now();
         this.name = name;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Customer(UUID customerId, String email, String name, LocalDateTime createdAt) {
