@@ -238,6 +238,12 @@ blacklist
 - 예외 별 상태 코드 적용
 - 발생할 것 같은 예외들을 모두 잡고 예상치 못한 예외가 발생했을 때 프로그램이 꺼지지 않도록 제일 하위에 최상위 Exception으로 예외 처리
 
+### 웹 동작 화면(정상)
+![ezgif com-video-to-gif](https://github.com/prgrms-be-devcourse/springboot-basic/assets/92444744/c85de587-903e-493d-8fde-5e2d0ba3116b)
+
+### 웹 동작 화면(에러)
+![ezgif com-video-to-gif (1)](https://github.com/prgrms-be-devcourse/springboot-basic/assets/92444744/36e41e81-6d1f-4298-8527-43ee10d43e11
+
 <hr>
 
 ### 3-2 JSON을 지원하는 바우처 관리페이지 REST API 구현
@@ -266,3 +272,6 @@ blacklist
 - 프로그램 내에서 발생할 것 같은 예외들을 모두 구분하여 로깅하고, 메세지를 ErrorResponseDto에 담아서 클라이언트에게 응답
 - 예외 별 상태 코드 적용
 - 발생할 것 같은 예외들을 모두 잡고 예상치 못한 예외가 발생했을 때 프로그램이 꺼지지 않도록 제일 하위에 최상위 Exception으로 예외 처리
+
+### Postman Test
+![ezgif com-video-to-gif (2)](https://github.com/prgrms-be-devcourse/springboot-basic/assets/92444744/b3d8ce89-78cd-44be-a16b-eb006f202f81)
