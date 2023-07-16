@@ -30,10 +30,13 @@ dependencies {
     //Logback 설정
     implementation 'ch.qos.logback:logback-classic:1.2.6'
     implementation 'ch.qos.logback:logback-core:1.2.6'
+    //mysql연결
+    implementation 'mysql:mysql-connector-java:8.0.26'
+
 
 
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    runtimeOnly 'com.h2database:h2'
+//    runtimeOnly 'com.h2database:h2'
 
 
 }
