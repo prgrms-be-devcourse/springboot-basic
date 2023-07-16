@@ -52,23 +52,23 @@ public class CommandLine implements CommandLineRunner {
     private void selectVoucherMenu() {
         VoucherMenu menuName = input.getVoucherMenu();
         switch (menuName) {
-            case INSERT -> createVoucher();
+            case INSERT -> insertVoucher();
             case FIND_ALL -> output.printAllVoucher(voucherService.findAll());
             case FIND_BY_TYPE -> output.printAllVoucher(getVoucherListByType());
             case DELETE_ALL -> voucherService.deleteAll();
         }
     }
 
-    private void createVoucher() {
+    private void insertVoucher() {
         try {
-            insertDiscountValue();
+            processVoucherInsert();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             input.printConsoleMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
         }
     }
 
-    private void insertDiscountValue() {
+    private void processVoucherInsert() {
         VoucherType voucherType = input.selectVoucherType();
         int discountValue = input.insertDiscountValue();
         voucherService.insertNewVoucher(voucherType, discountValue);
