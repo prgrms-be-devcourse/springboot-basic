@@ -22,7 +22,7 @@ public class VoucherController {
     }
 
     public List<VoucherDto> readList() {
-        return voucherService.readVoucherList();
+        return voucherService.readList();
     }
 
     public VoucherDto read(UUID id) {
@@ -30,15 +30,12 @@ public class VoucherController {
     }
 
     public void updateAmount(UUID id, int discountAmount) {
+        //DB에서 바우처 타입 조회 후 amount에 대해 검증해야 함.
         voucherService.updateAmount(id, discountAmount);
     }
 
     public void delete(UUID id) {
         voucherService.delete(id);
-    }
-
-    public VoucherDiscountType checkDiscountType(UUID id) {
-        voucherService.checkDiscountType(id);
     }
 }
 

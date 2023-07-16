@@ -1,5 +1,6 @@
-package com.example.demo.domain.customer;
+package com.example.demo.domain.customer.repository;
 
+import com.example.demo.domain.customer.Customer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

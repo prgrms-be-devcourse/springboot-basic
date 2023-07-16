@@ -1,5 +1,7 @@
 package com.example.demo.domain.voucher;
 
+import com.example.demo.domain.voucher.repository.VoucherMemoryRepository;
+import com.example.demo.domain.voucher.repository.VoucherRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.assertj.core.api.Assertions;
@@ -7,13 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class MemoryVoucherRepositoryTest {
+class VoucherMemoryRepositoryTest {
 
     private VoucherRepository voucherRepository;
 
     @BeforeEach
     void createVoucherRepository() {
-        voucherRepository = new MemoryVoucherRepository();
+        voucherRepository = new VoucherMemoryRepository();
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.customer.Customer;
-import com.example.demo.domain.customer.CustomerRepository;
+import com.example.demo.domain.customer.repository.CustomerRepository;
 import com.example.demo.dto.CustomerDto;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +27,7 @@ public class CustomerService {
                 .orElseThrow(() -> new RuntimeException("id에 해당하는 customer가 없습니다.")));
     }
 
-    public List<CustomerDto> readAll() {
+    public List<CustomerDto> readList() {
         List<Customer> customerList = customerRepository.findAll();
 
         return customerList.stream()

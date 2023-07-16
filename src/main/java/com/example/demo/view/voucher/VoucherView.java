@@ -38,6 +38,11 @@ public class VoucherView {
         return inputView.readVoucherAmount(voucherDiscountType);
     }
 
+    public int readVoucherAmountWithoutValidation() {
+        outputView.printVoucherAmountInfoMessageWithOutTypeInfo();
+        return inputView.readVoucherAmountWithoutValidation();
+    }
+
     public void printCreateMessage(VoucherDto voucherDto) {
         outputView.printCreateMessage(voucherDto);
     }

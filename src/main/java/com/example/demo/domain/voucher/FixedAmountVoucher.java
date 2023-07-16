@@ -1,6 +1,7 @@
 package com.example.demo.domain.voucher;
 
 import com.example.demo.util.VoucherDiscountType;
+import com.example.demo.view.validate.NumberValidator;
 import java.util.UUID;
 import lombok.Getter;
 
@@ -9,10 +10,11 @@ import lombok.Getter;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID id;
-    private final double discountAmount;
+    private double discountAmount;
 
     public FixedAmountVoucher(double discountAmount) {
         this.id = UUID.randomUUID();
+        NumberValidator.validateAmount(VoucherDiscountType.FIX, discountAmount);
         this.discountAmount = discountAmount;
     }
 
@@ -25,5 +27,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public VoucherDiscountType getVoucherType() {
         return VoucherDiscountType.FIX;
+    }
+
+    public void updateDiscountAmount(double discountAmount) {
+        NumberValidator.validateAmount(VoucherDiscountType.FIX, discountAmount);
+        this.discountAmount = discountAmount;
     }
 }

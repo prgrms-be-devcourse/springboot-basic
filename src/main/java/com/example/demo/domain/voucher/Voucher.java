@@ -11,5 +11,7 @@ public interface Voucher {
 
     double getDiscountAmount();
 
+    void updateDiscountAmount(double discountAmount);
+
     VoucherDiscountType getVoucherType();
 }

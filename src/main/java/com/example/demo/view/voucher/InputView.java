@@ -31,6 +31,11 @@ public class InputView {
         return Integer.parseInt(input);
     }
 
+    public int readVoucherAmountWithoutValidation() {
+        String input = sc.nextLine();
+        return Integer.parseInt(input);
+    }
+
     public UUID readVoucherId() {
         String input = sc.nextLine();
         try {

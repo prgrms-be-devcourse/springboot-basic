@@ -21,7 +21,7 @@ public class CustomerController {
     }
 
     public List<CustomerDto> readList() {
-        return customerService.readAll();
+        return customerService.readList();
     }
 
     public CustomerDto read(UUID id) {

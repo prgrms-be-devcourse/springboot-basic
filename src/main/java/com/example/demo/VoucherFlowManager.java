@@ -37,9 +37,9 @@ public class VoucherFlowManager {
                 }
                 case UPDATE_VOUCHER_AMOUNT -> {
                     UUID id = voucherView.readVoucherId();
-                    VoucherDiscountType voucherDiscountType = voucherController.checkDiscountType(id);
-
-                    int discountAmount = voucherView.readVoucherAmount(voucherDiscountType);
+                    //DB에서 바우처 타입 조회 후 amount에 대해 검증해야 함.
+                    int discountAmount = voucherView.readVoucherAmountWithoutValidation();
+                    
                     voucherController.updateAmount(id, discountAmount);
                     voucherView.printUpdateMessage();
                 }

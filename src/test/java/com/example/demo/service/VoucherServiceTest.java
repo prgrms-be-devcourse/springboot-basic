@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.demo.domain.voucher.MemoryVoucherRepository;
+import com.example.demo.domain.voucher.repository.VoucherMemoryRepository;
 import com.example.demo.dto.VoucherDto;
 import com.example.demo.util.VoucherDiscountType;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ class VoucherServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        voucherService = new VoucherService(new MemoryVoucherRepository());
+        voucherService = new VoucherService(new VoucherMemoryRepository());
     }
 
     @DisplayName("정액 바우처 읽어오기 테스트")
