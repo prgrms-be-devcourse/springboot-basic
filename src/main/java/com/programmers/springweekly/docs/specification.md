@@ -266,3 +266,6 @@ blacklist
 - 프로그램 내에서 발생할 것 같은 예외들을 모두 구분하여 로깅하고, 메세지를 ErrorResponseDto에 담아서 클라이언트에게 응답
 - 예외 별 상태 코드 적용
 - 발생할 것 같은 예외들을 모두 잡고 예상치 못한 예외가 발생했을 때 프로그램이 꺼지지 않도록 제일 하위에 최상위 Exception으로 예외 처리
+
+### Postman Test
+![ezgif com-video-to-gif (2)](https://github.com/prgrms-be-devcourse/springboot-basic/assets/92444744/b3d8ce89-78cd-44be-a16b-eb006f202f81)
