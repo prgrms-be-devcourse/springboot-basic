@@ -1,4 +1,4 @@
-package com.prgrms.springbootbasic.enums;
+package com.prgrms.springbootbasic.enums.voucher;
 
 public enum VoucherType {
     FIXED,
