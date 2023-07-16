@@ -13,7 +13,7 @@ public interface VoucherRepository {
 
 	VoucherEntity updateVoucher(VoucherEntity voucherEntity);
 
-	Optional<VoucherEntity> findById(Long vouherId);
+	Optional<VoucherEntity> findById(Long voucherId);
 
 	boolean deleteById(Long voucherId);
 }

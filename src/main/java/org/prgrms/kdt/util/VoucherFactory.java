@@ -14,7 +14,7 @@ public final class VoucherFactory {
 	}
 
 	public static VoucherResponse getVoucherResponse(VoucherDTO voucherDTO) {
-		Long voucherId = idGenerator.getRandomId();
+		Long voucherId = voucherDTO.getVoucherId();
 		int amountValue = voucherDTO.getAmount().getAmount();
 		String voucherType = voucherDTO.getVoucherType().toString();
 

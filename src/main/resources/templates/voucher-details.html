@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <title>voucher detail page</title>
+  </head>
+<body>
+<div class="container-fluid px-4">
+  <h1 class="mt-4">Voucher</h1>
+  <div class="card mb-4">
+    <div class="card-body">
+        <div class="mb-3 mt-3">
+          <label for="voucherId" class="form-label">voucher id</label>
+          <input type="text" class="form-control" id="voucherId" th:value="${voucher.voucherId}" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="title" class="form-label">amount</label>
+          <input type="text" class="form-control" id="title" name="title"
+                th:value="${voucher.amount.amount}" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="voucherType" class="form-label">voucher type</label>
+            <input type="text" class="form-control" id="voucherType" name="title"
+                       th:value="${voucher.voucherType}" disabled>
+
+        </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

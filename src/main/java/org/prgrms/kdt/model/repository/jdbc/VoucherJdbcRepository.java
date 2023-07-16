@@ -72,12 +72,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<VoucherEntity> findById(Long vouherId) {
+	public Optional<VoucherEntity> findById(Long voucherId) {
 		try{
 			return Optional.ofNullable(jdbcTemplate.queryForObject(
-				"select * from customers WHERE customer_id = ?",
+				"select * from vouchers WHERE voucher_id = ?",
 				voucherEntityRowMapper,
-				vouherId)
+				voucherId)
 			);
 		}catch (EmptyResultDataAccessException e) {
 			return Optional.empty();

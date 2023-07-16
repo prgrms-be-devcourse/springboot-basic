@@ -74,12 +74,12 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<VoucherEntity> findById(Long vouherId) {
+	public Optional<VoucherEntity> findById(Long voucherId) {
 		String fileAllText = fileIO.loadStringFromFile();
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities
 			.stream()
-			.filter(voucherEntity -> voucherEntity.getVoucherId() == vouherId)
+			.filter(voucherEntity -> voucherEntity.getVoucherId() == voucherId)
 			.findFirst();
 	}
 

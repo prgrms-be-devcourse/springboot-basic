@@ -2,6 +2,7 @@ package org.prgrms.kdt.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.prgrms.kdt.enums.VoucherType;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -53,5 +55,17 @@ public class VoucherController {
 		VoucherDTO newVoucherDTO = VoucherFactory.getVoucherDTO(amount, VoucherType.valueOf(voucherTypeIdx));
 		voucherService.createVoucher(newVoucherDTO);
 		return "redirect:/vouchers";
+	}
+
+	@GetMapping("/vouchers/details/{voucherId}")
+	public String findCustomer(@PathVariable("voucherId") Long voucherId, Model model) {
+		Optional<VoucherDTO> maybeVoucher = voucherService.findVoucherById(voucherId);
+
+		if (maybeVoucher.isPresent()) {
+			model.addAttribute("voucher", maybeVoucher.get());
+			return "voucher-details";
+		} else {
+			return "404";
+		}
 	}
 }

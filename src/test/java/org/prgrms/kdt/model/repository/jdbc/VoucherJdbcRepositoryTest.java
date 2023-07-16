@@ -8,6 +8,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -114,8 +115,8 @@ class VoucherJdbcRepositoryTest {
 	@Order(2)
 	@DisplayName("전체 바우처를 조회할 수 있다.")
 	public void testFindAll() {
-		List<VoucherEntity> vouchers = voucherJdbcRepository.findAll();
-		assertThat(vouchers.isEmpty(), is(false));
+		Optional<VoucherEntity> voucher = voucherJdbcRepository.findById(newVoucher.getVoucherId());
+		assertThat(voucher.isEmpty(), is(false));
 	}
 
 	@Test

@@ -41,8 +41,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<VoucherEntity> findById(Long vouherId) {
-		return Optional.of(map.get(vouherId));
+	public Optional<VoucherEntity> findById(Long voucherId) {
+		return Optional.of(map.get(voucherId));
 	}
 
 	@Override

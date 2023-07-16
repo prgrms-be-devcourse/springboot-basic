@@ -9,19 +9,14 @@
     <title>Home</title>
 </head>
 <body class="container-fluid">
-    <h1>KDT Spring App</h1>
-    <img th:src="@{/img/bg.png}" />
-    <p th:text="'the time on the server is ' + ${serverTime}">----</p>
-
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a th:href="@{/vouchers/new}" class="btn btn-primary me-md-2" type="button">new voucher</a>
-    </div>
+    <h1>Crate Voucher Page</h1>
     <table class="table">
         <thead>
         <tr>
             <th scope="col">ID</th>
             <th scope="col">amount</th>
             <th scope="col">vouehr type</th>
+            <th scope="col">voucher detail</th>
         </tr>
         </thead>
         <tbody>
@@ -29,8 +24,16 @@
                 <td th:text="${voucher.voucherId}"></td>
                 <td th:text="${voucher.amount}"></td>
                 <td th:text="${voucher.voucherType}"></td>
+                <td>
+                    <a th:href="@{/vouchers/details/{voucherId}(voucherId = ${voucher.voucherId})}">
+                        <button type="button" class="btn btn-secondary">detail button</button>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a th:href="@{/vouchers/new}" class="btn btn-primary" type="button">new voucher</a>
+    </div>
 </body>
 </html>
