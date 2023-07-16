@@ -2,6 +2,7 @@ package org.programmers.VoucherManagement.io;
 
 import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
+import org.programmers.VoucherManagement.wallet.dto.GetWalletListResponse;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -45,6 +46,26 @@ public class Console implements Input, Output {
         printMemberList(memberList);
     }
 
+    @Override
+    public void printWalletList(GetWalletListResponse walletListResponse) {
+        walletListResponse
+                .getGetWalletListRes()
+                .forEach(response -> {
+                    System.out.println(MessageFormat.format("—————" + System.lineSeparator() +
+                                    "Wallet - {0}" + System.lineSeparator() +
+                                    "Voucher - {1} 타입의 {2}{3} 할인 voucher" + System.lineSeparator() +
+                                    "Member - {4} {5}" + System.lineSeparator() +
+                                    "—————" + System.lineSeparator()
+                            , response.getWalletId()
+                            , response.getWalletId()
+                            , response.getDiscountType()
+                            , response.getDiscountValue()
+                            , response.getDiscountType().getType()
+                            , response.getMemberId()
+                            , response.getMemberName()));
+                });
+    }
+
 
     private void printMemberList(GetMemberListResponse memberList) {
         memberList
@@ -77,6 +98,12 @@ public class Console implements Input, Output {
     @Override
     public String readVoucherId() {
         printConsoleMessage(VOUCHER_ID_MESSAGE);
+        return SCANNER.nextLine();
+    }
+
+    @Override
+    public String readWalletId() {
+        printConsoleMessage(WALLET_ID_MESSAGE);
         return SCANNER.nextLine();
     }
 

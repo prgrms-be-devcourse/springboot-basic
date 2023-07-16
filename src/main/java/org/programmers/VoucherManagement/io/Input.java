@@ -14,4 +14,6 @@ public interface Input {
     String readMemberName();
 
     String readVoucherId();
+
+    String readWalletId();
 }

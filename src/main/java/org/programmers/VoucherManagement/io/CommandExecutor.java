@@ -10,6 +10,9 @@ import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
 import org.programmers.VoucherManagement.voucher.dto.UpdateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
+import org.programmers.VoucherManagement.wallet.dto.CreateWalletRequest;
+import org.programmers.VoucherManagement.wallet.dto.GetWalletListResponse;
+import org.programmers.VoucherManagement.wallet.presentation.WalletController;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -20,11 +23,16 @@ import static org.programmers.VoucherManagement.io.ConsoleMessage.*;
 public class CommandExecutor {
     private final VoucherController voucherController;
     private final MemberController memberController;
+    private final WalletController walletController;
     private final Console console;
 
-    public CommandExecutor(VoucherController voucherController, MemberController memberController, Console console) {
+    public CommandExecutor(VoucherController voucherController,
+                           MemberController memberController,
+                           WalletController walletController,
+                           Console console) {
         this.voucherController = voucherController;
         this.memberController = memberController;
+        this.walletController = walletController;
         this.console = console;
     }
 
@@ -78,6 +86,26 @@ public class CommandExecutor {
                 GetMemberListResponse memberList = memberController.getAllMembers();
                 console.printAllMemberList(memberList);
             }
+            case INSERT_WALLET -> {
+                CreateWalletRequest request = makeCreateWalletRequest();
+                walletController.createWallet(request);
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case LIST_WALLET_BY_MEMBER -> {
+                String memberId = console.readMemberId();
+                GetWalletListResponse walletList = walletController.getWalletsByMemberId(UUID.fromString(memberId));
+                console.printWalletList(walletList);
+            }
+            case LIST_WALLET_BY_VOUCHER -> {
+                String voucherId = console.readVoucherId();
+                GetWalletListResponse walletList = walletController.getWalletsByVoucherId(UUID.fromString(voucherId));
+                console.printWalletList(walletList);
+            }
+            case DELETE_WALLET -> {
+                String walletId = console.readWalletId();
+                walletController.deleteWallet(UUID.fromString(walletId));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
         }
     }
 
@@ -93,5 +121,12 @@ public class CommandExecutor {
         MemberStatus memberStatus = MemberStatus.from(console.readMemberStatus());
 
         return new CreateMemberRequest(name, memberStatus);
+    }
+
+    private CreateWalletRequest makeCreateWalletRequest() {
+        String voucherId = console.readVoucherId();
+        String memberId = console.readMemberId();
+
+        return new CreateWalletRequest(voucherId, memberId);
     }
 }

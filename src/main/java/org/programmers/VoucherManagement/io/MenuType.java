@@ -24,8 +24,14 @@ public enum MenuType {
     DELETE_VOUCHER(8),
     VOUCHER_LIST(9),
 
+    //Wallet
+    INSERT_WALLET(10),
+    LIST_WALLET_BY_VOUCHER(11),
+    LIST_WALLET_BY_MEMBER(12),
+    DELETE_WALLET(13),
+
     //System
-    EXIT(10);
+    EXIT(14);
 
     private static final Map<Integer, MenuType> COMMAND_TYPE_MAP =
             Collections.unmodifiableMap(Arrays

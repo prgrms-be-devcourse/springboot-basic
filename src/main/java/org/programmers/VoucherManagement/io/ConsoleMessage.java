@@ -25,9 +25,20 @@ public enum ConsoleMessage {
             "<< 9 >> [voucherList] - 전체 voucher 명단을 조회하려면 9를 입력하세요."
             + System.lineSeparator() +
             System.lineSeparator() +
+            "===Wallet==="
+            + System.lineSeparator() +
+            "<< 10 >> [insertWallet] - 새 Wallet를 추가하려면 10을 입력하세요."
+            + System.lineSeparator() +
+            "<< 11 >> [walletListByVoucherId] - 바우처 Id를 이용해 등록된 Wallet 명단을 조회하려면 11을 입력하세요."
+            + System.lineSeparator() +
+            "<< 12 >> [walletListByMemberId] - 회원 Id를 이용해 등록된 Wallet 명단을 조회하려면 12을 입력하세요."
+            + System.lineSeparator() +
+            "<< 13 >> [deleteWallet] - Wallet을 삭제하려면 13을 입력하세요."
+            + System.lineSeparator()
+            + System.lineSeparator() +
             "===System==="
             + System.lineSeparator() +
-            "<< 10 >> [exit] -프로그램을 종료하려면 10을 입력하세요."
+            "<< 14 >> [exit] -프로그램을 종료하려면 14을 입력하세요."
             + System.lineSeparator()),
 
 
@@ -41,6 +52,7 @@ public enum ConsoleMessage {
     MEMBER_STATUS_MESSAGE("멤버의 회원 상태(BLACK / WHITE)를 입력하세요."),
     MEMBER_ID_MESSAGE("회원의 ID를 입력하세요."),
     VOUCHER_ID_MESSAGE("바우처의 ID를 입력하세요."),
+    WALLET_ID_MESSAGE("월렛의 ID를 입력하세요."),
     MEMBER_NAME_MESSAGE("추가할 멤버의 이름을 입력하세요."),
     START_VIEW_BLACKLIST_MESSAGE("===[블랙리스트 멤버 목록]==="),
     START_VIEW_ALL_MEMBER_MESSAGE("===[전체 멤버 목록]==="),
