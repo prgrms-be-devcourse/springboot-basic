@@ -3,12 +3,15 @@ package com.prgms.voucher.voucherproject.App;
 import com.prgms.voucher.voucherproject.domain.customer.Customer;
 import com.prgms.voucher.voucherproject.domain.customer.CustomerType;
 import com.prgms.voucher.voucherproject.exception.DuplicateCustomerException;
+import com.prgms.voucher.voucherproject.exception.NotFoundCustomerException;
 import com.prgms.voucher.voucherproject.io.Console;
 import com.prgms.voucher.voucherproject.io.Constant;
 import com.prgms.voucher.voucherproject.service.CustomerService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CustomerApp {
@@ -31,8 +34,8 @@ public class CustomerApp {
             switch (customerApp) {
                 case CREATE -> createCustomer();
                 case LIST -> listCustomers();
-                case FIND -> System.out.println("find");
-                case DELETE -> System.out.println("delete");
+                case FIND -> findCustomer();
+                case DELETE -> deleteCustomer();
                 case EXIT -> {
                     isRunning = false;
                     console.printMessage(Constant.PROGRAM_END, true);
@@ -42,18 +45,17 @@ public class CustomerApp {
     }
 
     private void createCustomer() {
-        Customer customer = null;
-        // console에서 email, name 입력 받아서
-        // email중복일때 try - catch로 예외 처리 필요
-        try {
-            customer = console.inputCreateCustomer();
-        } catch (DuplicateCustomerException e) {
-            console.printMessage(e.getLocalizedMessage(), true);
-        }
+        Customer customer = console.inputCreateCustomer();
 
         if (customer == null) return;
 
-        customerService.create(customer);
+        try {
+            customerService.create(customer);
+        } catch (DuplicateKeyException e) {
+            console.printMessage(Constant.EXITS_EMAIL, true);
+        } catch (DuplicateCustomerException e) {
+            console.printMessage(e.getLocalizedMessage(), true);
+        }
     }
 
     private void listCustomers() {
@@ -69,16 +71,34 @@ public class CustomerApp {
     }
 
     private void findCustomer() {
-        // console에서 email 입력 받아서
-        // customerService의 findByEmail 인자로 넘겨주기
-        // Optionl이 empty라면 존재하지 않는 사용자라고 출력하고
-        // empty가 아니라면 value 꺼내와서 출력하기
-        // 출력하는 것도 list에서 사용했던 customer 사용자 정보 출력 메소드 그대로 사용
+        String email = console.inputEmail();
+
+        if (email.equals("WrongEmail")) {
+            console.printMessage(Constant.WRONG_EMAIL, true);
+            return;
+        }
+
+        Optional<Customer> customer = customerService.findByEmail(email);
+
+        if (customer.isEmpty()) console.printMessage(Constant.NOT_EXITS_CUSTOMER, true);
+
+        customer.ifPresent(console::printCustomerInfo);
     }
 
     private void deleteCustomer() {
-        // console에서 email 입력받아서 => findCustomer랑 같이 쓰자
-        // customerService의 deleteByEmail 인자로 넘겨주기
+        String email = console.inputEmail();
+
+        if (email.equals("WrongEmail")) {
+            console.printMessage(Constant.WRONG_EMAIL, true);
+            return;
+        }
+
+        try{
+            customerService.deleteByEmail(email);
+        } catch (NotFoundCustomerException e) {
+            console.printMessage(e.getLocalizedMessage(), true);
+        }
+
     }
 
 }

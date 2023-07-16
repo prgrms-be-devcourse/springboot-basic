@@ -35,7 +35,11 @@ public final class Constant {
 
     public static final String NOT_EXITS_CUSTOMER = "존재하는 고객이 없습니다.";
 
+    public static final String EXITS_EMAIL = "이미 존재하는 email입니다. (중복X)";
+
     public static final String WRONG_COMMAND = "잘못된 명령어입니다.";
+
+    public static final String WRONG_EMAIL = "잘못된 email 형식 입니다.";
 
     public static final String PROGRAM_END = "프로그램을 종료합니다.";
 

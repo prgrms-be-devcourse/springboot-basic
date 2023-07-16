@@ -1,6 +1,8 @@
 package com.prgms.voucher.voucherproject.repository.customer;
 
 import com.prgms.voucher.voucherproject.domain.customer.Customer;
+import com.prgms.voucher.voucherproject.exception.DuplicateCustomerException;
+import com.prgms.voucher.voucherproject.exception.NotFoundCustomerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,7 +29,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getCustomerId().toString().getBytes(), customer.getEmail(), customer.getName(), customer.getCreatedAt());
 
         if (save != 1) {
-            throw new IllegalArgumentException("고객 저장에 실패하였습니다.");
+            throw new DuplicateCustomerException("고객 저장에 실패하였습니다.");
         }
     }
 
@@ -49,7 +51,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteByEmail(String email) {
-        jdbcTemplate.update("DELETE FROM customer WHERE email = ?", email);
+        int delete = jdbcTemplate.update("DELETE FROM customer WHERE email = ?", email);
+
+        if (delete != 1) {
+            throw new NotFoundCustomerException("삭제할 고객이 존재하지 않습니다.");
+        }
     }
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {

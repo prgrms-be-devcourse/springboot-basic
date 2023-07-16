@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.text.MessageFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Console {
     private static final Scanner sc = new Scanner(System.in);
@@ -116,13 +117,13 @@ public class Console {
 
     /* Customer */
     public Customer inputCreateCustomer() {
-        this.printMessage("등록할 email을 입력: ", false);
-        String email = sc.nextLine().trim();
+        this.printMessage("등록할 email을 입력하세요: ", false);
+        String email =  sc.nextLine().trim();
 
-        // TODO - email 예외 처리 방법 + email 유효성 검사 필요
-       // if (jdbcCustomerRepository.findByEmail(email) == null) {
-       //     throw new DuplicateCustomerException("이미 존재하는 email입니다.");
-       // }
+        if (!validEmail(email)) {
+            this.printMessage(Constant.WRONG_EMAIL, true);
+            return null;
+        }
 
         this.printMessage("등록할 name을 입력: ", false);
         String name = sc.nextLine().trim();
@@ -140,5 +141,21 @@ public class Console {
         String message = MessageFormat.format("|email:{0} | name: {1} | createdDate:{2}|",
                 customer.getEmail(), customer.getName(), customer.getCreatedAt().toString());
         System.out.println(message);
+    }
+
+    public String inputEmail() {
+        this.printMessage("검색할 email을 입력하세요: ", false);
+        String email = sc.nextLine().trim();
+
+        if (validEmail(email)) {
+            return email;
+        }
+
+        return "WrongEmail";
+    }
+
+    private static boolean validEmail(String email) {
+        return Pattern.matches("([A-Z|a-z|0-9](\\.|_){0,1})+[A-Z|a-z|0-9]\\@([A-Z|a-z|0-9])+((\\.){0,1}[A-Z|a-z|0-9]){2}\\.[a-z]{2,3}$"
+                                , email);
     }
 }
