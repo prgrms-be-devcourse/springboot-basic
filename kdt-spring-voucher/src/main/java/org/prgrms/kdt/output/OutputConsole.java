@@ -1,6 +1,9 @@
 package org.prgrms.kdt.output;
 
+import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class OutputConsole implements Output {
@@ -40,6 +43,17 @@ public class OutputConsole implements Output {
     @Override
     public void userInputWrongValue() {
         System.out.println("Please check the input value.");
+    }
+
+    @Override
+    public void displayError(Exception e) {
+        System.out.println(e.getMessage());
+    }
+
+    @Override
+    public void displayAllVoucherList(List<Voucher> voucherList) {
+        voucherList.stream()
+            .forEach(voucher -> System.out.println(String.format(VOUCHER_PRINT_FORMAT, voucher.getVoucherName(), voucher.getVoucherId(), voucher.getVoucherDiscountValue())));
     }
 
     private void printMenuLine(String userInput, String inputExplanation) {
