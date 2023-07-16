@@ -89,18 +89,15 @@ public class CommandLine implements CommandLineRunner {
 
     private void selectCustomerMenu() {
         CustomerMenu menuName = input.getCustomerMenu();
-        try {
-            switch (menuName) {
-                case INSERT -> customerService.insert(input.inputCustomerInfo());
-                case FIND_ALL -> printAllCustomer(customerService.findAll());
-                case FIND_BY_EMAIL -> getCustomerByEmail();
-                case BLACK -> customerService.getBlackConsumerList();
-                case UPDATE_INFO -> updateCustomerInfo();
-                case DELETE_BY_EMAIL -> customerService.deleteByEmail(input.inputEmail());
-                case DELETE_ALL -> customerService.deleteAll();
-            }
-        } catch (RuntimeException e) {
-            logger.error("입력값을 확인해주세요.", e);
+
+        switch (menuName) {
+            case INSERT -> customerService.insert(input.inputCustomerInfo());
+            case FIND_ALL -> printAllCustomer(customerService.findAll());
+            case FIND_BY_EMAIL -> getCustomerByEmail();
+            case BLACK -> customerService.getBlackConsumerList();
+            case UPDATE_INFO -> updateCustomerInfo();
+            case DELETE_BY_EMAIL -> customerService.deleteByEmail(input.inputEmail());
+            case DELETE_ALL -> customerService.deleteAll();
         }
     }
 
@@ -117,7 +114,7 @@ public class CommandLine implements CommandLineRunner {
     private void getCustomerByEmail() {
         Optional<Customer> customer = customerService.findByEmail(input.inputEmail());
 
-        if(customer.isEmpty()){
+        if (customer.isEmpty()) {
             return;
         }
 
