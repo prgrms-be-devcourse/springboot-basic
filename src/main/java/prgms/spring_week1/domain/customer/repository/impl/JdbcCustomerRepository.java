@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Component
 public class JdbcCustomerRepository implements CustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 

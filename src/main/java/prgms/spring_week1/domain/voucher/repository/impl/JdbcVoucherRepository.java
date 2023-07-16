@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
