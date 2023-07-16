@@ -4,14 +4,14 @@ settings:
 
 jasypt:
   encryptor:
-    algorithm: PBEWithMD5AndDES
     bean: jasyptStringEncryptor
+    algorithm: PBEWithMD5AndDES
     pool-size: 2
     string-output-type: base64
-    key-obtention-iterations: 100
+    key-obtention-iterations: 1000
 spring:
   datasource:
-    url: ENC(VnPYjuns7r1IZCXS4/d9evC0QDwDw6pORpvqUVvxhoA21nkdEy0x3VxPcBkNwbC+)
-    username: ENC(ariKMyHoKiZ0ULrSg9YatA==)
-    password: ENC(bw3uZYpzlOJsdpIjFQzSgDENsaR0PsIW)
+    url: ENC(zx3pRs8d98AYQmHo8AJGfGwPKklJBHGjrqA2wLUahpc5pZGn4oLtqfVX3qkMwaS1)
+    username: ENC(XT4kVwUQ7pij9H2mGEU7ww==)
+    password: ENC(1FXSQsqpuh3CNB9z8sbrRIa0k0Y3xb6x)
     driver-class-name: com.mysql.cj.jdbc.Driver

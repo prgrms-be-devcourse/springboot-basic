@@ -47,7 +47,7 @@ public class ConsoleApplication implements Runnable {
                 if (branchByMenu(menu)) {
                     break;
                 }
-            } catch (InvalidDataException exception) {
+            } catch (Exception exception) {
                 logger.error(exception.getMessage(), exception.getCause());
                 consoleManager.consoleError(exception);
             }

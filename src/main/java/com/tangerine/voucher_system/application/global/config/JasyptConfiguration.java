@@ -2,6 +2,7 @@ package com.tangerine.voucher_system.application.global.config;
 
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Configuration
+@EnableEncryptableProperties
 public class JasyptConfiguration {
 
     @Value("${jasypt.encryptor.algorithm}")
