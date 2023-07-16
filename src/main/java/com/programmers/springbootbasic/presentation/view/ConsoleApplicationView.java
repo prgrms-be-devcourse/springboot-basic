@@ -57,6 +57,7 @@ public class ConsoleApplicationView {
             입력:\s""";
     private static final String CREATED_VOUCHER_INFO = "=== 바우처 생성완료 ===";
     private static final String INVALID_VOUCHER_TYPE = "잘못된 바우처 유형입니다. 현재 입력 값: ";
+    private static final Long ZERO = 0L;
 
     private final Console console;
 
@@ -99,7 +100,7 @@ public class ConsoleApplicationView {
         try {
             return NumberParser.parseToLong(minimumPriceConditionInput);
         } catch (IllegalArgumentException e) {
-            return 0;
+            return ZERO;
         }
     }
 
