@@ -11,11 +11,21 @@ public enum VoucherType {
 
     FIXED_AMOUNT_DISCOUNT(1) {
         @Override
+        public Voucher createVoucher(Long discountValue) {
+            return new FixedAmountVoucher(discountValue);
+        }
+
+        @Override
         public Voucher createVoucher(UUID voucherID, Long discountValue) {
             return new FixedAmountVoucher(voucherID, discountValue);
         }
     },
     PERCENT_DISCOUNT(2) {
+        @Override
+        public Voucher createVoucher(Long discountValue) {
+            return new FixedAmountVoucher(discountValue);
+        }
+
         @Override
         public Voucher createVoucher(UUID voucherID, Long discountValue) {
             return new PercentDiscountVoucher(voucherID, discountValue);
@@ -31,6 +41,8 @@ public enum VoucherType {
     public int getInputNum() {
         return inputNum;
     }
+
+    public abstract Voucher createVoucher(Long discountValue);
 
     public abstract Voucher createVoucher(UUID voucherID, Long discountValue);
 

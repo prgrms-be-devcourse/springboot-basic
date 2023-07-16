@@ -20,10 +20,7 @@ public class VoucherService {
     }
 
     public VoucherDTO createVoucher(VoucherType voucherType, long discountValue) {
-        Voucher createdVoucher = switch (voucherType) {
-            case FIXED_AMOUNT_DISCOUNT -> new FixedAmountVoucher(discountValue);
-            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(discountValue);
-        };
+        Voucher createdVoucher = voucherType.createVoucher(discountValue);
 
         Voucher savedVoucher = voucherRepository.save(createdVoucher);
 
