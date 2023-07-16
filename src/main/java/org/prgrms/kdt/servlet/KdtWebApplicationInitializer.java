@@ -50,8 +50,6 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
 		ApplicationContext applicationContext;
 		@Override
 		public void configureViewResolvers(ViewResolverRegistry registry) {
-			registry.jsp().viewNames("jsp/*");
-
 			SpringResourceTemplateResolver springResourceTemplateResolver = new SpringResourceTemplateResolver();
 			springResourceTemplateResolver.setApplicationContext(applicationContext);
 			springResourceTemplateResolver.setSuffix(".html");
@@ -62,15 +60,6 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
 			ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
 			thymeleafViewResolver.setTemplateEngine(springTemplateEngine);
 			registry.viewResolver(thymeleafViewResolver);
-		}
-
-		@Override
-		public void addResourceHandlers(ResourceHandlerRegistry registry) {
-			registry.addResourceHandler("/resources/**")
-				.addResourceLocations("/resources/")
-				.setCachePeriod(60)
-				.resourceChain(true)
-				.addResolver(new EncodedResourceResolver());
 		}
 
 		@Bean

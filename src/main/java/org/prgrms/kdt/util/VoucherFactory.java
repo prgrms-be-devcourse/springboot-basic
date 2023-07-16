@@ -5,11 +5,20 @@ import org.prgrms.kdt.model.Amount;
 import org.prgrms.kdt.model.FixedAmount;
 import org.prgrms.kdt.model.PercentAmount;
 import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.model.dto.VoucherResponse;
 
 public final class VoucherFactory {
 	private static final IdGenerator idGenerator = new IdGenerator();
 
 	private VoucherFactory() {
+	}
+
+	public static VoucherResponse getVoucherResponse(VoucherDTO voucherDTO) {
+		Long voucherId = idGenerator.getRandomId();
+		int amountValue = voucherDTO.getAmount().getAmount();
+		String voucherType = voucherDTO.getVoucherType().toString();
+
+		return new VoucherResponse(voucherId, amountValue, voucherType);
 	}
 
 	public static VoucherDTO getVoucherDTO(int amount, VoucherType voucherType) {

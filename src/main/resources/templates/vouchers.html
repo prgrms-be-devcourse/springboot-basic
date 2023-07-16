@@ -10,11 +10,11 @@
 </head>
 <body class="container-fluid">
     <h1>KDT Spring App</h1>
-    <img th:src="@{/resources/bg.PNG}" class="img-fluid">
+    <img th:src="@{/img/bg.png}" />
     <p th:text="'the time on the server is ' + ${serverTime}">----</p>
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a th:href="@{/vouehrs/new}" class="btn btn-primary me-md-2" type="button">Button</a>
+        <a th:href="@{/vouchers/new}" class="btn btn-primary me-md-2" type="button">new voucher</a>
     </div>
     <table class="table">
         <thead>
