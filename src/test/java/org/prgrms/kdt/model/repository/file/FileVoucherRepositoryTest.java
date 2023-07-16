@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 class FileVoucherRepositoryTest {
 	@ParameterizedTest
-	@DisplayName("FileVoucherRepository 클래스 저장 및 불러오기 테스트")
+	@DisplayName("파일에서 voucher를 저장할 수 있다.")
 	@MethodSource("vouchersProvider")
 	void createVoucherTest(List<VoucherEntity> voucherEntities) {
 		// getTestVoucherFilePath

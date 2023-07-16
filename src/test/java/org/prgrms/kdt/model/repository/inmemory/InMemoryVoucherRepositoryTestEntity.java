@@ -45,7 +45,7 @@ class InMemoryVoucherRepositoryTestEntity {
 	}
 
 	@ParameterizedTest
-	@DisplayName("인메모리 repository 저장 및 불러오기 테스트")
+	@DisplayName("인메모리에서 voucher를 저장하고 불러올 수 있다.")
 	@MethodSource("vouchersProvider")
 	void createVoucherTest(List<VoucherEntity> voucherEntities) {
 		// given

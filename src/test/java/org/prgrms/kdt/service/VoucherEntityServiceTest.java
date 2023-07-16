@@ -49,7 +49,7 @@ class VoucherEntityServiceTest {
 	}
 
 	@ParameterizedTest
-	@DisplayName("바우처 서비스의 저장 및 불러오기 테스트")
+	@DisplayName("바우처 서비스에서 바우처를 저장하고 불러올 수 있다.")
 	@MethodSource("voucherDTOProvider")
 	void createVoucherTest(List<VoucherDTO> voucherDTOs) {
 		// given
