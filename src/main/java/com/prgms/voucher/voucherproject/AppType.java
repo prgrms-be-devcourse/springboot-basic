@@ -6,7 +6,8 @@ import java.util.stream.Stream;
 public enum AppType {
     VOUCHER,
     CUSTOMER,
-    EXIT;
+    EXIT
+    ;
 
     public static AppType getSelectedAppType(String selectedApp) {
         return Stream.of(AppType.values())
@@ -14,4 +15,5 @@ public enum AppType {
                 .findAny()
                 .orElseThrow(() -> new InputMismatchException("잘못된 실행 명령어입니다."));
     }
+
 }

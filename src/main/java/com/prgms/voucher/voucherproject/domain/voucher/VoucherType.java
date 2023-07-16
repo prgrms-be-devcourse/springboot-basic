@@ -5,7 +5,8 @@ import java.util.stream.Stream;
 
 public enum VoucherType {
     FIXED(1),
-    PERCENT(2);
+    PERCENT(2)
+    ;
 
     private int voucherNum;
 

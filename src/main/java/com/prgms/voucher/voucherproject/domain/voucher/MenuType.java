@@ -7,7 +7,8 @@ public enum MenuType {
 
     EXIT,
     CREATE,
-    LIST;
+    LIST
+    ;
 
     public static MenuType getSelectedMenuType(String selectedMenu) {
         return Arrays.stream(MenuType.values())

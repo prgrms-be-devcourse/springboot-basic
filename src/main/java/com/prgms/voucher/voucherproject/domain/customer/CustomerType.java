@@ -8,7 +8,8 @@ public enum CustomerType {
     LIST,
     FIND,
     DELETE,
-    EXIT;
+    EXIT
+    ;
 
     public static CustomerType getSelectedCustomerType(String selectedCustomer) {
         return Stream.of(CustomerType.values())
@@ -16,4 +17,5 @@ public enum CustomerType {
                 .findAny()
                 .orElseThrow(() -> new InputMismatchException("잘못된 사용자 명령어입니다."));
     }
+
 }
