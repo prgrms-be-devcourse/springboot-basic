@@ -1,5 +1,6 @@
 package com.example.voucher.io;
 
+import java.util.UUID;
 import com.example.voucher.constant.VoucherType;
 
 class Writer {
@@ -10,6 +11,9 @@ class Writer {
             Type exit to exit the program.
             Type create to create a new voucher.
             Type list to list all vouchers.
+            Type delete_all to delete all vouchers.
+            Type search to search voucher by id.
+            Type update to update voucher by id.
             """),
         VOUCHER_INFO_INPUT_REQUEST("""
             Select VoucherType And Info
@@ -22,11 +26,14 @@ class Writer {
         DISCOUNT_VALUE_INPUT_REQUEST("""
             * Input Discount Value
             """),
-        INVALID_ARGUMENT_RETRY_MODE_TYPE_SELECTION("""
-            유효하지 않은 값 입니다. 모드 타입을 다시 선택해주세요.
+        ID_INPUT_REQUEST("""
+            * Input Id
             """),
-        INVALID_ARGUMENT_CANT_CREATE_VOUCHER ("""
-            유효하지 않은 값입니다. 바우처를 생성할 수 없습니다.
+        INVALID_ARGUMENT("""
+            유효하지 않은 값 입니다. 다시 입력해주세요.
+            """),
+        REQUEST_FAILED("""
+            문제가 발생해 요청을 수행하지 못했습니다.
             """);
 
         private String text;
@@ -43,10 +50,10 @@ class Writer {
     public Writer() {
     }
 
-    public static final String VOUCHER_INFO_TEMPLATE = "VoucherType : %s, discountValue : %d";
+    public static final String VOUCHER_INFO_TEMPLATE = "voucherId : %s, VoucherType : %s, discountValue : %d";
 
-    public void writeMessage(VoucherType voucherType, long discountValue) {
-        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherType, discountValue));
+    public void writeMessage(UUID voucherId, VoucherType voucherType, long discountValue) {
+        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherId.toString(), voucherType, discountValue));
     }
 
     public void writeMessage(Message message) {
