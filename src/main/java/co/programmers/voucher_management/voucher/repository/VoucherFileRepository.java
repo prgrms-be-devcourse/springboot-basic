@@ -156,8 +156,8 @@ public class VoucherFileRepository implements VoucherRepository {
 	private List<Voucher> findByCustomerId(List<String[]> vouchers, long customerId) {
 		List<Voucher> foundVouchers = new ArrayList<>();
 		for (String[] voucher : vouchers) {
-			long CustomerIdCompared = Long.parseLong(voucher[VoucherProperty.CUSTOMER_ID.index]);
-			if (CustomerIdCompared == customerId) {
+			long customerIdCompared = Long.parseLong(voucher[VoucherProperty.CUSTOMER_ID.index]);
+			if (customerIdCompared == customerId) {
 				foundVouchers.add(mapToVoucher(voucher));
 			}
 		}
@@ -177,14 +177,10 @@ public class VoucherFileRepository implements VoucherRepository {
 	}
 
 	private List<Voucher> findByType(List<String[]> vouchers, String discountType) {
-		List<Voucher> foundVouchers = new ArrayList<>();
-		for (String[] voucher : vouchers) {
-			String discountTypeCompared = voucher[VoucherProperty.CUSTOMER_ID.index];
-			if (discountType.equals(discountTypeCompared)) {
-				foundVouchers.add(mapToVoucher(voucher));
-			}
-		}
-		return foundVouchers;
+		return vouchers.stream()
+				.filter(voucher -> discountType.equals(voucher[VoucherProperty.CUSTOMER_ID.index]))
+				.map(this::mapToVoucher)
+				.toList();
 	}
 
 	@Override
