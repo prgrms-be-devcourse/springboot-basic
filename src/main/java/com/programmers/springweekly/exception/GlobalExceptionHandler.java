@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    final static String ERROR_MSG = "errorMsg";
-    final static String ERROR_CODE = "errorCode";
-    final static String ERROR_PAGE = "errorPage";
+    private static final String ERROR_MSG = "errorMsg";
+    private static final String ERROR_CODE = "errorCode";
+    private static final String ERROR_PAGE = "errorPage";
 
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
