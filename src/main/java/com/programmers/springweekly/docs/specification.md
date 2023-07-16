@@ -194,8 +194,6 @@ blacklist
 
 ![스크린샷 2023-07-10 오전 12 23 51](https://github.com/Hchanghyeon/springboot-basic/assets/92444744/a0c5395b-0b0f-4f21-99ae-f9a5f36a7b03)
 
-    
-
 ### Wallet
 
 - NamedParameterJdbcTemplate을 이용
@@ -240,3 +238,31 @@ blacklist
 - 예외 별 상태 코드 적용
 - 발생할 것 같은 예외들을 모두 잡고 예상치 못한 예외가 발생했을 때 프로그램이 꺼지지 않도록 제일 하위에 최상위 Exception으로 예외 처리
 
+<hr>
+
+### 3-2 JSON을 지원하는 바우처 관리페이지 REST API 구현
+
+### 요약
+
+- 고객, 바우처 CREATE, UPDATE, DELETE API Controller 구현
+- RestControllerAdvice를 통한 Global 에외 처리
+- 예외 발생시 ErrorResponseDto를 통해 에러 코드와 메시지 전달
+
+### Voucher(api)
+
+- 바우처 입력 기능
+- 바우처 삭제 기능
+- 바우처 전체 조회, 상세 조회 기능
+
+### Customer(api)
+
+- 고객 입력 기능
+- 고객 삭제 기능
+- 고객 전체 조회, 상세 조회 기능
+
+### RestControllerAdvice
+
+- Controller, Serivce, Repository 등 Controller 하위 단에서 발생한 예외를 전역으로 잡는 ExceptionHandler 클래스 생성
+- 프로그램 내에서 발생할 것 같은 예외들을 모두 구분하여 로깅하고, 메세지를 ErrorResponseDto에 담아서 클라이언트에게 응답
+- 예외 별 상태 코드 적용
+- 발생할 것 같은 예외들을 모두 잡고 예상치 못한 예외가 발생했을 때 프로그램이 꺼지지 않도록 제일 하위에 최상위 Exception으로 예외 처리
