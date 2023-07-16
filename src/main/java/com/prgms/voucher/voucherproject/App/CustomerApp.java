@@ -27,11 +27,11 @@ public class CustomerApp {
         boolean isRunning = true;
 
         while (isRunning) {
-            CustomerType customerApp = console.inputCustomerMenu();
+            CustomerType customerMenu = console.inputCustomerMenu();
 
-            if (customerApp == null) continue;
+            if (customerMenu == null) continue;
 
-            switch (customerApp) {
+            switch (customerMenu) {
                 case CREATE -> createCustomer();
                 case LIST -> listCustomers();
                 case FIND -> findCustomer();
