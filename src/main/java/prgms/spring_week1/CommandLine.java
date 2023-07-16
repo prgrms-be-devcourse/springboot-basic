@@ -6,8 +6,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.Customer;
 import prgms.spring_week1.domain.customer.service.CustomerService;
+import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
+import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
@@ -15,6 +17,7 @@ import prgms.spring_week1.menu.CustomerMenu;
 import prgms.spring_week1.menu.Menu;
 import prgms.spring_week1.menu.VoucherMenu;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -46,12 +49,12 @@ public class CommandLine implements CommandLineRunner {
         }
     }
 
-    private void selectVoucherMenu(){
+    private void selectVoucherMenu() {
         VoucherMenu menuName = input.getVoucherMenu();
-        switch (menuName){
+        switch (menuName) {
             case INSERT -> createVoucher();
             case FIND_ALL -> output.printAllVoucher(voucherService.findAll());
-            case FIND_BY_TYPE -> output.printAllVoucher(voucherService.findByType(input.inputVoucherType()));
+            case FIND_BY_TYPE -> output.printAllVoucher(getVoucherListByType());
             case DELETE_ALL -> voucherService.deleteAll();
         }
     }
@@ -72,9 +75,19 @@ public class CommandLine implements CommandLineRunner {
         input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
     }
 
+    private List<Voucher> getVoucherListByType() {
+        try {
+            return voucherService.findByType(input.inputVoucherType());
+        }catch (NoSuchVoucherTypeException e){
+            logger.warn(e.getMessage());
+            input.printConsoleMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
+            return Collections.emptyList();
+        }
+    }
+
     private void selectCustomerMenu() {
         CustomerMenu menuName = input.getCustomerMenu();
-        try{
+        try {
             switch (menuName) {
                 case INSERT -> customerService.insert(input.inputCustomerInfo());
                 case FIND_ALL -> printAllCustomer(customerService.findAll());
@@ -87,8 +100,8 @@ public class CommandLine implements CommandLineRunner {
                 case DELETE_BY_EMAIL -> customerService.deleteByEmail(input.inputEmail());
                 case DELETE_ALL -> customerService.deleteAll();
             }
-        }catch (RuntimeException e){
-            logger.error("입력값을 확인해주세요.",e);
+        } catch (RuntimeException e) {
+            logger.error("입력값을 확인해주세요.", e);
         }
     }
 
@@ -98,7 +111,7 @@ public class CommandLine implements CommandLineRunner {
         }
     }
 
-    private void updateCustomerInfo(){
+    private void updateCustomerInfo() {
         customerService.updateInfo(input.inputUpdateEmailInfo());
     }
 }
