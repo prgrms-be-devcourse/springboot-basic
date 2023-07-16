@@ -25,9 +25,21 @@ class FileVoucherRepositoryTest {
 	@DisplayName("파일에서 voucher를 저장할 수 있다.")
 	@MethodSource("vouchersProvider")
 	void createVoucherTest(List<VoucherEntity> voucherEntities) {
-		// getTestVoucherFilePath
-		Path voucherFilePath = getTestVoucherFilePath();
-		deleteFileIfExist(voucherFilePath);
+		//given
+		Path currentFolderPath = Paths.get("");
+		String currentFolder = currentFolderPath.toAbsolutePath().toString();
+		String fileName = "voucherTest.txt";
+		Path voucherFilePath = Paths.get(currentFolder, fileName);
+
+		File file = new File(voucherFilePath.toString());
+		if (file.exists()) {
+			if (file.delete()) {
+				System.out.println("Existing file deleted successfully.");
+			} else {
+				System.out.println("Failed to delete the existing file.");
+			}
+		}
+
 		FileIO fileIO = getFileIO(voucherFilePath);
 		ObjectMapper objectMapper = new ObjectMapper();
 		VoucherRepository voucherRepository = new FileVoucherRepository(objectMapper, fileIO);
@@ -76,24 +88,5 @@ class FileVoucherRepositoryTest {
 
 		FileIO fileIO = new FileIO(fileName, dirPath);
 		return fileIO;
-	}
-
-	Path getTestVoucherFilePath() {
-		Path currentFolderPath = Paths.get("");
-		String currentFolder = currentFolderPath.toAbsolutePath().toString();
-		String fileName = "voucherTest.txt";
-
-		return Paths.get(currentFolder, fileName);
-	}
-
-	void deleteFileIfExist(Path voucherFilePath) {
-		File file = new File(voucherFilePath.toString());
-		if (file.exists()) {
-			if (file.delete()) {
-				System.out.println("Existing file deleted successfully.");
-			} else {
-				System.out.println("Failed to delete the existing file.");
-			}
-		}
 	}
 }
