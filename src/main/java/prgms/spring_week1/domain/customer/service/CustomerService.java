@@ -8,6 +8,7 @@ import prgms.spring_week1.domain.customer.repository.CsvRepository;
 import prgms.spring_week1.domain.customer.repository.CustomerRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -32,7 +33,7 @@ public class CustomerService {
     }
 
     public Customer findByEmail(String email){
-        return customerRepository.findByEmail(email).get();
+        return customerRepository.findByEmail(email);
     }
 
     public void updateInfo(String[] updateEmailInfo){

@@ -3,6 +3,7 @@ package prgms.spring_week1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.Customer;
 import prgms.spring_week1.domain.customer.service.CustomerService;
@@ -91,7 +92,7 @@ public class CommandLine implements CommandLineRunner {
             switch (menuName) {
                 case INSERT -> customerService.insert(input.inputCustomerInfo());
                 case FIND_ALL -> printAllCustomer(customerService.findAll());
-                case FIND_BY_EMAIL -> printCustomerInfo(getCustomerByEmail());
+                case FIND_BY_EMAIL -> getCustomerByEmail();
                 case BLACK -> customerService.getBlackConsumerList();
                 case UPDATE_INFO -> updateCustomerInfo();
                 case DELETE_BY_EMAIL -> customerService.deleteByEmail(input.inputEmail());
@@ -112,8 +113,13 @@ public class CommandLine implements CommandLineRunner {
         output.printAllCustomer(customer.getName(), customer.getEmail());
     }
 
-    private Customer getCustomerByEmail() {
-        return customerService.findByEmail(input.inputEmail());
+    private void getCustomerByEmail() {
+        try {
+            Customer customer = customerService.findByEmail(input.inputEmail());
+            printCustomerInfo(customer);
+        }catch (EmptyResultDataAccessException e){
+            System.out.println("조회 된 회원이 없습니다.");
+        }
     }
 
     private void updateCustomerInfo() {
