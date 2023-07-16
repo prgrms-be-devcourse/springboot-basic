@@ -9,11 +9,7 @@
   <title>KDT - New Voucher</title>
 </head>
 <body class="container-fluid">
-  <h1>KDT Spring App</h1>
-  <img th:src="@{/img/bg.png}" />
-  <img th:src="@{/bg.png}" />
-  <img th:src="@{/img/logo_small.png}" />
-  <h2>New Voucher</h2>
+  <h1>CREATE Voucher Page</h1>
   <form th:action="@{/vouchers/new}" method="post">
     <div class="form-group">
       <label for="inputAmount">amount</label>
@@ -27,7 +23,9 @@
         <option value=2>PercentDiscountVoucher</option>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
   </form>
 </body>
 </html>
