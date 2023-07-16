@@ -28,8 +28,8 @@ public class VoucherController {
         voucherService.deleteVouchers();
     }
 
-    public VoucherDTO searchById(UUID voucherId) {
-        return voucherService.searchById(voucherId);
+    public VoucherDTO search(UUID voucherId) {
+        return voucherService.search(voucherId);
     }
 
     public VoucherDTO update(UUID voucherId, VoucherType voucherType, long discountValue) {

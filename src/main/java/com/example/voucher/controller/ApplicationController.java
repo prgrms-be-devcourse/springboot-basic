@@ -81,7 +81,7 @@ public class ApplicationController implements CommandLineRunner {
         }
 
         try {
-            VoucherDTO selectedVoucher = voucherController.searchById(voucherId);
+            VoucherDTO selectedVoucher = voucherController.search(voucherId);
             console.displayVoucherInfo(selectedVoucher);
 
         } catch (Exception e) {

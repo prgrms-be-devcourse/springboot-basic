@@ -68,11 +68,11 @@ class VoucherServiceTest {
     @DisplayName("바우처 아이디를 입력해 searchById 메서드를 수행하면 바우처 조회가 수행되고 id를 식별자로 같은 바우처 정보의 DTO가 반환된다.")
     @ParameterizedTest
     @MethodSource("voucherData")
-    void searchById(UUID voucherId, VoucherType voucherType, long discountValue) {
+    void search(UUID voucherId, VoucherType voucherType, long discountValue) {
         Voucher voucher = voucherType.createVoucher(voucherId, discountValue);
         when(voucherRepository.findById(voucherId)).thenReturn(voucher);
 
-        VoucherDTO result = voucherService.searchById(voucherId);
+        VoucherDTO result = voucherService.search(voucherId);
 
         verify(voucherRepository, times(1)).findById(voucherId);
         assertEquals(voucher.getVoucherId(), result.voucherId());

@@ -41,7 +41,7 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public VoucherDTO searchById(UUID voucherId) {
+    public VoucherDTO search(UUID voucherId) {
         Voucher selectedVoucher = voucherRepository.findById(voucherId);
 
         return toDTO(selectedVoucher);
