@@ -96,7 +96,11 @@ public class ConsoleApplicationView {
         // 최소 금액 입력
         console.print(INPUT_MINIMUM_PRICE_CONDITION);
         String minimumPriceConditionInput = console.inputLine();
-        return NumberParser.parseToMinimumPriceCondition(minimumPriceConditionInput);
+        try {
+            return NumberParser.parseToLong(minimumPriceConditionInput);
+        } catch (IllegalArgumentException e) {
+            return 0;
+        }
     }
 
     public LocalDateTime inputExpiredAt() throws IOException {
@@ -110,7 +114,7 @@ public class ConsoleApplicationView {
         // 할인액 or 할인율 입력
         console.print(INPUT_AMOUNT_OR_PERCENT);
         String amountOrPercentInput = console.inputLine();
-        return NumberParser.parseToAmountOrPercent(amountOrPercentInput);
+        return NumberParser.parseToInt(amountOrPercentInput);
     }
 
     public void printCreatedVoucher(VoucherResponse response) throws IOException {

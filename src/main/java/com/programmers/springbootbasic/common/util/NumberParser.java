@@ -7,15 +7,15 @@ public final class NumberParser {
     private NumberParser() {
     }
 
-    public static Long parseToMinimumPriceCondition(String input) {
+    public static Long parseToLong(String input) {
         try {
             return Long.parseLong(input);
         } catch (NumberFormatException e) {
-            return ZERO;
+            throw new IllegalArgumentException(INVALID_NUMBER + input);
         }
     }
 
-    public static int parseToAmountOrPercent(String input) {
+    public static int parseToInt(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
