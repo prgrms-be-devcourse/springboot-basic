@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,51 +35,54 @@ public class RestWebVoucherController {
         long amount = request.amount();
         VoucherResponse voucher = voucherService.createVoucher(type, amount);
 
-        return ResponseEntity.ok().body(voucher);
+        return ResponseEntity
+                .ok()
+                .body(voucher);
     }
 
     @GetMapping("/{voucherId}")
     public ResponseEntity<VoucherResponse> findById(@PathVariable UUID voucherId) {
         VoucherResponse response = voucherService.findById(voucherId);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity
+                .ok()
+                .body(response);
     }
 
-    // 쿼리파라미터를 이용해서 검색해야하나?
-    @GetMapping("/type/{typeId}")
-    public ResponseEntity<List<VoucherResponse>> findByType(@PathVariable Integer typeId) {
-        List<VoucherResponse> response = voucherService.findByType(typeId);
+    @GetMapping
+    public ResponseEntity<List<VoucherResponse>> findVoucher(@RequestParam(required = false)
+                                                            String type,
+                                                             @RequestParam(required = false)
+                                                            String date) {
+        if (type != null && date == null) {
+            VoucherType voucherType = VoucherType.resolveType(type);
+            List<VoucherResponse> response = voucherService.findByType(voucherType);
 
-        return ResponseEntity.ok().body(response);
-    }
-
-    @GetMapping("/date/{createdAt}")
-    public ResponseEntity<List<VoucherResponse>> findByDate(@PathVariable String createdAt) {
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        try {
-            Date parsedDate = inputFormat.parse(createdAt);
-            String formattedDate = outputFormat.format(parsedDate);
-            List<VoucherResponse> response = voucherService.findByDate(formattedDate);
-
-            return ResponseEntity.ok().body(response);
-        } catch (ParseException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity
+                    .ok()
+                    .body(response);
         }
-    }
+        if (type == null && date != null) {
+            List<VoucherResponse> response = voucherService.findByDate(date);
 
-    @GetMapping("/all")
-    public ResponseEntity<List<VoucherResponse>> findAll() {
-        List<VoucherResponse> responses = voucherService.listAllVoucher();
+            return ResponseEntity
+                    .ok()
+                    .body(response);
+        }
 
-        return ResponseEntity.ok().body(responses);
+        List<VoucherResponse> responses = voucherService.findAllVoucher();
+
+        return ResponseEntity
+                .ok()
+                .body(responses);
     }
 
     @DeleteMapping("/{voucherId}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID voucherId) {
         voucherService.deleteById(voucherId);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }

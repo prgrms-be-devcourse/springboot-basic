@@ -42,23 +42,23 @@ public class VoucherService {
         return VoucherResponse.of(createdVoucher);
     }
 
-    public List<VoucherResponse> findByType(Integer typeId) {
-        List<Voucher> response = voucherRepository.findByType(typeId);
+    public List<VoucherResponse> findByType(VoucherType type) {
+        List<Voucher> response = voucherRepository.findByType(type);
 
         return response.stream()
                 .map(VoucherResponse::of)
                 .toList();
     }
 
-    public List<VoucherResponse> findByDate(String formattedDate) {
-        List<Voucher> response = voucherRepository.findByDate(formattedDate);
+    public List<VoucherResponse> findByDate(String date) {
+        List<Voucher> response = voucherRepository.findByDate(date);
 
         return response.stream()
                 .map(VoucherResponse::of)
                 .toList();
     }
 
-    public List<VoucherResponse> listAllVoucher() {
+    public List<VoucherResponse> findAllVoucher() {
         logger.info("생성된 바우처를 조회합니다...");
         List<Voucher> vouchers = voucherRepository.listAll();
 

@@ -1,6 +1,7 @@
 package kr.co.programmers.springbootbasic.voucher.repository.impl;
 
 import kr.co.programmers.springbootbasic.voucher.domain.Voucher;
+import kr.co.programmers.springbootbasic.voucher.domain.VoucherType;
 import kr.co.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByType(Integer typeId) {
+    public List<Voucher> findByType(VoucherType type) {
         return null;
     }
 

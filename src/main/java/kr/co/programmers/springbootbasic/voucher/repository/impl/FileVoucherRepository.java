@@ -62,7 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByType(Integer typeId) {
+    public List<Voucher> findByType(VoucherType type) {
         return null;
     }
 

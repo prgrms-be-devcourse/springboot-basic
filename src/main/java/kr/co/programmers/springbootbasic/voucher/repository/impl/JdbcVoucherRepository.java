@@ -16,6 +16,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -76,19 +79,30 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByType(Integer typeId) {
+    public List<Voucher> findByType(VoucherType type) {
+        Integer typeId = type.getTypeId();
+
         return jdbcTemplate.query(FIND_VOUCHER_BY_TYPE_ID,
                 voucherRowMapper(),
                 typeId);
     }
 
     @Override
-    public List<Voucher> findByDate(String formattedDate) {
-        String condition = "%" + formattedDate + "%";
+    public List<Voucher> findByDate(String date) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        return jdbcTemplate.query(FIND_VOUCHER_BY_CREATED_AT,
-                voucherRowMapper(),
-                condition);
+        try {
+            Date parsedDate = inputFormat.parse(date);
+            String formattedDate = outputFormat.format(parsedDate);
+            String condition = "%" + formattedDate + "%";
+
+            return jdbcTemplate.query(FIND_VOUCHER_BY_CREATED_AT,
+                    voucherRowMapper(),
+                    condition);
+        } catch (ParseException e) {
+            throw new VoucherFailException("잘못된 형태의 날짜를 입력하셨습니다.");
+        }
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

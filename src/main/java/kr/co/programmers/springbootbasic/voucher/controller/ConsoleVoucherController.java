@@ -49,7 +49,7 @@ public class ConsoleVoucherController {
     }
 
     private void listAllVoucher() {
-        List<VoucherResponse> voucherDtos = voucherService.listAllVoucher();
+        List<VoucherResponse> voucherDtos = voucherService.findAllVoucher();
         outputConsole.printVoucherListMessage(voucherDtos);
     }
 
