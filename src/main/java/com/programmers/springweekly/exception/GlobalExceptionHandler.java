@@ -6,12 +6,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
-@ControllerAdvice
+// @ControllerAdvice
 public class GlobalExceptionHandler {
 
     final static String ERROR_MSG = "errorMsg";
@@ -79,7 +78,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(Exception e, Model model) {
         log.error("GlobalExceptionHandler - Exception 발생, 개발자가 잡지 못한 예외 {}", e.getMessage(), e);
         model.addAttribute(ERROR_MSG, e.getMessage());
@@ -87,5 +86,5 @@ public class GlobalExceptionHandler {
 
         return ERROR_PAGE;
     }
-    
+
 }
