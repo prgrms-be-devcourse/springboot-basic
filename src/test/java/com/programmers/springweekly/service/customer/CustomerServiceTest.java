@@ -24,7 +24,7 @@ public class CustomerServiceTest {
     private CustomerService customerService;
 
     @Test
-    @DisplayName("고객을 생성하여 저장할 수 있다.")
+    @DisplayName("고객을 저장할 수 있다.")
     void save() {
         // given
         CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
@@ -43,7 +43,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("저장된 고객을 업데이트 할 수 있다.")
+    @DisplayName("고객의 정보를 업데이트 할 수 있다.")
     void update() {
         // given
         CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
@@ -72,7 +72,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("모든 고객을 조회할 수 있다.")
+    @DisplayName("모든 고객들을 조죄할 수 있다.")
     void finaAll() {
         // given
         CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()
@@ -105,7 +105,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("고객중 타입이 블랙리스트인 고객을 조회할 수 있다.")
+    @DisplayName("고객 타입이 블랙리스트인 고객들을 조죄할 수 있다.")
     void getBlackList() {
         // given
         CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()
@@ -138,7 +138,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("고객을 찾아 저장소에서 삭제할 수 있다.")
+    @DisplayName("고객 아이디로 고객을 삭제할 수 있다.")
     void deleteById() {
         // given
         CustomerCreateRequest customerCreateRequest = CustomerCreateRequest.builder()
@@ -160,7 +160,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("저장소에서 모든 고객을 삭제할 수 있다.")
+    @DisplayName("모든 고객을 삭제할 수 있다.")
     void deleteAll() {
         // given
         CustomerCreateRequest customerCreateRequest1 = CustomerCreateRequest.builder()
@@ -192,4 +192,5 @@ public class CustomerServiceTest {
         // then
         assertThat(customerListAfter.getCustomerList().size()).isEqualTo(0);
     }
+
 }

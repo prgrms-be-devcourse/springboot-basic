@@ -8,18 +8,17 @@ import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.view.Console;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class ConsoleCustomer {
 
     private final CustomerController customerController;
     private final Console console;
 
-    public void run() {
+    public void menu() {
         console.outputCustomerMenuGuide();
         CustomerMenu customerMenu = CustomerMenu.from(console.inputMessage());
 
@@ -34,26 +33,35 @@ public class ConsoleCustomer {
     }
 
     private void selectCustomer() {
-        CustomerListResponse customerList = customerController.findAll();
+        CustomerListResponse customerListResponse = customerController.findAll();
 
-        if (customerList.getCustomerList().isEmpty()) {
+        if (CollectionUtils.isEmpty(customerListResponse.getCustomerList())) {
             console.outputErrorMessage("고객이 저장되어 있지 않습니다.");
             return;
         }
 
-        console.outputGetCustomerList(customerList);
+        console.outputGetCustomerList(customerListResponse);
     }
 
     private void deleteCustomer() {
-        console.outputUUIDGuide();
+        console.outputCustomerUUIDGuide();
         UUID customerId = console.inputUUID();
 
-        customerController.deleteById(customerId);
+        if (!customerController.existById(customerId)) {
+            console.outputErrorMessage(customerId + " 찾는 고객이 존재하지 않습니다.");
+            return;
+        }
+
+        if (customerController.deleteById(customerId) == 0) {
+            console.outputErrorMessage(customerId + " 입력하신 고객은 없는 고객이므로 삭제할 수 없습니다.");
+            return;
+        }
+
         console.outputCompleteGuide();
     }
 
     private void updateCustomer() {
-        console.outputUUIDGuide();
+        console.outputCustomerUUIDGuide();
         UUID customerId = console.inputUUID();
 
         console.outputCustomerUpdateGuide();
@@ -71,13 +79,14 @@ public class ConsoleCustomer {
     }
 
     private void getBlackList() {
-        CustomerListResponse customerBlacklist = customerController.getBlackList();
+        CustomerListResponse customerBlacklistResponse = customerController.getBlackList();
 
-        if (customerBlacklist.getCustomerList().isEmpty()) {
+        if (CollectionUtils.isEmpty(customerBlacklistResponse.getCustomerList())) {
             console.outputErrorMessage("블랙 리스트인 고객이 없습니다.");
             return;
         }
 
-        console.outputGetCustomerList(customerBlacklist);
+        console.outputGetCustomerList(customerBlacklistResponse);
     }
+
 }

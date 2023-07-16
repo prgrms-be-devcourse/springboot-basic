@@ -1,20 +1,21 @@
 package com.programmers.springweekly.domain.voucher;
 
+import com.programmers.springweekly.util.validator.VoucherValidator;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final long discountPercent;
+    private final long discountAmount;
 
-    public PercentDiscountVoucher(long discountPercent) {
-        this.voucherId = UUID.randomUUID();
-        this.discountPercent = discountPercent;
-    }
+    public PercentDiscountVoucher(UUID voucherId, long discountAmount) {
+        VoucherValidator.validateVoucher(
+                VoucherType.PERCENT,
+                String.valueOf(discountAmount)
+        );
 
-    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
         this.voucherId = voucherId;
-        this.discountPercent = discountPercent;
+        this.discountAmount = discountAmount;
     }
 
     @Override
@@ -24,16 +25,17 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return (long) (beforeDiscount - beforeDiscount * ((double) discountPercent / 100));
+        return (long) (beforeDiscount - beforeDiscount * ((double) discountAmount / 100));
     }
 
     @Override
     public long getVoucherAmount() {
-        return discountPercent;
+        return discountAmount;
     }
 
     @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT;
     }
+
 }

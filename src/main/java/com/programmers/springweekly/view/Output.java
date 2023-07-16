@@ -1,9 +1,9 @@
 package com.programmers.springweekly.view;
 
-import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
-import java.util.Map;
-import java.util.UUID;
+import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
+import com.programmers.springweekly.dto.wallet.response.WalletResponse;
+import com.programmers.springweekly.dto.wallet.response.WalletsResponse;
 
 public interface Output {
 
@@ -15,13 +15,24 @@ public interface Output {
 
     void outputExitMessage();
 
-    void outputGetVoucherAll(Map<UUID, Voucher> voucherMap);
+    void outputGetVoucherAll(VoucherListResponse voucherListResponse);
+
+
+    void outputVoucherUpdateGuide();
 
     void outputGetCustomerList(CustomerListResponse customerList);
 
+    void outputGetWalletList(WalletsResponse walletList);
+
+    void outputGetWalletListByVoucher(WalletsResponse walletList);
+
+    void outputGetWallet(WalletResponse wallet);
+
     void outputErrorMessage(String errorText);
 
-    void outputUUIDGuide();
+    void outputCustomerUUIDGuide();
+
+    void outputVoucherUUIDGuide();
 
     void outputCustomerUpdateGuide();
 
@@ -33,6 +44,17 @@ public interface Output {
 
     void outputCustomerMenuGuide();
 
-    void outputVoucherMenu();
+    void outputVoucherMenuGuide();
 
+    void outputWalletMenuGuide();
+
+    void outputWalletCustomerUUIDGuide();
+
+    void outputWalletVoucherUUIDGuide();
+
+    void outputWalletUUIDGuide();
+
+    void outputWalletCustomerUUIDToFind();
+
+    void outputWalletVoucherUUIDToFind();
 }

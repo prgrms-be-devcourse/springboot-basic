@@ -1,12 +1,23 @@
 package com.programmers.springweekly.repository.voucher;
 
 import com.programmers.springweekly.domain.voucher.Voucher;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
 
-    void save(Voucher voucher);
+    Voucher save(Voucher voucher);
 
-    Map<UUID, Voucher> getList();
+    void update(Voucher voucher);
+
+    Optional<Voucher> findById(UUID voucherId);
+
+    List<Voucher> findAll();
+
+    int deleteById(UUID voucherId);
+
+    void deleteAll();
+
+    boolean existById(UUID voucherId);
 }

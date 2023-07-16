@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
 import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
 import com.programmers.springweekly.domain.voucher.Voucher;
-import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,48 +21,47 @@ public class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("메모리 저장소에 고정 할인 바우처가 정상적으로 등록된다.")
+    @DisplayName("메모리 저장소에 고정 할인 바우처를 생성하여 저장할 수 있다.")
     void saveFixedVoucherToMemoryRepository() {
         // given
-        Voucher voucher = new FixedAmountVoucher(1000);
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new FixedAmountVoucher(voucherId, 1000);
 
         // when
         voucherRepository.save(voucher);
+        Voucher voucherActual = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
 
         // then
-        assertThat(voucherRepository.getList().get(voucher.getVoucherId()))
-                .isEqualTo(voucher);
+        assertThat(voucherActual)
+                .usingRecursiveComparison().isEqualTo(voucher);
     }
 
     @Test
-    @DisplayName("메모리 저장소에 퍼센트 할인 바우처가 정상적으로 등록된다.")
+    @DisplayName("메모리 저장소에 퍼센트 할인 바우처를 샹송허요 저장할 수 있다.")
     void savePercentVoucherToMemoryRepository() {
         // given
-        Voucher voucher = new PercentDiscountVoucher(100);
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new PercentDiscountVoucher(voucherId, 100);
 
         // when
         voucherRepository.save(voucher);
+        Voucher voucherActual = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("찾는 바우처가 없습니다."));
 
         // then
-        assertThat(voucherRepository.getList().get(voucher.getVoucherId()))
-                .isEqualTo(voucher);
+        assertThat(voucherActual)
+                .usingRecursiveComparison().isEqualTo(voucher);
     }
 
     @Test
-    @DisplayName("메모리 저장소에 여러 바우처를 등록했을 때 정상적으로 바우처 리스트를 가져온다.")
+    @DisplayName("메모리 저장소에 여러 바우처를 생성하여 저장했을 때 저장된 모든 바우처를 가져올 수 있다.")
     void getVoucherList() {
         // given
-        Voucher voucher1 = new FixedAmountVoucher(1000);
-        Voucher voucher2 = new FixedAmountVoucher(500);
-        Voucher voucher3 = new PercentDiscountVoucher(50);
-        Voucher voucher4 = new PercentDiscountVoucher(30);
-
-        Map<UUID, Voucher> vouchers = Map.of(
-                voucher1.getVoucherId(), voucher1,
-                voucher2.getVoucherId(), voucher2,
-                voucher3.getVoucherId(), voucher3,
-                voucher4.getVoucherId(), voucher4
-        );
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 500);
+        Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 50);
+        Voucher voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 30);
 
         // when
         voucherRepository.save(voucher1);
@@ -71,6 +70,7 @@ public class MemoryVoucherRepositoryTest {
         voucherRepository.save(voucher4);
 
         // then
-        assertThat(voucherRepository.getList()).isEqualTo(vouchers);
+        assertThat(voucherRepository.findAll()).contains(voucher1, voucher2, voucher3, voucher4);
     }
+
 }
