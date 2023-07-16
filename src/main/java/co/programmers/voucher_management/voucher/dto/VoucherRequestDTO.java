@@ -17,7 +17,8 @@ import lombok.Setter;
 public class VoucherRequestDTO {
 	private String discountType;
 	private Integer discountAmount;
-	public Voucher mapToVoucher(){
+
+	public Voucher mapToVoucher() {
 		String discountType = getDiscountType();
 		int discountAmount = getDiscountAmount();
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);

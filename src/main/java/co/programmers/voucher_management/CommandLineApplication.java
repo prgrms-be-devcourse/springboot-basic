@@ -1,5 +1,7 @@
 package co.programmers.voucher_management;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -50,14 +52,9 @@ public class CommandLineApplication implements CommandLineRunner {
 		outputView.print(menuDescription);
 		String commandNum = inputView.input();
 		switch (userInput) {
-			case "1":
-				voucherController.executeVoucherMenu(commandNum);
-				break;
-			case "2":
-				customerController.executeCustomerMenu(commandNum);
-				break;
-			default:
-				throw new InvalidDataException("Unsupported menu");
+			case "1" -> voucherController.executeVoucherMenu(commandNum);
+			case "2" -> customerController.executeCustomerMenu(commandNum);
+			default -> throw new InvalidDataException(INVALID_MENU);
 		}
 	}
 }

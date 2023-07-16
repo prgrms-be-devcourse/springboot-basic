@@ -1,10 +1,13 @@
 package co.programmers.voucher_management.exception;
 
-public class EmptyAssignerException extends RuntimeException {
-	public EmptyAssignerException() {
-	}
+import lombok.Getter;
 
-	public EmptyAssignerException(String message) {
-		super(message);
+@Getter
+public class EmptyAssignerException extends RuntimeException {
+	private final ErrorCode errorCode;
+
+	public EmptyAssignerException(ErrorCode errorCode) {
+		super(errorCode.getMessage());
+		this.errorCode = errorCode;
 	}
 }

@@ -1,5 +1,7 @@
 package co.programmers.voucher_management.customer.entity;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import java.util.regex.Pattern;
 
 import co.programmers.voucher_management.exception.InvalidDataException;
@@ -20,7 +22,6 @@ public class Customer {
 	public Customer(long id, String name, Rating rating, String phoneNumber) {
 		validatePhoneNumber(phoneNumber);
 		validateName(name);
-		// validateRating(rating);
 
 		this.id = id;
 		this.name = name;
@@ -32,14 +33,14 @@ public class Customer {
 	private void validateName(String name) {
 		if (!NAME_FORMAT.matcher(name)
 				.matches()) {
-			throw new InvalidDataException();
+			throw new InvalidDataException(INVALID_NAME);
 		}
 	}
 
 	private void validatePhoneNumber(String phoneNumber) {
 		if (!PHONE_NUM_FORMAT.matcher(phoneNumber)
 				.matches()) {
-			throw new InvalidDataException();
+			throw new InvalidDataException(INVALID_PHONE_NUMBER);
 		}
 	}
 
@@ -56,6 +57,6 @@ public class Customer {
 
 	public enum Rating {
 		NORMAL,
-		BLACKLIST;
+		BLACKLIST
 	}
 }

@@ -8,13 +8,13 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -23,9 +23,9 @@ import org.springframework.stereotype.Repository;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
-import co.programmers.voucher_management.voucher.entity.Status;
 import co.programmers.voucher_management.customer.entity.Customer;
 import co.programmers.voucher_management.voucher.entity.DiscountStrategy;
+import co.programmers.voucher_management.voucher.entity.Status;
 import co.programmers.voucher_management.voucher.entity.Voucher;
 import co.programmers.voucher_management.voucher.service.DiscountTypeGenerator;
 
@@ -42,7 +42,6 @@ public class VoucherFileRepository implements VoucherRepository {
 		voucherCount = getVoucherCount();
 	}
 
-
 	@Override
 	public Voucher create(Voucher voucher) {
 		String id = assignId();
@@ -52,7 +51,9 @@ public class VoucherFileRepository implements VoucherRepository {
 		Status status = Status.NORMAL;
 		String createdAt = LocalDateTime.now().toString();
 		String updatedAt = createdAt;
+
 		String[] dataToWrite = {id, discountType, amount, customerId, status.toString(), createdAt, updatedAt};
+
 		try (CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath, true))) {
 			csvWriter.writeNext(dataToWrite);
 			voucherCount++;
@@ -72,21 +73,22 @@ public class VoucherFileRepository implements VoucherRepository {
 	public List<Voucher> findAll() {
 		try (Reader reader = Files.newBufferedReader(path);
 			 CSVReader csvReader = new CSVReader(reader)) {
-			List<Voucher> vouchers = new ArrayList<>();
 			List<String[]> file = csvReader.readAll();
+
 			return file.stream()
-					.filter(line->line[VoucherProperty.STATUS.index].equals(NORMAL.toString()))
+					.filter(line -> line[VoucherProperty.STATUS.index].equals(NORMAL.toString()))
 					.map(this::mapToVoucher)
-					.collect(Collectors.toList());
+					.toList();
 		} catch (IOException ioException) {
 			throw new RuntimeException("file reader failed");
 		}
 	}
-	Voucher mapToVoucher(String[] fileLine){
+
+	Voucher mapToVoucher(String[] fileLine) {
 		long id = Long.parseLong(fileLine[VoucherProperty.ID.index()]);
 		String discountType = fileLine[VoucherProperty.DISCOUNT_TYPE.index()];
-		int discountAmount = Integer.parseInt(
-				fileLine[VoucherProperty.DISCOUNT_AMOUNT.index()]);
+		int discountAmount = Integer.parseInt(fileLine[VoucherProperty.DISCOUNT_AMOUNT.index()]);
+
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
 		long customerId = Long.parseLong(fileLine[VoucherProperty.CUSTOMER_ID.index()]);
 		String statusExpression = fileLine[VoucherProperty.STATUS.index()];
@@ -100,16 +102,23 @@ public class VoucherFileRepository implements VoucherRepository {
 		String[] fileLine;
 		try (Reader reader = Files.newBufferedReader(path);
 			 CSVReader csvReader = new CSVReader(reader)) {
+
 			while ((fileLine = csvReader.readNext()) != null) {
 				long idCompared = Long.parseLong(fileLine[VoucherProperty.ID.index]);
 				if (idCompared == id) {
 					return Optional.of(mapToVoucher(fileLine));
 				}
 			}
+
 		} catch (IOException ioException) {
 			throw new RuntimeException("file reader failed");
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public List<Voucher> findByDate(LocalDate startDate, LocalDate endDate) {
+		return findAll();
 	}
 
 	@Override
@@ -125,8 +134,10 @@ public class VoucherFileRepository implements VoucherRepository {
 	public Voucher assignCustomer(Voucher voucher, Customer customer) {
 		long id = voucher.getId();
 		long customerId = customer.getId();
+
 		deleteById(id);
 		voucher.assignCustomer(customerId);
+
 		return voucher;
 	}
 
@@ -145,12 +156,31 @@ public class VoucherFileRepository implements VoucherRepository {
 	private List<Voucher> findByCustomerId(List<String[]> vouchers, long customerId) {
 		List<Voucher> foundVouchers = new ArrayList<>();
 		for (String[] voucher : vouchers) {
-			long CustomerIdCompared = Long.parseLong(voucher[VoucherProperty.CUSTOMER_ID.index]);
-			if (CustomerIdCompared == customerId) {
+			long customerIdCompared = Long.parseLong(voucher[VoucherProperty.CUSTOMER_ID.index]);
+			if (customerIdCompared == customerId) {
 				foundVouchers.add(mapToVoucher(voucher));
 			}
 		}
 		return foundVouchers;
+	}
+
+	@Override
+	public List<Voucher> findByType(String discountType) {
+		List<String[]> vouchers;
+		try (Reader reader = Files.newBufferedReader(path);
+			 CSVReader csvReader = new CSVReader(reader)) {
+			vouchers = csvReader.readAll();
+			return findByType(vouchers, discountType);
+		} catch (IOException ioException) {
+			throw new RuntimeException("file reader failed");
+		}
+	}
+
+	private List<Voucher> findByType(List<String[]> vouchers, String discountType) {
+		return vouchers.stream()
+				.filter(voucher -> discountType.equals(voucher[VoucherProperty.CUSTOMER_ID.index]))
+				.map(this::mapToVoucher)
+				.toList();
 	}
 
 	@Override
@@ -159,6 +189,7 @@ public class VoucherFileRepository implements VoucherRepository {
 		vouchers.stream()
 				.filter(voucher -> voucher.getId() == id)
 				.forEach(Voucher::delete);
+
 		try (CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath, false))) {
 			vouchers.stream()
 					.map(voucher -> new String[] {

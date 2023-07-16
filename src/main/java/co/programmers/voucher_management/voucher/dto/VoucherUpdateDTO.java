@@ -15,7 +15,7 @@ public class VoucherUpdateDTO {
 	private String discountType;
 	private Integer discountAmount;
 
-	public Voucher mapToVoucher(){
+	public Voucher mapToVoucher() {
 		DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, discountAmount);
 		return new Voucher(id, discountStrategy);
 	}

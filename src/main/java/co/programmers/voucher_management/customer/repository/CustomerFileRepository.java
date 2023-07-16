@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Repository;
 
 import com.opencsv.CSVReader;
 
-import co.programmers.voucher_management.customer.entity.Status;
 import co.programmers.voucher_management.customer.entity.Customer;
+import co.programmers.voucher_management.customer.entity.Status;
 
 @Repository
 @Profile("file")
@@ -35,10 +34,11 @@ public class CustomerFileRepository implements CustomerRepository {
 		try (Reader reader = Files.newBufferedReader(path);
 			 CSVReader csvReader = new CSVReader(reader)) {
 			List<String[]> customers = csvReader.readAll();
+
 			return customers.stream()
 					.filter(fileLine -> ratingToFind.equals(fileLine[ratingIndex]))
 					.map(this::mapToCustomer)
-					.collect(Collectors.toList());
+					.toList();
 		} catch (IOException ioException) {
 			throw new RuntimeException("file reading failed");
 		}
@@ -59,10 +59,12 @@ public class CustomerFileRepository implements CustomerRepository {
 		String[] line;
 		try (Reader reader = Files.newBufferedReader(path);
 			 CSVReader csvReader = new CSVReader(reader)) {
+
 			while ((line = csvReader.readNext()) != null) {
 				long id = Long.parseLong(line[CustomerProperty.ID.index]);
 				String status = line[CustomerProperty.STATUS.index];
 				String normalStatus = String.valueOf(Status.NORMAL);
+
 				if ((customerId == id) && (status.equals(normalStatus))) {
 					return Optional.of(mapToCustomer(line));
 				}
@@ -82,12 +84,12 @@ public class CustomerFileRepository implements CustomerRepository {
 
 		final int index;
 
-		public int index() {
-			return index;
-		}
-
 		CustomerProperty(int index) {
 			this.index = index;
+		}
+
+		public int index() {
+			return index;
 		}
 
 	}

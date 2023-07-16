@@ -1,8 +1,10 @@
 package co.programmers.voucher_management.voucher.repository;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +32,8 @@ public class VoucherDBRepository implements VoucherRepository {
 	private static final String SELECT_BY_CUSTOMER_QUERY = "SELECT id,discount_type, discount_amount, customer_id FROM voucher WHERE status='Y' AND customer_id=:customer_id";
 	private static final String DELETE_QUERY = "UPDATE voucher SET status='N', updated_at=:updated_at WHERE id=:id";
 	private static final String UPDATE_CUSTOMER_QUERY = "UPDATE voucher SET customer_id=:customer_id, updated_at=:updated_at WHERE id=:id";
+	private static final String SELECT_BY_TYPE_QUERY = "SELECT id,discount_type, discount_amount, customer_id FROM voucher WHERE status='Y' AND discount_type =:discount_type";
+	private static final String SELECT_BY_DATE_QUERY = "SELECT id,discount_type, discount_amount, customer_id FROM voucher WHERE status='Y' AND (:start_date <= updated_at AND updated_at <= :end_date)";
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 	private final RowMapper<Voucher> voucherRowMapper = (rs, i) -> mapToVoucher(rs);
 
@@ -68,9 +72,23 @@ public class VoucherDBRepository implements VoucherRepository {
 	}
 
 	@Override
+	public List<Voucher> findByType(String discountType) {
+		MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource().addValue("discount_type",
+				discountType);
+		return jdbcTemplate.query(SELECT_BY_TYPE_QUERY, mapSqlParameterSource, voucherRowMapper);
+	}
+
+	@Override
+	public List<Voucher> findByDate(LocalDate startDate, LocalDate endDate) {
+		MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+				.addValue("start_date", startDate)
+				.addValue("end_date", endDate);
+		return jdbcTemplate.query(SELECT_BY_DATE_QUERY, mapSqlParameterSource, voucherRowMapper);
+	}
+
+	@Override
 	public void deleteById(long id) {
-		findById(id).orElseThrow(
-				() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id)));
+		findById(id).orElseThrow(() -> new NoSuchDataException(VOUCHER_NOT_FOUND));
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 				.addValue("updated_at", LocalDateTime.now())
 				.addValue("id", id);
@@ -80,10 +98,11 @@ public class VoucherDBRepository implements VoucherRepository {
 	@Override
 	public Voucher update(Voucher voucher) {
 		long id = voucher.getId();
-		findById(id).orElseThrow(
-				() -> new NoSuchDataException(MessageFormat.format("No such voucher of id {0}", id)));
+		findById(id).orElseThrow(() -> new NoSuchDataException(VOUCHER_NOT_FOUND));
+
 		String discountType = voucher.getDiscountStrategy().getType();
 		int discountAmount = voucher.getDiscountStrategy().getAmount();
+
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 				.addValue("id", id)
 				.addValue("discount_type", discountType)
@@ -97,6 +116,7 @@ public class VoucherDBRepository implements VoucherRepository {
 	public Voucher assignCustomer(Voucher voucher, Customer customer) {
 		long voucherId = voucher.getId();
 		long customerId = customer.getId();
+
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 				.addValue("id", voucherId)
 				.addValue("updated_at", LocalDateTime.now())
@@ -110,6 +130,7 @@ public class VoucherDBRepository implements VoucherRepository {
 			long id = resultSet.getLong("id");
 			int amount = resultSet.getInt("discount_amount");
 			String discountType = resultSet.getString("discount_type");
+
 			DiscountStrategy discountStrategy = DiscountTypeGenerator.of(discountType, amount);
 			long customerId = resultSet.getLong("customer_id");
 			return Voucher.builder()

@@ -1,7 +1,8 @@
 package co.programmers.voucher_management.voucher.entity;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
+
 import co.programmers.voucher_management.exception.VoucherReassignmentException;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -34,7 +35,7 @@ public class Voucher {
 
 	public void assignCustomer(long customerId) {
 		if (this.customerId > 0) {
-			throw new VoucherReassignmentException("Already assigned voucher");
+			throw new VoucherReassignmentException(DUPLICATED_ASSIGNMENT);
 		}
 		this.customerId = customerId;
 	}

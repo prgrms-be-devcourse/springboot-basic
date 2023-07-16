@@ -1,10 +1,13 @@
 package co.programmers.voucher_management.exception;
 
-public class VoucherReassignmentException extends RuntimeException {
-	public VoucherReassignmentException() {
-	}
+import lombok.Getter;
 
-	public VoucherReassignmentException(String message) {
-		super(message);
+@Getter
+public class VoucherReassignmentException extends RuntimeException {
+	private final ErrorCode errorCode;
+
+	public VoucherReassignmentException(ErrorCode errorCode) {
+		super(errorCode.getMessage());
+		this.errorCode = errorCode;
 	}
 }

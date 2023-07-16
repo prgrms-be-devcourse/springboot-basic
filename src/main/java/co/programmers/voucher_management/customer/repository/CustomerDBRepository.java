@@ -1,5 +1,7 @@
 package co.programmers.voucher_management.customer.repository;
 
+import static co.programmers.voucher_management.customer.entity.Customer.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -11,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import static co.programmers.voucher_management.customer.entity.Customer.Rating;
 import co.programmers.voucher_management.customer.entity.Customer;
 
 @Repository
@@ -38,8 +39,10 @@ public class CustomerDBRepository implements CustomerRepository {
 			long id = resultSet.getLong("id");
 			String name = resultSet.getString("name");
 			String phoneNumber = resultSet.getString("phone_number");
+
 			String ratingExpression = resultSet.getString("rating");
 			Rating rating = Rating.valueOf(ratingExpression);
+
 			return Customer.builder()
 					.id(id)
 					.name(name)

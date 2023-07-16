@@ -1,5 +1,6 @@
 package co.programmers.voucher_management.voucher.entity;
 
+import static co.programmers.voucher_management.exception.ErrorCode.*;
 import static java.lang.Math.*;
 
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ public class FixedDiscount implements DiscountStrategy {
 	private void validate(Integer amount) {
 		if (amount <= 0 || amount >= MAX_AMOUNT) {
 			logger.debug("amount : {}, Amount must be between 0 and {}", amount, MAX_AMOUNT);
-			throw new InvalidDataException("Amount must be between 0 and " + MAX_AMOUNT);
+			throw new InvalidDataException(INVALID_FIXED_AMOUNT);
 		}
 	}
 
