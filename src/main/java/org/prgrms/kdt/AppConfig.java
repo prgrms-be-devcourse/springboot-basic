@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.prgrms.kdt.configuration.YamlPropertiesFactory;
 import org.prgrms.kdt.model.entity.VoucherEntity;
-import org.prgrms.kdt.model.repository.FileIO;
+import org.prgrms.kdt.util.FileIO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

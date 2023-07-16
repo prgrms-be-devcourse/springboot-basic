@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
