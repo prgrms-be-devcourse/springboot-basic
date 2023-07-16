@@ -23,7 +23,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultset, i) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (resultset, i) -> {
         var voucherType = VoucherType.valueOf(resultset.getString("voucher_type"));
         var discount = resultset.getInt("discount");
         return new Voucher(voucherType, discount);

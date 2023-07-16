@@ -28,7 +28,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Customer> customerRowMapper = (resultset, i) -> {
+    private final RowMapper<Customer> customerRowMapper = (resultset, i) -> {
         var name = resultset.getString("name");
         var email = resultset.getString("Email");
         return new Customer(name, new Email(email));
