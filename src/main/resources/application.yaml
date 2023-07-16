@@ -11,7 +11,7 @@ jasypt:
     key-obtention-iterations: 100
 spring:
   datasource:
-    url: ENC(KBi96fDBlKO88/0u9oXdy4h+x62xSRaJBusVGHjRrJE01k7AC1SHpVDR40fKl9WewlOLEgETCk8=)
-    username: ENC(Kf740YACixzwkRIbGr8JBA==)
-    password: ENC(2u4//847O6daPzNU7gwfevf59GACpm2A)
+    url: ENC(VnPYjuns7r1IZCXS4/d9evC0QDwDw6pORpvqUVvxhoA21nkdEy0x3VxPcBkNwbC+)
+    username: ENC(ariKMyHoKiZ0ULrSg9YatA==)
+    password: ENC(bw3uZYpzlOJsdpIjFQzSgDENsaR0PsIW)
     driver-class-name: com.mysql.cj.jdbc.Driver

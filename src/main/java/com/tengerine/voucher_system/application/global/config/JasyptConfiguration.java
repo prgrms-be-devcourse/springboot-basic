@@ -1,0 +1,54 @@
+package com.tengerine.voucher_system.application.global.config;
+
+import com.tengerine.voucher_system.application.global.exception.ErrorMessage;
+import com.tengerine.voucher_system.application.global.exception.InvalidDataException;
+import org.jasypt.encryption.StringEncryptor;
+import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+@Configuration
+public class JasyptConfiguration {
+
+    @Value("${jasypt.encryptor.algorithm}")
+    private String algorithm;
+
+    @Value("${jasypt.encryptor.pool-size}")
+    private int poolSize;
+
+    @Value("${jasypt.encryptor.string-output-type}")
+    private String stringOutputType;
+
+    @Value("${jasypt.encryptor.key-obtention-iterations}")
+    private int keyObtentionIterations;
+
+    @Bean
+    public StringEncryptor jasyptStringEncryptor() {
+        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+        SimpleStringPBEConfig configuration = new SimpleStringPBEConfig();
+        configuration.setAlgorithm(algorithm);
+        configuration.setPoolSize(poolSize);
+        configuration.setStringOutputType(stringOutputType);
+        configuration.setKeyObtentionIterations(keyObtentionIterations);
+        configuration.setPassword(getJasyptEncryptorPassword());
+        encryptor.setConfig(configuration);
+        return encryptor;
+    }
+
+    private String getJasyptEncryptorPassword() {
+        try {
+            ClassPathResource resource = new ClassPathResource("src/main/resources/jasypt-encryptor-password.txt");
+            return String.join("", Files.readAllLines(Paths.get(resource.getPath())));
+        } catch (IOException e) {
+            throw new InvalidDataException(ErrorMessage.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
+        }
+    }
+}
+
