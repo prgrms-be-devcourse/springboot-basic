@@ -47,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var update = jdbcTemplate.update(VoucherManageSql.insertNewVoucherSQL,
                 toParamMap(voucher));
         if (update != 1) {
-            throw new RuntimeException("추가된 바우처가 없습니다.");
+            logger.error("추가된 바우처가 없습니다.");
         }
     }
 
