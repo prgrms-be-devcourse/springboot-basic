@@ -3,7 +3,13 @@ spring:
     url: jdbc:mysql://localhost:3306/kdt
   profiles:
     include: mysql
-
   sql:
     init:
       mode: always
+
+  jackson:
+    xml:
+      enabled: true
+  mvc:
+    converters:
+      preferred-json-mapper: jackson
