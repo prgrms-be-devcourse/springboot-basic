@@ -2,13 +2,11 @@ package com.example.voucher.repository;
 
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
-
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.Voucher;
 
@@ -17,11 +15,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public final QueryBuilder queryBuilder;
-
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.queryBuilder = new QueryBuilder();
     }
 
     @Override
@@ -31,8 +26,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
             .addValue("discountValue", voucher.getValue())
             .addValue("voucherType", voucher.getVoucherType().toString());
 
-        jdbcTemplate.update("INSERT INTO VOUCHER VALUES (:voucherId, :discountValue, :voucherType)", parameterSource);
+        String sql = new QueryBuilder().insertInto("VOUCHER")
+            .values("voucherId", "discountValue", "voucherType")
+            .build();
 
+        jdbcTemplate.update(sql, parameterSource);
         UUID voucherID = voucher.getVoucherId();
 
         return findById(voucherID);
@@ -80,7 +78,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         SqlParameterSource parameterSource = new MapSqlParameterSource();
 
-        String sql = queryBuilder.delete("VOUCHER")
+        String sql = new QueryBuilder()
+            .delete("VOUCHER")
             .build();
 
         jdbcTemplate.update(sql, parameterSource);
