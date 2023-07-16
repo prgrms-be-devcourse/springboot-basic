@@ -4,8 +4,15 @@ public class QueryBuilder {
 
     private StringBuilder query;
 
-    public QueryBuilder(StringBuilder query) {
-        this.query = query;
+    public QueryBuilder() {
+        this.query = new StringBuilder();
+    }
+
+    public QueryBuilder delete(String table) {
+        query.append("DELETE FROM ")
+            .append(table);
+
+        return this;
     }
 
     public String build() {

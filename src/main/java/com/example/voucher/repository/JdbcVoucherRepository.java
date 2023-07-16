@@ -2,11 +2,13 @@ package com.example.voucher.repository;
 
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
+
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.Voucher;
 
@@ -15,8 +17,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    public final QueryBuilder queryBuilder;
+
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.queryBuilder = new QueryBuilder();
     }
 
     @Override
@@ -74,7 +79,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         SqlParameterSource parameterSource = new MapSqlParameterSource();
-        jdbcTemplate.update("DELETE FROM VOUCHER", parameterSource);
+
+        String sql = queryBuilder.delete("VOUCHER")
+            .build();
+
+        jdbcTemplate.update(sql, parameterSource);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
