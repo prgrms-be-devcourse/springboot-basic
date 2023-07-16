@@ -1,0 +1,38 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.header1, .header2, .header3 {
+  margin: 3px 0px;
+  font-weight: bold;
+}
+
+.header1 {
+  font-size: 24px;
+}
+
+.header2 {
+  font-size: 19px;
+}
+
+.header3 {
+  font-size: 22px;
+}
+
+form {
+  width: 400px;
+}
+
+.inputHeader {
+  font-weight: bold;
+  font-size: 14px;
+  width: 100%;
+  margin: 5px 0px;
+}
+
