@@ -2,7 +2,7 @@ package kr.co.programmers.springbootbasic.customer.repository.impl;
 
 import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
-import kr.co.programmers.springbootbasic.customer.domain.impl.JdbcCustomer;
+import kr.co.programmers.springbootbasic.customer.domain.impl.NormalCustomer;
 import kr.co.programmers.springbootbasic.customer.repository.CustomerRepository;
 import kr.co.programmers.springbootbasic.util.ApplicationUtils;
 import org.springframework.context.annotation.Profile;
@@ -119,7 +119,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         CustomerStatus status = CustomerStatus.resolveId(rs.getInt("status_id"));
         UUID walletId = ApplicationUtils.toUUID(rs.getBytes("wallet_id"));
 
-        return new JdbcCustomer(customerId, customerName, status, walletId);
+        return new NormalCustomer(customerId, customerName, status, walletId);
     });
 
     private RowMapper<Customer> customerJoinRowMapper() {
@@ -129,7 +129,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             var statusId = CustomerStatus.resolveId(rs.getInt("c.status_id"));
             var walletId = ApplicationUtils.toUUID(rs.getBytes("c.wallet_id"));
 
-            return new JdbcCustomer(id, name, statusId, walletId);
+            return new NormalCustomer(id, name, statusId, walletId);
         };
     }
 }

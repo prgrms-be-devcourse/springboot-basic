@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @RestController
 @Profile("web")
-@RequestMapping("/v1/voucher")
+@RequestMapping("/v1/vouchers")
 public class RestWebVoucherController {
 
     private final VoucherService voucherService;
@@ -47,6 +47,7 @@ public class RestWebVoucherController {
         return ResponseEntity.ok().body(response);
     }
 
+    // 쿼리파라미터를 이용해서 검색해야하나?
     @GetMapping("/type/{typeId}")
     public ResponseEntity<List<VoucherResponse>> findByType(@PathVariable Integer typeId) {
         List<VoucherResponse> response = voucherService.findByType(typeId);

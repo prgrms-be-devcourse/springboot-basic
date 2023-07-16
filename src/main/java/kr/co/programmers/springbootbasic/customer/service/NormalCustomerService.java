@@ -2,7 +2,7 @@ package kr.co.programmers.springbootbasic.customer.service;
 
 import kr.co.programmers.springbootbasic.customer.domain.Customer;
 import kr.co.programmers.springbootbasic.customer.domain.CustomerStatus;
-import kr.co.programmers.springbootbasic.customer.domain.impl.JdbcCustomer;
+import kr.co.programmers.springbootbasic.customer.domain.impl.NormalCustomer;
 import kr.co.programmers.springbootbasic.customer.dto.CustomerResponse;
 import kr.co.programmers.springbootbasic.customer.exception.NoExistCustomerException;
 import kr.co.programmers.springbootbasic.customer.repository.CustomerRepository;
@@ -33,7 +33,7 @@ public class NormalCustomerService {
         UUID customerId = ApplicationUtils.createUUID();
         CustomerStatus customerStatus = CustomerStatus.WHITE;
         UUID walletId = ApplicationUtils.createUUID();
-        Customer customer = new JdbcCustomer(customerId, customerName, customerStatus, walletId);
+        Customer customer = new NormalCustomer(customerId, customerName, customerStatus, walletId);
         Customer createdCustomer = customerRepository.createCustomer(customer);
 
         return CustomerResponse.of(createdCustomer);
@@ -68,7 +68,7 @@ public class NormalCustomerService {
                     String name = customer.getName();
                     UUID walletId = customer.getWalletId();
 
-                    return new JdbcCustomer(id, name, customerStatus, walletId);
+                    return new NormalCustomer(id, name, customerStatus, walletId);
                 })
                 .orElseThrow(() -> new NoExistCustomerException("업데이트하려는 유저가 존재하지 않습니다."));
         Customer updatedCustomer = customerRepository.update(responseCustomer);

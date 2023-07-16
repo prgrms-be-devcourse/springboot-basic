@@ -50,7 +50,6 @@ public class WebCustomerController {
         String message = customerResponse.formatCustomerResponseDto();
         redirectAttributes.addFlashAttribute("message", message);
 
-
         return "redirect:/customers/success";
     }
 
@@ -69,7 +68,6 @@ public class WebCustomerController {
                 .orElseGet(() -> MessageFormat.format("유저 아이디 : {0}를 가진 유저가 존재하지 않습니다.",
                         customerId));
         redirectAttributes.addFlashAttribute("message", message);
-
 
         return "redirect:/customers/success";
     }
