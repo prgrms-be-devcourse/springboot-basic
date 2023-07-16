@@ -1,6 +1,6 @@
 package com.devcourse.voucher.domain.repository;
 
-import com.devcourse.global.util.Query;
+import com.devcourse.global.util.Sql;
 import com.devcourse.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.devcourse.global.util.Query.Table.VOUCHERS;
+import static com.devcourse.global.util.Sql.Table.VOUCHERS;
 
 @Component
 @Profile("dev")
@@ -35,7 +35,7 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .insertInto(VOUCHERS)
                 .values("id", "discount", "expired_at", "type", "status")
                 .build();
@@ -52,7 +52,7 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .select("*")
                 .from(VOUCHERS)
                 .build();
@@ -62,7 +62,7 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID id) {
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .select("*")
                 .from(VOUCHERS)
                 .where("id")
@@ -77,7 +77,7 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID id) {
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .deleteFrom(VOUCHERS)
                 .where("id")
                 .build();
@@ -87,7 +87,7 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void updateStatus(UUID id, String status) {
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .update(VOUCHERS)
                 .set("status")
                 .where("id")

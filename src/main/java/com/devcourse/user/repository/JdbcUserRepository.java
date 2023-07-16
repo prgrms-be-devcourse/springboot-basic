@@ -1,7 +1,6 @@
 package com.devcourse.user.repository;
 
-import com.devcourse.global.util.Query;
-import com.devcourse.global.util.Query.Table;
+import com.devcourse.global.util.Sql;
 import com.devcourse.user.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.devcourse.global.util.Query.Table.*;
+import static com.devcourse.global.util.Sql.Table.USERS;
 
 @Component
 class JdbcUserRepository implements UserRepository {
@@ -31,7 +30,7 @@ class JdbcUserRepository implements UserRepository {
     @Override
     public UUID save(String name) {
         UUID id = UUID.randomUUID();
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .insertInto(USERS)
                 .values("id", "name")
                 .build();
@@ -42,7 +41,7 @@ class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .select("*")
                 .from(USERS)
                 .build();
@@ -52,7 +51,7 @@ class JdbcUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findById(UUID id) {
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .select("*")
                 .from(USERS)
                 .where("id")
@@ -67,7 +66,7 @@ class JdbcUserRepository implements UserRepository {
 
     @Override
     public void deleteById(UUID id) {
-        String sql = Query.builder()
+        String sql = Sql.builder()
                 .deleteFrom(USERS)
                 .where("id")
                 .build();
@@ -77,7 +76,7 @@ class JdbcUserRepository implements UserRepository {
 
     @Override
     public void update(UUID id, String name) {
-        String sql = Query.builder().
+        String sql = Sql.builder().
                 update(USERS)
                 .set("name")
                 .where("id")
