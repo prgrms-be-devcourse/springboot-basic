@@ -78,7 +78,7 @@ public class CommandLine implements CommandLineRunner {
     private List<Voucher> getVoucherListByType() {
         try {
             return voucherService.findByType(input.inputVoucherType());
-        }catch (NoSuchVoucherTypeException e){
+        } catch (NoSuchVoucherTypeException e) {
             logger.warn(e.getMessage());
             input.printConsoleMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
             return Collections.emptyList();
@@ -91,10 +91,7 @@ public class CommandLine implements CommandLineRunner {
             switch (menuName) {
                 case INSERT -> customerService.insert(input.inputCustomerInfo());
                 case FIND_ALL -> printAllCustomer(customerService.findAll());
-                case FIND_BY_EMAIL -> {
-                    Customer customerInfo = customerService.findByEmail(input.inputEmail());
-                    output.printAllCustomer(customerInfo.getName(), customerInfo.getEmail());
-                }
+                case FIND_BY_EMAIL -> printCustomerInfo(getCustomerByEmail());
                 case BLACK -> customerService.getBlackConsumerList();
                 case UPDATE_INFO -> updateCustomerInfo();
                 case DELETE_BY_EMAIL -> customerService.deleteByEmail(input.inputEmail());
@@ -105,10 +102,18 @@ public class CommandLine implements CommandLineRunner {
         }
     }
 
-    private void printAllCustomer(List<Customer> customerInfo) {
-        for (Customer info : customerInfo) {
-            output.printAllCustomer(info.getName(), info.getEmail());
+    private void printAllCustomer(List<Customer> customerList) {
+        for (Customer customer : customerList) {
+            printCustomerInfo(customer);
         }
+    }
+
+    private void printCustomerInfo(Customer customer) {
+        output.printAllCustomer(customer.getName(), customer.getEmail());
+    }
+
+    private Customer getCustomerByEmail() {
+        return customerService.findByEmail(input.inputEmail());
     }
 
     private void updateCustomerInfo() {
