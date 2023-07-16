@@ -7,7 +7,8 @@ import com.prgms.VoucherApp.domain.voucher.model.VoucherFileDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
@@ -15,12 +16,13 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = {VoucherFileDao.class})
+@JdbcTest
+@Import(VoucherFileDao.class)
 @ActiveProfiles(profiles = "dev")
 public class VoucherFileDaoTest {
 
     @Autowired
-    VoucherFileDao voucherFileDao;
+    private VoucherFileDao voucherFileDao;
 
     @Test
     @DisplayName("고정 비용 할인권 생성 테스트")
@@ -30,7 +32,7 @@ public class VoucherFileDaoTest {
 
         // when
         voucherFileDao.save(fixedVoucher);
-        Voucher findVoucher = voucherFileDao.findByVoucherId(fixedVoucher.getVoucherId()).get();
+        Voucher findVoucher = voucherFileDao.findById(fixedVoucher.getVoucherId()).get();
 
         // then
         assertThat(findVoucher).usingRecursiveComparison().isEqualTo(fixedVoucher);
@@ -44,7 +46,7 @@ public class VoucherFileDaoTest {
 
         // when
         voucherFileDao.save(percentVoucher);
-        Voucher findVoucher = voucherFileDao.findByVoucherId(percentVoucher.getVoucherId()).get();
+        Voucher findVoucher = voucherFileDao.findById(percentVoucher.getVoucherId()).get();
 
         // then
         assertThat(findVoucher).usingRecursiveComparison().isEqualTo(percentVoucher);

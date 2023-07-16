@@ -10,7 +10,7 @@ public interface CustomerDao {
 
     List<Customer> findAll();
 
-    void save(Customer customer);
+    Customer save(Customer customer);
 
     Optional<Customer> findById(UUID id);
 

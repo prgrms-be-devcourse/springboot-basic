@@ -4,56 +4,55 @@ import com.prgms.VoucherApp.domain.customer.dto.CustomerCreateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
 import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
-public class CustomerDaoHandler {
+public class CustomerService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerDaoHandler.class);
     private final BlackListFileDao blackListStorage;
     private final CustomerDao customerDao;
 
-    public CustomerDaoHandler(BlackListFileDao blackListStorage, CustomerDao customerDao) {
+    public CustomerService(BlackListFileDao blackListStorage, CustomerDao customerDao) {
         this.blackListStorage = blackListStorage;
         this.customerDao = customerDao;
     }
 
     @Transactional
-    public void save(CustomerCreateRequest requestDto) {
+    public CustomerResponse save(CustomerCreateRequest requestDto) {
         Customer customer = new Customer(UUID.randomUUID(), requestDto.customerStatus());
+
         customerDao.save(customer);
-        logger.info("저장된 고객의 정보 id : {}, status : {}", customer.getCustomerId(), customer.getCustomerStatus());
+
+        return new CustomerResponse(customer);
     }
 
     public CustomersResponse findAll() {
         List<Customer> findCustomers = customerDao.findAll();
 
         List<CustomerResponse> convertCustomerResponse = findCustomers.stream()
-            .map(CustomerResponse::new)
-            .toList();
+                .map(CustomerResponse::new)
+                .toList();
 
         return new CustomersResponse(convertCustomerResponse);
     }
 
-    public Optional<CustomerResponse> findOne(UUID id) {
+    public CustomerResponse findOne(UUID id) {
         return customerDao.findById(id)
-            .map(CustomerResponse::new);
+                .map(CustomerResponse::new)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 customerId가 입력되었습니다."));
     }
 
     public CustomersResponse findByStatus(CustomerCreateRequest requestDto) {
         List<Customer> findCustomers = customerDao.findByCustomerStatus(requestDto.customerStatus());
 
         List<CustomerResponse> convertCustomerResponse = findCustomers.stream()
-            .map(CustomerResponse::new)
-            .toList();
+                .map(CustomerResponse::new)
+                .toList();
 
         return new CustomersResponse(convertCustomerResponse);
     }
@@ -72,8 +71,8 @@ public class CustomerDaoHandler {
         List<Customer> findBlacklists = blackListStorage.findBlacklist();
 
         List<CustomerResponse> convertCustomerResponse = findBlacklists.stream()
-            .map(CustomerResponse::new)
-            .toList();
+                .map(CustomerResponse::new)
+                .toList();
 
         return new CustomersResponse(convertCustomerResponse);
     }

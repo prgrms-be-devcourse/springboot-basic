@@ -4,10 +4,9 @@ import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
-import com.prgms.VoucherApp.view.CustomerCommand;
-import com.prgms.VoucherApp.view.ManagementType;
-import com.prgms.VoucherApp.view.Output;
-import com.prgms.VoucherApp.view.VoucherCommand;
+import com.prgms.VoucherApp.domain.wallet.dto.WalletResponse;
+import com.prgms.VoucherApp.domain.wallet.dto.WalletsResponse;
+import com.prgms.VoucherApp.view.*;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -81,7 +80,24 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printDisplayVoucherPolicy() {
+    public void printWalletCommand() {
+        textTerminal.println("=== Wallet management Program ===");
+
+        for (WalletCommand walletCommand : WalletCommand.values()) {
+            textTerminal.print("Type ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(walletCommand.getWalletCommandName() + " "));
+            textTerminal.print("execute ");
+            textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
+                terminalProperties.setPromptBold(true);
+            }, text -> text.print(walletCommand.getWalletCommandNumber() + " Command"));
+            textTerminal.println();
+        }
+    }
+
+    @Override
+    public void printVoucherPolicy() {
         textTerminal.println("=== Voucher Create ===");
         for (VoucherType voucherType : VoucherType.values()) {
             textTerminal.print("Type ");
@@ -103,7 +119,7 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printDisplayDiscountCondition(VoucherType voucherType) {
+    public void printDiscountCondition(VoucherType voucherType) {
         textTerminal.executeWithPropertiesConfigurator(terminalProperties -> {
             terminalProperties.setPromptBold(true);
             terminalProperties.setPromptColor(Color.red);
@@ -120,11 +136,6 @@ public class ConsoleOutputView implements Output {
     }
 
     @Override
-    public void printErrorMsg(String msg) {
-        textTerminal.println(msg);
-    }
-
-    @Override
     public void printVoucherList(List<VoucherResponse> findVouchers) {
         if (findVouchers.isEmpty()) {
             log.error("The user tried to view the list, but currently, the list is empty");
@@ -132,12 +143,14 @@ public class ConsoleOutputView implements Output {
             return;
         }
         findVouchers.forEach((
-            voucher -> textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}", voucher.voucherId(), voucher.amount(), voucher.voucherType()))));
+            voucher -> textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}",
+                voucher.voucherId(), voucher.amount(), voucher.voucherType()))));
     }
 
     @Override
     public void printVoucher(VoucherResponse voucher) {
-        textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}", voucher.voucherId(), voucher.amount(), voucher.voucherType()));
+        textTerminal.println(MessageFormat.format("id : {0} amount : {1} voucherType : {2}",
+            voucher.voucherId(), voucher.amount(), voucher.voucherType()));
     }
 
     @Override
@@ -149,7 +162,8 @@ public class ConsoleOutputView implements Output {
         }
 
         blacklists.getCustomers()
-            .forEach((blackList -> textTerminal.println(MessageFormat.format("id : {0} status : {1}", blackList.customerId(), blackList.customerStatus()))));
+            .forEach((blackList -> textTerminal.println(MessageFormat.format("id : {0} status : {1}",
+                blackList.customerId(), blackList.customerStatus()))));
     }
 
     @Override
@@ -160,17 +174,42 @@ public class ConsoleOutputView implements Output {
         }
 
         customers.getCustomers()
-            .forEach((customer) -> textTerminal.println(MessageFormat.format("id : {0} status : {1}", customer.customerId(), customer.customerStatus())));
+            .forEach((customer) -> textTerminal.println(MessageFormat.format("id : {0} status : {1}",
+                customer.customerId(), customer.customerStatus())));
     }
 
     @Override
     public void printCustomer(CustomerResponse customer) {
-        textTerminal.println(MessageFormat.format("id : {0} status : {1}", customer.customerId(), customer.customerStatus()));
+        textTerminal.println(MessageFormat.format("id : {0} status : {1}",
+            customer.customerId(), customer.customerStatus()));
+    }
+
+    @Override
+    public void printWallet(WalletResponse wallet) {
+        textTerminal.println(MessageFormat.format("id : {0} customer : {1} voucher : {2}",
+            wallet.id(), wallet.customerResponse(), wallet.voucherResponse()));
+    }
+
+    @Override
+    public void printWallets(WalletsResponse wallets) {
+        if (wallets.isEmpty()) {
+            textTerminal.println("There are no blacklisted entries currently registered.");
+            return;
+        }
+
+        wallets.wallets()
+            .forEach((wallet) -> textTerminal.println(MessageFormat.format("id : {0} customer : {1} voucher : {2}",
+                wallet.id(), wallet.customerResponse(), wallet.voucherResponse())));
     }
 
     @Override
     public void printFindEmpty() {
         textTerminal.println("존재하지 않는 ID가 입력되었습니다.");
+    }
+
+    @Override
+    public void printErrorMsg(String msg) {
+        textTerminal.println(msg);
     }
 
     @Override

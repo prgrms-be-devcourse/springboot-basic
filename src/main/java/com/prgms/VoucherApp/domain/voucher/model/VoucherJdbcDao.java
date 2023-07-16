@@ -4,12 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -19,23 +19,29 @@ import java.util.UUID;
 @Primary
 public class VoucherJdbcDao implements VoucherDao {
 
-    private static Logger logger = LoggerFactory.getLogger(VoucherJdbcDao.class);
+    private final Logger logger = LoggerFactory.getLogger(VoucherJdbcDao.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public VoucherJdbcDao(DataSource dataSource) {
-        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public VoucherJdbcDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         String sql = "INSERT INTO voucher VALUES (:id, :amount, :type)";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-            .addValue("id", voucher.getVoucherId().toString())
-            .addValue("amount", voucher.getAmount())
-            .addValue("type", voucher.getVoucherType().getVoucherTypeName());
+                .addValue("id", voucher.getVoucherId().toString())
+                .addValue("amount", voucher.getAmount())
+                .addValue("type", voucher.getVoucherType().getVoucherTypeName());
 
-        namedParameterJdbcTemplate.update(sql, paramMap);
+        int count = namedParameterJdbcTemplate.update(sql, paramMap);
+
+        if (count != 1) {
+            logger.warn("할인권이이 생성되지 않은 예외가 발생 입력 값 {}", voucher);
+            throw new IllegalArgumentException("입력 값의 문제로 할인권이 생성되지 못했습니다.");
+        }
+        return voucher;
     }
 
     @Override
@@ -47,16 +53,20 @@ public class VoucherJdbcDao implements VoucherDao {
     }
 
     @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         String sql = "SELECT * FROM voucher where id = :id";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-            .addValue("id", voucherId);
+                .addValue("id", voucherId);
+
         try {
             Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, paramMap, voucherRowMapper());
             return Optional.of(voucher);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException exception) {
             return Optional.empty();
+        } catch (IncorrectResultSizeDataAccessException exception) {
+            logger.warn("쿼리 수행 결과가 2개 이상입니다.", exception);
+            throw new RuntimeException("단 건 조회 시도 결과 쿼리 결과가 2개 이상입니다.", exception);
         }
     }
 
@@ -65,7 +75,7 @@ public class VoucherJdbcDao implements VoucherDao {
         String sql = "SELECT * FROM voucher where type = :type";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-            .addValue("type", type.getVoucherTypeName());
+                .addValue("type", type.getVoucherTypeName());
 
         List<Voucher> vouchers = namedParameterJdbcTemplate.query(sql, paramMap, voucherRowMapper());
         return vouchers;
@@ -76,13 +86,14 @@ public class VoucherJdbcDao implements VoucherDao {
         String sql = "UPDATE voucher SET amount = :amount, type = :type WHERE id = :id";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-            .addValue("amount", voucher.getAmount())
-            .addValue("type", voucher.getVoucherType().getVoucherTypeName())
-            .addValue("id", voucher.getVoucherId().toString());
+                .addValue("amount", voucher.getAmount())
+                .addValue("type", voucher.getVoucherType().getVoucherTypeName())
+                .addValue("id", voucher.getVoucherId().toString());
 
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
+            logger.warn("존재하지 않는 아이디가 입력되어 업데이트하지 못하는 예외가 발생 id = {}", voucher.getVoucherId());
             throw new IllegalArgumentException("존재하지 않는 id 를 입력 받았습니다.");
         }
     }
@@ -92,11 +103,12 @@ public class VoucherJdbcDao implements VoucherDao {
         String sql = "DELETE FROM voucher WHERE id = :id";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-            .addValue("id", voucherId.toString());
+                .addValue("id", voucherId.toString());
 
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
+            logger.warn("존재하지 않는 아이디가 입력되어 삭제하지 못하는 예외가 발생 id = {}", voucherId);
             throw new IllegalArgumentException("존재하지 않는 id 를 입력받았습니다.");
         }
     }
@@ -110,9 +122,7 @@ public class VoucherJdbcDao implements VoucherDao {
             if (voucherType.isFixedVoucher()) {
                 return new FixedAmountVoucher(UUID.fromString(id), amount);
             }
-
             return new PercentDiscountVoucher(UUID.fromString(id), amount);
         };
     }
-
 }

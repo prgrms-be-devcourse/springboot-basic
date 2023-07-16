@@ -20,7 +20,7 @@ import java.util.UUID;
 class VoucherJdbcDaoTest {
 
     @Autowired
-    VoucherJdbcDao voucherJdbcDao;
+    private VoucherJdbcDao voucherJdbcDao;
 
     @Test
     @DisplayName("고정 비용 할인권을 저장한다.")
@@ -48,7 +48,7 @@ class VoucherJdbcDaoTest {
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
-            .containsExactly(voucher);
+                .containsExactly(voucher);
     }
 
     @Test
@@ -65,7 +65,7 @@ class VoucherJdbcDaoTest {
 
         // then
         Assertions.assertThat(vouchers).usingRecursiveFieldByFieldElementComparator()
-            .containsExactly(voucherA, voucherB);
+                .containsExactly(voucherA, voucherB);
     }
 
     @Test
@@ -76,7 +76,7 @@ class VoucherJdbcDaoTest {
 
         // when
         voucherJdbcDao.save(voucher);
-        Optional<Voucher> findVoucher = voucherJdbcDao.findByVoucherId(voucher.getVoucherId());
+        Optional<Voucher> findVoucher = voucherJdbcDao.findById(voucher.getVoucherId());
 
         // then
         Assertions.assertThat(findVoucher.get()).usingRecursiveComparison().isEqualTo(voucher);
@@ -88,7 +88,7 @@ class VoucherJdbcDaoTest {
         // given
 
         // when
-        Optional<Voucher> voucherId = voucherJdbcDao.findByVoucherId(UUID.randomUUID());
+        Optional<Voucher> voucherId = voucherJdbcDao.findById(UUID.randomUUID());
 
         // then
         Assertions.assertThat(voucherId).isEmpty();
@@ -159,7 +159,7 @@ class VoucherJdbcDaoTest {
         // when
         voucherJdbcDao.update(new FixedAmountVoucher(voucher.getVoucherId(), BigDecimal.valueOf(5500)));
 
-        Optional<Voucher> updatedVoucher = voucherJdbcDao.findByVoucherId(voucher.getVoucherId());
+        Optional<Voucher> updatedVoucher = voucherJdbcDao.findById(voucher.getVoucherId());
 
         // then
         Assertions.assertThat(updatedVoucher.get().getAmount()).isEqualTo(BigDecimal.valueOf(5500));

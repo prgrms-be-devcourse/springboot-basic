@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ManagementType {
-    CUSTOMER(1), VOUCHER(2), EXIT(3);
+    CUSTOMER(1), VOUCHER(2), WALLET(3), EXIT(4);
 
     private final int typeNumber;
     private static final Map<Integer, ManagementType> MANAGEMENT_TYPE_MAP = Arrays.stream(values())

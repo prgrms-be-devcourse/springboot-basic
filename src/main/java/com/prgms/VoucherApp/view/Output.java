@@ -4,6 +4,8 @@ import com.prgms.VoucherApp.domain.customer.dto.CustomerResponse;
 import com.prgms.VoucherApp.domain.customer.dto.CustomersResponse;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
 import com.prgms.VoucherApp.domain.voucher.model.VoucherType;
+import com.prgms.VoucherApp.domain.wallet.dto.WalletResponse;
+import com.prgms.VoucherApp.domain.wallet.dto.WalletsResponse;
 
 import java.util.List;
 
@@ -14,11 +16,11 @@ public interface Output {
 
     void printVoucherCommand();
 
-    void printDisplayVoucherPolicy();
+    void printWalletCommand();
 
-    void printErrorMsg(String msg);
+    void printVoucherPolicy();
 
-    void printDisplayDiscountCondition(VoucherType policy);
+    void printDiscountCondition(VoucherType policy);
 
     void printCustomers(CustomersResponse customers);
 
@@ -32,5 +34,11 @@ public interface Output {
 
     void printFindEmpty();
 
+    void printErrorMsg(String msg);
+
     void printNotImplementMsg();
+
+    void printWallet(WalletResponse walletResponse);
+
+    void printWallets(WalletsResponse walletsResponse);
 }

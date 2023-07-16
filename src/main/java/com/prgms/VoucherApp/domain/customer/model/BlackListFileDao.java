@@ -1,8 +1,6 @@
 package com.prgms.VoucherApp.domain.customer.model;
 
 import com.prgms.VoucherApp.util.Converter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +11,6 @@ import java.util.List;
 
 @Repository
 public class BlackListFileDao {
-
-    private static final Logger log = LoggerFactory.getLogger(BlackListFileDao.class);
 
     @Value("${customer.file.path}")
     private String filePath;

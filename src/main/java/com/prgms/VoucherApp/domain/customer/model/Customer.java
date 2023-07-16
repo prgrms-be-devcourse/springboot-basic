@@ -19,4 +19,12 @@ public class Customer {
     public CustomerStatus getCustomerStatus() {
         return customerStatus;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+            "customerId=" + customerId +
+            ", customerStatus=" + customerStatus +
+            '}';
+    }
 }

@@ -4,46 +4,45 @@ import com.prgms.VoucherApp.domain.voucher.dto.VoucherCreateRequest;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherResponse;
 import com.prgms.VoucherApp.domain.voucher.dto.VoucherUpdateRequest;
 import com.prgms.VoucherApp.domain.voucher.dto.VouchersResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
-public class VoucherDaoHandler {
+public class VoucherService {
 
-    private final Logger logger = LoggerFactory.getLogger(VoucherDaoHandler.class);
     private final VoucherDao voucherDao;
 
-    public VoucherDaoHandler(VoucherDao voucherDao) {
+    public VoucherService(VoucherDao voucherDao) {
         this.voucherDao = voucherDao;
     }
 
     @Transactional
-    public void save(VoucherCreateRequest requestDto) {
+    public VoucherResponse save(VoucherCreateRequest requestDto) {
         Voucher voucher = switch (requestDto.voucherType()) {
             case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), requestDto.amount());
             case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), requestDto.amount());
         };
         voucherDao.save(voucher);
+
+        return new VoucherResponse(voucher);
     }
 
-    public Optional<VoucherResponse> findOne(UUID id) {
-        return voucherDao.findByVoucherId(id)
-            .map(VoucherResponse::new);
+    public VoucherResponse findOne(UUID id) {
+        return voucherDao.findById(id)
+                .map(VoucherResponse::new)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 voucherId가 입력되었습니다."));
     }
 
     public VouchersResponse findAll() {
         List<Voucher> findVouchers = voucherDao.findAll();
 
         List<VoucherResponse> convertVoucherResponse = findVouchers.stream()
-            .map(VoucherResponse::new)
-            .toList();
+                .map(VoucherResponse::new)
+                .toList();
 
         return new VouchersResponse(convertVoucherResponse);
     }
@@ -52,8 +51,8 @@ public class VoucherDaoHandler {
         List<Voucher> findVouchers = voucherDao.findByVoucherType(voucherType);
 
         List<VoucherResponse> convertVoucherResponse = findVouchers.stream()
-            .map(VoucherResponse::new)
-            .toList();
+                .map(VoucherResponse::new)
+                .toList();
 
         return new VouchersResponse(convertVoucherResponse);
     }
@@ -63,7 +62,7 @@ public class VoucherDaoHandler {
         Voucher voucher = switch (voucherUpdateRequest.voucherType()) {
             case FIXED_VOUCHER -> new FixedAmountVoucher(voucherUpdateRequest.id(), voucherUpdateRequest.amount());
             case PERCENT_VOUCHER ->
-                new PercentDiscountVoucher(voucherUpdateRequest.id(), voucherUpdateRequest.amount());
+                    new PercentDiscountVoucher(voucherUpdateRequest.id(), voucherUpdateRequest.amount());
         };
 
         voucherDao.update(voucher);

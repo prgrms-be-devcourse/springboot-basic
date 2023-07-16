@@ -1,8 +1,6 @@
 package com.prgms.VoucherApp.domain.voucher.model;
 
 import com.prgms.VoucherApp.util.Converter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -20,25 +18,24 @@ import java.util.stream.Collectors;
 @Profile("dev")
 public class VoucherFileDao implements VoucherDao {
 
-    private static final Logger log = LoggerFactory.getLogger(VoucherFileDao.class);
-
     @Value("${voucher.file.path}")
     private String filePath;
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         try {
             Files.writeString(
                 Paths.get(filePath),
                 String.format("%s%n", Converter.toString(voucher)),
                 StandardOpenOption.APPEND);
+            return voucher;
         } catch (IOException e) {
             throw new RuntimeException("IO 문제로 바우처가 저장되지 않았습니다.", e);
         }
     }
 
     @Override
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         try {
             List<String> voucherFileContents = Files.readAllLines(Paths.get(filePath));
             voucherFileContents.forEach((voucher) -> {

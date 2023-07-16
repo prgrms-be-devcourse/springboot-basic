@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public interface VoucherDao {
 
-    void save(Voucher voucher);
+    Voucher save(Voucher voucher);
 
     List<Voucher> findAll();
 
-    Optional<Voucher> findByVoucherId(UUID voucherId);
+    Optional<Voucher> findById(UUID voucherId);
 
     List<Voucher> findByVoucherType(VoucherType type);
 
