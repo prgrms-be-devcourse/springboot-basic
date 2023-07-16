@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class VoucherApp  {
+public class VoucherApp {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
 
     private final Console console = new Console();
@@ -27,9 +27,9 @@ public class VoucherApp  {
         boolean isRunning = true;
 
         while (isRunning) {
-            MenuType menuType = console.inputMenu();
+            MenuType menuType = console.inputVoucherMenu();
 
-            if(menuType == null) continue;
+            if (menuType == null) continue;
 
             switch (menuType) {
                 case CREATE -> createVoucher();
