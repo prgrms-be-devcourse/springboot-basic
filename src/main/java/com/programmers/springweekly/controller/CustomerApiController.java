@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,7 @@ public class CustomerApiController {
     private final CustomerService customerService;
 
     @PostMapping("/save")
-    public ResponseEntity<CustomerResponse> save(@Validated @ModelAttribute CustomerCreateRequest customerCreateRequest) {
+    public ResponseEntity<CustomerResponse> save(@Validated CustomerCreateRequest customerCreateRequest) {
         CustomerValidator.validateCustomer(
                 customerCreateRequest.getCustomerName(),
                 customerCreateRequest.getCustomerEmail(),
@@ -40,7 +39,7 @@ public class CustomerApiController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<List<CustomerResponse>> getFindAllPage() {
+    public ResponseEntity<List<CustomerResponse>> getFindAll() {
         CustomerListResponse customerListResponse = customerService.findAll();
 
         return ResponseEntity.ok(customerListResponse.getCustomerList());

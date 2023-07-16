@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,7 @@ public class VoucherApiController {
     private final VoucherService voucherService;
 
     @PostMapping("/save")
-    public ResponseEntity<VoucherResponse> save(@Validated @ModelAttribute VoucherCreateRequest voucherCreateRequest) {
+    public ResponseEntity<VoucherResponse> save(@Validated VoucherCreateRequest voucherCreateRequest) {
         VoucherValidator.validateVoucher(
                 voucherCreateRequest.getVoucherType(),
                 String.valueOf(voucherCreateRequest.getDiscountAmount())
@@ -39,7 +38,7 @@ public class VoucherApiController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<List<VoucherResponse>> getFindAllPage() {
+    public ResponseEntity<List<VoucherResponse>> getFindAll() {
         VoucherListResponse voucherListResponse = voucherService.findAll();
 
         return ResponseEntity.ok(voucherListResponse.getVoucherList());
