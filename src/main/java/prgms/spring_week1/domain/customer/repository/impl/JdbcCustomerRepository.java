@@ -93,7 +93,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteByEmail(String email) {
-        var update = jdbcTemplate.update(CustomerManageSql.deleteByEmailSQL, Collections.singletonMap("Email", email));
+        var update = jdbcTemplate.update(CustomerManageSql.deleteByEmailSQL, Collections.singletonMap("email", email));
 
         if (update != 1) {
             logger.error("회원 정보를 찾을 수 없습니다.");
