@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +44,7 @@ public class VoucherController {
 	}
 
 	@GetMapping("/vouchers/new")
-	public String viewNewCustomerPage() {
+	public String viewNewVoucherPage() {
 		return "new-vouchers";
 	}
 
@@ -58,13 +59,24 @@ public class VoucherController {
 	}
 
 	@GetMapping("/vouchers/details/{voucherId}")
-	public String findCustomer(@PathVariable("voucherId") Long voucherId, Model model) {
+	public String findVoucher(@PathVariable("voucherId") Long voucherId, Model model) {
 		Optional<VoucherDTO> maybeVoucher = voucherService.findVoucherById(voucherId);
 
 		if (maybeVoucher.isPresent()) {
 			model.addAttribute("voucher", maybeVoucher.get());
 			return "voucher-details";
 		} else {
+			return "404";
+		}
+	}
+
+	@GetMapping("/vouchers/delete/{voucherId}")
+	public String deleteVoucherPage(@PathVariable("voucherId") Long voucherId, Model model) {
+		boolean result = voucherService.deleteVoucherById(voucherId);
+
+		if (result) {
+			return "redirect:/vouchers";
+		} else{
 			return "404";
 		}
 	}

@@ -52,4 +52,8 @@ public class VoucherService {
 			.map(VoucherMapper::toVoucherDTO)
 			.collect(Collectors.toList());
 	}
+
+	public boolean deleteVoucherById(Long voucherId) {
+		return voucherRepository.deleteById(voucherId);
+	}
 }

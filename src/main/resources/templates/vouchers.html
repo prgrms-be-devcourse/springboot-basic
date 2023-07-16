@@ -9,14 +9,14 @@
     <title>Home</title>
 </head>
 <body class="container-fluid">
-    <h1>Crate Voucher Page</h1>
+    <h1>Voucher Page</h1>
     <table class="table">
         <thead>
         <tr>
             <th scope="col">ID</th>
             <th scope="col">amount</th>
             <th scope="col">vouehr type</th>
-            <th scope="col">voucher detail</th>
+            <th scope="col">buttons</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +27,10 @@
                 <td>
                     <a th:href="@{/vouchers/details/{voucherId}(voucherId = ${voucher.voucherId})}">
                         <button type="button" class="btn btn-secondary">detail button</button>
+                    </a>
+
+                    <a th:href="@{/vouchers/delete/{voucherId}(voucherId = ${voucher.voucherId})}">
+                        <button type="button" class="btn btn-danger">delete button</button>
                     </a>
                 </td>
             </tr>
