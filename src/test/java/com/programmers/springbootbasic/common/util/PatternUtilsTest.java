@@ -9,7 +9,7 @@ class PatternUtilsTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"20221130", "2022.05.31", "9999-9999-9999"})
-    void given_비정상날짜포맷_when_날짜패턴매칭_then_성공(String wrongDate) {
+    void given_비정상날짜포맷_when_날짜패턴매칭_then_불일치(String wrongDate) {
         // given
         // when
         boolean result = PatternUtils.isDate(wrongDate);
@@ -19,7 +19,7 @@ class PatternUtilsTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"2022-11-30 12:12", "2022-11-30 121212"})
-    void given_비정상날짜시간포맷_when_날짜패턴매칭_then_성공(String wrongDate) {
+    void given_비정상날짜시간포맷_when_날짜패턴매칭_then_불일치(String wrongDate) {
         // given
         // when
         boolean result = PatternUtils.isDate(wrongDate);
@@ -29,7 +29,7 @@ class PatternUtilsTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"!@#$›$!‹$!@$!", "sangmin@kkk.12121", "dasdasgdfgs", "sasa@1.1"})
-    void given_비정상이메일_when_이메일패턴매칭_then_실패(String wrongEmail) {
+    void given_비정상이메일_when_이메일패턴매칭_then_불일치(String wrongEmail) {
         // given
         // when
         boolean result = PatternUtils.isEmail(wrongEmail);
