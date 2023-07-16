@@ -1,7 +1,5 @@
 package org.prgrms.kdt.model.dto;
 
-import java.util.Objects;
-
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.Amount;
 

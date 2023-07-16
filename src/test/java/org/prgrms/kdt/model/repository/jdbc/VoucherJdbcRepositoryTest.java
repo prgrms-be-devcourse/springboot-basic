@@ -47,7 +47,7 @@ class VoucherJdbcRepositoryTest {
 
 		@Bean
 		public DataSource dataSource() {
-			HikariDataSource dataSource =  DataSourceBuilder.create()
+			HikariDataSource dataSource = DataSourceBuilder.create()
 				.url("jdbc:mysql://localhost:2215/test-order-mgmt")
 				.username("test")
 				.password("test1234!")
@@ -65,7 +65,9 @@ class VoucherJdbcRepositoryTest {
 		}
 
 		@Bean
-		public IdGenerator idGenerator() {return new IdGenerator(); }
+		public IdGenerator idGenerator() {
+			return new IdGenerator();
+		}
 	}
 
 	@Autowired
@@ -110,7 +112,6 @@ class VoucherJdbcRepositoryTest {
 		assertThat(vouchers.get(0), samePropertyValuesAs(newVoucher));
 	}
 
-
 	@Test
 	@Order(2)
 	@DisplayName("전체 바우처를 조회할 수 있다.")
@@ -122,7 +123,7 @@ class VoucherJdbcRepositoryTest {
 	@Test
 	@Order(3)
 	@DisplayName("바우처를 수정할 수 있다.")
-	public void updateVoucher(){
+	public void updateVoucher() {
 		VoucherEntity updatedVoucher = new VoucherEntity(newVoucher.getVoucherId(), newVoucher.getAmount(),
 			newVoucher.getVoucherType());
 
@@ -136,7 +137,7 @@ class VoucherJdbcRepositoryTest {
 	@Test
 	@Order(4)
 	@DisplayName("바우처를 삭제할 수 있다.")
-	public void deleteVoucher(){
+	public void deleteVoucher() {
 		Long voucherId = newVoucher.getVoucherId();
 
 		voucherJdbcRepository.deleteById(voucherId);

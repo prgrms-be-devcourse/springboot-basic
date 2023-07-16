@@ -47,7 +47,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
 	@Override
 	public boolean deleteById(Long voucherId) {
-		if(map.remove(voucherId) == null) {
+		if (map.remove(voucherId) == null) {
 			return false;
 		} else {
 			return false;

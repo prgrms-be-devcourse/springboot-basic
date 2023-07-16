@@ -28,7 +28,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	private static RowMapper<CustomerEntity> customerRowMapper =  (resultSet, i) -> {
+	private static RowMapper<CustomerEntity> customerRowMapper = (resultSet, i) -> {
 		String customerName = resultSet.getString("name");
 		String email = resultSet.getString("email");
 		Long customerId = resultSet.getLong("customer_id");
@@ -72,13 +72,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	@Override
 	public Optional<CustomerEntity> findById(Long customerId) {
-		try{
+		try {
 			return Optional.ofNullable(jdbcTemplate.queryForObject(
 				"select * from customers WHERE customer_id = ?",
 				customerRowMapper,
 				customerId.toString())
 			);
-		}catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {
 			return Optional.empty();
 		}
 	}

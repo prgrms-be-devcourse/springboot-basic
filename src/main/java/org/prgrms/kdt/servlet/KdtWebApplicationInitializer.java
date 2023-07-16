@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.prgrms.kdt.controller.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -14,21 +13,17 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
@@ -48,6 +43,7 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
 	static class ServletConfig implements WebMvcConfigurer, ApplicationContextAware {
 
 		ApplicationContext applicationContext;
+
 		@Override
 		public void configureViewResolvers(ViewResolverRegistry registry) {
 			SpringResourceTemplateResolver springResourceTemplateResolver = new SpringResourceTemplateResolver();
@@ -76,6 +72,7 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
 
 			return dataSource;
 		}
+
 		@Bean
 		public JdbcTemplate jdbcTemplate(DataSource dataSource) {
 			return new JdbcTemplate(dataSource);

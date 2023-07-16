@@ -1,13 +1,11 @@
 package org.prgrms.kdt.model.repository.jdbc;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.entity.CustomerEntity;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +22,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	private final JdbcTemplate jdbcTemplate;
 
-	private static RowMapper<VoucherEntity> voucherEntityRowMapper =  (resultSet, i) -> {
+	private static RowMapper<VoucherEntity> voucherEntityRowMapper = (resultSet, i) -> {
 		Long voucherId = resultSet.getLong("voucher_id");
 		int amount = resultSet.getInt("amount");
 		String voucherTypeString = resultSet.getString("voucher_type");
@@ -73,13 +71,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public Optional<VoucherEntity> findById(Long voucherId) {
-		try{
+		try {
 			return Optional.ofNullable(jdbcTemplate.queryForObject(
 				"select * from vouchers WHERE voucher_id = ?",
 				voucherEntityRowMapper,
 				voucherId)
 			);
-		}catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {
 			return Optional.empty();
 		}
 	}

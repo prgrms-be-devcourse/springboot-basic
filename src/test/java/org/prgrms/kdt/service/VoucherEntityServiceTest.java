@@ -17,8 +17,8 @@ import org.prgrms.kdt.model.FixedAmount;
 import org.prgrms.kdt.model.PercentAmount;
 import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.entity.VoucherEntity;
-import org.prgrms.kdt.model.repository.inmemory.InMemoryVoucherRepository;
 import org.prgrms.kdt.model.repository.VoucherRepository;
+import org.prgrms.kdt.model.repository.inmemory.InMemoryVoucherRepository;
 
 class VoucherEntityServiceTest {
 

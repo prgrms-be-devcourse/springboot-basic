@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.swing.text.html.parser.Entity;
-
 import org.prgrms.kdt.controller.MainController;
 import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.entity.VoucherEntity;
