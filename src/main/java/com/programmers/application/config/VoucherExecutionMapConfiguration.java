@@ -1,10 +1,10 @@
 package com.programmers.application.config;
 
-import com.programmers.application.controller.voucher.command.VoucherCommand;
-import com.programmers.application.controller.voucher.command.execution.CreateVoucherExecution;
-import com.programmers.application.controller.voucher.command.execution.ExitVoucherExecution;
-import com.programmers.application.controller.voucher.command.execution.ListVoucherExecution;
-import com.programmers.application.controller.voucher.command.execution.VoucherExecution;
+import com.programmers.application.controller.console.voucher.command.VoucherCommand;
+import com.programmers.application.controller.console.voucher.command.execution.CreateVoucherExecution;
+import com.programmers.application.controller.console.voucher.command.execution.ExitVoucherExecution;
+import com.programmers.application.controller.console.voucher.command.execution.ListVoucherExecution;
+import com.programmers.application.controller.console.voucher.command.execution.VoucherExecution;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

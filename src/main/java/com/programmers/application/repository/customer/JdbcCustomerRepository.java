@@ -1,7 +1,6 @@
 package com.programmers.application.repository.customer;
 
 import com.programmers.application.domain.customer.Customer;
-import com.programmers.application.repository.sql.builder.DeleteSqlBuilder;
 import com.programmers.application.repository.sql.builder.InsertSqlBuilder;
 import com.programmers.application.repository.sql.builder.SelectSqlBuilder;
 import com.programmers.application.repository.sql.builder.UpdateSqlBuilder;
@@ -47,6 +46,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         String sql = new SelectSqlBuilder()
                 .select("*")
                 .from("customer")
+                .where("is_deleted = false")
                 .build();
         return namedParameterJdbcTemplate.query(sql, getCustomerRowMapper());
     }
@@ -57,6 +57,25 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .select("*")
                 .from("customer")
                 .where("customer_id = :customerId")
+                .and("is_deleted = false")
+                .build();
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("customerId", UUIDMapper.toBytes(customerId));
+        try {
+            Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramMap, getCustomerRowMapper());
+            return Optional.of(customer);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> findDeletedCustomerByCustomerId(UUID customerId) {
+        String sql = new SelectSqlBuilder()
+                .select("*")
+                .from("customer")
+                .where("customer_id = :customerId")
+                .and("is_deleted = true")
                 .build();
         SqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("customerId", UUIDMapper.toBytes(customerId));
@@ -74,6 +93,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .select("*")
                 .from("customer")
                 .where("email = :email")
+                .and("is_deleted = false")
                 .build();
         SqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("email", email);
@@ -98,8 +118,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteByCustomerId(UUID customerId) {
-        String sql = new DeleteSqlBuilder()
-                .deleteFrom("customer")
+        String sql = new UpdateSqlBuilder()
+                .update("customer")
+                .set("is_deleted = true")
                 .where("customer_id = :customerId")
                 .build();
         SqlParameterSource paramMap = new MapSqlParameterSource()

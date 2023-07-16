@@ -1,6 +1,6 @@
 package com.programmers.application;
 
-import com.programmers.application.controller.FrontController;
+import com.programmers.application.controller.console.FrontController;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;

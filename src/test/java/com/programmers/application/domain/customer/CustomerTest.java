@@ -74,7 +74,7 @@ class CustomerTest {
     @DisplayName("변경 할 이름이 비어있거나 없으면, changeName()을 실행할 때 예외가 발생한다.")
     @ParameterizedTest
     @NullAndEmptySource
-    void throwNullAndEmptyChangeNameException(String changeName) {
+    void throwExceptionWhenChangeNameIsNullOrEmpty(String changeName) {
         //given
         UUID customerId = UUID.randomUUID();
         String name = "aCustomer";
@@ -90,7 +90,7 @@ class CustomerTest {
     @DisplayName("고객의 아이디를 입력하지 않으면, 고객을 생성할 때 예외가 발생한다.")
     @ParameterizedTest
     @NullSource
-    void throwNullCustomerIdException(UUID customerId) {
+    void throwExceptionWhenCustomerIdIsNull(UUID customerId) {
         //given
         String name = "aCustomer";
         String email = "mgtmh991013@naver.com";
@@ -104,7 +104,7 @@ class CustomerTest {
     @DisplayName("고객의 이메일을 입력하지 않으면, 고객을 생성할 때 예외가 발생한다.")
     @ParameterizedTest
     @NullAndEmptySource
-    void throwNullAndEmptyEmailException(String email) {
+    void throwExceptionWhenEmailIsNullOrEmpty(String email) {
         //given
         UUID customerId = UUID.randomUUID();
         String name = "aCustomer";
@@ -118,7 +118,7 @@ class CustomerTest {
     @DisplayName("이메일 형식이 맞지 않으면, 고객을 생성할 때 예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = "mgtmh991013naver.com, mgtmh991013gmail.com")
-    void throwIncorrectEmailFormatException(String email) {
+    void throwExceptionWhenEmailIsIncorrectFormat(String email) {
         //given
         UUID customerId = UUID.randomUUID();
         String name = "aCustomer";
@@ -132,7 +132,7 @@ class CustomerTest {
     @DisplayName("고객의 이름을 입력하지 않으면, 고객을 생성할 때 예외가 발생한다.")
     @ParameterizedTest
     @NullAndEmptySource
-    void throwNullAndEmptyNameException(String name) {
+    void throwExceptionWhenNameIsNullOrEmpty(String name) {
         //given
         UUID customerId = UUID.randomUUID();
         String email = "mgtmh991013@naver.com";

@@ -1,5 +1,7 @@
 package com.programmers.application.repository.sql.builder;
 
+import java.util.Objects;
+
 public class InsertSqlBuilder {
     private StringBuilder sqlBuilder;
 
@@ -13,6 +15,9 @@ public class InsertSqlBuilder {
     }
 
     public InsertSqlBuilder columns(String columns) {
+        if (Objects.isNull(columns) || columns.isBlank()) {
+            return this;
+        }
         sqlBuilder.append(" (").append(columns).append(")");
         return this;
     }

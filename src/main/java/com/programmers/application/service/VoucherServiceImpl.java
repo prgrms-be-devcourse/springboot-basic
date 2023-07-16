@@ -5,6 +5,7 @@ import com.programmers.application.domain.voucher.VoucherFactory;
 import com.programmers.application.dto.reponse.ResponseFactory;
 import com.programmers.application.dto.reponse.VoucherInfoResponse;
 import com.programmers.application.dto.request.VoucherCreationRequest;
+import com.programmers.application.exception.NotFoundResourceException;
 import com.programmers.application.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class VoucherServiceImpl implements VoucherService{
+public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
 
     public VoucherServiceImpl(VoucherRepository voucherRepository) {
@@ -32,5 +33,12 @@ public class VoucherServiceImpl implements VoucherService{
         return voucherList.stream()
                 .map(ResponseFactory::createVoucherInfoResponse)
                 .toList();
+    }
+
+    @Override
+    public VoucherInfoResponse findVoucherByVoucherId(UUID voucherId) {
+        return voucherRepository.findByVoucherId(voucherId)
+                .map(ResponseFactory::createVoucherInfoResponse)
+                .orElseThrow(() -> new NotFoundResourceException(String.format("해당 바우처 아이디로 조회되는 바우처가 없습니다. 입력값: %s", voucherId)));
     }
 }

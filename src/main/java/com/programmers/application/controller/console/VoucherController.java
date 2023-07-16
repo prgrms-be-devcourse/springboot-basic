@@ -1,7 +1,7 @@
-package com.programmers.application.controller;
+package com.programmers.application.controller.console;
 
-import com.programmers.application.controller.voucher.command.CommandExecution;
-import com.programmers.application.controller.voucher.command.VoucherCommand;
+import com.programmers.application.controller.console.voucher.command.CommandExecution;
+import com.programmers.application.controller.console.voucher.command.VoucherCommand;
 import com.programmers.application.io.IO;
 import org.springframework.stereotype.Component;
 

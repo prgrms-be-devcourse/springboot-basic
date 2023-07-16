@@ -1,4 +1,4 @@
-package com.programmers.application.controller.voucher.command.execution;
+package com.programmers.application.controller.console.voucher.command.execution;
 
 import com.programmers.application.dto.request.RequestFactory;
 import com.programmers.application.dto.request.VoucherCreationRequest;
