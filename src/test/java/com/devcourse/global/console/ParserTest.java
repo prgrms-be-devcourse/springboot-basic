@@ -20,6 +20,7 @@ class ParserTest {
     private final IoParser parser = new IoParser();
 
     @Nested
+    @DisplayName("enum 파싱 테스트")
     class parsingEnumTest {
         @Test
         @DisplayName("Command에 없는 값을 파싱하려고 하면 예외가 발생한다.")
@@ -71,6 +72,7 @@ class ParserTest {
     }
 
     @Nested
+    @DisplayName("만료 일자 파싱 테스트")
     class parsingExpirationDateTest {
         @Test
         @DisplayName("타임 포멧에 맞는 값이 들어오면 정상적으로 파싱된다.")

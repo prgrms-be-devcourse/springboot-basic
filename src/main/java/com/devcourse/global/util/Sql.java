@@ -9,22 +9,11 @@ public class Sql {
         }
     }
 
-    private static final String LEFT_BRACKET = "(";
-    private static final String RIGHT_BRACKET = ")";
-    private static final String COMMA = ", ";
-    private static final String INSERT_INTO = "INSERT INTO ";
-    private static final String SELECT = "SELECT ";
-    private static final String DELETE = "DELETE FROM ";
-    private static final String FROM = " FROM ";
-    private static final String UPDATE = "UPDATE ";
-    private static final String VALUES = " VALUES (";
-    private static final String SET = " SET ";
-    private static final String OR = " OR ";
-    private static final String AND = " AND ";
+    private static final int UNNECESSARY_STRING = 2;
     private static final String WHERE = " WHERE ";
     private static final String PARAMETER = "?";
     private static final String EQUAL = " = ";
-    private static final int UNNECESSARY_STRING = 2;
+    private static final String COMMA = ", ";
 
     private Sql() { }
 
@@ -33,6 +22,11 @@ public class Sql {
     }
 
     public static class Builder {
+        private static final String INSERT_INTO = "INSERT INTO ";
+        private static final String SELECT = "SELECT ";
+        private static final String UPDATE = "UPDATE ";
+        private static final String DELETE = "DELETE FROM ";
+
         private final StringBuilder query;
 
         private Builder() {
@@ -74,6 +68,10 @@ public class Sql {
     }
 
     public static class InsertBuilder {
+        private static final String VALUES = " VALUES ";
+        private static final String LEFT_BRACKET = "(";
+        private static final String RIGHT_BRACKET = ")";
+
         private final StringBuilder query;
 
         private InsertBuilder(StringBuilder query) {
@@ -89,7 +87,8 @@ public class Sql {
 
             query.setLength(query.length() - UNNECESSARY_STRING);
             query.append(RIGHT_BRACKET)
-                 .append(VALUES);
+                 .append(VALUES)
+                 .append(LEFT_BRACKET);
 
             for (int i = 0; i < columns.length; i++) {
                 query.append(PARAMETER).append(COMMA);
@@ -103,6 +102,8 @@ public class Sql {
     }
 
     public static class SelectBuilder {
+        private static final String FROM = " FROM ";
+
         private final StringBuilder query;
 
         private SelectBuilder(StringBuilder query) {
@@ -116,6 +117,8 @@ public class Sql {
     }
 
     public static class UpdateBuilder {
+        private static final String SET = " SET ";
+
         private final StringBuilder query;
 
         private UpdateBuilder(StringBuilder query) {
@@ -197,6 +200,9 @@ public class Sql {
     }
 
     public static class WhereBuilder {
+        private static final String AND = " AND ";
+        private static final String OR = " OR ";
+
         private final StringBuilder query;
 
         private WhereBuilder(StringBuilder query) {
