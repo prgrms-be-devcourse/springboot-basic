@@ -2,13 +2,13 @@ package org.prgrms.application.domain.voucher.typePolicy;
 
 import org.prgrms.application.domain.voucher.VoucherType;
 
-public class FixedTypePolicy extends VoucherTypePolicy{
+public class FixedTypePolicy implements VoucherTypePolicy{
+
+    private double discountAmount;
+    public static final double MIN_DISCOUNT_VALUE = 0;// 수정
 
     public FixedTypePolicy(double discountAmount) {
-        super(discountAmount);
-    }
-
-    public FixedTypePolicy() {
+        this.discountAmount = discountAmount;
     }
 
     @Override

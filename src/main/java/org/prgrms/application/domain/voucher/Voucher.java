@@ -1,20 +1,23 @@
 package org.prgrms.application.domain.voucher;
 
-// TODO : 바우처가 타입정책에 맞는 생성한다?
+import org.prgrms.application.domain.voucher.typePolicy.VoucherTypePolicy;
+import org.prgrms.application.entity.VoucherEntity;
+
 public class Voucher {
     private final Long voucherId;
     private final VoucherType voucherType;
-    private double discountAmount;
+    private final VoucherTypePolicy voucherTypePolicy;
+    private final double discountAmount;
 
     public Voucher(Long voucherId, VoucherType voucherType, double discountAmount) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
+        this.voucherTypePolicy = voucherType.applyPolicy(discountAmount);
         this.discountAmount = discountAmount;
     }
 
-    public static Voucher of(Long voucherId, String voucherType, double discountAmount) {
-        System.out.println(discountAmount);
-        return new Voucher(voucherId, VoucherType.findBySelection(voucherType),discountAmount);
+    public static Voucher of(Long voucherId, VoucherType voucherType, double discountAmount) {
+        return new Voucher(voucherId, voucherType, discountAmount);
     }
 
     public Long getVoucherId() {
@@ -27,5 +30,9 @@ public class Voucher {
 
     public double getDiscountAmount() {
         return discountAmount;
+    }
+
+    public VoucherEntity toEntity(){
+        return new VoucherEntity(this.voucherId, this.voucherType.name(), this.discountAmount);
     }
 }

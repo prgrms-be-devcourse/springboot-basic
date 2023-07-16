@@ -2,13 +2,15 @@ package org.prgrms.application.domain.voucher.typePolicy;
 
 import org.prgrms.application.domain.voucher.VoucherType;
 
-public class PercentTypePolicy extends VoucherTypePolicy{
+public class PercentTypePolicy implements VoucherTypePolicy{
 
-    public PercentTypePolicy(double discountAmount){
-        super(discountAmount);
-    }
+    public static final double MAX_DISCOUNT_VALUE = 100;
+    public static final double MIN_DISCOUNT_VALUE = 0;
 
-    public PercentTypePolicy() {
+    private double discountAmount;
+
+    public PercentTypePolicy(double discountAmount) {
+        this.discountAmount = discountAmount;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package org.prgrms.application.entity;
 
 
+import org.prgrms.application.domain.voucher.Voucher;
+import org.prgrms.application.domain.voucher.VoucherType;
+
 public class VoucherEntity {
     private Long voucherId;
     private String voucherType;
@@ -26,5 +29,11 @@ public class VoucherEntity {
 
     public void changeDiscountAmount(double discountAmount){
         this.discountAmount = discountAmount;
+    }
+
+    public Voucher toDomain(){ // 수정 변환해주는 것을 독립,
+        VoucherType voucherType = VoucherType.findBySelection(this.voucherType);
+
+        return new Voucher(this.voucherId, voucherType, this.discountAmount);
     }
 }

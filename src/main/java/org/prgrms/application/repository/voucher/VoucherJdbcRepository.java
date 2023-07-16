@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
-
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
 
