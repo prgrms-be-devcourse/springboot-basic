@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Voucher {
-    protected final UUID voucherId = UUID.randomUUID();
-    protected final VoucherType voucherType;
-    protected final int discount;
-    protected final LocalDateTime createdAt = LocalDateTime.now();
+    private final UUID voucherId = UUID.randomUUID();
+    private final VoucherType voucherType;
+    private final int discount;
+    private final LocalDateTime createdAt = LocalDateTime.now();
 
     public VoucherType getVoucherType() {
         return voucherType;
