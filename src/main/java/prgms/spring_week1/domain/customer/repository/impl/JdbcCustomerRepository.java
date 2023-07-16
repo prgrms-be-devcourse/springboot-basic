@@ -12,6 +12,7 @@ import prgms.spring_week1.domain.customer.repository.CustomerRepository;
 import prgms.spring_week1.domain.customer.repository.impl.sql.CustomerManageSql;
 import prgms.spring_week1.domain.voucher.repository.impl.JdbcVoucherRepository;
 
+import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +25,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcCustomerRepository(DataSource dataSource) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     private final RowMapper<Customer> customerRowMapper = (resultset, i) -> {
