@@ -74,12 +74,14 @@ public class ConsoleApplicationView {
 
     public void startCreation() throws IOException {
         console.printLine(CREATE_MESSAGE);
+        printNewLine();
     }
 
     public String inputType() throws IOException {
         // 타입 입력
         console.print(String.format(INPUT_TYPE, PERCENT, FIX));
         String voucherType = console.inputLine();
+        printNewLine();
         Validator.checkNullOrBlank(voucherType);
         checkInvalidType(voucherType);
         return voucherType;
@@ -89,14 +91,17 @@ public class ConsoleApplicationView {
         // 이름 입력
         console.print(INPUT_NAME);
         String name = console.inputLine();
+        printNewLine();
         Validator.checkNullOrBlank(name);
         return name;
     }
 
     public long inputMinimumPriceCondition() throws IOException {
+
         // 최소 금액 입력
         console.print(INPUT_MINIMUM_PRICE_CONDITION);
         String minimumPriceConditionInput = console.inputLine();
+        printNewLine();
         try {
             return NumberParser.parseToLong(minimumPriceConditionInput);
         } catch (IllegalArgumentException e) {
@@ -108,6 +113,7 @@ public class ConsoleApplicationView {
         // 만료기한 입력
         console.print(INPUT_EXPIRED_DATETIME);
         String expiredAtInput = console.inputLine();
+        printNewLine();
         return LocalDateTimeParser.parseToLocalDateTime(expiredAtInput);
     }
 
@@ -115,6 +121,7 @@ public class ConsoleApplicationView {
         // 할인액 or 할인율 입력
         console.print(INPUT_AMOUNT_OR_PERCENT);
         String amountOrPercentInput = console.inputLine();
+        printNewLine();
         return NumberParser.parseToInt(amountOrPercentInput);
     }
 

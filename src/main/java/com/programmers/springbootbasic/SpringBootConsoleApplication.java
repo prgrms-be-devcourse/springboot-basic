@@ -48,15 +48,10 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
         applicationView.startCreation();
 
         String voucherType = applicationView.inputType();
-        applicationView.printNewLine();
         String name = applicationView.inputName();
-        applicationView.printNewLine();
         long minimumPriceCondition = applicationView.inputMinimumPriceCondition();
-        applicationView.printNewLine();
         LocalDateTime expiredAt = applicationView.inputExpiredAt();
-        applicationView.printNewLine();
         int amountOrPercent = applicationView.inputAmountOrPercent();
-        applicationView.printNewLine();
 
         VoucherResponse response = voucherController.createVoucher(voucherType, name, minimumPriceCondition, expiredAt, amountOrPercent);
         applicationView.printCreatedVoucher(response);
