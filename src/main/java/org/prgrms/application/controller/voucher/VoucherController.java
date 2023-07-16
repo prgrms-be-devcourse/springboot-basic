@@ -44,7 +44,6 @@ public class VoucherController {
 
     @GetMapping(value = "vouchers/{id}") //TODO : deletemappipng으로 안되는 중 <a태그 한계>
     public String deleteVoucher(@PathVariable("id") long voucherId){
-        System.out.println(voucherId);
         voucherService.deleteVoucher(voucherId);
         return "redirect:/vouchers";
     }

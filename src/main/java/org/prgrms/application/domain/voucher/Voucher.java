@@ -1,6 +1,6 @@
 package org.prgrms.application.domain.voucher;
 
-import org.prgrms.application.domain.voucher.typePolicy.VoucherTypePolicy;
+import org.prgrms.application.domain.voucher.typepolicy.VoucherTypePolicy;
 import org.prgrms.application.entity.VoucherEntity;
 
 public class Voucher {
@@ -32,7 +32,12 @@ public class Voucher {
         return discountAmount;
     }
 
+
     public VoucherEntity toEntity(){
         return new VoucherEntity(this.voucherId, this.voucherType.name(), this.discountAmount);
+    }
+
+    public VoucherTypePolicy getVoucherTypePolicy() {
+        return voucherTypePolicy;
     }
 }

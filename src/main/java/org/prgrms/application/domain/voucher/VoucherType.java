@@ -1,8 +1,8 @@
 package org.prgrms.application.domain.voucher;
 
-import org.prgrms.application.domain.voucher.typePolicy.FixedTypePolicy;
-import org.prgrms.application.domain.voucher.typePolicy.PercentTypePolicy;
-import org.prgrms.application.domain.voucher.typePolicy.VoucherTypePolicy;
+import org.prgrms.application.domain.voucher.typepolicy.FixedTypePolicy;
+import org.prgrms.application.domain.voucher.typepolicy.PercentTypePolicy;
+import org.prgrms.application.domain.voucher.typepolicy.VoucherTypePolicy;
 
 import java.util.Arrays;
 import java.util.function.Function;

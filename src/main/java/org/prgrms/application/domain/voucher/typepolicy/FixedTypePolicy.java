@@ -1,4 +1,4 @@
-package org.prgrms.application.domain.voucher.typePolicy;
+package org.prgrms.application.domain.voucher.typepolicy;
 
 import org.prgrms.application.domain.voucher.VoucherType;
 
@@ -8,6 +8,7 @@ public class FixedTypePolicy implements VoucherTypePolicy{
     public static final double MIN_DISCOUNT_VALUE = 0;// 수정
 
     public FixedTypePolicy(double discountAmount) {
+        validatePositive(discountAmount);
         this.discountAmount = discountAmount;
     }
 

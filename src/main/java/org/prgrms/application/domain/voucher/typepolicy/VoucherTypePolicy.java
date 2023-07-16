@@ -1,4 +1,4 @@
-package org.prgrms.application.domain.voucher.typePolicy;
+package org.prgrms.application.domain.voucher.typepolicy;
 
 import org.prgrms.application.domain.voucher.VoucherType;
 

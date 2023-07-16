@@ -1,4 +1,4 @@
-package org.prgrms.application.domain.voucher.typePolicy;
+package org.prgrms.application.domain.voucher.typepolicy;
 
 import org.prgrms.application.domain.voucher.VoucherType;
 
@@ -10,6 +10,7 @@ public class PercentTypePolicy implements VoucherTypePolicy{
     private double discountAmount;
 
     public PercentTypePolicy(double discountAmount) {
+        validatePositive(discountAmount);
         this.discountAmount = discountAmount;
     }
 
