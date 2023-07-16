@@ -70,12 +70,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer findByEmail(String email) {
-        return jdbcTemplate.queryForObject(CustomerManageSql.findByEmailSQL,
-                Collections.singletonMap("email", email),
-                customerRowMapper);
+    public Optional<Customer> findByEmail(String email) {
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(CustomerManageSql.findByEmailSQL,
+                    Collections.singletonMap("email", email),
+                    customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("조회된 회원 리스트가 없습니다.", e);
+            return Optional.empty();
+        }
     }
-
 
     @Override
     public void updateInfo(String beforeUpdateEmail, String afterUpdateEmail) {

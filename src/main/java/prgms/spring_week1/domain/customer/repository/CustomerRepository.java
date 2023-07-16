@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CustomerRepository {
     void insert(Customer customer);
     List<Customer> findAll();
-    Customer findByEmail(String email);
+    Optional<Customer> findByEmail(String email);
     void deleteByEmail(String email);
     void deleteAll();
     void updateInfo(String beforeUpdateEmail,String afterUpdateEmailInfo);

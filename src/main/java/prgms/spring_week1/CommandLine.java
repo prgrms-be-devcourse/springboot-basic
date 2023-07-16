@@ -3,7 +3,6 @@ package prgms.spring_week1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.Customer;
 import prgms.spring_week1.domain.customer.service.CustomerService;
@@ -18,8 +17,10 @@ import prgms.spring_week1.menu.CustomerMenu;
 import prgms.spring_week1.menu.Menu;
 import prgms.spring_week1.menu.VoucherMenu;
 
+import java.lang.management.OperatingSystemMXBean;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CommandLine implements CommandLineRunner {
@@ -114,12 +115,13 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void getCustomerByEmail() {
-        try {
-            Customer customer = customerService.findByEmail(input.inputEmail());
-            printCustomerInfo(customer);
-        }catch (EmptyResultDataAccessException e){
-            System.out.println("조회 된 회원이 없습니다.");
+        Optional<Customer> customer = customerService.findByEmail(input.inputEmail());
+
+        if(customer.isEmpty()){
+            return;
         }
+
+        printCustomerInfo(customer.get());
     }
 
     private void updateCustomerInfo() {
