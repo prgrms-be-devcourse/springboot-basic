@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +34,7 @@ public class CustomerViewController {
     }
 
     @PostMapping("/save")
-    public String save(@Validated @ModelAttribute CustomerCreateRequest customerCreateRequest) {
+    public String save(@Validated CustomerCreateRequest customerCreateRequest) {
         CustomerValidator.validateCustomer(
                 customerCreateRequest.getCustomerName(),
                 customerCreateRequest.getCustomerEmail(),
