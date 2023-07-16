@@ -79,7 +79,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(Exception e, Model model) {
         log.error("GlobalExceptionHandler - Exception 발생, 개발자가 잡지 못한 예외 {}", e.getMessage(), e);
         model.addAttribute(ERROR_MSG, e.getMessage());
@@ -87,5 +87,5 @@ public class GlobalExceptionHandler {
 
         return ERROR_PAGE;
     }
-    
+
 }
