@@ -2,6 +2,7 @@ package prgms.spring_week1.io;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import prgms.spring_week1.domain.customer.model.embeddedType.Email;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.io.message.ConsoleOutputMessage;
 import prgms.spring_week1.menu.CustomerMenu;
@@ -78,9 +79,15 @@ public class Input {
         return menu;
     }
 
-    public String inputEmail() {
+    public Email inputEmail() {
         System.out.println(ConsoleOutputMessage.INPUT_EMAIL_MESSAGE);
-        return sc.nextLine();
+
+        try {
+            return new Email(sc.nextLine());
+        }catch (IllegalArgumentException e){
+            System.out.println("이메일이 형식에 맞지 않습니다.");
+            return inputEmail();
+        }
     }
 
     public String[] inputCustomerInfo() {

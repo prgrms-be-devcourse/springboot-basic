@@ -32,16 +32,16 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> findByEmail(String email){
-        return customerRepository.findByEmail(email);
+    public Optional<Customer> findByEmail(Email email){
+        return customerRepository.findByEmail(email.getAddress());
     }
 
     public void updateInfo(String[] updateEmailInfo){
         customerRepository.updateInfo(updateEmailInfo[0],updateEmailInfo[1]);
     }
 
-    public void deleteByEmail(String email){
-        customerRepository.deleteByEmail(email);
+    public void deleteByEmail(Email email){
+        customerRepository.deleteByEmail(email.getAddress());
     }
 
     public void deleteAll(){
