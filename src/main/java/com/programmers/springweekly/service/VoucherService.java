@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -49,10 +48,6 @@ public class VoucherService {
 
     public VoucherListResponse findAll() {
         List<Voucher> voucherList = voucherRepository.findAll();
-
-        if (CollectionUtils.isEmpty(voucherList)) {
-            throw new NoSuchElementException("바우처가 저장되어 있지 않습니다.");
-        }
 
         return new VoucherListResponse(voucherList.stream().map(VoucherResponse::new).toList());
     }
