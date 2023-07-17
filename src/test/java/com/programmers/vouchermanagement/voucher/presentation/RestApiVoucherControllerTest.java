@@ -48,7 +48,7 @@ class RestApiVoucherControllerTest {
         String requestJson = objectMapper.writeValueAsString(request);
 
         // when & then
-        this.mockMvc.perform(post("/v3/api/vouchers")
+        this.mockMvc.perform(post("/api/v3/vouchers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andDo(print())
@@ -68,7 +68,7 @@ class RestApiVoucherControllerTest {
                 .willReturn(List.of(response));
 
         // when & then
-        this.mockMvc.perform(get("/v3/api/vouchers"))
+        this.mockMvc.perform(get("/api/v3/vouchers"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -87,7 +87,7 @@ class RestApiVoucherControllerTest {
                 .willReturn(response);
 
         // when & then
-        this.mockMvc.perform(get("/v3/api/vouchers/{voucherId}", voucher.getId().toString()))
+        this.mockMvc.perform(get("/api/v3/vouchers/{voucherId}", voucher.getId().toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -106,7 +106,7 @@ class RestApiVoucherControllerTest {
         String requestJson = objectMapper.writeValueAsString(request);
 
         // when & then
-        this.mockMvc.perform(post("/v3/api/vouchers/{voucherId}", voucher.getId().toString())
+        this.mockMvc.perform(post("/api/v3/vouchers/{voucherId}", voucher.getId().toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isNoContent());
@@ -119,7 +119,7 @@ class RestApiVoucherControllerTest {
         Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
 
         // when & then
-        this.mockMvc.perform(delete("/v3/api/vouchers/{voucherId}", voucher.getId().toString()))
+        this.mockMvc.perform(delete("/api/v3/vouchers/{voucherId}", voucher.getId().toString()))
                 .andExpect(status().isNoContent());
     }
 }

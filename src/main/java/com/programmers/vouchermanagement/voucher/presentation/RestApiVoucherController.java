@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v3/api/vouchers")
+@RequestMapping("/api/v3/vouchers")
 @RequiredArgsConstructor
 public class RestApiVoucherController {
 
