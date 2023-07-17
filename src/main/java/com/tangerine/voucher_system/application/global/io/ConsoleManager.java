@@ -2,6 +2,7 @@ package com.tangerine.voucher_system.application.global.io;
 
 import com.tangerine.voucher_system.application.customer.controller.CustomerDto;
 import com.tangerine.voucher_system.application.customer.controller.CustomerMenu;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.global.model.CommandMenu;
 import com.tangerine.voucher_system.application.voucher.controller.VoucherDto;
 import com.tangerine.voucher_system.application.voucher.controller.VoucherMenu;
@@ -10,6 +11,7 @@ import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.wallet.controller.WalletMenu;
 import org.springframework.stereotype.Component;
 
+import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +77,7 @@ public class ConsoleManager {
         return inputConsole.readId();
     }
 
-    public String consoleName() {
+    public Name consoleName() {
         return inputConsole.readName();
     }
 
@@ -85,7 +87,7 @@ public class ConsoleManager {
 
     public CustomerDto consoleCustomerDto() {
         UUID id = UUID.randomUUID();
-        String name = consoleName();
+        Name name = consoleName();
         boolean isBlack = consoleBlack();
         return new CustomerDto(id, name, isBlack);
     }

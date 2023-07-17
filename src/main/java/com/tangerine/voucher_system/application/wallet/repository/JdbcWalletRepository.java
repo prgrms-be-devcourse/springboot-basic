@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.wallet.repository;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
@@ -34,7 +35,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     static RowMapper<Customer> customerRowMapper = (resultSet, rowNumber) -> {
         UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
-        String name = resultSet.getString("name");
+        Name name = new Name(resultSet.getString("name"));
         boolean isBlack = resultSet.getBoolean("black");
         return new Customer(customerId, name, isBlack);
     };

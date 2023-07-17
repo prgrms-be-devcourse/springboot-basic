@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.customer.service;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
@@ -40,7 +41,7 @@ public class CustomerService {
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
-    public Customer findCustomerByName(String name) {
+    public Customer findCustomerByName(Name name) {
         return customerRepository.findByName(name)
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }

@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.customer.repository;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
-    Optional<Customer> findByName(String name);
+    Optional<Customer> findByName(Name name);
 
     void deleteAll();
 

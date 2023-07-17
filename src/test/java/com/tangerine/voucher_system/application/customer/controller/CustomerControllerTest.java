@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.customer.controller;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,20 +24,20 @@ import static org.mockito.Mockito.mock;
 class CustomerControllerTest {
 
     static List<Customer> blackCustomers = List.of(
-            new Customer(UUID.randomUUID(), "상한사과", true),
-            new Customer(UUID.randomUUID(), "맛없는딸기", true)
+            new Customer(UUID.randomUUID(), new Name("상한사과"), true),
+            new Customer(UUID.randomUUID(), new Name("맛없는딸기"), true)
     );
     static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "포도", false),
-            new Customer(UUID.randomUUID(), "배", false)
+            new Customer(UUID.randomUUID(), new Name("사과"), false),
+            new Customer(UUID.randomUUID(), new Name("딸기"), true),
+            new Customer(UUID.randomUUID(), new Name("포도"), false),
+            new Customer(UUID.randomUUID(), new Name("배"), false)
     );
     static List<CustomerDto> validCustomerDto = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과", false),
-            new CustomerDto(UUID.randomUUID(), "딸기", true),
-            new CustomerDto(UUID.randomUUID(), "포도", false),
-            new CustomerDto(UUID.randomUUID(), "배", false)
+            new CustomerDto(UUID.randomUUID(), new Name("사과"), false),
+            new CustomerDto(UUID.randomUUID(), new Name("딸기"), true),
+            new CustomerDto(UUID.randomUUID(), new Name("포도"), false),
+            new CustomerDto(UUID.randomUUID(), new Name("배"), false)
     );
     CustomerController controller;
     CustomerService service;

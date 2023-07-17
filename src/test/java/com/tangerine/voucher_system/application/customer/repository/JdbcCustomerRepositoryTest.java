@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.customer.repository;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,10 +30,10 @@ import static org.assertj.core.api.BDDAssertions.catchException;
 class JdbcCustomerRepositoryTest {
 
     static List<Customer> validCustomers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "포도", false),
-            new Customer(UUID.randomUUID(), "배", false)
+            new Customer(UUID.randomUUID(), new Name("사과"), false),
+            new Customer(UUID.randomUUID(), new Name("딸기"), true),
+            new Customer(UUID.randomUUID(), new Name("포도"), false),
+            new Customer(UUID.randomUUID(), new Name("배"), false)
     );
 
     @Autowired

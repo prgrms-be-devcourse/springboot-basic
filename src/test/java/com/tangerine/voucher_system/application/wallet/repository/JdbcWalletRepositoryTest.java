@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.wallet.repository;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
@@ -38,9 +39,9 @@ class JdbcWalletRepositoryTest {
             new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 41), LocalDateTime.now(), Optional.empty())
     );
     static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "배", false)
+            new Customer(UUID.randomUUID(), new Name("사과"), false),
+            new Customer(UUID.randomUUID(), new Name("딸기"), true),
+            new Customer(UUID.randomUUID(), new Name("배"), false)
     );
     @Autowired
     WalletRepository repository;

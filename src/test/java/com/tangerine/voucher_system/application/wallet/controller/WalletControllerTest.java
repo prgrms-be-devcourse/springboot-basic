@@ -2,6 +2,7 @@ package com.tangerine.voucher_system.application.wallet.controller;
 
 import com.tangerine.voucher_system.application.customer.controller.CustomerDto;
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.voucher.controller.VoucherDto;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
@@ -37,9 +38,9 @@ class WalletControllerTest {
             new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 41), LocalDateTime.now(), Optional.empty())
     );
     static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "배", false)
+            new Customer(UUID.randomUUID(), new Name("사과"), false),
+            new Customer(UUID.randomUUID(), new Name("딸기"), true),
+            new Customer(UUID.randomUUID(), new Name("배"), false)
     );
     @InjectMocks
     WalletController controller;

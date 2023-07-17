@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.customer.repository;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +18,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
         UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
-        String name = resultSet.getString("name");
+        Name name = new Name(resultSet.getString("name"));
         boolean isBlack = resultSet.getBoolean("black");
         return new Customer(customerId, name, isBlack);
     };
@@ -100,12 +101,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByName(String name) {
+    public Optional<Customer> findByName(Name name) {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
                             "SELECT customer_id, name, black FROM customers WHERE name = :name",
-                            Collections.singletonMap("name", name),
+                            Collections.singletonMap("name", name.getValue()),
                             customerRowMapper
                     )
             );
@@ -141,7 +142,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("customerId", customer.getCustomerId().toString());
-        paramMap.put("name", customer.getName());
+        paramMap.put("name", customer.getName().getValue());
         paramMap.put("black", customer.isBlack());
         return paramMap;
     }

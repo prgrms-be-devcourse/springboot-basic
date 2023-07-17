@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.global.io;
 
 import com.tangerine.voucher_system.application.customer.controller.CustomerMenu;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.global.model.CommandMenu;
 import com.tangerine.voucher_system.application.voucher.controller.VoucherMenu;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
@@ -60,10 +61,11 @@ public class InputConsole {
         return UUID.fromString(input);
     }
 
-    public String readName() {
-        return textIO.newStringInputReader()
+    public Name readName() {
+        String input = textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .read("Name: ");
+        return new Name(input);
     }
 
     public boolean readBlack() {

@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.customer.controller;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,16 +16,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CustomerDtoTest {
 
     static List<Customer> customers = List.of(
-            new Customer(UUID.randomUUID(), "사과", false),
-            new Customer(UUID.randomUUID(), "딸기", true),
-            new Customer(UUID.randomUUID(), "포도", false),
-            new Customer(UUID.randomUUID(), "배", false)
+            new Customer(UUID.randomUUID(), new Name("사과"), false),
+            new Customer(UUID.randomUUID(), new Name("딸기"), true),
+            new Customer(UUID.randomUUID(), new Name("포도"), false),
+            new Customer(UUID.randomUUID(), new Name("배"), false)
     );
     static List<CustomerDto> customerDto = List.of(
-            new CustomerDto(UUID.randomUUID(), "사과", false),
-            new CustomerDto(UUID.randomUUID(), "딸기", true),
-            new CustomerDto(UUID.randomUUID(), "포도", false),
-            new CustomerDto(UUID.randomUUID(), "배", false)
+            new CustomerDto(UUID.randomUUID(), new Name("사과"), false),
+            new CustomerDto(UUID.randomUUID(), new Name("딸기"), true),
+            new CustomerDto(UUID.randomUUID(), new Name("포도"), false),
+            new CustomerDto(UUID.randomUUID(), new Name("배"), false)
     );
 
     static Stream<Arguments> provideValidCustomers() {

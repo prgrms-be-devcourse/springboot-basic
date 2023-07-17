@@ -1,8 +1,5 @@
 package com.tangerine.voucher_system.application.customer.model;
 
-import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
-import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
-
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,20 +7,13 @@ import java.util.UUID;
 public class Customer {
 
     private final UUID customerId;
-    private final String name;
+    private final Name name;
     private final boolean isBlack;
 
-    public Customer(UUID customerId, String name, boolean isBlack) {
-        validateName(name);
+    public Customer(UUID customerId, Name name, boolean isBlack) {
         this.customerId = customerId;
         this.name = name;
         this.isBlack = isBlack;
-    }
-
-    private void validateName(String name) {
-        if (name == null || name.isBlank()) {
-            throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
-        }
     }
 
     @Override
@@ -31,7 +21,7 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return isBlack == customer.isBlack && Objects.equals(customerId, customer.customerId) && Objects.equals(name, customer.name);
+        return isBlack == customer.isBlack && Objects.equals(customerId, customer.customerId) && Objects.equals(name.getValue(), customer.name.getValue());
     }
 
     @Override
@@ -41,14 +31,14 @@ public class Customer {
 
     @Override
     public String toString() {
-        return MessageFormat.format("Customer(id: {0}, name: {1}, isBlack: {2})", customerId, name, isBlack);
+        return MessageFormat.format("Customer(id: {0}, name: {1}, isBlack: {2})", customerId, name.getValue(), isBlack);
     }
 
     public UUID getCustomerId() {
         return customerId;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 

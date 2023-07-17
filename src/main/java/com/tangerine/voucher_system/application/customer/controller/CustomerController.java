@@ -1,5 +1,6 @@
 package com.tangerine.voucher_system.application.customer.controller;
 
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 
@@ -40,7 +41,7 @@ public class CustomerController {
         return CustomerDto.of(customerService.findCustomerById(customerId));
     }
 
-    public CustomerDto customerByName(String name) {
+    public CustomerDto customerByName(Name name) {
         return CustomerDto.of(customerService.findCustomerByName(name));
     }
 
