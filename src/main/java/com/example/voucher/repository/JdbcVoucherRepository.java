@@ -68,9 +68,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
             .addValue("discountValue", voucher.getValue())
             .addValue("voucherType", voucher.getVoucherType().toString());
 
-        jdbcTemplate.update(
-            "UPDATE VOUCHER SET DISCOUNT_VALUE = :discountValue, VOUCHER_TYPE = :voucherType WHERE VOUCHER_ID = :voucherId",
-            parameterSource);
+        String sql = new QueryBuilder().update("VOUCHER")
+            .set("DISCOUNT_VALUE", "discountValue")
+            .addSet("VOUCHER_TYPE", "voucherType")
+            .where("VOUCHER_ID", "=", "voucherId")
+            .build();
+
+        jdbcTemplate.update(sql, parameterSource);
 
         return findById(voucher.getVoucherId());
     }

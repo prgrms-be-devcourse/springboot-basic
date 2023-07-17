@@ -83,6 +83,37 @@ public class QueryBuilder {
         return this;
     }
 
+    public QueryBuilder update(String table) {
+        query.append("UPDATE")
+            .append(" ")
+            .append(table);
+
+        return this;
+    }
+
+    public QueryBuilder set(String colum, String param) {
+        query.append(" ")
+            .append("SET")
+            .append(" ")
+            .append(colum)
+            .append("=")
+            .append(":")
+            .append(param);
+
+        return this;
+    }
+
+    public QueryBuilder addSet(String colum, String param) {
+        query.append(",")
+            .append(" ")
+            .append(colum)
+            .append("=")
+            .append(":")
+            .append(param);
+
+        return this;
+    }
+
     public String build() {
         return query.toString();
     }
@@ -92,9 +123,7 @@ public class QueryBuilder {
             .append(condition)
             .append(" ")
             .append(colum)
-            .append(" ")
             .append(operator)
-            .append(" ")
             .append(":")
             .append(param);
     }
