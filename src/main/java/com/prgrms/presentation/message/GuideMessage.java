@@ -1,15 +1,16 @@
 package com.prgrms.presentation.message;
 
 public enum GuideMessage {
-    START("=== Voucher Program === \n" +
-            "Type exit to exit the program.\n" +
-            "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.\n" +
-            "========================\n" +
-            "Type give voucher to give voucher to custmer.\n" +
-            "Type take voucher to take a voucher from customer.\n" +
-            "Type customer list to see customer list with same voucher.\n" +
-            "Type voucher list to see voucher list of customer."),
+    START("=== Voucher Program ===" + System.lineSeparator() +
+            "Type 'exit' to exit the program." + System.lineSeparator() +
+            "Type 'create' to create a new voucher." + System.lineSeparator() +
+            "Type 'list' to list all vouchers." + System.lineSeparator() +
+            "========================" + System.lineSeparator() +
+            "Type 'give voucher' to give a voucher to a customer." + System.lineSeparator() +
+            "Type 'take voucher' to take a voucher from a customer." + System.lineSeparator() +
+            "Type 'customer list' to see the customer list with the same voucher."
+            + System.lineSeparator() +
+            "Type 'voucher list' to see the voucher list of a customer."),
 
     GIVE_VOUCHER("Type customer id you want to give voucher to."),
     WANT_TO_VOUCHER_ID("Type voucher id you want to give to customer."),
@@ -34,4 +35,5 @@ public enum GuideMessage {
     public String toString() {
         return message;
     }
+
 }

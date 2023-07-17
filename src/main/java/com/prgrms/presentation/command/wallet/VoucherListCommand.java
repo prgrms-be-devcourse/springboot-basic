@@ -7,9 +7,11 @@ import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
 import com.prgrms.service.wallet.WalletService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class VoucherListCommand implements Command {
 
     private final Input input;

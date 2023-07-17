@@ -8,8 +8,7 @@ import java.util.List;
 @Component
 public class VoucherConverter {
 
-    private VoucherConverter() {
-    }
+    private VoucherConverter() { }
 
     public List<VoucherResponse> convertVoucherResponse(Vouchers vouchers) {
         return vouchers.vouchers()

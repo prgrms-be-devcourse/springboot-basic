@@ -4,6 +4,7 @@ import com.prgrms.model.order.Price;
 import com.prgrms.presentation.message.ErrorMessage;
 
 public abstract class Discount {
+
     private final double discountAmount;
 
     public Discount(double discountAmount) {

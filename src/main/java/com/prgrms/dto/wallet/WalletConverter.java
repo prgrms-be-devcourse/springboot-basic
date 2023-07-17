@@ -15,8 +15,8 @@ public class WalletConverter {
 
     public Wallet convertWallet(WalletRequest walletRequest) {
         int id = keyGenerator.make();
-        int customerId = walletRequest.getCustomerId();
-        int voucherId = walletRequest.getVoucherId();
+        int customerId = walletRequest.customerId();
+        int voucherId = walletRequest.voucherId();
 
         return new Wallet(id, customerId, voucherId);
     }

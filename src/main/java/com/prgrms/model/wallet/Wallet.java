@@ -32,4 +32,6 @@ public class Wallet {
     public boolean isDeleted() {
         return deleted;
     }
+
 }
+

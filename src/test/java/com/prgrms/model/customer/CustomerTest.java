@@ -1,19 +1,18 @@
 package com.prgrms.model.customer;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 class CustomerTest {
 
-    private final int CUSTOMER_ID = 1;
-    private final String EMAIL = "1234@nan";
-    private final String NULL_NAME = null;
-    private final String BLANK_NAME = " ";
-    private final String EMPTY_NAME = "";
+    private final int customerId = 1;
+    private final String email = "1234@nan";
+    private final Name nullName = new Name(null);
+    private final Name blankName = new Name(" ");
+    private final Name emptyName = new Name("");
 
     @Test
     @DisplayName("이름이 NULL로 들어오는 경우 예외를 던진다.")
@@ -22,7 +21,7 @@ class CustomerTest {
         LocalDateTime createdAt = LocalDateTime.now();
 
         //when_then
-        assertThatThrownBy(() -> new Customer(CUSTOMER_ID, NULL_NAME, EMAIL, createdAt))
+        assertThatThrownBy(() -> new Customer(customerId, nullName, email, createdAt))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -33,7 +32,7 @@ class CustomerTest {
         LocalDateTime createdAt = LocalDateTime.now();
 
         //when_then
-        assertThatThrownBy(() -> new Customer(CUSTOMER_ID, BLANK_NAME, EMAIL, createdAt))
+        assertThatThrownBy(() -> new Customer(customerId, blankName, email, createdAt))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -44,7 +43,8 @@ class CustomerTest {
         LocalDateTime createdAt = LocalDateTime.now();
 
         //when_then
-        assertThatThrownBy(() -> new Customer(CUSTOMER_ID, EMPTY_NAME, EMAIL, createdAt))
+        assertThatThrownBy(() -> new Customer(customerId, emptyName, email, createdAt))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
 }

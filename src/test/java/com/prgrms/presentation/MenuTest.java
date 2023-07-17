@@ -1,18 +1,13 @@
 package com.prgrms.presentation;
 
-import com.prgrms.presentation.command.Command;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 
 class MenuTest {
-
-    @Mock
-    private Command command;
 
     @Test
     @DisplayName("소문자 list를 입력했을 때 제대로 된 메뉴 LIST를 반환하는지 확인한다.")

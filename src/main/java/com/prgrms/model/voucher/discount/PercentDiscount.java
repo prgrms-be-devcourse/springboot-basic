@@ -25,3 +25,4 @@ public class PercentDiscount extends Discount {
         return originalPrice.getSaledPrice(amount);
     }
 }
+

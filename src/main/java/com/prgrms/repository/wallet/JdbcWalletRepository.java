@@ -24,7 +24,8 @@ public class JdbcWalletRepository implements WalletRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final DataRowMapper dataRowMapper;
 
-    public JdbcWalletRepository(NamedParameterJdbcTemplate jdbcTemplate, DataRowMapper dataRowMapper) {
+    public JdbcWalletRepository(NamedParameterJdbcTemplate jdbcTemplate,
+            DataRowMapper dataRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataRowMapper = dataRowMapper;
     }
@@ -64,19 +65,24 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<Wallet> findAllWallet() {
-        List<Wallet> wallet = jdbcTemplate.query(SELECT_ALL_WALLETS, dataRowMapper.getWalletRowMapper());
+        List<Wallet> wallet = jdbcTemplate.query(SELECT_ALL_WALLETS,
+                dataRowMapper.getWalletRowMapper());
         return wallet;
     }
 
     @Override
     public List<Customer> findAllCustomersByVoucher(int voucherId) {
-        List<Customer> customers = jdbcTemplate.query(FIND_ALL_WALLET_BY_VOUCHER_ID, Collections.singletonMap("voucherId", voucherId), dataRowMapper.getCustomerRowMapper());
+        List<Customer> customers = jdbcTemplate.query(FIND_ALL_WALLET_BY_VOUCHER_ID,
+                Collections.singletonMap("voucherId", voucherId),
+                dataRowMapper.getCustomerRowMapper());
         return customers;
     }
 
     @Override
     public Vouchers findAllVouchersByCustomer(int customerId) {
-        List<Voucher> vouchers = jdbcTemplate.query(FIND_ALL_WALLET_BY_CUSTOMER_ID, Collections.singletonMap("customerId", customerId), dataRowMapper.getVoucherRowMapper());
+        List<Voucher> vouchers = jdbcTemplate.query(FIND_ALL_WALLET_BY_CUSTOMER_ID,
+                Collections.singletonMap("customerId", customerId),
+                dataRowMapper.getVoucherRowMapper());
         return new Vouchers(vouchers);
     }
 

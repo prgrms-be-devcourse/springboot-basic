@@ -7,7 +7,9 @@ import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
 import com.prgrms.service.wallet.WalletService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TakeVoucherCommand implements Command {
 
     private final Output output;
@@ -37,4 +39,5 @@ public class TakeVoucherCommand implements Command {
 
         return new WalletRequest(customerId, voucherId);
     }
+
 }

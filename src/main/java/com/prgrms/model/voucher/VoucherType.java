@@ -23,7 +23,8 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(p -> p.number.equals(voucherType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_SELECTION.getMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        ErrorMessage.INVALID_SELECTION.getMessage()));
     }
 
     public String voucherPolicyOptionGuide() {
@@ -35,3 +36,4 @@ public enum VoucherType {
     }
 
 }
+

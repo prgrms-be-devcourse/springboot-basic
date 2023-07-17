@@ -4,33 +4,27 @@ import com.prgrms.model.customer.Customer;
 
 import java.time.LocalDateTime;
 
-public class CustomerResponse {
-
-    private final String email;
-    private final LocalDateTime createdAt;
-    private final String name;
-    private final LocalDateTime lastLoginAt;
+public record CustomerResponse(
+        String email,
+        LocalDateTime createdAt,
+        String name,
+        LocalDateTime lastLoginAt
+) {
 
     public CustomerResponse(Customer customer) {
-        this.email = customer.getEmail();
-        this.createdAt = customer.getCreatedAt();
-        this.name = customer.getName();
-        this.lastLoginAt = customer.getLastLoginAt();
+        this(
+                customer.getEmail(),
+                customer.getCreatedAt(),
+                customer.getName().getValue(),
+                customer.getLastLoginAt()
+        );
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(name).append(" ")
-                .append(email).append(" ")
-                .append(createdAt).append(" ")
-                .append(lastLoginAt).append(" ");
-
-        return sb.toString();
+        return "email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                ", name='" + name + '\'' +
+                ", lastLoginAt=" + lastLoginAt ;
     }
-
-    public String getName() {
-        return name;
-    }
-
 }

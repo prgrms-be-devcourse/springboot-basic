@@ -39,9 +39,8 @@ public class CreateCommand implements Command {
                 .forEach(voucherPolicy -> output.write(voucherPolicy.voucherPolicyOptionGuide()));
 
         String option = input.enterOption();
-        VoucherType voucherType = VoucherType.findByType(option);
 
-        return voucherType;
+        return VoucherType.findByType(option);
     }
 
     private double guideVoucherPolicy(VoucherType voucherType) {
@@ -52,4 +51,5 @@ public class CreateCommand implements Command {
 
         return discountAmount;
     }
+
 }

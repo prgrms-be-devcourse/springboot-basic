@@ -23,7 +23,9 @@ public class WalletService {
     private final WalletConverter walletConverter;
     private final CustomerConverter customerConverter;
 
-    public WalletService(WalletRepository walletRepository, KeyGenerator keyGenerator, VoucherConverter voucherConverter, WalletConverter walletConverter, CustomerConverter customerConverter) {
+    public WalletService(WalletRepository walletRepository, KeyGenerator keyGenerator,
+            VoucherConverter voucherConverter, WalletConverter walletConverter,
+            CustomerConverter customerConverter) {
         this.walletRepository = walletRepository;
         this.voucherConverter = voucherConverter;
         this.walletConverter = walletConverter;
@@ -37,8 +39,8 @@ public class WalletService {
     }
 
     public Wallet takeVoucher(WalletRequest walletRequest) {
-        int voucherId = walletRequest.getVoucherId();
-        int customerId = walletRequest.getCustomerId();
+        int voucherId = walletRequest.voucherId();
+        int customerId = walletRequest.customerId();
 
         return walletRepository.deleteWithVoucherIdAndCustomerId(voucherId, customerId);
     }

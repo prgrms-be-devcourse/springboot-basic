@@ -1,14 +1,27 @@
 package com.prgrms.service.voucher;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.prgrms.dto.voucher.VoucherConverter;
 import com.prgrms.dto.voucher.VoucherResponse;
 import com.prgrms.model.KeyGenerator;
-import com.prgrms.model.voucher.*;
+import com.prgrms.model.voucher.FixedAmountVoucher;
+import com.prgrms.model.voucher.PercentDiscountVoucher;
+import com.prgrms.model.voucher.Voucher;
+import com.prgrms.model.voucher.VoucherCreator;
+import com.prgrms.model.voucher.VoucherType;
+import com.prgrms.model.voucher.Vouchers;
 import com.prgrms.model.voucher.discount.Discount;
 import com.prgrms.model.voucher.discount.DiscountCreator;
 import com.prgrms.model.voucher.discount.FixedDiscount;
 import com.prgrms.model.voucher.discount.PercentDiscount;
 import com.prgrms.repository.voucher.VoucherRepository;
+import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,12 +30,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-
 class VoucherServiceTest {
 
     private final static int ID = 1;
@@ -30,20 +37,26 @@ class VoucherServiceTest {
 
     @Mock
     private VoucherRepository voucherRepository;
+
     @Mock
     private VoucherConverter voucherConverter;
+
     @Mock
     private KeyGenerator keyGenerator;
+
     @Mock
     private VoucherCreator voucherCreator;
+
     @Mock
     private DiscountCreator discountCreator;
+
     private VoucherService voucherService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        voucherService = new VoucherService(voucherRepository, voucherConverter, keyGenerator, voucherCreator, discountCreator);
+        voucherService = new VoucherService(voucherRepository, voucherConverter, keyGenerator,
+                voucherCreator, discountCreator);
     }
 
     @Test
@@ -58,7 +71,6 @@ class VoucherServiceTest {
         when(discountCreator.createDiscount(voucherType, DISCOUNT_AMOUNT)).thenReturn(discount);
         when(voucherCreator.createVoucher(ID, voucherType, discount)).thenReturn(createdVoucher);
         when(voucherRepository.insert(createdVoucher)).thenReturn(createdVoucher);
-
 
         //when
         Voucher result = voucherService.createVoucher(voucherType, DISCOUNT_AMOUNT);
@@ -97,8 +109,10 @@ class VoucherServiceTest {
     }
 
     private static Stream<List<Voucher>> voucherProvider() {
-        Voucher createdVoucher1 = new FixedAmountVoucher(ID, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(ID, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(ID, new FixedDiscount(20),
+                VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(ID, new PercentDiscount(20),
+                VoucherType.PERCENT_DISCOUNT_VOUCHER);
         return Stream.of(
                 List.of(createdVoucher1, createdVoucher2)
         );

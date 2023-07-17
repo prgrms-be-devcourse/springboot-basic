@@ -24,7 +24,9 @@ public class VoucherService {
     private final DiscountCreator discountCreator;
 
 
-    public VoucherService(VoucherRepository voucherRepository, VoucherConverter voucherConverter, KeyGenerator keyGenerator, VoucherCreator voucherFactory, DiscountCreator discountCreator) {
+    public VoucherService(VoucherRepository voucherRepository, VoucherConverter voucherConverter,
+            KeyGenerator keyGenerator, VoucherCreator voucherFactory,
+            DiscountCreator discountCreator) {
         this.voucherRepository = voucherRepository;
         this.voucherConverter = voucherConverter;
         this.keyGenerator = keyGenerator;
@@ -34,8 +36,8 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherType voucherType, double discountAmount) {
         int id = keyGenerator.make();
-        Discount discount = discountCreator.createDiscount(voucherType,discountAmount);
-        Voucher voucher = voucherCreator.createVoucher(id, voucherType,discount);
+        Discount discount = discountCreator.createDiscount(voucherType, discountAmount);
+        Voucher voucher = voucherCreator.createVoucher(id, voucherType, discount);
 
         return voucherRepository.insert(voucher);
     }
@@ -45,4 +47,5 @@ public class VoucherService {
 
         return voucherConverter.convertVoucherResponse(vouchers);
     }
+
 }

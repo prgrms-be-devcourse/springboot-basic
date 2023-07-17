@@ -7,15 +7,16 @@ import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
 import com.prgrms.service.wallet.WalletService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CustomerListCommand implements Command {
 
     private final Output output;
     private final Input input;
     private final WalletService walletService;
-
 
     public CustomerListCommand(Output output, Input input, WalletService walletService) {
         this.output = output;
@@ -34,4 +35,5 @@ public class CustomerListCommand implements Command {
 
         return Power.ON;
     }
+
 }

@@ -4,29 +4,16 @@ import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.model.voucher.discount.Discount;
 
-public class VoucherResponse {
-    private final VoucherType voucherType;
-    private final Discount discount;
+public record VoucherResponse(VoucherType voucherType,
+                              Discount discount) {
 
     public VoucherResponse(Voucher voucher) {
-        this.voucherType = voucher.getVoucherType();
-        this.discount = voucher.getVoucherDiscount();
+        this(voucher.getVoucherType(), voucher.getVoucherDiscount());
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(voucherType).append(" : ")
-                .append(discount.getDiscountAmount());
-
-        return sb.toString();
+        return voucherType + " : " + discount.getDiscountAmount();
     }
 
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    public Discount getDiscount() {
-        return discount;
-    }
 }

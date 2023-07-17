@@ -3,6 +3,7 @@ package com.prgrms.model.order;
 import com.prgrms.presentation.message.ErrorMessage;
 
 public record Price(double cost) {
+
     public Price {
         validPositiveDiscount(cost);
     }

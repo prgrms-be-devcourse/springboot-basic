@@ -23,12 +23,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String COLUMN = "voucher_id, voucher_type, discount";
     private final DataRowMapper dataRowMapper;
 
-
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate, DataRowMapper dataRowMapper) {
+    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate,
+            DataRowMapper dataRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataRowMapper = dataRowMapper;
     }
-
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
@@ -40,7 +39,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount) VALUES (:voucher_id, :voucher_type, :discount)",
+        int update = jdbcTemplate.update(
+                "INSERT INTO vouchers(voucher_id, voucher_type, discount) VALUES (:voucher_id, :voucher_type, :discount)",
                 toParamMap(voucher));
 
         if (update != 1) {
@@ -52,14 +52,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Vouchers getAllVoucher() {
-        List<Voucher> vouchers = jdbcTemplate.query("select " + COLUMN + " from vouchers", dataRowMapper.getVoucherRowMapper());
+        List<Voucher> vouchers = jdbcTemplate.query("select " + COLUMN + " from vouchers",
+                dataRowMapper.getVoucherRowMapper());
         return new Vouchers(vouchers);
     }
 
     @Override
     public Optional<Voucher> findById(int voucher_id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select " + COLUMN + " from vouchers where voucher_id = :voucher_id",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "select " + COLUMN + " from vouchers where voucher_id = :voucher_id",
                     Collections.singletonMap("voucher_id", voucher_id),
                     dataRowMapper.getVoucherRowMapper()));
         } catch (EmptyResultDataAccessException e) {

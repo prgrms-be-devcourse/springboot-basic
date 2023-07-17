@@ -5,10 +5,10 @@ import com.prgrms.model.order.Price;
 import com.prgrms.model.voucher.discount.Discount;
 
 public abstract class Voucher {
+
     private final int voucherId;
     private final Discount discount;
     private final VoucherType voucherType;
-
 
     public Voucher(int voucherId, Discount discount, VoucherType voucherType) {
         this.voucherId = voucherId;
@@ -32,4 +32,5 @@ public abstract class Voucher {
         Price originalPrice = orderItem.productPrice();
         return getVoucherDiscount().sale(originalPrice);
     }
+
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DiscountCreator {
 
-    private DiscountCreator() {}
+    private DiscountCreator() { }
 
     public Discount createDiscount(VoucherType voucherType, double discountAmount) {
 

@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 @Component
 public class MemoryVoucherRepository implements VoucherRepository {
+
     private final Map<Integer, Voucher> storage = new TreeMap<>();
 
     @Override
@@ -22,6 +23,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
+
     public Vouchers getAllVoucher() {
         return new Vouchers(storage.values()
                 .stream()

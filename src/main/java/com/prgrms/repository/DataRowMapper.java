@@ -1,6 +1,7 @@
 package com.prgrms.repository;
 
 import com.prgrms.model.customer.Customer;
+import com.prgrms.model.customer.Name;
 import com.prgrms.model.voucher.Voucher;
 import com.prgrms.model.voucher.VoucherCreator;
 import com.prgrms.model.voucher.VoucherType;
@@ -22,6 +23,7 @@ public class DataRowMapper {
         this.discountCreator = discountCreator;
         this.voucherCreator = voucherCreator;
     }
+
     public RowMapper<Wallet> getWalletRowMapper() {
         return (resultSet, i) -> {
             int voucherId = resultSet.getInt("voucher_id");
@@ -34,7 +36,7 @@ public class DataRowMapper {
     public RowMapper<Customer> getCustomerRowMapper() {
         return (resultSet, i) -> {
             int customerId = resultSet.getInt("customer_id");
-            String customerName = resultSet.getString("name");
+            Name customerName = new Name(resultSet.getString("name"));
             String email = resultSet.getString("email");
             LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                     resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
@@ -48,8 +50,8 @@ public class DataRowMapper {
             int voucherId = resultSet.getInt("voucher_id");
             VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
             double discountValue = resultSet.getDouble("discount");
-            Discount discount = discountCreator.createDiscount(voucherType,discountValue);
-            return voucherCreator.createVoucher(voucherId, voucherType,discount);
+            Discount discount = discountCreator.createDiscount(voucherType, discountValue);
+            return voucherCreator.createVoucher(voucherId, voucherType, discount);
         };
     }
 

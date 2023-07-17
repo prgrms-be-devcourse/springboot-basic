@@ -1,19 +1,22 @@
 package com.prgrms.repository.voucher;
 
-import com.prgrms.model.voucher.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.prgrms.model.voucher.FixedAmountVoucher;
+import com.prgrms.model.voucher.PercentDiscountVoucher;
+import com.prgrms.model.voucher.Voucher;
+import com.prgrms.model.voucher.VoucherType;
+import com.prgrms.model.voucher.Vouchers;
 import com.prgrms.model.voucher.discount.FixedDiscount;
 import com.prgrms.model.voucher.discount.PercentDiscount;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class MemoryVoucherRepositoryTest {
 
@@ -25,7 +28,8 @@ class MemoryVoucherRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        voucher = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        voucher = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20),
+                VoucherType.FIXED_AMOUNT_VOUCHER);
         voucherRepository = new MemoryVoucherRepository();
         voucherRepository.insert(voucher);
     }
@@ -56,7 +60,8 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("추가된 바우처와 추가하면서 반환한 바우처는 같다.")
     void insert_InsertedVoucher_EqualsReturnVoucher() {
         //given
-        Voucher voucher = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher voucher = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20),
+                VoucherType.FIXED_AMOUNT_VOUCHER);
 
         //when
         Voucher result = voucherRepository.insert(voucher);
@@ -83,8 +88,10 @@ class MemoryVoucherRepositoryTest {
     }
 
     private static Stream<List<Voucher>> voucherProvider() {
-        Voucher createdVoucher1 = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(PERCENT_VOUCHER_ID, new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
+        Voucher createdVoucher1 = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20),
+                VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher2 = new PercentDiscountVoucher(PERCENT_VOUCHER_ID,
+                new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
         return Stream.of(
                 List.of(createdVoucher1, createdVoucher2)
         );

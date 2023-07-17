@@ -1,14 +1,14 @@
 package com.prgrms.model.voucher;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.prgrms.model.order.OrderItem;
 import com.prgrms.model.order.Price;
 import com.prgrms.model.voucher.discount.FixedDiscount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FixedAmountVoucherTest {
 
@@ -27,7 +27,8 @@ class FixedAmountVoucherTest {
     @DisplayName("고정 할인 바우처가 적용된 할인된 금액이 예상값과 같게 나온다.")
     void discountPrice_DiscountedPrice_Equal() {
         //given
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20),
+                VoucherType.FIXED_AMOUNT_VOUCHER);
 
         //when
         Price discountedPrice = createdVoucher.discountPrice(orderItem);
@@ -40,10 +41,12 @@ class FixedAmountVoucherTest {
     @DisplayName("할인ㄷ된 금액이 원가보다 커서 할인된 금액이 음수가 나오는 경우 예외를 던진다.")
     void discountPrice_NegativeDiscountedPrice_ThrowsException() {
         //given
-        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(2000), VoucherType.FIXED_AMOUNT_VOUCHER);
+        Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(2000),
+                VoucherType.FIXED_AMOUNT_VOUCHER);
 
         //when_then
         assertThatThrownBy(() -> createdVoucher.discountPrice(orderItem))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
 }

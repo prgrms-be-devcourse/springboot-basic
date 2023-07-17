@@ -15,12 +15,14 @@ import java.util.*;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
+
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final String COLUMNS = "last_login_at, customer_id, name, email, created_at";
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final DataRowMapper dataRowMapper;
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate, DataRowMapper dataRowMapper) {
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate,
+            DataRowMapper dataRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataRowMapper = dataRowMapper;
     }
@@ -31,13 +33,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("created_at", Timestamp.valueOf(customer.getCreatedAt()));
-            put("last_login_at", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+            put("last_login_at",
+                    customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt())
+                            : null);
         }};
     }
 
     @Override
     public Customer insert(Customer customer) {
-        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customer_id, :name, :email, :created_at)",
+        int update = jdbcTemplate.update(
+                "INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customer_id, :name, :email, :created_at)",
                 toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
@@ -47,7 +52,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :last_login_at WHERE customer_id = :customer_id",
+        int update = jdbcTemplate.update(
+                "UPDATE customers SET name = :name, email = :email, last_login_at = :last_login_at WHERE customer_id = :customer_id",
                 toParamMap(customer));
         if (update != 1) {
             throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
@@ -57,12 +63,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("select " + COLUMNS + " from customers", dataRowMapper.getCustomerRowMapper());
+        return jdbcTemplate.query("select " + COLUMNS + " from customers",
+                dataRowMapper.getCustomerRowMapper());
     }
 
     public Optional<Customer> findById(int customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select " + COLUMNS + " from customers WHERE customer_id = :customer_id",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "select " + COLUMNS + " from customers WHERE customer_id = :customer_id",
                     Collections.singletonMap("customer_id", customerId),
                     dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
@@ -74,7 +82,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select " + COLUMNS + " from customers WHERE name = :name",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "select " + COLUMNS + " from customers WHERE name = :name",
                     Collections.singletonMap("name", name),
                     dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
@@ -86,7 +95,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select " + COLUMNS + " from customers WHERE email = :email",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "select " + COLUMNS + " from customers WHERE email = :email",
                     Collections.singletonMap("email", email),
                     dataRowMapper.getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
@@ -98,7 +108,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public boolean existsById(int voucher_id) {
 
-        return jdbcTemplate.queryForObject("SELECT 1 EXISTS(SELECT FROM vouchers WHERE voucher_id = :voucher_id)"
+        return jdbcTemplate.queryForObject(
+                "SELECT 1 EXISTS(SELECT FROM vouchers WHERE voucher_id = :voucher_id)"
                 , Collections.singletonMap("voucher_id"
                         , voucher_id), Boolean.class);
     }
