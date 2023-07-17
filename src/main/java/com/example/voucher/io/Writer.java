@@ -1,8 +1,5 @@
 package com.example.voucher.io;
 
-import java.util.UUID;
-import com.example.voucher.constant.VoucherType;
-
 class Writer {
 
     enum Message {
@@ -54,12 +51,6 @@ class Writer {
     public Writer() {
     }
 
-    public static final String VOUCHER_INFO_TEMPLATE = "voucherId : %s, VoucherType : %s, discountValue : %d";
-
-    public void writeMessage(UUID voucherId, VoucherType voucherType, long discountValue) {
-        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherId.toString(), voucherType, discountValue));
-    }
-
     public void writeMessage(Message message) {
         System.out.println(message.getText());
     }
@@ -67,4 +58,5 @@ class Writer {
     public void writeMessage(String resultInfo) {
         System.out.println(resultInfo);
     }
+    
 }

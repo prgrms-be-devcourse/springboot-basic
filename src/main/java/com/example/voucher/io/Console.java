@@ -28,19 +28,6 @@ public class Console {
         writer.writeMessage(resultInfo);
     }
 
-    public void displayVoucherInfo(VoucherDTO voucher) {
-        writer.writeMessage(voucher.voucherId(), voucher.voucherType(), voucher.value());
-    }
-
-    public void displayVoucherInfo(List<VoucherDTO> vouchers) {
-        for (VoucherDTO voucher : vouchers) {
-            VoucherType voucherType = voucher.voucherType();
-            long value = voucher.value();
-
-            writer.writeMessage(voucher.voucherId(), voucherType, value);
-        }
-    }
-
     public void displayVoucherServiceError(String errorMsg) {
         logger.error(errorMsg);
         writer.writeMessage(Message.REQUEST_FAILED);
