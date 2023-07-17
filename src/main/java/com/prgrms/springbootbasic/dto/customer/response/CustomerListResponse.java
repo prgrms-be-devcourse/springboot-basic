@@ -8,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CustomerListResponse {
 
-    private final List<CustomerResponse> customerList;
+    private final List<CustomerResponse> customerResponseList;
 }

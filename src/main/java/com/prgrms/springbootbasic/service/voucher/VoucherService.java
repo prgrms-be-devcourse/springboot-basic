@@ -7,19 +7,18 @@ import com.prgrms.springbootbasic.dto.voucher.request.VoucherCreateRequest;
 import com.prgrms.springbootbasic.dto.voucher.request.VoucherUpdateRequest;
 import com.prgrms.springbootbasic.dto.voucher.response.VoucherListResponse;
 import com.prgrms.springbootbasic.dto.voucher.response.VoucherResponse;
-import com.prgrms.springbootbasic.enums.VoucherType;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
 import com.prgrms.springbootbasic.repository.voucher.VoucherRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 @AllArgsConstructor
 public class VoucherService {
 
@@ -51,11 +50,13 @@ public class VoucherService {
         return new VoucherResponse(voucher.getVoucherId(), voucher.getDiscount(), voucher.getVoucherType(), voucher.getCreatedAt());
     }
 
-    //조회(Read) - 생성일을 통해서 조회
-    public VoucherResponse findByCreateAt(LocalDateTime createAt) {
-        Voucher voucher = voucherRepository.findByCreatedAt(createAt)
-                .orElseThrow(() -> new IllegalArgumentException("조회하시는 Voucher는 존재하지 않습니다."));
-        return new VoucherResponse(voucher.getVoucherId(), voucher.getDiscount(), voucher.getVoucherType(), voucher.getCreatedAt());
+    //조회(Read) - 생성일순으로 조회
+    public VoucherListResponse findByCreateAt() {
+        List<Voucher> vouchers = voucherRepository.findByCreatedAt();
+        List<VoucherResponse> voucherResponseList = vouchers.stream()
+                .map(voucher -> new VoucherResponse(voucher.getVoucherId(), voucher.getDiscount(), voucher.getVoucherType(), voucher.getCreatedAt()))
+                .collect(Collectors.toList());
+        return new VoucherListResponse(voucherResponseList);
     }
 
     //조회(Read) - 바우처 타입별로 조회
@@ -83,29 +84,32 @@ public class VoucherService {
     //수정(Update)
     public void updateVoucher(VoucherUpdateRequest voucherUpdateRequest) {
         UUID voucherId = voucherUpdateRequest.getVoucherId();
+
         Optional<Voucher> storegedVoucher = voucherRepository.findById(voucherId);
 
         Voucher voucher = storegedVoucher.orElseThrow(() -> new IllegalArgumentException("해당 바우처는 존재하지 않습니다."));
 
-        if (voucher.getVoucherType() == VoucherType.FIXED) {
-            FixedVoucher fixedVoucher = (FixedVoucher) voucher;
-            fixedVoucher.setDiscount(voucherUpdateRequest.getDiscount());
-        } else if (voucher.getVoucherType() == VoucherType.RATE) {
-            RateVoucher rateVoucher = (RateVoucher) voucher;
-            rateVoucher.setDiscount(voucherUpdateRequest.getDiscount());
-        }
-
+        voucher = switch (voucher.getVoucherType()) {
+            case FIXED -> new FixedVoucher(voucher.getVoucherId(), voucherUpdateRequest.getDiscount(), voucher.getCreatedAt());
+            case RATE -> new RateVoucher(voucher.getVoucherId(), voucherUpdateRequest.getDiscount(), voucher.getCreatedAt());
+        };
         voucherRepository.update(voucher);
     }
 
     //삭제(Delete) -id
-    public void deleteById(UUID voucherId) {
-        Optional<Voucher> deleteByIdVoucher = voucherRepository.deleteById(voucherId);
-        deleteByIdVoucher.orElseThrow(() -> new IllegalArgumentException("해당 바우처는 존재하지 않습니다."));
+    public int deleteById(UUID voucherId) {
+        if (!voucherRepository.checkVoucherId(voucherId)) {
+            throw new NoSuchElementException("삭제하려는 바우처의 ID는 존재하지 않습니다. 다시 확인 후, 입력해주세요");
+        }
+        return voucherRepository.deleteById(voucherId);
     }
 
     //삭제(Delete)
     public void deleteAllVoucher() {
         voucherRepository.deleteAll();
+    }
+
+    public boolean checkVoucherId(UUID voucherId) {
+        return voucherRepository.checkVoucherId(voucherId);
     }
 }

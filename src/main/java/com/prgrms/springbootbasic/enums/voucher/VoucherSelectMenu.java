@@ -4,7 +4,7 @@ package com.prgrms.springbootbasic.enums.voucher;
 public enum VoucherSelectMenu {
     ID,
     TYPE,
-    CREATEAT,
+    CREATEDAT,
     ALL;
 
     public static VoucherSelectMenu of(String readMenu) {

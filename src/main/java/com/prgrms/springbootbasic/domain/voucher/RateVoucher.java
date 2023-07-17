@@ -1,6 +1,6 @@
 package com.prgrms.springbootbasic.domain.voucher;
 
-import com.prgrms.springbootbasic.enums.VoucherType;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Setter;
@@ -20,9 +20,17 @@ public class RateVoucher implements Voucher {
         this.type = getVoucherType();
     }
 
+    public RateVoucher(UUID voucherId, long discount, LocalDateTime createdAt) {
+        this.voucherId = voucherId;
+        this.discount = discount;
+        this.createAt = createdAt;
+        this.type = getVoucherType();
+    }
+
     public long ValidDiscount(long discount) {
         if (discount < 1 || discount > 99) {
             throw new IllegalArgumentException("퍼센트 할인 바우처의 할인 퍼센트는 1 ~ 99까지의 숫자를 입력해야 합니다.");
+
         }
         return discount;
     }

@@ -2,8 +2,7 @@ package com.prgrms.springbootbasic.enums.customer;
 
 public enum CustomerSelectMenu {
     ID,
-    TYPE,
-    CREATEAT,
+    CREATEDAT,
     ALL;
 
     public static CustomerSelectMenu of(String readMenu) {

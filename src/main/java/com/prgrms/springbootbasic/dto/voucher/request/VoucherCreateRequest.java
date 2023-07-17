@@ -1,6 +1,6 @@
 package com.prgrms.springbootbasic.dto.voucher.request;
 
-import com.prgrms.springbootbasic.enums.VoucherType;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

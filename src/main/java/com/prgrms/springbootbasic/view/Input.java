@@ -4,7 +4,7 @@ import com.prgrms.springbootbasic.dto.customer.request.CustomerCreateRequest;
 import com.prgrms.springbootbasic.dto.customer.request.CustomerUpdateRequest;
 import com.prgrms.springbootbasic.dto.voucher.request.VoucherCreateRequest;
 import com.prgrms.springbootbasic.dto.voucher.request.VoucherUpdateRequest;
-import com.prgrms.springbootbasic.enums.VoucherType;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
 import java.util.UUID;
 
 public interface Input {
@@ -20,7 +20,7 @@ public interface Input {
 
     //고객 생성(Create)
     CustomerCreateRequest inputCustomerCreateMessage();
-
+    
     //고객 변경(Update)
     CustomerUpdateRequest inputCustomerUpdateMessage(UUID cusomterId);
 

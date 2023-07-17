@@ -1,8 +1,7 @@
 package com.prgrms.springbootbasic.repository.voucher;
 
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
-import com.prgrms.springbootbasic.enums.VoucherType;
-import java.time.LocalDateTime;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,22 +14,23 @@ public interface VoucherRepository {
     //read - id
     Optional<Voucher> findById(UUID voucherId);
 
-    //read - create at
-    Optional<Voucher> findByCreatedAt(LocalDateTime createAt);
-
     List<Voucher> findByType(VoucherType type);
 
     //read - all
     List<Voucher> findAll();
 
+    //read - create at
+    List<Voucher> findByCreatedAt();
 
     //update
-    Optional<Voucher> update(Voucher voucher);
+    void update(Voucher voucher);
 
     //delete - id
-
-    Optional<Voucher> deleteById(UUID voucherId);
+    int deleteById(UUID voucherId);
 
     //delete - all
     void deleteAll();
+
+    boolean checkVoucherId(UUID voucherId);
+
 }

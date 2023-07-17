@@ -1,11 +1,12 @@
 package com.prgrms.springbootbasic.domain.voucher;
 
-import com.prgrms.springbootbasic.enums.VoucherType;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Setter;
 
 @Setter
+
 public class FixedVoucher implements Voucher {
 
     private final UUID voucherId;
@@ -17,6 +18,13 @@ public class FixedVoucher implements Voucher {
         this.voucherId = UUID.randomUUID();
         this.discount = ValidDiscount(discount);
         this.createAt = LocalDateTime.now();
+        this.type = getVoucherType();
+    }
+
+    public FixedVoucher(UUID voucherId, long discount, LocalDateTime createdAt) {
+        this.voucherId = voucherId;
+        this.discount = discount;
+        this.createAt = createdAt;
         this.type = getVoucherType();
     }
 

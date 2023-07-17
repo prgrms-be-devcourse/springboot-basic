@@ -1,8 +1,7 @@
 package com.prgrms.springbootbasic.repository.voucher;
 
 import com.prgrms.springbootbasic.domain.voucher.Voucher;
-import com.prgrms.springbootbasic.enums.VoucherType;
-import java.time.LocalDateTime;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +9,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Repository;
+import lombok.extern.slf4j.Slf4j;
 
-@Repository
+//@Repository
+@Slf4j
+
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -30,12 +31,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCreatedAt(LocalDateTime createAt) {
-        Optional<Voucher> findVoucher = storage.values().stream()
-                .filter(voucher -> voucher.getCreatedAt().equals(createAt))
-                .findFirst();
-        return findVoucher;
+    public List<Voucher> findByCreatedAt() {
+        return new ArrayList<>(storage.values());
     }
+
 
     @Override
     public List<Voucher> findByType(VoucherType type) {
@@ -50,24 +49,32 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> update(Voucher voucher) {
+    public void update(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         if (storage.containsKey(voucherId)) {
             storage.put(voucherId, voucher);
-            return Optional.of(voucher);
         } else {
-            return Optional.empty();
+            log.error("업테이트 시 오류가 발생했습니다.");
         }
     }
 
     @Override
-    public Optional<Voucher> deleteById(UUID voucherId) {
-        Voucher removeVoucher = storage.remove(voucherId);
-        return Optional.ofNullable(removeVoucher);
+    public int deleteById(UUID voucherId) {
+        try {
+            storage.remove(voucherId);
+            return 1;
+        } catch (NullPointerException e) {
+            return 0;
+        }
     }
 
     @Override
     public void deleteAll() {
         storage.clear();
+    }
+
+    @Override
+    public boolean checkVoucherId(UUID voucherId) {
+        return false;
     }
 }

@@ -8,14 +8,15 @@ import com.prgrms.springbootbasic.dto.customer.response.CustomerResponse;
 import com.prgrms.springbootbasic.repository.customer.CustomerRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CustomerService {
 
     private CustomerRepository customerRepository;
@@ -53,12 +54,13 @@ public class CustomerService {
         return new CustomerListResponse(customerResponseList);
     }
 
-
     //조회(Read) - 생성일을 통해서 조회
-    public CustomerResponse findByCreateAt(LocalDateTime createAt) {
-        Customer customer = customerRepository.findByCreateAt(createAt)
-                .orElseThrow(() -> new IllegalArgumentException("조회하시는 고객은 존재하지 않습니다."));
-        return new CustomerResponse(customer.getCustomerId(), customer.getName(), customer.getEmail(), customer.getCreateAt());
+    public CustomerListResponse findByCreateAt() {
+        List<Customer> customers = customerRepository.findByCreatedAt();
+        List<CustomerResponse> customerResponseList = customers.stream()
+                .map(customer -> new CustomerResponse(customer.getCustomerId(), customer.getName(), customer.getEmail(), customer.getCreateAt()))
+                .collect(Collectors.toList());
+        return new CustomerListResponse(customerResponseList);
     }
 
     //수정(Update)
@@ -73,15 +75,21 @@ public class CustomerService {
 
         customerRepository.update(customer);
     }
-
+    
     //삭제(Delete) -id
-    public void deleteById(UUID voucherId) {
-        Optional<Customer> deleteByIdCustomer = customerRepository.deleteById(customerId);
-        deleteByIdCustomer.orElseThrow(() -> new IllegalArgumentException("해당 고객은 존재하지 않습니다."));
+    public int deleteById(UUID customerId) {
+        if (!customerRepository.checkCustomerId(customerId)) {
+            throw new NoSuchElementException("삭제하려는 고객의 ID는 존재하지 않습니다. 다시 확인 후, 입력해주세요");
+        }
+        return customerRepository.deleteById(customerId);
     }
 
     //삭제(Delete)
     public void deleteAllCustomer() {
         customerRepository.deleteAll();
+    }
+
+    public boolean checkCustomerId(UUID customerId) {
+        return customerRepository.checkCustomerId(customerId);
     }
 }

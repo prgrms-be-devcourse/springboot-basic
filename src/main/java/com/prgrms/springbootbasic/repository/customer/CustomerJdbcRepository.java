@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Slf4j
 @Primary
+//@Profile({"local", "test"})
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate template;
@@ -30,7 +32,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         String sql = "insert into customers values(:customerId, :customerName, :customerEmail, :customerCreateAt)";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("customerId", customer.getCustomerId())
+                .addValue("customerId", customer.getCustomerId().toString())
                 .addValue("customerName", customer.getName())
                 .addValue("customerEmail", customer.getEmail())
                 .addValue("customerCreateAt", customer.getCreateAt());
@@ -41,21 +43,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        String sql = "select * from customer where customer_id = :customerId";
+        String sql = "select * from customers where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("customerId", customerId);
-
-        Customer customer = template.queryForObject(sql, param, customerRowMapper());
-        return Optional.ofNullable(customer);
-    }
-
-    @Override
-    public Optional<Customer> findByCreateAt(LocalDateTime createAt) {
-        String sql = "select * from customers where create_at = :createAt";
-
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("createAt", createAt);
+                .addValue("customerId", customerId.toString());
 
         Customer customer = template.queryForObject(sql, param, customerRowMapper());
         return Optional.ofNullable(customer);
@@ -70,34 +61,46 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> update(Customer customer) {
-        String sql = "update customers set customerName = :customerName, customerEmail = :customerEmail where customer_id = :customerId";
+    public List<Customer> findByCreatedAt() {
+        String sql = "select * from customers ORDER BY customer_createAt ASC";
+
+        List<Customer> customers = template.query(sql, customerRowMapper());
+        return customers;
+    }
+
+    @Override
+    public void update(Customer customer) {
+        String sql = "update customers set customer_Name = :customerName, customer_Email = :customerEmail where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("cutomerName", customer.getName())
+                .addValue("customerId", customer.getCustomerId().toString())
+                .addValue("customerName", customer.getName())
                 .addValue("customerEmail", customer.getEmail());
+        template.update(sql, param);
+    }
 
-        int rows = template.update(sql, param);
-        if (rows == 1) {
-            return Optional.of(customer);
-        } else {
-            return Optional.empty();
+
+    @Override
+    public boolean checkCustomerId(UUID customerId) {
+        String sql = "select * from customers where customer_id = :customerId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("customerId", customerId.toString());
+        try {
+            template.queryForObject(sql, param, customerRowMapper());
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            log.warn("고객의 ID가 존재하는지 체크했으나 없어서 예외 발생함", e.getMessage());
+            return false;
         }
     }
 
     @Override
-    public Optional<Customer> deleteById(UUID customerId) {
+    public int deleteById(UUID customerId) {
         String sql = "delete from customers where customer_id = :customerId";
-
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("customerId", customerId);
-
-        int deletedRows = template.update(sql, param);
-        if (deletedRows == 1) {
-            return Optional.of(null);
-        } else {
-            return Optional.empty();
-        }
+                .addValue("customerId", customerId.toString());
+        return template.update(sql, param);
     }
 
 
@@ -109,6 +112,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
         template.update(sql, param);
     }
+
 
     private RowMapper<Customer> customerRowMapper() {
         return (resultSet, rowMap) -> {

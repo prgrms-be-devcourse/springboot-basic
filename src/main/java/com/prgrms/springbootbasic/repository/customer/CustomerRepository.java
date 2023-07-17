@@ -1,7 +1,6 @@
 package com.prgrms.springbootbasic.repository.customer;
 
 import com.prgrms.springbootbasic.domain.customer.Customer;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,18 +14,22 @@ public interface CustomerRepository {
     Optional<Customer> findById(UUID customerId);
 
     //read-create at
-    Optional<Customer> findByCreateAt(LocalDateTime createAt);
+    public List<Customer> findByCreatedAt();
+
 
     //조회(Read) - all
     List<Customer> findAll();
 
     //업데이트(update)
-    Optional<Customer> update(Customer customer);
+    void update(Customer customer);
 
     //delete-id
-    Optional<Customer> deleteById(UUID customerId);
+    int deleteById(UUID customerId);
 
 
     //customer 모두 삭제(Delete)
     void deleteAll();
+
+    boolean checkCustomerId(UUID customerId);
+
 }

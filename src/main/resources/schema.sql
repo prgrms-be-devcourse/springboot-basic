@@ -1,5 +1,5 @@
 use springboot_basic;
-# drop table if exists vouchers;
+#drop table if exists vouchers;
 create table vouchers
 (
     voucher_id varchar(50) primary key,
@@ -7,7 +7,7 @@ create table vouchers
     voucher_type varchar(30) not null,
     voucher_createdAt TIMESTAMP not null
 );
-# drop table if exists customers;
+#drop table if exists customers;
 create table customers
 (
     customer_id varchar(50) primary key,
