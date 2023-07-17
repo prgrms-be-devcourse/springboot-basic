@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
 import org.junit.jupiter.api.Test;
+import org.prgrms.kdtspringdemo.voucher.exception.VoucherIdNotFoundException;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -54,7 +54,7 @@ class JdbcVoucherRepositoryTest {
 
         //when & then
         assertThatThrownBy(() -> voucherRepository.findById(voucherId))
-                .isInstanceOf(NoSuchElementException.class)
+                .isInstanceOf(VoucherIdNotFoundException.class)
                 .hasMessage("[ERROR] : 조회된 바우처 ID가 없습니다.");
     }
 
@@ -96,22 +96,13 @@ class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = new FixedAmountVoucher(1000);
         voucherRepository.save(voucher);
+        int beforeSize = voucherRepository.findAll().size();
 
         //when
-        Voucher deletedVoucher = voucherRepository.deleteById(voucher.getVoucherId());
+        voucherRepository.deleteById(voucher.getVoucherId());
+        int afterSize = voucherRepository.findAll().size();
 
         //then
-        assertThat(deletedVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
-    }
-
-    @Test
-    void 바우처_삭제_실패_테스트() {
-        //given
-        Voucher voucher = new FixedAmountVoucher(1000);
-
-        //when & then
-        assertThatThrownBy(() -> voucherRepository.deleteById(voucher.getVoucherId()))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("[ERROR] : 조회된 바우처 ID가 없습니다.");
+        assertThat(afterSize).isEqualTo(beforeSize - 1);
     }
 }

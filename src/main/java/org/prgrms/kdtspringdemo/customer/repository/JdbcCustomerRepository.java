@@ -1,7 +1,12 @@
 package org.prgrms.kdtspringdemo.customer.repository;
 
 import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
+import org.prgrms.kdtspringdemo.customer.exception.CustomerIdNotFoundException;
+import org.prgrms.kdtspringdemo.customer.exception.CustomerNicknameNotFoundException;
+import org.prgrms.kdtspringdemo.customer.exception.CustomerSaveFailedException;
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,6 +20,7 @@ import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private static final String CUSTOMER_ID = "customer_id";
     private static final String NICKNAME = "nickname";
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -39,7 +45,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             savedCustomer = jdbcTemplate.update(CustomerQuery.CREATE.getQuery(), toParamMap(customer));
             if (savedCustomer != SUCCESS_SAVE_QUERY) {
-                throw new RuntimeException(FAILED_CUSTOMER_SAVE_QUERY.getMessage());
+                logger.error("원인 : {} -> 에러 메시지 : {}", customer.getCustomerId(), CUSTOMER_ID_LOOKUP_FAILED);
+                throw new CustomerSaveFailedException(FAILED_CUSTOMER_SAVE_QUERY);
             }
         } catch (DuplicateKeyException e) {
             throw new DuplicateKeyException(DUPLICATE_NICKNAME.getMessage());
@@ -56,7 +63,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
                     customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            throw new RuntimeException(CUSTOMER_ID_LOOKUP_FAILED.getMessage());
+            logger.error("원인 : {} -> 에러 메시지 : {}", customerId, CUSTOMER_ID_LOOKUP_FAILED);
+            throw new CustomerIdNotFoundException(CUSTOMER_ID_LOOKUP_FAILED);
         }
 
         return customer;
@@ -70,7 +78,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     Collections.singletonMap(NICKNAME, nickname),
                     customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            throw new RuntimeException(CUSTOMER_NICKNAME_LOOKUP_FAILED.getMessage());
+            logger.error("원인 : {} -> 에러 메시지 : {}", nickname, DUPLICATE_NICKNAME);
+            throw new CustomerNicknameNotFoundException(CUSTOMER_NICKNAME_LOOKUP_FAILED);
         }
 
         return customer;
@@ -83,27 +92,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int updatedCustomerRow = jdbcTemplate.update(CustomerQuery.UPDATE.getQuery(), toParamMap(customer));
-        if (isNotFoundCustomer(updatedCustomerRow)) {
-            throw new RuntimeException(CUSTOMER_ID_LOOKUP_FAILED.getMessage());
-        }
+        findById(customer.getCustomerId());
+        jdbcTemplate.update(CustomerQuery.UPDATE.getQuery(), toParamMap(customer));
 
         return customer;
-    }
-
-    private boolean isNotFoundCustomer(int customerRow) {
-        return customerRow == NOT_FOUND_ID;
     }
 
     @Override
-    public Customer deleteById(UUID customerId) {
-        Customer customer = findById(customerId);
-        int deletedCustomerRow = jdbcTemplate.update(CustomerQuery.DELETE.getQuery(),
+    public void deleteById(UUID customerId) {
+        jdbcTemplate.update(CustomerQuery.DELETE.getQuery(),
                 Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()));
-        if (isNotFoundCustomer(deletedCustomerRow)) {
-            throw new RuntimeException(CUSTOMER_ID_LOOKUP_FAILED.getMessage());
-        }
-
-        return customer;
     }
 }

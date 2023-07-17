@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.prgrms.kdtspringdemo.voucher.exception.VoucherIdNotFoundException;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
@@ -12,11 +13,11 @@ import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
+import static org.prgrms.kdtspringdemo.voucher.exception.VoucherExceptionMessage.*;
 
 @ExtendWith(MockitoExtension.class)
 public class VoucherServiceTest {
@@ -63,12 +64,12 @@ public class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willThrow(NoSuchElementException.class);
+        given(voucherRepository.findById(voucherId)).willThrow(VoucherIdNotFoundException.class);
 
         //when & then
         assertThatThrownBy(() -> voucherService.findById(voucherId))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("조회된 바우처 ID가 없습니다.");
+                .isInstanceOf(VoucherIdNotFoundException.class)
+                .hasMessage(VOUCHER_ID_LOOKUP_FAILED.getMessage());
     }
 
     @Test
@@ -107,22 +108,5 @@ public class VoucherServiceTest {
         assertThat(responseDto.getVoucherId()).isEqualTo(updateVoucher.getVoucherId());
         assertThat(responseDto.getVoucherType()).isEqualTo(updateVoucher.getVoucherType());
         assertThat(responseDto.getAmount()).isEqualTo(updateVoucher.getAmount());
-    }
-
-    @Test
-    void 바우처_삭제_성공_테스트() {
-        //given
-        Voucher voucher = new FixedAmountVoucher(1000);
-
-        //mocking
-        given(voucherRepository.deleteById(any())).willReturn(voucher);
-
-        //when
-        VoucherResponseDto responseDto = voucherService.delete(voucher.getVoucherId());
-        List<VoucherResponseDto> memorySize = voucherService.findAll();
-
-        //then
-        assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
-        assertThat(memorySize).hasSize(0);
     }
 }

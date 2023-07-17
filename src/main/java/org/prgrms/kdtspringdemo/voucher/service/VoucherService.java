@@ -15,5 +15,5 @@ public interface VoucherService {
 
     VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount);
 
-    VoucherResponseDto delete(UUID voucherId);
+    void delete(UUID voucherId);
 }

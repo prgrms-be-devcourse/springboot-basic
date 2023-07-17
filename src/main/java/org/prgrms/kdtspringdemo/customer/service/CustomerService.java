@@ -51,9 +51,7 @@ public class CustomerService {
         return CustomerResponseDto.toDto(updatedCustomer.getCustomerId(), updatedCustomer.getNickname());
     }
 
-    public CustomerResponseDto delete(UUID customerId) {
-        Customer customer = customerRepository.deleteById(customerId);
-
-        return CustomerResponseDto.toDto(customer.getCustomerId(), customer.getNickname());
+    public void delete(UUID customerId) {
+        customerRepository.deleteById(customerId);
     }
 }

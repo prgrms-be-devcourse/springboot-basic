@@ -129,8 +129,7 @@ public class CommandLineApplication implements CommandLineRunner {
     private void deleteVoucher() {
         UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID_MESSAGE);
 
-        VoucherResponseDto voucherResponseDto = voucherService.delete(userVoucherId);
-        voucherConsole.printVoucher(PRINT_VOUCHER_INFO_MESSAGE, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+        voucherService.delete(userVoucherId);
     }
 
     private void runCustomerService() {
@@ -185,7 +184,6 @@ public class CommandLineApplication implements CommandLineRunner {
     private void deleteCustomer() {
         UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID_MESSAGE);
 
-        CustomerResponseDto customerResponseDto = customerService.delete(userCustomerId);
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO_MESSAGE, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
+        customerService.delete(userCustomerId);
     }
 }
