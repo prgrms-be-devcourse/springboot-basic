@@ -107,7 +107,7 @@ public class CommandLine implements CommandLineRunner {
         String name = input.inputName();
         Email email = input.inputEmail();
 
-        customerService.insert(name,email);
+        customerService.insert(name, email);
     }
 
     private void printAllCustomer(List<Customer> customerList) {
