@@ -25,6 +25,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    private final int VALID_ROW_RESULT = 1;
+
     public JdbcCustomerRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -52,10 +54,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void insert(Customer customer) {
-        var update = jdbcTemplate.update(CustomerManageSql.insertNewCustomerSQL,
+        var updatedRowNumber = jdbcTemplate.update(CustomerManageSql.insertNewCustomerSQL,
                 toParamMap(customer));
 
-        if (update != 1) {
+        if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("추가된 바우처가 없습니다.");
         }
     }
@@ -84,18 +86,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void updateInfo(String beforeUpdateEmail, String afterUpdateEmail) {
-        var update = jdbcTemplate.update(CustomerManageSql.updateCustomerInfoSQL, toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
+        var updatedRowNumber = jdbcTemplate.update(CustomerManageSql.updateCustomerInfoSQL, toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
 
-        if (update != 1) {
+        if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("회원 정보를 찾을 수 없습니다.");
         }
     }
 
     @Override
     public void deleteByEmail(String email) {
-        var update = jdbcTemplate.update(CustomerManageSql.deleteByEmailSQL, Collections.singletonMap("email", email));
+        var updatedRowNumber = jdbcTemplate.update(CustomerManageSql.deleteByEmailSQL, Collections.singletonMap("email", email));
 
-        if (update != 1) {
+        if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("회원 정보를 찾을 수 없습니다.");
         }
     }

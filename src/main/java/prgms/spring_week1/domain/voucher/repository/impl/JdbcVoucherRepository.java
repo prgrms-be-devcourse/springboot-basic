@@ -23,6 +23,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    private final int VALID_ROW_RESULT = 1;
+
     private final RowMapper<Voucher> voucherRowMapper = (resultset, i) -> {
         var voucherType = VoucherType.valueOf(resultset.getString("voucher_type"));
         var discount = resultset.getInt("discount");
@@ -44,9 +46,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        var update = jdbcTemplate.update(VoucherManageSql.insertNewVoucherSQL,
+        var updatedRowNumber = jdbcTemplate.update(VoucherManageSql.insertNewVoucherSQL,
                 toParamMap(voucher));
-        if (update != 1) {
+        if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("추가된 바우처가 없습니다.");
         }
     }
