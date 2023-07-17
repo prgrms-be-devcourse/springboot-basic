@@ -2,6 +2,8 @@ package com.devcourse.user.repository;
 
 import com.devcourse.global.util.Sql;
 import com.devcourse.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,10 +13,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.devcourse.global.common.Constant.*;
 import static com.devcourse.global.util.Sql.Table.USERS;
 
 @Component
 class JdbcUserRepository implements UserRepository {
+    private static final Logger log = LoggerFactory.getLogger(JdbcUserRepository.class);
+
     private final RowMapper<User> userMapper = (resultSet, resultNumber) -> {
         UUID id = UUID.fromString(resultSet.getString("id"));
         String name = resultSet.getString("name");
@@ -60,6 +65,7 @@ class JdbcUserRepository implements UserRepository {
         try {
             return Optional.of(jdbcTemplate.queryForObject(sql, userMapper, id.toString()));
         } catch (EmptyResultDataAccessException e) {
+            log.warn(EMPTY_RESULT_ACCESSED, USERS, id);
             return Optional.empty();
         }
     }

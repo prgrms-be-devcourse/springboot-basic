@@ -2,6 +2,8 @@ package com.devcourse.voucher.domain.repository;
 
 import com.devcourse.global.util.Sql;
 import com.devcourse.voucher.domain.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,11 +15,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.devcourse.global.common.Constant.EMPTY_RESULT_ACCESSED;
 import static com.devcourse.global.util.Sql.Table.VOUCHERS;
 
 @Component
 @Profile("dev")
 class JdbcVoucherRepository implements VoucherRepository {
+    private static final Logger log = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+
     private final RowMapper<Voucher> voucherMapper = (resultSet, resultNumber) -> {
         UUID id = UUID.fromString(resultSet.getString("id"));
         int discount = Integer.parseInt(resultSet.getString("discount"));
@@ -71,6 +76,7 @@ class JdbcVoucherRepository implements VoucherRepository {
         try {
             return Optional.of(jdbcTemplate.queryForObject(sql, voucherMapper, id.toString()));
         } catch (EmptyResultDataAccessException e) {
+            log.warn(EMPTY_RESULT_ACCESSED, VOUCHERS, id);
             return Optional.empty();
         }
     }
