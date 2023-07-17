@@ -2,7 +2,6 @@ package com.example.voucher.io;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
 import static com.example.voucher.io.Writer.*;
-
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class Console {
         writer.writeMessage(resultInfo);
     }
 
-    public void displayVoucherServiceError(String errorMsg) {
+    public void displayError(String errorMsg) {
         logger.error(errorMsg);
         writer.writeMessage(Message.REQUEST_FAILED);
     }
@@ -35,67 +34,30 @@ public class Console {
     public ServiceType getServiceType() {
         writer.writeMessage(Message.SERVICE_TYPE_SELECTION);
 
-        try {
-            String input = reader.readString();
-            ServiceType selectedServiceType = ServiceType.getServiceType(input);
+        String input = reader.readString();
 
-            return selectedServiceType;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            writer.writeMessage(Message.INVALID_ARGUMENT);
-
-            return null;
-        }
+        return ServiceType.getServiceType(input);
     }
 
     public ModeType getModeType() {
         writer.writeMessage(Message.MODE_TYPE_SELECTION);
 
-        try {
-            String input = reader.readString();
-            ModeType selectedModeType = ModeType.getModeType(input);
+        String input = reader.readString();
 
-            return selectedModeType;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            writer.writeMessage(Message.INVALID_ARGUMENT);
-
-            return null;
-        }
+        return ModeType.getModeType(input);
     }
 
     public VoucherRequest.Create getCreateRequest() {
         VoucherType voucherType = getVoucherType();
-
-        if (voucherType == null) {
-            return null;
-        }
         Long discountValue = getDiscountValue();
-
-        if (discountValue == null) {
-            return null;
-        }
 
         return new VoucherRequest.Create(voucherType, discountValue);
     }
 
     public VoucherRequest.Update getUpdateRequest() {
         VoucherType voucherType = getVoucherType();
-
-        if (voucherType == null) {
-            return null;
-        }
         Long discountValue = getDiscountValue();
-
-        if (discountValue == null) {
-            return null;
-        }
-
         UUID voucherID = getVoucherId();
-
-        if (discountValue == null) {
-            return null;
-        }
 
         return new VoucherRequest.Update(voucherID, voucherType, discountValue);
     }
@@ -104,47 +66,27 @@ public class Console {
         writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
         writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
 
-        try {
-            int number = reader.readInteger();
+        int number = reader.readInteger();
 
-            return VoucherType.getVouchersType(number);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            writer.writeMessage(Message.INVALID_ARGUMENT);
+        return VoucherType.getVouchersType(number);
 
-            return null;
-        }
     }
 
     public Long getDiscountValue() {
         writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
 
-        try {
-            Long discountAmount = reader.readLong();
-            validatePositive(discountAmount);
+        Long discountAmount = reader.readLong();
+        validatePositive(discountAmount);
 
-            return discountAmount;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            writer.writeMessage(Message.INVALID_ARGUMENT);
-
-            return null;
-        }
+        return discountAmount;
     }
 
     public UUID getVoucherId() {
         writer.writeMessage(Message.ID_INPUT_REQUEST);
 
-        try {
-            String input = reader.readString();
+        String input = reader.readString();
 
-            return UUID.fromString(input);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            writer.writeMessage(Message.INVALID_ARGUMENT);
-
-            return null;
-        }
+        return UUID.fromString(input);
     }
 
     private void validatePositive(long value) {

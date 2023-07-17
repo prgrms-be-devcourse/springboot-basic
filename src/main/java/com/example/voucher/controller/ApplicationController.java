@@ -7,8 +7,8 @@ import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.controller.response.Response;
-import com.example.voucher.service.voucher.dto.VoucherDTO;
 import com.example.voucher.io.Console;
+import com.example.voucher.service.voucher.dto.VoucherDTO;
 
 @Controller
 public class ApplicationController implements CommandLineRunner {
@@ -24,25 +24,50 @@ public class ApplicationController implements CommandLineRunner {
     @Override
     public void run(String... args) {
         boolean isRunning = true;
+        ServiceType selectedServiceType = null;
 
         while (isRunning) {
-            ServiceType selectedServiceType = console.getServiceType();
-
-            if (selectedServiceType == null) {
+            try {
+                selectedServiceType = console.getServiceType();
+            } catch (Exception e) {
+                console.displayError(e.getMessage());
                 continue;
             }
 
             switch (selectedServiceType) {
                 case EXIT -> isRunning = false;
-                case Voucher -> startVoucherProcess();
+                case VOUCHER -> startVoucherProcess();
+                case CUSTOMER -> startCustomerProcess();
             }
         }
     }
 
-    public void startVoucherProcess() {
-        ModeType selectedModeType = console.getModeType();
+    public void startCustomerProcess() {
+        ModeType selectedModeType = null;
 
-        if (selectedModeType == null) {
+        try {
+            selectedModeType = console.getModeType();
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+            return;
+        }
+
+        switch (selectedModeType) {
+            case CREATE -> createCustomer();
+        }
+    }
+
+    public void createCustomer() {
+
+    }
+
+    public void startVoucherProcess() {
+        ModeType selectedModeType = null;
+
+        try {
+            selectedModeType = console.getModeType();
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
             return;
         }
 
@@ -57,23 +82,17 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void createVoucher() {
-        VoucherRequest.Create request = console.getCreateRequest();
-
-        if (request == null) {
-            return;
-        }
-
         try {
+            VoucherRequest.Create request = console.getCreateRequest();
             Response<VoucherDTO> response = voucherController.createVoucher(request);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
-            console.displayVoucherServiceError(e.getMessage());
+            console.displayError(e.getMessage());
         }
     }
 
     private void displayVouchers() {
         Response<VoucherDTO> response = voucherController.getVouchers();
-
         console.displayResponse(response.getResultMessage());
     }
 
@@ -82,47 +101,31 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void searchVoucher() {
-        UUID voucherId = console.getVoucherId();
-
-        if (voucherId == null) {
-            return;
-        }
-
         try {
+            UUID voucherId = console.getVoucherId();
             Response<VoucherDTO> response = voucherController.search(voucherId);
             console.displayResponse(response.getResultMessage());
-
         } catch (Exception e) {
-            console.displayVoucherServiceError(e.getMessage());
+            console.displayError(e.getMessage());
         }
     }
 
     private void updateVoucher() {
-        VoucherRequest.Update request = console.getUpdateRequest();
-
-        if (request == null) {
-            return;
-        }
-
         try {
+            VoucherRequest.Update request = console.getUpdateRequest();
             Response<VoucherDTO> response = voucherController.update(request);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
-            console.displayVoucherServiceError(e.getMessage());
+            console.displayError(e.getMessage());
         }
     }
 
     private void removeVoucher() {
-        UUID voucherId = console.getVoucherId();
-
-        if (voucherId == null) {
-            return;
-        }
-
         try {
+            UUID voucherId = console.getVoucherId();
             voucherController.deleteVoucher(voucherId);
         } catch (Exception e) {
-            console.displayVoucherServiceError(e.getMessage());
+            console.displayError(e.getMessage());
         }
     }
 
