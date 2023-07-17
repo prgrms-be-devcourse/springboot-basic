@@ -9,6 +9,7 @@ import org.programmers.VoucherManagement.voucher.dto.UpdateVoucherRequest;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import static org.programmers.VoucherManagement.voucher.exception.VoucherExcepti
 
 
 @Component
+@Transactional(readOnly = true)
 public class VoucherService {
     private final VoucherRepository repository;
 
@@ -23,6 +25,7 @@ public class VoucherService {
         this.repository = voucherRepository;
     }
 
+    @Transactional
     public void updateVoucher(UUID voucherId, UpdateVoucherRequest updateVoucherRequest) {
         Voucher voucher = repository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
         DiscountValue discountValue = new DiscountValue(updateVoucherRequest.getDiscountValue());
@@ -32,6 +35,7 @@ public class VoucherService {
         repository.update(voucher);
     }
 
+    @Transactional
     public void saveVoucher(CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = VoucherFactory.createVoucher(createVoucherRequest);
         repository.insert(voucher);
@@ -41,6 +45,7 @@ public class VoucherService {
         return new GetVoucherListResponse(repository.findAll());
     }
 
+    @Transactional
     public void deleteVoucher(UUID voucherId) {
         repository.delete(voucherId);
     }

@@ -11,6 +11,7 @@ import org.programmers.VoucherManagement.wallet.dto.CreateWalletRequest;
 import org.programmers.VoucherManagement.wallet.dto.GetWalletListResponse;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import static org.programmers.VoucherManagement.member.exception.MemberException
 import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER;
 
 @Component
+@Transactional(readOnly = true)
 public class WalletService {
     private final WalletRepository walletRepository;
     private final VoucherRepository voucherRepository;
@@ -29,6 +31,7 @@ public class WalletService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional
     public void createWallet(CreateWalletRequest createWalletRequest) {
         Voucher voucher = voucherRepository
                 .findById(UUID.fromString(createWalletRequest.getVoucherId()))
@@ -52,6 +55,7 @@ public class WalletService {
         return new GetWalletListResponse(walletRepository.findAllByMemberId(memberId));
     }
 
+    @Transactional
     public void deleteWallet(UUID walletId) {
         walletRepository.delete(walletId);
     }
