@@ -6,8 +6,9 @@ import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.model.strategy.DiscountStrategy;
 import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
 import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
-import com.prgmrs.voucher.model.vo.Amount;
-import com.prgmrs.voucher.model.vo.Percent;
+import com.prgmrs.voucher.model.wrapper.Amount;
+import com.prgmrs.voucher.model.wrapper.Percent;
+import com.prgmrs.voucher.model.wrapper.Username;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -27,6 +28,31 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private static RowMapper<Voucher> toRowMapper() {
+        return (rs, rowNum) -> {
+            UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
+            long discountValue = rs.getLong("discount_value");
+
+            DiscountStrategy discountStrategy;
+            short discountTypeShort = rs.getShort("discount_type");
+            DiscountType discountTypeEnum = DiscountType.fromShort(discountTypeShort);
+
+            switch (discountTypeEnum) {
+                case FIXED_AMOUNT_DISCOUNT -> {
+                    Amount amount = new Amount(discountValue);
+                    discountStrategy = new FixedAmountDiscountStrategy(amount);
+                }
+                case PERCENT_DISCOUNT -> {
+                    Percent percent = new Percent(discountValue);
+                    discountStrategy = new PercentDiscountStrategy(percent);
+                }
+                default -> throw new NoSuchVoucherTypeException("no such discount type");
+            }
+
+            return new Voucher(voucherId, discountStrategy);
+        };
+    }
+
     @Override
     public void save(Voucher voucher) {
         String sql = "INSERT INTO voucher (voucher_id, discount_type, discount_value) VALUES (:voucherId, :discountType, :discountValue)";
@@ -36,13 +62,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         paramMap.put("voucherId", voucher.voucherId().toString());
 
         if (voucher.discountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
-            short discountType = DiscountType.fromEnumValue("FIXED_AMOUNT_DISCOUNT");
+            short discountType = DiscountType.toShortValue("FIXED_AMOUNT_DISCOUNT");
             paramMap.put("discountType", discountType);
             paramMap.put("discountValue", fixedAmountDiscountStrategy.amount().value());
         }
 
         if (voucher.discountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
-            short discountType = DiscountType.fromEnumValue("PERCENT_DISCOUNT");
+            short discountType = DiscountType.toShortValue("PERCENT_DISCOUNT");
             paramMap.put("discountType", discountType);
             paramMap.put("discountValue", percentDiscountStrategy.percent().value());
         }
@@ -58,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getAssignedVoucherListByUsername(String username) {
+    public List<Voucher> getAssignedVoucherListByUsername(Username username) {
         String sql = """
                          SELECT
                            v.voucher_id, v.discount_type, v.discount_value
@@ -72,7 +98,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         Map<String, Object> paramMap = new HashMap<>();
 
-        paramMap.put("username", username);
+        paramMap.put("username", username.value());
 
         return jdbcTemplate.query(sql, paramMap, toRowMapper());
     }
@@ -111,30 +137,5 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 """;
 
         return jdbcTemplate.query(sql, toRowMapper());
-    }
-
-    private static RowMapper<Voucher> toRowMapper() {
-        return (rs, rowNum) -> {
-            UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
-            long discountValue = rs.getLong("discount_value");
-
-            DiscountStrategy discountStrategy;
-            short discountTypeShort = rs.getShort("discount_type");
-            DiscountType discountTypeEnum = DiscountType.fromValue(discountTypeShort);
-
-            switch (discountTypeEnum) {
-                case FIXED_AMOUNT_DISCOUNT -> {
-                    Amount amount = new Amount(discountValue);
-                    discountStrategy = new FixedAmountDiscountStrategy(amount);
-                }
-                case PERCENT_DISCOUNT -> {
-                    Percent percent = new Percent(discountValue);
-                    discountStrategy = new PercentDiscountStrategy(percent);
-                }
-                default -> throw new NoSuchVoucherTypeException("no such discount type");
-            }
-
-            return new Voucher(voucherId, discountStrategy);
-        };
     }
 }

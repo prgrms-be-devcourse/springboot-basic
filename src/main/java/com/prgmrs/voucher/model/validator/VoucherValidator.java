@@ -1,12 +1,10 @@
 package com.prgmrs.voucher.model.validator;
 
-import com.prgmrs.voucher.enums.VoucherSelectionType;
+import com.prgmrs.voucher.enums.DiscountType;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
-import com.prgmrs.voucher.model.vo.DiscountValue;
 import com.prgmrs.voucher.setting.VoucherProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Component
@@ -17,29 +15,29 @@ public class VoucherValidator {
         this.voucherProperties = voucherProperties;
     }
 
-    public boolean isValidIntegerString(String token) {
+    public Long convertToLongWithValidation(String discountStringValue, DiscountType discountType) {
+        isValidIntegerString(discountStringValue);
+        Long convertedValue = Long.parseLong(discountStringValue);
+        isAmountValid(convertedValue, discountType);
+        return convertedValue;
+    }
+
+    private void isValidIntegerString(String discountStringValue) {
         Pattern pattern = Pattern.compile("^[-+]?\\d+$");
-        return pattern.matcher(token).matches();
-    }
-
-    public Optional<Long> stringToLongConverter(String token) throws WrongRangeFormatException {
-        if (isValidIntegerString(token)) {
-            return Optional.of(Long.parseLong(token));
+        if (!pattern.matcher(discountStringValue).matches()) {
+            throw new WrongRangeFormatException("only digit are allowed");
         }
-        return Optional.empty();
     }
 
-    public void isAmountValid(VoucherSelectionType type, DiscountValue discountValue) throws WrongRangeFormatException {
-
-        if (type == VoucherSelectionType.FIXED_AMOUNT_VOUCHER
-                && (0 >= discountValue.value() || discountValue.value() > voucherProperties.getMaximumFixedAmount())) {
+    private void isAmountValid(long discountValue, DiscountType discountType) {
+        if (discountType == DiscountType.FIXED_AMOUNT_DISCOUNT
+                && (0 >= discountValue || discountValue > voucherProperties.getMaximumFixedAmount())) {
             throw new WrongRangeFormatException("amount should be between 0 to defined limit");
         }
 
-        if (type == VoucherSelectionType.PERCENT_DISCOUNT_VOUCHER
-                && (0 >= discountValue.value() || discountValue.value() > 100)) {
+        if (discountType == DiscountType.PERCENT_DISCOUNT
+                && (0 >= discountValue || discountValue > 100)) {
             throw new WrongRangeFormatException("percent should be between 1-100");
         }
-
     }
 }

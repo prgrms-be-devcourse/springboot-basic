@@ -33,8 +33,10 @@ class FileBlacklistDatabaseTest {
         FileBlacklistDatabase database = new FileBlacklistDatabase();
 
         // When
+        Map<UUID, String> result = database.load(FILE_PATH);
+
         // Then
-        assertThat(database.load(FILE_PATH), is(anEmptyMap()));
+        assertThat(result, is(anEmptyMap()));
     }
 
 

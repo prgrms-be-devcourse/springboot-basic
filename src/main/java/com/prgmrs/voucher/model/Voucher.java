@@ -1,7 +1,7 @@
 package com.prgmrs.voucher.model;
 
 import com.prgmrs.voucher.model.strategy.DiscountStrategy;
-import com.prgmrs.voucher.model.vo.DiscountValue;
+import com.prgmrs.voucher.model.wrapper.DiscountValue;
 
 import java.util.UUID;
 

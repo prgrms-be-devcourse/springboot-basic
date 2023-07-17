@@ -1,6 +1,7 @@
 package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.model.User;
+import com.prgmrs.voucher.model.wrapper.Username;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,7 +11,7 @@ public interface UserRepository {
 
     List<User> findAll();
 
-    User findByUsername(String username);
+    User findByUsername(Username username);
 
     List<User> getUserListWithVoucherAssigned();
 

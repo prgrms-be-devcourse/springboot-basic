@@ -1,6 +1,6 @@
 package com.prgmrs.voucher.dto.response;
 
-import com.prgmrs.voucher.model.User;
+import java.util.UUID;
 
-public record UserResponse(User user) {
+public record UserResponse(UUID uuid, String username) {
 }

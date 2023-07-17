@@ -1,6 +1,7 @@
 package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.model.User;
+import com.prgmrs.voucher.model.wrapper.Username;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,13 +21,22 @@ public class JdbcUserRepository implements UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private static RowMapper<User> toRowMapper() {
+        return (rs, rowNum) -> {
+            UUID userId = UUID.fromString(rs.getString("user_id"));
+            String receivedUsername = rs.getString("username");
+
+            return new User(userId, new Username(receivedUsername));
+        };
+    }
+
     @Override
     public void save(User user) {
         String sql = "INSERT INTO `user` (user_id, username) VALUES (:userId, :username)";
         Map<String, Object> paramMap = new HashMap<>();
 
         paramMap.put("userId", user.userId().toString());
-        paramMap.put("username", user.username());
+        paramMap.put("username", user.username().value());
 
         jdbcTemplate.update(sql, paramMap);
     }
@@ -39,10 +49,10 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public User findByUsername(String username) {
+    public User findByUsername(Username username) {
         String sql = "SELECT user_id, username FROM `user` WHERE username = :username";
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("username", username);
+        paramMap.put("username", username.value());
 
         return jdbcTemplate.queryForObject(sql, paramMap, toRowMapper());
     }
@@ -76,14 +86,5 @@ public class JdbcUserRepository implements UserRepository {
         paramMap.put("voucher_id", voucherId.toString());
 
         return jdbcTemplate.queryForObject(sql, paramMap, toRowMapper());
-    }
-
-    private static RowMapper<User> toRowMapper() {
-        return (rs, rowNum) -> {
-            UUID userId = UUID.fromString(rs.getString("user_id"));
-            String receivedUsername = rs.getString("username");
-
-            return new User(userId, receivedUsername);
-        };
     }
 }

@@ -4,7 +4,10 @@ import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.model.Wallet;
 import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
-import com.prgmrs.voucher.model.vo.Amount;
+import com.prgmrs.voucher.model.wrapper.Amount;
+import com.prgmrs.voucher.model.wrapper.Username;
+import com.prgmrs.voucher.util.UUIDGenerator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -37,22 +40,28 @@ class JdbcWalletRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;
 
+    private User userTyler;
+    private Voucher voucherWithFixedAmountOf500;
+
+    @BeforeEach
+    void setUp() {
+        UUID uuidTyler = UUIDGenerator.generateUUID();
+        userTyler = new User(uuidTyler, new Username("tyler"));
+
+        UUID voucherUuid = UUIDGenerator.generateUUID();
+        Amount amount = new Amount(500);
+        FixedAmountDiscountStrategy discountStrategy = new FixedAmountDiscountStrategy(amount);
+        voucherWithFixedAmountOf500 = new Voucher(voucherUuid, discountStrategy);
+    }
+
     @Test
     @DisplayName("지갑을 저장한다.")
     void Save_Wallet_NotThrowingException() {
         // Given
-        UUID userUuid = UUID.randomUUID();
-        String username = "tyler";
-        User user = new User(userUuid, username);
-        userRepository.save(user);
+        userRepository.save(userTyler);
+        voucherRepository.save(voucherWithFixedAmountOf500);
 
-        UUID voucherUuid = UUID.randomUUID();
-        Amount amount = new Amount(500);
-        FixedAmountDiscountStrategy discountStrategy = new FixedAmountDiscountStrategy(amount);
-        Voucher voucher = new Voucher(voucherUuid, discountStrategy);
-        voucherRepository.save(voucher);
-
-        Wallet wallet = new Wallet(userUuid, voucherUuid);
+        Wallet wallet = new Wallet(userTyler.userId(), voucherWithFixedAmountOf500.voucherId());
 
         // When
         Executable executable = () -> walletRepository.save(wallet);
@@ -65,18 +74,10 @@ class JdbcWalletRepositoryTest {
     @DisplayName("지갑 저장을 해지한다.")
     void Free_Wallet_NotThrowingException() {
         // Given
-        UUID userUuid = UUID.randomUUID();
-        String username = "tyler";
-        User user = new User(userUuid, username);
-        userRepository.save(user);
+        userRepository.save(userTyler);
+        voucherRepository.save(voucherWithFixedAmountOf500);
 
-        UUID voucherUuid = UUID.randomUUID();
-        Amount amount = new Amount(500);
-        FixedAmountDiscountStrategy discountStrategy = new FixedAmountDiscountStrategy(amount);
-        Voucher voucher = new Voucher(voucherUuid, discountStrategy);
-        voucherRepository.save(voucher);
-
-        Wallet wallet = new Wallet(userUuid, voucherUuid);
+        Wallet wallet = new Wallet(userTyler.userId(), voucherWithFixedAmountOf500.voucherId());
         walletRepository.save(wallet);
 
         // When
