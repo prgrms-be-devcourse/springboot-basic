@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
+import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.domain.dto.VoucherDTO;
 
 public class Console {
@@ -41,38 +42,6 @@ public class Console {
         writer.writeMessage(Message.REQUEST_FAILED);
     }
 
-    public VoucherType getVoucherType() {
-        writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
-        writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
-
-        try {
-            int number = reader.readInteger();
-
-            return VoucherType.getVouchersType(number);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            writer.writeMessage(Message.INVALID_ARGUMENT);
-
-            return null;
-        }
-    }
-
-    public Long getDiscountValue() {
-        writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
-
-        try {
-            Long discountAmount = reader.readLong();
-            validatePositive(discountAmount);
-
-            return discountAmount;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            writer.writeMessage(Message.INVALID_ARGUMENT);
-
-            return null;
-        }
-    }
-
     public ServiceType getServiceType() {
         writer.writeMessage(Message.SERVICE_TYPE_SELECTION);
 
@@ -97,6 +66,74 @@ public class Console {
             ModeType selectedModeType = ModeType.getModeType(input);
 
             return selectedModeType;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            writer.writeMessage(Message.INVALID_ARGUMENT);
+
+            return null;
+        }
+    }
+
+    public VoucherRequest.Create getCreateRequest() {
+        VoucherType voucherType = getVoucherType();
+
+        if (voucherType == null) {
+            return null;
+        }
+        Long discountValue = getDiscountValue();
+
+        if (discountValue == null) {
+            return null;
+        }
+
+        return new VoucherRequest.Create(voucherType, discountValue);
+    }
+
+    public VoucherRequest.Update getUpdateRequest() {
+        VoucherType voucherType = getVoucherType();
+
+        if (voucherType == null) {
+            return null;
+        }
+        Long discountValue = getDiscountValue();
+
+        if (discountValue == null) {
+            return null;
+        }
+
+        UUID voucherID = getVoucherId();
+
+        if (discountValue == null) {
+            return null;
+        }
+
+        return new VoucherRequest.Update(voucherID, voucherType, discountValue);
+    }
+
+    public VoucherType getVoucherType() {
+        writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
+        writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
+
+        try {
+            int number = reader.readInteger();
+
+            return VoucherType.getVouchersType(number);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            writer.writeMessage(Message.INVALID_ARGUMENT);
+
+            return null;
+        }
+    }
+
+    public Long getDiscountValue() {
+        writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
+
+        try {
+            Long discountAmount = reader.readLong();
+            validatePositive(discountAmount);
+
+            return discountAmount;
         } catch (Exception e) {
             logger.error(e.getMessage());
             writer.writeMessage(Message.INVALID_ARGUMENT);

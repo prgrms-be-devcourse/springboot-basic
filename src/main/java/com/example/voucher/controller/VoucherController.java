@@ -3,7 +3,7 @@ package com.example.voucher.controller;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Controller;
-import com.example.voucher.constant.VoucherType;
+import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.service.VoucherService;
 
@@ -16,8 +16,8 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public VoucherDTO createVoucher(VoucherType voucherType, long discountValue) {
-        return voucherService.createVoucher(voucherType, discountValue);
+    public VoucherDTO createVoucher(VoucherRequest.Create request) {
+        return voucherService.createVoucher(request.getVoucherType(), request.getDiscountValue());
     }
 
     public List<VoucherDTO> getVouchers() {
@@ -32,8 +32,8 @@ public class VoucherController {
         return voucherService.search(voucherId);
     }
 
-    public VoucherDTO update(UUID voucherId, VoucherType voucherType, long discountValue) {
-        return voucherService.update(voucherId, voucherType, discountValue);
+    public VoucherDTO update(VoucherRequest.Update request) {
+        return voucherService.update(request.getVoucherId(), request.getVoucherType(), request.getDiscountValue());
     }
 
     public void deleteVoucher(UUID voucherId) {

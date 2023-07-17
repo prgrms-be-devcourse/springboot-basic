@@ -6,7 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
-import com.example.voucher.constant.VoucherType;
+import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.io.Console;
 
@@ -40,7 +40,6 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     public void startVoucherProcess() {
-
         ModeType selectedModeType = console.getModeType();
 
         if (selectedModeType == null) {
@@ -58,20 +57,14 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void createVoucher() {
-        VoucherType voucherType = console.getVoucherType();
+        VoucherRequest.Create request = console.getCreateRequest();
 
-        if (voucherType == null) {
-            return;
-        }
-
-        Long discountValue = console.getDiscountValue();
-
-        if (discountValue == null) {
+        if (request == null) {
             return;
         }
 
         try {
-            VoucherDTO createdVoucher = voucherController.createVoucher(voucherType, discountValue);
+            VoucherDTO createdVoucher = voucherController.createVoucher(request);
             console.displayVoucherInfo(createdVoucher);
         } catch (Exception e) {
             console.displayVoucherServiceError(e.getMessage());
@@ -104,26 +97,14 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void updateVoucher() {
-        UUID voucherId = console.getVoucherId();
+        VoucherRequest.Update request = console.getUpdateRequest();
 
-        if (voucherId == null) {
-            return;
-        }
-
-        VoucherType voucherType = console.getVoucherType();
-
-        if (voucherType == null) {
-            return;
-        }
-
-        Long discountValue = console.getDiscountValue();
-
-        if (discountValue == null) {
+        if (request == null) {
             return;
         }
 
         try {
-            VoucherDTO updatedVoucher = voucherController.update(voucherId, voucherType, discountValue);
+            VoucherDTO updatedVoucher = voucherController.update(request);
             console.displayVoucherInfo(updatedVoucher);
         } catch (Exception e) {
             console.displayVoucherServiceError(e.getMessage());
