@@ -52,7 +52,7 @@ public class JdbcWalletRepository implements WalletRepository {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("voucherId", voucherId.toString());
             paramMap.put("customerId", customerId.toString());
-            var updateResult = jdbcTemplate.update(
+            int updateResult = jdbcTemplate.update(
                     "UPDATE vouchers SET customer_id = :customerId WHERE voucher_id = :voucherId",
                     paramMap
             );
@@ -69,7 +69,7 @@ public class JdbcWalletRepository implements WalletRepository {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("voucherId", voucherId.toString());
-            var updateResult = jdbcTemplate.update(
+            int updateResult = jdbcTemplate.update(
                     "UPDATE vouchers SET customer_id = null WHERE voucher_id = :voucherId",
                     paramMap
             );

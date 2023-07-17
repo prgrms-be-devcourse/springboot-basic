@@ -32,7 +32,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         try {
-            var updateResult = jdbcTemplate.update(
+            int updateResult = jdbcTemplate.update(
                     "INSERT INTO customers(customer_id, name, black) VALUES (:customerId, :name, :black)",
                     toParamMap(customer)
             );
@@ -48,7 +48,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer update(Customer customer) {
         try {
-            var updateResult = jdbcTemplate.update(
+            int updateResult = jdbcTemplate.update(
                     "UPDATE customers SET name = :name, black = :black WHERE customer_id = :customerId",
                     toParamMap(customer)
             );

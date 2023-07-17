@@ -40,7 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         try {
-            var updateResult = jdbcTemplate.update(
+            int updateResult = jdbcTemplate.update(
                     "INSERT INTO vouchers(voucher_id, voucher_type, discount_value, created_at)" +
                             " VALUES (:voucherId, :voucherType, :discountValue, :createdAt)",
                     toParamMap(voucher)
@@ -57,7 +57,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         try {
-            var updateResult = jdbcTemplate.update(
+            int updateResult = jdbcTemplate.update(
                     "UPDATE vouchers SET voucher_type = :voucherType, discount_value = :discountValue, created_at = :createdAt WHERE voucher_id = :voucherId",
                     toParamMap(voucher)
             );
