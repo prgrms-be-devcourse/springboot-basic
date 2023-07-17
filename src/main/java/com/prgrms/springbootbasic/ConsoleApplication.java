@@ -32,13 +32,9 @@ public class ConsoleApplication implements CommandLineRunner {
                     }
                 }
             } catch (IllegalArgumentException e) {
-                log.error("명령어가 잘못 입력되었습니다.", e);
-                log.error("에러 메시지: {}", e.getMessage());
-                log.error("Stack Trace: ", e);
+                log.error("명령어가 잘못 입력되었습니다.", e.getMessage());
             } catch (Exception e) {
-                log.error("프로그램에서 오류가 발생하였습니다.", e);
-                log.error("에러 메시지: {}", e.getMessage());
-                log.error("Stack Trace: ", e);
+                log.error("프로그램에서 오류가 발생하였습니다.", e.getMessage());
             }
         }
     }
