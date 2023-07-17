@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> voucherList = new ConcurrentHashMap<>();
@@ -23,5 +22,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void insert(Voucher voucher) {
         voucherList.put(voucher.getVoucherId(), voucher);
+    }
+
+    @Override
+    public List<Voucher> findByType(String voucherType) {
+        return voucherList.values().stream().filter(v -> v.getVoucherType().toString() == voucherType).toList();
+    }
+
+    @Override
+    public void delete() {
+        voucherList.clear();
     }
 }

@@ -11,9 +11,7 @@ public interface VoucherRepository {
 
     void insert(Voucher voucher);
 
-    default List<Voucher> findByType(String voucherType) {
-        return null;
-    }
+    List<Voucher> findByType(String voucherType);
 
-    default void delete() {}
+    void delete();
 }
