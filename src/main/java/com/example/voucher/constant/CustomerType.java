@@ -6,7 +6,8 @@ import java.util.Arrays;
 public enum CustomerType {
 
     NORMAL,
-    BLACK;
+    BLACK
+    ;
 
     public static CustomerType getCustomerType(String inputTypeName) {
         return Arrays.stream(CustomerType.values())

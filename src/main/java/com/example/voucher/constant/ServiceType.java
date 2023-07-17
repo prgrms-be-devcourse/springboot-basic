@@ -6,7 +6,8 @@ public enum ServiceType {
 
     EXIT,
     VOUCHER,
-    CUSTOMER;
+    CUSTOMER
+    ;
 
     public static ServiceType getServiceType(String inputTypeName) {
         return Arrays.stream(ServiceType.values())
