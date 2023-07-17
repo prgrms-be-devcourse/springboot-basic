@@ -11,6 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import javax.sql.DataSource;
 import java.util.Collections;
@@ -39,7 +40,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     void findByEmail() {
         assertThat(jdbcCustomerRepository.findByEmail("1sehan@naver.com").getName(),is("일세한"));
-        assertThat(jdbcCustomerRepository.findByEmail("3sehan@naver.com"),is(null));
+        assertThat(jdbcCustomerRepository.findByEmail("3sehan@naver.com"),nullValue());
     }
 
     @Test
