@@ -1,4 +1,4 @@
-package com.example.demo.domain.customer.repository;
+package com.example.demo.repository.customer;
 
 import com.example.demo.domain.customer.Customer;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    Customer save(Customer customer);
+    void save(Customer customer);
 
     Optional<Customer> findById(UUID id);
 

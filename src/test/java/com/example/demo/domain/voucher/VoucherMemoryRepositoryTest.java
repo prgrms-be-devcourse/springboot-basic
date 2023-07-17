@@ -1,7 +1,7 @@
 package com.example.demo.domain.voucher;
 
-import com.example.demo.domain.voucher.repository.VoucherMemoryRepository;
-import com.example.demo.domain.voucher.repository.VoucherRepository;
+import com.example.demo.repository.voucher.VoucherMemoryRepository;
+import com.example.demo.repository.voucher.VoucherRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.assertj.core.api.Assertions;

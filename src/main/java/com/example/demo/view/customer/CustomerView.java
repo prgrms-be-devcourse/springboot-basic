@@ -1,7 +1,7 @@
 package com.example.demo.view.customer;
 
 import com.example.demo.dto.CustomerDto;
-import com.example.demo.util.CustomerCommandType;
+import com.example.demo.enums.CustomerCommandType;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;

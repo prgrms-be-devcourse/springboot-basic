@@ -2,7 +2,7 @@ package com.example.demo;
 
 import com.example.demo.controller.CustomerController;
 import com.example.demo.dto.CustomerDto;
-import com.example.demo.util.CustomerCommandType;
+import com.example.demo.enums.CustomerCommandType;
 import com.example.demo.view.customer.CustomerView;
 import java.util.List;
 import java.util.UUID;

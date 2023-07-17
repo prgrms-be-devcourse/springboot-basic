@@ -1,4 +1,4 @@
-package com.example.demo.util;
+package com.example.demo.enums;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

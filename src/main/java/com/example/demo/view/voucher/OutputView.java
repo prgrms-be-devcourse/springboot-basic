@@ -1,7 +1,7 @@
 package com.example.demo.view.voucher;
 
 import com.example.demo.dto.VoucherDto;
-import com.example.demo.util.VoucherDiscountType;
+import com.example.demo.enums.VoucherDiscountType;
 import java.util.List;
 
 public class OutputView {

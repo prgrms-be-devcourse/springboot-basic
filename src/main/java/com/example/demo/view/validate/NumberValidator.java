@@ -1,6 +1,6 @@
 package com.example.demo.view.validate;
 
-import com.example.demo.util.VoucherDiscountType;
+import com.example.demo.enums.VoucherDiscountType;
 import java.util.regex.Pattern;
 
 public final class NumberValidator {
@@ -23,7 +23,7 @@ public final class NumberValidator {
         }
     }
 
-    public static void validateAmount(VoucherDiscountType voucherDiscountType, double inputAmount) {
+    public static void validateAmount(VoucherDiscountType voucherDiscountType, int inputAmount) {
         switch (voucherDiscountType) {
             case FIX -> NumberValidator.validatePositiveNumber(inputAmount);
             case PERCENT -> {
@@ -36,25 +36,25 @@ public final class NumberValidator {
 
     private static void validatePositiveNumber(String inputAmount) {
         if (!IS_NUMERIC_REGEX.matcher(inputAmount).matches()) {
-            throw new IllegalArgumentException("[ERROR] 1이상의 숫자를 입력해주세요.");
+            throw new IllegalArgumentException(String.format("[ERROR] 1이상의 숫자를 입력해주세요. 입력 받은 숫자 : %s", inputAmount));
         }
     }
 
-    private static void validatePositiveNumber(double inputAmount) {
+    private static void validatePositiveNumber(int inputAmount) {
         if (inputAmount < 1) {
-            throw new IllegalArgumentException("[ERROR] 1이상의 숫자를 입력해주세요.");
+            throw new IllegalArgumentException(String.format("[ERROR] 1이상의 숫자를 입력해주세요. 입력 받은 숫자 : %s", inputAmount));
         }
     }
 
     private static void validatePercentageNumber(String inputAmount) {
         if (!IS_PERCENT_REGEX.matcher(inputAmount).matches()) {
-            throw new IllegalArgumentException("[ERROR] 1이상 ~ 100 이하의 숫자를 입력해주세요.");
+            throw new IllegalArgumentException(String.format("[ERROR] 1이상 ~ 100 이하의 숫자를 입력해주세요. 입력 받은 숫자 : %s", inputAmount));
         }
     }
 
-    private static void validatePercentageNumber(double inputAmount) {
+    private static void validatePercentageNumber(int inputAmount) {
         if (inputAmount < 1 || inputAmount > 100) {
-            throw new IllegalArgumentException("[ERROR] 1이상 ~ 100 이하의 숫자를 입력해주세요.");
+            throw new IllegalArgumentException(String.format("[ERROR] 1이상 ~ 100 이하의 숫자를 입력해주세요. 입력 받은 숫자 : %s", inputAmount));
         }
     }
 }

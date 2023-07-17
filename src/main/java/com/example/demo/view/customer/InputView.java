@@ -1,6 +1,6 @@
 package com.example.demo.view.customer;
 
-import com.example.demo.util.CustomerCommandType;
+import com.example.demo.enums.CustomerCommandType;
 import com.example.demo.view.validate.CommandValidator;
 import com.example.demo.view.validate.CustomerValidator;
 import java.util.Scanner;

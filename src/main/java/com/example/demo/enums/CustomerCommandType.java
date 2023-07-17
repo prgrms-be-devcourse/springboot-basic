@@ -1,4 +1,4 @@
-package com.example.demo.util;
+package com.example.demo.enums;
 
 import java.util.Collections;
 import java.util.Map;
@@ -6,19 +6,19 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum VoucherCommandType {
-    CREATE_VOUCHER(1),
-    PRINT_VOUCHER_LIST(2),
-    UPDATE_VOUCHER_AMOUNT(3),
-    DELETE_VOUCHER(4);
+public enum CustomerCommandType {
+    CREATE_CUSTOMER(1),
+    PRINT_CUSTOMER_LIST(2),
+    UPDATE_CUSTOMER_NAME(3),
+    DELETE_CUSTOMER(4);
 
     private final int commandNum;
 
-    private static final Map<Integer, VoucherCommandType> COMMAND_TYPE_MAP =
+    private static final Map<Integer, CustomerCommandType> COMMAND_TYPE_MAP =
             Collections.unmodifiableMap(Stream.of(values())
-                    .collect(Collectors.toMap(VoucherCommandType::getCommandNum, Function.identity())));
+                    .collect(Collectors.toMap(CustomerCommandType::getCommandNum, Function.identity())));
 
-    VoucherCommandType(int commandNum) {
+    CustomerCommandType(int commandNum) {
         this.commandNum = commandNum;
     }
 
@@ -26,7 +26,7 @@ public enum VoucherCommandType {
         return commandNum;
     }
 
-    public static VoucherCommandType from(Integer input) {
+    public static CustomerCommandType from(Integer input) {
         if (COMMAND_TYPE_MAP.containsKey(input)) {
             return COMMAND_TYPE_MAP.get(input);
         }

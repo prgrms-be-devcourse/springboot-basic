@@ -1,8 +1,8 @@
 package com.example.demo.view.voucher;
 
 import com.example.demo.dto.VoucherDto;
-import com.example.demo.util.VoucherCommandType;
-import com.example.demo.util.VoucherDiscountType;
+import com.example.demo.enums.VoucherCommandType;
+import com.example.demo.enums.VoucherDiscountType;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;

@@ -9,20 +9,20 @@ import lombok.ToString;
 @ToString
 public class Customer {
 
-    private final UUID customerId;
+    private final UUID id;
     private final String name;
     private final int age;
 
     @Builder
-    public Customer(UUID customerId, String name, int age) {
-        this.customerId = customerId;
+    public Customer(UUID id, String name, int age) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }
 
     @Builder
     public Customer(String name, int age) {
-        this.customerId = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.name = name;
         this.age = age;
     }

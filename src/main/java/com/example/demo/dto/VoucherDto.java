@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.domain.voucher.Voucher;
-import com.example.demo.util.VoucherDiscountType;
+import com.example.demo.enums.VoucherDiscountType;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

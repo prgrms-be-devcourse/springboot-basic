@@ -1,4 +1,4 @@
-package com.example.demo.domain.voucher.repository;
+package com.example.demo.repository.voucher;
 
 import com.example.demo.domain.voucher.Voucher;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.example.demo;
 
 
-import com.example.demo.util.IndexMenuCommand;
+import com.example.demo.enums.IndexMenuCommand;
 import com.example.demo.view.index.IndexView;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

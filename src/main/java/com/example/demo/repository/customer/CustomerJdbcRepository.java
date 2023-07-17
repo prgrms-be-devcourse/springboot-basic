@@ -1,4 +1,4 @@
-package com.example.demo.domain.customer.repository;
+package com.example.demo.repository.customer;
 
 import com.example.demo.domain.customer.Customer;
 import java.util.List;
@@ -22,11 +22,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public Customer save(Customer customer) {
-        String sql = "INSERT INTO customers VALUES (:customer_id, :name, :age)";
+    public void save(Customer customer) {
+        String sql = "INSERT INTO customers VALUES (:id, :name, :age)";
 
         SqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("customer_id", customer.getCustomerId().toString())
+                .addValue("id", customer.getId().toString())
                 .addValue("name", customer.getName())
                 .addValue("age", customer.getAge());
 
@@ -36,13 +36,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
             logger.error("고객이 save되지 않았음. 잘 못된 입력 {}", customer);
             throw new IllegalArgumentException(String.format("고객이 save되지 않았음. 잘 못된 입력 : %s", customer));
         }
-
-        return customer;
     }
 
     @Override
     public Optional<Customer> findById(UUID id) {
-        String sql = "SELECT * FROM customers WHERE customer_id = :customer_id";
+        String sql = "SELECT * FROM customers WHERE id = :id";
 
         SqlParameterSource paramSource = new MapSqlParameterSource()
                 .addValue("id", id.toString());
@@ -67,11 +65,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void updateName(UUID id, String name) {
-        String sql = "UPDATE customers SET name = :name WHERE customer_id = :customer_id";
+        String sql = "UPDATE customers SET name = :name WHERE id = :id";
 
         SqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("name", name)
-                .addValue("customer_id", id.toString());
+                .addValue("id", id.toString());
 
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
@@ -83,10 +81,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void deleteById(UUID id) {
-        String sql = "DELETE FROM customers WHERE customer_id = :customer_id";
+        String sql = "DELETE FROM customers WHERE id = :id";
 
         SqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("customer_id", id.toString());
+                .addValue("id", id.toString());
 
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
@@ -98,12 +96,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private RowMapper<Customer> rowMapper() {
         return (resultSet, count) -> {
-            String customerId = resultSet.getString("customer_id");
+            UUID id = UUID.fromString(resultSet.getString("id"));
             String name = resultSet.getString("name");
             int age = resultSet.getInt("age");
 
             return Customer.builder()
-                    .customerId(UUID.fromString(customerId))
+                    .id(id)
                     .name(name)
                     .age(age)
                     .build();

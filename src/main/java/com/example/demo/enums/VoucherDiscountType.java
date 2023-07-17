@@ -1,4 +1,4 @@
-package com.example.demo.util;
+package com.example.demo.enums;
 
 public enum VoucherDiscountType {
     FIX("    할인 금액을 입력해주세요 >> "),

@@ -2,8 +2,8 @@ package com.example.demo;
 
 import com.example.demo.controller.VoucherController;
 import com.example.demo.dto.VoucherDto;
-import com.example.demo.util.VoucherCommandType;
-import com.example.demo.util.VoucherDiscountType;
+import com.example.demo.enums.VoucherCommandType;
+import com.example.demo.enums.VoucherDiscountType;
 import com.example.demo.view.voucher.VoucherView;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +39,7 @@ public class VoucherFlowManager {
                     UUID id = voucherView.readVoucherId();
                     //DB에서 바우처 타입 조회 후 amount에 대해 검증해야 함.
                     int discountAmount = voucherView.readVoucherAmountWithoutValidation();
-                    
+
                     voucherController.updateAmount(id, discountAmount);
                     voucherView.printUpdateMessage();
                 }

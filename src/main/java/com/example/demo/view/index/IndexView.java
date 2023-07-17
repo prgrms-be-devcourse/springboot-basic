@@ -1,7 +1,7 @@
 package com.example.demo.view.index;
 
 
-import com.example.demo.util.IndexMenuCommand;
+import com.example.demo.enums.IndexMenuCommand;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package com.example.demo.view.voucher;
 
-import com.example.demo.util.VoucherCommandType;
-import com.example.demo.util.VoucherDiscountType;
+import com.example.demo.enums.VoucherCommandType;
+import com.example.demo.enums.VoucherDiscountType;
 import com.example.demo.view.validate.CommandValidator;
 import com.example.demo.view.validate.NumberValidator;
 import java.util.Scanner;

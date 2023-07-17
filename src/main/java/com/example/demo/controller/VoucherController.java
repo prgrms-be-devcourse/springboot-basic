@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.VoucherDto;
+import com.example.demo.enums.VoucherDiscountType;
 import com.example.demo.service.VoucherService;
-import com.example.demo.util.VoucherDiscountType;
 import com.example.demo.view.validate.NumberValidator;
 import java.util.List;
 import java.util.UUID;

@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.customer.Customer;
-import com.example.demo.domain.customer.repository.CustomerRepository;
 import com.example.demo.dto.CustomerDto;
+import com.example.demo.repository.customer.CustomerRepository;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;

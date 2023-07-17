@@ -2,9 +2,9 @@ package com.example.demo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.demo.domain.voucher.repository.VoucherMemoryRepository;
 import com.example.demo.dto.VoucherDto;
-import com.example.demo.util.VoucherDiscountType;
+import com.example.demo.enums.VoucherDiscountType;
+import com.example.demo.repository.voucher.VoucherMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

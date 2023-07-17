@@ -1,4 +1,4 @@
-package com.example.demo.util;
+package com.example.demo.enums;
 
 import java.util.Collections;
 import java.util.Map;

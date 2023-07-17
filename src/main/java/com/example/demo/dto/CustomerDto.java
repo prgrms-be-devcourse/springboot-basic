@@ -14,7 +14,7 @@ public class CustomerDto {
     private final int age;
 
     public static CustomerDto from(Customer customer) {
-        return new CustomerDto(customer.getCustomerId(), customer.getName(), customer.getAge());
+        return new CustomerDto(customer.getId(), customer.getName(), customer.getAge());
     }
 
     public String formatAsString() {
