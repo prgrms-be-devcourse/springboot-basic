@@ -13,11 +13,6 @@ import java.util.Optional;
 
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final String INSERT = "INSERT INTO customers(name, email) VALUES (?, ?)";
-    private static final String UPDATE = "UPDATE customer SET name=? WHERE customer_id=?";
-    private static final String SELECT_BY_ID = "SELECT * FROM customers WHERE customer_id=?";
-    private static final String SELECT_BY_EMAIL = "SELECT * FROM customers WHERE email=?";
-
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(DataSource dataSource) {
@@ -26,9 +21,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void save(Customer customer) {
+        String sql = "INSERT INTO customers(name, email) VALUES (?, ?)";
+
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement statement = connection.prepareStatement(INSERT, new String[]{"id"});
+            PreparedStatement statement = connection.prepareStatement(sql, new String[]{"id"});
             statement.setString(1, customer.getName());
             statement.setString(2, customer.getEmail());
             return statement;
@@ -37,13 +34,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void update(Customer customer) {
-        jdbcTemplate.update(UPDATE, customer.getName(), customer.getId());
+        String sql = "UPDATE customer SET name=? WHERE customer_id=?";
+        jdbcTemplate.update(sql, customer.getName(), customer.getId());
     }
 
     @Override
     public Optional<Customer> findById(Long id) {
+        String sql = "SELECT * FROM customers WHERE customer_id=?";
+
         try {
-            Customer customer = jdbcTemplate.queryForObject(SELECT_BY_ID, customerRowMapper(), id);
+            Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), id);
             return Optional.of(customer);
 
         } catch (EmptyResultDataAccessException e) {
@@ -53,8 +53,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
+        String sql = "SELECT * FROM customers WHERE email=?";
+
         try {
-            Customer customer = jdbcTemplate.queryForObject(SELECT_BY_EMAIL, customerRowMapper(), email);
+            Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), email);
             return Optional.of(customer);
 
         } catch (EmptyResultDataAccessException e) {
