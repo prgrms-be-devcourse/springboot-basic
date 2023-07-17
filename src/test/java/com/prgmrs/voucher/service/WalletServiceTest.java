@@ -1,25 +1,22 @@
 package com.prgmrs.voucher.service;
 
-import com.prgmrs.voucher.dto.request.WalletRequest;
+import com.prgmrs.voucher.dto.request.AssignVoucherRequest;
+import com.prgmrs.voucher.dto.request.RemoveVoucherRequest;
 import com.prgmrs.voucher.dto.response.WalletResponse;
 import com.prgmrs.voucher.model.User;
-import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.model.Wallet;
-import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
-import com.prgmrs.voucher.model.validator.OrderValidator;
-import com.prgmrs.voucher.model.validator.UserValidator;
-import com.prgmrs.voucher.model.vo.Amount;
+import com.prgmrs.voucher.model.wrapper.Username;
 import com.prgmrs.voucher.repository.UserRepository;
 import com.prgmrs.voucher.repository.WalletRepository;
+import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,88 +36,58 @@ class WalletServiceTest {
     @InjectMocks
     private WalletService walletService;
 
-    @Mock
-    private UserValidator userValidator;
-
-    @Mock
-    private OrderValidator orderValidator;
+    private UUID voucherUUID;
+    private User user;
+    private Username username;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        voucherUUID = UUIDGenerator.generateUUID();
+
+        UUID userUUID = UUIDGenerator.generateUUID();
+        username = new Username("tyler");
+        user = new User(userUUID, username);
     }
 
     @Test
     @DisplayName("지갑 할당을 테스트한다.")
     void AssignVoucher_WalletRequest_WalletResponseSameAsGivenWallet() {
         // Given
-        UUID userUuid = UUID.randomUUID();
-        String username = "tyler";
-        User user = new User(userUuid, username);
-
-        UUID voucherUuid1 = UUID.randomUUID();
-        Amount amount1 = new Amount(300);
-        FixedAmountDiscountStrategy discountStrategy1 = new FixedAmountDiscountStrategy(amount1);
-        Voucher voucher1 = new Voucher(voucherUuid1, discountStrategy1);
-
-        UUID voucherUuid2 = UUID.randomUUID();
-        Amount amount2 = new Amount(200);
-        FixedAmountDiscountStrategy discountStrategy2 = new FixedAmountDiscountStrategy(amount2);
-        Voucher voucher2 = new Voucher(voucherUuid2, discountStrategy2);
-
-        List<Voucher> voucherList = new ArrayList<>();
-        voucherList.add(voucher1);
-        voucherList.add(voucher2);
-
-        Wallet wallet1 = new Wallet(userUuid, voucherUuid1);
-
-        WalletRequest walletRequest = new WalletRequest(user.username(), "1", voucherList);
-        given(userRepository.findByUsername(user.username())).willReturn(user);
+        AssignVoucherRequest assignVoucherRequest = new AssignVoucherRequest(username.value(), voucherUUID.toString());
+        given(userRepository.findByUsername(username)).willReturn(user);
 
         // When
-        WalletResponse walletResponse = walletService.assignVoucher(walletRequest);
+        WalletResponse walletResponse = walletService.assignVoucher(assignVoucherRequest);
 
         // Then
-        Wallet retrievedWallet = walletResponse.wallet();
-        assertThat(retrievedWallet.voucherId()).isEqualTo(voucher1.voucherId());
-        assertThat(retrievedWallet.userId()).isEqualTo(user.userId());
-        verify(walletRepository, times(1)).save(wallet1);
+        ArgumentCaptor<Wallet> walletCaptor = ArgumentCaptor.forClass(Wallet.class);
+        verify(walletRepository, times(1)).save(walletCaptor.capture());
+        Wallet capturedWallet = walletCaptor.getValue();
+
+        assertThat(walletResponse).isNotNull();
+        assertThat(capturedWallet.voucherId()).isEqualTo(voucherUUID);
+        assertThat(capturedWallet.userId()).isEqualTo(user.userId());
     }
 
     @Test
     @DisplayName("지갑 할당 해지를 테스트한다.")
     void FreeVoucher_WalletRequest_WalletResponseSameAsGivenWallet() {
         // Given
-        UUID userUuid = UUID.randomUUID();
-        String username = "tyler";
-        User user = new User(userUuid, username);
-
-        UUID voucherUuid1 = UUID.randomUUID();
-        Amount amount1 = new Amount(300);
-        FixedAmountDiscountStrategy discountStrategy1 = new FixedAmountDiscountStrategy(amount1);
-        Voucher voucher1 = new Voucher(voucherUuid1, discountStrategy1);
-
-        UUID voucherUuid2 = UUID.randomUUID();
-        Amount amount2 = new Amount(200);
-        FixedAmountDiscountStrategy discountStrategy2 = new FixedAmountDiscountStrategy(amount2);
-        Voucher voucher2 = new Voucher(voucherUuid2, discountStrategy2);
-
-        List<Voucher> voucherList = new ArrayList<>();
-        voucherList.add(voucher1);
-        voucherList.add(voucher2);
-
-        Wallet wallet1 = new Wallet(userUuid, voucherUuid1);
-
-        WalletRequest walletRequest = new WalletRequest(user.username(), "1", voucherList);
-        given(userRepository.findByUsername(user.username())).willReturn(user);
+        RemoveVoucherRequest removeVoucherRequest = new RemoveVoucherRequest(voucherUUID.toString());
+        given(userRepository.getUserByVoucherId(voucherUUID)).willReturn(user);
 
         // When
-        WalletResponse walletResponse = walletService.removeVoucher(walletRequest);
+        WalletResponse walletResponse = walletService.removeVoucher(removeVoucherRequest);
 
         // Then
-        Wallet retrievedWallet = walletResponse.wallet();
-        assertThat(retrievedWallet.voucherId()).isEqualTo(voucher1.voucherId());
-        assertThat(retrievedWallet.userId()).isEqualTo(user.userId());
-        verify(walletRepository, times(1)).remove(wallet1);
+        ArgumentCaptor<Wallet> walletCaptor = ArgumentCaptor.forClass(Wallet.class);
+        verify(walletRepository, times(1)).remove(walletCaptor.capture());
+        Wallet capturedWallet = walletCaptor.getValue();
+
+        assertThat(walletResponse).isNotNull();
+        assertThat(capturedWallet.voucherId()).isEqualTo(voucherUUID);
+        assertThat(capturedWallet.userId()).isEqualTo(user.userId());
     }
 }
