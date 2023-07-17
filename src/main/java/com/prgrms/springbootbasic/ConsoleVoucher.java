@@ -41,7 +41,7 @@ public class ConsoleVoucher {
         VoucherType type = VoucherType.of(console.inputCommand());
 
         console.printVoucherCreateDiscountMenu();
-        VoucherCreateRequest createRequest = console.inputVoucherCrateMessage(type);
+        VoucherCreateRequest createRequest = console.inputVoucherCreateMessage(type);
 
         voucherController.create(createRequest);
         console.printCompleteMessage();
