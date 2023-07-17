@@ -110,7 +110,9 @@ public class ConsoleCustomer {
                 }
                 if (customerController.deleteById(customerId) == 0) {
                     console.printErrorMessage(customerId + " 삭제하려는 고객이 저장되어있지 않아 삭제할 수 없습니다.");
+                    return;
                 }
+                console.printCompleteMessage();
             }
             case ALL -> {
                 console.printCustomerDeleteByAll();
