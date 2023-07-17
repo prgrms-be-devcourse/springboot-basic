@@ -256,3 +256,136 @@ spring:
 
 </div>
 </details>
+
+### 📮 2차 피드백
+<details>
+<summary>확장을 고려한 구조 선택</summary>
+<div>
+- 등록과 수정에 같은 dto 사용 -> 추후 더 필요할 것으로 보임
+  - CreateRequest, UpdateRequest 등
+- Customer 상태를 boolean으로 판단
+  - 추후 상태가 늘어날 것을 대비해 enum으로 관리하면 좋음
+</div>
+</details>
+
+<details>
+<summary>기본 자료형을 감싸는 원시값 포장 권고</summary>
+<div>
+- 기본 자료형을 그대로 사용하려고 하지 말고, 프로그램을 클래스의 모음으로 구성하면 유지보수 용이
+- String name; -> Name name;
+</div>
+</details>
+
+<details>
+<summary>@ConfigurationProperties</summary>
+<div>
+- 필드가 많은 설정 클래스에서는 @Value 보다는 @ConfigurationProperties
+
+```java
+@Configuration
+@ConfigurationProperties("jasypt.encryptor")
+@EnableEncryptableProperties
+public class JasyptConfiguration {
+
+    private String algorithm;
+    private int poolSize;
+    private String stringOutputType;
+    private int keyObtentionIterations;
+
+    @Bean("jasyptStringEncryptor")
+    public StringEncryptor jasyptStringEncryptor() {
+        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+        SimpleStringPBEConfig configuration = new SimpleStringPBEConfig();
+        configuration.setAlgorithm(algorithm);
+        configuration.setPoolSize(poolSize);
+        configuration.setStringOutputType(stringOutputType);
+        configuration.setKeyObtentionIterations(keyObtentionIterations);
+        configuration.setPassword(getJasyptEncryptorPassword());
+        encryptor.setConfig(configuration);
+        return encryptor;
+    }
+
+    private String getJasyptEncryptorPassword() {
+        try {
+            ClassPathResource resource = new ClassPathResource("src/main/resources/jasypt-encryptor-password.txt");
+            return String.join("", Files.readAllLines(Paths.get(resource.getPath())));
+        } catch (IOException e) {
+            throw new InvalidDataException(ErrorMessage.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
+        }
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public int getPoolSize() {
+        return poolSize;
+    }
+
+    public String getStringOutputType() {
+        return stringOutputType;
+    }
+
+    public int getKeyObtentionIterations() {
+        return keyObtentionIterations;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public void setPoolSize(int poolSize) {
+        this.poolSize = poolSize;
+    }
+
+    public void setStringOutputType(String stringOutputType) {
+        this.stringOutputType = stringOutputType;
+    }
+
+    public void setKeyObtentionIterations(int keyObtentionIterations) {
+        this.keyObtentionIterations = keyObtentionIterations;
+    }
+}
+```
+</div>
+</details>
+
+<details>
+<summary>테스트</summary>
+<div>
+- 메소드 호출 테스트는 verify
+  - verify() 메소드로 특정 메소드가 호출되었는지를 증명(테스트)
+  - void 메소드 테스트에 찰떡! 우와!
+- 테스트 코드에 추가 로직 금지!
+  - 조건문 같은 암튼 로직은 다 안 됨.
+  - 필요하다면 테스트 메소드를 쪼개자
+</div>
+</details>
+
+<details>
+<summary>Optional 도메인 필드는 ㄴㄴㄴ</summary>
+<div>
+- Optional은 직렬화 안 됨.
+  - 필드로 쓰면 안 됨.
+</div>
+</details>
+
+<details>
+<summary>내장 DB 스키마 설정</summary>
+<div>
+```yaml
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: test
+    password: test1234!
+  h2:
+    console.enabled: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema/schema.sql
+```
+</div>
+</details>
