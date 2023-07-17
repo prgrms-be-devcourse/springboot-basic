@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.controller.response.Response;
-import com.example.voucher.domain.dto.VoucherDTO;
-import com.example.voucher.service.VoucherService;
+import com.example.voucher.service.voucher.dto.VoucherDTO;
+import com.example.voucher.service.voucher.VoucherService;
 
 @Controller
 public class VoucherController {

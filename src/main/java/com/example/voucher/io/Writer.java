@@ -58,5 +58,5 @@ class Writer {
     public void writeMessage(String resultInfo) {
         System.out.println(resultInfo);
     }
-    
+
 }

@@ -1,4 +1,4 @@
-package com.example.voucher.domain.dto;
+package com.example.voucher.service.voucher.dto;
 
 import java.util.UUID;
 import com.example.voucher.constant.VoucherType;

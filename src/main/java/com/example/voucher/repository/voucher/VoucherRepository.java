@@ -1,9 +1,9 @@
-package com.example.voucher.repository;
+package com.example.voucher.repository.voucher;
 
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
-import com.example.voucher.domain.Voucher;
+import com.example.voucher.domain.voucher.Voucher;
 
 @Repository
 public interface VoucherRepository {

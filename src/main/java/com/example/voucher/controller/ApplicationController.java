@@ -7,7 +7,7 @@ import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.controller.response.Response;
-import com.example.voucher.domain.dto.VoucherDTO;
+import com.example.voucher.service.voucher.dto.VoucherDTO;
 import com.example.voucher.io.Console;
 
 @Controller

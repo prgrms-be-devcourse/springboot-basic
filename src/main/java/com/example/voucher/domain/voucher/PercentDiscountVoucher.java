@@ -1,26 +1,29 @@
-package com.example.voucher.domain;
+package com.example.voucher.domain.voucher;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
 import java.util.Objects;
 import java.util.UUID;
 import com.example.voucher.constant.VoucherType;
 
-public class FixedAmountVoucher implements Voucher {
+public class PercentDiscountVoucher implements Voucher {
 
-    private final VoucherType voucherType = VoucherType.FIXED_AMOUNT_DISCOUNT;
+    private static final int PERCENT_DIVISOR = 100;
+
+    private final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
 
     private final UUID voucherId;
-    private final long amount;
+    private final long percent;
 
-    public FixedAmountVoucher(long amount) {
-        validatePositive(amount);
+    public PercentDiscountVoucher(long percent) {
+        validatePercent(percent);
+
         this.voucherId = UUID.randomUUID();
-        this.amount = amount;
+        this.percent = percent;
     }
 
-    public  FixedAmountVoucher(UUID voucherId, Long amount) {
+    public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.percent = percent;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public Long getValue() {
-        return amount;
+        return percent;
     }
 
     @Override
@@ -41,15 +44,17 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long originalAmount) {
         validatePositive(originalAmount);
-        validateGreaterThan(originalAmount, amount);
 
-        return originalAmount - amount;
+        double discountPercent = percent / PERCENT_DIVISOR;
+        double discountAmount = originalAmount * discountPercent;
+        long discountedAmount = originalAmount - (long)discountAmount;
+
+        return discountedAmount;
     }
 
-    private void validateGreaterThan(long value, long threshold) {
-        if (value <= threshold) {
-            throw new IllegalArgumentException(
-                String.format("{} {}", FORMAT_ERROR_GREATER_THAN_CONSTRAINT, threshold));
+    private void validatePercent(long percent) {
+        if (percent < 0 || percent > 100) {
+            throw new IllegalArgumentException(MESSAGE_ERROR_RANGE_CONSTRAINT);
         }
     }
 
@@ -59,7 +64,7 @@ public class FixedAmountVoucher implements Voucher {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        FixedAmountVoucher that = (FixedAmountVoucher)o;
+        PercentDiscountVoucher that = (PercentDiscountVoucher)o;
         return voucherId.equals(that.voucherId);
     }
 

@@ -1,12 +1,12 @@
-package com.example.voucher.service;
+package com.example.voucher.service.voucher;
 
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.domain.Voucher;
-import com.example.voucher.domain.dto.VoucherDTO;
-import com.example.voucher.repository.VoucherRepository;
+import com.example.voucher.domain.voucher.Voucher;
+import com.example.voucher.service.voucher.dto.VoucherDTO;
+import com.example.voucher.repository.voucher.VoucherRepository;
 
 @Service
 public class VoucherService {

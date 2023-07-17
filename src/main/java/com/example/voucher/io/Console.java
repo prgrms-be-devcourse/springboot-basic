@@ -2,7 +2,7 @@ package com.example.voucher.io;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
 import static com.example.voucher.io.Writer.*;
-import java.util.List;
+
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.controller.request.VoucherRequest;
-import com.example.voucher.domain.dto.VoucherDTO;
 
 public class Console {
 

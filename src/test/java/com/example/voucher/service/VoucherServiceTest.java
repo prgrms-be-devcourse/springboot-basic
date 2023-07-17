@@ -17,11 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.domain.FixedAmountVoucher;
-import com.example.voucher.domain.PercentDiscountVoucher;
-import com.example.voucher.domain.Voucher;
-import com.example.voucher.domain.dto.VoucherDTO;
-import com.example.voucher.repository.VoucherRepository;
+import com.example.voucher.domain.voucher.FixedAmountVoucher;
+import com.example.voucher.domain.voucher.PercentDiscountVoucher;
+import com.example.voucher.domain.voucher.Voucher;
+import com.example.voucher.service.voucher.dto.VoucherDTO;
+import com.example.voucher.repository.voucher.VoucherRepository;
+import com.example.voucher.service.voucher.VoucherService;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {

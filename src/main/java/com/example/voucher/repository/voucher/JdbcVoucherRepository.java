@@ -1,4 +1,4 @@
-package com.example.voucher.repository;
+package com.example.voucher.repository.voucher;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,7 +8,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.domain.Voucher;
+import com.example.voucher.domain.voucher.Voucher;
+import com.example.voucher.repository.QueryBuilder;
 
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {

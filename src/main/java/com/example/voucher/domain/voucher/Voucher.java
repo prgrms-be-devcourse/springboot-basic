@@ -1,4 +1,4 @@
-package com.example.voucher.domain;
+package com.example.voucher.domain.voucher;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
 import java.util.UUID;

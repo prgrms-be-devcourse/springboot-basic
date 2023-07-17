@@ -4,9 +4,9 @@ import static com.example.voucher.constant.ExceptionMessage.*;
 
 import java.util.Arrays;
 import java.util.UUID;
-import com.example.voucher.domain.FixedAmountVoucher;
-import com.example.voucher.domain.PercentDiscountVoucher;
-import com.example.voucher.domain.Voucher;
+import com.example.voucher.domain.voucher.FixedAmountVoucher;
+import com.example.voucher.domain.voucher.PercentDiscountVoucher;
+import com.example.voucher.domain.voucher.Voucher;
 
 public enum VoucherType {
 

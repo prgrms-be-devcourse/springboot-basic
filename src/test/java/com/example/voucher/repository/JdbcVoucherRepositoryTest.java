@@ -12,9 +12,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.domain.FixedAmountVoucher;
-import com.example.voucher.domain.PercentDiscountVoucher;
-import com.example.voucher.domain.Voucher;
+import com.example.voucher.domain.voucher.FixedAmountVoucher;
+import com.example.voucher.domain.voucher.PercentDiscountVoucher;
+import com.example.voucher.domain.voucher.Voucher;
+import com.example.voucher.repository.voucher.JdbcVoucherRepository;
 
 @JdbcTest
 @ContextConfiguration(classes = JdbcVoucherRepository.class)
