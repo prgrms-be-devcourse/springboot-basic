@@ -18,9 +18,11 @@ public class CustomerCommand {
 
     private final CustomerView customerView;
     private final CustomerController customerController;
-    private boolean isRunning = true;
+    private boolean isRunning;
 
     public void run() {
+        isRunning = true;
+
         while (isRunning) {
             customerView.showMenu();
 

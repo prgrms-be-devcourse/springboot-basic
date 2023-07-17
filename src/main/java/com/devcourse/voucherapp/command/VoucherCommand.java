@@ -19,9 +19,11 @@ public class VoucherCommand {
 
     private final VoucherView voucherView;
     private final VoucherController voucherController;
-    private boolean isRunning = true;
+    private boolean isRunning;
 
     public void run() {
+        isRunning = true;
+
         while (isRunning) {
             voucherView.showMenu();
 
