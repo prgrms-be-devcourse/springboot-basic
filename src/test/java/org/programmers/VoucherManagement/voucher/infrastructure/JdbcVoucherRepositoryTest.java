@@ -136,7 +136,6 @@ public class JdbcVoucherRepositoryTest {
         //2. 데이터베이스에 없는 값인지 확인
         Optional<Voucher> optionalVoucher = voucherRepository.findById(deleteVoucherId);
         assertThat(optionalVoucher).isEqualTo(Optional.empty());
-
     }
 
 }
