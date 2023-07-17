@@ -4,7 +4,6 @@ import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 
-import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.entity.VoucherEntity;
 import org.prgrms.kdt.service.voucher.VoucherService;
@@ -19,8 +18,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-
-import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -76,7 +73,7 @@ class JdbcVoucherRepositoryTest {
     @BeforeAll
     void setup() {
         VoucherEntity voucherEntity = new VoucherEntity();
-        newVoucher = voucherEntity.toEntity(VoucherType.valueOf("FIXED").makeVoucher(1000));
+        newVoucher = voucherEntity.from(VoucherType.valueOf("FIXED").makeVoucher(1000));
         var mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(3306)
@@ -128,7 +125,7 @@ class JdbcVoucherRepositoryTest {
         Voucher insertVoucher = voucherService.save(VoucherType.of("FIXED"), 1000L);
 
         // when
-        Voucher findVoucher = voucherService.getVoucher(insertVoucher.getVoucherId());
+        Voucher findVoucher = voucherService.getVoucherById(insertVoucher.getVoucherId());
 
         // then
         assertThat(findVoucher.getVoucherId(), is(insertVoucher.getVoucherId()));

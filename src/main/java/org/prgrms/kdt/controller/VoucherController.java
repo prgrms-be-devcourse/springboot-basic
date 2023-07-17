@@ -29,7 +29,7 @@ public class VoucherController {
 
     @PostMapping("/new")
     public String addNewCustomer(CreateVoucherRequest createVoucherRequest) {
-        Voucher saveVoucher = voucherService.save(VoucherType.of(createVoucherRequest.voucherType()), createVoucherRequest.amount());
+        voucherService.save(VoucherType.of(createVoucherRequest.voucherType()), createVoucherRequest.amount());
         return "redirect:/";
     }
 

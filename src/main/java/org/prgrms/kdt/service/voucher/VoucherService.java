@@ -21,13 +21,12 @@ public class VoucherService {
     }
 
     public Voucher getVoucherById(Long voucherId) {
-        VoucherEntity voucherEntity = null;
         try {
-            voucherEntity = voucherRepository.findById(voucherId);
+            VoucherEntity voucherEntity = voucherRepository.findById(voucherId);
+            return toDomain(voucherEntity);
         } catch (Exception e) {
-            new RuntimeException("can not find a voucher for" + voucherId);
+            throw new RuntimeException("can not find a voucher for" + voucherId);
         }
-        return toDomain(voucherEntity);
     }
 
     public List<Voucher> getVouchersByType(String voucherType){
@@ -42,13 +41,9 @@ public class VoucherService {
     }
 
     public Voucher save(VoucherType type, Long discount) {
-        VoucherType voucherType = type;
-        VoucherEntity voucherEntity = new VoucherEntity();
-        switch (voucherType) {
+        switch (type) {
             case FIXED, PERCENT -> {
-                System.out.println("voucherType = " + voucherType);
-                return toDomain(voucherRepository.insert(voucherEntity.
-                        toEntity(voucherType.makeVoucher(discount))));
+                return toDomain(voucherRepository.insert(VoucherEntity.from(type.makeVoucher(discount))));
             }
             default -> throw new RuntimeException("해당 바우처는 발급 불가능합니다");
         }
@@ -65,8 +60,8 @@ public class VoucherService {
 
             case "PERCENT":
                 return new PercentDiscountVoucher(voucherEntity.getVoucherEntityId(), voucherEntity.getEntityAmount());
-            default:
-                throw new IllegalArgumentException("잘못된 VoucherType 입니다.");
+//            default:
+//                throw new IllegalArgumentException("잘못된 VoucherType 입니다.");
         }
     }
 

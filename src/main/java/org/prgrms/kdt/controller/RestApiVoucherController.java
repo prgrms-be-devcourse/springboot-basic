@@ -16,21 +16,20 @@ public class RestApiVoucherController {
 
     private final VoucherService voucherService;
 
-    @ModelAttribute("voucherTypes")
-    public VoucherType[] voucherTypes() {
-        return VoucherType.values();
+    @GetMapping("voucherTypes")
+    public List<VoucherType> voucherTypes() {
+        return List.of(VoucherType.values());
     }
 
     @PostMapping("/new")
-    public Voucher addNewCustomer(CreateVoucherRequest createVoucherRequest) {
-        Voucher saveVoucher = voucherService.save(VoucherType.of(createVoucherRequest.voucherType()), createVoucherRequest.amount());
-        return saveVoucher;
+    public Voucher addNewVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
+        Voucher addNewVoucher = voucherService.save(VoucherType.of(createVoucherRequest.voucherType()), createVoucherRequest.amount());
+        return addNewVoucher;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<Voucher> showVoucherList() {
-        List<Voucher> voucherList = voucherService.getVouchers();
-        return voucherList;
+        return voucherService.getVouchers();
     }
 
     @GetMapping("/list/{voucherType}")
@@ -40,13 +39,13 @@ public class RestApiVoucherController {
     }
 
 
-    @GetMapping("/view/{voucherId}")
+    @GetMapping("/{voucherId}/detail")
     public Voucher viewVoucher(@PathVariable("voucherId") Long voucherId) {
         return voucherService.getVoucherById(voucherId);
     }
 
 
-    @GetMapping("/delete/{voucherId}")
+    @DeleteMapping("/delete/{voucherId}")
     public void deleteVoucher( @PathVariable("voucherId") Long voucherId) {
         voucherService.deleteById(voucherId);
     }

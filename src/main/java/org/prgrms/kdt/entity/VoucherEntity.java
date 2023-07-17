@@ -1,50 +1,48 @@
 package org.prgrms.kdt.entity;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 
 public class VoucherEntity {
 
-    private Long voucherEntityId;
-    private String voucherEntityType;
-    private Long entityAmount;
-    private boolean entityStatus;
+    private Long voucherId;
+    private String voucherType;
+    private Long amount;
+    private boolean status;
 
     public VoucherEntity() {
 
     }
 
     public VoucherEntity(Long voucherId, String voucherType, Long amount, boolean status) {
-        voucherEntityId = voucherId;
-        voucherEntityType = voucherType;
-        entityAmount= amount;
-        entityStatus = status;
+        this.voucherId = voucherId;
+        this.voucherType = voucherType;
+        this.amount= amount;
+        this.status = status;
     }
 
-    public VoucherEntity toEntity(Voucher voucher) {
-        voucherEntityId = voucher.getVoucherId();
-        voucherEntityType = String.valueOf(voucher.getVoucherType());
-        entityAmount = voucher.getDiscountAmount();
-        entityStatus = voucher.getStatus();
+    public VoucherEntity from(Voucher voucher) {
+        voucherId = voucher.getVoucherId();
+        voucherType = String.valueOf(voucher.getVoucherType());
+        amount = voucher.getDiscountAmount();
+        status = voucher.getStatus();
 
-        return new VoucherEntity(voucherEntityId, voucherEntityType, entityAmount, entityStatus);
+        return new VoucherEntity(voucherId, voucherType, amount, status);
     }
 
     public Long getVoucherEntityId() {
-        return voucherEntityId;
+        return voucherId;
     }
 
     public String getVoucherEntityType() {
-        return voucherEntityType;
+        return voucherType;
     }
 
     public Long getEntityAmount() {
-        return entityAmount;
+        return amount;
     }
 
     public boolean isEntityStatus() {
-        return entityStatus;
+        return status;
     }
 }

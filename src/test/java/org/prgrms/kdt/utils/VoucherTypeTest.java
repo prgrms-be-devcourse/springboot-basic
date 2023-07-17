@@ -35,7 +35,7 @@ class VoucherTypeTest {
     }
 
     @Test
-    @DisplayName("바우처 String 으로 PERCENT를 입력하였을 경우")
+    @DisplayName("바우처 String 으로 PERCENT를 입력하였을 경우 ")
     public void testPercent() {
         //given
         VoucherType voucherType = VoucherType.of("PERCENT");

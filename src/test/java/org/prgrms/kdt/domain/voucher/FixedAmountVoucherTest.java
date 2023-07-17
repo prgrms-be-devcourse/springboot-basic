@@ -11,7 +11,7 @@ class FixedAmountVoucherTest {
 
     @Test
     @DisplayName("바우처 할인 가격으로 음수를 입력할 경우 예외가 발생한다.")
-    public void test_Fixed_Discount() {
+    public void test_fixed_discount() {
         //given
         Long id = 1L;
         Long discount = -100L;

@@ -3,6 +3,7 @@ package org.prgrms.kdt.utils;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.factory.VoucherFactory;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -10,15 +11,12 @@ import java.util.function.Function;
 public enum VoucherType {
 
 
-    FIXED("FIXED", (value)->new FixedAmountVoucher(new Random().nextLong() > 0 ?  new Random().nextLong() : (new Random().nextLong()) * (-1),value)),
-    PERCENT("PERCENT", (value)->new PercentDiscountVoucher(new Random().nextLong() > 0 ?  new Random().nextLong() : (new Random().nextLong()) * (-1),value));
+    FIXED("FIXED", value -> VoucherFactory.createVoucher("FIXED",value)),
+    PERCENT("PERCENT", value -> VoucherFactory.createVoucher("PERCENT",value));
 
     private final String matchString;
     private final Function<Long,Voucher> expression;
 
-    private static class Sequence { // 정적 멤버 클래스
-        private static Long SEQUENCE_ID = 0L;
-    }
     VoucherType(String matchString,Function<Long, Voucher> expression) {
         this.matchString = matchString;
         this.expression = expression;

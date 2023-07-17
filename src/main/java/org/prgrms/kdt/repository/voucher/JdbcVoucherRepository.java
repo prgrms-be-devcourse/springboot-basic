@@ -2,8 +2,6 @@ package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.entity.VoucherEntity;
 import org.prgrms.kdt.utils.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,8 +14,6 @@ import java.util.List;
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository .class);
 
     private final DataSource dataSource;
 
@@ -34,8 +30,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         final String voucherType = resultSet.getString("voucher_type");
         Long amount = resultSet.getLong("discount_amount");
         boolean status = resultSet.getBoolean("status");
-        VoucherEntity voucherEntity = new VoucherEntity(voucherId, voucherType, amount, status);
-        return voucherEntity.toEntity(VoucherType.of(voucherType).makeVoucher(amount));
+        return new VoucherEntity(voucherId, voucherType, amount, status);
     };
 
     @Override
@@ -63,8 +58,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = ?",
                     voucherRowMapper, voucherId);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("결과값이 없습니다!");
-            return null;
+            throw new RuntimeException("결과값이 없습니다!");
         }
     }
 
@@ -74,8 +68,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = ?",
                     voucherRowMapper, voucherType);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("결과값이 없습니다!");
-            return null;
+            throw new RuntimeException("결과값이 없습니다!");
         }
     }
 
