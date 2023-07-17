@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.view;
+package com.prgmrs.voucher.view.io;
 
 import org.springframework.stereotype.Component;
 
