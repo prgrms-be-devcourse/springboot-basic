@@ -5,16 +5,16 @@ import static java.text.MessageFormat.format;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class VoucherResponseDto {
 
-    private final UUID id;
-    private final VoucherType type;
-    private final int discountAmount;
+    private UUID id;
+    private VoucherType type;
+    private int discountAmount;
 
     public static VoucherResponseDto from(Voucher voucher) {
         return new VoucherResponseDto(voucher.getId(), voucher.getType(), voucher.getDiscountAmount());

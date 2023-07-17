@@ -32,12 +32,8 @@ public class Customer {
     }
 
     private void validateIsAlphaNumeric(String nickname) {
-        if (isNotAlphaNumeric(nickname)) {
+        if (!nickname.matches(ALPHA_NUMERIC_REGEX)) {
             throw new CustomerInputException(nickname);
         }
-    }
-
-    private boolean isNotAlphaNumeric(String nickname) {
-        return !nickname.matches(ALPHA_NUMERIC_REGEX);
     }
 }

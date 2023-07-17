@@ -15,7 +15,7 @@ public enum HomeMenu {
     CUSTOMER("2", "고객 메뉴"),
     QUIT("quit", "프로그램 종료");
 
-    private static final Map<String, HomeMenu> MENUS = Collections.unmodifiableMap(Stream.of(values())
+    private static final Map<String, HomeMenu> menuMap = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(HomeMenu::getOption, Function.identity())));
 
     @Getter
@@ -29,8 +29,8 @@ public enum HomeMenu {
     }
 
     public static HomeMenu from(String menuOption) {
-        if (MENUS.containsKey(menuOption)) {
-            return MENUS.get(menuOption);
+        if (menuMap.containsKey(menuOption)) {
+            return menuMap.get(menuOption);
         }
 
         throw new MenuInputException(menuOption);

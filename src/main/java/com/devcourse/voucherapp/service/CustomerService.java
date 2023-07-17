@@ -40,14 +40,14 @@ public class CustomerService {
     }
 
     public CustomerResponseDto update(CustomerUpdateRequestDto request) {
-        String typeNumber = request.getTypeNumber();
+        String typeOption = request.getTypeOption();
         String nickname = request.getNickname();
 
         UUID id = customerRepository.findCustomerByNickname(nickname)
                 .orElseThrow(() -> new NotFoundCustomerException(nickname))
                 .getId();
 
-        CustomerType customerType = CustomerType.from(typeNumber);
+        CustomerType customerType = CustomerType.from(typeOption);
 
         Customer customer = Customer.from(id, customerType, nickname);
         Customer updatedCustomer = customerRepository.update(customer);

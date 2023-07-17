@@ -17,7 +17,7 @@ public enum VoucherMenu {
     DELETE("4", "할인권 삭제"),
     HOME("home", "홈으로 이동");
 
-    private static final Map<String, VoucherMenu> VOUCHER_MENUS = Collections.unmodifiableMap(Stream.of(values())
+    private static final Map<String, VoucherMenu> voucherMenuMap = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(VoucherMenu::getOption, Function.identity())));
 
     @Getter
@@ -31,8 +31,8 @@ public enum VoucherMenu {
     }
 
     public static VoucherMenu from(String menuOption) {
-        if (VOUCHER_MENUS.containsKey(menuOption)) {
-            return VOUCHER_MENUS.get(menuOption);
+        if (voucherMenuMap.containsKey(menuOption)) {
+            return voucherMenuMap.get(menuOption);
         }
 
         throw new MenuInputException(menuOption);

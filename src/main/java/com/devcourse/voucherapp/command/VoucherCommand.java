@@ -50,8 +50,8 @@ public class VoucherCommand {
     }
 
     private void createVoucher() {
-        String typeNumber = voucherView.readVoucherTypeNumber();
-        VoucherType voucherType = VoucherType.from(typeNumber);
+        String typeOption = voucherView.readVoucherTypeOption();
+        VoucherType voucherType = VoucherType.from(typeOption);
 
         String discountAmount = voucherView.readDiscountAmount(voucherType);
 

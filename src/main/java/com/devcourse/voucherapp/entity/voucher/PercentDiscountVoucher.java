@@ -20,14 +20,10 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     private int getValidRate(String discountAmount) {
-        if (isNotValid(discountAmount)) {
+        if (!discountAmount.matches(PERCENT_DISCOUNT_RATE_REGEX)) {
             throw new DiscountAmountException(type.getCondition(), discountAmount);
         }
 
         return Integer.parseInt(discountAmount);
-    }
-
-    private boolean isNotValid(String discountAmount) {
-        return !discountAmount.matches(PERCENT_DISCOUNT_RATE_REGEX);
     }
 }

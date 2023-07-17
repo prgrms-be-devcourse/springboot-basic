@@ -45,7 +45,7 @@ public class CustomerView {
         return readUserInput();
     }
 
-    public String readCustomerTypeNumber() {
+    public String readCustomerTypeOption() {
         output.printWithLineBreak(UPDATE_CUSTOMER_TYPE_INPUT_MESSAGE);
         output.printElementsInArray(CustomerType.values());
 

@@ -36,7 +36,7 @@ public class VoucherView {
         return input.inputWithTrimming();
     }
 
-    public String readVoucherTypeNumber() {
+    public String readVoucherTypeOption() {
         output.printWithLineBreak(VOUCHER_TYPE_SELECTION_MESSAGE);
         output.printElementsInArray(VoucherType.values());
 

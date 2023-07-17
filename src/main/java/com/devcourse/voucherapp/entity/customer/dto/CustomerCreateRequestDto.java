@@ -1,11 +1,11 @@
 package com.devcourse.voucherapp.entity.customer.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class CustomerCreateRequestDto {
 
-    private final String nickname;
+    private String nickname;
 }

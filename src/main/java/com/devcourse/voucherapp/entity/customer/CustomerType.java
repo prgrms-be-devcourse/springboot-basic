@@ -15,27 +15,27 @@ public enum CustomerType {
     NORMAL("1", "일반 고객"),
     BLACK("2", "블랙리스트 고객");
 
-    private static final Map<String, CustomerType> CUSTOMER_TYPES = Collections.unmodifiableMap(Stream.of(values())
-            .collect(Collectors.toMap(CustomerType::getNumber, Function.identity())));
+    private static final Map<String, CustomerType> customerTypeMap = Collections.unmodifiableMap(Stream.of(values())
+            .collect(Collectors.toMap(CustomerType::getOption, Function.identity())));
 
-    private final String number;
+    private final String option;
     private final String name;
 
-    CustomerType(String number, String name) {
-        this.number = number;
+    CustomerType(String option, String name) {
+        this.option = option;
         this.name = name;
     }
 
-    public static CustomerType from(String customerTypeNumber) {
-        if (CUSTOMER_TYPES.containsKey(customerTypeNumber)) {
-            return CUSTOMER_TYPES.get(customerTypeNumber);
+    public static CustomerType from(String customerTypeOption) {
+        if (customerTypeMap.containsKey(customerTypeOption)) {
+            return customerTypeMap.get(customerTypeOption);
         }
 
-        throw new CustomerTypeInputException(customerTypeNumber);
+        throw new CustomerTypeInputException(customerTypeOption);
     }
 
     @Override
     public String toString() {
-        return format("{0}. {1}", number, name);
+        return format("{0}. {1}", option, name);
     }
 }

@@ -5,16 +5,16 @@ import static java.text.MessageFormat.format;
 import com.devcourse.voucherapp.entity.customer.Customer;
 import com.devcourse.voucherapp.entity.customer.CustomerType;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class CustomerResponseDto {
 
-    private final UUID id;
-    private final CustomerType type;
-    private final String nickname;
+    private UUID id;
+    private CustomerType type;
+    private String nickname;
 
     public static CustomerResponseDto from(Customer customer) {
         return new CustomerResponseDto(customer.getId(), customer.getType(), customer.getNickname());

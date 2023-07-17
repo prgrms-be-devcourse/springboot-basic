@@ -29,7 +29,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer create(Customer customer) {
-        String sql = "insert into customer(id, type, nickname) values (:id, :typeNumber, :nickname)";
+        String sql = "insert into customer(id, type, nickname) values (:id, :typeOption, :nickname)";
         template.update(sql, getParameterSource(customer));
 
         return customer;
@@ -57,7 +57,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        String sql = "update customer set type = :typeNumber where nickname = :nickname";
+        String sql = "update customer set type = :typeOption where nickname = :nickname";
         template.update(sql, getParameterSource(customer));
 
         return customer;
@@ -72,16 +72,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findBlackListCustomers() {
-        String sql = "select id, type, nickname from customer where type = :typeNumber";
-        String blackListTypeNumber = BLACK.getNumber();
+        String sql = "select id, type, nickname from customer where type = :typeOption";
+        String blackListTypeOption = BLACK.getOption();
 
-        return template.query(sql, getParameterTypeNumber(blackListTypeNumber), getCustomerRowMapper());
+        return template.query(sql, getParameterTypeOption(blackListTypeOption), getCustomerRowMapper());
     }
 
     private SqlParameterSource getParameterSource(Customer customer) {
         return new MapSqlParameterSource()
                 .addValue("id", customer.getId().toString())
-                .addValue("typeNumber", customer.getType().getNumber())
+                .addValue("typeOption", customer.getType().getOption())
                 .addValue("nickname", customer.getNickname());
     }
 
@@ -89,17 +89,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return Map.of("nickname", nickname);
     }
 
-    private Map<String, String> getParameterTypeNumber(String typeNumber) {
-        return Map.of("typeNumber", typeNumber);
+    private Map<String, String> getParameterTypeOption(String typeOption) {
+        return Map.of("typeOption", typeOption);
     }
 
     private RowMapper<Customer> getCustomerRowMapper() {
         return (resultSet, rowNum) -> {
             String id = resultSet.getString("id");
-            String typeNumber = resultSet.getString("type");
+            String typeOption = resultSet.getString("type");
             String nickname = resultSet.getString("nickname");
 
-            return Customer.from(UUID.fromString(id), CustomerType.from(typeNumber), nickname);
+            return Customer.from(UUID.fromString(id), CustomerType.from(typeOption), nickname);
         };
     }
 }

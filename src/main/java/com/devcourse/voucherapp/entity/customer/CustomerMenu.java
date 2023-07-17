@@ -18,7 +18,7 @@ public enum CustomerMenu {
     READ_BLACK_LIST("5", "블랙리스트 고객 조회"),
     HOME("home", "홈으로 이동");
 
-    private static final Map<String, CustomerMenu> CUSTOMER_MENUS = Collections.unmodifiableMap(Stream.of(values())
+    private static final Map<String, CustomerMenu> customerMenuMap = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(CustomerMenu::getOption, Function.identity())));
 
     @Getter
@@ -32,8 +32,8 @@ public enum CustomerMenu {
     }
 
     public static CustomerMenu from(String menuOption) {
-        if (CUSTOMER_MENUS.containsKey(menuOption)) {
-            return CUSTOMER_MENUS.get(menuOption);
+        if (customerMenuMap.containsKey(menuOption)) {
+            return customerMenuMap.get(menuOption);
         }
 
         throw new MenuInputException(menuOption);

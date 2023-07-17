@@ -20,14 +20,10 @@ public class FixDiscountVoucher implements Voucher {
     }
 
     private int getValidPrice(String discountAmount) {
-        if (isNotValid(discountAmount)) {
+        if (!discountAmount.matches(FIX_DISCOUNT_PRICE_REGEX)) {
             throw new DiscountAmountException(type.getCondition(), discountAmount);
         }
 
         return Integer.parseInt(discountAmount);
-    }
-
-    private boolean isNotValid(String discountAmount) {
-        return !discountAmount.matches(FIX_DISCOUNT_PRICE_REGEX);
     }
 }

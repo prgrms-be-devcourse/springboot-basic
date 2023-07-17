@@ -15,7 +15,7 @@ import org.apache.commons.lang3.function.TriFunction;
 @Getter
 public enum VoucherType {
     FIX(VoucherTypeInfo.builder()
-            .number("1")
+            .option("1")
             .name("고정 할인")
             .condition("1이상의 자연수")
             .unit("원")
@@ -23,7 +23,7 @@ public enum VoucherType {
             .build()
     ),
     PERCENT(VoucherTypeInfo.builder()
-            .number("2")
+            .option("2")
             .name("비율 할인")
             .condition("1이상 100이하의 자연수")
             .unit("%")
@@ -31,29 +31,29 @@ public enum VoucherType {
             .build()
     );
 
-    private static final Map<String, VoucherType> VOUCHER_TYPES = Collections.unmodifiableMap(Stream.of(values())
-            .collect(Collectors.toMap(VoucherType::getNumber, Function.identity())));
+    private static final Map<String, VoucherType> voucherTypeMap = Collections.unmodifiableMap(Stream.of(values())
+            .collect(Collectors.toMap(VoucherType::getOption, Function.identity())));
 
-    private final String number;
+    private final String option;
     private final String name;
     private final String condition;
     private final String unit;
     private final TriFunction<UUID, VoucherType, String, Voucher> voucherGenerator;
 
     VoucherType(VoucherTypeInfo voucherTypeInfo) {
-        this.number = voucherTypeInfo.getNumber();
+        this.option = voucherTypeInfo.getOption();
         this.name = voucherTypeInfo.getName();
         this.condition = voucherTypeInfo.getCondition();
         this.unit = voucherTypeInfo.getUnit();
         this.voucherGenerator = voucherTypeInfo.getVoucherGenerator();
     }
 
-    public static VoucherType from(String voucherTypeNumber) {
-        if (VOUCHER_TYPES.containsKey(voucherTypeNumber)) {
-            return VOUCHER_TYPES.get(voucherTypeNumber);
+    public static VoucherType from(String voucherTypeOption) {
+        if (voucherTypeMap.containsKey(voucherTypeOption)) {
+            return voucherTypeMap.get(voucherTypeOption);
         }
 
-        throw new VoucherTypeInputException(voucherTypeNumber);
+        throw new VoucherTypeInputException(voucherTypeOption);
     }
 
     public Voucher makeVoucher(UUID id, String discountAmount) {
@@ -62,6 +62,6 @@ public enum VoucherType {
 
     @Override
     public String toString() {
-        return format("{0}. {1}", number, name);
+        return format("{0}. {1}", option, name);
     }
 }

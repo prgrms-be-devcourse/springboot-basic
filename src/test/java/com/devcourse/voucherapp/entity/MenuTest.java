@@ -14,14 +14,14 @@ class MenuTest {
     @DisplayName("존재하는 홈 메뉴 입력 시, 해당 메뉴 객체가 반환된다.")
     @ParameterizedTest
     @CsvSource(value = {"1,VOUCHER", "2,CUSTOMER", "quit,QUIT"})
-    void selectExistedMenuTest(String menuNumber, HomeMenu menu) {
-        assertEquals(menu, HomeMenu.from(menuNumber));
+    void selectExistedMenuTest(String menuOption, HomeMenu menu) {
+        assertEquals(menu, HomeMenu.from(menuOption));
     }
 
     @DisplayName("존재하지 않는 홈 메뉴 입력 시, MenuInputException 예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = {"10000", "string"})
-    void selectNotExistedMenuTest(String invalidMenuNumber) {
-        assertThrows(MenuInputException.class, () -> HomeMenu.from(invalidMenuNumber));
+    void selectNotExistedMenuTest(String invalidMenuOption) {
+        assertThrows(MenuInputException.class, () -> HomeMenu.from(invalidMenuOption));
     }
 }

@@ -9,7 +9,7 @@ import org.apache.commons.lang3.function.TriFunction;
 @Getter
 public class VoucherTypeInfo {
 
-    private final String number;
+    private final String option;
     private final String name;
     private final String condition;
     private final String unit;

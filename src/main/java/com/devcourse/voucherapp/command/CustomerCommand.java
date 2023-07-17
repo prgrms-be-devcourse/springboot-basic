@@ -67,9 +67,9 @@ public class CustomerCommand {
         readAllCustomers();
 
         String nickname = customerView.readCustomerNicknameToUpdate();
-        String typeNumber = customerView.readCustomerTypeNumber();
+        String typeOption = customerView.readCustomerTypeOption();
 
-        CustomerUpdateRequestDto request = new CustomerUpdateRequestDto(typeNumber, nickname);
+        CustomerUpdateRequestDto request = new CustomerUpdateRequestDto(typeOption, nickname);
         CustomerResponseDto response = customerController.update(request);
 
         customerView.showCustomerUpdateSuccessMessage(response);

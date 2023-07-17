@@ -17,15 +17,15 @@ class VoucherTypeTest {
     @DisplayName("존재하는 할인권 방식 입력 시, 해당 할인권 방식 객체가 반환된다.")
     @ParameterizedTest
     @CsvSource(value = {"1,FIX", "2,PERCENT"})
-    void selectExistedVoucherTypeTest(String typeNumber, VoucherType type) {
-        assertEquals(type, VoucherType.from(typeNumber));
+    void selectExistedVoucherTypeTest(String typeOption, VoucherType type) {
+        assertEquals(type, VoucherType.from(typeOption));
     }
 
     @DisplayName("존재하지 않는 할인권 방식 입력 시, VoucherInputException 예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = {"10000", "string"})
-    void selectNotExistedVoucherTypeTest(String invalidTypeNumber) {
-        assertThrows(VoucherTypeInputException.class, () -> VoucherType.from(invalidTypeNumber));
+    void selectNotExistedVoucherTypeTest(String invalidTypeOption) {
+        assertThrows(VoucherTypeInputException.class, () -> VoucherType.from(invalidTypeOption));
     }
 
     @DisplayName("고정 금액 할인권 생성 시, 잘못된 금액을 입력한 경우 VoucherInputException 예외가 발생한다.")

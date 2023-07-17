@@ -2,14 +2,14 @@ package com.devcourse.voucherapp.entity.voucher.dto;
 
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class VoucherUpdateRequestDto {
 
-    private final UUID id;
-    private final VoucherType type;
-    private final String discountAmount;
+    private UUID id;
+    private VoucherType type;
+    private String discountAmount;
 }
