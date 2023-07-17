@@ -48,14 +48,37 @@ public class QueryBuilder {
         return this;
     }
 
-    public QueryBuilder AND(String colum, String operator, String param) {
+    public QueryBuilder and(String colum, String operator, String param) {
         makeCondition("AND", colum, operator, param);
 
         return this;
     }
 
-    public QueryBuilder OR(String colum, String operator, String param) {
+    public QueryBuilder or(String colum, String operator, String param) {
         makeCondition("OR", colum, operator, param);
+
+        return this;
+    }
+
+    public QueryBuilder select(String... colums) {
+        query.append("SELECT")
+            .append(" ");
+
+        for (String colum : colums) {
+            query.append(colum)
+                .append(", ");
+        }
+
+        query.delete(query.length() - 2, query.length());
+
+        return this;
+    }
+
+    public QueryBuilder from(String table) {
+        query.append(" ")
+            .append("FROM")
+            .append(" ")
+            .append(table);
 
         return this;
     }

@@ -42,8 +42,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         RowMapper<Voucher> voucherRowMapper = voucherRowMapper();
 
-        return jdbcTemplate.queryForObject("SELECT * FROM VOUCHER WHERE VOUCHER_ID = :voucherId", parameterSource,
-            voucherRowMapper);
+        String sql = new QueryBuilder().select("*")
+            .from("VOUCHER")
+            .where("VOUCHER_ID", "=", "voucherId")
+            .build();
+
+        return jdbcTemplate.queryForObject(sql, parameterSource, voucherRowMapper);
     }
 
     @Override
@@ -75,7 +79,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         RowMapper<Voucher> voucherRowMapper = voucherRowMapper();
 
-        return jdbcTemplate.query("SELECT * FROM VOUCHER", voucherRowMapper);
+        String sql = new QueryBuilder().select("*")
+            .from("VOUCHER")
+            .build();
+
+        return jdbcTemplate.query(sql, voucherRowMapper);
     }
 
     @Override
