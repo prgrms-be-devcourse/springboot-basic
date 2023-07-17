@@ -58,7 +58,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 toParamMap(customer));
 
         if (updatedRowNumber != VALID_ROW_RESULT) {
-            logger.error("추가된 바우처가 없습니다.");
+            logger.error("추가된 회원 정보가 없습니다.");
         }
     }
 
@@ -67,7 +67,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return jdbcTemplate.query(CustomerManageSql.findAllCustomerSQL, customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("조회된 바우처 리스트가 없습니다.", e);
+            logger.error("조회된 회원 정보 리스트가 없습니다.", e);
             return Collections.emptyList();
         }
     }
