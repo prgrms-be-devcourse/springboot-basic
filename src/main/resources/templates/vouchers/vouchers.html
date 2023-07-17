@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Vouchers</h1>
+<ul>
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>정책</th>
+            <th>할인수치</th>
+            <th>발행일</th>
+        </tr>
+        <tr th:each="voucher : ${vouchers}">
+            <td><a th:href="@{/admin/vouchers/{id}(id=${voucher.getVoucherId().toString()})}" th:text="${voucher.getVoucherId().toString()}"></a></td>
+            <td th:text="${voucher.voucherPolicy.toString()}">policy</td>
+            <td th:text="${voucher.discountFigure}">policy</td>
+            <td th:text="${voucher.createdAt}">policy</td>
+        </tr>
+    </table>
+</ul>
+</body>
+</html>

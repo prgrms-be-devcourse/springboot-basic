@@ -129,7 +129,7 @@ class VoucherDaoTest {
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(voucherAfterUpdate.getVoucherId()).isEqualTo(voucher.getVoucherId());
-            soft.assertThat(voucherAfterUpdate.getPolicyName()).isEqualTo(PERCENT_DISCOUNT_VOUCHER);
+            soft.assertThat(VoucherPolicy.convertPolicyNameToPolicy(voucherAfterUpdate.getPolicyName())).isEqualTo(PERCENT_DISCOUNT_VOUCHER);
             soft.assertThat(voucherAfterUpdate.getDiscountFigure()).isEqualTo(30);
         });
     }
@@ -175,4 +175,6 @@ class VoucherDaoTest {
         //THEN
         assertThat(emptyVoucher.isEmpty()).isTrue();
     }
+
+
 }

@@ -66,9 +66,9 @@ public class VoucherFileWriter {
 
     private String voucherWriteFormatting(VoucherDto dto) {
         if (dto.getVoucherPolicy() == VoucherPolicy.FIXED_AMOUNT_VOUCHER) {
-            return "FIXED_AMOUNT_VOUCHER,%d,%s".formatted(dto.getDiscountNumber(), dto.getVoucherId());
+            return "FIXED_AMOUNT_VOUCHER,%d,%s".formatted(dto.getDiscountFigure(), dto.getVoucherId());
         }
 
-        return "PERCENT_DISCOUNT_VOUCHER,%d,%s".formatted(dto.getDiscountNumber(), dto.getVoucherId());
+        return "PERCENT_DISCOUNT_VOUCHER,%d,%s".formatted(dto.getDiscountFigure(), dto.getVoucherId());
     }
 }

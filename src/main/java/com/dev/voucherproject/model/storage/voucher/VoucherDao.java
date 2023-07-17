@@ -2,7 +2,6 @@ package com.dev.voucherproject.model.storage.voucher;
 
 import com.dev.voucherproject.model.voucher.Voucher;
 import com.dev.voucherproject.model.voucher.VoucherPolicy;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,7 +10,11 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +24,6 @@ import static com.dev.voucherproject.model.voucher.VoucherPolicy.*;
 
 
 @Repository
-@Profile("default")
 public class VoucherDao {
     private static final String INSERT = "INSERT INTO vouchers(voucher_id, policy, discount_figure)" +
         "VALUES (UUID_TO_BIN(:voucherId), :policy, :discount_figure)";
@@ -39,6 +41,9 @@ public class VoucherDao {
 
     private static final String FIND_ALL_BY_POLICY = "SELECT * FROM vouchers WHERE policy = :policy";
 
+    private static final String FIND_ALL_BY_BETWEEN_DATE = "SELECT * FROM vouchers WHERE DATE(created_at) " +
+            "BETWEEN :startDate AND :endDate";
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public VoucherDao(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -49,15 +54,23 @@ public class VoucherDao {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherPolicy policy = valueOf(resultSet.getString("policy"));
         long discountFigure = Long.parseLong(resultSet.getString("discount_figure"));
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
-        return Voucher.of(voucherId, policy, discountFigure);
+        return Voucher.of(voucherId, createdAt, policy, discountFigure);
     };
 
     private SqlParameterSource toParamMap(Voucher voucher) {
         return new MapSqlParameterSource()
             .addValue("voucherId", voucher.getVoucherId().toString().getBytes())
-            .addValue("policy", voucher.getPolicyName().name())
-            .addValue("discount_figure", voucher.getDiscountFigure());
+            .addValue("policy", VoucherPolicy.convertPolicyNameToPolicy(voucher.getPolicyName()).toString())
+            .addValue("discount_figure", voucher.getDiscountFigure())
+            .addValue("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
+    }
+
+    private SqlParameterSource toDateParamMap(LocalDate startDate, LocalDate endDate) {
+        return new MapSqlParameterSource()
+                .addValue("startDate", Date.valueOf(startDate))
+                .addValue("endDate", Date.valueOf(endDate));
     }
 
     public void insert(Voucher voucher) {
@@ -74,12 +87,16 @@ public class VoucherDao {
                 jdbcTemplate.queryForObject(FIND_BY_UUID, Collections.singletonMap("voucherId", voucherId.toString().getBytes()), rowMapper)
             );
         } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+            throw new IllegalArgumentException(MessageFormat.format("{0} 는 존재하지 않는 바우처 ID 입니다.", voucherId));
         }
     }
 
     public List<Voucher> findAllByPolicy(VoucherPolicy voucherPolicy) {
         return jdbcTemplate.query(FIND_ALL_BY_POLICY, Collections.singletonMap("policy", voucherPolicy.name()), rowMapper);
+    }
+
+    public List<Voucher> findAllBetweenDates(LocalDate startDate, LocalDate endDate) {
+        return jdbcTemplate.query(FIND_ALL_BY_BETWEEN_DATE, toDateParamMap(startDate, endDate), rowMapper);
     }
 
     public void update(Voucher voucher) {

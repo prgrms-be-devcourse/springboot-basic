@@ -1,12 +1,13 @@
 package com.dev.voucherproject.model.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
     private final long amount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        super(voucherId);
+    public FixedAmountVoucher(UUID voucherId, LocalDateTime createdAt, long amount) {
+        super(voucherId, createdAt);
         amountValidate(amount);
         this.amount = amount;
     }
@@ -22,11 +23,6 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public long getDiscountFigure() {
         return this.amount;
-    }
-
-    @Override
-    public VoucherPolicy getPolicyName() {
-        return VoucherPolicy.FIXED_AMOUNT_VOUCHER;
     }
 
     private void amountValidate(long amount) {

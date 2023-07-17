@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("csv")
+@Profile({"csv", "default"})
 public class CsvFileVoucherStorage implements VoucherStorage {
 
     @Value("${voucher.path}")

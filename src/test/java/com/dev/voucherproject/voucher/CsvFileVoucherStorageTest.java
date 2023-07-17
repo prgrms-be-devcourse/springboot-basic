@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-@ActiveProfiles("csv")
+@ActiveProfiles({"csv", "default"})
 class CsvFileVoucherStorageTest {
 
     @Autowired
