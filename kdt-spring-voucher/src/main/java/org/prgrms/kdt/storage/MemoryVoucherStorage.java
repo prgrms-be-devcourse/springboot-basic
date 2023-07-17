@@ -22,4 +22,10 @@ public class MemoryVoucherStorage implements VoucherStorage {
     public List<Voucher> findAllVoucher() {
         return Collections.unmodifiableList(memoryVoucherList);
     }
+
+    @Override
+    public void clearStorage() {
+        memoryVoucherList.clear();
+    }
+
 }
