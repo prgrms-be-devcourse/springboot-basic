@@ -67,8 +67,6 @@ public interface Output {
     //고객 조회 - 생성일
     void printCutomerSelectByCreatedAt();
 
-    //고객 변경 - 메뉴
-//    void printCustomerUpdateMenu();
 
     //고객 변경 -  ID
     void printCustomerUpdateByID();
