@@ -3,6 +3,7 @@ package prgms.spring_week1.domain.customer.repository.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -73,15 +74,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByEmail(String email) {
-        try {
-            return Optional.of(jdbcTemplate.queryForObject(CustomerManageSql.findByEmailSQL,
-                    Collections.singletonMap("email", email),
-                    customerRowMapper));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("조회된 회원 리스트가 없습니다.", e);
-            return Optional.empty();
-        }
+    public Customer findByEmail(String email) {
+        List<Customer> foundCustomer = jdbcTemplate.query(CustomerManageSql.findByEmailSQL, Collections.singletonMap("email", email), customerRowMapper);
+
+        return DataAccessUtils.singleResult(foundCustomer);
     }
 
     @Override

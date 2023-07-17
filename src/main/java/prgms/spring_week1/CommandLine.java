@@ -21,6 +21,7 @@ import prgms.spring_week1.menu.VoucherMenu;
 import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -120,13 +121,13 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void getCustomerByEmail() {
-        Optional<Customer> customer = customerService.findByEmail(input.inputEmail());
+        Customer customer = customerService.findByEmail(input.inputEmail());
 
-        if (customer.isEmpty()) {
+        if (customer == null) {
             return;
         }
 
-        printCustomerInfo(customer.get());
+        printCustomerInfo(customer);
     }
 
     private void updateCustomerInfo() {

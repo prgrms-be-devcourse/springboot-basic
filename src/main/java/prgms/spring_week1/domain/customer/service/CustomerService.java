@@ -32,7 +32,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> findByEmail(Email email){
+    public Customer findByEmail(Email email){
         return customerRepository.findByEmail(email.getAddress());
     }
 
