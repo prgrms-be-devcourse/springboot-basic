@@ -2,6 +2,7 @@ package com.example.voucher.controller.response;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Response<T> {
@@ -15,8 +16,7 @@ public class Response<T> {
     }
 
     public Response(T response) {
-        this.responses = new ArrayList<>();
-        this.responses.add(response);
+        this.responses = Arrays.asList(response);
     }
 
     public String getResultMessage() {
