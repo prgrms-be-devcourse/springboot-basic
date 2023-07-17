@@ -10,7 +10,6 @@ import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.dto.VoucherRequest;
 import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.servlet.KdtWebApplicationInitializer;
 import org.prgrms.kdt.util.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class VoucherController {
 	private final VoucherService voucherService;
 
-	private static final Logger logger = LoggerFactory.getLogger(KdtWebApplicationInitializer.class);
+	private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
 	public VoucherController(VoucherService voucherService) {
 		this.voucherService = voucherService;
