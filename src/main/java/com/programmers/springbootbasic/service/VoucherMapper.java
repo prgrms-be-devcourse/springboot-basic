@@ -17,7 +17,7 @@ public final class VoucherMapper {
     }
 
     public static Voucher toVoucher(VoucherCreationRequest request) {
-        Duration duration = Duration.of(LocalDateTime.now(), request.expirationDate());
+        Duration duration = new Duration(LocalDateTime.now(), request.expirationDate());
         VoucherType voucherType = VoucherType.from(request.voucherType());
         boolean used = false;
         return switch (voucherType) {

@@ -18,10 +18,6 @@ public class Duration {
         this.expiredAt = expiredAt;
     }
 
-    public static Duration of(LocalDateTime createdAt, LocalDateTime expiredAt) {
-        return new Duration(createdAt, expiredAt);
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
