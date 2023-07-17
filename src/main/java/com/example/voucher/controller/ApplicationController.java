@@ -64,8 +64,8 @@ public class ApplicationController implements CommandLineRunner {
         }
 
         try {
-            VoucherDTO createdVoucher = voucherController.createVoucher(request);
-            console.displayVoucherInfo(createdVoucher);
+            Response<VoucherDTO> response = voucherController.createVoucher(request);
+            console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
             console.displayVoucherServiceError(e.getMessage());
         }
@@ -89,8 +89,8 @@ public class ApplicationController implements CommandLineRunner {
         }
 
         try {
-            VoucherDTO selectedVoucher = voucherController.search(voucherId);
-            console.displayVoucherInfo(selectedVoucher);
+            Response<VoucherDTO> response = voucherController.search(voucherId);
+            console.displayResponse(response.getResultMessage());
 
         } catch (Exception e) {
             console.displayVoucherServiceError(e.getMessage());
@@ -105,8 +105,8 @@ public class ApplicationController implements CommandLineRunner {
         }
 
         try {
-            VoucherDTO updatedVoucher = voucherController.update(request);
-            console.displayVoucherInfo(updatedVoucher);
+            Response<VoucherDTO> response = voucherController.update(request);
+            console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
             console.displayVoucherServiceError(e.getMessage());
         }

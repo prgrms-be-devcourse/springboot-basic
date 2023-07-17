@@ -1,6 +1,7 @@
 package com.example.voucher.controller.response;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Response<T> {
@@ -8,6 +9,11 @@ public class Response<T> {
 
     public Response(List<T> dtoList) {
         this.dtoList = dtoList;
+    }
+
+    public Response(T dto) {
+        this.dtoList = new ArrayList<>();
+        this.dtoList.add(dto);
     }
 
     public String getResultMessage() {

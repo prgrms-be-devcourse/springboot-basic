@@ -17,8 +17,9 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public VoucherDTO createVoucher(VoucherRequest.Create request) {
-        return voucherService.createVoucher(request.getVoucherType(), request.getDiscountValue());
+    public Response<VoucherDTO> createVoucher(VoucherRequest.Create request) {
+        VoucherDTO voucher = voucherService.createVoucher(request.getVoucherType(), request.getDiscountValue());
+        return new Response<>(voucher);
     }
 
     public Response<VoucherDTO> getVouchers() {
@@ -30,12 +31,15 @@ public class VoucherController {
         voucherService.deleteVouchers();
     }
 
-    public VoucherDTO search(UUID voucherId) {
-        return voucherService.search(voucherId);
+    public Response<VoucherDTO> search(UUID voucherId) {
+        VoucherDTO voucher = voucherService.search(voucherId);
+        return new Response<>(voucher);
     }
 
-    public VoucherDTO update(VoucherRequest.Update request) {
-        return voucherService.update(request.getVoucherId(), request.getVoucherType(), request.getDiscountValue());
+    public Response<VoucherDTO> update(VoucherRequest.Update request) {
+        VoucherDTO voucher = voucherService.update(request.getVoucherId(), request.getVoucherType(),
+            request.getDiscountValue());
+        return new Response<>(voucher);
     }
 
     public void deleteVoucher(UUID voucherId) {

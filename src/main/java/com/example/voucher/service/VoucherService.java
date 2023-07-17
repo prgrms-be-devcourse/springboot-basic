@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.domain.FixedAmountVoucher;
-import com.example.voucher.domain.PercentDiscountVoucher;
 import com.example.voucher.domain.Voucher;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.repository.VoucherRepository;
