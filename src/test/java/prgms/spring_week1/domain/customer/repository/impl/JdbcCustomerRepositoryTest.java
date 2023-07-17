@@ -38,8 +38,8 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     void findByEmail() {
-        assertThat(jdbcCustomerRepository.findByEmail("1sehan@naver.com").get().getName(),is("일세한"));
-        assertThat(jdbcCustomerRepository.findByEmail("3sehan@naver.com"),is(Optional.empty()));
+        assertThat(jdbcCustomerRepository.findByEmail("1sehan@naver.com").getName(),is("일세한"));
+        assertThat(jdbcCustomerRepository.findByEmail("3sehan@naver.com"),is(null));
     }
 
     @Test
@@ -47,7 +47,7 @@ class JdbcCustomerRepositoryTest {
         //when
         jdbcCustomerRepository.updateInfo("1sehan@naver.com","3sehan@naver.com");
         //then
-        assertThat(jdbcCustomerRepository.findByEmail("3sehan@naver.com").get().getName(),is("일세한"));
+        assertThat(jdbcCustomerRepository.findByEmail("3sehan@naver.com").getName(),is("일세한"));
     }
 
     @Test
