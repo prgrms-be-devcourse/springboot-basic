@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -52,6 +53,13 @@ public class VoucherAPIController {
 	@ResponseBody
 	public ResponseEntity<?> deleteVoucherById(@PathVariable("voucherId")Long voucherId) {
 		voucherService.deleteVoucherById(voucherId);
-		return ResponseEntity.ok("Entity deleted");
+		return ResponseEntity.ok("Voucher deleted");
+	}
+
+	@PostMapping("/api/v1/vouchers")
+	@ResponseBody
+	public ResponseEntity<?> createVoucher(@RequestBody VoucherDTO voucherDTO) {
+		voucherService.createVoucher(voucherDTO);
+		return ResponseEntity.ok("Voucher created");
 	}
 }
