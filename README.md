@@ -260,7 +260,8 @@ spring:
 ### 📮 2차 피드백
 <details>
 <summary>확장을 고려한 구조 선택</summary>
-<div>
+<div markdown="1">
+
 - 등록과 수정에 같은 dto 사용 -> 추후 더 필요할 것으로 보임
   - CreateRequest, UpdateRequest 등
 - Customer 상태를 boolean으로 판단
@@ -270,7 +271,8 @@ spring:
 
 <details>
 <summary>기본 자료형을 감싸는 원시값 포장 권고</summary>
-<div>
+<div markdown="1">
+
 - 기본 자료형을 그대로 사용하려고 하지 말고, 프로그램을 클래스의 모음으로 구성하면 유지보수 용이
 - String name; -> Name name;
 </div>
@@ -278,7 +280,8 @@ spring:
 
 <details>
 <summary>@ConfigurationProperties</summary>
-<div>
+<div markdown="1">
+
 - 필드가 많은 설정 클래스에서는 @Value 보다는 @ConfigurationProperties
 
 ```java
@@ -352,7 +355,8 @@ public class JasyptConfiguration {
 
 <details>
 <summary>테스트</summary>
-<div>
+<div markdown="1">
+
 - 메소드 호출 테스트는 verify
   - verify() 메소드로 특정 메소드가 호출되었는지를 증명(테스트)
   - void 메소드 테스트에 찰떡! 우와!
@@ -364,7 +368,8 @@ public class JasyptConfiguration {
 
 <details>
 <summary>Optional 도메인 필드는 ㄴㄴㄴ</summary>
-<div>
+<div markdown="1">
+
 - Optional은 직렬화 안 됨.
   - 필드로 쓰면 안 됨.
 </div>
@@ -372,7 +377,8 @@ public class JasyptConfiguration {
 
 <details>
 <summary>내장 DB 스키마 설정</summary>
-<div>
+<div markdown="1">
+
 ```yaml
 spring:
   datasource:
