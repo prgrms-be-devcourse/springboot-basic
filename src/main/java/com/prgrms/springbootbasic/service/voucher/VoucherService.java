@@ -9,7 +9,6 @@ import com.prgrms.springbootbasic.dto.voucher.response.VoucherListResponse;
 import com.prgrms.springbootbasic.dto.voucher.response.VoucherResponse;
 import com.prgrms.springbootbasic.enums.voucher.VoucherType;
 import com.prgrms.springbootbasic.repository.voucher.VoucherRepository;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -25,17 +24,18 @@ public class VoucherService {
     private VoucherRepository voucherRepository;
 
     //생성(create)
-    public Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
+    public VoucherResponse createVoucher(VoucherCreateRequest voucherCreateRequest) {
         try {
             long discount = voucherCreateRequest.getDiscount();
             VoucherType type = voucherCreateRequest.getType();
-            LocalDateTime createAt = voucherCreateRequest.getCreateAt() == null ? LocalDateTime.now() : voucherCreateRequest.getCreateAt();
 
             Voucher voucher = switch (type) {
                 case FIXED -> new FixedVoucher(discount);
                 case RATE -> new RateVoucher(discount);
             };
-            return voucherRepository.save(voucher);
+
+            Voucher savedVoucher = voucherRepository.save(voucher);
+            return new VoucherResponse(savedVoucher.getVoucherId(), savedVoucher.getDiscount(), savedVoucher.getVoucherType(), savedVoucher.getCreatedAt());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             throw e;
@@ -109,7 +109,7 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public boolean checkVoucherId(UUID voucherId) {
+    public boolean existById(UUID voucherId) {
         return voucherRepository.checkVoucherId(voucherId);
     }
 }
