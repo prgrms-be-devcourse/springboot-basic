@@ -1,11 +1,12 @@
 package com.prgmrs.voucher.controller;
 
 import com.prgmrs.voucher.dto.ResponseDTO;
-import com.prgmrs.voucher.dto.request.WalletRequest;
-import com.prgmrs.voucher.dto.response.WalletResponse;
-import com.prgmrs.voucher.enums.ErrorCode;
+import com.prgmrs.voucher.dto.request.AssignVoucherRequest;
+import com.prgmrs.voucher.dto.request.RemoveVoucherRequest;
+import com.prgmrs.voucher.enums.StatusCode;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.service.WalletService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,19 +18,19 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    public ResponseDTO<WalletResponse> assignVoucher(WalletRequest walletRequest)  {
+    public ResponseDTO<?> assignVoucher(AssignVoucherRequest assignVoucherRequest) {
         try {
-            return new ResponseDTO<WalletResponse>(walletService.assignVoucher(walletRequest), ErrorCode.REQUEST_SUCCESS);
-        } catch (WrongRangeFormatException e) {
-            return new ResponseDTO<WalletResponse>(walletService.assignVoucher(walletRequest), ErrorCode.BAD_REQUEST);
+            return new ResponseDTO<>(walletService.assignVoucher(assignVoucherRequest), StatusCode.REQUEST_OK);
+        } catch (WrongRangeFormatException | DataAccessException e) {
+            return new ResponseDTO<>(e.getMessage(), StatusCode.BAD_REQUEST);
         }
     }
 
-    public ResponseDTO<WalletResponse> removeVoucher(WalletRequest walletRequest) {
+    public ResponseDTO<?> removeVoucher(RemoveVoucherRequest removeVoucherRequest) {
         try {
-            return new ResponseDTO<WalletResponse>(walletService.removeVoucher(walletRequest), ErrorCode.REQUEST_SUCCESS);
-        } catch (WrongRangeFormatException e) {
-            return new ResponseDTO<WalletResponse>(walletService.removeVoucher(walletRequest), ErrorCode.BAD_REQUEST);
+            return new ResponseDTO<>(walletService.removeVoucher(removeVoucherRequest), StatusCode.REQUEST_OK);
+        } catch (WrongRangeFormatException | DataAccessException e) {
+            return new ResponseDTO<>(e.getMessage(), StatusCode.BAD_REQUEST);
         }
     }
 }
