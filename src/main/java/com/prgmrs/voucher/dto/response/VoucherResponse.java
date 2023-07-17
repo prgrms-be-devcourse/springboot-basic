@@ -1,6 +1,8 @@
 package com.prgmrs.voucher.dto.response;
 
-import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.model.strategy.DiscountStrategy;
 
-public record VoucherResponse(Voucher voucher) {
+import java.util.UUID;
+
+public record VoucherResponse(UUID voucherUuid, DiscountStrategy discountStrategy) {
 }

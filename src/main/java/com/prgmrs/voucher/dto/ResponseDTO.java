@@ -1,23 +1,14 @@
 package com.prgmrs.voucher.dto;
 
-import com.prgmrs.voucher.enums.ErrorCode;
+import com.prgmrs.voucher.enums.StatusCode;
 
 public class ResponseDTO<T> {
-
-
     private T data;
-    private ErrorCode errorCode;
+    private StatusCode statusCode;
 
-    public ResponseDTO(T data, ErrorCode errorCode) {
+    public ResponseDTO(T data, StatusCode statusCode) {
         this.data = data;
-        this.errorCode = errorCode;
-    }
-
-    public boolean isError() {
-        if(!errorCode.equals(ErrorCode.REQUEST_SUCCESS)) {
-            return true;
-        }
-        return false;
+        this.statusCode = statusCode;
     }
 
     public T getData() {

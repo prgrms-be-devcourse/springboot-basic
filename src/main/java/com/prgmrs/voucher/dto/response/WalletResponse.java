@@ -1,6 +1,6 @@
 package com.prgmrs.voucher.dto.response;
 
-import com.prgmrs.voucher.model.Wallet;
+import java.util.UUID;
 
-public record WalletResponse(Wallet wallet, String username) {
+public record WalletResponse(UUID voucherUuid, String username) {
 }
