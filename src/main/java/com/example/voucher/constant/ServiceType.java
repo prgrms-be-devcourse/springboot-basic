@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum ServiceType {
 
     EXIT,
-    Voucher;
+    VOUCHER,
+    CUSTOMER;
 
     public static ServiceType getServiceType(String inputTypeName) {
         return Arrays.stream(ServiceType.values())
