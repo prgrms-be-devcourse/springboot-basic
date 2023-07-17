@@ -18,7 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
 @JdbcTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JdbcVoucherRepositoryTest {
     private VoucherRepository jdbcVoucherRepository;
 
@@ -31,13 +30,11 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(1)
     void findAll_before() {
         assertThat(jdbcVoucherRepository.findAll(),hasSize(2));
     }
 
     @Test
-    @Order(2)
     void findByType() {
         List<Voucher> fixedVoucherList = jdbcVoucherRepository.findByType("FIXED");
         assertThat(fixedVoucherList,hasSize(1));
@@ -46,7 +43,6 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(3)
     void delete() {
         jdbcVoucherRepository.delete();
         assertThat(jdbcVoucherRepository.findAll(),hasSize(0));
