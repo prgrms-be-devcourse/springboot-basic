@@ -6,7 +6,8 @@ class Writer {
         SERVICE_TYPE_SELECTION("""
             === Voucher Program ===
             Type exit to exit the program.
-            Type voucher to start voucher program.            
+            Type voucher to start voucher program.
+            Type customer to start voucher program.              
             """),
         MODE_TYPE_SELECTION("""
             === Voucher Program ===
@@ -24,11 +25,22 @@ class Writer {
             1. FixedAmount
             2. PercentDiscount
               	"""),
+        CUSTOMER_TYPE_SELECTION("""
+            * Input Number for select VoucherType
+            1. NORMAL
+            2. BLACK
+              	"""),
         DISCOUNT_VALUE_INPUT_REQUEST("""
             * Input Discount Value
             """),
         ID_INPUT_REQUEST("""
             * Input Id
+            """),
+        NAME_INPUT_REQUEST("""
+            * Input Name
+            """),
+        NAME_INPUT_EMAIL("""
+            * Input Email
             """),
         INVALID_ARGUMENT("""
             유효하지 않은 값 입니다. 다시 입력해주세요.

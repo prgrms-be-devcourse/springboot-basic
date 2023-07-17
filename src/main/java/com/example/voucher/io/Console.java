@@ -5,9 +5,11 @@ import static com.example.voucher.io.Writer.*;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.example.voucher.constant.CustomerType;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
+import com.example.voucher.controller.request.CustomerRequest;
 import com.example.voucher.controller.request.VoucherRequest;
 
 public class Console {
@@ -47,19 +49,19 @@ public class Console {
         return ModeType.getModeType(input);
     }
 
-    public VoucherRequest.Create getCreateRequest() {
+    public VoucherRequest.Create getVoucherCreateRequest() {
         VoucherType voucherType = getVoucherType();
         Long discountValue = getDiscountValue();
 
         return new VoucherRequest.Create(voucherType, discountValue);
     }
 
-    public VoucherRequest.Update getUpdateRequest() {
+    public VoucherRequest.Update getVoucherUpdateRequest() {
         VoucherType voucherType = getVoucherType();
         Long discountValue = getDiscountValue();
-        UUID voucherID = getVoucherId();
+        UUID voucherId = getId();
 
-        return new VoucherRequest.Update(voucherID, voucherType, discountValue);
+        return new VoucherRequest.Update(voucherId, voucherType, discountValue);
     }
 
     public VoucherType getVoucherType() {
@@ -69,7 +71,6 @@ public class Console {
         int number = reader.readInteger();
 
         return VoucherType.getVouchersType(number);
-
     }
 
     public Long getDiscountValue() {
@@ -81,12 +82,53 @@ public class Console {
         return discountAmount;
     }
 
-    public UUID getVoucherId() {
+    public CustomerRequest.Create getCustomerCreateRequest() {
+        String name = getName();
+        String email = getEmail();
+        CustomerType customerType = getCustomerType();
+
+        return new CustomerRequest.Create(name, email, customerType);
+    }
+
+    public CustomerRequest.Update getCustomerUpdateRequest() {
+        UUID customerId = getId();
+        String name = getName();
+        String email = getEmail();
+        CustomerType customerType = getCustomerType();
+
+        return new CustomerRequest.Update(customerId, name, email, customerType);
+    }
+
+    public UUID getId() {
         writer.writeMessage(Message.ID_INPUT_REQUEST);
 
         String input = reader.readString();
 
         return UUID.fromString(input);
+    }
+
+    public String getName() {
+        writer.writeMessage(Message.NAME_INPUT_REQUEST);
+
+        String inputName = reader.readString();
+
+        return inputName;
+    }
+
+    public String getEmail() {
+        writer.writeMessage(Message.NAME_INPUT_EMAIL);
+
+        String inputEmail = reader.readString();
+
+        return inputEmail;
+    }
+
+    public CustomerType getCustomerType() {
+        writer.writeMessage(Message.CUSTOMER_TYPE_SELECTION);
+
+        String input = reader.readString();
+
+        return CustomerType.getCustomerType(input);
     }
 
     private void validatePositive(long value) {
