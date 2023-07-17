@@ -21,16 +21,16 @@ class VoucherTest {
     static Stream<Arguments> providePercentVouchers() {
         return Stream.of(
                 Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), LocalDateTime.now(), Optional.of(UUID.randomUUID()))),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "100"), LocalDateTime.now(), Optional.empty())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "100"), LocalDateTime.now(), Optional.of(UUID.randomUUID()))),
                 Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), LocalDateTime.now(), Optional.of(UUID.randomUUID())))
         );
     }
 
     static Stream<Arguments> provideFixedVouchers() {
         return Stream.of(
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), LocalDateTime.now(), Optional.of(UUID.randomUUID()))),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), LocalDateTime.now(), Optional.empty())),
                 Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.empty())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0"), LocalDateTime.now(), Optional.of(UUID.randomUUID())))
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0"), LocalDateTime.now(), Optional.empty()))
         );
     }
 
@@ -51,26 +51,15 @@ class VoucherTest {
     }
 
     @ParameterizedTest
-    @DisplayName("비율값 바우처 문자열 반환하면 성공한다.")
-    @MethodSource("providePercentVouchers")
+    @DisplayName("고객 아이디가 부재하는 바우처 문자열 반환하면 성공한다.")
+    @MethodSource("provideFixedVouchers")
     void toString_PercentVoucher_ReturnVoucherString(Price originalPrice, Voucher voucher) {
-        String expected;
-        if (voucher.getCustomerId().isEmpty()) {
-            expected = MessageFormat.format(
-                    "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}'}'",
-                    voucher.getVoucherId().toString(),
-                    voucher.getVoucherType().toString(),
-                    voucher.getDiscountValue().getValue(),
-                    voucher.getCreatedAt().toString());
-        } else {
-            expected = MessageFormat.format(
-                    "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}, customerId={4}'}'",
-                    voucher.getVoucherId().toString(),
-                    voucher.getVoucherType().toString(),
-                    voucher.getDiscountValue().getValue(),
-                    voucher.getCreatedAt().toString(),
-                    voucher.getCustomerId().toString());
-        }
+        String expected = MessageFormat.format(
+                "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}'}'",
+                voucher.getVoucherId().toString(),
+                voucher.getVoucherType().toString(),
+                voucher.getDiscountValue().getValue(),
+                voucher.getCreatedAt().toString());
 
         String result = voucher.toString();
 
@@ -96,26 +85,16 @@ class VoucherTest {
     }
 
     @ParameterizedTest
-    @DisplayName("고정값 바우처 문자열 반환하면 성공한다.")
-    @MethodSource("provideFixedVouchers")
+    @DisplayName("고객 아이디가 존재하는 바우처 문자열 반환하면 성공한다.")
+    @MethodSource("providePercentVouchers")
     void toString_FixedVoucher_ReturnVoucherString(Price originalPrice, Voucher voucher) {
-        String expected;
-        if (voucher.getCustomerId().isEmpty()) {
-            expected = MessageFormat.format(
-                    "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}'}'",
-                    voucher.getVoucherId().toString(),
-                    voucher.getVoucherType().toString(),
-                    voucher.getDiscountValue().getValue(),
-                    voucher.getCreatedAt().toString());
-        } else {
-            expected = MessageFormat.format(
-                    "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}, customerId={4}'}'",
-                    voucher.getVoucherId().toString(),
-                    voucher.getVoucherType().toString(),
-                    voucher.getDiscountValue().getValue(),
-                    voucher.getCreatedAt().toString(),
-                    voucher.getCustomerId().toString());
-        }
+        String expected = MessageFormat.format(
+            "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}, customerId={4}'}'",
+            voucher.getVoucherId().toString(),
+            voucher.getVoucherType().toString(),
+            voucher.getDiscountValue().getValue(),
+            voucher.getCreatedAt().toString(),
+            voucher.getCustomerId().toString());
 
         String result = voucher.toString();
 
