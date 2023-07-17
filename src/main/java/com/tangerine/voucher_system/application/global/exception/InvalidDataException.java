@@ -6,8 +6,16 @@ public class InvalidDataException extends RuntimeException {
         super();
     }
 
+    public InvalidDataException(Exception exception) {
+        super(exception);
+    }
+
     public InvalidDataException(String errorMessage) {
         super(errorMessage);
+    }
+
+    public InvalidDataException(String errorMessage, Exception exception) {
+        super(errorMessage, exception);
     }
 
     public InvalidDataException(String errorMessage, Throwable cause) {
