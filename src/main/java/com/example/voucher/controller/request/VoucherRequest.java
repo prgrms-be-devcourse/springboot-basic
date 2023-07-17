@@ -6,6 +6,7 @@ import com.example.voucher.constant.VoucherType;
 public class VoucherRequest {
 
     public static class Create {
+
         private VoucherType voucherType;
         private long discountValue;
 
@@ -25,6 +26,7 @@ public class VoucherRequest {
     }
 
     public static class Update {
+
         private UUID voucherId;
         private VoucherType voucherType;
         private long discountValue;
@@ -46,6 +48,7 @@ public class VoucherRequest {
         public long getDiscountValue() {
             return discountValue;
         }
+
     }
 
 }
