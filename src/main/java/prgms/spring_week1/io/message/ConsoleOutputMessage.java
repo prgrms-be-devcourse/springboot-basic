@@ -67,4 +67,6 @@ public final class ConsoleOutputMessage {
     public static final String INPUT_NAME_AND_EMAIL_MESSAGE = "이름과 이메일을 한칸 띄고 입력해주세요";
 
     public static final String INPUT_BEFORE_EMAIL_AND_AFTER_EMAIL_MESSAGE = "현재 이메일과 변경할 이메일을 한 칸 띄고 입력해주세요";
+    public static final String INPUT_CUSTOMER_NAME = "이름을 입력해주세요";
+    public static final String INVALID_LENGTH_CUSTOMER_NAME = "이름은 15자 이하여야 합니다";
 }

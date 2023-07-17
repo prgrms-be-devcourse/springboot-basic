@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.Customer;
+import prgms.spring_week1.domain.customer.model.embeddedType.Email;
 import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
@@ -17,7 +18,7 @@ import prgms.spring_week1.menu.CustomerMenu;
 import prgms.spring_week1.menu.Menu;
 import prgms.spring_week1.menu.VoucherMenu;
 
-import java.lang.management.OperatingSystemMXBean;
+import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -91,7 +92,7 @@ public class CommandLine implements CommandLineRunner {
         CustomerMenu menuName = input.getCustomerMenu();
 
         switch (menuName) {
-            case INSERT -> customerService.insert(input.inputCustomerInfo());
+            case INSERT -> insertCustomer();
             case FIND_ALL -> printAllCustomer(customerService.findAll());
             case FIND_BY_EMAIL -> getCustomerByEmail();
             case BLACK -> customerService.getBlackConsumerList();
@@ -99,6 +100,13 @@ public class CommandLine implements CommandLineRunner {
             case DELETE_BY_EMAIL -> customerService.deleteByEmail(input.inputEmail());
             case DELETE_ALL -> customerService.deleteAll();
         }
+    }
+
+    private void insertCustomer() {
+        String name = input.inputName();
+        Email email = input.inputEmail();
+
+        customerService.insert(name,email);
     }
 
     private void printAllCustomer(List<Customer> customerList) {

@@ -84,7 +84,7 @@ public class Input {
 
         try {
             return new Email(sc.nextLine());
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("이메일이 형식에 맞지 않습니다.");
             return inputEmail();
         }
@@ -98,5 +98,17 @@ public class Input {
     public String[] inputUpdateEmailInfo() {
         System.out.println(ConsoleOutputMessage.INPUT_BEFORE_EMAIL_AND_AFTER_EMAIL_MESSAGE);
         return sc.nextLine().split(" ");
+    }
+
+    public String inputName() {
+        System.out.println(ConsoleOutputMessage.INPUT_CUSTOMER_NAME);
+        String name = sc.nextLine();
+
+        if (name.length() > 15) {
+            System.out.println(ConsoleOutputMessage.INVALID_LENGTH_CUSTOMER_NAME);
+            return inputName();
+        }
+
+        return name;
     }
 }

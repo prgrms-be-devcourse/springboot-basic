@@ -24,8 +24,8 @@ public class CustomerService {
         return blackListRepository.getBlackConsumerList();
     }
 
-    public void insert(String[] customerInfo){
-        customerRepository.insert(new Customer(customerInfo[0],new Email(customerInfo[1])));
+    public void insert(String name,Email email){
+        customerRepository.insert(new Customer(name,email));
     }
 
     public List<Customer> findAll(){
@@ -37,7 +37,10 @@ public class CustomerService {
     }
 
     public void updateInfo(String[] updateEmailInfo){
-        customerRepository.updateInfo(updateEmailInfo[0],updateEmailInfo[1]);
+        String beforeUpdateEmail = updateEmailInfo[0];
+        String afterUpdateEmail = updateEmailInfo[1];
+
+        customerRepository.updateInfo(beforeUpdateEmail,afterUpdateEmail);
     }
 
     public void deleteByEmail(Email email){
