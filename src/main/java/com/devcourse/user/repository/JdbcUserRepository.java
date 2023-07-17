@@ -3,6 +3,7 @@ package com.devcourse.user.repository;
 import com.devcourse.global.util.Sql;
 import com.devcourse.user.User;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -57,11 +58,10 @@ class JdbcUserRepository implements UserRepository {
                 .where("id")
                 .build();
 
-        try {
-            return Optional.of(jdbcTemplate.queryForObject(sql, userMapper, id.toString()));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+        List<User> result = jdbcTemplate.query(sql, userMapper, id.toString());
+        User user = DataAccessUtils.singleResult(result);
+
+        return Optional.ofNullable(user);
     }
 
     @Override

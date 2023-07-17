@@ -54,6 +54,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Nested
+    @DisplayName("아이디로 조회하기 테스트")
     class findByIdTest {
         private final int discount = 50;
         private final Type percent = PERCENT;

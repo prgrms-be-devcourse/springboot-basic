@@ -59,6 +59,7 @@ class JdbcUserRepositoryTest {
     }
 
     @Nested
+    @DisplayName("아이디로 조회하기 테스트")
     class findByIdTest {
         private final UUID id = userRepository.save(name);
 
