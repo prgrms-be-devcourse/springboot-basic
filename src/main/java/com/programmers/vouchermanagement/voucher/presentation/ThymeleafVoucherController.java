@@ -58,8 +58,8 @@ public class ThymeleafVoucherController {
     }
 
     @PostMapping("/{voucherId}/edit")
-    public String updateVoucher(@ModelAttribute("voucher") @Valid VoucherUpdateRequest request) {
-        voucherService.updateVoucher(request);
+    public String updateVoucher(@PathVariable UUID voucherId, @ModelAttribute("voucher") @Valid VoucherUpdateRequest request) {
+        voucherService.updateVoucher(voucherId, request);
         return "redirect:/v2/vouchers/{voucherId}";
     }
 

@@ -24,8 +24,8 @@ public class VoucherController {
         return voucherService.getVouchers();
     }
 
-    public void updateVoucher(VoucherUpdateRequest request) {
-        voucherService.updateVoucher(request);
+    public void updateVoucher(UUID id, VoucherUpdateRequest request) {
+        voucherService.updateVoucher(id, request);
     }
 
     public void deleteVoucher(UUID id) {

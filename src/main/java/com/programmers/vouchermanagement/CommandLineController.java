@@ -59,8 +59,8 @@ public class CommandLineController implements CommandLineRunner {
                 UUID id = InputView.inputVoucherUpdate(vouchers);
                 OutputView.showDiscountType();
                 VoucherCreationRequest updateVoucherInfo = InputView.inputVoucherInfo();
-                VoucherUpdateRequest request = new VoucherUpdateRequest(id, updateVoucherInfo.type(), updateVoucherInfo.amount());
-                voucherController.updateVoucher(request);
+                VoucherUpdateRequest request = new VoucherUpdateRequest(updateVoucherInfo.type(), updateVoucherInfo.amount());
+                voucherController.updateVoucher(id, request);
             }
             case DELETE -> {
                 List<VoucherResponse> vouchers = voucherController.getVouchers();

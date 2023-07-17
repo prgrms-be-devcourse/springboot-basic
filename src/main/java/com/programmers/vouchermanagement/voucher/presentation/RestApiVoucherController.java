@@ -37,8 +37,8 @@ public class RestApiVoucherController {
     }
 
     @PostMapping("/{voucherId}")
-    public ResponseEntity<Void> updateVoucher(@RequestBody VoucherUpdateRequest request) {
-        voucherService.updateVoucher(request);
+    public ResponseEntity<Void> updateVoucher(@PathVariable UUID voucherId, @RequestBody VoucherUpdateRequest request) {
+        voucherService.updateVoucher(voucherId, request);
         return ResponseEntity.noContent().build();
     }
 

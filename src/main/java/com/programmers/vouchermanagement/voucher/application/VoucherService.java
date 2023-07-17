@@ -46,8 +46,7 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
-    public void updateVoucher(VoucherUpdateRequest request) {
-        UUID id = request.id();
+    public void updateVoucher(UUID id, VoucherUpdateRequest request) {
         existsVoucher(id);
         DiscountType discountType = request.type();
         int amount = request.amount();
