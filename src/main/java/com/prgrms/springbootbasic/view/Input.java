@@ -13,7 +13,7 @@ public interface Input {
     String inputCommand();
 
     //바우처 생성(Create)
-    VoucherCreateRequest inputVoucherCrateMessage(VoucherType type);
+    VoucherCreateRequest inputVoucherCreateMessage(VoucherType type);
 
     //바우처 변경(Update)
     VoucherUpdateRequest inputVoucherUpdateMessage(UUID voucherId);

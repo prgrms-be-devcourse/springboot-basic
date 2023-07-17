@@ -29,7 +29,7 @@ public class Console implements Input, Output {
 
     //바우처 생성(Create)
     @Override
-    public VoucherCreateRequest inputVoucherCrateMessage(VoucherType type) {
+    public VoucherCreateRequest inputVoucherCreateMessage(VoucherType type) {
         String inputDiscount = input.nextLine();
         return new VoucherCreateRequest(Long.parseLong(inputDiscount), type, LocalDateTime.now());
     }
