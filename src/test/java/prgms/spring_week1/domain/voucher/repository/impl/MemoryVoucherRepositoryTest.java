@@ -14,8 +14,6 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-
-@ExtendWith(MockitoExtension.class)
 class MemoryVoucherRepositoryTest {
     private VoucherRepository voucherRepository;
 
