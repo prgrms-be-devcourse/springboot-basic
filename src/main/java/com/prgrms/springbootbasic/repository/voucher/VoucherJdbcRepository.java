@@ -20,7 +20,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Slf4j
 @Primary
-//@Profile({"local", "test"})
 public class VoucherJdbcRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate template;
@@ -130,7 +129,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
-        RowMapper<Voucher> voucherRowMapper = (resultSet, rowMap) -> {
+        return (resultSet, rowMap) -> {
             UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
             long discount = Long.parseLong(resultSet.getString("discount"));
             VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type").toUpperCase());
@@ -158,6 +157,5 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 }
             };
         };
-        return voucherRowMapper;
     }
 }
