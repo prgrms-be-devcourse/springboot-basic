@@ -24,30 +24,30 @@ public class CustomerService {
         return blackListRepository.getBlackConsumerList();
     }
 
-    public void insert(String name,Email email){
-        customerRepository.insert(new Customer(name,email));
+    public void insert(String name, Email email) {
+        customerRepository.insert(new Customer(name, email));
     }
 
-    public List<Customer> findAll(){
+    public List<Customer> findAll() {
         return customerRepository.findAll();
     }
 
-    public Customer findByEmail(Email email){
+    public Customer findByEmail(Email email) {
         return customerRepository.findByEmail(email.getAddress());
     }
 
-    public void updateInfo(String[] updateEmailInfo){
+    public void updateInfo(String[] updateEmailInfo) {
         String beforeUpdateEmail = updateEmailInfo[0];
         String afterUpdateEmail = updateEmailInfo[1];
 
-        customerRepository.updateInfo(beforeUpdateEmail,afterUpdateEmail);
+        customerRepository.updateInfo(beforeUpdateEmail, afterUpdateEmail);
     }
 
-    public void deleteByEmail(Email email){
+    public void deleteByEmail(Email email) {
         customerRepository.deleteByEmail(email.getAddress());
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         customerRepository.deleteAll();
     }
 }

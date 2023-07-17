@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CsvRepository{
+public class CsvRepository {
     private final Logger logger = LoggerFactory.getLogger(CsvRepository.class);
     private final String csvFilePath;
 
