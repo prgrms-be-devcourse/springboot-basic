@@ -37,7 +37,8 @@ public class VoucherXmlApiController {
         List<VoucherDto> vouchers = policy
                 .map(voucherService::findAllVouchersByPolicy)
                 .orElse(voucherService.findAllVouchers())
-                .stream().toList();
+                .stream()
+                .toList();
 
         return Response.success(vouchers);
     }
