@@ -38,7 +38,7 @@ public class CustomerApp {
                 case DELETE -> deleteCustomer();
                 case EXIT -> {
                     isRunning = false;
-                    console.printMessage(Constant.PROGRAM_END, true);
+                    console.printMessage("Customer " + Constant.PROGRAM_END, true);
                 }
             }
         }
@@ -60,14 +60,7 @@ public class CustomerApp {
 
     private void listCustomers() {
         List<Customer> customers = customerService.list();
-
-        if (customers.isEmpty()) {
-            console.printMessage(Constant.NOT_EXITS_CUSTOMER, true);
-        }
-
-        for (Customer c : customers) {
-            console.printCustomerInfo(c);
-        }
+        console.printCustomerList(customers);
     }
 
     private void findCustomer() {

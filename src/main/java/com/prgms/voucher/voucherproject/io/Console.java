@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -31,6 +32,16 @@ public class Console {
         String message = MessageFormat.format("|UUID:{0} | VoucherType: {1} | percent:{2}|",
                 voucher.getId(), voucher.getVoucherType().toString(), voucher.getDiscount());
         System.out.println(message);
+    }
+
+    public void printVoucherList(List<Voucher> vouchers) {
+        if (vouchers.isEmpty()) {
+            this.printMessage(Constant.NOT_EXITS_CUSTOMER, true);
+        }
+
+        for (Voucher v : vouchers) {
+            this.printVoucherInfo(v);
+        }
     }
 
     public Long inputDiscountAmount(VoucherType voucherType) {
@@ -141,6 +152,16 @@ public class Console {
         String message = MessageFormat.format("|email:{0} | name: {1} | createdDate:{2}|",
                 customer.getEmail(), customer.getName(), customer.getCreatedAt().toString());
         System.out.println(message);
+    }
+
+    public void printCustomerList(List<Customer> customers) {
+        if (customers.isEmpty()) {
+            this.printMessage(Constant.NOT_EXITS_CUSTOMER, true);
+        }
+
+        for (Customer c : customers) {
+            this.printCustomerInfo(c);
+        }
     }
 
     public String inputEmail() {

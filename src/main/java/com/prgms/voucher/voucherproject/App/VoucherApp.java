@@ -36,22 +36,15 @@ public class VoucherApp {
                 case LIST -> list();
                 case EXIT -> {
                     isRunning = false;
-                    console.printMessage(Constant.PROGRAM_END, true);
+                    console.printMessage("Voucher " + Constant.PROGRAM_END, true);
                 }
             }
         }
     }
 
     private void list() {
-        List<Voucher> voucherList = voucherService.list();
-
-        if (voucherList.isEmpty()) {
-            console.printMessage(Constant.NOT_EXITS_VOUCHER, true);
-        }
-
-        for (Voucher v : voucherList) {
-            console.printVoucherInfo(v);
-        }
+        List<Voucher> vouchers = voucherService.list();
+        console.printVoucherList(vouchers);
     }
 
     private void createVoucher() {
