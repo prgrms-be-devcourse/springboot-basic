@@ -19,11 +19,12 @@ public final class VoucherMapper {
     public static Voucher toVoucher(VoucherCreationRequest request) {
         Duration duration = Duration.of(LocalDateTime.now(), request.expirationDate());
         VoucherType voucherType = VoucherType.from(request.voucherType());
+        boolean used = false;
         return switch (voucherType) {
             case FIX ->
-                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent());
+                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent(), used);
             case PERCENT ->
-                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent());
+                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent(), used);
         };
     }
 

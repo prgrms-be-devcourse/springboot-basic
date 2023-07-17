@@ -18,23 +18,24 @@ public abstract class Voucher {
     private final Long minimumPriceCondition;
     private final Duration duration;
 
-    private boolean used = false;
+    private boolean used;
 
-    protected Voucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration) {
+    protected Voucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, boolean used) {
         checkNullValue(voucherId, name);
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.name = name;
         this.minimumPriceCondition = minimumPriceCondition != null ? minimumPriceCondition : ZERO;
         this.duration = duration;
+        this.used = used;
     }
 
-    public static Voucher createFixedAmount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int amount) {
-        return new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, amount);
+    public static Voucher createFixedAmount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int amount, boolean used) {
+        return new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, amount, used);
     }
 
-    public static Voucher createPercentDiscount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int percent) {
-        return new PercentDiscountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, percent);
+    public static Voucher createPercentDiscount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int percent, boolean used) {
+        return new PercentDiscountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, percent, used);
     }
 
     public UUID getVoucherId() {
