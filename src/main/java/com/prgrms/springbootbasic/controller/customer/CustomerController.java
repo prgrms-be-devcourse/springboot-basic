@@ -16,8 +16,8 @@ public class CustomerController {
     private final CustomerService customerService;
 
     //(Create)고객 생성
-    public void create(CustomerCreateRequest customerCreateRequest) {
-        customerService.createCustomer(customerCreateRequest);
+    public CustomerResponse create(CustomerCreateRequest customerCreateRequest) {
+        return customerService.createCustomer(customerCreateRequest);
     }
 
     //(Read) 고객의 모든 리스트 출력
@@ -46,13 +46,13 @@ public class CustomerController {
     public int deleteById(UUID customerId) {
         return customerService.deleteById(customerId);
     }
-    
+
     //(Delete) 모든 고객 내용 삭제
     public void deleteAll() {
         customerService.deleteAllCustomer();
     }
 
     public boolean checkCustomerId(UUID voucherId) {
-        return customerService.checkCustomerId(voucherId);
+        return customerService.existById(voucherId);
     }
 }
