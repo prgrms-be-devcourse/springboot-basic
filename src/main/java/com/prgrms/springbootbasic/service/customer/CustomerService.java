@@ -22,13 +22,14 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     //생성(create)
-    public Customer createCustomer(CustomerCreateRequest customerCreateRequest) {
+    public CustomerResponse createCustomer(CustomerCreateRequest customerCreateRequest) {
         String name = customerCreateRequest.getName();
         String email = customerCreateRequest.getEmail();
         LocalDateTime createAt = customerCreateRequest.getCreateAt() == null ? LocalDateTime.now() : customerCreateRequest.getCreateAt();
 
         Customer customer = new Customer(UUID.randomUUID(), name, email, createAt);
-        return customerRepository.save(customer);
+        Customer savedCustomer = customerRepository.save(customer);
+        return new CustomerResponse(savedCustomer.getCustomerId(), savedCustomer.getName(), savedCustomer.getEmail(), savedCustomer.getCreateAt());
     }
 
     //조회(Read) - id를 통해서 조회
@@ -75,7 +76,7 @@ public class CustomerService {
 
         customerRepository.update(customer);
     }
-    
+
     //삭제(Delete) -id
     public int deleteById(UUID customerId) {
         if (!customerRepository.checkCustomerId(customerId)) {
@@ -89,7 +90,7 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
-    public boolean checkCustomerId(UUID customerId) {
+    public boolean existById(UUID customerId) {
         return customerRepository.checkCustomerId(customerId);
     }
 }
