@@ -18,7 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Slf4j
 @Primary
-//@Profile({"local", "test"})
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate template;
