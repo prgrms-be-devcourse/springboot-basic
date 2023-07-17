@@ -26,7 +26,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(String voucherType) {
-        return voucherList.values().stream().filter(v -> v.getVoucherType().toString() == voucherType).toList();
+        return voucherList
+                .values()
+                .stream()
+                .filter(v -> v.getVoucherType().toString() == voucherType)
+                .toList();
     }
 
     @Override
