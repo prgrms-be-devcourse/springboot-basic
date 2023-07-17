@@ -6,6 +6,11 @@ import com.example.voucher.constant.VoucherType;
 class Writer {
 
     enum Message {
+        SERVICE_TYPE_SELECTION("""
+            === Voucher Program ===
+            Type exit to exit the program.
+            Type voucher to start voucher program.            
+            """),
         MODE_TYPE_SELECTION("""
             === Voucher Program ===
             Type exit to exit the program.

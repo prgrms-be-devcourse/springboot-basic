@@ -7,8 +7,9 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.voucher.constant.ModeType;
-import com.example.voucher.domain.dto.VoucherDTO;
+import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
+import com.example.voucher.domain.dto.VoucherDTO;
 
 public class Console {
 
@@ -72,7 +73,23 @@ public class Console {
         }
     }
 
-    public ModeType getSelectedType() {
+    public ServiceType getServiceType() {
+        writer.writeMessage(Message.SERVICE_TYPE_SELECTION);
+
+        try {
+            String input = reader.readString();
+            ServiceType selectedServiceType = ServiceType.getServiceType(input);
+
+            return selectedServiceType;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            writer.writeMessage(Message.INVALID_ARGUMENT);
+
+            return null;
+        }
+    }
+
+    public ModeType getModeType() {
         writer.writeMessage(Message.MODE_TYPE_SELECTION);
 
         try {
