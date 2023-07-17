@@ -2,7 +2,8 @@ package com.devcourse.voucherapp.entity;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.exception.MenuInputException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
+import com.devcourse.voucherapp.exception.HomeException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
@@ -15,7 +16,7 @@ public enum HomeMenu {
     CUSTOMER("2", "고객 메뉴"),
     QUIT("quit", "프로그램 종료");
 
-    private static final Map<String, HomeMenu> menuMap = Collections.unmodifiableMap(Stream.of(values())
+    private static final Map<String, HomeMenu> homeMenuMap = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(HomeMenu::getOption, Function.identity())));
 
     @Getter
@@ -29,11 +30,11 @@ public enum HomeMenu {
     }
 
     public static HomeMenu from(String menuOption) {
-        if (menuMap.containsKey(menuOption)) {
-            return menuMap.get(menuOption);
+        if (homeMenuMap.containsKey(menuOption)) {
+            return homeMenuMap.get(menuOption);
         }
 
-        throw new MenuInputException(menuOption);
+        throw new HomeException(ExceptionRule.MENU_INVALID, menuOption);
     }
 
     @Override

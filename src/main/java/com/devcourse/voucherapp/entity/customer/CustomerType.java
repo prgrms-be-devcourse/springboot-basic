@@ -2,7 +2,8 @@ package com.devcourse.voucherapp.entity.customer;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.exception.customer.CustomerTypeInputException;
+import com.devcourse.voucherapp.exception.CustomerException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
@@ -31,7 +32,7 @@ public enum CustomerType {
             return customerTypeMap.get(customerTypeOption);
         }
 
-        throw new CustomerTypeInputException(customerTypeOption);
+        throw new CustomerException(ExceptionRule.CUSTOMER_TYPE_INVALID, customerTypeOption);
     }
 
     @Override

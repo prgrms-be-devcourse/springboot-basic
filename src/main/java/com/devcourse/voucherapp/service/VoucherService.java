@@ -5,7 +5,8 @@ import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
-import com.devcourse.voucherapp.exception.voucher.NotFoundVoucherException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
+import com.devcourse.voucherapp.exception.VoucherException;
 import com.devcourse.voucherapp.repository.voucher.VoucherRepository;
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +35,7 @@ public class VoucherService {
 
     public VoucherResponseDto findVoucherById(String id) {
         Voucher voucher = voucherRepository.findVoucherById(id)
-                .orElseThrow(() -> new NotFoundVoucherException(id));
+                .orElseThrow(() -> new VoucherException(ExceptionRule.VOUCHER_NOT_FOUND, id));
 
         return VoucherResponseDto.from(voucher);
     }
@@ -51,7 +52,7 @@ public class VoucherService {
         int deleteCounts = voucherRepository.deleteById(id);
 
         if (isEmptyDeleteResult(deleteCounts)) {
-            throw new NotFoundVoucherException(id);
+            throw new VoucherException(ExceptionRule.VOUCHER_NOT_FOUND, id);
         }
     }
 

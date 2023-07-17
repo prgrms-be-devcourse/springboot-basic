@@ -2,7 +2,8 @@ package com.devcourse.voucherapp.entity.voucher;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.exception.voucher.VoucherTypeInputException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
+import com.devcourse.voucherapp.exception.VoucherException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
@@ -53,7 +54,7 @@ public enum VoucherType {
             return voucherTypeMap.get(voucherTypeOption);
         }
 
-        throw new VoucherTypeInputException(voucherTypeOption);
+        throw new VoucherException(ExceptionRule.VOUCHER_TYPE_INVALID, voucherTypeOption);
     }
 
     public Voucher makeVoucher(UUID id, String discountAmount) {

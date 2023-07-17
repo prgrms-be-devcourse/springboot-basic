@@ -1,6 +1,7 @@
 package com.devcourse.voucherapp.entity.voucher;
 
-import com.devcourse.voucherapp.exception.voucher.DiscountAmountException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
+import com.devcourse.voucherapp.exception.VoucherException;
 import java.util.UUID;
 import lombok.Getter;
 
@@ -21,7 +22,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private int getValidRate(String discountAmount) {
         if (!discountAmount.matches(PERCENT_DISCOUNT_RATE_REGEX)) {
-            throw new DiscountAmountException(type.getCondition(), discountAmount);
+            throw new VoucherException(ExceptionRule.VOUCHER_DISCOUNT_AMOUNT_INVALID, discountAmount);
         }
 
         return Integer.parseInt(discountAmount);

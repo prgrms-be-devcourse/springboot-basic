@@ -2,7 +2,8 @@ package com.devcourse.voucherapp.entity.customer;
 
 import static com.devcourse.voucherapp.entity.customer.CustomerType.NORMAL;
 
-import com.devcourse.voucherapp.exception.customer.CustomerInputException;
+import com.devcourse.voucherapp.exception.CustomerException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
 import java.util.UUID;
 import lombok.Getter;
 
@@ -33,7 +34,7 @@ public class Customer {
 
     private void validateIsAlphaNumeric(String nickname) {
         if (!nickname.matches(ALPHA_NUMERIC_REGEX)) {
-            throw new CustomerInputException(nickname);
+            throw new CustomerException(ExceptionRule.CUSTOMER_NICKNAME_INVALID, nickname);
         }
     }
 }

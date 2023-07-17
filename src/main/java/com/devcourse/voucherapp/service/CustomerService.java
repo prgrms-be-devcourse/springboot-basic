@@ -5,8 +5,8 @@ import com.devcourse.voucherapp.entity.customer.CustomerType;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerUpdateRequestDto;
-import com.devcourse.voucherapp.exception.customer.ExistedCustomerException;
-import com.devcourse.voucherapp.exception.customer.NotFoundCustomerException;
+import com.devcourse.voucherapp.exception.CustomerException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
 import com.devcourse.voucherapp.repository.customer.CustomerRepository;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class CustomerService {
 
         customerRepository.findCustomerByNickname(nickname)
                 .ifPresent(customer -> {
-                    throw new ExistedCustomerException(nickname);
+                    throw new CustomerException(ExceptionRule.CUSTOMER_NICKNAME_ALREADY_EXIST, nickname);
                 });
 
         Customer newCustomer = Customer.from(nickname);
@@ -44,7 +44,7 @@ public class CustomerService {
         String nickname = request.getNickname();
 
         UUID id = customerRepository.findCustomerByNickname(nickname)
-                .orElseThrow(() -> new NotFoundCustomerException(nickname))
+                .orElseThrow(() -> new CustomerException(ExceptionRule.CUSTOMER_NOT_FOUND, nickname))
                 .getId();
 
         CustomerType customerType = CustomerType.from(typeOption);
@@ -59,7 +59,7 @@ public class CustomerService {
         int deleteCounts = customerRepository.deleteByNickname(nickname);
 
         if (isEmptyDeleteResult(deleteCounts)) {
-            throw new NotFoundCustomerException(nickname);
+            throw new CustomerException(ExceptionRule.CUSTOMER_NOT_FOUND, nickname);
         }
     }
 

@@ -1,10 +1,13 @@
 package com.devcourse.voucherapp.command;
 
+import static java.text.MessageFormat.format;
+
 import com.devcourse.voucherapp.controller.CustomerController;
 import com.devcourse.voucherapp.entity.customer.CustomerMenu;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerUpdateRequestDto;
+import com.devcourse.voucherapp.exception.CustomerException;
 import com.devcourse.voucherapp.view.CustomerView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +33,9 @@ public class CustomerCommand {
                 String menuOption = customerView.readUserInput();
                 CustomerMenu selectedMenu = CustomerMenu.from(menuOption);
                 executeMenu(selectedMenu);
-            } catch (Exception e) {
-                String message = e.getMessage();
-                log.error(message);
-                customerView.showExceptionMessage(message);
+            } catch (CustomerException e) {
+                log.error("고객 메뉴에서 예외 발생 - {} | '{}' | 사용자 입력 : {}", e.getRule(), e.getMessage(), e.getCauseInput(), e);
+                customerView.showExceptionMessage(format("{0} | 현재 입력 : {1}", e.getMessage(), e.getCauseInput()));
             }
         }
     }

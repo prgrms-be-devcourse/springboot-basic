@@ -1,11 +1,14 @@
 package com.devcourse.voucherapp.command;
 
+import static java.text.MessageFormat.format;
+
 import com.devcourse.voucherapp.controller.VoucherController;
 import com.devcourse.voucherapp.entity.voucher.VoucherMenu;
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
+import com.devcourse.voucherapp.exception.VoucherException;
 import com.devcourse.voucherapp.view.VoucherView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +34,9 @@ public class VoucherCommand {
                 String menuOption = voucherView.readUserInput();
                 VoucherMenu selectedMenu = VoucherMenu.from(menuOption);
                 executeMenu(selectedMenu);
-            } catch (Exception e) {
-                String message = e.getMessage();
-                log.error(message);
-                voucherView.showExceptionMessage(message);
+            } catch (VoucherException e) {
+                log.error("할인권 메뉴에서 예외 발생 - {} | '{}' | 사용자 입력 : {}", e.getRule(), e.getMessage(), e.getCauseInput(), e);
+                voucherView.showExceptionMessage(format("{0} | 현재 입력 : {1}", e.getMessage(), e.getCauseInput()));
             }
         }
     }

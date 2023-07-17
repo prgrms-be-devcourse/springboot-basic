@@ -2,7 +2,8 @@ package com.devcourse.voucherapp.entity.voucher;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.exception.MenuInputException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
+import com.devcourse.voucherapp.exception.VoucherException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
@@ -35,7 +36,7 @@ public enum VoucherMenu {
             return voucherMenuMap.get(menuOption);
         }
 
-        throw new MenuInputException(menuOption);
+        throw new VoucherException(ExceptionRule.MENU_INVALID, menuOption);
     }
 
     @Override
