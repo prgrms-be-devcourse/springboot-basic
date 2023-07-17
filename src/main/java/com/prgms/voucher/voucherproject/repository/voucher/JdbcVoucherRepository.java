@@ -4,7 +4,6 @@ import com.prgms.voucher.voucherproject.domain.voucher.FixedAmountVoucher;
 import com.prgms.voucher.voucherproject.domain.voucher.PercentDiscountVoucher;
 import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
 import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,12 +21,17 @@ import static com.prgms.voucher.voucherproject.util.JdbcUtils.toUUID;
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public static final int ONLY_ONE_DATA = 1;
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        try{
+        try {
             return Optional.of(jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)",
                     voucherRowMapper, voucherId.toString()));
         } catch (EmptyResultDataAccessException e) {
@@ -40,7 +44,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int save = jdbcTemplate.update("INSERT INTO voucher(voucher_id, voucher_type, discount) VALUES (UUID_TO_BIN(?), ? ,?)",
                 voucher.getId().toString().getBytes(), voucher.getVoucherType().toString(), voucher.getDiscount());
 
-        if(save != 1) {
+        if (save != ONLY_ONE_DATA) {
             throw new IllegalArgumentException("바우처 저장에 실패하였습니다.");
         }
     }

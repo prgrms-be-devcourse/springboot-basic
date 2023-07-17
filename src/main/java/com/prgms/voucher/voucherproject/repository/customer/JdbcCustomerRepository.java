@@ -3,7 +3,6 @@ package com.prgms.voucher.voucherproject.repository.customer;
 import com.prgms.voucher.voucherproject.domain.customer.Customer;
 import com.prgms.voucher.voucherproject.exception.DuplicateCustomerException;
 import com.prgms.voucher.voucherproject.exception.NotFoundCustomerException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,8 +18,13 @@ import static com.prgms.voucher.voucherproject.util.JdbcUtils.toUUID;
 @Component
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public static final int ONLY_ONE_DATA = 1;
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public void save(Customer customer) {
@@ -28,7 +32,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                         "VALUES (UUID_TO_BIN(?), ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(), customer.getEmail(), customer.getName(), customer.getCreatedAt());
 
-        if (save != 1) {
+        if (save != ONLY_ONE_DATA) {
             throw new DuplicateCustomerException("고객 저장에 실패하였습니다.");
         }
     }
@@ -53,7 +57,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteByEmail(String email) {
         int delete = jdbcTemplate.update("DELETE FROM customer WHERE email = ?", email);
 
-        if (delete != 1) {
+        if (delete != ONLY_ONE_DATA) {
             throw new NotFoundCustomerException("삭제할 고객이 존재하지 않습니다.");
         }
     }
