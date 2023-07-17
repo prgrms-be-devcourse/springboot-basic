@@ -50,7 +50,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherID) {
         SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("voucherId", voucherID.toString());
 
-        jdbcTemplate.update("DELETE FROM VOUCHER WHERE VOUCHER_ID = :voucherId", parameterSource);
+        String sql = new QueryBuilder().delete("VOUCHER")
+            .where("VOUCHER_ID", "=", "voucherId")
+            .build();
+
+        jdbcTemplate.update(sql, parameterSource);
     }
 
     @Override

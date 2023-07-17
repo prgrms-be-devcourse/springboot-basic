@@ -42,8 +42,38 @@ public class QueryBuilder {
         return this;
     }
 
+    public QueryBuilder where(String colum, String operator, String param) {
+        makeCondition("WHERE", colum, operator, param);
+
+        return this;
+    }
+
+    public QueryBuilder AND(String colum, String operator, String param) {
+        makeCondition("AND", colum, operator, param);
+
+        return this;
+    }
+
+    public QueryBuilder OR(String colum, String operator, String param) {
+        makeCondition("OR", colum, operator, param);
+
+        return this;
+    }
+
     public String build() {
         return query.toString();
+    }
+
+    private void makeCondition(String condition, String colum, String operator, String param) {
+        query.append(" ")
+            .append(condition)
+            .append(" ")
+            .append(colum)
+            .append(" ")
+            .append(operator)
+            .append(" ")
+            .append(":")
+            .append(param);
     }
 
 }
