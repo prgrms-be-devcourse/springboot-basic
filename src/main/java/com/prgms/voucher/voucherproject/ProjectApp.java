@@ -29,8 +29,8 @@ public class ProjectApp implements CommandLineRunner {
             if (appType == null) continue;
 
             switch (appType) {
-                case VOUCHER -> voucherApp.voucherRun();
-                case CUSTOMER -> customerApp.customerRun();
+                case VOUCHER -> voucherApp.runVoucherProgram();
+                case CUSTOMER -> customerApp.runCustomerProgram();
                 case EXIT -> {
                     isRunning = false;
                     console.printMessage(Constant.PROGRAM_END, true);

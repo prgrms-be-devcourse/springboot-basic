@@ -21,11 +21,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public List<Voucher> list() {
+    public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
 
-    public void create(VoucherType voucherType, long discount) {
+    public void createVoucher(VoucherType voucherType, long discount) {
         Voucher voucher = switch (voucherType) {
             case FIXED -> new FixedAmountVoucher(discount);
             case PERCENT -> new PercentDiscountVoucher(discount);

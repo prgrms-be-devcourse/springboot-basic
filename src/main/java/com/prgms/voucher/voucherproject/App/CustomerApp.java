@@ -23,7 +23,7 @@ public class CustomerApp {
         this.customerService = customerService;
     }
 
-    public void customerRun() throws Exception {
+    public void runCustomerProgram() throws Exception {
         boolean isRunning = true;
 
         while (isRunning) {
@@ -50,7 +50,7 @@ public class CustomerApp {
         if (customer == null) return;
 
         try {
-            customerService.create(customer);
+            customerService.createCustomer(customer);
         } catch (DuplicateKeyException e) {
             console.printMessage(Constant.EXITS_EMAIL, true);
         } catch (DuplicateCustomerException e) {
@@ -59,7 +59,7 @@ public class CustomerApp {
     }
 
     private void listCustomers() {
-        List<Customer> customers = customerService.list();
+        List<Customer> customers = customerService.getCustomerList();
         console.printCustomerList(customers);
     }
 

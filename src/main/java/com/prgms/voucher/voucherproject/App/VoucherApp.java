@@ -23,7 +23,7 @@ public class VoucherApp {
         this.voucherService = voucherService;
     }
 
-    public void voucherRun() throws Exception {
+    public void runVoucherProgram() throws Exception {
         boolean isRunning = true;
 
         while (isRunning) {
@@ -33,7 +33,7 @@ public class VoucherApp {
 
             switch (menuType) {
                 case CREATE -> createVoucher();
-                case LIST -> list();
+                case LIST -> getVoucherList();
                 case EXIT -> {
                     isRunning = false;
                     console.printMessage("Voucher " + Constant.PROGRAM_END, true);
@@ -42,8 +42,8 @@ public class VoucherApp {
         }
     }
 
-    private void list() {
-        List<Voucher> vouchers = voucherService.list();
+    private void getVoucherList() {
+        List<Voucher> vouchers = voucherService.getVoucherList();
         console.printVoucherList(vouchers);
     }
 
@@ -57,7 +57,7 @@ public class VoucherApp {
         if (discount == null) return;
 
         try {
-            voucherService.create(voucherType, discount);
+            voucherService.createVoucher(voucherType, discount);
         } catch (IllegalArgumentException e) {
             logger.error("{}Voucher IllegalArgumentException -> {}", voucherType, discount);
             console.printMessage(e.getLocalizedMessage(), true);
