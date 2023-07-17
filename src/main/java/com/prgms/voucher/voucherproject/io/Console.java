@@ -165,7 +165,7 @@ public class Console {
     }
 
     public String inputEmail() {
-        this.printMessage("검색할 email을 입력하세요: ", false);
+        this.printMessage("email을 입력하세요: ", false);
         String email = sc.nextLine().trim();
 
         if (validEmail(email)) {
