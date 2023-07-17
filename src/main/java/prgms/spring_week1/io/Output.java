@@ -32,7 +32,7 @@ public class Output {
         }
     }
 
-    public void printAllCustomer(String name , String age) {
+    public void printCustomerInfo(String name , String age) {
         System.out.println("회원 이름 " + name + " 회원 이메일 " + age);
     }
 }
