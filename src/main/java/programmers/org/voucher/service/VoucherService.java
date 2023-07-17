@@ -23,7 +23,10 @@ public class VoucherService {
     }
 
     public void create(VoucherRequest request) {
-        Voucher voucher = toEntity(request);
+        int discountAmount = request.getDiscountAmount();
+        VoucherType type = VoucherType.find(request.getType());
+
+        Voucher voucher = new Voucher(discountAmount, type);
         saveVoucher(voucher);
     }
 
@@ -56,10 +59,6 @@ public class VoucherService {
     private Voucher validateVoucherExist(Long id) {
         return voucherRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER.getMessage()));
-    }
-
-    private Voucher toEntity(VoucherRequest request) {
-        return new Voucher(request.getDiscountAmount(), VoucherType.find(request.getType()));
     }
 
     private VoucherResponse toDto(Voucher voucher) {
