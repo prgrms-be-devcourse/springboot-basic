@@ -17,8 +17,8 @@ public class VoucherController {
     private final VoucherService voucherService;
 
     //(Create)바우처 생성
-    public void create(VoucherCreateRequest voucherCreateRequest) {
-        voucherService.createVoucher(voucherCreateRequest);
+    public VoucherResponse create(VoucherCreateRequest voucherCreateRequest) {
+        return voucherService.createVoucher(voucherCreateRequest);
     }
 
     //(Read) 바우처의 모든 리스트 출력
@@ -57,6 +57,6 @@ public class VoucherController {
     }
 
     public boolean checkVoucherId(UUID voucherId) {
-        return voucherService.checkVoucherId(voucherId);
+        return voucherService.existById(voucherId);
     }
 }
