@@ -20,7 +20,10 @@ import static com.prgms.voucher.voucherproject.util.JdbcUtils.toUUID;
 @Component
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-
+    private static final String SQL_INSERT = "INSERT INTO voucher(voucher_id, voucher_type, discount) VALUES (UUID_TO_BIN(?), ? ,?)";
+    private static final String SQL_FINDALL = "SELECT * FROM voucher";
+    private static final String SQL_FINDBYID = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String SQL_DELETEBYID = "DELETE FROM voucher WHERE voucher_id = ?";
     public static final int ONLY_ONE_DATA = 1;
 
     private final JdbcTemplate jdbcTemplate;
@@ -30,19 +33,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        try {
-            return Optional.of(jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)",
-                    voucherRowMapper, voucherId.toString()));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
-
-    @Override
     public void save(Voucher voucher) {
-        int save = jdbcTemplate.update("INSERT INTO voucher(voucher_id, voucher_type, discount) VALUES (UUID_TO_BIN(?), ? ,?)",
-                voucher.getId().toString().getBytes(), voucher.getVoucherType().toString(), voucher.getDiscount());
+        int save = jdbcTemplate.update(SQL_INSERT, voucher.getId().toString().getBytes(),
+                    voucher.getVoucherType().toString(), voucher.getDiscount());
 
         if (save != ONLY_ONE_DATA) {
             throw new IllegalArgumentException("바우처 저장에 실패하였습니다.");
@@ -51,13 +44,22 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> vouchers = jdbcTemplate.query("SELECT * FROM voucher", voucherRowMapper);
+        List<Voucher> vouchers = jdbcTemplate.query(SQL_FINDALL, voucherRowMapper);
         return vouchers;
     }
 
     @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(SQL_FINDBYID, voucherRowMapper, voucherId.toString()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = ?", voucherId);
+        jdbcTemplate.update(SQL_DELETEBYID, voucherId);
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {

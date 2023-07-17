@@ -17,7 +17,10 @@ import static com.prgms.voucher.voucherproject.util.JdbcUtils.toUUID;
 
 @Component
 public class JdbcCustomerRepository implements CustomerRepository {
-
+    private static final String SQL_INSERT = "INSERT INTO customer(customer_id, email, name, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)";
+    private static final String SQL_FINDALL = "SELECT * FROM customer";
+    private static final String SQL_FINDBYID = "SELECT * FROM customer WHERE email = ?";
+    private static final String SQL_DELETEBYID = "DELETE FROM customer WHERE email = ?";
     public static final int ONLY_ONE_DATA = 1;
 
     private final JdbcTemplate jdbcTemplate;
@@ -28,9 +31,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void save(Customer customer) {
-        int save = jdbcTemplate.update("INSERT INTO customer(customer_id, email, name, created_at) " +
-                        "VALUES (UUID_TO_BIN(?), ?, ?, ?)",
-                customer.getCustomerId().toString().getBytes(), customer.getEmail(), customer.getName(), customer.getCreatedAt());
+        int save = jdbcTemplate.update(SQL_INSERT, customer.getCustomerId().toString().getBytes(), customer.getEmail(),
+                customer.getName(), customer.getCreatedAt());
 
         if (save != ONLY_ONE_DATA) {
             throw new DuplicateCustomerException("고객 저장에 실패하였습니다.");
@@ -39,15 +41,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        List<Customer> customers = jdbcTemplate.query("SELECT * FROM customer", customerRowMapper);
+        List<Customer> customers = jdbcTemplate.query(SQL_FINDALL, customerRowMapper);
         return customers;
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            return Optional.of(jdbcTemplate.queryForObject("SELECT * FROM customer WHERE email = ?",
-                    customerRowMapper, email));
+            return Optional.of(jdbcTemplate.queryForObject(SQL_FINDBYID, customerRowMapper, email));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -55,7 +56,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteByEmail(String email) {
-        int delete = jdbcTemplate.update("DELETE FROM customer WHERE email = ?", email);
+        int delete = jdbcTemplate.update(SQL_DELETEBYID, email);
 
         if (delete != ONLY_ONE_DATA) {
             throw new NotFoundCustomerException("삭제할 고객이 존재하지 않습니다.");
