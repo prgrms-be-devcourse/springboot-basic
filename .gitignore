@@ -39,3 +39,4 @@ out/
 .log
 *.yml
 application.yml
+*.hrof

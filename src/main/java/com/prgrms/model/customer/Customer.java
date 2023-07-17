@@ -1,7 +1,5 @@
 package com.prgrms.model.customer;
 
-package com.prgrms.model.customer;
-
 import java.time.LocalDateTime;
 
 public class Customer {
