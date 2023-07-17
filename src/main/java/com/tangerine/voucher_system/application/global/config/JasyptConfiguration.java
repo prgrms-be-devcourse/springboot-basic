@@ -6,7 +6,7 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -16,22 +16,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Configuration
+@ConfigurationProperties("jasypt.encryptor")
 @EnableEncryptableProperties
 public class JasyptConfiguration {
 
-    @Value("${jasypt.encryptor.algorithm}")
     private String algorithm;
-
-    @Value("${jasypt.encryptor.pool-size}")
     private int poolSize;
-
-    @Value("${jasypt.encryptor.string-output-type}")
     private String stringOutputType;
-
-    @Value("${jasypt.encryptor.key-obtention-iterations}")
     private int keyObtentionIterations;
 
-    @Bean
+    @Bean("jasyptStringEncryptor")
     public StringEncryptor jasyptStringEncryptor() {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig configuration = new SimpleStringPBEConfig();
@@ -51,6 +45,38 @@ public class JasyptConfiguration {
         } catch (IOException e) {
             throw new InvalidDataException(ErrorMessage.INVALID_FILE_ACCESS.getMessageText(), e.getCause());
         }
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public int getPoolSize() {
+        return poolSize;
+    }
+
+    public String getStringOutputType() {
+        return stringOutputType;
+    }
+
+    public int getKeyObtentionIterations() {
+        return keyObtentionIterations;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public void setPoolSize(int poolSize) {
+        this.poolSize = poolSize;
+    }
+
+    public void setStringOutputType(String stringOutputType) {
+        this.stringOutputType = stringOutputType;
+    }
+
+    public void setKeyObtentionIterations(int keyObtentionIterations) {
+        this.keyObtentionIterations = keyObtentionIterations;
     }
 }
 

@@ -89,12 +89,12 @@ class VoucherTest {
     @MethodSource("providePercentVouchers")
     void toString_FixedVoucher_ReturnVoucherString(Price originalPrice, Voucher voucher) {
         String expected = MessageFormat.format(
-            "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}, customerId={4}'}'",
-            voucher.getVoucherId().toString(),
-            voucher.getVoucherType().toString(),
-            voucher.getDiscountValue().getValue(),
-            voucher.getCreatedAt().toString(),
-            voucher.getCustomerId().toString());
+                "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}, customerId={4}'}'",
+                voucher.getVoucherId().toString(),
+                voucher.getVoucherType().toString(),
+                voucher.getDiscountValue().getValue(),
+                voucher.getCreatedAt().toString(),
+                voucher.getCustomerId().toString());
 
         String result = voucher.toString();
 

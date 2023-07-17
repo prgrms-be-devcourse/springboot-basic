@@ -3,7 +3,6 @@ package com.tangerine.voucher_system.application;
 import com.tangerine.voucher_system.application.customer.controller.CustomerController;
 import com.tangerine.voucher_system.application.customer.controller.CustomerDto;
 import com.tangerine.voucher_system.application.customer.controller.CustomerMenu;
-import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import com.tangerine.voucher_system.application.global.io.ConsoleManager;
 import com.tangerine.voucher_system.application.global.model.CommandMenu;
 import com.tangerine.voucher_system.application.voucher.controller.VoucherController;

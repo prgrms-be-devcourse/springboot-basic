@@ -11,7 +11,6 @@ import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.wallet.controller.WalletMenu;
 import org.springframework.stereotype.Component;
 
-import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

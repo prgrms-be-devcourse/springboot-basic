@@ -34,21 +34,11 @@ import static org.assertj.core.api.Assertions.catchException;
 @Import({JdbcVoucherRepository.class, JdbcCustomerRepository.class})
 class JdbcVoucherRepositoryTest {
 
-    static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.empty()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDateTime.now(), Optional.empty())
-    );
-
     @Autowired
     JdbcVoucherRepository voucherRepository;
 
     @Autowired
     CustomerRepository customerRepository;
-
-    static Stream<Arguments> provideVouchers() {
-        return vouchers.stream()
-                .map(Arguments::of);
-    }
 
     @BeforeEach
     void cleanup() {
@@ -194,6 +184,16 @@ class JdbcVoucherRepositoryTest {
 
         Optional<Voucher> maybeNull = voucherRepository.findById(voucher.getVoucherId());
         assertThat(maybeNull).isEmpty();
+    }
+
+    static List<Voucher> vouchers = List.of(
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.empty()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDateTime.now(), Optional.empty())
+    );
+
+    static Stream<Arguments> provideVouchers() {
+        return vouchers.stream()
+                .map(Arguments::of);
     }
 
 }

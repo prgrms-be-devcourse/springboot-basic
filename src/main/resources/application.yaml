@@ -6,9 +6,10 @@ jasypt:
   encryptor:
     bean: jasyptStringEncryptor
     algorithm: PBEWithMD5AndDES
+    provider-name: SunJCE
     pool-size: 2
-    string-output-type: base64
     key-obtention-iterations: 1000
+    string-output-type: base64
 spring:
   datasource:
     url: ENC(zx3pRs8d98AYQmHo8AJGfGwPKklJBHGjrqA2wLUahpc5pZGn4oLtqfVX3qkMwaS1)
