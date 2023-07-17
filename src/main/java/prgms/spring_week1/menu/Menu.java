@@ -5,7 +5,8 @@ import java.util.stream.Stream;
 public enum Menu {
     EXIT,
     VOUCHER,
-    CUSTOMER;
+    CUSTOMER
+    ;
 
     public static Menu findMenuType(String inputText) {
         return Stream.of(Menu.values())

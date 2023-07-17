@@ -6,7 +6,8 @@ public enum VoucherMenu {
     INSERT,
     FIND_ALL,
     FIND_BY_TYPE,
-    DELETE_ALL;
+    DELETE_ALL
+    ;
 
     public static VoucherMenu findMenuType(String inputText) {
         return Stream.of(values())

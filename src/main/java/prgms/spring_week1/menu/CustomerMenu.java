@@ -9,7 +9,8 @@ public enum CustomerMenu {
     BLACK,
     UPDATE_INFO,
     DELETE_BY_EMAIL,
-    DELETE_ALL;
+    DELETE_ALL
+    ;
 
     public static CustomerMenu findMenuType(String inputText) {
         return Stream.of(values())
