@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
+import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.io.Console;
@@ -25,21 +26,34 @@ public class ApplicationController implements CommandLineRunner {
         boolean isRunning = true;
 
         while (isRunning) {
-            ModeType selectedModeType = console.getSelectedType();
+            ServiceType selectedServiceType = console.getServiceType();
 
-            if (selectedModeType == null) {
+            if (selectedServiceType == null) {
                 continue;
             }
 
-            switch (selectedModeType) {
+            switch (selectedServiceType) {
                 case EXIT -> isRunning = false;
-                case CREATE -> createVoucher();
-                case LIST -> displayVouchers();
-                case DELETE_ALL -> removeVouchers();
-                case SEARCH -> searchVoucher();
-                case UPDATE -> updateVoucher();
-                case DELETE -> removeVoucher();
+                case Voucher -> startVoucherProcess();
             }
+        }
+    }
+
+    public void startVoucherProcess() {
+
+        ModeType selectedModeType = console.getModeType();
+
+        if (selectedModeType == null) {
+            return;
+        }
+
+        switch (selectedModeType) {
+            case CREATE -> createVoucher();
+            case LIST -> displayVouchers();
+            case DELETE_ALL -> removeVouchers();
+            case SEARCH -> searchVoucher();
+            case UPDATE -> updateVoucher();
+            case DELETE -> removeVoucher();
         }
     }
 

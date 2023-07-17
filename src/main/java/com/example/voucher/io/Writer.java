@@ -13,7 +13,6 @@ class Writer {
             """),
         MODE_TYPE_SELECTION("""
             === Voucher Program ===
-            Type exit to exit the program.
             Type create to create a new voucher.
             Type list to list all vouchers.
             Type delete_all to delete all vouchers.

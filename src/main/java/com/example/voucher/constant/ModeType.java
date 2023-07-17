@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 public enum ModeType {
 
-    EXIT,
     CREATE,
     LIST,
     DELETE_ALL,
