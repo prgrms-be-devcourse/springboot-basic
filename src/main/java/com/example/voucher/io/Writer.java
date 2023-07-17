@@ -64,4 +64,7 @@ class Writer {
         System.out.println(message.getText());
     }
 
+    public void writeMessage(String resultInfo) {
+        System.out.println(resultInfo);
+    }
 }

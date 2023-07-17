@@ -24,6 +24,10 @@ public class Console {
         this.reader = new Reader();
     }
 
+    public void displayResponse(String resultInfo) {
+        writer.writeMessage(resultInfo);
+    }
+
     public void displayVoucherInfo(VoucherDTO voucher) {
         writer.writeMessage(voucher.voucherId(), voucher.voucherType(), voucher.value());
     }

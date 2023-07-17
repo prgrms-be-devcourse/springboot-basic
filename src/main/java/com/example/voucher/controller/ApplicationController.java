@@ -1,12 +1,12 @@
 package com.example.voucher.controller;
 
-import java.util.List;
 import java.util.UUID;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.controller.request.VoucherRequest;
+import com.example.voucher.controller.response.Response;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.io.Console;
 
@@ -72,8 +72,9 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void displayVouchers() {
-        List<VoucherDTO> vouchers = voucherController.getVouchers();
-        console.displayVoucherInfo(vouchers);
+        Response<VoucherDTO> response = voucherController.getVouchers();
+
+        console.displayResponse(response.getResultMessage());
     }
 
     private void removeVouchers() {

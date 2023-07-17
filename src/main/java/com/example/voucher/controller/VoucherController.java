@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.controller.request.VoucherRequest;
+import com.example.voucher.controller.response.Response;
 import com.example.voucher.domain.dto.VoucherDTO;
 import com.example.voucher.service.VoucherService;
 
@@ -20,8 +21,9 @@ public class VoucherController {
         return voucherService.createVoucher(request.getVoucherType(), request.getDiscountValue());
     }
 
-    public List<VoucherDTO> getVouchers() {
-        return voucherService.getVouchers();
+    public Response<VoucherDTO> getVouchers() {
+        List<VoucherDTO> vouchers = voucherService.getVouchers();
+        return new Response<>(vouchers);
     }
 
     public void deleteVouchers() {
