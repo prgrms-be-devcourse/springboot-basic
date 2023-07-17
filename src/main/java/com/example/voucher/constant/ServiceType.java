@@ -1,5 +1,6 @@
 package com.example.voucher.constant;
 
+import static com.example.voucher.constant.ExceptionMessage.*;
 import java.util.Arrays;
 
 public enum ServiceType {
@@ -13,6 +14,6 @@ public enum ServiceType {
         return Arrays.stream(ServiceType.values())
             .filter(v -> v.name().equalsIgnoreCase(inputTypeName))
             .findFirst()
-            .orElseThrow();
+            .orElseThrow(() -> new IllegalArgumentException(INVALID_ARGUMENT_RETRY_SERVICE_TYPE_SELECTION));
     }
 }
