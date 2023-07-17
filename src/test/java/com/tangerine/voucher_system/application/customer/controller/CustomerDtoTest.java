@@ -49,7 +49,7 @@ class CustomerDtoTest {
     }
 
     @ParameterizedTest
-    @DisplayName("도메인에서 디티오로 변환하면 성공한다.")
+    @DisplayName("Domain 에서 Dto 로 변환하면 성공한다.")
     @MethodSource("provideValidCustomerDto")
     void to(CustomerDto customerDto) {
 

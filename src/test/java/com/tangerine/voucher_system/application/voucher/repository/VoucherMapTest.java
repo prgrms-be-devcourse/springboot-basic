@@ -109,7 +109,7 @@ class VoucherMapTest {
     void clearVoucherMap_ParamVoid_ClearVoucherMap() {
         voucherMap.clearVoucherMap();
 
-        Assertions.assertThat(voucherMap.getAllVouchers()).isEmpty();
+        assertThat(voucherMap.getAllVouchers()).isEmpty();
     }
 
     @ParameterizedTest
@@ -120,7 +120,7 @@ class VoucherMapTest {
 
         voucherMap.removeVoucherById(voucher.getVoucherId());
 
-        Assertions.assertThat(voucherMap.getVoucherById(voucher.getVoucherId())).isNull();
+        assertThat(voucherMap.getVoucherById(voucher.getVoucherId())).isNull();
     }
 
     @ParameterizedTest

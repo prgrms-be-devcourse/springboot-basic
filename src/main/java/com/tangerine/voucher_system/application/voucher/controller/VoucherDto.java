@@ -10,7 +10,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public record VoucherDto(
-        UUID voucherId, VoucherType voucherType, DiscountValue discountValue, LocalDateTime createdAt,
+        UUID voucherId,
+        VoucherType voucherType,
+        DiscountValue discountValue,
+        LocalDateTime createdAt,
         Optional<UUID> customerId
 ) {
 

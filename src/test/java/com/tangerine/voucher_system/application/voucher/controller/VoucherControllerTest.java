@@ -72,7 +72,7 @@ class VoucherControllerTest {
     }
 
     @Test
-    @DisplayName("모든 바우처 디티오를 리스트로 반환한다.")
+    @DisplayName("모든 바우처 Dto 를 리스트로 반환한다.")
     void voucherList_ParamVoid_ReturnVoucherList() {
         given(service.findVouchers()).willReturn(vouchers);
 
