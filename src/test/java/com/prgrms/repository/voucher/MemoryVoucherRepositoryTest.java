@@ -23,6 +23,7 @@ class MemoryVoucherRepositoryTest {
     private static final int FIX_VOUCHER_ID = 1;
     private static final int PERCENT_VOUCHER_ID = 2;
     private static final int NOT_EXIST_VOUCHER_ID = 2;
+
     private MemoryVoucherRepository voucherRepository;
     private Voucher voucher;
 

@@ -32,8 +32,8 @@ public class WalletService {
         this.customerConverter = customerConverter;
     }
 
-    public Wallet giveVoucher(WalletRequest walletRequest) {
-        Wallet wallet = walletConverter.convertWallet(walletRequest);
+    public Wallet giveVoucher(int id, WalletRequest walletRequest) {
+        Wallet wallet = walletConverter.convertWallet(id, walletRequest);
 
         return walletRepository.insert(wallet);
     }

@@ -9,7 +9,7 @@ public class KeyGenerator {
 
     private KeyGenerator() { }
 
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
 
     public int make() {
         return Math.abs(rand.nextInt());

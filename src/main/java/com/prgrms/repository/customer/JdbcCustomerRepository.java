@@ -2,11 +2,13 @@ package com.prgrms.repository.customer;
 
 import com.prgrms.exception.NotUpdateException;
 import com.prgrms.model.customer.Customer;
+import com.prgrms.model.customer.Name;
 import com.prgrms.presentation.message.ErrorMessage;
-import com.prgrms.repository.DataRowMapper;
+import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,12 +21,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final String COLUMNS = "last_login_at, customer_id, name, email, created_at";
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final DataRowMapper dataRowMapper;
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate,
-            DataRowMapper dataRowMapper) {
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.dataRowMapper = dataRowMapper;
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
@@ -64,7 +63,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query("select " + COLUMNS + " from customers",
-                dataRowMapper.getCustomerRowMapper());
+                getCustomerRowMapper());
     }
 
     public Optional<Customer> findById(int customerId) {
@@ -72,7 +71,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                     "select " + COLUMNS + " from customers WHERE customer_id = :customer_id",
                     Collections.singletonMap("customer_id", customerId),
-                    dataRowMapper.getCustomerRowMapper()));
+                    getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             logger.debug(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
@@ -85,7 +84,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                     "select " + COLUMNS + " from customers WHERE name = :name",
                     Collections.singletonMap("name", name),
-                    dataRowMapper.getCustomerRowMapper()));
+                    getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             logger.debug(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
@@ -98,7 +97,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                     "select " + COLUMNS + " from customers WHERE email = :email",
                     Collections.singletonMap("email", email),
-                    dataRowMapper.getCustomerRowMapper()));
+                    getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             logger.info(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
             return Optional.empty();
@@ -116,6 +115,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+    }
+
+    public RowMapper<Customer> getCustomerRowMapper() {
+        return (resultSet, i) -> {
+            int customerId = resultSet.getInt("customer_id");
+            Name customerName = new Name(resultSet.getString("name"));
+            String email = resultSet.getString("email");
+            LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
+                    resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+            LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+            return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
+        };
     }
 
 }

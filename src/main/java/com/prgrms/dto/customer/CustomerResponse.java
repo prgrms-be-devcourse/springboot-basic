@@ -27,4 +27,5 @@ public record CustomerResponse(
                 ", name='" + name + '\'' +
                 ", lastLoginAt=" + lastLoginAt ;
     }
+
 }

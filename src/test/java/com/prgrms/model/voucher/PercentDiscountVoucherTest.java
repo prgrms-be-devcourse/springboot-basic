@@ -14,6 +14,7 @@ class PercentDiscountVoucherTest {
     private final int voucherId = 1;
     private final int orderId = 1;
     private final int quantity = 1;
+
     private OrderItem orderItem;
     private Price productPrice = new Price(1000);
 

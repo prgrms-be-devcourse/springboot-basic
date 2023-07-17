@@ -12,4 +12,5 @@ public record Vouchers(List<Voucher> vouchers) {
     public List<Voucher> vouchers() {
         return vouchers.stream().toList();
     }
+
 }

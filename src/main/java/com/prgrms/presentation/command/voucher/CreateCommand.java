@@ -1,5 +1,6 @@
 package com.prgrms.presentation.command.voucher;
 
+import com.prgrms.model.KeyGenerator;
 import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
@@ -17,19 +18,23 @@ public class CreateCommand implements Command {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
+    private final KeyGenerator keyGenerator;
 
-    public CreateCommand(Input input, Output output, VoucherService voucherService) {
+    public CreateCommand(Input input, Output output, VoucherService voucherService,
+            KeyGenerator keyGenerator) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
+        this.keyGenerator = keyGenerator;
     }
 
     @Override
     public Power execute() {
+        int id = keyGenerator.make();
         VoucherType voucherType = guideCreateVoucher();
         double discountAmount = guideVoucherPolicy(voucherType);
 
-        voucherService.createVoucher(voucherType, discountAmount);
+        voucherService.createVoucher(id, voucherType, discountAmount);
 
         return Power.ON;
     }

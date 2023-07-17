@@ -13,8 +13,7 @@ public class WalletConverter {
         this.keyGenerator = keyGenerator;
     }
 
-    public Wallet convertWallet(WalletRequest walletRequest) {
-        int id = keyGenerator.make();
+    public Wallet convertWallet(int id, WalletRequest walletRequest) {
         int customerId = walletRequest.customerId();
         int voucherId = walletRequest.voucherId();
 
