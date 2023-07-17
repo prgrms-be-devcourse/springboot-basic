@@ -2,65 +2,23 @@ package com.example.voucher.repository;
 
 public class QueryBuilder {
 
+    private final int REMOVE_SIZE = 2;
+
     private StringBuilder query;
 
     public QueryBuilder() {
         this.query = new StringBuilder();
     }
 
-    public QueryBuilder delete(String table) {
+    public DeleteBuilder delete(String table) {
         query.append("DELETE FROM")
             .append(" ")
             .append(table);
 
-        return this;
+        return new DeleteBuilder(query);
     }
 
-    public QueryBuilder insertInto(String table) {
-        query.append("INSERT INTO")
-            .append(" ")
-            .append(table);
-
-        return this;
-    }
-
-    public QueryBuilder values(String... params) {
-        query.append(" ")
-            .append("VALUES")
-            .append(" ")
-            .append("(");
-
-        for (String param : params) {
-            query.append(":")
-                .append(param)
-                .append(", ");
-        }
-
-        query.delete(query.length() - 2, query.length());
-        query.append(")");
-
-        return this;
-    }
-
-    public QueryBuilder where(String colum, String operator, String param) {
-        makeCondition("WHERE", colum, operator, param);
-
-        return this;
-    }
-
-    public QueryBuilder and(String colum, String operator, String param) {
-        makeCondition("AND", colum, operator, param);
-
-        return this;
-    }
-
-    public QueryBuilder or(String colum, String operator, String param) {
-        makeCondition("OR", colum, operator, param);
-
-        return this;
-    }
-
-    public QueryBuilder select(String... colums) {
+    public SelectBuilder select(String... colums) {
         query.append("SELECT")
             .append(" ");
 
@@ -69,63 +27,185 @@ public class QueryBuilder {
                 .append(", ");
         }
 
-        query.delete(query.length() - 2, query.length());
+        query.delete(query.length() - REMOVE_SIZE, query.length());
 
-        return this;
+        return new SelectBuilder(query);
     }
 
-    public QueryBuilder from(String table) {
-        query.append(" ")
-            .append("FROM")
+    public SaveBuilder insertInto(String table) {
+        query.append("INSERT INTO")
             .append(" ")
             .append(table);
 
-        return this;
+        return new SaveBuilder(query);
     }
 
-    public QueryBuilder update(String table) {
+    public UpdateBuilder update(String table) {
         query.append("UPDATE")
             .append(" ")
             .append(table);
 
-        return this;
+        return new UpdateBuilder(query);
     }
 
-    public QueryBuilder set(String colum, String param) {
-        query.append(" ")
-            .append("SET")
-            .append(" ")
-            .append(colum)
-            .append("=")
-            .append(":")
-            .append(param);
+    public static class SaveBuilder {
+        private StringBuilder query;
 
-        return this;
+        public SaveBuilder(StringBuilder query) {
+            this.query = query;
+        }
+
+        public SaveBuilder values(String... params) {
+            query.append(" ")
+                .append("VALUES")
+                .append(" ")
+                .append("(");
+
+            for (String param : params) {
+                query.append(":")
+                    .append(param)
+                    .append(", ");
+            }
+
+            query.delete(query.length() - 2, query.length());
+            query.append(")");
+
+            return this;
+        }
+
+        public String build() {
+            return query.toString();
+        }
+
     }
 
-    public QueryBuilder addSet(String colum, String param) {
-        query.append(",")
-            .append(" ")
-            .append(colum)
-            .append("=")
-            .append(":")
-            .append(param);
+    public static class SelectBuilder {
+        private StringBuilder query;
 
-        return this;
+        public SelectBuilder(StringBuilder query) {
+            this.query = query;
+        }
+
+        public WhereBuilder from(String table) {
+            query.append(" ")
+                .append("FROM")
+                .append(" ")
+                .append(table);
+
+            return new WhereBuilder(query);
+        }
+
+        public String build() {
+            return query.toString();
+        }
     }
 
-    public String build() {
-        return query.toString();
+    public static class DeleteBuilder {
+
+        private StringBuilder query;
+
+        public DeleteBuilder(StringBuilder query) {
+            this.query = query;
+        }
+
+        public WhereBuilder where(String colum, String operator, String param) {
+            query.append(" ")
+                .append("WHERE")
+                .append(" ")
+                .append(colum)
+                .append(operator)
+                .append(":")
+                .append(param);
+
+            return new WhereBuilder(query);
+        }
+
+        public String build() {
+            return query.toString();
+        }
     }
 
-    private void makeCondition(String condition, String colum, String operator, String param) {
-        query.append(" ")
-            .append(condition)
-            .append(" ")
-            .append(colum)
-            .append(operator)
-            .append(":")
-            .append(param);
+    public static class WhereBuilder {
+
+        private StringBuilder query;
+
+        public WhereBuilder(StringBuilder query) {
+            this.query = query;
+        }
+
+        public WhereBuilder where(String colum, String operator, String param) {
+            query.append(" ")
+                .append("WHERE")
+                .append(" ")
+                .append(colum)
+                .append(operator)
+                .append(":")
+                .append(param);
+
+            return this;
+        }
+
+        public WhereBuilder or(String colum, String operator, String param) {
+            query.append(" ")
+                .append("OR")
+                .append(" ")
+                .append(colum)
+                .append(operator)
+                .append(":")
+                .append(param);
+
+            return this;
+        }
+
+        public WhereBuilder and(String colum, String operator, String param) {
+            query.append(" ")
+                .append("AND")
+                .append(" ")
+                .append(colum)
+                .append(operator)
+                .append(":")
+                .append(param);
+
+            return this;
+        }
+
+        public WhereBuilder addSet(String colum, String param) {
+            query.append(",")
+                .append(" ")
+                .append(colum)
+                .append("=")
+                .append(":")
+                .append(param);
+
+            return this;
+        }
+
+        public String build() {
+            return query.toString();
+        }
+
+    }
+
+    public static class UpdateBuilder {
+
+        private StringBuilder query;
+
+        public UpdateBuilder(StringBuilder query) {
+            this.query = query;
+        }
+
+        public WhereBuilder set(String colum, String param) {
+            query.append(" ")
+                .append("SET")
+                .append(" ")
+                .append(colum)
+                .append("=")
+                .append(":")
+                .append(param);
+
+            return new WhereBuilder(query);
+        }
+
     }
 
 }
