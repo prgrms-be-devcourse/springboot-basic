@@ -7,8 +7,8 @@ import java.util.List;
 
 @Component
 public class CustomerConverter {
-    private CustomerConverter() {
-    }
+
+    private CustomerConverter() { }
 
     public List<CustomerResponse> convertCustomerResponse(List<Customer> customers) {
         return customers
@@ -17,3 +17,4 @@ public class CustomerConverter {
                 .toList();
     }
 }
+
