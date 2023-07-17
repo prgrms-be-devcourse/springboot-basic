@@ -24,11 +24,11 @@ public final class ConsoleOutputMessage {
     public static final String CUSTOMER_MENU_LIST_MESSAGE =
             """
                     === Voucher Program ===
-                    Type insert to create new customer.
-                    Type findAll to find all customer.
-                    Type findbyemail to find a voucher by type.
-                    Type update to update customer information.
-                    Type deleteall to delete all voucher.                
+                    Type INSERT to create new customer.
+                    Type FIND_ALL to find all customer.
+                    Type FIND_BY_EMAIL to find a voucher by type.
+                    Type UPDATE to update customer information.
+                    Type DELETE_ALL to delete all voucher.                
                     """;
 
 
