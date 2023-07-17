@@ -6,3 +6,7 @@ spring:
     password: test1234!
   h2:
     console.enabled: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema/schema.sql
