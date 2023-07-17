@@ -15,10 +15,10 @@ public final class ConsoleOutputMessage {
     public static final String VOUCHER_MENU_LIST_MESSAGE =
             """
                     === Voucher Program ===
-                    Type insert to create new voucher.
-                    Type findAll to find all voucher.
-                    Type findByType to find a voucher by type.
-                    Type deleteAll to delete all voucher.                
+                    Type INSERT to create new voucher.
+                    Type FIND_ALL to find all voucher.
+                    Type FIND_BY_TYPE to find a voucher by type.
+                    Type DELETE_ALL to delete all voucher.                
                     """;
 
     public static final String CUSTOMER_MENU_LIST_MESSAGE =
