@@ -5,34 +5,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Response<T> {
-    private List<T> dtoList;
 
-    public Response(List<T> dtoList) {
-        this.dtoList = dtoList;
+    private static final int DELETE_SIZE = 2;
+
+    private List<T> responses;
+
+    public Response(List<T> responses) {
+        this.responses = responses;
     }
 
-    public Response(T dto) {
-        this.dtoList = new ArrayList<>();
-        this.dtoList.add(dto);
+    public Response(T response) {
+        this.responses = new ArrayList<>();
+        this.responses.add(response);
     }
 
     public String getResultMessage() {
         StringBuilder resultMessage = new StringBuilder();
 
-        for (T dto : dtoList) {
-            Field[] fields = dto.getClass().getDeclaredFields();
+        for (T response : responses) {
+            Field[] fields = response.getClass().getDeclaredFields();
 
             for (Field field : fields) {
                 field.setAccessible(true); // 필드에 접근할 수 있도록 설정
 
                 try {
-                    Object value = field.get(dto);
+                    Object value = field.get(response);
                     resultMessage.append(field.getName()).append(": ").append(value).append(", ");
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
-            resultMessage.deleteCharAt(resultMessage.length() - 2);
+            resultMessage.deleteCharAt(resultMessage.length() - DELETE_SIZE);
             resultMessage.append("\n");
         }
 
