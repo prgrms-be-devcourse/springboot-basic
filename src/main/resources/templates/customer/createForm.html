@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
+<head>
+  <title>Customer Create</title>
+</head>
+<body>
+  <div id="content">
+    <form method="POST">
+      <div class="mb-3">
+        <label for="customerNickname" class="form-label">새로 생성할 고객의 닉네임을 입력하세요. (조건 - 공백이 없는 소문자 알파벳과 숫자 조합)</label>
+        <input type="text" class="form-control" id="customerNickname" name="nickname" required>
+      </div>
+
+      <hr>
+
+      <div class="d-grid gap-2 d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">생성</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
