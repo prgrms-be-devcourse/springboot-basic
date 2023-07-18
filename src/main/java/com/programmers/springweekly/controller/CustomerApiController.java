@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/api/customers")
 @RequiredArgsConstructor
 public class CustomerApiController {
 
     private final CustomerService customerService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<CustomerResponse> save(@Validated CustomerCreateRequest customerCreateRequest) {
         CustomerValidator.validateCustomer(
                 customerCreateRequest.getCustomerName(),
@@ -38,21 +39,21 @@ public class CustomerApiController {
         return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/find")
+    @GetMapping
     public ResponseEntity<List<CustomerResponse>> getFindAll() {
         CustomerListResponse customerListResponse = customerService.findAll();
 
         return ResponseEntity.ok(customerListResponse.getCustomerList());
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> findById(@PathVariable("id") UUID customerId) {
         CustomerResponse customerResponse = customerService.findById(customerId);
 
         return ResponseEntity.ok(customerResponse);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable("id") UUID customerId) {
         boolean isExistCustomerId = customerService.existById(customerId);
 
