@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.domain.voucher.VoucherResultSet;
+import com.wonu606.vouchermanager.domain.voucher.VoucherCreateResultSet;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import java.util.List;
@@ -20,7 +20,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 
 @JdbcTest
 @DisplayName("JdbcVoucherResultSetRepository 테스트")
-class JdbcVoucherResultSetVoucherRepositoryTest {
+class JdbcVoucherResultSetVoucherRepositoryTestCreate {
 
     private JdbcVoucherResultSetRepository jdbcVoucherResultSetRepository;
 
@@ -59,7 +59,7 @@ class JdbcVoucherResultSetVoucherRepositoryTest {
         jdbcVoucherResultSetRepository.save(voucher);
 
         // when
-        Optional<VoucherResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
+        Optional<VoucherCreateResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
                 voucher.getUuid());
 
         // then
@@ -74,7 +74,7 @@ class JdbcVoucherResultSetVoucherRepositoryTest {
         UUID nonExistentId = UUID.randomUUID();
 
         // when
-        Optional<VoucherResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
+        Optional<VoucherCreateResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
                 nonExistentId);
 
         // then
@@ -93,7 +93,7 @@ class JdbcVoucherResultSetVoucherRepositoryTest {
         jdbcVoucherResultSetRepository.save(voucher2);
 
         // when
-        List<VoucherResultSet> allVouchers = jdbcVoucherResultSetRepository.findAll();
+        List<VoucherCreateResultSet> allVouchers = jdbcVoucherResultSetRepository.findAll();
 
         // then
         assertThat(allVouchers).hasSize(2);
@@ -110,7 +110,7 @@ class JdbcVoucherResultSetVoucherRepositoryTest {
 
         // then
         jdbcVoucherResultSetRepository.deleteById(voucher.getUuid());
-        Optional<VoucherResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
+        Optional<VoucherCreateResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
                 voucher.getUuid());
 
         // when
@@ -130,7 +130,7 @@ class JdbcVoucherResultSetVoucherRepositoryTest {
 
         // then
         jdbcVoucherResultSetRepository.deleteAll();
-        List<VoucherResultSet> allVouchers = jdbcVoucherResultSetRepository.findAll();
+        List<VoucherCreateResultSet> allVouchers = jdbcVoucherResultSetRepository.findAll();
 
         // when
         assertThat(allVouchers).isEmpty();

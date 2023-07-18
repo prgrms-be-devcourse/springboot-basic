@@ -9,7 +9,7 @@ import static org.mockito.Mockito.verify;
 import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.domain.voucher.VoucherResultSet;
+import com.wonu606.vouchermanager.domain.voucher.VoucherCreateResultSet;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import java.util.ArrayList;
@@ -25,16 +25,16 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("MappingVoucherRepository 테스트")
-class MappingVoucherRepositoryTest {
+class WrappingVoucherRepositoryTest {
 
     private VoucherResultSetRepository voucherResultSetRepository;
 
-    private MappingVoucherRepository voucherRepository;
+    private WrappingVoucherRepository voucherRepository;
 
     @BeforeEach
     void setUp() {
         voucherResultSetRepository = mock(VoucherResultSetRepository.class);
-        voucherRepository = new MappingVoucherRepository(voucherResultSetRepository);
+        voucherRepository = new WrappingVoucherRepository(voucherResultSetRepository);
     }
 
     @Test
@@ -57,7 +57,7 @@ class MappingVoucherRepositoryTest {
         FixedAmountVoucher expectedVoucher = new FixedAmountVoucher(
                 UUID.randomUUID(), new FixedAmountValue(50.0)
         );
-        VoucherResultSet enteredResultSet = new VoucherResultSet(
+        VoucherCreateResultSet enteredResultSet = new VoucherCreateResultSet(
                 expectedVoucher.getUuid(),
                 expectedVoucher.getClass().getSimpleName(),
                 expectedVoucher.getDiscountValue()
@@ -83,18 +83,18 @@ class MappingVoucherRepositoryTest {
         expectedVoucherList.add(expectedVoucher1);
         expectedVoucherList.add(expectedVoucher2);
 
-        VoucherResultSet expectedResultSet1 = new VoucherResultSet(
+        VoucherCreateResultSet expectedResultSet1 = new VoucherCreateResultSet(
                 expectedVoucher1.getUuid(), expectedVoucher1.getClass().getSimpleName(),
                 expectedVoucher1.getDiscountValue());
-        VoucherResultSet expectedResultSet2 = new VoucherResultSet(
+        VoucherCreateResultSet expectedResultSet2 = new VoucherCreateResultSet(
                 expectedVoucher2.getUuid(), expectedVoucher2.getClass().getSimpleName(),
                 expectedVoucher2.getDiscountValue());
 
-        List<VoucherResultSet> expectedVoucherResultSetList = new ArrayList<>();
-        expectedVoucherResultSetList.add(expectedResultSet1);
-        expectedVoucherResultSetList.add(expectedResultSet2);
+        List<VoucherCreateResultSet> expectedVoucherCreateResultSetList = new ArrayList<>();
+        expectedVoucherCreateResultSetList.add(expectedResultSet1);
+        expectedVoucherCreateResultSetList.add(expectedResultSet2);
 
-        given(voucherResultSetRepository.findAll()).willReturn(expectedVoucherResultSetList);
+        given(voucherResultSetRepository.findAll()).willReturn(expectedVoucherCreateResultSetList);
 
         // then
         List<Voucher> actualVoucherList = voucherRepository.findAll();

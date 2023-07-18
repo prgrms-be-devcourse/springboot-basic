@@ -2,13 +2,13 @@ package com.wonu606.vouchermanager.domain.voucher;
 
 import java.util.UUID;
 
-public class VoucherResultSet {
+public class VoucherCreateResultSet {
 
     private final UUID uuid;
     private final String simpleName;
     private final double discountValue;
 
-    public VoucherResultSet(UUID uuid, String simpleName, double discountValue) {
+    public VoucherCreateResultSet(UUID uuid, String simpleName, double discountValue) {
         this.uuid = uuid;
         this.simpleName = simpleName;
         this.discountValue = discountValue;

@@ -1,13 +1,15 @@
 package com.wonu606.vouchermanager.service.voucher;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.domain.voucher.VoucherResultSet;
+import com.wonu606.vouchermanager.domain.voucher.VoucherCreateResultSet;
 import com.wonu606.vouchermanager.repository.voucher.VoucherRepository;
+import com.wonu606.vouchermanager.repository.voucher.query.VoucherInsertQuery;
 import com.wonu606.vouchermanager.service.voucher.factory.VoucherFactory;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -38,7 +40,7 @@ public class VoucherService {
     }
 
     public VoucherListResult getVoucherList() {
-        VoucherListResultSet resultSet = repository.findAll();
+        List<VoucherCreateResultSet> resultSet = repository.findAll();
         return VoucherListResultConverter.convert(resultSet);
     }
 
@@ -58,9 +60,9 @@ public class VoucherService {
         }
 
         Voucher voucher = factory.create(voucherCreateParam);
-        VoucherQuery query = voucherQueryConverter.convert(voucher);
+        VoucherInsertQuery query = VoucherCreateQueryConverter.convert(voucher);
         try {
-            VoucherResultSet resultSet = repository.save(query);
+            VoucherCreateResultSet resultSet = repository.save(query);
         } catch (DuplicateKeyException e) {
             log.info("DuplicateKeyException가 발생하였습니다. ", e);
             return createVoucher(voucherCreateParam, retryCount + 1);
