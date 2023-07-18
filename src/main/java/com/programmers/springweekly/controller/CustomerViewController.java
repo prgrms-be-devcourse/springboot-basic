@@ -4,7 +4,6 @@ import com.programmers.springweekly.dto.customer.request.CustomerCreateRequest;
 import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
-import com.programmers.springweekly.util.validator.CustomerValidator;
 import jakarta.validation.Valid;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -35,12 +34,6 @@ public class CustomerViewController {
 
     @PostMapping("/save")
     public String save(@Valid CustomerCreateRequest customerCreateRequest) {
-        CustomerValidator.validateCustomer(
-                customerCreateRequest.getCustomerName(),
-                customerCreateRequest.getCustomerEmail(),
-                customerCreateRequest.getCustomerType()
-        );
-
         customerService.save(customerCreateRequest);
 
         return "customer/menu";
