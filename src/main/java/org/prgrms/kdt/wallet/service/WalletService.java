@@ -7,7 +7,7 @@ import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletsResponse;
+import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
 import org.prgrms.kdt.wallet.dto.response.WalletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,9 +38,9 @@ public class WalletService {
         return new WalletResponse(walletRepository.insert(wallet));
     }
 
-    public JoinedWalletsResponse findVouchersByMemberId(UUID memberId) {
+    public JoinedWalletResponses findVouchersByMemberId(UUID memberId) {
         List<JoinedWallet> joinedWallets = walletRepository.findWithMemeberAndVoucherByMemberId(memberId);
-        return JoinedWalletsResponse.of(joinedWallets);
+        return JoinedWalletResponses.of(joinedWallets);
     }
 
     @Transactional
@@ -48,13 +48,13 @@ public class WalletService {
         walletRepository.deleteById(walletId);
     }
 
-    public JoinedWalletsResponse findMembersByVoucherId(UUID voucherId) {
+    public JoinedWalletResponses findMembersByVoucherId(UUID voucherId) {
         List<JoinedWallet> joinedWallets = walletRepository.findWithMemeberAndVoucherByVoucherId(voucherId);
-        return JoinedWalletsResponse.of(joinedWallets);
+        return JoinedWalletResponses.of(joinedWallets);
     }
 
-    public JoinedWalletsResponse findAllWallet() {
+    public JoinedWalletResponses findAllWallet() {
         List<JoinedWallet> joinedWallets = walletRepository.findWithMemeberAndVoucherAll();
-        return JoinedWalletsResponse.of(joinedWallets);
+        return JoinedWalletResponses.of(joinedWallets);
     }
 }

@@ -23,8 +23,8 @@ public class Member {
         return memberId;
     }
 
-    public MemberName getMemberName() {
-        return name;
+    public String getMemberName() {
+        return name.getName();
     }
 
     public MemberStatus getStatus() {

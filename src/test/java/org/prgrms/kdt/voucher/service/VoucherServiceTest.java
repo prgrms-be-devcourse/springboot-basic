@@ -8,7 +8,7 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
 import org.prgrms.kdt.voucher.dto.VoucherResponse;
-import org.prgrms.kdt.voucher.dto.VouchersResponse;
+import org.prgrms.kdt.voucher.dto.VoucherResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -31,8 +31,8 @@ class VoucherServiceTest {
     @BeforeEach
     void setup() {
         jdbcVoucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
-        jdbcVoucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.PERCENT.createPolicy(30.0)));
-        jdbcVoucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.PERCENT.createPolicy(70.0)));
+        jdbcVoucherRepository.insert(new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(35.0)));
+        jdbcVoucherRepository.insert(new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0)));
     }
 
     @Test
@@ -53,7 +53,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 전체 조회하여 사이즈 검증")
     void findAll_correctSize() {
         //when
-        VouchersResponse vouchers = voucherService.findAll();
+        VoucherResponses vouchers = voucherService.findAll();
 
         //then
         int resultsize = vouchers.vouchers().size();

@@ -6,7 +6,7 @@ import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.member.dto.CreateMemberRequest;
 import org.prgrms.kdt.member.dto.MemberResponse;
-import org.prgrms.kdt.member.dto.MembersResponse;
+import org.prgrms.kdt.member.dto.MemberResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -51,7 +51,7 @@ class MemberServiceTest {
     @DisplayName("db에 저장되어있는 2명의 블랙멤버들 잘 찾아오는지 확인")
     void findAllBlackMember_correctSize(){
         //when
-        MembersResponse findBlackMembers = memberService.findAllBlackMember();
+        MemberResponses findBlackMembers = memberService.findAllBlackMember();
 
         //then
         int findBlackMembersSize = findBlackMembers.members().size();
@@ -62,7 +62,7 @@ class MemberServiceTest {
     @DisplayName("db에 있는 멤버 3명 잘 찾아오는지 확인")
     void findAllMember_correctAllMember(){
         //when
-        MembersResponse findAllMember = memberService.findAllMember();
+        MemberResponses findAllMember = memberService.findAllMember();
 
         //then
         int findAllMembersize = findAllMember.members().size();

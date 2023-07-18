@@ -1,7 +1,7 @@
 package org.prgrms.kdt.member.controller;
 
 import org.prgrms.kdt.member.dto.CreateMemberRequest;
-import org.prgrms.kdt.member.dto.MembersResponse;
+import org.prgrms.kdt.member.dto.MemberResponses;
 import org.prgrms.kdt.member.service.MemberService;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +17,11 @@ public class MemberController {
         memberService.createMember(request);
     }
 
-    public MembersResponse findAllMember() {
+    public MemberResponses findAllMember() {
         return memberService.findAllMember();
     }
 
-    public MembersResponse findAllBlackMember() {
+    public MemberResponses findAllBlackMember() {
         return memberService.findAllBlackMember();
     }
 }
