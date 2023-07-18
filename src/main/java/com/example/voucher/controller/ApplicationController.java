@@ -1,16 +1,15 @@
 package com.example.voucher.controller;
 
 import java.util.UUID;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
-
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.controller.request.CustomerRequest;
 import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.controller.response.Response;
 import com.example.voucher.io.Console;
+import com.example.voucher.service.customer.dto.CustomerDTO;
 import com.example.voucher.service.voucher.dto.VoucherDTO;
 
 @Controller
@@ -59,17 +58,23 @@ public class ApplicationController implements CommandLineRunner {
 
         switch (selectedModeType) {
             case CREATE -> createCustomer();
+            case LIST -> displayCustomer();
         }
     }
 
     public void createCustomer() {
         try {
             CustomerRequest.Create request = console.getCustomerCreateRequest();
-            Response<com.example.voucher.service.customer.dto.CustomerDTO> response = customerController.createCustomer(request);
+            Response<CustomerDTO> response = customerController.createCustomer(request);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }
+    }
+
+    private void displayCustomer() {
+        Response<CustomerDTO> response = customerController.getCustomers();
+        console.displayResponse(response.getResultMessage());
     }
 
     public void startVoucherProcess() {

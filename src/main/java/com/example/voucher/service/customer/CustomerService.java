@@ -1,6 +1,7 @@
 package com.example.voucher.service.customer;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +22,16 @@ public class CustomerService {
 
     public CustomerDTO createCustomer(String name, String email, CustomerType customerType) {
         Customer createdCustomer = new Customer(name, email, customerType);
-        Customer savedCustomer =customerRepository.save(createdCustomer);
+        Customer savedCustomer = customerRepository.save(createdCustomer);
 
         return toDTO(savedCustomer);
+    }
+
+    public List<CustomerDTO> getCustomers() {
+        return customerRepository.findAll()
+            .stream()
+            .map(v -> toDTO(v))
+            .toList();
     }
 
     private CustomerDTO toDTO(Customer customer) {
