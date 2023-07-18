@@ -15,7 +15,10 @@ public enum ErrorCode {
     INVALID_PERCENT(HttpStatus.BAD_REQUEST, "V004", "할인률은 1에서 100 사이여야 합니다."),
 
     // Customer
-    INVALID_CUSTOMER_TYPE(HttpStatus.BAD_REQUEST, "C001", "유효하지 않은 고객 타입입니다.");
+    INVALID_CUSTOMER_TYPE(HttpStatus.BAD_REQUEST, "C001", "유효하지 않은 고객 타입입니다."),
+
+    // Common
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "S999", "Internal Server Error");
 
     private final HttpStatus httpStatus;
     private final String code;

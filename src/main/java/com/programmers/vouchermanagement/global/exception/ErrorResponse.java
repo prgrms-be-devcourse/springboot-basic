@@ -11,12 +11,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponse {
 
+    private final String error;
     private final String code;
     private final String message;
 
     public static ErrorResponse of(ErrorCode errorCode) {
         return ErrorResponse.builder()
-                .code(errorCode.name())
+                .error(errorCode.name())
+                .code(errorCode.getCode())
                 .message(errorCode.getMessage())
                 .build();
     }
