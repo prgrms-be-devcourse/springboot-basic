@@ -4,13 +4,13 @@ import java.util.List;
 
 public class VoucherGetOwnedCustomersResponse {
 
-    private final List<String> ownedCustomers;
+    private final List<String> emails;
 
-    public VoucherGetOwnedCustomersResponse(List<String> ownedCustomers) {
-        this.ownedCustomers = ownedCustomers;
+    public VoucherGetOwnedCustomersResponse(List<String> emails) {
+        this.emails = emails;
     }
 
-    public List<String> getOwnedCustomers() {
-        return ownedCustomers;
+    public List<String> getEmails() {
+        return emails;
     }
 }

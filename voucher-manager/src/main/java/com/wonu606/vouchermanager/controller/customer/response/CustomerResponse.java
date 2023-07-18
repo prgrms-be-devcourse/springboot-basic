@@ -3,6 +3,7 @@ package com.wonu606.vouchermanager.controller.customer.response;
 import com.wonu606.vouchermanager.domain.customer.email.Email;
 
 public class CustomerResponse {
+
     private final Email email;
     private final String nickname;
 

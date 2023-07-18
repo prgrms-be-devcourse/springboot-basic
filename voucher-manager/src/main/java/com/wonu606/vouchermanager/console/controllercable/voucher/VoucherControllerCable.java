@@ -2,7 +2,11 @@ package com.wonu606.vouchermanager.console.controllercable.voucher;
 
 import com.wonu606.vouchermanager.console.controllercable.voucher.io.VoucherConsoleIo;
 import com.wonu606.vouchermanager.controller.voucher.VoucherController;
-import java.util.List;
+import com.wonu606.vouchermanager.controller.voucher.reqeust.VoucherCreateRequest;
+import com.wonu606.vouchermanager.controller.voucher.reqeust.VoucherGetOwnedCustomersRequest;
+import com.wonu606.vouchermanager.controller.voucher.reqeust.WalletAssignRequest;
+import com.wonu606.vouchermanager.controller.voucher.response.VoucherGetOwnedCustomersResponse;
+import com.wonu606.vouchermanager.controller.voucher.response.VoucherGetResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,8 +39,8 @@ public class VoucherControllerCable {
                 return;
 
             case LIST:
-                List<VoucherResponse> voucherResponses = controller.getVoucherList();
-                consoleIo.displayVoucherList(voucherResponses);
+                VoucherGetResponse voucherGetResponse = controller.getVoucherList();
+                consoleIo.displayVoucherList(voucherGetResponse);
                 return;
 
             case CREATE:
@@ -44,14 +48,15 @@ public class VoucherControllerCable {
                 controller.createVoucher(voucherCreateRequest);
                 return;
             case ASSIGN:
-                VoucherWalletCreateRequest voucherWalletCreateRequest = createVoucherWalletCreateRequest();
+                WalletAssignRequest voucherWalletCreateRequest = createVoucherWalletCreateRequest();
                 controller.assignWallet(voucherWalletCreateRequest);
                 return;
 
             case CUSTOMER_LIST:
                 String voucherId = consoleIo.readString("VoucherId");
-                List<CustomerResponse> customerResponses = controller.getCustomersOwnedByVoucherId(voucherId);
-                consoleIo.displayCustomerList(customerResponses);
+                VoucherGetOwnedCustomersResponse voucherGetOwnedCustomersResponse = controller.getOwnedCustomersByVoucher(
+                        new VoucherGetOwnedCustomersRequest(voucherId));
+                consoleIo.displayCustomerList(voucherGetOwnedCustomersResponse);
                 return;
 
             default:
@@ -59,10 +64,10 @@ public class VoucherControllerCable {
         }
     }
 
-    private VoucherWalletCreateRequest createVoucherWalletCreateRequest() {
+    private WalletAssignRequest createVoucherWalletCreateRequest() {
         String uuid = consoleIo.readString("Voucher UUID");
         String emailAddress = consoleIo.readString("Customer EmailAddress");
-        return new VoucherWalletCreateRequest(uuid, emailAddress);
+        return new WalletAssignRequest(uuid, emailAddress);
     }
 
     private VoucherCreateRequest createVoucherCreateRequest() {

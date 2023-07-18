@@ -3,10 +3,11 @@ package com.wonu606.vouchermanager.console.controllercable.customer;
 import com.wonu606.vouchermanager.console.controllercable.customer.io.CustomerConsoleIo;
 import com.wonu606.vouchermanager.controller.customer.CustomerController;
 import com.wonu606.vouchermanager.controller.customer.request.CustomerCreateRequest;
-import com.wonu606.vouchermanager.controller.customer.request.CustomerGetOwnedVoucherRequest;
+import com.wonu606.vouchermanager.controller.customer.request.CustomerGetOwnedVouchersRequest;
 import com.wonu606.vouchermanager.controller.customer.request.WalletDeleteRequest;
+import com.wonu606.vouchermanager.controller.customer.response.CustomerGetOwnedVouchersResponse;
+import com.wonu606.vouchermanager.controller.customer.response.CustomerGetResponse;
 import com.wonu606.vouchermanager.controller.customer.response.CustomerResponse;
-import com.wonu606.vouchermanager.controller.customer.response.CustomerGetOwnedVoucherResponse;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -44,15 +45,15 @@ public class CustomerControllerCable {
                 return;
 
             case LIST:
-                List<CustomerResponse> CustomerResponses = controller.getCustomerList();
-                consoleIo.displayCustomerList(CustomerResponses);
+                CustomerGetResponse customerGetResponse = controller.getCustomerList();
+                consoleIo.displayCustomerList(customerGetResponse);
                 return;
 
             case VOUCHER_LIST:
                 String searchedCustomerId = consoleIo.readString("CustomerId");
-                List<CustomerGetOwnedVoucherResponse> VoucherResponses = controller.getOwnedVouchersByCustomer(
-                        new CustomerGetOwnedVoucherRequest(searchedCustomerId));
-                consoleIo.displayVoucherList(consoleVoucherResponses);
+                CustomerGetOwnedVouchersResponse customerGetOwnedVouchersResponse = controller.getOwnedVouchersByCustomer(
+                        new CustomerGetOwnedVouchersRequest(searchedCustomerId));
+                consoleIo.displayVoucherList(customerGetOwnedVouchersResponse);
                 return;
 
             case DELETE:

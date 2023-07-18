@@ -7,7 +7,7 @@ public class WalletAssignRequest {
     private final String voucherId;
     private final String email;
 
-    public WalletAssignRequest(UUID voucherId, String email) {
+    public WalletAssignRequest(String voucherId, String email) {
         this.voucherId = voucherId;
         this.email = email;
     }

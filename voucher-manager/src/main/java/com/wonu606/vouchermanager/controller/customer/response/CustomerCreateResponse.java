@@ -1,6 +1,7 @@
 package com.wonu606.vouchermanager.controller.customer.response;
 
 public class CustomerCreateResponse {
+
     private final String email;
     private final String nickname;
 

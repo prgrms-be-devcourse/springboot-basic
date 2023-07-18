@@ -1,21 +1,16 @@
 package com.wonu606.vouchermanager.controller.customer.response;
 
-import com.wonu606.vouchermanager.domain.customer.email.Email;
+import java.util.List;
 
 public class CustomerGetResponse {
-    private final Email email;
-    private final String nickname;
 
-    public CustomerGetResponse(Email email, String nickname) {
-        this.email = email;
-        this.nickname = nickname;
+    private final List<String> emails;
+
+    public CustomerGetResponse(List<String> emails) {
+        this.emails = emails;
     }
 
-    public String getEmailAddress() {
-        return email.getAddress();
-    }
-
-    public String getNickname() {
-        return nickname;
+    public List<String> getEmails() {
+        return emails;
     }
 }
