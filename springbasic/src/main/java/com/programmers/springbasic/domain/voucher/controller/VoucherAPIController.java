@@ -31,9 +31,9 @@ public class VoucherAPIController {
         return ResponseEntity.ok(responseService.getSuccessResult());
     }
 
-    @GetMapping("/list/{voucherType}")
+    @GetMapping
     public ResponseEntity<ListResult<VoucherResponseDTO>> getListVoucherInfo(
-            @PathVariable String voucherType
+            @RequestParam String voucherType
     ) {
         List<VoucherResponseDTO> voucherInfos = voucherService.getAllVoucherInfo(voucherType);
 
