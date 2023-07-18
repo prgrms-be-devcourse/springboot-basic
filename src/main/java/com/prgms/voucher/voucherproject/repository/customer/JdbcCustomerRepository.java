@@ -1,7 +1,6 @@
 package com.prgms.voucher.voucherproject.repository.customer;
 
 import com.prgms.voucher.voucherproject.domain.customer.Customer;
-import com.prgms.voucher.voucherproject.exception.DuplicateCustomerException;
 import com.prgms.voucher.voucherproject.exception.NotFoundCustomerException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,7 +34,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getName(), customer.getCreatedAt());
 
         if (save != SUCCESS_QUERY) {
-            throw new DuplicateCustomerException("고객 저장에 실패하였습니다.");
+            throw new IllegalArgumentException("고객 저장에 실패하였습니다.");
         }
     }
 

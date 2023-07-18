@@ -2,7 +2,6 @@ package com.prgms.voucher.voucherproject.App;
 
 import com.prgms.voucher.voucherproject.domain.customer.Customer;
 import com.prgms.voucher.voucherproject.domain.customer.CustomerType;
-import com.prgms.voucher.voucherproject.exception.DuplicateCustomerException;
 import com.prgms.voucher.voucherproject.exception.NotFoundCustomerException;
 import com.prgms.voucher.voucherproject.io.Console;
 import com.prgms.voucher.voucherproject.io.Constant;
@@ -51,9 +50,7 @@ public class CustomerApp {
 
         try {
             customerService.createCustomer(customer);
-        } catch (DuplicateKeyException e) {
-            console.printMessage(Constant.EXITS_EMAIL, true);
-        } catch (DuplicateCustomerException e) {
+        }  catch (IllegalArgumentException e) {
             console.printMessage(e.getLocalizedMessage(), true);
         }
     }
