@@ -24,8 +24,10 @@ class FixedVoucherTest {
         FixedVoucher voucher = new FixedVoucher(discount);
 
         //then
+        assertThat(voucher.getVoucherId(), Matchers.notNullValue());
         assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
         assertThat(voucher.getVoucherType(), Matchers.equalTo(VoucherType.FIXED));
+        assertThat(voucher.getCreatedAt(), Matchers.notNullValue());
     }
 
     //엣지 케이스 테스트 - Nested클래스
@@ -69,6 +71,9 @@ class FixedVoucherTest {
         FixedVoucher voucher = new FixedVoucher(discount);
 
         //then
+        assertThat(voucher.getVoucherId(), Matchers.notNullValue());
         assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
+        assertThat(voucher.getVoucherType(), Matchers.equalTo(VoucherType.FIXED));
+        assertThat(voucher.getCreatedAt(), Matchers.notNullValue());
     }
 }
