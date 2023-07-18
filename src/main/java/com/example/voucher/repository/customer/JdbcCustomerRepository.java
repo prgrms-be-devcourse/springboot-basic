@@ -50,6 +50,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.query(sql, custoemrRowMapper);
     }
 
+    @Override
+    public void deleteAll() {
+        SqlParameterSource parameterSource = new MapSqlParameterSource();
+
+        String sql = new QueryBuilder()
+            .delete("CUSTOMER")
+            .build();
+
+        jdbcTemplate.update(sql, parameterSource);
+    }
+
     private RowMapper<Customer> custoemrRowMapper() {
         return (rs, rowNum) -> {
             UUID customerId = UUID.fromString(rs.getString("customer_id"));

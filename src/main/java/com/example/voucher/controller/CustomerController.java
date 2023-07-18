@@ -28,4 +28,8 @@ public class CustomerController {
         return new Response<>(customers);
     }
 
+    public void deleteCustomers() {
+        customerService.deleteCustomers();
+    }
+
 }

@@ -46,7 +46,7 @@ public class ApplicationController implements CommandLineRunner {
         }
     }
 
-    public void startCustomerProcess() {
+    private void startCustomerProcess() {
         ModeType selectedModeType = null;
 
         try {
@@ -58,7 +58,8 @@ public class ApplicationController implements CommandLineRunner {
 
         switch (selectedModeType) {
             case CREATE -> createCustomer();
-            case LIST -> displayCustomer();
+            case LIST -> displayCustomers();
+            case DELETE_ALL -> removeCustomers();
         }
     }
 
@@ -72,12 +73,16 @@ public class ApplicationController implements CommandLineRunner {
         }
     }
 
-    private void displayCustomer() {
+    private void displayCustomers() {
         Response<CustomerDTO> response = customerController.getCustomers();
         console.displayResponse(response.getResultMessage());
     }
 
-    public void startVoucherProcess() {
+    private void removeCustomers() {
+        customerController.deleteCustomers();
+    }
+
+    private void startVoucherProcess() {
         ModeType selectedModeType = null;
 
         try {
