@@ -24,7 +24,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherResponseDto create(VoucherType userVoucherType, long amount) {
-        Voucher voucher = Voucher.create(userVoucherType, amount);
+        Voucher voucher = userVoucherType.createVoucher(amount);
         Voucher savedVoucher = voucherRepository.save(voucher);
 
         return VoucherResponseDto.toDto(savedVoucher.getVoucherId(), savedVoucher.getVoucherType(), savedVoucher.getAmount());
@@ -49,7 +49,7 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount) {
         Optional<Voucher> updatedVoucher = voucherRepository.update(voucherId, voucherType, amount);
-        Voucher voucher = updatedVoucher.orElseGet(() -> voucherRepository.save(Voucher.update(voucherId, voucherType, amount)));
+        Voucher voucher = updatedVoucher.orElseGet(() -> voucherRepository.save(voucherType.updateVoucher(voucherId, amount)));
 
         return VoucherResponseDto.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }

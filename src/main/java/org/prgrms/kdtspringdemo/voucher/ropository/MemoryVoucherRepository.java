@@ -2,8 +2,6 @@ package org.prgrms.kdtspringdemo.voucher.ropository;
 
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -12,8 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
-
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
@@ -40,7 +36,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> update(UUID voucherId, VoucherType voucherType, long amount) {
-        Voucher updatedVoucher = storage.putIfAbsent(voucherId, Voucher.update(voucherId, voucherType, amount));
+        Voucher updatedVoucher = storage.putIfAbsent(voucherId, voucherType.updateVoucher(voucherId, amount));
 
         return updatedVoucher == null ? Optional.empty() : Optional.of(updatedVoucher);
     }
