@@ -14,11 +14,17 @@
           <option value="PERCENT">비율 퍼센트 할인</option>
         </select>
       </div>
+
       <div class="mb-3">
         <label for="discountAmount" class="form-label">할인 수치 (조건 - 고정 금액 선택 시, 1이상 자연수 | 비율 퍼센트 선택 시, 1이상 100이하 자연수)</label>
-        <input type="number" class="form-control" id="discountAmount" name="discountAmount">
+        <input type="number" class="form-control" id="discountAmount" name="discountAmount" required>
       </div>
-      <button type="submit" class="btn btn-primary">만들기</button>
+
+      <hr>
+
+      <div class="d-grid gap-2 d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">생성</button>
+      </div>
     </form>
   </div>
 </body>

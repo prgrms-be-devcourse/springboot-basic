@@ -5,7 +5,7 @@
 </head>
 <body>
   <div id="content">
-    <table class="table">
+    <table class="table table-striped table-hover table-bordered">
       <thead>
       <tr>
         <th>할인권 ID</th>
@@ -15,23 +15,27 @@
       </tr>
       </thead>
 
-      <tbody>
+      <tbody th:if="${!vouchers.isEmpty()}">
       <tr th:each="voucher : ${vouchers}">
         <td th:text="${voucher.getId()}">할인권 ID</td>
         <td th:text="${voucher.getType().getName()}">할인 방식</td>
         <td th:text="|${voucher.getDiscountAmount()}${voucher.getType().getUnit()}|">할인 금액/비율</td>
         <td class="d-flex">
-          <a th:href="@{|/vouchers/${voucher.getId()}/update|}" class="btn btn-warning btn-sm me-md-2" type="button">수정</a>
+          <a th:href="@{|/vouchers/${voucher.getId()}/update|}" class="btn btn-warning btn-sm me-2" type="button">수정</a>
           <form th:action="@{|/vouchers/${voucher.getId()}/delete|}" method="POST">
-            <button class="btn btn-danger btn-sm me-md-2">삭제</button>
+            <button class="btn btn-danger btn-sm">삭제</button>
           </form>
         </td>
       </tr>
       </tbody>
     </table>
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <a th:href="@{/vouchers/create}" class="btn btn-primary me-md-2" type="button">새 할인권 만들기</a>
+    <p th:if="${vouchers.isEmpty()}" class="text-center my-5">생성된 할인권이 없습니다.</p>
+
+    <hr>
+
+    <div class="d-grid gap-2 d-flex justify-content-end">
+      <a th:href="@{/vouchers/create}" class="btn btn-primary" type="button">새 할인권 만들기</a>
     </div>
   </div>
 </body>

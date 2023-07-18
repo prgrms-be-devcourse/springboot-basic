@@ -10,6 +10,7 @@
         <label for="voucherId" class="form-label">할인권 ID</label>
         <input type="text" class="form-control" id="voucherId" th:value="${voucher.getId()}" name="id" readonly/>
       </div>
+
       <div class="mb-3">
         <label for="voucherType">할인 방식</label>
         <select class="form-select" id="voucherType" name="type">
@@ -17,11 +18,17 @@
           <option value="PERCENT" th:selected="${voucher.getType().getOption().equals('2')}" th:disabled="${!voucher.getType().getOption().equals('2')}">비율 퍼센트 할인</option>
         </select>
       </div>
+
       <div class="mb-3">
         <label for="discountAmount" class="form-label">변경할 할인 수치를 입력하세요.</label>
-        <input type="number" class="form-control" id="discountAmount" th:value="${voucher.getDiscountAmount()}" name="discountAmount">
+        <input type="number" class="form-control" id="discountAmount" th:value="${voucher.getDiscountAmount()}" name="discountAmount" required>
       </div>
-      <button type="submit" class="btn btn-primary">만들기</button>
+
+      <hr>
+
+      <div class="d-grid gap-2 d-flex justify-content-end">
+        <button type="submit" class="btn btn-warning">수정</button>
+      </div>
     </form>
   </div>
 </body>
