@@ -3,6 +3,7 @@ package com.programmers.springbasic.domain.voucher.controller;
 import com.programmers.springbasic.domain.voucher.dto.request.VoucherCreateRequestDTO;
 import com.programmers.springbasic.domain.voucher.dto.request.VoucherUpdateRequestDTO;
 import com.programmers.springbasic.domain.voucher.dto.response.VoucherResponseDTO;
+import com.programmers.springbasic.domain.voucher.model.VoucherType;
 import com.programmers.springbasic.domain.voucher.service.VoucherService;
 import com.programmers.springbasic.domain.voucher.validator.VoucherCodeValidator;
 import com.programmers.springbasic.global.common.response.model.CommonResult;
@@ -33,9 +34,9 @@ public class VoucherAPIController {
 
     @GetMapping
     public ResponseEntity<ListResult<VoucherResponseDTO>> getListVoucherInfo(
-            @RequestParam String voucherType
+            @RequestParam VoucherType voucherType
     ) {
-        List<VoucherResponseDTO> voucherInfos = voucherService.getAllVoucherInfo(voucherType);
+        List<VoucherResponseDTO> voucherInfos = voucherService.getAllVoucherInfo(voucherType.name());
 
         return ResponseEntity.ok(responseService.getListResult(voucherInfos));
     }
