@@ -1,6 +1,7 @@
 package com.devcourse.voucherapp.repository.customer;
 
 import static com.devcourse.voucherapp.entity.customer.CustomerType.BLACK;
+import static com.devcourse.voucherapp.entity.customer.CustomerType.NORMAL;
 
 import com.devcourse.voucherapp.entity.customer.Customer;
 import com.devcourse.voucherapp.entity.customer.CustomerType;
@@ -66,6 +67,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
         String sql = "delete from customer where nickname = :nickname";
 
         return template.update(sql, getParameterNickname(nickname));
+    }
+
+    @Override
+    public List<Customer> findNormalCustomers() {
+        String sql = "select id, type, nickname from customer where type = :typeOption";
+        String normalTypeOption = NORMAL.getOption();
+
+        return template.query(sql, getParameterTypeOption(normalTypeOption), getCustomerRowMapper());
     }
 
     @Override

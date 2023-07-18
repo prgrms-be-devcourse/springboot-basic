@@ -39,6 +39,25 @@ public class CustomerController {
     public String findAllCustomers(Model model) {
         List<CustomerResponseDto> customers = customerService.findAllCustomers();
         model.addAttribute("customers", customers);
+        model.addAttribute("status", "all");
+
+        return "customer/customers";
+    }
+
+    @GetMapping("/normal")
+    public String findNormalCustomers(Model model) {
+        List<CustomerResponseDto> normalCustomers = customerService.findNormalCustomers();
+        model.addAttribute("customers", normalCustomers);
+        model.addAttribute("status", "normal");
+
+        return "customer/customers";
+    }
+
+    @GetMapping("/black")
+    public String findBlackListCustomers(Model model) {
+        List<CustomerResponseDto> blackListCustomers = customerService.findBlackListCustomers();
+        model.addAttribute("customers", blackListCustomers);
+        model.addAttribute("status", "black");
 
         return "customer/customers";
     }

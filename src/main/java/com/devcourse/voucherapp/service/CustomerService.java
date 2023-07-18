@@ -38,6 +38,18 @@ public class CustomerService {
                 .toList();
     }
 
+    public List<CustomerResponseDto> findNormalCustomers() {
+        return customerRepository.findNormalCustomers().stream()
+                .map(CustomerResponseDto::from)
+                .toList();
+    }
+
+    public List<CustomerResponseDto> findBlackListCustomers() {
+        return customerRepository.findBlackListCustomers().stream()
+                .map(CustomerResponseDto::from)
+                .toList();
+    }
+
     public CustomerResponseDto findCustomerByNickname(String nickname) {
         Customer customer = customerRepository.findCustomerByNickname(nickname)
                 .orElseThrow(() -> new CustomerException(ExceptionRule.CUSTOMER_NOT_FOUND, nickname));
@@ -59,12 +71,6 @@ public class CustomerService {
         if (isEmptyDeleteResult(deleteCounts)) {
             throw new CustomerException(ExceptionRule.CUSTOMER_NOT_FOUND, nickname);
         }
-    }
-
-    public List<CustomerResponseDto> findBlackListCustomers() {
-        return customerRepository.findBlackListCustomers().stream()
-                .map(CustomerResponseDto::from)
-                .toList();
     }
 
     private boolean isEmptyDeleteResult(int deleteCounts) {

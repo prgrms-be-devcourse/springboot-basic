@@ -5,7 +5,9 @@
 </head>
 <body>
   <div id="content">
-    <h3 class="text-center mb-5">고객 목록</h3>
+    <h3 th:if="${status.equals('all')}" class="text-center mb-5">전체 고객 목록</h3>
+    <h3 th:if="${status.equals('normal')}" class="text-center mb-5">일반 고객 목록</h3>
+    <h3 th:if="${status.equals('black')}" class="text-center mb-5">블랙리스트 고객 목록</h3>
 
     <hr>
 
@@ -34,12 +36,21 @@
       </tbody>
     </table>
 
-    <p th:if="${customers.isEmpty()}" class="text-center my-5">생성된 고객 정보가 없습니다.</p>
+    <div th:if="${customers.isEmpty()}">
+      <p th:if="${status.equals('all')}" class="text-center my-5">생성된 고객 정보가 없습니다.</p>
+      <p th:if="${status.equals('normal')}" class="text-center my-5">생성된 일반 고객 정보가 없습니다.</p>
+      <p th:if="${status.equals('black')}" class="text-center my-5">생성된 블랙리스트 고객 정보가 없습니다.</p>
+    </div>
 
     <hr>
 
-    <div class="d-grid gap-2 d-flex justify-content-end">
-      <a th:href="@{/customers/create}" class="btn btn-primary" type="button">새 고객 정보 만들기</a>
+    <div class="d-grid gap-2 d-flex justify-content-between">
+      <div class="d-flex align-items-center">
+        <a th:href="@{/customers}" class="btn btn-outline-dark btn-sm" type="button">전체 고객 보기</a>
+        <a th:href="@{/customers/normal}" class="btn btn-outline-dark btn-sm mx-2" type="button">일반 고객 보기</a>
+        <a th:href="@{/customers/black}" class="btn btn-outline-dark btn-sm" type="button">블랙리스트 고객 보기</a>
+      </div>
+      <a th:href="@{/customers/create}" class="btn btn-primary" type="button">새 일반 고객 생성</a>
     </div>
   </div>
 </body>
