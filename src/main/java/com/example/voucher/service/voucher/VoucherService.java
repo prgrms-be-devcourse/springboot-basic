@@ -3,12 +3,15 @@ package com.example.voucher.service.voucher;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.service.voucher.dto.VoucherDTO;
 import com.example.voucher.repository.voucher.VoucherRepository;
 
 @Service
+@Transactional
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;

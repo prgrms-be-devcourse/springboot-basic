@@ -4,13 +4,13 @@ class Writer {
 
     enum Message {
         SERVICE_TYPE_SELECTION("""
-            === Voucher Program ===
+            === Voucher Management Program ===
             Type exit to exit the program.
             Type voucher to start voucher program.
             Type customer to start voucher program.              
             """),
         MODE_TYPE_SELECTION("""
-            === Voucher Program ===
+            === Mode ===
             Type create to create a new voucher.
             Type list to list all vouchers.
             Type delete_all to delete all vouchers.
@@ -26,9 +26,9 @@ class Writer {
             2. PercentDiscount
               	"""),
         CUSTOMER_TYPE_SELECTION("""
-            * Input Number for select VoucherType
-            1. NORMAL
-            2. BLACK
+            * Input Type for select VoucherType
+            NORMAL
+            BLACK
               	"""),
         DISCOUNT_VALUE_INPUT_REQUEST("""
             * Input Discount Value

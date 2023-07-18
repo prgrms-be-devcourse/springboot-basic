@@ -1,10 +1,13 @@
 package com.example.voucher.controller;
 
 import java.util.UUID;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
+
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
+import com.example.voucher.controller.request.CustomerRequest;
 import com.example.voucher.controller.request.VoucherRequest;
 import com.example.voucher.controller.response.Response;
 import com.example.voucher.io.Console;
@@ -15,10 +18,12 @@ public class ApplicationController implements CommandLineRunner {
 
     private final Console console;
     private final VoucherController voucherController;
+    private final CustomerController customerController;
 
-    private ApplicationController(VoucherController voucherController) {
+    private ApplicationController(VoucherController voucherController, CustomerController customerController) {
         this.console = new Console();
         this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
     @Override
@@ -58,7 +63,13 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     public void createCustomer() {
-
+        try {
+            CustomerRequest.Create request = console.getCustomerCreateRequest();
+            Response<com.example.voucher.service.customer.dto.CustomerDTO> response = customerController.createCustomer(request);
+            console.displayResponse(response.getResultMessage());
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
     }
 
     public void startVoucherProcess() {
@@ -83,7 +94,7 @@ public class ApplicationController implements CommandLineRunner {
 
     private void createVoucher() {
         try {
-            VoucherRequest.Create request = console.getCreateRequest();
+            VoucherRequest.Create request = console.getVoucherCreateRequest();
             Response<VoucherDTO> response = voucherController.createVoucher(request);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
@@ -102,7 +113,7 @@ public class ApplicationController implements CommandLineRunner {
 
     private void searchVoucher() {
         try {
-            UUID voucherId = console.getVoucherId();
+            UUID voucherId = console.getId();
             Response<VoucherDTO> response = voucherController.search(voucherId);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
@@ -112,7 +123,7 @@ public class ApplicationController implements CommandLineRunner {
 
     private void updateVoucher() {
         try {
-            VoucherRequest.Update request = console.getUpdateRequest();
+            VoucherRequest.Update request = console.getVoucherUpdateRequest();
             Response<VoucherDTO> response = voucherController.update(request);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
@@ -122,7 +133,7 @@ public class ApplicationController implements CommandLineRunner {
 
     private void removeVoucher() {
         try {
-            UUID voucherId = console.getVoucherId();
+            UUID voucherId = console.getId();
             voucherController.deleteVoucher(voucherId);
         } catch (Exception e) {
             console.displayError(e.getMessage());
