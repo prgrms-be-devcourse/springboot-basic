@@ -28,7 +28,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         String sql = "INSERT INTO vouchers VALUES (:id, :discountAmount, :discountType)";
 
         SqlParameterSource paramMap = new MapSqlParameterSource()
@@ -42,6 +42,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
             logger.error("바우처가 save되지 않았음. 잘 못된 voucher정보 : {}", voucher);
             throw new IllegalArgumentException(String.format("고객이 save되지 않았음. 잘 못된 voucher정보 : %s", voucher));
         }
+        
+        return voucher;
     }
 
     @Override
@@ -55,8 +57,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
             Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, paramSource, rowMapper());
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("존재하지 않는 아이디가 입력되어 조회할 수 없음. 존재하지 않는 id = {}", id, e);
-            throw new IllegalArgumentException(String.format("존재하지 않는 아이디가 입력되어 조회할 수 없습니다. 존재하지 않는 id = %s", id), e);
+            logger.error("존재하지 않는 아이디가 입력되어 조회할 수 없음(Optional.empty()로 반환). 존재하지 않는 id = {}", id, e);
+            return Optional.empty();
         }
     }
 

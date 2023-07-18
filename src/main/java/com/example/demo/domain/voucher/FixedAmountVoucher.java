@@ -31,8 +31,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public int discount(int beforeAmount) {
-        int result = beforeAmount - discountAmount;
-        return result < 0 ? 0 : result;
+        return Math.max(beforeAmount - discountAmount, 0);
     }
 
     @Override

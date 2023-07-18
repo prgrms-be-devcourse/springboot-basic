@@ -1,4 +1,10 @@
 spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
   config:
     activate:
       on-profile: dev

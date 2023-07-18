@@ -1,9 +1,10 @@
-package com.example.demo.view.validate;
+package com.example.demo;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.example.demo.enums.VoucherDiscountType;
+import com.example.demo.view.validate.NumberValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

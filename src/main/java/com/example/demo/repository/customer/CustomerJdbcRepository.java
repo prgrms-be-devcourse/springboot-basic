@@ -22,7 +22,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public void save(Customer customer) {
+    public Customer save(Customer customer) {
         String sql = "INSERT INTO customers VALUES (:id, :name, :age)";
 
         SqlParameterSource paramMap = new MapSqlParameterSource()
@@ -36,6 +36,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
             logger.error("고객이 save되지 않았음. 잘 못된 입력 {}", customer);
             throw new IllegalArgumentException(String.format("고객이 save되지 않았음. 잘 못된 입력 : %s", customer));
         }
+
+        return customer;
     }
 
     @Override
@@ -49,8 +51,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
             Customer customer = namedParameterJdbcTemplate.queryForObject(sql, paramSource, rowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("존재하지 않는 아이디가 입력되어 조회할 수 없음. 존재하지 않는 id = {}", id, e);
-            throw new IllegalArgumentException(String.format("존재하지 않는 아이디가 입력되어 조회할 수 없습니다. 존재하지 않는 id = %s", id), e);
+            logger.error("존재하지 않는 아이디가 입력되어 조회할 수 없음(Optional.empty()로 반환). 존재하지 않는 id = {}", id, e);
+            return Optional.empty();
         }
     }
 
