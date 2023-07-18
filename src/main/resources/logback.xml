@@ -12,11 +12,11 @@
         </encoder>
     </appender>
 
-    <logger name="com.example" level="ERROR">
+    <logger name="com.example" level="WARN">
         <appender-ref ref="FILE" />
     </logger>
 
-    <root level="ERROR">
+    <root level="WARN">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </root>
