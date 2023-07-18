@@ -1,6 +1,6 @@
 package org.prgrms.kdtspringdemo;
 
-import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
+import org.prgrms.kdtspringdemo.customer.constant.CustomerCommand;
 import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponseDto;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
@@ -133,7 +133,7 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void runCustomerService() {
-        CustomerQuery userCommand = voucherConsole.inputCustomerCommand(CUSTOMER_SERVICE_INIT_MESSAGE);
+        CustomerCommand userCommand = voucherConsole.inputCustomerCommand(CUSTOMER_SERVICE_INIT_MESSAGE);
 
         switch (userCommand) {
             case CREATE -> createCustomer();

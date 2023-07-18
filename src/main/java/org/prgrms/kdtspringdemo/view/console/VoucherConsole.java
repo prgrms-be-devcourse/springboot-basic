@@ -1,6 +1,6 @@
 package org.prgrms.kdtspringdemo.view.console;
 
-import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
+import org.prgrms.kdtspringdemo.customer.constant.CustomerCommand;
 import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommand;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
@@ -77,10 +77,10 @@ public class VoucherConsole {
         System.out.printf(successMessage, userVoucherId.toString(), userVoucherType, amount);
     }
 
-    public CustomerQuery inputCustomerCommand(String initMessage) {
+    public CustomerCommand inputCustomerCommand(String initMessage) {
         printMessage(initMessage);
 
-        return CustomerQuery.findCustomerCommand(scanner.nextLine());
+        return CustomerCommand.findCustomerCommand(scanner.nextLine());
     }
 
     public String inputCustomerNickname(String inputCustomerNicknameMessage) {

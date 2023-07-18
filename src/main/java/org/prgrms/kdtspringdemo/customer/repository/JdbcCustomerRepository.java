@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.customer.repository;
 
-import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
 import org.prgrms.kdtspringdemo.customer.exception.CustomerIdNotFoundException;
 import org.prgrms.kdtspringdemo.customer.exception.CustomerNicknameNotFoundException;
 import org.prgrms.kdtspringdemo.customer.exception.CustomerSaveFailedException;
@@ -23,6 +22,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private static final String CUSTOMER_ID = "customer_id";
     private static final String NICKNAME = "nickname";
+    private static final String SAVE_QUERY = "INSERT INTO customer(customer_id, nickname) VALUES(UUID_TO_BIN(:customer_id), :nickname)";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)";
+    private static final String FIND_BY_NICKNAME_QUERY = "SELECT * FROM customer WHERE nickname = :nickname";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM customer";
+    private static final String UPDATE_QUERY = "UPDATE customer SET nickname = :nickname WHERE customer_id = UUID_TO_BIN(:customer_id)";
+    private static final String DELETE_QUERY = "DELETE FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -43,7 +48,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer save(Customer customer) {
         int savedCustomer;
         try {
-            savedCustomer = jdbcTemplate.update(CustomerQuery.CREATE.getQuery(), toParamMap(customer));
+            savedCustomer = jdbcTemplate.update(SAVE_QUERY, toParamMap(customer));
             if (savedCustomer != SUCCESS_SAVE_QUERY) {
                 logger.error("원인 : {} -> 에러 메시지 : {}", customer.getCustomerId(), CUSTOMER_ID_LOOKUP_FAILED);
                 throw new CustomerSaveFailedException(FAILED_CUSTOMER_SAVE_QUERY);
@@ -59,7 +64,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer findById(UUID customerId) {
         Customer customer;
         try {
-            customer = jdbcTemplate.queryForObject(CustomerQuery.FIND_ID.getQuery(),
+            customer = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY,
                     Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
                     customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -74,7 +79,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer findByNickname(String nickname) {
         Customer customer;
         try {
-            customer = jdbcTemplate.queryForObject(CustomerQuery.FIND_NICKNAME.getQuery(),
+            customer = jdbcTemplate.queryForObject(FIND_BY_NICKNAME_QUERY,
                     Collections.singletonMap(NICKNAME, nickname),
                     customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -87,20 +92,20 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(CustomerQuery.FIND_ALL.getQuery(), customerRowMapper);
+        return jdbcTemplate.query(FIND_ALL_QUERY, customerRowMapper);
     }
 
     @Override
     public Customer update(Customer customer) {
         findById(customer.getCustomerId());
-        jdbcTemplate.update(CustomerQuery.UPDATE.getQuery(), toParamMap(customer));
+        jdbcTemplate.update(UPDATE_QUERY, toParamMap(customer));
 
         return customer;
     }
 
     @Override
     public void deleteById(UUID customerId) {
-        jdbcTemplate.update(CustomerQuery.DELETE.getQuery(),
+        jdbcTemplate.update(DELETE_QUERY,
                 Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()));
     }
 }
