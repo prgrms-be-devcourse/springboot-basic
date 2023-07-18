@@ -3,7 +3,7 @@ package com.wonu606.vouchermanager.repository.customer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
-import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
+import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
 import com.wonu606.vouchermanager.domain.customer.email.Email;
 import java.util.List;
 import java.util.Optional;

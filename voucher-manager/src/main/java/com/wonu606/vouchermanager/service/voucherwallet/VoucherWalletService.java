@@ -21,7 +21,7 @@ import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedVoucherResult;
-import com.wonu606.vouchermanager.service.voucherwallet.result.WalletAssignResultSet;
+import com.wonu606.vouchermanager.service.voucherwallet.result.WalletAssignResult;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -69,7 +69,7 @@ public class VoucherWalletService {
         voucherWalletRepository.delete(query);
     }
 
-    public WalletAssignResultSet assignWallet(WalletAssignParam param) {
+    public WalletAssignResult assignWallet(WalletAssignParam param) {
         WalletInsertQuery query = walletInsertQueryConverter.convert(param);
 
         WalletInsertResultSet resultSet = voucherWalletRepository.insert(query);

@@ -16,13 +16,13 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JdbcVoucherResultSetRepository implements VoucherRepository {
+public class VoucherJdbcRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final VoucherResultSetRowMapper voucherResultSetRowMapper;
 
-    public JdbcVoucherResultSetRepository(DataSource dataSource) {
+    public VoucherJdbcRepository(DataSource dataSource) {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
         voucherResultSetRowMapper = new VoucherResultSetRowMapper();

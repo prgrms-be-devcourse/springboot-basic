@@ -1,10 +1,10 @@
-package com.wonu606.vouchermanager.service.voucherwallet.result;
+package com.wonu606.vouchermanager.service.voucher.result;
 
-public class WalletAssignResultSet {
+public class VoucherCreateResult {
 
     private final Boolean taskSuccess;
 
-    public WalletAssignResultSet(Boolean taskSuccess) {
+    public VoucherCreateResult(Boolean taskSuccess) {
         this.taskSuccess = taskSuccess;
     }
 

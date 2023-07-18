@@ -1,15 +1,24 @@
 package com.wonu606.vouchermanager.service.voucher;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.domain.voucher.VoucherCreateResultSet;
 import com.wonu606.vouchermanager.repository.voucher.VoucherRepository;
 import com.wonu606.vouchermanager.repository.voucher.query.VoucherInsertQuery;
+import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherInsertResultSet;
+import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherResultSet;
+import com.wonu606.vouchermanager.service.voucher.converter.VoucherCreateQueryConverter;
+import com.wonu606.vouchermanager.service.voucher.converter.VoucherCreateResultConverter;
+import com.wonu606.vouchermanager.service.voucher.converter.VoucherResultConverter;
 import com.wonu606.vouchermanager.service.voucher.factory.VoucherFactory;
-import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
+import com.wonu606.vouchermanager.service.voucher.result.VoucherCreateResult;
+import com.wonu606.vouchermanager.service.voucher.result.VoucherResult;
 import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
+import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
+import com.wonu606.vouchermanager.service.voucherwallet.result.WalletAssignResult;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -24,27 +33,36 @@ public class VoucherService {
     private static final int MAX_RETRIES = 3;
 
     private final VoucherWalletService voucherWalletService;
-
     private final VoucherRepository repository;
     private final VoucherFactory factory;
+
+    private final VoucherCreateQueryConverter voucherCreateQueryConverter;
+    private final VoucherCreateResultConverter voucherCreateResultConverter;
+    private final VoucherResultConverter voucherResultConverter;
 
     public VoucherService(VoucherWalletService voucherWalletService,
             VoucherRepository repository, VoucherFactory factory) {
         this.voucherWalletService = voucherWalletService;
         this.repository = repository;
         this.factory = factory;
+
+        voucherCreateQueryConverter = new VoucherCreateQueryConverter();
+        voucherCreateResultConverter = new VoucherCreateResultConverter();
+        voucherResultConverter = new VoucherResultConverter();
     }
 
     public VoucherCreateResult createVoucher(VoucherCreateParam param) {
         return createVoucher(param, 0);
     }
 
-    public VoucherListResult getVoucherList() {
-        List<VoucherCreateResultSet> resultSet = repository.findAll();
-        return VoucherListResultConverter.convert(resultSet);
+    public List<VoucherResult> getVoucherList() {
+        List<VoucherResultSet> resultSets = repository.findAll();
+        return resultSets.stream()
+                .map(voucherResultConverter::convert)
+                .collect(Collectors.toList());
     }
 
-    public OwnedCustomersResult findOwnedCustomersByVoucher(OwnedCustomersParam param) {
+    public List<OwnedCustomerResult> findOwnedCustomersByVoucher(OwnedCustomersParam param) {
         return voucherWalletService.findOwnedCustomersByVoucher(param);
     }
 
@@ -60,14 +78,14 @@ public class VoucherService {
         }
 
         Voucher voucher = factory.create(voucherCreateParam);
-        VoucherInsertQuery query = VoucherCreateQueryConverter.convert(voucher);
+        VoucherInsertQuery query = voucherCreateQueryConverter.convert(voucher);
         try {
-            VoucherCreateResultSet resultSet = repository.save(query);
+            VoucherInsertResultSet resultSet = repository.insert(query);
+            return voucherCreateResultConverter.convert(resultSet);
         } catch (DuplicateKeyException e) {
             log.info("DuplicateKeyException가 발생하였습니다. ", e);
             return createVoucher(voucherCreateParam, retryCount + 1);
         }
-        return voucherCreateResultConverter.convert(resultSet);
     }
 }
 

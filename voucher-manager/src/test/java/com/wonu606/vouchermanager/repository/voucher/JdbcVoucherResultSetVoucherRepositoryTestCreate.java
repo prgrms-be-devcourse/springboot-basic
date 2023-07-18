@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.domain.voucher.VoucherCreateResultSet;
+import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherCreateResultSet;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import java.util.List;
@@ -22,14 +22,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 @DisplayName("JdbcVoucherResultSetRepository 테스트")
 class JdbcVoucherResultSetVoucherRepositoryTestCreate {
 
-    private JdbcVoucherResultSetRepository jdbcVoucherResultSetRepository;
+    private VoucherJdbcRepository voucherJdbcRepository;
 
     @Autowired
     private DataSource dataSource;
 
     @BeforeEach
     void setUp() {
-        jdbcVoucherResultSetRepository = new JdbcVoucherResultSetRepository(dataSource);
+        voucherJdbcRepository = new VoucherJdbcRepository(dataSource);
     }
 
     @Test
@@ -40,8 +40,8 @@ class JdbcVoucherResultSetVoucherRepositoryTestCreate {
                 UUID.randomUUID(), new FixedAmountValue(50.0));
 
         // when
-        jdbcVoucherResultSetRepository.save(voucher);
-        var result = jdbcVoucherResultSetRepository.findById(voucher.getUuid());
+        voucherJdbcRepository.save(voucher);
+        var result = voucherJdbcRepository.findById(voucher.getUuid());
 
         // then
         assertThat(result).isPresent();
@@ -56,10 +56,10 @@ class JdbcVoucherResultSetVoucherRepositoryTestCreate {
         // given
         Voucher voucher = new FixedAmountVoucher(
                 UUID.randomUUID(), new FixedAmountValue(50.0));
-        jdbcVoucherResultSetRepository.save(voucher);
+        voucherJdbcRepository.save(voucher);
 
         // when
-        Optional<VoucherCreateResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
+        Optional<VoucherCreateResultSet> foundVoucher = voucherJdbcRepository.findById(
                 voucher.getUuid());
 
         // then
@@ -74,7 +74,7 @@ class JdbcVoucherResultSetVoucherRepositoryTestCreate {
         UUID nonExistentId = UUID.randomUUID();
 
         // when
-        Optional<VoucherCreateResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
+        Optional<VoucherCreateResultSet> foundVoucher = voucherJdbcRepository.findById(
                 nonExistentId);
 
         // then
@@ -89,11 +89,11 @@ class JdbcVoucherResultSetVoucherRepositoryTestCreate {
                 UUID.randomUUID(), new FixedAmountValue(50.0));
         Voucher voucher2 = new PercentageVoucher(
                 UUID.randomUUID(), new PercentageDiscountValue(30.0));
-        jdbcVoucherResultSetRepository.save(voucher1);
-        jdbcVoucherResultSetRepository.save(voucher2);
+        voucherJdbcRepository.save(voucher1);
+        voucherJdbcRepository.save(voucher2);
 
         // when
-        List<VoucherCreateResultSet> allVouchers = jdbcVoucherResultSetRepository.findAll();
+        List<VoucherCreateResultSet> allVouchers = voucherJdbcRepository.findAll();
 
         // then
         assertThat(allVouchers).hasSize(2);
@@ -106,11 +106,11 @@ class JdbcVoucherResultSetVoucherRepositoryTestCreate {
         // given
         Voucher voucher = new FixedAmountVoucher(
                 UUID.randomUUID(), new FixedAmountValue(50.0));
-        jdbcVoucherResultSetRepository.save(voucher);
+        voucherJdbcRepository.save(voucher);
 
         // then
-        jdbcVoucherResultSetRepository.deleteById(voucher.getUuid());
-        Optional<VoucherCreateResultSet> foundVoucher = jdbcVoucherResultSetRepository.findById(
+        voucherJdbcRepository.deleteById(voucher.getUuid());
+        Optional<VoucherCreateResultSet> foundVoucher = voucherJdbcRepository.findById(
                 voucher.getUuid());
 
         // when
@@ -125,12 +125,12 @@ class JdbcVoucherResultSetVoucherRepositoryTestCreate {
                 UUID.randomUUID(), new FixedAmountValue(50.0));
         Voucher voucher2 = new PercentageVoucher(
                 UUID.randomUUID(), new PercentageDiscountValue(30.0));
-        jdbcVoucherResultSetRepository.save(voucher1);
-        jdbcVoucherResultSetRepository.save(voucher2);
+        voucherJdbcRepository.save(voucher1);
+        voucherJdbcRepository.save(voucher2);
 
         // then
-        jdbcVoucherResultSetRepository.deleteAll();
-        List<VoucherCreateResultSet> allVouchers = jdbcVoucherResultSetRepository.findAll();
+        voucherJdbcRepository.deleteAll();
+        List<VoucherCreateResultSet> allVouchers = voucherJdbcRepository.findAll();
 
         // when
         assertThat(allVouchers).isEmpty();

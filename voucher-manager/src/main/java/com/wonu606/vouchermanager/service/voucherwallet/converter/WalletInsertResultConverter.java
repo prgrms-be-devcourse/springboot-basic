@@ -1,13 +1,13 @@
 package com.wonu606.vouchermanager.service.voucherwallet.converter;
 
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletInsertResultSet;
-import com.wonu606.vouchermanager.service.voucherwallet.result.WalletAssignResultSet;
+import com.wonu606.vouchermanager.service.voucherwallet.result.WalletAssignResult;
 import org.springframework.core.convert.converter.Converter;
 
-public class WalletInsertResultConverter implements Converter<WalletInsertResultSet, WalletAssignResultSet> {
+public class WalletInsertResultConverter implements Converter<WalletInsertResultSet, WalletAssignResult> {
 
     @Override
-    public WalletAssignResultSet convert(WalletInsertResultSet param) {
-        return new WalletAssignResultSet(param.getAffectedRowsCount() == 1);
+    public WalletAssignResult convert(WalletInsertResultSet param) {
+        return new WalletAssignResult(param.getAffectedRowsCount() == 1);
     }
 }

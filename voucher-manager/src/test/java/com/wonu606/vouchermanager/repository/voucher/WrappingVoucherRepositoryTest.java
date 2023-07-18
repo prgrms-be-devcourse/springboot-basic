@@ -9,7 +9,7 @@ import static org.mockito.Mockito.verify;
 import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.domain.voucher.VoucherCreateResultSet;
+import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherCreateResultSet;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
 import java.util.ArrayList;

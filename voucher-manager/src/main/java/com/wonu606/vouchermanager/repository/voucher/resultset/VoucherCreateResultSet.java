@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.domain.voucher;
+package com.wonu606.vouchermanager.repository.voucher.resultset;
 
 import java.util.UUID;
 
@@ -6,9 +6,9 @@ public class VoucherCreateResultSet {
 
     private final UUID uuid;
     private final String simpleName;
-    private final double discountValue;
+    private final Double discountValue;
 
-    public VoucherCreateResultSet(UUID uuid, String simpleName, double discountValue) {
+    public VoucherCreateResultSet(UUID uuid, String simpleName, Double discountValue) {
         this.uuid = uuid;
         this.simpleName = simpleName;
         this.discountValue = discountValue;
@@ -22,7 +22,7 @@ public class VoucherCreateResultSet {
         return simpleName;
     }
 
-    public double getDiscountValue() {
+    public Double getDiscountValue() {
         return discountValue;
     }
 }
