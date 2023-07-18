@@ -37,7 +37,7 @@ public class VoucherCommand {
                 VoucherMenu selectedMenu = VoucherMenu.from(menuOption);
                 executeMenu(selectedMenu);
             } catch (VoucherException e) {
-                log.error("할인권 메뉴에서 예외 발생 - {} | '{}' | 사용자 입력 : {}", e.getRule(), e.getMessage(), e.getCauseInput(), e);
+                log.error("할인권 메뉴에서 예외 발생 - {} | '{}' | 사용자 입력 : {}", e.getStatus(), e.getMessage(), e.getCauseInput(), e);
                 voucherView.showExceptionMessage(format("{0} | 현재 입력 : {1}", e.getMessage(), e.getCauseInput()));
             }
         }

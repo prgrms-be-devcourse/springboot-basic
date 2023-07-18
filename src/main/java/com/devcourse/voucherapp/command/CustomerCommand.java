@@ -37,7 +37,7 @@ public class CustomerCommand {
                 CustomerMenu selectedMenu = CustomerMenu.from(menuOption);
                 executeMenu(selectedMenu);
             } catch (CustomerException e) {
-                log.error("고객 메뉴에서 예외 발생 - {} | '{}' | 사용자 입력 : {}", e.getRule(), e.getMessage(), e.getCauseInput(), e);
+                log.error("고객 메뉴에서 예외 발생 - {} | '{}' | 사용자 입력 : {}", e.getStatus(), e.getMessage(), e.getCauseInput(), e);
                 customerView.showExceptionMessage(format("{0} | 현재 입력 : {1}", e.getMessage(), e.getCauseInput()));
             }
         }

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
+<head>
+  <title th:text="|${status.value()} Error|"></title>
+</head>
+<body>
+  <div id="content" class="text-center">
+    <h2 th:text="|${status} !|" class="mb-5"></h2>
+    <p th:text="${message}"></p>
+    <p th:if="${causeInput != null}" th:text="|입력 : ${causeInput}|"></p>
+  </div>
+</body>
+</html>
