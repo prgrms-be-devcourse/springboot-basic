@@ -24,6 +24,10 @@ public class CustomerController {
         return customerService.findAllCustomers();
     }
 
+    public CustomerResponseDto findCustomerByNickname(String nickname) {
+        return customerService.findCustomerByNickname(nickname);
+    }
+
     public CustomerResponseDto update(CustomerUpdateRequestDto request) {
         return customerService.update(request);
     }

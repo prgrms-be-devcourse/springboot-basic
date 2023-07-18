@@ -20,6 +20,9 @@
         <td th:text="${customer.getId()}">고객 ID</td>
         <td th:text="${customer.getType().getName()}">고객 타입</td>
         <td th:text="${customer.getNickname()}">고객 닉네임</td>
+        <td class="d-flex">
+          <a th:href="@{|/customers/${customer.getNickname()}/update|}" class="btn btn-warning btn-sm me-2" type="button">수정</a>
+        </td>
       </tr>
       </tbody>
     </table>

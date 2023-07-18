@@ -4,6 +4,7 @@ import static java.text.MessageFormat.format;
 
 import com.devcourse.voucherapp.controller.console.CustomerController;
 import com.devcourse.voucherapp.entity.customer.CustomerMenu;
+import com.devcourse.voucherapp.entity.customer.CustomerType;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerUpdateRequestDto;
@@ -71,9 +72,11 @@ public class CustomerCommand {
         readAllCustomers();
 
         String nickname = customerView.readCustomerNicknameToUpdate();
+        CustomerResponseDto findResponse = customerController.findCustomerByNickname(nickname);
         String typeOption = customerView.readCustomerTypeOption();
+        CustomerType newCustomerType = CustomerType.from(typeOption);
 
-        CustomerUpdateRequestDto request = new CustomerUpdateRequestDto(typeOption, nickname);
+        CustomerUpdateRequestDto request = new CustomerUpdateRequestDto(findResponse.getId(), newCustomerType, nickname);
         CustomerResponseDto response = customerController.update(request);
 
         customerView.showCustomerUpdateSuccessMessage(response);

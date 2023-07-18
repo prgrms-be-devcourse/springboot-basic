@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
+<head>
+  <title>Customer Update</title>
+</head>
+<body>
+  <div id="content">
+    <form method="POST">
+      <div class="mb-3">
+        <label for="customerId" class="form-label">고객 ID</label>
+        <input type="text" class="form-control" id="customerId" th:value="${customer.getId()}" name="id" readonly/>
+      </div>
+
+      <div class="mb-3">
+        <label for="customerType">고객 타입</label>
+        <select class="form-select" id="customerType" name="type" required>
+          <option value="NORMAL" th:selected="${customer.getType().getOption().equals('1')}">일반 고객</option>
+          <option value="BLACK" th:selected="${customer.getType().getOption().equals('2')}">블랙리스트 고객</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="customerNickname" class="form-label">고객 닉네임</label>
+        <input type="text" class="form-control" id="customerNickname" th:value="${customer.getNickname()}" name="nickname" readonly>
+      </div>
+
+      <hr>
+
+      <div class="d-grid gap-2 d-flex justify-content-end">
+        <button type="submit" class="btn btn-warning">수정</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

@@ -9,7 +9,6 @@ import com.devcourse.voucherapp.exception.CustomerException;
 import com.devcourse.voucherapp.exception.ExceptionRule;
 import com.devcourse.voucherapp.repository.customer.CustomerRepository;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,20 +38,19 @@ public class CustomerService {
                 .toList();
     }
 
+    public CustomerResponseDto findCustomerByNickname(String nickname) {
+        Customer customer = customerRepository.findCustomerByNickname(nickname)
+                .orElseThrow(() -> new CustomerException(ExceptionRule.CUSTOMER_NOT_FOUND, nickname));
+
+        return CustomerResponseDto.from(customer);
+    }
+
     public CustomerResponseDto update(CustomerUpdateRequestDto request) {
-        String typeOption = request.getTypeOption();
-        String nickname = request.getNickname();
+        CustomerType customerType = request.getType();
+        Customer updatedCustomer = Customer.from(request.getId(), customerType, request.getNickname());
+        Customer customer = customerRepository.update(updatedCustomer);
 
-        UUID id = customerRepository.findCustomerByNickname(nickname)
-                .orElseThrow(() -> new CustomerException(ExceptionRule.CUSTOMER_NOT_FOUND, nickname))
-                .getId();
-
-        CustomerType customerType = CustomerType.from(typeOption);
-
-        Customer customer = Customer.from(id, customerType, nickname);
-        Customer updatedCustomer = customerRepository.update(customer);
-
-        return CustomerResponseDto.from(updatedCustomer);
+        return CustomerResponseDto.from(customer);
     }
 
     public void deleteByNickname(String nickname) {
