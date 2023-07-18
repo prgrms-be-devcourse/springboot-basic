@@ -1,78 +1,85 @@
 package com.prgrms.springbootbasic.domain.voucher;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.prgrms.springbootbasic.enums.VoucherType;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class RateVoucherTest {
 
-    //RateVoucher 클래스의 모든 메소드 테스트
+    //해피 케이스 테스트 - Hamcrest 테스트
     @Test
-    @DisplayName("Rate Voucher 퍼센트 생성 확인 테스트")
-    void validDiscount() {
+    @DisplayName("정률 할인(Rate) 바우처 생성 테스트")
+    void createRateVoucherTest() {
         //given
-        long validDiscount = 60;
+        long discount = 70;
 
         //when
-        RateVoucher rateVoucher = new RateVoucher(validDiscount);
+        RateVoucher voucher = new RateVoucher(discount);
 
         //then
-        assertEquals(validDiscount, rateVoucher.getDiscount());
+        assertThat(voucher.getVoucherId(), Matchers.notNullValue());
+        assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
+        assertThat(voucher.getVoucherType(), Matchers.equalTo(VoucherType.RATE));
+        assertThat(voucher.getCreatedAt(), Matchers.notNullValue());
     }
 
-    @Test
-    @DisplayName("바우처 생성 시 ID값이 null이 아닌지 테스트")
-    void getVoucherId() {
+    //엣지 케이스 테스트 - Nested 클래스 사용
+    // 1~99이외의 퍼센트가 들어왔을 때의 테스트, 1~99범위의 테스트가 들와왔을 때 테스트
+    @Nested
+    @DisplayName("정률 할인(Rate) 바우처의 Validation")
+    class checkRateValidationTest {
         //given
-        RateVoucher rateVoucher = new RateVoucher(60);
 
-        //when
-        UUID voucherId = rateVoucher.getVoucherId();
+        @Test
+        @DisplayName("퍼센트가 1~99 이외 범위일 경우")
+        void invalidDiscountTest() {
+            //given
+            long discount = 100;
 
-        //then
-        assertNotNull(voucherId);
+            //then
+            assertThrows(IllegalArgumentException.class, () -> new RateVoucher(discount));
+
+        }
+
+
+        @Test
+        @DisplayName("퍼센트가 1~99 사이의 범위일 경우")
+        void validDiscountTest() {
+            //given
+            long discount = 50;
+
+            //when
+            RateVoucher voucher = new RateVoucher(discount);
+
+            //then
+            assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
+        }
     }
 
-    @Test
-    @DisplayName("0이하의 퍼센트가 입력될 경우 테스트")
-    void getDiscount() {
-        //given
-        long invalidDiscount = 0;
+    //해피케이스 테스트 -Hamcreset 테스트
 
-        //when
+    @DisplayName("여러 개의 정률 할인(Rate) 바우처 생성 테스트")
+    @ParameterizedTest
+    @CsvSource(value = {"1", "50", "99"})
+    void createMultiRateVoucherTest() {
+        //given
+        long discount = 60;
 
         //then
-        assertThrows(IllegalArgumentException.class, () -> new RateVoucher(invalidDiscount));
-    }
-
-    @Test
-    @DisplayName("바우처 생성 시 Type이 정상적으로 RATE로 분류되는지 테스트")
-    void getVoucherType() {
-        //given
-        RateVoucher rateVoucher = new RateVoucher(60);
+        RateVoucher voucher = new RateVoucher(discount);
 
         //when
+        assertThat(voucher.getVoucherId(), Matchers.notNullValue());
+        assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
+        assertThat(voucher.getVoucherType(), Matchers.equalTo(VoucherType.RATE));
+        assertThat(voucher.getCreatedAt(), Matchers.notNullValue());
 
-        //then
-        assertEquals(VoucherType.RATE, rateVoucher.getVoucherType());
-    }
-
-    @Test
-    @DisplayName("바우처 생성 시 CreateAt이 정상적으로 생성되는지 테스트")
-    void getCreatedAt() {
-        //given
-        RateVoucher rateVoucher = new RateVoucher(60);
-
-        //when
-        LocalDateTime createdAt = rateVoucher.getCreatedAt();
-
-        //then
-        assertNotNull(createdAt);
     }
 }
