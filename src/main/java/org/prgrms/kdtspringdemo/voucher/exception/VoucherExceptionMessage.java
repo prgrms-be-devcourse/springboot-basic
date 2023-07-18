@@ -4,7 +4,6 @@ public enum VoucherExceptionMessage {
     OUT_OF_RANGE_AMOUNT("할인 범위가 아닙니다."),
     NOT_FOUND_VOUCHER_COMMAND_TYPE("알맞는 바우처 기능이 없습니다."),
     NOT_FOUND_VOUCHER_TYPE("알맞는 바우처 할인 유형이 없습니다."),
-    FAILED_VOUCHER_SAVE_QUERY("바우처 저장 쿼리를 실패 하였습니다."),
     VOUCHER_ID_LOOKUP_FAILED("조회된 바우처 ID가 없습니다.");
 
     private String message;

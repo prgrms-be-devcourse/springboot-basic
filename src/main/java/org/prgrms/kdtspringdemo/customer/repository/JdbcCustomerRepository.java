@@ -2,7 +2,6 @@ package org.prgrms.kdtspringdemo.customer.repository;
 
 import org.prgrms.kdtspringdemo.customer.exception.CustomerIdNotFoundException;
 import org.prgrms.kdtspringdemo.customer.exception.CustomerNicknameNotFoundException;
-import org.prgrms.kdtspringdemo.customer.exception.CustomerSaveFailedException;
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +45,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        int savedCustomer;
         try {
-            savedCustomer = jdbcTemplate.update(SAVE_QUERY, toParamMap(customer));
-            if (savedCustomer != SUCCESS_SAVE_QUERY) {
-                logger.error("원인 : {} -> 에러 메시지 : {}", customer.getCustomerId(), CUSTOMER_ID_LOOKUP_FAILED);
-                throw new CustomerSaveFailedException(FAILED_CUSTOMER_SAVE_QUERY);
-            }
+            jdbcTemplate.update(SAVE_QUERY, toParamMap(customer));
         } catch (DuplicateKeyException e) {
             throw new DuplicateKeyException(DUPLICATE_NICKNAME.getMessage());
         }

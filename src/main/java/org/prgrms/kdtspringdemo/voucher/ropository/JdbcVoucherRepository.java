@@ -1,10 +1,7 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.exception.VoucherSaveFailedException;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,12 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
-import static org.prgrms.kdtspringdemo.voucher.exception.VoucherExceptionMessage.*;
 
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private static final String VOUCHER_ID = "voucher_id";
     private static final String VOUCHER_TYPE = "voucher_type";
     private static final String AMOUNT = "amount";
@@ -52,11 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        int savedVoucherRow = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()));
-        if (savedVoucherRow != SUCCESS_SAVE_QUERY) {
-            logger.error("원인 : {} -> 에러 메시지 : {}", savedVoucherRow, FAILED_VOUCHER_SAVE_QUERY);
-            throw new VoucherSaveFailedException(FAILED_VOUCHER_SAVE_QUERY);
-        }
+        jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()));
 
         return voucher;
     }
