@@ -65,6 +65,7 @@ public class ApplicationController implements CommandLineRunner {
         switch (selectedModeType) {
             case CREATE -> createWallet();
             case SEARCH_BY_CUSTOMER -> searchWallet("CUSTOMER_ID");
+            case SEARCH_BY_VOUCHER -> searchWallet("VOUCHER_ID");
         }
 
     }
