@@ -56,7 +56,7 @@ public class ApplicationController implements CommandLineRunner {
         ModeType selectedModeType = null;
 
         try {
-            selectedModeType = console.getModeType();
+            selectedModeType = console.getWalletModeType();
         } catch (Exception e) {
             console.displayError(e.getMessage());
             return;
@@ -64,6 +64,7 @@ public class ApplicationController implements CommandLineRunner {
 
         switch (selectedModeType) {
             case CREATE -> createWallet();
+            case SEARCH_BY_CUSTOMER -> searchWallet("CUSTOMER_ID");
         }
 
     }
@@ -72,6 +73,16 @@ public class ApplicationController implements CommandLineRunner {
         try {
             WalletRequest.Create walletRequest = console.getWalletCreateRequest();
             Response<WalletDTO> response = walletController.createWallet(walletRequest);
+            console.displayResponse(response.getResultMessage());
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
+    }
+
+    private void searchWallet(String condition) {
+        try {
+            UUID conditionId = console.getId();
+            Response<WalletDTO> response = walletController.search(condition, conditionId);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
             console.displayError(e.getMessage());

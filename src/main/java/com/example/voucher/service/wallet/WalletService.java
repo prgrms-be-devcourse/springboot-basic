@@ -1,5 +1,6 @@
 package com.example.voucher.service.wallet;
 
+import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import com.example.voucher.domain.wallet.Wallet;
@@ -20,6 +21,13 @@ public class WalletService {
         Wallet savedWallet = walletRepository.save(createdWallet);
 
         return toDTO(savedWallet);
+    }
+
+    public List<WalletDTO> search(String condition, UUID conditionId) {
+        return walletRepository.findByConditionId(condition, conditionId)
+            .stream()
+            .map(v -> toDTO(v))
+            .toList();
     }
 
     private WalletDTO toDTO(Wallet wallet) {

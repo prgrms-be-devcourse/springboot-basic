@@ -1,4 +1,6 @@
+DROP TABLE IF EXISTS wallet;
 DROP TABLE IF EXISTS voucher;
+DROP TABLE IF EXISTS customer;
 
 CREATE TABLE voucher
 (
@@ -7,8 +9,6 @@ CREATE TABLE voucher
     voucher_type   VARCHAR(200) NOT NULL,
     PRIMARY KEY (voucher_id)
 );
-
-DROP TABLE IF EXISTS customer;
 
 create table customer
 (
@@ -19,8 +19,6 @@ create table customer
     created_at     TIMESTAMP    NOT NULL,
     PRIMARY KEY (customer_id)
 );
-
-DROP TABLE IF EXISTS wallet;
 
 create table wallet
 (

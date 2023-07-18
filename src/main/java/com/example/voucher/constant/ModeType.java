@@ -11,7 +11,9 @@ public enum ModeType {
     DELETE_ALL,
     SEARCH,
     UPDATE,
-    DELETE
+    DELETE,
+    SEARCH_BY_CUSTOMER,
+    SEARCH_BY_VOUCHER
     ;
 
     public static ModeType getModeType(String inputTypeName) {

@@ -50,6 +50,14 @@ public class Console {
         return ModeType.getModeType(input);
     }
 
+    public ModeType getWalletModeType() {
+        writer.writeMessage(Message.WALLET_MODE_TYPE_SELECTION);
+
+        String input = reader.readString();
+
+        return ModeType.getModeType(input);
+    }
+
     public WalletRequest.Create getWalletCreateRequest() {
         UUID customerId = getId();
         UUID voucherId = getId();

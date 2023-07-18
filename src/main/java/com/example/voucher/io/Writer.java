@@ -6,17 +6,24 @@ class Writer {
         SERVICE_TYPE_SELECTION("""
             === Voucher Management Program ===
             Type exit to exit the program.
-            Type voucher to start voucher program.
-            Type customer to start voucher program. 
-            Type wallet to start voucher program.              
+            Type voucher to start voucher service.
+            Type customer to start customer program. 
+            Type wallet to start wallet program.              
             """),
         MODE_TYPE_SELECTION("""
             === Mode ===
-            Type create to create a new voucher.
-            Type list to list all vouchers.
-            Type delete_all to delete all vouchers.
-            Type search to search voucher by id.
-            Type update to update voucher by id.
+            Type create to create a new.
+            Type list to find all.
+            Type delete_all to delete all.
+            Type search to search by id.
+            Type update to update by id.
+            Type delete to delete by id.
+            """),
+        WALLET_MODE_TYPE_SELECTION("""
+            === Mode ===
+            Type create to create a new wallet.
+            Type search_by_customer to list customer vouchers.
+            Type search_by_voucher to list voucher customers.
             Type delete to delete voucher by id.
             """),
         VOUCHER_INFO_INPUT_REQUEST("""
