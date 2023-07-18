@@ -45,7 +45,7 @@ class CustomerDtoTest {
 
         CustomerDto dto = CustomerDto.of(customer);
 
-        assertThat(dto.name()).isSameAs(customer.getName());
+        assertThat(dto.name()).isSameAs(customer.name());
     }
 
     @ParameterizedTest
@@ -55,7 +55,7 @@ class CustomerDtoTest {
 
         Customer entity = customerDto.to();
 
-        assertThat(entity.getCustomerId()).isSameAs(customerDto.customerId());
+        assertThat(entity.customerId()).isSameAs(customerDto.customerId());
     }
 
 }

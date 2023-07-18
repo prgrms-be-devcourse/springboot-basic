@@ -6,11 +6,8 @@ import com.tangerine.voucher_system.application.global.exception.InvalidDataExce
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -19,7 +16,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +27,6 @@ import static org.assertj.core.api.Assertions.catchException;
 
 @JdbcTest
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import({JdbcVoucherRepository.class, JdbcCustomerRepository.class})
 class JdbcVoucherRepositoryTest {
 
@@ -39,11 +35,6 @@ class JdbcVoucherRepositoryTest {
 
     @Autowired
     CustomerRepository customerRepository;
-
-    @BeforeEach
-    void cleanup() {
-        voucherRepository.deleteAll();
-    }
 
     @ParameterizedTest
     @DisplayName("존재하지 않은 바우처를 추가 시 성공한다.")
@@ -73,7 +64,7 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void update_ParamExistVoucher_UpdateAndReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
-        Voucher newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), LocalDateTime.now(), voucher.getCustomerId());
+        Voucher newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 23), LocalDate.now());
 
         voucherRepository.update(newVoucher);
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
@@ -166,14 +157,6 @@ class JdbcVoucherRepositoryTest {
         assertThat(result).isEmpty();
     }
 
-    @Test
-    @DisplayName("모든 바우처 삭제한다.")
-    void deleteAll_ParamVoid_DeleteAllVouchers() {
-        voucherRepository.deleteAll();
-
-        Assertions.assertThat(voucherRepository.findAll()).isEmpty();
-    }
-
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 아이디로 제거하면 성공한다.")
     @MethodSource("provideVouchers")
@@ -187,8 +170,8 @@ class JdbcVoucherRepositoryTest {
     }
 
     static List<Voucher> vouchers = List.of(
-            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.empty()),
-            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDateTime.now(), Optional.empty())
+            new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDate.now()),
+            new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDate.now())
     );
 
     static Stream<Arguments> provideVouchers() {

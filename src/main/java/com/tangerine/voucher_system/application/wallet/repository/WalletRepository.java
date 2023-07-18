@@ -1,21 +1,20 @@
 package com.tangerine.voucher_system.application.wallet.repository;
 
-import com.tangerine.voucher_system.application.customer.model.Customer;
-import com.tangerine.voucher_system.application.voucher.model.Voucher;
-import com.tangerine.voucher_system.application.voucher.model.VoucherType;
+import com.tangerine.voucher_system.application.wallet.model.Wallet;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface WalletRepository {
-    void updateVoucher(UUID voucherId, UUID customerId);
 
-    void updateVoucher(UUID voucherId);
+    void insert(Wallet wallet);
 
-    List<Voucher> findAllVouchersByCustomerId(UUID customerId);
+    void update(Wallet wallet);
 
-    Optional<Customer> findCustomerByVoucherId(UUID voucherId);
+    void deleteById(UUID walletId);
 
-    List<Customer> findAllCustomersByVoucherType(VoucherType voucherType);
+    List<Wallet> findByCustomerId(UUID customerId);
+
+    List<Wallet> findByVoucherId(UUID voucherId);
+
 }

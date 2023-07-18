@@ -5,16 +5,14 @@ import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public record VoucherDto(
         UUID voucherId,
         VoucherType voucherType,
         DiscountValue discountValue,
-        LocalDateTime createdAt,
-        Optional<UUID> customerId
+        LocalDate createdAt
 ) {
 
     public static VoucherDto of(Voucher voucher) {
@@ -22,26 +20,19 @@ public record VoucherDto(
                 voucher.getVoucherId(),
                 voucher.getVoucherType(),
                 voucher.getDiscountValue(),
-                voucher.getCreatedAt(),
-                voucher.getCustomerId()
+                voucher.getCreatedAt()
         );
     }
 
     public Voucher to() {
-        return new Voucher(voucherId(), voucherType(), discountValue(), createdAt(), customerId());
+        return new Voucher(voucherId(), voucherType(), discountValue(), createdAt());
     }
 
     @Override
     public String toString() {
-        if (customerId().isEmpty()) {
-            return MessageFormat.format(
-                    "Voucher(id: {0}, voucherType: {1}, discountValue: {2}, customerId: {3})",
-                    voucherId, voucherType, discountValue.getValue(), customerId
-            );
-        }
         return MessageFormat.format(
-                "Voucher(id: {0}, voucherType: {1}, discountValue: {2}, createdAt: {3}, customerId: {4})",
-                voucherId, voucherType, discountValue.getValue(), createdAt, customerId
+                "Voucher(id: {0}, voucherType: {1}, discountValue: {2}, createdAt:{3})",
+                voucherId, voucherType, discountValue.getValue(), createdAt
         );
     }
 }

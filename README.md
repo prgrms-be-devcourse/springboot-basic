@@ -12,22 +12,15 @@
 ![흐름도.png](%ED%9D%90%EB%A6%84%EB%8F%84.png)
 
 ### **클래스 다이어그램**
-![클래스 다이어그램.png](%ED%81%B4%EB%9E%98%EC%8A%A4%20%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png)
+![클래스다이어그램.png](%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png)
 
 ## **✅ PR 포인트 & 궁금한 점**
 
-- Wallet 기능
-   - 따로 Wallet 테이블을 만들지 않고, vouchers 테이블에 customer_id를 외래키로 받아 사용했습니다.
-   - 이 과정에서 customer_id를 Optional로 처리했는데, 안정적으로 사용했는지 확인 부탁드립니다.
-- try - catch
-  - 예외가 발생한 부분에서 catch를 하는 것 vs. 서비스 로직에서 catch를 하는 것
-  - 둘 중에 어떤 방식이 더 나은지 궁금합니다.
-- 테스트용 DB
-  - 과제를 하면서 wix, h2, mysql 를 한 번씩 모두 사용해봤습니다.
-  - 각자 장단점이 있는것 같은데, 주로 어떤 걸 사용하는지 궁금합니다.
-- Mocking 테스트
-  - controller에서는 로직에서 얻어지는 데이터를 넘겨주고 받는 역할을 수행하도록 구현했습니다.
-  - 해당 부분까지 빈을 주입받아 테스트하면 first 속성에 위반하는 것 같아, mock 테스트를 수행했습니다.
+- nullable 컬럼
+  - 테이블에 null 값이 가능한 컬럼은 도메인 클래스에서 어떻게 관리하는지 궁금합니다.
+  - 생각해본 해법입니다.
+    1. 로직에서는 Optinal로 처리, 컨트롤러 단에서 Optional.get() 으로 직렬화
+    2. null 상태를 가리키는 무의미한 인스턴스 객체를 생성해서 사용
 
 ## **👩‍💻 요구 사항과 구현 내용**
 
@@ -393,5 +386,33 @@ spring:
       mode: always
       schema-locations: classpath:schema/schema.sql
 ```
+</div>
+</details>
+
+### 📮 3차 피드백
+
+<details>
+<summary>ERD 수정</summary>
+<div markdown="1">
+
+- 기존 ERD
+  - vouchers(voucher_id, voucher_type, discount_value, created_at, customer_id)
+  - customers(customer_id, name, black)
+  - 이렇게 둘 만 있고, vouchers 에 fk(customer_id) 로 지갑 기능을 구현
+- 변경 ERD
+  - vouchers(voucher_id, voucher_type, discount_value, created_at)
+  - customers(customer_id, name, black)
+  - wallets(wallet_id, voucher_id, customer_id)
+  - 이렇게 새로 지갑 테이블을 만들어서 확장 대비
+</div>
+</details>
+
+<details>
+<summary>테스트</summary>
+<div markdown="1">
+
+- 테스트 코드에서만 사용하는 함수는 어떻게 처리할까?
+  - 로직 코드에 넣어두지 말고, 테스트 클래스 내에서 해당 기능 클래스를 새로 생성
+  - 빈을 주입받는 방식으로 실행
 </div>
 </details>

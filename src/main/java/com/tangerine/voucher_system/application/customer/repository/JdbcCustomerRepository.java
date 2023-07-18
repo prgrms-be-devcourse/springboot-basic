@@ -116,18 +116,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteAll() {
-        try {
-            jdbcTemplate.update(
-                    "DELETE FROM customers",
-                    Collections.emptyMap()
-            );
-        } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
-        }
-    }
-
-    @Override
     public void deleteById(UUID customerId) {
         try {
             jdbcTemplate.update(
@@ -141,8 +129,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId().toString());
-        paramMap.put("name", customer.getName().getValue());
+        paramMap.put("customerId", customer.customerId().toString());
+        paramMap.put("name", customer.name().getValue());
         paramMap.put("black", customer.isBlack());
         return paramMap;
     }

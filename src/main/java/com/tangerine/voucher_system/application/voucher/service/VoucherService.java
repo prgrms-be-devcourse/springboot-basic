@@ -7,7 +7,7 @@ import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,7 +43,7 @@ public class VoucherService {
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
-    public Voucher findVoucherByCreatedAt(LocalDateTime createdAt) {
+    public Voucher findVoucherByCreatedAt(LocalDate createdAt) {
         return voucherRepository.findByCreatedAt(createdAt)
                 .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
@@ -52,10 +52,6 @@ public class VoucherService {
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         voucherRepository.deleteById(voucherId);
         return foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
-    }
-
-    public void deleteAllVouchers() {
-        voucherRepository.deleteAll();
     }
 
 }

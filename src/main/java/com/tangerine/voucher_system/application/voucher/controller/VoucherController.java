@@ -4,7 +4,7 @@ import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +43,7 @@ public class VoucherController {
         return VoucherDto.of(voucherService.findVoucherByVoucherType(voucherType));
     }
 
-    public VoucherDto voucherByCreatedAt(LocalDateTime createdAt) {
+    public VoucherDto voucherByCreatedAt(LocalDate createdAt) {
         return VoucherDto.of(voucherService.findVoucherByCreatedAt(createdAt));
     }
 

@@ -21,8 +21,6 @@ public interface CustomerRepository {
 
     Optional<Customer> findByName(Name name);
 
-    void deleteAll();
-
     void deleteById(UUID customerId);
 
 }

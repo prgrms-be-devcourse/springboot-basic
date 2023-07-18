@@ -2,15 +2,16 @@ package com.tangerine.voucher_system.application.customer.service;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
+import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -20,8 +21,9 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
 
-@SpringBootTest
+@JdbcTest
 @ActiveProfiles("test")
+@Import({CustomerService.class, JdbcCustomerRepository.class})
 class CustomerServiceTest {
 
     static List<Customer> customers = List.of(
@@ -36,11 +38,6 @@ class CustomerServiceTest {
     static Stream<Arguments> provideCustomers() {
         return customers.stream()
                 .map(Arguments::of);
-    }
-
-    @BeforeEach
-    void cleanup() {
-        service.deleteAllCustomers();
     }
 
     @Test
@@ -61,7 +58,7 @@ class CustomerServiceTest {
 
         service.createCustomer(customer);
 
-        Customer registeredCustomer = service.findCustomerById(customer.getCustomerId());
+        Customer registeredCustomer = service.findCustomerById(customer.customerId());
         assertThat(registeredCustomer).isEqualTo(customer);
     }
 
@@ -82,10 +79,10 @@ class CustomerServiceTest {
     void updateCustomer_ParamExistCustomer_UpdateAndReturnCustomer(Customer customer) {
         service.createCustomer(customer);
 
-        Customer newCustomer = new Customer(customer.getCustomerId(), new Name("new_name"), true);
+        Customer newCustomer = new Customer(customer.customerId(), new Name("new_name"), true);
         service.updateCustomer(newCustomer);
 
-        Customer updatedCustomer = service.findCustomerById(customer.getCustomerId());
+        Customer updatedCustomer = service.findCustomerById(customer.customerId());
         assertThat(updatedCustomer).isEqualTo(newCustomer);
     }
 
@@ -94,7 +91,7 @@ class CustomerServiceTest {
     @MethodSource("provideCustomers")
     void updateCustomer_ParamNotExistCustomer_Exception(Customer customer) {
 
-        Customer newCustomer = new Customer(customer.getCustomerId(), new Name("new_name"), true);
+        Customer newCustomer = new Customer(customer.customerId(), new Name("new_name"), true);
         Exception exception = catchException(() -> service.updateCustomer(newCustomer));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
@@ -116,7 +113,7 @@ class CustomerServiceTest {
     void findCustomerById_ParamExistCustomer_ReturnCustomer(Customer customer) {
         service.createCustomer(customer);
 
-        Customer foundCustomer = service.findCustomerById(customer.getCustomerId());
+        Customer foundCustomer = service.findCustomerById(customer.customerId());
 
         assertThat(foundCustomer).isEqualTo(customer);
     }
@@ -126,7 +123,7 @@ class CustomerServiceTest {
     @MethodSource("provideCustomers")
     void findCustomerById_ParamNotExistCustomer_Exception(Customer customer) {
 
-        Exception exception = catchException(() -> service.findCustomerById(customer.getCustomerId()));
+        Exception exception = catchException(() -> service.findCustomerById(customer.customerId()));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
@@ -137,7 +134,7 @@ class CustomerServiceTest {
     void findCustomerByName_ParamExistCustomer_ReturnCustomer(Customer customer) {
         service.createCustomer(customer);
 
-        Customer foundCustomer = service.findCustomerByName(customer.getName());
+        Customer foundCustomer = service.findCustomerByName(customer.name());
 
         assertThat(foundCustomer).isEqualTo(customer);
     }
@@ -147,7 +144,7 @@ class CustomerServiceTest {
     @MethodSource("provideCustomers")
     void findCustomerByName_ParamNotExistCustomer_Exception(Customer customer) {
 
-        Exception exception = catchException(() -> service.findCustomerByName(customer.getName()));
+        Exception exception = catchException(() -> service.findCustomerByName(customer.name()));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
@@ -158,7 +155,7 @@ class CustomerServiceTest {
     void deleteCustomerById_ParamValidCustomer_ReturnCustomer(Customer customer) {
         service.createCustomer(customer);
 
-        Customer deletedCustomer = service.deleteCustomerById(customer.getCustomerId());
+        Customer deletedCustomer = service.deleteCustomerById(customer.customerId());
 
         assertThat(deletedCustomer).isEqualTo(customer);
     }
@@ -168,7 +165,7 @@ class CustomerServiceTest {
     @MethodSource("provideCustomers")
     void deleteCustomerById_ParamNotExistCustomer_Exception(Customer customer) {
 
-        Exception exception = catchException(() -> service.deleteCustomerById(customer.getCustomerId()));
+        Exception exception = catchException(() -> service.deleteCustomerById(customer.customerId()));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
     }

@@ -2,7 +2,7 @@ package com.tangerine.voucher_system.application.wallet.controller;
 
 import com.tangerine.voucher_system.application.customer.controller.CustomerDto;
 import com.tangerine.voucher_system.application.voucher.controller.VoucherDto;
-import com.tangerine.voucher_system.application.voucher.model.VoucherType;
+import com.tangerine.voucher_system.application.wallet.model.Wallet;
 import com.tangerine.voucher_system.application.wallet.service.WalletService;
 import org.springframework.stereotype.Controller;
 
@@ -18,12 +18,16 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    public void assignVoucherToCustomer(UUID voucherId, UUID customerId) {
-        walletService.updateCustomerIdOfVoucher(voucherId, customerId);
+    public void createWallet(Wallet wallet) {
+        walletService.createWallet(wallet);
     }
 
-    public void withdrawVoucherFromCustomer(UUID voucherId) {
-        walletService.updateCustomerIdNullOfVoucher(voucherId);
+    public void updateWallet(Wallet wallet) {
+        walletService.updateWallet(wallet);
+    }
+
+    public void deleteWalletById(UUID walletId) {
+        walletService.deleteWalletById(walletId);
     }
 
     public List<VoucherDto> voucherListOfCustomer(UUID customerId) {
@@ -32,13 +36,10 @@ public class WalletController {
                 .toList();
     }
 
-    public CustomerDto customerHasVoucher(UUID voucherId) {
-        return CustomerDto.of(walletService.findCustomerByVoucherId(voucherId));
-    }
-
-    public List<CustomerDto> customerListHasVoucherType(VoucherType voucherType) {
-        return walletService.findCustomersByVoucherType(voucherType).stream()
+    public List<CustomerDto> customerListHasVoucher(UUID voucherId) {
+        return walletService.findCustomersByVoucherId(voucherId).stream()
                 .map(CustomerDto::of)
                 .toList();
     }
+
 }

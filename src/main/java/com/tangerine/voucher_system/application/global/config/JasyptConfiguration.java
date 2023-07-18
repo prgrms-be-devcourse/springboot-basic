@@ -51,28 +51,28 @@ public class JasyptConfiguration {
         return algorithm;
     }
 
-    public int getPoolSize() {
-        return poolSize;
-    }
-
-    public String getStringOutputType() {
-        return stringOutputType;
-    }
-
-    public int getKeyObtentionIterations() {
-        return keyObtentionIterations;
-    }
-
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
+    }
+
+    public int getPoolSize() {
+        return poolSize;
     }
 
     public void setPoolSize(int poolSize) {
         this.poolSize = poolSize;
     }
 
+    public String getStringOutputType() {
+        return stringOutputType;
+    }
+
     public void setStringOutputType(String stringOutputType) {
         this.stringOutputType = stringOutputType;
+    }
+
+    public int getKeyObtentionIterations() {
+        return keyObtentionIterations;
     }
 
     public void setKeyObtentionIterations(int keyObtentionIterations) {

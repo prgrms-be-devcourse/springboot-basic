@@ -3,7 +3,7 @@ package com.tangerine.voucher_system.application.voucher.repository;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,9 +20,7 @@ public interface VoucherRepository {
 
     Optional<Voucher> findByVoucherType(VoucherType voucherType);
 
-    Optional<Voucher> findByCreatedAt(LocalDateTime createdAt);
-
-    void deleteAll();
+    Optional<Voucher> findByCreatedAt(LocalDate createdAt);
 
     void deleteById(UUID voucherId);
 
