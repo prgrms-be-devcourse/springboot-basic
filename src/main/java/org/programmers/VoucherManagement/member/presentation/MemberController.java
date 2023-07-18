@@ -1,9 +1,9 @@
 package org.programmers.VoucherManagement.member.presentation;
 
 import org.programmers.VoucherManagement.member.application.MemberService;
-import org.programmers.VoucherManagement.member.dto.CreateMemberRequest;
-import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.member.dto.UpdateMemberRequest;
+import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
+import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -16,20 +16,20 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public GetMemberListResponse getAllMembers() {
+    public MemberGetResponses getAllMembers() {
         return memberService.getAllMembers();
     }
 
-    public GetMemberListResponse getAllBlackMembers() {
+    public MemberGetResponses getAllBlackMembers() {
         return memberService.getAllBlackMembers();
     }
 
-    public void createMember(CreateMemberRequest createMemberRequest) {
-        memberService.createMember(createMemberRequest);
+    public void createMember(MemberCreateRequest memberCreateRequest) {
+        memberService.createMember(memberCreateRequest);
     }
 
-    public void updateMember(UUID memberId, UpdateMemberRequest updateMemberRequest) {
-        memberService.updateMember(memberId, updateMemberRequest);
+    public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
+        memberService.updateMember(memberId, memberUpdateRequest);
     }
 
     public void deleteMember(UUID memberId) {

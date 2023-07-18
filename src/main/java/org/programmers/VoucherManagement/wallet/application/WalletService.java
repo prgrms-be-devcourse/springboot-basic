@@ -7,8 +7,8 @@ import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
-import org.programmers.VoucherManagement.wallet.dto.CreateWalletRequest;
-import org.programmers.VoucherManagement.wallet.dto.GetWalletListResponse;
+import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
+import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +32,12 @@ public class WalletService {
     }
 
     @Transactional
-    public void createWallet(CreateWalletRequest createWalletRequest) {
+    public void createWallet(WalletCreateRequest walletCreateRequest) {
         Voucher voucher = voucherRepository
-                .findById(UUID.fromString(createWalletRequest.getVoucherId()))
+                .findById(UUID.fromString(walletCreateRequest.getVoucherId()))
                 .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
         Member member = memberRepository
-                .findById(UUID.fromString(createWalletRequest.getMemberId()))
+                .findById(UUID.fromString(walletCreateRequest.getMemberId()))
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
 
         Wallet wallet = new Wallet(UUID.randomUUID(),
@@ -47,12 +47,12 @@ public class WalletService {
         walletRepository.insert(wallet);
     }
 
-    public GetWalletListResponse getWalletsByVoucherId(UUID voucherId) {
-        return new GetWalletListResponse(walletRepository.findAllByVoucherId(voucherId));
+    public WalletGetResponses getWalletsByVoucherId(UUID voucherId) {
+        return new WalletGetResponses(walletRepository.findAllByVoucherId(voucherId));
     }
 
-    public GetWalletListResponse getWalletsByMemberId(UUID memberId) {
-        return new GetWalletListResponse(walletRepository.findAllByMemberId(memberId));
+    public WalletGetResponses getWalletsByMemberId(UUID memberId) {
+        return new WalletGetResponses(walletRepository.findAllByMemberId(memberId));
     }
 
     @Transactional

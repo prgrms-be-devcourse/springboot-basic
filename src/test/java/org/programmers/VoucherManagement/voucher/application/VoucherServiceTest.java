@@ -7,9 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.programmers.VoucherManagement.voucher.domain.*;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherResponse;
-import org.programmers.VoucherManagement.voucher.dto.UpdateVoucherRequest;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
+import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponse;
+import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
 
@@ -41,7 +41,7 @@ public class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(100));
         voucherRepository.insert(saveVoucher);
-        UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(1000);
+        VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(1000);
 
         //mocking
         given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
@@ -61,7 +61,7 @@ public class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
         voucherRepository.insert(saveVoucher);
-        UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(40);
+        VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(40);
 
         //mocking
         given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
@@ -81,7 +81,7 @@ public class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
         voucherRepository.insert(saveVoucher);
-        UpdateVoucherRequest updateRequestDto = new UpdateVoucherRequest(-1);
+        VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(-1);
 
         //mocking
         given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
@@ -118,12 +118,12 @@ public class VoucherServiceTest {
         given(voucherRepository.findAll()).willReturn(voucherList);
 
         //when
-        GetVoucherListResponse response = voucherService.getVoucherList();
+        VoucherGetResponses response = voucherService.getVoucherList();
 
         //then
         assertThat(response).isNotNull();
-        List<GetVoucherResponse> responseExpect = voucherList.stream()
-                .map(GetVoucherResponse::toDto)
+        List<VoucherGetResponse> responseExpect = voucherList.stream()
+                .map(VoucherGetResponse::toDto)
                 .collect(Collectors.toList());
         assertThat(response.getGetVoucherListRes()).containsExactlyInAnyOrderElementsOf(responseExpect);
     }

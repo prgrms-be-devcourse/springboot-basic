@@ -1,11 +1,11 @@
-package org.programmers.VoucherManagement.member.dto;
+package org.programmers.VoucherManagement.member.dto.request;
 
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
 
-public class UpdateMemberRequest {
+public class MemberUpdateRequest {
     private final MemberStatus memberStatus;
 
-    public UpdateMemberRequest(MemberStatus memberStatus) {
+    public MemberUpdateRequest(MemberStatus memberStatus) {
         this.memberStatus = memberStatus;
     }
 

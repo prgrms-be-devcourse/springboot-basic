@@ -1,9 +1,9 @@
 package org.programmers.VoucherManagement.voucher.presentation;
 
 import org.programmers.VoucherManagement.voucher.application.VoucherService;
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
-import org.programmers.VoucherManagement.voucher.dto.UpdateVoucherRequest;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
+import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -20,11 +20,11 @@ public class VoucherController {
      * 1. voucher 등록
      * 2. voucher 조회
      */
-    public void createVoucher(CreateVoucherRequest createVoucherRequest) {
-        voucherService.saveVoucher(createVoucherRequest);
+    public void createVoucher(VoucherCreateRequest voucherCreateRequest) {
+        voucherService.saveVoucher(voucherCreateRequest);
     }
 
-    public GetVoucherListResponse getVoucherList() {
+    public VoucherGetResponses getVoucherList() {
         return voucherService.getVoucherList();
     }
 
@@ -32,7 +32,7 @@ public class VoucherController {
         voucherService.deleteVoucher(voucherId);
     }
 
-    public void updateVoucher(UUID voucherId, UpdateVoucherRequest updateVoucherRequest) {
-        voucherService.updateVoucher(voucherId, updateVoucherRequest);
+    public void updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
+        voucherService.updateVoucher(voucherId, voucherUpdateRequest);
     }
 }

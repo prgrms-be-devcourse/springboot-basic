@@ -3,9 +3,9 @@ package org.programmers.VoucherManagement.voucher.application;
 import org.programmers.VoucherManagement.voucher.domain.DiscountValue;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.domain.VoucherFactory;
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
-import org.programmers.VoucherManagement.voucher.dto.UpdateVoucherRequest;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
+import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
 import org.springframework.stereotype.Component;
@@ -26,9 +26,9 @@ public class VoucherService {
     }
 
     @Transactional
-    public void updateVoucher(UUID voucherId, UpdateVoucherRequest updateVoucherRequest) {
+    public void updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         Voucher voucher = repository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
-        DiscountValue discountValue = new DiscountValue(updateVoucherRequest.getDiscountValue());
+        DiscountValue discountValue = new DiscountValue(voucherUpdateRequest.getDiscountValue());
         discountValue.validateValue(voucher.getDiscountType());
 
         voucher.changeDiscountValue(discountValue);
@@ -36,13 +36,13 @@ public class VoucherService {
     }
 
     @Transactional
-    public void saveVoucher(CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher = VoucherFactory.createVoucher(createVoucherRequest);
+    public void saveVoucher(VoucherCreateRequest voucherCreateRequest) {
+        Voucher voucher = VoucherFactory.createVoucher(voucherCreateRequest);
         repository.insert(voucher);
     }
 
-    public GetVoucherListResponse getVoucherList() {
-        return new GetVoucherListResponse(repository.findAll());
+    public VoucherGetResponses getVoucherList() {
+        return new VoucherGetResponses(repository.findAll());
     }
 
     @Transactional

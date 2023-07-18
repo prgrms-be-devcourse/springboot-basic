@@ -1,17 +1,17 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
-import org.programmers.VoucherManagement.wallet.dto.GetWalletListResponse;
+import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
+import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
+import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 
 public interface Output {
     void printConsoleMessage(ConsoleMessage message);
 
-    void printVoucherList(GetVoucherListResponse getVoucherListResponse);
+    void printVoucherList(VoucherGetResponses voucherGetResponses);
 
-    void printAllMemberList(GetMemberListResponse memberList);
+    void printAllMemberList(MemberGetResponses memberList);
 
-    void printBlackMemberList(GetMemberListResponse memberList);
+    void printBlackMemberList(MemberGetResponses memberList);
 
-    void printWalletList(GetWalletListResponse walletListResponse);
+    void printWalletList(WalletGetResponses walletListResponse);
 }

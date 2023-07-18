@@ -8,9 +8,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.member.dto.GetMemberResponse;
-import org.programmers.VoucherManagement.member.dto.UpdateMemberRequest;
+import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
+import org.programmers.VoucherManagement.member.dto.response.MemberGetResponse;
+import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
 
 import java.util.Arrays;
@@ -41,7 +41,7 @@ public class MemberServiceTest {
         UUID memberId = UUID.randomUUID();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.WHITE);
         memberRepository.insert(saveMember);
-        UpdateMemberRequest updateRequestDto = new UpdateMemberRequest(MemberStatus.BLACK);
+        MemberUpdateRequest updateRequestDto = new MemberUpdateRequest(MemberStatus.BLACK);
 
         //mocking
         given(memberRepository.findById(memberId)).willReturn(Optional.of(saveMember));
@@ -81,11 +81,11 @@ public class MemberServiceTest {
         given(memberRepository.findAll()).willReturn(memberList);
 
         //when
-        GetMemberListResponse response = memberService.getAllMembers();
+        MemberGetResponses response = memberService.getAllMembers();
 
         //then
-        List<GetMemberResponse> responseExpect = memberList.stream()
-                .map(GetMemberResponse::toDto)
+        List<MemberGetResponse> responseExpect = memberList.stream()
+                .map(MemberGetResponse::toDto)
                 .collect(Collectors.toList());
 
         assertThat(response).isNotNull();
@@ -107,11 +107,11 @@ public class MemberServiceTest {
         given(memberRepository.findAllByMemberStatus(MemberStatus.BLACK)).willReturn(blackMemberList);
 
         //when
-        GetMemberListResponse response = memberService.getAllBlackMembers();
+        MemberGetResponses response = memberService.getAllBlackMembers();
 
         //then
-        List<GetMemberResponse> responseExpect = blackMemberList.stream()
-                .map(GetMemberResponse::toDto)
+        List<MemberGetResponse> responseExpect = blackMemberList.stream()
+                .map(MemberGetResponse::toDto)
                 .collect(Collectors.toList());
 
         assertThat(response).isNotNull();

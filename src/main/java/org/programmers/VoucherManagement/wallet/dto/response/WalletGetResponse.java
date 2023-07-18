@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.wallet.dto;
+package org.programmers.VoucherManagement.wallet.dto.response;
 
 import lombok.Builder;
 import org.programmers.VoucherManagement.member.domain.Member;
@@ -8,7 +8,7 @@ import org.programmers.VoucherManagement.wallet.domain.Wallet;
 
 import java.util.UUID;
 
-public class GetWalletResponse {
+public class WalletGetResponse {
     private final UUID walletId;
     private final UUID memberId;
     private final UUID voucherId;
@@ -17,7 +17,7 @@ public class GetWalletResponse {
     private final int discountValue;
 
     @Builder
-    public GetWalletResponse(UUID walletId, UUID memberId, UUID voucherId, String memberName, DiscountType discountType, int discountValue) {
+    public WalletGetResponse(UUID walletId, UUID memberId, UUID voucherId, String memberName, DiscountType discountType, int discountValue) {
         this.walletId = walletId;
         this.memberId = memberId;
         this.voucherId = voucherId;
@@ -50,11 +50,11 @@ public class GetWalletResponse {
         return discountValue;
     }
 
-    public static GetWalletResponse toDto(Wallet wallet) {
+    public static WalletGetResponse toDto(Wallet wallet) {
         Voucher voucher = wallet.getVoucher();
         Member member = wallet.getMember();
 
-        return GetWalletResponse.builder()
+        return WalletGetResponse.builder()
                 .walletId(wallet.getWalletId())
                 .memberId(member.getMemberUUID())
                 .voucherId(voucher.getVoucherId())

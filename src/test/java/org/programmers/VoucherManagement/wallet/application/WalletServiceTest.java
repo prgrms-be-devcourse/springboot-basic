@@ -9,8 +9,8 @@ import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
 import org.programmers.VoucherManagement.voucher.domain.*;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
-import org.programmers.VoucherManagement.wallet.dto.GetWalletListResponse;
-import org.programmers.VoucherManagement.wallet.dto.GetWalletResponse;
+import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponse;
+import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 import org.programmers.VoucherManagement.wallet.exception.WalletException;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,11 +69,11 @@ public class WalletServiceTest {
         walletRepository.insert(wallet2);
 
         //when
-        GetWalletListResponse walletListResponse = walletService.getWalletsByVoucherId(voucher1.getVoucherId());
+        WalletGetResponses walletListResponse = walletService.getWalletsByVoucherId(voucher1.getVoucherId());
 
         //then
-        List<GetWalletResponse> responseExpect = walletList.stream()
-                .map(GetWalletResponse::toDto)
+        List<WalletGetResponse> responseExpect = walletList.stream()
+                .map(WalletGetResponse::toDto)
                 .collect(Collectors.toList());
         assertThat(walletListResponse.getGetWalletListRes()).usingRecursiveComparison().isEqualTo(responseExpect);
     }
@@ -89,11 +89,11 @@ public class WalletServiceTest {
         walletRepository.insert(wallet2);
 
         //when
-        GetWalletListResponse walletListResponse = walletService.getWalletsByMemberId(member2.getMemberUUID());
+        WalletGetResponses walletListResponse = walletService.getWalletsByMemberId(member2.getMemberUUID());
 
         //then
-        List<GetWalletResponse> responseExpect = walletList.stream()
-                .map(GetWalletResponse::toDto)
+        List<WalletGetResponse> responseExpect = walletList.stream()
+                .map(WalletGetResponse::toDto)
                 .collect(Collectors.toList());
         assertThat(walletListResponse.getGetWalletListRes()).usingRecursiveComparison().isEqualTo(responseExpect);
     }

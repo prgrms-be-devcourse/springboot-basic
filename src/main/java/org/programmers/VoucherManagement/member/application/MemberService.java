@@ -2,9 +2,9 @@ package org.programmers.VoucherManagement.member.application;
 
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.dto.CreateMemberRequest;
-import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.member.dto.UpdateMemberRequest;
+import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
+import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
 import org.springframework.stereotype.Component;
@@ -23,26 +23,26 @@ public class MemberService {
         this.repository = memberRepository;
     }
 
-    public GetMemberListResponse getAllMembers() {
-        return new GetMemberListResponse(repository.findAll());
+    public MemberGetResponses getAllMembers() {
+        return new MemberGetResponses(repository.findAll());
     }
 
-    public GetMemberListResponse getAllBlackMembers() {
-        return new GetMemberListResponse(repository.findAllByMemberStatus(MemberStatus.BLACK));
+    public MemberGetResponses getAllBlackMembers() {
+        return new MemberGetResponses(repository.findAllByMemberStatus(MemberStatus.BLACK));
     }
 
     @Transactional
-    public void createMember(CreateMemberRequest createMemberRequest) {
+    public void createMember(MemberCreateRequest memberCreateRequest) {
         Member member = new Member(UUID.randomUUID(),
-                createMemberRequest.getName(),
-                createMemberRequest.getMemberStatus());
+                memberCreateRequest.getName(),
+                memberCreateRequest.getMemberStatus());
         repository.insert(member);
     }
 
     @Transactional
-    public void updateMember(UUID memberId, UpdateMemberRequest updateMemberRequest) {
+    public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
         Member member = repository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
-        member.changeMemberStatus(updateMemberRequest.getMemberStatus());
+        member.changeMemberStatus(memberUpdateRequest.getMemberStatus());
         repository.update(member);
     }
 

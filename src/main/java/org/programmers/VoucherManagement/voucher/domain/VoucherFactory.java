@@ -1,6 +1,6 @@
 package org.programmers.VoucherManagement.voucher.domain;
 
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
 
 import java.util.UUID;
 
@@ -9,14 +9,14 @@ public class VoucherFactory {
     private VoucherFactory() {
     }
 
-    public static Voucher createVoucher(CreateVoucherRequest createVoucherRequest) {
-        DiscountType discountType = createVoucherRequest.getDiscountType();
+    public static Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
+        DiscountType discountType = voucherCreateRequest.getDiscountType();
 
         return switch (discountType) {
             case FIXED ->
-                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
+                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(voucherCreateRequest.getDiscountValue()));
             case PERCENT ->
-                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
+                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(voucherCreateRequest.getDiscountValue()));
         };
     }
 

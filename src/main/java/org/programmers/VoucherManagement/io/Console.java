@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
-import org.programmers.VoucherManagement.wallet.dto.GetWalletListResponse;
+import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
+import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
+import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -16,8 +16,8 @@ public class Console implements Input, Output {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     @Override
-    public void printVoucherList(GetVoucherListResponse getVoucherListResponse) {
-        getVoucherListResponse
+    public void printVoucherList(VoucherGetResponses voucherGetResponses) {
+        voucherGetResponses
                 .getGetVoucherListRes()
                 .stream()
                 .forEach(response -> {
@@ -35,19 +35,19 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printAllMemberList(GetMemberListResponse memberList) {
+    public void printAllMemberList(MemberGetResponses memberList) {
         printConsoleMessage(ConsoleMessage.START_VIEW_ALL_MEMBER_MESSAGE);
         printMemberList(memberList);
     }
 
     @Override
-    public void printBlackMemberList(GetMemberListResponse memberList) {
+    public void printBlackMemberList(MemberGetResponses memberList) {
         printConsoleMessage(START_VIEW_BLACKLIST_MESSAGE);
         printMemberList(memberList);
     }
 
     @Override
-    public void printWalletList(GetWalletListResponse walletListResponse) {
+    public void printWalletList(WalletGetResponses walletListResponse) {
         walletListResponse
                 .getGetWalletListRes()
                 .forEach(response -> {
@@ -67,7 +67,7 @@ public class Console implements Input, Output {
     }
 
 
-    private void printMemberList(GetMemberListResponse memberList) {
+    private void printMemberList(MemberGetResponses memberList) {
         memberList
                 .getGetMemberListRes()
                 .forEach(response -> {

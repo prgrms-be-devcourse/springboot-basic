@@ -1,9 +1,9 @@
-package org.programmers.VoucherManagement.voucher.dto;
+package org.programmers.VoucherManagement.voucher.dto.request;
 
-public class UpdateVoucherRequest {
+public class VoucherUpdateRequest {
     private final int discountValue;
 
-    public UpdateVoucherRequest(int discountValue) {
+    public VoucherUpdateRequest(int discountValue) {
         this.discountValue = discountValue;
     }
 
