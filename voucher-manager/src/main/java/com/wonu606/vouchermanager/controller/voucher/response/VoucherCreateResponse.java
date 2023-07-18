@@ -2,19 +2,13 @@ package com.wonu606.vouchermanager.controller.voucher.response;
 
 public class VoucherCreateResponse {
 
-    private final String type;
-    private final String discountValue;
+    private final boolean success;
 
-    public VoucherCreateResponse(String type, String discountValue) {
-        this.type = type;
-        this.discountValue = discountValue;
+    public VoucherCreateResponse(boolean success) {
+        this.success = success;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public String getDiscountValue() {
-        return discountValue;
+    public boolean isSuccess() {
+        return success;
     }
 }

@@ -4,13 +4,13 @@ import java.util.List;
 
 public class VoucherResponse {
 
-    private final List<String> voucherIds;
+    private final String voucherUuid;
 
-    public VoucherResponse(List<String> voucherIds) {
-        this.voucherIds = voucherIds;
+    public VoucherResponse(String voucherUuid) {
+        this.voucherUuid = voucherUuid;
     }
 
-    public List<String> getVoucherIds() {
-        return voucherIds;
+    public String getVoucherUuid() {
+        return voucherUuid;
     }
 }

@@ -5,7 +5,7 @@ import com.wonu606.vouchermanager.controller.voucher.VoucherController;
 import com.wonu606.vouchermanager.controller.voucher.reqeust.VoucherCreateRequest;
 import com.wonu606.vouchermanager.controller.voucher.reqeust.OwnedCustomersRequest;
 import com.wonu606.vouchermanager.controller.voucher.reqeust.WalletAssignRequest;
-import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomersResponse;
+import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomerResponse;
 import com.wonu606.vouchermanager.controller.voucher.response.VoucherResponse;
 import org.springframework.stereotype.Component;
 
@@ -54,9 +54,9 @@ public class VoucherControllerCable {
 
             case CUSTOMER_LIST:
                 String voucherId = consoleIo.readString("VoucherId");
-                OwnedCustomersResponse ownedCustomersResponse = controller.getOwnedCustomersByVoucher(
+                OwnedCustomerResponse ownedCustomerResponse = controller.getOwnedCustomersByVoucher(
                         new OwnedCustomersRequest(voucherId));
-                consoleIo.displayCustomerList(ownedCustomersResponse);
+                consoleIo.displayCustomerList(ownedCustomerResponse);
                 return;
 
             default:
