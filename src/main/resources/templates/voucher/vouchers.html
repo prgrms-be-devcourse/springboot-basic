@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
 <head>
-  <meta charset="UTF-8">
   <title>Voucher List</title>
 </head>
 <body>
@@ -12,6 +11,7 @@
         <th>할인권 ID</th>
         <th>할인 방식</th>
         <th>할인 금액/비율</th>
+        <th>설정</th>
       </tr>
       </thead>
 
@@ -20,6 +20,9 @@
         <td th:text="${voucher.getId()}">할인권 ID</td>
         <td th:text="${voucher.getType().getName()}">할인 방식</td>
         <td th:text="|${voucher.getDiscountAmount()}${voucher.getType().getUnit()}|">할인 금액/비율</td>
+        <td>
+          <a th:href="@{|/vouchers/${voucher.getId()}/update|}" class="btn btn-warning btn-sm me-md-2" type="button">수정</a>
+        </td>
       </tr>
       </tbody>
     </table>

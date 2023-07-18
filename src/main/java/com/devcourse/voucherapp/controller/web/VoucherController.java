@@ -2,6 +2,7 @@ package com.devcourse.voucherapp.controller.web;
 
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
 import com.devcourse.voucherapp.service.VoucherService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -39,5 +41,20 @@ public class VoucherController {
         model.addAttribute("vouchers", vouchers);
 
         return "voucher/vouchers";
+    }
+
+    @GetMapping("/{voucherId}/update")
+    public String getUpdateForm(@PathVariable String voucherId, Model model) {
+        VoucherResponseDto voucher = voucherService.findVoucherById(voucherId);
+        model.addAttribute("voucher", voucher);
+
+        return "voucher/updateForm";
+    }
+
+    @PostMapping("/{voucherId}/update")
+    public String update(@ModelAttribute VoucherUpdateRequestDto request) {
+        voucherService.update(request);
+
+        return "redirect:/vouchers";
     }
 }

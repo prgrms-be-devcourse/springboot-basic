@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
+<head>
+  <title>Voucher Update</title>
+</head>
+<body>
+  <div id="content">
+    <form method="POST">
+      <div class="mb-3">
+        <label for="voucherId" class="form-label">할인권 ID</label>
+        <input type="text" class="form-control" id="voucherId" th:value="${voucher.getId()}" name="id" readonly/>
+      </div>
+      <div class="mb-3">
+        <label for="voucherType">할인 방식</label>
+        <select class="form-select" id="voucherType" name="type">
+          <option value="FIX" th:selected="${voucher.getType().getOption().equals('1')}" th:disabled="${!voucher.getType().getOption().equals('1')}">고정 금액 할인</option>
+          <option value="PERCENT" th:selected="${voucher.getType().getOption().equals('2')}" th:disabled="${!voucher.getType().getOption().equals('2')}">비율 퍼센트 할인</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="discountAmount" class="form-label">변경할 할인 수치를 입력하세요.</label>
+        <input type="number" class="form-control" id="discountAmount" th:value="${voucher.getDiscountAmount()}" name="discountAmount">
+      </div>
+      <button type="submit" class="btn btn-primary">만들기</button>
+    </form>
+  </div>
+</body>
+</html>
