@@ -36,7 +36,7 @@ public class CustomerApiController {
 
         CustomerResponse customerResponse = customerService.save(customerCreateRequest);
 
-        return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerResponse);
     }
 
     @GetMapping

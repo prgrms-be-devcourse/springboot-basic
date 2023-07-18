@@ -35,7 +35,7 @@ public class VoucherApiController {
 
         VoucherResponse voucherResponse = voucherService.save(voucherCreateRequest);
 
-        return new ResponseEntity<>(voucherResponse, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(voucherResponse);
     }
 
     @GetMapping
