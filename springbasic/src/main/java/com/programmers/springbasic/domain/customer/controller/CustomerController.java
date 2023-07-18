@@ -2,7 +2,7 @@ package com.programmers.springbasic.domain.customer.controller;
 
 import com.programmers.springbasic.domain.customer.dto.request.CustomerCreateRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.request.CustomerDeleteRequestDTO;
-import com.programmers.springbasic.domain.customer.dto.request.CustomerSingleFindRequestDTO;
+import com.programmers.springbasic.domain.customer.dto.request.CustomerFindRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.request.CustomerUpdateRequestDTO;
 import com.programmers.springbasic.domain.customer.service.CustomerService;
 import com.programmers.springbasic.domain.customer.validator.CustomerCommandValidator;
@@ -108,9 +108,9 @@ public class CustomerController {
         String customerId = ioConsole.getInput();
         CustomerIdValidator.validateCustomerId(customerId);
 
-        CustomerSingleFindRequestDTO customerSingleFindRequestDTO = new CustomerSingleFindRequestDTO(customerId);
+        CustomerFindRequestDTO customerFindRequestDTO = new CustomerFindRequestDTO(customerId);
 
-        CustomerInfoResponse customerInfoResponse = new CustomerInfoResponse(customerService.findCustomer(customerSingleFindRequestDTO));
+        CustomerInfoResponse customerInfoResponse = new CustomerInfoResponse(customerService.findCustomer(customerFindRequestDTO));
         ioConsole.printSingleOutput(customerInfoResponse.getCustomerInfoView());
     }
 

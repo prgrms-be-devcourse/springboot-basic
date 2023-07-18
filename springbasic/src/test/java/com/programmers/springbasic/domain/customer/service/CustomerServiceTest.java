@@ -2,7 +2,7 @@ package com.programmers.springbasic.domain.customer.service;
 
 import com.programmers.springbasic.domain.customer.dto.request.CustomerCreateRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.request.CustomerDeleteRequestDTO;
-import com.programmers.springbasic.domain.customer.dto.request.CustomerSingleFindRequestDTO;
+import com.programmers.springbasic.domain.customer.dto.request.CustomerFindRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.request.CustomerUpdateRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.response.CustomerResponseDTO;
 import com.programmers.springbasic.domain.customer.entity.Customer;
@@ -73,12 +73,12 @@ class CustomerServiceTest {
     void findCustomer() {
         // given
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
-        CustomerSingleFindRequestDTO customerSingleFindRequestDTO = new CustomerSingleFindRequestDTO(customer.getCustomerId().toString());
+        CustomerFindRequestDTO customerFindRequestDTO = new CustomerFindRequestDTO(customer.getCustomerId().toString());
         CustomerService customerService = new CustomerService(customerRepository);
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
 
         // when
-        CustomerResponseDTO customerResponseDTO = customerService.findCustomer(customerSingleFindRequestDTO);
+        CustomerResponseDTO customerResponseDTO = customerService.findCustomer(customerFindRequestDTO);
 
         // then
         assertThat(customerResponseDTO.getCustomerId(), is(customer.getCustomerId()));

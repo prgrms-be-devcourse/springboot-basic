@@ -1,7 +1,7 @@
 package com.programmers.springbasic.domain.customer.controller;
 
 import com.programmers.springbasic.domain.customer.dto.request.CustomerDeleteRequestDTO;
-import com.programmers.springbasic.domain.customer.dto.request.CustomerSingleFindRequestDTO;
+import com.programmers.springbasic.domain.customer.dto.request.CustomerFindRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.request.CustomerUpdateRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.response.CustomerResponseDTO;
 import com.programmers.springbasic.domain.customer.dto.request.CustomerCreateRequestDTO;
@@ -45,8 +45,8 @@ public class CustomerWebController {
     @GetMapping("/single")
     public String find(@RequestParam("customerId") String customerId, Model model) {
         CustomerIdValidator.validateCustomerId(customerId);
-        CustomerSingleFindRequestDTO customerSingleFindRequestDTO = new CustomerSingleFindRequestDTO(customerId);
-        CustomerResponseDTO customerResponseDTO = customerService.findCustomer(customerSingleFindRequestDTO);
+        CustomerFindRequestDTO customerFindRequestDTO = new CustomerFindRequestDTO(customerId);
+        CustomerResponseDTO customerResponseDTO = customerService.findCustomer(customerFindRequestDTO);
 
         model.addAttribute("customerResponseDTO", customerResponseDTO);
 
