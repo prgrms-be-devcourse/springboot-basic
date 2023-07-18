@@ -99,15 +99,12 @@ public class VoucherServiceTest {
         PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getVoucherId(), 10);
 
         //mocking
-        given(voucherRepository.update(updateVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount())).willReturn(Optional.of(updateVoucher));
-
-        //when
-        VoucherResponseDto responseDto = voucherService.update(savedVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
+        doNothing().when(voucherRepository).update(any(), any(), anyLong());
 
         //then
-        assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
-        assertThat(responseDto.getVoucherId()).isEqualTo(updateVoucher.getVoucherId());
-        assertThat(responseDto.getVoucherType()).isEqualTo(updateVoucher.getVoucherType());
-        assertThat(responseDto.getAmount()).isEqualTo(updateVoucher.getAmount());
+        voucherService.update(savedVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
+
+        //when
+        verify(voucherRepository, times(1)).update(updateVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
     }
 }

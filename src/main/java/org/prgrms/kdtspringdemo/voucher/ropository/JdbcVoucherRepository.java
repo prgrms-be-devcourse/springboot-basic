@@ -74,10 +74,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> update(UUID voucherId, VoucherType voucherType, long amount) {
+    public void update(UUID voucherId, VoucherType voucherType, long amount) {
         jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucherId, voucherType, amount));
-
-        return findById(voucherId);
     }
 
     @Override

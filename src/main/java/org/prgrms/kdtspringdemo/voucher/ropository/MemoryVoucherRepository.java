@@ -35,10 +35,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> update(UUID voucherId, VoucherType voucherType, long amount) {
-        Voucher updatedVoucher = storage.putIfAbsent(voucherId, voucherType.updateVoucher(voucherId, amount));
-
-        return updatedVoucher == null ? Optional.empty() : Optional.of(updatedVoucher);
+    public void update(UUID voucherId, VoucherType voucherType, long amount) {
+        storage.putIfAbsent(voucherId, voucherType.updateVoucher(voucherId, amount));
     }
 
     @Override
