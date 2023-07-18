@@ -3,13 +3,15 @@ package com.devcourse.voucher.domain.repository;
 import com.devcourse.global.util.Sql;
 import com.devcourse.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +44,7 @@ class JdbcVoucherRepository implements VoucherRepository {
                 .build();
 
         jdbcTemplate.update(sql,
-                voucher.id(),
+                voucher.id().toString(),
                 voucher.discount(),
                 voucher.expireAt(),
                 voucher.type().name(),
@@ -70,9 +72,12 @@ class JdbcVoucherRepository implements VoucherRepository {
                 .build();
 
         List<Voucher> result = jdbcTemplate.query(sql, voucherMapper, id.toString());
-        Voucher voucher = DataAccessUtils.singleResult(result);
 
-        return Optional.ofNullable(voucher);
+        if (result.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(result.get(0));
     }
 
     @Override

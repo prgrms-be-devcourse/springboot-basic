@@ -59,9 +59,12 @@ class JdbcUserRepository implements UserRepository {
                 .build();
 
         List<User> result = jdbcTemplate.query(sql, userMapper, id.toString());
-        User user = DataAccessUtils.singleResult(result);
 
-        return Optional.ofNullable(user);
+        if (result.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(result.get(0));
     }
 
     @Override
