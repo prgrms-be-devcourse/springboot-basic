@@ -2,18 +2,20 @@ package org.programmers.VoucherManagement.member.application;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
 import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponse;
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
+import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,17 +23,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
+@SpringBootTest
+@Transactional
 public class MemberServiceTest {
-
-    @InjectMocks
+    @Autowired
     MemberService memberService;
 
-    @Mock
+    @Autowired
     MemberRepository memberRepository;
 
     @Test
@@ -42,9 +43,6 @@ public class MemberServiceTest {
         Member saveMember = new Member(memberId, "Kim", MemberStatus.WHITE);
         memberRepository.insert(saveMember);
         MemberUpdateRequest updateRequestDto = new MemberUpdateRequest(MemberStatus.BLACK);
-
-        //mocking
-        given(memberRepository.findById(memberId)).willReturn(Optional.of(saveMember));
 
         //when
         memberService.updateMember(memberId, updateRequestDto);
@@ -66,25 +64,40 @@ public class MemberServiceTest {
         memberService.deleteMember(saveMember.getMemberUUID());
 
         //then
-        verify(memberRepository, times(1)).delete(memberId);
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        assertThat(optionalMember).isEqualTo(Optional.empty());
     }
 
     @Test
-    @DisplayName("저장되어 있는 모든 멤버를 조회할 수 있다. - 성공")
-    void getAllMembers_EqualsListOfMembers() {
+    @DisplayName("회원Id를 입력받아 회원을 삭제할 수 있다. - 실패")
+    void deleteMember_Id_ThrowMemberException() {
         //given
-        Member member1 = new Member(UUID.randomUUID(), "Kim", MemberStatus.BLACK);
-        Member member2 = new Member(UUID.randomUUID(), "Park", MemberStatus.WHITE);
-        List<Member> memberList = Arrays.asList(member1, member2);
+        UUID memberId = UUID.randomUUID();
+        Member saveMember = new Member(memberId, "Kim", MemberStatus.BLACK);
+        memberRepository.insert(saveMember);
 
-        //mocking
-        given(memberRepository.findAll()).willReturn(memberList);
+        //when
+        memberService.deleteMember(saveMember.getMemberUUID());
+
+        //then
+        UUID strangeId = UUID.randomUUID();
+        assertThatThrownBy(() -> memberService.deleteMember(strangeId))
+                .isInstanceOf(MemberException.class)
+                .hasMessage("데이터가 정상적으로 삭제되지 않았습니다.");
+    }
+
+    @ParameterizedTest
+    @DisplayName("저장되어 있는 모든 멤버를 조회할 수 있다. - 성공")
+    @MethodSource("member_Data")
+    void getAllMembers_EqualsListOfMembers(List<Member> members) {
+        //given
+        members.forEach(member -> memberRepository.insert(member));
 
         //when
         MemberGetResponses response = memberService.getAllMembers();
 
         //then
-        List<MemberGetResponse> responseExpect = memberList.stream()
+        List<MemberGetResponse> responseExpect = members.stream()
                 .map(MemberGetResponse::toDto)
                 .collect(Collectors.toList());
 
@@ -92,19 +105,15 @@ public class MemberServiceTest {
         assertThat(response.getGetMemberListRes()).usingRecursiveComparison().isEqualTo(responseExpect);
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("저장되어 있는 모든 블랙리스트 멤버를 조회할 수 있다. - 성공")
-    void getAllBlackMembers_EqualsListOfMembers() {
+    @MethodSource("member_Data")
+    void getAllBlackMembers_EqualsListOfMembers(List<Member> members) {
         //given
-        Member member1 = new Member(UUID.randomUUID(), "Kim", MemberStatus.BLACK);
-        Member member2 = new Member(UUID.randomUUID(), "Park", MemberStatus.BLACK);
-        Member member3 = new Member(UUID.randomUUID(), "Lee", MemberStatus.WHITE);
-        List<Member> blackMemberList = Stream.of(member1, member2, member3)
+        members.forEach(member -> memberRepository.insert(member));
+        List<Member> blackMemberList = members.stream()
                 .filter(m -> m.getMemberStatus() == MemberStatus.BLACK)
-                .collect(Collectors.toList());
-
-        //mocking
-        given(memberRepository.findAllByMemberStatus(MemberStatus.BLACK)).willReturn(blackMemberList);
+                .toList();
 
         //when
         MemberGetResponses response = memberService.getAllBlackMembers();
@@ -116,5 +125,13 @@ public class MemberServiceTest {
 
         assertThat(response).isNotNull();
         assertThat(response.getGetMemberListRes()).usingRecursiveComparison().isEqualTo(responseExpect);
+    }
+
+    private static Stream<List<Member>> member_Data() {
+        Member member1 = new Member(UUID.randomUUID(), "Kim", MemberStatus.BLACK);
+        Member member2 = new Member(UUID.randomUUID(), "Park", MemberStatus.WHITE);
+        return Stream.of(
+                List.of(member1, member2)
+        );
     }
 }
