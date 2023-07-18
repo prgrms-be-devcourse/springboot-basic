@@ -1,17 +1,25 @@
 package com.wonu606.vouchermanager.repository.voucherwallet;
 
-import com.wonu606.vouchermanager.domain.voucherwallet.VoucherWallet;
-import com.wonu606.vouchermanager.domain.customer.email.Email;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedCustomersQuery;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedVouchersQuery;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletDeleteQuery;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletInsertQuery;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletUpdateQuery;
+import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedCustomerResultSet;
+import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedVoucherResultSet;
+import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletInsertResultSet;
+import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletUpdateResultSet;
 import java.util.List;
-import java.util.UUID;
 
 public interface VoucherWalletRepository {
 
-    List<UUID> findOwnedVouchersByCustomer(Email email);
+    List<OwnedVoucherResultSet> findOwnedVouchersByCustomer(OwnedVouchersQuery query);
 
-    void delete(VoucherWallet voucherWallet);
+    void delete(WalletDeleteQuery query);
 
-    VoucherWallet save(VoucherWallet voucherWallet);
+    List<OwnedCustomerResultSet> findOwnedCustomersByVoucher(OwnedCustomersQuery query);
 
-    List<String> findOwnedCustomerByVoucher(UUID voucherId);
+    WalletInsertResultSet insert(WalletInsertQuery wallet);
+
+    WalletUpdateResultSet update(WalletUpdateQuery wallet);
 }

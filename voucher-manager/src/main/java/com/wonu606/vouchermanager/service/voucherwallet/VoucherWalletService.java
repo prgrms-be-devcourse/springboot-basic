@@ -16,10 +16,10 @@ public class VoucherWalletService {
 
     private final OwnedVoucherQueryConverter ownedVoucherQueryConverter;
     private final OwnedVoucherResultConverter ownedVoucherResultConverter;
-    private final WalletAssignQueryConverter walletAssignQueryConverter;
+    private final WalletAssignQueryConverter walletSaveQueryConverter;
     private final WalletDeleteByCustomerQueryConverter walletDeleteQueryConverter;
     private final WalletAssignQueryConverter walletAssignQueryConverter;
-    private final WalletAssignResultConverter walletAssignResultConverter;
+    private final WalletSaveResultConverter walletSaveResultConverter;
     private final OwnedCustomersQueryConverter ownedCustomersQueryConverter;
     private final OwnedCustomersResultConverter ownedCustomersResultConverter;
 
@@ -40,17 +40,17 @@ public class VoucherWalletService {
         voucherWalletRepository.delete(query);
     }
 
-    public WalletAssignResult assignWallet(WalletAssignParam param) {
-        WalletAssignQuery query = walletAssignQueryConverter.convert(param);
+    public WalletSaveResultSet assignWallet(WalletAssignParam param) {
+        WalletSaveQuery query = walletSaveQueryConverter.convert(param);
 
-        WalletAssignResultSet resultSet = voucherWalletRepository.save(query);
-        return walletAssignResultConverter.convert(resultSet);
+        WalletSaveResultSet resultSet = voucherWalletRepository.save(query);
+        return walletSaveResultConverter.convert(resultSet);
     }
 
     public OwnedCustomersResult findOwnedCustomersByVoucher(OwnedCustomersParam param) {
         OwnedCustomersQuery query = ownedCustomersQueryConverter.convert(param);
         OwnedCustomersResultSet resultSet =
-                voucherWalletRepository.findOwnedCustomerByVoucher(query);
+                voucherWalletRepository.findOwnedCustomersByVoucher(query);
 
         return ownedCustomersResultConverter.convert(resultSet);
     }

@@ -6,16 +6,16 @@ import java.util.UUID;
 
 public class VoucherWallet {
 
-    private final UUID voucherId;
+    private final UUID voucherUuid;
     private final Email email;
 
-    public VoucherWallet(UUID voucherId, Email email) {
-        this.voucherId = voucherId;
+    public VoucherWallet(UUID voucherUuid, Email email) {
+        this.voucherUuid = voucherUuid;
         this.email = email;
     }
 
-    public UUID getVoucherId() {
-        return voucherId;
+    public UUID getVoucherUuid() {
+        return voucherUuid;
     }
 
     public String getEmailAddress() {
@@ -31,12 +31,12 @@ public class VoucherWallet {
             return false;
         }
         VoucherWallet that = (VoucherWallet) o;
-        return Objects.equals(getVoucherId(), that.getVoucherId())
+        return Objects.equals(getVoucherUuid(), that.getVoucherUuid())
                 && Objects.equals(getEmailAddress(), that.getEmailAddress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getVoucherId(), getEmailAddress());
+        return Objects.hash(getVoucherUuid(), getEmailAddress());
     }
 }

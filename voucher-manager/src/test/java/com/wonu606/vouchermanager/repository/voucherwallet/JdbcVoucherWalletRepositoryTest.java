@@ -89,7 +89,7 @@ class JdbcVoucherWalletRepositoryTest {
 
         // then
         List<String> emailAddresses =
-                customerVoucherWalletRepository.findOwnedCustomerByVoucher(voucher.getUuid());
+                customerVoucherWalletRepository.findOwnedCustomersByVoucher(voucher.getUuid());
         assertThat(emailAddresses).hasSize(0);
     }
 
@@ -103,7 +103,7 @@ class JdbcVoucherWalletRepositoryTest {
 
         // when
         List<String> emailAddresses =
-                customerVoucherWalletRepository.findOwnedCustomerByVoucher(voucherId);
+                customerVoucherWalletRepository.findOwnedCustomersByVoucher(voucherId);
 
         // then
         assertThat(emailAddresses).hasSize(1);
