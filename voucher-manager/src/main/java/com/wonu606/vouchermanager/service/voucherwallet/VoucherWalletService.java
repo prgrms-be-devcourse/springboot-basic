@@ -20,7 +20,7 @@ public class VoucherWalletService {
         this.voucherWalletRepository = voucherWalletRepository;
     }
 
-    public List<UUID> findOwnedVoucherByCustomer(Email email) {
+    public List<UUID> findOwnedVouchersByCustomer(Email email) {
         return voucherWalletRepository.findIdByCustomerEmailAddress(email);
     }
 

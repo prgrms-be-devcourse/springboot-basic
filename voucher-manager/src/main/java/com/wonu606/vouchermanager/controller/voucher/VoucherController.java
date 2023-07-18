@@ -17,10 +17,10 @@ public class VoucherController {
 
     private final VoucherService service;
 
+
     private final VoucherCreateResponseConverter voucherCreateResponseConverter;
     private final VoucherGetResponseConverter voucherGetResponseConverter;
     private final VoucherGetOwnedCustomersResponseConverter voucherGetOwnedCustomersResponseConverter;
-    private final WalletAssignResponseConverter walletAssignResponseConverter;
 
     public VoucherController(VoucherService service,
             VoucherCreateResponseConverter voucherCreateResponseConverter,
@@ -64,10 +64,6 @@ public class VoucherController {
 
     private VoucherGetOwnedCustomersParam createVoucherGetOwnedCustomersParam(
             VoucherGetOwnedCustomersRequest request) {
-
-    }
-
-    private WalletAssignParam createWalletAssignParam(WalletAssignRequest request) {
 
     }
 }

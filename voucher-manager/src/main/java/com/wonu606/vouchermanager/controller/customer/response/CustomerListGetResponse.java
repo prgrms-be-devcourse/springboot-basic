@@ -2,11 +2,11 @@ package com.wonu606.vouchermanager.controller.customer.response;
 
 import java.util.List;
 
-public class CustomerGetResponse {
+public class CustomerListGetResponse {
 
     private final List<String> emails;
 
-    public CustomerGetResponse(List<String> emails) {
+    public CustomerListGetResponse(List<String> emails) {
         this.emails = emails;
     }
 

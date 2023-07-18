@@ -1,12 +1,14 @@
 package com.wonu606.vouchermanager.service.customer;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
-import com.wonu606.vouchermanager.domain.customer.CustomerDto;
-import com.wonu606.vouchermanager.domain.customer.email.Email;
-import com.wonu606.vouchermanager.domain.customer.email.EmailDto;
+import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
 import com.wonu606.vouchermanager.repository.customer.CustomerRepository;
-import java.util.List;
-import java.util.Optional;
+import com.wonu606.vouchermanager.service.customer.creator.CustomerCreator;
+import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
+import com.wonu606.vouchermanager.service.customer.param.OwnedVoucherParam;
+import com.wonu606.vouchermanager.service.customer.param.WalletDeleteParam;
+import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
+import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,36 +16,37 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final VoucherWalletService voucherWalletService;
 
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    private final CustomerRepository repository;
+
+    private final CustomerCreator customerCreator;
+
+    private final CustomerResultSetustomerCreateResultConverter customerCreateResultConverter;
+    private final CustomerListGetResultConverter customerListGetResultConverter;
+
+    public CustomerService(CustomerRepository repository) {
+        this.repository = repository;
     }
 
-    public Customer createCustomer(CustomerDto customerDto) {
-        return convertDtoToCustomer(customerDto);
+    public CustomerCreateResult createCustomer(CustomerCreateParam param) {
+        Customer createdCustomer = customerCreator.create(param);
+        VoucherQuery query = voucherQueryConverter.convert(createdCustomer);
+
+        CustomerResultSet resultSet = repository.save(query);
+        return customerCreateResultConverter.convert(resultSet);
     }
 
-    public Customer saveCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public CustomerListResult getCustomerList() {
+        CustomerListResultSet resultSet = repository.findAll();
+        return customerListGetResultConverter.convert(resultSet);
     }
 
-    public Optional<Customer> findCustomerByEmailAddress(EmailDto emailDto) {
-        Email email = new Email(emailDto.getEmailAddress());
-        return customerRepository.findByEmailAddress(email);
+    public OwnedVoucherResult findOwnedVouchersByCustomer(OwnedVoucherParam param) {
+        return voucherWalletService.findOwnedVouchersByCustomer(param);
     }
 
-    public List<Customer> getCustomerList() {
-        return customerRepository.findAll();
-    }
-
-    public List<Customer> getCustomerList(List<Email> emails) {
-        return customerRepository.findAllByEmailAddresses(emails);
-    }
-
-    private static Customer convertDtoToCustomer(CustomerDto customerDto) {
-        return new Customer(
-                new Email(customerDto.getEmailAddress()),
-                customerDto.getNickname());
+    public void deleteWallet(WalletDeleteParam param) {
+        voucherWalletService.deleteByCustomer(param);
     }
 }

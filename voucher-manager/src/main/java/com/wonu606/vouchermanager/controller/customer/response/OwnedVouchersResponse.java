@@ -2,11 +2,11 @@ package com.wonu606.vouchermanager.controller.customer.response;
 
 import java.util.List;
 
-public class CustomerGetOwnedVouchersResponse {
+public class OwnedVouchersResponse {
 
     private final List<String> voucherIds;
 
-    public CustomerGetOwnedVouchersResponse(List<String> voucherId) {
+    public OwnedVouchersResponse(List<String> voucherId) {
         this.voucherIds = voucherId;
     }
 
